@@ -94,10 +94,12 @@ addStorage('elements', (storage) => {
     }
     if (dolly.parent) {
       storage.state('element:' + dolly.parent).set(documentManager.get(dolly.parent))
+    } else {
+      storage.state('document').set(documentManager.children(false))
     }
-    storage.state('element:' + dolly.id).set(dolly)
-    storage.state('document').set(documentManager.children(false))
     updateTimeMachine()
+  }, {
+    debounce: 250
   })
   storage.on('move', (id, data) => {
     let element = documentManager.get(id)
@@ -166,6 +168,9 @@ addStorage('elements', (storage) => {
     })
     storage.state('document').set(documentManager.children(false), 'merge')
     updateTimeMachine()
+  }, {
+    debounce: 250,
+    async: true
   })
   storage.on('reset', (data) => {
     documentManager.reset(data || {})

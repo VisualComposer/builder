@@ -31,6 +31,8 @@ export default class Layout extends React.Component {
         this.addResizeListener(this.layoutContainer, this.handleElementSize)
         this.setState({ hasResizeEvent: true })
       }
+    }, {
+      debounce: 50
     })
     wordpressBackendDataStorage.state('status').onChange((data) => {
       if (data.status === 'loaded') {

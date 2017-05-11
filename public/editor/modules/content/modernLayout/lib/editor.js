@@ -20,6 +20,8 @@ export default class LayoutEditor extends React.Component {
       this.setState({ data: data }, () => {
         // content.trigger('data:editor:render')
       })
+    }, {
+      debounce: 50
     })
   }
 

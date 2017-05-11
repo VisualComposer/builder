@@ -131,7 +131,7 @@
     "slick-carousel": "^1.6.0",
     "striptags": "^2.1.1",
     "tinymce": "4.4.3",
-    "vc-cake": "0.4.10",
+    "vc-cake": "0.5.0",
     "webfontloader": "^1.6.26"
   },
   "babel": {
