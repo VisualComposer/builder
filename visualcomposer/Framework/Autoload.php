@@ -40,7 +40,12 @@ class Autoload extends Container
     {
         if (is_array($all) && is_array($all['helpers']) && is_array($all['modules'])) {
             foreach (array_merge($all['helpers'], $all['modules']) as $component) {
-                $this->app->addComponent($component['name'], $component['abstract'], $component['make']);
+                $this->app->addComponent(
+                    $component['name'],
+                    $component['abstract'],
+                    $component['make'],
+                    $component['singleton']
+                );
             }
 
             return true;
