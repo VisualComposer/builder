@@ -88,7 +88,7 @@ DATA;
     {
         return count(
                 array_intersect(
-                    $implements,
+                    (array)$implements,
                     [
                         'Helper',
                         '\VisualComposer\Framework\Illuminate\Support\Helper',
@@ -107,7 +107,7 @@ DATA;
     {
         return count(
                 array_intersect(
-                    $implements,
+                    (array)$implements,
                     [
                         'Immutable',
                         '\VisualComposer\Framework\Illuminate\Support\Immutable',
@@ -126,7 +126,7 @@ DATA;
     {
         return count(
                 array_intersect(
-                    $implements,
+                    (array)$implements,
                     [
                         'Module',
                         '\VisualComposer\Framework\Illuminate\Support\Module',
