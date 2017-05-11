@@ -109,4 +109,14 @@ class File implements Helper
         // @codingStandardsIgnoreLine
         return $status ? $wp_filesystem : false;
     }
+
+    public function removeDirectory($dir, $recursive = true)
+    {
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+
+        return $fileSystem->rmdir($dir, $recursive);
+    }
 }

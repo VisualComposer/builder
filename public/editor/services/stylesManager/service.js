@@ -30,22 +30,22 @@ class StylesManager {
         max: null
       },
       {
-        prefixes: [ `xs`, `tablet-portrait` ],
+        prefixes: [ `xs`, `mobile-portrait` ],
         min: null,
         max: '543px' // mobile-landscape.min - 1
       },
       {
-        prefixes: [ `sm`, `tablet-landscape` ],
+        prefixes: [ `sm`, `mobile-landscape` ],
         min: '544px',
         max: '767px' // tablet-portrait.min - 1
       },
       {
-        prefixes: [ `md`, `mobile-portrait` ],
+        prefixes: [ `md`, `tablet-portrait` ],
         min: '768px',
         max: '991px' // tablet-landscape.min - 1
       },
       {
-        prefixes: [ `lg`, `mobile-landscape` ],
+        prefixes: [ `lg`, `tablet-landscape` ],
         min: '992px',
         max: '1199px' // desktop.min - 1
       },

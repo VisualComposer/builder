@@ -41,4 +41,12 @@ class Hub implements Helper
 
         return json_decode($content, true);
     }
+
+    public function removeBundleFolder()
+    {
+        $folder = $this->getBundleFolder();
+        $fileHelper = vchelper('File');
+
+        return $fileHelper->removeDirectory($folder);
+    }
 }
