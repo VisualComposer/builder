@@ -58,7 +58,7 @@ export default class SettingsButtonControl extends NavbarContent {
       'vcv-ui-navbar-control-icon': true,
       'vcv-ui-icon': true,
       'vcv-ui-icon-cog': true,
-      'vcv-ui-badge--warning': this.state.showWarning
+      'vcv-ui-badge--warning': false
     })
 
     return (
