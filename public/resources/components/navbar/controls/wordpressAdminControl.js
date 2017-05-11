@@ -30,11 +30,6 @@ export default class WordPressAdminControl extends NavbarContent {
     if (isBackendEditor && env('FEATURE_WPBACKEND')) {
       setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
     }
-    // TODO: Update condition for View Page
-    // const message = 'There are unsaved changes. Do you really want to leave this page?'
-    // if (wordpressDataStorage.state('status').get().status === 'changed' && !window.confirm(message)) {
-    //   return
-    // }
     window.open(
       target.href,
       target.getAttribute('target') ? target.getAttribute('target') : '_self'

@@ -39,7 +39,7 @@
   "imagePosition": {
     "type": "dropdown",
     "access": "public",
-    "value": "1",
+    "value": "left",
     "options": {
       "label": "Image position",
       "values": [
@@ -134,8 +134,8 @@
       "description",
       "image",
       "imagePosition",
-      "reverseStacking",
       "backgroundColor",
+      "reverseStacking",
       "addButton",
       "metaCustomId",
       "customClass"

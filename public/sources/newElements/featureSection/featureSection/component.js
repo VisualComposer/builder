@@ -1,12 +1,9 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
-const cook = vcCake.getService("cook")
+const cook = vcCake.getService('cook')
 
 export default class FeatureSection extends vcvAPI.elementComponent {
-  // componentDidMount () {
-  //   vcvAPI.publicEvents.trigger('heroSectionReady')
-  // }
 
   getPublicImage (filename) {
     let { metaAssetsPath } = this.props.atts
@@ -28,7 +25,6 @@ export default class FeatureSection extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { description, image, imagePosition, reverseStacking, addButton, customClass, button, background, metaCustomId } = atts
     let classNames = require('classnames')
-    // let customProps = {}
     let containerProps = {}
 
     let containerClasses = classNames({
@@ -43,8 +39,8 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       'vce-feature-section--reverse': reverseStacking
     })
 
-    let imageClasses = ['vce-feature-section--image']
-    let contentClasses = ['vce-feature-section--content']
+    let imageClasses = ['vce-feature-section-image']
+    let contentClasses = ['vce-feature-section-content']
 
     if (typeof customClass === 'string' && customClass) {
       wrapperClasses = containerClasses.concat(' ' + customClass)
@@ -57,19 +53,18 @@ export default class FeatureSection extends vcvAPI.elementComponent {
     }
 
     if (imagePosition) {
-      imageClasses.push(`vce-feature-section--image-${imagePosition}`)
+      imageClasses.push(`vce-feature-section-image--${imagePosition}`)
     }
 
     let mixinData = this.getMixinData('backgroundColor')
 
     if (mixinData) {
-      contentClasses.push(`vce-feature-section--background-color-${mixinData.selector}`)
+      contentClasses.push(`vce-feature-section-background-color--${mixinData.selector}`)
     }
 
     let buttonOutput = ''
     if (addButton) {
-      const Cook = vcCake.getService('cook')
-      let Button = Cook.get(button)
+      let Button = cook.get(button)
       buttonOutput = Button.render(null, false)
     }
 
@@ -87,7 +82,7 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       <div className={wrapperClasses} id={'el-' + id} {...doRest}>
         <div className={imageClasses} style={imageStyles} />
         <div className={contentClasses}>
-          <div className='vce-feature-section--content-container' {...doPadding}>
+          <div className='vce-feature-section-content-container' {...doPadding}>
             <div className='vce-feature-section-description'>
               {description}
             </div>
@@ -98,4 +93,3 @@ export default class FeatureSection extends vcvAPI.elementComponent {
     </section>
   }
 }
-
