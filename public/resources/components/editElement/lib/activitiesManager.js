@@ -18,6 +18,7 @@ export default class ActivitiesManager extends React.Component {
 
   constructor (props) {
     super(props)
+    console.log('activities manager constructor called')
     this.listeners = this.initListeners(this.props.element)
   }
 
@@ -27,13 +28,13 @@ export default class ActivitiesManager extends React.Component {
     this.mountStack = {}
     this.initialStack = {}
     const cookElement = nextProps.element
-    this.setState({element: cookElement})
+    this.setState({ element: cookElement })
     this.listeners = this.initListeners(cookElement)
   }
 
-  shouldComponentUpdate (nextProps) {
-    return nextProps.element.get('id') !== this.props.element.get('id') || nextProps.activeState !== this.props.activeState
-  }
+  // shouldComponentUpdate (nextProps) {
+  //   return nextProps.element.get('id') !== this.props.element.get('id') || nextProps.activeState !== this.props.activeState
+  // }
 
   initListeners (element) {
     let listeners = []
