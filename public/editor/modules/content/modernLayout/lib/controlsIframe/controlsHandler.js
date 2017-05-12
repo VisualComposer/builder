@@ -12,7 +12,9 @@ export default class ControlsHandler {
     this.iframeWindow = props.iframeWindow
     this.iframeDocument = props.iframeDocument
 
+    this.controlsWrapper = null
     this.controlsContainer = null
+    this.appendControlWrapper = null
     this.appendControlContainer = null
 
     this.state = {
@@ -25,13 +27,22 @@ export default class ControlsHandler {
   }
 
   setup () {
+    this.controlsWrapper = document.createElement('div')
+    this.controlsWrapper.classList.add('vcv-ui-outline-controls-wrapper')
+    this.iframeOverlay.appendChild(this.controlsWrapper)
+
     this.controlsContainer = document.createElement('div')
     this.controlsContainer.classList.add('vcv-ui-outline-controls-container', 'wip')
-    this.iframeOverlay.appendChild(this.controlsContainer)
+    this.controlsWrapper.appendChild(this.controlsContainer)
     this.controlsContainer.addEventListener('mouseenter', this.updateDropdownsPosition)
+
+    this.appendControlWrapper = document.createElement('div')
+    this.appendControlWrapper.classList.add('vcv-ui-append-control-wrapper')
+    this.iframeOverlay.appendChild(this.appendControlWrapper)
+
     this.appendControlContainer = document.createElement('div')
     this.appendControlContainer.classList.add('vcv-ui-append-control-container')
-    this.iframeOverlay.appendChild(this.appendControlContainer)
+    this.appendControlWrapper.appendChild(this.appendControlContainer)
   }
 
   /**
@@ -532,6 +543,10 @@ export default class ControlsHandler {
    * @param e
    */
   updateDropdownsPosition (e) {
+    this.controlsContainer.classList.add('vcv-state--visible')
+    this.controlsContainer.addEventListener('mouseleave', () => {
+      this.controlsContainer.classList.remove('vcv-state--visible')
+    })
     let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
     dropdowns = [].slice.call(dropdowns)
     let iframePos = this.iframe.getBoundingClientRect()
