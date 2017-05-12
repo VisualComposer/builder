@@ -5,6 +5,7 @@ export default class Outline {
     this.iframe = props.iframe
     this.iframeWindow = props.iframeWindow
     this.iframeDocument = props.iframeDocument
+    this.outlineContainer = null
 
     this.outline = null
 
@@ -19,9 +20,13 @@ export default class Outline {
    * Generate outline and add it to overlay
    */
   setup () {
+    this.outlineContainer = document.createElement('div')
+    this.outlineContainer.classList.add('vcv-ui-element-outline-container')
+    this.iframeOverlay.appendChild(this.outlineContainer)
+
     this.outline = document.createElement('svg')
     this.outline.classList.add('vcv-ui-element-outline')
-    this.iframeOverlay.appendChild(this.outline)
+    this.outlineContainer.appendChild(this.outline)
   }
 
   /**
