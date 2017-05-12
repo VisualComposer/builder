@@ -59,7 +59,7 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Reverse order"
+      "label": "Reverse stacking"
     }
   },
   "addButton": {
