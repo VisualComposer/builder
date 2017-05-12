@@ -21,7 +21,6 @@ export default class TreeViewLayout extends React.Component {
   constructor (props) {
     super(props)
     this.updateElementsData = this.updateElementsData.bind(this)
-    this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleScrollToElement = this.handleScrollToElement.bind(this)
     this.interactWithContent = this.interactWithContent.bind(this)
     this.handleAddElement = this.handleAddElement.bind(this)
@@ -44,7 +43,9 @@ export default class TreeViewLayout extends React.Component {
   }
 
   componentDidMount () {
-    elementsStorage.state('document').onChange(this.updateElementsData)
+    elementsStorage.state('document').onChange(this.updateElementsData, {
+      debounce: 250
+    })
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     this.setState({
       header: document.querySelector('.vcv-ui-navbar-container'),
@@ -56,11 +57,6 @@ export default class TreeViewLayout extends React.Component {
     workspaceStorage.state('contentStart').onChange((value, id) => {
       this.handleScrollToElement(id)
     })
-    /*
-    this.props.api.reply('bar-content-start:show', this.handleScrollToElement)
-    this.props.api.reply('editorContent:control:mouseEnter', this.interactWithContent)
-    this.props.api.reply('editorContent:control:mouseLeave', this.interactWithContent)
-    */
   }
 
   componentWillUnmount () {
@@ -79,10 +75,6 @@ export default class TreeViewLayout extends React.Component {
 
   interactWithContent (id = false) {
     this.setState({ outlineElementId: id })
-  }
-
-  handleMouseOver () {
-    this.interactWithContent()
   }
 
   expandTree (element) {
@@ -173,7 +165,6 @@ export default class TreeViewLayout extends React.Component {
     return (
       <div
         className='vcv-ui-tree-layout-container'
-        onMouseOver={this.handleMouseOver}
         ref={(layoutContainer) => { this.layoutContainer = layoutContainer }}
       >
         <Scrollbar ref={(scrollbar) => { this.scrollbar = scrollbar }}>
