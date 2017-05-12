@@ -84,7 +84,7 @@
     "access": "public",
     "value": {
       "tag": "outlineButton",
-      "alignment": "center"
+      "alignment": "left"
     },
     "options": {
       "category": "Button",
