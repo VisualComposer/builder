@@ -43,7 +43,8 @@ class ColumnResizer extends React.Component {
       ifameDocument.addEventListener('mouseup', this.handleMouseUp)
       vcCake.setData('vcv:layoutColumnResize', this.resizerData.rowId)
     } else if (!this.state.dragging && state.dragging) {
-      vcCake.setData('vcv:layoutCustomMode', previousLayoutCustomMode || null)
+      const newLayoutModeState = previousLayoutCustomMode === 'contentEditable' ? previousLayoutCustomMode : null
+      vcCake.setData('vcv:layoutCustomMode', newLayoutModeState)
       vcCake.setData('vcv:layoutColumnResize', null)
       ifameDocument.removeEventListener('mousemove', this.handleMouseMove)
       ifameDocument.removeEventListener('mouseup', this.handleMouseUp)
