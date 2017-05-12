@@ -59,7 +59,7 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Reverse order"
+      "label": "Reverse stacking"
     }
   },
   "addButton": {
@@ -84,7 +84,7 @@
     "access": "public",
     "value": {
       "tag": "outlineButton",
-      "alignment": "center"
+      "alignment": "left"
     },
     "options": {
       "category": "Button",

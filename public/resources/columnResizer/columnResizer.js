@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 const elementsStorage = vcCake.getStorage('elements')
-
+let previousLayoutCustomMode = false
 class ColumnResizer extends React.Component {
   static defaultGridPercentage = [ 20, 25, 33.33, 50, 66.66, 75 ]
 
@@ -37,12 +37,14 @@ class ColumnResizer extends React.Component {
   componentDidUpdate (props, state) {
     let ifameDocument = document.querySelector('#vcv-editor-iframe').contentWindow
     if (this.state.dragging && !state.dragging) {
+      previousLayoutCustomMode = vcCake.getData('vcv:layoutCustomMode')
       vcCake.setData('vcv:layoutCustomMode', 'columnResizer')
       ifameDocument.addEventListener('mousemove', this.handleMouseMove)
       ifameDocument.addEventListener('mouseup', this.handleMouseUp)
       vcCake.setData('vcv:layoutColumnResize', this.resizerData.rowId)
     } else if (!this.state.dragging && state.dragging) {
-      vcCake.setData('vcv:layoutCustomMode', null)
+      const newLayoutModeState = previousLayoutCustomMode === 'contentEditable' ? previousLayoutCustomMode : null
+      vcCake.setData('vcv:layoutCustomMode', newLayoutModeState)
       vcCake.setData('vcv:layoutColumnResize', null)
       ifameDocument.removeEventListener('mousemove', this.handleMouseMove)
       ifameDocument.removeEventListener('mouseup', this.handleMouseUp)
