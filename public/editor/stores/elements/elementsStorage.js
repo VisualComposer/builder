@@ -60,7 +60,7 @@ addStorage('elements', (storage) => {
       element.layout.layoutData = undefined
     }
     documentManager.update(id, element)
-    storage.state('element:' + id).set(element, source)
+    storage.state(`element:${id}`).set(element, source)
     if (!options.silent) {
       updateTimeMachine(source || 'elements')
     }
