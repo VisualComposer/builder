@@ -34,6 +34,9 @@ export default class ControlsManager {
 
     this.findElement = this.findElement.bind(this)
     this.controlElementFind = this.controlElementFind.bind(this)
+    this.handleFrameLeave = this.handleFrameLeave.bind(this)
+    this.handleFrameMousemoveOnce = this.handleFrameMousemoveOnce.bind(this)
+    this.handleOverlayMouseLeave = this.handleOverlayMouseLeave.bind(this)
   }
 
   /**
@@ -46,13 +49,15 @@ export default class ControlsManager {
     this.iframe = options.iframe
     this.iframeWindow = options.iframeWindow
     this.iframeDocument = options.iframeDocument
+    this.documentBody = options.documentBody
 
     let systemData = {
       iframeContainer: this.iframeContainer,
       iframeOverlay: this.iframeOverlay,
       iframe: this.iframe,
       iframeWindow: this.iframeWindow,
-      iframeDocument: this.iframeDocument
+      iframeDocument: this.iframeDocument,
+      documentBody: this.documentBody
     }
 
     // define helpers
@@ -88,6 +93,7 @@ export default class ControlsManager {
 
     // Subscribe to main event to interact with content elements
     this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+    this.iframeDocument.body.addEventListener('mouseleave', this.handleFrameLeave)
     // add controls interaction with content
     this.controls.getControlsContainer().addEventListener('mousemove', this.controlElementFind)
     this.controls.getControlsContainer().addEventListener('mouseleave', this.controlElementFind)
@@ -182,7 +188,8 @@ export default class ControlsManager {
       iframeUsed: true,
       iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
       iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
-      iframe: document.querySelector('#vcv-editor-iframe')
+      iframe: document.querySelector('#vcv-editor-iframe'),
+      documentBody: document.body
     }
     defaultOptions.iframeWindow = defaultOptions.iframe && defaultOptions.iframe.contentWindow
     defaultOptions.iframeDocument = defaultOptions.iframeWindow && defaultOptions.iframeWindow.document
@@ -462,5 +469,36 @@ export default class ControlsManager {
       return el
     })
     this.frames.show({ path: elementsToShow })
+  }
+
+  /**
+   * Add event listener on documentBody to check if hide controls
+   */
+  handleFrameLeave () {
+    this.documentBody.addEventListener('mousemove', this.handleFrameMousemoveOnce)
+  }
+
+  /**
+   * Check if mouse is out of iframe overlay
+   * @param e
+   */
+  handleFrameMousemoveOnce (e) {
+    this.documentBody.removeEventListener('mousemove', this.handleFrameMousemoveOnce)
+    const paths = this.getPath(e).filter((path) => {
+      return path === this.iframeOverlay
+    })
+    if (!paths.length) {
+      this.findElement()
+    } else {
+      this.iframeOverlay.addEventListener('mouseleave', this.handleOverlayMouseLeave)
+    }
+  }
+
+  /**
+   * Remove listener if mouse is not in iframe overlay
+   */
+  handleOverlayMouseLeave () {
+    this.iframeOverlay.removeEventListener('mouseleave', this.handleOverlayMouseLeave)
+    this.findElement()
   }
 }
