@@ -15,6 +15,8 @@ export default class ControlsHandler {
     this.controlsContainer = null
     this.appendControlContainer = null
 
+    this.layoutBar = null
+
     this.state = {
       containerTimeout: null,
       appendContainerTimeout: null
@@ -415,10 +417,14 @@ export default class ControlsHandler {
       controlsHeight = controls.getBoundingClientRect().height
     }
     // set sticky controls
+    if (!this.layoutBar) {
+      this.layoutBar = document.querySelector('.vcv-layout-bar')
+    }
+    let layoutHeaderPosBottom = this.layoutBar.getBoundingClientRect().bottom
     let posTop = elementPos.top
-    if (posTop - controlsHeight < 0) {
+    if (posTop - controlsHeight < layoutHeaderPosBottom) {
       this.controlsContainer.classList.add('vcv-ui-controls-o-inset')
-      posTop = controlsHeight
+      posTop = layoutHeaderPosBottom + controlsHeight
     } else {
       this.controlsContainer.classList.remove('vcv-ui-controls-o-inset')
     }
