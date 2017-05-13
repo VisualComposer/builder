@@ -293,4 +293,24 @@ class Str implements Helper
 
         return $str;
     }
+
+    public function convert($value)
+    {
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+            case 'false':
+            case '(false)':
+                return false;
+            case 'empty':
+            case '(empty)':
+                return '';
+            case 'null':
+            case '(null)':
+                return;
+        }
+
+        return $value;
+    }
 }
