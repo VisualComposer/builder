@@ -6,26 +6,35 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Differ;
 use VisualComposer\Helpers\Hub;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class BundleDownloadController extends Container implements Module
 {
     use WpFiltersActions;
+    use EventsFilters;
 
     protected $elementApiUrl = '';
 
     public function __construct(Hub $hubHelper)
     {
-        $featureToggle = false;
-        if ($featureToggle) {
-            $this->wpAddAction(
-                'admin_init',
-                'prepareBundleDownload'
+        if (vcvenv('VCV_ELEMENT_DOWNLOAD')) {
+            $this->addFilter(
+                'vcv:ajax:account:activation:adminNonce',
+                'downloadElementsOnActivation',
+                50
             );
-
-            // Temporary code
-            add_filter('http_request_host_is_external', '__return_true');
         }
+    }
+
+    protected function downloadElementsOnActivation($response, $payload)
+    {
+        if ($response) {
+            /** @see \VisualComposer\Modules\Hub\Download\BundleDownloadController::prepareBundleDownload */
+            $this->call('prepareBundleDownload');
+        }
+
+        return $response;
     }
 
     protected function prepareBundleDownload(Hub $hubHelper)

@@ -33,8 +33,7 @@ class Elements extends Container implements Module
         $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:extraOutput', 'outputElements');
         $this->addFilter('vcv:frontend:footer:extraOutput vcv:backend:extraOutput', 'outputElementsBundle', 3);
 
-        $temporaryData = false;
-        if ($temporaryData) {
+        if (vcvenv('VCV_DUMMY_DATA')) {
             /** @see \VisualComposer\Modules\Hub\Elements::dummySetElements */
             $this->wpAddAction(
                 'init',
