@@ -10,7 +10,7 @@ class Hub implements Helper
     {
         $urlHelper = vchelper('Url');
         $fileHelper = vchelper('File');
-        $downloadUrl = $urlHelper->query(sprintf('%s/download/bundle', VCV_ACCOUNT_URL), $requestedData);
+        $downloadUrl = $urlHelper->query(sprintf('%s/download/bundle/lite', VCV_ACCOUNT_URL), $requestedData);
         $downloadedArchive = $fileHelper->download($downloadUrl);
 
         return $downloadedArchive;
