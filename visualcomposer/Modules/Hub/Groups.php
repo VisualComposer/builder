@@ -26,8 +26,7 @@ class Groups extends Container implements Module
         /** @see \VisualComposer\Modules\Hub\Groups::outputGroups */
         $this->addFilter('vcv:frontend:body:extraOutput vcv:backend:extraOutput', 'outputGroups');
 
-        $temporaryData = false;
-        if ($temporaryData) {
+        if (vcvenv('VCV_DUMMY_DATA') && !vcvenv('VCV_ELEMENT_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Hub\Groups::dummySetGroups */
             $this->wpAddAction(
                 'init',
