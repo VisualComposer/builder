@@ -28,7 +28,7 @@ class Categories extends Container implements Module
         /** @see \VisualComposer\Modules\Hub\Categories::outputCategories */
         $this->addFilter('vcv:frontend:body:extraOutput vcv:backend:extraOutput', 'outputCategories');
 
-        if (vcvenv('VCV_DUMMY_DATA')) {
+        if (vcvenv('VCV_DUMMY_DATA') && !vcvenv('VCV_ELEMENT_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Hub\Categories::dummySetCategories */
             $this->wpAddAction(
                 'init',
