@@ -88,24 +88,12 @@ if (!function_exists('vcvenv')) {
         if ($value === false) {
             return $default;
         }
-        switch (strtolower($value)) {
-            case 'true':
-            case '(true)':
-                return true;
-            case 'false':
-            case '(false)':
-                return false;
-            case 'empty':
-            case '(empty)':
-                return '';
-            case 'null':
-            case '(null)':
-                return;
-        }
+
         $strHelper = vchelper('Str');
         if ($strHelper->startsWith($value, '"') && $strHelper->endsWith($value, '"')) {
-            return substr($value, 1, -1);
+            $value = substr($value, 1, -1);
         }
+        $value = $strHelper->convert($value);
 
         return $value;
     }
