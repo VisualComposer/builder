@@ -13,6 +13,9 @@
   transition-property: all;
   transition-timing-function: ease-in-out;
   width: 100%;
+  &::-ms-clear {
+    display: none;
+  }
   &:hover,
   &:focus {
     #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
