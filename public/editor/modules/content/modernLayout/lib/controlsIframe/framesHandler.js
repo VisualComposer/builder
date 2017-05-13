@@ -5,12 +5,21 @@ export default class Frames {
     this.iframe = props.iframe
     this.iframeWindow = props.iframeWindow
     this.iframeDocument = props.iframeDocument
+    this.framesContainer = null
 
     this.frames = []
 
     this.state = {
       framesTimeout: []
     }
+
+    this.setup()
+  }
+
+  setup () {
+    this.framesContainer = document.createElement('div')
+    this.framesContainer.classList.add('vcv-ui-element-frames-container')
+    this.iframeOverlay.appendChild(this.framesContainer)
   }
 
   /**
@@ -19,7 +28,7 @@ export default class Frames {
   addFrame () {
     let frame = document.createElement('svg')
     frame.classList.add('vcv-ui-element-frame')
-    this.iframeOverlay.appendChild(frame)
+    this.framesContainer.appendChild(frame)
     this.frames.push(frame)
   }
 

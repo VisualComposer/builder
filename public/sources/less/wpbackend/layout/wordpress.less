@@ -73,7 +73,8 @@
   .vcv-ui-editor-tab,
   .vcv-ui-edit-form-action,
   .vcv-ui-settings-action,
-  .vcv-ui-outline-control-more {
+  .vcv-ui-outline-control-more,
+  .vcv-ui-navbar-logo {
     &:hover,
     &:active,
     &:focus {
@@ -176,11 +177,19 @@
     box-shadow: @vcv-wpbackend-bar-content-box-shadow;
   }
 
-  .vcv-layout-iframe-container {
-    .vcv-ui-element-frame,
-    .vcv-ui-outline-controls-container,
-    .vcv-ui-append-control-container {
-      visibility: hidden;
+  .vcv-ui-outline-controls-container {
+    &.vcv-state--visible {
+      .vcv-ui-outline-control-dropdown-content {
+        position: absolute;
+      }
+      .vcv-ui-outline-control-dropdown{
+        &:hover {
+          .vcv-ui-outline-control-dropdown-content {
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+      }
     }
   }
 
@@ -285,4 +294,7 @@
     }
   }
 
+  .vcv-start-blank-container:hover {
+    z-index: @vcv-wpbackend-start-blank-zindex-hover;
+  }
 }

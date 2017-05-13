@@ -75,7 +75,10 @@ addStorage('wordpressData', (storage) => {
       workspaceStorage.state('app').set('started')
       window.onbeforeunload = () => {
         const isContentChanged = wordpressDataStorage.state('status').get().status === 'changed'
-        const isCssChanged = settingsStorage.state('status').get().status === 'changed'
+        const settingsStorageStateGet = settingsStorage.state('status').get()
+        const isCssChanged = settingsStorageStateGet &&
+          settingsStorageStateGet.status &&
+          settingsStorageStateGet.status === 'changed'
         if (isContentChanged || isCssChanged) {
           return true
         }
