@@ -31,6 +31,7 @@ task(
         $sharedPath = "{{deploy_path}}/shared";
         cd('{{release_path}}');
         run('cp package.json {{deploy_path}}/shared');
+        run('cp .env-copy .env');
         cd($sharedPath);
         run('npm update --loglevel=error');
         cd('{{release_path}}');
