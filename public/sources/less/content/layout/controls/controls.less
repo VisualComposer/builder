@@ -1,8 +1,26 @@
 
 //== Controls
+.vcv-ui-outline-controls-wrapper {
+  overflow: hidden;
+  &.vcv-state--visible {
+    overflow: visible;
+    .vcv-ui-outline-control-dropdown-content {
+      position: absolute;
+    }
+    .vcv-ui-outline-control-dropdown{
+      &:hover {
+        .vcv-ui-outline-control-dropdown-content {
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
 .vcv-ui-outline-controls-container {
   position: absolute;
-  //z-index: @controls-z-index;
+  z-index: @controls-z-index;
   pointer-events: none;
   &:hover {
     z-index: @controls-z-index-hover;
@@ -18,19 +36,6 @@
     > :last-child {
       border-top-right-radius: @control-border-radius;
       border-bottom-right-radius: @control-border-radius;
-    }
-  }
-  &.vcv-state--visible {
-    .vcv-ui-outline-control-dropdown-content {
-      position: absolute;
-    }
-    .vcv-ui-outline-control-dropdown{
-      &:hover {
-        .vcv-ui-outline-control-dropdown-content {
-          visibility: visible;
-          opacity: 1;
-        }
-      }
     }
   }
 }

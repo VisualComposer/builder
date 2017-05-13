@@ -543,9 +543,9 @@ export default class ControlsHandler {
    * @param e
    */
   updateDropdownsPosition (e) {
-    this.controlsContainer.classList.add('vcv-state--visible')
+    this.controlsWrapper.classList.add('vcv-state--visible')
     this.controlsContainer.addEventListener('mouseleave', () => {
-      this.controlsContainer.classList.remove('vcv-state--visible')
+      this.controlsWrapper.classList.remove('vcv-state--visible')
     })
     let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
     dropdowns = [].slice.call(dropdowns)

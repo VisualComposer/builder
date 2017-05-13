@@ -1,5 +1,7 @@
 import React from 'react'
+import vcCake from 'vc-cake'
 import HtmlLayout from './htmlLayout'
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class LayoutEditor extends React.Component {
   static propTypes = {
@@ -14,14 +16,13 @@ export default class LayoutEditor extends React.Component {
   }
 
   componentDidMount () {
-    this.props.api.reply(
-      'data:changed',
-      (data) => {
-        this.setState({ data: data }, () => {
-          this.props.api.request('data:editor:render')
-        })
-      }
-    )
+    elementsStorage.state('document').onChange((data) => {
+      this.setState({ data: data }, () => {
+        // content.trigger('data:editor:render')
+      })
+    }, {
+      debounce: 50
+    })
   }
 
   getContent () {
