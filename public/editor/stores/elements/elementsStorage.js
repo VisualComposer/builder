@@ -11,9 +11,22 @@ addStorage('elements', (storage) => {
     wordpressDataStorage.state('status').set({status: 'changed'})
     historyStorage.trigger('add', documentManager.all())
   }
+  const sanitizeData = (data) => {
+    const newData = Object.assign({}, data || {})
+    Object.keys(data).forEach((key) => {
+      let element = cook.get(data[key])
+      if (!element) {
+        delete newData[key]
+      }
+    })
+    return newData
+  }
   storage.on('add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
     let element = cook.get(elementData)
+    if (!element) {
+      return
+    }
     if (wrap && !element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
       const rowElementSettings = cook.get({ tag: 'row' })
       let rowElement = documentManager.create(rowElementSettings.toJS())
@@ -173,12 +186,12 @@ addStorage('elements', (storage) => {
     async: true
   })
   storage.on('reset', (data) => {
-    documentManager.reset(data || {})
+    documentManager.reset(sanitizeData(data))
     historyStorage.trigger('init', data)
     storage.state('document').set(documentManager.children(false))
   })
   storage.on('updateAll', (data) => {
-    documentManager.reset(data || {})
+    documentManager.reset(sanitizeData(data))
     storage.state('document').set(documentManager.children(false))
   })
 })
