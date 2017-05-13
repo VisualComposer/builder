@@ -185,6 +185,22 @@
     }
   }
 
+  .vcv-ui-outline-controls-container {
+    &.vcv-state--visible {
+      .vcv-ui-outline-control-dropdown-content {
+        position: absolute;
+      }
+      .vcv-ui-outline-control-dropdown{
+        &:hover {
+          .vcv-ui-outline-control-dropdown-content {
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
   .vcv-ui-modal-overlay {
     z-index: @vcv-wpbackend-modal-overlay-zindex;
   }
