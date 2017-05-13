@@ -12,6 +12,16 @@
  **/
 require __DIR__ . '/../vendor/autoload.php';
 
+// Development environment variables
+if (VCV_DEBUG && class_exists('\Dotenv\Dotenv')) {
+    $className = '\Dotenv\Dotenv';
+    $env = new $className(__DIR__ . '/..');
+    if (is_object($env)) {
+        /** @var $env \Dotenv\Dotenv */
+        $env->load();
+    }
+}
+
 /**
  * @return mixed|\VisualComposer\Application
  */

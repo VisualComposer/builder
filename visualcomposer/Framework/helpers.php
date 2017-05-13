@@ -72,3 +72,41 @@ function vcview($path, $args = [])
     /** @see \VisualComposer\Helpers\Views::render */
     return vchelper('Views')->render($path, $args);
 }
+
+if (!function_exists('vcvenv')) {
+    /**
+     * Gets the value of an environment variable. Supports boolean, empty and null.
+     *
+     * @param  string $key
+     * @param  mixed $default
+     *
+     * @return mixed
+     */
+    function vcvenv($key, $default = null)
+    {
+        $value = getenv($key);
+        if ($value === false) {
+            return $default;
+        }
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+            case 'false':
+            case '(false)':
+                return false;
+            case 'empty':
+            case '(empty)':
+                return '';
+            case 'null':
+            case '(null)':
+                return;
+        }
+        $strHelper = vchelper('Str');
+        if ($strHelper->startsWith($value, '"') && $strHelper->endsWith($value, '"')) {
+            return substr($value, 1, -1);
+        }
+
+        return $value;
+    }
+}
