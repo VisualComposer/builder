@@ -142,7 +142,6 @@
 
 .vcv-popup-loading-screen {
   position: static;
-  padding-top: 30px;
 
   .vcv-popup-helper {
     padding-bottom: 10px;
@@ -175,6 +174,7 @@
 }
 
 .vcv-popup-button {
+  display: inline-block;
   background: transparent;
   color: @vcv-buttonColor;
   font: @vcv-buttonFont;
@@ -633,6 +633,11 @@ input.vcv-popup-form-input {
 .vcv-popup-last-screen-helper {
   margin-top: 30px;
   color: @vcv-lastScreenHelperColor;
+}
+
+.vcv-popup-container .twitter-share-button {
+  vertical-align: middle;
+  margin-left: 13px;
 }
 
 @media screen and (min-width: 544px) {
