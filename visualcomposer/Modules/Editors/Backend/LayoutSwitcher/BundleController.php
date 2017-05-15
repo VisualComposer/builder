@@ -14,30 +14,8 @@ class BundleController extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher\BundleController::addHeadBundleStyle */
-        $this->addFilter('vcv:backend:extraOutput', 'addHeadBundleStyle');
-
         /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcheBundleController::addFooterBundleScript */
         $this->addFilter('vcv:backend:extraOutput', 'addFooterBundleScript', 4);
-    }
-
-    protected function addHeadBundleStyle(array $response, $payload, Url $urlHelper)
-    {
-        // Add CSS
-        $response = array_merge(
-            $response,
-            [
-                sprintf(
-                    '<link id="vcv-style-be-switch-bundle" 
-rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
-                    $urlHelper->to(
-                        'public/dist/wpbackendswitch.bundle.css?' . uniqid()
-                    )
-                ),
-            ]
-        );
-
-        return $response;
     }
 
     protected function addFooterBundleScript(array $response, $payload, Url $urlHelper, Frontend $frontendHelper)
