@@ -89,6 +89,9 @@ class Color extends Attribute {
     } else {
       document.body.addEventListener('click', this.closeIfNotInside)
     }
+    if (!this.refs.vcvSketchColor) {
+      return
+    }
     this.setState({
       displayColorPicker: !this.state.displayColorPicker
     })
@@ -110,6 +113,10 @@ class Color extends Attribute {
       }
       // update color value
       value = color.toString(format || 'rgb')
+    }
+
+    if (!this.refs.vcvSketchColor) {
+      return
     }
 
     this.setState({
@@ -172,7 +179,7 @@ class Color extends Attribute {
       )
     }
     return (
-      <div>
+      <div ref='vcvSketchColor'>
         <div className={selectorClasses} onClick={this.handleClick}>
           <div className={swatchClasses}>
             <div className='vcv-ui-form-dropdown-color-value' style={colorStyle} />
