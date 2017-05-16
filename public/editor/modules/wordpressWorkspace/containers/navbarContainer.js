@@ -25,21 +25,25 @@ export default class NavbarContainer extends React.Component {
     }
     this.updateLockedState = this.updateLockedState.bind(this)
   }
+
   componentDidMount () {
     contentEndState.onChange(this.updateLockedState)
   }
+
   componentWillUnmount () {
     contentEndState.ignoreChange(this.updateLockedState)
   }
+
   updateLockedState (data) {
-    this.setState({locked: !!data})
+    this.setState({ locked: !!data })
   }
+
   render () {
     const {locked} = this.state
     return <NavbarWrapper>
       <Navbar locked={locked} draggable>
-        <Logo visibility='pinned' name='Visual Composer' />
-        <PlusControl visibility='pinned' name='Add Element' />
+        <Logo visibility='pinned' />
+        <PlusControl visibility='pinned' />
         <AddTemplateControl />
         <TreeViewControl visibility='pinned' />
         <UndoRedoControl />
