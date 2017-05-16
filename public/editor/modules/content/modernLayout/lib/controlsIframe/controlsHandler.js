@@ -80,6 +80,7 @@ export default class ControlsHandler {
     this.stopAutoUpdateContainerPosition()
     this.destroyAppendControl()
     this.stopAutoUpdateAppendContainerPosition()
+    this.controlsWrapper.classList.remove('vcv-state--visible')
   }
 
   /**
