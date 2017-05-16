@@ -17,6 +17,7 @@ $typenow = get_post_type();
 $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
+wp_enqueue_style('wp-admin');
 wp_enqueue_media();
 $postTypeHelper = vchelper('PostType');
 ?>
