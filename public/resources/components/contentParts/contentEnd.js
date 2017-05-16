@@ -125,10 +125,9 @@ export default class ContentEnd extends React.Component {
 
     return (
       <div className={contentClasses} id='vcv-editor-end'>
-        <a className={closeBtnClasses} href='#' title={closeTitle}
-          onClick={this.closeContent}>
+        <span className={closeBtnClasses} title={closeTitle} onClick={this.closeContent}>
           <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
-        </a>
+        </span>
         {children}
         <Resizer params={{
           resizeBottom: true,

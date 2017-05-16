@@ -68,12 +68,12 @@ export default class SettingsButtonControl extends NavbarContent {
     })
 
     return (
-      <a className={controlClass} href='#' title={name} onClick={this.toggleSettings}>
+      <span className={controlClass} title={name} onClick={this.toggleSettings}>
         <span className='vcv-ui-navbar-control-content'>
           <i className={iconClass} />
           <span>{name}</span>
         </span>
-      </a>
+      </span>
     )
   }
 }

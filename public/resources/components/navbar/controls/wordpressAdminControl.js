@@ -31,8 +31,8 @@ export default class WordPressAdminControl extends NavbarContent {
       setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
     }
     window.open(
-      target.href,
-      target.getAttribute('target') ? target.getAttribute('target') : '_self'
+      target.dataset.href,
+      target.dataset.target ? target.dataset.target : '_self'
     )
   }
 
@@ -49,61 +49,64 @@ export default class WordPressAdminControl extends NavbarContent {
     let saveDraftButton = ''
     if (PostData.isDraft()) {
       saveDraftButton = (
-        <a
+        <span
           className='vcv-ui-navbar-control'
-          href={PostData.permalink()}
           title={saveDraft}
           onClick={this.saveDraft}
-        ><span
-          className='vcv-ui-navbar-control-content'>{saveDraft}</span></a>
+          data-href={PostData.permalink()}
+        >
+          <span className='vcv-ui-navbar-control-content'>{saveDraft}</span>
+        </span>
       )
     }
 
     let viewButton = ''
     if (PostData.isPublished()) {
       viewButton = (
-        <a
+        <span
           className='vcv-ui-navbar-control'
-          href={PostData.permalink()}
           title={viewPage}
-          target='_blank'
           onClick={this.handleClick}
+          data-href={PostData.permalink()}
+          data-target='_blank'
         >
           <span className='vcv-ui-navbar-control-content'>{viewPage}</span>
-        </a>
+        </span>
       )
     }
     // let previewText = PostData.isPublished() ? 'Preview Changes' : 'Preview'
     // let previewButton = (
-    //   <a
+    //   <span
     //     className='vcv-ui-navbar-control'
     //     title={previewText}
-    //     href={PostData.previewUrl()}
-    //     target='_blank'
-    //   ><span className='vcv-ui-navbar-control-content'>{previewText}</span></a>
+    //     data-href={PostData.previewUrl()}
+    //     data-target='_blank'
+    //   >
+    //     <span className='vcv-ui-navbar-control-content'>{previewText}</span>
+    //   </span>
     // )
 
     let backendEditorButton = (
-      <a
+      <span
         className='vcv-ui-navbar-control'
-        href={PostData.backendEditorUrl()}
         onClick={this.handleClick}
         title={editInBackendEditor}
+        data-href={PostData.backendEditorUrl()}
         data-backend-editor='backendEditor'
       >
         <span className='vcv-ui-navbar-control-content'>{backendEditor}</span>
-      </a>
+      </span>
     )
 
     let wordpressDashboardButton = (
-      <a
+      <span
         className='vcv-ui-navbar-control'
-        href={PostData.adminDashboardUrl()}
         onClick={this.handleClick}
         title={wordPressDashboard}
+        data-href={PostData.adminDashboardUrl()}
       >
         <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
-      </a>
+      </span>
     )
 
     return (

@@ -19,11 +19,11 @@ export default class Tab extends React.Component {
     })
 
     return (
-      <a ref='domComponent' className={tabClasses} href='javascript:;' onClick={this.props.changeTab.bind(this.props.index)}>
+      <span ref='domComponent' className={tabClasses} onClick={this.props.changeTab.bind(this.props.index)}>
         <span className='vcv-ui-editor-tab-content'>
           <span>{title}</span>
         </span>
-      </a>
+      </span>
     )
   }
 }

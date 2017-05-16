@@ -170,9 +170,8 @@ export default class TreeViewLayout extends React.Component {
         <Scrollbar ref={(scrollbar) => { this.scrollbar = scrollbar }}>
           {this.getElementsOutput()}
           <div className='vcv-ui-tree-layout-actions'>
-            <a
+            <span
               className='vcv-ui-tree-layout-action'
-              href='#'
               title='Add Element'
               onClick={this.handleAddElement}
             >
@@ -180,10 +179,9 @@ export default class TreeViewLayout extends React.Component {
                 <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
                 <span>Add element</span>
               </span>
-            </a>
-            <a
+            </span>
+            <span
               className='vcv-ui-tree-layout-action'
-              href='#'
               title='Template'
               onClick={this.handleAddTemplate}
             >
@@ -191,7 +189,7 @@ export default class TreeViewLayout extends React.Component {
                 <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' />
                 <span>Template</span>
               </span>
-            </a>
+            </span>
           </div>
         </Scrollbar>
       </div>

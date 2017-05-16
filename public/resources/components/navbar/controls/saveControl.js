@@ -39,10 +39,12 @@ export default class SaveControl extends NavbarContent {
 
     return (
       <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end'>
-        <a className={saveButtonClasses} title='Save' onClick={this.clickSaveData}><span
-          className='vcv-ui-navbar-control-content'>
-          <i className={saveIconClasses} /><span>Save</span>
-        </span></a>
+        <span className={saveButtonClasses} title='Save' onClick={this.clickSaveData}>
+          <span className='vcv-ui-navbar-control-content'>
+            <i className={saveIconClasses} />
+            <span>Save</span>
+          </span>
+        </span>
       </div>
     )
   }
