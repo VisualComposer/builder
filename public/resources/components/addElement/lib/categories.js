@@ -201,6 +201,9 @@ export default class Categories extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const buttonText = localizations ? localizations.premiumElementsButton : 'Premium Elements - Coming Soon'
+
     let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
@@ -228,7 +231,7 @@ export default class Categories extends React.Component {
                 disabled
                 onClick={this.handleGoToHub}
               >
-                Premium Elements - Coming Soon
+                {buttonText}
               </button>
             </div>
           </div>

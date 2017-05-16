@@ -14,6 +14,8 @@ export default class AddTemplatePanel extends React.Component {
     categories: React.PropTypes.array
   }
 
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+
   static defaultProps = {
     categories: [
       {
@@ -163,15 +165,18 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getNoResultsElement () {
+    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.downloadMoreTemplates : 'Download More Templates'
+    const noTemplatesText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.noTemplatesFound : `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
+    const notRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.notRightTemplatesFound : `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
     let source, btnText, helper, button
     if (!this.props.categories[ 0 ].templates().length && !this.state.isSearching) {
-      btnText = 'Download More Templates'
-      helper = `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
+      btnText = buttonText
+      helper = noTemplatesText
       button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       source = sharedAssetsLibraryService.getSourcePath('images/add-item.png')
     } else {
-      btnText = 'Download More Templates'
-      helper = `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
+      btnText = buttonText
+      helper = notRightTemplatesFoundText
       button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
     }
@@ -265,7 +270,8 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   onSaveFailed () {
-    this.displayError('Template save failed.')
+    const errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Template save failed.'
+    this.displayError(errorText)
   }
 
   handleGoToHub () {
@@ -277,7 +283,8 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   handleRemoveTemplate (id) {
-    if (window.confirm('Do you want to remove this template?')) {
+    const removeTemplateWarning = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.removeTemplateWarning : 'Do you want to remove this template?'
+    if (window.confirm(removeTemplateWarning)) {
       templateManager.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
     }
   }
@@ -293,10 +300,16 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   onRemoveFailed () {
-    this.displayError('Template remove failed.')
+    const templateRemoveFailed = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoveFailed : 'Template remove failed.'
+
+    this.displayError(templateRemoveFailed)
   }
 
   render () {
+    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
+    const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
+    const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
+
     let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
 
     if (this.state.showSpinner) {
@@ -332,7 +345,7 @@ export default class AddTemplatePanel extends React.Component {
               <div className={innerSectionClasses}>
                 <div className='vcv-ui-form-dependency'>
                   <div className='vcv-ui-form-group'>
-                    <span className='vcv-ui-form-group-heading'>Template name</span>
+                    <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
                     <form
                       className='vcv-ui-save-template-form'
                       onSubmit={this.handleSaveTemplate}
@@ -349,7 +362,7 @@ export default class AddTemplatePanel extends React.Component {
                         className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
                         type='submit'
                         disabled={this.state.showSpinner}
-                      >Save Template
+                      >{saveTemplateText}
                       </button>
                     </form>
                   </div>
@@ -367,7 +380,7 @@ export default class AddTemplatePanel extends React.Component {
                     disabled
                     onClick={this.handleGoToHub}
                   >
-                    Premium Templates - Coming Soon
+                    {buttonText}
                   </button>
                 </div>
               </div>

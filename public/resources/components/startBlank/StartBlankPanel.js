@@ -150,6 +150,9 @@ export default class startBlank extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const buttonText = localizations ? localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
+
     let containerWidth = {}
     if (this.state && this.state.containerWidth) {
       containerWidth.width = `${this.state.containerWidth}px`
@@ -176,7 +179,7 @@ export default class startBlank extends React.Component {
                 </ul>
               </div>
             </div>
-            <button className='vcv-start-blank-button' disabled>Premium templates - coming soon</button>
+            <button className='vcv-start-blank-button' disabled>{buttonText}</button>
             <p className='vcv-start-blank-helper'>
               Visual Composer Hub will offer you unlimited download of premium quality templates, elements, extensions
               and more.

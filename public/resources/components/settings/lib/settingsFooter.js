@@ -35,6 +35,9 @@ export default class SettingsFooter extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const saveText = localizations ? localizations.save : 'Save'
+
     let saveButtonClasses = classNames({
       'vcv-ui-settings-action': true,
       'vcv-ui-state--success': this.state.saved
@@ -49,10 +52,10 @@ export default class SettingsFooter extends React.Component {
     return (
       <div className='vcv-ui-settings-content-footer'>
         <div className='vcv-ui-settings-actions'>
-          <a className={saveButtonClasses} title='Save' onClick={this.onSave}>
+          <a className={saveButtonClasses} title={saveText} onClick={this.onSave}>
             <span className='vcv-ui-settings-action-content'>
               <i className={saveIconClasses} />
-              <span>Save</span>
+              <span>{saveText}</span>
             </span>
           </a>
         </div>
