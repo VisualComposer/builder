@@ -147,7 +147,7 @@ export default class ElementAttribute extends Attribute {
         let publicPathThumbnail = cookElement.get('metaThumbnailUrl')
 
         return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
-          <a
+          <span
             className='vcv-ui-item-element'
             onClick={this.onClickReplacement.bind(this, { tag: tag })}
           >
@@ -163,15 +163,15 @@ export default class ElementAttribute extends Attribute {
                 {cookElement.get('name')}
               </span>
             </span>
-          </a>
+          </span>
         </li>
       })
 
       replacements = (
         <div className='vcv-ui-replace-element-container'>
-          <a className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements}>
+          <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements}>
             <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
-          </a>
+          </span>
           <ul className='vcv-ui-replace-element-list'>
             {replacementItemsOutput}
           </ul>

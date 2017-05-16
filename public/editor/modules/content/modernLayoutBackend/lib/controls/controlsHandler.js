@@ -166,7 +166,7 @@ export default class ControlsHandler {
    */
   createControlForTrigger (element, options) {
     // create trigger
-    let trigger = document.createElement('a')
+    let trigger = document.createElement('span')
     trigger.classList.add('vcv-ui-outline-control', 'vcv-ui-outline-control-more')
     trigger.dataset.vcvElementId = element
     trigger.dataset.vcControlEvent = options.event
@@ -340,7 +340,7 @@ export default class ControlsHandler {
    * @returns {Element}
    */
   createControlAction (elementId, options) {
-    let action = document.createElement('a')
+    let action = document.createElement('span')
     action.classList.add('vcv-ui-outline-control')
     action.dataset.vcvElementId = elementId
 

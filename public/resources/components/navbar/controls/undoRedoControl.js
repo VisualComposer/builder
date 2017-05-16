@@ -57,20 +57,28 @@ export default class UndoRedoControl extends NavbarContent {
 
     return (
       <div className='vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close'>
-        <a
-          className='vcv-ui-navbar-control' href='#' title={undoName} disabled={this.state.undoDisabled}
+        <span
+          className='vcv-ui-navbar-control'
+          title={undoName}
+          disabled={this.state.undoDisabled}
           onClick={this.handleUndo}
-        ><span
-          className='vcv-ui-navbar-control-content'
-        ><i
-          className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-undo' /><span>{undoName}</span></span></a>
-        <a
-          className='vcv-ui-navbar-control' href='#' title={redoName} disabled={this.state.redoDisabled}
+        >
+          <span className='vcv-ui-navbar-control-content'>
+            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-undo' />
+            <span>{undoName}</span>
+          </span>
+        </span>
+        <span
+          className='vcv-ui-navbar-control'
+          title={redoName}
+          disabled={this.state.redoDisabled}
           onClick={this.handleRedo}
-        ><span
-          className='vcv-ui-navbar-control-content'
-        ><i
-          className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo' /><span>{redoName}</span></span></a>
+        >
+          <span className='vcv-ui-navbar-control-content'>
+            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo' />
+            <span>{redoName}</span>
+          </span>
+        </span>
       </div>
     )
   }

@@ -49,12 +49,12 @@ export default class PlusControl extends NavbarContent {
     })
 
     return (
-      <a className={controlClass} href='#' title={name} onClick={this.toggleAddElement}>
+      <span className={controlClass} title={name} onClick={this.toggleAddElement}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
           <span>{name}</span>
         </span>
-      </a>
+      </span>
     )
   }
 }

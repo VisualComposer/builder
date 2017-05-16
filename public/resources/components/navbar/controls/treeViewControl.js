@@ -45,12 +45,12 @@ export default class TreeViewControl extends NavbarContent {
     })
 
     return (
-      <a className={controlClass} title={name} onClick={this.toggleTreeView}>
+      <span className={controlClass} title={name} onClick={this.toggleTreeView}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-layers' />
           <span>{name}</span>
         </span>
-      </a>
+      </span>
     )
   }
 }

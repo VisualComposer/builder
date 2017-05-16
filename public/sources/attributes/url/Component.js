@@ -236,9 +236,9 @@ export default class Url extends Attribute {
         <div className='vcv-ui-modal'>
 
           <header className='vcv-ui-modal-header'>
-            <a className='vcv-ui-modal-close' onClick={this.cancel}>
+            <span className='vcv-ui-modal-close' onClick={this.cancel}>
               <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
-            </a>
+            </span>
             <h1 className='vcv-ui-modal-header-title'>Insert or Edit Link</h1>
           </header>
 
@@ -294,12 +294,12 @@ export default class Url extends Attribute {
           <footer className='vcv-ui-modal-footer'>
 
             <div className='vcv-ui-modal-actions'>
-              <a className='vcv-ui-modal-action' href='javascript:;' title='Save' onClick={this.save}>
+              <span className='vcv-ui-modal-action' title='Save' onClick={this.save}>
                 <span className='vcv-ui-modal-action-content'>
                   <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
                   <span>Save</span>
                 </span>
-              </a>
+              </span>
             </div>
           </footer>
         </div>

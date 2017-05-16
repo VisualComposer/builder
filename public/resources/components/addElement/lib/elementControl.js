@@ -183,7 +183,7 @@ export default class ElementControl extends React.Component {
 
     return (
       <li className='vcv-ui-item-list-item'>
-        <a className='vcv-ui-item-element'
+        <span className='vcv-ui-item-element'
           onClick={this.addElement}
           onMouseEnter={this.showPreview}
           onMouseLeave={this.hidePreview}
@@ -208,7 +208,7 @@ export default class ElementControl extends React.Component {
               </div>
             </figcaption>
           </figure>
-        </a>
+        </span>
       </li>
     )
   }

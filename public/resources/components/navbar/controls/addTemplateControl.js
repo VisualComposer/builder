@@ -49,17 +49,12 @@ export default class AddTemplateControl extends NavbarContent {
     })
 
     return (
-      <a
-        className={controlClass}
-        onClick={this.toggleAddTemplate}
-        href='#'
-        title={name}
-      >
+      <span className={controlClass} title={name} onClick={this.toggleAddTemplate}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-template' />
           <span>{name}</span>
         </span>
-      </a>
+      </span>
     )
   }
 }

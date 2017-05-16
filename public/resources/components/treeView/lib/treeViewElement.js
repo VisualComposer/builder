@@ -235,16 +235,24 @@ export default class TreeViewElement extends React.Component {
         addElementTag = children[ 0 ].tag
       }
       addChildControl = (
-        <a className='vcv-ui-tree-layout-control-action' title={title}
-          onClick={this.clickAddChild.bind(this, addElementTag)}>
+        <span
+          className='vcv-ui-tree-layout-control-action'
+          title={title}
+          onClick={this.clickAddChild.bind(this, addElementTag)}
+        >
           <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
-        </a>
+        </span>
       )
       if (this.props.element.tag === 'row') {
-        editRowLayoutControl = <a className='vcv-ui-tree-layout-control-action' title='Row Layout'
-          onClick={this.clickEdit.bind(this, 'layout')}>
-          <i className='vcv-ui-icon vcv-ui-icon-row-layout' />
-        </a>
+        editRowLayoutControl = (
+          <span
+            className='vcv-ui-tree-layout-control-action'
+            title='Row Layout'
+            onClick={this.clickEdit.bind(this, 'layout')}
+          >
+            <i className='vcv-ui-icon vcv-ui-icon-row-layout' />
+          </span>
+        )
       }
     }
 
@@ -259,15 +267,15 @@ export default class TreeViewElement extends React.Component {
     let childControls = <span className='vcv-ui-tree-layout-control-actions'>
       {addChildControl}
       {editRowLayoutControl}
-      <a className='vcv-ui-tree-layout-control-action' title='Edit' onClick={this.clickEdit.bind(this, '')}>
+      <span className='vcv-ui-tree-layout-control-action' title='Edit' onClick={this.clickEdit.bind(this, '')}>
         <i className='vcv-ui-icon vcv-ui-icon-edit' />
-      </a>
-      <a className='vcv-ui-tree-layout-control-action' title='Clone' onClick={this.clickClone}>
+      </span>
+      <span className='vcv-ui-tree-layout-control-action' title='Clone' onClick={this.clickClone}>
         <i className='vcv-ui-icon vcv-ui-icon-copy' />
-      </a>
-      <a className='vcv-ui-tree-layout-control-action' title='Remove' onClick={this.clickDelete}>
+      </span>
+      <span className='vcv-ui-tree-layout-control-action' title='Remove' onClick={this.clickDelete}>
         <i className='vcv-ui-icon vcv-ui-icon-trash' />
-      </a>
+      </span>
     </span>
 
     let controlClasses = classNames({
