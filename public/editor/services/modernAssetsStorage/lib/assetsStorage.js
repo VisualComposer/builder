@@ -266,6 +266,74 @@ export default class {
   }
 
   /**
+   * Get css mixins data by element
+   * @param elData
+   * @param mixins
+   * @returns {{}}
+   */
+  getCssMixinsByElementLocal (elData, mixins = {}) {
+    let element = this.cook().get(elData)
+    if (!element) {
+      return mixins
+    }
+    let settings = element.get('settings')
+    let foundMixins = {}
+    for (let key in settings) {
+      if (settings[ key ].hasOwnProperty('options') && settings[ key ].options.hasOwnProperty('cssMixin')) {
+        let mixin = settings[ key ].options.cssMixin
+        let cssSettings = element.get('cssSettings')
+        if (!foundMixins[ mixin.mixin ] && cssSettings.mixins[ mixin.mixin ]) {
+          foundMixins[ mixin.mixin ] = {
+            variables: {},
+            src: cssSettings.mixins[ mixin.mixin ].mixin,
+            path: element.get('metaElementPath')
+          }
+        }
+        let mixinValue = settings[ key ].value
+        let tempValue = element.get(key)
+        if (typeof tempValue === 'string') {
+          mixinValue = tempValue
+        }
+        foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
+        if (mixin.namePattern) {
+          foundMixins[ mixin.mixin ].variables[ mixin.property ].namePattern = mixin.namePattern
+        }
+      }
+    }
+
+    for (let mixin in foundMixins) {
+      if (!mixins[ element.data.tag ]) {
+        mixins[ element.data.tag ] = {}
+      }
+      if (!mixins[ element.data.tag ][ mixin ]) {
+        mixins[ element.data.tag ][ mixin ] = {}
+      }
+      let names = []
+      let variables = {}
+      let useMixin = false
+      Object.keys(foundMixins[ mixin ].variables).sort().forEach((variable) => {
+        let name = foundMixins[ mixin ].variables[ variable ].value || 'empty' // must be string 'empty' for css selector
+        if (name !== 'empty' && foundMixins[ mixin ].variables[ variable ].namePattern) {
+          name = name.match(new RegExp(foundMixins[ mixin ].variables[ variable ].namePattern, 'gi'))
+          name = name.length ? name.join('-') : 'empty'
+        }
+        names.push(name)
+        variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value || false
+        // if any variable is set we can use mixin
+        if (variables[ variable ]) {
+          useMixin = true
+        }
+      })
+      names = names.join('--')
+      if (names && useMixin) {
+        variables[ 'selector' ] = names
+        mixins[ element.data.tag ][ mixin ][ names ] = variables
+      }
+    }
+    return mixins
+  }
+
+  /**
    * Get attributes mixins data by element
    * @param elData
    * @returns {{}}
@@ -288,9 +356,12 @@ export default class {
           let elementMixins = {}
           let attributeSettings = element.settings(key)
           if (attributeSettings.type.component && attributeSettings.type.component.buildMixins) {
-            elementMixins = attributeSettings.type.component.buildMixins(element.toJS())
-          } else if (value.attributeMixins) {
-            elementMixins = value.attributeMixins
+            elementMixins = Object.assign(elementMixins, attributeSettings.type.component.buildMixins(element.toJS()))
+            // elementMixins = attributeSettings.type.component.buildMixins(element.toJS())
+          }
+          if (value.attributeMixins) {
+            elementMixins = Object.assign(elementMixins, value.attributeMixins)
+            // elementMixins = value.attributeMixins
           }
           if (elementMixins) {
             Object.keys(elementMixins).forEach((mixinName) => {
@@ -537,6 +608,96 @@ export default class {
         })
       })
     }
+    return styles
+  }
+
+  elementCssBase (tag) {
+    let styles = []
+    let elementObject = this.cook().get({ tag: tag })
+    if (!elementObject) {
+      return
+    }
+    let cssSettings = elementObject.get('cssSettings')
+    if (cssSettings.css) {
+      styles.push({
+        src: cssSettings.css,
+        path: elementObject.get('metaElementPath')
+      })
+    }
+
+    return styles
+  }
+
+  elementCssEditor (tag) {
+    let styles = []
+    let elementObject = this.cook().get({ tag: tag })
+    if (!elementObject) {
+      return
+    }
+    let cssSettings = elementObject.get('cssSettings')
+    if (cssSettings.editorCss) {
+      styles.push({
+        src: cssSettings.editorCss,
+        path: elementObject.get('metaElementPath')
+      })
+    }
+
+    return styles
+  }
+
+  /**
+   * Get design options css data for single element
+   * @returns {Array}
+   */
+  getElementLocalAttributesCssMixins (elementData) {
+    if (!elementData) {
+      return null
+    }
+    let styles = []
+
+    // get mixins styles
+    let cssMixins = this.getCssMixinsByElementLocal(elementData, {})
+    Object.keys(cssMixins).forEach((tag) => {
+      let elementObject = this.cook().get({ tag: tag })
+      if (!elementObject) {
+        return
+      }
+      let cssSettings = elementObject.get('cssSettings')
+      let mixins = Object.keys(cssMixins[ tag ])
+
+      mixins.forEach((mixin) => {
+        for (let selector in cssMixins[ tag ][ mixin ]) {
+          if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
+            styles.push({
+              variables: cssMixins[ tag ][ mixin ][ selector ],
+              src: cssSettings.mixins[ mixin ].mixin,
+              path: elementObject.get('metaElementPath')
+            })
+          }
+        }
+      })
+    })
+
+    return styles
+  }
+
+  /**
+   * Get mixins css data for single element
+   * @returns {Array}
+   */
+  getElementGlobalAttributesCssMixins (elementData) {
+    if (!elementData) {
+      return null
+    }
+    let styles = []
+    // get attribute mixins styles
+    let attributesMixins = this.getAttributesMixinsByElement(elementData)
+    Object.keys(attributesMixins).forEach((tag) => {
+      Object.keys(attributesMixins[ tag ]).forEach((attribute) => {
+        styles.push(attributesMixins[ tag ][ attribute ])
+      })
+    })
+
     return styles
   }
 }
