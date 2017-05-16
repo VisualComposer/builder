@@ -8,17 +8,18 @@ export default class SettingsCustomStyles extends React.Component {
   static propTypes = {
     styleData: React.PropTypes.array
   }
+  static localizations = window.VCV_I18N && window.VCV_I18N()
   static defaultProps = {
     styleData: [
       {
-        buttonTitle: 'Local CSS',
-        editorLabel: 'Local CSS will be applied to this particular page only',
+        buttonTitle: SettingsCustomStyles.localizations ? SettingsCustomStyles.localizations.localCSS : 'Local CSS',
+        editorLabel: SettingsCustomStyles.localizations ? SettingsCustomStyles.localizations.localCSSLabel : 'Local CSS will be applied to this particular page only',
         index: 1,
         name: 'local'
       },
       {
-        buttonTitle: 'Global CSS',
-        editorLabel: 'Global CSS will be applied site wide',
+        buttonTitle: SettingsCustomStyles.localizations ? SettingsCustomStyles.localizations.globalCSS : 'Global CSS',
+        editorLabel: SettingsCustomStyles.localizations ? SettingsCustomStyles.localizations.globalCSSLabel : 'Global CSS will be applied site wide',
         index: 2,
         name: 'global'
       }

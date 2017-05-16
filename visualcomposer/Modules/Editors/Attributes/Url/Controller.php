@@ -38,6 +38,8 @@ class Controller extends Container implements Module
             'post_type' => get_post_types('', 'names'),
             's' => $search,
         ];
+        
+        unset($args['post_type']['vcv_templates']);
 
         $posts = get_posts($args);
 

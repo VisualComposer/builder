@@ -144,6 +144,9 @@ export default class TreeViewLayout extends React.Component {
   }
 
   getElementsOutput () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const text = localizations ? localizations.emptyTreeView : 'There are no elements on your canvas - start by adding element or template'
+
     let elements = this.getElements()
     if (elements.length) {
       return (
@@ -155,13 +158,17 @@ export default class TreeViewLayout extends React.Component {
     return (
       <div className='vcv-ui-tree-layout-messages'>
         <p className='vcv-ui-tree-layout-message'>
-          There are no elements on your canvas - start by adding element or template
+          {text}
         </p>
       </div>
     )
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addElementText = localizations ? localizations.addElement : 'Add Element'
+    const addTemplateText = localizations ? localizations.addTemplate : 'Add Template'
+
     return (
       <div
         className='vcv-ui-tree-layout-container'
@@ -172,22 +179,22 @@ export default class TreeViewLayout extends React.Component {
           <div className='vcv-ui-tree-layout-actions'>
             <span
               className='vcv-ui-tree-layout-action'
-              title='Add Element'
+              title={addElementText}
               onClick={this.handleAddElement}
             >
               <span className='vcv-ui-tree-layout-action-content'>
                 <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
-                <span>Add element</span>
+                <span>{addElementText}</span>
               </span>
             </span>
             <span
               className='vcv-ui-tree-layout-action'
-              title='Template'
+              title={addTemplateText}
               onClick={this.handleAddTemplate}
             >
               <span className='vcv-ui-tree-layout-action-content'>
                 <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' />
-                <span>Template</span>
+                <span>{addTemplateText}</span>
               </span>
             </span>
           </div>
