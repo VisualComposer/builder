@@ -154,6 +154,7 @@ class PublicApi {
     )
     return styles
   }
+
   getPageCssDataNG () {
     let styles = []
     styles = styles.concat(
@@ -161,6 +162,7 @@ class PublicApi {
     )
     return styles
   }
+
   getSiteCssData (editor = false) {
     let styles = []
     styles = styles.concat(
@@ -170,6 +172,7 @@ class PublicApi {
     )
     return styles
   }
+
   getSiteCssDataNG () {
     let styles = []
     styles = styles.concat(
@@ -177,6 +180,7 @@ class PublicApi {
     )
     return styles
   }
+
   getCssDataByElement (element, options = {}) {
     let styles = []
     styles = styles.concat(
@@ -205,6 +209,22 @@ class PublicApi {
 
   getGoogleFontsData () {
     return storage.getGoogleFontsData()
+  }
+
+  elementCssBase (tag) {
+    return storage.elementCssBase(tag)
+  }
+
+  getElementGlobalAttributesCssMixins (elementData) {
+    return storage.getElementGlobalAttributesCssMixins(elementData)
+  }
+
+  getElementLocalAttributesCssMixins (elementData) {
+    return storage.getElementLocalAttributesCssMixins(elementData)
+  }
+
+  elementCssEditor (tag) {
+    return storage.elementCssEditor(tag)
   }
 }
 let singleton = false

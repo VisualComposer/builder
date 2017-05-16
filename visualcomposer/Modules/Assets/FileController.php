@@ -54,9 +54,10 @@ class FileController extends Container implements Module
         $globalElementsMixinsCss = [];
         foreach ($globalElementsCssData as $postElements) {
             foreach ($postElements as $element) {
-                if (!isset($globalElementsBaseCss[ $element['tag'] ])) {
-                    $globalElementsBaseCss[ $element['tag'] ] = $element['baseCss'];
-                }
+                //if (!isset($globalElementsBaseCss[ $element['tag'] ])) {
+                $baseCssHash = wp_hash($element['baseCss']);
+                $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
+                //}
                 $mixinsHash = wp_hash($element['mixinsCss']);
                 $globalElementsMixinsCss[$mixinsHash] = $element['mixinsCss'];
                 $attributesHash = wp_hash($element['attributesCss']);
