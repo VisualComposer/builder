@@ -52,7 +52,7 @@
 				    data-via="wpbakery"
 				    data-hashtags="madeinvc"
 				    class="twitter-share-button"
-				    data-text="Visual Composer Website Builder - now I can build any #WordPress site fast and easy!"
+				    data-text="<?php esc_attr_e('Visual Composer Website Builder - now I can build any #WordPress site fast and easy!', 'vc5');?>"
 				    data-url="http://visualcomposer.io"
 				    data-size="large">Tweet</a>
 		    <script>! function ( d, s, id ) {
