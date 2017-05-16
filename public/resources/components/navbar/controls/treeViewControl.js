@@ -12,35 +12,43 @@ export default class TreeViewControl extends NavbarContent {
     this.toggleTreeView = this.toggleTreeView.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
   }
+
   state = {
     isActive: false,
     data: []
   }
+
   setActiveState (state) {
-    this.setState({isActive: state === 'treeView'})
+    this.setState({ isActive: state === 'treeView' })
   }
+
   componentDidMount () {
     workspaceContentStartState.onChange(this.setActiveState)
   }
+
   componentWillUnmount () {
     workspaceContentStartState.ignoreChange(this.setActiveState)
   }
+
   toggleTreeView (e) {
     e && e.preventDefault()
     workspaceContentStartState.set(!this.state.isActive ? 'treeView' : false)
   }
 
   render () {
+    const localizations = window.VCV_I18N()
+    const name = localizations.treeView
+
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--active': this.state.isActive
     })
 
     return (
-      <a className={controlClass} title='Tree View' onClick={this.toggleTreeView}>
+      <a className={controlClass} title={name} onClick={this.toggleTreeView}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-layers' />
-          <span>Tree View</span>
+          <span>{name}</span>
         </span>
       </a>
     )

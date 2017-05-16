@@ -3,9 +3,10 @@ import classNames from 'classnames'
 import Item from './item'
 
 export default class LayoutButtonControl extends React.Component {
+  static localizations = window.VCV_I18N()
   static devices = [
     {
-      type: 'Responsive view',
+      type: LayoutButtonControl.localizations.responsiveView,
       className: 'multiple-devices',
       viewport: {
         width: null,
@@ -14,7 +15,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: 'Desktop',
+      type: LayoutButtonControl.localizations.desktop,
       className: 'desktop',
       viewport: {
         width: '1200',
@@ -23,7 +24,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: 'Tablet landscape',
+      type: LayoutButtonControl.localizations.tabletLandscape,
       className: 'tablet-landscape',
       viewport: {
         width: '992',
@@ -32,7 +33,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: 'Tablet portrait',
+      type: LayoutButtonControl.localizations.tabletPortrait,
       className: 'tablet-portrait',
       viewport: {
         width: '768',
@@ -41,7 +42,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: 'Mobile landscape',
+      type: LayoutButtonControl.localizations.mobileLandscape,
       className: 'mobile-landscape',
       viewport: {
         width: '554',
@@ -50,7 +51,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: 'Mobile portrait',
+      type: LayoutButtonControl.localizations.mobilePortrait,
       className: 'mobile-portrait',
       viewport: {
         width: '480',

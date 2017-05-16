@@ -19,9 +19,11 @@ export default class SettingsButtonControl extends NavbarContent {
     this.checkSettings = this.checkSettings.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
   }
+
   componentWillReceiveProps () {
     this.checkSettings()
   }
+
   setActiveState (state) {
     this.setState({ isActive: state === 'settings' })
   }
@@ -41,14 +43,18 @@ export default class SettingsButtonControl extends NavbarContent {
   checkSettings () {
     const customCss = settingsStorage.state('customCss').get() || ''
     const globalCss = settingsStorage.state('globalCss').get() || ''
-    this.setState({showWarning: customCss.length || globalCss.length})
+    this.setState({ showWarning: customCss.length || globalCss.length })
   }
 
   toggleSettings (e) {
     e && e.preventDefault()
     workspaceContentEndState.set(!this.state.isActive ? 'settings' : false)
   }
+
   render () {
+    const localizations = window.VCV_I18N()
+    const name = localizations.settings
+
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
@@ -62,10 +68,10 @@ export default class SettingsButtonControl extends NavbarContent {
     })
 
     return (
-      <a className={controlClass} href='#' title='Settings' onClick={this.toggleSettings}>
+      <a className={controlClass} href='#' title={name} onClick={this.toggleSettings}>
         <span className='vcv-ui-navbar-control-content'>
           <i className={iconClass} />
-          <span>Settings</span>
+          <span>{name}</span>
         </span>
       </a>
     )

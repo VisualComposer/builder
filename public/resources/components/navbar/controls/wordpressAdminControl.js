@@ -16,11 +16,11 @@ export default class WordPressAdminControl extends NavbarContent {
   componentDidMount () {
     // wordpressDataStorage.trigger('save')
     /*
-    this.props.api.reply('wordpress:data:saved', (data) => {
-      // Call the forceUpdate when saved
-      this.forceUpdate()
-    })
-    */
+     this.props.api.reply('wordpress:data:saved', (data) => {
+     // Call the forceUpdate when saved
+     this.forceUpdate()
+     })
+     */
   }
 
   handleClick (e) {
@@ -38,21 +38,24 @@ export default class WordPressAdminControl extends NavbarContent {
 
   saveDraft = (e) => {
     e && e.preventDefault && e.preventDefault()
-    wordpressDataStorage.trigger('save', {draft: true}, 'wordpressAdminControl')
+    wordpressDataStorage.trigger('save', { draft: true }, 'wordpressAdminControl')
     // this.props.api.request('wordpress:data:saving', { draft: true })
   }
 
   render () {
+    const localizations = window.VCV_I18N()
+    const { saveDraft, viewPage, backendEditor, wordPressDashboard, editInBackendEditor } = localizations
+
     let saveDraftButton = ''
     if (PostData.isDraft()) {
       saveDraftButton = (
         <a
           className='vcv-ui-navbar-control'
           href={PostData.permalink()}
-          title='Save Draft'
+          title={saveDraft}
           onClick={this.saveDraft}
         ><span
-          className='vcv-ui-navbar-control-content'>Save Draft</span></a>
+          className='vcv-ui-navbar-control-content'>{saveDraft}</span></a>
       )
     }
 
@@ -62,11 +65,11 @@ export default class WordPressAdminControl extends NavbarContent {
         <a
           className='vcv-ui-navbar-control'
           href={PostData.permalink()}
-          title='View Page'
+          title={viewPage}
           target='_blank'
           onClick={this.handleClick}
         >
-          <span className='vcv-ui-navbar-control-content'>View Page</span>
+          <span className='vcv-ui-navbar-control-content'>{viewPage}</span>
         </a>
       )
     }
@@ -85,10 +88,10 @@ export default class WordPressAdminControl extends NavbarContent {
         className='vcv-ui-navbar-control'
         href={PostData.backendEditorUrl()}
         onClick={this.handleClick}
-        title='Edit in Backend Editor'
+        title={editInBackendEditor}
         data-backend-editor='backendEditor'
       >
-        <span className='vcv-ui-navbar-control-content'>Backend Editor</span>
+        <span className='vcv-ui-navbar-control-content'>{backendEditor}</span>
       </a>
     )
 
@@ -97,9 +100,9 @@ export default class WordPressAdminControl extends NavbarContent {
         className='vcv-ui-navbar-control'
         href={PostData.adminDashboardUrl()}
         onClick={this.handleClick}
-        title='WordPress Dashboard'
+        title={wordPressDashboard}
       >
-        <span className='vcv-ui-navbar-control-content'>WordPress Dashboard</span>
+        <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
       </a>
     )
 

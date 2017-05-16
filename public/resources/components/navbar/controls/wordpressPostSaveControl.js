@@ -71,6 +71,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
   }
 
   render () {
+    const localizations = window.VCV_I18N()
     let saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--success': this.state.status === 'success',
@@ -82,12 +83,12 @@ export default class WordPressPostSaveControl extends NavbarContent {
       'vcv-ui-icon': !this.state.saving,
       'vcv-ui-icon-save': !this.state.saving
     })
-    let saveText = 'Publish'
+    let saveText = localizations.publish
     if (!PostData.canPublish()) {
-      saveText = 'Submit for Review'
+      saveText = localizations.submitForReview
     }
     if (PostData.isPublished()) {
-      saveText = 'Update'
+      saveText = localizations.update
     }
 
     return (

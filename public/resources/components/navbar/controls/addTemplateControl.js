@@ -15,12 +15,15 @@ export default class AddTemplateControl extends NavbarContent {
     this.toggleAddTemplate = this.toggleAddTemplate.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
   }
+
   componentDidMount () {
     workspaceContentEndState.onChange(this.setActiveState)
   }
+
   componentWillUnmount () {
     workspaceContentEndState.ignoreChange(this.setActiveState)
   }
+
   setActiveState (state) {
     this.setState({ isActive: state === 'addTemplate' })
   }
@@ -37,6 +40,9 @@ export default class AddTemplateControl extends NavbarContent {
   }
 
   render () {
+    const localizations = window.VCV_I18N()
+    const name = localizations.addTemplate
+
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--active': this.state.isActive
@@ -47,11 +53,11 @@ export default class AddTemplateControl extends NavbarContent {
         className={controlClass}
         onClick={this.toggleAddTemplate}
         href='#'
-        title='Template'
+        title={name}
       >
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-template' />
-          <span>Template</span>
+          <span>{name}</span>
         </span>
       </a>
     )
