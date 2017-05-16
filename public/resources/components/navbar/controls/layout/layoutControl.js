@@ -3,10 +3,10 @@ import classNames from 'classnames'
 import Item from './item'
 
 export default class LayoutButtonControl extends React.Component {
-  static localizations = window.VCV_I18N()
+  static localizations = window.VCV_I18N && window.VCV_I18N()
   static devices = [
     {
-      type: LayoutButtonControl.localizations.responsiveView,
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
       className: 'multiple-devices',
       viewport: {
         width: null,
@@ -15,7 +15,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: LayoutButtonControl.localizations.desktop,
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.desktop : 'Desktop',
       className: 'desktop',
       viewport: {
         width: '1200',
@@ -24,7 +24,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: LayoutButtonControl.localizations.tabletLandscape,
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletLandscape : 'Tablet Landscape',
       className: 'tablet-landscape',
       viewport: {
         width: '992',
@@ -33,7 +33,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: LayoutButtonControl.localizations.tabletPortrait,
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletPortrait : 'Tablet Portrait',
       className: 'tablet-portrait',
       viewport: {
         width: '768',
@@ -42,7 +42,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: LayoutButtonControl.localizations.mobileLandscape,
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobileLandscape : 'Mobile Landscape',
       className: 'mobile-landscape',
       viewport: {
         width: '554',
@@ -51,7 +51,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: LayoutButtonControl.localizations.mobilePortrait,
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobilePortrait : 'Mobile Portrait',
       className: 'mobile-portrait',
       viewport: {
         width: '480',

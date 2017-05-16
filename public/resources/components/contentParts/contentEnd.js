@@ -98,6 +98,9 @@ export default class ContentEnd extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const closeTitle = localizations ? localizations.close : 'Close'
+
     let aligned = false
     const { children, content } = this.props
 
@@ -122,7 +125,7 @@ export default class ContentEnd extends React.Component {
 
     return (
       <div className={contentClasses} id='vcv-editor-end'>
-        <a className={closeBtnClasses} href='#' title='Close'
+        <a className={closeBtnClasses} href='#' title={closeTitle}
           onClick={this.closeContent}>
           <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
         </a>

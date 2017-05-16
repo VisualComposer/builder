@@ -263,6 +263,9 @@ export default class Navbar extends React.Component {
     this.hiddenControlsWrapper = ref
   }
   buildHiddenControls () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const menuTitle = localizations ? localizations.menu : 'Menu'
+
     const controls = this.getHiddenControls(this.state.visibleControls)
     if (!controls.length) {
       return
@@ -276,9 +279,9 @@ export default class Navbar extends React.Component {
 
     return (
       <dl className={sandwichClasses}>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title='Menu' onClick={this.handleDropdown}>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle} onClick={this.handleDropdown}>
           <span className='vcv-ui-navbar-control-content'><i
-            className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>Menu</span></span>
+            className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>{menuTitle}</span></span>
         </dt>
         <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels' ref={this.setHiddenControlsReference}>
           {controls}
