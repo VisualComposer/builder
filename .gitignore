@@ -58,6 +58,8 @@ test-coverage.xml
 
 cache/*
 !cache/.gitkeep
+devElements/*
+!devElements/.gitkeep
 public/sources/elements/*/element.js
 public/sources/newElements/*/public/dist/element.bundle.js
 public/sources/newElements/*/public/dist/vendor.bundle.js

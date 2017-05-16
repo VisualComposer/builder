@@ -25,7 +25,7 @@ class HubCategories extends Container implements Module
      */
     public function __construct()
     {
-        if (vcvenv('VCV_DUMMY_DATA') && !vcvenv('VCV_ELEMENT_DOWNLOAD')) {
+        if (vcvenv('VCV_DEV_ELEMENTS') || (vcvenv('VCV_DUMMY_DATA') && !vcvenv('VCV_ELEMENT_DOWNLOAD'))) {
             /** @see \VisualComposer\Modules\Hub\Categories::dummySetCategories */
             $this->wpAddAction(
                 'init',
