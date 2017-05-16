@@ -46,6 +46,7 @@ class Locale extends Container implements Module
                             'publish' => __('Publish', 'vc5'),
                             'submitForReview' => __('Submit for Review', 'vc5'),
                             'saveDraft' => __('Save Draft', 'vc5'),
+                            'close' => __('Close', 'vc5'),
                         ],
                     ]
                 ),

@@ -43,7 +43,7 @@ export default class WordPressAdminControl extends NavbarContent {
   }
 
   render () {
-    const localizations = window.VCV_I18N()
+    const localizations = window.VCV_I18N && window.VCV_I18N()
     const { saveDraft, viewPage, backendEditor, wordPressDashboard, editInBackendEditor } = localizations
 
     let saveDraftButton = ''

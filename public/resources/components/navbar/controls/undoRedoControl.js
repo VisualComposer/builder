@@ -51,21 +51,21 @@ export default class UndoRedoControl extends NavbarContent {
   }
 
   render () {
-    const localizations = window.VCV_I18N()
-    const undoName = localizations.undo
-    const redoName = localizations.redo
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const undoName = localizations ? localizations.undo : 'Undo'
+    const redoName = localizations ? localizations.redo : 'Redo'
 
     return (
       <div className='vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close'>
         <a
-          className='vcv-ui-navbar-control' href='#' title='Undo' disabled={this.state.undoDisabled}
+          className='vcv-ui-navbar-control' href='#' title={undoName} disabled={this.state.undoDisabled}
           onClick={this.handleUndo}
         ><span
           className='vcv-ui-navbar-control-content'
         ><i
           className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-undo' /><span>{undoName}</span></span></a>
         <a
-          className='vcv-ui-navbar-control' href='#' title='Redo' disabled={this.state.redoDisabled}
+          className='vcv-ui-navbar-control' href='#' title={redoName} disabled={this.state.redoDisabled}
           onClick={this.handleRedo}
         ><span
           className='vcv-ui-navbar-control-content'

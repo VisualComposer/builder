@@ -71,7 +71,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
   }
 
   render () {
-    const localizations = window.VCV_I18N()
+    const localizations = window.VCV_I18N && window.VCV_I18N()
     let saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--success': this.state.status === 'success',

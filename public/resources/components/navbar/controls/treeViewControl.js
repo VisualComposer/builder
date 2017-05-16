@@ -36,8 +36,8 @@ export default class TreeViewControl extends NavbarContent {
   }
 
   render () {
-    const localizations = window.VCV_I18N()
-    const name = localizations.treeView
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const name = localizations ? localizations.treeView : 'Tree View'
 
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,
