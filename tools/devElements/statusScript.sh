@@ -33,9 +33,10 @@ declare -a arr=(
 'wpWidgetsDefault'
 'youtubePlayer')
 
+EXECDIR=`pwd`
 for i in "${arr[@]}"
 do
-   git clone git@gitlab.com:visualcomposer-hub/$i.git devElements/$i
+   echo $i && cd $EXECDIR/devElements/$i && git status
    #cd /Users/Konutis/Sites/vcelements
    #echo "Cloning element $i from git@gitlab.com:visualcomposer-hub/$i.git"
    #git clone git@gitlab.com:visualcomposer-hub/$i.git
