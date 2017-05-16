@@ -13,7 +13,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
  * Class Groups
  * @package VisualComposer\Modules\Hub
  */
-class Groups extends Container implements Module
+class HubGroups extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;

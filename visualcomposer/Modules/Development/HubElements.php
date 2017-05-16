@@ -14,7 +14,7 @@ use VisualComposer\Helpers\Url;
  * Class Elements
  * @package VisualComposer\Modules\Hub
  */
-class Elements extends Container implements Module
+class HubElements extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
