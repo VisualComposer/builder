@@ -79,7 +79,7 @@ export default class DefaultElement extends React.Component {
 
   handleElementSize () {
     if (this.state.attributeState === 'opened') {
-      const header = this.getElementData('.vce-wpbackend-element-header-container')
+      const header = this.getElementRect('.vce-wpbackend-element-header-container')
       header.width < 100
         ? this.setState({ activeElement: false, attributeState: 'closed' })
         : this.setState({ activeElement: true, attributeState: 'opened' })
@@ -88,13 +88,13 @@ export default class DefaultElement extends React.Component {
 
   // Getters
 
-  getElementData (className) {
+  getElementRect (className) {
     return this.elementContainer.querySelector(className).getBoundingClientRect()
   }
 
   getDependency (group, label, element) {
     let isDependency, isRuleTrue
-    let options = group.options
+    let { options } = group
     if (options && options.onChange) {
       isDependency = options.onChange.find((option) => {
         return option.dependency === label
@@ -122,10 +122,17 @@ export default class DefaultElement extends React.Component {
     })
   }
 
-  getRepresenter (element) {
+  getRepresenters (element) {
     let cookElement = cook.get({ tag: element.tag })
     let backendLabelGroups = cookElement.get('metaBackendLabels').value
     return backendLabelGroups.map((group, i) => {
+      const { options } = group
+      // check for group dependency existance
+      if (options && options.groupDependency) {
+        if (options.groupDependency.rule.value === element[ options.groupDependency.rule.attribute ]) {
+          return null
+        }
+      }
       return <div
         className='vce-wpbackend-element-attributes-group'
         key={`attributes-group-${i}`}
@@ -174,7 +181,7 @@ export default class DefaultElement extends React.Component {
           </div>
         </div>
         <div className={attributesClasses}>
-          {this.getRepresenter(element)}
+          {this.getRepresenters(element)}
         </div>
       </div>
     }
