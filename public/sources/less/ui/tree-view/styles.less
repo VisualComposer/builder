@@ -248,10 +248,6 @@
   margin: 0;
 }
 
-.vcv-ui-tree-layout-node-child {
-  position: relative;
-}
-
 // Expand
 .vcv-ui-tree-layout-node-expand-trigger {
   position: absolute;
@@ -265,6 +261,8 @@
 }
 
 .vcv-ui-tree-layout-node-child {
+  position: relative;
+  margin: @tree-node-child-margin;
   &.vcv-ui-tree-layout-node-expand {
     > .vcv-ui-tree-layout-control {
       > .vcv-ui-tree-layout-control-content {
