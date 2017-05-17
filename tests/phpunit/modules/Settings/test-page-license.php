@@ -12,7 +12,7 @@ class SettingsLicensePageTest extends WP_UnitTestCase
         $this->assertTrue(!empty($newPages));
         $this->assertEquals('vcv-license', $newPages[0]['slug']);
         $this->assertEquals($module->getSlug(), $newPages[0]['slug']);
-        $this->assertEquals(__('Product License', 'vc5'), $newPages[0]['title']);
+        $this->assertEquals(__('Product License', 'vcwb'), $newPages[0]['title']);
         $this->assertTrue($newPages[0]['controller'] instanceof \VisualComposer\Modules\Settings\Pages\License);
     }
 

@@ -14,17 +14,17 @@ class SettingsAboutPageTest extends WP_UnitTestCase
             [
                 [
                     'slug' => 'vcv-main',
-                    'title' => __('What\'s New', 'vc5'),
+                    'title' => __('What\'s New', 'vcwb'),
                     'view' => 'settings/pages/about/partials/main',
                 ],
                 [
                     'slug' => 'vcv-faq',
-                    'title' => __('FAQ', 'vc5'),
+                    'title' => __('FAQ', 'vcwb'),
                     'view' => 'settings/pages/about/partials/faq',
                 ],
                 [
                     'slug' => 'vcv-resources',
-                    'title' => __('Resources', 'vc5'),
+                    'title' => __('Resources', 'vcwb'),
                     'view' => 'settings/pages/about/partials/resources',
                 ],
             ],
@@ -41,7 +41,7 @@ class SettingsAboutPageTest extends WP_UnitTestCase
         $this->assertTrue(is_array($newPages));
         $this->assertTrue(!empty($newPages));
         $this->assertEquals('vcv-about', $newPages[0]['slug']);
-        $this->assertEquals(__('About', 'vc5'), $newPages[0]['title']);
+        $this->assertEquals(__('About', 'vcwb'), $newPages[0]['title']);
         $this->assertEquals('standalone', $newPages[0]['layout']);
         $this->assertFalse($newPages[0]['showTab']);
         $this->assertTrue($newPages[0]['controller'] instanceof \VisualComposer\Modules\Settings\Pages\About);
