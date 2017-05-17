@@ -14,7 +14,7 @@
             echo __('Activating your copy of Visual Composer ... Please wait.', 'vc5');
             ?></span>
         <span class="vcv-popup-helper"><?php
-            echo __('Don’t close this window while activation is in process.', 'vc5');
+            echo __('Don’t close this window while activation is in the process.', 'vc5');
             ?></span>
     <?php endif; ?>
     <!-- Loading big white circle -->

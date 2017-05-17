@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 <div class="vc_settings-activation-deactivation">
     <p>
         <?php echo __(
-            'In order to receive all benefits of Visual Composer you need to activate your copy of plugin. By activating Visual Composer license you will unlock premium options - <strong>direct plugin updates</strong> and <strong>access to official support.</strong>',
+            'In order to receive all benefits of Visual Composer, you need to activate your copy of the plugin. By activating Visual Composer license you will unlock premium options - <strong>direct plugin updates</strong> and <strong>access to official support.</strong>',
             'vc5'
         ) ?>
     </p>

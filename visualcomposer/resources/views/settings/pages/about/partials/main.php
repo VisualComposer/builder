@@ -23,7 +23,7 @@ $urlHelper = vchelper('Url');
             <p><?php echo __(
                     'We have been constantly following your feature requests and latest update contains '
                     . 'all the best of what you have been looking for. We are aiming to offer you most flexible tools '
-                    . 'and options with everything you will ever need to creating a website.',
+                    . 'and options with everything you will ever need to create a website.',
                     'vc5'
                 ) ?></p>
         </div>
@@ -35,7 +35,7 @@ $urlHelper = vchelper('Url');
             <img src="<?php echo $urlHelper->assetUrl('images/about/01.png') ?>" class="vcv-img-center"/>
             <h4><?php echo __('ACF Support', 'vc5') ?></h4>
             <p><?php echo __(
-                    'Combine power of Visual Composer and ACF - add any custom field of '
+                    'Combine the power of Visual Composer and ACF - add any custom field of '
                     . 'ACF to your page, post and even custom post type.',
                     'vc5'
                 ) ?></p>
