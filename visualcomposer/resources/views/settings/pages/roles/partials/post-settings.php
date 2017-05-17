@@ -17,7 +17,7 @@ echo vcview(
         ],
         'mainLabel' => __('Page settings', 'vc5'),
         'description' => __(
-            'Control access to Visual Composer page settings. Note: Disable page settings to restrict editing of Custom CSS through page.',
+            'Control access to Visual Composer page settings. Note: Disable page settings to restrict editing of Custom CSS through a page.',
             'vc5'
         ),
     ]

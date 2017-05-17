@@ -16,7 +16,7 @@ $urlHelper = vchelper('Url');
             <h3><?php echo __('New Elements and Options', 'vc5') ?></h3>
             <p><?php echo __(
                     'Visual Composer 4.10 offers new and enhanced elements to improve your page building process. '
-                    . 'You will discover new options that will help you build even better layouts and use unlimited'
+                    . 'You will discover new options that will help you build even better layouts and use unlimited '
                     . 'options of page building plugin.',
                     'vc5'
                 ) ?></p>
