@@ -16,14 +16,14 @@ $urlHelper = vchelper('Url');
             <h3><?php echo __('New Elements and Options', 'vc5') ?></h3>
             <p><?php echo __(
                     'Visual Composer 4.10 offers new and enhanced elements to improve your page building process. '
-                    . 'You will discover new options that will help you build even better layouts and use unlimited'
+                    . 'You will discover new options that will help you build even better layouts and use unlimited '
                     . 'options of page building plugin.',
                     'vc5'
                 ) ?></p>
             <p><?php echo __(
                     'We have been constantly following your feature requests and latest update contains '
                     . 'all the best of what you have been looking for. We are aiming to offer you most flexible tools '
-                    . 'and options with everything you will ever need to creating a website.',
+                    . 'and options with everything you will ever need to create a website.',
                     'vc5'
                 ) ?></p>
         </div>
@@ -35,7 +35,7 @@ $urlHelper = vchelper('Url');
             <img src="<?php echo $urlHelper->assetUrl('images/about/01.png') ?>" class="vcv-img-center"/>
             <h4><?php echo __('ACF Support', 'vc5') ?></h4>
             <p><?php echo __(
-                    'Combine power of Visual Composer and ACF - add any custom field of '
+                    'Combine the power of Visual Composer and ACF - add any custom field of '
                     . 'ACF to your page, post and even custom post type.',
                     'vc5'
                 ) ?></p>

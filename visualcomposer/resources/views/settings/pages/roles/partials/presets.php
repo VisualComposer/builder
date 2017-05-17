@@ -18,7 +18,7 @@ echo vcview(
         ],
         'mainLabel' => __('Element Presets', 'vc5'),
         'description' => __(
-            'Control access rights to element presets in element edit form. Note: "Apply presets only" restricts users from saving new presets, deleting existing and setting defaults.',
+            'Control access rights to element preset in element edit form. Note: "Apply presets only" restricts users from saving new presets, deleting existing and setting defaults.',
             'vc5'
         ),
     ]
