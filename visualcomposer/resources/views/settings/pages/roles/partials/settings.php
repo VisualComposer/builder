@@ -19,15 +19,15 @@ echo vcview(
         'customValue' => 'custom',
         'capabilities' => $tabs,
         'options' => [
-            [true, __('All', 'vc5')],
-            ['custom', __('Custom', 'vc5')],
-            [true, __('Disabled', 'vc5')],
+            [true, __('All', 'vcwb')],
+            ['custom', __('Custom', 'vcwb')],
+            [true, __('Disabled', 'vcwb')],
         ],
-        'mainLabel' => __('Settings options', 'vc5'),
-        'customLabel' => __('Settings options', 'vc5'),
+        'mainLabel' => __('Settings options', 'vcwb'),
+        'customLabel' => __('Settings options', 'vcwb'),
         'description' => __(
             'Control access rights to Visual Composer admin settings tabs (e.g. General Settings, Shortcode Mapper, ...)',
-            'vc5'
+            'vcwb'
         ),
     ]
 );

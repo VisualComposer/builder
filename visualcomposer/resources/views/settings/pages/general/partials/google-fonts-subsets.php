@@ -23,5 +23,5 @@ if (!defined('ABSPATH')) {
 <?php endforeach ?>
 
 <p class="description indicator-hint">
-    <?php echo __('Select subsets for Google Fonts available to content elements.', 'vc5') ?>
+    <?php echo __('Select subsets for Google Fonts available to content elements.', 'vcwb') ?>
 </p>

@@ -47,7 +47,7 @@ class License extends Container /*implements Module*/
     {
         $pages[] = [
             'slug' => $this->getSlug(),
-            'title' => __('Product License', 'vc5'),
+            'title' => __('Product License', 'vcwb'),
             'controller' => $this,
         ];
 

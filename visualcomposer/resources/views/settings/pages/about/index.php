@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     <h1>
         <?php
         echo sprintf(
-            __('Welcome to Visual Composer %s', 'vc5'),
+            __('Welcome to Visual Composer %s', 'vcwb'),
             preg_replace('/^(\d+)(\.\d+)?(\.\d)?/', '$1$2', VCV_VERSION)
         );
         ?>
@@ -21,13 +21,13 @@ if (!defined('ABSPATH')) {
         echo __(
             'Congratulations! You are about to use most powerful time saver for WordPress ever'
             . ' - page builder plugin with Frontend and Backend editors by WPBakery.',
-            'vc5'
+            'vcwb'
         );
         ?>
     </div>
 
     <div class="wp-badge vc-page-logo">
-        <?php echo sprintf(__('Version %s', 'vc5'), VCV_VERSION) ?>
+        <?php echo sprintf(__('Version %s', 'vcwb'), VCV_VERSION) ?>
     </div>
 
     <p class="vc-page-actions">
@@ -36,7 +36,7 @@ if (!defined('ABSPATH')) {
         /** @var $hasAccessToSettings bool */
         if ($hasAccessToSettings) : ?>
             <a href="<?php echo esc_attr(admin_url('admin.php?page=vc-general')) ?>" class="button button-primary">
-                <?php echo __('Settings', 'vc5') ?>
+                <?php echo __('Settings', 'vcwb') ?>
             </a>
             <?php
         endif;

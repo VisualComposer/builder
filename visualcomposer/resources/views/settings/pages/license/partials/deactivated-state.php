@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
             <strong>
                 <?php echo __(
                     'It is optional to activate license on localhost development environment. You can still activate license on localhost to receive plugin updates.',
-                    'vc5'
+                    'vcwb'
                 ) ?>
             </strong>
         </p>
@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
     <p>
         <?php echo __(
             'In order to receive all benefits of Visual Composer, you need to activate your copy of the plugin. By activating Visual Composer license you will unlock premium options - <strong>direct plugin updates</strong> and <strong>access to official support.</strong>',
-            'vc5'
+            'vcwb'
         ) ?>
     </p>
 
@@ -36,7 +36,7 @@ if (!defined('ABSPATH')) {
             data-vc-action="activation"
             type="button"
             id="vc_settings-updater-button">
-            <?php echo __('Activate Visual Composer', 'vc5') ?>
+            <?php echo __('Activate Visual Composer', 'vcwb') ?>
         </button>
 
         <img src="<?php echo get_admin_url() ?>/images/wpspin_light.gif"
@@ -51,7 +51,7 @@ if (!defined('ABSPATH')) {
         <?php echo sprintf(
             __(
                 'Don\'t have valid license yet? <a href="%s" target="_blank">Purchase Visual Composer license</a>.',
-                'vc5'
+                'vcwb'
             ),
             esc_url('http://bit.ly/vcomposer')
         ) ?>

@@ -29,7 +29,7 @@ class PostsGridSourcePosts extends Container implements Helper
 
         $result = [
             [
-                'label' => __('All', 'vc5'),
+                'label' => __('All', 'vcwb'),
                 'value' => '',
             ],
         ];

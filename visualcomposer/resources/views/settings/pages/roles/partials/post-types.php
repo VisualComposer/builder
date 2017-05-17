@@ -14,15 +14,15 @@ echo vcview(
         'customValue' => 'custom',
         'capabilities' => $controller->getPostTypes(),
         'options' => [
-            ['1', __('Pages only', 'vc5')],
-            ['custom', __('Custom', 'vc5')],
-            ['0', __('Disabled', 'vc5')],
+            ['1', __('Pages only', 'vcwb')],
+            ['custom', __('Custom', 'vcwb')],
+            ['0', __('Disabled', 'vcwb')],
         ],
-        'mainLabel' => __('Post types', 'vc5'),
-        'customLabel' => __('Post types', 'vc5'),
+        'mainLabel' => __('Post types', 'vcwb'),
+        'customLabel' => __('Post types', 'vcwb'),
         'description' => __(
             'Enable Visual Composer for pages, posts and custom post types. Note: By default Visual Composer is available for pages only.',
-            'vc5'
+            'vcwb'
         ),
     ]
 );

@@ -69,7 +69,7 @@ class MetaboxController extends Container implements Module
             // meta box to render
             add_meta_box(
                 'vcwb_visual_composer',
-                __('Visual Composer', 'vc5'),
+                __('Visual Composer', 'vcwb'),
                 [
                     $this,
                     'render',

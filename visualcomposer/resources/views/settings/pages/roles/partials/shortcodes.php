@@ -31,31 +31,31 @@ echo vcview(
         'capTypes' => [
             [
                 'all',
-                __('All', 'vc5'),
+                __('All', 'vcwb'),
             ],
             [
                 'edit',
-                __('Edit', 'vc5'),
+                __('Edit', 'vcwb'),
             ],
         ],
-        'itemHeaderName' => __('Element', 'vc5'),
+        'itemHeaderName' => __('Element', 'vcwb'),
         'options' => [
             [
                 true,
-                __('All', 'vc5'),
+                __('All', 'vcwb'),
             ],
             [
                 'edit',
-                __('Edit only', 'vc5'),
+                __('Edit only', 'vcwb'),
             ],
             [
                 'custom',
-                __('Custom', 'vc5'),
+                __('Custom', 'vcwb'),
             ],
         ],
-        'mainLabel' => __('Elements', 'vc5'),
-        'customLabel' => __('Elements', 'vc5'),
-        'description' => __('Control user access to content elements.', 'vc5'),
+        'mainLabel' => __('Elements', 'vcwb'),
+        'customLabel' => __('Elements', 'vcwb'),
+        'description' => __('Control user access to content elements.', 'vcwb'),
         'useTable' => true,
     ]
 );

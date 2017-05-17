@@ -80,7 +80,7 @@ class Controller extends Container implements Module
             $link .= sprintf(
                 ' <a href="%s">%s</a>',
                 esc_url($url),
-                __('Edit with Visual Composer', 'vc5')
+                __('Edit with Visual Composer', 'vcwb')
             ); // TODO: Change text https://app.asana.com/0/214854674604991/236487795091134
         }
 
@@ -105,8 +105,8 @@ class Controller extends Container implements Module
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $wpAdminBar->add_menu(
                 [
-                    'id' => __('Edit with Visual Composer', 'vc5'),
-                    'title' => __('Edit with Visual Composer', 'vc5'),
+                    'id' => __('Edit with Visual Composer', 'vcwb'),
+                    'title' => __('Edit with Visual Composer', 'vcwb'),
                     'href' => $url,
                 ]
             );
@@ -125,7 +125,7 @@ class Controller extends Container implements Module
     {
         if ($editorPostTypeHelper->isEditorEnabled(get_post_type())) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
-            $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vc5'));
+            $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vcwb'));
         }
 
         return $actions;

@@ -9,13 +9,13 @@ if (!defined('ABSPATH')) {
     <div class="feature-section vcv-row">
         <div class="vcv-col-xs-6">
             <h3><?php
-                echo __('Resources', 'vc5');
+                echo __('Resources', 'vcwb');
                 ?></h3>
 
             <p><?php
                 echo __(
                     'There are several resources available to Visual Composer users to help you to get around plugin:',
-                    'vc5'
+                    'vcwb'
                 );
                 ?></p>
 
@@ -35,12 +35,12 @@ if (!defined('ABSPATH')) {
         </div>
 
         <div class="vcv-col-xs-6">
-            <h3><?php echo __('Official Support', 'vc5') ?></h3>
+            <h3><?php echo __('Official Support', 'vcwb') ?></h3>
             <p><?php
                 printf(
                     __(
                         'To get your support related question answered in the fastest timing, please head over to our <a href="%s" target="_blank">support page</a> and open Support ticket. To open support ticket you should have account in the ticket system. Registration should take you couple of minutes to complete and is completely automatic process. Prepare your Visual Composer <a href="%s" target="_blank">Purchase code</a> and fill in "Create account in Ticket system" form located at <a href="%s" target="_blank">support page</a>, then follow on screen instructions.',
-                        'vc5'
+                        'vcwb'
                     ),
                     'http://support.wpbakery.com',
                     'http://go.wpbakery.com/purchase-code',
@@ -51,7 +51,7 @@ if (!defined('ABSPATH')) {
                 printf(
                     __(
                         'Before applying for support please make sure you understand the rules of support and go through all steps described and listed in <a href="%s" target="_blank">Support Policy</a> in order to get your issues solved as soon as possible.',
-                        'vc5'
+                        'vcwb'
                     ),
                     'http://go.wpbakery.com/support-policy'
                 );

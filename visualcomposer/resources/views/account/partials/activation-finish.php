@@ -25,6 +25,6 @@ var_export(
 
 <div class="">
     <a href="<?php echo $tokenHelper->getTokenActivationUrl(); ?>" class="">
-        <?php echo __('Activate Visual Composer', 'vc5') ?>
+        <?php echo __('Activate Visual Composer', 'vcwb') ?>
     </a>
 </div>

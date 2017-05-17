@@ -112,7 +112,7 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Settings\Controller::getMainPageSlug */
         $slug = $this->call('getMainPageSlug');
-        $title = __('Visual Composer ', 'vc5');
+        $title = __('Visual Composer ', 'vcwb');
 
         $iconUrl = $urlHelper->assetUrl('images/logo/16x16.png');
 

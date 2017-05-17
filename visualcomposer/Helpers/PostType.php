@@ -170,11 +170,11 @@ class PostType implements Helper
         /*
         $postTypesList[] = [
             'value' => 'custom',
-            'label' => __('Custom Query', 'vc5'),
+            'label' => __('Custom Query', 'vcwb'),
         ];
         $postTypesList[] = [
             'value' => 'ids',
-            'label' => __('List of IDs', 'vc5'),
+            'label' => __('List of IDs', 'vcwb'),
         ];
         */
 

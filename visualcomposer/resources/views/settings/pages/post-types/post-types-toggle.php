@@ -10,7 +10,7 @@
             $enabledPostTypes
         ) ? 'checked="checked"' : ''; ?> />
         <span class="vcv-ui-form-switch-indicator"></span>
-        <span class="vcv-ui-form-switch-label" data-vc-switch-on="<?php echo __('on', 'vc5'); ?>"></span>
-        <span class="vcv-ui-form-switch-label" data-vc-switch-off="<?php echo __('off', 'vc5'); ?>"></span>
+        <span class="vcv-ui-form-switch-label" data-vc-switch-on="<?php echo __('on', 'vcwb'); ?>"></span>
+        <span class="vcv-ui-form-switch-label" data-vc-switch-off="<?php echo __('off', 'vcwb'); ?>"></span>
     </label>
 </div>

@@ -12,14 +12,14 @@ echo vcview(
         'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
         'controller' => vchelper('AccessRole')->who($role)->part($part),
         'capabilities' => [
-            ['disabled_ce_editor', __('Disable Classic editor', 'vc5')],
+            ['disabled_ce_editor', __('Disable Classic editor', 'vcwb')],
         ],
         'options' => [
-            [true, __('Enabled', 'vc5')],
-            ['default', __('Enabled and default', 'vc5')],
-            [true, __('Disabled', 'vc5')],
+            [true, __('Enabled', 'vcwb')],
+            ['default', __('Enabled and default', 'vcwb')],
+            [true, __('Disabled', 'vcwb')],
         ],
-        'mainLabel' => __('Backend editor', 'vc5'),
-        'customLabel' => __('Backend editor', 'vc5'),
+        'mainLabel' => __('Backend editor', 'vcwb'),
+        'customLabel' => __('Backend editor', 'vcwb'),
     ]
 );

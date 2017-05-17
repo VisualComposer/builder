@@ -64,7 +64,7 @@ class PostTypes extends Container implements Module
     {
         $pages[] = [
             'slug' => $this->getSlug(),
-            'title' => __('Settings', 'vc5'),
+            'title' => __('Settings', 'vcwb'),
             'showTab' => false,
             'layout' => 'settings-standalone',
             'controller' => $this,
@@ -83,12 +83,12 @@ class PostTypes extends Container implements Module
         $sectionCallback = function () {
             echo sprintf(
                 '<p class="description">%s</p>',
-                __('Specify post types where you want to use Visual Composer Website Builder.', 'vc5')
+                __('Specify post types where you want to use Visual Composer Website Builder.', 'vcwb')
             );
         };
         $this->addSection(
             [
-                'title' => __('Post Types', 'vc5'),
+                'title' => __('Post Types', 'vcwb'),
                 'page' => $this->getSlug(),
                 'callback' => $sectionCallback,
             ]
