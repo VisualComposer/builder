@@ -47,7 +47,7 @@ class Hub extends Container /*implements Module*/
     {
         $pages[] = [
             'slug' => $this->getSlug(),
-            'title' => __('HUB', 'vc5'),
+            'title' => __('HUB', 'vcwb'),
             'controller' => $this,
         ];
 

@@ -11,10 +11,10 @@
 
     <?php if ($controller->getActivePage() !== 'last') : ?>
         <span class="vcv-popup-loading-heading"><?php
-            echo __('Activating your copy of Visual Composer ... Please wait.', 'vc5');
+            echo __('Activating your copy of Visual Composer ... Please wait.', 'vcwb');
             ?></span>
         <span class="vcv-popup-helper"><?php
-            echo __('Don’t close this window while activation is in the process.', 'vc5');
+            echo __('Don’t close this window while activation is in the process.', 'vcwb');
             ?></span>
     <?php endif; ?>
     <!-- Loading big white circle -->

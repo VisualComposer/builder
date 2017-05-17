@@ -48,7 +48,7 @@ class About extends ActivationPage implements Module
     {
         $pages[] = [
             'slug' => $this->getSlug(),
-            'title' => __('About', 'vc5'),
+            'title' => __('About', 'vcwb'),
             'layout' => 'standalone',
             'showTab' => false,
             'controller' => $this,

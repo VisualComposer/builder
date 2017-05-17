@@ -13,10 +13,10 @@ echo vcview(
         'controller' => vchelper('AccessRole')->who($role)->part($part),
         'customValue' => 'custom',
         'options' => [
-            [true, __('Enabled', 'vc5')],
-            [true, __('Disabled', 'vc5')],
+            [true, __('Enabled', 'vcwb')],
+            [true, __('Disabled', 'vcwb')],
         ],
-        'mainLabel' => __('Frontend editor', 'vc5'),
-        'customLabel' => __('Frontend editor', 'vc5'),
+        'mainLabel' => __('Frontend editor', 'vcwb'),
+        'customLabel' => __('Frontend editor', 'vcwb'),
     ]
 );

@@ -24,7 +24,7 @@
             </svg>
         </div>
         <div class="vcv-popup-heading vcv-popup-heading-last-screen">
-            <?php echo __('Any Layout. Fast and Easy.', 'vc5'); ?>
+            <?php echo __('Any Layout. Fast and Easy.', 'vcwb'); ?>
         </div>
 
         <!-- GIF Slider -->
@@ -37,22 +37,22 @@
         </div>
         <div class="vcv-button-container">
             <a href="post-new.php?post_type=page" class="vcv-popup-button vcv-popup-last-screen-button">
-                <span><?php echo __('Create a blank page', 'vc5'); ?></span>
+                <span><?php echo __('Create a blank page', 'vcwb'); ?></span>
             </a>
         </div>
         <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo __(
                 'Want to work with existing pages, posts or custom post types? Access your content and select `Edit with Visual Composer`.',
-                'vc5'
+                'vcwb'
             ); ?></p>
 	    <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo __(
                 'Don\'t forget to tweet about Visual Composer Website Builder. Thanks!',
-                'vc5'
+                'vcwb'
             ); ?>
 		    <a href="https://twitter.com/share"
 				    data-via="wpbakery"
 				    data-hashtags="madeinvc"
 				    class="twitter-share-button"
-				    data-text="<?php esc_attr_e('Visual Composer Website Builder - now I can build any #WordPress site fast and easy!', 'vc5');?>"
+				    data-text="<?php esc_attr_e('Visual Composer Website Builder - now I can build any #WordPress site fast and easy!', 'vcwb');?>"
 				    data-url="http://visualcomposer.io"
 				    data-size="large">Tweet</a>
 		    <script>! function ( d, s, id ) {

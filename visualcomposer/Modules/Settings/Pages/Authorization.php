@@ -90,7 +90,7 @@ class Authorization extends Container/* implements Module*/
     {
         $pages[] = [
             'slug' => $this->getSlug(),
-            'title' => __('Authorize Site', 'vc5'),
+            'title' => __('Authorize Site', 'vcwb'),
             'controller' => $this,
         ];
 

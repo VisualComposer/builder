@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
         <?php echo sprintf(
             __(
                 'Hola! Please <a href="%s">activate your copy</a> of Visual Composer to receive automatic updates.',
-                'vc5'
+                'vcwb'
             ),
             $redirectUrl
         ) ?>
