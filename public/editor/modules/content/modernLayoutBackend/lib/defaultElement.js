@@ -99,7 +99,7 @@ export default class DefaultElement extends React.Component {
       isDependency = options.onChange.find((option) => {
         return option.dependency === label
       })
-      if (isDependency) {
+      if (isDependency && isDependency.rule) {
         isRuleTrue = isDependency.rule.value === element[ isDependency.rule.attribute ]
       }
     }
@@ -128,7 +128,7 @@ export default class DefaultElement extends React.Component {
     return backendLabelGroups.map((group, i) => {
       const { options } = group
       // check for group dependency existance
-      if (options && options.groupDependency) {
+      if (options && options.groupDependency && options.groupDependency.rule) {
         if (options.groupDependency.rule.value === element[ options.groupDependency.rule.attribute ]) {
           return null
         }
