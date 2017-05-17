@@ -52,12 +52,12 @@ export default class SettingsFooter extends React.Component {
     return (
       <div className='vcv-ui-settings-content-footer'>
         <div className='vcv-ui-settings-actions'>
-          <a className={saveButtonClasses} title={saveText} onClick={this.onSave}>
+          <span className={saveButtonClasses} title={saveText} onClick={this.onSave}>
             <span className='vcv-ui-settings-action-content'>
               <i className={saveIconClasses} />
               <span>{saveText}</span>
             </span>
-          </a>
+          </span>
         </div>
       </div>
     )
