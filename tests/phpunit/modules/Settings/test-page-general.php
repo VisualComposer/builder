@@ -12,7 +12,7 @@ class SettingsGeneralPageTest extends WP_UnitTestCase
         $this->assertTrue(!empty($newPages));
         $this->assertEquals('vcv-general', $newPages[0]['slug']);
         $this->assertEquals($module->getSlug(), $newPages[0]['slug']);
-        $this->assertEquals(__('General Settings', 'vc5'), $newPages[0]['title']);
+        $this->assertEquals(__('General Settings', 'vcwb'), $newPages[0]['title']);
         $this->assertTrue($newPages[0]['controller'] instanceof \VisualComposer\Modules\Settings\Pages\General);
     }
 

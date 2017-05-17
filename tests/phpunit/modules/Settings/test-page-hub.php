@@ -12,7 +12,7 @@ class SettingsHubPageTest extends WP_UnitTestCase
         $this->assertTrue(!empty($newPages));
         $this->assertEquals('vcv-hub', $newPages[0]['slug']);
         $this->assertEquals($module->getSlug(), $newPages[0]['slug']);
-        $this->assertEquals(__('HUB', 'vc5'), $newPages[0]['title']);
+        $this->assertEquals(__('HUB', 'vcwb'), $newPages[0]['title']);
         $this->assertTrue($newPages[0]['controller'] instanceof \VisualComposer\Modules\Settings\Pages\Hub);
     }
 

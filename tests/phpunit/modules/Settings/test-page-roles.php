@@ -12,7 +12,7 @@ class SettingsRolesPageTest extends WP_UnitTestCase
         $this->assertTrue(!empty($newPages));
         $this->assertEquals('vcv-roles', $newPages[0]['slug']);
         $this->assertEquals($module->getSlug(), $newPages[0]['slug']);
-        $this->assertEquals(__('Role Manager', 'vc5'), $newPages[0]['title']);
+        $this->assertEquals(__('Role Manager', 'vcwb'), $newPages[0]['title']);
         $this->assertTrue($newPages[0]['controller'] instanceof \VisualComposer\Modules\Settings\Pages\Roles);
     }
 
