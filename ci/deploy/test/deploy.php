@@ -18,6 +18,7 @@ set(
     'shared_dirs',
     [
         'node_modules',
+//        'devElements',
         'vendor',
     ]
 );
@@ -37,7 +38,9 @@ task(
         cd('{{release_path}}');
         run('php ci/composer.phar update --prefer-dist --no-progress');
         run('npm run build-refactor');
-        run('find public/sources/newElements -maxdepth 1 -type d | tail -n +2 | xargs -I % sh -c \'cd % && npm run build && sed -i "s:../../../../../../shared/node_modules/:../../shared/node_modules/:g" public/dist/element.bundle.js\'');
+        run('bash tools/devElements/cloneScript.sh');
+        run('bash tools/devElements/buildScriptWindows.sh');
+//        run('find public/sources/newElements -maxdepth 1 -type d | tail -n +2 | xargs -I % sh -c \'cd % && npm run build && sed -i "s:../../../../../../shared/node_modules/:../../shared/node_modules/:g" public/dist/element.bundle.js\'');
     }
 )->desc('Install npm, composer and bower packages');
 
