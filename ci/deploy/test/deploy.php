@@ -18,7 +18,7 @@ set(
     'shared_dirs',
     [
         'node_modules',
-        'devElements',
+//        'devElements',
         'vendor',
     ]
 );
