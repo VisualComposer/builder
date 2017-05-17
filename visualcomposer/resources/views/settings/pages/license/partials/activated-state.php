@@ -13,7 +13,7 @@ $elementsDownloaded = $optionsHelper->get('elements-downloaded');
         <p>
             <?php echo __(
                 'You have activated Visual Composer version which allows you to access all the customer benefits. Thank you for choosing Visual Composer as your page builder. If you do not wish to use Visual Composer on this WordPress site you can deactivate your license below.',
-                'vc5'
+                'vcwb'
             ) ?>
         </p>
 
@@ -25,7 +25,7 @@ $elementsDownloaded = $optionsHelper->get('elements-downloaded');
                 data-vc-action="deactivation"
                 type="button"
                 id="vc_settings-updater-button">
-                <?php echo __('Deactivate Visual Composer', 'vc5') ?>
+                <?php echo __('Deactivate Visual Composer', 'vcwb') ?>
             </button>
 
             <img src="<?php echo get_admin_url() ?>/images/wpspin_light.gif"

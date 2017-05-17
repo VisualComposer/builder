@@ -115,7 +115,7 @@ class Controller extends Container/* implements Module*/
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call(
                 'renderNotice',
-                [__('Token is not valid or has expired', 'vc5'), false]
+                [__('Token is not valid or has expired', 'vcwb'), false]
             );
 
             return false;
@@ -127,7 +127,7 @@ class Controller extends Container/* implements Module*/
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call(
                 'renderNotice',
-                [sprintf(__('%s. Please try again.', 'vc5'), $response->get_error_message()), false]
+                [sprintf(__('%s. Please try again.', 'vcwb'), $response->get_error_message()), false]
             );
 
             return false;
@@ -162,7 +162,7 @@ class Controller extends Container/* implements Module*/
                 /** @see \VisualComposer\Modules\License\Controller::renderNotice */
                 $this->call(
                     'renderNotice',
-                    [__('Invalid response structure. Please contact us for support.', 'vc5'), false]
+                    [__('Invalid response structure. Please contact us for support.', 'vcwb'), false]
                 );
 
                 return false;
@@ -173,7 +173,7 @@ class Controller extends Container/* implements Module*/
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call(
                 'renderNotice',
-                [__('Invalid license key format. Please contact us for support.', 'vc5'), false]
+                [__('Invalid license key format. Please contact us for support.', 'vcwb'), false]
             );
 
             return false;
@@ -185,7 +185,7 @@ class Controller extends Container/* implements Module*/
                 'renderNotice',
                 [
                     sprintf(
-                        __('Unexpected license type: %s. Please contact us for support.', 'vc5'),
+                        __('Unexpected license type: %s. Please contact us for support.', 'vcwb'),
                         $json['license_type']
                     ),
                     false,
@@ -202,7 +202,7 @@ class Controller extends Container/* implements Module*/
         $this->call([$licenseHelper, 'setType'], [$json['license_type']]);
 
         /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-        $this->call('renderNotice', [__('Visual Composer successfully activated.', 'vc5'), true]);
+        $this->call('renderNotice', [__('Visual Composer successfully activated.', 'vcwb'), true]);
 
         return true;
     }
@@ -224,7 +224,7 @@ class Controller extends Container/* implements Module*/
         /** @see \VisualComposer\Helpers\License::isValidToken */
         if (!$this->call([$licenseHelper, 'isValidToken'], [$userToken])) {
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-            $this->call('renderNotice', [__('Token is not valid or has expired', 'vc5'), false]);
+            $this->call('renderNotice', [__('Token is not valid or has expired', 'vcwb'), false]);
 
             return false;
         }
@@ -235,7 +235,7 @@ class Controller extends Container/* implements Module*/
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call(
                 'renderNotice',
-                [__(sprintf('%s. Please try again.', $response->get_error_message()), 'vc5'), false]
+                [__(sprintf('%s. Please try again.', $response->get_error_message()), 'vcwb'), false]
             );
 
             return false;
@@ -269,7 +269,7 @@ class Controller extends Container/* implements Module*/
         $this->call([$licenseHelper, 'setType'], ['']);
 
         /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-        $this->call('renderNotice', [__('Visual Composer successfully deactivated.', 'vc5'), true]);
+        $this->call('renderNotice', [__('Visual Composer successfully deactivated.', 'vcwb'), true]);
 
         return true;
     }
@@ -287,7 +287,7 @@ class Controller extends Container/* implements Module*/
         $licenseKey = $request->input('license_key');
 
         if (!$this->call([$licenseHelper, 'isValid'], [$licenseKey])) {
-            $response = ['status' => false, 'error' => __('Invalid license key', 'vc5')];
+            $response = ['status' => false, 'error' => __('Invalid license key', 'vcwb')];
         } else {
             $response = ['status' => true];
         }
@@ -542,14 +542,14 @@ class Controller extends Container/* implements Module*/
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call(
                 'renderNotice',
-                [sprintf(__('%s. Please try again.', 'vc5'), $response->get_error_message()), false]
+                [sprintf(__('%s. Please try again.', 'vcwb'), $response->get_error_message()), false]
             );
             $status = false;
         } elseif ($response['response']['code'] !== 200) {
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call(
                 'renderNotice',
-                [sprintf(__('Server did not respond with OK: %s', 'vc5'), $response['response']['code']), false]
+                [sprintf(__('Server did not respond with OK: %s', 'vcwb'), $response['response']['code']), false]
             );
             $status = false;
         } else {
@@ -559,7 +559,7 @@ class Controller extends Container/* implements Module*/
                 /** @see \VisualComposer\Modules\License\Controller::renderNotice */
                 $this->call(
                     'renderNotice',
-                    [__('Invalid response structure. Please contact us for support.', 'vc5'), false]
+                    [__('Invalid response structure. Please contact us for support.', 'vcwb'), false]
                 );
                 $status = false;
             }
@@ -568,7 +568,7 @@ class Controller extends Container/* implements Module*/
                 /** @see \VisualComposer\Modules\License\Controller::renderNotice */
                 $this->call(
                     'renderNotice',
-                    [__('Something went wrong. Please contact us for support.', 'vc5'), false]
+                    [__('Something went wrong. Please contact us for support.', 'vcwb'), false]
                 );
                 $status = false;
             }

@@ -82,7 +82,7 @@ class Roles extends Container /*implements Module*/
     {
         $pages[] = [
             'slug' => $this->getSlug(),
-            'title' => __('Role Manager', 'vc5'),
+            'title' => __('Role Manager', 'vcwb'),
             'controller' => $this,
         ];
 
@@ -178,7 +178,7 @@ class Roles extends Container /*implements Module*/
                 }
             }
         }
-        $data['message'] = __('Roles settings successfully saved.', 'vc5');
+        $data['message'] = __('Roles settings successfully saved.', 'vcwb');
 
         return $data;
     }

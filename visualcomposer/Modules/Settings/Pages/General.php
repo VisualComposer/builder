@@ -79,7 +79,7 @@ class General extends Container /*implements Module*/
     {
         $pages[] = [
             'slug' => $this->getSlug(),
-            'title' => __('General Settings', 'vc5'),
+            'title' => __('General Settings', 'vcwb'),
             'controller' => $this,
         ];
 
@@ -106,7 +106,7 @@ class General extends Container /*implements Module*/
         $this->addField(
             [
                 'page' => $this->getSlug(),
-                'title' => __('Disable responsive content elements', 'vc5'),
+                'title' => __('Disable responsive content elements', 'vcwb'),
                 'name' => 'not_responsive_css',
                 'fieldCallback' => $fieldCallback,
             ]
@@ -125,7 +125,7 @@ class General extends Container /*implements Module*/
         $this->addField(
             [
                 'page' => $this->getSlug(),
-                'title' => __('Google fonts subsets', 'vc5'),
+                'title' => __('Google fonts subsets', 'vcwb'),
                 'name' => 'google_fonts_subsets',
                 'fieldCallback' => $fieldCallback,
                 'sanitizeCallback' => $sanitizeCallback,

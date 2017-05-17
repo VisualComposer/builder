@@ -21,7 +21,7 @@ $editableRoles = get_editable_roles();
         <p>
             <?php echo __(
                 'Control user group role access to the features and options of Visual Composer - manage WordPress default and custom roles.',
-                'vc5'
+                'vcwb'
             ) ?>
         </p>
     </div>
@@ -60,9 +60,9 @@ $editableRoles = get_editable_roles();
                                 <div class="widget-title-action">
                                     <a class="widget-action hide-if-no-js" href="#"></a>
                                     <a class="widget-control-edit hide-if-js">
-                                        <span class="edit vc_automapper-edit-btn"><?php echo __('Edit', 'vc5') ?></span>
-                                        <span class="add vc_automapper-delete-btn"><?php echo __('Add', 'vc5') ?></span>
-                                        <span class="screen-reader-text"><?php echo __('Search', 'vc5') ?></span>
+                                        <span class="edit vc_automapper-edit-btn"><?php echo __('Edit', 'vcwb') ?></span>
+                                        <span class="add vc_automapper-delete-btn"><?php echo __('Add', 'vcwb') ?></span>
+                                        <span class="screen-reader-text"><?php echo __('Search', 'vcwb') ?></span>
                                     </a>
                                 </div>
                                 <div class="widget-title">
@@ -121,7 +121,7 @@ $editableRoles = get_editable_roles();
         $slug
     );
 
-    submit_button(__('Save Changes', 'vc5'), 'primary', 'submit_btn', true, $submitButtonAttributes);
+    submit_button(__('Save Changes', 'vcwb'), 'primary', 'submit_btn', true, $submitButtonAttributes);
 
     ?>
     <?php /** @todo change id in JS from #vcv_settings-roles-action to #settings-save-roles-btn */ ?>

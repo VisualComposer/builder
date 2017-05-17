@@ -17,22 +17,22 @@
         </svg>
     </div>
     <div class="vcv-popup-heading">
-        <?php echo __('Advance Your WordPress With Visual Composer', 'vc5'); ?>
+        <?php echo __('Advance Your WordPress With Visual Composer', 'vcwb'); ?>
     </div>
     <!-- Form -->
     <form class="vcv-popup-form" id="vcv-account-login-form">
         <input type="email" name="vcv-account-activation-email" id="vcv-account-login-form-email" placeholder="<?php echo __(
             'Your E-mail',
-            'vc5'
+            'vcwb'
         ); ?>" class="vcv-popup-form-input" required="required">
         <div class="vcv-popup-form-checkbox">
             <input type="checkbox" value="<?php echo time(); ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-agreement" />
             <label for="vcv-account-activation-agreement"></label>
-	        <span class="vcv-popup-form-checkbox-label"><?php printf(__('I have read and agree to the <a href="%s" target="_blank">terms of service</a>', 'vc5'), 'https://visualcomposer.io/terms-of-service');?></span>
+	        <span class="vcv-popup-form-checkbox-label"><?php printf(__('I have read and agree to the <a href="%s" target="_blank">terms of service</a>', 'vcwb'), 'https://visualcomposer.io/terms-of-service');?></span>
         </div>
         <input type="submit" value="<?php echo __(
             'Activate Visual Composer',
-            'vc5'
+            'vcwb'
         ); ?>" class="vcv-popup-form-submit vcv-popup-button">
     </form>
 </div>

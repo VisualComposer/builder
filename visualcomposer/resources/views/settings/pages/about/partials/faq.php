@@ -6,14 +6,14 @@ if (!defined('ABSPATH')) {
 
 ?>
 <div class="vcv-faq-tab changelog">
-    <h3><?php echo __('New to Visual Composer or Looking for More Information?', 'vc5') ?></h3>
+    <h3><?php echo __('New to Visual Composer or Looking for More Information?', 'vcwb') ?></h3>
 
     <p><?php printf(
             __(
                 'WPBakery has complete documentation available at our knowledge base: '
                 . '<a target="_blank" href="%s">kb.wpbakery.com</a> which covers everything related to '
                 . 'Visual Composer starting from Installation and up to more advanced features based on our Inner API.',
-                'vc5'
+                'vcwb'
             ),
             'http://kb.wpbakery.com'
         ) ?></p>
@@ -114,6 +114,6 @@ if (!defined('ABSPATH')) {
 <div class="return-to-dashboard">
     <a target="_blank" href="http://kb.wpbakery.com"><?php echo __(
             'Visit Knowledge Base for more information',
-            'vc5'
+            'vcwb'
         ) ?></a>
 </div>
