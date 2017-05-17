@@ -35,12 +35,9 @@ class Controller extends Container implements Module
 
         $args = [
             'posts_per_page' => 20,
-            'post_type' => get_post_types('', 'names'),
+            'post_type' => get_post_types(['public' => true], 'names'),
             's' => $search,
         ];
-        
-        unset($args['post_type']['vcv_templates']);
-
         $posts = get_posts($args);
 
         $results = [];
