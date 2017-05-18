@@ -17,6 +17,7 @@ addStorage('wordpressData', (storage) => {
   })
   storage.on('save', (options, source = '', callback) => {
     storage.state('status').set({ status: 'saving' }, source)
+    settingsStorage.state('status').set({status: 'ready'})
     const documentData = documentManager.all()
     storage.trigger('wordpress:beforeSave', {
       pageElements: documentData
@@ -72,6 +73,16 @@ addStorage('wordpressData', (storage) => {
       }
       storage.state('status').set({ status: 'loaded' })
       workspaceStorage.state('app').set('started')
+      settingsStorage.state('status').set({status: 'ready'})
+      window.onbeforeunload = () => {
+        const settingsStorageStateGet = settingsStorage.state('status').get()
+        const isCssChanged = settingsStorageStateGet &&
+          settingsStorageStateGet.status &&
+          settingsStorageStateGet.status === 'changed'
+        if (isCssChanged) {
+          return true
+        }
+      }
     } else if (status === 'loadFailed') {
       storage.state('status').set({ status: 'loaded' })
       throw new Error('Failed to load loaded')
