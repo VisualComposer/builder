@@ -73,6 +73,8 @@ class HelpersLocalizationTest extends WP_UnitTestCase
             'addCustomRowLayout',
             'addTextBlock',
             'frontendEditor',
+            'blankPage',
+            'searchTemplates',
         ];
 
         $localications = $helper->getLocalizations();

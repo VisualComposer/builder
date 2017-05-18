@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-18 16:45+0300\n"
-"PO-Revision-Date: 2017-05-18 16:45+0300\n"
+"POT-Creation-Date: 2017-05-18 17:02+0300\n"
+"PO-Revision-Date: 2017-05-18 17:02+0300\n"
 "Last-Translator: \n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
 "Language: lv\n"
@@ -344,6 +344,10 @@ msgstr "Frontend Editors"
 #: visualcomposer/Helpers/Localizations.php:94
 msgid "Blank Page"
 msgstr "Jauna Lapa"
+
+#: visualcomposer/Helpers/Localizations.php:95
+msgid "Search templates by name and description"
+msgstr "Meklēt templeitu pēc nosaukuma un apraksta"
 
 #: visualcomposer/Helpers/PostsGridSourcePosts.php:32
 #: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:15
