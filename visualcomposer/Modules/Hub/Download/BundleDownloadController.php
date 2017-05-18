@@ -14,8 +14,6 @@ class BundleDownloadController extends Container implements Module
     use WpFiltersActions;
     use EventsFilters;
 
-    protected $elementApiUrl = '';
-
     public function __construct(Hub $hubHelper)
     {
         if (vcvenv('VCV_ELEMENT_DOWNLOAD')) {
