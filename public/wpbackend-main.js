@@ -1,4 +1,5 @@
 import vcCake from 'vc-cake'
+import './polyfills'
 import './sources/less/bootstrapBackend/init.less'
 import './sources/css/wordpress.less'
 import './config/variables'

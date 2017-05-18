@@ -1,3 +1,4 @@
+import './polyfills'
 /* global jQuery */
 import publicAPI from './resources/api/publicAPI'
 
