@@ -78,6 +78,7 @@ class Locale extends Container implements Module
                             'remove' => __('Remove', 'vcwb'),
                             'move' => __('Move', 'vcwb'),
                             'searchContentElements' => __('Search content elements', 'vcwb'),
+                            // @codingStandardsIgnoreLine
                             'templateAlreadyExists' => __('Template with this name already exist. Please specify another name.', 'vcwb'),
                             'templateContentEmpty' => __('Template content is empty.', 'vcwb'),
                             'specifyTemplateName' => __('Please specify template name.', 'vcwb'),
