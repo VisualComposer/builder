@@ -159,6 +159,9 @@ export default class TemplateControl extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addText = localizations ? localizations.add : 'Add'
+
     let { name, thumbnail, preview, description } = this.props
     let { previewVisible, previewStyle } = this.state
 
@@ -217,7 +220,7 @@ export default class TemplateControl extends React.Component {
     return (
       <li className='vcv-ui-item-list-item'>
         <span className='vcv-ui-item-element'
-          title={`Add ${name}`}
+          title={`${addText} ${name}`}
           onClick={this.handleAddClick.bind(this)}
           onMouseEnter={this.showPreview}
           onMouseLeave={this.hidePreview}
