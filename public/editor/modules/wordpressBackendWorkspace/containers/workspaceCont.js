@@ -128,6 +128,9 @@ export default class WorkspaceCont extends React.Component {
     const { isSticky, isStickyBottom, isStickyAboveTop, adminBar } = this.state
     const layoutRect = this.props.layout.getBoundingClientRect()
     const layoutBar = ReactDOM.findDOMNode(this.layoutBar)
+    if (!layoutBar) {
+      return
+    }
     const bar = layoutBar.getBoundingClientRect()
     const adminBarPos = window.getComputedStyle(adminBar).position
     const adminBarHeight = adminBarPos === 'absolute' ? 0 : adminBar.getBoundingClientRect().height
