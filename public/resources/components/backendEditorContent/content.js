@@ -21,7 +21,6 @@ const setContent = () => {
 
 vcCake.getStorage('wordpressData').state('status').onChange((data) => {
   if (data.status && data.status === 'loaded') {
-    setContent()
     vcCake.getStorage('history').state('canUndo').onChange(() => {
       setContent()
     })

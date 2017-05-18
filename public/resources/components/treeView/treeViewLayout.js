@@ -7,6 +7,7 @@ import Scrollbar from '../../scrollbar/scrollbar.js'
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')
+const workspaceSettings = getStorage('workspace').state('settings')
 
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
@@ -139,8 +140,12 @@ export default class TreeViewLayout extends React.Component {
 
   handleAddTemplate (e) {
     e && e.preventDefault()
-    workspaceStorage.trigger('add:template', true)
-    // this.props.api.request('app:templates', true)
+    workspaceSettings.set({
+      action: 'addTemplate',
+      element: {},
+      tag: '',
+      options: {}
+    })
   }
 
   getElementsOutput () {
