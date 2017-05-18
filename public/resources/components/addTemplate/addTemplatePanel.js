@@ -236,24 +236,28 @@ export default class AddTemplatePanel extends React.Component {
 
   handleSaveTemplate (e) {
     e && e.preventDefault()
+    const templateAlreadyExistsText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateAlreadyExists : 'Template with this name already exist. Please specify another name.'
+    const templateContentEmptyText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContentEmpty : 'Template content is empty.'
+    const templateSaveFailedText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Template save failed.'
+    const specifyTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.specifyTemplateName : 'Please specify template name.'
     let { templateName } = this.state
     templateName = templateName.trim()
     if (templateName) {
       if (templateManager.findBy('name', templateName)) {
-        this.displayError('Template with this name already exist. Please specify another name.')
+        this.displayError(templateAlreadyExistsText)
       } else if (!documentManager.size()) {
-        this.displayError('Template content is empty.')
+        this.displayError(templateContentEmptyText)
       } else {
         this.setState({ showSpinner: templateName })
         let templateAddResult = templateManager.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
         if (templateAddResult) {
           // this.props.api.request('templates:save', templateName)
         } else {
-          this.displayError('Template save failed.')
+          this.displayError(templateSaveFailedText)
         }
       }
     } else {
-      this.displayError('Please specify template name.')
+      this.displayError(specifyTemplateNameText)
     }
   }
 

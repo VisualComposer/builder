@@ -12,6 +12,8 @@ export default class BlankRowPlaceholder extends React.Component {
     controlsData: React.PropTypes.array
   }
 
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+
   static defaultProps = {
     controlsData: [
       {
@@ -19,7 +21,7 @@ export default class BlankRowPlaceholder extends React.Component {
         options: {
           layout: [ 'auto' ],
           icon: 'oneColumn.svg',
-          title: 'Add one column'
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addOneColumn : 'Add one column'
         }
       },
       {
@@ -27,7 +29,7 @@ export default class BlankRowPlaceholder extends React.Component {
         options: {
           layout: [ '50%', '50%' ],
           icon: 'twoColumns.svg',
-          title: 'Add two columns'
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTwoColumns : 'Add two columns'
         }
       },
       {
@@ -35,7 +37,7 @@ export default class BlankRowPlaceholder extends React.Component {
         options: {
           layout: [ '33.33%', '33.33%', '33.33%' ],
           icon: 'threeColumns.svg',
-          title: 'Add three columns'
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addThreeColumns : 'Add three columns'
         }
       },
       {
@@ -43,7 +45,7 @@ export default class BlankRowPlaceholder extends React.Component {
         options: {
           layout: [ '25%', '25%', '25%', '25%' ],
           icon: 'fourColumns.svg',
-          title: 'Add four columns'
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFourColumns : 'Add four columns'
         }
       },
       {
@@ -51,7 +53,7 @@ export default class BlankRowPlaceholder extends React.Component {
         options: {
           layout: [ '20%', '20%', '20%', '20%', '20%' ],
           icon: 'fiveColumns.svg',
-          title: 'Add five columns'
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFiveColumns : 'Add five columns'
         }
       },
       {
@@ -59,7 +61,7 @@ export default class BlankRowPlaceholder extends React.Component {
         options: {
           layout: [ '66.66%', '33.34%' ],
           icon: 'custom.svg',
-          title: 'Add custom row layout',
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addCustomRowLayout : 'Add custom row layout',
           type: 'custom'
         }
       },
@@ -67,14 +69,14 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'textBlock',
         options: {
           icon: 'textBlock.svg',
-          title: 'Add Text block'
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTextBlock : 'Add Text block'
         }
       },
       {
         tag: 'addElement',
         options: {
           icon: 'addElement.svg',
-          title: 'Add Element'
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addElement : 'Add Element'
         }
       }
     ]

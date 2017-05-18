@@ -144,6 +144,8 @@ export default class ControlsHandler {
    * @param data
    */
   createAppendControl (data) {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addElementText = localizations ? localizations.addElement : 'Add Element'
     let elements = data.vcElementsPath
     const insertAfterElement = elements && elements.length ? elements[ 0 ] : false
     const container = elements && elements.length > 2 ? elements[ 1 ] : false
@@ -156,7 +158,7 @@ export default class ControlsHandler {
     }
     let appendControl = document.createElement('span')
     appendControl.classList.add('vcv-ui-append-control')
-    appendControl.title = 'Add Element'
+    appendControl.title = addElementText
     appendControl.dataset.vcvElementId = containerElement.get('id')
     appendControl.dataset.vcControlEvent = 'add'
     appendControl.dataset.vcControlEventOptions = ''
@@ -263,6 +265,15 @@ export default class ControlsHandler {
    * @returns {Element}
    */
   createControlDropdown (elementId, options) {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addText = localizations ? localizations.add : 'Add'
+    const addElementText = localizations ? localizations.addElement : 'Add Element'
+    const moveText = localizations ? localizations.move : 'Move'
+    const cloneText = localizations ? localizations.clone : 'Clone'
+    const removeText = localizations ? localizations.remove : 'Remove'
+    const editText = localizations ? localizations.edit : 'Edit'
+    const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
+
     let dropdown = document.createElement('div')
     dropdown.classList.add('vcv-ui-outline-control-dropdown-content')
 
@@ -271,7 +282,7 @@ export default class ControlsHandler {
 
     // add move action
     actions.push({
-      label: `Move ${options.title}`,
+      label: `${moveText} ${options.title}`,
       icon: 'vcv-ui-icon-move',
       data: {
         vcDragHelper: elementId
@@ -280,12 +291,12 @@ export default class ControlsHandler {
 
     // add element action
     if (options.isContainer) {
-      let label = 'Add Element'
+      let label = addElementText
       let addElementTag = ''
       let children = cook.getChildren(options.tag)
       if (children.length === 1) {
         let element = cook.get(children[ 0 ]).toJS()
-        label = `Add ${element.name}`
+        label = `${addText} ${element.name}`
         addElementTag = element.tag
       }
       actions.push({
@@ -301,7 +312,7 @@ export default class ControlsHandler {
     // add controls for row
     if (options.tag === 'row') {
       actions.push({
-        label: 'Row Layout',
+        label: rowLayoutText,
         icon: 'vcv-ui-icon-row-layout',
         data: {
           vcControlEvent: 'edit',
@@ -312,7 +323,7 @@ export default class ControlsHandler {
 
     // edit control
     actions.push({
-      label: 'Edit',
+      label: editText,
       icon: 'vcv-ui-icon-edit',
       data: {
         vcControlEvent: 'edit'
@@ -321,7 +332,7 @@ export default class ControlsHandler {
 
     // clone control
     actions.push({
-      label: 'Clone',
+      label: cloneText,
       icon: 'vcv-ui-icon-copy',
       data: {
         vcControlEvent: 'clone'
@@ -330,7 +341,7 @@ export default class ControlsHandler {
 
     // remove control
     actions.push({
-      label: 'Remove',
+      label: removeText,
       icon: 'vcv-ui-icon-trash',
       data: {
         vcControlEvent: 'remove'

@@ -210,6 +210,14 @@ export default class TreeViewElement extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addText = localizations ? localizations.add : 'Add'
+    const addElementText = localizations ? localizations.addElement : 'Add Element'
+    const cloneText = localizations ? localizations.clone : 'Clone'
+    const removeText = localizations ? localizations.remove : 'Remove'
+    const editText = localizations ? localizations.edit : 'Edit'
+    const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
+
     let element = cook.get(this.props.element)
     if (!element) {
       return null
@@ -227,11 +235,11 @@ export default class TreeViewElement extends React.Component {
     let addChildControl = false
     let editRowLayoutControl = false
     if (element.containerFor().length) {
-      let title = 'Add Element'
+      let title = addElementText
       let addElementTag = ''
       let children = cook.getChildren(this.props.element.tag)
       if (children.length === 1) {
-        title = `Add ${children[ 0 ].name}`
+        title = `${addText} ${children[ 0 ].name}`
         addElementTag = children[ 0 ].tag
       }
       addChildControl = (
@@ -247,7 +255,7 @@ export default class TreeViewElement extends React.Component {
         editRowLayoutControl = (
           <span
             className='vcv-ui-tree-layout-control-action'
-            title='Row Layout'
+            title={rowLayoutText}
             onClick={this.clickEdit.bind(this, 'layout')}
           >
             <i className='vcv-ui-icon vcv-ui-icon-row-layout' />
@@ -267,13 +275,13 @@ export default class TreeViewElement extends React.Component {
     let childControls = <span className='vcv-ui-tree-layout-control-actions'>
       {addChildControl}
       {editRowLayoutControl}
-      <span className='vcv-ui-tree-layout-control-action' title='Edit' onClick={this.clickEdit.bind(this, '')}>
+      <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit.bind(this, '')}>
         <i className='vcv-ui-icon vcv-ui-icon-edit' />
       </span>
-      <span className='vcv-ui-tree-layout-control-action' title='Clone' onClick={this.clickClone}>
+      <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.clickClone}>
         <i className='vcv-ui-icon vcv-ui-icon-copy' />
       </span>
-      <span className='vcv-ui-tree-layout-control-action' title='Remove' onClick={this.clickDelete}>
+      <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.clickDelete}>
         <i className='vcv-ui-icon vcv-ui-icon-trash' />
       </span>
     </span>

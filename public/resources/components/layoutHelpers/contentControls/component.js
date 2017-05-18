@@ -43,9 +43,12 @@ export default class ContentControls extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addElementText = localizations ? localizations.addElement : 'Add Element'
+
     return <vcvhelper
       className='vcv-row-control-container vcv-row-control-container-hide-labels vcv-is-disabled-outline'
-      title='Add Element'
+      title={addElementText}
       onClick={this.handleClick}
       onMouseEnter={this.handleMouseEnter}
       ref={(container) => { this.container = container }}
