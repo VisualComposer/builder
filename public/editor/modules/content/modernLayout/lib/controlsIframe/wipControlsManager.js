@@ -353,6 +353,7 @@ export default class ControlsManager {
             i++
           }
           if (el) {
+            this.outline.hide()
             vcCake.setData('draggingElement', { id: el.dataset.vcDragHelper, point: { x: e.clientX, y: e.clientY } })
           }
         }

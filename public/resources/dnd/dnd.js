@@ -210,7 +210,7 @@ export default class DnD {
   }
   findDOMNode (point) {
     let domNode = this.options.document.elementFromPoint(point.x, point.y)
-    const domNodeAttr = domNode.getAttribute('data-vcv-dnd-element')
+    const domNodeAttr = domNode && domNode.getAttribute('data-vcv-dnd-element')
     if (domNode && !domNodeAttr) {
       domNode = $(domNode).closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
     }
