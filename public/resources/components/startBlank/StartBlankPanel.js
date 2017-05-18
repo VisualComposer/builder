@@ -152,6 +152,9 @@ export default class startBlank extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const buttonText = localizations ? localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
+    const headingPart1 = localizations ? localizations.blankPageHeadingPart1 : 'Select Blank Canvas'
+    const headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'or Start With a Template'
+    const helperText = localizations ? localizations.blankPageHelperText : 'Visual Composer Hub will offer you unlimited download of premium quality templates, elements, extensions and more.'
 
     let containerWidth = {}
     if (this.state && this.state.containerWidth) {
@@ -163,7 +166,8 @@ export default class startBlank extends React.Component {
         <div className='vcv-start-blank-scroll-container'>
           <div className='vcv-start-blank-inner'>
             <div className='vcv-start-blank-heading-container'>
-              <span className='vcv-start-blank-page-heading'>Select Blank Canvas<br /> or Start With a Template</span>
+              <div className='vcv-start-blank-page-heading'>{headingPart1}</div>
+              <div className='vcv-start-blank-page-heading'>{headingPart2}</div>
             </div>
             <div className='vcv-start-blank-controls'>
               <div
@@ -180,10 +184,7 @@ export default class startBlank extends React.Component {
               </div>
             </div>
             <button className='vcv-start-blank-button' disabled>{buttonText}</button>
-            <p className='vcv-start-blank-helper'>
-              Visual Composer Hub will offer you unlimited download of premium quality templates, elements, extensions
-              and more.
-            </p>
+            <p className='vcv-start-blank-helper'>{helperText}</p>
           </div>
         </div>
       </div>
