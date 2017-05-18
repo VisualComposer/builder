@@ -1,16 +1,17 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-18 16:44+0300\n"
-"PO-Revision-Date: 2017-03-20 21:48+0200\n"
-"Last-Translator: WPBakery <hello@wpbakery.com>\n"
+"POT-Creation-Date: 2017-05-18 16:45+0300\n"
+"PO-Revision-Date: 2017-05-18 16:45+0300\n"
+"Last-Translator: \n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
+"Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
 "X-Generator: Poedit 2.0.2\n"
 "X-Poedit-KeywordsList: esc_html__;esc_html_e;esc_attr__;esc_attr_e;"
 "esc_html_x;_x;__;_e\n"
@@ -38,89 +39,89 @@ msgstr ""
 #: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:109
 #: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:128
 msgid "Edit with Visual Composer"
-msgstr ""
+msgstr "Labot ar Visual Composer"
 
 #: tests/phpunit/modules/Settings/_test-page-about.php:17
 msgid "What's New"
-msgstr ""
+msgstr "Kas jauns"
 
 #: tests/phpunit/modules/Settings/_test-page-about.php:22
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: tests/phpunit/modules/Settings/_test-page-about.php:27
 #: visualcomposer/resources/views/settings/pages/about/partials/resources.php:12
 msgid "Resources"
-msgstr ""
+msgstr "Resursi"
 
 #: tests/phpunit/modules/Settings/_test-page-about.php:44
 #: visualcomposer/Modules/Settings/Pages/About.php:51
 msgid "About"
-msgstr ""
+msgstr "Par"
 
 #: tests/phpunit/modules/Settings/test-page-general.php:15
 #: visualcomposer/Modules/Settings/Pages/General.php:82
 msgid "General Settings"
-msgstr ""
+msgstr "Galvenie iestatījumi"
 
 #: tests/phpunit/modules/Settings/test-page-hub.php:15
 #: visualcomposer/Modules/Settings/Pages/Hub.php:50
 msgid "HUB"
-msgstr ""
+msgstr "HUB"
 
 #: tests/phpunit/modules/Settings/test-page-license.php:15
 #: visualcomposer/Modules/Settings/Pages/License.php:50
 msgid "Product License"
-msgstr ""
+msgstr "Produkta licence"
 
 #: tests/phpunit/modules/Settings/test-page-roles.php:15
 #: visualcomposer/Modules/Settings/Pages/Roles.php:85
 msgid "Role Manager"
-msgstr ""
+msgstr "Lomu vadītājs"
 
 #: visualcomposer/Helpers/Localizations.php:18
 msgid "Add Element"
-msgstr ""
+msgstr "Pievienot Elementu"
 
 #: visualcomposer/Helpers/Localizations.php:19
 msgid "Add Template"
-msgstr ""
+msgstr "Pievienot templeitu"
 
 #: visualcomposer/Helpers/Localizations.php:20
 msgid "Tree View"
-msgstr ""
+msgstr "Paplašinātais skats"
 
 #: visualcomposer/Helpers/Localizations.php:21
 msgid "Undo"
-msgstr ""
+msgstr "Atsaukt"
 
 #: visualcomposer/Helpers/Localizations.php:22
 msgid "Redo"
-msgstr ""
+msgstr "Pārstrādāt"
 
 #: visualcomposer/Helpers/Localizations.php:23
 msgid "Responsive View"
-msgstr ""
+msgstr "Responsive Skats"
 
 #: visualcomposer/Helpers/Localizations.php:24
 msgid "Desktop"
-msgstr ""
+msgstr "Desktop Skats"
 
 #: visualcomposer/Helpers/Localizations.php:25
 msgid "Tablet Landscape"
-msgstr ""
+msgstr "Planšetes Ainavas Skats"
 
 #: visualcomposer/Helpers/Localizations.php:26
 msgid "Tablet Portrait"
-msgstr ""
+msgstr "Planšetes Portreta Skats"
 
 #: visualcomposer/Helpers/Localizations.php:27
 msgid "Mobile Landscape"
-msgstr ""
+msgstr "Mobilais Ainavas Skats"
 
 #: visualcomposer/Helpers/Localizations.php:28
 msgid "Mobile Portrait"
-msgstr ""
+msgstr "Mobilais Portreta Skats"
 
 #: visualcomposer/Helpers/Localizations.php:29
 #: visualcomposer/Modules/Settings/Pages/PostTypes.php:67
@@ -128,213 +129,221 @@ msgstr ""
 #: visualcomposer/resources/views/settings/layouts/settings-standalone.php:9
 #: visualcomposer/resources/views/settings/pages/about/index.php:39
 msgid "Settings"
-msgstr ""
+msgstr "Iestatījumi"
 
 #: visualcomposer/Helpers/Localizations.php:30
 msgid "Update"
-msgstr ""
+msgstr "Atjaunot"
 
 #: visualcomposer/Helpers/Localizations.php:31
 msgid "Menu"
-msgstr ""
+msgstr "Izvēlne"
 
 #: visualcomposer/Helpers/Localizations.php:32
 msgid "View Page"
-msgstr ""
+msgstr "Skatīt Lapu"
 
 #: visualcomposer/Helpers/Localizations.php:33
 msgid "Backend Editor"
-msgstr ""
+msgstr "Backend Editors"
 
 #: visualcomposer/Helpers/Localizations.php:34
 msgid "Edit in Backend Editor"
-msgstr ""
+msgstr "Labot Backend Editorā"
 
 #: visualcomposer/Helpers/Localizations.php:35
 msgid "WordPress Dashboard"
-msgstr ""
+msgstr "WordPress Panelis"
 
 #: visualcomposer/Helpers/Localizations.php:36
 msgid "Publish"
-msgstr ""
+msgstr "Publicēt"
 
 #: visualcomposer/Helpers/Localizations.php:37
 msgid "Submit for Review"
-msgstr ""
+msgstr "Pievienot Izskatīšanai"
 
 #: visualcomposer/Helpers/Localizations.php:38
 msgid "Save Draft"
-msgstr ""
+msgstr "Saglabāt Skici"
 
 #: visualcomposer/Helpers/Localizations.php:39
 msgid "Close"
-msgstr ""
+msgstr "Aizvērt"
 
 #: visualcomposer/Helpers/Localizations.php:40
 msgid "Premium Elements - Coming Soon"
-msgstr ""
+msgstr "Premium elementi būs pieejami drīzumā"
 
 #: visualcomposer/Helpers/Localizations.php:41
 msgid "Premium Templates - Coming Soon"
-msgstr ""
+msgstr "Premium templeiti būs pieejami drīzumā"
 
 #: visualcomposer/Helpers/Localizations.php:43
 msgid ""
 "There are no elements on your canvas - start by adding element or template"
 msgstr ""
+"Lapā nav pievienots neviens elements - sāciet ar elementu vai templeita "
+"vienienošanu"
 
 #: visualcomposer/Helpers/Localizations.php:44
 msgid "Custom CSS"
-msgstr ""
+msgstr "Pielāgots CSS"
 
 #: visualcomposer/Helpers/Localizations.php:45
 msgid "Local CSS"
-msgstr ""
+msgstr "Lokāls CSS"
 
 #: visualcomposer/Helpers/Localizations.php:46
 msgid "Local CSS will be applied to this particular page only"
-msgstr ""
+msgstr "Lokālais CSS tiks pievienots tikai šai konkrētajai sadaļai"
 
 #: visualcomposer/Helpers/Localizations.php:47
 msgid "Global CSS"
-msgstr ""
+msgstr "Globāls CSS"
 
 #: visualcomposer/Helpers/Localizations.php:48
 msgid "Global CSS will be applied site wide"
-msgstr ""
+msgstr "Globālais CSS tiks pievienots visai lapai"
 
 #: visualcomposer/Helpers/Localizations.php:49
 msgid "Save"
-msgstr ""
+msgstr "Saglabāt"
 
 #: visualcomposer/Helpers/Localizations.php:50
 msgid "Template Name"
-msgstr ""
+msgstr "Templeita Nosaukums"
 
 #: visualcomposer/Helpers/Localizations.php:51
 msgid "Save Template"
-msgstr ""
+msgstr "Saglabāt Templeitu"
 
 #: visualcomposer/Helpers/Localizations.php:52
 msgid "Template save failed."
-msgstr ""
+msgstr "Templeita saglabāšana neizdevās."
 
 #: visualcomposer/Helpers/Localizations.php:53
 msgid "Download More Templates"
-msgstr ""
+msgstr "Lejupielādēt Vairāk Templeitus"
 
 #: visualcomposer/Helpers/Localizations.php:56
 msgid ""
 "You don't have any templates yet. Try to save your current layout as a "
 "template or download templates from Visual Composer Hub."
 msgstr ""
+"Jums nav neviena templeita. Mēģiniet saglabāt jūsu izveidoto izkārtojumu vai "
+"arī lejupielādējiet templeitus no Visual Composer Hub."
 
 #: visualcomposer/Helpers/Localizations.php:60
 msgid ""
 "Didn't find the right template? Check out Visual Composer Hub for more "
 "layout templates."
 msgstr ""
+"Neatradāt nevienu templeitu?  Apmeklējiet Visual Composer Hub lai iegūtu "
+"vairāk templeitu."
 
 #: visualcomposer/Helpers/Localizations.php:63
 msgid "Do you want to remove this template?"
-msgstr ""
+msgstr "Vai vēlaties dzēst šo templeitu?"
 
 #: visualcomposer/Helpers/Localizations.php:64
 msgid "Template remove failed."
-msgstr ""
+msgstr "Templeita dzēšana neizdevās."
 
 #: visualcomposer/Helpers/Localizations.php:65
 msgid "Select Blank Canvas"
-msgstr ""
+msgstr "Izvēlēties baltu lapu"
 
 #: visualcomposer/Helpers/Localizations.php:66
 msgid "or Start With a Template"
-msgstr ""
+msgstr "vai sākt ar templeitu"
 
 #: visualcomposer/Helpers/Localizations.php:69
 msgid ""
 "Visual Composer Hub will offer you unlimited download of premium quality "
 "templates, elements, extensions and more."
 msgstr ""
+"Visual Composer Hub jums piedāvās neierobežotu skaitu premium kvalitātes "
+"templeitus, elementus paplašinājumus un vairāk."
 
 #: visualcomposer/Helpers/Localizations.php:72
 #: visualcomposer/resources/views/settings/pages/roles/index.php:64
 msgid "Add"
-msgstr ""
+msgstr "Pievienot"
 
 #: visualcomposer/Helpers/Localizations.php:73
 msgid "Row Layout"
-msgstr ""
+msgstr "Rindas Izkārtojums"
 
 #: visualcomposer/Helpers/Localizations.php:74
 #: visualcomposer/resources/views/settings/pages/roles/index.php:63
 #: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:38
 msgid "Edit"
-msgstr ""
+msgstr "Labot"
 
 #: visualcomposer/Helpers/Localizations.php:75
 msgid "Clone"
-msgstr ""
+msgstr "Klonēt"
 
 #: visualcomposer/Helpers/Localizations.php:76
 msgid "Remove"
-msgstr ""
+msgstr "Dzēst"
 
 #: visualcomposer/Helpers/Localizations.php:77
 msgid "Move"
-msgstr ""
+msgstr "Pārvietot"
 
 #: visualcomposer/Helpers/Localizations.php:78
 msgid "Search content elements"
-msgstr ""
+msgstr "Meklēt satura elementus"
 
 #: visualcomposer/Helpers/Localizations.php:81
 msgid "Template with this name already exist. Please specify another name."
-msgstr ""
+msgstr "Templeits ar šādu vārdu jau eksistē. Lūdzu izvēlaties citu vārdu."
 
 #: visualcomposer/Helpers/Localizations.php:84
 msgid "Template content is empty."
-msgstr ""
+msgstr "Templeita ir tukšs."
 
 #: visualcomposer/Helpers/Localizations.php:85
 msgid "Please specify template name."
-msgstr ""
+msgstr "Lūdzu izvēlaties templeita nosaukumu."
 
 #: visualcomposer/Helpers/Localizations.php:86
 msgid "Add one column"
-msgstr ""
+msgstr "Pievienot vienu kolonu"
 
 #: visualcomposer/Helpers/Localizations.php:87
 msgid "Add two columns"
-msgstr ""
+msgstr "Pievienot divas kolonas"
 
 #: visualcomposer/Helpers/Localizations.php:88
 msgid "Add three columns"
-msgstr ""
+msgstr "Pievienot trīs kolonas"
 
 #: visualcomposer/Helpers/Localizations.php:89
 msgid "Add four columns"
-msgstr ""
+msgstr "Pievienot četras kolonas"
 
 #: visualcomposer/Helpers/Localizations.php:90
 msgid "Add five columns"
-msgstr ""
+msgstr "Pievienot piecas kolonas"
 
 #: visualcomposer/Helpers/Localizations.php:91
 msgid "Add custom row layout"
-msgstr ""
+msgstr "Pievienot pielāgojamu rindas izkārtojumu"
 
 #: visualcomposer/Helpers/Localizations.php:92
 msgid "Add Text block"
-msgstr ""
+msgstr "Pievienot teksta bloku"
 
 #: visualcomposer/Helpers/Localizations.php:93
 msgid "Frontend Editor"
-msgstr ""
+msgstr "Frontend Editors"
 
 #: visualcomposer/Helpers/Localizations.php:94
 msgid "Blank Page"
-msgstr ""
+msgstr "Jauna Lapa"
 
 #: visualcomposer/Helpers/PostsGridSourcePosts.php:32
 #: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:15
@@ -343,45 +352,52 @@ msgstr ""
 #: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:45
 #: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:15
 msgid "All"
-msgstr ""
+msgstr "Visi"
 
 #: visualcomposer/Modules/Account/Pages/ActivationPage.php:53
 msgid "Activation"
-msgstr ""
+msgstr "Aktivizācija"
 
 #: visualcomposer/Modules/Account/Pages/ActivationPage.php:68
 msgid "Set up your own navigation position or change it at any time."
-msgstr ""
+msgstr "Iestaties pats savu navigācijas pozīciju vai mainiet to jebkurā laikā."
 
 #: visualcomposer/Modules/Account/Pages/ActivationPage.php:72
 msgid ""
-"Access and see the path to your elements, columns, and rows from one "
-"control."
+"Access and see the path to your elements, columns, and rows from one control."
 msgstr ""
+"Piekļūsties un redziet  savus elementus, kolonas un rindas ar vienu kontroli."
 
 #: visualcomposer/Modules/Account/Pages/ActivationPage.php:76
 msgid "Use inline text editing to change content with one click."
 msgstr ""
+"Lai mainītu teksta rediģēšanai izmantojiet iekļauto saturu ar vienu klikšķi."
 
 #: visualcomposer/Modules/Account/Pages/ActivationPage.php:80
 msgid "Control and overview your page structure from the Tree View mode."
 msgstr ""
+"Kontrolējiet un pārskatiet jūsu lappuses struktūru no koka skata režīmā."
 
 #: visualcomposer/Modules/Account/Pages/ActivationPage.php:84
 msgid "Divide your row into columns with Row layout and pre-made layouts."
 msgstr ""
+"Sadaliet rindu kolonnās ar rindu izkārtojumu un sagatavotajiem "
+"izkārtojumumiem."
 
 #: visualcomposer/Modules/Account/Pages/ActivationPage.php:88
 msgid "Apply changes instantly and revert back with Undo/Redo at any time."
 msgstr ""
+"Lietot izmaiņas uzreiz un atgriezties atpakaļ ar Atsaukt /Pārstrādāt jebkurā "
+"brīdī."
 
 #: visualcomposer/Modules/Account/Pages/ActivationPage.php:92
 msgid "Resize columns with easy to use resize tool."
-msgstr ""
+msgstr "Mainiet kolonas izmēru ar viegli lietojamo izmēra mainīšanas rīku."
 
 #: visualcomposer/Modules/Account/Pages/ActivationPage.php:96
 msgid "Choose Backend editor schematic view with the quick preview option."
 msgstr ""
+"Izvēlaties backend editora shēmas skatu ar ātro priekšskatīšanas opciju."
 
 #: visualcomposer/Modules/Editors/Backend/MetaboxController.php:72
 msgid "Visual Composer"
@@ -389,61 +405,63 @@ msgstr ""
 
 #: visualcomposer/Modules/Elements/Hub/_Controller.php:47
 msgid "Elements are already being installed"
-msgstr ""
+msgstr "Elementi jau tiek instalēti"
 
 #: visualcomposer/Modules/Elements/Hub/_Controller.php:52
 msgid "Elements are already installed"
-msgstr ""
+msgstr "Elementi ir jau instalēti"
 
 #: visualcomposer/Modules/Elements/Hub/_Controller.php:64
 msgid "Something went wrong"
-msgstr ""
+msgstr "Kaut kas nogāja greizi"
 
 #: visualcomposer/Modules/License/_Controller.php:118
 #: visualcomposer/Modules/License/_Controller.php:227
 msgid "Token is not valid or has expired"
-msgstr ""
+msgstr "Tokens nav valīds vai beidzies tā termiņš"
 
 #: visualcomposer/Modules/License/_Controller.php:130
 #: visualcomposer/Modules/License/_Controller.php:545
 #, php-format
 msgid "%s. Please try again."
-msgstr ""
+msgstr "%s. Lūdzu mēģiniet vēlreiz."
 
 #: visualcomposer/Modules/License/_Controller.php:165
 #: visualcomposer/Modules/License/_Controller.php:562
 msgid "Invalid response structure. Please contact us for support."
-msgstr ""
+msgstr "Nepareiza struktūra! Lūdzu sazināties ar mums."
 
 #: visualcomposer/Modules/License/_Controller.php:176
 msgid "Invalid license key format. Please contact us for support."
 msgstr ""
+"Nepareiza licences atslēga! Lūdzu sazināties ar mūsu atbalsta dienestu."
 
 #: visualcomposer/Modules/License/_Controller.php:188
 #, php-format
 msgid "Unexpected license type: %s. Please contact us for support."
 msgstr ""
+"Neparedzams licences veids %s. Lūdzu sazināties ar mūsu atbalsta dienestu."
 
 #: visualcomposer/Modules/License/_Controller.php:205
 msgid "Visual Composer successfully activated."
-msgstr ""
+msgstr "Visual Composer veiksmīgi aktivizēts."
 
 #: visualcomposer/Modules/License/_Controller.php:272
 msgid "Visual Composer successfully deactivated."
-msgstr ""
+msgstr "Visual Composer veiksmīgi deaktivizēts."
 
 #: visualcomposer/Modules/License/_Controller.php:290
 msgid "Invalid license key"
-msgstr ""
+msgstr "Nepareiza licences atslēga"
 
 #: visualcomposer/Modules/License/_Controller.php:552
 #, php-format
 msgid "Server did not respond with OK: %s"
-msgstr ""
+msgstr "Serveris neatbildēja ar OK: %s"
 
 #: visualcomposer/Modules/License/_Controller.php:571
 msgid "Something went wrong. Please contact us for support."
-msgstr ""
+msgstr "Kaut kas nogāja greizie. Lūdzu sazināties ar atbalsta dienestu."
 
 #: visualcomposer/Modules/Settings/Controller.php:115
 msgid "Visual Composer "
@@ -452,11 +470,11 @@ msgstr ""
 #: visualcomposer/Modules/Settings/Pages/Authorization.php:93
 #: visualcomposer/resources/views/settings/pages/auth/partials/unauthorized-state.php:31
 msgid "Authorize Site"
-msgstr ""
+msgstr "Autorizēt Lapu"
 
 #: visualcomposer/Modules/Settings/Pages/General.php:109
 msgid "Disable responsive content elements"
-msgstr ""
+msgstr "Atslēgt responsīvos satura elementus"
 
 #: visualcomposer/Modules/Settings/Pages/General.php:128
 msgid "Google fonts subsets"
@@ -465,37 +483,37 @@ msgstr ""
 #: visualcomposer/Modules/Settings/Pages/PostTypes.php:86
 msgid ""
 "Specify post types where you want to use Visual Composer Website Builder."
-msgstr ""
+msgstr "Izvēlaties kur vēlaties lietot Visual Composer Website Builder."
 
 #: visualcomposer/Modules/Settings/Pages/PostTypes.php:91
 msgid "Post Types"
-msgstr ""
+msgstr "Raksta Veidi"
 
 #: visualcomposer/Modules/Settings/Pages/Roles.php:181
 msgid "Roles settings successfully saved."
-msgstr ""
+msgstr "Lomas saglabātas veiksmīgi."
 
 #: visualcomposer/resources/views/account/partials/activation-finish.php:28
 #: visualcomposer/resources/views/account/partials/activation-login.php:34
 #: visualcomposer/resources/views/settings/pages/license/partials/deactivated-state.php:39
 msgid "Activate Visual Composer"
-msgstr ""
+msgstr "Aktivizēt Visual Composer"
 
 #: visualcomposer/resources/views/account/partials/activation-loading.php:14
 msgid "Activating your copy of Visual Composer ... Please wait."
-msgstr ""
+msgstr "Aktivizējam jūsu Visual Composer kopiju... Lūdzu uzgaidiet."
 
 #: visualcomposer/resources/views/account/partials/activation-loading.php:17
 msgid "Don’t close this window while activation is in the process."
-msgstr ""
+msgstr "Neaizveriet šo logu, līdz aktivizācija nav pabeigta."
 
 #: visualcomposer/resources/views/account/partials/activation-login.php:20
 msgid "Advance Your WordPress With Visual Composer"
-msgstr ""
+msgstr "Virziet uz priekšu savu WordPress ar Visual Composer"
 
 #: visualcomposer/resources/views/account/partials/activation-login.php:25
 msgid "Your E-mail"
-msgstr ""
+msgstr "E-pasts"
 
 #: visualcomposer/resources/views/account/partials/activation-login.php:31
 #, php-format
@@ -503,57 +521,65 @@ msgid ""
 "I have read and agree to the <a href=\"%s\" target=\"_blank\">terms of "
 "service</a>"
 msgstr ""
+"Esmu iepazinies un piekrītu <a href=\"%s\" target=\"_blank\">lietošanas "
+"noteikumiem</a>"
 
 #: visualcomposer/resources/views/account/partials/activation-slider.php:27
 msgid "Any Layout. Fast and Easy."
-msgstr ""
+msgstr "Jebkurš izkārtojums. Ātri un Vienkārši."
 
 #: visualcomposer/resources/views/account/partials/activation-slider.php:40
 msgid "Create a blank page"
-msgstr ""
+msgstr "Izveidot jaunu lapu"
 
 #: visualcomposer/resources/views/account/partials/activation-slider.php:44
 msgid ""
 "Want to work with existing pages, posts or custom post types? Access your "
 "content and select `Edit with Visual Composer`."
 msgstr ""
+"Vēlaties strādāt ar eksistējošu lapu, rakstu vai pielāgotu raksta tipu? "
+"Atveriet savu saturu un izvēlaties 'Labot ar Visual Composer'."
 
 #: visualcomposer/resources/views/account/partials/activation-slider.php:48
 msgid "Don't forget to tweet about Visual Composer Website Builder. Thanks!"
-msgstr ""
+msgstr "Neaizmirstiet ietvītot par Visual Composer Website Builder. Paldies!"
 
 #: visualcomposer/resources/views/account/partials/activation-slider.php:55
 msgid ""
 "Visual Composer Website Builder - now I can build any #WordPress site fast "
 "and easy!"
 msgstr ""
+"Visual Composer Website Builder - tagad es varu izveidot jebkādu #WordPress "
+"lapu ātri un vienkārši!"
 
 #: visualcomposer/resources/views/editor/frontend/frontend.php:30
 #: visualcomposer/resources/views/settings/pages/roles/partials/frontend-editor.php:19
 #: visualcomposer/resources/views/settings/pages/roles/partials/frontend-editor.php:20
 msgid "Frontend editor"
-msgstr ""
+msgstr "Frontend editors"
 
 #: visualcomposer/resources/views/settings/pages/about/index.php:13
 #, php-format
 msgid "Welcome to Visual Composer %s"
-msgstr ""
+msgstr "Sveicinātie pie Visual Composer %s"
 
 #: visualcomposer/resources/views/settings/pages/about/index.php:22
 msgid ""
-"Congratulations! You are about to use most powerful time saver for "
-"WordPress ever - page builder plugin with Frontend and Backend editors by "
-"WPBakery."
+"Congratulations! You are about to use most powerful time saver for WordPress "
+"ever - page builder plugin with Frontend and Backend editors by WPBakery."
 msgstr ""
+"Apsveicam! Jūs grasāties izmantot pašu spēcīgāko laika taupītāju darbam ar "
+"WordPress - lapas veidošanas spraudnis ar Frontend un Backend labotājiem no "
+"WPBakery."
 
 #: visualcomposer/resources/views/settings/pages/about/index.php:30
 #, php-format
 msgid "Version %s"
-msgstr ""
+msgstr "Versija %s"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:9
 msgid "New to Visual Composer or Looking for More Information?"
-msgstr ""
+msgstr "Jauns iekš Visual Composer vai meklējiet vairāk informācijas?"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:13
 #, php-format
@@ -570,7 +596,7 @@ msgstr ""
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:16
 msgid "New Elements and Options"
-msgstr ""
+msgstr "Jauns Elements un Opcija"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:18
 msgid ""
@@ -583,13 +609,13 @@ msgstr ""
 msgid ""
 "We have been constantly following your feature requests and latest update "
 "contains all the best of what you have been looking for. We are aiming to "
-"offer you most flexible tools and options with everything you will ever "
-"need to create a website."
+"offer you most flexible tools and options with everything you will ever need "
+"to create a website."
 msgstr ""
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:36
 msgid "ACF Support"
-msgstr ""
+msgstr "ACF atbalsts"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:38
 msgid ""
@@ -599,17 +625,17 @@ msgstr ""
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:46
 msgid "Categories and Authors"
-msgstr ""
+msgstr "Kategorijas un Autori"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:48
 msgid ""
-"Visual Composer Grid Builder has 2 more content elements allowing you to "
-"add data about categories and authors to your post grid."
+"Visual Composer Grid Builder has 2 more content elements allowing you to add "
+"data about categories and authors to your post grid."
 msgstr ""
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:57
 msgid "Parallax Speed"
-msgstr ""
+msgstr "Parallax ātrums"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:61
 msgid ""
@@ -625,7 +651,7 @@ msgstr ""
 
 #: visualcomposer/resources/views/settings/pages/about/partials/resources.php:38
 msgid "Official Support"
-msgstr ""
+msgstr "Oficiālais atbalsta dienests"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/resources.php:42
 #, php-format
@@ -653,11 +679,11 @@ msgstr ""
 #: visualcomposer/resources/views/settings/pages/index.php:36
 #: visualcomposer/resources/views/settings/pages/roles/index.php:124
 msgid "Save Changes"
-msgstr ""
+msgstr "Saglabāt izmaiņas"
 
 #: visualcomposer/resources/views/settings/pages/general/partials/disable-responsive.php:16
 msgid "Disable"
-msgstr ""
+msgstr "Atslēgt"
 
 #: visualcomposer/resources/views/settings/pages/general/partials/disable-responsive.php:23
 msgid ""
@@ -680,7 +706,7 @@ msgstr ""
 #: visualcomposer/resources/views/settings/pages/license/partials/activated-state.php:28
 #: visualcomposer/resources/views/settings/pages/plugins/notice.php:16
 msgid "Deactivate Visual Composer"
-msgstr ""
+msgstr "Atslēgt Visual Composer"
 
 #: visualcomposer/resources/views/settings/pages/license/partials/deactivated-state.php:26
 msgid ""
@@ -696,50 +722,58 @@ msgid ""
 "Don't have valid license yet? <a href=\"%s\" target=\"_blank\">Purchase "
 "Visual Composer license</a>."
 msgstr ""
+"Jums vēl nav licences? <a href=\"%s\" target=\"_blank\">Nopirkt Visual "
+"Composer Licenci</a>."
 
 #: visualcomposer/resources/views/settings/pages/plugins/notice.php:8
 #, php-format
 msgid ""
-"You are about to deactivate your copy of Visual Composer Website Builder "
-"and won’t be able to manage your content. Your content remains untouched "
-"but due to plugin deactivation required CSS styles will be missing. To "
-"ensure correct content display use\n"
+"You are about to deactivate your copy of Visual Composer Website Builder and "
+"won’t be able to manage your content. Your content remains untouched but due "
+"to plugin deactivation required CSS styles will be missing. To ensure "
+"correct content display use\n"
 "                    <a href=\"%s\">this free plugin</a> that will load CSS "
 "styles automatically."
 msgstr ""
+"Jūs grasāties atslēgt Visual Composer Website Builder spraudni, jums nebūs "
+"vairs nebūs iespēja labot saturu. Jūsu saturs paliks neskarts, bet spraudņa "
+"atslēgšanas dēl CSS stils pazudīs. Lai saturu attēlotu pareizi <a href=\"%s"
+"\">lietojiet šo bezmaksas spraudni</a> un tas ielādēs CSS."
 
 #: visualcomposer/resources/views/settings/pages/post-types/post-types-toggle.php:13
 msgid "on"
-msgstr ""
+msgstr "ieslēgts"
 
 #: visualcomposer/resources/views/settings/pages/post-types/post-types-toggle.php:14
 msgid "off"
-msgstr ""
+msgstr "izslēgts"
 
 #: visualcomposer/resources/views/settings/pages/roles/index.php:23
 msgid ""
 "Control user group role access to the features and options of Visual "
 "Composer - manage WordPress default and custom roles."
 msgstr ""
+"Kontrolējiet lietotāja grupu pieejas pie Visual Composer iespējām -labojiet "
+"WordPress noklusētās un pielāgotās lomas."
 
 #: visualcomposer/resources/views/settings/pages/roles/index.php:65
 msgid "Search"
-msgstr ""
+msgstr "Meklēt"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:15
 msgid "Disable Classic editor"
-msgstr ""
+msgstr "Atspējot klasisko editoru"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:18
 #: visualcomposer/resources/views/settings/pages/roles/partials/frontend-editor.php:16
 #: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:15
 #: visualcomposer/resources/views/settings/pages/roles/partials/post-settings.php:15
 msgid "Enabled"
-msgstr ""
+msgstr "Iespējot"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:19
 msgid "Enabled and default"
-msgstr ""
+msgstr "Iespējot pēc noklusējamu"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:20
 #: visualcomposer/resources/views/settings/pages/roles/partials/frontend-editor.php:17
@@ -750,60 +784,61 @@ msgstr ""
 #: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:24
 #: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:17
 msgid "Disabled"
-msgstr ""
+msgstr "Atspējot"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:22
 #: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:23
 msgid "Backend editor"
-msgstr ""
+msgstr "Backend editors"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:18
 #: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:19
 msgid "Grid Builder"
-msgstr ""
+msgstr "Režģa Veidotājs"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:20
 msgid "Control user access to Grid Builder and Grid Builder Elements."
-msgstr ""
+msgstr "Kontrolēt lietotāja pieeju režģa veidotājam un tā elementiem."
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/post-settings.php:18
 msgid "Page settings"
-msgstr ""
+msgstr "Lapas iestatījumi"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/post-settings.php:20
 msgid ""
-"Control access to Visual Composer page settings. Note: Disable page "
-"settings to restrict editing of Custom CSS through a page."
+"Control access to Visual Composer page settings. Note: Disable page settings "
+"to restrict editing of Custom CSS through a page."
 msgstr ""
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:17
 msgid "Pages only"
-msgstr ""
+msgstr "Tikai lapas"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:18
 #: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:23
 #: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:53
 msgid "Custom"
-msgstr ""
+msgstr "Pielāgots"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:21
 #: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:22
 msgid "Post types"
-msgstr ""
+msgstr "Rakstu veidi"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:24
 msgid ""
 "Enable Visual Composer for pages, posts and custom post types. Note: By "
 "default Visual Composer is available for pages only."
 msgstr ""
+"Iespējot Visual Composer iekš lapām, rakstiem un pielāgotiem raksta veidiem."
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:16
 msgid "Apply presets only"
-msgstr ""
+msgstr "Piemērot tikai presets"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:19
 msgid "Element Presets"
-msgstr ""
+msgstr "Elementa Sākotnējie iestatījumi"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:21
 msgid ""
@@ -815,38 +850,40 @@ msgstr ""
 #: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:26
 #: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:27
 msgid "Settings options"
-msgstr ""
+msgstr "Iestatījuma opcijas"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:29
 msgid ""
 "Control access rights to Visual Composer admin settings tabs (e.g. General "
 "Settings, Shortcode Mapper, ...)"
 msgstr ""
+"Kontrolējiet pieejas atļaujas pie  Visual Composer administratora "
+"iestatījuma taba.(piem. galvenie iestatījumi)"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:41
 msgid "Element"
-msgstr ""
+msgstr "Elements"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:49
 msgid "Edit only"
-msgstr ""
+msgstr "Tikai Labot"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:56
 #: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:57
 msgid "Elements"
-msgstr ""
+msgstr "Elementi"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:58
 msgid "Control user access to content elements."
-msgstr ""
+msgstr "Kontrolējiet lietotāja piekļuvi satura elementiem."
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:16
 msgid "Apply templates only"
-msgstr ""
+msgstr "Pielietot tikai templeitiem"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:19
 msgid "Templates"
-msgstr ""
+msgstr "Templeiti"
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:21
 msgid ""
@@ -861,3 +898,5 @@ msgid ""
 "Hola! Please <a href=\"%s\">activate your copy</a> of Visual Composer to "
 "receive automatic updates."
 msgstr ""
+"Hola! Lūdzu <a href=\"%s\">aktivizē savu Visual Composer </a> kopiju lai "
+"saņemtu automātisko atjauninājumus."

@@ -59,6 +59,9 @@ export default class startBlank extends React.Component {
   }
 
   getTemplateControlProps (template) {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const blankText = localizations ? localizations.blankPage : 'Blank Page'
+
     if (template !== 'blank') {
       return {
         key: 'vcv-element-control-' + template.id,
@@ -69,7 +72,7 @@ export default class startBlank extends React.Component {
       return {
         key: 'vcv-element-control-blank',
         addClick: this.handleControlClick,
-        name: 'Blank Page',
+        name: blankText,
         blank: true
       }
     }

@@ -101,6 +101,9 @@ export default class SearchTemplate extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const searchPlaceholder = localizations ? localizations.searchTemplates : 'Search templates by name and description'
+
     let inputContainerClasses = classNames({
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
@@ -129,7 +132,7 @@ export default class SearchTemplate extends React.Component {
           onFocus={this.handleInputFocus}
           type='text'
           value={this.props.inputValue}
-          placeholder='Search templates by name and description'
+          placeholder={searchPlaceholder}
           autoFocus='true'
         />
       </div>

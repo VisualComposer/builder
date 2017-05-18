@@ -91,6 +91,8 @@ class Localizations extends Container implements Helper
             'addCustomRowLayout' => __('Add custom row layout', 'vcwb'),
             'addTextBlock' => __('Add Text block', 'vcwb'),
             'frontendEditor' => __('Frontend Editor', 'vcwb'),
+            'blankPage' => __('Blank Page', 'vcwb'),
+            'searchTemplates' => __('Search templates by name and description', 'vcwb'),
         ];
 
         return $locale;
