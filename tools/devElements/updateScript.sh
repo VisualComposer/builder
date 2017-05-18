@@ -23,6 +23,8 @@ declare -a arr=(
 'rawHtml'
 'rawJs'
 'separator'
+'facebookLike',
+'feature',
 'shortcode'
 'twitterButton'
 'twitterGrid'
