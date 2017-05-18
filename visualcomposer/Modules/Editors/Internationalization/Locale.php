@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Editors\Internationalization;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Localizations;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class Locale extends Container implements Module
@@ -16,7 +17,7 @@ class Locale extends Container implements Module
         $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'outputLocalizations');
     }
 
-    protected function outputLocalizations($response, $payload)
+    protected function outputLocalizations($response, $payload, Localizations $localizationsHelper)
     {
         $response = array_merge(
             $response,
@@ -24,73 +25,7 @@ class Locale extends Container implements Module
                 vcview(
                     'i18n/locale',
                     [
-                        'locale' => [
-                            'addElement' => __('Add Element', 'vcwb'),
-                            'addTemplate' => __('Add Template', 'vcwb'),
-                            'treeView' => __('Tree View', 'vcwb'),
-                            'undo' => __('Undo', 'vcwb'),
-                            'redo' => __('Redo', 'vcwb'),
-                            'responsiveView' => __('Responsive View', 'vcwb'),
-                            'desktop' => __('Desktop', 'vcwb'),
-                            'tabletLandscape' => __('Tablet Landscape', 'vcwb'),
-                            'tabletPortrait' => __('Tablet Portrait', 'vcwb'),
-                            'mobileLandscape' => __('Mobile Landscape', 'vcwb'),
-                            'mobilePortrait' => __('Mobile Portrait', 'vcwb'),
-                            'settings' => __('Settings', 'vcwb'),
-                            'update' => __('Update', 'vcwb'),
-                            'menu' => __('Menu', 'vcwb'),
-                            'viewPage' => __('View Page', 'vcwb'),
-                            'backendEditor' => __('Backend Editor', 'vcwb'),
-                            'editInBackendEditor' => __('Edit in Backend Editor', 'vcwb'),
-                            'wordPressDashboard' => __('WordPress Dashboard', 'vcwb'),
-                            'publish' => __('Publish', 'vcwb'),
-                            'submitForReview' => __('Submit for Review', 'vcwb'),
-                            'saveDraft' => __('Save Draft', 'vcwb'),
-                            'close' => __('Close', 'vcwb'),
-                            'premiumElementsButton' => __('Premium Elements - Coming Soon', 'vcwb'),
-                            'premiumTemplatesButton' => __('Premium Templates - Coming Soon', 'vcwb'),
-                            // @codingStandardsIgnoreLine
-                            'emptyTreeView' => __('There are no elements on your canvas - start by adding element or template', 'vcwb'),
-                            'customCSS' => __('Custom CSS', 'vcwb'),
-                            'localCSS' => __('Local CSS', 'vcwb'),
-                            'localCSSLabel' => __('Local CSS will be applied to this particular page only', 'vcwb'),
-                            'globalCSS' => __('Global CSS', 'vcwb'),
-                            'globalCSSLabel' => __('Global CSS will be applied site wide', 'vcwb'),
-                            'save' => __('Save', 'vcwb'),
-                            'templateName' => __('Template Name', 'vcwb'),
-                            'saveTemplate' => __('Save Template', 'vcwb'),
-                            'templateSaveFailed' => __('Template save failed.', 'vcwb'),
-                            'downloadMoreTemplates' => __('Download More Templates', 'vcwb'),
-                            // @codingStandardsIgnoreLine
-                            'noTemplatesFound' => __('You don\'t have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.', 'vcwb'),
-                            // @codingStandardsIgnoreLine
-                            'notRightTemplatesFound' => __('Didn\'t find the right template? Check out Visual Composer Hub for more layout templates.', 'vcwb'),
-                            'removeTemplateWarning' => __('Do you want to remove this template?', 'vcwb'),
-                            'templateRemoveFailed' => __('Template remove failed.', 'vcwb'),
-                            'blankPageHeadingPart1' => __('Select Blank Canvas', 'vcwb'),
-                            'blankPageHeadingPart2' => __('or Start With a Template', 'vcwb'),
-                            // @codingStandardsIgnoreLine
-                            'blankPageHelperText' => __('Visual Composer Hub will offer you unlimited download of premium quality templates, elements, extensions and more.', 'vcwb'),
-                            'add' => __('Add', 'vcwb'),
-                            'rowLayout' => __('Row Layout', 'vcwb'),
-                            'edit' => __('Edit', 'vcwb'),
-                            'clone' => __('Clone', 'vcwb'),
-                            'remove' => __('Remove', 'vcwb'),
-                            'move' => __('Move', 'vcwb'),
-                            'searchContentElements' => __('Search content elements', 'vcwb'),
-                            // @codingStandardsIgnoreLine
-                            'templateAlreadyExists' => __('Template with this name already exist. Please specify another name.', 'vcwb'),
-                            'templateContentEmpty' => __('Template content is empty.', 'vcwb'),
-                            'specifyTemplateName' => __('Please specify template name.', 'vcwb'),
-                            'addOneColumn' => __('Add one column', 'vcwb'),
-                            'addTwoColumns' => __('Add two columns', 'vcwb'),
-                            'addThreeColumns' => __('Add three columns', 'vcwb'),
-                            'addFourColumns' => __('Add four columns', 'vcwb'),
-                            'addFiveColumns' => __('Add five columns', 'vcwb'),
-                            'addCustomRowLayout' => __('Add custom row layout', 'vcwb'),
-                            'addTextBlock' => __('Add Text block', 'vcwb'),
-                            'frontendEditor' => __('Frontend Editor', 'vcwb'),
-                        ],
+                        'locale' => $localizationsHelper->getLocalizations(),
                     ]
                 ),
             ]

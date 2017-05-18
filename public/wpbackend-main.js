@@ -30,6 +30,7 @@ $(() => {
       require('./editor/stores/history/historyStorage')
       require('./editor/stores/settingsStorage')
       require('./editor/stores/wordpressBackendData/wordpressBackendDataStorage')
+      require('./resources/components/backendEditorContent/content.js')
       require('./config/wpbackend-modules')
     })
   }

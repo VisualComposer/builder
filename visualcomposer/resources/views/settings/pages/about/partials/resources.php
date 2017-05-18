@@ -39,7 +39,7 @@ if (!defined('ABSPATH')) {
             <p><?php
                 printf(
                     __(
-                        'To get your support related question answered in the fastest timing, please head over to our <a href="%s" target="_blank">support page</a> and open Support ticket. To open support ticket you should have account in the ticket system. Registration should take you couple of minutes to complete and is completely automatic process. Prepare your Visual Composer <a href="%s" target="_blank">Purchase code</a> and fill in "Create account in Ticket system" form located at <a href="%s" target="_blank">support page</a>, then follow on screen instructions.',
+                        'To get your support related question answered in the fastest timing, please head over to our <a href="%s" target="_blank">support page</a> and open Support ticket. To open support a ticket you should have an account in the ticket system. Registration should take you a couple of minutes to complete and is a completely automatic process. Prepare your Visual Composer <a href="%s" target="_blank">Purchase code</a> and fill in "Create account in Ticket system" form located at <a href="%s" target="_blank">support page</a>, then follow on screen instructions.',
                         'vcwb'
                     ),
                     'http://support.wpbakery.com',
