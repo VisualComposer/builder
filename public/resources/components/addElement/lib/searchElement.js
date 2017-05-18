@@ -89,6 +89,9 @@ export default class SearchElement extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const searchPlaceholder = localizations ? localizations.searchContentElements : 'Search content elements'
+
     let dropdownContainerClasses = classNames({
       'vcv-ui-editor-search-dropdown-container': true,
       'vcv-ui-editor-field-highlight': this.state.dropdown
@@ -116,7 +119,7 @@ export default class SearchElement extends React.Component {
           onFocus={this.handleInputFocus}
           type='text'
           value={this.state.inputValue}
-          placeholder='Search content elements'
+          placeholder={searchPlaceholder}
           autoFocus='true'
         />
       </div>

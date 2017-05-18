@@ -144,6 +144,8 @@ export default class ControlsHandler {
    * @param data
    */
   createAppendControl (data) {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addElementText = localizations ? localizations.addElement : 'Add Element'
     let elements = data.vcElementsPath
     const insertAfterElement = elements && elements.length ? elements[ 0 ] : false
     const container = elements && elements.length > 2 ? elements[ 1 ] : false
@@ -156,7 +158,7 @@ export default class ControlsHandler {
     }
     let appendControl = document.createElement('span')
     appendControl.classList.add('vcv-ui-append-control')
-    appendControl.title = 'Add Element'
+    appendControl.title = addElementText
     appendControl.dataset.vcvElementId = containerElement.get('id')
     appendControl.dataset.vcControlEvent = 'add'
     appendControl.dataset.vcControlEventOptions = ''
