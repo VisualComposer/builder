@@ -89,7 +89,7 @@ test:php:modules:
     - cp .env-copy .env
     - php ci/composer.phar install
     - php -d 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so' ci/phpunit-5.6.5.phar --configuration=ci/phpunit-modules-coverage.xml
-    #- php ci/coverage-test.php
+    - php ci/coverage-test.php
   tags:
     - docker
 
