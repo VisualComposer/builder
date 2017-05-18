@@ -82,6 +82,13 @@ class Locale extends Container implements Module
                             'templateAlreadyExists' => __('Template with this name already exist. Please specify another name.', 'vcwb'),
                             'templateContentEmpty' => __('Template content is empty.', 'vcwb'),
                             'specifyTemplateName' => __('Please specify template name.', 'vcwb'),
+                            'addOneColumn' => __('Add one column', 'vcwb'),
+                            'addTwoColumns' => __('Add two columns', 'vcwb'),
+                            'addThreeColumns' => __('Add three columns', 'vcwb'),
+                            'addFourColumns' => __('Add four columns', 'vcwb'),
+                            'addFiveColumns' => __('Add five columns', 'vcwb'),
+                            'addCustomRowLayout' => __('Add custom row layout', 'vcwb'),
+                            'addTextBlock' => __('Add Text block', 'vcwb'),
                         ],
                     ]
                 ),
