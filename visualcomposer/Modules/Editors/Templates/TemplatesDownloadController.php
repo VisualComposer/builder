@@ -66,5 +66,23 @@ class TemplatesDownloadController extends Container implements Module
     protected function processBundleJson($bundleJson)
     {
         // TODO: Make the parsing process
+        $templates = [];
+        foreach ($templates as $templateId => $template) {
+            foreach ($template->imagesRemap as $remap) {
+                if (is_string($remap->image)) {
+                    $templates[ $templateId ][ $remap->key ] = $this->processSimple($remap->image);
+                } else {
+                    $templates[ $templateId ][ $remap->key ] = $this->processWpMedia($remap->image);
+                }
+            }
+        }
+    }
+
+    protected function processSimple($image)
+    {
+    }
+
+    protected function processWpMedia($image)
+    {
     }
 }
