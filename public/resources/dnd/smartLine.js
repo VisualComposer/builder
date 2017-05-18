@@ -91,16 +91,19 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     let nextElement = $element.nextAll('[data-vcv-dnd-element]').get(0)
     let prevRect = prevElement ? prevElement.getBoundingClientRect() : null
     let nextRect = nextElement ? nextElement.getBoundingClientRect() : null
-    let isHorizontalLine = prevRect && prevRect.left !== rect.left || nextRect && nextRect.left !== rect.left
-
+    let isVerticalLine
+    // show vertical line in layout only
+    if (!$element.closest('.vcv-ui-tree-layout').get(0)) {
+      isVerticalLine = prevRect && prevRect.left !== rect.left || nextRect && nextRect.left !== rect.left
+    }
     // set default line position
     linePoint.x = rect.left
     linePoint.y = position === 'before' ? rect.top : rect.bottom
     linePoint.y -= defaultLiteSize / 2
     lineWidth = rect.width
 
-    // set horizontal line position
-    if (isHorizontalLine) {
+    // set vertical line position
+    if (isVerticalLine) {
       lineWidth = defaultLiteSize
       lineHeight = rect.height
       linePoint.y = rect.top
@@ -110,7 +113,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
 
     // modify line position for margins
     if (position === 'before' && prevRect) {
-      if (isHorizontalLine) {
+      if (isVerticalLine) {
         let positionModificator = (rect.left - prevRect.right) / 2
         positionModificator = positionModificator > 0 ? positionModificator : 0
         linePoint.x -= positionModificator
@@ -121,7 +124,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
       }
     }
     if (position === 'after' && nextRect) {
-      if (isHorizontalLine) {
+      if (isVerticalLine) {
         let positionModificator = (nextRect.left - rect.right) / 2
         positionModificator = positionModificator > 0 ? positionModificator : 0
         linePoint.x += positionModificator
