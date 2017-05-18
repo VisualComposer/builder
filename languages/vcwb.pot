@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-18 14:10+0300\n"
+"POT-Creation-Date: 2017-05-18 16:44+0300\n"
 "PO-Revision-Date: 2017-03-20 21:48+0200\n"
 "Last-Translator: WPBakery <hello@wpbakery.com>\n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
@@ -78,6 +78,264 @@ msgstr ""
 msgid "Role Manager"
 msgstr ""
 
+#: visualcomposer/Helpers/Localizations.php:18
+msgid "Add Element"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:19
+msgid "Add Template"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:20
+msgid "Tree View"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:21
+msgid "Undo"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:22
+msgid "Redo"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:23
+msgid "Responsive View"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:24
+msgid "Desktop"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:25
+msgid "Tablet Landscape"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:26
+msgid "Tablet Portrait"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:27
+msgid "Mobile Landscape"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:28
+msgid "Mobile Portrait"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:29
+#: visualcomposer/Modules/Settings/Pages/PostTypes.php:67
+#: visualcomposer/resources/views/settings/layouts/default.php:9
+#: visualcomposer/resources/views/settings/layouts/settings-standalone.php:9
+#: visualcomposer/resources/views/settings/pages/about/index.php:39
+msgid "Settings"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:30
+msgid "Update"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:31
+msgid "Menu"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:32
+msgid "View Page"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:33
+msgid "Backend Editor"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:34
+msgid "Edit in Backend Editor"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:35
+msgid "WordPress Dashboard"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:36
+msgid "Publish"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:37
+msgid "Submit for Review"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:38
+msgid "Save Draft"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:39
+msgid "Close"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:40
+msgid "Premium Elements - Coming Soon"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:41
+msgid "Premium Templates - Coming Soon"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:43
+msgid ""
+"There are no elements on your canvas - start by adding element or template"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:44
+msgid "Custom CSS"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:45
+msgid "Local CSS"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:46
+msgid "Local CSS will be applied to this particular page only"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:47
+msgid "Global CSS"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:48
+msgid "Global CSS will be applied site wide"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:49
+msgid "Save"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:50
+msgid "Template Name"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:51
+msgid "Save Template"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:52
+msgid "Template save failed."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:53
+msgid "Download More Templates"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:56
+msgid ""
+"You don't have any templates yet. Try to save your current layout as a "
+"template or download templates from Visual Composer Hub."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:60
+msgid ""
+"Didn't find the right template? Check out Visual Composer Hub for more "
+"layout templates."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:63
+msgid "Do you want to remove this template?"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:64
+msgid "Template remove failed."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:65
+msgid "Select Blank Canvas"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:66
+msgid "or Start With a Template"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:69
+msgid ""
+"Visual Composer Hub will offer you unlimited download of premium quality "
+"templates, elements, extensions and more."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:72
+#: visualcomposer/resources/views/settings/pages/roles/index.php:64
+msgid "Add"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:73
+msgid "Row Layout"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:74
+#: visualcomposer/resources/views/settings/pages/roles/index.php:63
+#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:38
+msgid "Edit"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:75
+msgid "Clone"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:76
+msgid "Remove"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:77
+msgid "Move"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:78
+msgid "Search content elements"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:81
+msgid "Template with this name already exist. Please specify another name."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:84
+msgid "Template content is empty."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:85
+msgid "Please specify template name."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:86
+msgid "Add one column"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:87
+msgid "Add two columns"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:88
+msgid "Add three columns"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:89
+msgid "Add four columns"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:90
+msgid "Add five columns"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:91
+msgid "Add custom row layout"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:92
+msgid "Add Text block"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:93
+msgid "Frontend Editor"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:94
+msgid "Blank Page"
+msgstr ""
+
 #: visualcomposer/Helpers/PostsGridSourcePosts.php:32
 #: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:15
 #: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:22
@@ -127,260 +385,6 @@ msgstr ""
 
 #: visualcomposer/Modules/Editors/Backend/MetaboxController.php:72
 msgid "Visual Composer"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:28
-msgid "Add Element"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:29
-msgid "Add Template"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:30
-msgid "Tree View"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:31
-msgid "Undo"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:32
-msgid "Redo"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:33
-msgid "Responsive View"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:34
-msgid "Desktop"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:35
-msgid "Tablet Landscape"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:36
-msgid "Tablet Portrait"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:37
-msgid "Mobile Landscape"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:38
-msgid "Mobile Portrait"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:39
-#: visualcomposer/Modules/Settings/Pages/PostTypes.php:67
-#: visualcomposer/resources/views/settings/layouts/default.php:9
-#: visualcomposer/resources/views/settings/layouts/settings-standalone.php:9
-#: visualcomposer/resources/views/settings/pages/about/index.php:39
-msgid "Settings"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:40
-msgid "Update"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:41
-msgid "Menu"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:42
-msgid "View Page"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:43
-msgid "Backend Editor"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:44
-msgid "Edit in Backend Editor"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:45
-msgid "WordPress Dashboard"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:46
-msgid "Publish"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:47
-msgid "Submit for Review"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:48
-msgid "Save Draft"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:49
-msgid "Close"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:50
-msgid "Premium Elements - Coming Soon"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:51
-msgid "Premium Templates - Coming Soon"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:53
-msgid ""
-"There are no elements on your canvas - start by adding element or template"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:54
-msgid "Custom CSS"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:55
-msgid "Local CSS"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:56
-msgid "Local CSS will be applied to this particular page only"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:57
-msgid "Global CSS"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:58
-msgid "Global CSS will be applied site wide"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:59
-msgid "Save"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:60
-msgid "Template Name"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:61
-msgid "Save Template"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:62
-msgid "Template save failed."
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:63
-msgid "Download More Templates"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:65
-msgid ""
-"You don't have any templates yet. Try to save your current layout as a "
-"template or download templates from Visual Composer Hub."
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:67
-msgid ""
-"Didn't find the right template? Check out Visual Composer Hub for more "
-"layout templates."
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:68
-msgid "Do you want to remove this template?"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:69
-msgid "Template remove failed."
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:70
-msgid "Select Blank Canvas"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:71
-msgid "or Start With a Template"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:73
-msgid ""
-"Visual Composer Hub will offer you unlimited download of premium quality "
-"templates, elements, extensions and more."
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:74
-#: visualcomposer/resources/views/settings/pages/roles/index.php:64
-msgid "Add"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:75
-msgid "Row Layout"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:76
-#: visualcomposer/resources/views/settings/pages/roles/index.php:63
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:38
-msgid "Edit"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:77
-msgid "Clone"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:78
-msgid "Remove"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:79
-msgid "Move"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:80
-msgid "Search content elements"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:82
-msgid "Template with this name already exist. Please specify another name."
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:83
-msgid "Template content is empty."
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:84
-msgid "Please specify template name."
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:85
-msgid "Add one column"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:86
-msgid "Add two columns"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:87
-msgid "Add three columns"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:88
-msgid "Add four columns"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:89
-msgid "Add five columns"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:90
-msgid "Add custom row layout"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:91
-msgid "Add Text block"
-msgstr ""
-
-#: visualcomposer/Modules/Editors/Internationalization/Locale.php:92
-msgid "Frontend Editor"
 msgstr ""
 
 #: visualcomposer/Modules/Elements/Hub/_Controller.php:47
@@ -628,9 +632,9 @@ msgstr ""
 msgid ""
 "To get your support related question answered in the fastest timing, please "
 "head over to our <a href=\"%s\" target=\"_blank\">support page</a> and open "
-"Support ticket. To open support ticket you should have account in the "
-"ticket system. Registration should take you couple of minutes to complete "
-"and is completely automatic process. Prepare your Visual Composer <a href="
+"Support ticket. To open support a ticket you should have an account in the "
+"ticket system. Registration should take you a couple of minutes to complete "
+"and is a completely automatic process. Prepare your Visual Composer <a href="
 "\"%s\" target=\"_blank\">Purchase code</a> and fill in \"Create account in "
 "Ticket system\" form located at <a href=\"%s\" target=\"_blank\">support "
 "page</a>, then follow on screen instructions."
