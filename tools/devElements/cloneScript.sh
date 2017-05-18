@@ -21,8 +21,8 @@ declare -a arr=(
 'outlineButton'
 'pinterestPinit'
 'rawHtml'
-'facebookLike',
-'feature',
+'facebookLike'
+'feature'
 'rawJs'
 'separator'
 'shortcode'

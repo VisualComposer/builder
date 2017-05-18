@@ -15,8 +15,8 @@ declare -a arr=(
 'googlePlusButton'
 'heroSection'
 'icon'
-'facebookLike',
-'feature',
+'facebookLike'
+'feature'
 'imageGallery'
 'imageMasonryGallery'
 'instagramImage'
