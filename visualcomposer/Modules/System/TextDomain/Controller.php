@@ -5,12 +5,12 @@ namespace VisualComposer\Modules\System\TextDomain;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-//use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Framework\Illuminate\Support\Module;
 
 /**
  * Class Controller.
  */
-class Controller extends Container /*implements Module*/
+class Controller extends Container implements Module
 {
     use EventsFilters;
 
@@ -32,6 +32,6 @@ class Controller extends Container /*implements Module*/
     private function setDomain()
     {
         // TODO: Add languages.
-        load_plugin_textdomain('vc5', false, VCV_PLUGIN_DIRNAME . '/languages');
+        load_plugin_textdomain('vcwb', false, VCV_PLUGIN_DIRNAME . '/languages');
     }
 }
