@@ -1,4 +1,5 @@
 /* eslint-disable */
+// source --> https://github.com/jonathantneal/closest/blob/master/element-closest.js#L22
 (function (ElementProto) {
   if (typeof ElementProto.matches !== 'function') {
     ElementProto.matches = ElementProto.msMatchesSelector || ElementProto.mozMatchesSelector || ElementProto.webkitMatchesSelector || function matches(selector) {
