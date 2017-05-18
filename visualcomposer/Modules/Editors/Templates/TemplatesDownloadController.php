@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub\Download;
+namespace VisualComposer\Modules\Editors\Templates;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
