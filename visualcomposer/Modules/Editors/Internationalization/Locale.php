@@ -67,6 +67,10 @@ class Locale extends Container implements Module
                             'notRightTemplatesFound' => __('Didn\'t find the right template? Check out Visual Composer Hub for more layout templates.', 'vcwb'),
                             'removeTemplateWarning' => __('Do you want to remove this template?', 'vcwb'),
                             'templateRemoveFailed' => __('Template remove failed.', 'vcwb'),
+                            'blankPageHeadingPart1' => __('Select Blank Canvas', 'vcwb'),
+                            'blankPageHeadingPart2' => __('or Start With a Template', 'vcwb'),
+                            // @codingStandardsIgnoreLine
+                            'blankPageHelperText' => __('Visual Composer Hub will offer you unlimited download of premium quality templates, elements, extensions and more.', 'vcwb'),
                         ],
                     ]
                 ),
