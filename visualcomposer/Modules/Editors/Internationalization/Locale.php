@@ -89,6 +89,7 @@ class Locale extends Container implements Module
                             'addFiveColumns' => __('Add five columns', 'vcwb'),
                             'addCustomRowLayout' => __('Add custom row layout', 'vcwb'),
                             'addTextBlock' => __('Add Text block', 'vcwb'),
+                            'frontendEditor' => __('Frontend Editor', 'vcwb'),
                         ],
                     ]
                 ),
