@@ -204,7 +204,7 @@ export default class TemplateControl extends React.Component {
             <span className='vcv-ui-item-element-content'>
               <img
                 className='vcv-ui-item-element-image'
-                src={sharedAssetsLibraryService.getSourcePath(thumbnail)}
+                src={thumbnail}
                 alt='Template thumbnail'
               />
               <span className={overlayClasses}>
@@ -226,7 +226,7 @@ export default class TemplateControl extends React.Component {
             <figure className={previewClasses} style={previewStyle}>
               <img
                 className='vcv-ui-item-preview-image'
-                src={sharedAssetsLibraryService.getSourcePath(preview)}
+                src={preview}
                 alt='Template preview'
               />
               <figcaption className='vcv-ui-item-preview-caption'>

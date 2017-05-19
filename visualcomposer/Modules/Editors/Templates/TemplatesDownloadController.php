@@ -4,85 +4,168 @@ namespace VisualComposer\Modules\Editors\Templates;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Differ;
-use VisualComposer\Helpers\Hub;
-use VisualComposer\Helpers\HubTemplates;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class TemplatesDownloadController extends Container implements Module
 {
-    use WpFiltersActions;
     use EventsFilters;
 
-    public function __construct(Hub $hubHelper)
+    public function __construct(Options $optionsHelper)
     {
         if (vcvenv('VCV_TEMPLATES_DOWNLOAD')) {
             $this->addFilter(
                 'vcv:ajax:account:activation:adminNonce',
-                'downloadTemplatesOnActivation',
+                'processTemplateDownload',
                 60
             );
         }
     }
 
-    protected function downloadTemplatesOnActivation($response, $payload)
+    protected function processTemplateDownload($response, $payload, Options $optionsHelper)
     {
-        if ($response) {
-            $this->call('prepareBundleDownload');
+        $request = wp_remote_get('http://localhost:8080/download/templates-bundle/lite');
+        $templates = json_decode($request['body'], true);
+        $toSaveTemplates = [];
+
+        foreach ($templates as $templateKey => $template) {
+            $template = $this->processTemplateMetaImages($template);
+            $templateElements = $template['data'];
+            $elementsImages = $this->getTemplateElementImages($templateElements);
+            foreach ($elementsImages as $element) {
+                foreach ($element['images'] as $image) {
+                    if (isset($image['complex'])) {
+                        // it is complex object... TODO: Process wpmedia
+                        $this->processWpMedia($image);
+                    } else {
+                        // it is simple url
+                        $imageUrl = $this->processSimple(
+                            $image['url'],
+                            $template,
+                            $element['elementId'] . '-' . $image['key'] . '-'
+                        );
+                        if (!is_wp_error($imageUrl) && $imageUrl) {
+                            $templateElements[ $element['elementId'] ][ $image['key'] ] = $imageUrl;
+                        }
+                    }
+                }
+            }
+            unset($template['data']);
+            $toSaveTemplates[] = $template;
+            $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
         }
+        $optionsHelper->set('predefinedTemplates', $toSaveTemplates);
 
         return $response;
     }
 
-    protected function prepareBundleDownload(HubTemplates $hubHelper)
+    protected function processTemplateMetaImages($template)
     {
-        $hubHelper->removeBundleFolder();
-        $archive = $hubHelper->requestBundleDownload();
-
-        if (!is_wp_error($archive)) {
-            $archive = $this->readBundleJson($archive);
-            if (!is_wp_error($archive)) {
-                $this->processBundleJson($archive);
+        if ($this->checkIsImage($template['preview'])) {
+            $preview = $this->processSimple($template['preview'], $template);
+            if (!is_wp_error($preview) && $preview) {
+                $template['preview'] = $preview;
             }
         }
-        // clean-up
-        $hubHelper->removeBundleFolder();
 
-        return $archive;
-    }
-
-    protected function readBundleJson($archive)
-    {
-        $hubHelper = vchelper('Hub');
-        $result = $hubHelper->unzipDownloadedBundle($archive);
-        if (!is_wp_error($result)) {
-            return $hubHelper->readBundleJson($hubHelper->getBundleFolder('bundle.json'));
-        }
-
-        return $result;
-    }
-
-    protected function processBundleJson($bundleJson)
-    {
-        // TODO: Make the parsing process
-        $templates = [];
-        foreach ($templates as $templateId => $template) {
-            foreach ($template->imagesRemap as $remap) {
-                if (is_string($remap->image)) {
-                    $templates[ $templateId ][ $remap->key ] = $this->processSimple($remap->image);
-                } else {
-                    $templates[ $templateId ][ $remap->key ] = $this->processWpMedia($remap->image);
-                }
+        if ($this->checkIsImage($template['thumbnail'])) {
+            $thumbnail = $this->processSimple($template['thumbnail'], $template);
+            if (!is_wp_error($thumbnail) && $thumbnail) {
+                $template['thumbnail'] = $thumbnail;
             }
         }
+
+        return $template;
     }
 
-    protected function processSimple($image)
+    protected function processSimple($url, $template, $prefix = '')
     {
+        $fileHelper = vchelper('File');
+        $hubTemplatesHelper = vchelper('HubTemplates');
+        $urlHelper = vchelper('Url');
+
+        $imageFile = $fileHelper->download($url);
+        if (!is_wp_error($imageFile)) {
+            $localImagePath = strtolower($template['id'] . '/' . $prefix . '' . basename($url));
+
+            $fileHelper->createDirectory(
+                $hubTemplatesHelper->getTemplatesPath()
+            );
+            $fileHelper->createDirectory(
+                $hubTemplatesHelper->getTemplatesPath($template['id'])
+            );
+
+            if (rename(
+                $imageFile,
+                $hubTemplatesHelper->getTemplatesPath(
+                    $localImagePath
+                )
+            )) {
+                return $urlHelper->getContentAssetUrl(
+                    'templates/' . $localImagePath
+                );
+            }
+        } else {
+            return $imageFile;
+        }
+
+        return false;
     }
 
     protected function processWpMedia($image)
     {
+    }
+
+    protected function getTemplateElementImages($elements)
+    {
+        $images = [];
+
+        foreach ($elements as $element) {
+            $elementImages = $this->getElementImages($element);
+            if ($elementImages['images']) {
+                $images[] = $elementImages;
+            }
+        }
+
+        return $images;
+    }
+
+    protected function getElementImages($element)
+    {
+        $images = [];
+
+        foreach ($element as $propKey => $propValue) {
+            if (in_array($propKey, ['metaThumbnailUrl', 'metaPreviewUrl'])) {
+                continue;
+            }
+            // first level
+            if (is_string($propValue)) {
+                if ($this->checkIsImage($propValue)) {
+                    $images[] = [
+                        'url' => $propValue,
+                        'key' => $propKey,
+                    ];
+                }
+                // second level
+            } elseif (is_array($propValue) && isset($propValue['urls'])) {
+                $images[] = [
+                    'complex' => true,
+                    'value' => $propValue,
+                ];
+            }
+        }
+
+        return [
+            'elementId' => $element['id'],
+            'images' => $images,
+        ];
+    }
+
+    protected function checkIsImage($string)
+    {
+        $re = '/\.png|jpg|jpeg|gif$/';
+
+        return preg_match($re, $string);
     }
 }

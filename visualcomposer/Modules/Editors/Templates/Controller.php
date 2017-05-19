@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Editors\Templates;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\EditorTemplates;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -18,8 +19,10 @@ class Controller extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\Templates\Controller::all */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:body:extraOutput', 'all');
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::allMyTemplates */
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:body:extraOutput', 'allMyTemplates');
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::allPredefinedTemplates */
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:body:extraOutput', 'allPredefinedTemplates');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
         $this->addFilter('vcv:ajax:editorTemplates:create:adminNonce', 'create');
@@ -28,11 +31,37 @@ class Controller extends Container implements Module
         $this->addFilter('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
     }
 
-    protected function all($extraOutput, EditorTemplates $editorTemplatesHelper)
+    protected function allMyTemplates($extraOutput, EditorTemplates $editorTemplatesHelper)
     {
-        $extraOutput[] = sprintf(
-            '<script>window.vcvMyTemplates = %s</script>',
-            json_encode($this->getData($editorTemplatesHelper->all()))
+        $extraOutput = array_merge(
+            $extraOutput,
+            [
+                vcview(
+                    'partials/constant-script',
+                    [
+                        'key' => 'VCV_MY_TEMPLATES',
+                        'values' => $this->getData($editorTemplatesHelper->all()),
+                    ]
+                ),
+            ]
+        );
+
+        return $extraOutput;
+    }
+
+    protected function allPredefinedTemplates($extraOutput, EditorTemplates $editorTemplatesHelper)
+    {
+        $extraOutput = array_merge(
+            $extraOutput,
+            [
+                vcview(
+                    'partials/constant-script',
+                    [
+                        'key' => 'VCV_PREDEFINED_TEMPLATES',
+                        'values' => $editorTemplatesHelper->allPredefined(),
+                    ]
+                ),
+            ]
         );
 
         return $extraOutput;
@@ -49,7 +78,7 @@ class Controller extends Container implements Module
                     // @codingStandardsIgnoreLine
                     'name' => $template->post_title,
                     'data' => $templateElements,
-                    'id' => $template->ID,
+                    'id' => (string)$template->ID,
                 ];
             }
         }

@@ -20,10 +20,7 @@ vcCake.add('uiAddTemplate', (api) => {
   api.module('ui-navbar').do('addElement', 'Add template', AddTemplateNavbarControl, { api: api })
   api.reply('start', () => {
     if (vcCake.env('platform') === 'wordpress') {
-      vcCake.setData('myTemplates', window.vcvMyTemplates.map((template) => {
-        template.id = template.id.toString()
-        return template
-      }))
+      vcCake.setData('myTemplates', window.VCV_MY_TEMPLATES())
     }
   })
 })

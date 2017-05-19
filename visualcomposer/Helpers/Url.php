@@ -109,4 +109,9 @@ class Url implements Helper
     {
         die($message);
     }
+
+    public function getContentAssetUrl($key = '')
+    {
+        return content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim($key, '\\/');
+    }
 }

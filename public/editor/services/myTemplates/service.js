@@ -1,5 +1,5 @@
 import { addService, setData, getData, getService } from 'vc-cake'
-import { predefinedTemplates } from './lib/predefinedTemplates'
+// import { predefinedTemplates } from './lib/predefinedTemplates'
 
 const utils = getService('utils')
 const documentManager = getService('document')
@@ -69,7 +69,7 @@ addService('myTemplates', {
     return myTemplates
   },
   predefined () {
-    return predefinedTemplates
+    return window.VCV_PREDEFINED_TEMPLATES()
   },
   getAllTemplates (filter = null, sort = null) {
     let myTemplates = getData('myTemplates') ? getData('myTemplates') : []
