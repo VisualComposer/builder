@@ -17,7 +17,7 @@ addStorage('wordpressData', (storage) => {
   })
   storage.on('save', (options, source = '', callback) => {
     storage.state('status').set({ status: 'saving' }, source)
-    settingsStorage.state('status').set({status: 'ready'})
+    settingsStorage.state('status').set({ status: 'ready' })
     const documentData = documentManager.all()
     storage.trigger('wordpress:beforeSave', {
       pageElements: documentData
@@ -73,7 +73,7 @@ addStorage('wordpressData', (storage) => {
       }
       storage.state('status').set({ status: 'loaded' })
       workspaceStorage.state('app').set('started')
-      settingsStorage.state('status').set({status: 'ready'})
+      settingsStorage.state('status').set({ status: 'ready' })
       window.onbeforeunload = () => {
         const settingsStorageStateGet = settingsStorage.state('status').get()
         const isCssChanged = settingsStorageStateGet &&
@@ -91,15 +91,24 @@ addStorage('wordpressData', (storage) => {
   let $post = $('#post')
   let $document = $(document)
   let $submitpost = $('#submitpost')
+  let submitter = null
+  let $submitters = $post.find('input[type=submit]')
+  $submitters.click(function (event) {
+    submitter = this
+  })
+
   $post.on('submit', (event) => {
     if (!storage.state('saveReady').get()) {
+      if (submitter === null) {
+        submitter = $submitters[ 0 ]
+      }
       event.preventDefault()
-      $document.trigger('autosave-disable-buttons')
       $submitpost.find('#major-publishing-actions .spinner').addClass('is-active')
       window.setTimeout(() => {
         storage.trigger('save', {}, '', () => {
           storage.state('saveReady').set(true)
-          $('#post').trigger('submit')
+          submitter.classList.remove('disabled')
+          submitter.click()
         })
       }, 1)
     } else {
