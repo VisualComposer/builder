@@ -78,10 +78,11 @@ let getGoogleFontsByElement = (cookElement) => {
       if (settings[ key ].type === 'googleFonts') {
         let font = cookElement.get(key)
         if (font) {
+          let fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? '' : font.fontStyle.style) : null
           let fontHref = ''
 
           if (font.fontStyle) {
-            fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + font.fontStyle.style}`
+            fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + fontStyle}`
           } else {
             fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}`
           }
