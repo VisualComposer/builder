@@ -21,7 +21,7 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Attributes\Url\Controller::posts */
         $this->addFilter(
-            'vcv:ajax:attribute:linkSelector:getPosts:adminNonce',
+            'vcv:ajax:attribute:linkSelector:getPosts',
             'posts'
         );
     }

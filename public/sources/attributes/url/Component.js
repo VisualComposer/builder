@@ -90,7 +90,7 @@ export default class Url extends Attribute {
 
   loadPosts (search) {
     this.ajaxPost({
-      'vcv-action': 'attribute:linkSelector:getPosts:adminNonce',
+      'vcv-action': 'attribute:linkSelector:getPosts',
       'vcv-search': search,
       'vcv-nonce': window.vcvNonce
     }, (request) => {
