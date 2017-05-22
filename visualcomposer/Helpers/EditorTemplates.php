@@ -26,7 +26,7 @@ class EditorTemplates implements Helper
     public function allPredefined()
     {
         $optionHelper = vchelper('Options');
-        $predefinedTemplates = $optionHelper->get('predefinedTemplates');
+        $predefinedTemplates = $optionHelper->get('predefinedTemplates', []);
         $templates = [];
         foreach ($predefinedTemplates as $template) {
             $template['data'] = $optionHelper->get('predefinedTemplateElements:' . $template['id']);
