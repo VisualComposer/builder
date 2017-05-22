@@ -81,6 +81,7 @@
     <file>./plugin-wordpress.php</file>
     <rule ref="PSR1.Files.SideEffects">
         <exclude-pattern type="relative">./plugin-wordpress.php</exclude-pattern>
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
     </rule>
 
     <exclude-pattern type="relative">tests/*</exclude-pattern>

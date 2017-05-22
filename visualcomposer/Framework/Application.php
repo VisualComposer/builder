@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Framework;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Framework\Illuminate\Container\Container as ContainerContract;
 use VisualComposer\Framework\Illuminate\Filters\Dispatcher as FiltersDispatcher;
 use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;

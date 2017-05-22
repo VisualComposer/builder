@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Modules\System\TextDomain;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
 

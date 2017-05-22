@@ -7,6 +7,12 @@
  */
 namespace VisualComposer\Modules\Elements\Hub;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 //use vierbergenlars\SemVer\version;
 use VisualComposer\Framework\Container;
 //use VisualComposer\Framework\Illuminate\Support\Module;
