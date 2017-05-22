@@ -6,7 +6,7 @@ class UrlControllerTest extends WP_UnitTestCase
     {
         /** @var \VisualComposer\Helpers\Filters $helper */
         $helper = vchelper('Filters');
-        $result = $helper->fire('vcv:ajax:attribute:linkSelector:getPosts');
+        $result = $helper->fire('vcv:ajax:attribute:linkSelector:getPosts:adminNonce');
         $this->assertTrue(is_array($result));
     }
 
@@ -23,7 +23,7 @@ class UrlControllerTest extends WP_UnitTestCase
         );
         /** @var \VisualComposer\Helpers\Filters $helper */
         $helper = vchelper('Filters');
-        $result = $helper->fire('vcv:ajax:attribute:linkSelector:getPosts');
+        $result = $helper->fire('vcv:ajax:attribute:linkSelector:getPosts:adminNonce');
         $find = false;
         $findTitle = '';
         foreach ($result as $post) {
