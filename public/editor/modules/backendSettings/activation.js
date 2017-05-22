@@ -3,6 +3,14 @@ import $ from 'jquery'
 
 $(() => {
   let $popup = $('.vcv-popup-container')
+  const localizations = window.VCV_I18N && window.VCV_I18N()
+  console.log(localizations)
+  const readAndAgreeTermsText = localizations ? localizations.readAndAgreeTerms : 'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer.'
+  const incorrectEmailFormatText = localizations ? localizations.incorrectEmailFormat : 'Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.'
+  const mustAgreeToActivateText = localizations ? localizations.mustAgreeToActivate : 'To activate and use Visual Composer, you must read and agree to the terms of service.'
+  const activationFailedText = localizations ? localizations.activationFailed : 'Your activation request failed. Please try again.'
+  const provideCorrectEmailText = localizations ? localizations.provideCorrectEmail : 'Please provide correct E-Mail'
+
   if ($popup.length) {
     let $errorPopup = $('.vcv-popup-error')
     let $zoomContainer = $('.vcv-popup-loading-zoom')
@@ -145,7 +153,7 @@ $(() => {
 
       let checkbox = $agreementCheckbox.is(':checked')
       if (!checkbox) {
-        showError('Please make sure to read and agree to our terms of service in order to activate and use Visual Composer.')
+        showError(readAndAgreeTermsText)
         return
       }
 
@@ -172,14 +180,14 @@ $(() => {
           if (responseJson && responseJson.message) {
             let messageJson = JSON.parse(responseJson.message)
             if (messageJson && messageJson.email) {
-              showError('Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.', 10000)
+              showError(incorrectEmailFormatText, 10000)
             } else if (messageJson && messageJson.agreement) {
-              showError('To activate and use Visual Compos er, you must read and agree to the terms of service.', 10000)
+              showError(mustAgreeToActivateText, 10000)
             } else {
-              showError('Your activation request failed. Please try again.', 10000)
+              showError(activationFailedText, 10000)
             }
           } else {
-            showError('Your activation request failed. Please try again.', 10000)
+            showError(activationFailedText, 10000)
           }
           clearTimeout(ajaxTimeout)
           ajaxTimeoutFinished = false
@@ -187,7 +195,7 @@ $(() => {
         })
       } else {
         // error shows\
-        showError('Please provide correct E-Mail')
+        showError(provideCorrectEmailText)
       }
     })
 

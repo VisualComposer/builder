@@ -104,6 +104,22 @@ class Localizations extends Container implements Helper
                 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.',
                 'vcwb'
             ),
+            'readAndAgreeTerms' => __(
+            // @codingStandardsIgnoreLine
+                'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer.',
+                'vcwb'
+            ),
+            'incorrectEmailFormat' => __(
+            // @codingStandardsIgnoreLine
+                'Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.',
+                'vcwb'
+            ),
+            'mustAgreeToActivate' => __(
+                'To activate and use Visual Composer, you must read and agree to the terms of service.',
+                'vcwb'
+            ),
+            'activationFailed' => __('Your activation request failed. Please try again.', 'vcwb'),
+            'provideCorrectEmail' => __('Please provide correct E-Mail', 'vcwb'),
         ];
 
         return $locale;
