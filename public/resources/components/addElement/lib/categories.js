@@ -112,6 +112,10 @@ export default class Categories extends React.Component {
   }
 
   getNoResultsElement () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const noResultsButtonText = localizations ? localizations.noResultOpenHub : 'No Results. Open Visual Composer Hub'
+    const notRightElementText = localizations ? localizations.notRightElementsFound : 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.'
+
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
     return <div className='vcv-ui-editor-no-items-container'>
@@ -123,12 +127,10 @@ export default class Categories extends React.Component {
         />
       </div>
       <div className='vcv-ui-editor-no-items-content'>
-        <button className='vcv-ui-editor-no-items-action'>No Results. Open Visual Composer Hub</button>
+        <button className='vcv-ui-editor-no-items-action'>{noResultsButtonText}</button>
       </div>
       <div className='vcv-ui-editor-no-items-content'>
-        <p className='vcv-ui-form-helper'>
-          Didn't find the right element? Check out Visual Composer Hub for more content elements.
-        </p>
+        <p className='vcv-ui-form-helper'>{notRightElementText}</p>
       </div>
     </div>
   }
