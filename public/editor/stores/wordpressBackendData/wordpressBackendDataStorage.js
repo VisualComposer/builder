@@ -80,7 +80,7 @@ addStorage('wordpressData', (storage) => {
           settingsStorageStateGet.status &&
           settingsStorageStateGet.status === 'changed'
         if (isCssChanged) {
-          return true
+          return 'Changes that you made may not be saved.'
         }
       }
     } else if (status === 'loadFailed') {

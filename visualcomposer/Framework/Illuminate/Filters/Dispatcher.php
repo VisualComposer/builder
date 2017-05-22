@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Framework\Illuminate\Filters;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Helpers\Filters as DispatcherContract;
 use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;
 

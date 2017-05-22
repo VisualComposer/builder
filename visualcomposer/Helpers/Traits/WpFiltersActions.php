@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Helpers\Traits;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 trait WpFiltersActions
 {
     private function wpAddFilter($filterName, $methodCallback, $weight = 10, $argsCount = 100)

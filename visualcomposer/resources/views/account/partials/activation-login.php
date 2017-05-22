@@ -1,3 +1,10 @@
+<?php
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+?>
 <!-- First screen -->
 <div class="vcv-popup-content vcv-popup-first-screen">
     <div class="vcv-logo">

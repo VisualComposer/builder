@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Modules\Elements\Traits;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
 

@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Helpers;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
@@ -93,6 +99,11 @@ class Localizations extends Container implements Helper
             'frontendEditor' => __('Frontend Editor', 'vcwb'),
             'blankPage' => __('Blank Page', 'vcwb'),
             'searchTemplates' => __('Search templates by name and description', 'vcwb'),
+            'noResultOpenHub' => __('No Results. Open Visual Composer Hub', 'vcwb'),
+            'notRightElementsFound' => __(
+                'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.',
+                'vcwb'
+            ),
         ];
 
         return $locale;

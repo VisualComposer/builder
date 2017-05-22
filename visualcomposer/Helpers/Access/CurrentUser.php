@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Helpers\Access;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Application;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 use VisualComposer\Helpers\Access\Role as AccessFactory;

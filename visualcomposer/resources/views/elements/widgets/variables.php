@@ -1,4 +1,10 @@
 <?php
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 $wpWidgets = vchelper('WpWidgets');
 $groups = $wpWidgets->allGrouped();
 if (!empty($groups['wpWidgetsCustom'])) {
@@ -10,7 +16,7 @@ if (!empty($groups['wpWidgetsCustom'])) {
         json_encode(
             [
                 [
-                    'label' => 'No Custom widgets found',
+                    'label' => __('No Custom widgets found', 'vcwb'),
                     'value' => '',
                 ],
             ]
@@ -27,7 +33,7 @@ if (!empty($groups['wpWidgetsDefault'])) {
         json_encode(
             [
                 [
-                    'label' => 'No Widgets found',
+                    'label' => __('No Widgets found', 'vcwb'),
                     'value' => '',
                 ],
             ]
