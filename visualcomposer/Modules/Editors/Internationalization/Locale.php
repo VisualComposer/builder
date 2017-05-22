@@ -20,7 +20,10 @@ class Locale extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Internationalization\Locale::outputLocalizations */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput vcv:backend:settings:extraOutput', 'outputLocalizations');
+        $this->addFilter(
+            'vcv:backend:extraOutput vcv:frontend:head:extraOutput vcv:backend:settings:extraOutput',
+            'outputLocalizations'
+        );
     }
 
     protected function outputLocalizations($response, $payload, Localizations $localizationsHelper)
