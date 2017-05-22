@@ -29,6 +29,15 @@ export default class AjaxForm extends Attribute {
     }
   }
 
+  componentWillUnmount () {
+    this.serverRequest.abort()
+
+    let elements = Array.from(this.refs.form.elements)
+    elements.forEach((node) => {
+      node.removeEventListener('change', this.handleFormChange.bind(this))
+    })
+  }
+
   bindFormChangeEvents () {
     let elements = Array.from(this.refs.form.elements)
     elements.forEach((node) => {
