@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Framework;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use BadMethodCallException;
 use ReflectionMethod;
 use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;

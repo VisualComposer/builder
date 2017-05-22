@@ -1,4 +1,9 @@
 <?php
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
 /**
  * @see \VisualComposer\Modules\Elements\Grids\PostsGridPagination
  * @var $payload array

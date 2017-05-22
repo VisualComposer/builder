@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Framework\Illuminate\Contracts\Container;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use Closure;
 
 /**

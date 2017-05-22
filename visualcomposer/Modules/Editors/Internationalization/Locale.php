@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Modules\Editors\Internationalization;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Localizations;
@@ -14,7 +20,7 @@ class Locale extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Internationalization\Locale::outputLocalizations */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'outputLocalizations');
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput vcv:backend:settings:extraOutput', 'outputLocalizations');
     }
 
     protected function outputLocalizations($response, $payload, Localizations $localizationsHelper)

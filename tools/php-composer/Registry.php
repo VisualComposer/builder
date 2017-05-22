@@ -2,6 +2,8 @@
 
 namespace ComposerHooks;
 
+define('ABSPATH', 'debug');
+
 use ComposerHooks\Hooks\Autoload;
 use ComposerHooks\Hooks\Meta;
 
