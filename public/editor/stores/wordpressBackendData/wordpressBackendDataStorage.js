@@ -88,8 +88,8 @@ addStorage('wordpressData', (storage) => {
       throw new Error('Failed to load loaded')
     }
   })
-  let $post = window.jQuery('form#post')
-  let $document = $(document)
+  let { jQuery, wp } = window
+  let $post = jQuery('form#post')
   let $submitpost = $('#submitpost')
   let submitter = null
   let $submitters = $post.find('input[type=submit]')
@@ -97,29 +97,58 @@ addStorage('wordpressData', (storage) => {
   $submitters.click(function (event) {
     submitter = this
   })
-  $post.submit((event) => {
-    if (!storage.state('saveReady').get()) {
-      event.preventDefault()
-      previewVal = $('input#wp-preview').val()
-      if (!previewVal && submitter === null) {
-        submitter = $submitters[ 0 ]
-        $submitpost.find('#major-publishing-actions .spinner').addClass('is-active')
-      }
-      window.setTimeout(() => {
-        storage.trigger('save', {}, '', () => {
-          storage.state('saveReady').set(true)
-          if (previewVal === 'dopreview') {
-            previewVal = ''
-            window.jQuery('#post-preview').trigger('click')
-          } else {
-            submitter.classList.remove('disabled')
-            submitter.click()
-          }
-        }, 'Preview')
-      }, 1)
+  // Wordpress 4.7.5 duplicate function
+  // Submit the form saving a draft or an autosave, and show a preview in a new tab
+  const previewPage = (btn) => {
+    let $this = btn
+    let $form = $('form#post')
+    let $previewField = $('input#wp-preview')
+    let target = $this.attr('target') || 'wp-preview'
+    let ua = navigator.userAgent.toLowerCase()
+
+    if ($this.hasClass('disabled')) {
+      return
+    }
+
+    if (wp.autosave) {
+      wp.autosave.server.tempBlockSave()
+    }
+
+    $previewField.val('dopreview')
+
+    $form.attr('target', target).submit().attr('target', '')
+
+    // Workaround for WebKit bug preventing a form submitting twice to the same action.
+    // https://bugs.webkit.org/show_bug.cgi?id=28633
+    if (ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1) {
+      $form.attr('action', function (index, value) {
+        return value + '?t=' + (new Date()).getTime()
+      })
+    }
+
+    $previewField.val('')
+  }
+  let dataSaved = false
+  $post.submit((e) => {
+    previewVal = $('input#wp-preview').val()
+    if (previewVal === 'dopreview') {
+      e.preventDefault()
+      storage.trigger('save', {}, '', () => {
+        previewPage(jQuery('#post-preview'))
+      })
+      return
+    }
+    if (!dataSaved) {
+      e.preventDefault()
+      submitter = $submitters[ 0 ]
+      $submitpost.find('#major-publishing-actions .spinner').addClass('is-active')
+      dataSaved = true
+      storage.trigger('save', {}, '', () => {
+        submitter.classList.remove('disabled')
+        submitter.click()
+      })
     } else {
-      storage.state('saveReady').set(false)
-      $document.trigger('autosave-enable-buttons')
+      dataSaved = false
     }
   })
 })
