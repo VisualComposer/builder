@@ -140,14 +140,14 @@ class TemplatesDownloadController extends Container implements Module
     protected function getElementImages($element)
     {
         $images = [];
-
+        $wpMediaHelper = vchelper('WpMedia');
         foreach ($element as $propKey => $propValue) {
             if (in_array($propKey, ['metaThumbnailUrl', 'metaPreviewUrl'])) {
                 continue;
             }
             // first level
             if (is_string($propValue)) {
-                if ($this->checkIsImage($propValue)) {
+                if ($wpMediaHelper->checkIsImage($propValue)) {
                     $images[] = [
                         'url' => $propValue,
                         'key' => $propKey,
@@ -166,12 +166,5 @@ class TemplatesDownloadController extends Container implements Module
             'elementId' => $element['id'],
             'images' => $images,
         ];
-    }
-
-    protected function checkIsImage($string)
-    {
-        $re = '/\.png|jpg|jpeg|gif$/';
-
-        return preg_match($re, $string);
     }
 }
