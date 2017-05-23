@@ -14,7 +14,7 @@ class HubTemplates implements Helper
 {
     public function getTemplatesPath($path = '')
     {
-        $bundleFolder = WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/templates';
+        $bundleFolder = VCV_PLUGIN_ASSETS_DIR_PATH . '/templates';
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
         }

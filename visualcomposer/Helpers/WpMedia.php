@@ -100,7 +100,7 @@ class WpMedia implements Helper
         ];
     }
 
-    private function resizeImageById($id, $width, $height, $crop = false)
+    protected function resizeImageById($id, $width, $height, $crop = false)
     {
         // this is an attachment, so we have the ID
         $image_src = wp_get_attachment_image_src($id, 'full');
@@ -112,7 +112,7 @@ class WpMedia implements Helper
         return false;
     }
 
-    private function processImageResize($filePath, $image_src, $width, $height, $crop = false)
+    protected function processImageResize($filePath, $image_src, $width, $height, $crop = false)
     {
         $file_info = pathinfo($filePath);
         $extension = '.' . $file_info['extension'];
@@ -259,5 +259,12 @@ class WpMedia implements Helper
         }
 
         return $sizes;
+    }
+
+    public function checkIsImage($string)
+    {
+        $re = '/\.png|jpg|jpeg|gif$/';
+
+        return preg_match($re, strtolower($string));
     }
 }
