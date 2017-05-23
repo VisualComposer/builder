@@ -101,5 +101,6 @@ deploy:test:alpha:
   tags:
    - docker
   only:
-   - master
+   - tags
+   - triggers
 
