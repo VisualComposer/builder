@@ -161,6 +161,10 @@ export default class TemplateControl extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const templateThumbnail = localizations ? localizations.templateThumbnail : 'Template thumbnail'
+    const templatePreview = localizations ? localizations.templatePreview : 'Template preview'
+
     let { name, spinner, type, thumbnail, preview, description } = this.props
     let { previewVisible, previewStyle, letter } = this.state
 
@@ -205,7 +209,7 @@ export default class TemplateControl extends React.Component {
               <img
                 className='vcv-ui-item-element-image'
                 src={thumbnail}
-                alt='Template thumbnail'
+                alt={templateThumbnail}
               />
               <span className={overlayClasses}>
                 <span
@@ -227,7 +231,7 @@ export default class TemplateControl extends React.Component {
               <img
                 className='vcv-ui-item-preview-image'
                 src={preview}
-                alt='Template preview'
+                alt={templatePreview}
               />
               <figcaption className='vcv-ui-item-preview-caption'>
                 <div className='vcv-ui-item-preview-text'>
