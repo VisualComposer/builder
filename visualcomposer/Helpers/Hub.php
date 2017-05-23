@@ -111,7 +111,10 @@ class Hub implements Helper
     public function updateElement($key, $prev, $new, $merged)
     {
         $fileHelper = vchelper('File');
-        $result = $fileHelper->copyDirectory($this->getTempBundleFolder('elements/' . $key), $this->getElementPath($key));
+        $result = $fileHelper->copyDirectory(
+            $this->getTempBundleFolder('elements/' . $key),
+            $this->getElementPath($key)
+        );
         if (!is_wp_error($result)) {
             $merged = $this->updateElementData($key, $merged);
         }
