@@ -25,12 +25,12 @@ class Hub implements Helper
     public function unzipDownloadedBundle($bundle)
     {
         $fileHelper = vchelper('File');
-        $result = $fileHelper->unzip($bundle, $this->getBundleFolder(), true);
+        $result = $fileHelper->unzip($bundle, $this->getTempBundleFolder(), true);
 
         return $result;
     }
 
-    public function getBundleFolder($path = '')
+    public function getTempBundleFolder($path = '')
     {
         $bundleFolder = WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/temp-bundle';
         if ($path) {
@@ -48,9 +48,9 @@ class Hub implements Helper
         return json_decode($content, true);
     }
 
-    public function removeBundleFolder()
+    public function removeTempBundleFolder()
     {
-        $folder = $this->getBundleFolder();
+        $folder = $this->getTempBundleFolder();
         $fileHelper = vchelper('File');
 
         return $fileHelper->removeDirectory($folder);
@@ -111,7 +111,7 @@ class Hub implements Helper
     public function updateElement($key, $prev, $new, $merged)
     {
         $fileHelper = vchelper('File');
-        $result = $fileHelper->copyDirectory($this->getBundleFolder('elements/' . $key), $this->getElementPath($key));
+        $result = $fileHelper->copyDirectory($this->getTempBundleFolder('elements/' . $key), $this->getElementPath($key));
         if (!is_wp_error($result)) {
             $merged = $this->updateElementData($key, $merged);
         }

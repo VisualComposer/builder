@@ -25,13 +25,13 @@ class BundleDownloadController extends Container implements Module
         if (vcvenv('VCV_ELEMENT_DOWNLOAD')) {
             $this->addFilter(
                 'vcv:ajax:account:activation:adminNonce',
-                'downloadElementsOnActivation',
+                'downloadOnActivation',
                 50
             );
         }
     }
 
-    protected function downloadElementsOnActivation($response, $payload)
+    protected function downloadOnActivation($response, $payload)
     {
         if ($response) {
             /** @see \VisualComposer\Modules\Hub\Download\BundleDownloadController::prepareBundleDownload */
@@ -43,7 +43,7 @@ class BundleDownloadController extends Container implements Module
 
     protected function prepareBundleDownload(Hub $hubHelper)
     {
-        $hubHelper->removeBundleFolder();
+        $hubHelper->removeTempBundleFolder();
         $archive = $hubHelper->requestBundleDownload();
 
         if (!is_wp_error($archive)) {
@@ -53,7 +53,7 @@ class BundleDownloadController extends Container implements Module
             }
         }
         // clean-up
-        $hubHelper->removeBundleFolder();
+        $hubHelper->removeTempBundleFolder();
 
         return $archive;
     }
