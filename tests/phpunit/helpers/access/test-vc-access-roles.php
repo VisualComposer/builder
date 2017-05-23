@@ -77,6 +77,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
 
     public function testCheckAdminNonce()
     {
+        wp_set_current_user(1);
         $this->assertTrue(vcapp('NonceHelper')->verifyAdmin(vcapp('NonceHelper')->admin()));
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())->get(

@@ -14,7 +14,7 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
 
     public function testGetData()
     {
-        $user = wp_set_current_user(1);
+        wp_set_current_user(1);
         $factory = new WP_UnitTest_Factory_For_Post($this);
         $postId = $factory->create(['post_title' => 'Test post']);
         /** @var \VisualComposer\Helpers\Request $requestHelper */

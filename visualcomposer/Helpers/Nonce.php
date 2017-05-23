@@ -28,7 +28,7 @@ class Nonce implements Helper
      */
     public function admin()
     {
-        return wp_create_nonce('vcv:nonce:admin');
+        return vchelper('AccessCurrentUser')->wpAll('edit_posts')->get() ? wp_create_nonce('vcv:nonce:admin') : false;
     }
 
     /**
@@ -48,6 +48,10 @@ class Nonce implements Helper
      */
     public function verifyAdmin($nonce)
     {
-        return !empty($nonce) && wp_verify_nonce($nonce, 'vcv:nonce:admin');
+        return !empty($nonce) && vchelper('AccessCurrentUser')->wpAll('edit_posts')->get()
+            && wp_verify_nonce(
+                $nonce,
+                'vcv:nonce:admin'
+            );
     }
 }

@@ -63,6 +63,7 @@ class AjaxControllerTest extends WP_UnitTestCase
 
     public function testValidateNonceAdmin()
     {
+        wp_set_current_user(1);
         /** @var \VisualComposer\Modules\System\Ajax\Controller $module */
         $module = vc_create_module_mock('\VisualComposer\Modules\System\Ajax\Controller');
         /** @var \VisualComposer\Helpers\Request $requestHelper */
@@ -201,6 +202,7 @@ class AjaxControllerTest extends WP_UnitTestCase
 
     public function testListenAjax()
     {
+        wp_set_current_user(1);
         $controller = $this->getMockBuilder('\VisualComposer\Modules\System\Ajax\Controller')->setMethods(
             ['setGlobals']
         )->getMock();

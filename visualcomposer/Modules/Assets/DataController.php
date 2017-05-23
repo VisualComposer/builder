@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -36,59 +37,75 @@ class DataController extends Container implements Module
         );
     }
 
-    protected function getData($response, $payload, Options $optionsHelper)
+    protected function getData($response, $payload, Options $optionsHelper, CurrentUser $currentUserAccessHelper)
+    {
+        // @codingStandardsIgnoreLine
+        global $post_type_object;
+        $sourceId = $payload['sourceId'];
+        // @codingStandardsIgnoreLine
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([$post_type_object->cap->read, $sourceId])) {
+            $postCustomCss = get_post_meta($sourceId, 'vcvSettingsSourceCustomCss', true);
+            $response['cssSettings'] = [
+                'custom' => $postCustomCss ? $postCustomCss : '',
+                'global' => $optionsHelper->get('settingsGlobalCss', ''),
+            ];
+            $response['globalElements'] = $optionsHelper->get('globalElements', '');
+
+            return $response;
+        }
+        return false;
+    }
+
+    protected function setData($response, $payload, CurrentUser $currentUserAccessHelper)
     {
         $sourceId = $payload['sourceId'];
-        $postCustomCss = get_post_meta($sourceId, 'vcvSettingsSourceCustomCss', true);
-        $response['cssSettings'] = [
-            'custom' => $postCustomCss ? $postCustomCss : '',
-            'global' => $optionsHelper->get('settingsGlobalCss', ''),
-        ];
-        $response['globalElements'] = $optionsHelper->get('globalElements', '');
+        $this->updateSourceAssets($sourceId, $currentUserAccessHelper);
+        $this->updateGlobalAssets($sourceId, $currentUserAccessHelper);
 
         return $response;
     }
 
-    protected function setData($response, $payload)
+    protected function updateSourceAssets($sourceId, $currentUserAccessHelper)
     {
-        $sourceId = $payload['sourceId'];
-        $this->updateSourceAssets($sourceId);
-        $this->updateGlobalAssets($sourceId);
-
-        return $response;
+        // @codingStandardsIgnoreLine
+        global $post_type_object;
+        // @codingStandardsIgnoreLine
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([$post_type_object->cap->edit_post, $sourceId])) {
+            $requestHelper = vchelper('Request');
+            update_post_meta($sourceId, 'vcvSourceAssetsFiles', $requestHelper->inputJson('vcv-source-assets-files'));
+            update_post_meta($sourceId, 'vcvSourceCss', $requestHelper->input('vcv-source-css'));
+            update_post_meta(
+                $sourceId,
+                'vcvSettingsSourceCustomCss',
+                $requestHelper->input('vcv-settings-source-custom-css')
+            );
+        }
     }
 
-    protected function updateSourceAssets($sourceId)
+    protected function updateGlobalAssets($sourceId, $currentUserAccessHelper)
     {
-        $requestHelper = vchelper('Request');
-        update_post_meta($sourceId, 'vcvSourceAssetsFiles', $requestHelper->inputJson('vcv-source-assets-files'));
-        update_post_meta($sourceId, 'vcvSourceCss', $requestHelper->input('vcv-source-css'));
-        update_post_meta(
-            $sourceId,
-            'vcvSettingsSourceCustomCss',
-            $requestHelper->input('vcv-settings-source-custom-css')
-        );
-    }
+        // @codingStandardsIgnoreLine
+        global $post_type_object;
+        // @codingStandardsIgnoreLine
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([$post_type_object->cap->edit_post, $sourceId])) {
+            $optionsHelper = vchelper('Options');
+            $requestHelper = vchelper('Request');
+            $tf = $requestHelper->input('vcv-tf');
+            if ($tf === 'noGlobalCss') {
+                // Base css
+                $elementsCssData =  $requestHelper->inputJson('vcv-elements-css-data', '');
+                $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
+                $globalElementsCssData[$sourceId] = $elementsCssData;
+                $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+                // Other data
+                $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
+                $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
 
-    protected function updateGlobalAssets($sourceId = false)
-    {
-        $optionsHelper = vchelper('Options');
-        $requestHelper = vchelper('Request');
-        $tf = $requestHelper->input('vcv-tf');
-        if ($tf === 'noGlobalCss') {
-            // Base css
-            $elementsCssData =  $requestHelper->inputJson('vcv-elements-css-data', '');
-            $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
-            $globalElementsCssData[$sourceId] = $elementsCssData;
-            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
-            // Other data
+                return;
+            }
+            $optionsHelper->set('globalElements', $requestHelper->inputJson('vcv-global-elements', ''));
             $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
             $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
-
-            return;
         }
-        $optionsHelper->set('globalElements', $requestHelper->inputJson('vcv-global-elements', ''));
-        $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
-        $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
     }
 }
