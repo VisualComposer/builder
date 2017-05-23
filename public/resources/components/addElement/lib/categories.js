@@ -115,6 +115,7 @@ export default class Categories extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const noResultsButtonText = localizations ? localizations.noResultOpenHub : 'No Results. Open Visual Composer Hub'
     const notRightElementText = localizations ? localizations.notRightElementsFound : 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.'
+    const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing Found'
 
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
@@ -123,7 +124,7 @@ export default class Categories extends React.Component {
         <img
           className='vcv-ui-editor-no-items-image'
           src={source}
-          alt='Nothing Found'
+          alt={nothingFoundText}
         />
       </div>
       <div className='vcv-ui-editor-no-items-content'>

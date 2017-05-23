@@ -120,6 +120,9 @@ class Localizations extends Container implements Helper
             ),
             'activationFailed' => __('Your activation request failed. Please try again.', 'vcwb'),
             'provideCorrectEmail' => __('Please provide correct E-Mail', 'vcwb'),
+            'nothingFound' => __('Nothing Found', 'vcwb'),
+            'templateThumbnail' => __('Template thumbnail', 'vcwb'),
+            'templatePreview' => __('Template preview', 'vcwb'),
         ];
 
         return $locale;
