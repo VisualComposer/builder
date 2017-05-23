@@ -47,7 +47,9 @@ class BoxModel extends Attribute {
     // data came from props if there is set value
     if (props.value) {
       newState = lodash.defaultsDeep({}, props.value, BoxModel.defaultState)
-      newState.combined = (newState.margin !== '' || newState.padding !== '' || newState.borderWidth !== '' || newState.borderRadius !== '')
+      if (props.value.combined === undefined || props.value.combined === '') {
+        newState.combined = (newState.margin !== '' || newState.padding !== '' || newState.borderWidth !== '' || newState.borderRadius !== '')
+      }
     } else {
       // data came from state update
       newState = lodash.defaultsDeep({}, props, BoxModel.defaultState)
@@ -153,6 +155,9 @@ class BoxModel extends Attribute {
     } else {
       checkFields = Object.keys(this.getSimplifiedFields(newState))
     }
+
+    newValue[ 'combined' ] = newState.combined
+
     // save only needed data
     checkFields.forEach((field) => {
       if (newState[ field ] !== '') {

@@ -88,30 +88,37 @@ addStorage('wordpressData', (storage) => {
       throw new Error('Failed to load loaded')
     }
   })
-  let $post = $('#post')
+  let $post = window.jQuery('form#post')
   let $document = $(document)
   let $submitpost = $('#submitpost')
   let submitter = null
   let $submitters = $post.find('input[type=submit]')
+  let previewVal = ''
   $submitters.click(function (event) {
     submitter = this
   })
-
-  $post.on('submit', (event) => {
+  $post.submit((event) => {
     if (!storage.state('saveReady').get()) {
-      if (submitter === null) {
-        submitter = $submitters[ 0 ]
-      }
       event.preventDefault()
-      $submitpost.find('#major-publishing-actions .spinner').addClass('is-active')
+      previewVal = $('input#wp-preview').val()
+      if (!previewVal && submitter === null) {
+        submitter = $submitters[ 0 ]
+        $submitpost.find('#major-publishing-actions .spinner').addClass('is-active')
+      }
       window.setTimeout(() => {
         storage.trigger('save', {}, '', () => {
           storage.state('saveReady').set(true)
-          submitter.classList.remove('disabled')
-          submitter.click()
-        })
+          if (previewVal === 'dopreview') {
+            previewVal = ''
+            window.jQuery('#post-preview').trigger('click')
+          } else {
+            submitter.classList.remove('disabled')
+            submitter.click()
+          }
+        }, 'Preview')
       }, 1)
     } else {
+      storage.state('saveReady').set(false)
       $document.trigger('autosave-enable-buttons')
     }
   })

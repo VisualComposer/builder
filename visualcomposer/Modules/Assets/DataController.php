@@ -24,7 +24,11 @@ class DataController extends Container implements Module
             'vcv:dataAjax:setData',
             'setData'
         );
-
+        /** @see \VisualComposer\Modules\Assets\DataController::setData */
+        $this->addFilter(
+            'vcv:dataAjax:setPreviewData',
+            'setData'
+        );
         /** @see \VisualComposer\Modules\Assets\DataController::getData */
         $this->addFilter(
             'vcv:dataAjax:getData',
