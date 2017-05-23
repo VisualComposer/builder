@@ -10,8 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Hub;
-use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Hub\Groups as HubGroups;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -36,11 +35,11 @@ class Groups extends Container implements Module
     /**
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\Hub $hubHelper
+     * @param HubGroups $hubHelper
      *
      * @return array
      */
-    protected function outputGroups($response, $payload, Hub $hubHelper)
+    protected function outputGroups($response, $payload, HubGroups $hubHelper)
     {
         return array_merge(
             $response,

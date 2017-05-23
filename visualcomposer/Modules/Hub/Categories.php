@@ -10,12 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Assets;
-use VisualComposer\Helpers\Hub;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Helpers\Url;
+use VisualComposer\Helpers\Hub\Categories as HubCategories;
 
 /**
  * Class Categories
@@ -38,11 +35,11 @@ class Categories extends Container implements Module
     /**
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\Hub $hubHelper
+     * @param HubCategories $hubHelper
      *
      * @return array
      */
-    protected function outputCategories($response, $payload, Hub $hubHelper)
+    protected function outputCategories($response, $payload, HubCategories $hubHelper)
     {
         return array_merge(
             $response,

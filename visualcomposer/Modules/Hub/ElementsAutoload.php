@@ -48,7 +48,7 @@ class ElementsAutoload extends Autoload implements Module
      */
     protected function getComponents()
     {
-        $hubHelper = vchelper('Hub');
+        $hubHelper = vchelper('HubElements');
         $all = [
             'helpers' => [],
             'modules' => [],

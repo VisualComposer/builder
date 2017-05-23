@@ -25,7 +25,7 @@ class ElementsUpdater extends Container implements Module
 
     protected function updateElements($bundleJson)
     {
-        $hubHelper = vchelper('Hub');
+        $hubHelper = vchelper('HubElements');
         /** @var Differ $elementsDiffer */
         $hubElements = $hubHelper->getElements();
 

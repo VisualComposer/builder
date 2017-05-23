@@ -25,7 +25,7 @@ class CategoriesUpdater extends Container implements Module
 
     protected function updateCategories($bundleJson)
     {
-        $hubHelper = vchelper('Hub');
+        $hubHelper = vchelper('HubCategories');
         /** @var Differ $categoriesDiffer */
         $hubCategories = $hubHelper->getCategories();
 

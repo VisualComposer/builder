@@ -25,7 +25,7 @@ class GroupsUpdater extends Container implements Module
 
     protected function updateGroups($bundleJson)
     {
-        $hubHelper = vchelper('Hub');
+        $hubHelper = vchelper('HubGroups');
         /** @var Differ $groupsDiffer */
         $hubGroups = $hubHelper->getGroups();
 

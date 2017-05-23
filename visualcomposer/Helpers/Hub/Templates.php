@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Helpers;
+namespace VisualComposer\Helpers\Hub;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
-class HubTemplates implements Helper
+class Templates implements Helper
 {
     public function getTemplatesPath($path = '')
     {
