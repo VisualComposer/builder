@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\PostType;
@@ -49,21 +50,28 @@ class Controller extends Container implements Module
     /**
      * Get post content.
      *
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     *
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param $response
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Filters $filterHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
      * @return mixed|string
      */
-    private function getData(Request $requestHelper, Filters $filterHelper, $response)
-    {
+    private function getData(
+        $response,
+        Request $requestHelper,
+        Filters $filterHelper,
+        CurrentUser $currentUserAccessHelper
+    ) {
+        // @codingStandardsIgnoreLine
+        global $post_type_object;
         $data = '';
         $sourceId = $requestHelper->input('vcv-source-id');
         if (!is_array($response)) {
             $response = [];
         }
-        if (is_numeric($sourceId)) {
+        // @codingStandardsIgnoreLine
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([ $post_type_object->cap->read, $sourceId])) {
             // TODO: fix react components if there is empty page content.
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
             if (!empty($postMeta)) {
@@ -104,8 +112,11 @@ class Controller extends Container implements Module
         $payload,
         Filters $filterHelper,
         Request $requestHelper,
-        PostType $postTypeHelper
+        PostType $postTypeHelper,
+        CurrentUser $currentUserAccessHelper
     ) {
+        // @codingStandardsIgnoreLine
+        global $post_type_object;
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
@@ -116,7 +127,8 @@ class Controller extends Container implements Module
         if (!is_array($response)) {
             $response = [];
         }
-        if (is_numeric($sourceId)) {
+        // @codingStandardsIgnoreLine
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([ $post_type_object->cap->edit_post, $sourceId])) {
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
