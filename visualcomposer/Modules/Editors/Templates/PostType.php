@@ -10,16 +10,16 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class PostType extends Container implements Module
 {
-    use WpFiltersActions;
+    use EventsFilters;
 
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Templates\PostType::registerTemplatesPostType */
-        $this->wpAddAction('init', 'registerTemplatesPostType');
+        $this->addEvent('vcv:inited', 'registerTemplatesPostType');
     }
 
     /**

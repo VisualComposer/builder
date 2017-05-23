@@ -4,6 +4,7 @@ class HelpersPostTypesTest extends WP_UnitTestCase
 {
     public function testCreate()
     {
+        wp_set_current_user(1);
         $postTypeHelper = vchelper('PostType');
         $postId = $postTypeHelper->create(
             [
@@ -12,6 +13,8 @@ class HelpersPostTypesTest extends WP_UnitTestCase
             ]
         );
         $this->assertTrue(is_numeric($postId));
+        $postTypeHelper->setupPost($postId);
+
         $post = $postTypeHelper->get($postId);
 
         $this->assertTrue(is_object($post));
@@ -19,11 +22,12 @@ class HelpersPostTypesTest extends WP_UnitTestCase
         $this->assertEquals('Test', $post->post_content);
 
         $deleteResult = $postTypeHelper->delete($postId);
-        $this->assertTrue(is_array($deleteResult), print_r($deleteResult, true));
+        $this->assertTrue($deleteResult);
     }
 
     public function testCreateNegative()
     {
+        wp_set_current_user(1);
         $postTypeHelper = vchelper('PostType');
         $postId = $postTypeHelper->create(
             [
@@ -38,14 +42,15 @@ class HelpersPostTypesTest extends WP_UnitTestCase
         $this->assertTrue(is_object($postTypeHelper->get($postId, 'post')));
 
         $deleteResult = $postTypeHelper->delete($postId);
-        $this->assertTrue(is_array($deleteResult), print_r($deleteResult, true));
+        $this->assertTrue($deleteResult);
 
         $deleteResult = $postTypeHelper->delete($postId);
-        $this->assertFalse(is_array($deleteResult), print_r($deleteResult, true));
+        $this->assertTrue($deleteResult);
     }
 
     public function testDeleteNegative()
     {
+        wp_set_current_user(1);
         $postTypeHelper = vchelper('PostType');
         $postId = $postTypeHelper->create(
             [
@@ -56,9 +61,9 @@ class HelpersPostTypesTest extends WP_UnitTestCase
         $this->assertTrue(is_numeric($postId));
 
         $deleteResult = $postTypeHelper->delete($postId, 'page');
-        $this->assertFalse(is_array($deleteResult), print_r($deleteResult, true));
+        $this->assertFalse($deleteResult);
 
         $deleteResult = $postTypeHelper->delete($postId, 'post');
-        $this->assertTrue(is_array($deleteResult), print_r($deleteResult, true));
+        $this->assertTrue($deleteResult);
     }
 }
