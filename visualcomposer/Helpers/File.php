@@ -79,6 +79,7 @@ class File implements Helper
 
     public function download($url)
     {
+        require_once(ABSPATH . '/wp-admin/includes/file.php');
         $downloadedArchive = download_url($url);
 
         return $downloadedArchive;
