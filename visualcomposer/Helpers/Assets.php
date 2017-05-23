@@ -25,7 +25,7 @@ class Assets extends Container implements Helper
 
     public function getFileUrl($filename = '')
     {
-        $url = VCV_PLUGIN_ASSETS_DIR_PATH . '/assets-bundles/' . ltrim($filename, '/\\');
+        $url = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles/' . ltrim($filename, '/\\');
 
         return $url;
     }
