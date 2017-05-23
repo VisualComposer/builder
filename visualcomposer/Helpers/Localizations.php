@@ -46,7 +46,7 @@ class Localizations extends Container implements Helper
             'premiumElementsButton' => __('Premium Elements - Coming Soon', 'vcwb'),
             'premiumTemplatesButton' => __('Premium Templates - Coming Soon', 'vcwb'),
             // @codingStandardsIgnoreLine
-            'emptyTreeView' => __('There are no elements on your canvas - start by adding element or template', 'vcwb'),
+            'emptyTreeView' => __('There are no elements on your canvas - start by adding element or template.', 'vcwb'),
             'customCSS' => __('Custom CSS', 'vcwb'),
             'localCSS' => __('Local CSS', 'vcwb'),
             'localCSSLabel' => __('Local CSS will be applied to this particular page only', 'vcwb'),
