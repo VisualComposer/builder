@@ -33,11 +33,6 @@ class ElementsAutoload extends Autoload implements Module
         }
     }
 
-    protected function path($element = '')
-    {
-        return WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements' . ($element ? '/' . $element : '');
-    }
-
     protected function bootstrapFiles($components)
     {
         if (!empty($components['modules'])) {
@@ -58,17 +53,20 @@ class ElementsAutoload extends Autoload implements Module
             'helpers' => [],
             'modules' => [],
         ];
+        /** @var \VisualComposer\Framework\Application $appHelper */
+        $appHelper = vcapp();
+
         foreach ($hubHelper->getElements() as $element) {
-            $all = array_merge($all, $this->checkElementController($element));
+            $path = $hubHelper->getElementPath($element . '/*/*.php');
+            $components = $appHelper->rglob($path);
+            $all = array_merge($all, $this->checkElementController($components));
         }
 
         return $all;
     }
 
-    protected function checkElementController($element)
+    protected function checkElementController($components)
     {
-        /** @var \VisualComposer\Framework\Application $appHelper */
-        $components = $appHelper->rglob($this->path($element . '/*/*.php'));
         $all = [
             'helpers' => [],
             'modules' => [],

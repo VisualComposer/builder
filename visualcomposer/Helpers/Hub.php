@@ -16,7 +16,7 @@ class Hub implements Helper
     {
         $urlHelper = vchelper('Url');
         $fileHelper = vchelper('File');
-        $downloadUrl = $urlHelper->query(sprintf('%s/download/bundle/lite', VCV_ACCOUNT_URL), $requestedData);
+        $downloadUrl = $urlHelper->query(sprintf('%s/download/bundle/lite', VCV_HUB_URL), $requestedData);
         $downloadedArchive = $fileHelper->download($downloadUrl);
 
         return $downloadedArchive;
@@ -32,7 +32,7 @@ class Hub implements Helper
 
     public function getTempBundleFolder($path = '')
     {
-        $bundleFolder = WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/temp-bundle';
+        $bundleFolder = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle';
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
         }
@@ -171,12 +171,12 @@ class Hub implements Helper
 
     public function getElementPath($key = '')
     {
-        return WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/' . ltrim($key, '\\/');
+        return VCV_PLUGIN_ASSETS_DIR_PATH . '/elements/' . ltrim($key, '\\/');
     }
 
     public function getCategoriesPath($key = '')
     {
-        return WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/categories/' . ltrim($key, '\\/');
+        return VCV_PLUGIN_ASSETS_DIR_PATH . '/categories/' . ltrim($key, '\\/');
     }
 
     public function getElementUrl($key = '')

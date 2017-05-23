@@ -19,6 +19,7 @@ class HelpersAssetsTest extends WP_UnitTestCase
         $destinationDir = WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles/';
         $this->assertTrue(strpos($path, WP_CONTENT_DIR) !== false);
         $this->assertEquals($destinationDir, $path);
+        $this->assertEquals($destinationDir, VCV_PLUGIN_ASSETS_DIR_PATH . '/assets-bundles/');
 
         $filepath = 'test.css';
         $path = $helper->getFilePath($filepath);
