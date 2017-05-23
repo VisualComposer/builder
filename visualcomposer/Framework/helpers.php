@@ -104,3 +104,25 @@ if (!function_exists('vcvenv')) {
         return $value;
     }
 }
+
+/**
+ * @return mixed|\VisualComposer\Application
+ */
+function vcvboot()
+{
+    require_once VCV_PLUGIN_DIR_PATH . 'bootstrap/app.php';
+
+    return vcapp();
+}
+
+function vcvinit()
+{
+    require_once VCV_PLUGIN_DIR_PATH . 'bootstrap/app.php';
+    vcapp()->init();
+}
+
+function vcvadmininit()
+{
+    require_once VCV_PLUGIN_DIR_PATH . 'bootstrap/app.php';
+    vcapp()->adminInit();
+}
