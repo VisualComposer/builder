@@ -10,11 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Hub;
-use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Hub\Elements as HubElements;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Helpers\Url;
 
 /**
  * Class Elements
@@ -43,11 +41,11 @@ class Elements extends Container implements Module
     /**
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\Hub $hubHelper
+     * @param HubElements $hubHelper
      *
      * @return array
      */
-    protected function outputElements($response, $payload, Hub $hubHelper)
+    protected function outputElements($response, $payload, HubElements $hubHelper)
     {
         return array_merge(
             $response,
@@ -65,11 +63,11 @@ class Elements extends Container implements Module
     /**
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\Hub $hubHelper
+     * @param HubElements $hubHelper
      *
      * @return array
      */
-    protected function outputElementsBundle($response, $payload, Hub $hubHelper)
+    protected function outputElementsBundle($response, $payload, HubElements $hubHelper)
     {
         return array_merge(
             $response,

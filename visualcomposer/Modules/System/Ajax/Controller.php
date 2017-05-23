@@ -25,7 +25,8 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\System\Ajax\Controller::listenAjax */
         $this->addEvent(
             'vcv:inited',
-            'listenAjax'
+            'listenAjax',
+            100
         );
     }
 

@@ -16,7 +16,7 @@ class Assets extends Container implements Helper
 {
     public function getFilePath($filename = '')
     {
-        $destinationDir = WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles/';
+        $destinationDir = VCV_PLUGIN_ASSETS_DIR_PATH . '/assets-bundles/';
         vchelper('File')->checkDir($destinationDir);
         $path = $destinationDir . ltrim($filename, '/\\');
 
@@ -25,7 +25,7 @@ class Assets extends Container implements Helper
 
     public function getFileUrl($filename = '')
     {
-        $url = WP_CONTENT_URL . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles/' . ltrim($filename, '/\\');
+        $url = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles/' . ltrim($filename, '/\\');
 
         return $url;
     }

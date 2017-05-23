@@ -150,7 +150,7 @@ export default class TreeViewLayout extends React.Component {
 
   getElementsOutput () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const text = localizations ? localizations.emptyTreeView : 'There are no elements on your canvas - start by adding element or template'
+    const text = localizations ? localizations.emptyTreeView : 'There are no elements on your canvas - start by adding element or template.'
 
     let elements = this.getElements()
     if (elements.length) {

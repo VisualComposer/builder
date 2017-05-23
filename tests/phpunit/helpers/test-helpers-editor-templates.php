@@ -4,6 +4,7 @@ class HelpersEditorTemplatesTest extends WP_UnitTestCase
 {
     public function testAll()
     {
+        $user = wp_set_current_user(1);
         $templatesHelper = vchelper('EditorTemplates');
         $templates = $templatesHelper->all();
 
@@ -12,6 +13,7 @@ class HelpersEditorTemplatesTest extends WP_UnitTestCase
 
     public function testCreate()
     {
+        wp_set_current_user(1);
         $templatesHelper = vchelper('EditorTemplates');
         $postTypeHelper = vchelper('PostType');
         $postId = $postTypeHelper->create(
@@ -21,10 +23,15 @@ class HelpersEditorTemplatesTest extends WP_UnitTestCase
             ]
         );
         $this->assertTrue(is_numeric($postId));
+        $post = $postTypeHelper->setupPost($postId);
         $template = $templatesHelper->get($postId);
-
+        $this->assertEquals(1, did_action('init'));
+        $this->assertTrue(post_type_exists('vcv_templates'));
         $this->assertTrue(is_object($template));
+        $this->assertTrue(is_object(get_post_type_object('vcv_templates')));
         $this->assertTrue($template instanceof \WP_Post);
         $this->assertEquals('Test', $template->post_content);
+        $this->assertEquals('vcv_templates', $template->post_type);
+        $this->assertEquals($post, $template);
     }
 }

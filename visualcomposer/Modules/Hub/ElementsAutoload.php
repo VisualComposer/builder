@@ -26,15 +26,11 @@ class ElementsAutoload extends Autoload implements Module
     /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct()
     {
-        // TODO: Get from Options->hub->elements
-        $components = $this->getComponents();
-        $this->bootstrapFiles($components);
-        $this->initComponents($components);
-    }
-
-    protected function path($element = '')
-    {
-        return WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . ($element ? '/' . $element : '');
+        if (vcvenv('VCV_ELEMENT_DOWNLOAD')) {
+            $components = $this->getComponents();
+            $this->bootstrapFiles($components);
+            $this->initComponents($components);
+        }
     }
 
     protected function bootstrapFiles($components)
@@ -52,9 +48,25 @@ class ElementsAutoload extends Autoload implements Module
      */
     protected function getComponents()
     {
+        $hubHelper = vchelper('HubElements');
+        $all = [
+            'helpers' => [],
+            'modules' => [],
+        ];
         /** @var \VisualComposer\Framework\Application $appHelper */
         $appHelper = vcapp();
-        $components = $appHelper->rglob($this->path('*/*.php'));
+
+        foreach ($hubHelper->getElements() as $element) {
+            $path = $hubHelper->getElementPath($element . '/*/*.php');
+            $components = $appHelper->rglob($path);
+            $all = array_merge($all, $this->checkElementController($components));
+        }
+
+        return $all;
+    }
+
+    protected function checkElementController($components)
+    {
         $all = [
             'helpers' => [],
             'modules' => [],

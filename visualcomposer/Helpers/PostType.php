@@ -24,8 +24,16 @@ class PostType implements Helper
     public function query($query)
     {
         $posts = get_posts($query);
+        $results = [];
+        foreach ($posts as $post) {
+            $currentUserAccessHelper = vchelper('AccessCurrentUser');
+            // @codingStandardsIgnoreLine
+            if ($currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->read, $post->ID])) {
+                $results[] = $post;
+            }
+        }
 
-        return $posts;
+        return $results;
     }
 
     /**
@@ -37,12 +45,16 @@ class PostType implements Helper
     public function get($id, $postType = '')
     {
         $post = get_post($id);
-        // @codingStandardsIgnoreStart
-        if ($postType && $post->post_type !== $postType) {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        // @codingStandardsIgnoreLine
+        if (!$post || ($postType && $post->post_type !== $postType)
+            || !$currentUserAccessHelper->wpAny(
+            // @codingStandardsIgnoreLine
+                [get_post_type_object($post->post_type)->cap->edit_post, $post->ID]
+            )->get()
+        ) {
             $post = false;
         }
-
-        // @codingStandardsIgnoreEnd
 
         return $post;
     }
@@ -54,7 +66,13 @@ class PostType implements Helper
      */
     public function create($data)
     {
-        return wp_insert_post($data);
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        // @codingStandardsIgnoreLine
+        if ($currentUserAccessHelper->wpAny('publish_posts')) {
+            return wp_insert_post($data);
+        }
+
+        return false;
     }
 
     /**
@@ -64,53 +82,73 @@ class PostType implements Helper
      */
     public function update($data)
     {
-        $post = wp_update_post($data);
-        // @codingStandardsIgnoreStart
-        if (!empty($data->meta_input) && !vchelper('Wp')->isMetaInput()) {
-            foreach ($data->meta_input as $key => $value) {
-                update_post_meta($data->ID, $key, $value);
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        $post = $this->get($data['ID']);
+        // @codingStandardsIgnoreLine
+        if ($currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->edit_post, $post->ID])) {
+            $post = wp_update_post($data);
+            // @codingStandardsIgnoreStart
+            if (!empty($data->meta_input) && !vchelper('Wp')->isMetaInput()) {
+                foreach ($data->meta_input as $key => $value) {
+                    update_post_meta($data->ID, $key, $value);
+                }
             }
+
+            // @codingStandardsIgnoreEnd
+            return $post;
         }
 
-        // @codingStandardsIgnoreEnd
-
-        return $post;
+        return false;
     }
 
     /**
      * @param $id
      * @param string $postType
      *
-     * @return array|bool|false|\WP_Post
+     * @return bool
      */
     public function delete($id, $postType = '')
     {
-        if ($postType) {
-            $post = $this->get($id);
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        $post = $this->get($id);
 
-            // @codingStandardsIgnoreLine
-            return $post && $post->post_type == $postType ? wp_delete_post($id) : !$post;
+        // @codingStandardsIgnoreLine
+        if ($currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->delete_posts, $post->ID])) {
+
+            if ($postType) {
+                // @codingStandardsIgnoreLine
+                return $post && $post->post_type == $postType ? (bool)wp_delete_post($id) : !$post;
+            }
+
+            return (bool)wp_delete_post($id);
         }
 
-        return wp_delete_post($id);
+        return !$post;
     }
 
     /**
      * @param $sourceId
      *
-     * @return \WP_Post
+     * @return \WP_Post|false
      */
     public function setupPost($sourceId)
     {
         // @codingStandardsIgnoreStart
         global $post_type, $post_type_object, $post;
         $post = get_post($sourceId);
-        setup_postdata($post);
-        $post_type = $post->post_type;
-        $post_type_object = get_post_type_object($post_type);
 
-        // @codingStandardsIgnoreEnd
-        return $post;
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+
+        if ($currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->read, $post->ID])) {
+            setup_postdata($post);
+            $post_type = $post->post_type;
+            $post_type_object = get_post_type_object($post_type);
+
+            // @codingStandardsIgnoreEnd
+            return $post;
+        }
+
+        return false;
     }
 
     /**
@@ -120,6 +158,8 @@ class PostType implements Helper
     {
         // @codingStandardsIgnoreLine
         global $post_type_object, $post;
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+
         $data = [];
 
         $data['id'] = get_the_ID();
@@ -136,9 +176,8 @@ class PostType implements Helper
         $data['permalink'] = $permalink;
         $data['previewUrl'] = $previewUrl;
         $data['viewable'] = $viewable;
-        // TODO: Add access checks for post types
         // @codingStandardsIgnoreLine
-        $data['canPublish'] = current_user_can($post_type_object->cap->publish_posts);
+        $data['canPublish'] = $currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->publish_posts, $post->ID])->get();
         $data['backendEditorUrl'] = get_edit_post_link($post->ID, 'url');
         $data['adminDashboardUrl'] = self_admin_url('index.php');
 

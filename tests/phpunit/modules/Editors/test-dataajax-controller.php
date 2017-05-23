@@ -14,6 +14,7 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
 
     public function testGetData()
     {
+        wp_set_current_user(1);
         $factory = new WP_UnitTest_Factory_For_Post($this);
         $postId = $factory->create(['post_title' => 'Test post']);
         /** @var \VisualComposer\Helpers\Request $requestHelper */
@@ -26,6 +27,8 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
 
         /** @var \VisualComposer\Helpers\Filters $filterHelper */
         $filterHelper = vchelper('Filters');
+        $postTypeHelper = vchelper('PostType');
+        $postTypeHelper->setupPost($postId);
         $result = $filterHelper->fire('vcv:ajax:getData:adminNonce');
         $this->assertEquals('', $result['data']);
 
@@ -62,6 +65,7 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
 
     public function testSetData()
     {
+        $user = wp_set_current_user(1);
         $factory = new WP_UnitTest_Factory_For_Post($this);
         $metaInput = [];
         $metaInput[ VCV_PREFIX . 'pageContent' ] = 'second test data';
@@ -79,6 +83,8 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
 
         /** @var \VisualComposer\Helpers\Filters $filterHelper */
         $filterHelper = vchelper('Filters');
+        $postTypeHelper = vchelper('PostType');
+        $postTypeHelper->setupPost($postId);
         $result = $filterHelper->fire('vcv:ajax:setData:adminNonce');
         $this->assertTrue(array_key_exists('status', $result));
         $this->assertEquals(true, $result['status']);

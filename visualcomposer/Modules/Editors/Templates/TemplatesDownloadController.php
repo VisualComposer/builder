@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class TemplatesDownloadController extends Container implements Module
 {
@@ -21,61 +20,65 @@ class TemplatesDownloadController extends Container implements Module
     public function __construct(Options $optionsHelper)
     {
         if (vcvenv('VCV_TEMPLATES_DOWNLOAD')) {
-            $this->addFilter(
-                'vcv:ajax:account:activation:adminNonce',
-                'processTemplateDownload',
+            $this->addEvent(
+                'vcv:hub:download:bundle',
+                'updateTemplates',
                 60
             );
         }
     }
 
-    protected function processTemplateDownload($response, $payload, Options $optionsHelper)
+    protected function updateTemplates($bundleJson, $payload, Options $optionsHelper)
     {
-        $request = wp_remote_get('http://localhost:8080/download/templates-bundle/lite');
-        $templates = json_decode($request['body'], true);
-        $toSaveTemplates = [];
+        if (isset($bundleJson['templates'])) {
+            $templates = $bundleJson['templates'];
+            $toSaveTemplates = [];
 
-        foreach ($templates as $templateKey => $template) {
-            $template = $this->processTemplateMetaImages($template);
-            $templateElements = $template['data'];
-            $elementsImages = $this->getTemplateElementImages($templateElements);
-            foreach ($elementsImages as $element) {
-                foreach ($element['images'] as $image) {
-                    if (isset($image['complex'])) {
-                        // it is complex object... TODO: Process wpmedia
-                        $this->processWpMedia($image);
-                    } else {
-                        // it is simple url
-                        $imageUrl = $this->processSimple(
-                            $image['url'],
-                            $template,
-                            $element['elementId'] . '-' . $image['key'] . '-'
-                        );
-                        if (!is_wp_error($imageUrl) && $imageUrl) {
-                            $templateElements[ $element['elementId'] ][ $image['key'] ] = $imageUrl;
+            foreach ($templates as $templateKey => $template) {
+                $template = $this->processTemplateMetaImages($template);
+                $templateElements = $template['data'];
+                $elementsImages = $this->getTemplateElementImages($templateElements);
+                foreach ($elementsImages as $element) {
+                    foreach ($element['images'] as $image) {
+                        if (isset($image['complex']) && $image['complex']) {
+                            $imageData = $this->processWpMedia(
+                                $image,
+                                $template,
+                                $element['elementId'] . '-' . $image['key'] . '-'
+                            );
+                        } else {
+                            // it is simple url
+                            $imageData = $this->processSimple(
+                                $image['url'],
+                                $template,
+                                $element['elementId'] . '-' . $image['key'] . '-'
+                            );
+                        }
+
+                        if (!is_wp_error($imageData) && $imageData) {
+                            $templateElements[ $element['elementId'] ][ $image['key'] ] = $imageData;
                         }
                     }
                 }
+                unset($template['data']);
+                $toSaveTemplates[] = $template;
+                $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
             }
-            unset($template['data']);
-            $toSaveTemplates[] = $template;
-            $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
+            $optionsHelper->set('predefinedTemplates', $toSaveTemplates);
         }
-        $optionsHelper->set('predefinedTemplates', $toSaveTemplates);
-
-        return $response;
     }
 
     protected function processTemplateMetaImages($template)
     {
-        if ($this->checkIsImage($template['preview'])) {
+        $wpMediaHelper = vchelper('WpMedia');
+        if ($wpMediaHelper->checkIsImage($template['preview'])) {
             $preview = $this->processSimple($template['preview'], $template);
             if (!is_wp_error($preview) && $preview) {
                 $template['preview'] = $preview;
             }
         }
 
-        if ($this->checkIsImage($template['thumbnail'])) {
+        if ($wpMediaHelper->checkIsImage($template['thumbnail'])) {
             $thumbnail = $this->processSimple($template['thumbnail'], $template);
             if (!is_wp_error($thumbnail) && $thumbnail) {
                 $template['thumbnail'] = $thumbnail;
@@ -119,8 +122,24 @@ class TemplatesDownloadController extends Container implements Module
         return false;
     }
 
-    protected function processWpMedia($image)
+    protected function processWpMedia($imageData, $template, $prefix = '')
     {
+        $newImages = [];
+
+        $value = $imageData['value'];
+        $images = is_array($value) && isset($value['urls']) ? $value['urls'] : $value;
+        foreach ($images as $key => $image) {
+            if (is_string($image)) {
+                $newUrl = $this->processSimple($image, $template, $prefix . $key . '-');
+            } else {
+                $newUrl = $this->processSimple($image['full'], $template, $prefix . $key . '-');
+            }
+            if ($newUrl) {
+                $newImages[] = $newUrl;
+            }
+        }
+
+        return $newImages;
     }
 
     protected function getTemplateElementImages($elements)
@@ -140,14 +159,14 @@ class TemplatesDownloadController extends Container implements Module
     protected function getElementImages($element)
     {
         $images = [];
-
+        $wpMediaHelper = vchelper('WpMedia');
         foreach ($element as $propKey => $propValue) {
             if (in_array($propKey, ['metaThumbnailUrl', 'metaPreviewUrl'])) {
                 continue;
             }
             // first level
             if (is_string($propValue)) {
-                if ($this->checkIsImage($propValue)) {
+                if ($wpMediaHelper->checkIsImage($propValue)) {
                     $images[] = [
                         'url' => $propValue,
                         'key' => $propKey,
@@ -158,6 +177,7 @@ class TemplatesDownloadController extends Container implements Module
                 $images[] = [
                     'complex' => true,
                     'value' => $propValue,
+                    'key' => $propKey,
                 ];
             }
         }
@@ -166,12 +186,5 @@ class TemplatesDownloadController extends Container implements Module
             'elementId' => $element['id'],
             'images' => $images,
         ];
-    }
-
-    protected function checkIsImage($string)
-    {
-        $re = '/\.png|jpg|jpeg|gif$/';
-
-        return preg_match($re, $string);
     }
 }

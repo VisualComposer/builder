@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Helpers;
+namespace VisualComposer\Helpers\Hub;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -10,11 +10,11 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
-class HubTemplates implements Helper
+class Templates implements Helper
 {
     public function getTemplatesPath($path = '')
     {
-        $bundleFolder = WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/templates';
+        $bundleFolder = VCV_PLUGIN_ASSETS_DIR_PATH . '/templates';
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
         }
