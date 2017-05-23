@@ -72,7 +72,7 @@ class Localizations extends Container implements Helper
             'blankPageHeadingPart2' => __('or Start With a Template', 'vcwb'),
             'blankPageHelperText' => __(
                 // @codingStandardsIgnoreLine
-                'Visual Composer Hub will offer you unlimited download of premium quality templates, elements, extensions and more.',
+                'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.',
                 'vcwb'
             ),
             'add' => __('Add', 'vcwb'),
