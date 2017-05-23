@@ -30,40 +30,42 @@ class TemplatesDownloadController extends Container implements Module
 
     protected function updateTemplates($bundleJson, $payload, Options $optionsHelper)
     {
-        $templates = $bundleJson['templates'];
-        $toSaveTemplates = [];
+        if (isset($bundleJson['templates'])) {
+            $templates = $bundleJson['templates'];
+            $toSaveTemplates = [];
 
-        foreach ($templates as $templateKey => $template) {
-            $template = $this->processTemplateMetaImages($template);
-            $templateElements = $template['data'];
-            $elementsImages = $this->getTemplateElementImages($templateElements);
-            foreach ($elementsImages as $element) {
-                foreach ($element['images'] as $image) {
-                    if (isset($image['complex']) && $image['complex']) {
-                        $imageData = $this->processWpMedia(
-                            $image,
-                            $template,
-                            $element['elementId'] . '-' . $image['key'] . '-'
-                        );
-                    } else {
-                        // it is simple url
-                        $imageData = $this->processSimple(
-                            $image['url'],
-                            $template,
-                            $element['elementId'] . '-' . $image['key'] . '-'
-                        );
-                    }
+            foreach ($templates as $templateKey => $template) {
+                $template = $this->processTemplateMetaImages($template);
+                $templateElements = $template['data'];
+                $elementsImages = $this->getTemplateElementImages($templateElements);
+                foreach ($elementsImages as $element) {
+                    foreach ($element['images'] as $image) {
+                        if (isset($image['complex']) && $image['complex']) {
+                            $imageData = $this->processWpMedia(
+                                $image,
+                                $template,
+                                $element['elementId'] . '-' . $image['key'] . '-'
+                            );
+                        } else {
+                            // it is simple url
+                            $imageData = $this->processSimple(
+                                $image['url'],
+                                $template,
+                                $element['elementId'] . '-' . $image['key'] . '-'
+                            );
+                        }
 
-                    if (!is_wp_error($imageData) && $imageData) {
-                        $templateElements[ $element['elementId'] ][ $image['key'] ] = $imageData;
+                        if (!is_wp_error($imageData) && $imageData) {
+                            $templateElements[ $element['elementId'] ][ $image['key'] ] = $imageData;
+                        }
                     }
                 }
+                unset($template['data']);
+                $toSaveTemplates[] = $template;
+                $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
             }
-            unset($template['data']);
-            $toSaveTemplates[] = $template;
-            $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
+            $optionsHelper->set('predefinedTemplates', $toSaveTemplates);
         }
-        $optionsHelper->set('predefinedTemplates', $toSaveTemplates);
     }
 
     protected function processTemplateMetaImages($template)
