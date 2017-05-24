@@ -7,12 +7,12 @@ if (!defined('ABSPATH')) {
 /** @var array $values */
 /** @var string $key */
 ?>
-<script id="vcv-<?php echo strtolower($key); ?>">
+<script id="vcv-<?php echo vchelper('Str')->slugify($key); ?>">
   // Read-Only data
   Object.defineProperty(window, '<?php echo $key; ?>', {
     value: function () {
       return <?php echo json_encode(
-        $values
+        $value
     ); ?> },
     writable: false
   });

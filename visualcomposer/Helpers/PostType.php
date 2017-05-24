@@ -176,7 +176,7 @@ class PostType implements Helper
         $data['previewUrl'] = $previewUrl;
         $data['viewable'] = $viewable;
         // @codingStandardsIgnoreLine
-        $data['canPublish'] = $currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->publish_posts, $post->ID])->get();
+        $data['canPublish'] = $currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->publish_posts, $post->ID])->get();
         $data['backendEditorUrl'] = get_edit_post_link($post->ID, 'url');
         $data['adminDashboardUrl'] = self_admin_url('index.php');
 

@@ -51,9 +51,10 @@ class Elements extends Container implements Module
             $response,
             [
                 vcview(
-                    'hub/elements',
+                    'partials/constant-script',
                     [
-                        'elements' => $hubHelper->getElements(),
+                        'key' => 'VCV_HUB_GET_ELEMENTS',
+                        'value' => $hubHelper->getElements(),
                     ]
                 ),
             ]

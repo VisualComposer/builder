@@ -35,7 +35,7 @@ class Controller extends Container implements Module
     /**
      *
      */
-    private function setDomain()
+    protected function setDomain()
     {
         // TODO: Add languages.
         load_plugin_textdomain('vcwb', false, VCV_PLUGIN_DIRNAME . '/languages');

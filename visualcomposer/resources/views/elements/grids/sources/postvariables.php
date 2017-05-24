@@ -5,4 +5,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
-window.vcvPostsGridSourcePostCategories = <?php echo json_encode(vchelper('PostsGridSourcePosts')->getPostsCategories()); ?>;
+window.vcvPostsGridSourcePostCategories = <?php echo json_encode(
+    vchelper('PostsGridSourcePosts')->getPostsCategories()
+); ?>;

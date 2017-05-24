@@ -10,5 +10,5 @@ $nonceHelper = vchelper('Nonce');
 // TODO: Check vcvNonce in frontend.php
 ?>
 <script>
-    var vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
+    window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
 </script>

@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Illuminate\Support\Module;
+//use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Assets as AssetsHelper;
 
@@ -17,7 +17,7 @@ use VisualComposer\Helpers\Assets as AssetsHelper;
  * Class Assets
  * @package VisualComposer\Modules\System\Activation
  */
-class Assets extends Container implements Module
+class Assets extends Container /*implements Module*/
 {
     use EventsFilters;
 
@@ -27,10 +27,10 @@ class Assets extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\System\Activation\Assets::copyElementsAssets */
-       /* $this->addEvent(
-            'vcv:system:activation:hook',
-            'copyElementsAssets'
-        );*/
+        /* $this->addEvent(
+             'vcv:system:activation:hook',
+             'copyElementsAssets'
+         );*/
     }
 
     /**

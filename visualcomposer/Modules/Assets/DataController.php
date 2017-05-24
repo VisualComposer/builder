@@ -43,7 +43,9 @@ class DataController extends Container implements Module
         global $post_type_object;
         $sourceId = $payload['sourceId'];
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()) {
+        if (is_numeric($sourceId)
+            && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()
+        ) {
             $postCustomCss = get_post_meta($sourceId, 'vcvSettingsSourceCustomCss', true);
             $response['cssSettings'] = [
                 'custom' => $postCustomCss ? $postCustomCss : '',
@@ -53,24 +55,30 @@ class DataController extends Container implements Module
 
             return $response;
         }
+
         return false;
     }
 
-    protected function setData($response, $payload, CurrentUser $currentUserAccessHelper)
+    protected function setData($response, $payload)
     {
         $sourceId = $payload['sourceId'];
-        $this->updateSourceAssets($sourceId, $currentUserAccessHelper);
-        $this->updateGlobalAssets($sourceId, $currentUserAccessHelper);
+        $this->updateSourceAssets($sourceId);
+        $this->updateGlobalAssets($sourceId);
 
         return $response;
     }
 
-    protected function updateSourceAssets($sourceId, $currentUserAccessHelper)
+    protected function updateSourceAssets($sourceId)
     {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
         // @codingStandardsIgnoreLine
         global $post_type_object;
-        // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->edit_post, $sourceId])->get()) {
+        if (is_numeric($sourceId)
+            && $currentUserAccessHelper->wpAll(
+            // @codingStandardsIgnoreLine
+                [$post_type_object->cap->edit_post, $sourceId]
+            )->get()
+        ) {
             $requestHelper = vchelper('Request');
             update_post_meta($sourceId, 'vcvSourceAssetsFiles', $requestHelper->inputJson('vcv-source-assets-files'));
             update_post_meta($sourceId, 'vcvSourceCss', $requestHelper->input('vcv-source-css'));
@@ -82,20 +90,25 @@ class DataController extends Container implements Module
         }
     }
 
-    protected function updateGlobalAssets($sourceId, $currentUserAccessHelper)
+    protected function updateGlobalAssets($sourceId)
     {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
         // @codingStandardsIgnoreLine
         global $post_type_object;
-        // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->edit_post, $sourceId])->get()) {
+        if (is_numeric($sourceId)
+            && $currentUserAccessHelper->wpAll(
+            // @codingStandardsIgnoreLine
+                [$post_type_object->cap->edit_post, $sourceId]
+            )->get()
+        ) {
             $optionsHelper = vchelper('Options');
             $requestHelper = vchelper('Request');
             $tf = $requestHelper->input('vcv-tf');
             if ($tf === 'noGlobalCss') {
                 // Base css
-                $elementsCssData =  $requestHelper->inputJson('vcv-elements-css-data', '');
+                $elementsCssData = $requestHelper->inputJson('vcv-elements-css-data', '');
                 $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
-                $globalElementsCssData[$sourceId] = $elementsCssData;
+                $globalElementsCssData[ $sourceId ] = $elementsCssData;
                 $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
                 // Other data
                 $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));

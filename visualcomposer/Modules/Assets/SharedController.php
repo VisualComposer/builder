@@ -28,9 +28,10 @@ class SharedController extends Container implements Module
             $response,
             [
                 vcview(
-                    'assets/shared',
+                    'partials/constant-script',
                     [
-                        'assets' => $assetsSharedHelper->getSharedAssets(),
+                        'key' => 'VCV_GET_SHARED_ASSETS',
+                        'value' => $assetsSharedHelper->getSharedAssets(),
                     ]
                 ),
             ]
