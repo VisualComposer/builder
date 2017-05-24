@@ -42,8 +42,8 @@ class DataController extends Container implements Module
         // @codingStandardsIgnoreLine
         global $post_type_object;
         $sourceId = $payload['sourceId'];
-        // @codingStandardsIgnoreLine
         if (is_numeric($sourceId)
+            // @codingStandardsIgnoreLine
             && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()
         ) {
             $postCustomCss = get_post_meta($sourceId, 'vcvSettingsSourceCustomCss', true);
