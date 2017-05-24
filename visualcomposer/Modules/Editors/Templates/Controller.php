@@ -46,7 +46,7 @@ class Controller extends Container implements Module
                     'partials/constant-script',
                     [
                         'key' => 'VCV_MY_TEMPLATES',
-                        'values' => $this->getData($editorTemplatesHelper->all()),
+                        'value' => $this->getData($editorTemplatesHelper->all()),
                     ]
                 ),
             ]
@@ -64,7 +64,7 @@ class Controller extends Container implements Module
                     'partials/constant-script',
                     [
                         'key' => 'VCV_PREDEFINED_TEMPLATES',
-                        'values' => $editorTemplatesHelper->allPredefined(),
+                        'value' => $editorTemplatesHelper->allPredefined(),
                     ]
                 ),
             ]

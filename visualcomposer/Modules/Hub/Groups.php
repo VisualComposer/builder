@@ -45,9 +45,10 @@ class Groups extends Container implements Module
             $response,
             [
                 vcview(
-                    'hub/groups',
+                    'partials/constant-script',
                     [
-                        'groups' => array_values($hubHelper->getGroups()),
+                        'key' => 'VCV_HUB_GET_GROUPS',
+                        'value' => array_values($hubHelper->getGroups()),
                     ]
                 ),
             ]

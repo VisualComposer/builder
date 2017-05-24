@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -105,19 +106,26 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Views $templates
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
      * @return string
      */
-    protected function renderEditorBase(Request $requestHelper, Views $templates, Frontend $frontendHelper)
-    {
-        $sourceId = (int)$requestHelper->input('vcv-source-id');
-
-        return $templates->render(
-            'editor/frontend/frontend.php',
-            [
-                'editableLink' => $frontendHelper->getEditableUrl($sourceId),
-                'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', []),
-            ]
-        );
+    protected function renderEditorBase(
+        Request $requestHelper,
+        Views $templates,
+        Frontend $frontendHelper,
+        UserCapabilities $userCapabilitiesHelper
+    ) {
+        global $post;
+        $sourceId = $post->ID;
+        if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
+            return $templates->render(
+                'editor/frontend/frontend.php',
+                [
+                    'editableLink' => $frontendHelper->getEditableUrl($sourceId),
+                    'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', []),
+                ]
+            );
+        }
     }
 }

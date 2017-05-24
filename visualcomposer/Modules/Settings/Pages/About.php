@@ -31,6 +31,8 @@ class About extends ActivationPage implements Module
 
     /**
      * About constructor.
+     *
+     * @param \VisualComposer\Helpers\Token $tokenHelper
      */
     public function __construct(Token $tokenHelper)
     {

@@ -828,6 +828,30 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Embedded Tweet to display an individual Tweet off of Twitter by picking tweet URL.',
                     ],
                 ],
+                'faqToggle' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/faqToggle/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/faqToggle/faqToggle/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/faqToggle/faqToggle/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Faq toggle',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/faqToggle/faqToggle/public/faq-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/faqToggle/faqToggle/public/faq-preview.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Toggle element for frequently added questions (Faq) or similar structure for display of content per request.',
+                    ],
+                ],
             ]
         );
         // 'animatedOutlineButton' => [

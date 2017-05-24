@@ -5,7 +5,7 @@ class AjaxControllerTest extends WP_UnitTestCase
     public function testGetResponse()
     {
         /** @var \VisualComposer\Modules\System\Ajax\Controller $module */
-        $module = vcapp('SystemAjaxController');
+        $module = vc_create_module_mock('\VisualComposer\Modules\System\Ajax\Controller');
         /** @var \VisualComposer\Helpers\Filters $filterHelper */
         $filterHelper = vchelper('Filters');
 
@@ -16,7 +16,7 @@ class AjaxControllerTest extends WP_UnitTestCase
             }
         );
 
-        $this->assertEquals('my custom response', $module->getResponse('testGetResponse'));
+        $this->assertEquals('my custom response', $module->call('getResponse', ['testGetResponse']));
     }
 
     public function testValidateNonce()
@@ -184,19 +184,19 @@ class AjaxControllerTest extends WP_UnitTestCase
     public function testRenderResponse()
     {
         /** @var \VisualComposer\Modules\System\Ajax\Controller $module */
-        $module = vcapp('SystemAjaxController');
+        $module = vc_create_module_mock('\VisualComposer\Modules\System\Ajax\Controller');
 
-        $this->assertTrue(is_string($module->renderResponse('test')));
-        $this->assertTrue(is_string($module->renderResponse('')));
-        $this->assertEquals('test', $module->renderResponse('test'));
+        $this->assertTrue(is_string($module->call('renderResponse', ['test'])));
+        $this->assertTrue(is_string($module->call('renderResponse', [''])));
+        $this->assertEquals('test', $module->call('renderResponse', ['test']));
 
-        $this->assertEquals('1', $module->renderResponse(1));
-        $this->assertEquals('["test"]', ($module->renderResponse(['test'])));
-        $this->assertEquals('{"test":0}', ($module->renderResponse(['test' => 0])));
-        $this->assertEquals('{"test":true}', ($module->renderResponse(['test' => true])));
-        $this->assertEquals('{"test":false}', ($module->renderResponse(['test' => false])));
-        $this->assertEquals('{"test":1}', ($module->renderResponse(['test' => 1])));
-        $this->assertEquals('{"test":"hi"}', ($module->renderResponse(['test' => 'hi'])));
+        $this->assertEquals('1', $module->call('renderResponse', [1]));
+        $this->assertEquals('["test"]', ($module->call('renderResponse', [['test']])));
+        $this->assertEquals('{"test":0}', ($module->call('renderResponse', [['test' => 0]])));
+        $this->assertEquals('{"test":true}', ($module->call('renderResponse', [['test' => true]])));
+        $this->assertEquals('{"test":false}', ($module->call('renderResponse', [['test' => false]])));
+        $this->assertEquals('{"test":1}', ($module->call('renderResponse', [['test' => 1]])));
+        $this->assertEquals('{"test":"hi"}', ($module->call('renderResponse', [['test' => 'hi']])));
 
     }
 
@@ -207,6 +207,8 @@ class AjaxControllerTest extends WP_UnitTestCase
             ['setGlobals']
         )->getMock();
         $controller->expects($this->exactly(4))->method('setGlobals');
+        $method = new ReflectionMethod($controller, 'listenAjax');
+        $method->setAccessible(true);
         /** @var \VisualComposer\Modules\System\Ajax\Controller $controller */
         /** @var \VisualComposer\Helpers\Request $requestHelper */
         $requestHelper = vchelper('Request');
@@ -218,7 +220,7 @@ class AjaxControllerTest extends WP_UnitTestCase
         $catched = false;
         $catchedMessage = '';
         try {
-            $controller->listenAjax($requestHelper);
+            $method->invokeArgs($controller, [$requestHelper]);
         } catch (WPDieException $e) {
             $catched = true;
             $catchedMessage = $e->getMessage();
@@ -246,7 +248,7 @@ class AjaxControllerTest extends WP_UnitTestCase
             ]
         );
         try {
-            $controller->listenAjax($requestHelper);
+            $method->invokeArgs($controller, [$requestHelper]);
         } catch (WPDieException $e) {
             $catched = true;
             $catchedMessage = $e->getMessage();
@@ -271,7 +273,7 @@ class AjaxControllerTest extends WP_UnitTestCase
             ]
         );
         try {
-            $controller->listenAjax($requestHelper);
+            $method->invokeArgs($controller, [$requestHelper]);
         } catch (WPDieException $e) {
             $catched = true;
             $catchedMessage = $e->getMessage();
@@ -292,7 +294,7 @@ class AjaxControllerTest extends WP_UnitTestCase
             ]
         );
         try {
-            $controller->listenAjax($requestHelper);
+            $method->invokeArgs($controller, [$requestHelper]);
         } catch (WPDieException $e) {
             $catched = true;
             $catchedMessage = $e->getMessage();
@@ -310,8 +312,8 @@ class AjaxControllerTest extends WP_UnitTestCase
         $this->assertFalse(defined('DOING_AJAX'));
 
         /** @var \VisualComposer\Modules\System\Ajax\Controller $controller */
-        $controller = vcapp('\VisualComposer\Modules\System\Ajax\Controller');
-        $controller->setGlobals();
+        $module = vc_create_module_mock('\VisualComposer\Modules\System\Ajax\Controller');
+        $module->call('setGlobals');
 
         $this->assertTrue(defined('VCV_AJAX_REQUEST_CALL'));
         $this->assertTrue(defined('DOING_AJAX'));

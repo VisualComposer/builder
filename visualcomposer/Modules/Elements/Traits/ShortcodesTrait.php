@@ -8,6 +8,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
 
@@ -22,20 +24,33 @@ trait ShortcodesTrait
      * @param $payload
      * @param \VisualComposer\Helpers\Request $request
      * @param \VisualComposer\Helpers\Str $strHelper
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
      * @return array
      */
-    protected function renderEditor($response, $payload, Request $request, Str $strHelper)
-    {
-        if (!is_array($response)) {
-            $response = [];
-        }
+    protected function renderEditor(
+        $response,
+        $payload,
+        Request $request,
+        Str $strHelper,
+        PostType $postTypeHelper,
+        CurrentUser $currentUserAccessHelper
+    ) {
+        $sourceId = (int)$request->input('vcv-source-id');
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+            if (!is_array($response)) {
+                $response = [];
+            }
 
-        /** @see  \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorContent */
-        $response['shortcodeContent'] = $this->call('renderEditorContent');
-        /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
-        $response['shortcode'] = $this->call('renderEditorShortcode');
-        $response['status'] = true;
+            $postTypeHelper->setupPost($sourceId);
+
+            /** @see  \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorContent */
+            $response['shortcodeContent'] = $this->call('renderEditorContent');
+            /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
+            $response['shortcode'] = $this->call('renderEditorShortcode');
+            $response['status'] = true;
+        }
 
         return $response;
     }

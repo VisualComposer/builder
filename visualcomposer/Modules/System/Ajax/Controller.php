@@ -20,6 +20,8 @@ class Controller extends Container implements Module
 {
     use EventsFilters;
 
+    protected $scope = 'ajax';
+
     public function __construct()
     {
         /** @see \VisualComposer\Modules\System\Ajax\Controller::listenAjax */
@@ -30,15 +32,15 @@ class Controller extends Container implements Module
         );
     }
 
-    public function getResponse($requestAction)
+    protected function getResponse($requestAction)
     {
-        $response = vcfilter('vcv:ajax', '');
-        $response = vcfilter('vcv:ajax:' . $requestAction, $response);
+        $response = vcfilter('vcv:' . $this->scope, '');
+        $response = vcfilter('vcv:' . $this->scope . ':' . $requestAction, $response);
 
         return $response;
     }
 
-    public function renderResponse($response)
+    protected function renderResponse($response)
     {
         if (is_string($response)) {
             return $response;
@@ -47,7 +49,7 @@ class Controller extends Container implements Module
         return json_encode($response);
     }
 
-    public function listenAjax(Request $requestHelper)
+    protected function listenAjax(Request $requestHelper)
     {
         if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
             $this->setGlobals();
@@ -58,7 +60,7 @@ class Controller extends Container implements Module
         }
     }
 
-    public function setGlobals()
+    protected function setGlobals()
     {
         if (!defined('VCV_AJAX_REQUEST_CALL')) {
             define('VCV_AJAX_REQUEST_CALL', true);
@@ -72,14 +74,14 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      */
-    public function setSource(Request $requestHelper, PostType $postTypeHelper)
+    protected function setSource(Request $requestHelper, PostType $postTypeHelper)
     {
         if ($requestHelper->exists('vcv-source-id')) {
             $postTypeHelper->setupPost((int)$requestHelper->input('vcv-source-id'));
         }
     }
 
-    public function output($output)
+    protected function output($output)
     {
         wp_die($output);
     }

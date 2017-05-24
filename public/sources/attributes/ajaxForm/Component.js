@@ -78,7 +78,8 @@ export default class AjaxForm extends Attribute {
       'vcv-form-action': action,
       'vcv-form-element': this.props.element.toJS(),
       'vcv-form-value': value,
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': window.vcvNonce,
+      'vcv-source-id': window.vcvSourceID
     }, (result) => {
       let response = JSON.parse(result.response)
       if (response && response.status) {

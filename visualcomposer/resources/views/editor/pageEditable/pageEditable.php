@@ -5,4 +5,4 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
-<div id="vcv-editor"><?php echo __('Loading...', 'vcwb');?></div>
+<div id="vcv-editor"><?php echo __('Loading...', 'vcwb'); ?></div>

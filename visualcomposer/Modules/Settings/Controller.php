@@ -19,7 +19,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Account\Pages\ActivationPage;
 use VisualComposer\Modules\Settings\Pages\About;
-use VisualComposer\Modules\Settings\Pages\General;
+//use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Modules\Settings\Pages\PostTypes;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -100,7 +100,7 @@ class Controller extends Container implements Module
         Token $tokenHelper
     ) {
         // TODO: Fix \is_multisite() function same issue in js_composer.
-        $hasAccess = !$currentUserAccess->wpAny('manage_options')->part('settings')->can($postTypes->getSlug())->get()
+        $hasAccess = !$currentUserAccess->wpAll('manage_options')->part('settings')->can($postTypes->getSlug())->get()
             || (is_multisite()
                 && !is_main_site());
 
@@ -114,7 +114,7 @@ class Controller extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Url $urlHelper
      */
-    private function addMenuPage(Url $urlHelper)
+    protected function addMenuPage(Url $urlHelper)
     {
         /** @see \VisualComposer\Modules\Settings\Controller::getMainPageSlug */
         $slug = $this->call('getMainPageSlug');
@@ -132,9 +132,9 @@ class Controller extends Container implements Module
      *
      * @throws \Exception
      */
-    private function addSubmenuPages(CurrentUser $currentUserAccess)
+    protected function addSubmenuPages(CurrentUser $currentUserAccess)
     {
-        if (!$currentUserAccess->wpAny('manage_options')->get()) {
+        if (!$currentUserAccess->wpAll('manage_options')->get()) {
             return;
         }
 
@@ -169,7 +169,7 @@ class Controller extends Container implements Module
      *
      * @return string
      */
-    private function renderPage(Request $request, Data $data)
+    protected function renderPage(Request $request, Data $data)
     {
         $pageSlug = $request->input('page');
         $layout = $this->layout;
@@ -204,7 +204,7 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Url $urlHelper
      */
-    private function initAdmin(Url $urlHelper)
+    protected function initAdmin(Url $urlHelper)
     {
         wp_register_script(
             'vcv:settings:script',

@@ -45,9 +45,10 @@ class Categories extends Container implements Module
             $response,
             [
                 vcview(
-                    'hub/categories',
+                    'partials/constant-script',
                     [
-                        'categories' => $hubHelper->getCategories(),
+                        'key' => 'VCV_HUB_GET_CATEGORIES',
+                        'value' => $hubHelper->getCategories(),
                     ]
                 ),
             ]

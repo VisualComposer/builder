@@ -92,7 +92,8 @@ export default class Url extends Attribute {
     this.ajaxPost({
       'vcv-action': 'attribute:linkSelector:getPosts:adminNonce',
       'vcv-search': search,
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': window.vcvNonce,
+      'vcv-source-id': window.vcvSourceID
     }, (request) => {
       let posts = JSON.parse(request.response || '{}')
       pagePosts.set(posts)

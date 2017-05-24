@@ -7,12 +7,12 @@ class FrontendControllerTest extends WP_UnitTestCase
      */
     public function testRenderEditorBase()
     {
+        wp_set_current_user(1);
         /** @var $module \VisualComposer\Modules\Editors\Frontend\Controller */
         $module = vc_create_module_mock('\VisualComposer\Modules\Editors\Frontend\Controller');
 
         /** @var \VisualComposer\Helpers\Request $requestHelper */
         $requestHelper = vchelper('Request');
-        wp_set_current_user(1);
         // Create test post.
         $this->post = new WP_UnitTest_Factory_For_Post($this);
         $postId = $this->post->create(['post_title' => 'Test Post']);
@@ -27,7 +27,7 @@ class FrontendControllerTest extends WP_UnitTestCase
             'window\.vcvAjaxUrl = \'.+\?vcv-ajax=1\';',
             'window\.vcvNonce = \'.+\';',
             '<iframe class="vcv-layout-iframe"',
-            'src=".+vcv-editable=1&vcv-nonce=.+" id="vcv-editor-iframe"',
+            'src=".+vcv-editable=1&vcv-source-id=' . $postId . '&vcv-nonce=.+" id="vcv-editor-iframe"',
             '<\/html>',
         ];
 

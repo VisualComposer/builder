@@ -32,9 +32,10 @@ class Locale extends Container implements Module
             $response,
             [
                 vcview(
-                    'i18n/locale',
+                    'partials/constant-script',
                     [
-                        'locale' => $localizationsHelper->getLocalizations(),
+                        'key' => 'VCV_I18N',
+                        'value' => $localizationsHelper->getLocalizations(),
                     ]
                 ),
             ]
