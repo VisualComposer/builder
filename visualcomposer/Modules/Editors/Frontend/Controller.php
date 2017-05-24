@@ -110,7 +110,8 @@ class Controller extends Container implements Module
      */
     protected function renderEditorBase(Request $requestHelper, Views $templates, Frontend $frontendHelper)
     {
-        $sourceId = (int)$requestHelper->input('vcv-source-id');
+        global $post;
+        $sourceId = $post->ID;
 
         return $templates->render(
             'editor/frontend/frontend.php',
