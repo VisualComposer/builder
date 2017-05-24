@@ -10,8 +10,8 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\EditorTemplates;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -100,15 +100,17 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    protected function create(Request $requestHelper, PostType $postTypeHelper)
+    protected function create(Request $requestHelper, PostType $postTypeHelper, CurrentUser $currentUserAccessHelper)
     {
-        $data = $requestHelper->inputJson('vcv-template-data');
-        $data['post_type'] = 'vcv_templates';
-        $data['post_status'] = 'publish';
+        if ($currentUserAccessHelper->wpAll('publish_posts')->get()) {
+            $data = $requestHelper->inputJson('vcv-template-data');
+            $data['post_type'] = 'vcv_templates';
+            $data['post_status'] = 'publish';
 
-        return [
-            'status' => $postTypeHelper->create($data),
-        ];
+            return [
+                'status' => $postTypeHelper->create($data),
+            ];
+        }
     }
 
     /**
@@ -119,12 +121,14 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    protected function delete(Request $requestHelper, PostType $postTypeHelper)
+    protected function delete(Request $requestHelper, PostType $postTypeHelper, CurrentUser $currentUserAccessHelper)
     {
-        $id = $requestHelper->input('vcv-template-id');
+        if ($currentUserAccessHelper->wpAll('delete_published_posts')->get()) {
+            $id = $requestHelper->input('vcv-template-id');
 
-        return [
-            'status' => $postTypeHelper->delete($id, 'vcv_templates'),
-        ];
+            return [
+                'status' => $postTypeHelper->delete($id, 'vcv_templates'),
+            ];
+        }
     }
 }

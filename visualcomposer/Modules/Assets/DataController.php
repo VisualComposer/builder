@@ -43,7 +43,7 @@ class DataController extends Container implements Module
         global $post_type_object;
         $sourceId = $payload['sourceId'];
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([$post_type_object->cap->read, $sourceId])) {
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()) {
             $postCustomCss = get_post_meta($sourceId, 'vcvSettingsSourceCustomCss', true);
             $response['cssSettings'] = [
                 'custom' => $postCustomCss ? $postCustomCss : '',
@@ -70,7 +70,7 @@ class DataController extends Container implements Module
         // @codingStandardsIgnoreLine
         global $post_type_object;
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([$post_type_object->cap->edit_post, $sourceId])) {
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->edit_post, $sourceId])->get()) {
             $requestHelper = vchelper('Request');
             update_post_meta($sourceId, 'vcvSourceAssetsFiles', $requestHelper->inputJson('vcv-source-assets-files'));
             update_post_meta($sourceId, 'vcvSourceCss', $requestHelper->input('vcv-source-css'));
@@ -87,7 +87,7 @@ class DataController extends Container implements Module
         // @codingStandardsIgnoreLine
         global $post_type_object;
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([$post_type_object->cap->edit_post, $sourceId])) {
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->edit_post, $sourceId])->get()) {
             $optionsHelper = vchelper('Options');
             $requestHelper = vchelper('Request');
             $tf = $requestHelper->input('vcv-tf');
