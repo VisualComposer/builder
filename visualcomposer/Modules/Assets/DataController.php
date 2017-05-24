@@ -121,7 +121,8 @@ class DataController extends Container implements Module
         // @codingStandardsIgnoreLine
         if (is_numeric($sourceId)
             && $currentUserAccessHelper->wpAll(
-                [$post_type_object->cap->edit_post, $sourceId]
+            // @codingStandardsIgnoreLine
+            [$post_type_object->cap->edit_post, $sourceId]
             )->get()
         ) {
             $requestHelper = vchelper('Request');
