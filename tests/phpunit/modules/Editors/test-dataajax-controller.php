@@ -2,16 +2,6 @@
 
 class DataAjaxControllerTest extends \WP_UnitTestCase
 {
-    public function testGetDataFilterEmpty()
-    {
-        /** @var \VisualComposer\Helpers\Filters $filterHelper */
-        $filterHelper = vchelper('Filters');
-        $result = $filterHelper->fire('vcv:ajax:getData:adminNonce');
-        $this->assertTrue(is_array($result));
-        $this->assertTrue(array_key_exists('data', $result));
-        $this->assertEquals('', $result['data']);
-    }
-
     public function testGetData()
     {
         wp_set_current_user(1);
