@@ -4,7 +4,7 @@ class EditPostLinksControllerTest extends WP_UnitTestCase
 {
     public function testAdminBarEditLink()
     {
-
+        wp_set_current_user(1);
         $post = new WP_UnitTest_Factory_For_Post($this);
         $postId = $post->create(['post_title' => 'Test Post']);
 
@@ -53,6 +53,7 @@ class EditPostLinksControllerTest extends WP_UnitTestCase
 
     public function testAdminRowLinks()
     {
+        wp_set_current_user(1);
         /** @var \VisualComposer\Modules\Editors\EditPostLinks\Controller $module */
         $module = vc_create_module_mock('\VisualComposer\Modules\Editors\EditPostLinks\Controller');
         $actions = [];

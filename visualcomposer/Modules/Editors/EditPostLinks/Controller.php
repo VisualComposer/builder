@@ -12,6 +12,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -98,8 +99,12 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
      */
-    protected function adminBarEditLink($wpAdminBar, Frontend $frontendHelper, EditorPostType $editorPostTypeHelper)
-    {
+    protected function adminBarEditLink(
+        $wpAdminBar,
+        Frontend $frontendHelper,
+        EditorPostType $editorPostTypeHelper,
+        UserCapabilities $userCapabilitiesHelper
+    ) {
         if (!is_object($wpAdminBar)) {
             // @codingStandardsIgnoreStart
             global $wp_admin_bar;
@@ -107,7 +112,9 @@ class Controller extends Container implements Module
             // @codingStandardsIgnoreEnd
         }
 
-        if (is_singular() && $editorPostTypeHelper->isEditorEnabled(get_post_type())) {
+        if (is_singular() && $editorPostTypeHelper->isEditorEnabled(get_post_type())
+            && $userCapabilitiesHelper->canEdit(get_the_ID())
+        ) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $wpAdminBar->add_menu(
                 [
@@ -127,9 +134,13 @@ class Controller extends Container implements Module
      *
      * @return mixed
      */
-    protected function adminRowLinks($actions, Frontend $frontendHelper, EditorPostType $editorPostTypeHelper)
-    {
-        if ($editorPostTypeHelper->isEditorEnabled(get_post_type())) {
+    protected function adminRowLinks(
+        $actions,
+        Frontend $frontendHelper,
+        EditorPostType $editorPostTypeHelper,
+        UserCapabilities $userCapabilitiesHelper
+    ) {
+        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && $userCapabilitiesHelper->canEdit(get_the_ID())) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vcwb'));
         }

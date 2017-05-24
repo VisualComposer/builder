@@ -28,7 +28,7 @@ class PostType implements Helper
         foreach ($posts as $post) {
             $currentUserAccessHelper = vchelper('AccessCurrentUser');
             // @codingStandardsIgnoreLine
-            if ($currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->read, $post->ID])) {
+            if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()) {
                 $results[] = $post;
             }
         }
@@ -48,9 +48,9 @@ class PostType implements Helper
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         // @codingStandardsIgnoreLine
         if (!$post || ($postType && $post->post_type !== $postType)
-            || !$currentUserAccessHelper->wpAny(
+            || !$currentUserAccessHelper->wpAll(
             // @codingStandardsIgnoreLine
-                [get_post_type_object($post->post_type)->cap->edit_post, $post->ID]
+                [get_post_type_object($post->post_type)->cap->read, $post->ID]
             )->get()
         ) {
             $post = false;
@@ -68,7 +68,7 @@ class PostType implements Helper
     {
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         // @codingStandardsIgnoreLine
-        if ($currentUserAccessHelper->wpAny('publish_posts')) {
+        if ($currentUserAccessHelper->wpAll('publish_posts')->get()) {
             return wp_insert_post($data);
         }
 
@@ -82,10 +82,9 @@ class PostType implements Helper
      */
     public function update($data)
     {
-        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
         $post = $this->get($data['ID']);
-        // @codingStandardsIgnoreLine
-        if ($currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->edit_post, $post->ID])) {
+        if ($userCapabilitiesHelper->canEdit($post->ID)) {
             $post = wp_update_post($data);
             // @codingStandardsIgnoreStart
             if (!empty($data->meta_input) && !vchelper('Wp')->isMetaInput()) {
@@ -113,7 +112,7 @@ class PostType implements Helper
         $post = $this->get($id);
 
         // @codingStandardsIgnoreLine
-        if ($currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->delete_posts, $post->ID])) {
+        if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->delete_posts, $post->ID])->get()) {
 
             if ($postType) {
                 // @codingStandardsIgnoreLine
@@ -139,7 +138,7 @@ class PostType implements Helper
 
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
-        if ($currentUserAccessHelper->wpAny([get_post_type_object($post->post_type)->cap->read, $post->ID])) {
+        if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()) {
             setup_postdata($post);
             $post_type = $post->post_type;
             $post_type_object = get_post_type_object($post_type);

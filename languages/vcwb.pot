@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-22 15:56+0300\n"
+"POT-Creation-Date: 2017-05-24 13:33+0300\n"
 "PO-Revision-Date: 2017-03-20 21:48+0200\n"
 "Last-Translator: WPBakery <hello@wpbakery.com>\n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
@@ -33,10 +33,10 @@ msgstr ""
 
 #: tests/phpunit/modules/Editors/test-editpostlinks-controller.php:66
 #: tests/phpunit/modules/Site/test-site-controller.php:46
-#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:89
-#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:114
+#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:90
 #: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:115
-#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:134
+#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:116
+#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:135
 msgid "Edit with Visual Composer"
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr ""
 
 #: visualcomposer/Helpers/Localizations.php:49
 msgid ""
-"There are no elements on your canvas - start by adding element or template"
+"There are no elements on your canvas - start by adding element or template."
 msgstr ""
 
 #: visualcomposer/Helpers/Localizations.php:50
@@ -257,7 +257,7 @@ msgstr ""
 
 #: visualcomposer/Helpers/Localizations.php:75
 msgid ""
-"Visual Composer Hub will offer you unlimited download of premium quality "
+"Visual Composer Hub will offer you unlimited downloads of premium quality "
 "templates, elements, extensions and more."
 msgstr ""
 
@@ -380,6 +380,18 @@ msgstr ""
 msgid "Please provide correct E-Mail"
 msgstr ""
 
+#: visualcomposer/Helpers/Localizations.php:123
+msgid "Nothing Found"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:124
+msgid "Template thumbnail"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:125
+msgid "Template preview"
+msgstr ""
+
 #: visualcomposer/Helpers/PostsGridSourcePosts.php:38
 #: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:17
 #: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:24
@@ -494,11 +506,6 @@ msgstr ""
 msgid "Visual Composer "
 msgstr ""
 
-#: visualcomposer/Modules/Settings/Pages/Authorization.php:99
-#: visualcomposer/resources/views/settings/pages/auth/partials/unauthorized-state.php:34
-msgid "Authorize Site"
-msgstr ""
-
 #: visualcomposer/Modules/Settings/Pages/General.php:115
 msgid "Disable responsive content elements"
 msgstr ""
@@ -518,6 +525,11 @@ msgstr ""
 
 #: visualcomposer/Modules/Settings/Pages/Roles.php:187
 msgid "Roles settings successfully saved."
+msgstr ""
+
+#: visualcomposer/Modules/Settings/Pages/_Authorization.php:99
+#: visualcomposer/resources/views/settings/pages/auth/partials/unauthorized-state.php:34
+msgid "Authorize Site"
 msgstr ""
 
 #: visualcomposer/resources/views/account/partials/activation-finish.php:34

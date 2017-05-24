@@ -9,6 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\PostType;
@@ -71,7 +72,7 @@ class Controller extends Container implements Module
             $response = [];
         }
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([ $post_type_object->cap->read, $sourceId])) {
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([ $post_type_object->cap->read, $sourceId])->get()) {
             // TODO: fix react components if there is empty page content.
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
             if (!empty($postMeta)) {
@@ -98,12 +99,15 @@ class Controller extends Container implements Module
     /**
      * Save post content and used assets.
      *
+     * @param $response
+     *
+     * @param $payload
      * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
-     * @param $response
-     *
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     *
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
      * @return array|null
      */
@@ -113,7 +117,8 @@ class Controller extends Container implements Module
         Filters $filterHelper,
         Request $requestHelper,
         PostType $postTypeHelper,
-        CurrentUser $currentUserAccessHelper
+        CurrentUser $currentUserAccessHelper,
+        UserCapabilities $userCapabilitiesHelper
     ) {
         // @codingStandardsIgnoreLine
         global $post_type_object;
@@ -127,8 +132,9 @@ class Controller extends Container implements Module
         if (!is_array($response)) {
             $response = [];
         }
+
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAny([ $post_type_object->cap->edit_post, $sourceId])) {
+        if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
@@ -137,7 +143,11 @@ class Controller extends Container implements Module
                 if (isset($data['draft']) && $post->post_status !== 'publish') {
                     $post->post_status = 'draft';
                 } else {
-                    $post->post_status = 'publish';
+                    if($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->publish_posts, $sourceId])->get()) {
+                        $post->post_status = 'publish';
+                    } else {
+                        $post->post_status = 'pending';
+                    }
                 }
                 // @codingStandardsIgnoreEnd
                 //temporarily disable

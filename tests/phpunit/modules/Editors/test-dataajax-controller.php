@@ -42,6 +42,7 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
 
     public function testGetDataForMetaInput()
     {
+        wp_set_current_user(1);
         $factory = new WP_UnitTest_Factory_For_Post($this);
         $metaInput = [];
         $metaInput[ VCV_PREFIX . 'pageContent' ] = 'second test data';
