@@ -78,7 +78,7 @@ class Controller extends Container implements Module
         if ($requestHelper->exists('vcv-editable')) {
             return '';
         }
-        if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)
+        if ($currentUserAccess->part('frontend_editor', true)->can()->get()
             && $editorPostTypeHelper->isEditorEnabled(
                 get_post_type()
             )
@@ -98,6 +98,7 @@ class Controller extends Container implements Module
      * @param \WP_Admin_Bar $wpAdminBar
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
+     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      */
     protected function adminBarEditLink(
         $wpAdminBar,
@@ -129,8 +130,8 @@ class Controller extends Container implements Module
     /**
      * @param $actions
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     *
      * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
+     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
      * @return mixed
      */

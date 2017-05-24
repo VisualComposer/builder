@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\WpMedia;
@@ -34,16 +35,26 @@ class Controller extends Container implements Module
     }
 
     /**
+     * @param $response
      * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\WpMedia $mediaHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
      * @return string
      */
-    private function customSize(Request $request, $response, WpMedia $mediaHelper)
-    {
-        $id = $request->input('vcv-image-id');
-        $size = $request->input('vcv-size');
-        $image = $mediaHelper->getImageBySize(['attach_id' => $id, 'thumb_size' => $size]);
-        $response['img'] = $image;
+    protected function customSize(
+        $response,
+        Request $request,
+        WpMedia $mediaHelper,
+        CurrentUser $currentUserAccessHelper
+    ) {
+        $sourceId = (int)$request->input('vcv-source-id');
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+            $id = (int)$request->input('vcv-image-id');
+            $size = $request->input('vcv-size');
+            $image = $mediaHelper->getImageBySize(['attach_id' => $id, 'thumb_size' => $size]);
+            $response['img'] = $image;
+        }
 
         return $response;
     }
