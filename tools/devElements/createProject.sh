@@ -62,6 +62,7 @@ declare -a arr=(
 #'wpWidgetsCustom'
 #'wpWidgetsDefault'
 #'youtubePlayer'
+#'faqToggle'
 
 declare -a projectIds=(
 '3328813'

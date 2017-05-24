@@ -62,6 +62,7 @@ declare -a arr=(
 #'wpWidgetsCustom'
 #'wpWidgetsDefault'
 #'youtubePlayer'
+#'faqToggle'
 
 EXECDIR=`pwd`
 for i in "${arr[@]}"
