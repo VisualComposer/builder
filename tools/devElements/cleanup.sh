@@ -31,7 +31,8 @@ declare -a arr=(
 'vimeoPlayer'
 'wpWidgetsCustom'
 'wpWidgetsDefault'
-'youtubePlayer')
+'youtubePlayer',
+'faqToggle')
 
 EXECDIR=`pwd`
 for i in "${arr[@]}"

@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -29,33 +30,36 @@ class Controller extends Container implements Module
     /**
      * Get list of 20 most recent posts and pages with ability to search.
      *
-     * @todo Add user permissions check.
-     *
      * @param Request $request
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
      * @return array
      */
-    protected function posts(Request $request)
+    protected function posts(Request $request, Request $requestHelper, CurrentUser $currentUserAccessHelper)
     {
-        $search = $request->input('vcv-search');
-
-        $args = [
-            'posts_per_page' => 20,
-            'post_type' => get_post_types(['public' => true], 'names'),
-            's' => $search,
-        ];
-        $posts = get_posts($args);
-
         $results = [];
-        foreach ($posts as $post) {
-            $results[] = [
-                'id' => $post->ID,
-                // @codingStandardsIgnoreLine
-                'title' => $post->post_title,
-                'url' => get_permalink($post->ID),
-                // @codingStandardsIgnoreLine
-                'type' => $post->post_type,
+        $sourceId = (int)$requestHelper->input('vcv-source-id');
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+            $search = $request->input('vcv-search');
+
+            $args = [
+                'posts_per_page' => 20,
+                'post_type' => get_post_types(['public' => true], 'names'),
+                's' => $search,
             ];
+            $posts = get_posts($args);
+
+            foreach ($posts as $post) {
+                $results[] = [
+                    'id' => $post->ID,
+                    // @codingStandardsIgnoreLine
+                    'title' => $post->post_title,
+                    'url' => get_permalink($post->ID),
+                    // @codingStandardsIgnoreLine
+                    'type' => $post->post_type,
+                ];
+            }
         }
 
         return $results;

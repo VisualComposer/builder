@@ -189,6 +189,12 @@ class HubCategories extends Container implements Module
                     'icon' => $urlHelper->to('public/sources/newCategories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('public/sources/newCategories/iconsDark/Post-Grid.svg'),
                 ],
+                'Toggle' => [
+                    'title' => 'Toggle',
+                    'elements' => ['faqToggle'],
+                    'icon' => $urlHelper->to('public/sources/newCategories/icons/Toggle.svg'),
+                    'iconDark' => $urlHelper->to('public/sources/newCategories/iconsDark/Toggle.svg'),
+                ],
             ]
         );
     }

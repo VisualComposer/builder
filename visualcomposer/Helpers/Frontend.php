@@ -49,6 +49,7 @@ class Frontend implements Helper
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
             'vcv-editable' => '1',
+            'vcv-source-id' => $sourceId,
             'vcv-nonce' => vchelper('Nonce')->admin(),
         ];
 
@@ -57,13 +58,26 @@ class Frontend implements Helper
         return $editableUrl;
     }
 
+    /**
+     * @return bool
+     */
     public function isFrontend()
     {
+        global $pagenow; // todo: post-new.php && edit_posts || else vcv-source-id from request must be exist
         $requestHelper = vchelper('Request');
-        if (is_admin() && $requestHelper->exists('vcv-action')) {
-            $requestAction = $requestHelper->input('vcv-action');
-            if ($requestAction === 'frontend') {
-                return true;
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+
+        if ('post-new.php' === $pagenow && $currentUserAccessHelper->wpAll('edit_posts')->get()
+            || ($requestHelper->exists('vcv-source-id')
+                && $currentUserAccessHelper->wpAll(
+                    ['edit_posts', $requestHelper->input('vcv-source-id')]
+                )->get())
+        ) {
+            if (is_admin() && $requestHelper->exists('vcv-action')) {
+                $requestAction = $requestHelper->input('vcv-action');
+                if ($requestAction === 'frontend') {
+                    return true;
+                }
             }
         }
 
@@ -77,11 +91,18 @@ class Frontend implements Helper
     {
         $requestHelper = vchelper('Request');
         $nonceHelper = vchelper('Nonce');
+        $sourceId = vchelper("Request")->input('vcv-source-id');
+        $currentUserAccessHelper = vchelper("AccessCurrentUser");
 
-        return (
-            $requestHelper->exists('vcv-editable')
-            && $requestHelper->exists('vcv-nonce')
-            && $nonceHelper->verifyAdmin($requestHelper->input('vcv-nonce'))
-        );
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+            if ($requestHelper->exists('vcv-editable')
+                && $requestHelper->exists('vcv-nonce')
+                && $nonceHelper->verifyAdmin($requestHelper->input('vcv-nonce'))
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

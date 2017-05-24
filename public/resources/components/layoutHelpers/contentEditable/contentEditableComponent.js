@@ -291,7 +291,8 @@ export default class ContentEditableComponent extends React.Component {
       dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
         'vcv-shortcode-string': content,
-        'vcv-nonce': window.vcvNonce
+        'vcv-nonce': window.vcvNonce,
+        'vcv-source-id': window.vcvSourceID
       }).then((data) => {
         this.setState({ html: data })
       })

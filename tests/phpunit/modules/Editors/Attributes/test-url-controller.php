@@ -12,6 +12,7 @@ class UrlControllerTest extends WP_UnitTestCase
 
     public function testPostSearch()
     {
+        wp_set_current_user(1);
         $factory = new WP_UnitTest_Factory_For_Post($this);
         $postId = $factory->create(['post_title' => 'Test Post for search']);
         /** @var \VisualComposer\Helpers\Request $requestHelper */
@@ -19,6 +20,7 @@ class UrlControllerTest extends WP_UnitTestCase
         $requestHelper->setData(
             [
                 'vcv-search' => 'for search',
+                'vcv-source-id' => $postId,
             ]
         );
         /** @var \VisualComposer\Helpers\Filters $helper */
@@ -33,6 +35,7 @@ class UrlControllerTest extends WP_UnitTestCase
                 break;
             }
         }
+
         $this->assertEquals('Test Post for search', $findTitle);
         $this->assertTrue($find, 'post should be found');
     }
