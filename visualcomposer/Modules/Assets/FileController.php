@@ -54,20 +54,24 @@ class FileController extends Container implements Module
      */
     protected function generateGlobalElementsCssFile($response, $payload, Options $optionsHelper, Assets $assetsHelper)
     {
+        $requestHelper = vchelper('Request');
+        if ($requestHelper->input('wp-preview', '') === 'dopreview') {
+            return $response;
+        }
         $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
         $globalElementsBaseCss = [];
         $globalElementsAttributesCss = [];
         $globalElementsMixinsCss = [];
         foreach ($globalElementsCssData as $postElements) {
-            foreach ($postElements as $element) {
-                //if (!isset($globalElementsBaseCss[ $element['tag'] ])) {
-                $baseCssHash = wp_hash($element['baseCss']);
-                $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
-                //}
-                $mixinsHash = wp_hash($element['mixinsCss']);
-                $globalElementsMixinsCss[$mixinsHash] = $element['mixinsCss'];
-                $attributesHash = wp_hash($element['attributesCss']);
-                $globalElementsAttributesCss[$attributesHash] = $element['attributesCss'];
+            if ($postElements) {
+                foreach ($postElements as $element) {
+                    //if (!isset($globalElementsBaseCss[ $element['tag'] ])) {
+                    $baseCssHash = wp_hash($element['baseCss']);
+                    $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
+                    //}
+                    $globalElementsMixinsCss[] = $element['mixinsCss'];
+                    $globalElementsAttributesCss[] = $element['attributesCss'];
+                }
             }
         }
 
