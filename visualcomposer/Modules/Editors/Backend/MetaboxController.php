@@ -41,8 +41,9 @@ class MetaboxController extends Container implements Module
 
     public function render()
     {
+        global $post;
         $this->url->redirectIfUnauthorized();
-        $sourceId = (int)$this->request->input('post');
+        $sourceId = $post->ID;
         vchelper('PostType')->setupPost($sourceId);
         $frontendHelper = vchelper('Frontend');
         $content = vcfilter(
