@@ -25,6 +25,7 @@ class EnqueueController extends Container implements Module
         $requestHelper = vchelper('Request');
         if ($requestHelper->input('preview', '') === 'true') {
             $this->wpAddAction('wp_head', 'enqueuePreviewAssets', $actionPriority);
+
             return;
         }
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
@@ -92,13 +93,46 @@ class EnqueueController extends Container implements Module
             unset($asset);
         }
     }
+
+    /**
+     * Build Css for post preview.
+     * @param \VisualComposer\Helpers\Str $strHelper
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     */
     protected function enqueuePreviewAssets(Str $strHelper, Frontend $frontendHelper)
     {
-        ?>
-        <style>
-        </style>
+        $sourceId = get_the_ID();
+        $elementsCssData = get_post_meta($sourceId, 'elementsCssData', []);
+        $previewElementsBaseCss = [];
+        $previewElementsAttributesCss = [];
+        $previewElementsMixinsCss = [];
+        foreach ($elementsCssData as $postElements) {
+            if ($postElements) {
+                foreach ($postElements as $element) {
+                    if (isset($element['baseCss'])) {
+                        $baseCssHash = wp_hash($element['baseCss']);
+                        $previewElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
+                    }
+                    if (isset($element['mixinsCss'])) {
+                        $previewElementsMixinsCss[] = $element['mixinsCss'];
+                    }
+                    if (isset($element['attributesCss'])) {
+                        $previewElementsAttributesCss[] = $element['attributesCss'];
+                    }
+                }
+            }
+        }
+
+        $previewElementsBaseCssContent = join('', array_values($previewElementsBaseCss));
+        $previewElementsMixinsCssContent = join('', $previewElementsMixinsCss);
+        $previewElementsAttributesCssContent = join('', $previewElementsAttributesCss);
+        ?><style id="vcv-preview-css"><?php
+            echo $previewElementsBaseCssContent . $previewElementsAttributesCssContent
+            . $previewElementsMixinsCssContent;
+        ?></style>
         <?php
     }
+
     protected function addNoJs($output)
     {
         $output .= ' data-vcv-no-js="true" ';

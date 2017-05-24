@@ -79,10 +79,10 @@ class FileController extends Container implements Module
         $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
         $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
 
-        $globalCss = $optionsHelper->get('globalElementsCss', '');
+        // $globalCss = $optionsHelper->get('globalElementsCss', '');
 
         $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
-            . $globalElementsMixinsCssContent . $globalCss;
+            . $globalElementsMixinsCssContent /* . $globalCss */;
         $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
         $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
         $response['globalBundleCssFileUrl'] = $bundleUrl;
