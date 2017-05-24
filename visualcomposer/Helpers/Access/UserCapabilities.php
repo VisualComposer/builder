@@ -29,7 +29,7 @@ class UserCapabilities extends AccessFactory implements Helper
                     return true;
                 }
                 // @codingStandardsIgnoreLine
-            } else if ('page' === $post->post_type && $currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->edit_pages, $post->ID])->get()) {
+            } else if ('page' === $post->post_type && $currentUserAccessHelper->wpAll(['edit_pages', $post->ID])->get()) {
                 return true;
             }
 
