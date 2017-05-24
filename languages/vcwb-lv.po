@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-22 15:56+0300\n"
-"PO-Revision-Date: 2017-05-22 16:01+0300\n"
+"POT-Creation-Date: 2017-05-24 13:34+0300\n"
+"PO-Revision-Date: 2017-05-24 13:43+0300\n"
 "Last-Translator: \n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
 "Language: lv\n"
@@ -34,10 +34,10 @@ msgstr ""
 
 #: tests/phpunit/modules/Editors/test-editpostlinks-controller.php:66
 #: tests/phpunit/modules/Site/test-site-controller.php:46
-#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:89
-#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:114
+#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:90
 #: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:115
-#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:134
+#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:116
+#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:135
 msgid "Edit with Visual Composer"
 msgstr "Labot ar Visual Composer"
 
@@ -184,10 +184,10 @@ msgstr "Premium templeiti būs pieejami drīzumā"
 
 #: visualcomposer/Helpers/Localizations.php:49
 msgid ""
-"There are no elements on your canvas - start by adding element or template"
+"There are no elements on your canvas - start by adding element or template."
 msgstr ""
 "Lapā nav pievienots neviens elements - sāciet ar elementu vai templeita "
-"vienienošanu"
+"vienienošanu."
 
 #: visualcomposer/Helpers/Localizations.php:50
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:64
@@ -264,7 +264,7 @@ msgstr "vai sākt ar templeitu"
 
 #: visualcomposer/Helpers/Localizations.php:75
 msgid ""
-"Visual Composer Hub will offer you unlimited download of premium quality "
+"Visual Composer Hub will offer you unlimited downloads of premium quality "
 "templates, elements, extensions and more."
 msgstr ""
 "Visual Composer Hub jums piedāvās neierobežotu skaitu premium kvalitātes "
@@ -355,7 +355,7 @@ msgstr "Meklēt templeitu pēc nosaukuma un apraksta"
 
 #: visualcomposer/Helpers/Localizations.php:102
 msgid "No Results. Open Visual Composer Hub"
-msgstr ""
+msgstr "Nav Rezultātu"
 
 #: visualcomposer/Helpers/Localizations.php:104
 msgid ""
@@ -369,27 +369,39 @@ msgstr ""
 msgid ""
 "Please make sure to read and agree to our terms of service in order to "
 "activate and use Visual Composer."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/Helpers/Localizations.php:114
 msgid ""
 "Your activation request failed due to the e-mail address format. Please "
 "check your e-mail address and try again."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/Helpers/Localizations.php:118
 msgid ""
 "To activate and use Visual Composer, you must read and agree to the terms of "
 "service."
-msgstr ""
+msgstr "Lai aktivizētu Visual Composer, jums jāpiekrīt noteikumiem."
 
 #: visualcomposer/Helpers/Localizations.php:121
 msgid "Your activation request failed. Please try again."
-msgstr ""
+msgstr "Aktivizācijaneizdevās."
 
 #: visualcomposer/Helpers/Localizations.php:122
 msgid "Please provide correct E-Mail"
-msgstr ""
+msgstr "Lūdzu ievadiet e-pastu"
+
+#: visualcomposer/Helpers/Localizations.php:123
+msgid "Nothing Found"
+msgstr "Nekas netika atrasts"
+
+#: visualcomposer/Helpers/Localizations.php:124
+msgid "Template thumbnail"
+msgstr "Templeita Nosaukums"
+
+#: visualcomposer/Helpers/Localizations.php:125
+msgid "Template preview"
+msgstr "Templeita priekšstats"
 
 #: visualcomposer/Helpers/PostsGridSourcePosts.php:38
 #: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:17
@@ -514,18 +526,13 @@ msgstr "Kaut kas nogāja greizie. Lūdzu sazināties ar atbalsta dienestu."
 msgid "Visual Composer "
 msgstr ""
 
-#: visualcomposer/Modules/Settings/Pages/Authorization.php:99
-#: visualcomposer/resources/views/settings/pages/auth/partials/unauthorized-state.php:34
-msgid "Authorize Site"
-msgstr "Autorizēt Lapu"
-
 #: visualcomposer/Modules/Settings/Pages/General.php:115
 msgid "Disable responsive content elements"
 msgstr "Atslēgt responsīvos satura elementus"
 
 #: visualcomposer/Modules/Settings/Pages/General.php:134
 msgid "Google fonts subsets"
-msgstr ""
+msgstr "Google fontu subsets"
 
 #: visualcomposer/Modules/Settings/Pages/PostTypes.php:92
 msgid ""
@@ -539,6 +546,11 @@ msgstr "Raksta Veidi"
 #: visualcomposer/Modules/Settings/Pages/Roles.php:187
 msgid "Roles settings successfully saved."
 msgstr "Lomas saglabātas veiksmīgi."
+
+#: visualcomposer/Modules/Settings/Pages/_Authorization.php:99
+#: visualcomposer/resources/views/settings/pages/auth/partials/unauthorized-state.php:34
+msgid "Authorize Site"
+msgstr "Autorizēt Lapu"
 
 #: visualcomposer/resources/views/account/partials/activation-finish.php:34
 #: visualcomposer/resources/views/account/partials/activation-login.php:43
@@ -607,15 +619,15 @@ msgstr "Frontend editors"
 
 #: visualcomposer/resources/views/editor/pageEditable/pageEditable.php:8
 msgid "Loading..."
-msgstr ""
+msgstr "Notiek ielāde..."
 
 #: visualcomposer/resources/views/elements/widgets/variables.php:19
 msgid "No Custom widgets found"
-msgstr ""
+msgstr "Neviens custom widgets netika atrasts"
 
 #: visualcomposer/resources/views/elements/widgets/variables.php:36
 msgid "No Widgets found"
-msgstr ""
+msgstr "Neviens widgets netika atrasts"
 
 #: visualcomposer/resources/views/settings/pages/about/index.php:15
 #, php-format
@@ -647,15 +659,15 @@ msgid ""
 "target=\"_blank\" href=\"%s\">kb.wpbakery.com</a> which covers everything "
 "related to Visual Composer starting from Installation and up to more "
 "advanced features based on our Inner API."
-msgstr ""
+msgstr "Tulkojas. <a target=\"_blank\" href=\"%s\">kb.wpbakery.com</a>."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:23
 msgid "Preface"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:25
 msgid "Introduction"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:26
 msgid "Support and Resources"
@@ -663,15 +675,15 @@ msgstr "Atbalsts un Resursi"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:28
 msgid "Support Policy"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:29
 msgid "Release Notes"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:34
 msgid "Licensing"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:36
 msgid "Regular License"
@@ -679,21 +691,21 @@ msgstr "Produkta licence"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:37
 msgid "Extended License"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:39
 msgid ""
 "In-Stock License (Theme\n"
 "                        Integration)"
-msgstr ""
+msgstr "(Tulkojas)"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:46
 msgid "Getting Started"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:48
 msgid "Plugin Installation"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:51
 msgid "Content Type"
@@ -701,11 +713,11 @@ msgstr "Raksta Veidi"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:58
 msgid "Learning More"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:61
 msgid "Basic Concept"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:62
 msgid "Content Elements"
@@ -726,11 +738,11 @@ msgstr "Templeiti"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:69
 msgid "Predefined Layouts"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:70
 msgid "Shortcode Mapper"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:71
 #: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:20
@@ -740,7 +752,7 @@ msgstr "Režģa Veidotājs"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:72
 msgid "Image filters"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:73
 #: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:21
@@ -749,24 +761,24 @@ msgstr "Elementa Sākotnējie iestatījumi"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:78
 msgid "Visual Composer \"How To's\""
-msgstr ""
+msgstr "Tulkojas\""
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:79
 msgid ""
 "In this section you will find a quick tips in form of video tutorials on how "
 "to operate with Visual\n"
 "                Composer."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:85
 msgid ""
 "Here you can find answers to the Frequently Asked Question about Visual "
 "Composer."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:91
 msgid "Add-ons"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:93
 msgid "Templatera"
@@ -774,34 +786,34 @@ msgstr "Templeiti"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:94
 msgid "Easy Tables"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:96
 msgid ""
 "Add-on Development\n"
 "                        Rules"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:103
 msgid "Theme Integration"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:104
 msgid "See how you can integrate Visual Composer within your WordPress theme."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:108
 msgid "Inner API"
-msgstr ""
+msgstr "Iekšējais API"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:109
 msgid ""
 "Inner API section describes capabilities of interaction with Visual Composer."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/faq.php:116
 msgid "Visit Knowledge Base for more information"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:19
 msgid "New Elements and Options"
@@ -812,7 +824,7 @@ msgid ""
 "Visual Composer 4.10 offers new and enhanced elements to improve your page "
 "building process. You will discover new options that will help you build "
 "even better layouts and use unlimited options of page building plugin."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:27
 msgid ""
@@ -820,7 +832,7 @@ msgid ""
 "contains all the best of what you have been looking for. We are aiming to "
 "offer you most flexible tools and options with everything you will ever need "
 "to create a website."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:39
 msgid "ACF Support"
@@ -830,7 +842,7 @@ msgstr "ACF atbalsts"
 msgid ""
 "Combine the power of Visual Composer and ACF - add any custom field of ACF "
 "to your page, post and even custom post type."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:49
 msgid "Categories and Authors"
@@ -840,7 +852,7 @@ msgstr "Kategorijas un Autori"
 msgid ""
 "Visual Composer Grid Builder has 2 more content elements allowing you to add "
 "data about categories and authors to your post grid."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:60
 msgid "Parallax Speed"
@@ -850,17 +862,17 @@ msgstr "Parallax ātrums"
 msgid ""
 "Control speed of Visual Composer parallax to align this effect with your "
 "overall website mood by simply adjusting speed parameter."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/main.php:74
 msgid "Thank you for choosing Visual Composer,<br/>Michael M, CEO at WPBakery"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/resources.php:19
 msgid ""
 "There are several resources available to Visual Composer users to help you "
 "to get around plugin:"
-msgstr ""
+msgstr "Tulkojas:"
 
 #: visualcomposer/resources/views/settings/pages/about/partials/resources.php:40
 msgid "Official Support"
@@ -878,6 +890,9 @@ msgid ""
 "Ticket system\" form located at <a href=\"%s\" target=\"_blank\">support "
 "page</a>, then follow on screen instructions."
 msgstr ""
+"Tulkojas. <a href=\"%s\" target=\"_blank\">support page</a> <a href=\"%s\" "
+"target=\"_blank\">Purchase code</a> <a href=\"%s\" target=\"_blank\">support "
+"page</a>."
 
 #: visualcomposer/resources/views/settings/pages/about/partials/resources.php:55
 #, php-format
@@ -886,7 +901,7 @@ msgid ""
 "support and go through all steps described and listed in <a href=\"%s\" "
 "target=\"_blank\">Support Policy</a> in order to get your issues solved as "
 "soon as possible."
-msgstr ""
+msgstr "Tulkojas.  <a href=\"%s\" target=\"_blank\">Support Policy</a>."
 
 #: visualcomposer/resources/views/settings/pages/general/index.php:39
 #: visualcomposer/resources/views/settings/pages/index.php:38
@@ -902,11 +917,11 @@ msgstr "Atslēgt"
 msgid ""
 "Disable content elements from \"stacking\" one on top other on small media "
 "screens (Example: mobile devices)."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/general/partials/google-fonts-subsets.php:28
 msgid "Select subsets for Google Fonts available to content elements."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/license/partials/activated-state.php:17
 msgid ""
@@ -914,7 +929,7 @@ msgid ""
 "the customer benefits. Thank you for choosing Visual Composer as your page "
 "builder. If you do not wish to use Visual Composer on this WordPress site "
 "you can deactivate your license below."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/license/partials/activated-state.php:30
 #: visualcomposer/resources/views/settings/pages/plugins/notice.php:22
@@ -927,7 +942,7 @@ msgid ""
 "your copy of the plugin. By activating Visual Composer license you will "
 "unlock premium options - <strong>direct plugin updates</strong> and "
 "<strong>access to official support.</strong>"
-msgstr ""
+msgstr "Tulkojas"
 
 #: visualcomposer/resources/views/settings/pages/license/partials/deactivated-state.php:55
 #, php-format
@@ -1016,7 +1031,7 @@ msgstr "Lapas iestatījumi"
 msgid ""
 "Control access to Visual Composer page settings. Note: Disable page settings "
 "to restrict editing of Custom CSS through a page."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:19
 msgid "Pages only"
@@ -1049,7 +1064,7 @@ msgid ""
 "Control access rights to element preset in element edit form. Note: \"Apply "
 "presets only\" restricts users from saving new presets, deleting existing "
 "and setting defaults."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:28
 #: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:29
@@ -1090,7 +1105,7 @@ msgid ""
 "Control access rights to templates and predefined templates. Note: \"Apply "
 "templates only\" restricts users from saving new templates and deleting "
 "existing."
-msgstr ""
+msgstr "Tulkojas...."
 
 #: visualcomposer/resources/views/settings/partials/activation-notice.php:14
 #, php-format
