@@ -1,18 +1,21 @@
 @suggest-box-border-color: @vcui-form-input-border-color;
-.vcv-ui-suggest-box.vcv-ui-form-input {
-  position: fixed;
-  background: #fff;
-  padding: 0;
-  z-index: 1111;
-  margin-bottom: 5px;
-  max-width: 70px;
-  transition: none;
-  & > :first-child {
-    border-top: none;
-  }
+// Additional .vcv-layout-header selector is used to override wordpress styles
+.vcv-layout-header {
+  .vcv-ui-suggest-box.vcv-ui-form-input {
+    position: fixed;
+    background: #fff;
+    padding: 0;
+    z-index: 1111;
+    margin-bottom: 5px;
+    max-width: 70px;
+    transition: none;
+    & > :first-child {
+      border-top: none;
+    }
 
-  @media (max-width: @vcv-media-sm) {
-    display: none;
+    @media (max-width: @vcv-media-sm) {
+      display: none;
+    }
   }
 }
 
