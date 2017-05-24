@@ -114,8 +114,9 @@ class DataController extends Container implements Module
         }
     }
 
-    protected function updatePostAssets($sourceId, $currentUserAccessHelper)
+    protected function updatePostAssets($sourceId)
     {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
         // @codingStandardsIgnoreLine
         global $post_type_object;
         // @codingStandardsIgnoreLine

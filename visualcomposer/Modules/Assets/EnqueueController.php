@@ -22,6 +22,11 @@ class EnqueueController extends Container implements Module
     public function __construct()
     {
         $actionPriority = 50;
+        $requestHelper = vchelper('Request');
+        if ($requestHelper->input('preview', '') === 'true') {
+            $this->wpAddAction('wp_head', 'enqueuePreviewAssets', $actionPriority);
+            return;
+        }
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
 
         /** @see \VisualComposer\Modules\Assets\EnqueueController::enqueueAssets */
@@ -87,7 +92,13 @@ class EnqueueController extends Container implements Module
             unset($asset);
         }
     }
-
+    protected function enqueuePreviewAssets(Str $strHelper, Frontend $frontendHelper)
+    {
+        ?>
+        <style>
+        </style>
+        <?php
+    }
     protected function addNoJs($output)
     {
         $output .= ' data-vcv-no-js="true" ';
