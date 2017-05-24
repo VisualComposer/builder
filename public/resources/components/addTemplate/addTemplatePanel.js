@@ -165,19 +165,22 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getNoResultsElement () {
-    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.downloadMoreTemplates : 'Download More Templates'
-    const noTemplatesText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.noTemplatesFound : `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
-    const notRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.notRightTemplatesFound : `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
+    // const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.downloadMoreTemplates : 'Download More Templates'
+    // const noTemplatesText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.noTemplatesFound : `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
+    // const notRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.notRightTemplatesFound : `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
+    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
+    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.blankPageHelperText : 'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.'
+
     let source, btnText, helper, button
     if (!this.props.categories[ 0 ].templates().length && !this.state.isSearching) {
-      btnText = buttonText
-      helper = noTemplatesText
-      button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
+      // btnText = buttonText
+      // helper = noTemplatesText
+      // button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       source = sharedAssetsLibraryService.getSourcePath('images/add-item.png')
     } else {
-      btnText = buttonText
-      helper = notRightTemplatesFoundText
-      button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
+      // btnText = buttonText
+      // helper = notRightTemplatesFoundText
+      // button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
     }
     return <div className='vcv-ui-editor-no-items-container'>
@@ -189,12 +192,27 @@ export default class AddTemplatePanel extends React.Component {
         />
       </div>
       <div className='vcv-ui-editor-no-items-content'>
-        <p className='vcv-ui-form-helper'>{helper}</p>
+        <button className='vcv-start-blank-button' disabled>{buttonText}</button>
       </div>
       <div className='vcv-ui-editor-no-items-content'>
-        {button}
+        <p className='vcv-start-blank-helper'>{helperText}</p>
       </div>
     </div>
+    // return <div className='vcv-ui-editor-no-items-container'>
+    //   <div className='vcv-ui-editor-no-items-content'>
+    //     <img
+    //       className='vcv-ui-editor-no-items-image'
+    //       src={source}
+    //       alt='Nothing Found'
+    //     />
+    //   </div>
+    //   <div className='vcv-ui-editor-no-items-content'>
+    //     <p className='vcv-ui-form-helper'>{helper}</p>
+    //   </div>
+    //   <div className='vcv-ui-editor-no-items-content'>
+    //     {button}
+    //   </div>
+    // </div>
   }
 
   getTemplateControl (template) {
@@ -310,7 +328,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   render () {
-    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
+    // const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
 
@@ -332,11 +350,10 @@ export default class AddTemplatePanel extends React.Component {
       'vcv-ui-tree-content-error-message': true,
       'vcv-ui-tree-content-error-message--visible': this.state.error
     })
-    let listCtaClasses = classNames({
-      'vcv-ui-editor-list-cta-wrapper': true,
-      'vcv-ui-state--hidden': itemsOutput && !itemsOutput.length
-    })
-
+    // let listCtaClasses = classNames({
+    //   'vcv-ui-editor-list-cta-wrapper': true,
+    //   'vcv-ui-state--hidden': itemsOutput && !itemsOutput.length
+    // })
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
         <div className='vcv-ui-tree-content'>
@@ -378,20 +395,67 @@ export default class AddTemplatePanel extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className={listCtaClasses}>
-                  <button
-                    className='vcv-ui-editor-no-items-action vcv-ui-editor-button-disabled'
-                    disabled
-                    onClick={this.handleGoToHub}
-                  >
-                    {buttonText}
-                  </button>
-                </div>
               </div>
             </Scrollbar>
           </div>
         </div>
       </div>
     )
+    // return (
+    //   <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
+    //     <div className='vcv-ui-tree-content'>
+    //       {this.getSearch()}
+    //       <div className='vcv-ui-tree-content-section'>
+    //         <div className='vcv-ui-tree-content-error-message-container'>
+    //           <div className={errorMessageClasses}>{this.state.errorName}</div>
+    //         </div>
+    //         <Scrollbar>
+    //           <div className={innerSectionClasses}>
+    //             <div className='vcv-ui-form-dependency'>
+    //               <div className='vcv-ui-form-group'>
+    //                 <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
+    //                 <form
+    //                   className='vcv-ui-save-template-form'
+    //                   onSubmit={this.handleSaveTemplate}
+    //                   disabled={this.state.showSpinner}
+    //                 >
+    //                   <input
+    //                     className='vcv-ui-form-input'
+    //                     type='text'
+    //                     value={this.state.templateName}
+    //                     onChange={this.changeTemplateName}
+    //                     disabled={this.state.showSpinner}
+    //                   />
+    //                   <button
+    //                     className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
+    //                     type='submit'
+    //                     disabled={this.state.showSpinner}
+    //                   >{saveTemplateText}
+    //                   </button>
+    //                 </form>
+    //               </div>
+    //             </div>
+    //             <div className='vcv-ui-editor-plates-container'>
+    //               <div className='vcv-ui-editor-plates'>
+    //                 <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+    //                   {this.getTemplateListContainer(itemsOutput)}
+    //                 </div>
+    //               </div>
+    //             </div>
+    //             <div className={listCtaClasses}>
+    //               <button
+    //                 className='vcv-ui-editor-no-items-action vcv-ui-editor-button-disabled'
+    //                 disabled
+    //                 onClick={this.handleGoToHub}
+    //               >
+    //                 {buttonText}
+    //               </button>
+    //             </div>
+    //           </div>
+    //         </Scrollbar>
+    //       </div>
+    //     </div>
+    //   </div>
+    // )
   }
 }
