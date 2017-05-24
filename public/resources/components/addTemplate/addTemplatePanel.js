@@ -171,7 +171,8 @@ export default class AddTemplatePanel extends React.Component {
     const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
     const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.blankPageHelperText : 'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.'
 
-    let source, btnText, helper, button
+    // let source, btnText, helper, button
+    let source, button
     if (!this.props.categories[ 0 ].templates().length && !this.state.isSearching) {
       // btnText = buttonText
       // helper = noTemplatesText
