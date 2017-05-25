@@ -28,7 +28,7 @@ class TemplatesDownloadController extends Container implements Module
         }
     }
 
-    protected function updateTemplates($bundleJson, $payload, Options $optionsHelper)
+    protected function updateTemplates($bundleJson, Options $optionsHelper)
     {
         if (isset($bundleJson['templates'])) {
             $templates = $bundleJson['templates'];

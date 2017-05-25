@@ -25,6 +25,7 @@ class CategoriesUpdater extends Container implements Module
 
     protected function updateCategories($bundleJson)
     {
+        $hubBundleHelper = vchelper('HubBundle');
         $hubHelper = vchelper('HubCategories');
         /** @var Differ $categoriesDiffer */
         $hubCategories = $hubHelper->getCategories();
@@ -36,7 +37,11 @@ class CategoriesUpdater extends Container implements Module
 
         $fileHelper = vchelper('File');
         $fileHelper->createDirectory($hubHelper->getCategoriesPath());
-        $fileHelper->copyDirectory($hubHelper->getBundleFolder('categories'), $hubHelper->getCategoriesPath(), false);
+        $fileHelper->copyDirectory(
+            $hubBundleHelper->getTempBundleFolder('categories'),
+            $hubHelper->getCategoriesPath(),
+            false
+        );
         $categoriesDiffer->onUpdate(
             [$hubHelper, 'updateCategory']
         )->set(

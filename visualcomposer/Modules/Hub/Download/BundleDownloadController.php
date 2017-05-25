@@ -46,7 +46,7 @@ class BundleDownloadController extends Container implements Module
         if (!is_wp_error($archive)) {
             $archive = $this->readBundleJson($archive);
             if (!is_wp_error($archive)) {
-                vcevent('vcv:hub:download:bundle', $archive);
+                vcevent('vcv:hub:download:bundle', [$archive]);
             }
         }
         // clean-up
@@ -60,7 +60,7 @@ class BundleDownloadController extends Container implements Module
         $hubHelper = vchelper('HubBundle');
         $result = $hubHelper->unzipDownloadedBundle($archive);
         if (!is_wp_error($result)) {
-            return $hubHelper->readBundleJson($hubHelper->getBundleFolder('bundle.json'));
+            return $hubHelper->readBundleJson($hubHelper->getTempBundleFolder('bundle.json'));
         }
 
         return $result;

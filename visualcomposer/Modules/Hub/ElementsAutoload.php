@@ -56,8 +56,8 @@ class ElementsAutoload extends Autoload implements Module
         /** @var \VisualComposer\Framework\Application $appHelper */
         $appHelper = vcapp();
 
-        foreach ($hubHelper->getElements() as $element) {
-            $path = $hubHelper->getElementPath($element . '/*/*.php');
+        foreach ($hubHelper->getElements() as $key => $element) {
+            $path = $hubHelper->getElementPath($key . '/*/*.php');
             $components = $appHelper->rglob($path);
             $all = array_merge($all, $this->checkElementController($components));
         }

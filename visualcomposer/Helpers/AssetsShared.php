@@ -15,6 +15,10 @@ class AssetsShared extends Container implements Helper
 {
     public function getSharedAssets()
     {
+        $optionsHelper = vchelper('Options');
+
+        return $optionsHelper->get('assetsLibrary', []);
+
         $urlHelper = vchelper('Url');
 
         return [

@@ -96,6 +96,7 @@ class ActivationController extends Container implements Module
         Token $tokenHelper,
         Options $optionsHelper
     ) {
+        // TODO: check manage_options capabilities and setTransient or something when really activation is needed.
         // This is a place where we need to make registration/activation request in account
         $result = wp_remote_get(
             VCV_ACCOUNT_URL . '/subscribe-lite-version',
