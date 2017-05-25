@@ -18,19 +18,22 @@ const SmartLine = function (options) {
 }
 
 SmartLine.prototype.create = function () {
+  this.elContainer = document.createElement('div')
+  this.elContainer.classList.add('vcv-ui-smart-line-container')
   this.el = document.createElement('svg')
   this.el.id = 'vcv-dnd-smart-line'
   this.currentElement = null
   this.prevElement = null
   this.point = { x: 0, y: 0 }
-  this.options.container.appendChild(this.el)
+  this.elContainer.appendChild(this.el)
+  this.options.container.appendChild(this.elContainer)
 }
 SmartLine.prototype.setPoint = function (x, y) {
   this.point.x = x
   this.point.y = y
 }
 SmartLine.prototype.remove = function () {
-  this.options.container.removeChild(this.el)
+  this.options.container.removeChild(this.elContainer)
   this.prevElement = null
 }
 SmartLine.prototype.setCurrentElement = function (element) {

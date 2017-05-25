@@ -24,13 +24,17 @@ export default class Helper {
     this.hide()
   }
   draw () {
+    const helperContainer = document.createElement('div')
+    helperContainer.classList.add('vcv-ui-drag-helper-wrapper')
+
     let control = document.createElement('div')
     control.classList.add('vcv-drag-helper')
     control.classList.add('vcv-drag-helper-' + this.element.tag)
     if (this.element.containerFor() && this.element.containerFor().length) {
       control.classList.add('vcv-drag-helper-container')
     }
-    this.options.container.appendChild(control)
+    helperContainer.appendChild(control)
+    this.options.container.appendChild(helperContainer)
     let icon = this.element.options.iconLink
 
     if (icon) {
@@ -56,6 +60,11 @@ export default class Helper {
   remove () {
     let control = this.control
     this.control = null
-    control.parentNode.removeChild(control)
+    let controlParent = control.parentNode
+    if (controlParent.classList.contains('vcv-ui-drag-helper-wrapper')) {
+      controlParent.parentNode.removeChild(controlParent)
+    } else {
+      controlParent.removeChild(control)
+    }
   }
 }
