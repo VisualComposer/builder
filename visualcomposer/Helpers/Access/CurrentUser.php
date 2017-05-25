@@ -34,9 +34,8 @@ class CurrentUser extends AccessFactory implements Helper
         //!!!
         $this->part = $part;
         // we also check for user "logged_in" status.
-        $isUserLoggedIn = function_exists('is_user_logged_in')
-            && is_user_logged_in(
-            ); // TODO: fix this issue: this should never happen. add action plugins_loaded pluggable.php!!
+        require_once ABSPATH . "wp-includes/pluggable.php";
+        $isUserLoggedIn = is_user_logged_in();
         $this->setValidAccess($isUserLoggedIn && $this->getValidAccess()); // send current status to upper level.
         // Init user role
         $this->getRole();
