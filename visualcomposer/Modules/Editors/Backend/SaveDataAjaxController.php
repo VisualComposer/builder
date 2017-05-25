@@ -53,10 +53,11 @@ class SaveDataAjaxController extends Container implements Module
         $payload,
         Request $requestHelper
     ) {
+        global $post;
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
-        $sourceId = $requestHelper->input('post_ID');
+        $sourceId = $post->ID;
 
         if (!is_array($response)) {
             $response = [];
