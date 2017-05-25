@@ -8,9 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;

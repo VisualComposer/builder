@@ -97,11 +97,8 @@ class EnqueueController extends Container implements Module
 
     /**
      * Build Css for post preview.
-     *
-     * @param \VisualComposer\Helpers\Str $strHelper
-     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    protected function enqueuePreviewGlobalCss(Str $strHelper, Frontend $frontendHelper)
+    protected function enqueuePreviewGlobalCss()
     {
         $sourceId = get_the_ID();
         $elementsCssData = get_post_meta($sourceId, 'elementsCssData', []);
@@ -131,18 +128,19 @@ class EnqueueController extends Container implements Module
 
         ?>
         <style id="vcv-preview-global-css"><?php
-        echo $previewElementsBaseCssContent . $previewElementsAttributesCssContent
-            . $previewElementsMixinsCssContent . $globalCss;
-        ?></style>
+            echo $previewElementsBaseCssContent . $previewElementsAttributesCssContent
+                . $previewElementsMixinsCssContent . $globalCss;
+            ?></style>
         <?php
         $sourceCss = get_post_meta($sourceId, 'vcvPreviewSourceCss', true);
         ?>
         <style id="vcv-preview-source-css"><?php echo $sourceCss ?></style><?php
     }
+
     /**
      * @param \VisualComposer\Helpers\Str $strHelper
      */
-    protected function enqueuePreviewAssets(Str $strHelper, Frontend $frontendHelper)
+    protected function enqueuePreviewAssets(Str $strHelper)
     {
         $sourceId = get_the_ID();
         $assetsFiles = get_post_meta($sourceId, 'vcvPreviewSourceAssetsFiles', true);
@@ -165,6 +163,7 @@ class EnqueueController extends Container implements Module
             unset($asset);
         }
     }
+
     protected function addNoJs($output)
     {
         $output .= ' data-vcv-no-js="true" ';

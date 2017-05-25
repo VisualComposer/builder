@@ -31,9 +31,7 @@ trait ShortcodesTrait
      */
     protected function renderEditor(
         $response,
-        $payload,
         Request $request,
-        Str $strHelper,
         PostType $postTypeHelper,
         CurrentUser $currentUserAccessHelper
     ) {

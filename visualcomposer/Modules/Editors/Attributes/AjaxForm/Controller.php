@@ -13,7 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Modules\Updates\UpdatesController;
 
 class Controller extends Container implements Module
 {

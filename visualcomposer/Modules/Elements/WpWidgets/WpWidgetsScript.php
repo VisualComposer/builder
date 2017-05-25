@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
 

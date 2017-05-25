@@ -8,8 +8,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use Closure;
-
 /**
  * Interface Container.
  */

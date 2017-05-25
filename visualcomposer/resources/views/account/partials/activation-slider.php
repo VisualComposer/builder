@@ -50,26 +50,29 @@ if (!defined('ABSPATH')) {
                 'Want to work with existing pages, posts or custom post types? Access your content and select `Edit with Visual Composer`.',
                 'vcwb'
             ); ?></p>
-	    <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo __(
+        <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo __(
                 'Don\'t forget to tweet about Visual Composer Website Builder. Thanks!',
                 'vcwb'
             ); ?>
-		    <a href="https://twitter.com/share"
-				    data-via="wpbakery"
-				    data-hashtags="madeinvc"
-				    class="twitter-share-button"
-				    data-text="<?php esc_attr_e('Visual Composer Website Builder - now I can build any #WordPress site fast and easy!', 'vcwb');?>"
-				    data-url="http://visualcomposer.io"
-				    data-size="large">Tweet</a>
-		    <script>! function ( d, s, id ) {
-                var js, fjs = d.getElementsByTagName( s )[ 0 ], p = /^http:/.test( d.location ) ? 'http' : 'https';
-                if ( ! d.getElementById( id ) ) {
-                  js = d.createElement( s );
+            <a href="https://twitter.com/share"
+                data-via="wpbakery"
+                data-hashtags="madeinvc"
+                class="twitter-share-button"
+                data-text="<?php esc_attr_e(
+                    'Visual Composer Website Builder - now I can build any #WordPress site fast and easy!',
+                    'vcwb'
+                ); ?>"
+                data-url="http://visualcomposer.io"
+                data-size="large">Tweet</a>
+            <script>!function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[ 0 ], p = /^http:/.test(d.location) ? 'http' : 'https';
+                if (!d.getElementById(id)) {
+                  js = d.createElement(s);
                   js.id = id;
                   js.src = p + '://platform.twitter.com/widgets.js';
-                  fjs.parentNode.insertBefore( js, fjs );
+                  fjs.parentNode.insertBefore(js, fjs);
                 }
-              }( document, 'script', 'twitter-wjs' );</script>
-	    </p>
+              }(document, 'script', 'twitter-wjs');</script>
+        </p>
     </div>
 </div>

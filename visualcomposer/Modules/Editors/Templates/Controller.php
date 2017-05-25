@@ -111,6 +111,8 @@ class Controller extends Container implements Module
                 'status' => $postTypeHelper->create($data),
             ];
         }
+
+        return ['status' => false];
     }
 
     /**
@@ -130,5 +132,7 @@ class Controller extends Container implements Module
                 'status' => $postTypeHelper->delete($id, 'vcv_templates'),
             ];
         }
+
+        return ['status' => false];
     }
 }

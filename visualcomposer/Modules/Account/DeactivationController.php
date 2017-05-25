@@ -10,11 +10,8 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Modules\Account\Pages\ActivationPage;
 
 class DeactivationController extends Container implements Module
 {

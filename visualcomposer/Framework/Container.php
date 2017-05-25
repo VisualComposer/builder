@@ -47,7 +47,6 @@ abstract class Container
         if ($inner) {
             $reflectionMethod = new ReflectionMethod($this, $method);
             if (!$reflectionMethod->isPublic()) {
-                // TODO: Check for correct.
                 $reflectionMethod->setAccessible(true);
             }
 

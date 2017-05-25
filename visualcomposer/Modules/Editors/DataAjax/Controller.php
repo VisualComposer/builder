@@ -100,32 +100,27 @@ class Controller extends Container implements Module
      * Save post content and used assets.
      *
      * @param $response
-     *
-     * @param $payload
      * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
-     *
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
-     *
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
+     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
      * @return array|null
      */
     private function setData(
         $response,
-        $payload,
         Filters $filterHelper,
         Request $requestHelper,
         PostType $postTypeHelper,
         CurrentUser $currentUserAccessHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
-        // @codingStandardsIgnoreLine
-        global $post_type_object;
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
         $data = $requestHelper->input('vcv-data');
+        $dataDecoded = $requestHelper->inputJson('vcv-data');
         $content = $requestHelper->input('vcv-content');
         $sourceId = $requestHelper->input('vcv-source-id');
 
@@ -133,14 +128,13 @@ class Controller extends Container implements Module
             $response = [];
         }
 
-        // @codingStandardsIgnoreLine
         if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
                 // @codingStandardsIgnoreStart
                 $post->post_content = $content;
-                if (isset($data['draft']) && $post->post_status !== 'publish') {
+                if (isset($dataDecoded['draft']) && $post->post_status !== 'publish') {
                     $post->post_status = 'draft';
                 } else {
                     if($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->publish_posts, $sourceId])->get()) {
