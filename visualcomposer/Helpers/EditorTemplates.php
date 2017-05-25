@@ -27,19 +27,30 @@ class EditorTemplates implements Helper
     }
 
     /**
+     * @param bool $data
+     *
      * @return array
      */
-    public function allPredefined()
+    public function allPredefined($data = true)
     {
         $optionHelper = vchelper('Options');
         $predefinedTemplates = $optionHelper->get('predefinedTemplates', []);
         $templates = [];
         foreach ($predefinedTemplates as $template) {
-            $template['data'] = $optionHelper->get('predefinedTemplateElements:' . $template['id']);
+            if ($data) {
+                $template['data'] = $optionHelper->get('predefinedTemplateElements:' . $template['id']);
+            }
             $templates[] = $template;
         }
 
         return $templates;
+    }
+
+    public function setPredefined($templates)
+    {
+        $optionHelper = vchelper('Options');
+
+        return $optionHelper->set('predefinedTemplates', $templates);
     }
 
     /**

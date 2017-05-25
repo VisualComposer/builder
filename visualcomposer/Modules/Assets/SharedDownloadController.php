@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\AssetsShared;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\SharedLibraries;
 use VisualComposer\Helpers\Options;
@@ -34,7 +35,8 @@ class SharedDownloadController extends Container implements Module
         $bundleJson,
         Options $optionsHelper,
         File $fileHelper,
-        SharedLibraries $sharedLibrariesHelper
+        SharedLibraries $sharedLibrariesHelper,
+        AssetsShared $assetsSharedHelper
     ) {
         if (isset($bundleJson['assetsLibrary'])) {
             $assetsLibrary = $bundleJson['assetsLibrary'];
@@ -54,7 +56,12 @@ class SharedDownloadController extends Container implements Module
                     $toSaveAssetsLibrary[ $asset['name'] ] = $assetData;
                 }
             }
-            $optionsHelper->set('assetsLibrary', $toSaveAssetsLibrary);
+            $differ = vchelper('Differ');
+            // Set old
+            $differ->set($assetsSharedHelper->getSharedAssets());
+            // Merge new
+            $differ->set($toSaveAssetsLibrary);
+            $optionsHelper->set('assetsLibrary', $differ->get());
         }
     }
 

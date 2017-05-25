@@ -29,6 +29,54 @@ class HelpersDifferTest extends WP_UnitTestCase
         $this->assertEquals(['test' => 1, 'test2' => 2, 'test3' => 3, 'test4' => 4], $differ->get());
     }
 
+    public function testDifferDoubleSet()
+    {
+        $differ = vchelper('Differ');
+        $old = ['test' => 1, 'test2' => 2];
+        $new = ['test3' => 3, 'test2' => 2, 'test4' => 4];
+
+        $differ->set($old);
+        $differ->set($new);
+
+        $this->assertEquals(['test' => 1, 'test2' => 2, 'test3' => 3, 'test4' => 4], $differ->get());
+    }
+
+    public function testDifferDoubleSet2()
+    {
+        $differ = vchelper('Differ');
+        $old = ['test' => 1, 'test2' => 2];
+        $new = ['test3' => 3, 'test2' => 3, 'test4' => 4];
+
+        $differ->set($old);
+        $differ->set($new);
+
+        $this->assertEquals(['test' => 1, 'test2' => 3, 'test3' => 3, 'test4' => 4], $differ->get());
+    }
+
+    public function testDifferDoubleSet3()
+    {
+        $differ = vchelper('Differ');
+        $old = ['test' => 1, 'test2' => 2];
+        $new = ['test3' => 3];
+
+        $differ->set($old);
+        $differ->set($new);
+
+        $this->assertEquals(['test' => 1, 'test2' => 2, 'test3' => 3], $differ->get());
+    }
+
+    public function testDifferDoubleSet4()
+    {
+        $differ = vchelper('Differ');
+        $old = ['test' => 1, 'test2' => 2];
+        $new = ['test2' => 3];
+
+        $differ->set($old);
+        $differ->set($new);
+
+        $this->assertEquals(['test' => 1, 'test2' => 3], $differ->get());
+    }
+
     public function testDifferSetMultipleTwice()
     {
         $differ = vchelper('Differ');

@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -28,7 +29,7 @@ class TemplatesDownloadController extends Container implements Module
         }
     }
 
-    protected function updateTemplates($bundleJson, Options $optionsHelper)
+    protected function updateTemplates($bundleJson, Options $optionsHelper, EditorTemplates $editorTemplatesHelper)
     {
         if (isset($bundleJson['templates'])) {
             $templates = $bundleJson['templates'];
@@ -64,7 +65,14 @@ class TemplatesDownloadController extends Container implements Module
                 $toSaveTemplates[] = $template;
                 $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
             }
-            $optionsHelper->set('predefinedTemplates', $toSaveTemplates);
+
+            $differ = vchelper('Differ');
+            // Set old
+            $differ->set($editorTemplatesHelper->allPredefined(false));
+            // Merge new
+            $differ->set($toSaveTemplates);
+
+            $editorTemplatesHelper->setPredefined($differ->get());
         }
     }
 

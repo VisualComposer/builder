@@ -100,4 +100,11 @@ class AssetsShared extends Container implements Helper
             ],
         ];
     }
+
+    public function setSharedAssets($assets)
+    {
+        $optionsHelper = vchelper('Options');
+
+        return $optionsHelper->set('assetsLibrary', $assets);
+    }
 }
