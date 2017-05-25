@@ -6,14 +6,15 @@ let autoprefixer = require('autoprefixer')
 let webpack = require('webpack')
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval',
   entry: {
-    // node: './public/node-main',
+    node: './public/node-main',
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    // wpbackend: './public/wpbackend-main',
-    // wpbackendswitch: './public/wpbackend-switch',
+    wpbackend: './public/wpbackend-main',
+    wpbackendswitch: './public/wpbackend-switch',
+    wpsettings: './public/wp-settings-main',
     app: [],
     vendor: [
       'jquery',
@@ -22,21 +23,21 @@ module.exports = {
       'classnames',
       'lodash',
       'vc-cake',
-      './node_modules/babel-runtime/core-js.js',
-      './node_modules/babel-runtime/helpers/createClass.js',
-      './node_modules/babel-runtime/helpers/inherits.js',
-      './node_modules/babel-runtime/helpers/typeof.js',
-      './node_modules/babel-runtime/helpers/possibleConstructorReturn.js',
-      './node_modules/babel-runtime/helpers/classCallCheck.js',
-      './node_modules/babel-runtime/helpers/extends.js',
-      './node_modules/babel-runtime/core-js/symbol.js',
-      './node_modules/babel-runtime/core-js/symbol/iterator.js',
-      './node_modules/babel-runtime/core-js/object/set-prototype-of.js',
-      './node_modules/babel-runtime/core-js/object/get-prototype-of.js',
-      './node_modules/babel-runtime/core-js/object/define-property.js',
-      './node_modules/babel-runtime/core-js/object/create.js',
-      './node_modules/babel-runtime/core-js/object/assign.js',
-      './node_modules/babel-runtime/core-js/object/keys.js'
+      'babel-runtime/core-js.js',
+      'babel-runtime/helpers/createClass.js',
+      'babel-runtime/helpers/inherits.js',
+      'babel-runtime/helpers/typeof.js',
+      'babel-runtime/helpers/possibleConstructorReturn.js',
+      'babel-runtime/helpers/classCallCheck.js',
+      'babel-runtime/helpers/extends.js',
+      'babel-runtime/core-js/symbol.js',
+      'babel-runtime/core-js/symbol/iterator.js',
+      'babel-runtime/core-js/object/set-prototype-of.js',
+      'babel-runtime/core-js/object/get-prototype-of.js',
+      'babel-runtime/core-js/object/define-property.js',
+      'babel-runtime/core-js/object/create.js',
+      'babel-runtime/core-js/object/assign.js',
+      'babel-runtime/core-js/object/keys.js'
     ]
   },
   output: {
@@ -54,134 +55,78 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
     }),
-    new ExtractTextPlugin('[name].bundle.css'),
     new webpack.NamedModulesPlugin()
   ],
   vc: {
     node: {
       modules: [
-        'content/storage',
-        'content/assets',
-        'content/layout',
-        'content/tree-view-dnd',
-        'content/local-storage/data-load',
-        'content/local-storage/data-save',
-        'content/local-storage/data-unload',
-        'ui/layout-bar',
-        'ui/navbar',
-        'ui/brand-logo',
-        'ui/addElement',
-        'ui/edit-element',
-        'ui/addTemplate',
-        'ui/tree-view',
-        'ui/undo-redo',
-        'ui/layout-control',
-        'ui/settings',
-        'ui/navbar-separator',
-        'ui/node-save',
-        'ui/start-blank'
+        'content/modernLayout',
+        'workspace'
       ],
       services: [
         'utils',
         'document',
-        'local-storage',
+        'localStorage',
         'cook',
-        'shared-library',
-        'assetsLibrary',
-        'time-machine',
+        'sharedAssetsLibrary',
+        'elementAssetsLibrary',
         'actions-manager',
         'rules-manager',
         'api',
-        'categories',
         'dataProcessor',
-        'assetsStorage',
-        'assetsManager',
+        'modernAssetsStorage',
         'stylesManager',
-        'myTemplates'
+        'myTemplates',
+        'hubCategories',
+        'hubGroups'
       ]
     },
     wp: {
       modules: [
-        'content/storage',
-        // 'content/assets',
-        'content/layout',
-        'content/wordpress/data-load',
-        'content/wordpress/data-save',
-        'content/wordpress/data-unload',
-        'content/tree-view-dnd',
-        'ui/layout-bar',
-        'ui/navbar',
-        'ui/brand-logo',
-        'ui/addElement',
-        'ui/edit-element',
-        // 'ui/addTemplate',
-        'ui/tree-view',
-        'ui/undo-redo',
-        'ui/layout-control',
-        'ui/settings',
-        'ui/navbar-separator',
-        'ui/wordpress-post',
-        'ui/start-blank'
+        'content/modernLayout',
+        'wordpressWorkspace'
       ],
       services: [
         'utils',
         'document',
         'wordpress-post-data',
         'cook',
-        'shared-library',
-        'assetsLibrary',
-        'time-machine',
+        'sharedAssetsLibrary',
+        'elementAssetsLibrary',
         'actions-manager',
         'rules-manager',
         'api',
-        'hubCategories',
-        'hubGroups',
         'dataProcessor',
-        'assetsStorage',
-        'assetsManager',
-        'stylesManager'
-        // 'wpMyTemplates'
+        'modernAssetsStorage',
+        'stylesManager',
+        'wpMyTemplates',
+        'hubCategories',
+        'hubGroups'
       ]
     },
     wpbackend: {
       modules: [
-        'content/storage',
-        'content/backendAssets',
-        'content/wordpress/data-load',
-        'content/wordpress/data-backend-save',
-        'content/wordpress/data-unload',
         'content/backendContent',
-        'content/backendLayout',
-        'content/backendTreeViewDnd',
-        'ui/layoutBarBackend',
-        'ui/navbarBackend',
-        'ui/brandLogoBackend',
-        'ui/addElement',
-        'ui/treeViewBackend',
-        'ui/edit-element',
-        'ui/addTemplate',
-        'ui/undo-redo',
-        'ui/settings'
+        'content/modernLayoutBackend',
+        'wordpressBackendWorkspace'
       ],
       services: [
         'utils',
         'document',
         'wordpress-post-data',
         'cook',
-        'shared-library',
-        'assetsLibrary',
+        'sharedAssetsLibrary',
+        'elementAssetsLibrary',
         'time-machine',
         'actions-manager',
         'rules-manager',
         'api',
-       // 'categories',
-        'hubCategories',
-        'hubGroups',
         'dataProcessor',
-        'assetsStorage',
-        'assetsManager',
+        'modernAssetsStorage',
         'stylesManager',
-        'wpMyTemplates'
+        'wpMyTemplates',
+        'hubCategories',
+        'hubGroups'
       ]
     },
     'wpbackend-switcher': {
@@ -216,6 +161,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         exclude: /node_modules/,
+        // exclude: new RegExp('node_modules\\' + path.sep + '(?!postcss-prefix-url)'),
         query: {
           // https://github.com/babel/babel-loader#options
           cacheDirectory: true

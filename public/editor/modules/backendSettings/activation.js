@@ -4,7 +4,6 @@ import $ from 'jquery'
 $(() => {
   let $popup = $('.vcv-popup-container')
   const localizations = window.VCV_I18N && window.VCV_I18N()
-  console.log(localizations)
   const readAndAgreeTermsText = localizations ? localizations.readAndAgreeTerms : 'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer.'
   const incorrectEmailFormatText = localizations ? localizations.incorrectEmailFormat : 'Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.'
   const mustAgreeToActivateText = localizations ? localizations.mustAgreeToActivate : 'To activate and use Visual Composer, you must read and agree to the terms of service.'
