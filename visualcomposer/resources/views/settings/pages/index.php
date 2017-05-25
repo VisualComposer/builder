@@ -6,6 +6,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 /** @var $controller \VisualComposer\Modules\Settings\Pages\PostTypes */
+/** @var string $slug */
 $optionGroup = $controller->getOptionGroup();
 ?>
 

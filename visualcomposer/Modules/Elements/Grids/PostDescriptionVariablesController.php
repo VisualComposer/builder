@@ -126,6 +126,7 @@ class PostDescriptionVariablesController extends Container implements Module
      */
     protected function postExcerpt($result, $payload)
     {
+        /** @var string $teaser */
         $teaser = vcfilter(
             'vcv:elements:grid_item_template:variable:post_teaser',
             '',

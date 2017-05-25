@@ -73,7 +73,6 @@ class Controller extends Container implements Module
         }
         // @codingStandardsIgnoreLine
         if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([ $post_type_object->cap->read, $sourceId])->get()) {
-            // TODO: fix react components if there is empty page content.
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
             if (!empty($postMeta)) {
                 $data = $postMeta;

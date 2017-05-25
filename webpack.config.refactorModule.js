@@ -4,7 +4,7 @@ let Collector = require('./tools/webpack-collector')
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let autoprefixer = require('autoprefixer')
 let webpack = require('webpack')
-
+console.warn('Deprecated: npm run build-refactor. Use `npm run build` instead.')
 module.exports = {
   devtool: 'eval',
   entry: {

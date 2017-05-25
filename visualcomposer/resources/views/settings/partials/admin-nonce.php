@@ -7,7 +7,6 @@ if (!defined('ABSPATH')) {
 }
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
-// TODO: Check vcvNonce in frontend.php
 ?>
 <script>
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';

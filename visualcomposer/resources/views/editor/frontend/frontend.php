@@ -32,11 +32,10 @@ $postTypeHelper = vchelper('PostType');
     <link rel="profile" href="http://gmpg.org/xfn/11" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title><?php __('Frontend editor', 'vcwb'); /** @todo use more informative title */ ?></title>
+    <title><?php echo sprintf(__('Frontend editor: %s', 'vcwb'), get_the_title()); ?></title>
     <link rel="stylesheet"
         href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
     <?php
-    /** @todo add jquery into bundle.js. */
     do_action('embed_head');
     wp_print_head_scripts();
     // @codingStandardsIgnoreLine
