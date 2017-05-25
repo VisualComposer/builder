@@ -31,6 +31,7 @@ class CurrentUser extends AccessFactory implements Helper
         if ($reset) {
             $this->reset();
         }
+        //!!!
         $this->part = $part;
         // we also check for user "logged_in" status.
         $isUserLoggedIn = function_exists('is_user_logged_in')

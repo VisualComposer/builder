@@ -111,7 +111,6 @@ class Controller extends Container implements Module
      * @return string
      */
     protected function renderEditorBase(
-        Request $requestHelper,
         Views $templates,
         Frontend $frontendHelper,
         UserCapabilities $userCapabilitiesHelper
@@ -127,5 +126,7 @@ class Controller extends Container implements Module
                 ]
             );
         }
+
+        return false;
     }
 }

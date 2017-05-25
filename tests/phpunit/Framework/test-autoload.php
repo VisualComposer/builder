@@ -34,11 +34,13 @@ class AutoloadTest extends WP_UnitTestCase
         $hookAutoload = new \ComposerHooks\Hooks\Autoload();
         $hookAutoload::$app = vcapp();
         /** @var \VisualComposer\Framework\Autoload $app */
-        $app = vcapp('Autoload');
+        $app = vcapp('VisualComposer\Framework\Autoload');
+        $app2 = vcapp('Autoload');
         $components = $hookAutoload->getComponents();
         $this->assertTrue($app->initComponents($components));
         $this->assertFalse($app->initComponents(false));
         $this->assertTrue($app->useCache());
+        $this->assertEquals($app, $app2);
         $app->init();
     }
 

@@ -63,7 +63,7 @@ class Frontend implements Helper
      */
     public function isFrontend()
     {
-        global $pagenow; // todo: post-new.php && edit_posts || else vcv-source-id from request must be exist
+        global $pagenow;
         $requestHelper = vchelper('Request');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
@@ -74,10 +74,7 @@ class Frontend implements Helper
                 )->get())
         ) {
             if (is_admin() && $requestHelper->exists('vcv-action')) {
-                $requestAction = $requestHelper->input('vcv-action');
-                if ($requestAction === 'frontend') {
-                    return true;
-                }
+                return $requestHelper->input('vcv-action') === 'frontend';
             }
         }
 

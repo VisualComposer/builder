@@ -8,7 +8,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use RuntimeException;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
@@ -314,7 +313,7 @@ class Str implements Helper
                 return '';
             case 'null':
             case '(null)':
-                return;
+                return null;
         }
 
         return $value;

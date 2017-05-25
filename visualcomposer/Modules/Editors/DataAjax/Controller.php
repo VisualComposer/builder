@@ -100,28 +100,22 @@ class Controller extends Container implements Module
      * Save post content and used assets.
      *
      * @param $response
-     *
-     * @param $payload
      * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
-     *
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
-     *
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
+     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
      * @return array|null
      */
     private function setData(
         $response,
-        $payload,
         Filters $filterHelper,
         Request $requestHelper,
         PostType $postTypeHelper,
         CurrentUser $currentUserAccessHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
-        // @codingStandardsIgnoreLine
-        global $post_type_object;
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
@@ -133,7 +127,6 @@ class Controller extends Container implements Module
             $response = [];
         }
 
-        // @codingStandardsIgnoreLine
         if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);

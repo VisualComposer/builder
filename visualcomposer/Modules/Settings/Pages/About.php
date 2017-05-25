@@ -8,14 +8,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Account\Pages\ActivationPage;
-use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class About.

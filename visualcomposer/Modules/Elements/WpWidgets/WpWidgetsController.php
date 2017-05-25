@@ -28,12 +28,6 @@ class WpWidgetsController extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::generateElements */
-        //        $featureToggle = false;
-        //        if ($featureToggle) {
-        //            // TODO: Feature toggle.
-        //            $this->addFilter('vcv:frontend:extraOutput', 'generateElements');
-        //        }
         $this->addFilter('vcv:frontend:head:extraOutput', 'addGlobalVariables');
         $this->addFilter('vcv:backend:extraOutput', 'addGlobalVariables');
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::render */
@@ -51,7 +45,7 @@ class WpWidgetsController extends Container implements Module
      *
      * @return array
      */
-    protected function addGlobalVariables($scripts, $payload, WpWidgets $widgetsHelper)
+    protected function addGlobalVariables($scripts, $payload)
     {
         /** @see visualcomposer/resources/views/elements/widgets/variables.php */
         $variables = [];

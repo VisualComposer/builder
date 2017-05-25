@@ -34,10 +34,14 @@ if (!defined('ABSPATH')) {
         ); ?>" class="vcv-popup-form-input" required="required">
         <div class="vcv-popup-form-checkbox">
 	        <span class="vcv-popup-form-checkbox-inner">
-		        <input type="checkbox" value="<?php echo time(); ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-agreement" />
+		        <input type="checkbox" value="<?php echo time(
+                ); ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-agreement" />
                 <label for="vcv-account-activation-agreement"></label>
 	        </span>
-	        <span class="vcv-popup-form-checkbox-label"><?php printf(__('I have read and agree to the <a href="%s" target="_blank">terms of service</a>', 'vcwb'), 'https://visualcomposer.io/terms-of-service');?></span>
+            <span class="vcv-popup-form-checkbox-label"><?php printf(
+                    __('I have read and agree to the <a href="%s" target="_blank">terms of service</a>', 'vcwb'),
+                    'https://visualcomposer.io/terms-of-service'
+                ); ?></span>
         </div>
         <input type="submit" value="<?php echo __(
             'Activate Visual Composer',

@@ -69,7 +69,7 @@ class VendorBundleController extends Container implements Module
         return $response;
     }
 
-    protected function enqueueVendorFrontScripts(Url $urlHelper)
+    protected function enqueueVendorFrontScripts()
     {
         wp_enqueue_script('jquery'); // Required for 3-rd elements libraries
         wp_enqueue_script('vcv:assets:vendor:script');

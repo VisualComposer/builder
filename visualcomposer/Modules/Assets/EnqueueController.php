@@ -96,10 +96,8 @@ class EnqueueController extends Container implements Module
 
     /**
      * Build Css for post preview.
-     * @param \VisualComposer\Helpers\Str $strHelper
-     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    protected function enqueuePreviewAssets(Str $strHelper, Frontend $frontendHelper)
+    protected function enqueuePreviewAssets()
     {
         $sourceId = get_the_ID();
         $elementsCssData = get_post_meta($sourceId, 'elementsCssData', []);

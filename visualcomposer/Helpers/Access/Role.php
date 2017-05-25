@@ -168,16 +168,15 @@ class Role implements Helper
         if (null === $this->getRole()) {
             $this->setValidAccess(is_super_admin());
         } elseif ($this->getValidAccess()) {
-            // YES it is hard coded :)
-            // TODO: REMOVE THIS!!
-            if ('administrator' === $this->getRole()->name && 'settings' === $part
-                && ('vcv-roles-tab' === $rule
-                    || 'vcv-license-tab' === $rule)
-            ) {
-                $this->setValidAccess(true);
-
-                return $this;
-            }
+            //   // YES it is hard coded :)
+            //   if ('administrator' === $this->getRole()->name && 'settings' === $part
+            //       && ('vcv-roles-tab' === $rule
+            //           || 'vcv-license-tab' === $rule)
+            //   ) {
+            //       $this->setValidAccess(true);
+            //
+            //       return $this;
+            //  }
             $rule = $this->updateMergedCaps($rule);
 
             if (true === $checkState) {
@@ -193,8 +192,8 @@ class Role implements Helper
             } else {
                 $return = $this->getCapRule($rule);
             }
-            $return = apply_filters('vcv:role:can:accessWith' . $part, $return, $this->getRole(), $rule);
-            $return = apply_filters('vcv:role:can:accessWith' . $part . ':' . $rule, $return, $this->getRole());
+            //    $return = apply_filters('vcv:role:can:accessWith' . $part, $return, $this->getRole(), $rule);
+            //    $return = apply_filters('vcv:role:can:accessWith' . $part . ':' . $rule, $return, $this->getRole());
             $this->setValidAccess($return);
         }
 

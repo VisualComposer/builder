@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Application as ApplicationFactory;
+use VisualComposer\Framework\Autoload;
+use VisualComposer\Framework\Illuminate\Filters\Dispatcher as FiltersDispatcher;
+use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;
 
 /**
  * Main plugin instance which controls modules and helpers.
@@ -18,6 +21,17 @@ use VisualComposer\Framework\Application as ApplicationFactory;
  */
 class Application extends ApplicationFactory
 {
+    /**
+     * The available container bindings and their respective load methods.
+     *
+     * @var array
+     */
+    protected $availableBindings = [
+        'EventsHelper' => 'registerEventBindings',
+        'FiltersHelper' => 'registerFilterBindings',
+        'Autoload' => 'registerAutoloadBindings',
+    ];
+
     public function init()
     {
         vcevent('vcv:inited', $this);
@@ -29,7 +43,7 @@ class Application extends ApplicationFactory
     }
 
     /**
-     * Bootstraps registred modules( also creates an instance ).
+     * Bootstraps registered modules( also creates an instance ).
      * And saves helpers as singletons.
      *
      * @return $this
@@ -45,7 +59,7 @@ class Application extends ApplicationFactory
     /**
      * Register the core container aliases.
      * Used in Dependency Injection.
-     * @see \docs\php\DependencyInjection.md
+     * @see docs/php/DependencyInjection.md
      */
     protected function registerContainerAliases()
     {
@@ -60,6 +74,55 @@ class Application extends ApplicationFactory
             'VisualComposer\Helpers\Filters' => 'FiltersHelper',
             'VisualComposer\Framework\Autoload' => 'Autoload',
         ];
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return $this
+     */
+    protected function registerAutoloadBindings()
+    {
+        $this->singleton(
+            'Autoload',
+            function ($app) {
+                return (new Autoload($app));
+            }
+        );
+
+        return $this;
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return $this
+     */
+    protected function registerEventBindings()
+    {
+        $this->singleton(
+            'EventsHelper',
+            function ($app) {
+                return (new EventsDispatcher($app));
+            }
+        );
+
+        return $this;
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return $this
+     */
+    protected function registerFilterBindings()
+    {
+        $this->singleton(
+            'FiltersHelper',
+            function ($app) {
+                return (new FiltersDispatcher($app));
+            }
+        );
 
         return $this;
     }
