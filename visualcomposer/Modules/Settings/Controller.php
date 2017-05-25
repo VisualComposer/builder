@@ -206,15 +206,28 @@ class Controller extends Container implements Module
      */
     protected function initAdmin(Url $urlHelper)
     {
-        wp_register_script(
-            'vcv:settings:script',
-            $urlHelper->to('public/dist/wpsettings.bundle.js'),
-            ['vcv:assets:vendor:script']
-        );
-        wp_register_style(
-            'vcv:settings:style',
-            $urlHelper->to('public/dist/wpsettings.bundle.css')
-        );
+        // TODO: Set versions for assets
+        if (vcvenv('VCV_EXTENSION_DOWNLOAD')) {
+            wp_register_script(
+                'vcv:settings:script',
+                content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.js',
+                ['vcv:assets:vendor:script']
+            );
+            wp_register_style(
+                'vcv:settings:style',
+                content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.css'
+            );
+        } else {
+            wp_register_script(
+                'vcv:settings:script',
+                $urlHelper->to('public/dist/wpsettings.bundle.js'),
+                ['vcv:assets:vendor:script']
+            );
+            wp_register_style(
+                'vcv:settings:style',
+                $urlHelper->to('public/dist/wpsettings.bundle.css')
+            );
+        }
 
         foreach ($this->getPages() as $page) {
             do_action('vcv:settings:initAdmin:page:' . $page['slug']);

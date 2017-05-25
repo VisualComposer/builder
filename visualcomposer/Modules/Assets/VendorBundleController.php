@@ -33,18 +33,26 @@ class VendorBundleController extends Container implements Module
     {
         wp_register_script(
             'vcv:assets:vendor:script',
-            $urlHelper->to(
-                'public/dist/vendor.bundle.js?' . uniqid()
-            ),
+            vcvenv('VCV_EXTENSION_DOWNLOAD')
+                ?
+                content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
+                :
+                $urlHelper->to(
+                    'public/dist/vendor.bundle.js?' . VCV_VERSION
+                ),
             [
                 'jquery',
             ]
         );
         wp_register_script(
             'vcv:assets:front:script',
-            $urlHelper->to(
-                'public/dist/front.bundle.js?' . uniqid()
-            ),
+            vcvenv('VCV_EXTENSION_DOWNLOAD')
+                ?
+                content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/front.bundle.js?' . VCV_VERSION
+                :
+                $urlHelper->to(
+                    'public/dist/front.bundle.js?' . VCV_VERSION
+                ),
             [
                 'vcv:assets:vendor:script',
             ]
@@ -59,9 +67,13 @@ class VendorBundleController extends Container implements Module
             [
                 sprintf(
                     '<script id="vcv-script-vendor-bundle" type="text/javascript" src="%s"></script>',
-                    $urlHelper->to(
-                        'public/dist/vendor.bundle.js?' . uniqid()
-                    )
+                    vcvenv('VCV_EXTENSION_DOWNLOAD')
+                        ?
+                        content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
+                        :
+                        $urlHelper->to(
+                            'public/dist/vendor.bundle.js?' . VCV_VERSION
+                        )
                 ),
             ]
         );

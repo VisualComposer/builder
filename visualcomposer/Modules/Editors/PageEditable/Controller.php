@@ -60,11 +60,17 @@ class Controller extends Container implements Module
             'addTheContentFilteringForPost',
             9999 // Do with high weight - when all other actions is done
         );
-        $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js?' . uniqid());
-        $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js?' . uniqid());
+        if (vcvenv('VCV_EXTENSION_DOWNLOAD')) {
+            $bundleJsUrl = content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.js?' . VCV_VERSION;
+            $vendorBundleJsUrl = content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION;
+            $bundleCssUrl = content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.css?' . VCV_VERSION;
+        } else {
+            $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js?' . VCV_VERSION);
+            $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js?' . VCV_VERSION);
+            $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css?' . VCV_VERSION);
+        }
         wp_enqueue_script('vcv:pageEditable:vendor', $vendorBundleJsUrl);
         wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl);
-        $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css?' . uniqid());
         wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl);
     }
 
