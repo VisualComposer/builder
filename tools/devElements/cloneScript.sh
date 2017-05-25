@@ -33,8 +33,9 @@ declare -a arr=(
 'vimeoPlayer'
 'wpWidgetsCustom'
 'wpWidgetsDefault'
-'youtubePlayer',
-'faqToggle')
+'youtubePlayer'
+'faqToggle'
+)
 
 EXECDIR=`pwd`
 
