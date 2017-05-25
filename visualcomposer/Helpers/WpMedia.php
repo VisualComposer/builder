@@ -133,7 +133,7 @@ class WpMedia implements Helper
                 return $vt_image;
             }
             if ($crop === false) {
-                // calculate the size proportionaly
+                // calculate the size proportionally
                 $proportional_size = wp_constrain_dimensions($image_src[1], $image_src[2], $width, $height);
                 $resized_img_path = $no_ext_path . '-' . $proportional_size[0] . 'x' . $proportional_size[1]
                     . $extension;

@@ -54,12 +54,9 @@ trait ShortcodesTrait
     }
 
     /**
-     * @param \VisualComposer\Helpers\Request $request
-     * @param \VisualComposer\Helpers\Str $strHelper
-     *
      * @return string
      */
-    protected function renderEditorContent(Request $request, Str $strHelper)
+    protected function renderEditorContent()
     {
         ob_start();
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
@@ -80,11 +77,10 @@ trait ShortcodesTrait
 
     /**
      * @param \VisualComposer\Helpers\Request $request
-     * @param \VisualComposer\Helpers\Str $strHelper
      *
      * @return mixed
      */
-    protected function renderEditorShortcode(Request $request, Str $strHelper)
+    protected function renderEditorShortcode(Request $request)
     {
         $atts = $request->input('vcv-atts');
         $content = $request->input('vcv-content');
