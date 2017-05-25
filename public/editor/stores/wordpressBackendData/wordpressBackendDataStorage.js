@@ -140,7 +140,9 @@ addStorage('wordpressData', (storage) => {
     }
     if (!dataSaved) {
       e.preventDefault()
-      submitter = $submitters[ 0 ]
+      if (submitter === null) {
+        submitter = $submitters[ 0 ]
+      }
       $submitpost.find('#major-publishing-actions .spinner').addClass('is-active')
       dataSaved = true
       storage.trigger('save', {}, '', () => {
