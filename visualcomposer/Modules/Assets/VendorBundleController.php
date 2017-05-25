@@ -33,7 +33,7 @@ class VendorBundleController extends Container implements Module
     {
         wp_register_script(
             'vcv:assets:vendor:script',
-            vcvenv('VCV_EXTENSION_DOWNLOAD')
+            vcvenv('VCV_EXTENSION_DOWNLOAD___!!!!')
                 ?
                 content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
                 :

@@ -207,7 +207,7 @@ class Controller extends Container implements Module
     protected function initAdmin(Url $urlHelper)
     {
         // TODO: Set versions for assets
-        if (vcvenv('VCV_EXTENSION_DOWNLOAD')) {
+        if (vcvenv('VCV_EXTENSION_DOWNLOAD___!!!!')) {
             wp_register_script(
                 'vcv:settings:script',
                 content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.js',
