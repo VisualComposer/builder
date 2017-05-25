@@ -38,15 +38,11 @@ export default class TreeViewLayout extends React.Component {
   }
 
   updateElementsData (data) {
-    this.setState({ data: data }, () => {
-      // content.trigger('data:editor:render')
-    })
+    this.setState({ data: data })
   }
 
   componentDidMount () {
-    elementsStorage.state('document').onChange(this.updateElementsData, {
-      debounce: 250
-    })
+    elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     this.setState({
       header: document.querySelector('.vcv-ui-navbar-container'),

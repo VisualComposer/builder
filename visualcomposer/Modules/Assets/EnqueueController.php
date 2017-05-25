@@ -24,6 +24,7 @@ class EnqueueController extends Container implements Module
         $actionPriority = 50;
         $requestHelper = vchelper('Request');
         if ($requestHelper->input('preview', '') === 'true') {
+            $this->wpAddAction('wp_head', 'enqueuePreviewGlobalCss', $actionPriority);
             $this->wpAddAction('wp_head', 'enqueuePreviewAssets', $actionPriority);
 
             return;
@@ -97,7 +98,7 @@ class EnqueueController extends Container implements Module
     /**
      * Build Css for post preview.
      */
-    protected function enqueuePreviewAssets()
+    protected function enqueuePreviewGlobalCss()
     {
         $sourceId = get_the_ID();
         $elementsCssData = get_post_meta($sourceId, 'elementsCssData', []);
@@ -120,15 +121,47 @@ class EnqueueController extends Container implements Module
                 }
             }
         }
-
+        $globalCss = join('', get_post_meta($sourceId, 'globalElementsCss', ''));
         $previewElementsBaseCssContent = join('', array_values($previewElementsBaseCss));
         $previewElementsMixinsCssContent = join('', $previewElementsMixinsCss);
         $previewElementsAttributesCssContent = join('', $previewElementsAttributesCss);
-        ?><style id="vcv-preview-css"><?php
+
+        ?>
+        <style id="vcv-preview-global-css"><?php
             echo $previewElementsBaseCssContent . $previewElementsAttributesCssContent
-            . $previewElementsMixinsCssContent;
-        ?></style>
+                . $previewElementsMixinsCssContent . $globalCss;
+            ?></style>
         <?php
+        $sourceCss = get_post_meta($sourceId, 'vcvPreviewSourceCss', true);
+        ?>
+        <style id="vcv-preview-source-css"><?php echo $sourceCss ?></style><?php
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Str $strHelper
+     */
+    protected function enqueuePreviewAssets(Str $strHelper)
+    {
+        $sourceId = get_the_ID();
+        $assetsFiles = get_post_meta($sourceId, 'vcvPreviewSourceAssetsFiles', true);
+
+        if (!is_array($assetsFiles)) {
+            return;
+        }
+
+        if (isset($assetsFiles['cssBundles']) && is_array($assetsFiles['cssBundles'])) {
+            foreach ($assetsFiles['cssBundles'] as $asset) {
+                wp_enqueue_style('vcv:assets:source:styles:' . $strHelper->slugify($asset), $asset);
+            }
+            unset($asset);
+        }
+
+        if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
+            foreach ($assetsFiles['jsBundles'] as $asset) {
+                wp_enqueue_script('vcv:assets:source:scripts:' . $strHelper->slugify($asset), $asset);
+            }
+            unset($asset);
+        }
     }
 
     protected function addNoJs($output)

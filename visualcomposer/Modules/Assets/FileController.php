@@ -79,10 +79,9 @@ class FileController extends Container implements Module
         $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
         $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
 
-        // $globalCss = $optionsHelper->get('globalElementsCss', '');
-
+        $globalCss = $optionsHelper->get('globalElementsCss', '');
         $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
-            . $globalElementsMixinsCssContent /* . $globalCss */;
+            . $globalElementsMixinsCssContent . $globalCss ;
         $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
         $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
         $response['globalBundleCssFileUrl'] = $bundleUrl;
@@ -103,6 +102,10 @@ class FileController extends Container implements Module
      */
     protected function generateSourceCssFile($response, $payload, Assets $assetsHelper)
     {
+        $requestHelper = vchelper('Request');
+        if ($requestHelper->input('wp-preview', '') === 'dopreview') {
+            return $response;
+        }
         $sourceId = $payload['sourceId'];
         $sourceCss = get_post_meta($sourceId, 'vcvSourceCss', true);
         $bundleUrl = $assetsHelper->updateBundleFile($sourceCss, $sourceId . '.source.css');
