@@ -120,6 +120,7 @@ class Controller extends Container implements Module
             return $response;
         }
         $data = $requestHelper->input('vcv-data');
+        $dataDecoded = $requestHelper->inputJson('vcv-data');
         $content = $requestHelper->input('vcv-content');
         $sourceId = $requestHelper->input('vcv-source-id');
 
@@ -133,7 +134,7 @@ class Controller extends Container implements Module
             if ($post) {
                 // @codingStandardsIgnoreStart
                 $post->post_content = $content;
-                if (isset($data['draft']) && $post->post_status !== 'publish') {
+                if (isset($dataDecoded['draft']) && $post->post_status !== 'publish') {
                     $post->post_status = 'draft';
                 } else {
                     if($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->publish_posts, $sourceId])->get()) {
