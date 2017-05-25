@@ -5,7 +5,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// @codingStandardsIgnoreFile
 /**
  * Register The Composer Auto Loader.
  *
