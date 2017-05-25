@@ -53,10 +53,11 @@ class SaveDataAjaxController extends Container implements Module
         $payload,
         Request $requestHelper
     ) {
+        global $post;
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
-        $sourceId = $requestHelper->input('post_ID');
+        $sourceId = $post->ID;
 
         if (!is_array($response)) {
             $response = [];
@@ -79,9 +80,13 @@ class SaveDataAjaxController extends Container implements Module
     protected function getSourceResponse(\WP_Post $post, $data)
     {
         $postTypeHelper = vchelper('PostType');
-        // In WordPress 4.4 + update_post_meta called if we use
-        // $post->meta_input = [ 'vcv:pageContent' => $data ]
-        update_post_meta($post->ID, VCV_PREFIX . 'pageContent', $data);
+        $requestHelper = vchelper('Request');
+        if ($requestHelper->input('wp-preview', '') !== 'dopreview') {
+            // In WordPress 4.4 + update_post_meta called if we use
+            // $post->meta_input = [ 'vcv:pageContent' => $data ]
+            update_post_meta($post->ID, VCV_PREFIX . 'pageContent', $data);
+        }
+
 
         //bring it back once you're done posting
         add_filter('content_save_pre', 'wp_filter_post_kses');

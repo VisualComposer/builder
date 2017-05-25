@@ -25,11 +25,6 @@ class DataController extends Container implements Module
             'vcv:dataAjax:setData',
             'setData'
         );
-        /** @see \VisualComposer\Modules\Assets\DataController::setData */
-        $this->addFilter(
-            'vcv:dataAjax:setPreviewData',
-            'setData'
-        );
         /** @see \VisualComposer\Modules\Assets\DataController::getData */
         $this->addFilter(
             'vcv:dataAjax:getData',
@@ -61,9 +56,14 @@ class DataController extends Container implements Module
 
     protected function setData($response, $payload)
     {
+        $requestHelper = vchelper('Request');
         $sourceId = $payload['sourceId'];
         $this->updateSourceAssets($sourceId);
-        $this->updateGlobalAssets($sourceId);
+        if ($requestHelper->input('wp-preview', '') === 'dopreview') {
+            $this->updatePostAssets($sourceId);
+        } else {
+            $this->updateGlobalAssets($sourceId);
+        }
 
         return $response;
     }
@@ -103,22 +103,36 @@ class DataController extends Container implements Module
         ) {
             $optionsHelper = vchelper('Options');
             $requestHelper = vchelper('Request');
-            $tf = $requestHelper->input('vcv-tf');
-            if ($tf === 'noGlobalCss') {
-                // Base css
-                $elementsCssData = $requestHelper->inputJson('vcv-elements-css-data', '');
-                $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
-                $globalElementsCssData[ $sourceId ] = $elementsCssData;
-                $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
-                // Other data
-                $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
-                $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
-
-                return;
-            }
-            $optionsHelper->set('globalElements', $requestHelper->inputJson('vcv-global-elements', ''));
+            // Base css
+            $elementsCssData = $requestHelper->inputJson('vcv-elements-css-data', '');
+            $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
+            $globalElementsCssData[ $sourceId ] = $elementsCssData;
+            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+            // Other data
             $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
             $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
+        }
+    }
+
+    protected function updatePostAssets($sourceId)
+    {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        // @codingStandardsIgnoreLine
+        global $post_type_object;
+        // @codingStandardsIgnoreLine
+        if (is_numeric($sourceId)
+            && $currentUserAccessHelper->wpAll(
+            // @codingStandardsIgnoreLine
+            [$post_type_object->cap->edit_post, $sourceId]
+            )->get()
+        ) {
+            $requestHelper = vchelper('Request');
+            // Base css
+            update_post_meta($sourceId, 'elementsCssData', $requestHelper->inputJson('vcv-elements-css-data', ''));
+            // Other data
+            // update_post_meta($sourceId, 'globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
+            update_post_meta($sourceId, 'settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
         }
     }
 }

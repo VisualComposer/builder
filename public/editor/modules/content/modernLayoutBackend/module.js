@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Layout from './lib/layout'
 import DndManager from './lib/dnd/dndManager'
-import WipControlsManager from './lib/controls/wipControlsManager'
+import ControlsManager from './lib/controls/controlsManager'
 
 if (vcCake.env('FEATURE_WPBACKEND')) {
   vcCake.add('contentModernLayoutBackend', (api) => {
@@ -14,7 +14,7 @@ if (vcCake.env('FEATURE_WPBACKEND')) {
     )
     let dnd = new DndManager(api)
     dnd.init()
-    let controls = new WipControlsManager(api)
+    let controls = new ControlsManager(api)
     let options = {
       iframeContainer: document.querySelector('.vcv-wpbackend-layout-content-container'),
       iframeOverlay: document.querySelector('#vcv-wpbackend-layout-content-overlay'),
