@@ -58,10 +58,11 @@ class DataController extends Container implements Module
     {
         $requestHelper = vchelper('Request');
         $sourceId = $payload['sourceId'];
-        $this->updateSourceAssets($sourceId);
         if ($requestHelper->input('wp-preview', '') === 'dopreview') {
+            $this->updatePreviewSourceAssets($sourceId);
             $this->updatePostAssets($sourceId);
         } else {
+            $this->updateSourceAssets($sourceId);
             $this->updateGlobalAssets($sourceId);
         }
 
@@ -85,6 +86,32 @@ class DataController extends Container implements Module
             update_post_meta(
                 $sourceId,
                 'vcvSettingsSourceCustomCss',
+                $requestHelper->input('vcv-settings-source-custom-css')
+            );
+        }
+    }
+
+    protected function updatePreviewSourceAssets($sourceId)
+    {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        // @codingStandardsIgnoreLine
+        global $post_type_object;
+        if (is_numeric($sourceId)
+            && $currentUserAccessHelper->wpAll(
+            // @codingStandardsIgnoreLine
+                [$post_type_object->cap->edit_post, $sourceId]
+            )->get()
+        ) {
+            $requestHelper = vchelper('Request');
+            update_post_meta(
+                $sourceId,
+                'vcvPreviewSourceAssetsFiles',
+                $requestHelper->inputJson('vcv-source-assets-files')
+            );
+            update_post_meta($sourceId, 'vcvPreviewSourceCss', $requestHelper->input('vcv-source-css'));
+            update_post_meta(
+                $sourceId,
+                'vcvPreviewSettingsSourceCustomCss',
                 $requestHelper->input('vcv-settings-source-custom-css')
             );
         }
@@ -124,15 +151,15 @@ class DataController extends Container implements Module
         if (is_numeric($sourceId)
             && $currentUserAccessHelper->wpAll(
             // @codingStandardsIgnoreLine
-            [$post_type_object->cap->edit_post, $sourceId]
+                [$post_type_object->cap->edit_post, $sourceId]
             )->get()
         ) {
             $requestHelper = vchelper('Request');
             // Base css
             update_post_meta($sourceId, 'elementsCssData', $requestHelper->inputJson('vcv-elements-css-data', ''));
             // Other data
-            // update_post_meta($sourceId, 'globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
-            update_post_meta($sourceId, 'settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
+            update_post_meta($sourceId, 'globalElementsCss', $requestHelper->input('vcv-global-elements-css', ''));
+            update_post_meta($sourceId, 'settingsGlobalCss', $requestHelper->input('vcv-settings-global-css', ''));
         }
     }
 }
