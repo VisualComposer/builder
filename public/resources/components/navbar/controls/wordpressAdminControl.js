@@ -44,7 +44,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const { saveDraft, viewPage, backendEditor, wordPressDashboard, editInBackendEditor } = localizations
+    const { saveDraft, backendEditor, wordPressDashboard, editInBackendEditor } = localizations
 
     let saveDraftButton = ''
     if (PostData.isDraft()) {
@@ -61,16 +61,16 @@ export default class WordPressAdminControl extends NavbarContent {
     }
 
     let viewButton = ''
-    if (PostData.isPublished()) {
+    if (PostData.isViewable()) {
       viewButton = (
         <span
           className='vcv-ui-navbar-control'
-          title={viewPage}
+          title={PostData.viewText()}
           onClick={this.handleClick}
           data-href={PostData.permalink()}
           data-target='_blank'
         >
-          <span className='vcv-ui-navbar-control-content'>{viewPage}</span>
+          <span className='vcv-ui-navbar-control-content'>{PostData.viewText()}</span>
         </span>
       )
     }

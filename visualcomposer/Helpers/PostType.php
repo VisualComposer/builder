@@ -28,7 +28,8 @@ class PostType implements Helper
         foreach ($posts as $post) {
             $currentUserAccessHelper = vchelper('AccessCurrentUser');
             // @codingStandardsIgnoreLine
-            if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()) {
+            if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()
+            ) {
                 $results[] = $post;
             }
         }
@@ -112,7 +113,10 @@ class PostType implements Helper
         $post = $this->get($id);
 
         // @codingStandardsIgnoreLine
-        if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->delete_posts, $post->ID])->get()) {
+        if ($currentUserAccessHelper->wpAll(
+            [get_post_type_object($post->post_type)->cap->delete_posts, $post->ID]
+        )->get()
+        ) {
 
             if ($postType) {
                 // @codingStandardsIgnoreLine
@@ -170,15 +174,16 @@ class PostType implements Helper
             $permalink = '';
         }
         $previewUrl = get_preview_post_link($post);
-        // @codingStandardsIgnoreLine
         $viewable = is_post_type_viewable($post_type_object);
         $data['permalink'] = $permalink;
         $data['previewUrl'] = $previewUrl;
-        $data['viewable'] = $viewable;
-        // @codingStandardsIgnoreLine
-        $data['canPublish'] = $currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->publish_posts, $post->ID])->get();
+        $data['viewable'] = $viewable && $post->post_status !== 'auto-draft';
+        $data['canPublish'] = $currentUserAccessHelper->wpAll(
+            [$post_type_object->cap->publish_posts, $post->ID]
+        )->get();
         $data['backendEditorUrl'] = get_edit_post_link($post->ID, 'url');
         $data['adminDashboardUrl'] = self_admin_url('index.php');
+        $data['viewText'] = sprintf(__('View %s', 'vcwb'), $post_type_object->labels->singular_name);
 
         return $data;
     }

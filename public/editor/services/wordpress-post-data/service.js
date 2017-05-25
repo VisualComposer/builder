@@ -26,6 +26,14 @@ const postData = {
     return window.vcvPostData.previewUrl
   },
 
+  isViewable: () => {
+    return window.vcvPostData.viewable
+  },
+
+  viewText: () => {
+    return window.vcvPostData.viewText
+  },
+
   backendEditorUrl: () => {
     return window.vcvPostData.backendEditorUrl
   },
