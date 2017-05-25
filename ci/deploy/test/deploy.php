@@ -19,6 +19,7 @@ set(
     [
         'node_modules',
         'devElements',
+        'devCategories',
         'vendor',
     ]
 );
