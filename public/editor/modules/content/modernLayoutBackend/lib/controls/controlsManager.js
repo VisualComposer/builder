@@ -314,10 +314,6 @@ export default class ControlsManager {
           insertAfter: el.dataset.vcControlEventOptionInsertAfter || false
         }
         let elementId = el.dataset.vcvElementId
-        if (event === 'remove') {
-          this.findElement()
-          this.controlElementFind()
-        }
         if (event === 'treeView') {
           workspaceContentStartState.set('treeView', elementId)
         } else if (event === 'edit') {
@@ -325,6 +321,14 @@ export default class ControlsManager {
             workspaceContentStartState.set('treeView', elementId)
           }
           workspaceStorage.trigger(event, elementId, tag, options)
+        } else if (event === 'remove') {
+          this.findElement()
+          this.controlElementFind()
+          this.iframeDocument.body.removeEventListener('mousemove', this.findElement)
+          workspaceStorage.trigger(event, elementId, tag, options)
+          setTimeout(() => {
+            this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+          }, 100)
         } else {
           workspaceStorage.trigger(event, elementId, tag, options)
         }

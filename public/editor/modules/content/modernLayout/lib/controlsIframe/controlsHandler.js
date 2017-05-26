@@ -1,7 +1,6 @@
 import { getService } from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
-// const categoriesService = getService('categories')
 const hubCategoriesService = getService('hubCategories')
 
 export default class ControlsHandler {
@@ -100,7 +99,7 @@ export default class ControlsHandler {
    * @param rebuild
    */
   buildControls (data, rebuild = false) {
-    let elements = data.vcElementsPath
+    let elementIds = data.vcElementsPath
     let iframeRect = this.iframe.getBoundingClientRect()
 
     // create controls container
@@ -109,13 +108,13 @@ export default class ControlsHandler {
     this.controlsContainer.appendChild(controlsList)
 
     // create element controls
-    for (let i = 0; i < elements.length; i++) {
-      let element = elements[i]
+    for (let i = 0; i < elementIds.length; i++) {
+      let elementId = elementIds[i]
       let delimiter = document.createElement('i')
       delimiter.classList.add('vcv-ui-outline-control-separator', 'vcv-ui-icon', 'vcv-ui-icon-arrow-right')
       if (i === 0) {
-        controlsList.appendChild(this.createControlForElement(element))
-        if (i !== elements.length - 1) {
+        controlsList.appendChild(this.createControlForElement(elementId))
+        if (i !== elementIds.length - 1) {
           controlsList.insertBefore(delimiter, controlsList.children[0])
         }
       } else {
@@ -124,15 +123,15 @@ export default class ControlsHandler {
         const isWider = iframeRect.width - controlsRect.width < controlWidth * 2
         const isToTheLeft = controlsRect.left - controlWidth * 2 < iframeRect.left
         if (isWider || (rebuild && isToTheLeft)) {
-          controlsList.insertBefore(this.createControlForTrigger(element,
+          controlsList.insertBefore(this.createControlForTrigger(elementId,
             {
               title: 'Tree View',
               event: 'treeView'
             }), controlsList.children[0])
           break
         }
-        controlsList.insertBefore(this.createControlForElement(element), controlsList.children[0])
-        if (i !== elements.length - 1) {
+        controlsList.insertBefore(this.createControlForElement(elementId), controlsList.children[0])
+        if (i !== elementIds.length - 1) {
           controlsList.insertBefore(delimiter, controlsList.children[0])
         }
       }
@@ -146,9 +145,9 @@ export default class ControlsHandler {
   createAppendControl (data) {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
-    let elements = data.vcElementsPath
-    const insertAfterElement = elements && elements.length ? elements[ 0 ] : false
-    const container = elements && elements.length > 2 ? elements[ 1 ] : false
+    let elementIds = data.vcElementsPath
+    const insertAfterElement = elementIds && elementIds.length ? elementIds[ 0 ] : false
+    const container = elementIds && elementIds.length > 2 ? elementIds[ 1 ] : false
     if (!container || !insertAfterElement) {
       return false
     }
@@ -402,7 +401,7 @@ export default class ControlsHandler {
    * @returns {number}
    */
   getElementColorIndex (vcElement) {
-    var colorIndex = 2
+    let colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
       colorIndex = vcElement.containerFor().indexOf('Column') > -1 ? 0 : 1
     }
@@ -432,32 +431,32 @@ export default class ControlsHandler {
    * @param data
    */
   updateContainerPosition (data) {
-    let elementPos = data.element.getBoundingClientRect()
+    let elementRect = data.element.getBoundingClientRect()
     let controls = this.controlsContainer.firstElementChild
     let controlsHeight = 0
     if (controls) {
       controlsHeight = controls.getBoundingClientRect().height
     }
     // set sticky controls
-    let posTop = elementPos.top
+    let posTop = elementRect.top
     if (posTop - controlsHeight < 0) {
       this.controlsContainer.classList.add('vcv-ui-controls-o-inset')
       posTop = controlsHeight
     } else {
       this.controlsContainer.classList.remove('vcv-ui-controls-o-inset')
     }
-    let posLeft = elementPos.left
+    let posLeft = elementRect.left
     if (this.iframe.tagName.toLowerCase() !== 'iframe') {
-      let iframePos = this.iframe.getBoundingClientRect()
-      posTop -= iframePos.top
-      posLeft -= iframePos.left
+      let iframeRect = this.iframe.getBoundingClientRect()
+      posTop -= iframeRect.top
+      posLeft -= iframeRect.left
     }
     if (posLeft < 0) {
       posLeft = 0
     }
     this.controlsContainer.style.top = posTop + 'px'
     this.controlsContainer.style.left = posLeft + 'px'
-    this.controlsContainer.style.width = elementPos.width + 'px'
+    this.controlsContainer.style.width = elementRect.width + 'px'
     const iframeRect = this.iframe.getBoundingClientRect()
     const controlsRect = controls.getBoundingClientRect()
     if (!this.state.containerTimeout && iframeRect.left > controlsRect.left) {
@@ -471,23 +470,23 @@ export default class ControlsHandler {
    * @param data
    */
   updateAppendContainerPosition (data) {
-    let elementPos = data.element.getBoundingClientRect()
+    let elementRect = data.element.getBoundingClientRect()
     let control = this.appendControlContainer.firstElementChild
     let controlPos = 0
     if (control) {
       controlPos = control.getBoundingClientRect()
     }
 
-    let posTop = elementPos.bottom - controlPos.height / 2
-    let posLeft = elementPos.left
+    let posTop = elementRect.bottom - controlPos.height / 2
+    let posLeft = elementRect.left
     if (this.iframe.tagName.toLowerCase() !== 'iframe') {
-      let iframePos = this.iframe.getBoundingClientRect()
-      posTop -= iframePos.top
-      posLeft -= iframePos.left
+      let iframeRect = this.iframe.getBoundingClientRect()
+      posTop -= iframeRect.top
+      posLeft -= iframeRect.left
     }
     this.appendControlContainer.style.top = posTop + 'px'
     this.appendControlContainer.style.left = posLeft + 'px'
-    this.appendControlContainer.style.width = elementPos.width + 'px'
+    this.appendControlContainer.style.width = elementRect.width + 'px'
   }
 
   /**
@@ -539,11 +538,11 @@ export default class ControlsHandler {
    * @param element
    */
   updateControlsPosition (element) {
-    let elementPos = element.getBoundingClientRect()
+    let elementRect = element.getBoundingClientRect()
     let controlsList = this.controlsContainer.querySelector('.vcv-ui-outline-controls')
     let controlsListPos = controlsList.getBoundingClientRect()
-    let iframePos = this.iframe.getBoundingClientRect()
-    if (elementPos.left + controlsListPos.width > iframePos.width) {
+    let iframeRect = this.iframe.getBoundingClientRect()
+    if (elementRect.left + controlsListPos.width > iframeRect.width) {
       this.controlsContainer.classList.add('vcv-ui-controls-o-controls-right')
     } else {
       this.controlsContainer.classList.remove('vcv-ui-controls-o-controls-right')
@@ -561,17 +560,17 @@ export default class ControlsHandler {
     })
     let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
     dropdowns = [].slice.call(dropdowns)
-    let iframePos = this.iframe.getBoundingClientRect()
+    let iframeRect = this.iframe.getBoundingClientRect()
     dropdowns.forEach((dropdown) => {
       let dropdownPos = dropdown.querySelector('.vcv-ui-outline-control-dropdown-content').getBoundingClientRect()
       // drop up
       dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-up')
-      if (dropdownPos.top + dropdownPos.height > iframePos.top + iframePos.height) {
+      if (dropdownPos.top + dropdownPos.height > iframeRect.top + iframeRect.height) {
         dropdown.classList.add('vcv-ui-outline-control-dropdown-o-drop-up')
       }
       // drop right
       dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-right')
-      if (dropdownPos.left + dropdownPos.width > iframePos.left + iframePos.width) {
+      if (dropdownPos.left + dropdownPos.width > iframeRect.left + iframeRect.width) {
         dropdown.classList.add('vcv-ui-outline-control-dropdown-o-drop-right')
       }
     })
