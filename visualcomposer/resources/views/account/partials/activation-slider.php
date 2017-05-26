@@ -42,11 +42,11 @@ if (!defined('ABSPATH')) {
             </div>
         </div>
         <div class="vcv-button-container">
-            <?php if (vchelper('AccessCurrentUser')->wpAll('edit_pages')->get()): ?>
+            <?php if (vchelper('AccessCurrentUser')->wpAll('edit_pages')->get()) : ?>
                 <a href="post-new.php?post_type=page&vcv-action=frontend" class="vcv-popup-button vcv-popup-last-screen-button">
                     <span><?php echo __('Create a blank page', 'vcwb'); ?></span>
                 </a>
-            <?php else: ?>
+            <?php else : ?>
                 <a href="post-new.php?vcv-action=frontend" class="vcv-popup-button vcv-popup-last-screen-button">
                     <span><?php echo __('Create a blank post', 'vcwb'); ?></span>
                 </a>
