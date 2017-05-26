@@ -132,8 +132,10 @@ addStorage('elements', (storage) => {
     if (element.tag === 'column') {
       // rebuild previous column
       rebuildRawLayout(element.parent, {}, documentManager)
+      addRowColumnBackground(element.id, element, documentManager)
       // rebuild next column
       let newElement = documentManager.get(id)
+      addRowColumnBackground(newElement.id, newElement, documentManager)
       rebuildRawLayout(newElement.parent, {}, documentManager)
     }
     storage.state('document').set(documentManager.children(false))
