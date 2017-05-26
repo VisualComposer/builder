@@ -62,7 +62,7 @@ class TemplatesDownloadController extends Container implements Module
                     }
                 }
                 unset($template['data']);
-                $toSaveTemplates[] = $template;
+                $toSaveTemplates[ $template['id'] ] = $template;
                 $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
             }
 
