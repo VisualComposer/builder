@@ -1,5 +1,5 @@
 import {addStorage, getStorage, getService} from 'vc-cake'
-import {rebuildRawLayout, isElementOneRelation} from './lib/tools'
+import {rebuildRawLayout, isElementOneRelation, addRowColumnBackground} from './lib/tools'
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
   // const timeMachineStorage = getStorage('timeMachine')
@@ -71,6 +71,9 @@ addStorage('elements', (storage) => {
     if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
       rebuildRawLayout(id, { layout: element.layout.layoutData }, documentManager)
       element.layout.layoutData = undefined
+    }
+    if (element.tag === 'column' || element.tag === 'row') {
+      addRowColumnBackground(id, element, documentManager)
     }
     documentManager.update(id, element)
     storage.state(`element:${id}`).set(element, source)

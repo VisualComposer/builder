@@ -1,4 +1,3 @@
-
 export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   let elements = []
   let columns = documentManager.children(id)
@@ -56,10 +55,10 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       lastColumnObject.firstInRow = firstInRow
       documentManager.update(lastColumnObject.id, lastColumnObject)
       // api.request('data:afterUpdate', lastColumnObject.id, lastColumnObject)
-      elements.push([lastColumnObject, 'update'])
+      elements.push([ lastColumnObject, 'update' ])
     } else {
       let createdElement = documentManager.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow })
-      elements.push([createdElement, 'add'])
+      elements.push([ createdElement, 'add' ])
     }
   })
   /*
@@ -76,48 +75,75 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       })
       // api.request('data:remove', column.id)
       documentManager.delete(column.id)
-      elements.push([column, 'remove'])
+      elements.push([ column, 'remove' ])
     })
   }
   return elements
 }
-export const addRowBackground = (id, element, documentManager) => {
-  let allBackgrounds = []
+export const addRowColumnBackground = (id, element, documentManager) => {
+  const rowSettings = element.tag === 'row' ? element : documentManager.get(element.parent)
+  const colSettings = element.tag === 'column' ? element : null
+  const rowChildren = documentManager.children(rowSettings.id)
 
-  let devices = {
-    'desktop': 'xl',
-    'tablet-landscape': 'lg',
-    'tablet-portrait': 'md',
-    'mobile-landscape': 'sm',
-    'mobile-portrait': 'xs'
-  }
+  let rowBackground = {}
+  let columnBackgrounds = []
 
   const pushBackground = (element) => {
-    let designOptions = element.designOptions
+    const designOptions = element.designOptionsAdvanced
+    let backgroundUsed = false
     let elementBackground = {}
-    if (designOptions && designOptions.used) {
-      if (designOptions.deviceTypes === 'all' && (designOptions.all.backgroundColor !== '' || designOptions.all.backgroundImage.urls.length)) {
-        elementBackground[ 'all' ] = true
+    if (designOptions && designOptions.device) {
+      let hasDeviceSettings = false
+
+      for (let prop in designOptions.device) {
+        if (designOptions.device.hasOwnProperty(prop)) {
+          hasDeviceSettings = true
+        }
+      }
+
+      if (!hasDeviceSettings) {
+        return
+      }
+
+      if (designOptions.device.hasOwnProperty('all')) {
+        const allSettings = designOptions.device.all
+        if (allSettings.backgroundColor || (allSettings.images && allSettings.images.urls && allSettings.images.urls.length)) {
+          elementBackground.all = true
+          backgroundUsed = true
+        }
       } else {
-        for (let device in devices) {
-          if ((designOptions[ device ].backgroundColor !== '' || designOptions[ device ].backgroundImage.urls.length)) {
-            elementBackground[ devices[ device ] ] = true
+        for (let device in designOptions.device) {
+          if (designOptions.device.hasOwnProperty(device)) {
+            const deviceSettings = designOptions.device[ device ]
+            if (deviceSettings.backgroundColor || (deviceSettings.images && deviceSettings.images.urls && deviceSettings.images.urls.length)) {
+              elementBackground[ device ] = true
+              backgroundUsed = true
+            }
           }
         }
       }
-      allBackgrounds.push(elementBackground)
+
+      if (backgroundUsed) {
+        if (element.tag === 'row') {
+          rowBackground = elementBackground
+        } else if (element.tag === 'column') {
+          columnBackgrounds.push(elementBackground)
+        }
+      }
     }
   }
 
-  let rowChildren = documentManager.children(id)
+  pushBackground(rowSettings)
 
   rowChildren.forEach((column) => {
-    pushBackground(column)
+    if (colSettings && column.id === colSettings.id) {
+      pushBackground(colSettings)
+    } else {
+      pushBackground(column)
+    }
   })
 
-  pushBackground(element)
-
-  let rowBackground = allBackgrounds.reduce(function (result, currentObject) {
+  const reducedColBackgrounds = columnBackgrounds.reduce(function (result, currentObject) {
     for (let key in currentObject) {
       if (currentObject.hasOwnProperty(key)) {
         result[ key ] = currentObject[ key ]
@@ -126,8 +152,22 @@ export const addRowBackground = (id, element, documentManager) => {
     return result
   }, {})
 
-  element.background = rowBackground
-  documentManager.update(id, element)
+  let mergedBackground = {}
+
+  if (rowBackground.hasOwnProperty('all')) {
+    mergedBackground = reducedColBackgrounds
+  } else if (reducedColBackgrounds.hasOwnProperty('all')) {
+    mergedBackground = rowBackground
+  } else {
+    for (let device in rowBackground) {
+      if (rowBackground.hasOwnProperty(device) && reducedColBackgrounds.hasOwnProperty(device)) {
+        mergedBackground[ device ] = true
+      }
+    }
+  }
+
+  rowSettings.columnBackground = mergedBackground
+  documentManager.update(rowSettings.id, rowSettings)
 }
 
 export const isElementOneRelation = (parent, documentManager, cook) => {
