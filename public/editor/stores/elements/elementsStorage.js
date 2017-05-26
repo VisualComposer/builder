@@ -93,10 +93,11 @@ addStorage('elements', (storage) => {
     } else if (element.tag === 'column') {
       let rowElement = documentManager.get(parent.id)
       rebuildRawLayout(rowElement.id, { action: 'columnRemove', size: element.size }, documentManager)
-      storage.trigger('update', rowElement.id, rowElement)
+      addRowColumnBackground(id, element, documentManager)
+      storage.trigger('update', rowElement.id, documentManager.get(parent.id))
     }
     storage.state(`element:${id}`).delete()
-    if (parent) {
+    if (parent && element.tag !== 'column') {
       storage.state(`element:${parent.id}`).set(parent)
     } else {
       storage.state('document').set(documentManager.children(false))
