@@ -21,4 +21,14 @@ class Templates implements Helper
 
         return $bundleFolder;
     }
+
+    public function getTemplatesUrl($path = '')
+    {
+        $bundleFolder = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/templates';
+        if ($path) {
+            $bundleFolder .= '/' . ltrim($path, '\//');
+        }
+
+        return $bundleFolder;
+    }
 }

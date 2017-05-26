@@ -11,6 +11,9 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\EditorTemplates;
+use VisualComposer\Helpers\File;
+use VisualComposer\Helpers\Hub\Bundle;
+use VisualComposer\Helpers\Hub\Templates;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -42,14 +45,38 @@ class TemplatesDownloadController extends Container implements Module
      * @param $bundleJson
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
+     * @param \VisualComposer\Helpers\Hub\Bundle $hubBundleHelper
+     * @param \VisualComposer\Helpers\File $fileHelper
+     * @param \VisualComposer\Helpers\Hub\Templates $hubTemplatesHelper
      */
-    protected function updateTemplates($bundleJson, Options $optionsHelper, EditorTemplates $editorTemplatesHelper)
-    {
+    protected function updateTemplates(
+        $bundleJson,
+        Options $optionsHelper,
+        EditorTemplates $editorTemplatesHelper,
+        Bundle $hubBundleHelper,
+        File $fileHelper,
+        Templates $hubTemplatesHelper
+    ) {
         if (isset($bundleJson['templates'])) {
             $templates = $bundleJson['templates'];
             $toSaveTemplates = [];
 
+            $fileHelper->createDirectory(
+                $hubTemplatesHelper->getTemplatesPath()
+            );
+
             foreach ($templates as $templateKey => $template) {
+                // File is locally available
+                $tempTemplatePath = $hubBundleHelper->getTempBundleFolder('templates/' . $template['id']);
+                if (is_dir($tempTemplatePath)) {
+                    // We have local assets for template, so we need to copy them to real templates folder
+                    $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
+                    $fileHelper->copyDirectory(
+                        $tempTemplatePath,
+                        $hubTemplatesHelper->getTemplatesPath($template['id'])
+                    );
+                }
+
                 $template = $this->processTemplateMetaImages($template);
                 $templateElements = $template['data'];
                 $elementsImages = $this->getTemplateElementImages($templateElements);
@@ -128,29 +155,30 @@ class TemplatesDownloadController extends Container implements Module
         $hubTemplatesHelper = vchelper('HubTemplates');
         $urlHelper = vchelper('Url');
 
-        $imageFile = $fileHelper->download($url);
-        if (!is_wp_error($imageFile)) {
+        if ($urlHelper->isUrl($url)) {
+            $imageFile = $fileHelper->download($url);
             $localImagePath = strtolower($template['id'] . '/' . $prefix . '' . basename($url));
-
-            $fileHelper->createDirectory(
-                $hubTemplatesHelper->getTemplatesPath()
-            );
-            $fileHelper->createDirectory(
-                $hubTemplatesHelper->getTemplatesPath($template['id'])
-            );
-
-            if (rename(
-                $imageFile,
-                $hubTemplatesHelper->getTemplatesPath(
-                    $localImagePath
-                )
-            )) {
-                return $urlHelper->getContentAssetUrl(
-                    'templates/' . $localImagePath
+            if (!is_wp_error($imageFile)) {
+                $fileHelper->createDirectory(
+                    $hubTemplatesHelper->getTemplatesPath($template['id'])
                 );
+
+                if (rename(
+                    $imageFile,
+                    $hubTemplatesHelper->getTemplatesPath(
+                        $localImagePath
+                    )
+                )) {
+                    return $urlHelper->getContentAssetUrl(
+                        'templates/' . $localImagePath
+                    );
+                }
+            } else {
+                return $imageFile;
             }
         } else {
-            return $imageFile;
+            // File located locally
+            return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $url);
         }
 
         return false;
