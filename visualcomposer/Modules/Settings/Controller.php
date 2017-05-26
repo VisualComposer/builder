@@ -122,7 +122,7 @@ class Controller extends Container implements Module
 
         $iconUrl = $urlHelper->assetUrl('images/logo/16x16.png');
 
-        add_menu_page($title, $title, 'exist', $slug, null, $iconUrl, 76);
+        add_menu_page($title, $title, 'edit_posts', $slug, null, $iconUrl, 76);
 
         vcevent('vcv:settings:mainPage:menuPageBuild', ['slug' => $slug]);
     }
@@ -134,7 +134,7 @@ class Controller extends Container implements Module
      */
     protected function addSubmenuPages(CurrentUser $currentUserAccess)
     {
-        if (!$currentUserAccess->wpAll('manage_options')->get()) {
+        if (!$currentUserAccess->wpAll('edit_posts')->get()) {
             return;
         }
 

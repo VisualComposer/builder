@@ -68,6 +68,10 @@ class PostTypes extends Container implements Module
      */
     protected function addPage($pages)
     {
+        $currentUserAccess = vchelper('AccessCurrentUser');
+        if (!$currentUserAccess->wpAll('manage_options')->get()) {
+            return $pages;
+        }
         $pages[] = [
             'slug' => $this->getSlug(),
             'title' => __('Settings', 'vcwb'),

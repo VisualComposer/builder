@@ -64,8 +64,12 @@ class ActivationPage extends Container implements Module
      *
      * @return array
      */
-    private function addPage($pages)
+    protected function addPage($pages)
     {
+        $currentUserAccess = vchelper('AccessCurrentUser');
+        if (!$currentUserAccess->wpAll('manage_options')->get()) {
+            return $pages;
+        }
         $pages[] = [
             'slug' => $this->getSlug(),
             'title' => __('Activation', 'vcwb'),

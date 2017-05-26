@@ -9,6 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Account\Pages\ActivationPage;
@@ -56,6 +57,7 @@ class About extends ActivationPage implements Module
             'layout' => 'standalone',
             'showTab' => false,
             'controller' => $this,
+            'capability' => 'edit_posts',
         ];
 
         return $pages;
