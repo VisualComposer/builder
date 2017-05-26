@@ -8,21 +8,25 @@ export default class Backend extends Representer {
   }
 
   rgbToHex (rgb) {
-    return `#${this.getHex(rgb[1])}${this.getHex(rgb[2])}${this.getHex(rgb[3])}`
+    return `#${this.getHex(rgb[ 1 ])}${this.getHex(rgb[ 2 ])}${this.getHex(rgb[ 3 ])}`
   }
 
   handleRgb (value) {
     let rgbaRegExp = /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
     let rgb = value.match(rgbaRegExp)
-    if (rgb[4]) {
-      return `${this.rgbToHex(rgb)}, Opacity ${rgb[4] * 100}%;`
+    if (!rgb) {
+      return value;
+    }
+    if (rgb[ 4 ]) {
+      return `${this.rgbToHex(rgb)}, Opacity ${rgb[ 4 ] * 100}%;`
     }
     return `${this.rgbToHex(rgb)};`
   }
 
   getOutput (value) {
-    let hexRegExp = /[0-9A-Fa-f]{6}/g
-    if (value.match(hexRegExp)) {
+    value = value.trim()
+    let hexRegExp = /^\#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/g
+    if (!value || value.match(hexRegExp)) {
       return `${value};`
     }
     return this.handleRgb(value)
@@ -41,7 +45,7 @@ export default class Backend extends Representer {
       'vcv-wpbackend-attr-representer-color--value': true
     })
     return <div className={classes}>
-      <span className={sampleClasses} style={{background: this.state.value}} />
+      <span className={sampleClasses} style={{ background: this.state.value }} />
       <span className={valueClasses}>{output}</span>
     </div>
   }
