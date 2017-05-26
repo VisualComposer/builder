@@ -147,7 +147,9 @@ addStorage('wordpressData', (storage) => {
       dataSaved = true
       storage.trigger('save', {}, '', () => {
         submitter.classList.remove('disabled')
-        submitter.click()
+        setTimeout(() => {
+          submitter.click()
+        }, 150)
       })
     } else {
       dataSaved = false
