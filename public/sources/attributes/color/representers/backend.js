@@ -4,7 +4,7 @@ import Representer from '../../representer'
 
 export default class Backend extends Representer {
   getHex (val) {
-    return parseInt(val, 10).toString(16).slice(-2)
+    return ('0' + parseInt(val, 10).toString(16)).slice(-2)
   }
 
   rgbToHex (rgb) {
