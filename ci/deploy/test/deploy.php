@@ -38,7 +38,7 @@ task(
         run('npm update --loglevel=error');
         cd('{{release_path}}');
         run('php ci/composer.phar update --prefer-dist --no-progress');
-        run('npm run build-refactor');
+        run('npm run build');
         run('bash tools/devCategories/cloneScript.sh');
         run('bash tools/devElements/cloneScript.sh');
         run('bash tools/devElements/buildScriptDeploy.sh');
