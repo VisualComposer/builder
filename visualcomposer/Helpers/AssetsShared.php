@@ -20,7 +20,6 @@ class AssetsShared extends Container implements Helper
 
             return $optionsHelper->get('assetsLibrary', []);
         } else {
-
             $urlHelper = vchelper('Url');
 
             return [
