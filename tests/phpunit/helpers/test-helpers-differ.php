@@ -466,9 +466,10 @@ class HelpersDifferTest extends WP_UnitTestCase
     public function testDifferNonArrays2()
     {
         $differ = vchelper('Differ');
-        $this->expectException('InvalidArgumentException');
         $differ->set(['a' => 1]);
-        // Cannot set empty value
+        // CAN Set empty value, it will not affect anything
         $differ->set([]);
+
+        $this->assertEquals(['a' => 1], $differ->get());
     }
 }

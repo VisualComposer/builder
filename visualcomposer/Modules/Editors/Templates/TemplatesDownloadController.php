@@ -14,10 +14,19 @@ use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Class TemplatesDownloadController
+ * @package VisualComposer\Modules\Editors\Templates
+ */
 class TemplatesDownloadController extends Container implements Module
 {
     use EventsFilters;
 
+    /**
+     * TemplatesDownloadController constructor.
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     */
     public function __construct(Options $optionsHelper)
     {
         if (vcvenv('VCV_TEMPLATES_DOWNLOAD')) {
@@ -29,6 +38,11 @@ class TemplatesDownloadController extends Container implements Module
         }
     }
 
+    /**
+     * @param $bundleJson
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
+     */
     protected function updateTemplates($bundleJson, Options $optionsHelper, EditorTemplates $editorTemplatesHelper)
     {
         if (isset($bundleJson['templates'])) {
@@ -62,7 +76,7 @@ class TemplatesDownloadController extends Container implements Module
                     }
                 }
                 unset($template['data']);
-                $toSaveTemplates[] = $template;
+                $toSaveTemplates[ $template['id'] ] = $template;
                 $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
             }
 
@@ -76,6 +90,11 @@ class TemplatesDownloadController extends Container implements Module
         }
     }
 
+    /**
+     * @param $template
+     *
+     * @return mixed
+     */
     protected function processTemplateMetaImages($template)
     {
         $wpMediaHelper = vchelper('WpMedia');
@@ -96,6 +115,13 @@ class TemplatesDownloadController extends Container implements Module
         return $template;
     }
 
+    /**
+     * @param $url
+     * @param $template
+     * @param string $prefix
+     *
+     * @return bool|mixed|string
+     */
     protected function processSimple($url, $template, $prefix = '')
     {
         $fileHelper = vchelper('File');
@@ -130,6 +156,13 @@ class TemplatesDownloadController extends Container implements Module
         return false;
     }
 
+    /**
+     * @param $imageData
+     * @param $template
+     * @param string $prefix
+     *
+     * @return array
+     */
     protected function processWpMedia($imageData, $template, $prefix = '')
     {
         $newImages = [];
@@ -150,6 +183,11 @@ class TemplatesDownloadController extends Container implements Module
         return $newImages;
     }
 
+    /**
+     * @param $elements
+     *
+     * @return array
+     */
     protected function getTemplateElementImages($elements)
     {
         $images = [];
@@ -164,6 +202,11 @@ class TemplatesDownloadController extends Container implements Module
         return $images;
     }
 
+    /**
+     * @param $element
+     *
+     * @return array
+     */
     protected function getElementImages($element)
     {
         $images = [];

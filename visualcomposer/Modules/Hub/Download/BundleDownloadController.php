@@ -20,22 +20,12 @@ class BundleDownloadController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_HUB_DOWNLOAD')) {
-            $this->addFilter(
-                'vcv:ajax:account:activation:adminNonce',
-                'downloadOnActivation',
+            $this->addEvent(
+                'vcv:activation:success',
+                'prepareBundleDownload',
                 50
             );
         }
-    }
-
-    protected function downloadOnActivation($response, $payload)
-    {
-        if ($response) {
-            /** @see \VisualComposer\Modules\Hub\Download\BundleDownloadController::prepareBundleDownload */
-            $this->call('prepareBundleDownload');
-        }
-
-        return $response;
     }
 
     protected function prepareBundleDownload(Bundle $hubHelper)

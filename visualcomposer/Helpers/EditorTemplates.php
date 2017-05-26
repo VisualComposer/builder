@@ -40,7 +40,7 @@ class EditorTemplates implements Helper
             if ($data) {
                 $template['data'] = $optionHelper->get('predefinedTemplateElements:' . $template['id']);
             }
-            $templates[] = $template;
+            $templates[ $template['id'] ] = $template;
         }
 
         return $templates;

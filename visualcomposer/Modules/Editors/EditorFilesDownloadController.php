@@ -15,10 +15,19 @@ use VisualComposer\Helpers\Hub\Bundle;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Class EditorFilesDownloadController
+ * @package VisualComposer\Modules\Editors
+ */
 class EditorFilesDownloadController extends Container implements Module
 {
     use EventsFilters;
 
+    /**
+     * EditorFilesDownloadController constructor.
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     */
     public function __construct(Options $optionsHelper)
     {
         if (vcvenv('VCV_EXTENSION_DOWNLOAD')) {
@@ -30,6 +39,11 @@ class EditorFilesDownloadController extends Container implements Module
         }
     }
 
+    /**
+     * @param $bundleJson
+     * @param \VisualComposer\Helpers\File $fileHelper
+     * @param \VisualComposer\Helpers\Hub\Bundle $hubBundleHelper
+     */
     protected function updateEditorFiles($bundleJson, File $fileHelper, Bundle $hubBundleHelper)
     {
         if (isset($bundleJson['editor']) && $bundleJson['editor']) {

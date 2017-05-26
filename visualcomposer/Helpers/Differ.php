@@ -43,7 +43,7 @@ class Differ extends Container implements Helper, Immutable
     {
         $newKeys = array_keys($newValue);
         $newAssoc = $this->hasStringKeys($newValue);
-        if (!$newAssoc) {
+        if (!empty($newValue) && !$newAssoc) {
             throw new \InvalidArgumentException('New value must be an associative array');
         }
         foreach ($newKeys as $key) {
