@@ -15,7 +15,7 @@ export default class Backend extends Representer {
     let rgbaRegExp = /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
     let rgb = value.match(rgbaRegExp)
     if (!rgb) {
-      return value;
+      return value
     }
     if (rgb[ 4 ]) {
       return `${this.rgbToHex(rgb)}, Opacity ${rgb[ 4 ] * 100}%;`
@@ -25,7 +25,7 @@ export default class Backend extends Representer {
 
   getOutput (value) {
     value = value.trim()
-    let hexRegExp = /^\#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/g
+    let hexRegExp = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/g
     if (!value || value.match(hexRegExp)) {
       return `${value};`
     }
