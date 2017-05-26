@@ -1,6 +1,6 @@
 import React from 'react'
-import ActivitiesManager from './../../../resources/components/editElement/lib/activitiesManager'
-import EditFormFieldDependencies from './../../../resources/components/editElement/lib/fieldDependencyManager'
+import ActivitiesManager from './../../../editor/modules/ui/edit-element/lib/activities-manager'
+import EditFormFieldDependencies from './../../../editor/modules/ui/edit-element/lib/field-dependencies'
 import classNames from 'classnames'
 
 export default class AttributeElementFieldWrapper extends ActivitiesManager {
