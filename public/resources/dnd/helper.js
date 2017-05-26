@@ -23,6 +23,7 @@ export default class Helper {
     })
     this.hide()
   }
+
   draw () {
     const helperContainer = document.createElement('div')
     helperContainer.classList.add('vcv-ui-drag-helper-wrapper')
@@ -47,16 +48,20 @@ export default class Helper {
     control.style.marginLeft = -rect.width / 2 + 'px'
     return control
   }
+
   setPosition (point) {
     this.control.style.top = point.y + 'px'
     this.control.style.left = point.x + 'px'
   }
+
   hide () {
     this.control.style.display = 'none'
   }
+
   show () {
     this.control.style.display = 'flex'
   }
+
   remove () {
     let control = this.control
     this.control = null

@@ -129,7 +129,7 @@ export default class DnD {
           document: document,
           container: document.body,
           boundariesGap: 10,
-          rootContainerFor: ['RootElements'],
+          rootContainerFor: [ 'RootElements' ],
           rootID: 'vcv-content-root',
           handler: null,
           ignoreHandling: null,
@@ -140,14 +140,17 @@ export default class DnD {
       }
     })
   }
+
   static api (dnd) {
     return new Api(dnd)
   }
+
   option (name, value) {
-    this.options[name] = value
+    this.options[ name ] = value
   }
+
   init () {
-    this.items[this.options.rootID] = new DOMElement(this.options.rootID, this.container, {
+    this.items[ this.options.rootID ] = new DOMElement(this.options.rootID, this.container, {
       containerFor: this.options.rootContainerFor
     })
     this.handleDragFunction = this.handleDrag.bind(this)
@@ -155,6 +158,7 @@ export default class DnD {
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
   }
+
   addItem (id) {
     let element = cook.get(documentManager.get(id))
     if (!element) { return }
@@ -174,6 +178,7 @@ export default class DnD {
       .on('mousedown', this.handleDragStartFunction)
       .on('mousedown', this.handleDragFunction)
   }
+
   updateItem (id) {
     if (!this.items[ id ]) { return }
     this.items[ id ]
@@ -184,20 +189,23 @@ export default class DnD {
       .on('mousedown', this.handleDragStartFunction)
       .on('mousedown', this.handleDragFunction)
   }
+
   removeItem (id) {
     this.items[ id ] && this.items[ id ]
       .off('mousedown', this.handleDragStartFunction)
       .off('mousedown', this.handleDragFunction)
     delete this.items[ id ]
   }
+
   removePlaceholder () {
     if (this.placeholder !== null) {
       this.placeholder.remove()
       this.placeholder = null
     }
   }
+
   findElementWithValidParent (domElement) {
-    let parentElement = domElement.parent() ? this.items[domElement.parent()] : null
+    let parentElement = domElement.parent() ? this.items[ domElement.parent() ] : null
     if (parentElement && this.draggingElement.isChild(parentElement)) {
       return domElement
     } else if (parentElement) {
@@ -205,9 +213,11 @@ export default class DnD {
     }
     return null
   }
+
   isDraggingElementParent (domElement) {
     return domElement.$node.parents('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
   }
+
   findDOMNode (point) {
     let domNode = this.options.document.elementFromPoint(point.x, point.y)
     const domNodeAttr = domNode && domNode.getAttribute('data-vcv-dnd-element')
@@ -219,17 +229,18 @@ export default class DnD {
     }
     return domNode || null
   }
+
   checkItems (point) {
     let domNode = this.findDOMNode(point)
     if (!domNode || !domNode.ELEMENT_NODE) { return }
-    let domElement = this.items[domNode.getAttribute('data-vcv-dnd-element')]
+    let domElement = this.items[ domNode.getAttribute('data-vcv-dnd-element') ]
     if (!domElement) {
       return
     }
-    let parentDOMElement = this.items[domElement.parent()] || null
+    let parentDOMElement = this.items[ domElement.parent() ] || null
     if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
       domElement = this.findElementWithValidParent(parentDOMElement) || domElement
-      parentDOMElement = this.items[domElement.parent()] || null
+      parentDOMElement = this.items[ domElement.parent() ] || null
     }
     if (this.isDraggingElementParent(domElement)) {
       return
@@ -237,8 +248,8 @@ export default class DnD {
     let position = this.placeholder.redraw(domElement.node, point, {
       allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
       allowAppend: !this.isDraggingElementParent(domElement) &&
-        domElement && this.draggingElement.isChild(domElement) &&
-        !documentManager.children(domElement.id).length
+      domElement && this.draggingElement.isChild(domElement) &&
+      !documentManager.children(domElement.id).length
     })
 
     if (position) {
@@ -248,11 +259,16 @@ export default class DnD {
       this.placeholder.setCurrentElement(domElement.id)
     }
   }
+
   setPosition (position) {
     this.position = position
   }
+
   start (id, point) {
-    this.draggingElement = id ? this.items[id] : null
+    if (!this.dragStartHandled) {
+      this.dragStartHandled = true
+    }
+    this.draggingElement = id ? this.items[ id ] : null
     if (!this.draggingElement) {
       this.draggingElement = null
       return false
@@ -274,8 +290,10 @@ export default class DnD {
     this.watchMouse()
     this.createPlaceholder()
     this.scrollEvent = () => {
-      this.placeholder.clearStyle()
-      this.placeholder.setPoint(0, 0)
+      if (this.placeholder) {
+        this.placeholder.clearStyle()
+        this.placeholder.setPoint(0, 0)
+      }
       this.check(this.point || {})
     }
     this.options.document.addEventListener('scroll', this.scrollEvent)
@@ -286,6 +304,7 @@ export default class DnD {
       this.helper && this.helper.show()
     }, 200)
   }
+
   end () {
     // Remove helper
     this.helper && this.helper.remove()
@@ -318,6 +337,7 @@ export default class DnD {
     // Set callback on dragEnd
     this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
   }
+
   scrollManually (point) {
     let body = this.options.document.body
     let clientHeight = this.options.document.documentElement.clientHeight
@@ -333,6 +353,7 @@ export default class DnD {
       body.scrollTop = top > 0 ? top : 0
     }
   }
+
   check (point = null) {
     if (this.options.disabled === true) {
       this.handleDragEnd()
@@ -353,14 +374,17 @@ export default class DnD {
 
   // Mouse events
   watchMouse () {
-    this.options.document.body.addEventListener('mousemove', this.handleDragFunction, false)
+    this.options.document.addEventListener('mousemove', this.handleDragFunction, false)
   }
+
   forgetMouse () {
-    this.options.document.body.removeEventListener('mousemove', this.handleDragFunction, false)
+    this.options.document.removeEventListener('mousemove', this.handleDragFunction, false)
   }
+
   createPlaceholder () {
     this.placeholder = new SmartLine(_.pick(this.options, 'document', 'container'))
   }
+
   /**
    * Drag handlers
    */
@@ -372,6 +396,7 @@ export default class DnD {
     }
     e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX, y: e.clientY })
   }
+
   /**
    * @param {object} e Handled event
    */
@@ -382,19 +407,18 @@ export default class DnD {
     if (this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
       return
     }
-    if (!this.dragStartHandled) {
-      this.dragStartHandled = true
-    }
     if (e.which > 1) {
       return
     }
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
     this.start(id, { x: e.clientX, y: e.clientY })
   }
+
   handleDragEnd () {
     this.dragStartHandled = false
     this.end()
   }
+
   handleRightMouseClick (e) {
     if (e.button && e.button === 2) {
       this.options.document.removeEventListener('mousedown', this.handleRightMouseClickFunction, false)
