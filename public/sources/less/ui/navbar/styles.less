@@ -122,7 +122,6 @@
     flex-direction: column;
   }
   &:not(.vcv-ui-navbar-sandwich):hover,
-  &:not(.vcv-ui-navbar-sandwich):focus,
   &.vcv-ui-navbar-dropdown--active {
     .vcv-ui-navbar-dropdown-content {
       visibility: visible;
@@ -132,8 +131,7 @@
       background-color: @navbar-bg-dropdown;
     }
   }
-  &:hover,
-  &:focus {
+  &:hover {
     .vcv-ui-navbar-dropdown-content {
       z-index: @navbar-dropdown-z-index-hover;
     }

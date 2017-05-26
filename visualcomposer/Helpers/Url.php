@@ -120,4 +120,9 @@ class Url implements Helper
     {
         return content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim($key, '\\/');
     }
+
+    public function isUrl($str = '')
+    {
+        return (bool)preg_match('/^(https?:)?\\/\\/?/', $str);
+    }
 }
