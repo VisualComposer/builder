@@ -72,11 +72,13 @@ addStorage('elements', (storage) => {
       rebuildRawLayout(id, { layout: element.layout.layoutData }, documentManager)
       element.layout.layoutData = undefined
     }
-    if (element.tag === 'column' || element.tag === 'row') {
-      addRowColumnBackground(id, element, documentManager)
-    }
     documentManager.update(id, element)
     storage.state(`element:${id}`).set(element, source)
+    if (element.tag === 'column') {
+      addRowColumnBackground(id, element, documentManager)
+      let rowElement = documentManager.get(element.parent)
+      storage.trigger('update', rowElement.id, rowElement)
+    }
     if (!options.silent) {
       updateTimeMachine(source || 'elements')
     }
@@ -91,10 +93,11 @@ addStorage('elements', (storage) => {
     } else if (element.tag === 'column') {
       let rowElement = documentManager.get(parent.id)
       rebuildRawLayout(rowElement.id, { action: 'columnRemove', size: element.size }, documentManager)
-      storage.trigger('update', rowElement.id, rowElement)
+      addRowColumnBackground(id, element, documentManager)
+      storage.trigger('update', rowElement.id, documentManager.get(parent.id))
     }
     storage.state(`element:${id}`).delete()
-    if (parent) {
+    if (parent && element.tag !== 'column') {
       storage.state(`element:${parent.id}`).set(parent)
     } else {
       storage.state('document').set(documentManager.children(false))
@@ -129,8 +132,10 @@ addStorage('elements', (storage) => {
     if (element.tag === 'column') {
       // rebuild previous column
       rebuildRawLayout(element.parent, {}, documentManager)
+      addRowColumnBackground(element.id, element, documentManager)
       // rebuild next column
       let newElement = documentManager.get(id)
+      addRowColumnBackground(newElement.id, newElement, documentManager)
       rebuildRawLayout(newElement.parent, {}, documentManager)
     }
     storage.state('document').set(documentManager.children(false))

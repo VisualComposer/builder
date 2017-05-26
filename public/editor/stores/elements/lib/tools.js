@@ -80,12 +80,11 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   }
   return elements
 }
-export const addRowColumnBackground = (id, element, documentManager) => {
-  const rowSettings = element.tag === 'row' ? element : documentManager.get(element.parent)
-  const colSettings = element.tag === 'column' ? element : null
+export const addRowColumnBackground = (id, element, documentManager, options) => {
+  const rowSettings = documentManager.get(element.parent)
+  const colSettings = element
   const rowChildren = documentManager.children(rowSettings.id)
 
-  let rowBackground = {}
   let columnBackgrounds = []
 
   const pushBackground = (element) => {
@@ -124,16 +123,10 @@ export const addRowColumnBackground = (id, element, documentManager) => {
       }
 
       if (backgroundUsed) {
-        if (element.tag === 'row') {
-          rowBackground = elementBackground
-        } else if (element.tag === 'column') {
-          columnBackgrounds.push(elementBackground)
-        }
+        columnBackgrounds.push(elementBackground)
       }
     }
   }
-
-  pushBackground(rowSettings)
 
   rowChildren.forEach((column) => {
     if (colSettings && column.id === colSettings.id) {
@@ -152,21 +145,7 @@ export const addRowColumnBackground = (id, element, documentManager) => {
     return result
   }, {})
 
-  let mergedBackground = {}
-
-  if (rowBackground.hasOwnProperty('all')) {
-    mergedBackground = reducedColBackgrounds
-  } else if (reducedColBackgrounds.hasOwnProperty('all')) {
-    mergedBackground = rowBackground
-  } else {
-    for (let device in rowBackground) {
-      if (rowBackground.hasOwnProperty(device) && reducedColBackgrounds.hasOwnProperty(device)) {
-        mergedBackground[ device ] = true
-      }
-    }
-  }
-
-  rowSettings.columnBackground = mergedBackground
+  rowSettings.columnBackground = reducedColBackgrounds
   documentManager.update(rowSettings.id, rowSettings)
 }
 
