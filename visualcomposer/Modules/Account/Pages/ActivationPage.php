@@ -14,6 +14,10 @@ use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Settings\Traits\Page;
 
+/**
+ * Class ActivationPage
+ * @package VisualComposer\Modules\Account\Pages
+ */
 class ActivationPage extends Container implements Module
 {
     use Page;
@@ -29,6 +33,11 @@ class ActivationPage extends Container implements Module
      */
     protected $templatePath = 'account/partials/activation-layout';
 
+    /**
+     * ActivationPage constructor.
+     *
+     * @param \VisualComposer\Helpers\Token $tokenHelper
+     */
     public function __construct(Token $tokenHelper)
     {
         if (!$tokenHelper->isSiteAuthorized()) {
@@ -41,6 +50,9 @@ class ActivationPage extends Container implements Module
         }
     }
 
+    /**
+     *
+     */
     protected function beforeRender()
     {
         wp_enqueue_script('vcv:settings:script');
@@ -65,6 +77,10 @@ class ActivationPage extends Container implements Module
         return $pages;
     }
 
+    /**
+     * Retrieves list of slides for latest activation page
+     * @return array
+     */
     public function getSlides()
     {
         $urlHelper = vchelper('Url');
@@ -105,6 +121,10 @@ class ActivationPage extends Container implements Module
         ];
     }
 
+    /**
+     * This method overrides by about page
+     * @return string
+     */
     public function getActivePage()
     {
         return 'first';

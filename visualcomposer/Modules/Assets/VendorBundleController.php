@@ -35,7 +35,7 @@ class VendorBundleController extends Container implements Module
             'vcv:assets:vendor:script',
             vcvenv('VCV_EXTENSION_DOWNLOAD___!!!!')
                 ?
-                content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
+                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
                 :
                 $urlHelper->to(
                     'public/dist/vendor.bundle.js?' . VCV_VERSION
@@ -48,7 +48,7 @@ class VendorBundleController extends Container implements Module
             'vcv:assets:front:script',
             vcvenv('VCV_EXTENSION_DOWNLOAD')
                 ?
-                content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/front.bundle.js?' . VCV_VERSION
+                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/front.bundle.js?' . VCV_VERSION
                 :
                 $urlHelper->to(
                     'public/dist/front.bundle.js?' . VCV_VERSION
@@ -69,7 +69,7 @@ class VendorBundleController extends Container implements Module
                     '<script id="vcv-script-vendor-bundle" type="text/javascript" src="%s"></script>',
                     vcvenv('VCV_EXTENSION_DOWNLOAD')
                         ?
-                        content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
+                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
                         :
                         $urlHelper->to(
                             'public/dist/vendor.bundle.js?' . VCV_VERSION
