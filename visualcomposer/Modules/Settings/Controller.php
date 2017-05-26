@@ -210,12 +210,12 @@ class Controller extends Container implements Module
         if (vcvenv('VCV_EXTENSION_DOWNLOAD___!!!!')) {
             wp_register_script(
                 'vcv:settings:script',
-                content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.js',
+                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.js',
                 ['vcv:assets:vendor:script']
             );
             wp_register_style(
                 'vcv:settings:style',
-                content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.css'
+                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.css'
             );
         } else {
             wp_register_script(

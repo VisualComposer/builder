@@ -61,9 +61,9 @@ class Controller extends Container implements Module
             9999 // Do with high weight - when all other actions is done
         );
         if (vcvenv('VCV_EXTENSION_DOWNLOAD')) {
-            $bundleJsUrl = content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.js?' . VCV_VERSION;
-            $vendorBundleJsUrl = content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION;
-            $bundleCssUrl = content_url() . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.css?' . VCV_VERSION;
+            $bundleJsUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.js?' . VCV_VERSION;
+            $vendorBundleJsUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION;
+            $bundleCssUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.css?' . VCV_VERSION;
         } else {
             $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js?' . VCV_VERSION);
             $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js?' . VCV_VERSION);
