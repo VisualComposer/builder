@@ -64,7 +64,7 @@ class Color extends Attribute {
   closeIfNotInside = (e) => {
     e && e.preventDefault()
     let $el = e.target
-    let $defaultButton = '.vcv-ui-form-button'
+    let $defaultButton = '.vcv-ui-form-colopicker--default'
     let $dropDown = '.vcv-ui-sketch-picker'
     let $openingButton = '.vcv-ui-color-picker-dropdown'
     let container = null
@@ -170,7 +170,7 @@ class Color extends Attribute {
         </div>
       )
       defaultPicker = (
-        <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.handleDefaultColor}>
+        <button className='vcv-ui-form-button vcv-ui-form-button--default vcv-ui-form-colopicker--default' onClick={this.handleDefaultColor}>
           <span>Default</span>
         </button>
       )
