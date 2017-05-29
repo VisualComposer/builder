@@ -127,8 +127,11 @@
   .vcv-row-control-container {
     padding-top: @vcv-wpbackend-layout-row-control-container-padding;
     padding-bottom: @vcv-wpbackend-layout-row-control-container-padding;
-    margin-left: @vcv-wpbackend-layout-row-control-container-margin;
-    margin-right: @vcv-wpbackend-layout-row-control-container-margin;
+    margin: @vcv-wpbackend-layout-row-control-container-margin;
+
+    .vcv-ui-blank-row-element-control {
+      min-height: initial;
+    }
   }
 
   .vcv-row-control {
@@ -228,12 +231,6 @@
 
   .vcv-ui-blank-row-controls-container {
     padding: @vcv-wpbackend-blank-row-controls-container-padding;
-  }
-
-  .vcv-row-control-container {
-    .vcv-ui-blank-row-element-control {
-      margin: @vcv-ui-blank-row-element-control-margin;
-    }
   }
 
   .vcv-wpbackend-layout {
