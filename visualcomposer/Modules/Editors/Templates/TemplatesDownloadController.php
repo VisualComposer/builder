@@ -109,11 +109,11 @@ class TemplatesDownloadController extends Container implements Module
 
             $differ = vchelper('Differ');
             // Set old
-            $differ->set($editorTemplatesHelper->allPredefined(false));
+            $differ->set($editorTemplatesHelper->allPredefined(false, true));
             // Merge new
             $differ->set($toSaveTemplates);
 
-            $editorTemplatesHelper->setPredefined($differ->get());
+            $editorTemplatesHelper->setPredefined(array_values($differ->get()));
         }
     }
 

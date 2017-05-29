@@ -29,9 +29,11 @@ class EditorTemplates implements Helper
     /**
      * @param bool $data
      *
+     * @param bool $id
+     *
      * @return array
      */
-    public function allPredefined($data = true)
+    public function allPredefined($data = true, $id = false)
     {
         $optionHelper = vchelper('Options');
         $predefinedTemplates = $optionHelper->get('predefinedTemplates', []);
@@ -40,13 +42,17 @@ class EditorTemplates implements Helper
             if ($data) {
                 $template['data'] = $optionHelper->get('predefinedTemplateElements:' . $template['id']);
             }
-            $templates[ $template['id'] ] = $template;
+            if ($id) {
+                $templates[ $template['id'] ] = $template;
+            } else {
+                $templates[] = $template;
+            }
         }
 
         return $templates;
     }
 
-    public function setPredefined($templates)
+    public function setPredefined(array $templates)
     {
         $optionHelper = vchelper('Options');
 
