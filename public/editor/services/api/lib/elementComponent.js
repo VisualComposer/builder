@@ -32,7 +32,7 @@ export default class ElementComponent extends Component {
 
     const helper = document.createElement('vcvhelper')
     elementWrapper.innerHTML = ''
-    helper.setAttribute('data-vcvs-html', `${encodeURIComponent(tagString)}`)
+    helper.setAttribute('data-vcvs-html', `${tagString}`)
     // helper.setAttribute('data-vcvs-html', `[vcv_encoded_shortcode]${encodeURIComponent(window.btoa(encodeURIComponent(tagString)))}[/vcv_encoded_shortcode]`)
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(tagString)
