@@ -1,6 +1,6 @@
 .vcv-row-control-container {
   box-sizing: border-box;
-  min-height: @row-size;
+  min-height: @vcv-row-control-size;
   display: flex;
   flex: 1 1 auto;
   flex-wrap: wrap;
@@ -11,30 +11,10 @@
   opacity: 0;
   transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
   cursor: pointer;
+  margin: @vcv-row-control-margin;
 
   &:hover {
     opacity: 1;
-  }
-
-  a {
-    &.vcv-row-control {
-      border: none;
-      color: @row-color-base;
-      span,
-      i {
-        color: @row-color-base;
-      }
-    }
-
-    &:hover {
-      &.vcv-row-control {
-        color: @row-color-base;
-        span,
-        i {
-          color: @row-color-base;
-        }
-      }
-    }
   }
 }
 
@@ -52,9 +32,9 @@
 
 .vcv-row-control {
   box-sizing: border-box;
-  padding: @row-gold-value;
-  min-width: @row-size;
-  min-height: @row-size;
+  padding: @vcv-row-control-gold-value;
+  min-width: @vcv-row-control-size;
+  min-height: @vcv-row-control-size;
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -64,22 +44,22 @@
   align-content: center;
   cursor: pointer;
   transition: background @vcv-transition-duration @vcv-transition-timing-function;
-  border-radius: @row-control-border-radius;
-  background: @row-control-background;
-  margin: @row-control-side-margins;
-  font-size: @row-control-base-font-size;
+  border-radius: @vcv-row-control-control-border-radius;
+  background: @vcv-row-control-control-background;
+  margin: @vcv-row-control-control-side-margins;
+  font-size: @vcv-row-control-control-base-font-size;
 
   &:hover,
   &:active,
   &:focus {
-    color: @row-color-base;
-    background: @row-control-background-hover;
+    color: @vcv-row-control-color-base;
+    background: @vcv-row-control-control-background-hover;
     text-decoration: none;
   }
 
   &[disabled] {
-    color: @row-color-base;
-    background: @row-control-background;
+    color: @vcv-row-control-color-base;
+    background: @vcv-row-control-control-background;
     opacity: .5;
     cursor: not-allowed;
   }
@@ -88,7 +68,7 @@
 
 .vcv-row-control-content {
   white-space: nowrap;
-  line-height: @row-gold-value;
+  line-height: @vcv-row-control-gold-value;
 }
 
 .vcv-row-control-icon {
@@ -108,7 +88,7 @@
   }
 
   + span {
-    margin-left: @row-gold-value;
+    margin-left: @vcv-row-control-gold-value;
     vertical-align: middle;
     font-family: 'Roboto', sans-serif;
   }

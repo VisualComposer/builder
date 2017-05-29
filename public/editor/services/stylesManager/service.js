@@ -59,7 +59,7 @@ class StylesManager {
     let viewports = {}
     devices.forEach((device) => {
       device.prefixes.forEach((prefix) => {
-        let queries = ['all']
+        let queries = [ 'all' ]
         // mobile-first queries
         if (device.min) {
           queries.push(`(min-width: ${device.min})`)
@@ -112,6 +112,10 @@ class StylesManager {
         postcss(use).process(style.src)
           .then((result) => {
             resolve(result.css)
+          })
+          .catch(() => {
+            window.console && window.console.warn && window.console.warn('Failed to compile css')
+            resolve('')
           })
       })
       iterations.push(stylePromise)
