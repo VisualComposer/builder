@@ -3,12 +3,6 @@
 .vcv-ui-ajax-form-container {
   input, textarea {
     &:extend(.vcv-ui-form-input all);
-    &[type=checkbox],
-    &[type=radio] {
-      width: auto;
-      display: inline-block;
-      vertical-align: middle;
-    }
   }
   select {
     &:extend(.vcv-ui-form-dropdown all);
@@ -17,42 +11,58 @@
   // This breaks checkboxes
   label {
     &:extend(.vcv-ui-form-group-heading all);
-
-    input {
-      &[type="text"],
-      &[type="search"],
-      &[type="number"],
-      &[type="email"] {
-        margin-top: 12px;
-      }
-    }
-  }
-
-  input[type="checkbox"] {
-    line-height: normal;
-
-    + label {
-      display: inline-block;
-      margin-right: 1em;
-      margin-left: .4em;
-      margin-bottom: .2em;
-    }
   }
 
   small {
     &:extend(.vcv-ui-form-helper all);
   }
+}
 
-  .vcv-ui-wp-spinner::before {
-    background: transparent url(@wp-spinner-svg-src) 50% 50% no-repeat;
-    background-size: contain;
-  }
+.vcv-layout-header {
+  .vcv-ui-ajax-form-container {
+    input, textarea {
+      &[type=checkbox],
+      &[type=radio] {
+        width: auto;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
 
-  a {
-    color: @vcui-form-base-link-color;
-    text-decoration: none;
-    &:hover, &:active {
-      color: @vcui-form-base-link-active-color;
+    label {
+      input {
+        &[type="text"],
+        &[type="search"],
+        &[type="number"],
+        &[type="email"] {
+          margin-top: 12px;
+        }
+      }
+    }
+
+    input[type="checkbox"] {
+      line-height: normal;
+      height: 16px;
+
+      + label {
+        display: inline-block;
+        margin-right: 1em;
+        margin-left: .4em;
+        margin-bottom: .2em;
+      }
+    }
+
+    .vcv-ui-wp-spinner::before {
+      background: transparent url(@wp-spinner-svg-src) 50% 50% no-repeat;
+      background-size: contain;
+    }
+
+    a {
+      color: @vcui-form-base-link-color;
+      text-decoration: none;
+      &:hover, &:active {
+        color: @vcui-form-base-link-active-color;
+      }
     }
   }
 }
