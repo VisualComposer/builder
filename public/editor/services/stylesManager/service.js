@@ -112,10 +112,11 @@ class StylesManager {
         postcss(use).process(style.src)
           .then((result) => {
             resolve(result.css)
-          }).catch(() => {
-          window.console && window.console.warn && window.console.warn('Failed to compile css')
-          resolve('')
-        })
+          })
+          .catch(() => {
+            window.console && window.console.warn && window.console.warn('Failed to compile css')
+            resolve('')
+          })
       })
       iterations.push(stylePromise)
     })
