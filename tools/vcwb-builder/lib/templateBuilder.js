@@ -1,34 +1,61 @@
-const lodash = require('lodash')
-const defautTemplate = require('./defaultTemplate')
+const _ = require('lodash')
+const url = require('url')
+const path = require('path')
+const defaultTemplate = require('../sources/defaultTemplate')
+
 class TemplateBuilder {
   constructor (data, name, descriptor, id) {
     Object.defineProperties(this, {
+      /**
+       * @property {String}
+       * @name TemplateBuilder#name
+       */
       'name': {
         value: name || '',
         writable: false
       },
+      /**
+       * @property {String}
+       * @name TemplateBuilder#descriptor
+       */
       'descriptor': {
         value: descriptor || '',
         writable: false
       },
+      /**
+       * @property {String}
+       * @name TemplateBuilder#id
+       */
       'id': {
-        value: '' + (id || +new Date),
+        value: '' + id,
         writable: false
       },
+      /**
+       * @property {Object}
+       * @name TemplateBuilder#template
+       */
       'template': {
         value: { source: Object.assign({}, data), build: {} },
         writable: false
       },
-      'downloadSources': {
-        value: [],
+      /**
+       * @property {Object}
+       * @name TemplateBuilder#downloadSources
+       */
+      'innerSources': {
+        value: {},
         writable: false
       }
     })
   }
 
+  /**
+   * Build template object to use for adding to bundle.
+   * @returns {TemplateBuilder}
+   */
   build () {
     const templateToParse = Object.assign({}, this.getTemplateSource())
-    const template = Object.assign({}, defautTemplate)
+    const template = Object.assign({}, defaultTemplate)
     template.id = this.id
     template.name = this.name
     template.description = this.descriptor
@@ -36,6 +63,7 @@ class TemplateBuilder {
     this.setBuildTemplate(template)
     return this
   }
+
   setBuildTemplate (data) {
     this.template.build = data
   }
@@ -43,12 +71,18 @@ class TemplateBuilder {
   getTemplateSource () {
     return this.template.source
   }
+
   getBuildTemplate () {
     return this.template.build
   }
+  /**
+   * Parse template object and remove meta data from elements.
+   * @param data
+   * @returns {*}
+   */
   parseObj (data) {
     data = JSON.parse(JSON.stringify(data))
-    if (lodash.isPlainObject(data)) {
+    if (_.isPlainObject(data)) {
       Object.keys(data).forEach((k) => {
         if (typeof k === 'string' && k !== 'metaCustomId' && k.match(/^meta.+/)) {
           delete data[ k ]
@@ -56,7 +90,7 @@ class TemplateBuilder {
           data[ k ] = this.parseObj(data[ k ])
         }
       })
-    } else if (lodash.isArray(data)) {
+    } else if (_.isArray(data)) {
       data.forEach((val, k) => {
         data[ k ] = this.parseObj(val)
       })
@@ -66,10 +100,20 @@ class TemplateBuilder {
     return data
   }
 
+  /**
+   * Prepare value to store in settings json file. Update urls from absolute to relative.
+   * @param data
+   * @returns {*}
+   */
   prepareValue (data) {
     if (typeof data === 'string' && data.match(/^http/)) {
-      this.downloadSources.push(data)
+      const parsedUrl = url.parse(data)
+      const ext = path.extname((parsedUrl.pathname))
+      const fileName = 'assets/elements/' + +new Date + ext
+      this.innerSources[ fileName ] = data
+      return fileName
     }
+    return data
   }
 }
 module.exports = TemplateBuilder
