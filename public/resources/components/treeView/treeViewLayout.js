@@ -42,7 +42,9 @@ export default class TreeViewLayout extends React.Component {
   }
 
   componentDidMount () {
-    elementsStorage.state('document').onChange(this.updateElementsData)
+    elementsStorage.state('document').onChange(this.updateElementsData, {
+      debounce: 250
+    })
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     this.setState({
       header: document.querySelector('.vcv-ui-navbar-container'),
