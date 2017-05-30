@@ -42,6 +42,9 @@ const API = {
    */
   getSourcePath: (file = null) => {
     let path = window.vcvPluginSourceUrl
+    if (file.match('^(https?:)?\\/\\/?')) {
+      return file
+    }
     if (file) {
       path += file.replace(/^\//, '')
     }

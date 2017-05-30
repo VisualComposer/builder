@@ -4,6 +4,7 @@ import vcCake from 'vc-cake'
 import BlankControl from './lib/blankControl'
 const templateManager = vcCake.getService('myTemplates')
 const elementsStorage = vcCake.getStorage('elements')
+const workspaceSettings = vcCake.getStorage('workspace').state('settings')
 
 export default class startBlank extends React.Component {
   static propTypes = {
@@ -55,6 +56,13 @@ export default class startBlank extends React.Component {
   }
 
   handleCloseClick () {
+    const settings = {
+      action: 'add',
+      element: {},
+      tag: '',
+      options: {}
+    }
+    workspaceSettings.set(settings)
     this.props.unmountStartBlank()
   }
 

@@ -67,7 +67,7 @@ class VendorBundleController extends Container implements Module
             [
                 sprintf(
                     '<script id="vcv-script-vendor-bundle" type="text/javascript" src="%s"></script>',
-                    vcvenv('VCV_EXTENSION_DOWNLOAD')
+                    vcvenv('VCV_EXTENSION_DOWNLOAD___!!!')
                         ?
                         content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
                         :

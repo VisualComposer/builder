@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -35,19 +36,26 @@ class ActivationPage extends Container implements Module
 
     /**
      * ActivationPage constructor.
-     *
-     * @param \VisualComposer\Helpers\Token $tokenHelper
      */
-    public function __construct(Token $tokenHelper)
+    public function __construct()
     {
-        if (!$tokenHelper->isSiteAuthorized()) {
-            /** @see \VisualComposer\Modules\Account\Pages\ActivationPage::addPage */
-            $this->addFilter(
-                'vcv:settings:getPages',
-                'addPage',
-                40
-            );
-        }
+        $this->addEvent(
+            'vcv:inited',
+            function (Token $tokenHelper, Request $requestHelper) {
+                if (!$tokenHelper->isSiteAuthorized()) {
+                    /** @see \VisualComposer\Modules\Account\Pages\ActivationPage::addPage */
+                    $this->addFilter(
+                        'vcv:settings:getPages',
+                        'addPage',
+                        40
+                    );
+                } elseif ($requestHelper->input('page') === 'vcv-activation') {
+                    $aboutPage = vcapp('SettingsPagesAbout');
+                    wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
+                    exit;
+                }
+            }
+        );
     }
 
     /**
