@@ -49,9 +49,30 @@ class Autoload extends Container
                 $this->app->addComponent(
                     $component['name'],
                     $component['abstract'],
-                    $component['make'],
                     $component['singleton']
                 );
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $all
+     *
+     * @return bool
+     */
+    public function bootComponents($all)
+    {
+        if (is_array($all) && is_array($all['helpers']) && is_array($all['modules'])) {
+            foreach (array_merge($all['helpers'], $all['modules']) as $component) {
+                if ($component['make']) {
+                    $this->app->make(
+                        $component['abstract']
+                    );
+                }
             }
 
             return true;
@@ -70,6 +91,7 @@ class Autoload extends Container
             /** @noinspection PhpIncludeInspection */
             $all = require $filename;
             $this->initComponents($all);
+            $this->bootComponents($all);
 
             return true;
         }
