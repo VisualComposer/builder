@@ -291,7 +291,7 @@ class DesignOptionsAdvanced extends Attribute {
             // not image type background selected
             delete newValue[ device ].images
             delete newValue[ device ].backgroundStyle
-          } else if (!newValue[ device ].hasOwnProperty('images') || newValue[ device ].images.urls.length === 0) {
+          } else if (!newValue[ device ].hasOwnProperty('images') || !newValue[ device ].images.urls || newValue[ device ].images.urls.length === 0) {
             // images are empty
             delete newValue[ device ].images
             delete newValue[ device ].backgroundType
@@ -881,7 +881,7 @@ class DesignOptionsAdvanced extends Attribute {
 
     if (this.state.devices[ this.state.currentDevice ].display ||
       allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
-      this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
+      !this.state.devices[ this.state.currentDevice ].images.urls || this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
       return null
     }
     let options = {

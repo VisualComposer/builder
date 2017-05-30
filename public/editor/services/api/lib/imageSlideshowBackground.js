@@ -10,6 +10,11 @@ export default class ImageSlideshowBackground extends Component {
     editor: PropTypes.object
   }
 
+  getPublicImage (filename) {
+    let { metaAssetsPath } = this.props.atts
+    return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
+  }
+
   render () {
     const { reactKey, deviceKey, deviceData } = this.props
     const { images, backgroundStyle, sliderTimeout, sliderEffect } = deviceData
@@ -17,17 +22,29 @@ export default class ImageSlideshowBackground extends Component {
     if (!timeout) {
       timeout = 5
     }
-    if (images && images.urls && images.urls.length) {
+    if (images) {
       let imagesJSX = []
-      images.urls.forEach((imgData) => {
-        let styles = {
-          backgroundImage: `url(${imgData.full})`
-        }
-        let imgKey = `${reactKey}-${imgData.id}`
-        imagesJSX.push((
-          <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
-        ))
-      })
+      if (images.urls && images.urls.length) {
+        images.urls.forEach((imgData) => {
+          let styles = {
+            backgroundImage: `url(${imgData.full})`
+          }
+          let imgKey = `${reactKey}-${imgData.id}`
+          imagesJSX.push((
+            <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
+          ))
+        })
+      } else if (images.length) {
+        images.forEach((imgData, index) => {
+          let styles = {
+            backgroundImage: `url(${this.getPublicImage(imgData)})`
+          }
+          let imgKey = `${reactKey}-${imgData}-${index}`
+          imagesJSX.push((
+            <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
+          ))
+        })
+      }
       let containerClasses = [
         `vce-asset-background-slider-container`,
         `vce-visible-${deviceKey}-only`

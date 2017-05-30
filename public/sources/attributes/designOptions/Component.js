@@ -248,7 +248,7 @@ class DesignOptions extends Attribute {
           })
         } else {
           // image is empty
-          if (!newValue[ device ].hasOwnProperty('image') || newValue[ device ].image.urls.length === 0) {
+          if (!newValue[ device ].hasOwnProperty('image') || !newValue[ device ].image.urls || newValue[ device ].image.urls.length === 0) {
             delete newValue[ device ].image
             delete newValue[ device ].backgroundStyle
           }
@@ -337,7 +337,7 @@ class DesignOptions extends Attribute {
               }
             }
 
-            if (newValue[ device ].image && newValue[ device ].image.urls.length) {
+            if (newValue[ device ].image && newValue[ device ].image.urls && newValue[ device ].image.urls.length) {
               newMixins[ mixinName ].variables.backgroundImage = {
                 value: newValue[ device ].image.urls[ 0 ].full
               }
@@ -722,7 +722,7 @@ class DesignOptions extends Attribute {
    * @returns {*}
    */
   getBackgroundStyleRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('image') ||
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('image') || !this.state.devices[ this.state.currentDevice ].image.urls ||
       this.state.devices[ this.state.currentDevice ].image.urls.length === 0) {
       return null
     }
