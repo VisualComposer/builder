@@ -260,10 +260,12 @@ export default class TemplateControl extends React.Component {
               <span
                 className={applyClasses}
                 onClick={this.handleApplyTemplate}
+                title={'Add Template'}
               />
               <span
                 className={removeClasses}
                 onClick={this.handleRemoveTemplate}
+                title={'Remove Template'}
               />
               <span className={spinnerClasses} />
             </span>
