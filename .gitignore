@@ -64,4 +64,4 @@ devCategories/*
 !devCategories/.gitkeep
 
 .phpstorm.meta.php
-tools/vcwb-builder/temp/
+tools/vcwb-builder/temp/**/

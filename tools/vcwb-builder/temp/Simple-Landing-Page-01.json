@@ -1,0 +1,1560 @@
+{
+  "id": "TP11000001",
+  "title": "Simple Landing Page",
+  "description": "A simple landing page to be used for main website or campaigns. Perfect for representing a company, products or services.",
+  "template": {
+    "6c0e3431": {
+      "size": "auto",
+      "designOptionsAdvanced": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "paddingBottom": "50px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": false
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": "50px"
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "44ad22b0",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "6c0e3431",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": true
+    },
+    "0c62ab0a": {
+      "columnGap": "30",
+      "size": "auto",
+      "contentPosition": "top",
+      "designOptionsAdvanced": {
+        "device": {},
+        "attributeMixins": {}
+      },
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {},
+      "name": "Row",
+      "rowWidth": "boxed",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 4,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": false,
+      "fullHeight": false,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "0c62ab0a",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    },
+    "74f229f8": {
+      "designOptions": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "paddingTop": "50px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}\n",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": "50px"
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "output": "<h2 style=\"text-align: center;\">Coat of Arms of Iceland</h2>\n<p style=\"text-align: center;\">The coat of arms of Iceland displays a silver-edged, red cross on blue shield.&nbsp;This alludes to the design of the flag of Iceland. The supporters are the four protectors of Iceland standing on a pahoehoe lava block.</p>",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/thumbnail-text-block.png",
+      "metaOrder": 2,
+      "parent": "14e5fee6",
+      "editFormTab1": [
+        "output",
+        "outputInline",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Text Block",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/preview-text-block.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "output"
+          ]
+        }
+      ],
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "textBlock",
+      "id": "74f229f8",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/"
+    },
+    "14e5fee6": {
+      "size": "auto",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "0c62ab0a",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "14e5fee6",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": true
+    },
+    "fff820b5": {
+      "designOptions": {
+        "device": {},
+        "attributeMixins": {}
+      },
+      "output": "<p style=\"text-align: center;\"><span style=\"color: #ffffff;\">The climate of Iceland's coast is subarctic. The warm North Atlantic Current ensures generally higher annual temperatures than in most places of similar latitude in the world.</span></p>",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/thumbnail-text-block.png",
+      "metaOrder": 2,
+      "parent": "6c0e3431",
+      "editFormTab1": [
+        "output",
+        "outputInline",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Text Block",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/preview-text-block.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "output"
+          ]
+        }
+      ],
+      "order": 6,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "textBlock",
+      "id": "fff820b5",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/"
+    },
+    "557d180c": {
+      "columnGap": "30",
+      "size": "auto",
+      "contentPosition": "top",
+      "designOptionsAdvanced": {},
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {},
+      "name": "Row",
+      "rowWidth": "stretchedRowAndColumn",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 1,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": true,
+      "fullHeight": false,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "557d180c",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    },
+    "b11e71f0": {
+      "designOptions": {},
+      "alignment": "center",
+      "color": "rgb(255, 255, 255)",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/public/google-fonts-thumbnail.png",
+      "parent": "6c0e3431",
+      "editFormTab1": [
+        "text",
+        "font",
+        "elementTag",
+        "color",
+        "fontSize",
+        "alignment",
+        "lineHeight",
+        "link",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Google Fonts Heading",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/public/google-fonts-preview.png",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/public/dist/element.bundle.js",
+      "text": "Go North. Go Hike.",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/public/",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "font"
+          ]
+        },
+        {
+          "value": [
+            "text"
+          ]
+        }
+      ],
+      "order": 4,
+      "font": {
+        "fontFamily": "Montserrat",
+        "fontStyle": {
+          "weight": "700",
+          "style": "regular"
+        },
+        "status": "active",
+        "fontText": "The sky was cloudless and of a deep dark blue."
+      },
+      "fontSize": "100",
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Selected Google Fonts with additional styling allows adding eye-catching titles and call to action messages.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "googleFontsHeading",
+      "link": {
+        "url": "",
+        "title": "",
+        "targetBlank": true,
+        "relNofollow": false
+      },
+      "id": "b11e71f0",
+      "lineHeight": "",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/",
+      "elementTag": "h2"
+    },
+    "fbe2fd34": {
+      "designOptions": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "marginBottom": "0px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}\n",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": false
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": "0px"
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "imagePosition": "left",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/featureSection/public/thumbnail-feature-section.jpg",
+      "parent": "e3abdd6a",
+      "editFormTab1": [
+        "description",
+        "image",
+        "imagePosition",
+        "backgroundColor",
+        "reverseStacking",
+        "addButton",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Feature Section",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/featureSection/public/preview-feature-section.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/featureSection/public/",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "image",
+            "backgroundColor"
+          ]
+        },
+        {
+          "value": [
+            "button"
+          ],
+          "options": {
+            "groupDependency": {
+              "rule": {
+                "attribute": "addButton",
+                "value": false
+              },
+              "action": "toggle"
+            }
+          }
+        },
+        {
+          "value": [
+            "description"
+          ]
+        }
+      ],
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "button",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "button": {
+        "designOptions": {},
+        "shape": "round",
+        "alignment": "left",
+        "color": "rgb(255, 255, 255)",
+        "relatedTo": [
+          "General"
+        ],
+        "customClass": "",
+        "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/outline-button-thumbnail.png",
+        "parent": false,
+        "editFormTab1": [
+          "buttonText",
+          "buttonUrl",
+          "alignment",
+          "shape",
+          "buttonType",
+          "color",
+          "borderColor",
+          "hoverColorOutline",
+          "hoverColorAnimated",
+          "hoverBackgroundBorder",
+          "metaCustomId",
+          "customClass"
+        ],
+        "hoverColorAnimated": "#fff",
+        "name": "Outline Button",
+        "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/outline-button-preview.jpg",
+        "buttonType": "outline-animated",
+        "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/public/dist/element.bundle.js",
+        "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/",
+        "metaBackendLabels": [
+          {
+            "value": [
+              "buttonText",
+              "buttonUrl",
+              "shape",
+              "borderColor"
+            ]
+          }
+        ],
+        "metaEditFormTabs": [
+          "editFormTab1",
+          "designOptions"
+        ],
+        "metaCustomId": "",
+        "groups": "Buttons",
+        "hoverBackgroundBorder": "rgb(255, 63, 59)",
+        "metaDescription": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website.",
+        "borderColor": "rgb(255, 255, 255)",
+        "assetsLibrary": [
+          "animate"
+        ],
+        "tag": "outlineButton",
+        "id": "5ec33524",
+        "hoverColorOutline": "#3d3d3d",
+        "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/",
+        "buttonUrl": {
+          "url": "",
+          "title": "",
+          "targetBlank": false,
+          "relNofollow": false
+        },
+        "buttonText": "Learn More"
+      },
+      "addButton": true,
+      "backgroundColor": "rgb(33, 106, 175)",
+      "metaDescription": "Feature section divided into image and content columns. Great for representing product features or company services.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "featureSection",
+      "id": "fbe2fd34",
+      "image": {
+        "ids": [
+          582
+        ],
+        "urls": [
+          {
+            "thumbnail": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Feature-Image-01-150x150.jpg",
+            "medium": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Feature-Image-01-300x225.jpg",
+            "full": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Feature-Image-01.jpg",
+            "medium_large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Feature-Image-01-768x576.jpg",
+            "id": 582,
+            "title": "Feature Image 01",
+            "alt": "",
+            "link": {
+              "relNofollow": false,
+              "targetBlank": true,
+              "title": "",
+              "url": ""
+            }
+          }
+        ]
+      },
+      "reverseStacking": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/featureSection/",
+      "description": "<h2><span style=\"color: #ffffff;\">Northern Hearts of Iceland</span></h2>\n<p><span style=\"color: #ffffff;\">Icelandic has preserved more verb and noun inflection, and has to a considerable extent developed new vocabulary based on native roots rather than borrowings from other languages.</span></p>"
+    },
+    "60f4f7f5": {
+      "size": "auto",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "557d180c",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "60f4f7f5",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": true
+    },
+    "cb416eaa": {
+      "designOptions": {},
+      "shape": "round",
+      "alignment": "center",
+      "color": "#fff",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "hoverColor": "#fff",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/basicButton/basicButton/public/thumbnail-basic-button.png",
+      "parent": "6c0e3431",
+      "editFormTab1": [
+        "buttonText",
+        "buttonUrl",
+        "alignment",
+        "shape",
+        "color",
+        "background",
+        "toggleCustomHover",
+        "hoverColor",
+        "hoverBackground",
+        "metaCustomId",
+        "customClass"
+      ],
+      "hoverBackground": "#4d70ac",
+      "name": "Basic Button",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/basicButton/basicButton/public/preview-basic-button.png",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/basicButton/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/basicButton/basicButton/public/",
+      "background": "rgb(255, 63, 59)",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "buttonText",
+            "buttonUrl",
+            "background",
+            "shape"
+          ]
+        }
+      ],
+      "order": 10,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "groups": "Buttons",
+      "toggleCustomHover": false,
+      "metaDescription": "Basic flat style button with hover effect to catch visitor's attention.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "basicButton",
+      "id": "cb416eaa",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/basicButton/basicButton/",
+      "buttonUrl": {
+        "url": "",
+        "title": "",
+        "targetBlank": false,
+        "relNofollow": false
+      },
+      "buttonText": "Book Your Seat"
+    },
+    "44ad22b0": {
+      "columnGap": "30",
+      "size": "auto",
+      "contentPosition": "top",
+      "designOptionsAdvanced": {
+        "device": {
+          "all": {
+            "sliderTimeout": 10,
+            "gradientOverlay": true,
+            "backgroundStyle": "cover",
+            "gradientAngle": 45,
+            "backgroundType": "imagesSlideshow",
+            "gradientStartColor": "rgba(29, 100, 197, 0.25)",
+            "sliderEffect": "fade",
+            "images": {
+              "ids": [
+                570,
+                571
+              ],
+              "urls": [
+                {
+                  "alt": "",
+                  "thumbnail": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-01-150x150.jpg",
+                  "full": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-01.jpg",
+                  "medium_large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-01-768x384.jpg",
+                  "medium": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-01-300x150.jpg",
+                  "title": "Background Image 01",
+                  "link": {
+                    "relNofollow": false,
+                    "targetBlank": true,
+                    "title": "",
+                    "url": ""
+                  },
+                  "id": 570,
+                  "large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-01-1024x512.jpg"
+                },
+                {
+                  "alt": "",
+                  "thumbnail": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-02-150x150.jpg",
+                  "full": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-02.jpg",
+                  "medium_large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-02-768x384.jpg",
+                  "medium": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-02-300x150.jpg",
+                  "title": "Background Image 02",
+                  "link": {
+                    "relNofollow": false,
+                    "targetBlank": true,
+                    "title": "",
+                    "url": ""
+                  },
+                  "id": 571,
+                  "large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Background-Image-02-1024x512.jpg"
+                }
+              ]
+            },
+            "gradientEndColor": "rgba(72, 75, 199, 0.25)"
+          }
+        },
+        "attributeMixins": {
+          "gradientMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"gradient\"],\n#$selector [data-vce-do-apply*=\"gradient\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      background-image: linear-gradient($(angle)deg, $endColor, $startColor);\n    }\n  }\n}",
+            "variables": {
+              "device": {
+                "value": "all"
+              },
+              "startColor": {
+                "value": "rgba(29, 100, 197, 0.25)"
+              },
+              "endColor": {
+                "value": "rgba(72, 75, 199, 0.25)"
+              },
+              "angle": {
+                "value": 45
+              }
+            }
+          }
+        }
+      },
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {},
+      "name": "Row",
+      "rowWidth": "stretchedRow",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": true,
+      "fullHeight": true,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "44ad22b0",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "bottom"
+    },
+    "e3abdd6a": {
+      "size": "auto",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "14804ad6",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "e3abdd6a",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": true
+    },
+    "530f49ef": {
+      "designOptions": {},
+      "shape": "round",
+      "alignment": "center",
+      "color": "#e3e3e3",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/outline-button-thumbnail.png",
+      "parent": "14e5fee6",
+      "editFormTab1": [
+        "buttonText",
+        "buttonUrl",
+        "alignment",
+        "shape",
+        "buttonType",
+        "color",
+        "borderColor",
+        "hoverColorOutline",
+        "hoverColorAnimated",
+        "hoverBackgroundBorder",
+        "metaCustomId",
+        "customClass"
+      ],
+      "hoverColorAnimated": "#fff",
+      "name": "Outline Button",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/outline-button-preview.jpg",
+      "buttonType": "outline-animated",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "buttonText",
+            "buttonUrl",
+            "shape",
+            "borderColor"
+          ]
+        }
+      ],
+      "order": 2,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "groups": "Buttons",
+      "hoverBackgroundBorder": "rgb(198, 198, 198)",
+      "metaDescription": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website.",
+      "borderColor": "#e3e3e3",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "outlineButton",
+      "id": "530f49ef",
+      "hoverColorOutline": "rgb(198, 198, 198)",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/",
+      "buttonUrl": {
+        "url": "",
+        "title": "",
+        "targetBlank": false,
+        "relNofollow": false
+      },
+      "buttonText": "Learn More"
+    },
+    "14804ad6": {
+      "columnGap": "30",
+      "size": "auto",
+      "contentPosition": "top",
+      "designOptionsAdvanced": {},
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {},
+      "name": "Row",
+      "rowWidth": "stretchedRowAndColumn",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 3,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": true,
+      "fullHeight": false,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "14804ad6",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    },
+    "625e1b55": {
+      "designOptions": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "marginBottom": "0px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}\n",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": false
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": "0px"
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "imagePosition": "right",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/featureSection/public/thumbnail-feature-section.jpg",
+      "parent": "60f4f7f5",
+      "editFormTab1": [
+        "description",
+        "image",
+        "imagePosition",
+        "backgroundColor",
+        "reverseStacking",
+        "addButton",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Feature Section",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/featureSection/public/preview-feature-section.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/featureSection/public/",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "image",
+            "backgroundColor"
+          ]
+        },
+        {
+          "value": [
+            "button"
+          ],
+          "options": {
+            "groupDependency": {
+              "rule": {
+                "attribute": "addButton",
+                "value": false
+              },
+              "action": "toggle"
+            }
+          }
+        },
+        {
+          "value": [
+            "description"
+          ]
+        }
+      ],
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "button",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "button": {
+        "designOptions": {},
+        "shape": "round",
+        "alignment": "left",
+        "color": "rgb(255, 255, 255)",
+        "relatedTo": [
+          "General"
+        ],
+        "customClass": "",
+        "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/outline-button-thumbnail.png",
+        "parent": false,
+        "editFormTab1": [
+          "buttonText",
+          "buttonUrl",
+          "alignment",
+          "shape",
+          "buttonType",
+          "color",
+          "borderColor",
+          "hoverColorOutline",
+          "hoverColorAnimated",
+          "hoverBackgroundBorder",
+          "metaCustomId",
+          "customClass"
+        ],
+        "hoverColorAnimated": "#fff",
+        "name": "Outline Button",
+        "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/outline-button-preview.jpg",
+        "buttonType": "outline-animated",
+        "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/public/dist/element.bundle.js",
+        "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/",
+        "metaBackendLabels": [
+          {
+            "value": [
+              "buttonText",
+              "buttonUrl",
+              "shape",
+              "borderColor"
+            ]
+          }
+        ],
+        "metaEditFormTabs": [
+          "editFormTab1",
+          "designOptions"
+        ],
+        "metaCustomId": "",
+        "groups": "Buttons",
+        "hoverBackgroundBorder": "rgb(255, 63, 59)",
+        "metaDescription": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website.",
+        "borderColor": "rgb(255, 255, 255)",
+        "assetsLibrary": [
+          "animate"
+        ],
+        "tag": "outlineButton",
+        "id": "57754774",
+        "hoverColorOutline": "#3d3d3d",
+        "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/",
+        "buttonUrl": {
+          "url": "",
+          "title": "",
+          "targetBlank": false,
+          "relNofollow": false
+        },
+        "buttonText": "Learn More"
+      },
+      "addButton": true,
+      "backgroundColor": "rgb(101, 103, 223)",
+      "metaDescription": "Feature section divided into image and content columns. Great for representing product features or company services.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "featureSection",
+      "id": "625e1b55",
+      "image": {
+        "ids": [
+          583
+        ],
+        "urls": [
+          {
+            "thumbnail": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Feature-Image-02-150x150.jpg",
+            "medium": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Feature-Image-02-300x225.jpg",
+            "full": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Feature-Image-02.jpg",
+            "medium_large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Feature-Image-02-768x576.jpg",
+            "id": 583,
+            "title": "Feature Image 02",
+            "alt": "",
+            "link": {
+              "relNofollow": false,
+              "targetBlank": true,
+              "title": "",
+              "url": ""
+            }
+          }
+        ]
+      },
+      "reverseStacking": true,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/featureSection/featureSection/",
+      "description": "<h2><span style=\"color: #ffffff;\">Iceland National Park and Hiking Trails</span></h2>\n<p><span style=\"color: #ffffff;\">Thingvellir is a historic site and national park in Iceland, east of Reykjavík. It's known for the Alþing, the site of Iceland's parliament from the 10th to 18th centuries.</span></p>"
+    }
+  }
+}

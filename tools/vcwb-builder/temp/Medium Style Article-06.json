@@ -1,0 +1,1716 @@
+{
+  "id": "TP11000006",
+  "title": "Medium Style Article",
+  "description": "Medium style design article page with author information, featured image, and boxed content area for content.",
+  "template": {
+    "af201a2c": {
+      "size": "auto",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "f87847cc",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "af201a2c",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": true
+    },
+    "03a3ef8f": {
+      "tag": "column",
+      "parent": "3a33f3d7",
+      "size": "81.06%",
+      "lastInRow": true,
+      "firstInRow": false,
+      "id": "03a3ef8f",
+      "order": 1
+    },
+    "87eb2b62": {
+      "size": "25%",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "17b4f9f4",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "87eb2b62",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": false
+    },
+    "373753ac": {
+      "tag": "column",
+      "parent": "17b4f9f4",
+      "size": "25%",
+      "lastInRow": true,
+      "firstInRow": false,
+      "id": "373753ac",
+      "order": 2
+    },
+    "812b2ef7": {
+      "size": "auto",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "5e490787",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "812b2ef7",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": true
+    },
+    "3a33f3d7": {
+      "columnGap": "15",
+      "size": "auto",
+      "contentPosition": "top",
+      "designOptionsAdvanced": {},
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": "650fd16b",
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {
+        "reverseColumn": false
+      },
+      "name": "Row",
+      "rowWidth": "boxed",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": false,
+      "fullHeight": false,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "3a33f3d7",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    },
+    "650fd16b": {
+      "tag": "column",
+      "parent": "17b4f9f4",
+      "size": "50%",
+      "lastInRow": false,
+      "firstInRow": false,
+      "id": "650fd16b",
+      "order": 1
+    },
+    "630975f1": {
+      "designOptions": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "combined": false,
+              "marginBottom": "0"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}\n",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": false
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "combined": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": "0px"
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "size": "full",
+      "shape": "round",
+      "alignment": "left",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/singleImage/singleImage/public/thumbnail-single-image.png",
+      "metaOrder": 3,
+      "parent": "bcb5fc19",
+      "editFormTab1": [
+        "clickableOptions",
+        "image",
+        "shape",
+        "size",
+        "alignment",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Single Image",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/singleImage/singleImage/public/preview-single-image.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/singleImage/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/singleImage/singleImage/public/",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "clickableOptions"
+          ]
+        },
+        {
+          "value": [
+            "image"
+          ]
+        }
+      ],
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Single image is a basic element for adding images from Media Library into the content area. Single image element includes controls for image manipulations.",
+      "metaPublicJs": [
+        "public/js/lib/jquery.zoom.js",
+        "public/js/lib/lightbox.js",
+        "public/js/singleImage.js"
+      ],
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "singleImage",
+      "id": "630975f1",
+      "image": {
+        "ids": [
+          747
+        ],
+        "urls": [
+          {
+            "full": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/author-bio-image.jpg",
+            "id": 747,
+            "title": "Author Bio",
+            "alt": "",
+            "link": {
+              "relNofollow": false,
+              "targetBlank": true,
+              "title": "",
+              "url": ""
+            }
+          }
+        ],
+        "draggingIndex": null
+      },
+      "clickableOptions": "lightbox",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/singleImage/singleImage/"
+    },
+    "405224d9": {
+      "designOptions": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "combined": false,
+              "marginBottom": "50px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}\n",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": false
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "combined": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": "50px"
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "output": "<h1>History of Baseball in the United States of America</h1>\n<p style=\"text-align: center;\"><span style=\"color: #999999;\"><span style=\"color: #bdbdbd;\">.  .  .</span><br /><br /></span></p>\n<p>In baseball, the pitcher is the player who throws the baseball from the pitcher's mound toward the catcher to begin each play, with the goal of retiring a batter, who attempts to either make contact with the pitched ball or draw a walk. In the numbering system used to record defensive plays, the pitcher is assigned the number 1. The pitcher is often considered the most important defensive player, and as such is situated at the right end of the defensive spectrum. There are many different types of pitchers, such as the starting pitcher, relief pitcher, middle reliever, lefty specialist, setup man, and closer.</p>\n<p>Traditionally, the pitcher also bats. Starting in 1973 with the American League and spreading to further leagues throughout the 1980s and 1990s, the hitting duties of the pitcher have generally been given over to the position of designated hitter, a cause of some controversy. The National League in Major League Baseball and the Japanese Central League are among the remaining leagues that have not adopted the designated hitter position.</p>\n<h3>1. Overview</h3>\n<p>In most cases, the objective of the pitcher is to deliver the pitch to the catcher without allowing the batter to hit the ball with the bat. A successful pitch is delivered in such a way that the batter either allows the pitch to pass through the strike zone, swings the bat at the ball and misses it, or hits the ball poorly (resulting in a pop fly or ground out). If the batter elects not to swing at the pitch, it is called a strike if any part of the ball passes through the strike zone and a ball when no part of the ball passes through the strike zone. </p>\n[caption id=\"attachment_751\" align=\"alignnone\" width=\"730\"]<img class=\"wp-image-751 size-full\" src=\"http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/horizontal-article-image.jpg\" alt=\"\" width=\"730\" height=\"410\" /> Baseball evolved from older bat-and-ball games already being played in England by the mid-18th century.[/caption]\n<p>There are two legal pitching positions, the windup and the set position or stretch. Either position may be used at any time; typically, the windup is used when the bases are empty, while the set position is used when at least one runner is on base. </p>\n<h3>2. Pitching in a game</h3>\n<p>A skilled pitcher often throws a variety of different pitches to prevent the batter from hitting the ball well. The most basic pitch is a fastball, where the pitcher throws the ball as hard as he can. Some pitchers are able to throw a fastball at a speed over 100 miles per hour (160 km/h; 150 ft/s), ex., Aroldis Chapman. Other common types of pitches are the curveball, slider, changeup, cutter, sinker, screwball, forkball, split-fingered fastball, slurve, and knuckleball. These generally are intended to have unusual movement or to deceive the batter as to the rotation or velocity of the ball, making it more difficult to hit. Very few pitchers throw all of these pitches, but most use a subset or blend of the basic types. Some pitchers also release pitches from different arm angles, making it harder for the batter to pick up the flight of the ball.</p>\n[caption id=\"attachment_750\" align=\"alignnone\" width=\"730\"]<img class=\"wp-image-750 size-full\" src=\"http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/article-image.jpg\" alt=\"\" width=\"730\" height=\"840\" /> Baseball was brought by immigrants to North America, where the modern version developed.[/caption]\n<p>There are a number of distinct throwing styles used by pitchers. The most common style is a three-quarters delivery in which the pitcher's arm snaps downward with the release of the ball. Some pitchers use a sidearm delivery in which the arm arcs laterally to the torso. Some pitchers use a submarine style in which the pitcher's body tilts sharply downward on delivery, creating an exaggerated sidearm motion in which the pitcher's knuckles come very close to the mound.</p>\n<p style=\"text-align: center;\"><span style=\"color: #bdbdbd;\">.  .  .</span></p>",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/thumbnail-text-block.png",
+      "metaOrder": 2,
+      "parent": "812b2ef7",
+      "editFormTab1": [
+        "output",
+        "outputInline",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Text Block",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/preview-text-block.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "output"
+          ]
+        }
+      ],
+      "order": 6,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "textBlock",
+      "id": "405224d9",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/"
+    },
+    "a2c8068a": {
+      "designOptions": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "combined": false,
+              "marginBottom": "0px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}\n",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": false
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "combined": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": "0px"
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "output": "<p><strong>Ricardo Zappa</strong><br><span style=\"color: #b5b5b5;\">A biography, or simply bio, is a detailed description ...</span><br><span style=\"color: #b5b5b5;\">May 22 · 8 min read</span></p>",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/thumbnail-text-block.png",
+      "metaOrder": 2,
+      "parent": "03a3ef8f",
+      "editFormTab1": [
+        "output",
+        "outputInline",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Text Block",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/preview-text-block.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "output"
+          ]
+        }
+      ],
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "textBlock",
+      "id": "a2c8068a",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/"
+    },
+    "f87847cc": {
+      "columnGap": "30",
+      "size": "auto",
+      "contentPosition": "top",
+      "designOptionsAdvanced": {
+        "device": {
+          "all": {
+            "backgroundStyle": "cover",
+            "backgroundType": "imagesSimple",
+            "parallaxSpeed": 10,
+            "parallax": "simple",
+            "images": {
+              "ids": [
+                749
+              ],
+              "urls": [
+                {
+                  "alt": "",
+                  "thumbnail": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/article-hero-image-150x150.jpg",
+                  "full": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/article-hero-image.jpg",
+                  "medium_large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/article-hero-image-768x384.jpg",
+                  "medium": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/article-hero-image-300x150.jpg",
+                  "title": "Article Hero Image",
+                  "link": {
+                    "relNofollow": false,
+                    "targetBlank": true,
+                    "title": "",
+                    "url": ""
+                  },
+                  "id": 749,
+                  "large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/article-hero-image-1024x512.jpg"
+                }
+              ]
+            }
+          }
+        },
+        "attributeMixins": {}
+      },
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {},
+      "name": "Row",
+      "rowWidth": "stretchedRow",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 2,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": false,
+      "fullHeight": true,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "f87847cc",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    },
+    "17b4f9f4": {
+      "columnGap": "30",
+      "size": "auto",
+      "contentPosition": "middle",
+      "designOptionsAdvanced": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "combined": false,
+              "paddingBottom": "20px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": false
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "combined": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": "20px"
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {
+        "reverseColumn": false
+      },
+      "name": "Row",
+      "rowWidth": "boxed",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": false,
+      "fullHeight": false,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "17b4f9f4",
+      "equalHeight": true,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    },
+    "bcb5fc19": {
+      "size": "18.94%",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "3a33f3d7",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "bcb5fc19",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": false
+    },
+    "9ae8f0a5": {
+      "designOptions": {},
+      "size": "small",
+      "metaDisableInteractionInEditor": true,
+      "alignment": "left",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/facebookLike/facebookLike/public/facebook-like-thumbnail.jpg",
+      "parent": "812b2ef7",
+      "editFormTab1": [
+        "layout",
+        "size",
+        "alignment",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": "standard",
+      "name": "Facebook Like",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/facebookLike/facebookLike/public/facebook-like-preview.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/facebookLike/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/facebookLike/facebookLike/public/",
+      "order": 7,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Add Facebook Like button to your WordPress website for quick content sharing on Facebook.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "facebookLike",
+      "id": "9ae8f0a5",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/facebookLike/facebookLike/"
+    },
+    "5e490787": {
+      "columnGap": "30",
+      "size": "auto",
+      "contentPosition": "top",
+      "designOptionsAdvanced": {
+        "device": {
+          "xl": {
+            "boxModel": {
+              "combined": false,
+              "paddingTop": "50px",
+              "paddingRight": "200px",
+              "paddingBottom": "50px",
+              "paddingLeft": "200px"
+            }
+          },
+          "lg": {
+            "boxModel": {
+              "combined": false,
+              "paddingTop": "50px",
+              "paddingRight": "150px",
+              "paddingBottom": "50px",
+              "paddingLeft": "150px"
+            }
+          },
+          "md": {
+            "boxModel": {
+              "combined": false,
+              "paddingTop": "50px",
+              "paddingRight": "100px",
+              "paddingBottom": "50px",
+              "paddingLeft": "100px"
+            }
+          },
+          "sm": {
+            "boxModel": {
+              "combined": false,
+              "paddingTop": "50px",
+              "paddingRight": "50px",
+              "paddingBottom": "50px",
+              "paddingLeft": "50px"
+            }
+          },
+          "xs": {
+            "boxModel": {
+              "combined": false,
+              "paddingTop": "50px",
+              "paddingBottom": "50px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:xl": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": "50px"
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "combined": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": "200px"
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "xl"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": "200px"
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": "50px"
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          },
+          "boxModelMixin:lg": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": "50px"
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "combined": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": "150px"
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "lg"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": "150px"
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": "50px"
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          },
+          "boxModelMixin:md": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": "50px"
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "combined": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": "100px"
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "md"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": "100px"
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": "50px"
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          },
+          "boxModelMixin:sm": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": "50px"
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "combined": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": "50px"
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "sm"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": "50px"
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": "50px"
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          },
+          "boxModelMixin:xs": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": "50px"
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "combined": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "xs"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": "50px"
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {},
+      "name": "Row",
+      "rowWidth": "boxed",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 3,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": false,
+      "fullHeight": false,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "5e490787",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    }
+  }
+}

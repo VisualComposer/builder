@@ -1,0 +1,1566 @@
+{
+  "id": "TP11000002",
+  "title": "Simple Blog Article",
+  "description": "Easy to read a two-column article with full height featured image to instantly grab visitor's attention.",
+  "template": {
+    "33056508": {
+      "designOptions": {},
+      "output": "<p>The Hawaiian islands were formed by volcanic activity initiated at an undersea magma source called the Hawaii hotspot. The process is continuing to build islands; the tectonic plate beneath much of the Pacific Ocean continually moves northwest and the hot spot remains stationary, slowly creating new volcanoes. Because of the hotspot's location, all currently active land volcanoes are located on the southern half of Hawaii Island. The newest volcano, Loihi Seamount, is located south of the coast of Hawaii Island.</p>",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/thumbnail-text-block.png",
+      "metaOrder": 2,
+      "parent": "fecd0555",
+      "editFormTab1": [
+        "output",
+        "outputInline",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Text Block",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/preview-text-block.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "output"
+          ]
+        }
+      ],
+      "order": 3,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "textBlock",
+      "id": "33056508",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/"
+    },
+    "84862534": {
+      "size": "16.66%",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "cfe46f36",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "84862534",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": false
+    },
+    "91f6f927": {
+      "designOptions": {},
+      "alignment": "center",
+      "color": "rgb(255, 255, 255)",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/public/google-fonts-thumbnail.png",
+      "parent": "821afebb",
+      "editFormTab1": [
+        "text",
+        "font",
+        "elementTag",
+        "color",
+        "fontSize",
+        "alignment",
+        "lineHeight",
+        "link",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Google Fonts Heading",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/public/google-fonts-preview.png",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/public/dist/element.bundle.js",
+      "text": "A Story of Hawaii, Cuisine and Drinks",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/public/",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "font"
+          ]
+        },
+        {
+          "value": [
+            "text"
+          ]
+        }
+      ],
+      "order": 0,
+      "font": {
+        "fontFamily": "Playfair Display",
+        "fontStyle": {
+          "weight": "400",
+          "style": "regular"
+        },
+        "status": "active",
+        "fontText": "The sky was cloudless and of a deep dark blue."
+      },
+      "fontSize": "60",
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Selected Google Fonts with additional styling allows adding eye-catching titles and call to action messages.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "googleFontsHeading",
+      "link": {
+        "url": "",
+        "title": "",
+        "targetBlank": true,
+        "relNofollow": false
+      },
+      "id": "91f6f927",
+      "lineHeight": "",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/",
+      "elementTag": "h1"
+    },
+    "ac120240": {
+      "size": "50%",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "4e640b90",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "ac120240",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": false
+    },
+    "cfe46f36": {
+      "columnGap": "30",
+      "size": "auto",
+      "contentPosition": "middle",
+      "designOptionsAdvanced": {
+        "device": {
+          "all": {
+            "backgroundType": "imagesSimple",
+            "backgroundStyle": "cover",
+            "images": {
+              "ids": [
+                596
+              ],
+              "urls": [
+                {
+                  "alt": "",
+                  "thumbnail": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Article-Heading-Background-150x150.jpg",
+                  "full": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Article-Heading-Background.jpg",
+                  "medium_large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Article-Heading-Background-768x512.jpg",
+                  "medium": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Article-Heading-Background-300x200.jpg",
+                  "title": "Article Heading Background",
+                  "link": {
+                    "relNofollow": false,
+                    "targetBlank": true,
+                    "title": "",
+                    "url": ""
+                  },
+                  "id": 596,
+                  "large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Article-Heading-Background-1024x683.jpg"
+                }
+              ],
+              "draggingIndex": null
+            },
+            "parallax": "simple",
+            "parallaxSpeed": 10
+          }
+        },
+        "attributeMixins": {}
+      },
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {
+        "reverseColumn": false
+      },
+      "name": "Row",
+      "rowWidth": "stretchedRow",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": false,
+      "fullHeight": true,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "cfe46f36",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "middle"
+    },
+    "fecd0555": {
+      "size": "50%",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "66d50f55",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "fecd0555",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": false
+    },
+    "51c1da98": {
+      "size": "66.66%",
+      "designOptionsAdvanced": {},
+      "firstInRow": true,
+      "relatedTo": [
+        "Column"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "General"
+      ],
+      "metaThumbnailUrl": "",
+      "parent": "a7dc1577",
+      "editFormTab1": [
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Column",
+      "metaPreviewUrl": "",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/public/",
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "",
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "column",
+      "id": "51c1da98",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/column/column/",
+      "lastInRow": false
+    },
+    "66d50f55": {
+      "columnGap": "50",
+      "size": "auto",
+      "contentPosition": "top",
+      "designOptionsAdvanced": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "paddingTop": "50px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": "50px"
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {},
+      "name": "Row",
+      "rowWidth": "boxed",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 2,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": false,
+      "fullHeight": false,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "66d50f55",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    },
+    "821afebb": {
+      "tag": "column",
+      "parent": "cfe46f36",
+      "size": "66.66%",
+      "lastInRow": false,
+      "firstInRow": false,
+      "id": "821afebb",
+      "order": 1
+    },
+    "9745d561": {
+      "designOptions": {},
+      "output": "<p>The state encompasses nearly the entire volcanic Hawaiian archipelago, which comprises hundreds of islands spread over 1,500 miles. At the southeastern end of the archipelago, the eight main islands are—in order from northwest to southeast: Niihau, Kauai, Oahu, Molokai, Lanai, Kahoolawe, Maui, and the Island of Hawaii. The last is the largest island in the group; it is often called the \"Big Island\" or \"Hawaii Island\" to avoid confusion with the state or archipelago.</p><p>The archipelago is physiographically and ethnologically part of the Polynesian subregion of Oceania.</p>",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/thumbnail-text-block.png",
+      "metaOrder": 2,
+      "parent": "fecd0555",
+      "editFormTab1": [
+        "output",
+        "outputInline",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Text Block",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/preview-text-block.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "output"
+          ]
+        }
+      ],
+      "order": 1,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "textBlock",
+      "id": "9745d561",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/"
+    },
+    "2cf2a594": {
+      "designOptions": {},
+      "output": "<p>The extant main islands of the archipelago have been above the surface of the ocean for fewer than 10 million years; a fraction of the time biological colonization and evolution have occurred there. The islands are well known for the environmental diversity that occurs on high mountains within a trade winds field. On a single island, the climate around the coasts can range from dry tropical to wet tropical; on the slopes, environments range from tropical rainforest , through a temperate climate, to alpine conditions with a cold, dry climate. The rainy climate impacts soil development, which largely determines ground permeability, affecting the distribution of streams and wetlands.</p>",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/thumbnail-text-block.png",
+      "metaOrder": 2,
+      "parent": "ac120240",
+      "editFormTab1": [
+        "output",
+        "outputInline",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Text Block",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/preview-text-block.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "output"
+          ]
+        }
+      ],
+      "order": 1,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "textBlock",
+      "id": "2cf2a594",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/"
+    },
+    "cda8187d": {
+      "designOptions": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "marginBottom": "0"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}\n",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": false
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": "0px"
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "alignment": "left",
+      "color": "rgb(255, 255, 255)",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/public/google-fonts-thumbnail.png",
+      "parent": "51c1da98",
+      "editFormTab1": [
+        "text",
+        "font",
+        "elementTag",
+        "color",
+        "fontSize",
+        "alignment",
+        "lineHeight",
+        "link",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Google Fonts Heading",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/public/google-fonts-preview.png",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/public/dist/element.bundle.js",
+      "text": "How to Get Around Hawaii in 8 Days",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/public/",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "font"
+          ]
+        },
+        {
+          "value": [
+            "text"
+          ]
+        }
+      ],
+      "order": 1,
+      "font": {
+        "fontFamily": "Playfair Display",
+        "fontStyle": {
+          "weight": "400",
+          "style": "regular"
+        },
+        "status": "active",
+        "fontText": "The sky was cloudless and of a deep dark blue."
+      },
+      "fontSize": "40",
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Selected Google Fonts with additional styling allows adding eye-catching titles and call to action messages.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "googleFontsHeading",
+      "link": {
+        "url": "",
+        "title": "",
+        "targetBlank": true,
+        "relNofollow": false
+      },
+      "id": "cda8187d",
+      "lineHeight": "",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/googleFontsHeading/googleFontsHeading/",
+      "elementTag": "h2"
+    },
+    "dffd665b": {
+      "tag": "column",
+      "parent": "4e640b90",
+      "size": "50%",
+      "lastInRow": true,
+      "firstInRow": false,
+      "id": "dffd665b",
+      "order": 1
+    },
+    "2b2a47e1": {
+      "designOptions": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "marginBottom": "0px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}\n",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": false
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": "0px"
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "shape": "square",
+      "alignment": "center",
+      "color": "rgb(255, 255, 255)",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/outline-button-thumbnail.png",
+      "parent": "526d6b44",
+      "editFormTab1": [
+        "buttonText",
+        "buttonUrl",
+        "alignment",
+        "shape",
+        "buttonType",
+        "color",
+        "borderColor",
+        "hoverColorOutline",
+        "hoverColorAnimated",
+        "hoverBackgroundBorder",
+        "metaCustomId",
+        "customClass"
+      ],
+      "hoverColorAnimated": "#fff",
+      "name": "Outline Button",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/outline-button-preview.jpg",
+      "buttonType": "outline-animated",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/public/",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "buttonText",
+            "buttonUrl",
+            "shape",
+            "borderColor"
+          ]
+        }
+      ],
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "groups": "Buttons",
+      "hoverBackgroundBorder": "rgb(248, 135, 73)",
+      "metaDescription": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website.",
+      "borderColor": "rgb(255, 255, 255)",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "outlineButton",
+      "id": "2b2a47e1",
+      "hoverColorOutline": "#3d3d3d",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/outlineButton/outlineButton/",
+      "buttonUrl": {
+        "url": "",
+        "title": "",
+        "targetBlank": false,
+        "relNofollow": false
+      },
+      "buttonText": "Download Guide"
+    },
+    "316f1981": {
+      "designOptions": {},
+      "output": "Several areas in Hawaii are under the protection of the National Park Service. Hawaii has two national parks: Haleakala National Park located near Kula on the island of Maui, which features the dormant volcano Haleakala that formed east Maui, and Hawaii Volcanoes National Park in the southeast region of the Hawaii Island, which includes the active volcano Kilauea and its rift zones.",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/thumbnail-text-block.png",
+      "metaOrder": 2,
+      "parent": "dffd665b",
+      "editFormTab1": [
+        "output",
+        "outputInline",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Text Block",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/preview-text-block.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "output"
+          ]
+        }
+      ],
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "textBlock",
+      "id": "316f1981",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/"
+    },
+    "eee9be96": {
+      "designOptions": {},
+      "metaDisableInteractionInEditor": true,
+      "alignment": "center",
+      "relatedTo": [
+        "General"
+      ],
+      "width": "80%",
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/instagramImage/instagramImage/public/thumbnail-instagram.jpg",
+      "parent": "fecd0555",
+      "editFormTab1": [
+        "instagramUrl",
+        "width",
+        "includeCaption",
+        "alignment",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Instagram Image",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/instagramImage/instagramImage/public/preview-instagram.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/instagramImage/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/instagramImage/instagramImage/public/",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "instagramUrl"
+          ]
+        }
+      ],
+      "order": 2,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Embed Instagram image directly to your WordPress website.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "instagramImage",
+      "id": "eee9be96",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/instagramImage/instagramImage/",
+      "instagramUrl": "https://www.instagram.com/p/BBv8kCgjMbM/",
+      "includeCaption": true
+    },
+    "841240fb": {
+      "designOptions": {},
+      "output": "<p>Hawaii's diverse natural scenery, warm tropical climate, abundance of public beaches, oceanic surroundings, and active volcanoes make it a popular destination for tourists, surfers, biologists, and volcanologists. Because of its central location in the Pacific and 19th-century labor migration, Hawaii's culture is strongly influenced by North American and Asian cultures, in addition to its indigenous Hawaiian culture. Hawaii has over a million permanent residents, along with many visitors and U.S. military personnel. Its capital is Honolulu on the island of Oahu.</p>\n<p>Hawaii is the 8th-smallest and the 11th-least populous, but the 13th-most densely populated of the fifty U.S. states. It is the only state with an Asian plurality. The state's coastline is about 750 miles long, the fourth longest in the U.S. after the coastlines of Alaska, Florida, and California.</p>\n<p>The Hawaiian archipelago is located 2,000 mi southwest of the contiguous United States. Hawaii is the southernmost U.S. state and the second westernmost after Alaska. Hawaii, along with Alaska, does not border any other U.S. state. It is the only U.S. state that is not geographically located in North America, the only state completely surrounded by water and that is entirely an archipelago, and the only state in which coffee is commercially cultivable.</p>\n<p>In addition to the eight main islands, the state has many smaller islands and islets. Kaula is a small island near Niihau that is often overlooked. The Northwest Hawaiian Islands is a group of nine small, older islands to the northwest of Kauai that extend from Nihoa to Kure Atoll; these are remnants of once much larger volcanic mountains. Across the archipelago are around 130 small rocks and islets, such as Molokini, which are either volcanic, marine sedimentary or erosional in origin.</p>\n<p>The last volcanic eruption outside Hawaii Island occurred at Haleakala on Maui before the late 18th century, though it could have been hundreds of years earlier.</p>\n<p>Hawaii's climate is typical for the tropics, although temperatures and humidity tend to be less extreme because of near-constant trade winds from the east. Summer highs usually reach around 88 °F during the day, with the temperature reaching a low of 75 °F at night. Winter day temperatures are usually around 83 °F; at low elevation they seldom dip below 65 °F at night.</p>",
+      "relatedTo": [
+        "General"
+      ],
+      "customClass": "",
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/thumbnail-text-block.png",
+      "metaOrder": 2,
+      "parent": "b122cd09",
+      "editFormTab1": [
+        "output",
+        "outputInline",
+        "metaCustomId",
+        "customClass"
+      ],
+      "name": "Text Block",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public/preview-text-block.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/public",
+      "metaBackendLabels": [
+        {
+          "value": [
+            "output"
+          ]
+        }
+      ],
+      "order": 0,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "designOptions"
+      ],
+      "metaCustomId": "",
+      "metaDescription": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.",
+      "assetsLibrary": [
+        "animate"
+      ],
+      "tag": "textBlock",
+      "id": "841240fb",
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/textBlock/textBlock/"
+    },
+    "526d6b44": {
+      "tag": "column",
+      "parent": "a7dc1577",
+      "size": "33.34%",
+      "lastInRow": true,
+      "firstInRow": false,
+      "id": "526d6b44",
+      "order": 1
+    },
+    "4e640b90": {
+      "columnGap": "50",
+      "size": "auto",
+      "contentPosition": "top",
+      "designOptionsAdvanced": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "paddingTop": "50px"
+            }
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": "50px"
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": false
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {},
+      "name": "Row",
+      "rowWidth": "boxed",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 9,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": false,
+      "fullHeight": false,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "4e640b90",
+      "equalHeight": false,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    },
+    "a7dc1577": {
+      "columnGap": "30",
+      "size": "auto",
+      "contentPosition": "middle",
+      "designOptionsAdvanced": {
+        "device": {
+          "all": {
+            "boxModel": {
+              "paddingTop": "100px",
+              "paddingBottom": "100px"
+            },
+            "backgroundType": "imagesSimple",
+            "backgroundStyle": "cover",
+            "images": {
+              "ids": [
+                603
+              ],
+              "urls": [
+                {
+                  "alt": "",
+                  "thumbnail": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Next-Article-Background-150x150.jpg",
+                  "full": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Next-Article-Background.jpg",
+                  "medium_large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Next-Article-Background-768x230.jpg",
+                  "medium": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Next-Article-Background-300x90.jpg",
+                  "title": "Next Article Background",
+                  "link": {
+                    "relNofollow": false,
+                    "targetBlank": true,
+                    "title": "",
+                    "url": ""
+                  },
+                  "id": 603,
+                  "large": "http://test.alpha.visualcomposer.io/wp-content/uploads/2017/05/Next-Article-Background-1024x307.jpg"
+                }
+              ],
+              "draggingIndex": null
+            },
+            "parallax": "simple",
+            "parallaxSpeed": 10
+          }
+        },
+        "attributeMixins": {
+          "boxModelMixin:all": {
+            "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;\n      }\n\n      @if $paddingTop != false {\n        padding-top: $paddingTop;\n      }\n    }\n  }\n}",
+            "variables": {
+              "borderRightStyle": {
+                "value": false
+              },
+              "borderTopLeftRadius": {
+                "value": false
+              },
+              "paddingTop": {
+                "value": "100px"
+              },
+              "borderTopRightRadius": {
+                "value": false
+              },
+              "borderStyle": {
+                "value": false
+              },
+              "marginTop": {
+                "value": false
+              },
+              "borderTopStyle": {
+                "value": false
+              },
+              "paddingRight": {
+                "value": false
+              },
+              "borderBottomColor": {
+                "value": false
+              },
+              "marginRight": {
+                "value": false
+              },
+              "margin": {
+                "value": false
+              },
+              "borderBottomWidth": {
+                "value": false
+              },
+              "borderBottomLeftRadius": {
+                "value": false
+              },
+              "borderLeftColor": {
+                "value": false
+              },
+              "padding": {
+                "value": false
+              },
+              "borderLeftWidth": {
+                "value": false
+              },
+              "borderRightColor": {
+                "value": false
+              },
+              "marginLeft": {
+                "value": false
+              },
+              "device": {
+                "value": "all"
+              },
+              "borderRightWidth": {
+                "value": false
+              },
+              "borderColor": {
+                "value": false
+              },
+              "borderBottomRightRadius": {
+                "value": false
+              },
+              "paddingLeft": {
+                "value": false
+              },
+              "marginBottom": {
+                "value": false
+              },
+              "borderWidth": {
+                "value": false
+              },
+              "borderBottomStyle": {
+                "value": false
+              },
+              "borderTopColor": {
+                "value": false
+              },
+              "paddingBottom": {
+                "value": "100px"
+              },
+              "borderTopWidth": {
+                "value": false
+              },
+              "borderLeftStyle": {
+                "value": false
+              },
+              "borderRadius": {
+                "value": false
+              }
+            }
+          }
+        }
+      },
+      "relatedTo": [
+        "General",
+        "RootElements"
+      ],
+      "customClass": "",
+      "containerFor": [
+        "Column"
+      ],
+      "metaThumbnailUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/thumbnail-row-column.png",
+      "metaOrder": 1,
+      "parent": false,
+      "editFormTab1": [
+        "rowWidth",
+        "removeSpaces",
+        "columnGap",
+        "fullHeight",
+        "columnPosition",
+        "equalHeight",
+        "contentPosition",
+        "metaCustomId",
+        "customClass"
+      ],
+      "layout": {
+        "reverseColumn": false
+      },
+      "name": "Row",
+      "rowWidth": "stretchedRow",
+      "metaPreviewUrl": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/preview-row-column.jpg",
+      "metaBundlePath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/public/dist/element.bundle.js",
+      "metaAssetsPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/public/",
+      "background": "",
+      "order": 8,
+      "metaEditFormTabs": [
+        "editFormTab1",
+        "layout",
+        "designOptionsAdvanced"
+      ],
+      "metaCustomId": "",
+      "removeSpaces": false,
+      "fullHeight": false,
+      "metaDescription": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.",
+      "metaPublicJs": [
+        "public/js/lib/fullHeightRow.js",
+        "public/js/lib/fullWidthRow.js",
+        "public/js/row.js"
+      ],
+      "assetsLibrary": [
+        "animate",
+        "backgroundSlider",
+        "backgroundSimple",
+        "backgroundColorGradient",
+        "backgroundVideoYoutube",
+        "backgroundVideoVimeo",
+        "backgroundVideoEmbed",
+        "parallaxFade",
+        "parallaxBackground"
+      ],
+      "backendView": "frontend",
+      "tag": "row",
+      "id": "a7dc1577",
+      "equalHeight": true,
+      "metaElementPath": "http://test.alpha.visualcomposer.io/wp-content/plugins/vcwb/devElements/row/row/",
+      "columnPosition": "top"
+    },
+    "b122cd09": {
+      "tag": "column",
+      "parent": "66d50f55",
+      "size": "50%",
+      "lastInRow": true,
+      "firstInRow": false,
+      "id": "b122cd09",
+      "order": 1
+    },
+    "99447a2f": {
+      "tag": "column",
+      "parent": "cfe46f36",
+      "size": "16.66%",
+      "lastInRow": true,
+      "firstInRow": false,
+      "id": "99447a2f",
+      "order": 2
+    }
+  }
+}
