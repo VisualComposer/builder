@@ -1,9 +1,6 @@
-import vcCake from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-
-const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 export default class TemplateControl extends React.Component {
   static propTypes = {
@@ -193,7 +190,7 @@ export default class TemplateControl extends React.Component {
         <figure className={previewClasses} style={previewStyle}>
           <img
             className='vcv-ui-item-preview-image'
-            src={sharedAssetsLibraryService.getSourcePath(preview)}
+            src={preview}
             alt='Template preview'
           />
           <figcaption className='vcv-ui-item-preview-caption'>
@@ -207,7 +204,7 @@ export default class TemplateControl extends React.Component {
       thumbnailImage = (
         <img
           className='vcv-ui-item-element-image'
-          src={sharedAssetsLibraryService.getSourcePath(thumbnail)}
+          src={thumbnail}
           alt='Template thumbnail'
         />
       )
