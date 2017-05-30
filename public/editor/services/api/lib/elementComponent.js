@@ -32,8 +32,7 @@ export default class ElementComponent extends Component {
 
     const helper = document.createElement('vcvhelper')
     elementWrapper.innerHTML = ''
-    helper.setAttribute('data-vcvs-html', `${tagString}`)
-    // helper.setAttribute('data-vcvs-html', `[vcv_encoded_shortcode]${encodeURIComponent(window.btoa(encodeURIComponent(tagString)))}[/vcv_encoded_shortcode]`)
+    helper.setAttribute('data-vcvs-html', `<!--vcv no formatting start-->${tagString}<!--vcv no formatting end-->`)
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(tagString)
     helper.appendChild(documentFragment)
@@ -44,7 +43,7 @@ export default class ElementComponent extends Component {
     const helper = document.createElement('vcvhelper')
     elementWrapper.innerHTML = ''
     let scriptHtml = `<script type="text/javascript">${tagString}</script>`
-    helper.setAttribute('data-vcvs-html', `[vcv_encoded_shortcode]${encodeURIComponent(window.btoa(unescape(encodeURIComponent(scriptHtml))))}[/vcv_encoded_shortcode]`)
+    helper.setAttribute('data-vcvs-html', `<!--vcv no formatting start-->${scriptHtml}<!--vcv no formatting end-->`)
     let script = document.createElement('script')
     script.type = 'text/javascript'
     let escapedString = escape(tagString)
