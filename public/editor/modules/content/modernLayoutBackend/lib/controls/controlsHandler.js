@@ -362,6 +362,7 @@ export default class ControlsHandler {
 
     let actionContent = document.createElement('span')
     actionContent.classList.add('vcv-ui-outline-control-content')
+    actionContent.title = options.label
     action.appendChild(actionContent)
 
     let icon = document.createElement('i')

@@ -1,7 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 
-class AttachImageItem extends React.Component {
+export default class AttachImageItem extends React.Component {
+  static propTypes = {
+    childProps: React.PropTypes.object.isRequired,
+    className: React.PropTypes.string
+  }
+
   static displayName = 'vcv-ui-form-sortable-attach-image-item-inner'
 
   constructor (props) {
@@ -34,7 +39,9 @@ class AttachImageItem extends React.Component {
           <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
             {oneMoreControl}
             <a className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
-              onClick={this.handleRemove.bind(this, key)}>
+              onClick={this.handleRemove.bind(this, key)}
+              title={'Remove Image'}
+            >
               <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
             </a>
           </div>
@@ -44,10 +51,3 @@ class AttachImageItem extends React.Component {
     )
   }
 }
-
-AttachImageItem.propTypes = {
-  childProps: React.PropTypes.object.isRequired,
-  className: React.PropTypes.string
-}
-
-export default AttachImageItem

@@ -317,6 +317,7 @@ export default class Url extends Attribute {
         <button
           className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default'
           onClick={this.open}
+          title={'Add Link'}
         >
           <i className='vcv-ui-icon vcv-ui-icon-link' />
           <span>Select URL</span>

@@ -3,11 +3,15 @@ import Attribute from '../attribute'
 import lodash from 'lodash'
 import Url from '../url/Component'
 import AttachImageItem from './attachImageItem'
-import {sortable} from 'react-sortable'
+import { sortable } from 'react-sortable'
 
 let SortableImageItem = sortable(AttachImageItem)
 
-class AttachImage extends Attribute {
+export default class AttachImage extends Attribute {
+  static propTypes = {
+    value: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object, React.PropTypes.array ]).isRequired,
+    fieldKey: React.PropTypes.string.isRequired
+  }
 
   constructor (props) {
     super(props)
@@ -190,13 +194,13 @@ class AttachImage extends Attribute {
     let oneMoreControl = ''
     if (this.props.options.multiple) {
       oneMoreControl = (
-        <a className='vcv-ui-form-attach-image-item-control'>
+        <a className='vcv-ui-form-attach-image-item-control' title={'Move Image'}>
           <i className='vcv-ui-icon vcv-ui-icon-move' />
         </a>
       )
     } else {
       oneMoreControl = (
-        <a className='vcv-ui-form-attach-image-item-control' onClick={this.openLibrary}>
+        <a className='vcv-ui-form-attach-image-item-control' onClick={this.openLibrary} title={'Edit or Replace Image'}>
           <i className='vcv-ui-icon vcv-ui-icon-edit' />
         </a>
       )
@@ -240,7 +244,7 @@ class AttachImage extends Attribute {
 
     let addControl = (
       <li className='vcv-ui-form-attach-image-item'>
-        <a className='vcv-ui-form-attach-image-control' onClick={this.openLibrary}>
+        <a className='vcv-ui-form-attach-image-control' onClick={this.openLibrary} title={'Add Image'}>
           <i className='vcv-ui-icon vcv-ui-icon-add' />
         </a>
       </li>
@@ -260,9 +264,3 @@ class AttachImage extends Attribute {
     )
   }
 }
-AttachImage.propTypes = {
-  value: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object, React.PropTypes.array ]).isRequired,
-  fieldKey: React.PropTypes.string.isRequired
-}
-
-export default AttachImage

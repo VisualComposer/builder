@@ -27,7 +27,7 @@ export default class StyleControl extends React.Component {
       'vcv-ui-state--active': active
     })
     return (
-      <button className={controlClass} onClick={this.handleClick}>
+      <button className={controlClass} onClick={this.handleClick} title={title}>
         {title}
       </button>
     )
