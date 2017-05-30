@@ -442,6 +442,12 @@ export default class ControlsManager {
         children.forEach((child) => {
           elementsToShow.push(child.id)
         })
+      } else if (documentElement.tag === 'row') {
+        let children = documentService.children(documentElement.id)
+        elementsToShow.push(documentElement.id)
+        children.forEach((child) => {
+          elementsToShow.push(child.id)
+        })
       } else {
         elementsToShow.push(documentElement.id)
       }
