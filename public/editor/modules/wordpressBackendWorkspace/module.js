@@ -37,11 +37,14 @@ add('wordpressBackendWorkspace', (api) => {
   if (env('FEATURE_START_BLANK')) {
     // Start blank overlay
     let iframeContent = document.getElementById('vcv-layout-iframe-content')
+    let layout = document.getElementById('vcv-layout')
 
     const removeStartBlank = () => {
+      layout && layout.classList.remove('vcv-layout-start-blank--active')
       ReactDOM.unmountComponentAtNode(iframeContent)
     }
     const addStartBlank = () => {
+      layout && layout.classList.add('vcv-layout-start-blank--active')
       ReactDOM.render(
         <StartBlankPanel unmountStartBlank={removeStartBlank} />,
         iframeContent
