@@ -275,7 +275,7 @@ class TemplatesDownloadController extends Container implements Module
 
         $keys = [
             'image',
-            'images'
+            'images',
         ];
 
         foreach ($recursiveIterator as $key => $value) {
@@ -287,7 +287,8 @@ class TemplatesDownloadController extends Container implements Module
                 for ($subDepth = $currentDepth; $subDepth >= 0; $subDepth--) {
                     // Get the current level iterator
                     $subIterator = $recursiveIterator->getSubIterator($subDepth);
-                    // If we are on the level we want to change, use the replacements ($value) other wise set the key to the parent iterators value
+                    // If we are on the level we want to change
+                    // use the replacements ($value) other wise set the key to the parent iterators value
                     $subIterator->offsetSet(
                         $subIterator->key(),
                         ($subDepth === $currentDepth
