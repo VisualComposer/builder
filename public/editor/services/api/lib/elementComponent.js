@@ -178,27 +178,27 @@ eval(unescape('${escapedString}'))
         case 'imagesSimple':
           backgroundElements.push(
             <ImageSimpleBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} />)
+              key={reactKey} atts={this.props.atts} />)
           break
         case 'imagesSlideshow':
           backgroundElements.push(
             <ImageSlideshowBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} />)
+              key={reactKey} atts={this.props.atts} />)
           break
         case 'videoYoutube':
           backgroundElements.push(
             <YoutubeBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} />)
+              key={reactKey} atts={this.props.atts} />)
           break
         case 'videoVimeo':
           backgroundElements.push(
             <VimeoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} />)
+              key={reactKey} atts={this.props.atts} />)
           break
         case 'videoEmbed':
           backgroundElements.push(
             <EmbedVideoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} />)
+              key={reactKey} atts={this.props.atts} />)
           break
       }
 
@@ -207,14 +207,14 @@ eval(unescape('${escapedString}'))
         reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-gradientOverlay`
         backgroundElements.push(
           <ColorGradientBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
-            key={reactKey} applyBackground={this.applyDO('gradient')} />)
+            key={reactKey} atts={this.props.atts} applyBackground={this.applyDO('gradient')} />)
       }
 
       if (parallax) {
         reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-parallax`
         backgroundData.push(
           <ParallaxBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
-            key={reactKey} content={backgroundElements} />)
+            key={reactKey} atts={this.props.atts} content={backgroundElements} />)
       } else {
         backgroundData.push(backgroundElements)
       }

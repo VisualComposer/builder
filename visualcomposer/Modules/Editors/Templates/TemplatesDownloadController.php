@@ -102,6 +102,7 @@ class TemplatesDownloadController extends Container implements Module
                         }
                     }
                 }
+                $templateElements = $this->processDesignOptions($templateElements, $template);
                 unset($template['data']);
                 $toSaveTemplates[ $template['id'] ] = $template;
                 $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
@@ -265,5 +266,40 @@ class TemplatesDownloadController extends Container implements Module
             'elementId' => $element['id'],
             'images' => $images,
         ];
+    }
+
+    protected function processDesignOptions($templateElements, $template)
+    {
+        $arrayIterator = new \RecursiveArrayIterator($templateElements);
+        $recursiveIterator = new \RecursiveIteratorIterator($arrayIterator, \RecursiveIteratorIterator::SELF_FIRST);
+
+        $keys = [
+            'image',
+            'images'
+        ];
+
+        foreach ($recursiveIterator as $key => $value) {
+            if (is_array($value) && in_array($key, $keys) && isset($value['urls'])) {
+                $newValue = $this->processWpMedia(['value' => $value], $template);
+
+                // Get the current depth and traverse back up the tree, saving the modifications
+                $currentDepth = $recursiveIterator->getDepth();
+                for ($subDepth = $currentDepth; $subDepth >= 0; $subDepth--) {
+                    // Get the current level iterator
+                    $subIterator = $recursiveIterator->getSubIterator($subDepth);
+                    // If we are on the level we want to change, use the replacements ($value) other wise set the key to the parent iterators value
+                    $subIterator->offsetSet(
+                        $subIterator->key(),
+                        ($subDepth === $currentDepth
+                            ? $newValue
+                            : $recursiveIterator->getSubIterator(
+                                ($subDepth + 1)
+                            )->getArrayCopy())
+                    );
+                }
+            }
+        }
+
+        return $recursiveIterator->getArrayCopy();
     }
 }
