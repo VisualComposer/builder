@@ -25,7 +25,7 @@ exports.build = (dir, repo) => {
     const repoPath = path.join(dir, 'builder')
     process.chdir(repoPath)
     console.log('\nBuild project...')
-    exec('npm i --production && npm run build-production', (error, x, stderr) => {
+    exec('php ci/composer.phar install --no-dev --optimize-autoloader && npm i --production && npm run build-production', (error, x, stderr) => {
       if (stderr) {
         console.log(stderr)
       }
