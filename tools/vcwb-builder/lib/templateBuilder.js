@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const url = require('url')
 const path = require('path')
+const crypto = require('crypto')
 const defaultTemplate = require('../sources/defaultTemplate')
 
 class TemplateBuilder {
@@ -106,10 +107,10 @@ class TemplateBuilder {
    * @returns {*}
    */
   prepareValue (data) {
-    if (typeof data === 'string' && data.match(/^http/)) {
+    if (typeof data === 'string' && data.match(/(jpg|gif|png)$/)) {
       const parsedUrl = url.parse(data)
       const ext = path.extname((parsedUrl.pathname))
-      const fileName = 'assets/elements/' + +new Date + ext
+      const fileName = 'assets/elements/' + crypto.createHash('md5').update(data).digest('hex') + ext
       this.innerSources[ fileName ] = data
       return fileName
     }
