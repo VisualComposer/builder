@@ -52,7 +52,7 @@ addStorage('elements', (storage) => {
     }
     if (data.tag === 'column') {
       let rowElement = documentManager.get(data.parent)
-      rebuildRawLayout(rowElement.id, { action: 'columnAdd', columnSize: data.size }, documentManager)
+      rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size }, documentManager)
       storage.trigger('update', rowElement.id, rowElement, '', options)
     }
     if (data.tag === 'row') {
@@ -173,7 +173,7 @@ addStorage('elements', (storage) => {
         element.parent = substituteIds[ element.parent ]
       }
       delete element.order
-      storage.trigger('add', element, false, { silent: true })
+      storage.trigger('add', element, false, { silent: true, action: 'merge' })
       mergeChildrenLayout(data, oldId)
     })
   }
