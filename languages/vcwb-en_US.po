@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-24 13:33+0300\n"
-"PO-Revision-Date: 2017-05-24 13:33+0300\n"
+"POT-Creation-Date: 2017-05-31 12:29+0300\n"
+"PO-Revision-Date: 2017-05-31 12:29+0300\n"
 "Last-Translator: \n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
 "Language: en_US\n"
@@ -31,12 +31,12 @@ msgstr ""
 msgid "p"
 msgstr ""
 
-#: tests/phpunit/modules/Editors/test-editpostlinks-controller.php:66
+#: tests/phpunit/modules/Editors/test-editpostlinks-controller.php:67
 #: tests/phpunit/modules/Site/test-site-controller.php:46
 #: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:90
-#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:115
-#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:116
-#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:135
+#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:122
+#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:123
+#: visualcomposer/Modules/Editors/EditPostLinks/Controller.php:146
 msgid "Edit with Visual Composer"
 msgstr ""
 
@@ -45,38 +45,31 @@ msgid "What's New"
 msgstr ""
 
 #: tests/phpunit/modules/Settings/_test-page-about.php:22
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:84
 msgid "FAQ"
 msgstr ""
 
 #: tests/phpunit/modules/Settings/_test-page-about.php:27
-#: visualcomposer/resources/views/settings/pages/about/partials/resources.php:14
 msgid "Resources"
 msgstr ""
 
 #: tests/phpunit/modules/Settings/_test-page-about.php:44
-#: visualcomposer/Modules/Settings/Pages/About.php:57
+#: visualcomposer/Modules/Settings/Pages/About.php:56
 msgid "About"
 msgstr ""
 
-#: tests/phpunit/modules/Settings/test-page-general.php:15
-#: visualcomposer/Modules/Settings/Pages/General.php:88
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:63
+#: tests/phpunit/modules/Settings/_test-page-general.php:15
 msgid "General Settings"
 msgstr ""
 
-#: tests/phpunit/modules/Settings/test-page-hub.php:15
-#: visualcomposer/Modules/Settings/Pages/Hub.php:56
+#: tests/phpunit/modules/Settings/_test-page-hub.php:15
 msgid "HUB"
 msgstr ""
 
-#: tests/phpunit/modules/Settings/test-page-license.php:15
-#: visualcomposer/Modules/Settings/Pages/License.php:56
+#: tests/phpunit/modules/Settings/_test-page-license.php:15
 msgid "Product License"
 msgstr ""
 
-#: tests/phpunit/modules/Settings/test-page-roles.php:15
-#: visualcomposer/Modules/Settings/Pages/Roles.php:91
+#: tests/phpunit/modules/Settings/_test-page-roles.php:15
 msgid "Role Manager"
 msgstr ""
 
@@ -125,15 +118,12 @@ msgid "Mobile Portrait"
 msgstr ""
 
 #: visualcomposer/Helpers/Localizations.php:35
-#: visualcomposer/Modules/Settings/Pages/PostTypes.php:73
-#: visualcomposer/resources/views/settings/layouts/default.php:11
+#: visualcomposer/Modules/Settings/Pages/PostTypes.php:77
 #: visualcomposer/resources/views/settings/layouts/settings-standalone.php:11
-#: visualcomposer/resources/views/settings/pages/about/index.php:41
 msgid "Settings"
 msgstr ""
 
 #: visualcomposer/Helpers/Localizations.php:36
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:50
 msgid "Update"
 msgstr ""
 
@@ -187,7 +177,6 @@ msgid ""
 msgstr ""
 
 #: visualcomposer/Helpers/Localizations.php:50
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:64
 msgid "Custom CSS"
 msgstr ""
 
@@ -220,321 +209,301 @@ msgid "Save Template"
 msgstr ""
 
 #: visualcomposer/Helpers/Localizations.php:58
-msgid "Template save failed."
+msgid "Remove Template"
 msgstr ""
 
 #: visualcomposer/Helpers/Localizations.php:59
+msgid "Template save failed."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:60
 msgid "Download More Templates"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:62
+#: visualcomposer/Helpers/Localizations.php:63
 msgid ""
 "You don't have any templates yet. Try to save your current layout as a "
 "template or download templates from Visual Composer Hub."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:66
+#: visualcomposer/Helpers/Localizations.php:67
 msgid ""
 "Didn't find the right template? Check out Visual Composer Hub for more "
 "layout templates."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:69
+#: visualcomposer/Helpers/Localizations.php:70
 msgid "Do you want to remove this template?"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:70
+#: visualcomposer/Helpers/Localizations.php:71
 msgid "Template remove failed."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:71
+#: visualcomposer/Helpers/Localizations.php:72
 msgid "Select Blank Canvas"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:72
+#: visualcomposer/Helpers/Localizations.php:73
 msgid "or Start With a Template"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:75
+#: visualcomposer/Helpers/Localizations.php:76
 msgid ""
 "Visual Composer Hub will offer you unlimited downloads of premium quality "
 "templates, elements, extensions and more."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:78
-#: visualcomposer/resources/views/settings/pages/roles/index.php:66
+#: visualcomposer/Helpers/Localizations.php:79
 msgid "Add"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:79
+#: visualcomposer/Helpers/Localizations.php:80
 msgid "Row Layout"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:80
-#: visualcomposer/resources/views/settings/pages/roles/index.php:65
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:40
+#: visualcomposer/Helpers/Localizations.php:81
 msgid "Edit"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:81
+#: visualcomposer/Helpers/Localizations.php:82
 msgid "Clone"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:82
+#: visualcomposer/Helpers/Localizations.php:83
 msgid "Remove"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:83
+#: visualcomposer/Helpers/Localizations.php:84
 msgid "Move"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:84
+#: visualcomposer/Helpers/Localizations.php:85
 msgid "Search content elements"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:87
+#: visualcomposer/Helpers/Localizations.php:88
 msgid "Template with this name already exist. Please specify another name."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:90
+#: visualcomposer/Helpers/Localizations.php:91
 msgid "Template content is empty."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:91
+#: visualcomposer/Helpers/Localizations.php:92
 msgid "Please specify template name."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:92
+#: visualcomposer/Helpers/Localizations.php:93
 msgid "Add one column"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:93
+#: visualcomposer/Helpers/Localizations.php:94
 msgid "Add two columns"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:94
+#: visualcomposer/Helpers/Localizations.php:95
 msgid "Add three columns"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:95
+#: visualcomposer/Helpers/Localizations.php:96
 msgid "Add four columns"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:96
+#: visualcomposer/Helpers/Localizations.php:97
 msgid "Add five columns"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:97
+#: visualcomposer/Helpers/Localizations.php:98
 msgid "Add custom row layout"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:98
+#: visualcomposer/Helpers/Localizations.php:99
 msgid "Add Text block"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:99
+#: visualcomposer/Helpers/Localizations.php:100
 msgid "Frontend Editor"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:100
+#: visualcomposer/Helpers/Localizations.php:101
 msgid "Blank Page"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:101
+#: visualcomposer/Helpers/Localizations.php:102
 msgid "Search templates by name and description"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:102
+#: visualcomposer/Helpers/Localizations.php:103
 msgid "No Results. Open Visual Composer Hub"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:104
+#: visualcomposer/Helpers/Localizations.php:105
 msgid ""
 "Didn't find the right element? Check out Visual Composer Hub for more "
 "content elements."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:109
+#: visualcomposer/Helpers/Localizations.php:110
 msgid ""
 "Please make sure to read and agree to our terms of service in order to "
 "activate and use Visual Composer."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:114
+#: visualcomposer/Helpers/Localizations.php:115
 msgid ""
 "Your activation request failed due to the e-mail address format. Please "
 "check your e-mail address and try again."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:118
+#: visualcomposer/Helpers/Localizations.php:119
 msgid ""
 "To activate and use Visual Composer, you must read and agree to the terms of "
 "service."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:121
+#: visualcomposer/Helpers/Localizations.php:122
 msgid "Your activation request failed. Please try again."
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:122
+#: visualcomposer/Helpers/Localizations.php:123
 msgid "Please provide correct E-Mail"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:123
+#: visualcomposer/Helpers/Localizations.php:124
 msgid "Nothing Found"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:124
+#: visualcomposer/Helpers/Localizations.php:125
 msgid "Template thumbnail"
 msgstr ""
 
-#: visualcomposer/Helpers/Localizations.php:125
+#: visualcomposer/Helpers/Localizations.php:126
 msgid "Template preview"
 msgstr ""
 
+#: visualcomposer/Helpers/Localizations.php:127
+msgid "Add Image"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:128
+msgid "Remove Image"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:129
+msgid "Move Image"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:130
+msgid "Edit or Replace Image"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:131
+msgid "Add Link"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:132
+msgid "Select URL"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:133
+msgid "Insert or Edit Link"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:134
+#: visualcomposer/Helpers/Localizations.php:140
+msgid "Enter the destination URL"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:135
+msgid "Or link to existing content"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:136
+msgid "Search existing content"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:137
+msgid "There is no content with such term found."
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:138
+msgid "Open link in a new tab"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:139
+msgid "Add nofollow option to link"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:141
+msgid "Title attribute will be displayed on link hover"
+msgstr ""
+
+#: visualcomposer/Helpers/Localizations.php:142
+msgid "Title"
+msgstr ""
+
+#: visualcomposer/Helpers/PostType.php:189
+#, php-format
+msgid "View %s"
+msgstr ""
+
 #: visualcomposer/Helpers/PostsGridSourcePosts.php:38
-#: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:17
-#: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:24
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:36
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:47
-#: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:17
 msgid "All"
 msgstr ""
 
-#: visualcomposer/Modules/Account/Pages/ActivationPage.php:59
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:49
+#: visualcomposer/Modules/Account/Pages/ActivationPage.php:83
 msgid "Activation"
 msgstr ""
 
-#: visualcomposer/Modules/Account/Pages/ActivationPage.php:74
+#: visualcomposer/Modules/Account/Pages/ActivationPage.php:102
 msgid "Set up your own navigation position or change it at any time."
 msgstr ""
 
-#: visualcomposer/Modules/Account/Pages/ActivationPage.php:78
+#: visualcomposer/Modules/Account/Pages/ActivationPage.php:106
 msgid ""
 "Access and see the path to your elements, columns, and rows from one control."
 msgstr ""
 
-#: visualcomposer/Modules/Account/Pages/ActivationPage.php:82
+#: visualcomposer/Modules/Account/Pages/ActivationPage.php:110
 msgid "Use inline text editing to change content with one click."
 msgstr ""
 
-#: visualcomposer/Modules/Account/Pages/ActivationPage.php:86
+#: visualcomposer/Modules/Account/Pages/ActivationPage.php:114
 msgid "Control and overview your page structure from the Tree View mode."
 msgstr ""
 
-#: visualcomposer/Modules/Account/Pages/ActivationPage.php:90
+#: visualcomposer/Modules/Account/Pages/ActivationPage.php:118
 msgid "Divide your row into columns with Row layout and pre-made layouts."
 msgstr ""
 
-#: visualcomposer/Modules/Account/Pages/ActivationPage.php:94
+#: visualcomposer/Modules/Account/Pages/ActivationPage.php:122
 msgid "Apply changes instantly and revert back with Undo/Redo at any time."
 msgstr ""
 
-#: visualcomposer/Modules/Account/Pages/ActivationPage.php:98
+#: visualcomposer/Modules/Account/Pages/ActivationPage.php:126
 msgid "Resize columns with easy to use resize tool."
 msgstr ""
 
-#: visualcomposer/Modules/Account/Pages/ActivationPage.php:102
+#: visualcomposer/Modules/Account/Pages/ActivationPage.php:130
 msgid "Choose Backend editor schematic view with the quick preview option."
 msgstr ""
 
-#: visualcomposer/Modules/Editors/Backend/MetaboxController.php:78
+#: visualcomposer/Modules/Editors/Backend/MetaboxController.php:73
 msgid "Visual Composer"
-msgstr ""
-
-#: visualcomposer/Modules/Elements/Hub/_Controller.php:53
-msgid "Elements are already being installed"
-msgstr ""
-
-#: visualcomposer/Modules/Elements/Hub/_Controller.php:58
-msgid "Elements are already installed"
-msgstr ""
-
-#: visualcomposer/Modules/Elements/Hub/_Controller.php:70
-msgid "Something went wrong"
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:124
-#: visualcomposer/Modules/License/_Controller.php:233
-msgid "Token is not valid or has expired"
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:136
-#: visualcomposer/Modules/License/_Controller.php:551
-#, php-format
-msgid "%s. Please try again."
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:171
-#: visualcomposer/Modules/License/_Controller.php:568
-msgid "Invalid response structure. Please contact us for support."
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:182
-msgid "Invalid license key format. Please contact us for support."
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:194
-#, php-format
-msgid "Unexpected license type: %s. Please contact us for support."
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:211
-msgid "Visual Composer successfully activated."
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:278
-msgid "Visual Composer successfully deactivated."
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:296
-msgid "Invalid license key"
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:558
-#, php-format
-msgid "Server did not respond with OK: %s"
-msgstr ""
-
-#: visualcomposer/Modules/License/_Controller.php:577
-msgid "Something went wrong. Please contact us for support."
 msgstr ""
 
 #: visualcomposer/Modules/Settings/Controller.php:121
 msgid "Visual Composer "
 msgstr ""
 
-#: visualcomposer/Modules/Settings/Pages/General.php:115
-msgid "Disable responsive content elements"
-msgstr ""
-
-#: visualcomposer/Modules/Settings/Pages/General.php:134
-msgid "Google fonts subsets"
-msgstr ""
-
-#: visualcomposer/Modules/Settings/Pages/PostTypes.php:92
+#: visualcomposer/Modules/Settings/Pages/PostTypes.php:96
 msgid ""
 "Specify post types where you want to use Visual Composer Website Builder."
 msgstr ""
 
-#: visualcomposer/Modules/Settings/Pages/PostTypes.php:97
+#: visualcomposer/Modules/Settings/Pages/PostTypes.php:101
 msgid "Post Types"
-msgstr ""
-
-#: visualcomposer/Modules/Settings/Pages/Roles.php:187
-msgid "Roles settings successfully saved."
-msgstr ""
-
-#: visualcomposer/Modules/Settings/Pages/_Authorization.php:99
-#: visualcomposer/resources/views/settings/pages/auth/partials/unauthorized-state.php:34
-msgid "Authorize Site"
-msgstr ""
-
-#: visualcomposer/resources/views/account/partials/activation-finish.php:34
-#: visualcomposer/resources/views/account/partials/activation-login.php:43
-#: visualcomposer/resources/views/settings/pages/license/partials/deactivated-state.php:41
-msgid "Activate Visual Composer"
 msgstr ""
 
 #: visualcomposer/resources/views/account/partials/activation-loading.php:20
@@ -553,41 +522,48 @@ msgstr ""
 msgid "Your E-mail"
 msgstr ""
 
-#: visualcomposer/resources/views/account/partials/activation-login.php:40
+#: visualcomposer/resources/views/account/partials/activation-login.php:42
 #, php-format
 msgid ""
-"I have read and agree to the <a href=\"%s\" target=\"_blank\">terms of "
-"service</a>"
+"I have read and agree to the <a href=\"%1$s\" target=\"_blank\">Terms of "
+"Use</a> and <a href=\"%2$s\"\" target=\"_blank\">Cloud Access Terms</a>"
+msgstr ""
+
+#: visualcomposer/resources/views/account/partials/activation-login.php:48
+msgid "Activate Visual Composer"
 msgstr ""
 
 #: visualcomposer/resources/views/account/partials/activation-slider.php:33
 msgid "Any Layout. Fast and Easy."
 msgstr ""
 
-#: visualcomposer/resources/views/account/partials/activation-slider.php:46
+#: visualcomposer/resources/views/account/partials/activation-slider.php:47
 msgid "Create a blank page"
 msgstr ""
 
-#: visualcomposer/resources/views/account/partials/activation-slider.php:50
+#: visualcomposer/resources/views/account/partials/activation-slider.php:51
+msgid "Create a blank post"
+msgstr ""
+
+#: visualcomposer/resources/views/account/partials/activation-slider.php:56
 msgid ""
 "Want to work with existing pages, posts or custom post types? Access your "
 "content and select `Edit with Visual Composer`."
 msgstr ""
 
-#: visualcomposer/resources/views/account/partials/activation-slider.php:54
+#: visualcomposer/resources/views/account/partials/activation-slider.php:60
 msgid "Don't forget to tweet about Visual Composer Website Builder. Thanks!"
 msgstr ""
 
-#: visualcomposer/resources/views/account/partials/activation-slider.php:61
+#: visualcomposer/resources/views/account/partials/activation-slider.php:68
 msgid ""
 "Visual Composer Website Builder - now I can build any #WordPress site fast "
 "and easy!"
 msgstr ""
 
 #: visualcomposer/resources/views/editor/frontend/frontend.php:35
-#: visualcomposer/resources/views/settings/pages/roles/partials/frontend-editor.php:21
-#: visualcomposer/resources/views/settings/pages/roles/partials/frontend-editor.php:22
-msgid "Frontend editor"
+#, php-format
+msgid "Frontend editor: %s"
 msgstr ""
 
 #: visualcomposer/resources/views/editor/pageEditable/pageEditable.php:8
@@ -602,320 +578,8 @@ msgstr ""
 msgid "No Widgets found"
 msgstr ""
 
-#: visualcomposer/resources/views/settings/pages/about/index.php:15
-#, php-format
-msgid "Welcome to Visual Composer %s"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/index.php:24
-msgid ""
-"Congratulations! You are about to use most powerful time saver for WordPress "
-"ever - page builder plugin with Frontend and Backend editors by WPBakery."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/index.php:32
-#, php-format
-msgid "Version %s"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:9
-msgid "New to Visual Composer or Looking for More Information?"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:13
-#, php-format
-msgid ""
-"WPBakery has complete documentation available at our knowledge base: <a "
-"target=\"_blank\" href=\"%s\">kb.wpbakery.com</a> which covers everything "
-"related to Visual Composer starting from Installation and up to more "
-"advanced features based on our Inner API."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:23
-msgid "Preface"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:25
-msgid "Introduction"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:26
-msgid "Support and Resources"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:28
-msgid "Support Policy"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:29
-msgid "Release Notes"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:34
-msgid "Licensing"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:36
-msgid "Regular License"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:37
-msgid "Extended License"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:39
-msgid ""
-"In-Stock License (Theme\n"
-"                        Integration)"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:46
-msgid "Getting Started"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:48
-msgid "Plugin Installation"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:51
-msgid "Content Type"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:58
-msgid "Learning More"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:61
-msgid "Basic Concept"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:62
-msgid "Content Elements"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:65
-msgid "Element Design Options"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:67
-msgid "Responsive Settings"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:68
-#: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:21
-msgid "Templates"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:69
-msgid "Predefined Layouts"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:70
-msgid "Shortcode Mapper"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:71
-#: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:20
-#: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:21
-msgid "Grid Builder"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:72
-msgid "Image filters"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:73
-#: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:21
-msgid "Element Presets"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:78
-msgid "Visual Composer \"How To's\""
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:79
-msgid ""
-"In this section you will find a quick tips in form of video tutorials on how "
-"to operate with Visual\n"
-"                Composer."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:85
-msgid ""
-"Here you can find answers to the Frequently Asked Question about Visual "
-"Composer."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:91
-msgid "Add-ons"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:93
-msgid "Templatera"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:94
-msgid "Easy Tables"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:96
-msgid ""
-"Add-on Development\n"
-"                        Rules"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:103
-msgid "Theme Integration"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:104
-msgid "See how you can integrate Visual Composer within your WordPress theme."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:108
-msgid "Inner API"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:109
-msgid ""
-"Inner API section describes capabilities of interaction with Visual Composer."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/faq.php:116
-msgid "Visit Knowledge Base for more information"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:19
-msgid "New Elements and Options"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:21
-msgid ""
-"Visual Composer 4.10 offers new and enhanced elements to improve your page "
-"building process. You will discover new options that will help you build "
-"even better layouts and use unlimited options of page building plugin."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:27
-msgid ""
-"We have been constantly following your feature requests and latest update "
-"contains all the best of what you have been looking for. We are aiming to "
-"offer you most flexible tools and options with everything you will ever need "
-"to create a website."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:39
-msgid "ACF Support"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:41
-msgid ""
-"Combine the power of Visual Composer and ACF - add any custom field of ACF "
-"to your page, post and even custom post type."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:49
-msgid "Categories and Authors"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:51
-msgid ""
-"Visual Composer Grid Builder has 2 more content elements allowing you to add "
-"data about categories and authors to your post grid."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:60
-msgid "Parallax Speed"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:64
-msgid ""
-"Control speed of Visual Composer parallax to align this effect with your "
-"overall website mood by simply adjusting speed parameter."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/main.php:74
-msgid "Thank you for choosing Visual Composer,<br/>Michael M, CEO at WPBakery"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/resources.php:19
-msgid ""
-"There are several resources available to Visual Composer users to help you "
-"to get around plugin:"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/resources.php:40
-msgid "Official Support"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/resources.php:44
-#, php-format
-msgid ""
-"To get your support related question answered in the fastest timing, please "
-"head over to our <a href=\"%s\" target=\"_blank\">support page</a> and open "
-"Support ticket. To open support a ticket you should have an account in the "
-"ticket system. Registration should take you a couple of minutes to complete "
-"and is a completely automatic process. Prepare your Visual Composer <a href="
-"\"%s\" target=\"_blank\">Purchase code</a> and fill in \"Create account in "
-"Ticket system\" form located at <a href=\"%s\" target=\"_blank\">support "
-"page</a>, then follow on screen instructions."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/about/partials/resources.php:55
-#, php-format
-msgid ""
-"Before applying for support please make sure you understand the rules of "
-"support and go through all steps described and listed in <a href=\"%s\" "
-"target=\"_blank\">Support Policy</a> in order to get your issues solved as "
-"soon as possible."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/general/index.php:39
-#: visualcomposer/resources/views/settings/pages/index.php:38
-#: visualcomposer/resources/views/settings/pages/roles/index.php:126
+#: visualcomposer/resources/views/settings/pages/index.php:39
 msgid "Save Changes"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/general/partials/disable-responsive.php:18
-msgid "Disable"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/general/partials/disable-responsive.php:25
-msgid ""
-"Disable content elements from \"stacking\" one on top other on small media "
-"screens (Example: mobile devices)."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/general/partials/google-fonts-subsets.php:28
-msgid "Select subsets for Google Fonts available to content elements."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/license/partials/activated-state.php:17
-msgid ""
-"You have activated Visual Composer version which allows you to access all "
-"the customer benefits. Thank you for choosing Visual Composer as your page "
-"builder. If you do not wish to use Visual Composer on this WordPress site "
-"you can deactivate your license below."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/license/partials/activated-state.php:30
-#: visualcomposer/resources/views/settings/pages/plugins/notice.php:22
-msgid "Deactivate Visual Composer"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/license/partials/deactivated-state.php:28
-msgid ""
-"In order to receive all benefits of Visual Composer, you need to activate "
-"your copy of the plugin. By activating Visual Composer license you will "
-"unlock premium options - <strong>direct plugin updates</strong> and "
-"<strong>access to official support.</strong>"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/license/partials/deactivated-state.php:55
-#, php-format
-msgid ""
-"Don't have valid license yet? <a href=\"%s\" target=\"_blank\">Purchase "
-"Visual Composer license</a>."
 msgstr ""
 
 #: visualcomposer/resources/views/settings/pages/plugins/notice.php:14
@@ -929,143 +593,14 @@ msgid ""
 "styles automatically."
 msgstr ""
 
+#: visualcomposer/resources/views/settings/pages/plugins/notice.php:22
+msgid "Deactivate Visual Composer"
+msgstr ""
+
 #: visualcomposer/resources/views/settings/pages/post-types/post-types-toggle.php:19
 msgid "on"
 msgstr ""
 
 #: visualcomposer/resources/views/settings/pages/post-types/post-types-toggle.php:20
 msgid "off"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/index.php:25
-msgid ""
-"Control user group role access to the features and options of Visual "
-"Composer - manage WordPress default and custom roles."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/index.php:67
-msgid "Search"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:17
-msgid "Disable Classic editor"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:20
-#: visualcomposer/resources/views/settings/pages/roles/partials/frontend-editor.php:18
-#: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:17
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-settings.php:17
-msgid "Enabled"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:21
-msgid "Enabled and default"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:22
-#: visualcomposer/resources/views/settings/pages/roles/partials/frontend-editor.php:19
-#: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:18
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-settings.php:18
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:21
-#: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:19
-#: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:26
-#: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:19
-msgid "Disabled"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:24
-#: visualcomposer/resources/views/settings/pages/roles/partials/backend-editor.php:25
-msgid "Backend editor"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/grid-builder.php:22
-msgid "Control user access to Grid Builder and Grid Builder Elements."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-settings.php:20
-msgid "Page settings"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-settings.php:22
-msgid ""
-"Control access to Visual Composer page settings. Note: Disable page settings "
-"to restrict editing of Custom CSS through a page."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:19
-msgid "Pages only"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:20
-#: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:25
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:55
-msgid "Custom"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:23
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:24
-msgid "Post types"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/post-types.php:26
-msgid ""
-"Enable Visual Composer for pages, posts and custom post types. Note: By "
-"default Visual Composer is available for pages only."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:18
-msgid "Apply presets only"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/presets.php:23
-msgid ""
-"Control access rights to element preset in element edit form. Note: \"Apply "
-"presets only\" restricts users from saving new presets, deleting existing "
-"and setting defaults."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:28
-#: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:29
-msgid "Settings options"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/settings.php:31
-msgid ""
-"Control access rights to Visual Composer admin settings tabs (e.g. General "
-"Settings, Shortcode Mapper, ...)"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:43
-msgid "Element"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:51
-msgid "Edit only"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:58
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:59
-msgid "Elements"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/shortcodes.php:60
-msgid "Control user access to content elements."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:18
-msgid "Apply templates only"
-msgstr ""
-
-#: visualcomposer/resources/views/settings/pages/roles/partials/templates.php:23
-msgid ""
-"Control access rights to templates and predefined templates. Note: \"Apply "
-"templates only\" restricts users from saving new templates and deleting "
-"existing."
-msgstr ""
-
-#: visualcomposer/resources/views/settings/partials/activation-notice.php:14
-#, php-format
-msgid ""
-"Hola! Please <a href=\"%s\">activate your copy</a> of Visual Composer to "
-"receive automatic updates."
 msgstr ""
