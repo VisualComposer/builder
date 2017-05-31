@@ -472,4 +472,12 @@ class HelpersDifferTest extends WP_UnitTestCase
 
         $this->assertEquals(['a' => 1], $differ->get());
     }
+
+    public function testDifferAssoc()
+    {
+        $differ = vchelper('Differ');
+        $differ->set(['a' => ['b' => 'a', 'test' => 1, 'test2' => true]]);
+        $differ->set(['a' => ['a' => 'a', 'test' => 1, 'test2' => true]]);
+        $this->assertEquals(['a' => ['b' => 'a', 'a' => 'a', 'test' => 1, 'test2' => true]], $differ->get());
+    }
 }
