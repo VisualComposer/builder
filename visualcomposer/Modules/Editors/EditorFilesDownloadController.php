@@ -31,7 +31,8 @@ class EditorFilesDownloadController extends Container implements Module
     public function __construct(Options $optionsHelper)
     {
         if (vcvenv('VCV_EXTENSION_DOWNLOAD')) {
-            $this->addEvent(
+            /** @see \VisualComposer\Modules\Editors\EditorFilesDownloadController::updateEditorFiles */
+            $this->addFilter(
                 'vcv:hub:download:bundle',
                 'updateEditorFiles',
                 80
@@ -40,12 +41,19 @@ class EditorFilesDownloadController extends Container implements Module
     }
 
     /**
-     * @param $bundleJson
+     * @param $response
+     * @param $payload
      * @param \VisualComposer\Helpers\File $fileHelper
      * @param \VisualComposer\Helpers\Hub\Bundle $hubBundleHelper
+     *
+     * @return bool
      */
-    protected function updateEditorFiles($bundleJson, File $fileHelper, Bundle $hubBundleHelper)
+    protected function updateEditorFiles($response, $payload, File $fileHelper, Bundle $hubBundleHelper)
     {
+        $bundleJson = $payload['archive'];
+        if (!$response || is_wp_error($bundleJson)) {
+            return false;
+        }
         if (isset($bundleJson['editor']) && $bundleJson['editor']) {
             $fileHelper->createDirectory(VCV_PLUGIN_ASSETS_DIR_PATH . '/editor');
             $fileHelper->copyDirectory(
@@ -53,5 +61,7 @@ class EditorFilesDownloadController extends Container implements Module
                 VCV_PLUGIN_ASSETS_DIR_PATH . '/editor'
             );
         }
+
+        return true;
     }
 }

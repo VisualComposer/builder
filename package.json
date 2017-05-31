@@ -16,6 +16,7 @@
     "build-element": "babel-node ./tools/element-builder/index",
     "build-refactor": "webpack --progress --colors",
     "watch-refactor": "webpack --progress --colors --watch",
+    "build-production": "webpack --config webpack.config.production.js --progress --colors",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "author": "@vv",
@@ -38,6 +39,7 @@
     "babel-runtime": "6.11.6",
     "bundle-loader": "0.5.4",
     "classnames": "2.2.5",
+    "cli-spinner": "^0.2.6",
     "commander": "^2.9.0",
     "css-loader": "0.25.0",
     "eslint": "3.8.1",

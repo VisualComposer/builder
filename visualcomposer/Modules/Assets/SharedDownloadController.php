@@ -23,7 +23,8 @@ class SharedDownloadController extends Container implements Module
     public function __construct(Options $optionsHelper)
     {
         if (vcvenv('VCV_EXTENSION_DOWNLOAD')) {
-            $this->addEvent(
+            /** @see \VisualComposer\Modules\Assets\SharedDownloadController::updateSharedLibraries */
+            $this->addFilter(
                 'vcv:hub:download:bundle',
                 'updateSharedLibraries',
                 70
@@ -32,12 +33,17 @@ class SharedDownloadController extends Container implements Module
     }
 
     protected function updateSharedLibraries(
-        $bundleJson,
+        $response,
+        $payload,
         Options $optionsHelper,
         File $fileHelper,
         SharedLibraries $sharedLibrariesHelper,
         AssetsShared $assetsSharedHelper
     ) {
+        $bundleJson = $payload['archive'];
+        if (!$response || is_wp_error($bundleJson)) {
+            return false;
+        }
         if (isset($bundleJson['assetsLibrary'])) {
             $assetsLibrary = $bundleJson['assetsLibrary'];
             $toSaveAssetsLibrary = [];
@@ -63,6 +69,8 @@ class SharedDownloadController extends Container implements Module
             $differ->set($toSaveAssetsLibrary);
             $optionsHelper->set('assetsLibrary', $differ->get());
         }
+
+        return true;
     }
 
     protected function processLibrary($asset)

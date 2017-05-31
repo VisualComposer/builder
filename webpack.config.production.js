@@ -10,7 +10,32 @@ module.exports = Object.assign(webpackConfig, {
     pe: './public/pe-main',
     front: './public/front-main',
     wpbackend: './public/wpbackend-main',
-    app: []
+    wpbackendswitch: './public/wpbackend-switch',
+    wpsettings: './public/wp-settings-main',
+    app: [],
+    vendor: [
+      'jquery',
+      'react',
+      'react-dom',
+      'classnames',
+      'lodash',
+      'vc-cake',
+      'babel-runtime/core-js.js',
+      'babel-runtime/helpers/createClass.js',
+      'babel-runtime/helpers/inherits.js',
+      'babel-runtime/helpers/typeof.js',
+      'babel-runtime/helpers/possibleConstructorReturn.js',
+      'babel-runtime/helpers/classCallCheck.js',
+      'babel-runtime/helpers/extends.js',
+      'babel-runtime/core-js/symbol.js',
+      'babel-runtime/core-js/symbol/iterator.js',
+      'babel-runtime/core-js/object/set-prototype-of.js',
+      'babel-runtime/core-js/object/get-prototype-of.js',
+      'babel-runtime/core-js/object/define-property.js',
+      'babel-runtime/core-js/object/create.js',
+      'babel-runtime/core-js/object/assign.js',
+      'babel-runtime/core-js/object/keys.js'
+    ]
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
@@ -24,6 +49,10 @@ module.exports = Object.assign(webpackConfig, {
   plugins: [
     new Collector(),
     new ExtractTextPlugin('[name].bundle.css'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor'
+    }),
+    new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')

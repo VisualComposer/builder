@@ -10,15 +10,14 @@ program
   .option('-d, --descr <s>', 'Add description to template')
   .option('-i, --id <n>', 'Add id to template')
   .option('-o, --output <s>', 'Path to output template bundle')
-  .action((jsonFile) => {
-    buildTemplateFromFile(jsonFile, program.title, program.descr, program.id, program.output)
+  .action((jsonFile, options) => {
+    buildTemplateFromFile(jsonFile, options.title, options.descr, options.id, options.output)
   })
 program.command('plugin')
   .description('Build VCWB Wordpress plugin zip bundle')
-  .option('-d, --dir <s>', 'Path where to create zip bundle')
+  .option('-p, --path <s>', 'Path where to create zip bundle')
   .option('-r, --repository <s>', 'Set repo for VCWB. Default: ' + settings.repo)
-  .action(() => {
-    console.log(program.dir)
-    // buildPlugin(program.dir, program.repository || settings.repo)
+  .action((options) => {
+    buildPlugin(options.path, options.repository || settings.repo)
   })
 program.parse(process.argv)
