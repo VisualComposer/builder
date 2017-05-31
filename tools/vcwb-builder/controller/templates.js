@@ -7,6 +7,7 @@ const path = require('path')
  * @param filePath
  */
 exports.buildFromFile = (filePath, title, description, id, dir) => {
+  console.log(title)
   fs.readFile(filePath, 'utf8', function (err, data) {
     if (err) {
       throw err

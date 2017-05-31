@@ -2,18 +2,25 @@
 const fs = require('fs-extra')
 const path = require('path')
 const exec = require('child_process').exec
+var Spinner = require('cli-spinner').Spinner
 /**
  * Build template from json file
  */
 exports.build = (dir, repo) => {
   dir = path.resolve(dir || process.cwd())
-  if(!fs.lstatSync(dir).isDirectory()) {
+  if (!fs.lstatSync(dir).isDirectory()) {
     console.log("Can't create bundle. Wrong working directory.")
   }
-  exec('cd ' + dir)
+  process.chdir(dir)
   // Clone repo
-  console.log('Cloning repo')
-  exec('git clone '  + repo)
+  console.log('Cloning repo...')
+  var spinner = new Spinner('processing.. %s');
+  spinner.setSpinnerString('|/-\\');
+  spinner.start()
+  exec('git clone ' + repo, (error, x, stderr) => {
+    spinner.stop(true)
+    console.log('Build complete')
+  })
   // Create bundle directory
   // Copy required files
   // Create zip file.
@@ -40,6 +47,5 @@ exports.build = (dir, repo) => {
    cp -fr public/sources/attributes/iconpicker/css/ ../vcwb-dev/public/sources/attributes/iconpicker/css
    find ../vcwb-dev/public/sources/elements -type f | grep -v /public/ | xargs rm -f
    */
-  console.log('build complete')
 }
 
