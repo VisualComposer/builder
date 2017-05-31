@@ -35,13 +35,11 @@ class WpWidgetsController extends Container implements Module
 
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::renderForm */
         $this->addFilter('vcv:ajaxForm:render:response', 'renderForm');
-        $this->addFilter('vcv:elements:widgets:defaultKey', 'defaultKey');
     }
 
     /**
      * @param $scripts
      * @param $payload
-     * @param \VisualComposer\Helpers\WpWidgets $widgetsHelper
      *
      * @return array
      */
@@ -52,27 +50,6 @@ class WpWidgetsController extends Container implements Module
         $variables[] = sprintf('<script>%s</script>', vcview('elements/widgets/variables'));
 
         return array_merge($scripts, $variables);
-    }
-
-    /**
-     * @param $scripts
-     * @param $payload
-     * @param \VisualComposer\Helpers\WpWidgets $widgetsHelper
-     *
-     * @return array
-     */
-    protected function generateElements($scripts, $payload, WpWidgets $widgetsHelper)
-    {
-        // WARN: Disabled Currently
-        // TODO: Remove later if not needed
-        /** @see visualcomposer/resources/views/elements/widgets/element.php */
-        $widgetScripts = [];
-        $widgetScripts[] = sprintf(
-            '<script src="%s"></script>',
-            $widgetsHelper->getWidgetsUrl()
-        );
-
-        return array_merge($scripts, $widgetScripts);
     }
 
     /**
@@ -98,7 +75,7 @@ class WpWidgetsController extends Container implements Module
             }
             $widgetKey = $requestHelper->input('vcv-widget-key');
             if (!$widgetKey) {
-                $widgetKey = vcfilter('vcv:elements:widgets:defaultKey', $requestHelper->input('vcv-element-tag'));
+                $widgetKey = $widgets->defaultKey($requestHelper->input('vcv-element-tag'));
             }
             // If still not key return!
             if (!$widgetKey) {
@@ -143,7 +120,7 @@ class WpWidgetsController extends Container implements Module
                 $instance = $instance['widget-form'][1];
             }
             if (!$widgetKey) {
-                $widgetKey = vcfilter('vcv:elements:widgets:defaultKey', $tag);
+                $widgetKey = $widgets->defaultKey($tag);
             }
             if (!$widgetKey) {
                 return $response;
@@ -155,13 +132,5 @@ class WpWidgetsController extends Container implements Module
         }
 
         return $response;
-    }
-
-    protected function defaultKey($tag, $payload, WpWidgets $widgetsHelper)
-    {
-        $all = $widgetsHelper->allGrouped();
-        $class = reset($all[ $tag ]);
-
-        return $class ? get_class($class) : false;
     }
 }

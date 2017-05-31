@@ -73,6 +73,7 @@ export default class SaveController {
     Promise.all(promises).then(() => {
       const requestData = {
         'vcv-action': 'setData:adminNonce',
+        'vcv-source-id': window.vcvSourceID,
         'vcv-ready': '1', // Used for backend editor when post being saved
         'vcv-content': content,
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
@@ -129,6 +130,7 @@ export default class SaveController {
       this.ajax(
         {
           'vcv-action': 'setData:adminNonce',
+          'vcv-source-id': window.vcvSourceID,
           'vcv-ready': '1', // Used for backend editor when post being saved
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
@@ -175,6 +177,7 @@ export default class SaveController {
     this.ajax(
       {
         'vcv-action': 'getData:adminNonce',
+        'vcv-source-id': window.vcvSourceID,
         'vcv-data': encodeURIComponent(JSON.stringify(data))
       },
       this.loadSuccess.bind(this, status),
