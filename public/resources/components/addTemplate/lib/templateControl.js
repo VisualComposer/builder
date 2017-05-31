@@ -164,6 +164,8 @@ export default class TemplateControl extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const templateThumbnail = localizations ? localizations.templateThumbnail : 'Template thumbnail'
     const templatePreview = localizations ? localizations.templatePreview : 'Template preview'
+    const addTemplate = localizations ? localizations.addTemplate : 'Add Template'
+    const removeTemplate = localizations ? localizations.removeTemplate : 'Remove Template'
 
     let { name, spinner, type, thumbnail, preview, description } = this.props
     let { previewVisible, previewStyle, letter } = this.state
@@ -215,10 +217,12 @@ export default class TemplateControl extends React.Component {
                 <span
                   className={applyClasses}
                   onClick={this.handleApplyTemplate}
+                  title={addTemplate}
                 />
                 <span
                   className={removeClasses}
                   style={{cursor: 'not-allowed'}}
+                  title={removeTemplate}
                 />
               </span>
             </span>
@@ -260,12 +264,12 @@ export default class TemplateControl extends React.Component {
               <span
                 className={applyClasses}
                 onClick={this.handleApplyTemplate}
-                title={'Add Template'}
+                title={addTemplate}
               />
               <span
                 className={removeClasses}
                 onClick={this.handleRemoveTemplate}
-                title={'Remove Template'}
+                title={removeTemplate}
               />
               <span className={spinnerClasses} />
             </span>

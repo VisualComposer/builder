@@ -23,6 +23,8 @@ export default class AttachImageItem extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const removeImage = localizations ? localizations.removeImage : 'Remove Image'
     let { childProps, className, ...rest } = this.props
     let { fieldKey, url, oneMoreControl, key } = childProps
     className = classNames(className, {
@@ -40,7 +42,7 @@ export default class AttachImageItem extends React.Component {
             {oneMoreControl}
             <a className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
               onClick={this.handleRemove.bind(this, key)}
-              title={'Remove Image'}
+              title={removeImage}
             >
               <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
             </a>
