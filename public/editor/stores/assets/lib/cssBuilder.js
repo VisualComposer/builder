@@ -1,4 +1,4 @@
-import { getService } from 'vc-cake'
+import {getService} from 'vc-cake'
 const cook = getService('cook')
 
 export default class CssBuilder {
@@ -175,13 +175,28 @@ export default class CssBuilder {
       }
     })
 
-    elementAssetsFiles.jsBundles.forEach((file) => {
-      let slug = this.slugify(file)
-      if (this.loadedJsFiles.indexOf(slug) === -1) {
-        this.loadedJsFiles.push(slug)
-        this.addJob(this.window.jQuery.getScript(file))
+    elementAssetsFiles.jsBundles.forEach(
+      (file) => {
+        let slug = this.slugify(file)
+        if (this.loadedJsFiles.indexOf(slug) === -1) {
+          this.loadedJsFiles.push(slug)
+          let scriptPromise = new Promise(
+            (resolve, reject) => {
+              this.window.jQuery.getScript(file).done(
+                () => {
+                  resolve(true)
+                }
+              ).fail(
+                () => {
+                  reject(false)
+                }
+              )
+            }
+          )
+          this.addJob(scriptPromise)
+        }
       }
-    })
+    )
   }
 
   addElementEditorFiles (data) {
