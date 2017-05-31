@@ -14,7 +14,7 @@ exports.build = (dir, repo) => {
   process.chdir(dir)
   // Clone repo
   console.log('\nCloning repo...')
-  var spinner = new Spinner('processing.. %s');
+  var spinner = new Spinner('processing.. %s')
   spinner.setSpinnerString('|/-\\');
   spinner.start()
   exec('git clone ' + repo, (error, x, stderr) => {
@@ -25,7 +25,7 @@ exports.build = (dir, repo) => {
     const repoPath = path.join(dir, 'builder')
     process.chdir(repoPath)
     console.log('\nBuild project...')
-    exec('php ci/composer.phar install --no-dev --optimize-autoloader && npm i --production && npm run build-production', (error, x, stderr) => {
+    exec('php ci/composer.phar install --no-dev --optimize-autoloader && npm install && npm run build-production', (error, x, stderr) => {
       if (stderr) {
         console.log(stderr)
       }
@@ -44,7 +44,6 @@ exports.build = (dir, repo) => {
         'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
         'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
         'cp -fr ' + repoPath + '/public/sources/assetsLibrary ./public/sources/ &' +
-        'cp -fr ' + repoPath + '/public/sources/elements ./public/sources/ &' +
         'cp -fr ' + repoPath + '/public/sources/images ./public/sources/', (error, x, stderr) => {
         if (stderr) {
           console.log(stderr)
@@ -89,4 +88,3 @@ exports.build = (dir, repo) => {
    find ../vcwb-dev/public/sources/elements -type f | grep -v /public/ | xargs rm -f
    */
 }
-
