@@ -48,11 +48,13 @@ class Controller extends Container implements Module
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             $postTypeHelper->setupPost($sourceId);
             ob_start();
+            wp_head();
             echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
-            // wp_print_head_scripts();
-            // wp_print_footer_scripts();
-            wp_print_styles();
-            print_late_styles();
+            wp_footer();
+//            wp_print_head_scripts();
+//            wp_print_footer_scripts();
+//            wp_print_styles();
+//            print_late_styles();
             $response = ob_get_clean();
         }
 
