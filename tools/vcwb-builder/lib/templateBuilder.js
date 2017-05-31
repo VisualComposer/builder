@@ -107,13 +107,22 @@ class TemplateBuilder {
    * @returns {*}
    */
   prepareValue (data) {
-    if (typeof data === 'string' && data.match(/(jpg|gif|png)$/)) {
-      const parsedUrl = url.parse(data)
-      const ext = path.extname((parsedUrl.pathname))
-      const fileName = 'assets/elements/' + crypto.createHash('md5').update(data).digest('hex') + ext
-      this.innerSources[ fileName ] = data
-      return fileName
+    if(typeof data !== 'string') {
+      return data
     }
+    let prefix = ''
+    if(!data.match(/^https?:\/\/.*\.(?:png|jpg|gif|avi|mp4)/g)) {
+      prefix = '[publicPath]/'
+    }
+    const found = data.match(/https?:\/\/.*\.(?:png|jpg|gif|avi|mp4)/g)
+    found && found.forEach((link) => {
+      const parsedUrl = url.parse(link)
+      const ext = path.extname((parsedUrl.pathname))
+      const fileName =  'assets/elements/' + crypto.createHash('md5').update(link).digest('hex') + ext
+      const fileRegexp = new RegExp(link, 'g')
+      data = data.replace(fileRegexp, prefix + fileName)
+      this.innerSources[fileName] = link
+    })
     return data
   }
 }

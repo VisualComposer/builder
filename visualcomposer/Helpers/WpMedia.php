@@ -263,7 +263,7 @@ class WpMedia implements Helper
 
     public function checkIsImage($string)
     {
-        $re = '/\.png|jpg|jpeg|gif$/';
+        $re = '/(\.png|jpg|jpeg|gif)$/';
 
         return preg_match($re, strtolower($string));
     }

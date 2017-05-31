@@ -16,7 +16,9 @@ class BundleBuilder {
       }
     })
   }
-
+  removeDir (removePath) {
+    fs.removeSync(path.join(this.dir, removePath))
+  }
   structurize (schema = []) {
     fs.ensureDirSync(this.dir)
     lodash.isArray(schema) && schema.forEach(p => { fs.ensureDirSync(path.join(this.dir, p))})
