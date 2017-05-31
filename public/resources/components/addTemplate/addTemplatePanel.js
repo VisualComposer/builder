@@ -34,11 +34,11 @@ export default class AddTemplatePanel extends React.Component {
         templates () { return templateManager.all() }
       },
       {
-        title: 'Hub Templates',
+        title: 'Templates',
         index: 2,
         id: 'hubTemplates',
         visible () { return this.templates().length },
-        templates () { return [] } // TODO: get templates from HUB
+        templates () { return templateManager.predefined() }
       },
       {
         title: 'Downloaded Templates',

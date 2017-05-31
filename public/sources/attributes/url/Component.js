@@ -45,6 +45,8 @@ if (typeof Object.assign !== 'function') {
 }
 
 export default class Url extends Attribute {
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+
   constructor (props) {
     super(props)
     this.delayedSearch = lodash.debounce(this.performSearch, 800)
@@ -154,12 +156,13 @@ export default class Url extends Attribute {
   }
 
   renderExistingPosts = () => {
+    const noExistingContentFound = this.localizations ? this.localizations.noExistingContentFound : 'There is no content with such term found.'
     let items = []
 
     if (!pagePosts.get().length) {
       return (
         <div className='vcv-ui-form-message'>
-          There is no content with such term found.
+          {noExistingContentFound}
         </div>
       )
     }
@@ -193,6 +196,8 @@ export default class Url extends Attribute {
   }
 
   renderExistingPostsBlock () {
+    const linkToExistingContent = this.localizations ? this.localizations.linkToExistingContent : 'Or link to existing content'
+    const searchExistingContent = this.localizations ? this.localizations.searchExistingContent : 'Search existing content'
     if (!this.state.shouldRenderExistingPosts) {
       return
     }
@@ -200,12 +205,12 @@ export default class Url extends Attribute {
     return (
       <div className='vcv-ui-form-group'>
         <p className='vcv-ui-form-helper'>
-          Or link to existing content
+          {linkToExistingContent}
         </p>
         <div className='vcv-ui-input-search'>
           <input type='search' className='vcv-ui-form-input'
             onChange={this.onSearchChange}
-            placeholder='Search existing content' />
+            placeholder={searchExistingContent} />
           <label className='vcv-ui-form-input-search-addon'>
             <i className='vcv-ui-icon vcv-ui-icon-search' />
           </label>
@@ -227,6 +232,14 @@ export default class Url extends Attribute {
   }
 
   drawModal () {
+    const insertEditLink = this.localizations ? this.localizations.insertEditLink : 'Insert or Edit Link'
+    const enterDestinationUrl = this.localizations ? this.localizations.enterDestinationUrl : 'Enter the destination URL'
+    const title = this.localizations ? this.localizations.title : 'Title'
+    const titleAttributeText = this.localizations ? this.localizations.titleAttributeText : 'Title attribute will be displayed on link hover'
+    const openLinkInTab = this.localizations ? this.localizations.openLinkInTab : 'Open link in a new tab'
+    const addNofollow = this.localizations ? this.localizations.addNofollow : 'Add nofollow option to link'
+    const save = this.localizations ? this.localizations.save : 'Save'
+    const close = this.localizations ? this.localizations.close : 'Close'
     return (
       <Modal
         show={this.state.isWindowOpen}
@@ -237,15 +250,15 @@ export default class Url extends Attribute {
         <div className='vcv-ui-modal'>
 
           <header className='vcv-ui-modal-header'>
-            <span className='vcv-ui-modal-close' onClick={this.cancel}>
+            <span className='vcv-ui-modal-close' onClick={this.cancel} title={close}>
               <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
             </span>
-            <h1 className='vcv-ui-modal-header-title'>Insert or Edit Link</h1>
+            <h1 className='vcv-ui-modal-header-title'>{insertEditLink}</h1>
           </header>
 
           <section className='vcv-ui-modal-content'>
             <p className='vcv-ui-form-helper'>
-              Enter the destination URL
+              {enterDestinationUrl}
             </p>
 
             <div className='vcv-ui-form-group'>
@@ -263,7 +276,7 @@ export default class Url extends Attribute {
 
             <div className='vcv-ui-form-group'>
               <span className='vcv-ui-form-group-heading'>
-               Title
+                {title}
               </span>
               <String
                 fieldKey='title'
@@ -271,20 +284,20 @@ export default class Url extends Attribute {
                 api={this.props.api}
                 updater={this.handleInputChange} />
               <p className='vcv-ui-form-helper'>
-                Title attribute will be displayed on link hover
+                {titleAttributeText}
               </p>
             </div>
 
             <div className='vcv-ui-form-group'>
               <Checkbox
                 fieldKey='targetBlank'
-                options={{ values: [ { label: 'Open link in a new tab', value: '1' } ] }}
+                options={{ values: [ { label: openLinkInTab, value: '1' } ] }}
                 value={this.state.unsavedValue.targetBlank ? [ '1' ] : []}
                 api={this.props.api}
                 updater={this.handleInputChange} />
               <Checkbox
                 fieldKey='relNofollow'
-                options={{ values: [ { label: 'Add nofollow option to link', value: '1' } ] }}
+                options={{ values: [ { label: addNofollow, value: '1' } ] }}
                 api={this.props.api}
                 value={this.state.unsavedValue.relNofollow ? [ '1' ] : []}
                 updater={this.handleInputChange} />
@@ -295,10 +308,10 @@ export default class Url extends Attribute {
           <footer className='vcv-ui-modal-footer'>
 
             <div className='vcv-ui-modal-actions'>
-              <span className='vcv-ui-modal-action' title='Save' onClick={this.save}>
+              <span className='vcv-ui-modal-action' title={save} onClick={this.save}>
                 <span className='vcv-ui-modal-action-content'>
                   <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
-                  <span>Save</span>
+                  <span>{save}</span>
                 </span>
               </span>
             </div>
@@ -311,16 +324,18 @@ export default class Url extends Attribute {
 
   render () {
     let { title, url } = this.state.value
+    const selectUrl = this.localizations ? this.localizations.selectUrl : 'Select URL'
+    const addLink = this.localizations ? this.localizations.addLink : 'Add Link'
 
     return (
       <div className='vcv-ui-form-link'>
         <button
           className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default'
           onClick={this.open}
-          title={'Add Link'}
+          title={addLink}
         >
           <i className='vcv-ui-icon vcv-ui-icon-link' />
-          <span>Select URL</span>
+          <span>{selectUrl}</span>
         </button>
         <div className='vcv-ui-form-link-data'>
           <span

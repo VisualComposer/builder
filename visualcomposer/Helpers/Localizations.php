@@ -55,6 +55,7 @@ class Localizations extends Container implements Helper
             'save' => __('Save', 'vcwb'),
             'templateName' => __('Template Name', 'vcwb'),
             'saveTemplate' => __('Save Template', 'vcwb'),
+            'removeTemplate' => __('Remove Template', 'vcwb'),
             'templateSaveFailed' => __('Template save failed.', 'vcwb'),
             'downloadMoreTemplates' => __('Download More Templates', 'vcwb'),
             'noTemplatesFound' => __(
@@ -123,6 +124,22 @@ class Localizations extends Container implements Helper
             'nothingFound' => __('Nothing Found', 'vcwb'),
             'templateThumbnail' => __('Template thumbnail', 'vcwb'),
             'templatePreview' => __('Template preview', 'vcwb'),
+            'addImage' => __('Add Image', 'vcwb'),
+            'removeImage' => __('Remove Image', 'vcwb'),
+            'moveImage' => __('Move Image', 'vcwb'),
+            'editReplaceImage' => __('Edit or Replace Image', 'vcwb'),
+            'addLink' => __('Add Link', 'vcwb'),
+            'selectUrl' => __('Select URL', 'vcwb'),
+            'insertEditLink' => __('Insert or Edit Link', 'vcwb'),
+            'urlInputPlaceholder' => __('Enter the destination URL', 'vcwb'),
+            'linkToExistingContent' => __('Or link to existing content', 'vcwb'),
+            'searchExistingContent' => __('Search existing content', 'vcwb'),
+            'noExistingContentFound' => __('There is no content with such term found.', 'vcwb'),
+            'openLinkInTab' => __('Open link in a new tab', 'vcwb'),
+            'addNofollow' => __('Add nofollow option to link', 'vcwb'),
+            'enterDestinationUrl' => __('Enter the destination URL', 'vcwb'),
+            'titleAttributeText' => __('Title attribute will be displayed on link hover', 'vcwb'),
+            'title' => __('Title', 'vcwb'),
         ];
 
         return $locale;
