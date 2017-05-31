@@ -38,19 +38,19 @@ exports.build = (dir, repo) => {
         'cp -fr ' + repoPath + '/plugin-wordpress.php  ./ &' +
         'cp -fr ' + repoPath + '/vendor  ./ &' +
         'cp -fr ' + repoPath + '/bootstrap  ./ &' +
-        'cp -fr ' + repoPath + '/cache  ./' +
-        'cp -fr ' + repoPath + '/public/dist/wp.* ../vcwb-dev/public/dist/ &' +
-        'cp -fr ' + repoPath + '/public/dist/pe.* ../vcwb-dev/public/dist/ &' +
-        'cp -fr ' + repoPath + '/public/dist/front.* ../vcwb-dev/public/dist/ &' +
-        'cp -fr ' + repoPath + '/public/dist/fonts ../vcwb-dev/public/dist/ &' +
-        'cp -fr ' + repoPath + '/public/sources/assetsLibrary ../vcwb-dev/public/sources/ &' +
-        'cp -fr ' + repoPath + '/public/sources/elements ../vcwb-dev/public/sources/ &' +
-        'cp -fr ' + repoPath + '/public/sources/images ../vcwb-dev/public/sources/ &', (error, x, stderr) => {
+        'cp -fr ' + repoPath + '/cache  ./ &' +
+        'cp -fr ' + repoPath + '/public/dist/wp.* ./public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/dist/pe.* ./public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/sources/assetsLibrary ./public/sources/ &' +
+        'cp -fr ' + repoPath + '/public/sources/elements ./public/sources/ &' +
+        'cp -fr ' + repoPath + '/public/sources/images ./public/sources/', (error, x, stderr) => {
         if (stderr) {
           console.log(stderr)
         }
         process.chdir(dir)
-        console.log('\n'' + 'Building zip bundle...')
+        console.log('\n' + 'Building zip bundle...')
         exec('zip -r ./visualcomposer.zip ./visualcomposer', () => {
           spinner.stop(true)
           // exec('rm -rf ' + repoPath)
