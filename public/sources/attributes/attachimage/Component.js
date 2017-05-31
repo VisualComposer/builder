@@ -187,6 +187,10 @@ export default class AttachImage extends Attribute {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addImage = localizations ? localizations.addImage : 'Add Image'
+    const editReplaceImage = localizations ? localizations.editReplaceImage : 'Edit or Replace Image'
+    const moveImage = localizations ? localizations.moveImage : 'Move Image'
     let { value } = this.state
     let { fieldKey } = this.props
     let images = []
@@ -194,13 +198,13 @@ export default class AttachImage extends Attribute {
     let oneMoreControl = ''
     if (this.props.options.multiple) {
       oneMoreControl = (
-        <a className='vcv-ui-form-attach-image-item-control' title={'Move Image'}>
+        <a className='vcv-ui-form-attach-image-item-control' title={moveImage}>
           <i className='vcv-ui-icon vcv-ui-icon-move' />
         </a>
       )
     } else {
       oneMoreControl = (
-        <a className='vcv-ui-form-attach-image-item-control' onClick={this.openLibrary} title={'Edit or Replace Image'}>
+        <a className='vcv-ui-form-attach-image-item-control' onClick={this.openLibrary} title={editReplaceImage}>
           <i className='vcv-ui-icon vcv-ui-icon-edit' />
         </a>
       )
@@ -244,7 +248,7 @@ export default class AttachImage extends Attribute {
 
     let addControl = (
       <li className='vcv-ui-form-attach-image-item'>
-        <a className='vcv-ui-form-attach-image-control' onClick={this.openLibrary} title={'Add Image'}>
+        <a className='vcv-ui-form-attach-image-control' onClick={this.openLibrary} title={addImage}>
           <i className='vcv-ui-icon vcv-ui-icon-add' />
         </a>
       </li>
