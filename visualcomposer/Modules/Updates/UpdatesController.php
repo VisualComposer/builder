@@ -27,7 +27,7 @@ class UpdatesController extends Container implements Module
     protected $updateChangelogUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.html';
 
     // @codingStandardsIgnoreLine
-    protected $updatePackageUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/visual-composer-website-builder.zip';
+    protected $updatePackageUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/visualcomposer.zip';
 
     public function __construct()
     {
