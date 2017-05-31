@@ -52,17 +52,19 @@ export default class startBlank extends React.Component {
     if (!blank) {
       elementsStorage.trigger('merge', data)
     }
-    this.handleCloseClick()
+    this.handleCloseClick(blank)
   }
 
-  handleCloseClick () {
-    const settings = {
-      action: 'add',
-      element: {},
-      tag: '',
-      options: {}
+  handleCloseClick (blank) {
+    if (blank) {
+      const settings = {
+        action: 'add',
+        element: {},
+        tag: '',
+        options: {}
+      }
+      workspaceSettings.set(settings)
     }
-    workspaceSettings.set(settings)
     this.props.unmountStartBlank()
   }
 
