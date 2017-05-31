@@ -38,12 +38,82 @@ export default class ContentEditableComponent extends React.Component {
     }
     this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
     this.handleGlobalClick = this.handleGlobalClick.bind(this)
+    this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
+  }
+
+  componentDidMount () {
+    const dom = ReactDOM.findDOMNode(this)
+    let editorSettings = {
+      delay: 1000,
+      toolbar: { buttons: [ 'bold', 'italic', 'underline' ] },
+      imageDragging: false,
+      paste: {
+        cleanPastedHTML: true,
+        cleanAttrs: [ 'style', 'dir' ],
+        cleanTags: [ 'label', 'meta' ],
+        unwrapTags: [ 'sub', 'sup' ]
+      },
+      contentWindow: this.iframeWindow,
+      ownerDocument: this.iframeDocument,
+      elementsContainer: this.iframeDocument.body
+    }
+    if (this.props.options && this.props.options.inlineMode === 'text') {
+      editorSettings.toolbar = false
+      editorSettings.keyboardCommands = {
+        commands: [
+          {
+            command: function () {},
+            key: 'B',
+            meta: true,
+            shift: false,
+            alt: false
+          }, {
+            command: function () {},
+            key: 'I',
+            meta: true,
+            shift: false,
+            alt: false
+          }, {
+            command: function () {},
+            key: 'U',
+            meta: true,
+            shift: false,
+            alt: false
+          }
+        ]
+      }
+      editorSettings.disableReturn = true
+      editorSettings.paste = {
+        forcePlainText: true,
+        leanPastedHTML: true
+      }
+    }
+
+    this.medium = new MediumEditor(dom, editorSettings)
+    this.medium.destroy()
+    this.updateHtmlWithServer(this.props.children)
+    vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+  }
+
+  componentWillUnmount () {
+    vcCake.ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.state.contentEditable !== true && nextProps.children !== this.state.realContent) {
       this.setState({ realContent: nextProps.children })
       this.updateHtmlWithServer(nextProps.children)
+    }
+  }
+
+  /**
+   * Hide inline editor, save changes
+   * @param data
+   */
+  handleLayoutCustomModeChange (data) {
+    if (this.state.contentEditable && data !== 'contentEditable') {
+      this.handleLayoutModeChange(null)
+      this.updateHtmlWithServer(this.state.realContent)
     }
   }
 
@@ -230,59 +300,6 @@ export default class ContentEditableComponent extends React.Component {
       }
     })
     this.mediumSelection = this.medium.exportSelection()
-  }
-
-  componentDidMount () {
-    const dom = ReactDOM.findDOMNode(this)
-    let editorSettings = {
-      delay: 1000,
-      toolbar: { buttons: [ 'bold', 'italic', 'underline' ] },
-      imageDragging: false,
-      paste: {
-        cleanPastedHTML: true,
-        cleanAttrs: [ 'style', 'dir' ],
-        cleanTags: [ 'label', 'meta' ],
-        unwrapTags: [ 'sub', 'sup' ]
-      },
-      contentWindow: this.iframeWindow,
-      ownerDocument: this.iframeDocument,
-      elementsContainer: this.iframeDocument.body
-    }
-    if (this.props.options && this.props.options.inlineMode === 'text') {
-      editorSettings.toolbar = false
-      editorSettings.keyboardCommands = {
-        commands: [
-          {
-            command: function () {},
-            key: 'B',
-            meta: true,
-            shift: false,
-            alt: false
-          }, {
-            command: function () {},
-            key: 'I',
-            meta: true,
-            shift: false,
-            alt: false
-          }, {
-            command: function () {},
-            key: 'U',
-            meta: true,
-            shift: false,
-            alt: false
-          }
-        ]
-      }
-      editorSettings.disableReturn = true
-      editorSettings.paste = {
-        forcePlainText: true,
-        leanPastedHTML: true
-      }
-    }
-
-    this.medium = new MediumEditor(dom, editorSettings)
-    this.medium.destroy()
-    this.updateHtmlWithServer(this.props.children)
   }
 
   updateHtmlWithServer (content) {
