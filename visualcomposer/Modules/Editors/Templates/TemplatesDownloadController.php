@@ -87,7 +87,14 @@ class TemplatesDownloadController extends Container implements Module
                 }
 
                 $template = $this->processTemplateMetaImages($template);
-                $templateElements = $template['data'];
+                $templateElements = json_decode(
+                    str_replace(
+                        '[publicPath]',
+                        $hubTemplatesHelper->getTemplatesUrl($template['id']),
+                        json_encode($template['data'])
+                    ),
+                    true
+                );
                 $elementsImages = $this->getTemplateElementImages($templateElements);
                 foreach ($elementsImages as $element) {
                     foreach ($element['images'] as $image) {
