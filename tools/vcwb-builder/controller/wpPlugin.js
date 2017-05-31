@@ -15,7 +15,7 @@ exports.build = (dir, repo) => {
   // Clone repo
   console.log('\nCloning repo...')
   var spinner = new Spinner('processing.. %s')
-  spinner.setSpinnerString('|/-\\');
+  spinner.setSpinnerString('|/-\\')
   spinner.start()
   exec('git clone ' + repo, (error, x, stderr) => {
     if (stderr) {
@@ -25,7 +25,7 @@ exports.build = (dir, repo) => {
     const repoPath = path.join(dir, 'builder')
     process.chdir(repoPath)
     console.log('\nBuild project...')
-    exec('php ci/composer.phar install --no-dev --optimize-autoloader && npm install && npm run build-production', (error, x, stderr) => {
+    exec('php ci/composer.phar update --prefer-dist --no-progress && npm install && npm run build-production', (error, x, stderr) => {
       if (stderr) {
         console.log(stderr)
       }
@@ -34,15 +34,18 @@ exports.build = (dir, repo) => {
       fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
       process.chdir(bundlePath)
       exec('cp -fr ' + repoPath + '/index.php ./ &' +
+        'cp -fr ' + repoPath + '/.env-copy ./.env &' +
         'cp -fr ' + repoPath + '/visualcomposer ./ &' +
         'cp -fr ' + repoPath + '/plugin-wordpress.php  ./ &' +
         'cp -fr ' + repoPath + '/vendor  ./ &' +
         'cp -fr ' + repoPath + '/bootstrap  ./ &' +
         'cp -fr ' + repoPath + '/cache  ./ &' +
-        'cp -fr ' + repoPath + '/public/dist/wp.* ./public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/dist/wp* ./public/dist/ &' +
         'cp -fr ' + repoPath + '/public/dist/pe.* ./public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/dist/vendor.bundle.js ./public/dist/ &' +
         'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
         'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +
         'cp -fr ' + repoPath + '/public/sources/assetsLibrary ./public/sources/ &' +
         'cp -fr ' + repoPath + '/public/sources/images ./public/sources/', (error, x, stderr) => {
         if (stderr) {
@@ -53,13 +56,11 @@ exports.build = (dir, repo) => {
         exec('zip -r ./visualcomposer.zip ./visualcomposer', () => {
           spinner.stop(true)
           // exec('rm -rf ' + repoPath)
-          // exec('rm -rf ' + bundlePath)
-          console.log("\nBuild complete")
+          exec('rm -rf ' + bundlePath)
+          console.log('\nBuild complete')
         })
-
       })
     })
-
   })
   // Create bundle directory
   // Copy required files
