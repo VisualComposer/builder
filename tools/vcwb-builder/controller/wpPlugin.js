@@ -13,13 +13,54 @@ exports.build = (dir, repo) => {
   }
   process.chdir(dir)
   // Clone repo
-  console.log('Cloning repo...')
+  console.log('\nCloning repo...')
   var spinner = new Spinner('processing.. %s');
   spinner.setSpinnerString('|/-\\');
   spinner.start()
   exec('git clone ' + repo, (error, x, stderr) => {
-    spinner.stop(true)
-    console.log('Build complete')
+    if (stderr) {
+      console.log(stderr)
+    }
+    const bundlePath = path.join(dir, 'visualcomposer')
+    const repoPath = path.join(dir, 'builder')
+    process.chdir(repoPath)
+    console.log('\nBuild project...')
+    exec('npm i --production && npm run build-production', (error, x, stderr) => {
+      if (stderr) {
+        console.log(stderr)
+      }
+      console.log('\nCoping files...')
+      fs.ensureDirSync(path.join(bundlePath, 'public/dist'))
+      fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
+      process.chdir(bundlePath)
+      exec('cp -fr ' + repoPath + '/index.php ./ &' +
+        'cp -fr ' + repoPath + '/visualcomposer ./ &' +
+        'cp -fr ' + repoPath + '/plugin-wordpress.php  ./ &' +
+        'cp -fr ' + repoPath + '/vendor  ./ &' +
+        'cp -fr ' + repoPath + '/bootstrap  ./ &' +
+        'cp -fr ' + repoPath + '/cache  ./' +
+        'cp -fr ' + repoPath + '/public/dist/wp.* ../vcwb-dev/public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/dist/pe.* ../vcwb-dev/public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/dist/front.* ../vcwb-dev/public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/dist/fonts ../vcwb-dev/public/dist/ &' +
+        'cp -fr ' + repoPath + '/public/sources/assetsLibrary ../vcwb-dev/public/sources/ &' +
+        'cp -fr ' + repoPath + '/public/sources/elements ../vcwb-dev/public/sources/ &' +
+        'cp -fr ' + repoPath + '/public/sources/images ../vcwb-dev/public/sources/ &', (error, x, stderr) => {
+        if (stderr) {
+          console.log(stderr)
+        }
+        process.chdir(dir)
+        console.log('\n'' + 'Building zip bundle...')
+        exec('zip -r ./visualcomposer.zip ./visualcomposer', () => {
+          spinner.stop(true)
+          // exec('rm -rf ' + repoPath)
+          // exec('rm -rf ' + bundlePath)
+          console.log("\nBuild complete")
+        })
+
+      })
+    })
+
   })
   // Create bundle directory
   // Copy required files

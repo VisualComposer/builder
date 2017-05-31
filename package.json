@@ -16,6 +16,7 @@
     "build-element": "babel-node ./tools/element-builder/index",
     "build-refactor": "webpack --progress --colors",
     "watch-refactor": "webpack --progress --colors --watch",
+    "build-production": "webpack --config webpack.config.production.js --progress --colors",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "author": "@vv",
