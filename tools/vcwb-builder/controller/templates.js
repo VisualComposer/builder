@@ -16,7 +16,7 @@ exports.buildFromFile = (filePath, title, description, id, dir) => {
       id = id || obj.id || +new Date
       title = title || obj.title
       description = description || obj.description
-      const builder = new TemplateBuilder(obj, title, description, id)
+      const builder = new TemplateBuilder(obj.template, title, description, id)
       const bundleDir = path.resolve(path.join(dir || path.dirname(filePath), id))
       const bundle = new BundleBuilder(bundleDir)
       bundle.structurize([ 'assets/meta', 'assets/elements' ])
