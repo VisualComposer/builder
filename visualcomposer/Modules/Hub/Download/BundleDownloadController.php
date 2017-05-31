@@ -10,6 +10,8 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\File;
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Hub\Bundle;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -20,7 +22,7 @@ class BundleDownloadController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_HUB_DOWNLOAD')) {
-            $this->addEvent(
+            $this->addFilter(
                 'vcv:activation:success',
                 'prepareBundleDownload',
                 50
@@ -28,29 +30,29 @@ class BundleDownloadController extends Container implements Module
         }
     }
 
-    protected function prepareBundleDownload(Bundle $hubHelper)
+    protected function prepareBundleDownload($response, Bundle $hubHelper, Filters $filterHelper)
     {
-        $hubHelper->removeTempBundleFolder();
-        $archive = $hubHelper->requestBundleDownload();
-
-        if (!is_wp_error($archive)) {
+        $status = false;
+        if ($response) {
+            $hubHelper->removeTempBundleFolder();
+            $archive = $hubHelper->requestBundleDownload();
             $archive = $this->readBundleJson($archive);
-            if (!is_wp_error($archive)) {
-                vcevent('vcv:hub:download:bundle', [$archive]);
-            }
+            $status = $filterHelper->fire('vcv:hub:download:bundle', true, ['archive' => $archive]);
+            $hubHelper->removeTempBundleFolder();
         }
-        // clean-up
-        $hubHelper->removeTempBundleFolder();
 
-        return $archive;
+        return $status;
     }
 
     protected function readBundleJson($archive)
     {
-        $hubHelper = vchelper('HubBundle');
-        $result = $hubHelper->unzipDownloadedBundle($archive);
-        if (!is_wp_error($result)) {
-            return $hubHelper->readBundleJson($hubHelper->getTempBundleFolder('bundle.json'));
+        $result = false;
+        if (!is_wp_error($archive)) {
+            $hubHelper = vchelper('HubBundle');
+            $result = $hubHelper->unzipDownloadedBundle($archive);
+            if (!is_wp_error($result)) {
+                return $hubHelper->readBundleJson($hubHelper->getTempBundleFolder('bundle.json'));
+            }
         }
 
         return $result;

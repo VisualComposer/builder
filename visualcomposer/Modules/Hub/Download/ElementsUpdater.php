@@ -20,11 +20,15 @@ class ElementsUpdater extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Download\ElementsUpdater::updateElements */
-        $this->addEvent('vcv:hub:download:bundle', 'updateElements');
+        $this->addFilter('vcv:hub:download:bundle', 'updateElements');
     }
 
-    protected function updateElements($bundleJson)
+    protected function updateElements($response, $payload)
     {
+        $bundleJson = $payload['archive'];
+        if (!$response || is_wp_error($bundleJson)) {
+            return false;
+        }
         $hubHelper = vchelper('HubElements');
         /** @var Differ $elementsDiffer */
         $hubElements = $hubHelper->getElements();
@@ -42,5 +46,7 @@ class ElementsUpdater extends Container implements Module
             $bundleJson['elements']
         );
         $hubHelper->setElements($elementsDiffer->get());
+
+        return true;
     }
 }

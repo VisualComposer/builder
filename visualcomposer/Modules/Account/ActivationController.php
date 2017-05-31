@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
@@ -112,8 +113,8 @@ class ActivationController extends Container implements Module
      * @param $payload
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Token $tokenHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      *
      * @return array|bool|\WP_Error
      */
@@ -122,8 +123,8 @@ class ActivationController extends Container implements Module
         $payload,
         Request $requestHelper,
         Token $tokenHelper,
-        Options $optionsHelper,
-        CurrentUser $currentUserHelper
+        CurrentUser $currentUserHelper,
+        Filters $filterHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
@@ -141,12 +142,7 @@ class ActivationController extends Container implements Module
             );
 
             if (is_array($result) && 200 === $result['response']['code']) {
-                $optionsHelper->set('activation-email', $requestHelper->input('email'));
-                $optionsHelper->set('activation-agreement', $requestHelper->input('agreement'));
-                $tokenHelper->setSiteAuthorized();
-                vcevent('vcv:activation:success');
-
-                return true;
+                return $filterHelper->fire('vcv:activation:success', true);
             } elseif (is_array($result)) {
                 return $result;
             }
@@ -158,17 +154,34 @@ class ActivationController extends Container implements Module
     /**
      * @param $response
      * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Token $tokenHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return mixed
      */
-    protected function requestActivationResponseCode($response, Options $optionsHelper)
-    {
-        if ($response !== true) {
+    protected function requestActivationResponseCode(
+        $response,
+        Options $optionsHelper,
+        Token $tokenHelper,
+        Request $requestHelper
+    ) {
+        if (is_wp_error($response) || $response !== true) {
             header('Status: 403', true, 403);
             header('HTTP/1.0 403 Forbidden', true, 403);
 
-            echo json_encode(is_array($response) ? ['message' => $response['body']] : ['status' => false]);
+            if (is_wp_error($response)) {
+                /** @var $response \WP_Error */
+                echo json_encode(['message' => implode('. ', $response->get_error_messages())]);
+            } elseif (is_array($response)) {
+                echo json_encode(['message' => $response['body']]);
+            } else {
+                echo json_encode(['status' => false]);
+            }
             exit;
+        } else {
+            $optionsHelper->set('activation-email', $requestHelper->input('email'));
+            $optionsHelper->set('activation-agreement', $requestHelper->input('agreement'));
+            $tokenHelper->setSiteAuthorized();
         }
 
         return $response;

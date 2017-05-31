@@ -33,7 +33,8 @@ class TemplatesDownloadController extends Container implements Module
     public function __construct(Options $optionsHelper)
     {
         if (vcvenv('VCV_TEMPLATES_DOWNLOAD')) {
-            $this->addEvent(
+            /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
+            $this->addFilter(
                 'vcv:hub:download:bundle',
                 'updateTemplates',
                 60
@@ -42,21 +43,29 @@ class TemplatesDownloadController extends Container implements Module
     }
 
     /**
-     * @param $bundleJson
+     * @param $response
+     * @param $payload
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
      * @param \VisualComposer\Helpers\Hub\Bundle $hubBundleHelper
      * @param \VisualComposer\Helpers\File $fileHelper
      * @param \VisualComposer\Helpers\Hub\Templates $hubTemplatesHelper
+     *
+     * @return bool
      */
     protected function updateTemplates(
-        $bundleJson,
+        $response,
+        $payload,
         Options $optionsHelper,
         EditorTemplates $editorTemplatesHelper,
         Bundle $hubBundleHelper,
         File $fileHelper,
         Templates $hubTemplatesHelper
     ) {
+        $bundleJson = $payload['archive'];
+        if (!$response || is_wp_error($bundleJson)) {
+            return false;
+        }
         if (isset($bundleJson['templates'])) {
             $templates = $bundleJson['templates'];
             $toSaveTemplates = [];
@@ -116,6 +125,8 @@ class TemplatesDownloadController extends Container implements Module
 
             $editorTemplatesHelper->setPredefined(array_values($toSaveTemplates));
         }
+
+        return true;
     }
 
     /**

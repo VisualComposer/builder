@@ -20,11 +20,15 @@ class GroupsUpdater extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Download\GroupsUpdater::updateGroups */
-        $this->addEvent('vcv:hub:download:bundle', 'updateGroups');
+        $this->addFilter('vcv:hub:download:bundle', 'updateGroups');
     }
 
-    protected function updateGroups($bundleJson)
+    protected function updateGroups($response, $payload)
     {
+        $bundleJson = $payload['archive'];
+        if (!$response || is_wp_error($bundleJson)) {
+            return false;
+        }
         $hubHelper = vchelper('HubGroups');
         /** @var Differ $groupsDiffer */
         $hubGroups = $hubHelper->getGroups();
@@ -40,5 +44,7 @@ class GroupsUpdater extends Container implements Module
             $bundleJson['groups']
         );
         $hubHelper->setGroups($groupsDiffer->get());
+
+        return true;
     }
 }
