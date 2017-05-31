@@ -7,7 +7,6 @@ const path = require('path')
  * @param filePath
  */
 exports.buildFromFile = (filePath, title, description, id, dir) => {
-  console.log(title)
   fs.readFile(filePath, 'utf8', function (err, data) {
     if (err) {
       throw err
@@ -20,6 +19,7 @@ exports.buildFromFile = (filePath, title, description, id, dir) => {
       const builder = new TemplateBuilder(obj.template, title, description, id)
       const bundleDir = path.resolve(path.join(dir || path.dirname(filePath), id))
       const bundle = new BundleBuilder(bundleDir)
+      bundle.removeDir('assets/elements')
       bundle.structurize([ 'assets/meta', 'assets/elements' ])
         .createJSON(builder.build().getBuildTemplate(), 'bundle').then(() => {
         console.log('JSON bundle created')
