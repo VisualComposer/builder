@@ -76,7 +76,7 @@ addService('myTemplates', {
     })
   },
   all (filter = null, sort = null) {
-    let myTemplates = getData('myTemplates') || []
+    let myTemplates = getData('myTemplates') ? getData('myTemplates') : []
     if (filter && getType.call(filter) === '[object Function]') {
       myTemplates = myTemplates.filter(filter)
     }
