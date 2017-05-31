@@ -51,7 +51,7 @@ addStorage('elements', (storage) => {
     }
     if (data.tag === 'column') {
       let rowElement = documentManager.get(data.parent)
-      rebuildRawLayout(rowElement.id, { action: 'columnAdd' }, documentManager)
+      rebuildRawLayout(rowElement.id, { action: 'columnAdd', columnSize: data.size }, documentManager)
       storage.trigger('update', rowElement.id, rowElement, '', options)
     }
     if (data.tag === 'row') {
