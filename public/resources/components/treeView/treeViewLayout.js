@@ -3,7 +3,7 @@ import React from 'react'
 import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'
 import Scrollbar from '../../scrollbar/scrollbar.js'
-
+import lodash from 'lodash'
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')
@@ -21,7 +21,7 @@ export default class TreeViewLayout extends React.Component {
 
   constructor (props) {
     super(props)
-    this.updateElementsData = this.updateElementsData.bind(this)
+    this.updateElementsData = lodash.debounce(this.updateElementsData.bind(this), 250)
     this.handleScrollToElement = this.handleScrollToElement.bind(this)
     this.interactWithContent = this.interactWithContent.bind(this)
     this.handleAddElement = this.handleAddElement.bind(this)
@@ -42,9 +42,7 @@ export default class TreeViewLayout extends React.Component {
   }
 
   componentDidMount () {
-    elementsStorage.state('document').onChange(this.updateElementsData, {
-      debounce: 250
-    })
+    elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     this.setState({
       header: document.querySelector('.vcv-ui-navbar-container'),
@@ -59,6 +57,7 @@ export default class TreeViewLayout extends React.Component {
   }
 
   componentWillUnmount () {
+    this.updateElementsData.cancel()
     elementsStorage.state('document').ignoreChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').ignoreChange(this.interactWithContent)
     if (this.scrollTimeout) {
