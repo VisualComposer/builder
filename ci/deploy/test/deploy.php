@@ -36,8 +36,8 @@ task(
         cd($sharedPath);
         run('npm update --loglevel=error');
         cd('{{release_path}}');
-        run('php tools/php-composer/cli.php');
         run('php ci/composer.phar update --prefer-dist --no-progress');
+        run('php tools/php-composer/cli.php');
         run('npm run build');
         run('bash tools/devCategories/cloneScript.sh');
         run('bash tools/devElements/cloneScript.sh');

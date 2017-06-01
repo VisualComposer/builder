@@ -25,7 +25,7 @@ exports.build = (dir, repo) => {
     const repoPath = path.join(dir, 'builder')
     process.chdir(repoPath)
     console.log('\nBuild project...')
-    exec('php tools/php-composer/cli.php && php ci/composer.phar update --prefer-dist --no-dev --no-progress && npm install && npm run build-production', (error, x, stderr) => {
+    exec('php ci/composer.phar update --prefer-dist --no-dev --no-progress && php tools/php-composer/cli.php && npm install && npm run build-production', (error, x, stderr) => {
       if (stderr) {
         console.log(stderr)
       }
