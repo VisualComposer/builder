@@ -12,6 +12,7 @@
 
 
     <rule ref="PSR2">
+        <exclude name="Generic.Files.LineLength.TooLong" />
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
         <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
@@ -64,9 +65,6 @@
         <exclude-pattern>./visualcomposer/Requirements.php</exclude-pattern>
     </rule>
     <rule ref="PSR2.Methods.FunctionCallSignature.Indent">
-        <exclude-pattern type="relative">./visualcomposer/resources/*</exclude-pattern>
-    </rule>
-    <rule ref="Generic.Files.LineLength.TooLong">
         <exclude-pattern type="relative">./visualcomposer/resources/*</exclude-pattern>
     </rule>
     <rule ref="Internal.NoCodeFound">
