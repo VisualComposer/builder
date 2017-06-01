@@ -1,14 +1,17 @@
 <?php
 /**
  * Plugin Name: Visual Composer Website Builder
- * Plugin URI: http://visualcomposer.io/
- * Description: WordPress Website Builder by WPBakery
- *
+ * Plugin URI: https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-backend&utm_medium=vc-wb-plugins-admin-page
+ * Description: Create your WordPress website with fast and easy to use drag and drop builder for experts and beginners.
  * Version: 0.9.2
- * Author: WPBakery
- * Author URI: http://wpbakery.com
- * Requires at least: 4.1
+ * Author: The Visual Composer Team
+ * Author URI: https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-backend&utm_medium=vc-wb-plugins-admin-author
+ * Copyright: (c) 2017 Visual Composer
+ * License: GNU General Public License v2.0
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * Requires at least: 4.5
  * Tested up to: 4.5
+ * Text Domain: vcwb
  */
 
 /**
