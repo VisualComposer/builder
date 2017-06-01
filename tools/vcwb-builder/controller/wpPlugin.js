@@ -58,8 +58,8 @@ exports.build = (dir, repo) => {
           console.log('\n' + 'Building zip bundle...')
           exec('zip -r ./visualcomposer.zip ./visualcomposer', () => {
             spinner.stop(true)
-            // exec('rm -rf ' + repoPath)
-            // exec('rm -rf ' + bundlePath)
+            exec('rm -rf ' + repoPath)
+            exec('rm -rf ' + bundlePath)
             console.log('\nBuild complete')
           })
         })
