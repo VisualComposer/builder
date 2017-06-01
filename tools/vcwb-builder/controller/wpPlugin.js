@@ -28,7 +28,7 @@ exports.build = (dir, repo) => {
     exec('rm -rf ./visualcomposer/Modules/Development && ' +
       'php ci/composer.phar install --no-dev --optimize-autoloader && ' +
       'php tools/php-composer/cli.php &&' +
-      'npm install && npm run build',
+      'npm install && npm run build-production',
       (error, x, stderr) => {
         if (error && stderr) {
           console.log(stderr)
@@ -51,7 +51,8 @@ exports.build = (dir, repo) => {
           // 'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
           // 'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
           'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +
-          'cp -fr ' + repoPath + '/public/sources/images ./public/sources/', (error, x, stderr) => {
+          'cp -fr ' + repoPath + '/public/sources/images ./public/sources/' +
+          'rm -fr ./public/sources/predefinedTemplates', (error, x, stderr) => {
           if (error && stderr) {
             console.log(stderr)
           }
