@@ -28,7 +28,7 @@ exports.build = (dir, repo) => {
     exec('rm -rf ./visualcomposer/Modules/Development && ' +
       'php ci/composer.phar install --no-dev --optimize-autoloader && ' +
       'php tools/php-composer/cli.php &&' +
-      'npm install && npm run build-production',
+      'npm install && npm run build',
       (error, x, stderr) => {
         if (error && stderr) {
           console.log(stderr)
@@ -39,6 +39,7 @@ exports.build = (dir, repo) => {
         process.chdir(bundlePath)
         exec('cp -fr ' + repoPath + '/index.php ./ &' +
           'cp -fr ' + repoPath + '/env.php ./ &' +
+          'cp -fr ' + repoPath + '/license.txt ./ &' +
           'cp -fr ' + repoPath + '/visualcomposer ./ &' +
           'cp -fr ' + repoPath + '/plugin-wordpress.php  ./ &' +
           'cp -fr ' + repoPath + '/vendor  ./ &' +
