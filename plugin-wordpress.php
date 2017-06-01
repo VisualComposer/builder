@@ -89,7 +89,7 @@ if (!defined('VCV_LAZY_LOAD')) {
 
 define('VCV_ACCOUNT_URL', 'http://test.account.visualcomposer.io');
 define('VCV_HUB_URL', 'http://test.account.visualcomposer.io');
-
+require_once __DIR__ . '/env.php';
 /**
  * Check PHP version.
  * Check WordPress version.
