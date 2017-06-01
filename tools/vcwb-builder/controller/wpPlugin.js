@@ -45,7 +45,6 @@ exports.build = (dir, repo) => {
         'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
         'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
         'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +
-        'cp -fr ' + repoPath + '/public/sources/assetsLibrary ./public/sources/ &' +
         'cp -fr ' + repoPath + '/public/sources/images ./public/sources/', (error, x, stderr) => {
         if (stderr) {
           console.log(stderr)
@@ -54,7 +53,7 @@ exports.build = (dir, repo) => {
         console.log('\n' + 'Building zip bundle...')
         exec('zip -r ./visualcomposer.zip ./visualcomposer', () => {
           spinner.stop(true)
-          // exec('rm -rf ' + repoPath)
+          exec('rm -rf ' + repoPath)
           exec('rm -rf ' + bundlePath)
           console.log('\nBuild complete')
         })
