@@ -44,11 +44,11 @@ exports.build = (dir, repo) => {
           'cp -fr ' + repoPath + '/vendor  ./ &' +
           'cp -fr ' + repoPath + '/bootstrap  ./ &' +
           'cp -fr ' + repoPath + '/cache  ./ &' +
-          'cp -fr ' + repoPath + '/public/dist/wp* ./public/dist/ &' +
-          'cp -fr ' + repoPath + '/public/dist/pe.* ./public/dist/ &' +
+          'cp -fr ' + repoPath + '/public/dist/wpsettings* ./public/dist/ &' +
+          // 'cp -fr ' + repoPath + '/public/dist/pe.* ./public/dist/ &' +
           'cp -fr ' + repoPath + '/public/dist/vendor.bundle.js ./public/dist/ &' +
-          'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
-          'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
+          // 'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
+          // 'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
           'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +
           'cp -fr ' + repoPath + '/public/sources/images ./public/sources/', (error, x, stderr) => {
           if (error && stderr) {
