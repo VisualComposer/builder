@@ -86,6 +86,9 @@ addStorage('elements', (storage) => {
   })
   storage.on('remove', (id) => {
     let element = documentManager.get(id)
+    if (!element) {
+      return
+    }
     let parent = element && element.parent ? documentManager.get(element.parent) : false
     documentManager.delete(id)
     if (parent && !documentManager.children(parent.id).length && element.tag === isElementOneRelation(parent.id, documentManager, cook)) {
