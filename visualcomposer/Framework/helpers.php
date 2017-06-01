@@ -90,16 +90,7 @@ if (!function_exists('vcvenv')) {
      */
     function vcvenv($key, $default = null)
     {
-        $value = getenv($key);
-        if ($value === false) {
-            return $default;
-        }
-
-        $strHelper = vchelper('Str');
-        if ($strHelper->startsWith($value, '"') && $strHelper->endsWith($value, '"')) {
-            $value = substr($value, 1, -1);
-        }
-        $value = $strHelper->convert($value);
+        $value = defined($key) ? constant($key) : $default;
 
         return $value;
     }

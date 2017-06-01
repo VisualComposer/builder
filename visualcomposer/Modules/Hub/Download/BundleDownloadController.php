@@ -21,7 +21,7 @@ class BundleDownloadController extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_HUB_DOWNLOAD')) {
+        if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
             $this->addFilter(
                 'vcv:activation:success',
                 'prepareBundleDownload',

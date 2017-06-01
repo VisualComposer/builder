@@ -15,7 +15,7 @@ class AssetsShared extends Container implements Helper
 {
     public function getSharedAssets()
     {
-        if (vcvenv('VCV_EXTENSION_DOWNLOAD')) {
+        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             $optionsHelper = vchelper('Options');
 
             return $optionsHelper->get('assetsLibrary', []);

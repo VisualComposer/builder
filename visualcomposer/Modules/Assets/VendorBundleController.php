@@ -33,7 +33,7 @@ class VendorBundleController extends Container implements Module
     {
         wp_register_script(
             'vcv:assets:vendor:script',
-            vcvenv('VCV_EXTENSION_DOWNLOAD___!!!!')
+            vcvenv('VCV_ENV_EXTENSION_DOWNLOAD___!!!!')
                 ?
                 content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
                 :
@@ -46,7 +46,7 @@ class VendorBundleController extends Container implements Module
         );
         wp_register_script(
             'vcv:assets:front:script',
-            vcvenv('VCV_EXTENSION_DOWNLOAD')
+            vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                 ?
                 content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/front.bundle.js?' . VCV_VERSION
                 :
@@ -67,7 +67,7 @@ class VendorBundleController extends Container implements Module
             [
                 sprintf(
                     '<script id="vcv-script-vendor-bundle" type="text/javascript" src="%s"></script>',
-                    vcvenv('VCV_EXTENSION_DOWNLOAD___!!!')
+                    vcvenv('VCV_ENV_EXTENSION_DOWNLOAD___!!!')
                         ?
                         content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
                         :

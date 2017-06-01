@@ -142,7 +142,7 @@ class Token extends Container implements Helper
      */
     public function getToken()
     {
-        if (vcvenv('VCV_TOKEN_GENERATION')) {
+        if (vcvenv('VCV_ENV_TOKEN_GENERATION')) {
             if ($this->isSiteAuthorized()) {
                 $token = $this->optionsHelper->get('siteAuthToken');
                 $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('siteAuthTokenTtl');

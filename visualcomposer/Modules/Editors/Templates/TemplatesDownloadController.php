@@ -32,7 +32,7 @@ class TemplatesDownloadController extends Container implements Module
      */
     public function __construct(Options $optionsHelper)
     {
-        if (vcvenv('VCV_TEMPLATES_DOWNLOAD')) {
+        if (vcvenv('VCV_ENV_TEMPLATES_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
             $this->addFilter(
                 'vcv:hub:download:bundle',

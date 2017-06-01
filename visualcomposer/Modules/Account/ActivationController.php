@@ -44,17 +44,17 @@ class ActivationController extends Container implements Module
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivationResponseCode', 100);
 
-        if (vcvenv('VCV_ELEMENT_DOWNLOAD')
+        if (vcvenv('VCV_ENV_ELEMENT_DOWNLOAD')
             && !vchelper('Options')
                 ->get(
-                    'resetAppliedV' . vcvenv('VCV_ELEMENT_DOWNLOAD_V')
+                    'resetAppliedV' . vcvenv('VCV_ENV_ELEMENT_DOWNLOAD_V')
                 )
         ) {
             vchelper('Options')
                 ->delete('hubElements')
                 ->delete('hubCategories')
                 ->delete('hubGroups')
-                ->set('resetAppliedV' . vcvenv('VCV_ELEMENT_DOWNLOAD_V'), 1);
+                ->set('resetAppliedV' . vcvenv('VCV_ENV_ELEMENT_DOWNLOAD_V'), 1);
         }
     }
 

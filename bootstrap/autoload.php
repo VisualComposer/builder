@@ -17,16 +17,6 @@ if (!defined('ABSPATH')) {
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
 
-// Environment variables
-if (class_exists('\Dotenv\Dotenv')) {
-    $className = '\Dotenv\Dotenv';
-    $env = new $className(__DIR__ . '/..');
-    if (is_object($env)) {
-        /** @var $env \Dotenv\Dotenv */
-        $env->load();
-    }
-}
-
 if (VCV_LAZY_LOAD) {
     add_action('vcv:bootstrap:lazyload', 'vcvboot');
 } else {
