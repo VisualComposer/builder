@@ -2,9 +2,10 @@
 
 namespace ComposerHooks;
 
-require_once(__DIR__ . '/../../vendor/autoload.php');
+define('ABSPATH', true);
 
-$registry = new Registry();
-$registry::callHooks();
+require_once(__DIR__ . '/../../vendor/autoload.php');
+require_once(__DIR__ . '/Hooks/Autoload.php');
+\ComposerHooks\Hooks\Autoload::call();
 
 echo 'Hooks done!';
