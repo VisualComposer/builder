@@ -6,7 +6,7 @@ let autoprefixer = require('autoprefixer')
 let webpack = require('webpack')
 
 module.exports = {
-  devtool: 'eval',
+  // devtool: 'eval',
   entry: {
     node: './public/node-main',
     wp: './public/wp-main',
@@ -160,8 +160,8 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        exclude: /node_modules/,
-        // exclude: new RegExp('node_modules\\' + path.sep + '(?!postcss-prefix-url)'),
+        // exclude: /node_modules/,
+        exclude: new RegExp('node_modules\\' + path.sep + '(?!postcss-prefix-url)'),
         query: {
           // https://github.com/babel/babel-loader#options
           cacheDirectory: true
