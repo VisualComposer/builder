@@ -44,8 +44,8 @@ class Elements implements Helper
     protected function updateElementData($key, $merged)
     {
         $merged['bundlePath'] = $this->getElementUrl($key . '/public/dist/element.bundle.js');
-        $merged['elementPath'] = $this->getElementUrl($key . '/' . $key);
-        $merged['assetsPath'] = $merged['elementPath'] . '/public';
+        $merged['elementPath'] = $this->getElementUrl($key . '/' . $key . '/');
+        $merged['assetsPath'] = $merged['elementPath'] . '/public/';
         if (isset($merged['settings'])) {
             $merged['settings']['metaThumbnailUrl'] = str_replace(
                 '[publicPath]',
