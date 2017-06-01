@@ -45,4 +45,6 @@ $(() => {
     iframeLoadEvent()
   }
 })
-window.app = vcCake
+if (vcCake.env('debug') === true) {
+  window.app = vcCake
+}

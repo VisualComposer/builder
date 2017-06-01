@@ -60,7 +60,7 @@ class Controller extends Container implements Module
             'addTheContentFilteringForPost',
             9999 // Do with high weight - when all other actions is done
         );
-        if (vcvenv('VCV_EXTENSION_DOWNLOAD')) {
+        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             $bundleJsUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.js?' . VCV_VERSION;
             $bundleCssUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.css?' . VCV_VERSION;
         } else {

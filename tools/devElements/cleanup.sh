@@ -31,7 +31,7 @@ declare -a arr=(
 'vimeoPlayer'
 'wpWidgetsCustom'
 'wpWidgetsDefault'
-'youtubePlayer',
+'youtubePlayer'
 'faqToggle')
 
 EXECDIR=`pwd`
@@ -42,6 +42,7 @@ do
    rm -f $EXECDIR/elements/$i/webpack.config.js
    rm -f $EXECDIR/elements/$i/.gitignore
    rm -f $EXECDIR/elements/$i/public/dist/vendor.bundle.js
+   rm -f $EXECDIR/elements/$i/public/dist/.gitkeep
    rm -f $EXECDIR/elements/$i/$i/settings.json
    rm -f $EXECDIR/elements/$i/$i/component.js
    rm -f $EXECDIR/elements/$i/$i/index.js

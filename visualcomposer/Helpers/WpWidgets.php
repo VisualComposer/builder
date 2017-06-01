@@ -108,6 +108,7 @@ class WpWidgets implements Helper
      */
     public function getWidgetsUrl()
     {
+        // TODO: Check this function, remove obsolete
         $url = vchelper('Url')->ajax(
             [
                 'vcv-action' => 'elements:widget:script:adminNonce',
@@ -230,5 +231,13 @@ class WpWidgets implements Helper
             $instance,
             $args
         );
+    }
+
+    public function defaultKey($tag)
+    {
+        $all = $this->allGrouped();
+        $class = reset($all[ $tag ]);
+
+        return $class ? get_class($class) : false;
     }
 }

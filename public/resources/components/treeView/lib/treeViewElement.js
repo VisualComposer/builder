@@ -153,6 +153,9 @@ export default class TreeViewElement extends React.Component {
   scrollToElementInsideFrame (e) {
     const elId = e.currentTarget.parentNode.dataset.vcvElement
     const editorEl = this.props.iframe.querySelector(`#el-${elId}`)
+    if (!editorEl) {
+      return
+    }
     const elRect = editorEl.getBoundingClientRect()
     const wh = document.getElementById('vcv-editor-iframe').contentWindow.innerHeight
     const below = elRect.bottom > wh && elRect.top > wh

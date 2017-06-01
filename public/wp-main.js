@@ -52,7 +52,9 @@ $(() => {
   }
 })
 
-window.app = vcCake
+if (vcCake.env('debug') === true) {
+  window.app = vcCake
+}
 // window.vcvAddElement = vcCake.getService('cook').add
 // window.React = React
 // window.vcvAPI = vcCake.getService('api')

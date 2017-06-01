@@ -33,11 +33,11 @@ task(
         $sharedPath = "{{deploy_path}}/shared";
         cd('{{release_path}}');
         run('cp package.json {{deploy_path}}/shared');
-        run('cp .env-copy .env');
         cd($sharedPath);
         run('npm update --loglevel=error');
         cd('{{release_path}}');
         run('php ci/composer.phar update --prefer-dist --no-progress');
+        run('php tools/php-composer/cli.php');
         run('npm run build');
         run('bash tools/devCategories/cloneScript.sh');
         run('bash tools/devElements/cloneScript.sh');

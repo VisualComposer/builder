@@ -28,7 +28,7 @@ class HubGroups extends Container implements Module
      */
     public function __construct()
     {
-        if (vcvenv('VCV_DEV_CATEGORIES')) {
+        if (vcvenv('VCV_ENV_DEV_CATEGORIES')) {
             /** @see \VisualComposer\Modules\Hub\Groups::dummySetGroups */
             $this->wpAddAction(
                 'init',

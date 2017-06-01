@@ -11,8 +11,10 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       let prevLayout = layout.slice()
       prevLayout.pop()
       let rowData = getRowData(prevLayout)
-
-      if ((Math.round(rowData.rowValue * 100) / 100) < 1) {
+      if (data.columnSize !== '100%' && data.columnSize !== undefined) {
+        layout = prevLayout
+        layout.push(data.columnSize)
+      } else if ((Math.round(rowData.rowValue * 100) / 100) < 1) {
         if (data.action === 'columnAdd') {
           let leftValue = 1 - rowData.rowValue
           layout = prevLayout

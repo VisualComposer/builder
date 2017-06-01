@@ -58,16 +58,16 @@ module.exports = Object.assign(webpackConfig, {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      sourceMap: false,
-      compress: {
-        warnings: false,
-        drop_console: true
-      },
-      output: {
-        comments: false
-      }
-    })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   minimize: true,
+    //   sourceMap: false,
+    //   compress: {
+    //     warnings: false,
+    //     drop_console: true
+    //   },
+    //   output: {
+    //     comments: false
+    //   }
+    // })
   ]
 })

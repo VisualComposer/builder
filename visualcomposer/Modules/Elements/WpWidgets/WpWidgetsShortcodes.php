@@ -62,7 +62,7 @@ class WpWidgetsShortcodes extends Container implements Module
         );
 
         if (!$atts['key']) {
-            $atts['key'] = vcfilter('vcv:elements:widgets:defaultKey', $atts['tag']);
+            $atts['key'] = $widgets->defaultKey($atts['tag']);
         }
         $instance = json_decode(rawurldecode($atts['instance']), true);
         if (is_array($instance) && isset($instance['widget-form'])) {

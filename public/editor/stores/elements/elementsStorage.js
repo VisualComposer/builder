@@ -8,15 +8,16 @@ addStorage('elements', (storage) => {
   const utils = getService('utils')
   const wordpressDataStorage = getStorage('wordpressData')
   const updateTimeMachine = () => {
-    wordpressDataStorage.state('status').set({status: 'changed'})
+    wordpressDataStorage.state('status').set({ status: 'changed' })
     historyStorage.trigger('add', documentManager.all())
   }
+  let substituteIds = {}
   const sanitizeData = (data) => {
     const newData = Object.assign({}, data || {})
     Object.keys(data).forEach((key) => {
-      let element = cook.get(data[key])
+      let element = cook.get(data[ key ])
       if (!element) {
-        delete newData[key]
+        delete newData[ key ]
       }
     })
     return newData
@@ -51,7 +52,7 @@ addStorage('elements', (storage) => {
     }
     if (data.tag === 'column') {
       let rowElement = documentManager.get(data.parent)
-      rebuildRawLayout(rowElement.id, { action: 'columnAdd' }, documentManager)
+      rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size }, documentManager)
       storage.trigger('update', rowElement.id, rowElement, '', options)
     }
     if (data.tag === 'row') {
@@ -85,6 +86,9 @@ addStorage('elements', (storage) => {
   })
   storage.on('remove', (id) => {
     let element = documentManager.get(id)
+    if (!element) {
+      return
+    }
     let parent = element && element.parent ? documentManager.get(element.parent) : false
     documentManager.delete(id)
     if (parent && !documentManager.children(parent.id).length && element.tag === isElementOneRelation(parent.id, documentManager, cook)) {
@@ -141,41 +145,28 @@ addStorage('elements', (storage) => {
     storage.state('document').set(documentManager.children(false))
     updateTimeMachine()
   })
-  storage.on('merge', (content) => {
-    const substituteIds = {}
-    Object.keys(content).sort((a, b) => {
-      if (!content[ a ].parent && content[ b ].parent) {
-        return -1
+  const mergeChildrenLayout = (data, parent) => {
+    const children = Object.keys(data).filter((key) => {
+      const element = data[ key ]
+      return element.parent === parent
+    })
+    children.sort((a, b) => {
+      if (typeof data[ a ].order === 'undefined') {
+        data[ a ].order = 0
       }
-      if (content[ a ].parent && !content[ b ].parent) {
-        return 1
+      if (typeof data[ b ].order === 'undefined') {
+        data[ b ].order = 0
       }
-      if (content[ a ].parent && content[ b ].parent && content[ a ].id === content[ b ].parent) {
-        return -1
-      }
-      if (content[ a ].parent && content[ b ].parent && content[ a ].parent === content[ b ].id) {
-        return 1
-      }
-      if (content[ a ].parent && content[ b ].parent && content[ a ].parent !== content[ b ].parent) {
-        return 0
-      }
-      if (content[ a ].order === undefined || content[ b ].order === undefined) {
-        return 0
-      }
-      if (content[ a ].order > content[ b ].order) {
-        return 1
-      }
-      if (content[ a ].order < content[ b ].order) {
-        return -1
-      }
-      return 0
-    }).forEach((key) => {
-      let element = Object.assign({}, content[ key ])
-      let newId = utils.createKey()
-      if (substituteIds[ element.id ]) {
-        element.id = substituteIds[ element.id ]
+      return data[ a ].order - data[ b ].order
+    })
+    children.forEach((key) => {
+      const element = data[ key ]
+      const newId = utils.createKey()
+      const oldId = '' + element.id
+      if (substituteIds[ oldId ]) {
+        element.id = substituteIds[ oldId ]
       } else {
-        substituteIds[ element.id ] = newId
+        substituteIds[ oldId ] = newId
         element.id = newId
       }
       if (element.parent && substituteIds[ element.parent ]) {
@@ -185,9 +176,15 @@ addStorage('elements', (storage) => {
         element.parent = substituteIds[ element.parent ]
       }
       delete element.order
-      storage.trigger('add', element, false, { silent: true })
+      storage.trigger('add', element, false, { silent: true, action: 'merge' })
+      mergeChildrenLayout(data, oldId)
     })
+  }
+  storage.on('merge', (content) => {
+    const layoutData = JSON.parse(JSON.stringify(content))
+    mergeChildrenLayout(layoutData, false)
     storage.state('document').set(documentManager.children(false), 'merge')
+    substituteIds = {}
     updateTimeMachine()
   }, {
     debounce: 250,

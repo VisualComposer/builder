@@ -26,7 +26,7 @@ class ElementsAutoload extends Autoload implements Module
     /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct()
     {
-        if (vcvenv('VCV_ELEMENT_DOWNLOAD')) {
+        if (vcvenv('VCV_ENV_ELEMENT_DOWNLOAD')) {
             $components = $this->getComponents();
             $this->bootstrapFiles($components);
             $this->initComponents($components);

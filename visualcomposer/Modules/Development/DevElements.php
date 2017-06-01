@@ -20,7 +20,7 @@ class DevElements extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_DEV_ELEMENTS')) {
+        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
             $this->wpAddAction(
                 'init',
                 'dummySetElements'

@@ -19,8 +19,5 @@
     "post-autoload-dump": [
       "ComposerHooks\\Registry::postUpdateCmd"
     ]
-  },
-  "require-dev": {
-    "vlucas/phpdotenv": "^2.4"
   }
 }

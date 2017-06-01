@@ -14,10 +14,10 @@ exports.build = (dir, repo) => {
   process.chdir(dir)
   // Clone repo
   console.log('\nCloning repo...')
-  var spinner = new Spinner('processing.. %s');
-  spinner.setSpinnerString('|/-\\');
+  var spinner = new Spinner('processing.. %s')
+  spinner.setSpinnerString('|/-\\')
   spinner.start()
-  exec('git clone ' + repo, (error, x, stderr) => {
+  exec('git clone --depth 1 ' + repo, (error, x, stderr) => {
     if (stderr) {
       console.log(stderr)
     }
@@ -25,42 +25,45 @@ exports.build = (dir, repo) => {
     const repoPath = path.join(dir, 'builder')
     process.chdir(repoPath)
     console.log('\nBuild project...')
-    exec('npm i --production && npm run build-production', (error, x, stderr) => {
-      if (stderr) {
-        console.log(stderr)
-      }
-      console.log('\nCoping files...')
-      fs.ensureDirSync(path.join(bundlePath, 'public/dist'))
-      fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
-      process.chdir(bundlePath)
-      exec('cp -fr ' + repoPath + '/index.php ./ &' +
-        'cp -fr ' + repoPath + '/visualcomposer ./ &' +
-        'cp -fr ' + repoPath + '/plugin-wordpress.php  ./ &' +
-        'cp -fr ' + repoPath + '/vendor  ./ &' +
-        'cp -fr ' + repoPath + '/bootstrap  ./ &' +
-        'cp -fr ' + repoPath + '/cache  ./' +
-        'cp -fr ' + repoPath + '/public/dist/wp.* ../vcwb-dev/public/dist/ &' +
-        'cp -fr ' + repoPath + '/public/dist/pe.* ../vcwb-dev/public/dist/ &' +
-        'cp -fr ' + repoPath + '/public/dist/front.* ../vcwb-dev/public/dist/ &' +
-        'cp -fr ' + repoPath + '/public/dist/fonts ../vcwb-dev/public/dist/ &' +
-        'cp -fr ' + repoPath + '/public/sources/assetsLibrary ../vcwb-dev/public/sources/ &' +
-        'cp -fr ' + repoPath + '/public/sources/elements ../vcwb-dev/public/sources/ &' +
-        'cp -fr ' + repoPath + '/public/sources/images ../vcwb-dev/public/sources/ &', (error, x, stderr) => {
-        if (stderr) {
+    exec('rm -rf ./visualcomposer/Modules/Development && ' +
+      'php ci/composer.phar install --no-dev --optimize-autoloader && ' +
+      'php tools/php-composer/cli.php &&' +
+      'npm install && npm run build-production',
+      (error, x, stderr) => {
+        if (error && stderr) {
           console.log(stderr)
         }
-        process.chdir(dir)
-        console.log('\n'' + 'Building zip bundle...')
-        exec('zip -r ./visualcomposer.zip ./visualcomposer', () => {
-          spinner.stop(true)
-          // exec('rm -rf ' + repoPath)
-          // exec('rm -rf ' + bundlePath)
-          console.log("\nBuild complete")
+        console.log('\nCoping files...')
+        fs.ensureDirSync(path.join(bundlePath, 'public/dist'))
+        fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
+        process.chdir(bundlePath)
+        exec('cp -fr ' + repoPath + '/index.php ./ &' +
+          'cp -fr ' + repoPath + '/env.php ./ &' +
+          'cp -fr ' + repoPath + '/visualcomposer ./ &' +
+          'cp -fr ' + repoPath + '/plugin-wordpress.php  ./ &' +
+          'cp -fr ' + repoPath + '/vendor  ./ &' +
+          'cp -fr ' + repoPath + '/bootstrap  ./ &' +
+          'cp -fr ' + repoPath + '/cache  ./ &' +
+          'cp -fr ' + repoPath + '/public/dist/wp* ./public/dist/ &' +
+          'cp -fr ' + repoPath + '/public/dist/pe.* ./public/dist/ &' +
+          'cp -fr ' + repoPath + '/public/dist/vendor.bundle.js ./public/dist/ &' +
+          'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
+          'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
+          'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +
+          'cp -fr ' + repoPath + '/public/sources/images ./public/sources/', (error, x, stderr) => {
+          if (error && stderr) {
+            console.log(stderr)
+          }
+          process.chdir(dir)
+          console.log('\n' + 'Building zip bundle...')
+          exec('zip -r ./visualcomposer.zip ./visualcomposer', () => {
+            spinner.stop(true)
+            exec('rm -rf ' + repoPath)
+            exec('rm -rf ' + bundlePath)
+            console.log('\nBuild complete')
+          })
         })
-
       })
-    })
-
   })
   // Create bundle directory
   // Copy required files
@@ -89,4 +92,3 @@ exports.build = (dir, repo) => {
    find ../vcwb-dev/public/sources/elements -type f | grep -v /public/ | xargs rm -f
    */
 }
-
