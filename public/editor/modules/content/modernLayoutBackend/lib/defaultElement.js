@@ -117,6 +117,7 @@ export default class DefaultElement extends React.Component {
         key={`representer-${label}-${cookElement.get('id')}`}
         fieldKey={label}
         value={element[ label ]}
+        element={cookElement.toJS()}
         {...this.props}
       />
     })

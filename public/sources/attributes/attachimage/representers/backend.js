@@ -3,13 +3,13 @@ import classNames from 'classnames'
 import Representer from '../../representer'
 
 export default class Backend extends Representer {
-  getUrls (value, assetsPath) {
+  getUrls (value) {
     let urls = []
     if (typeof value === 'string') {
-      urls = [ assetsPath + value ]
+      urls = [ this.getPublicImage(value) ]
     } else if (Array.isArray(value)) {
       urls = value.map((file) => {
-        return assetsPath + file
+        return this.getPublicImage(file)
       })
     } else {
       urls = value.urls
@@ -37,9 +37,18 @@ export default class Backend extends Representer {
     })
   }
 
+  getPublicImage (filename) {
+    let { metaAssetsPath } = this.props.element
+    if (!filename) {
+      return ''
+    }
+
+    return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
+  }
+
   render () {
     let { value } = this.state
-    let urls = this.getUrls(value, this.props.element.metaAssetsPath)
+    let urls = this.getUrls(value)
 
     let classes = classNames({
       'vcv-wpbackend-attributes-content': true,
