@@ -10,6 +10,7 @@ const cook = vcCake.getService('cook')
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
+
 export default class ContentEditableComponent extends React.Component {
   static spinnerHTML = '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
 
@@ -39,6 +40,9 @@ export default class ContentEditableComponent extends React.Component {
     this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
     this.handleGlobalClick = this.handleGlobalClick.bind(this)
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
+    this.handleMouseDown = this.handleMouseDown.bind(this)
+    this.handleMouseMove = this.handleMouseMove.bind(this)
+    this.handleMouseUp = this.handleMouseUp.bind(this)
   }
 
   componentDidMount () {
@@ -96,7 +100,13 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   componentWillUnmount () {
+    if (this.state.contentEditable) {
+      this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
+      this.medium.destroy()
+      this.removeOverlay()
+    }
     vcCake.ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+    vcCake.setData('vcv:layoutCustomMode', null)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -261,7 +271,7 @@ export default class ContentEditableComponent extends React.Component {
 
   /**
    * Automatically update controls container position after timeout
-   * @param element
+   * @param data
    */
   autoUpdateOverlayPosition (data) {
     this.stopAutoUpdateOverlayPosition()
@@ -371,9 +381,9 @@ export default class ContentEditableComponent extends React.Component {
       dangerouslySetInnerHTML: { __html: this.state.html },
       className: this.props.className,
       contentEditable: this.state.contentEditable,
-      onMouseDown: this.handleMouseDown.bind(this),
-      onMouseMove: this.handleMouseMove.bind(this),
-      onMouseUp: this.handleMouseUp.bind(this),
+      onMouseDown: this.handleMouseDown,
+      onMouseMove: this.handleMouseMove,
+      onMouseUp: this.handleMouseUp,
       'data-vcvs-html': this.state.realContent,
       'data-vcv-content-editable-inline-mode': this.props.options.inlineMode || 'html'
     }
