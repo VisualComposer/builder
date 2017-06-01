@@ -43,6 +43,7 @@ task(
         run('bash tools/devElements/cloneScript.sh');
         run('bash tools/devElements/buildScriptDeploy.sh');
         run('sed -i "s:../../shared/node_modules/:./node_modules/:g" public/dist/vendor.bundle.js');
+        run('sed -i "s:../../shared/node_modules/:./node_modules/:g" public/dist/wpsettings.bundle.js');
 //        run('find public/sources/newElements -maxdepth 1 -type d | tail -n +2 | xargs -I % sh -c \'cd % && npm run build && sed -i "s:../../../../../../shared/node_modules/:../../shared/node_modules/:g" public/dist/element.bundle.js\'');
     }
 )->desc('Install npm, composer and bower packages');
