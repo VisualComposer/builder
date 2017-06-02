@@ -53,6 +53,9 @@ class Controller extends Container implements Module
             $id = (int)$request->input('vcv-image-id');
             $size = $request->input('vcv-size');
             $image = $mediaHelper->getImageBySize(['attach_id' => $id, 'thumb_size' => $size]);
+            if (!is_array($response)) {
+                $response = [];
+            }
             $response['img'] = $image;
         }
 

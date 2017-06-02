@@ -14,12 +14,14 @@ use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class Controller.
  */
 class Controller extends Container implements Module
 {
+    use WpFiltersActions;
     use EventsFilters;
 
     /**
@@ -47,14 +49,21 @@ class Controller extends Container implements Module
         $response = '';
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             $postTypeHelper->setupPost($sourceId);
+            $this->wpAddFilter(
+                'print_scripts_array',
+                function ($list) {
+                    return array_diff($list, ['jquery-core', 'jquery', 'jquery-migrate']);
+                }
+            );
             ob_start();
-            wp_head();
+            do_action('template_redirect'); // This fixes visual composer shortcodes
+            //wp_head();
             echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
             wp_footer();
-//            wp_print_head_scripts();
-//            wp_print_footer_scripts();
-//            wp_print_styles();
-//            print_late_styles();
+            //            wp_print_head_scripts();
+            //            wp_print_footer_scripts();
+            //            wp_print_styles();
+            //            print_late_styles();
             $response = ob_get_clean();
         }
 
