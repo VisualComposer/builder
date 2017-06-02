@@ -2,10 +2,14 @@ import React from 'react'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import Url from '../url/Component'
-import AttachImageItem from './attachImageItem'
-import { sortable } from 'react-sortable'
+import AttachImageList from './attachImageList'
+import {SortableContainer, arrayMove} from 'react-sortable-hoc'
 
-let SortableImageItem = sortable(AttachImageItem)
+const SortableList = SortableContainer((props) => {
+  return (
+    <AttachImageList {...props} />
+  )
+})
 
 export default class AttachImage extends Attribute {
   static propTypes = {
@@ -18,44 +22,12 @@ export default class AttachImage extends Attribute {
     this.mediaUploader = null
     this.handleRemove = this.handleRemove.bind(this)
     this.handleUrlChange = this.handleUrlChange.bind(this)
-    this.updateSortable = this.updateSortable.bind(this)
     this.onMediaSelect = this.onMediaSelect.bind(this)
     this.onMediaOpen = this.onMediaOpen.bind(this)
     this.openLibrary = this.openLibrary.bind(this)
     this.getUrlHtml = this.getUrlHtml.bind(this)
-    this.state.value.draggingIndex = null
-  }
-
-  updateSortable (obj) {
-    let sortedValue = {
-      draggingIndex: obj.draggingIndex
-    }
-    if (obj.items) {
-      sortedValue.ids = []
-      sortedValue.urls = obj.items
-      obj.items.forEach((item) => {
-        sortedValue.ids.push(item.id)
-      })
-    }
-    this.updateFieldValue(sortedValue)
-  }
-
-  updateState (props) {
-    let value = props.value
-    if (!lodash.isObject(value)) {
-      value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
-    }
-
-    return {
-      value: value
-    }
-  }
-
-  openLibrary () {
-    if (!this.mediaUploader) {
-      throw new Error('Media uploader not found. Make sure you are running this on WordPress.')
-    }
-    this.mediaUploader.open()
+    this.onSortEnd = this.onSortEnd.bind(this)
+    // this.state.values.items = this.s
   }
 
   componentWillMount () {
@@ -78,6 +50,38 @@ export default class AttachImage extends Attribute {
     // Create a callback when the uploader is called
     this.mediaUploader.on('select', this.onMediaSelect)
     this.mediaUploader.on('open', this.onMediaOpen)
+  }
+
+  updateState (props) {
+    let value = props.value
+    if (!lodash.isObject(value)) {
+      value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
+    }
+
+    return {
+      value: value
+    }
+  }
+
+  openLibrary () {
+    if (!this.mediaUploader) {
+      throw new Error('Media uploader not found. Make sure you are running this on WordPress.')
+    }
+    this.mediaUploader.open()
+  }
+
+  updateSortable (obj) {
+    let sortedValue = {
+      draggingIndex: obj.draggingIndex
+    }
+    if (obj.items) {
+      sortedValue.ids = []
+      sortedValue.urls = obj.items
+      obj.items.forEach((item) => {
+        sortedValue.ids.push(item.id)
+      })
+    }
+    this.updateFieldValue(sortedValue)
   }
 
   handleRemove (key) {
@@ -186,84 +190,22 @@ export default class AttachImage extends Attribute {
     return urlHtml
   }
 
+  onSortEnd ({ oldIndex, newIndex }) {
+    let prevState = Object.assign({}, this.state.value)
+    let sortedValue = {}
+    sortedValue.urls = arrayMove(prevState.urls, oldIndex, newIndex)
+    sortedValue.ids = arrayMove(prevState.ids, oldIndex, newIndex)
+    this.setFieldValue(sortedValue)
+  }
+
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const addImage = localizations ? localizations.addImage : 'Add Image'
-    const editReplaceImage = localizations ? localizations.editReplaceImage : 'Edit or Replace Image'
-    const moveImage = localizations ? localizations.moveImage : 'Move Image'
-    let { value } = this.state
-    let { fieldKey } = this.props
-    let images = []
-
-    let oneMoreControl = ''
-    if (this.props.options.multiple) {
-      oneMoreControl = (
-        <a className='vcv-ui-form-attach-image-item-control' title={moveImage}>
-          <i className='vcv-ui-icon vcv-ui-icon-move' />
-        </a>
-      )
-    } else {
-      oneMoreControl = (
-        <a className='vcv-ui-form-attach-image-item-control' onClick={this.openLibrary} title={editReplaceImage}>
-          <i className='vcv-ui-icon vcv-ui-icon-edit' />
-        </a>
-      )
-    }
-
-    value && value.urls && value.urls.forEach((url, key) => {
-      let innerChildProps = {
-        key: key,
-        fieldKey: fieldKey,
-        url: url,
-        oneMoreControl: oneMoreControl,
-        handleRemove: this.handleRemove,
-        getUrlHtml: this.getUrlHtml
-      }
-
-      if (this.props.options.multiple) {
-        let childProps = {
-          childProps: innerChildProps
-        }
-
-        value.ids[ key ] && images.push(
-          <SortableImageItem
-            key={`sortable-attach-image-item-${fieldKey}-${key}`}
-            updateState={this.updateSortable}
-            items={value.urls}
-            draggingIndex={this.state.value.draggingIndex}
-            sortId={key}
-            outline='grid'
-            childProps={childProps}
-          />
-        )
-      } else {
-        value.ids[ key ] && images.push(
-          <AttachImageItem
-            key={key}
-            childProps={innerChildProps}
-          />
-        )
-      }
-    })
-
-    let addControl = (
-      <li className='vcv-ui-form-attach-image-item'>
-        <a className='vcv-ui-form-attach-image-control' onClick={this.openLibrary} title={addImage}>
-          <i className='vcv-ui-icon vcv-ui-icon-add' />
-        </a>
-      </li>
-    )
-
-    if (!this.props.options.multiple && value.urls && value.urls.length && value.ids[ 0 ]) {
-      addControl = ''
-    }
-
+    let useDragHandle = true
+    let dragClass = 'vcv-ui-form-attach-image-item--dragging'
     return (
       <div className='vcv-ui-form-attach-image'>
-        <ul className='vcv-ui-form-attach-image-items'>
-          {images}
-          {addControl}
-        </ul>
+        <SortableList {...this.props} helperClass={dragClass} useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
+          axis='xy' value={this.state.value} openLibrary={this.openLibrary} handleRemove={this.handleRemove}
+          getUrlHtml={this.getUrlHtml} />
       </div>
     )
   }
