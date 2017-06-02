@@ -33,7 +33,7 @@ export default class AttachImageItem extends React.Component {
     })
 
     return (
-      <li {...rest} className={className} key={fieldKey + '-li-:' + this.props.childProps.url.full}>
+      <li {...rest} className={className}>
         <div className='vcv-ui-form-attach-image-item-inner'>
           <figure className='vcv-ui-form-attach-image-thumbnail'>
             <img key={fieldKey + '-li-img-:' + url.full} src={url.thumbnail || url.full} />
