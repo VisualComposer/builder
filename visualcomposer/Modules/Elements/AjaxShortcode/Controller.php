@@ -57,14 +57,38 @@ class Controller extends Container implements Module
             );
             ob_start();
             do_action('template_redirect'); // This fixes visual composer shortcodes
-            //wp_head();
+            remove_action('wp_head', '_wp_render_title_tag', 1);
+            //            remove_action( 'wp_head',             'wp_enqueue_scripts',              1     );
+            remove_action('wp_head', 'wp_resource_hints', 2);
+            remove_action('wp_head', 'feed_links', 2);
+            remove_action('wp_head', 'feed_links_extra', 3);
+            remove_action('wp_head', 'rsd_link');
+            remove_action('wp_head', 'wlwmanifest_link');
+            remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
+            remove_action('wp_head', 'locale_stylesheet');
+            remove_action('publish_future_post', 'check_and_publish_future_post', 10, 1);
+            remove_action('wp_head', 'noindex', 1);
+            remove_action('wp_head', 'print_emoji_detection_script', 7);
+            //            remove_action('wp_head', 'wp_print_styles', 8);
+            //            remove_action('wp_head', 'wp_print_head_scripts', 9);
+            remove_action('wp_head', 'wp_generator');
+            remove_action('wp_head', 'rel_canonical');
+            remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
+            remove_action('wp_head', 'wp_custom_css_cb', 101);
+            remove_action('wp_head', 'wp_site_icon', 99);
+            wp_head();
+            $headContents = ob_get_clean();
+            ob_start();
             echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
+            $shortcodeContents = ob_get_clean();
+            ob_start();
             wp_footer();
+            $footerContents = ob_get_clean();
             //            wp_print_head_scripts();
             //            wp_print_footer_scripts();
             //            wp_print_styles();
             //            print_late_styles();
-            $response = ob_get_clean();
+            $response = $headContents . $footerContents . $shortcodeContents;
         }
 
         return $response;
