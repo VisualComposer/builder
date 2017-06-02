@@ -89,8 +89,11 @@ if (!defined('VCV_AJAX_REQUEST')) {
 if (!defined('VCV_LAZY_LOAD')) {
     define('VCV_LAZY_LOAD', false);
 }
-
-require_once __DIR__ . '/env.php';
+if (file_exists(__DIR__ . '/env-dev.php')) {
+    require_once __DIR__ . '/env-dev.php';
+} else {
+    require_once __DIR__ . '/env.php';
+}
 /**
  * Check PHP version.
  * Check WordPress version.
