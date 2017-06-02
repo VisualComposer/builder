@@ -114,7 +114,7 @@
     "postcss-custom-properties": "5.0.1",
     "postcss-loader": "1.0.0",
     "postcss-nested": "1.0.0",
-    "postcss-prefix-url": "git+ssh://git@github.com/say2me/postcss-prefix-url.git",
+    "postcss-prefix-url": "git://github.com/say2me/postcss-prefix-url.git",
     "raw-loader": "0.5.1",
     "react": "15.3.2",
     "react-ace": "3.6.1",
