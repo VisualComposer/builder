@@ -2,6 +2,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 const exec = require('child_process').exec
+const spawn = require('child_process').spawn
 var Spinner = require('cli-spinner').Spinner
 /**
  * Build template from json file
@@ -51,8 +52,8 @@ exports.build = (dir, repo) => {
           // 'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
           // 'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
           'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +
-          'cp -fr ' + repoPath + '/public/sources/images ./public/sources/' +
-          'rm -fr ./public/sources/predefinedTemplates', (error, x, stderr) => {
+          'rsync -av --progress ' + repoPath + '/public/sources/images ./public/sources/ ' +
+          '--exclude predefinedTemplates', (error, x, stderr) => {
           if (error && stderr) {
             console.log(stderr)
           }

@@ -1,4 +1,4 @@
-# Visual Composer 5.0 (Сurry)
+# Visual Composer Website Builder
 
 [![build status](https://gitlab.com/visual-composer-website-builder/builder/badges/master/build.svg)](https://gitlab.com/visual-composer-website-builder/builder/commits/master)
 [![coverage report](https://gitlab.com/visual-composer-website-builder/builder/badges/master/coverage.svg)](https://gitlab.com/visual-composer-website-builder/builder/commits/master)
@@ -26,14 +26,16 @@ Contributor should try not to use jQuery and jQuery-like libraries.
 
 ### Installation instruction
 ``` sh
+$ npm install
 $ npm install standard -g
 $ npm install -g eslint eslint-config-standard eslint-plugin-standard eslint-plugin-promise  eslint-config-standard-react eslint-config-standard-jsx eslint-plugin-react
 ```
+### Environment Configuration in Javascript
+If you want to setup custom environment configuration settings,3 you can use *custom-variables.js* by c it from default-variables.js.
 
-
-## Javascript demo editor
-This is standalone editor via node server with webpack dev-server support.
-
+### Feature toggle and environment Configuration in Javascript
+To build a deliverable product use feature toggle to enable/disable some code features and fixes. Default state of feature toggle is set in *default-variables.js*. 
+You can customize settings by creating copy of variables file *default-variables.js* with a git ignored filename *custom-variables.js*. 
 
 ### Install dependencies
 ```sh
@@ -47,29 +49,29 @@ $ npm install
 $ cd _infrastructure
 $ ./install-hooks
 ```
-
+### Build project
+```sh
+$ npm run build
+```
 ### Start watcher
 ```sh
-$ webpack && webpack --progress --colors --watch
+$ npm run watch
 ```
 
-### Start Demo server
+###  Add dev elements for macOs users ###
 ```sh
-$ webpack-dev-server --content-base public/
-```
-### Start Debug demo server
-
-```sh
-$ npm start
+bash tools/devElements/cloneScript.sh
+bash tools/devElements/buildScriptWindows.sh
 ```
 
-URL in your browser: http://localhost:3000/webpack-dev-server/index.html
-
-
-load:navbar,add-element,edit-element,
-load:
-
-### Compile element ###
+###  Add dev elements for Windows users ###
 ```sh
-node tools/element-builder/index.js --uuid=elementTag --output=file path/to/element/
+bash tools/devElements/cloneScript.sh
+bash tools/devElements/buildScriptMac.sh
+```
+
+## Build Wordpress plugin package(zip archive)
+```sh
+node tools/vcwb-builder/builder plugin -p <directoryWhereToPlaceZipArchive>
+node tools/vcwb-builder/builder plugin --help # for more info
 ```
