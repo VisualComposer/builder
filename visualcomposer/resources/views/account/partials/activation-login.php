@@ -40,7 +40,7 @@ if (!defined('ABSPATH')) {
            </span>
             <span class="vcv-popup-form-checkbox-label"><?php printf(
                     __('I have read and agree to the <a href="%1$s" target="_blank">Terms of Use</a> and <a href="%2$s"" target="_blank">Cloud Access Terms</a>', 'vcwb'),
-                    'https://visualcomposer.io/terms-of-service',
+                    'https://visualcomposer.io/terms-of-use',
                     'http://visualcomposer.io/cloud-access-terms'
                 ); ?></span>
         </div>
