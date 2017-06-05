@@ -2,6 +2,7 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import ContentControls from '../../../../../resources/components/layoutHelpers/contentControls/component'
 import ContentEditableComponent from '../../../../../resources/components/layoutHelpers/contentEditable/contentEditableComponent'
+import DynamicWordpressContent from '../../../../../resources/components/layoutHelpers/dynamicWordpressContent/dynamicWordpressContent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -67,9 +68,15 @@ export default class Element extends React.Component {
     Object.keys(atts).forEach((key) => {
       let attrSettings = element.settings(key)
       if (attrSettings.settings.options && attrSettings.settings.options.inline === true) {
-        layoutAtts[ key ] = <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
-          {atts[ key ] || ''}
-        </ContentEditableComponent>
+        if (vcCake.env('FEATURE_SHORTCODES_WRAPPER')) {
+          layoutAtts[ key ] = <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
+            <DynamicWordpressContent content={atts[ key ] || ''} />
+          </ContentEditableComponent>
+        } else {
+          layoutAtts[ key ] = <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
+            {atts[ key ] || ''}
+          </ContentEditableComponent>
+        }
       } else {
         layoutAtts[ key ] = atts[ key ]
       }
