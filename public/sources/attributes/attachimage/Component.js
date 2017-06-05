@@ -27,7 +27,6 @@ export default class AttachImage extends Attribute {
     this.openLibrary = this.openLibrary.bind(this)
     this.getUrlHtml = this.getUrlHtml.bind(this)
     this.onSortEnd = this.onSortEnd.bind(this)
-    // this.state.values.items = this.s
   }
 
   componentWillMount () {
@@ -68,20 +67,6 @@ export default class AttachImage extends Attribute {
       throw new Error('Media uploader not found. Make sure you are running this on WordPress.')
     }
     this.mediaUploader.open()
-  }
-
-  updateSortable (obj) {
-    let sortedValue = {
-      draggingIndex: obj.draggingIndex
-    }
-    if (obj.items) {
-      sortedValue.ids = []
-      sortedValue.urls = obj.items
-      obj.items.forEach((item) => {
-        sortedValue.ids.push(item.id)
-      })
-    }
-    this.updateFieldValue(sortedValue)
   }
 
   handleRemove (key) {

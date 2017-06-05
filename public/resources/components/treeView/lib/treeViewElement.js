@@ -174,6 +174,9 @@ export default class TreeViewElement extends React.Component {
     const { scrollValue } = this.props
     const elId = e.currentTarget.parentNode.dataset.vcvElement
     const editorEl = document.getElementById(`el-${elId}-temp`)
+    if (!editorEl) {
+      return
+    }
     const elRect = editorEl.getBoundingClientRect()
     const isFixed = window.getComputedStyle(this.layoutBar).position === 'fixed'
     const wh = window.innerHeight

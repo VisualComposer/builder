@@ -127,7 +127,6 @@
     "react-dnd-touch-backend": "0.3.3",
     "react-dom": "15.3.2",
     "react-motion": "0.4.5",
-    "react-sortable": "github:angeiii/react-sortable.git#1.2.1.1",
     "react-sortable-hoc": "^0.6.3",
     "react-textarea-autosize": "4.0.5",
     "react-tinymce": "0.5.1",
