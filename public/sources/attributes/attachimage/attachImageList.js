@@ -94,12 +94,10 @@ export default class AttachImageList extends React.Component {
     }
 
     return (
-      <div className='vcv-ui-form-attach-image'>
-        <ul className='vcv-ui-form-attach-image-items'>
-          {images}
-          {addControl}
-        </ul>
-      </div>
+      <ul className='vcv-ui-form-attach-image-items'>
+        {images}
+        {addControl}
+      </ul>
     )
   }
 }
