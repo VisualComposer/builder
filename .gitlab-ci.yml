@@ -93,14 +93,33 @@ test:php:modules:
   tags:
     - docker
 
-deploy:test:alpha:
-  image: wpbakery/ci-deployer
-  stage: deploy
+deploying:
+  image: wpbakery/ci-wordpress-npm
+  stage:  deploy
   script:
-    - cd ci/deploy/test && dep deploy test
+   - mkdir dist/
+   - node tools/vcwb-builder/builder.js plugin -p dist/
+   - unzip dist/visualcomposer.zip -d dist/
+   - echo "$CI_PROJECT_URL/builds/$CI_BUILD_ID/artifacts/file/visualcomposer.zip" > $CI_PROJECT_DIR/build.log
+   - echo "$SSH_PRIVATE_KEY" >> id_rsa
+   - chmod 700 id_rsa
+   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+   - rsync -rav --delete -e 'ssh -i id_rsa' dist/visualcomposer webuser@188.226.252.114:/var/www/test-deploy/
+  artifacts:
+   name: "${CI_BUILD_NAME}_${CI_BUILD_REF_NAME}"
+   expire_in: 7d
+   paths:
+    - dist/visualcomposer.zip
+    - build.log
   tags:
    - docker
   only:
    - tags
    - triggers
 
+#pushSlack:
+#  image: wpbakery/ci-wordpress-npm
+#  stage: push
+#  script: "curl -X POST -H 'Content-type: application/json' --data \"{'text':'New build created for *$CI_PROJECT_PATH* ($CI_BUILD_REF_NAME) <$(cat build.log)|visualcomposer.zip>.'}\" $CI_SLACK_URL"
+#  tags:
+#    - docker
