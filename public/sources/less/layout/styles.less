@@ -21,19 +21,33 @@
   flex: 0 0 auto;
   display: flex;
   flex-flow: column nowrap;
-  //position: relative;
-  //z-index: @editor-zindex;
+
+  &.vcv-inline-editor--active {
+    .vcv-layout-bar-header {
+      position: relative;
+    }
+
+    .vcv-layout-bar-header::after,
+    .vcv-layout-bar-content-start::after,
+    .vcv-layout-bar-content-end::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: @editor-layout-inline-edit-overlay-zindex;
+      background: @editor-layout-inline-edit-overlay-background;
+      transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
+    }
+  }
 }
 
 .vcv-layout-content {
   flex: 1 1 auto;
   display: flex;
   flex-flow: column nowrap;
-  //position: relative;
-  //z-index: @editor-content-zindex;
-  //align-items: center;
   background: @editor-layout-content-background;
-  //overflow: auto;
 }
 
 //== iframe
