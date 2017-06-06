@@ -186,9 +186,10 @@ export default class AttachImage extends Attribute {
   render () {
     let useDragHandle = true
     let dragClass = 'vcv-ui-form-attach-image-item--dragging'
+    let metaElementPath = this.props.element.data && this.props.element.data.metaAssetsPath
     return (
       <div className='vcv-ui-form-attach-image'>
-        <SortableList {...this.props} helperClass={dragClass} useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
+        <SortableList {...this.props} metaElementPath={metaElementPath} helperClass={dragClass} useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
           axis='xy' value={this.state.value} openLibrary={this.openLibrary} handleRemove={this.handleRemove}
           getUrlHtml={this.getUrlHtml} />
       </div>

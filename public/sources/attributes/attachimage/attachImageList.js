@@ -55,27 +55,28 @@ export default class AttachImageList extends React.Component {
 
     value && value.urls && value.urls.forEach((url, index) => {
       let childProps = {
-        key: index,
-        fieldKey: fieldKey,
         url: url,
         oneMoreControl: oneMoreControl,
         handleRemove: this.props.handleRemove,
-        getUrlHtml: this.props.getUrlHtml
+        getUrlHtml: this.props.getUrlHtml,
+        imgId: value.ids[ index ],
+        metaAssetsPath: this.props.metaElementPath,
+        indexValue: index,
+        index: index
       }
 
       if (this.props.options.multiple) {
         value.ids[ index ] && images.push(
           <SortableItem
             key={`sortable-attach-image-item-${fieldKey}-${index}`}
-            childProps={childProps}
-            index={index}
+            {...childProps}
           />
         )
       } else {
         value.ids[ index ] && images.push(
           <AttachImageItem
             key={index}
-            childProps={childProps}
+            {...childProps}
           />
         )
       }
