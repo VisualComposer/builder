@@ -31,6 +31,7 @@ export default class ContentEditableComponent extends React.Component {
   constructor (props) {
     super(props)
     this.iframe = document.querySelector('#vcv-editor-iframe')
+    this.layoutHeader = document.querySelector('#vcv-layout-header')
     this.iframeWindow = this.iframe && this.iframe.contentWindow
     this.iframeDocument = this.iframeWindow && this.iframeWindow.document
     this.state = {
@@ -106,6 +107,7 @@ export default class ContentEditableComponent extends React.Component {
   componentWillUnmount () {
     if (this.state.contentEditable) {
       this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
+      this.layoutHeader.removeEventListener('click', this.handleGlobalClick)
       this.medium.destroy()
       this.removeOverlay()
     }
@@ -129,12 +131,19 @@ export default class ContentEditableComponent extends React.Component {
       this.handleLayoutModeChange(null)
       this.updateHtmlWithServer(this.state.realContent)
     }
+
+    if (data === 'contentEditable') {
+      this.layoutHeader.classList.add('vcv-inline-editor--active')
+    } else {
+      this.layoutHeader.classList.remove('vcv-inline-editor--active')
+    }
   }
 
   handleLayoutModeChange (mode) {
     mode !== 'dnd' && this.setState({ contentEditable: mode === 'contentEditable', trackMouse: false })
     if (mode !== 'contentEditable') {
       this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
+      this.layoutHeader.removeEventListener('click', this.handleGlobalClick)
       this.medium.destroy()
       this.removeOverlay()
       // Save data to map to undo/Redo
@@ -376,6 +385,7 @@ export default class ContentEditableComponent extends React.Component {
         this.handleLayoutModeChange('contentEditable')
       }
       this.iframeWindow.addEventListener('click', this.handleGlobalClick)
+      this.layoutHeader.addEventListener('click', this.handleGlobalClick)
       this.setState({ html: this.state.realContent })
     }
   }
