@@ -98,6 +98,7 @@ deploying:
   stage:  deploy
   script:
    - mkdir dist/
+   - npm install
    - node tools/vcwb-builder/builder.js plugin -p dist/
    - unzip dist/visualcomposer.zip -d dist/
    - echo "$CI_PROJECT_URL/builds/$CI_BUILD_ID/artifacts/file/visualcomposer.zip" > $CI_PROJECT_DIR/build.log
