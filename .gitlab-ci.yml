@@ -129,3 +129,5 @@ pushSlack:
   script: "curl -X POST -H 'Content-type: application/json' --data \"{'text':'New build created for *$CI_PROJECT_PATH* ($CI_BUILD_REF_NAME) <$(cat build.log)|visualcomposer.zip>.'}\" $CI_SLACK_URL"
   tags:
     - docker
+  dependencies:
+    - deploying
