@@ -23,9 +23,13 @@
   flex-flow: column nowrap;
 
   &.vcv-inline-editor--active {
-    position: relative;
+    .vcv-layout-bar-header {
+      position: relative;
+    }
 
-    &::after {
+    .vcv-layout-bar-header::after,
+    .vcv-layout-bar-content-start::after,
+    .vcv-layout-bar-content-end::after {
       content: "";
       position: absolute;
       top: 0;
