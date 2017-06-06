@@ -99,13 +99,14 @@ deploying:
   script:
    - mkdir dist/
    - npm install
+   - mkdir -p ~/.ssh
+   - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
+   - chmod 700 ~/.ssh/id_rsa
+   - echo "$SSH_PRIVATE_KEY" >> id_rsa
+   - chmod 700 id_rsa
    - node tools/vcwb-builder/builder.js plugin -p dist/
    - unzip dist/visualcomposer.zip -d dist/
    - echo "$CI_PROJECT_URL/builds/$CI_BUILD_ID/artifacts/file/visualcomposer.zip" > $CI_PROJECT_DIR/build.log
-   - mkdir -p ~/.ssh
-   - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
-   - echo "$SSH_PRIVATE_KEY" >> id_rsa
-   - chmod 700 id_rsa
    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
    - rsync -rav --delete -e 'ssh -i id_rsa' dist/visualcomposer webuser@188.226.252.114:/var/www/test-deploy/
   artifacts:
