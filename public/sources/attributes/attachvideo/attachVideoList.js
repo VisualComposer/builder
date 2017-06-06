@@ -1,5 +1,5 @@
 import React from 'react'
-import AttachImageItem from './attachImageItem'
+import AttachVideoItem from './attachVideoItem'
 import {SortableElement, SortableHandle} from 'react-sortable-hoc'
 
 const SortableHandler = SortableHandle(({ title }) => {
@@ -12,11 +12,11 @@ const SortableHandler = SortableHandle(({ title }) => {
 
 const SortableItem = SortableElement((props) => {
   return (
-    <AttachImageItem {...props} />
+    <AttachVideoItem {...props} />
   )
 })
 
-export default class AttachImageList extends React.Component {
+export default class AttachVideoList extends React.Component {
   static propTypes = {
     value: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object, React.PropTypes.array ]).isRequired,
     fieldKey: React.PropTypes.string.isRequired
@@ -58,6 +58,7 @@ export default class AttachImageList extends React.Component {
         key: index,
         fieldKey: fieldKey,
         url: url,
+        icon: value.icons[ index ],
         oneMoreControl: oneMoreControl,
         handleRemove: this.props.handleRemove,
         getUrlHtml: this.props.getUrlHtml
@@ -73,7 +74,7 @@ export default class AttachImageList extends React.Component {
         )
       } else {
         value.ids[ index ] && images.push(
-          <AttachImageItem
+          <AttachVideoItem
             key={index}
             childProps={childProps}
           />

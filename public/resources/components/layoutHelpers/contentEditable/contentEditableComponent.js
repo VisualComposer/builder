@@ -19,7 +19,11 @@ export default class ContentEditableComponent extends React.Component {
     id: React.PropTypes.string.isRequired,
     field: React.PropTypes.string.isRequired,
     fieldType: React.PropTypes.string.isRequired,
-    children: React.PropTypes.string,
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node,
+      React.PropTypes.string
+    ]),
     className: React.PropTypes.string,
     options: React.PropTypes.object
   }
@@ -313,7 +317,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateHtmlWithServer (content) {
-    if (content.match(this.getShortcodesRegexp())) {
+    if (!vcCake.env('FEATURE_SHORTCODES_WRAPPER') && content.match(this.getShortcodesRegexp())) {
       this.setState({ html: ContentEditableComponent.spinnerHTML })
       dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
