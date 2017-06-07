@@ -26,19 +26,14 @@ addStorage('shortcodeAssets', (storage) => {
         } else if ($el.is('link[href]')) {
           // load href
           slug = utils.slugify($el.attr('href'))
-        } else {
-          console.log('wtf', $el, i, cssNode)
         }
 
         // let slug = utils.slugify(file)
         if (loadedCssFiles.indexOf(slug) === -1) {
-          console.log('adding file', slug, addToDocument)
           loadedCssFiles.push(slug)
           if (addToDocument) {
             assetsWindow.document.head.appendChild(cssNode)
           }
-        } else {
-          console.log('skip adding file', slug)
         }
       })
     }
@@ -56,13 +51,10 @@ addStorage('shortcodeAssets', (storage) => {
             slug = utils.slugify(jsNode.innerHTML)
           }
           if (loadedJsFiles.indexOf(slug) === -1) {
-            console.log('adding js file', slug, addToDocument)
             loadedJsFiles.push(slug)
             if (addToDocument) {
               $el.insertAfter(assetsWindow.document.head)
             }
-          } else {
-            console.log('skip adding js file', slug)
           }
         }
       )
@@ -74,11 +66,6 @@ addStorage('shortcodeAssets', (storage) => {
 
   // Event listen
   storage.on('add', (data) => {
-    console.log('storage.add')
     loadFiles(data, true)
-    window.setTimeout(() => {
-      assetsWindow.jQuery(assetsWindow).trigger('vc_reload')
-      assetsWindow.jQuery(assetsWindow).trigger('resize')
-    }, 100)
   })
 })
