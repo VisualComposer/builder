@@ -11,6 +11,17 @@ export default class AttachImageItem extends React.Component {
   constructor (props) {
     super(props)
     this.getLinkHtml = this.getLinkHtml.bind(this)
+    this.setImageClass = this.setImageClass.bind(this)
+
+    this.state = { imgPortrait: true }
+  }
+
+  componentDidMount () {
+    this.checkImageSize(this.props.imgUrl, this.setImageClass)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.checkImageSize(nextProps.imgUrl, this.setImageClass)
   }
 
   handleRemove (key) {
@@ -21,29 +32,33 @@ export default class AttachImageItem extends React.Component {
     return this.props.getUrlHtml(key)
   }
 
-  getPublicImage (filename) {
-    let { metaAssetsPath } = this.props
-    if (!filename) {
-      return ''
+  checkImageSize (url, callback) {
+    let img = new window.Image()
+    img.onload = () => {
+      let size = {
+        width: img.width,
+        height: img.height
+      }
+      callback(size)
     }
+    img.src = url
+  }
 
-    return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
+  setImageClass (size) {
+    this.setState({
+      imgPortrait: size.width < size.height
+    })
   }
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const removeImage = localizations ? localizations.removeImage : 'Remove Image'
-    let { className, url, oneMoreControl, indexValue, imgId } = this.props
-    let imgUrl = ''
-    if (imgId) {
-      imgUrl = url && url.thumbnail || url.full
-    } else {
-      imgUrl = this.getPublicImage(url.full)
-    }
+    let { className, url, oneMoreControl, indexValue, imgUrl } = this.props
 
     className = classNames(className, {
       'vcv-ui-form-attach-image-item': true,
-      'vcv-ui-form-attach-image-item-has-link-value': this.props.url.link && this.props.url.link.url
+      'vcv-ui-form-attach-image-item-has-link-value': url.link && url.link.url,
+      'vcv-ui-form-attach-image-item-view--portrait': this.state.imgPortrait
     })
 
     return (

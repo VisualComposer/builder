@@ -38,13 +38,23 @@
   #make-vcv-ui-form > .make-chess-background(@vcui-attach-image-grid-main-color, @vcui-attach-image-grid-secondary-color, @vcui-attach-image-grid-size);
 
   img {
-    max-height: @vcui-attach-image-size;
+    max-height: 100%;
+    max-width: none;
+    width: auto;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
     background-color: transparent;
+  }
+}
+
+.vcv-ui-form-attach-image-item-view--portrait {
+  .vcv-ui-form-attach-image-thumbnail img {
+    max-height: none;
+    height: auto;
+    max-width: 100%;
   }
 }
 
