@@ -4,6 +4,7 @@ let Collector = require('./tools/webpack-collector')
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let autoprefixer = require('autoprefixer')
 let webpack = require('webpack')
+let StringReplacePlugin = require('string-replace-webpack-plugin')
 
 module.exports = {
   // devtool: 'eval',
@@ -166,6 +167,18 @@ module.exports = {
           // https://github.com/babel/babel-loader#options
           cacheDirectory: true
         }
+      },
+      {
+        test: /\.js$/,
+        include: /node_modules/,
+        loader: StringReplacePlugin.replace({ // from the 'string-replace-webpack-plugin'
+          replacements: [ {
+            pattern: /define\.amd/ig,
+            replacement: function(match, p1, offset, string) {
+              return false;
+            }
+          }]
+        })
       },
       {
         test: /\.css$/,
