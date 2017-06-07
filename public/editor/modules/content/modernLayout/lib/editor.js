@@ -29,16 +29,15 @@ export default class LayoutEditor extends React.Component {
     })
 
     workspaceStorage.state('contentEnd').onChange((data) => {
-      console.log(data)
       this.iframeBody = document.querySelector('#vcv-editor-iframe').contentWindow.document.body
       const overlayElement = document.createElement('div')
       this.createOverlayStyles(overlayElement)
 
-      if (data === 'editElement') {
+      if (data === 'editElement' && !this.editFormIsOpened) {
         this.editFormIsOpened = true
         this.iframeBody.appendChild(overlayElement)
         this.iframeBody.addEventListener('click', this.closeEditForm)
-      } else if (this.editFormIsOpened) {
+      } else if (data !== 'editElement' && this.editFormIsOpened) {
         this.editFormIsOpened = false
         this.iframeBody.removeChild(this.iframeBody.querySelector('#vcv-iframe-body-overlay'))
         this.iframeBody.removeEventListener('click', this.closeEditForm)
