@@ -31,6 +31,14 @@ export default class AttachImageList extends React.Component {
     this.props.openLibrary()
   }
 
+  getPublicImage (filename) {
+    let { metaAssetsPath } = this.props
+    if (!filename) {
+      return ''
+    }
+    return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addImage = localizations ? localizations.addImage : 'Add Image'
@@ -54,28 +62,37 @@ export default class AttachImageList extends React.Component {
     }
 
     value && value.urls && value.urls.forEach((url, index) => {
+      let imgUrl = ''
+      if (value.ids[ index ]) {
+        imgUrl = url && url.thumbnail || url.full
+      } else {
+        imgUrl = this.getPublicImage(url.full)
+      }
+
       let childProps = {
-        key: index,
-        fieldKey: fieldKey,
         url: url,
+        imgUrl: imgUrl,
         oneMoreControl: oneMoreControl,
         handleRemove: this.props.handleRemove,
-        getUrlHtml: this.props.getUrlHtml
+        getUrlHtml: this.props.getUrlHtml,
+        imgId: value.ids[ index ],
+        metaAssetsPath: this.props.metaElementPath,
+        indexValue: index,
+        index: index
       }
 
       if (this.props.options.multiple) {
         value.ids[ index ] && images.push(
           <SortableItem
             key={`sortable-attach-image-item-${fieldKey}-${index}`}
-            childProps={childProps}
-            index={index}
+            {...childProps}
           />
         )
       } else {
         value.ids[ index ] && images.push(
           <AttachImageItem
             key={index}
-            childProps={childProps}
+            {...childProps}
           />
         )
       }
