@@ -174,8 +174,8 @@ module.exports = {
         loader: StringReplacePlugin.replace({ // from the 'string-replace-webpack-plugin'
           replacements: [ {
             pattern: /define\.amd/ig,
-            replacement: function(match, p1, offset, string) {
-              return false;
+            replacement: function (match, p1, offset, string) {
+              return false
             }
           }]
         })
