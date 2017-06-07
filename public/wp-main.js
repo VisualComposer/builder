@@ -32,6 +32,7 @@ $(() => {
     vcCake.env('platform', 'wordpress').start(() => {
       require('./editor/stores/elements/elementsStorage')
       require('./editor/stores/assets/assetsStorage')
+      require('./editor/stores/shortcodesAssets/storage')
       require('./editor/stores/workspaceStorage')
       require('./editor/stores/history/historyStorage')
       require('./editor/stores/settingsStorage')

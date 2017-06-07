@@ -19,7 +19,7 @@ export default class ElementComponent extends Component {
     editor: PropTypes.object
   }
 
-  updateInlineHtml (elementWrapper, tagString = '') {
+  updateInlineHtml (elementWrapper, html = '', tagString = '') {
     // const helper = document.createElement('vcvhelper')
     // const comment = document.createComment('[vcvSourceHtml]' + tagString + '[/vcvSourceHtml]')
     // elementWrapper.innerHTML = ''
@@ -32,9 +32,12 @@ export default class ElementComponent extends Component {
 
     const helper = document.createElement('vcvhelper')
     elementWrapper.innerHTML = ''
+    if (!tagString) {
+      tagString = html
+    }
     helper.setAttribute('data-vcvs-html', `<!--vcv no formatting start-->${tagString}<!--vcv no formatting end-->`)
     let range = document.createRange()
-    let documentFragment = range.createContextualFragment(tagString)
+    let documentFragment = range.createContextualFragment(html)
     helper.appendChild(documentFragment)
     elementWrapper.appendChild(helper)
   }

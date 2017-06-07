@@ -84,11 +84,10 @@ class Controller extends Container implements Module
             ob_start();
             wp_footer();
             $footerContents = ob_get_clean();
-            //            wp_print_head_scripts();
-            //            wp_print_footer_scripts();
-            //            wp_print_styles();
-            //            print_late_styles();
-            $response = $headContents . $footerContents . $shortcodeContents;
+            $response = '<script type="template/html" data="vcv-files">' .
+                rawurlencode($headContents . $footerContents)
+                . '</script>' .
+                $shortcodeContents;
         }
 
         return $response;

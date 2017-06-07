@@ -26,5 +26,5 @@ if (VCV_LAZY_LOAD) {
 /**
  * Add action for init state.
  */
-add_action('init', 'vcvinit', 11);
-add_action('admin_init', 'vcvadmininit', 11);
+add_action('init', 'vcvinit', 21); // 20 used in tablepress
+add_action('admin_init', 'vcvadmininit', 21);
