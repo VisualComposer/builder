@@ -27,6 +27,10 @@ class Iconpicker extends Attribute {
     }
   }
 
+  componentWillUnmount () {
+    document.body.removeEventListener('click', this.closeIfNotInside)
+  }
+
   filteredIcons () {
     let { category, search, value } = this.state
     let { iconSet } = value
@@ -159,6 +163,13 @@ class Iconpicker extends Attribute {
 
   togglePopup = (e) => {
     e && e.preventDefault && e.preventDefault()
+
+    if (this.state.popupOpen) {
+      document.body.removeEventListener('click', this.closeIfNotInside)
+    } else {
+      document.body.addEventListener('click', this.closeIfNotInside)
+    }
+
     this.setState({
       popupOpen: !this.state.popupOpen,
       search: '',
@@ -191,10 +202,54 @@ class Iconpicker extends Attribute {
   }
 
   handleChange (event) {
-    this.togglePopup()
     const newValue = Object.assign({}, this.state.value)
     newValue.icon = event.currentTarget.attributes.value.textContent
     this.setFieldValue(newValue)
+  }
+
+  getClosest (el, selector) {
+    let matchesFn;
+    // find vendor prefix
+    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
+      if (typeof document.body[ fn ] === 'function') {
+        matchesFn = fn
+
+        return true
+      }
+
+      return false
+    })
+    let parent
+    // traverse parents
+    while (el) {
+      parent = el.parentElement
+      if (parent && parent[ matchesFn ](selector)) {
+        return parent
+      }
+      el = parent
+    }
+
+    return null
+  }
+
+  closeIfNotInside = (e) => {
+    e && e.preventDefault()
+    let $el = e.target
+
+    let $dropDown = '.vcv-ui-form-iconpicker-content'
+    let $openingButton = '.vcv-ui-iconpicker-picker-dropdown'
+    let container = null
+
+    if ($el.closest === undefined) {
+      container = this.getClosest($el, $dropDown) || this.getClosest($el, $openingButton)
+    } else {
+      container = $el.closest($dropDown) || $el.closest($openingButton)
+    }
+    if (container) {
+      return
+    }
+
+    this.togglePopup()
   }
 
   render () {
@@ -208,6 +263,7 @@ class Iconpicker extends Attribute {
     let selectorClasses = classNames({
       'vcv-ui-form-dropdown': true,
       'vcv-ui-form-dropdown-style--inline': true,
+      'vcv-ui-iconpicker-picker-dropdown': true,
       'vcv-ui-form-state--focus': popupOpen
     })
 
