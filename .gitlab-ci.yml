@@ -110,7 +110,7 @@ deploying:
    - node tools/vcwb-builder/builder.js plugin -p dist/
    - unzip dist/visualcomposer.zip -d dist/
    - echo "$CI_PROJECT_URL/builds/$CI_BUILD_ID/artifacts/raw/dist/visualcomposer.zip" > $CI_PROJECT_DIR/build.log
-   - rsync -rav --delete -e 'ssh -i id_rsa' dist/visualcomposer webuser@188.226.252.114:/var/www/test.alpha.visualcomposer.io/wordpress/wp-content/plugins
+   - rsync -rav --delete -e 'ssh -i id_rsa' dist/visualcomposer webuser@test.alpha.visualcomposer.io:/var/www/test.alpha.visualcomposer.io/wordpress/wp-content/plugins
   artifacts:
    name: "${CI_BUILD_NAME}_${CI_BUILD_REF_NAME}"
    expire_in: 7d
