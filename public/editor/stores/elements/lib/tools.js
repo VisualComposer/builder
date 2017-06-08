@@ -1,3 +1,6 @@
+import vcCake from 'vc-cake'
+const elementsStorage = vcCake.getStorage('elements')
+
 export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   let elements = []
   let columns = documentManager.children(id)
@@ -80,6 +83,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       elements.push([ column, 'remove' ])
     })
   }
+  elementsStorage.state('rebuildRow').set(true)
   return elements
 }
 export const addRowColumnBackground = (id, element, documentManager, options) => {

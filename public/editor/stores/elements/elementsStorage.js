@@ -64,6 +64,7 @@ addStorage('elements', (storage) => {
       }
     }
     if (!options.silent) {
+      storage.state('elementAdd').set(data)
       storage.state('document').set(documentManager.children(false))
       updateTimeMachine()
     }

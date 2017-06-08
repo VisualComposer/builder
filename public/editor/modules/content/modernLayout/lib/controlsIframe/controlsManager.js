@@ -6,6 +6,7 @@ import FramesHandler from './framesHandler'
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceContentStartState = workspaceStorage.state('contentStart')
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class ControlsManager {
   constructor (api) {
@@ -50,6 +51,7 @@ export default class ControlsManager {
     this.iframeWindow = options.iframeWindow
     this.iframeDocument = options.iframeDocument
     this.documentBody = options.documentBody
+    this.editRowId = null
 
     let systemData = {
       iframeContainer: this.iframeContainer,
@@ -215,6 +217,34 @@ export default class ControlsManager {
         this.showChildrenFrames(rowId)
       } else {
         this.frames.hide()
+      }
+    })
+
+    workspaceStorage.state('contentEnd').onChange((action) => {
+      let data = workspaceStorage.state('settings').get()
+      if (action === 'editElement' && data.element && data.element.tag === 'row') {
+        this.editRowId = data.element.id
+        this.showChildrenFramesWithDelay(this.editRowId)
+      } else {
+        this.editRowId = null
+        setTimeout(() => {
+          this.frames.hide()
+        }, 150)
+      }
+    })
+
+    elementsStorage.state('rebuildRow').onChange(() => {
+      let settingsData = workspaceStorage.state('settings').get()
+      let contentEndData = workspaceStorage.state('contentEnd').get()
+
+      if (contentEndData === 'editElement' && settingsData.element && settingsData.element.tag === 'row') {
+        this.showChildrenFramesWithDelay(this.editRowId)
+      }
+    })
+
+    elementsStorage.state('elementAdd').onChange((data) => {
+      if (data && data.tag === 'row') {
+        this.showChildrenFramesWithDelay(data.id)
       }
     })
 
@@ -480,6 +510,15 @@ export default class ControlsManager {
       return el
     })
     this.frames.show({ path: elementsToShow })
+  }
+
+  /**
+   * Show frames on elements children for columns, when they are not ready yet
+   */
+  showChildrenFramesWithDelay (id) {
+    setTimeout(() => {
+      this.showChildrenFrames(id)
+    }, 100)
   }
 
   /**
