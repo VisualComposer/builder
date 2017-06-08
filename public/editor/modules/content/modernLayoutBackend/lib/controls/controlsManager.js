@@ -6,6 +6,7 @@ import FramesHandler from './framesHandler'
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceContentStartState = workspaceStorage.state('contentStart')
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class ControlsManager {
   constructor (api) {
@@ -44,6 +45,7 @@ export default class ControlsManager {
     this.iframe = options.iframe
     this.iframeWindow = options.iframeWindow
     this.iframeDocument = options.iframeDocument
+    this.editRowId = null
 
     let systemData = {
       iframeContainer: this.iframeContainer,
@@ -203,6 +205,31 @@ export default class ControlsManager {
       this.state.showControls = !state
       this.findElement()
       this.controlElementFind()
+    })
+
+    workspaceStorage.state('contentEnd').onChange((action) => {
+      this.frames.hide()
+      this.editRowId = null
+      let data = workspaceStorage.state('settings').get()
+      if (action === 'editElement' && data.element && data.element.tag === 'row') {
+        this.editRowId = data.element.id
+        this.showChildrenFramesWithDelay(this.editRowId)
+      }
+    })
+
+    elementsStorage.state('rebuildRow').onChange(() => {
+      let settingsData = workspaceStorage.state('settings').get()
+      let contentEndData = workspaceStorage.state('contentEnd').get()
+
+      if (contentEndData === 'editElement' && settingsData.element && settingsData.element.tag === 'row') {
+        this.showChildrenFramesWithDelay(this.editRowId)
+      }
+    })
+
+    elementsStorage.state('elementAdd').onChange((data) => {
+      if (data && data.tag === 'row') {
+        this.showChildrenFramesWithDelay(data.id)
+      }
     })
 
     // check remove element
@@ -477,5 +504,35 @@ export default class ControlsManager {
       return el
     })
     this.frames.show({ element: data.element, path: elementsToShow })
+  }
+
+  /**
+   * Show frames on elements children
+   */
+  showChildrenFrames (parentId) {
+    const documentService = vcCake.getService('document')
+    let elementsToShow = []
+    let children = documentService.children(parentId)
+    let backendLayout = document.querySelector('#vcv-wpbackend-layout-content')
+    children.forEach((child) => {
+      elementsToShow.push(child.id)
+    })
+    elementsToShow = elementsToShow.map((id) => {
+      let selector = `[data-vcv-element="${id}"]`
+      return backendLayout.querySelector(selector)
+    })
+    elementsToShow = elementsToShow.filter((el) => {
+      return el
+    })
+    this.frames.show({ path: elementsToShow })
+  }
+
+  /**
+   * Show frames on elements children for columns, when they are not ready yet
+   */
+  showChildrenFramesWithDelay (id) {
+    setTimeout(() => {
+      this.showChildrenFrames(id)
+    }, 100)
   }
 }
