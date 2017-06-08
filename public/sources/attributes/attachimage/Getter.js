@@ -15,9 +15,6 @@ module.exports = (data, key, settings) => {
       returnValue = value.urls[ 0 ]
     }
   }
-  if (lodash.isEmpty(returnValue) && settings.options && settings.options.defaultValue) {
-    returnValue = settings.options.defaultValue
-  }
 
   return returnValue
 }

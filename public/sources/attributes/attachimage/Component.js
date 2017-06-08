@@ -55,6 +55,16 @@ export default class AttachImage extends Attribute {
     let value = props.value
     if (!lodash.isObject(value)) {
       value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
+    } else if (lodash.isArray(value)) {
+      if (value.length > 0) {
+        let urls = []
+        value.forEach((url) => {
+          urls.push({ full: url })
+        })
+        value = { ids: [ null ], urls: urls }
+      } else {
+        value = { ids: [], urls: [] }
+      }
     }
 
     return {
@@ -74,16 +84,10 @@ export default class AttachImage extends Attribute {
     let urls = this.state.value.urls
     ids.splice(key, 1)
     urls.splice(key, 1)
-    let fieldValue = { ids: [], urls: [] }
-    if (ids.length) {
-      fieldValue = {
-        ids: ids,
-        urls: urls
-      }
-    } else if (this.props.defaultValue) {
-      fieldValue = this.props.defaultValue
+    let fieldValue = {
+      ids: ids,
+      urls: urls
     }
-
     this.setFieldValue(fieldValue)
   }
 

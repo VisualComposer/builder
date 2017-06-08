@@ -82,14 +82,14 @@ export default class AttachImageList extends React.Component {
       }
 
       if (this.props.options.multiple) {
-        value.ids[ index ] && images.push(
+        images.push(
           <SortableItem
             key={`sortable-attach-image-item-${fieldKey}-${index}`}
             {...childProps}
           />
         )
       } else {
-        value.ids[ index ] && images.push(
+        images.push(
           <AttachImageItem
             key={index}
             {...childProps}
@@ -106,7 +106,7 @@ export default class AttachImageList extends React.Component {
       </li>
     )
 
-    if (!this.props.options.multiple && value.urls && value.urls.length && value.ids[ 0 ]) {
+    if (!this.props.options.multiple && value.urls && value.urls.length) {
       addControl = ''
     }
 
