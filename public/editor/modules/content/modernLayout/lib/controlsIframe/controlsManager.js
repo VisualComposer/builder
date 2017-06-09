@@ -224,6 +224,10 @@ export default class ControlsManager {
       this.frames.hide()
       this.editRowId = null
       let data = workspaceStorage.state('settings').get()
+      if (action === 'editElement' && data.action === 'edit') {
+        this.outline.hide()
+        this.controls.hide()
+      }
       if (action === 'editElement' && data.element && data.element.tag === 'row') {
         this.editRowId = data.element.id
         this.showChildrenFramesWithDelay(this.editRowId)
