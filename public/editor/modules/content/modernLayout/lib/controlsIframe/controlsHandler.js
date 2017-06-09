@@ -1,4 +1,4 @@
-import {getService} from 'vc-cake'
+import {getService, env} from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
 const hubCategoriesService = getService('hubCategories')
@@ -118,8 +118,10 @@ export default class ControlsHandler {
         if (i !== elementIds.length - 1) {
           controlsList.insertBefore(delimiter, controlsList.children[ 0 ])
         }
-        // only for the first (most nested) element (last in the control navbar)
-        this.appendEditAndRemove(controlsList, elementId)
+        if (env('FEATURE_CLICK_TO_EDIT')) {
+          // only for the first (most nested) element (last in the control navbar)
+          this.appendEditAndRemove(controlsList, elementId)
+        }
       } else {
         const controlsRect = controlsList.getBoundingClientRect()
         const controlWidth = (controlsRect.width - 2) / (controlsList.children.length / 2)
@@ -370,7 +372,7 @@ export default class ControlsHandler {
     })
 
     // do not add for first (most nested) element
-    if (!options || options && !options.isMostNested) {
+    if (!options || options && !options.isMostNested || !env('FEATURE_CLICK_TO_EDIT')) {
       // edit control
       actions.push({
         label: editText,
