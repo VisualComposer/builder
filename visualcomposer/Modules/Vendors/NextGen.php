@@ -24,7 +24,7 @@ class NextGen extends Container implements Module
     protected function initialize()
     {
         if (defined('NGG_PLUGIN_VERSION') && constant('NGG_PLUGIN_VERSION')) {
-            $this->wpAddFilter('__return_false', 'run_ngg_resource_manager');
+            $this->wpAddFilter('run_ngg_resource_manager', '__return_false');
         }
     }
 }
