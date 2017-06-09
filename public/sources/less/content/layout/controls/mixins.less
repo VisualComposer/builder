@@ -39,7 +39,8 @@
         color: @text;
         background-color: @background;
       }
-      &.vcv-ui-outline-control-dropdown {
+      &.vcv-ui-outline-control-dropdown,
+      &.vcv-ui-outline-control-simple {
         .vcv-ui-outline-control {
           color: @text;
           background-color: @background;
@@ -61,12 +62,13 @@
         color: @text;
         // background-color: @background;
         &:hover {
-          background-color: @activeBackground
+          background-color: @activeBackground;
         }
       }
-      &.vcv-ui-outline-control-dropdown {
+      &.vcv-ui-outline-control-dropdown,
+      &.vcv-ui-outline-control-simple {
         &:hover .vcv-ui-outline-control {
-          background-color: @activeBackground
+          background-color: @activeBackground;
         }
         .vcv-ui-outline-control {
           color: @text;

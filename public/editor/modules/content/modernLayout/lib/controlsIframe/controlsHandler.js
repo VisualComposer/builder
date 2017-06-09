@@ -1,4 +1,4 @@
-import { getService } from 'vc-cake'
+import {getService} from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
 const hubCategoriesService = getService('hubCategories')
@@ -109,14 +109,17 @@ export default class ControlsHandler {
 
     // create element controls
     for (let i = 0; i < elementIds.length; i++) {
-      let elementId = elementIds[i]
+      let elementId = elementIds[ i ]
       let delimiter = document.createElement('i')
       delimiter.classList.add('vcv-ui-outline-control-separator', 'vcv-ui-icon', 'vcv-ui-icon-arrow-right')
       if (i === 0) {
-        controlsList.appendChild(this.createControlForElement(elementId))
+        const options = { isMostNested: true }
+        controlsList.appendChild(this.createControlForElement(elementId, options))
         if (i !== elementIds.length - 1) {
-          controlsList.insertBefore(delimiter, controlsList.children[0])
+          controlsList.insertBefore(delimiter, controlsList.children[ 0 ])
         }
+        // only for the first (most nested) element (last in the control navbar)
+        this.appendEditAndRemove(controlsList, elementId)
       } else {
         const controlsRect = controlsList.getBoundingClientRect()
         const controlWidth = (controlsRect.width - 2) / (controlsList.children.length / 2)
@@ -127,15 +130,50 @@ export default class ControlsHandler {
             {
               title: 'Tree View',
               event: 'treeView'
-            }), controlsList.children[0])
+            }), controlsList.children[ 0 ])
           break
         }
-        controlsList.insertBefore(this.createControlForElement(elementId), controlsList.children[0])
+        controlsList.insertBefore(this.createControlForElement(elementId), controlsList.children[ 0 ])
         if (i !== elementIds.length - 1) {
-          controlsList.insertBefore(delimiter, controlsList.children[0])
+          controlsList.insertBefore(delimiter, controlsList.children[ 0 ])
         }
       }
     }
+  }
+
+  appendEditAndRemove (appendContainer, elementId) {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const removeText = localizations ? localizations.remove : 'Remove'
+    const editText = localizations ? localizations.edit : 'Edit'
+    appendContainer.appendChild(this.createAdditionalControl(elementId, 'edit', editText))
+    appendContainer.appendChild(this.createAdditionalControl(elementId, 'remove', removeText))
+  }
+
+  createAdditionalControl (elementId, action, titleText) {
+    const vcElement = this.getVcElement(elementId)
+    const colorIndex = this.getElementColorIndex(vcElement)
+    const control = document.createElement('div')
+    const elName = vcElement.get('name')
+
+    control.classList.add('vcv-ui-outline-control-simple', `vcv-ui-outline-control-type-index-${colorIndex}`)
+    control.dataset.vcvElementControls = elementId
+
+    let iconClass = `vcv-ui-icon-${action}`
+    if (action === 'remove') {
+      iconClass = `vcv-ui-icon-trash`
+    }
+
+    let iconAction = {
+      label: false,
+      title: `${titleText} ${elName}`,
+      icon: iconClass,
+      data: {
+        vcControlEvent: action
+      }
+    }
+
+    control.appendChild(this.createControlAction(elementId, iconAction))
+    return control
   }
 
   /**
@@ -201,7 +239,7 @@ export default class ControlsHandler {
    * @param elementId
    * @returns {Element}
    */
-  createControlForElement (elementId) {
+  createControlForElement (elementId, options) {
     let vcElement = this.getVcElement(elementId)
     let colorIndex = this.getElementColorIndex(vcElement)
 
@@ -222,7 +260,8 @@ export default class ControlsHandler {
       {
         isContainer: colorIndex < 2,
         title: vcElement.get('name'),
-        tag: vcElement.get('tag')
+        tag: vcElement.get('tag'),
+        isMostNested: options ? options.isMostNested : false
       }
     ))
 
@@ -320,32 +359,38 @@ export default class ControlsHandler {
       })
     }
 
-    // edit control
-    actions.push({
-      label: editText,
-      icon: 'vcv-ui-icon-edit',
-      data: {
-        vcControlEvent: 'edit'
-      }
-    })
-
     // clone control
     actions.push({
       label: cloneText,
+      title: `${cloneText} ${options.title}`,
       icon: 'vcv-ui-icon-copy',
       data: {
         vcControlEvent: 'clone'
       }
     })
 
-    // remove control
-    actions.push({
-      label: removeText,
-      icon: 'vcv-ui-icon-trash',
-      data: {
-        vcControlEvent: 'remove'
-      }
-    })
+    // do not add for first (most nested) element
+    if (!options || options && !options.isMostNested) {
+      // edit control
+      actions.push({
+        label: editText,
+        title: `${editText} ${options.title}`,
+        icon: 'vcv-ui-icon-edit',
+        data: {
+          vcControlEvent: 'edit'
+        }
+      })
+
+      // remove control
+      actions.push({
+        label: removeText,
+        title: `${removeText} ${options.title}`,
+        icon: 'vcv-ui-icon-trash',
+        data: {
+          vcControlEvent: 'remove'
+        }
+      })
+    }
 
     actions.forEach((action) => {
       dropdown.appendChild(this.createControlAction(elementId, action))
@@ -373,17 +418,19 @@ export default class ControlsHandler {
 
     let actionContent = document.createElement('span')
     actionContent.classList.add('vcv-ui-outline-control-content')
-    actionContent.title = options.label
+    actionContent.title = options.title || options.label
     action.appendChild(actionContent)
 
     let icon = document.createElement('i')
     icon.classList.add('vcv-ui-outline-control-icon', 'vcv-ui-icon', options.icon)
     actionContent.appendChild(icon)
 
-    let label = document.createElement('span')
-    label.classList.add('vcv-ui-outline-control-label')
-    label.appendChild(document.createTextNode(options.label))
-    actionContent.appendChild(label)
+    if (options.label) {
+      let label = document.createElement('span')
+      label.classList.add('vcv-ui-outline-control-label')
+      label.appendChild(document.createTextNode(options.label))
+      actionContent.appendChild(label)
+    }
 
     return action
   }
