@@ -17,12 +17,14 @@ class MetaDataController extends Container implements Module
 
     protected function addMetaGenerator()
     {
-        echo sprintf(
-            '<meta name="generator" content="%s"/>',
-            esc_attr__(
-                'Powered by Visual Composer Website Builder - fast and easy to use drag and drop builder for experts and beginners.',
-                'vcwb'
-            )
-        );
+        if (apply_filters('vcv:output:meta', true)) {
+            echo sprintf(
+                '<meta name="generator" content="%s"/>',
+                esc_attr__(
+                    'Powered by Visual Composer Website Builder - fast and easy to use drag and drop builder for experts and beginners.',
+                    'vcwb'
+                )
+            );
+        }
     }
 }
