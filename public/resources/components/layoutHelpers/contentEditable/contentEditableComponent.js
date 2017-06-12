@@ -144,14 +144,6 @@ export default class ContentEditableComponent extends React.Component {
       this.handleLayoutModeChange(null)
       this.updateHtmlWithServer(this.state.realContent)
     }
-
-    if (this.layoutHeader) {
-      if (data === 'contentEditable') {
-        this.layoutHeader.classList.add('vcv-inline-editor--active')
-      } else {
-        this.layoutHeader.classList.remove('vcv-inline-editor--active')
-      }
-    }
   }
 
   handleLayoutModeChange (mode) {
