@@ -105,6 +105,18 @@ export default class ContentEditableComponent extends React.Component {
     vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
   }
 
+  updateInlineData () {
+    const { html } = this.state
+    if (!html) {
+      return
+    }
+    const helper = ReactDOM.findDOMNode(this)
+    helper.innerHTML = ''
+    let range = document.createRange()
+    let documentFragment = range.createContextualFragment(html)
+    helper.appendChild(documentFragment)
+  }
+
   componentWillUnmount () {
     if (this.state.contentEditable) {
       this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
@@ -337,15 +349,16 @@ export default class ContentEditableComponent extends React.Component {
         'vcv-nonce': window.vcvNonce,
         'vcv-source-id': window.vcvSourceID
       }).then((data) => {
+        let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
+        if (scriptDom) {
+          let assetFiles = window.jQuery('<div>' + decodeURIComponent(scriptDom.innerHTML) + '</div>')
+          shortcodesAssetsStorage.trigger('add', {
+            cssBundles: assetFiles.find('link[href], style'),
+            jsBundles: assetFiles.find('script')
+          })
+        }
         this.setState({ html: data }, () => {
-          let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
-          if (scriptDom) {
-            let assetFiles = window.jQuery('<div>' + decodeURIComponent(scriptDom.innerHTML) + '</div>')
-            shortcodesAssetsStorage.trigger('add', {
-              cssBundles: assetFiles.find('link[href], style'),
-              jsBundles: assetFiles.find('script')
-            })
-          }
+          this.updateInlineData()
         })
       })
     } else {
@@ -357,7 +370,7 @@ export default class ContentEditableComponent extends React.Component {
     const dom = ReactDOM.findDOMNode(this)
     let content = dom.innerHTML
     this.setState({ realContent: content })
-    wordpressDataStorage.state('status').set({status: 'changed'})
+    wordpressDataStorage.state('status').set({ status: 'changed' })
   }
 
   handleChange () {
