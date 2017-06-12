@@ -1,6 +1,6 @@
 import React from 'react'
 import ClassNames from 'classnames'
-import {getStorage, onDataChange} from 'vc-cake'
+import {getStorage, onDataChange, ignoreDataChange} from 'vc-cake'
 
 import Resizer from '../../resources/resizer/resizer'
 
@@ -27,6 +27,10 @@ export default class Workspace extends React.Component {
 
   componentDidMount () {
     onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+  }
+
+  componentWillUnmount () {
+    ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
   }
 
   handleLayoutCustomModeChange (data) {

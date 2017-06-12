@@ -41,6 +41,10 @@ class ColumnResizer extends React.Component {
     vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
   }
 
+  componentWillUnmount () {
+    vcCake.ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+  }
+
   componentDidUpdate (props, state) {
     let ifameDocument = document.querySelector('#vcv-editor-iframe').contentWindow
     if (this.state.dragging && !state.dragging) {
