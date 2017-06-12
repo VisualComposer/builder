@@ -106,6 +106,7 @@ export default class ControlsManager {
    * @param e
    */
   findElement (e = null) {
+    console.log('findElement')
     // need to run all events, so creating fake event
     if (!e) {
       e = {
@@ -227,6 +228,11 @@ export default class ControlsManager {
       if (action === 'editElement' && data.action === 'edit') {
         this.outline.hide()
         this.controls.hide()
+        this.iframeDocument.body.removeEventListener('mousemove', this.findElement)
+        this.iframeDocument.body.removeEventListener('mouseleave', this.handleFrameLeave)
+      } else {
+        this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+        this.iframeDocument.body.addEventListener('mouseleave', this.handleFrameLeave)
       }
       if (action === 'editElement' && data.element && data.element.tag === 'row') {
         this.editRowId = data.element.id
