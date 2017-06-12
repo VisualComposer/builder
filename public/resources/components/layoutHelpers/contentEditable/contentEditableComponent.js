@@ -10,6 +10,7 @@ const cook = vcCake.getService('cook')
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
+const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
 
 export default class ContentEditableComponent extends React.Component {
   static spinnerHTML = '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
@@ -304,7 +305,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   getShortcodesRegexp () {
-    return RegExp('\\[(\\[?)(\\w+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
+    return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
   }
 
   mediumSetup () {
@@ -320,7 +321,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateHtmlWithServer (content) {
-    if (!vcCake.env('FEATURE_SHORTCODES_WRAPPER') && content.match(this.getShortcodesRegexp())) {
+    if (content.match(this.getShortcodesRegexp())) {
       this.setState({ html: ContentEditableComponent.spinnerHTML })
       dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
@@ -328,7 +329,16 @@ export default class ContentEditableComponent extends React.Component {
         'vcv-nonce': window.vcvNonce,
         'vcv-source-id': window.vcvSourceID
       }).then((data) => {
-        this.setState({ html: data })
+        this.setState({ html: data }, () => {
+          let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
+          if (scriptDom) {
+            let assetFiles = window.jQuery('<div>' + decodeURIComponent(scriptDom.innerHTML) + '</div>')
+            shortcodesAssetsStorage.trigger('add', {
+              cssBundles: assetFiles.find('link[href], style'),
+              jsBundles: assetFiles.find('script')
+            })
+          }
+        })
       })
     } else {
       this.setState({ html: content })
