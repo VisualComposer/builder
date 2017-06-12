@@ -106,7 +106,6 @@ export default class ControlsManager {
    * @param e
    */
   findElement (e = null) {
-    console.log('findElement')
     // need to run all events, so creating fake event
     if (!e) {
       e = {
