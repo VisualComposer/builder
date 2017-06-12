@@ -337,15 +337,16 @@ export default class ContentEditableComponent extends React.Component {
         'vcv-nonce': window.vcvNonce,
         'vcv-source-id': window.vcvSourceID
       }).then((data) => {
-        let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
-        if (scriptDom) {
-          let assetFiles = window.jQuery('<div>' + decodeURIComponent(scriptDom.innerHTML) + '</div>')
-          shortcodesAssetsStorage.trigger('add', {
-            cssBundles: assetFiles.find('link[href], style'),
-            jsBundles: assetFiles.find('script')
-          })
-        }
-        this.setState({ html: data })
+        this.setState({ html: data }, () => {
+          let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
+          if (scriptDom) {
+            let assetFiles = window.jQuery('<div>' + decodeURIComponent(scriptDom.innerHTML) + '</div>')
+            shortcodesAssetsStorage.trigger('add', {
+              cssBundles: assetFiles.find('link[href], style'),
+              jsBundles: assetFiles.find('script')
+            })
+          }
+        })
       })
     } else {
       this.setState({ html: content })

@@ -12,6 +12,5 @@ vcCake.env('FIX_SUBELEMENT_ID', true)
 vcCake.env('FEATURE_BLANK_PAGE_PLACEHOLDER', true)
 vcCake.env('FEATURE_START_BLANK', true)
 vcCake.env('FEATURE_NO_GLOBAL_CSS', true)
-vcCake.env('FEATURE_SHORTCODES_WRAPPER', false)
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FEATURE_CLICK_TO_EDIT', true)
