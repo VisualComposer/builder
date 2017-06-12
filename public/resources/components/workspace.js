@@ -1,6 +1,6 @@
 import React from 'react'
 import ClassNames from 'classnames'
-import {getStorage} from 'vc-cake'
+import {getStorage, onDataChange} from 'vc-cake'
 
 import Resizer from '../../resources/resizer/resizer'
 
@@ -15,6 +15,26 @@ export default class Workspace extends React.Component {
       React.PropTypes.node
     ]),
     stickyBar: React.PropTypes.object
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      contentEditableMode: false
+    }
+    this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
+  }
+
+  componentDidMount () {
+    onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+  }
+
+  handleLayoutCustomModeChange (data) {
+    if (data === 'contentEditable') {
+      this.setState({ contentEditableMode: true })
+    } else {
+      this.setState({ contentEditableMode: false })
+    }
   }
 
   resizeCallback = (e) => {
@@ -36,7 +56,8 @@ export default class Workspace extends React.Component {
       'vcv-layout-bar': true,
       'vcv-ui-content--hidden': !(contentEnd || contentStart),
       'vcv-ui-content-start--visible': contentStart,
-      'vcv-ui-content-end--visible': contentEnd
+      'vcv-ui-content-end--visible': contentEnd,
+      'vcv-inline-editor--active': this.state.contentEditableMode
     })
     return (
       <div className={layoutClasses} style={stickyBar}>

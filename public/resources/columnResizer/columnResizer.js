@@ -28,11 +28,17 @@ class ColumnResizer extends React.Component {
       dragging: false,
       leftColPercentage: null,
       rightColPercentage: null,
-      labelPosition: null
+      labelPosition: null,
+      isVisible: true
     }
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
+    this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
+  }
+
+  componentDidMount () {
+    vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
   }
 
   componentDidUpdate (props, state) {
@@ -49,6 +55,14 @@ class ColumnResizer extends React.Component {
       vcCake.setData('vcv:layoutColumnResize', null)
       ifameDocument.removeEventListener('mousemove', this.handleMouseMove)
       ifameDocument.removeEventListener('mouseup', this.handleMouseUp)
+    }
+  }
+
+  handleLayoutCustomModeChange (data) {
+    if (data === 'contentEditable') {
+      this.hide()
+    } else {
+      this.show()
     }
   }
 
@@ -318,7 +332,18 @@ class ColumnResizer extends React.Component {
     elementsStorage.trigger('update', parentRow.id, parentRow)
   }
 
+  hide () {
+    this.setState({ isVisible: false })
+  }
+
+  show () {
+    this.setState({ isVisible: true })
+  }
+
   render () {
+    if (!this.state.isVisible) {
+      return null
+    }
     let resizerLabels = ''
     if (this.state.dragging) {
       let labelProps = {
