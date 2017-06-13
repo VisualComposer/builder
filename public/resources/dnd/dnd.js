@@ -264,15 +264,20 @@ export default class DnD {
     this.position = position
   }
 
-  start (id, point) {
+  start (id, point, tag, domNode) {
     if (!this.dragStartHandled) {
       this.dragStartHandled = true
     }
-    this.draggingElement = id ? this.items[ id ] : null
-    if (!this.draggingElement) {
-      this.draggingElement = null
-      return false
+    if (!id && tag) {
+      this.draggingElement = this.createDraggingElementFromTag(tag, domNode)
+    } else {
+      this.draggingElement = id ? this.items[ id ] : null
+      if (!this.draggingElement) {
+        this.draggingElement = null
+        return false
+      }
     }
+
     this.options.document.addEventListener('mousedown', this.handleRightMouseClickFunction, false)
     this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
     // Create helper/clone of element
@@ -304,7 +309,20 @@ export default class DnD {
       this.helper && this.helper.show()
     }, 200)
   }
-
+  createDraggingElementFromTag (tag, domNode) {
+    let element = cook.get({tag: tag})
+    if (!element) { return }
+    let containerFor = element.get('containerFor')
+    let relatedTo = element.get('relatedTo')
+    return new DOMElement('dropElement', domNode, {
+      containerFor: containerFor ? containerFor.value : null,
+      relatedTo: relatedTo ? relatedTo.value : null,
+      parent: this.options.rootID,
+      handler: this.options.handler,
+      tag: element.get('tag'),
+      iconLink: hubCategories.getElementIcon(element.get('tag'))
+    })
+  }
   end () {
     // Remove helper
     this.helper && this.helper.remove()
