@@ -26,7 +26,7 @@ export default class Component extends Attribute {
     if (this.props.value !== nextProps.value && vcCake.env('platform') !== 'wordpress') {
       window.tinymce.EditorManager.get(this.id).setContent(nextProps.value)
     }
-    super.componentWillReceiveProps(nextProps)
+    // super.componentWillReceiveProps(nextProps)
   }
   handleChange (event, editor) {
     const value = editor.getContent()
