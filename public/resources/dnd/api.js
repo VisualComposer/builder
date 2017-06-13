@@ -10,8 +10,8 @@ export default class API {
     this.dnd.manualScroll = true
     data.point && this.dnd.check(data.point)
   }
-  addNew (tag, domNode, data) {
-    this.dnd.start(false, false, tag, domNode)
+  addNew (data) {
+    this.dnd.start(data.id, false, data.tag, data.domNode)
     this.dnd.manualScroll = true
     data.point && this.dnd.check(data.point)
   }
