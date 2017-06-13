@@ -292,7 +292,7 @@ export default class ControlsManager {
       if (id && this.state.showOutline) {
         let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
         if (element) {
-          this.outline.show(element)
+          this.outline.show(element, id)
         }
       } else {
         this.outline.hide()
@@ -397,7 +397,7 @@ export default class ControlsManager {
           // show outline over content element
           let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]`)
           if (contentElement) {
-            this.outline.show(contentElement)
+            this.outline.show(contentElement, data.vcElementId)
           }
         }
       }

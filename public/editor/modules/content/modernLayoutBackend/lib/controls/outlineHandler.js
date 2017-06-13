@@ -1,3 +1,7 @@
+import {getService, env} from 'vc-cake'
+const documentManager = getService('document')
+const cook = getService('cook')
+
 export default class Outline {
   constructor (props) {
     this.iframeContainer = props.iframeContainer
@@ -5,6 +9,7 @@ export default class Outline {
     this.iframe = props.iframe
     this.iframeWindow = props.iframeWindow
     this.iframeDocument = props.iframeDocument
+    this.colorIndex = null
 
     this.outline = null
 
@@ -21,6 +26,9 @@ export default class Outline {
   setup () {
     this.outline = document.createElement('svg')
     this.outline.classList.add('vcv-ui-element-outline')
+    if (env('FEATURE_OUTLINE_HOVER_COLOR')) {
+      this.outline.classList.add('vcv-ui-element-outline-type-custom')
+    }
     this.iframeOverlay.appendChild(this.outline)
   }
 
@@ -28,7 +36,12 @@ export default class Outline {
    * Show outline
    * @param element
    */
-  show (element) {
+  show (element, id) {
+    if (env('FEATURE_OUTLINE_HOVER_COLOR')) {
+      const vcElement = this.getVcElement(id)
+      this.colorIndex = this.getElementColorIndex(vcElement)
+      this.outline.classList.add(`vcv-ui-element-outline-type-index-${this.colorIndex}`)
+    }
     this.outline.classList.add('vcv-state--visible')
     this.autoUpdatePosition(element)
   }
@@ -37,6 +50,9 @@ export default class Outline {
    * Hide outline
    */
   hide () {
+    if (env('FEATURE_OUTLINE_HOVER_COLOR')) {
+      this.outline.classList.remove(`vcv-ui-element-outline-type-index-${this.colorIndex}`)
+    }
     this.outline.classList.remove('vcv-state--visible')
     this.stopAutoUpdatePosition()
   }
@@ -79,5 +95,26 @@ export default class Outline {
       this.iframeWindow.clearInterval(this.state.outlineTimeout)
       this.state.outlineTimeout = null
     }
+  }
+
+  /**
+   * Get vc element color index
+   * @param vcElement
+   * @returns {number}
+   */
+  getElementColorIndex (vcElement) {
+    let colorIndex = 2
+    if (vcElement && vcElement.containerFor().length > 0) {
+      colorIndex = vcElement.containerFor().indexOf('Column') > -1 ? 0 : 1
+    }
+    return colorIndex
+  }
+
+  /**
+   * Get vc element
+   * @param elementId
+   */
+  getVcElement (elementId) {
+    return cook.get(documentManager.get(elementId))
   }
 }

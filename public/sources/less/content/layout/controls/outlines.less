@@ -27,7 +27,7 @@
 //== states
 .vcv-ui-outline {
   &.vcv-state-highlight {
-    border: @outlines-highlight-border-width @outlines-highlight-border-style @outlines-highlight-border-color;
+    border: @outlines-highlight-border-width @outlines-highlight-border-style @outlines-highlight-border-color-row;
   }
 }
 
@@ -47,8 +47,28 @@
 
 //== states
 .vcv-ui-element-outline {
-  border: solid @outlines-highlight-border-width/2 @outlines-highlight-border-color;
-  box-shadow: 0 0 0 @outlines-highlight-border-width/2 @outlines-highlight-border-color;
+  border: solid @outlines-highlight-border-width/2 @outlines-highlight-border-color-row;
+  box-shadow: 0 0 0 @outlines-highlight-border-width/2 @outlines-highlight-border-color-row;
+
+  &.vcv-ui-element-outline-type-custom {
+    border: 0;
+    box-shadow: none;
+  }
+
+  &.vcv-ui-element-outline-type-index-0 {
+    border: solid @outlines-highlight-border-width/2 @outlines-highlight-border-color-row;
+    box-shadow: 0 0 0 @outlines-highlight-border-width/2 @outlines-highlight-border-color-row;
+  }
+
+  &.vcv-ui-element-outline-type-index-1 {
+    border: solid @outlines-highlight-border-width/2 @outlines-highlight-border-color-column;
+    box-shadow: 0 0 0 @outlines-highlight-border-width/2 @outlines-highlight-border-color-column;
+  }
+
+  &.vcv-ui-element-outline-type-index-2 {
+    border: solid @outlines-highlight-border-width/2 @outlines-highlight-border-color-element;
+    box-shadow: 0 0 0 @outlines-highlight-border-width/2 @outlines-highlight-border-color-element;
+  }
 }
 
 // frame-outline
