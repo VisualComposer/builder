@@ -1,12 +1,10 @@
 import vcCake from 'vc-cake'
 import ControlsHandler from './controlsHandler'
 import OutlineHandler from './outlineHandler'
-import FramesHandler from './framesHandler'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceContentStartState = workspaceStorage.state('contentStart')
-const elementsStorage = vcCake.getStorage('elements')
 
 export default class ControlsManager {
   constructor (api) {
@@ -27,7 +25,6 @@ export default class ControlsManager {
       prevElement: null,
       prevElementPath: [],
       showOutline: true,
-      showFrames: true,
       showControls: true
     }
 
@@ -57,15 +54,6 @@ export default class ControlsManager {
 
     // define helpers
     Object.defineProperties(this, {
-      /**
-       * @memberOf! FramesManager
-       */
-      frames: {
-        value: new FramesHandler(systemData),
-        writable: false,
-        enumerable: false,
-        configurable: false
-      },
       /**
        * @memberOf! OutlineManager
        */
@@ -198,38 +186,9 @@ export default class ControlsManager {
     // Check custom layout mode
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
       this.state.showOutline = !state
-      this.state.showFrames = !state
-      if (state === 'dnd') {
-        this.state.showFrames = true
-      }
       this.state.showControls = !state
       this.findElement()
       this.controlElementFind()
-    })
-
-    workspaceStorage.state('contentEnd').onChange((action) => {
-      this.frames.hide()
-      this.editRowId = null
-      let data = workspaceStorage.state('settings').get()
-      if (action === 'editElement' && data.element && data.element.tag === 'row') {
-        this.editRowId = data.element.id
-        this.showChildrenFramesWithDelay(this.editRowId)
-      }
-    })
-
-    elementsStorage.state('rebuildRow').onChange(() => {
-      let settingsData = workspaceStorage.state('settings').get()
-      let contentEndData = workspaceStorage.state('contentEnd').get()
-
-      if (contentEndData === 'editElement' && settingsData.element && settingsData.element.tag === 'row') {
-        this.showChildrenFramesWithDelay(this.editRowId)
-      }
-    })
-
-    elementsStorage.state('elementAdd').onChange((data) => {
-      if (data && data.tag === 'row') {
-        this.showChildrenFramesWithDelay(data.id)
-      }
     })
 
     // check remove element
@@ -261,29 +220,14 @@ export default class ControlsManager {
     // this.api.reply('editorContent:element:mouseLeave', () => {
     //   this.controls.hide()
     // })
-    // // Frames interaction
-    // this.api.reply('editorContent:element:mouseEnter', (data) => {
-    //   if (this.state.showFrames) {
-    //     this.showFrames(data)
-    //   }
-    // })
-    // this.api.reply('editorContent:element:mouseLeave', () => {
-    //   this.frames.hide()
-    // })
     layoutStorage.state('interactWithContent').onChange((data) => {
       if (data && data.type === 'mouseEnter') {
         if (this.state.showControls) {
           this.controls.show(data)
         }
-        if (this.state.showFrames) {
-          this.showFrames(data)
-        }
       }
       if (data && data.type === 'mouseLeave') {
         this.controls.hide()
-        if (this.state.showFrames) {
-          this.frames.hide()
-        }
       }
     })
   }
@@ -471,68 +415,5 @@ export default class ControlsManager {
         this.controlsPrevElement = element
       }
     }
-  }
-
-  /**
-   * Show frames with custom path
-   */
-  showFrames (data) {
-    const documentService = vcCake.getService('document')
-    let elementsToShow = []
-    data.vcElementsPath.forEach((id) => {
-      let documentElement = documentService.get(id)
-      if (documentElement.tag === 'column') {
-        let children = documentService.children(documentElement.parent)
-        children.forEach((child) => {
-          elementsToShow.push(child.id)
-        })
-      } else if (documentElement.tag === 'row') {
-        let children = documentService.children(documentElement.id)
-        elementsToShow.push(documentElement.id)
-        children.forEach((child) => {
-          elementsToShow.push(child.id)
-        })
-      } else {
-        elementsToShow.push(documentElement.id)
-      }
-    })
-    elementsToShow = elementsToShow.map((id) => {
-      let selector = `[data-vcv-element="${id}"]`
-      return this.iframeContainer.querySelector(selector)
-    })
-    elementsToShow = elementsToShow.filter((el) => {
-      return el
-    })
-    this.frames.show({ element: data.element, path: elementsToShow })
-  }
-
-  /**
-   * Show frames on elements children
-   */
-  showChildrenFrames (parentId) {
-    const documentService = vcCake.getService('document')
-    let elementsToShow = []
-    let children = documentService.children(parentId)
-    let backendLayout = document.querySelector('#vcv-wpbackend-layout-content')
-    children.forEach((child) => {
-      elementsToShow.push(child.id)
-    })
-    elementsToShow = elementsToShow.map((id) => {
-      let selector = `[data-vcv-element="${id}"]`
-      return backendLayout.querySelector(selector)
-    })
-    elementsToShow = elementsToShow.filter((el) => {
-      return el
-    })
-    this.frames.show({ path: elementsToShow })
-  }
-
-  /**
-   * Show frames on elements children for columns, when they are not ready yet
-   */
-  showChildrenFramesWithDelay (id) {
-    setTimeout(() => {
-      this.showChildrenFrames(id)
-    }, 100)
   }
 }
