@@ -110,7 +110,7 @@ class File implements Helper
         // @codingStandardsIgnoreLine
         if (!$wp_filesystem || !is_object($wp_filesystem)) {
             require_once(ABSPATH . '/wp-admin/includes/file.php');
-            $status = WP_Filesystem();
+            $status = WP_Filesystem(false, false, true);
         }
 
         // @codingStandardsIgnoreLine
