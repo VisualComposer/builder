@@ -14,5 +14,5 @@ vcCake.env('FEATURE_START_BLANK', true)
 vcCake.env('FEATURE_NO_GLOBAL_CSS', true)
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FEATURE_CLICK_TO_EDIT', true)
-vcCake.env('FEATURE_OUTLINE_HOVER_COLOR', false)
-vcCake.env('FEATURE_TINYMCE_SKIN', false)
+vcCake.env('FEATURE_OUTLINE_HOVER_COLOR', true)
+vcCake.env('FEATURE_TINYMCE_SKIN', true)
