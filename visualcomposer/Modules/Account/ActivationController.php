@@ -135,7 +135,7 @@ class ActivationController extends Container implements Module
                 [
                     'body' => [
                         'url' => VCV_PLUGIN_URL,
-                        'email' => $requestHelper->input('email'),
+                        'email' => trim($requestHelper->input('email')),
                         'agreement' => $requestHelper->input('agreement'),
                     ],
                 ]
