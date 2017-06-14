@@ -38,6 +38,7 @@ export default class ControlsManager {
     this.handleFrameLeave = this.handleFrameLeave.bind(this)
     this.handleFrameMousemoveOnce = this.handleFrameMousemoveOnce.bind(this)
     this.handleOverlayMouseLeave = this.handleOverlayMouseLeave.bind(this)
+    this.handleFrameContainerLeave = this.handleFrameContainerLeave.bind(this)
   }
 
   /**
@@ -99,6 +100,8 @@ export default class ControlsManager {
     // add controls interaction with content
     this.controls.getControlsContainer().addEventListener('mousemove', this.controlElementFind)
     this.controls.getControlsContainer().addEventListener('mouseleave', this.controlElementFind)
+    // show frames on mouseleave, if edit form for row is opened
+    this.iframeContainer.addEventListener('mouseleave', this.handleFrameContainerLeave)
   }
 
   /**
@@ -522,11 +525,6 @@ export default class ControlsManager {
    * Add event listener on documentBody to check if hide controls
    */
   handleFrameLeave () {
-    let data = workspaceStorage.state('settings').get()
-    if (data && data.element && data.element.tag === 'row') {
-      this.editRowId = data.element.id
-      this.showChildrenFramesWithDelay(this.editRowId)
-    }
     this.documentBody.addEventListener('mousemove', this.handleFrameMousemoveOnce)
   }
 
@@ -552,5 +550,16 @@ export default class ControlsManager {
   handleOverlayMouseLeave () {
     this.iframeOverlay.removeEventListener('mouseleave', this.handleOverlayMouseLeave)
     this.findElement()
+  }
+
+  /**
+   * Show frames if mouse is out of iframe and edit form for row is opened
+   */
+  handleFrameContainerLeave () {
+    let data = workspaceStorage.state('settings').get()
+    if (data && data.element && data.element.tag === 'row') {
+      this.editRowId = data.element.id
+      this.showChildrenFramesWithDelay(this.editRowId)
+    }
   }
 }
