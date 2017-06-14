@@ -89,6 +89,9 @@ export default class Component extends Attribute {
         selector: '#' + id,
         setup: (editor) => {
           editor.on('keyup change undo redo SetContent', this.handleChangeWpEditor.bind(this, editor))
+        },
+        init_instance_callback: () => {
+          this.setState({ editorLoaded: true })
         }
       })
       window.tinyMCEPreInit.qtInit[ id ] = Object.assign({}, window.tinyMCEPreInit.qtInit[ '__VCVID__' ], {
@@ -105,7 +108,6 @@ export default class Component extends Attribute {
           window.QTags.instances[ id ].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
         }
       }
-      this.setState({ editorLoaded: true })
     }, 0)
   }
 
@@ -155,7 +157,7 @@ export default class Component extends Attribute {
       const id = `vcv-wpeditor-${fieldKey}`
       if (vcCake.env('FEATURE_TINYMCE_SKIN') && this.state.editorLoaded) {
         const editor = window.tinymce.get(id)
-        if (editor) {
+        if (editor && editor.getBody()) {
           editor.getBody().style.backgroundColor = this.state.darkTextSkin ? '#2F2F2F' : ''
         }
       }
