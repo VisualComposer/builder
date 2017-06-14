@@ -6,17 +6,21 @@
   right: 0;
   overflow: hidden;
   background: @editor-layout-start-blank-background;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.vcv-loading-overlay-inner {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }
 
 .vcv-loading-dots-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
   width: @editor-layout-loading-icon-size;
   height: @editor-layout-loading-icon-size;
-  margin: auto;
   text-align: center;
   animation: vcvDotsRotate 2s infinite linear;
 }
@@ -45,4 +49,24 @@
 @keyframes vcvDotsBounce {
   0%, 100% { transform: scale(0); }
   50% { transform: scale(1); }
+}
+
+.vcv-loading-text {
+  margin-top: @editor-layout-loading-text-top-space;
+  text-align: center;
+  color: @editor-layout-loading-text-color;
+  padding: 0 @editor-layout-loading-text-side-space;
+}
+
+.vcv-loading-text-main {
+  font-size: @editor-layout-loading-main-font-size;
+  margin: @editor-layout-loading-text-space;
+  line-height: @editor-layout-loading-text-line-height;
+}
+
+.vcv-loading-text-helper {
+  font-style: italic;
+  font-size: @editor-layout-loading-helper-font-size;
+  margin: @editor-layout-loading-text-space;
+  line-height: @editor-layout-loading-text-line-height;
 }
