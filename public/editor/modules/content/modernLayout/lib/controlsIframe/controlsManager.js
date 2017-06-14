@@ -222,6 +222,7 @@ export default class ControlsManager {
 
     workspaceStorage.state('contentEnd').onChange((action) => {
       this.editRowId = null
+      this.frames.hide()
       let data = workspaceStorage.state('settings').get()
       if (action === 'editElement' && data.element && data.element.tag === 'row') {
         this.editRowId = data.element.id
@@ -521,6 +522,11 @@ export default class ControlsManager {
    * Add event listener on documentBody to check if hide controls
    */
   handleFrameLeave () {
+    let data = workspaceStorage.state('settings').get()
+    if (data && data.element && data.element.tag === 'row') {
+      this.editRowId = data.element.id
+      this.showChildrenFramesWithDelay(this.editRowId)
+    }
     this.documentBody.addEventListener('mousemove', this.handleFrameMousemoveOnce)
   }
 
