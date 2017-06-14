@@ -36,40 +36,39 @@ class RevisionController extends Container implements Module
     /**
      * Save meta for revision.
      *
-     * @param $post_id
+     * @param $postId
      * @param $post
      */
-    // @codingStandardsIgnoreLine
-    private function saveRevisionMeta($post_id, $post)
+    protected function saveRevisionMeta($postId, $post)
     {
         $requestHelper = vchelper('Request');
         $data = $requestHelper->input('data');
 
         $vcvData = $data['wp_autosave']['vcv-data'];
         // @codingStandardsIgnoreLine
-        if (wp_is_post_revision($post_id)) {
+        if (wp_is_post_revision($postId)) {
             if (false !== $vcvData) {
                 // @codingStandardsIgnoreLine
-                add_metadata('post', $post_id, VCV_PREFIX . 'pageContent', $vcvData);
+                add_metadata('post', $postId, VCV_PREFIX . 'pageContent', $vcvData);
             }
         }
     }
 
     /**
-     * @param $post_id
-     * @param $revision_id
+     * @param $postId
+     * @param $revisionId
      */
-    // @codingStandardsIgnoreStart
-    private function restoreRevision($post_id, $revision_id)
+    protected function restoreRevision($postId, $revisionId)
     {
-        $post = get_post($post_id);
-        $revision = get_post($revision_id);
+        // @codingStandardsIgnoreStart
+        $post = get_post($postId);
+        $revision = get_post($revisionId);
         $pageContent = get_metadata('post', $revision->ID, VCV_PREFIX . 'pageContent', true);
 
         if (false !== $pageContent) {
-            update_post_meta($post_id, VCV_PREFIX . 'pageContent', $pageContent);
+            update_post_meta($postId, VCV_PREFIX . 'pageContent', $pageContent);
         } else {
-            delete_post_meta($post_id, VCV_PREFIX . 'pageContent');
+            delete_post_meta($postId, VCV_PREFIX . 'pageContent');
         }
         // @codingStandardsIgnoreEnd
     }
@@ -79,7 +78,7 @@ class RevisionController extends Container implements Module
      *
      * @return array
      */
-    private function getRevisionData(Request $requestHelper)
+    protected function getRevisionData(Request $requestHelper)
     {
         $response = [];
         $sourceId = $requestHelper->input('vcv-source-id');
