@@ -172,13 +172,12 @@ addStorage('wordpressData', (storage) => {
         post_content: $postData.content,
         status: true,
         data: vcvData
-      });
+      })
 
       storage.state('status').set({
         status: 'loadSuccess',
         request: request
       })
-
     })
   })
   jQuery(document).on('before-autosave', function (e, saveObj) {
