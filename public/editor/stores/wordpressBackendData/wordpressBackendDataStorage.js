@@ -155,4 +155,39 @@ addStorage('wordpressData', (storage) => {
       dataSaved = false
     }
   })
+
+  let $notice = $('#local-storage-notice')
+  $notice.find('.restore-backup').on('click.autosave-local', function (e) {
+    let $postData = wp.autosave.local.getSavedPostData()
+    let ajax = getService('utils').ajax
+
+    ajax({
+      'vcv-action': 'getRevisionData:adminNonce',
+      'vcv-source-id': window.vcvSourceID,
+      'vcv-nonce': window.vcvNonce
+    }, (result) => {
+      let response = JSON.parse(result.response)
+      let vcvData = response.pageContent
+      let request = JSON.stringify({
+        post_content: $postData.content,
+        status: true,
+        data: vcvData
+      });
+
+      storage.state('status').set({
+        status: 'loadSuccess',
+        request: request
+      })
+
+    })
+  })
+  jQuery(document).on('before-autosave', function (e, saveObj) {
+    const documentData = documentManager.all()
+    storage.trigger('wordpress:beforeSave', {
+      pageElements: documentData
+    })
+    saveObj[ 'vcv-data' ] = encodeURIComponent(JSON.stringify({
+      elements: documentData
+    }))
+  })
 })
