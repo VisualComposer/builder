@@ -129,6 +129,9 @@ export default class Component extends Attribute {
 
   getSkinToggle () {
     const toggleFieldKey = this.props && this.props.options && this.props.options.skinToggle
+    if (!toggleFieldKey) {
+      return null
+    }
     return (
       <ToggleSmall
         api={this.props.api}
