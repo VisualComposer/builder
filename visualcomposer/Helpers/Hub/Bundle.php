@@ -16,7 +16,16 @@ class Bundle implements Helper
     {
         $urlHelper = vchelper('Url');
         $fileHelper = vchelper('File');
-        $downloadUrl = $urlHelper->query(sprintf('%s/download/bundle/lite', VCV_HUB_URL), $requestedData);
+        $optionHelper = vchelper('Options');
+        $downloadUrl = $urlHelper->query(
+            sprintf(
+                '%s/download/bundle/lite?plugin=%s&bundle=%s',
+                VCV_HUB_URL,
+                VCV_VERSION,
+                $optionHelper->get('bundleVersion', '0')
+            ),
+            $requestedData
+        );
         $downloadedArchive = $fileHelper->download($downloadUrl);
 
         return $downloadedArchive;

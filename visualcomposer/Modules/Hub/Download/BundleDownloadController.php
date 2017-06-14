@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Hub\Bundle;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -23,7 +22,7 @@ class BundleDownloadController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
             $this->addFilter(
-                'vcv:activation:success',
+                'vcv:activation:success vcv:bundle:download',
                 'prepareBundleDownload',
                 50
             );

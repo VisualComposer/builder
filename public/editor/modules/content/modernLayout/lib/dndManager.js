@@ -62,6 +62,7 @@ export default class DndManager {
       this.items.init()
       this.apiDnD = DnD.api(this.items)
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
+      vcCake.onDataChange('dropNewElement', this.apiDnD.addNew.bind(this.apiDnD))
       workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
       vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
         if (value === 'contentEditable' || value === 'columnResizer') {
