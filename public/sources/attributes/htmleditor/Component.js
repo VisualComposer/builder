@@ -7,27 +7,36 @@ import './css/wpEditor.css'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
+import ToggleSmall from '../toggleSmall/Component'
 export default class Component extends Attribute {
   constructor (props) {
     super(props)
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
+    this.handleSkinChange = this.handleSkinChange.bind(this)
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
+
+    if (vcCake.env('FEATURE_TINYMCE_SKIN')) {
+      this.state.darkTextSkin = this.getDarkTextSkinState()
+    }
   }
+
   shouldComponentUpdate (nextProps) {
     if (this.state.editorLoaded && this.props.value !== nextProps.value && vcCake.env('platform') === 'wordpress') {
-      const {fieldKey} = this.props
+      const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
       window.tinymce.get(id).setContent(nextProps.value)
       return false
     }
     return true
   }
+
   componentWillReceiveProps (nextProps) {
     if (this.props.value !== nextProps.value && vcCake.env('platform') !== 'wordpress') {
       window.tinymce.EditorManager.get(this.id).setContent(nextProps.value)
     }
     // super.componentWillReceiveProps(nextProps)
   }
+
   handleChange (event, editor) {
     const value = editor.getContent()
     this.setFieldValue(value)
@@ -42,6 +51,11 @@ export default class Component extends Attribute {
     const { updater, fieldKey } = this.props
     const field = e.target
     updater(fieldKey, field.value)
+  }
+
+  handleSkinChange (fieldKey, isDark) {
+    this.setState({ darkTextSkin: isDark })
+    this.props.updater(fieldKey, isDark)
   }
 
   renderEditor () {
@@ -65,6 +79,7 @@ export default class Component extends Attribute {
       </div>
     )
   }
+
   initWpEditorJs () {
     const { fieldKey } = this.props
     const id = `vcv-wpeditor-${fieldKey}`
@@ -90,14 +105,16 @@ export default class Component extends Attribute {
           window.QTags.instances[ id ].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
         }
       }
-      this.setState({editorLoaded: true})
+      this.setState({ editorLoaded: true })
     }, 0)
   }
+
   componentDidMount () {
     if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
       this.initWpEditorJs()
     }
   }
+
   componentWillUnmount () {
     if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
       const { fieldKey } = this.props
@@ -110,19 +127,50 @@ export default class Component extends Attribute {
     }
   }
 
+  getSkinToggle () {
+    const toggleFieldKey = this.props && this.props.options && this.props.options.skinToggle
+    return (
+      <ToggleSmall
+        api={this.props.api}
+        fieldKey={toggleFieldKey}
+        updater={this.handleSkinChange}
+        value={this.state.darkTextSkin}
+      />
+    )
+  }
+
+  getDarkTextSkinState () {
+    let { element, options } = this.props
+    const toggleFieldKey = options && options.skinToggle
+    return !!(toggleFieldKey && element && element.data && element.data[ toggleFieldKey ])
+  }
+
   render () {
     if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
       const { value } = this.state
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
+      if (vcCake.env('FEATURE_TINYMCE_SKIN') && this.state.editorLoaded) {
+        const editor = window.tinymce.get(id)
+        if (editor) {
+          editor.getBody().style.backgroundColor = this.state.darkTextSkin ? '#2F2F2F' : ''
+        }
+      }
       const template = document.getElementById('vcv-wpeditor-template').innerHTML
-          .replace(/__VCVID__/g, id)
-          .replace(/%%content%%/g, value)
+        .replace(/__VCVID__/g, id)
+        .replace(/%%content%%/g, value)
       const cssClasses = classnames({
         'vcv-ui-form-wp-tinymce': true,
         'vcv-is-invisible': this.state.editorLoaded !== true
       })
-      return <div className={cssClasses} dangerouslySetInnerHTML={{__html: template}} />
+      if (vcCake.env('FEATURE_TINYMCE_SKIN')) {
+        return <div className={cssClasses}>
+          <div dangerouslySetInnerHTML={{ __html: template }} />
+          {this.getSkinToggle()}
+        </div>
+      } else {
+        return <div className={cssClasses} dangerouslySetInnerHTML={{__html: template}} />
+      }
     }
     return this.renderEditor()
   }

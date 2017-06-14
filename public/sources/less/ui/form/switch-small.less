@@ -1,0 +1,110 @@
+.vcv-ui-form-switch-small-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+.vcv-ui-form-switch-small-trigger-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin: @vcui-form-switch-label-margin;
+}
+.vcv-ui-form-switch-small {
+  width: 34px;
+  height: 20px;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  &:hover {
+    cursor: pointer;
+  }
+  > input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
+
+  .vcv-ui-form-switch-small-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transition-property: all;
+    transition-duration: @vcui-form-transition-duration;
+    transition-timing-function: ease-in-out;
+    border-radius: 4em;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      height: 12px;
+      width: 12px;
+      background: #ffffff;
+      border-radius: 4em;
+      transition-property: all;
+      transition-duration: @vcui-form-transition-duration;
+      transition-timing-function: ease-in-out;
+      z-index: 10;
+    }
+  }
+  > input {
+    &:checked {
+      ~ .vcv-ui-form-switch-small-indicator {
+        background-color: @vcui-form-switch-small-on-background;
+        &::before {
+          left: 0;
+          margin-left: 1.6em;
+        }
+      }
+    }
+    &:not(:checked) {
+      ~ .vcv-ui-form-switch-small-indicator {
+        background-color: @vcui-form-switch-small-off-background;
+        &::before {
+          left: 100%;
+          margin-left: -1.6em;
+        }
+      }
+    }
+  }
+  &:hover {
+    > input {
+      &:checked {
+        ~ .vcv-ui-form-switch-small-indicator {
+          & when (lightness(@vcui-form-switch-small-on-background) > 70%) {
+            background-color: darken(@vcui-form-switch-small-on-background, 5%);
+          }
+          & when not (lightness(@vcui-form-switch-small-on-background) > 70%) {
+            background-color: darken(@vcui-form-switch-small-on-background, 3%);
+          }
+        }
+      }
+      &:not(:checked) {
+        ~ .vcv-ui-form-switch-small-indicator {
+          & when (lightness(@vcui-form-switch-small-off-background) > 70%) {
+            background-color: darken(@vcui-form-switch-small-off-background, 5%);
+          }
+          & when not (lightness(@vcui-form-switch-small-off-background) > 70%) {
+            background-color: darken(@vcui-form-switch-small-off-background, 3%);
+          }
+        }
+      }
+    }
+  }
+  > input,
+  &:hover > input {
+    &:disabled,
+    &[disabled] {
+      ~ .vcv-ui-form-switch-small-indicator {
+        background-color: @vcui-form-input-disabled-background;
+        border: 1px solid @vcui-form-input-border-color;
+        cursor: not-allowed;
+        &::before {
+          border: inherit;
+        }
+      }
+    }
+  }
+}
