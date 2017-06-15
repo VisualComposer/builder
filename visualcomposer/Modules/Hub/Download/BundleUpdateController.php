@@ -22,7 +22,7 @@ class BundleUpdateController extends Container implements Module
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
             $this->addEvent('vcv:inited vcv:system:activation:hook', 'checkForUpdate');
             $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', 120);
-            //            $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'doRedirect', 130);
+            $this->addFilter('vcv:editors:backend:render', 'setUpdatingViewBe', 120);
         }
     }
 
@@ -52,6 +52,17 @@ class BundleUpdateController extends Container implements Module
         if ($optionsHelper->get('bundleUpdateRequired')) {
             return vcview(
                 'editor/frontend/frontend-updating.php'
+            );
+        }
+
+        return $response;
+    }
+
+    protected function setUpdatingViewBe($response, Options $optionsHelper)
+    {
+        if ($optionsHelper->get('bundleUpdateRequired')) {
+            return vcview(
+                'editor/backend/content-updating.php'
             );
         }
 

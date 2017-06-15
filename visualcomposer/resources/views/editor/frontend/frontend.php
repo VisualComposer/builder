@@ -89,10 +89,6 @@ if (is_array($extraOutput)) {
 			                    <div class="vcv-loading-dot vcv-loading-dot-1"></div>
 			                    <div class="vcv-loading-dot vcv-loading-dot-2"></div>
 		                    </div>
-		                    <!--<div class="vcv-loading-text">-->
-		                        <!--<p class="vcv-loading-text-main">We are updating assets from the Visual Composer Cloud ... Please wait.</p>-->
-			                    <!--<p class="vcv-loading-text-helper">Don’t close this window while update is in process.</p>-->
-		                    <!--</div>-->
 	                    </div>
                     </div>
                 </div>
