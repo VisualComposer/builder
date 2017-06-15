@@ -30,7 +30,7 @@ class BundleUpdateController extends Container implements Module
     {
         if ($optionsHelper->getTransient('lastBundleUpdate') < time()) {
             $this->checkVersion();
-            $optionsHelper->setTransient('lastBundleUpdate', time() + 30);
+            $optionsHelper->setTransient('lastBundleUpdate', time() + DAY_IN_SECONDS);
         }
     }
 
