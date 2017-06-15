@@ -16,13 +16,11 @@ class Bundle implements Helper
     {
         $urlHelper = vchelper('Url');
         $fileHelper = vchelper('File');
-        $optionHelper = vchelper('Options');
         $downloadUrl = $urlHelper->query(
             sprintf(
-                '%s/download/bundle/lite?plugin=%s&bundle=%s',
+                '%s/download/bundle/lite?plugin=%s',
                 VCV_HUB_URL,
-                VCV_VERSION,
-                $optionHelper->get('bundleVersion', '0')
+                VCV_VERSION
             ),
             $requestedData
         );
@@ -63,5 +61,28 @@ class Bundle implements Helper
         $fileHelper = vchelper('File');
 
         return $fileHelper->removeDirectory($folder);
+    }
+
+    /**
+     * Get remote version
+     *
+     * @return bool|array
+     */
+    public function getRemoteVersionInfo()
+    {
+        $urlHelper = vchelper('Url');
+        $versionUrl = $urlHelper->query(
+            sprintf(
+                '%s/version/bundle/lite?plugin=%s',
+                VCV_HUB_URL,
+                VCV_VERSION
+            )
+        );
+        $request = wp_remote_get($versionUrl);
+        if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
+            return $request['body'];
+        }
+
+        return false;
     }
 }
