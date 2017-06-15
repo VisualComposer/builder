@@ -45,11 +45,17 @@ class EditorFilesDownloadController extends Container implements Module
      * @param $payload
      * @param \VisualComposer\Helpers\File $fileHelper
      * @param \VisualComposer\Helpers\Hub\Bundle $hubBundleHelper
+     * @param \VisualComposer\Helpers\Options $optionHelper
      *
      * @return bool
      */
-    protected function updateEditorFiles($response, $payload, File $fileHelper, Bundle $hubBundleHelper)
-    {
+    protected function updateEditorFiles(
+        $response,
+        $payload,
+        File $fileHelper,
+        Bundle $hubBundleHelper,
+        Options $optionHelper
+    ) {
         $bundleJson = $payload['archive'];
         if (!$response || is_wp_error($bundleJson)) {
             return false;
@@ -60,6 +66,8 @@ class EditorFilesDownloadController extends Container implements Module
                 $hubBundleHelper->getTempBundleFolder('editor'),
                 VCV_PLUGIN_ASSETS_DIR_PATH . '/editor'
             );
+            $optionHelper->set('bundleUpdateRequired', false);
+            $optionHelper->set('bundleVersion', $bundleJson['editor']);
         }
 
         return true;
