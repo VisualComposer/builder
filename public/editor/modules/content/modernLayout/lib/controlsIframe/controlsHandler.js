@@ -113,8 +113,7 @@ export default class ControlsHandler {
       let delimiter = document.createElement('i')
       delimiter.classList.add('vcv-ui-outline-control-separator', 'vcv-ui-icon', 'vcv-ui-icon-arrow-right')
       if (i === 0) {
-        const options = { isMostNested: true }
-        controlsList.appendChild(this.createControlForElement(elementId, options))
+        controlsList.appendChild(this.createControlForElement(elementId))
         if (i !== elementIds.length - 1) {
           controlsList.insertBefore(delimiter, controlsList.children[ 0 ])
         }
@@ -241,7 +240,7 @@ export default class ControlsHandler {
    * @param elementId
    * @returns {Element}
    */
-  createControlForElement (elementId, options) {
+  createControlForElement (elementId) {
     let vcElement = this.getVcElement(elementId)
     let colorIndex = this.getElementColorIndex(vcElement)
 
@@ -262,8 +261,7 @@ export default class ControlsHandler {
       {
         isContainer: colorIndex < 2,
         title: vcElement.get('name'),
-        tag: vcElement.get('tag'),
-        isMostNested: options ? options.isMostNested : false
+        tag: vcElement.get('tag')
       }
     ))
 
@@ -371,28 +369,25 @@ export default class ControlsHandler {
       }
     })
 
-    // do not add for first (most nested) element
-    if (!options || options && !options.isMostNested || !env('FEATURE_CLICK_TO_EDIT')) {
-      // edit control
-      actions.push({
-        label: editText,
-        title: `${editText} ${options.title}`,
-        icon: 'vcv-ui-icon-edit',
-        data: {
-          vcControlEvent: 'edit'
-        }
-      })
+    // edit control
+    actions.push({
+      label: editText,
+      title: `${editText} ${options.title}`,
+      icon: 'vcv-ui-icon-edit',
+      data: {
+        vcControlEvent: 'edit'
+      }
+    })
 
-      // remove control
-      actions.push({
-        label: removeText,
-        title: `${removeText} ${options.title}`,
-        icon: 'vcv-ui-icon-trash',
-        data: {
-          vcControlEvent: 'remove'
-        }
-      })
-    }
+    // remove control
+    actions.push({
+      label: removeText,
+      title: `${removeText} ${options.title}`,
+      icon: 'vcv-ui-icon-trash',
+      data: {
+        vcControlEvent: 'remove'
+      }
+    })
 
     actions.forEach((action) => {
       dropdown.appendChild(this.createControlAction(elementId, action))
