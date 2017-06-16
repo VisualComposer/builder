@@ -122,6 +122,8 @@ export default class DnD {
           cancelMove: false,
           moveCallback: function () {
           },
+          dropCallback: function () {
+          },
           startCallback: function () {
           },
           endCallback: function () {
@@ -135,7 +137,8 @@ export default class DnD {
           ignoreHandling: null,
           disabled: false,
           helperType: null,
-          manualScroll: false
+          manualScroll: false,
+          drop: false
         })
       }
     })
@@ -268,7 +271,7 @@ export default class DnD {
     if (!this.dragStartHandled) {
       this.dragStartHandled = true
     }
-    if (!id && tag) {
+    if (id && tag) {
       this.draggingElement = this.createDraggingElementFromTag(tag, domNode)
     } else {
       this.draggingElement = id ? this.items[ id ] : null
@@ -337,7 +340,14 @@ export default class DnD {
     if (typeof this.options.endCallback === 'function') {
       this.options.endCallback(this.draggingElement)
     }
-    if (this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
+    if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
+      this.position && this.options.dropCallback(
+        this.draggingElement.id,
+        this.position,
+        this.currentElement,
+        this.draggingElement
+      )
+    } else if (this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
       this.position && this.options.moveCallback(
         this.draggingElement.id,
         this.position,

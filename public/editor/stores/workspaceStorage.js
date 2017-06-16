@@ -1,4 +1,4 @@
-import {addStorage, getService, getStorage} from 'vc-cake'
+import { addStorage, getService, getStorage } from 'vc-cake'
 
 addStorage('workspace', (storage) => {
   const elementsStorage = getStorage('elements')
@@ -59,6 +59,13 @@ addStorage('workspace', (storage) => {
   })
   storage.on('move', (id, settings) => {
     elementsStorage.trigger('move', id, settings)
+  })
+  storage.on('drop', (id, settings) => {
+    const relatedElement = settings.related ? documentManger.get(settings.related) : false
+    const data = cook.get({ tag: settings.element.tag, parent: relatedElement.parent })
+    elementsStorage.trigger('add', data.toJS())
+    elementsStorage.trigger('move', data.data.id, settings)
+    storage.trigger('edit', data.toJS().id, '')
   })
   storage.on('start', () => {
     localStorage.trigger('start')
