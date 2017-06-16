@@ -125,7 +125,6 @@ export default class DndManager {
       // this.api.request('data:move', id, { action: action, related: related })
     }
   }
-
   static start () {
     vcCake.setData('elementControls:disable', true)
     document.body.classList.add('vcv-is-no-selection')
