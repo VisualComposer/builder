@@ -61,13 +61,11 @@ addStorage('workspace', (storage) => {
     elementsStorage.trigger('move', id, settings)
   })
   storage.on('drop', (id, settings) => {
-    console.log('drop element', getData('dropNewElement'))
-    console.log('id, settigns', id, settings)
-    // const data = cook.get({ tag: this.props.tag, parent: false })
-    // elementsStorage.trigger('add', data.toJS(), true, {
-    //   insertAfter: false
-    // })
-    // storage.trigger('edit', data.toJS().id, '')
+    const relatedElement = settings.related ? documentManger.get(settings.related) : false
+    const data = cook.get({ tag: settings.element.tag, parent: relatedElement.parent })
+    elementsStorage.trigger('add', data.toJS())
+    elementsStorage.trigger('move', data.data.id, settings)
+    storage.trigger('edit', data.toJS().id, '')
   })
   storage.on('start', () => {
     localStorage.trigger('start')

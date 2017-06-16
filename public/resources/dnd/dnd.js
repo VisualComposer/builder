@@ -344,7 +344,8 @@ export default class DnD {
       this.position && this.options.dropCallback(
         this.draggingElement.id,
         this.position,
-        this.currentElement
+        this.currentElement,
+        this.draggingElement
       )
     } else if (this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
       this.position && this.options.moveCallback(
