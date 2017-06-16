@@ -1,4 +1,4 @@
-import {addStorage, getService, getStorage, getData} from 'vc-cake'
+import { addStorage, getService, getStorage } from 'vc-cake'
 
 addStorage('workspace', (storage) => {
   const elementsStorage = getStorage('elements')
