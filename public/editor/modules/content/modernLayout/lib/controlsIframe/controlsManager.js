@@ -52,7 +52,7 @@ export default class ControlsManager {
     this.iframeWindow = options.iframeWindow
     this.iframeDocument = options.iframeDocument
     this.documentBody = options.documentBody
-    this.editRowId = null
+    this.editFormId = null
 
     let systemData = {
       iframeContainer: this.iframeContainer,
@@ -224,12 +224,17 @@ export default class ControlsManager {
     })
 
     workspaceStorage.state('contentEnd').onChange((action) => {
-      this.editRowId = null
+      this.editFormId = null
       this.frames.hide()
       let data = workspaceStorage.state('settings').get()
-      if (action === 'editElement' && data.element && (data.element.tag === 'row' || data.element.tag === 'column')) {
-        this.editRowId = data.element.tag === 'row' ? data.element.id : data.element.parent
-        this.showChildrenFramesWithDelay(this.editRowId)
+      if (action === 'editElement' && data.element) {
+        if (data.element.tag === 'row') {
+          this.editFormId = data.element.id
+          this.showChildrenFramesWithDelay(this.editFormId)
+        } else if (data.element.tag === 'column') {
+          this.editFormId = data.element.id
+          this.showFramesOnOneElement(this.editFormId)
+        }
       }
     })
 
@@ -237,8 +242,8 @@ export default class ControlsManager {
       let settingsData = workspaceStorage.state('settings').get()
       let contentEndData = workspaceStorage.state('contentEnd').get()
 
-      if (contentEndData === 'editElement' && settingsData.element && (settingsData.element.tag === 'row' || settingsData.element.tag === 'column')) {
-        this.showChildrenFramesWithDelay(this.editRowId)
+      if (contentEndData === 'editElement' && settingsData.element && settingsData.element.tag === 'row') {
+        this.showChildrenFramesWithDelay(this.editFormId)
       }
     })
 
@@ -522,6 +527,17 @@ export default class ControlsManager {
   }
 
   /**
+   * Show frames on one element
+   * @param id
+   */
+  showFramesOnOneElement (id) {
+    const selector = `[data-vcv-element="${id}"]`
+    let elementsToShow = []
+    elementsToShow.push(this.iframeDocument.querySelector(selector))
+    this.frames.show({ path: elementsToShow })
+  }
+
+  /**
    * Add event listener on documentBody to check if hide controls
    */
   handleFrameLeave () {
@@ -557,9 +573,14 @@ export default class ControlsManager {
    */
   handleFrameContainerLeave () {
     let data = workspaceStorage.state('settings').get()
-    if (data && data.element && (data.element.tag === 'row' || data.element.tag === 'column')) {
-      this.editRowId = data.element.tag === 'row' ? data.element.id : data.element.parent
-      this.showChildrenFramesWithDelay(this.editRowId)
+    if (data && data.element) {
+      if (data.element.tag === 'row') {
+        this.editFormId = data.element.id
+        this.showChildrenFramesWithDelay(this.editFormId)
+      } else if (data.element.tag === 'column') {
+        this.editFormId = data.element.id
+        this.showFramesOnOneElement(this.editFormId)
+      }
     }
   }
 }
