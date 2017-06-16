@@ -21,7 +21,7 @@ class Locale extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Internationalization\Locale::outputLocalizations */
         $this->addFilter(
-            'vcv:backend:extraOutput vcv:frontend:head:extraOutput vcv:backend:settings:extraOutput',
+            'vcv:backend:extraOutput vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput vcv:backend:settings:extraOutput',
             'outputLocalizations'
         );
     }

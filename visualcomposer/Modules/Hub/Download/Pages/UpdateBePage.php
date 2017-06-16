@@ -2,6 +2,12 @@
 
 namespace VisualComposer\Modules\Hub\Download\Pages;
 
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
@@ -22,7 +28,7 @@ class UpdateBePage extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = 'hub/updating';
+    protected $templatePath = 'hub/updating-layout';
 
     public function __construct()
     {
@@ -50,7 +56,6 @@ class UpdateBePage extends Container implements Module
     protected function beforeRender()
     {
         wp_dequeue_script('vcv:settings:script');
-        wp_dequeue_style('vcv:settings:style');
     }
 
     /**

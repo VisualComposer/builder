@@ -189,6 +189,9 @@
   > span {
     position: relative;
   }
+  &.vcv-popup-button--hidden {
+    display: none;
+  }
 }
 
 .vcv-popup-button:hover {
@@ -465,12 +468,18 @@ input.vcv-popup-form-input {
 }
 
 @keyframes vceDotsRotate {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes vceDotsBounce {
-  0%, 100% { transform: scale(0); }
-  50% { transform: scale(1); }
+  0%, 100% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
 }
 
 .vcv-popup-loading-zoom {
@@ -649,9 +658,11 @@ input.vcv-popup-form-input {
     margin-left: @vcv-buttonSideSpacing;
     margin-right: @vcv-buttonSideSpacing;
   }
+
   .vcv-popup-form-submit {
     margin: 0 0 20px;
   }
+
   .vcv-popup-slider {
     width: @vcv-sliderWidthSM;
   }

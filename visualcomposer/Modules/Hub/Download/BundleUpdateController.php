@@ -26,11 +26,12 @@ class BundleUpdateController extends Container implements Module
             $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', 120);
             $this->addFilter('vcv:frontend:update:head:extraOutput', 'addUpdateAssets', 10);
             $this->addFilter(
-                'vcv:editors:backend:addMetabox vcv:editors:frontend:render',
+                'vcv:editors:backend:addMetabox',
                 'setRedirectToUpdateBe',
                 120
             );
-            $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'doRedirectBe', 130);
+            $this->addFilter('vcv:editors:backend:addMetabox', 'doRedirectBe', 130);
+            $this->addFilter('vcv:ajax:bundle:update:adminNonce', 'triggerPrepareBundleDownload', 130);
         }
     }
 
@@ -124,5 +125,26 @@ class BundleUpdateController extends Container implements Module
         }
 
         return $response;
+    }
+
+    protected function triggerPrepareBundleDownload($response, $payload)
+    {
+        $result = vcfilter('vcv:hub:bundle:update:adminNonce', true, $payload);
+        if (is_wp_error($result) || $result !== true) {
+            header('Status: 403', true, 403);
+            header('HTTP/1.0 403 Forbidden', true, 403);
+
+            if (is_wp_error($result)) {
+                /** @var $response \WP_Error */
+                echo json_encode(['message' => implode('. ', $result->get_error_messages())]);
+            } elseif (is_array($result)) {
+                echo json_encode(['message' => $result['body']]);
+            } else {
+                echo json_encode(['status' => false]);
+            }
+            exit;
+        }
+
+        return $result;
     }
 }

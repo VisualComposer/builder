@@ -22,7 +22,7 @@ class BundleDownloadController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
             $this->addFilter(
-                'vcv:activation:success vcv:ajax:bundle:update:adminNonce',
+                'vcv:activation:success vcv:hub:bundle:update:adminNonce',
                 'prepareBundleDownload',
                 50
             );
@@ -36,7 +36,9 @@ class BundleDownloadController extends Container implements Module
             $hubHelper->removeTempBundleFolder();
             $archive = $hubHelper->requestBundleDownload();
             $archive = $this->readBundleJson($archive);
-            $status = $filterHelper->fire('vcv:hub:download:bundle', true, ['archive' => $archive]);
+            if ($archive) {
+                $status = $filterHelper->fire('vcv:hub:download:bundle', true, ['archive' => $archive]);
+            }
             $hubHelper->removeTempBundleFolder();
         }
 
