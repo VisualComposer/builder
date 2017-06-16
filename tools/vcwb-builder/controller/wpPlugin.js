@@ -47,6 +47,7 @@ exports.build = (dir, repo) => {
           'cp -fr ' + repoPath + '/bootstrap  ./ &' +
           'cp -fr ' + repoPath + '/cache  ./ &' +
           'cp -fr ' + repoPath + '/public/dist/wpsettings* ./public/dist/ &' +
+          'cp -fr ' + repoPath + '/public/dist/wpupdate.bundle.* ./public/dist/ &' +
           // 'cp -fr ' + repoPath + '/public/dist/pe.* ./public/dist/ &' +
           'cp -fr ' + repoPath + '/public/dist/vendor.bundle.js ./public/dist/ &' +
           // 'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
