@@ -123,6 +123,7 @@ export default class Url extends Attribute {
       isWindowOpen: false,
       unsavedValue: {}
     })
+    this.loadPosts()
   }
 
   cancel = (e) => {
