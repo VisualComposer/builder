@@ -167,9 +167,10 @@ export default class AttachImage extends Attribute {
   getUrlHtml (key) {
     let urlHtml = ''
     if (this.props.options.url) {
+      let urlValue = this.state.value.urls[ key ].link || ''
       urlHtml = (
         <Url
-          value={this.state.value.urls[ key ].link}
+          value={urlValue}
           updater={this.handleUrlChange.bind(this, key)}
           api={this.props.api}
           fieldKey={`${this.props.fieldKey}.linkUrl`}
