@@ -19,6 +19,7 @@ class FrontendControllerTest extends WP_UnitTestCase
         $requestHelper->setData(['vcv-source-id' => $postId]);
         vchelper('PostType')->setupPost($postId);
         vchelper('Token')->setSiteAuthorized();
+        vchelper('Options')->set('bundleUpdateRequired', false);
         $output = vchelper('Filters')->fire('vcv:editors:frontend:render');
 
         $patterns = [
