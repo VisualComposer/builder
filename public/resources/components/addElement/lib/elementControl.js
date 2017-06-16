@@ -14,15 +14,20 @@ export default class ElementControl extends React.Component {
     element: React.PropTypes.object.isRequired,
     workspace: React.PropTypes.object
   }
+
   constructor (props) {
     super(props)
     this.state = {
       previewVisible: false,
-      previewStyle: {}
+      previewStyle: {},
+      isDragging: false,
+      iframe: document.getElementById('vcv-editor-iframe')
     }
-    this.addElement = this.addElement.bind(this)
     this.showPreview = this.showPreview.bind(this)
     this.hidePreview = this.hidePreview.bind(this)
+    this.handleMouseDown = this.handleMouseDown.bind(this)
+    this.handleMouseUp = this.handleMouseUp.bind(this)
+    this.initDrag = this.initDrag.bind(this)
   }
 
   componentDidMount () {
@@ -32,7 +37,7 @@ export default class ElementControl extends React.Component {
 
   addElement (e) {
     e && e.preventDefault()
-    const {workspace} = this.props
+    const { workspace } = this.props
     const parentElementId = workspace.element ? workspace.element.id : false
     const data = cook.get({ tag: this.props.tag, parent: parentElementId })
     elementsStorage.trigger('add', data.toJS(), true, {
@@ -156,6 +161,49 @@ export default class ElementControl extends React.Component {
     return this
   }
 
+  initDrag (e) {
+    const { element, tag } = this.props
+    const { iframe } = this.state
+    const newElement = document.createElement('div')
+    newElement.setAttribute('data-vcv-element', element.id)
+    if (iframe) {
+      iframe.style.pointerEvents = 'none'
+      if (!e.target.closest('.vcv-layout-header')) {
+        iframe.style = ''
+        this.setState({ isDragging: false })
+        document.body.removeEventListener('mousemove', this.initDrag)
+
+        vcCake.setData('dropNewElement', {
+          id: element.id,
+          point: false,
+          tag: tag,
+          domNode: newElement
+        })
+      }
+    }
+  }
+
+  handleMouseDown (e) {
+    e && e.preventDefault()
+    if (vcCake.env('DRAG_AND_DROP_FROM_ADD_ELEMENT_PANEL')) {
+      if (!this.state.isDragging) {
+        this.setState({ isDragging: true })
+        document.body.addEventListener('mousemove', this.initDrag)
+      }
+    }
+  }
+
+  handleMouseUp (e) {
+    e && e.preventDefault()
+    const { iframe } = this.state
+    this.setState({ isDragging: false })
+    document.body.removeEventListener('mousemove', this.initDrag)
+    if (iframe) {
+      iframe.style = ''
+    }
+    this.addElement()
+  }
+
   render () {
     let { name, element } = this.props
     let { previewVisible, previewStyle } = this.state
@@ -184,9 +232,10 @@ export default class ElementControl extends React.Component {
     return (
       <li className='vcv-ui-item-list-item'>
         <span className='vcv-ui-item-element'
-          onClick={this.addElement}
           onMouseEnter={this.showPreview}
           onMouseLeave={this.hidePreview}
+          onMouseDown={this.handleMouseDown}
+          onMouseUp={this.handleMouseUp}
           title={name}>
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
