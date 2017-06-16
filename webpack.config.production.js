@@ -12,6 +12,7 @@ module.exports = Object.assign(webpackConfig, {
     wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
     wpsettings: './public/wp-settings-main',
+    wpupdate: './public/bundle-update-main',
     app: [],
     vendor: [
       'jquery',

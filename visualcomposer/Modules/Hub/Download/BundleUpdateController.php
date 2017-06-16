@@ -12,6 +12,8 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Url;
+use VisualComposer\Modules\Hub\Download\Pages\UpdateBePage;
 
 class BundleUpdateController extends Container implements Module
 {
@@ -22,7 +24,13 @@ class BundleUpdateController extends Container implements Module
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
             $this->addEvent('vcv:inited vcv:system:activation:hook', 'checkForUpdate');
             $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', 120);
-            $this->addFilter('vcv:editors:backend:render', 'setUpdatingViewBe', 120);
+            $this->addFilter('vcv:frontend:update:head:extraOutput', 'addUpdateAssets', 10);
+            $this->addFilter(
+                'vcv:editors:backend:addMetabox vcv:editors:frontend:render',
+                'setRedirectToUpdateBe',
+                120
+            );
+            $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'doRedirectBe', 130);
         }
     }
 
@@ -58,12 +66,61 @@ class BundleUpdateController extends Container implements Module
         return $response;
     }
 
-    protected function setUpdatingViewBe($response, Options $optionsHelper)
+    protected function addUpdateAssets($response, $payload, Url $urlHelper)
+    {
+        // Add Vendor JS
+        $response = array_merge(
+            (array)$response,
+            [
+                sprintf(
+                    '<link rel="stylesheet" href="%s"></link>',
+                    $urlHelper->to(
+                        'public/dist/wpupdate.bundle.css?' . VCV_VERSION
+                    )
+                ),
+                sprintf(
+                    '<script id="vcv-script-vendor-bundle-update" type="text/javascript" src="%s"></script>',
+                    $urlHelper->to(
+                        'public/dist/wpupdate.bundle.js?' . VCV_VERSION
+                    )
+                ),
+            ]
+        );
+
+        return $response;
+    }
+
+    /**
+     * Do redirect if required on welcome page
+     *
+     * @param $response
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return
+     */
+    protected function doRedirectBe($response, UpdateBePage $updateBePage, Options $optionsHelper)
+    {
+        $redirect = $optionsHelper->getTransient('_vcv_update_page_redirect');
+        $optionsHelper->deleteTransient('_vcv_update_page_redirect');
+        if ($redirect) {
+            wp_redirect(admin_url('admin.php?page=' . rawurlencode($updateBePage->getSlug())));
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return mixed
+     */
+    protected function setRedirectToUpdateBe($response, $payload, Options $optionsHelper, Url $urlHelper)
     {
         if ($optionsHelper->get('bundleUpdateRequired')) {
-            return vcview(
-                'editor/backend/content-updating.php'
-            );
+            $optionsHelper->setTransient('_vcv_update_page_redirect', 1, 30);
+            $optionsHelper->setTransient('_vcv_update_page_redirect_url', $urlHelper->current(), 30);
         }
 
         return $response;
