@@ -140,7 +140,7 @@ class Localizations extends Container implements Helper
             'enterDestinationUrl' => __('Enter the destination URL', 'vcwb'),
             'titleAttributeText' => __('Title attribute will be displayed on link hover', 'vcwb'),
             'title' => __('Title', 'vcwb'),
-            'bundleUpdateFailed' => __('Bundle update failed... Please try again.', 'vcwb'),
+            'bundleUpdateFailed' => __('Visual Composer Cloud update failed, please try again.', 'vcwb'),
         ];
 
         return $locale;

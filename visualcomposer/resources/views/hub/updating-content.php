@@ -61,7 +61,7 @@ if (is_array($extraOutput)) {
 </div>
 <div class="vcv-popup-content">
     <div class="vcv-button-container">
-        <button data-vcv-retry class="vcv-popup-button vcv-popup-last-screen-button vcv-popup-button--hidden"><span><?php echo __(
+        <button data-vcv-retry class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update vcv-popup-button--hidden"><span><?php echo __(
                     'Retry Update',
                     'vcwb'
                 ); ?></span></button>
