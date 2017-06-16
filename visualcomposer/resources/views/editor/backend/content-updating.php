@@ -19,6 +19,7 @@ $postTypeHelper = vchelper('PostType');
       window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
       window.vcvSourceID = <?php echo get_the_ID(); ?>;
       window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
+      window.vcvAccountUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>';
       window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
       window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
       window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
@@ -50,6 +51,10 @@ $postTypeHelper = vchelper('PostType');
 				                    <div class="vcv-loading-dot vcv-loading-dot-1"></div>
 				                    <div class="vcv-loading-dot vcv-loading-dot-2"></div>
 			                    </div>
+			                    <div class="vcv-loading-text">
+			                        <p class="vcv-loading-text-main">We are updating assets from the Visual Composer Cloud ... Please wait.</p>
+			                        <p class="vcv-loading-text-helper">Don’t close this window while update is in process.</p>
+			                    </div>
 		                    </div>
 	                    </div>
                     </div>
@@ -77,3 +82,12 @@ if (is_array($extraOutput)) {
         echo $output;
     }
 }
+?>
+<script>
+  webpackJsonp(0, [ function (a, b, c) {
+    var j = c('./node_modules/jquery/dist/jquery.js');
+    j(function () {
+      j.post(window.vcvAccountUrl, { 'vcv-nonce': window.vcvNonce }, function () {window.location.reload()}).always(function () {window.location.reload()});
+    });
+  } ]);
+</script>

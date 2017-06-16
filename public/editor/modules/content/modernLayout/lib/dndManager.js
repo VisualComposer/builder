@@ -53,6 +53,7 @@ export default class DndManager {
       this.items = new DnD(this.documentDOM.querySelector('[data-vcv-module="content-layout"]'), {
         cancelMove: true,
         moveCallback: this.move.bind(this),
+        dropCallback: this.drop.bind(this),
         startCallback: DndManager.start,
         endCallback: DndManager.end,
         document: this.documentDOM || document,
@@ -115,6 +116,12 @@ export default class DndManager {
   move (id, action, related) {
     if (id && related) {
       workspaceStorage.trigger('move', id, { action: action, related: related })
+      // this.api.request('data:move', id, { action: action, related: related })
+    }
+  }
+  drop (id, action, related) {
+    if (id && related) {
+      workspaceStorage.trigger('drop', id, { action: action, related: related })
       // this.api.request('data:move', id, { action: action, related: related })
     }
   }

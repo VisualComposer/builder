@@ -22,9 +22,6 @@ $typenow = get_post_type();
 $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
-wp_enqueue_style('wp-admin');
-wp_enqueue_media();
-$postTypeHelper = vchelper('PostType');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
@@ -36,13 +33,6 @@ $postTypeHelper = vchelper('PostType');
     <link rel="stylesheet"
         href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
     <?php
-    do_action('embed_head');
-    wp_print_head_scripts();
-    // @codingStandardsIgnoreLine
-    do_action('admin_enqueue_scripts', $hook_suffix);
-    do_action('admin_print_styles');
-    do_action('admin_print_scripts');
-    do_action('admin_head');
     $extraOutput = vcfilter('vcv:frontend:head:extraOutput', []);
     if (is_array($extraOutput)) {
         foreach ($extraOutput as $output) {
@@ -54,24 +44,9 @@ $postTypeHelper = vchelper('PostType');
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
 <script>
-  window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
-  window.vcvSourceID = <?php echo get_the_ID(); ?>;
-  window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
-  window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
-  window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
-  window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
-  window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
-  window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
+  window.vcvAccountUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>'
+  window.vcvAdminNonce = '<?php echo $nonceHelper->admin(); ?>';
 </script>
-<?php
-$extraOutput = vcfilter('vcv:frontend:body:extraOutput', []);
-if (is_array($extraOutput)) {
-    foreach ($extraOutput as $output) {
-        echo $output;
-    }
-    unset($output);
-}
-?>
 <div class="vcv-layout-container vcv-is-disabled-outline">
     <div class="vcv-layout" id="vcv-layout">
         <div class="vcv-layout-header" id="vcv-layout-header">
@@ -84,32 +59,27 @@ if (is_array($extraOutput)) {
                 <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
                 <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
                     <div class="vcv-loading-overlay">
-	                    <div class="vcv-loading-overlay-inner">
-		                    <div class="vcv-loading-dots-container">
-			                    <div class="vcv-loading-dot vcv-loading-dot-1"></div>
-			                    <div class="vcv-loading-dot vcv-loading-dot-2"></div>
-		                    </div>
-	                    </div>
+                        <div class="vcv-loading-overlay-inner">
+                            <div class="vcv-loading-dots-container">
+                                <div class="vcv-loading-dot vcv-loading-dot-1"></div>
+                                <div class="vcv-loading-dot vcv-loading-dot-2"></div>
+                            </div>
+                            <div class="vcv-loading-text">
+                                <p class="vcv-loading-text-main">We are updating assets from the Visual Composer Cloud ... Please wait.</p>
+                                <p class="vcv-loading-text-helper">Don’t close this window while update is in process.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<?php
-do_action('wp_footer');
-wp_print_footer_scripts();
-do_action('admin_footer', '');
-do_action('admin_print_footer_scripts-{$hook_suffix}');
-do_action('admin_print_footer_scripts');
-do_action('admin_footer-{$hook_suffix}');
-$extraOutput = vcfilter('vcv:frontend:footer:extraOutput', []);
-if (is_array($extraOutput)) {
-    foreach ($extraOutput as $output) {
-        echo $output;
-    }
-    unset($output);
-}
-?>
+<script>
+  webpackJsonp(0, [ function (a, b, c) {
+    var j = c('./node_modules/jquery/dist/jquery.js');
+    j.post(window.vcvAccountUrl, { 'vcv-nonce': window.vcvAdminNonce }, function () {window.location.reload()}).always(function () {window.location.reload()});
+  } ]);
+</script>
 </body>
 </html>

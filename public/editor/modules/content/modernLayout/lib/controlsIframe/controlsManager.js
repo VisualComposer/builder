@@ -227,8 +227,8 @@ export default class ControlsManager {
       this.editRowId = null
       this.frames.hide()
       let data = workspaceStorage.state('settings').get()
-      if (action === 'editElement' && data.element && data.element.tag === 'row') {
-        this.editRowId = data.element.id
+      if (action === 'editElement' && data.element && (data.element.tag === 'row' || data.element.tag === 'column')) {
+        this.editRowId = data.element.tag === 'row' ? data.element.id : data.element.parent
         this.showChildrenFramesWithDelay(this.editRowId)
       }
     })
@@ -237,7 +237,7 @@ export default class ControlsManager {
       let settingsData = workspaceStorage.state('settings').get()
       let contentEndData = workspaceStorage.state('contentEnd').get()
 
-      if (contentEndData === 'editElement' && settingsData.element && settingsData.element.tag === 'row') {
+      if (contentEndData === 'editElement' && settingsData.element && (settingsData.element.tag === 'row' || settingsData.element.tag === 'column')) {
         this.showChildrenFramesWithDelay(this.editRowId)
       }
     })
@@ -557,8 +557,8 @@ export default class ControlsManager {
    */
   handleFrameContainerLeave () {
     let data = workspaceStorage.state('settings').get()
-    if (data && data.element && data.element.tag === 'row') {
-      this.editRowId = data.element.id
+    if (data && data.element && (data.element.tag === 'row' || data.element.tag === 'column')) {
+      this.editRowId = data.element.tag === 'row' ? data.element.id : data.element.parent
       this.showChildrenFramesWithDelay(this.editRowId)
     }
   }
