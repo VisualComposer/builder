@@ -24,7 +24,7 @@ class Bundle implements Helper
             ),
             $requestedData
         );
-        $downloadedArchive = $fileHelper->download('http://9cd99b8e.ngrok.io/account/resources/bundlex.zip');
+        $downloadedArchive = $fileHelper->download($downloadUrl);
 
         return $downloadedArchive;
     }
