@@ -22,7 +22,7 @@ class BundleUpdateController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
-            $this->addEvent('vcv:inited vcv:system:activation:hook', 'checkForUpdate');
+            $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
             $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', 120);
             $this->addFilter('vcv:frontend:update:head:extraOutput', 'addUpdateAssets', 10);
             $this->addFilter(
