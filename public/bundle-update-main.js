@@ -7,7 +7,7 @@ $(() => {
 
   let $popup = $('.vcv-popup-container')
   let $errorPopup = $('.vcv-popup-error')
-  let $retryButton = $('[data-vcv-retry]')
+  let $retryButton = $('[data-vcv-error-description]')
   let closeError = (cb) => {
     $errorPopup.removeClass('vcv-popup-error--active')
     if (cb && typeof cb === 'function') {
@@ -45,10 +45,10 @@ $(() => {
   }
 
   let showRetryButton = () => {
-    $retryButton.removeClass('vcv-popup-button--hidden')
+    $retryButton.removeClass('vcv-popup--hidden')
   }
   let hideRetryButton = () => {
-    $retryButton.addClass('vcv-popup-button--hidden')
+    $retryButton.addClass('vcv-popup--hidden')
   }
 
   let showErrorMessage = () => {
