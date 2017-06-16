@@ -22,7 +22,11 @@ class VendorBundleController extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Assets\VendorBundleController::addVendorScript */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'addVendorScript', 1);
+        $this->addFilter(
+            'vcv:backend:extraOutput vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput',
+            'addVendorScript',
+            1
+        );
 
         $this->wpAddAction('admin_init', 'registerVendorScripts');
         $this->wpAddAction('init', 'registerVendorScripts');

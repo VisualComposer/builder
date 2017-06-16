@@ -33,7 +33,7 @@ $nonceHelper = vchelper('Nonce');
     <link rel="stylesheet"
         href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
     <?php
-    $extraOutput = vcfilter('vcv:frontend:head:extraOutput', []);
+    $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
     if (is_array($extraOutput)) {
         foreach ($extraOutput as $output) {
             echo $output;
@@ -45,7 +45,7 @@ $nonceHelper = vchelper('Nonce');
 <body class="vcv-wb-editor vcv-is-disabled-outline">
 <script>
   window.vcvAccountUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>'
-  window.vcvAdminNonce = '<?php echo $nonceHelper->admin(); ?>';
+  window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
 </script>
 <div class="vcv-layout-container vcv-is-disabled-outline">
     <div class="vcv-layout" id="vcv-layout">
@@ -53,9 +53,6 @@ $nonceHelper = vchelper('Nonce');
         </div>
         <div class="vcv-layout-content">
             <div class="vcv-layout-iframe-container">
-                <iframe class="vcv-layout-iframe"
-                    src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
-                    frameborder="0" scrolling="auto"></iframe>
                 <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
                 <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
                     <div class="vcv-loading-overlay">
@@ -75,11 +72,5 @@ $nonceHelper = vchelper('Nonce');
         </div>
     </div>
 </div>
-<script>
-  webpackJsonp(0, [ function (a, b, c) {
-    var j = c('./node_modules/jquery/dist/jquery.js');
-    j.post(window.vcvAccountUrl, { 'vcv-nonce': window.vcvAdminNonce }, function () {window.location.reload()}).always(function () {window.location.reload()});
-  } ]);
-</script>
 </body>
 </html>

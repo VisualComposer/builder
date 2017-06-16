@@ -49,7 +49,7 @@ class ActivationPage extends Container implements Module
                         'addPage',
                         40
                     );
-                } elseif ($requestHelper->input('page') === 'vcv-activation') {
+                } elseif ($requestHelper->input('page') === $this->getSlug()) {
                     $aboutPage = vcapp('SettingsPagesAbout');
                     wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
                     exit;
