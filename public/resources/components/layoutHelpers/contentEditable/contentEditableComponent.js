@@ -58,10 +58,11 @@ export default class ContentEditableComponent extends React.Component {
       toolbar: { buttons: [ 'bold', 'italic', 'underline' ] },
       imageDragging: false,
       paste: {
-        cleanPastedHTML: true,
+        cleanPastedHTML: false,
         cleanAttrs: [ 'style', 'dir' ],
         cleanTags: [ 'label', 'meta' ],
-        unwrapTags: [ 'sub', 'sup' ]
+        unwrapTags: [ 'sub', 'sup' ],
+        forcePlainText: false
       },
       contentWindow: this.iframeWindow,
       ownerDocument: this.iframeDocument,
@@ -94,7 +95,7 @@ export default class ContentEditableComponent extends React.Component {
       }
       editorSettings.disableReturn = true
       editorSettings.paste = {
-        forcePlainText: true,
+        forcePlainText: false,
         leanPastedHTML: true
       }
     }
