@@ -1,0 +1,76 @@
+.vcv-popup-error-description {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  flex: 1 0 auto;
+  justify-content: center;
+  text-align: center;
+
+  .vcv-logo {
+    flex: 0 0 auto;
+  }
+
+  .vcv-popup-heading {
+    flex: 0 0 auto;
+    margin: @vcv-headingSpacingError;
+  }
+
+  .vcv-popup-loading-heading {
+    max-width: @vcv-headingWidthError;
+    line-height: @vcv-headingLoadingLineHeightError;
+    margin: @vcv-headingLoadingSpacingError;
+    font-size: @vcv-headingLoadingFontSizeError;
+    flex: 0 0 auto;
+  }
+
+  .vcv-button-container {
+    flex: 0 0 auto;
+  }
+
+  .vcv-popup-button {
+    padding: @vcv-buttonInnerSpacingError;
+    color: inherit;
+  }
+}
+
+.vcv-loading-overlay {
+  .vcv-popup-error-description {
+    color: @vcv-popupDarkColor;
+  }
+
+  .vcv-popup-heading {
+    font: @vcv-headingFont;
+  }
+
+  .vcv-popup-loading-heading {
+    font: @vcv-loadingHeadingFont;
+    letter-spacing: @vcv-loadingLetterSpacing;
+    display: block;
+    font-size: @vcv-headingLoadingFontSizeError;
+  }
+
+  .vcv-popup-button {
+    display: inline-block;
+    background: transparent;
+    font: @vcv-buttonFont;
+    letter-spacing: @vcv-buttonLetterSpacing;
+    text-transform: uppercase;
+    border: @vcv-buttonBorderDark;
+    transition: color @vcv-transitionDuration @vcv-transitionTimingFunction, border-color @vcv-transitionDuration @vcv-transitionTimingFunction;
+    margin-bottom: @vcv-buttonBottomSpacing;
+    max-width: 100%;
+
+    > span {
+      position: relative;
+    }
+    &.vcv-popup-button--hidden {
+      display: none;
+    }
+  }
+
+  .vcv-popup-button:hover {
+    cursor: pointer;
+    color: @vcv-buttonHoverDarkColor;
+    border-color: @vcv-buttonHoverDarkBorder;
+  }
+}
