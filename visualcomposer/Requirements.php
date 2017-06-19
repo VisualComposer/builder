@@ -28,6 +28,11 @@ class VcvCoreRequirements
             . '<a href="https://codex.wordpress.org/Upgrading_WordPress"> ' . 'Please update!' . '</a>';
         self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'), $exitMsgWp);
 
+        return true;
+    }
+
+    public function imagesExtChecks()
+    {
         $exitMsgPhpExt = 'Visual Composer requires GD/Imagick extension to be loaded.';
         $implementation = _wp_image_editor_choose();
         if (!$implementation) {
