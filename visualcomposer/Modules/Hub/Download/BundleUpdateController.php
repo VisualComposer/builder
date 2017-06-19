@@ -45,12 +45,12 @@ class BundleUpdateController extends Container implements Module
 
     protected function checkVersion()
     {
-        $optionHelper = vchelper('Options');
+        $optionsHelper = vchelper('Options');
         $hubBundleHelper = vchelper('HubBundle');
         $version = $hubBundleHelper->getRemoteVersionInfo();
-        if (version_compare($optionHelper->get('bundleVersion', '0'), $version, '<')) {
+        if (version_compare($optionsHelper->get('bundleVersion', '0'), $version, '<')) {
             // we need to update bundle!!
-            $optionHelper->set('bundleUpdateRequired', true);
+            $optionsHelper->set('bundleUpdateRequired', true);
         }
 
         return true;

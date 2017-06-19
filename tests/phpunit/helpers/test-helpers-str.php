@@ -137,11 +137,7 @@ class HelpersStrTest extends WP_UnitTestCase
 
         $this->assertTrue(method_exists($helper, 'length'));
 
-        $this->assertEquals(14, $helper->length('glāžšķūņrūķīši'));
-
         $this->assertEquals(9, $helper->length(' foo bar '));
-
-        $this->assertEquals(1, $helper->length('茶'));
 
         $this->assertEquals(0, $helper->length(null));
 
@@ -179,11 +175,7 @@ class HelpersStrTest extends WP_UnitTestCase
 
         $this->assertTrue(method_exists($helper, 'lower'));
 
-        $this->assertEquals('glāžšķūņrūķīši', $helper->lower('GLĀŽŠĶŪŅrūķīši'));
-
         $this->assertEquals('foo bar', $helper->lower('FOO BAR'));
-
-        $this->assertEquals('茶', $helper->lower('茶'));
 
         $this->assertEquals('', $helper->lower(null));
 
@@ -219,33 +211,11 @@ class HelpersStrTest extends WP_UnitTestCase
 
         $this->assertTrue(method_exists($helper, 'upper'));
 
-        $this->assertEquals('GLĀŽŠĶŪŅRŪĶĪŠI', $helper->upper('GLĀŽŠĶŪŅrūķīši'));
-
         $this->assertEquals('FOO BAR', $helper->upper('foo bar'));
-
-        $this->assertEquals('茶', $helper->upper('茶'));
 
         $this->assertEquals('', $helper->upper(null));
 
         $this->assertEquals('', $helper->upper(''));
-    }
-
-    public function testTitle()
-    {
-        /**
-         * @var $helper VisualComposer\Helpers\Str
-         */
-        $helper = vcapp('VisualComposer\Helpers\Str');
-
-        $this->assertTrue(method_exists($helper, 'title'));
-
-        $value = 'Some-random_fooBarBaz!xyz string XXX ';
-
-        $this->assertEquals('Some-Random_Foobarbaz!xyz String Xxx ', $helper->title($value));
-
-        $this->assertEquals('', $helper->title(null));
-
-        $this->assertEquals('', $helper->title(''));
     }
 
     public function testSnake()

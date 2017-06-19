@@ -138,7 +138,7 @@ class Str implements Helper
      */
     public function length($value)
     {
-        return mb_strlen($value);
+        return strlen($value);
     }
 
     /**
@@ -156,7 +156,7 @@ class Str implements Helper
             return $value;
         }
 
-        return rtrim(mb_substr($value, 0, $limit, 'UTF-8')) . $end;
+        return rtrim(substr($value, 0, $limit)) . $end;
     }
 
     /**
@@ -168,7 +168,7 @@ class Str implements Helper
      */
     public function lower($value)
     {
-        return mb_strtolower($value);
+        return strtolower($value);
     }
 
     /**
@@ -200,19 +200,7 @@ class Str implements Helper
      */
     public function upper($value)
     {
-        return mb_strtoupper($value);
-    }
-
-    /**
-     * Convert the given string to title case.
-     *
-     * @param  string $value
-     *
-     * @return string
-     */
-    public function title($value)
-    {
-        return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
+        return strtoupper($value);
     }
 
     /**

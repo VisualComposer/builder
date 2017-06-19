@@ -31,6 +31,18 @@ class VcvCoreRequirements
         return true;
     }
 
+    public function imagesExtChecks()
+    {
+        $exitMsgPhpExt = 'Visual Composer requires GD/Imagick extension to be loaded.';
+        $implementation = _wp_image_editor_choose();
+        if (!$implementation) {
+            //$this->deactivate(VCV_PLUGIN_FULL_PATH);
+            wp_die($exitMsgPhpExt);
+        }
+
+        return true;
+    }
+
     /**
      * @param string $mustHaveVersion
      * @param string $versionToCheck
@@ -41,7 +53,6 @@ class VcvCoreRequirements
     public function checkVersion($mustHaveVersion, $versionToCheck, $errorMessage = '')
     {
         if (version_compare($mustHaveVersion, $versionToCheck, '>')) {
-            require_once ABSPATH . '/wp-admin/includes/plugin.php';
             $this->deactivate(VCV_PLUGIN_FULL_PATH);
             wp_die($errorMessage);
         }
@@ -51,6 +62,7 @@ class VcvCoreRequirements
 
     public function deactivate($path)
     {
+        require_once ABSPATH . '/wp-admin/includes/plugin.php';
         deactivate_plugins($path);
     }
 }
