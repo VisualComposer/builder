@@ -28,6 +28,13 @@ class VcvCoreRequirements
             . '<a href="https://codex.wordpress.org/Upgrading_WordPress"> ' . 'Please update!' . '</a>';
         self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'), $exitMsgWp);
 
+        $exitMsgPhpExt = 'Visual Composer requires GD/Imagick extension to be loaded.';
+        $implementation = _wp_image_editor_choose();
+        if (!$implementation) {
+            //$this->deactivate(VCV_PLUGIN_FULL_PATH);
+            wp_die($exitMsgPhpExt);
+        }
+
         return true;
     }
 
@@ -41,7 +48,6 @@ class VcvCoreRequirements
     public function checkVersion($mustHaveVersion, $versionToCheck, $errorMessage = '')
     {
         if (version_compare($mustHaveVersion, $versionToCheck, '>')) {
-            require_once ABSPATH . '/wp-admin/includes/plugin.php';
             $this->deactivate(VCV_PLUGIN_FULL_PATH);
             wp_die($errorMessage);
         }
@@ -51,6 +57,7 @@ class VcvCoreRequirements
 
     public function deactivate($path)
     {
+        require_once ABSPATH . '/wp-admin/includes/plugin.php';
         deactivate_plugins($path);
     }
 }
