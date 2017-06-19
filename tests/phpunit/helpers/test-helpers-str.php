@@ -230,24 +230,6 @@ class HelpersStrTest extends WP_UnitTestCase
         $this->assertEquals('', $helper->upper(''));
     }
 
-    public function testTitle()
-    {
-        /**
-         * @var $helper VisualComposer\Helpers\Str
-         */
-        $helper = vcapp('VisualComposer\Helpers\Str');
-
-        $this->assertTrue(method_exists($helper, 'title'));
-
-        $value = 'Some-random_fooBarBaz!xyz string XXX ';
-
-        $this->assertEquals('Some-Random_Foobarbaz!xyz String Xxx ', $helper->title($value));
-
-        $this->assertEquals('', $helper->title(null));
-
-        $this->assertEquals('', $helper->title(''));
-    }
-
     public function testSnake()
     {
         /**
