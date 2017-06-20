@@ -41,7 +41,7 @@ if (is_array($extraOutput)) {
 </script>
 
 <!-- Third screen / loading screen -->
-<div class="vcv-popup-content vcv-popup-loading-screen">
+<div class="vcv-popup-content vcv-popup-loading-screen" data-vcv-loader>
     <!-- Loading image -->
     <div class="vcv-loading-dots-container">
         <div class="vcv-loading-dot vcv-loading-dot-1"></div>

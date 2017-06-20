@@ -5,7 +5,7 @@ $(() => {
   const localizations = window.VCV_I18N && window.VCV_I18N()
   const bundleUpdateFailed = localizations ? localizations.bundleUpdateFailed : 'Bundle update failed... Please try again.'
 
-  let $popup = $('.vcv-popup-container')
+  let $loader = $('[data-vcv-loader]')
   let $errorPopup = $('.vcv-popup-error')
   let $retryButton = $('[data-vcv-error-description]')
   let closeError = (cb) => {
@@ -37,11 +37,10 @@ $(() => {
   }
 
   let enableLoader = () => {
-    $popup.addClass('vcv-loading-screen--active')
+    $loader.removeClass('vcv-popup--hidden')
   }
-
   let disableLoader = () => {
-    $popup.removeClass('vcv-loading-screen--active')
+    $loader.addClass('vcv-popup--hidden')
   }
 
   let showRetryButton = () => {
