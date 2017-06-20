@@ -1,5 +1,6 @@
 const buildTemplateFromFile = require('./controller/templates').buildFromFile
 const buildPlugin = require('./controller/wpPlugin').build
+const buildElements = require('./controller/elements').build
 const program = require('commander')
 const settings = require('./sources/settings')
 program
@@ -14,10 +15,17 @@ program
     buildTemplateFromFile(jsonFile, options.title, options.descr, options.id, options.output)
   })
 program.command('plugin')
-  .description('Build VCWB Wordpress plugin zip bundle')
-  .option('-p, --path <s>', 'Path where to create zip bundle')
+  .description('Build VCWB Wordpress plugin zip archive')
+  .option('-p, --path <s>', 'Path where to create zip file')
   .option('-r, --repository <s>', 'Set repo for VCWB. Default: ' + settings.repo)
   .action((options) => {
     buildPlugin(options.path, options.repository || settings.repo)
+  })
+program.command('elements')
+  .description('Build VCWB elements bundle zip archive')
+  .option('-p, --path <s>', 'Path where to create zip file')
+  .option('-r, --repository <s>', 'Set repo for VCWB. Default: ' + settings.repo)
+  .action((options) => {
+    buildElements(options.path, options.repository || settings.repo)
   })
 program.parse(process.argv)
