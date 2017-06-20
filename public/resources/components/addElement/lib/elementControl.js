@@ -45,6 +45,9 @@ export default class ElementControl extends React.Component {
     if (data && data.hasOwnProperty('active') && !data.active && this.state.isDragging) {
       this.endDrag()
     }
+    if (data && data.hasOwnProperty('active') && data.active && !this.state.isDragging) {
+      this.setState({ isDragging: true })
+    }
   }
 
   addElement (e) {
@@ -190,6 +193,7 @@ export default class ElementControl extends React.Component {
     const newElement = document.createElement('div')
     newElement.setAttribute('data-vcv-element', element.id)
     const dragState = workspaceStorage.state('drag')
+    this.hidePreview()
     this.setState({ isDragging: true })
     if (!dragState.get() || !dragState.get().active) {
       dragState.set({ active: true })
@@ -229,9 +233,13 @@ export default class ElementControl extends React.Component {
 
   render () {
     let { name, element } = this.props
-    let { previewVisible, previewStyle } = this.state
+    let { previewVisible, previewStyle, isDragging } = this.state
 
     let cookElement = cook.get(element)
+    let listItemClasses = classNames({
+      'vcv-ui-item-list-item': true,
+      'vcv-ui-item-list-item--inactive': isDragging
+    })
     let nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
       'vcv-ui-item-badge vcv-ui-badge--warning': false
@@ -253,7 +261,7 @@ export default class ElementControl extends React.Component {
     let publicPathPreview = cookElement.get('metaPreviewUrl')
 
     return (
-      <li className='vcv-ui-item-list-item'>
+      <li className={listItemClasses}>
         <span className='vcv-ui-item-element'
           onMouseEnter={this.showPreview}
           onMouseLeave={this.hidePreview}
