@@ -7,7 +7,7 @@ let webpack = require('webpack')
 let StringReplacePlugin = require('string-replace-webpack-plugin')
 
 module.exports = {
-  // devtool: 'eval',
+  devtool: 'eval',
   entry: {
     node: './public/node-main',
     wp: './public/wp-main',

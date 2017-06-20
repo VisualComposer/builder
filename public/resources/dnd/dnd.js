@@ -319,7 +319,7 @@ export default class DnD {
     let relatedTo = element.get('relatedTo')
     return new DOMElement('dropElement', domNode, {
       containerFor: containerFor ? containerFor.value : null,
-      relatedTo: relatedTo ? relatedTo.value : null,
+      relatedTo: relatedTo ? relatedTo.value.concat(['RootElements']) : null,
       parent: this.options.rootID,
       handler: this.options.handler,
       tag: element.get('tag'),

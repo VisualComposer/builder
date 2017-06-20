@@ -61,10 +61,14 @@ addStorage('workspace', (storage) => {
     elementsStorage.trigger('move', id, settings)
   })
   storage.on('drop', (id, settings) => {
-    const relatedElement = settings.related ? documentManger.get(settings.related) : false
-    const data = cook.get({ tag: settings.element.tag, parent: relatedElement.parent })
+    const relatedElement = settings.related ? cook.get(documentManger.get(settings.related)) : false
+    const data = cook.get({ tag: settings.element.tag, parent: relatedElement.get('parent') })
     elementsStorage.trigger('add', data.toJS())
-    elementsStorage.trigger('move', data.data.id, settings)
+    let movingID = data.get('id')
+    if (settings.action !== 'append' && relatedElement.relatedTo(['RootElements']) && !data.relatedTo(['RootElements'])) {
+      movingID = documentManger.getTopParent(movingID)
+    }
+    elementsStorage.trigger('move', movingID, settings)
     storage.trigger('edit', data.toJS().id, '')
   })
   storage.on('start', () => {

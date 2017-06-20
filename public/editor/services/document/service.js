@@ -161,6 +161,10 @@ const api = {
     return dataStore.data
       .valueSeq()
       .filter(callback).toJS()
+  },
+  getTopParent: function (id) {
+    let obj = this.get(id)
+    return obj && obj.parent ? this.getTopParent(obj.parent) : id
   }
 }
 
