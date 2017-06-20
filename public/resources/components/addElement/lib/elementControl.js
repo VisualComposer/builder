@@ -28,11 +28,26 @@ export default class ElementControl extends React.Component {
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.initDrag = this.initDrag.bind(this)
+    this.handleDragStateChange = this.handleDragStateChange.bind(this)
   }
 
   componentDidMount () {
     this.ellipsize('.vcv-ui-item-element-name')
     this.ellipsize('.vcv-ui-item-preview-text')
+    workspaceStorage.state('drag').onChange(this.handleDragStateChange)
+  }
+
+  componentWillUnmount () {
+    workspaceStorage.state('drag').ignoreChange(this.handleDragStateChange)
+  }
+
+  handleDragStateChange (data) {
+    if (data && data.hasOwnProperty('active') && !data.active && this.state.isDragging) {
+      this.endDrag()
+    }
+    if (data && data.hasOwnProperty('active') && data.active && !this.state.isDragging) {
+      this.setState({ isDragging: true })
+    }
   }
 
   addElement (e) {
@@ -48,7 +63,9 @@ export default class ElementControl extends React.Component {
   }
 
   showPreview () {
-    if (this.updatePreviewPosition()) {
+    const dragState = workspaceStorage.state('drag').get()
+    const activeDragging = dragState && dragState.active
+    if (this.updatePreviewPosition() && !activeDragging) {
       this.setState({
         previewVisible: true
       })
@@ -161,18 +178,30 @@ export default class ElementControl extends React.Component {
     return this
   }
 
+  endDrag () {
+    const { iframe } = this.state
+    this.setState({ isDragging: false })
+    document.body.removeEventListener('mousemove', this.initDrag)
+    if (iframe) {
+      iframe.style = ''
+    }
+  }
+
   initDrag (e) {
     const { element, tag } = this.props
     const { iframe } = this.state
     const newElement = document.createElement('div')
     newElement.setAttribute('data-vcv-element', element.id)
+    const dragState = workspaceStorage.state('drag')
+    this.hidePreview()
+    this.setState({ isDragging: true })
+    if (!dragState.get() || !dragState.get().active) {
+      dragState.set({ active: true })
+    }
     if (iframe) {
       iframe.style.pointerEvents = 'none'
       if (!e.target.closest('.vcv-layout-header')) {
-        iframe.style = ''
-        this.setState({ isDragging: false })
-        document.body.removeEventListener('mousemove', this.initDrag)
-
+        this.endDrag()
         vcCake.setData('dropNewElement', {
           id: element.id,
           point: false,
@@ -187,7 +216,6 @@ export default class ElementControl extends React.Component {
     e && e.preventDefault()
     if (vcCake.env('DRAG_AND_DROP_FROM_ADD_ELEMENT_PANEL')) {
       if (!this.state.isDragging) {
-        this.setState({ isDragging: true })
         document.body.addEventListener('mousemove', this.initDrag)
       }
     }
@@ -195,20 +223,23 @@ export default class ElementControl extends React.Component {
 
   handleMouseUp (e) {
     e && e.preventDefault()
-    const { iframe } = this.state
-    this.setState({ isDragging: false })
-    document.body.removeEventListener('mousemove', this.initDrag)
-    if (iframe) {
-      iframe.style = ''
+    const dragState = workspaceStorage.state('drag').get()
+    const activeDragging = dragState && dragState.active
+    if (!activeDragging) {
+      this.addElement()
     }
-    this.addElement()
+    this.endDrag()
   }
 
   render () {
     let { name, element } = this.props
-    let { previewVisible, previewStyle } = this.state
+    let { previewVisible, previewStyle, isDragging } = this.state
 
     let cookElement = cook.get(element)
+    let listItemClasses = classNames({
+      'vcv-ui-item-list-item': true,
+      'vcv-ui-item-list-item--inactive': isDragging
+    })
     let nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
       'vcv-ui-item-badge vcv-ui-badge--warning': false
@@ -230,7 +261,7 @@ export default class ElementControl extends React.Component {
     let publicPathPreview = cookElement.get('metaPreviewUrl')
 
     return (
-      <li className='vcv-ui-item-list-item'>
+      <li className={listItemClasses}>
         <span className='vcv-ui-item-element'
           onMouseEnter={this.showPreview}
           onMouseLeave={this.hidePreview}
