@@ -41,6 +41,17 @@
   width: @item-element-width;
 }
 
+.vcv-ui-item-list-item--inactive {
+  .vcv-ui-item-element {
+    cursor: default;
+    &:hover {
+      .vcv-ui-item-overlay {
+        opacity: 0;
+      }
+    }
+  }
+}
+
 .vcv-ui-item-element {
   color: @item-text-color-element;
   width: @item-element-width;

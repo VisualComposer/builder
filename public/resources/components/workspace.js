@@ -4,7 +4,8 @@ import {getStorage, onDataChange, ignoreDataChange} from 'vc-cake'
 
 import Resizer from '../../resources/resizer/resizer'
 
-const workspaceStorageNavbarBoundingRectState = getStorage('workspace').state('navbarBoundingRect')
+const workspaceStorage = getStorage('workspace')
+const workspaceStorageNavbarBoundingRectState = workspaceStorage.state('navbarBoundingRect')
 
 export default class Workspace extends React.Component {
   static propTypes = {
@@ -23,6 +24,7 @@ export default class Workspace extends React.Component {
       contentEditableMode: false
     }
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
+    this.handleMouseUp = this.handleMouseUp.bind(this)
   }
 
   componentDidMount () {
@@ -38,6 +40,13 @@ export default class Workspace extends React.Component {
       this.setState({ contentEditableMode: true })
     } else {
       this.setState({ contentEditableMode: false })
+    }
+  }
+
+  handleMouseUp () {
+    const dragState = workspaceStorage.state('drag').get()
+    if (dragState && dragState.hasOwnProperty('active') && dragState.active) {
+      workspaceStorage.state('drag').set({ active: false })
     }
   }
 
@@ -64,7 +73,7 @@ export default class Workspace extends React.Component {
       'vcv-inline-editor--active': this.state.contentEditableMode
     })
     return (
-      <div className={layoutClasses} style={stickyBar}>
+      <div className={layoutClasses} style={stickyBar} onMouseUp={this.handleMouseUp}>
         {this.props.children}
         <Resizer params={{
           resizeTop: true,
