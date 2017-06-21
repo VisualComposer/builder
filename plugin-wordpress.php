@@ -42,7 +42,7 @@ if (defined('VCV_VERSION')) {
 /**
  * Plugin version constant: '0.9.2'
  */
-define('VCV_VERSION', '0.9.2');
+define('VCV_VERSION', '0.9.3.331498040302');
 /**
  * Plugin url: 'http://web/wp-content/plugins/plugin_dir/'
  */
