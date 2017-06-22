@@ -41,7 +41,9 @@ class Groups implements Helper
         if (!empty($prev)) {
             if (isset($new['categories']) && is_array($new['categories']) && isset($prev['categories'])
             ) {
-                $merged['categories'] = array_unique(array_merge($prev['categories'], $new['categories']));
+                $merged['categories'] = array_values(
+                    array_unique(array_merge($prev['categories'], $new['categories']))
+                );
             }
         }
 
