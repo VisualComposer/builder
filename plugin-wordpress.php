@@ -3,7 +3,7 @@
  * Plugin Name: Visual Composer Website Builder
  * Plugin URI: https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-backend&utm_medium=vc-wb-plugins-admin-page
  * Description: Create your WordPress website with fast and easy to use drag and drop builder for experts and beginners.
- * Version: 0.9.3
+ * Version: 0.9.4
  * Author: The Visual Composer Team
  * Author URI: https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-backend&utm_medium=vc-wb-plugins-admin-author
  * Copyright: (c) 2017 Visual Composer
@@ -40,9 +40,9 @@ if (defined('VCV_VERSION')) {
 }
 
 /**
- * Plugin version constant: '0.9.3'
+ * Plugin version constant: '0.9.4'
  */
-define('VCV_VERSION', '0.9.3');
+define('VCV_VERSION', '0.9.4');
 /**
  * Plugin url: 'http://web/wp-content/plugins/plugin_dir/'
  */
