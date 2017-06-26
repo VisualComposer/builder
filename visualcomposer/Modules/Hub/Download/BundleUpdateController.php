@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Hub\Download\Pages\UpdateBePage;
@@ -19,9 +20,9 @@ class BundleUpdateController extends Container implements Module
 {
     use EventsFilters;
 
-    public function __construct()
+    public function __construct(Token $tokenHelper)
     {
-        if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
+        if (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized()) {
             $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
             $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', 120);
             $this->addFilter('vcv:frontend:update:head:extraOutput', 'addUpdateAssets', 10);
