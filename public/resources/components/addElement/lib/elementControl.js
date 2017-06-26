@@ -2,9 +2,12 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
+import Helper from '../../../dnd/helper'
+import DOMElement from '../../../dnd/domElement'
 
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
+const hubCategories = vcCake.getService('hubCategories')
 const cook = vcCake.getService('cook')
 
 export default class ElementControl extends React.Component {
@@ -14,6 +17,10 @@ export default class ElementControl extends React.Component {
     element: React.PropTypes.object.isRequired,
     workspace: React.PropTypes.object
   }
+
+  helper = null
+  layoutBarOverlay = document.querySelector('.vcv-layout-bar-overlay')
+  layoutBarOverlayRect = null
 
   constructor (props) {
     super(props)
@@ -44,9 +51,6 @@ export default class ElementControl extends React.Component {
   handleDragStateChange (data) {
     if (data && data.hasOwnProperty('active') && !data.active && this.state.isDragging) {
       this.endDrag()
-    }
-    if (data && data.hasOwnProperty('active') && data.active && !this.state.isDragging) {
-      this.setState({ isDragging: true })
     }
   }
 
@@ -178,15 +182,25 @@ export default class ElementControl extends React.Component {
     return this
   }
 
+  /**
+   * End drag event on body
+   */
   endDrag () {
+    console.log('endDrag')
     const { iframe } = this.state
     this.setState({ isDragging: false })
     document.body.removeEventListener('mousemove', this.initDrag)
+    this.helper.remove()
     if (iframe) {
       iframe.style = ''
     }
   }
 
+  /**
+   * Start dragging event, set dragging state to true, create element placeholder, update placeholder position,
+   * watch for cursor position
+   * @param e
+   */
   initDrag (e) {
     const { element, tag } = this.props
     const { iframe } = this.state
@@ -194,20 +208,39 @@ export default class ElementControl extends React.Component {
     newElement.setAttribute('data-vcv-element', element.id)
     const dragState = workspaceStorage.state('drag')
     this.hidePreview()
-    this.setState({ isDragging: true })
+    console.log('initDrag')
     if (!dragState.get() || !dragState.get().active) {
       dragState.set({ active: true })
     }
+    if (!this.state.isDragging) {
+      const container = document.body
+      const draggingElement = new DOMElement('dropElement', newElement, {
+        containerFor: null,
+        relatedTo: null,
+        parent: null,
+        handler: null,
+        tag: tag,
+        iconLink: hubCategories.getElementIcon(tag)
+      })
+      this.helper = new Helper(draggingElement, {
+        container: container
+      })
+      this.helper.show()
+      this.setState({ isDragging: true })
+      vcCake.setData('dropNewElement', {
+        id: element.id,
+        point: false,
+        tag: tag,
+        domNode: newElement
+      })
+    }
+    this.helper.setPosition({ x: e.clientX, y: e.clientY })
+    console.log('e.target', e.target)
     if (iframe) {
       iframe.style.pointerEvents = 'none'
       if (!e.target.closest('.vcv-layout-header')) {
+        console.log('iframe e.target', e.target)
         this.endDrag()
-        vcCake.setData('dropNewElement', {
-          id: element.id,
-          point: false,
-          tag: tag,
-          domNode: newElement
-        })
       }
     }
   }
@@ -216,6 +249,7 @@ export default class ElementControl extends React.Component {
     e && e.preventDefault()
     if (vcCake.env('DRAG_AND_DROP_FROM_ADD_ELEMENT_PANEL')) {
       if (!this.state.isDragging) {
+        this.layoutBarOverlayRect = this.layoutBarOverlay.getBoundingClientRect()
         document.body.addEventListener('mousemove', this.initDrag)
       }
     }
@@ -227,18 +261,19 @@ export default class ElementControl extends React.Component {
     const activeDragging = dragState && dragState.active
     if (!activeDragging) {
       this.addElement()
+      this.endDrag()
     }
-    this.endDrag()
   }
 
   render () {
     let { name, element } = this.props
-    let { previewVisible, previewStyle, isDragging } = this.state
+    let { previewVisible, previewStyle } = this.state
+    const dragState = workspaceStorage.state('drag').get()
 
     let cookElement = cook.get(element)
     let listItemClasses = classNames({
       'vcv-ui-item-list-item': true,
-      'vcv-ui-item-list-item--inactive': isDragging
+      'vcv-ui-item-list-item--inactive': dragState && dragState.active
     })
     let nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
