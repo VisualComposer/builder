@@ -46,6 +46,9 @@ export default class Helper {
     let rect = control.getBoundingClientRect()
     control.style.marginTop = -rect.height / 2 + 'px'
     control.style.marginLeft = -rect.width / 2 + 'px'
+    // prevent helper from showing when dropping from addElement panel
+    control.style.top = '-100%'
+    control.style.left = '-100%'
     return control
   }
 
