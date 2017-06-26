@@ -19,7 +19,6 @@ export default class ElementControl extends React.Component {
   }
 
   helper = null
-  elementPlaceholder = null
   layoutBarOverlay = document.querySelector('.vcv-layout-bar-overlay')
   layoutBarOverlayRect = null
 
@@ -184,50 +183,6 @@ export default class ElementControl extends React.Component {
   }
 
   /**
-   * Create element placeholder by cloning existing element image
-   * and appending it to layout bar overlay
-   * @param e
-   */
-  createElementPlaceholder (e) {
-    const elementImage = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-item-element-image')
-    const rect = elementImage.getBoundingClientRect()
-    this.elementPlaceholder = elementImage.cloneNode(true)
-    this.elementPlaceholder.style.position = 'absolute'
-    this.elementPlaceholder.style.top = `${e.clientY}px`
-    this.elementPlaceholder.style.left = `${e.clientX}px`
-    this.elementPlaceholder.style.marginTop =  `${-rect.height / 2}px`
-    this.elementPlaceholder.style.marginLeft = `${-rect.width / 2}px`
-    this.elementPlaceholder.style.zIndex = '99'
-    this.elementPlaceholder.style.opacity = '0.9'
-    this.elementPlaceholder.style.pointerEvents = 'none'
-    this.layoutBarOverlay.appendChild(this.elementPlaceholder)
-  }
-
-  /**
-   * Update element placeholder position, by setting inline styles
-   * @param e
-   */
-  updateElementPlaceholderPosition (e) {
-    this.elementPlaceholder.style.top = `${e.clientY}px`
-    this.elementPlaceholder.style.left = `${e.clientX}px`
-  }
-
-  // /**
-  //  * Check if mouse cursor is within layout bar bounding box
-  //  * @param e
-  //  * @return boolean
-  //  */
-  // checkCursorPosition (e) {
-  //   let bb = {}
-  //   bb.tx = this.layoutBarOverlayRect.left
-  //   bb.ty = this.layoutBarOverlayRect.top
-  //   bb.bx = this.layoutBarOverlayRect.left + this.layoutBarOverlayRect.width
-  //   bb.by = this.layoutBarOverlayRect.top + this.layoutBarOverlayRect.height
-  //   // console.log('checkCursorPosition(e) e.clientX, pos right', e.clientX, bb.bx)
-  //   return bb.tx <= e.clientX && e.clientX <= bb.bx && bb.ty <= e.clientY && e.clientY <= bb.by
-  // }
-
-  /**
    * End drag event on body
    */
   endDrag () {
@@ -236,12 +191,9 @@ export default class ElementControl extends React.Component {
     this.setState({ isDragging: false })
     document.body.removeEventListener('mousemove', this.initDrag)
     this.helper.remove()
-    // this.layoutBarOverlay.removeChild(this.layoutBarOverlay.childNodes[0])
-    // this.elementPlaceholder = null
     if (iframe) {
       iframe.style = ''
     }
-    // workspaceStorage.state('drag').set({ active: false })
   }
 
   /**
@@ -256,15 +208,10 @@ export default class ElementControl extends React.Component {
     newElement.setAttribute('data-vcv-element', element.id)
     const dragState = workspaceStorage.state('drag')
     this.hidePreview()
-    // this.setState({ isDragging: true })
     console.log('initDrag')
     if (!dragState.get() || !dragState.get().active) {
       dragState.set({ active: true })
     }
-    // if (!this.elementPlaceholder) {
-    //   this.createElementPlaceholder(e)
-    // }
-    // this.updateElementPlaceholderPosition(e)
     if (!this.state.isDragging) {
       const container = document.body
       const draggingElement = new DOMElement('dropElement', newElement, {
@@ -289,27 +236,11 @@ export default class ElementControl extends React.Component {
     }
     this.helper.setPosition({ x: e.clientX, y: e.clientY })
     console.log('e.target', e.target)
-    // if (!this.checkCursorPosition(e)) {
-    //   this.endDrag()
-      // vcCake.setData('dropNewElement', {
-      //   id: element.id,
-      //   point: false,
-      //   tag: tag,
-      //   domNode: newElement
-      // })
-    // }
     if (iframe) {
       iframe.style.pointerEvents = 'none'
       if (!e.target.closest('.vcv-layout-header')) {
-        // iframe.style = ''
         console.log('iframe e.target', e.target)
         this.endDrag()
-        // vcCake.setData('dropNewElement', {
-        //   id: element.id,
-        //   point: false,
-        //   tag: tag,
-        //   domNode: newElement
-        // })
       }
     }
   }

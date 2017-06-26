@@ -74,7 +74,7 @@ export default class Workspace extends React.Component {
     })
     return (
       <div className={layoutClasses} style={stickyBar} onMouseUp={this.handleMouseUp}>
-        <div className='vcv-layout-bar-overlay'></div>
+        <div className='vcv-layout-bar-overlay' />
         {this.props.children}
         <Resizer params={{
           resizeTop: true,
