@@ -40,11 +40,29 @@ class ElementsBuilder {
       },
       /**
        * @property {String}
+       * @name ElementsBuilder#elementsPath
+       */
+      'elementsPath': {
+        get: () => {
+          return path.join(this.dir, this.repoDir, this.elementsDir)
+        }
+      },
+      /**
+       * @property {String}
        * @name ElementsBuilder#repoDir
        */
       'repoDir': {
         value: `builder-${+new Date()}`,
         writable: false
+      },
+      /**
+       * @property {String}
+       * @name ElementsBuilder#repoPath
+       */
+      'repoPath': {
+        get: () => {
+          return path.join(this.dir, this.repoDir)
+        }
       },
       /**
        * @property {String}
@@ -61,6 +79,15 @@ class ElementsBuilder {
       'bundleDir': {
         value: `vcv-bundle-${+new Date()}`,
         writable: false
+      },
+      /**
+       * @property {String}
+       * @name ElementsBuilder#bundleDir
+       */
+      'bundlePath': {
+        get: () => {
+          return path.join(this.dir, this.bundleDir)
+        }
       }
       ,
       /**
@@ -78,14 +105,24 @@ class ElementsBuilder {
 
   build (elements, callback) {
     console.log('Cloning repositories...')
-    Promise.all([ this.cloneRepoAsync()]).then(() => {
-      console.log('Building VCWB...')
-      this.buildVCWB().then(() => {
-        console.log('Building elements and copying files from bundle pre-build to a new package directory...')
-        /*
-        Promise.all([this.buildElementsAsync(elements), this.copyFilesAsync()]).then(() => {
-         callback()
-         })*/
+    Promise.all([ this.cloneRepoAsync(), this.cloneAccountRepoAsync() ]).then(() => {
+      console.log('Cloning elements repos')
+      this.cloneElementsReposAsync(elements).then(() => {
+        console.log('Building VCWB...')
+        this.buildVCWB().then(() => {
+          console.log('Building elements and copying files from bundle pre-build to a new package directory...')
+          Promise.all(this.buildElementsAsync(elements), this.copyFilesAsync()).then(() => {
+            console.log('Cleaning up elements...')
+            Promise.all([this.copyEditorsFilesAsync(), this.cleanUpElementsAsync(elements)]).then(() => {
+              callback()
+            })
+            /*
+             Promise.all([this.buildElementsAsync(elements), this.copyFilesAsync()]).then(() => {
+             callback()
+             })*/
+          })
+
+        })
       })
     })
     /*
@@ -102,96 +139,105 @@ class ElementsBuilder {
      })
      */
   }
+
   exec (cmd, options = {}) {
     const promise = exec(cmd, options).catch((result) => {console.log(result)})
-/*    const childProcess = promise.childProcess
+    /*    const childProcess = promise.childProcess
 
-    childProcess.stdout.on('data', function (data) {
-      console.log(data.toString())
-    })
-    childProcess.stderr.on('data', function (data) {
-      console.log(data.toString())
-    })*/
+     childProcess.stdout.on('data', function (data) {
+     console.log(data.toString())
+     })
+     childProcess.stderr.on('data', function (data) {
+     console.log(data.toString())
+     })*/
     return promise
   }
+
   clone (repo, path) {
+    console.log(`Cloning ${repo}...`)
     return this.exec(`git clone --depth 1 ${repo} ${path}`)
   }
+
   cloneRepoAsync () {
-    const repoDir = path.join(this.dir, this.repoDir)
-    return this.clone(this.repo, repoDir)
+    return this.clone(this.repo, this.repoPath)
   }
+
   cloneAccountRepoAsync () {
     const accountRepoDir = path.join(this.dir, this.accountRepoDir)
     return this.clone(this.accountRepo, accountRepoDir)
   }
+
   buildVCWB () {
-    const repoDir = path.join(this.dir, this.repoDir)
     return this.exec('npm install && npm run build-production', {
-      cwd: repoDir
+      cwd: this.repoPath
     })
   }
 
   cloneElementsReposAsync (elements) {
     const promises = []
-    const elementsDir = path.join(this.dir, this.elementsDir)
     // Clone
-    fs.ensureDirSync(elementsDir)
+    fs.ensureDirSync(this.elementsPath)
     elements.forEach((tag) => {
-      // promises.push(this.clone(`git@gitlab.com:visualcomposer-hub/${tag}.git`, path.join(elementsDir, tag)))
+      promises.push(this.clone(`git@gitlab.com:visualcomposer-hub/${tag}.git`, path.join(this.elementsPath, tag)))
     })
     return Promise.all(promises)
   }
 
   buildElement (path) {
-    return exec('npm run build', {
+    console.log(`Building element in ${path}...`)
+    return this.exec('npm run build && sed -i "" "s:../../node_modules/:./node_modules/:g" public/dist/element.bundle.js ', {
       cwd: path
-    }).catch((result) => {console.log(result)})
+    })
   }
 
   buildElementsAsync (elements) {
     const promises = []
-    const elementsDir = path.join(this.dir, this.elementsDir)
     elements.forEach((tag) => {
-      const elementDir = path.join(elementsDir, tag)
+      const elementDir = path.join(this.elementsPath, tag)
       promises.push(this.buildElement(elementDir))
     })
-    return Promise.all(promises)
+    return promises
   }
+
   copyEditorsFilesAsync () {
-    /*
-     // 'cp -fr ' + repoPath + '/public/dist/pe.* ./public/dist/ &' +
-     'cp -fr ' + repoPath + '/public/dist/vendor.bundle.js ./public/dist/ &' +
-     // 'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
-     // 'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
-     */
-    return Promise.all([])
-  }
-  copyFilesAsync () {
     const promises = []
-    const accountRepoDir = path.join(this.dir, this.accountRepoDir, 'resources', 'bundle-prebuild')
-    const bundleDir = path.join(this.dir, this.bundleDir)
-    promises.push(fs.move(accountRepoDir, bundleDir))
+    const join = path.join
+    const distPath = join(this.repoPath, 'dist')
+    const bundleEditorPath = join(this.bundlePath ,'editor')
+    promises.push(fs.copy(join(distPath, 'pe*'), bundleEditorPath))
+    promises.push(fs.copy(join(distPath, 'wp.bundle.*'), bundleEditorPath))
+    promises.push(fs.copy(join(distPath, 'wpbackend.bundle.*'), bundleEditorPath))
+    promises.push(fs.copy(join(distPath, 'front.*'), bundleEditorPath))
+    promises.push(fs.copy(join(distPath, 'fonts'), bundleEditorPath))
+    promises.push(fs.copy(join(distPath, 'images'), bundleEditorPath))
     return Promise.all(promises)
   }
 
-  cleanUpElementsAsync () {
+  copyFilesAsync () {
+    const accountRepoDir = path.join(this.dir, this.accountRepoDir, 'resources', 'bundle-prebuild')
+    const bundleDir = path.join(this.dir, this.bundleDir)
+    return fs.move(accountRepoDir, bundleDir)
+  }
+
+  cleanUpElementsAsync (elements) {
     const promises = []
-    /*
-     rm -rf $EXECDIR/elements/$i/.git
-     rm -f $EXECDIR/elements/$i/package.json
-     rm -f $EXECDIR/elements/$i/webpack.config.js
-     rm -f $EXECDIR/elements/$i/.gitignore
-     rm -f $EXECDIR/elements/$i/public/dist/vendor.bundle.js
-     rm -f $EXECDIR/elements/$i/public/dist/.gitkeep
-     rm -f $EXECDIR/elements/$i/$i/settings.json
-     rm -f $EXECDIR/elements/$i/$i/component.js
-     rm -f $EXECDIR/elements/$i/$i/index.js
-     rm -f $EXECDIR/elements/$i/$i/styles.css
-     rm -f $EXECDIR/elements/$i/$i/editor.css
-     rm -rf $EXECDIR/elements/$i/$i/public/src
-     rm -rf $EXECDIR/elements/$i/$i/cssMixins
-     */
+    const join = path.join
+    elements.forEach((tag) => {
+      const elementPath = join(this.elementsPath, tag)
+      promises.push(fs.remove(join(elementPath, '.git')))
+      promises.push(fs.remove(join(elementPath, '.gitignore')))
+      promises.push(fs.remove(join(elementPath, 'package.json')))
+      promises.push(fs.remove(join(elementPath, 'webpack.config.js')))
+      promises.push(fs.remove(join(elementPath, 'public', 'dist', 'vendor.bundle.js')))
+      promises.push(fs.remove(join(elementPath, 'public', 'dist', '.gitkeep')))
+      promises.push(fs.remove(join(elementPath, tag, 'settings.json')))
+      promises.push(fs.remove(join(elementPath, tag, 'component.js')))
+      promises.push(fs.remove(join(elementPath, tag, 'index.js')))
+      promises.push(fs.remove(join(elementPath, tag, 'styles.css')))
+      promises.push(fs.remove(join(elementPath, tag, 'editor.css')))
+      promises.push(fs.remove(join(elementPath, tag, 'cssMixins')))
+      promises.push(fs.remove(join(elementPath, tag, 'public', 'src')))
+    })
     return Promise.all(promises)
   }
 
@@ -215,14 +261,11 @@ class ElementsBuilder {
 
   removeRepoDirsAsync () {
     console.log('Removing temp directories...')
-    const repoDir = path.join(this.dir, this.repoDir)
     const accountRepoDir = path.join(this.dir, this.accountRepoDir)
-    const elementsDir = path.join(this.dir, this.elementsDir)
     const bundleDir = path.join(this.dir, this.bundleDir)
     const promises = []
-    promises.push(fs.remove(repoDir))
+    promises.push(fs.remove(this.repoPath))
     promises.push(fs.remove(accountRepoDir))
-    promises.push(fs.remove(elementsDir))
     promises.push(fs.remove(bundleDir))
     return Promise.all(promises)
   }
