@@ -50,7 +50,7 @@ export default class ElementControl extends React.Component {
 
   handleDragStateChange (data) {
     if (data && data.hasOwnProperty('active') && !data.active && this.state.isDragging) {
-      this.endDrag()
+      this.endDragOnMouseUp()
     }
   }
 
@@ -186,14 +186,26 @@ export default class ElementControl extends React.Component {
    * End drag event on body
    */
   endDrag () {
-    console.log('endDrag')
     const { iframe } = this.state
     this.setState({ isDragging: false })
     document.body.removeEventListener('mousemove', this.initDrag)
-    this.helper.remove()
+    if (this.helper) {
+      console.log('panel helper remove')
+      this.helper.remove()
+      this.helper = null
+    }
     if (iframe) {
       iframe.style = ''
     }
+  }
+
+  /**
+   * End drag event on mouseup event,
+   * call endDrag method, setData to terminate dnd in iframe
+   */
+  endDragOnMouseUp () {
+    this.endDrag()
+    vcCake.setData('dropNewElement', { endDnd: true })
   }
 
   /**
@@ -208,7 +220,6 @@ export default class ElementControl extends React.Component {
     newElement.setAttribute('data-vcv-element', element.id)
     const dragState = workspaceStorage.state('drag')
     this.hidePreview()
-    console.log('initDrag')
     if (!dragState.get() || !dragState.get().active) {
       dragState.set({ active: true })
     }
@@ -235,11 +246,9 @@ export default class ElementControl extends React.Component {
       })
     }
     this.helper.setPosition({ x: e.clientX, y: e.clientY })
-    console.log('e.target', e.target)
     if (iframe) {
       iframe.style.pointerEvents = 'none'
       if (!e.target.closest('.vcv-layout-header')) {
-        console.log('iframe e.target', e.target)
         this.endDrag()
       }
     }
@@ -261,7 +270,7 @@ export default class ElementControl extends React.Component {
     const activeDragging = dragState && dragState.active
     if (!activeDragging) {
       this.addElement()
-      this.endDrag()
+      this.endDragOnMouseUp()
     }
   }
 

@@ -12,9 +12,13 @@ export default class API {
     data.point && this.dnd.check(data.point)
   }
   addNew (data) {
-    this.dnd.start(data.id, false, data.tag, data.domNode)
-    this.dnd.manualScroll = true
-    this.dnd.option('drop', true)
-    data.point && this.dnd.check(data.point)
+    if (data.endDnd) {
+      this.dnd.end()
+    } else {
+      this.dnd.start(data.id, false, data.tag, data.domNode)
+      this.dnd.manualScroll = true
+      this.dnd.option('drop', true)
+      data.point && this.dnd.check(data.point)
+    }
   }
 }
