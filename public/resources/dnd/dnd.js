@@ -275,6 +275,7 @@ export default class DnD {
       this.draggingElement = this.createDraggingElementFromTag(tag, domNode)
     } else {
       this.draggingElement = id ? this.items[ id ] : null
+      this.options.drop = false
       if (!this.draggingElement) {
         this.draggingElement = null
         return false
