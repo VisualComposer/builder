@@ -13,7 +13,7 @@ exports.build = (dir, repo, accountRepo, elements = []) => {
     console.log("Can't create bundle. Wrong working directory.")
   }
   const b = new ElementsBuilder(dir, repo, accountRepo)
-  b.build(() => {
+  b.build(elements, () => {
     console.log('Elements bundle zip archive created!')
   })
 }
