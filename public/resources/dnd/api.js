@@ -13,7 +13,7 @@ export default class API {
   }
   addNew (data) {
     if (data.endDnd) {
-      this.dnd.end()
+      this.dnd.handleDragEnd()
     } else {
       this.dnd.start(data.id, false, data.tag, data.domNode)
       this.dnd.manualScroll = true
