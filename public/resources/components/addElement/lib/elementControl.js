@@ -190,7 +190,6 @@ export default class ElementControl extends React.Component {
     this.setState({ isDragging: false })
     document.body.removeEventListener('mousemove', this.initDrag)
     if (this.helper) {
-      console.log('panel helper remove')
       this.helper.remove()
       this.helper = null
     }
@@ -224,19 +223,7 @@ export default class ElementControl extends React.Component {
       dragState.set({ active: true })
     }
     if (!this.state.isDragging) {
-      const container = document.body
-      const draggingElement = new DOMElement('dropElement', newElement, {
-        containerFor: null,
-        relatedTo: null,
-        parent: null,
-        handler: null,
-        tag: tag,
-        iconLink: hubCategories.getElementIcon(tag)
-      })
-      this.helper = new Helper(draggingElement, {
-        container: container
-      })
-      this.helper.show()
+      this.createHelper(tag, newElement)
       this.setState({ isDragging: true })
       vcCake.setData('dropNewElement', {
         id: element.id,
@@ -252,6 +239,27 @@ export default class ElementControl extends React.Component {
         this.endDrag()
       }
     }
+  }
+
+  /**
+   * Create new helper inside addElement panel
+   * @param tag
+   * @param newElement
+   */
+  createHelper (tag, newElement) {
+    const container = document.body
+    const draggingElement = new DOMElement('dropElement', newElement, {
+      containerFor: null,
+      relatedTo: null,
+      parent: null,
+      handler: null,
+      tag: tag,
+      iconLink: hubCategories.getElementIcon(tag)
+    })
+    this.helper = new Helper(draggingElement, {
+      container: container
+    })
+    this.helper.show()
   }
 
   handleMouseDown (e) {
@@ -270,6 +278,8 @@ export default class ElementControl extends React.Component {
     const activeDragging = dragState && dragState.active
     if (!activeDragging) {
       this.addElement()
+      this.endDrag()
+    } else {
       this.endDragOnMouseUp()
     }
   }
