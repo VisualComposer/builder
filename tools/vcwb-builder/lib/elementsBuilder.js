@@ -53,7 +53,7 @@ class ElementsBuilder {
        * @name ElementsBuilder#repoDir
        */
       'repoDir': {
-        value: `vcwb-builder-1498647287420`,
+        value: `vcwb-builder-${+new Date()}`,
         writable: false
       },
       /**
@@ -109,12 +109,28 @@ class ElementsBuilder {
     console.log('--------------------------------'.white)
   }
 
-  build (elements, commit, version, callback) {
+  startSpinner () {
     this.spinner = new Spinner({
       text: '%s ',
       stream: process.stderr
     })
     this.spinner.start()
+  }
+
+  stopSpinner () {
+    this.spinner && this.spinner.stop()
+  }
+
+  addEventsToProcess () {
+    process.on('SIGINT', function () {
+      process.exit()
+    })
+    process.on('exit', this.removeRepoDirsAsync.bind(this))
+  }
+
+  build (elements, commit, version, callback) {
+    this.startSpinner()
+    this.addEventsToProcess()
     this.consoleSeparator()
     console.log('Cloning repositories...'.green)
     Promise.all([ this.cloneRepoAsync(commit), this.cloneAccountRepoAsync() ]).then(() => {
@@ -147,8 +163,9 @@ class ElementsBuilder {
                   this.consoleSeparator()
                   console.log('Creating zip archive...'.green)
                   this.createZipArchiveAsync(version).then(() => {
-                    this.spinner.stop(true)
-                    this.removeRepoDirsAsync().then(callback)
+                    this.stopSpinner()
+                    this.removeRepoDirsAsync()
+                    callback
                   })
                 })
               })
@@ -306,7 +323,7 @@ class ElementsBuilder {
   }
 
   removeRepoDirsAsync () {
-    console.log('Removing temp directories...')
+    console.log('\nRemoving temp directories...')
     const accountRepoDir = path.join(this.dir, this.accountRepoDir)
     const promises = []
     promises.push(fs.remove(this.repoPath))
