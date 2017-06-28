@@ -17,5 +17,5 @@ vcCake.env('FEATURE_CLICK_TO_EDIT', true)
 vcCake.env('FEATURE_OUTLINE_HOVER_COLOR', true)
 vcCake.env('FEATURE_TINYMCE_SKIN', true)
 vcCake.env('DRAG_AND_DROP_FROM_ADD_ELEMENT_PANEL', false)
-vcCake.env('DROPDOWN_DESIGN_OPTIONS_SECTION', false)
+vcCake.env('DROPDOWN_DESIGN_OPTIONS_SECTION', true)
 
