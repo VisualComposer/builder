@@ -111,13 +111,15 @@ class ElementsBuilder {
       Promise.all([ this.copyFilesAsync(), this.cloneElementsReposAsync(elements) ]).then(() => {
         console.log('Building VCWB...')
         Promise.all([ this.readBundleJSONFileAsync(), this.buildVCWB() ]).then(() => {
-          this.updateBundlDataWithVersion(version)
+          this.updateBundlDataWithVersion('0.3')
           console.log('Building elements and copying files from bundle pre-build to a new package directory...')
           this.buildElementsAsync(elements).then(() => {
             console.log('Copy editor files and cleaning up elements...')
             Promise.all([ this.updateBundleDataWithElementsSettingsAsync(elements), this.copyEditorsFilesAsync(), this.cleanUpElementsAsync(elements) ]).then(() => {
               this.copyElementsFilesAsync().then(() => {
-                console.log(this.bundleData)
+                this.updateBundleJSONFileAsync().then(() => {
+                  this.createZipArchiveAsync().then(this.removeRepoDirsAsync.bind(this))
+                })
                 callback()
               })
             })
@@ -259,9 +261,12 @@ class ElementsBuilder {
     })
     return Promise.all(promises)
   }
-
+  updateBundleJSONFileAsync () {
+    const jsFile = path.join(this.bundlePath, 'bundle.json')
+    return fs.writeJson(jsFile, this.bundleData)
+  }
   updateBundlDataWithVersion (version = '0.2') {
-    this.bundleData.version = version
+    this.bundleData.editor = version
   }
 
   createZipArchiveAsync () {
