@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { getService, setData, getData } from 'vc-cake'
+import { getService, setData, getData, getStorage } from 'vc-cake'
 import SmartLine from './smartLine'
 import Helper from './helper'
 import HelperClone from './helperClone'
@@ -10,6 +10,7 @@ import DOMElement from './domElement'
 const documentManager = getService('document')
 const cook = getService('cook')
 const hubCategories = getService('hubCategories')
+const workspaceStorage = getStorage('workspace')
 
 export default class DnD {
   /**
@@ -348,6 +349,9 @@ export default class DnD {
         this.currentElement,
         this.draggingElement
       )
+      if (!this.position) {
+        workspaceStorage.state('drag').set({ terminate: true })
+      }
     } else if (this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
       this.position && this.options.moveCallback(
         this.draggingElement.id,

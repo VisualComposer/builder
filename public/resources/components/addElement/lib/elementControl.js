@@ -28,7 +28,8 @@ export default class ElementControl extends React.Component {
       previewVisible: false,
       previewStyle: {},
       isDragging: false,
-      iframe: document.getElementById('vcv-editor-iframe')
+      iframe: document.getElementById('vcv-editor-iframe'),
+      backendContentContainer: document.querySelector('.vcv-wpbackend-layout-content-container')
     }
     this.showPreview = this.showPreview.bind(this)
     this.hidePreview = this.hidePreview.bind(this)
@@ -51,7 +52,9 @@ export default class ElementControl extends React.Component {
 
   handleDragStateChange (data) {
     if (data && data.hasOwnProperty('active') && !data.active && this.state.isDragging) {
-      this.endDragOnMouseUp()
+      this.endDragGlobal()
+    } else if (data && data.hasOwnProperty('terminate') && data.terminate && this.state.isDragging) {
+      this.endDrag()
     }
   }
 
@@ -203,9 +206,58 @@ export default class ElementControl extends React.Component {
    * End drag event on mouseup event,
    * call endDrag method, setData to terminate dnd in iframe
    */
-  endDragOnMouseUp () {
+  endDragGlobal () {
     this.endDrag()
     vcCake.setData('dropNewElement', { endDnd: true })
+  }
+
+  /**
+   * Handle drag when interaction with iframe occurs (frontend editor)
+   * @param e
+   * @param newElement
+   */
+  handleDragWithIframe (e, newElement) {
+    const { element, tag } = this.props
+    const { iframe, isDragging } = this.state
+    if (!this.helper) {
+      this.createHelper(tag, newElement)
+    }
+    iframe.style.pointerEvents = 'none'
+    if (!e.target.closest('.vcv-layout-header')) {
+      iframe.style = ''
+      this.helper.hide()
+      if (isDragging) {
+        vcCake.setData('dropNewElement', {
+          id: element.id,
+          point: false,
+          tag: tag,
+          domNode: newElement
+        })
+      }
+    } else {
+      this.helper.show()
+      if (isDragging && vcCake.getData('dropNewElement') && !vcCake.getData('dropNewElement').endDnd) {
+        vcCake.setData('dropNewElement', { endDnd: true })
+      }
+    }
+    this.helper.setPosition({ x: e.clientX, y: e.clientY })
+  }
+
+  /**
+   * Handle drag when no interaction with iframe exists (backend editor)
+   * @param e
+   * @param newElement
+   */
+  handleDragWithoutIframe (e, newElement) {
+    const { element, tag } = this.props
+    if (!vcCake.getData('vcv:layoutCustomMode')) {
+      vcCake.setData('dropNewElement', {
+        id: element.id,
+        point: { x: e.clientX, y: e.clientY },
+        tag: tag,
+        domNode: newElement
+      })
+    }
   }
 
   /**
@@ -214,8 +266,8 @@ export default class ElementControl extends React.Component {
    * @param e
    */
   initDrag (e) {
-    const { element, tag } = this.props
-    const { iframe } = this.state
+    const { element } = this.props
+    const { iframe, isDragging, backendContentContainer } = this.state
     const newElement = document.createElement('div')
     newElement.setAttribute('data-vcv-element', element.id)
     const dragState = workspaceStorage.state('drag')
@@ -223,30 +275,13 @@ export default class ElementControl extends React.Component {
     if (!dragState.get() || !dragState.get().active) {
       dragState.set({ active: true })
     }
-    if (!this.state.isDragging) {
-      this.createHelper(tag, newElement)
+    if (!isDragging) {
       this.setState({ isDragging: true })
     }
-    this.helper.setPosition({ x: e.clientX, y: e.clientY })
-    if (iframe) {
-      iframe.style.pointerEvents = 'none'
-      if (!e.target.closest('.vcv-layout-header')) {
-        iframe.style = ''
-        this.helper.hide()
-        if (this.state.isDragging) {
-          vcCake.setData('dropNewElement', {
-            id: element.id,
-            point: false,
-            tag: tag,
-            domNode: newElement
-          })
-        }
-      } else {
-        this.helper.show()
-        if (this.state.isDragging) {
-          vcCake.setData('dropNewElement', { endDnd: true })
-        }
-      }
+    if (iframe && !backendContentContainer) {
+      this.handleDragWithIframe(e, newElement)
+    } else {
+      this.handleDragWithoutIframe(e, newElement)
     }
   }
 
@@ -289,7 +324,7 @@ export default class ElementControl extends React.Component {
       this.addElement()
       this.endDrag()
     } else {
-      this.endDragOnMouseUp()
+      this.endDragGlobal()
     }
   }
 
