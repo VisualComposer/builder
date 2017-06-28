@@ -45,6 +45,7 @@ export default class ElementControl extends React.Component {
   }
 
   componentWillUnmount () {
+    this.endDrag()
     workspaceStorage.state('drag').ignoreChange(this.handleDragStateChange)
   }
 
@@ -225,18 +226,26 @@ export default class ElementControl extends React.Component {
     if (!this.state.isDragging) {
       this.createHelper(tag, newElement)
       this.setState({ isDragging: true })
-      vcCake.setData('dropNewElement', {
-        id: element.id,
-        point: false,
-        tag: tag,
-        domNode: newElement
-      })
     }
     this.helper.setPosition({ x: e.clientX, y: e.clientY })
     if (iframe) {
       iframe.style.pointerEvents = 'none'
       if (!e.target.closest('.vcv-layout-header')) {
-        this.endDrag()
+        iframe.style = ''
+        this.helper.hide()
+        if (this.state.isDragging) {
+          vcCake.setData('dropNewElement', {
+            id: element.id,
+            point: false,
+            tag: tag,
+            domNode: newElement
+          })
+        }
+      } else {
+        this.helper.show()
+        if (this.state.isDragging) {
+          vcCake.setData('dropNewElement', { endDnd: true })
+        }
       }
     }
   }
