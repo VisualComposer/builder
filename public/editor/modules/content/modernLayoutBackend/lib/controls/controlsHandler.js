@@ -300,7 +300,10 @@ export default class ControlsHandler {
     const cloneText = localizations ? localizations.clone : 'Clone'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
+    const editGeneralText = localizations ? localizations.editGeneral : 'Edit'
+    const editDesignOptionsText = localizations ? localizations.editDesignOptions : 'Edit'
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
+    let designOptionEvent = 'designOptions'
 
     let dropdown = document.createElement('div')
     dropdown.classList.add('vcv-ui-outline-control-dropdown-content')
@@ -319,6 +322,7 @@ export default class ControlsHandler {
 
     // add element action
     if (options.isContainer) {
+      designOptionEvent = 'designOptionsAdvanced'
       let label = addElementText
       let addElementTag = ''
       let children = cook.getChildren(options.tag)
@@ -358,15 +362,28 @@ export default class ControlsHandler {
       }
     })
 
-    // edit control
+    // edit general control
     actions.push({
-      label: editText,
-      title: `${editText} ${options.title}`,
+      label: env('DROPDOWN_DESIGN_OPTIONS_SECTION') ? editGeneralText : editText,
+      title: `${env('DROPDOWN_DESIGN_OPTIONS_SECTION') ? editGeneralText : editText} ${options.title}`,
       icon: 'vcv-ui-icon-edit',
       data: {
         vcControlEvent: 'edit'
       }
     })
+
+    if (env('DROPDOWN_DESIGN_OPTIONS_SECTION')) {
+      // edit design options control
+      actions.push({
+        label: editDesignOptionsText,
+        title: `${editDesignOptionsText} ${options.title}`,
+        icon: 'vcv-ui-icon-brush-alt',
+        data: {
+          vcControlEvent: 'edit',
+          vcControlEventOptions: designOptionEvent
+        }
+      })
+    }
 
     // remove control
     actions.push({
