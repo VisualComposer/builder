@@ -40,6 +40,7 @@ export default class DndManager {
       this.items = new DnD(document.querySelector('[data-vcv-module="content-layout"]'), {
         cancelMove: true,
         moveCallback: this.move.bind(this),
+        dropCallback: this.drop.bind(this),
         startCallback: DndManager.start,
         endCallback: DndManager.end,
         container: document.querySelector('#vcwb_visual_composer > .inside'),
@@ -48,6 +49,7 @@ export default class DndManager {
       this.items.init()
       this.apiDnD = DnD.api(this.items)
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
+      vcCake.onDataChange('dropNewElement', this.apiDnD.addNew.bind(this.apiDnD))
       // this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
       workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
       vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
@@ -105,6 +107,13 @@ export default class DndManager {
     if (id && related) {
       // this.api.request('data:move', id, { action: action, related: related })
       workspaceStorage.trigger('move', id, { action: action, related: related })
+    }
+  }
+
+  drop (id, action, related, element) {
+    if (id && related) {
+      workspaceStorage.trigger('drop', id, { action: action, related: related, element: element })
+      // this.api.request('data:move', id, { action: action, related: related })
     }
   }
 
