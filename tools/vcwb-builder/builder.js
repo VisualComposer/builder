@@ -29,9 +29,16 @@ program.command('elements')
   .option('-r, --repository <s>', 'Set repo for VCWB. Default: ' + settings.repo)
   .option('-ar, --accountRepository <s>', 'Set repo for Account. Default: ' + settings.accountRepo)
   .option('-e, --elementsJSON <s>', 'Set JSON file path for a list of elements.')
-  .option('-c, --builderCommit <s>', 'Select commit SHA1 for VCWB')
+  .option('-c, --builderCommit <s>', 'Select commit SHA1 for VCWB.')
+  .option('-v, --version <s>', 'Add version to bundle.')
   .action((options) => {
     const elements = options.elementsJSON ? fs.readJsonSync(options.elementsJSON, { throws: false }) : settings.bundleElements
-    buildElements(options.path, options.repository || settings.repo, options.accountRepository || settings.accountRepo, elements, options.builderCommit)
+    buildElements(
+      options.path,
+      options.repository || settings.repo,
+      options.accountRepository || settings.accountRepo,
+      elements,
+      options.builderCommit,
+      options.version)
   })
 program.parse(process.argv)
