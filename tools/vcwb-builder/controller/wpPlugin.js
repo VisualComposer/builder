@@ -7,7 +7,7 @@ var Spinner = require('cli-spinner').Spinner
 /**
  * Build template from json file
  */
-exports.build = (dir, repo) => {
+exports.build = (dir, repo, commit) => {
   dir = path.resolve(dir || process.cwd())
   if (!fs.lstatSync(dir).isDirectory()) {
     console.log("Can't create bundle. Wrong working directory.")
@@ -18,12 +18,16 @@ exports.build = (dir, repo) => {
   var spinner = new Spinner('processing.. %s')
   spinner.setSpinnerString('|/-\\')
   spinner.start()
-  exec('git clone --depth 1 ' + repo, (error, x, stderr) => {
+  let cloneCMD = `git clone --depth 1 ${repo}`
+  const repoPath = path.join(dir, 'builder')
+  if(commit) {
+    cloneCMD = `git clone ${repo} && cd ${repoPath} && git reset --hard ${commit}`
+  }
+  exec(cloneCMD, (error, x, stderr) => {
     if (stderr) {
       console.log(stderr)
     }
     const bundlePath = path.join(dir, 'visualcomposer')
-    const repoPath = path.join(dir, 'builder')
     process.chdir(repoPath)
     console.log('\nBuild project...')
     exec('rm -rf ./visualcomposer/Modules/Development && ' +
