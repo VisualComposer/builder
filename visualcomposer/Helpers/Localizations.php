@@ -79,6 +79,8 @@ class Localizations extends Container implements Helper
             'add' => __('Add', 'vcwb'),
             'rowLayout' => __('Row Layout', 'vcwb'),
             'edit' => __('Edit', 'vcwb'),
+            'editGeneral' => __('Edit General', 'vcwb'),
+            'editDesignOptions' => __('Edit Design Options', 'vcwb'),
             'clone' => __('Clone', 'vcwb'),
             'remove' => __('Remove', 'vcwb'),
             'move' => __('Move', 'vcwb'),
