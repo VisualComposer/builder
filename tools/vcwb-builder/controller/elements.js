@@ -2,7 +2,6 @@
 const fs = require('fs-extra')
 const path = require('path')
 const ElementsBuilder = require('../lib/elementsBuilder')
-// const Spinner = require('cli-spinner').Spinner
 
 /**
  * Build elements budle

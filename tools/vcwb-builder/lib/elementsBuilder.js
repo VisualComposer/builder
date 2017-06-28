@@ -2,6 +2,8 @@
 const execFile = require('child-process-promise').exec
 const fs = require('fs-extra')
 const path = require('path')
+var colors = require('colors')
+const Spinner = require('cli-spinner').Spinner
 class ElementsBuilder {
   constructor (dir, repo, accountRepo) {
     Object.defineProperties(this, {
@@ -102,25 +104,52 @@ class ElementsBuilder {
     })
   }
 
+  consoleSeparator () {
+    process.stdout.write("\r\x1b[K")
+    console.log('--------------------------------'.white)
+  }
+
   build (elements, commit, version, callback) {
-    console.log('Cloning repositories...')
+    this.spinner = new Spinner({
+      text: '%s ',
+      stream: process.stderr
+    })
+    this.spinner.start()
+    this.consoleSeparator()
+    console.log('Cloning repositories...'.green)
     Promise.all([ this.cloneRepoAsync(commit), this.cloneAccountRepoAsync() ]).then(() => {
-      console.log('Cloning elements repos and copy bundle files...')
+
+      this.consoleSeparator()
+      console.log('Cloning elements repos and copy bundle files...'.green)
       Promise.all([ this.copyFilesAsync(), this.cloneElementsReposAsync(elements) ]).then(() => {
-        console.log('Building VCWB...')
+
+        this.consoleSeparator()
+        console.log('Building VCWB...'.green)
         Promise.all([ this.readBundleJSONFileAsync(), this.buildVCWB() ]).then(() => {
           this.updateBundlDataWithVersion(version)
-          console.log('Building elements and copying files from bundle pre-build to a new package directory...')
+
+          this.consoleSeparator()
+          console.log('Building element...'.green)
           this.buildElementsAsync(elements).then(() => {
-            console.log('Copy editor files and update elements settings in bundle data...')
+
+            this.consoleSeparator()
+            console.log('Copy editor files and update elements settings in bundle data...'.green)
             Promise.all([ this.updateBundleDataWithElementsSettingsAsync(elements), this.copyEditorsFilesAsync() ]).then(() => {
-              console.log('Clean up elements and update bundle.json file...')
+
+              this.consoleSeparator()
+              console.log('Clean up elements and update bundle.json file...'.green)
               Promise.all([ this.cleanUpElementsAsync(elements), this.updateBundleJSONFileAsync() ]).then(() => {
-                console.log('Copying elements to bundle list...')
+
+                this.consoleSeparator()
+                console.log('Copying elements to bundle list...'.green)
                 this.copyElementsFilesAsync().then(() => {
-                  console.log('Creating zip archive...')
-                  this.createZipArchiveAsync(version).then(this.removeRepoDirsAsync.bind(this))
-                  callback()
+
+                  this.consoleSeparator()
+                  console.log('Creating zip archive...'.green)
+                  this.createZipArchiveAsync(version).then(() => {
+                    this.spinner.stop(true)
+                    this.removeRepoDirsAsync().then(callback)
+                  })
                 })
               })
             })
@@ -131,7 +160,10 @@ class ElementsBuilder {
   }
 
   exec (cmd, options = {}) {
-     return execFile(cmd, options).catch((result) => {console.log(result)})
+    return execFile(cmd, options).catch((result) => {
+      console.log(result.toString())
+      process.exit()
+    })
   }
 
   clone (repo, path, commit) {
@@ -237,6 +269,7 @@ class ElementsBuilder {
   }
 
   copyElementsFilesAsync () {
+    fs.ensureDirSync(path.join(this.bundlePath))
     return fs.move(this.elementsPath, path.join(this.bundlePath, 'elements'))
   }
 
