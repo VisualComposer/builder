@@ -13,7 +13,7 @@ export default class EditFormFieldsForm extends React.Component {
   }
 
   constructor (props) {
-    super (props)
+    super(props)
     this.getAccordionSections = this.getAccordionSections.bind(this)
   }
 
