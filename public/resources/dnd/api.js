@@ -13,6 +13,7 @@ export default class API {
   }
   addNew (data) {
     if (data.endDnd) {
+      this.dnd.draggingElement = null
       this.dnd.handleDragEnd()
     } else {
       this.dnd.start(data.id, false, data.tag, data.domNode)
