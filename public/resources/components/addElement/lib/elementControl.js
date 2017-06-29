@@ -21,6 +21,7 @@ export default class ElementControl extends React.Component {
   helper = null
   layoutBarOverlay = document.querySelector('.vcv-layout-bar-overlay')
   layoutBarOverlayRect = null
+  dragTimeout = 0
 
   constructor (props) {
     super(props)
@@ -310,8 +311,10 @@ export default class ElementControl extends React.Component {
     e && e.preventDefault()
     if (vcCake.env('DRAG_AND_DROP_FROM_ADD_ELEMENT_PANEL')) {
       if (!this.state.isDragging) {
-        this.layoutBarOverlayRect = this.layoutBarOverlay.getBoundingClientRect()
-        document.body.addEventListener('mousemove', this.initDrag)
+        this.dragTimeout = setTimeout(() => {
+          this.layoutBarOverlayRect = this.layoutBarOverlay.getBoundingClientRect()
+          document.body.addEventListener('mousemove', this.initDrag)
+        }, 150)
       }
     }
   }
@@ -326,6 +329,8 @@ export default class ElementControl extends React.Component {
     } else {
       this.endDragGlobal()
     }
+    window.clearTimeout(this.dragTimeout)
+    this.dragTimeout = 0
   }
 
   render () {
