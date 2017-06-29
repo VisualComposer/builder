@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
-import EditFormField from './editFormField'
+import EditFormSection from './editFormSection'
 import vcCake from 'vc-cake'
 
 export default class EditFormFieldsForm extends React.Component {
@@ -34,7 +34,7 @@ export default class EditFormFieldsForm extends React.Component {
    */
   getAccordionSections () {
     return this.props.allTabs.map((tab) => {
-      return <EditFormField
+      return <EditFormSection
         {...this.props}
         key={tab.key}
         tab={tab}

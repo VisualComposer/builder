@@ -7,7 +7,7 @@ export default class EditFormContent extends React.Component {
     return (
       <div className='vcv-ui-tree-content-section'>
         <Scrollbar>
-          <div className='vcv-ui-tree-content-section-inner'>
+          <div className='vcv-ui-tree-content-section-inner vcv-ui-edit-form-content-section-inner'>
             <div className='vcv-ui-editor-plates-container'>
               <div className='vcv-ui-editor-plates'>
                 <div className='vcv-ui-editor-plate vcv-ui-state--active'>
