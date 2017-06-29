@@ -350,6 +350,16 @@ export default class ControlsHandler {
       })
     }
 
+    // edit general control
+    actions.push({
+      label: editText,
+      title: `${editText} ${options.title}`,
+      icon: 'vcv-ui-icon-edit',
+      data: {
+        vcControlEvent: 'edit'
+      }
+    })
+
     // add controls for row
     if (options.tag === 'row') {
       actions.push({
@@ -361,16 +371,6 @@ export default class ControlsHandler {
         }
       })
     }
-
-    // edit general control
-    actions.push({
-      label: editText,
-      title: `${editText} ${options.title}`,
-      icon: 'vcv-ui-icon-edit',
-      data: {
-        vcControlEvent: 'edit'
-      }
-    })
 
     if (env('DROPDOWN_DESIGN_OPTIONS_SECTION')) {
       // edit design options control
