@@ -186,6 +186,9 @@ class ElementsBuilder {
   }
 
   exec (cmd, options = {}) {
+    if (!options.maxBuffer) {
+      options.maxBuffer = 500 * 1024
+    }
     return execFile(cmd, options).catch((result) => {
       console.log(result.toString())
       process.exit()
