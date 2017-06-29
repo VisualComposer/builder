@@ -113,7 +113,7 @@ class StylesManager {
           .then((result) => {
             resolve(result.css)
           })
-          .catch(() => {
+          .catch((result) => {
             window.console && window.console.warn && window.console.warn('Failed to compile css')
             resolve('')
           })

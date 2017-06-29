@@ -2,8 +2,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 const exec = require('child_process').exec
-const spawn = require('child_process').spawn
-var Spinner = require('cli-spinner').Spinner
+const Spinner = require('cli-spinner').Spinner
 /**
  * Build template from json file
  */
