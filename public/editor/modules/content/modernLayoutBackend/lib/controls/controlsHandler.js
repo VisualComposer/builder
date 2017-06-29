@@ -300,8 +300,7 @@ export default class ControlsHandler {
     const cloneText = localizations ? localizations.clone : 'Clone'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
-    const editGeneralText = localizations ? localizations.editGeneral : 'Edit'
-    const editDesignOptionsText = localizations ? localizations.editDesignOptions : 'Edit'
+    const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
     let designOptionEvent = 'designOptions'
 
@@ -354,8 +353,8 @@ export default class ControlsHandler {
 
     // edit general control
     actions.push({
-      label: env('DROPDOWN_DESIGN_OPTIONS_SECTION') ? editGeneralText : editText,
-      title: `${env('DROPDOWN_DESIGN_OPTIONS_SECTION') ? editGeneralText : editText} ${options.title}`,
+      label: editText,
+      title: `${editText} ${options.title}`,
       icon: 'vcv-ui-icon-edit',
       data: {
         vcControlEvent: 'edit'
@@ -365,8 +364,8 @@ export default class ControlsHandler {
     if (env('DROPDOWN_DESIGN_OPTIONS_SECTION')) {
       // edit design options control
       actions.push({
-        label: editDesignOptionsText,
-        title: `${editDesignOptionsText} ${options.title}`,
+        label: designOptionsText,
+        title: `${options.title} ${designOptionsText}`,
         icon: 'vcv-ui-icon-brush-alt',
         data: {
           vcControlEvent: 'edit',
