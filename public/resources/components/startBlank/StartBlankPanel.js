@@ -4,7 +4,8 @@ import vcCake from 'vc-cake'
 import BlankControl from './lib/blankControl'
 const templateManager = vcCake.getService('myTemplates')
 const elementsStorage = vcCake.getStorage('elements')
-const workspaceSettings = vcCake.getStorage('workspace').state('settings')
+const workspaceStorage = vcCake.getStorage('workspace')
+const workspaceSettings = workspaceStorage.state('settings')
 
 export default class startBlank extends React.Component {
   static propTypes = {
@@ -27,6 +28,7 @@ export default class startBlank extends React.Component {
     this.handleCloseClick = this.handleCloseClick.bind(this)
     this.setControlsLayout = this.setControlsLayout.bind(this)
     this.handleControlClick = this.handleControlClick.bind(this)
+    this.handleMouseUp = this.handleMouseUp.bind(this)
   }
 
   componentDidMount () {
@@ -44,6 +46,13 @@ export default class startBlank extends React.Component {
     if (this.initialSetControlsLayoutTimeout) {
       window.clearTimeout(this.initialSetControlsLayoutTimeout)
       this.initialSetControlsLayoutTimeout = null
+    }
+  }
+
+  handleMouseUp () {
+    const dragState = workspaceStorage.state('drag')
+    if (dragState.get() && dragState.get().active) {
+      dragState.set({ active: false })
     }
   }
 
@@ -175,7 +184,7 @@ export default class startBlank extends React.Component {
     }
 
     return (
-      <div className='vcv-start-blank-container'>
+      <div className='vcv-start-blank-container' onMouseUp={this.handleMouseUp}>
         <div className='vcv-start-blank-scroll-container'>
           <div className='vcv-start-blank-inner'>
             <div className='vcv-start-blank-heading-container'>

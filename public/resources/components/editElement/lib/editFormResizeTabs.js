@@ -16,11 +16,15 @@ export default class EditFormResizeTabs extends React.Component {
   editorNav = null
 
   componentWillReceiveProps (nextProps) {
-    this.allTabs = nextProps.allTabs
+    if (!vcCake.env('EDIT_FORM_ACCORDION')) {
+      this.allTabs = nextProps.allTabs
+    }
   }
 
   componentDidMount () {
-    this.doRefresh()
+    if (!vcCake.env('EDIT_FORM_ACCORDION')) {
+      this.doRefresh()
+    }
   }
 
   doRefresh = () => {
@@ -80,6 +84,13 @@ export default class EditFormResizeTabs extends React.Component {
   }
 
   render () {
+    if (vcCake.env('EDIT_FORM_ACCORDION')) {
+      return (
+        <EditForm
+          {...this.props}
+        />
+      )
+    }
     return (
       <EditForm
         {...this.props}
