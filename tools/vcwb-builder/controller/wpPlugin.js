@@ -6,7 +6,7 @@ const Spinner = require('cli-spinner').Spinner
 /**
  * Build template from json file
  */
-exports.build = (dir, repo, commit) => {
+exports.build = (dir, repo, commit, version) => {
   dir = path.resolve(dir || process.cwd())
   if (!fs.lstatSync(dir).isDirectory()) {
     console.log("Can't create bundle. Wrong working directory.")
@@ -62,6 +62,14 @@ exports.build = (dir, repo, commit) => {
             console.log(stderr)
           }
           process.chdir(dir)
+          if (version) {
+            const pluginsWordpressFilePath = path.join(bundlePath, 'plugin-wordpress.php')
+            let pluginWordpressContent = fs.readFileSync(pluginsWordpressFilePath, 'utf8')
+            pluginWordpressContent = pluginWordpressContent.replace(/(\s\*\sVersion:\s)([\d\.]+)/g, `$1${version}`)
+            pluginWordpressContent = pluginWordpressContent.replace(/(define\('VCV_VERSION',\s')([\d\.]+)/g, `$1${version}`)
+            fs.writeFileSync(pluginsWordpressFilePath, pluginWordpressContent)
+          }
+          console.log('\n' + 'Update version...')
           console.log('\n' + 'Building zip bundle...')
           exec('zip -r ./visualcomposer.zip ./visualcomposer', () => {
             spinner.stop(true)
