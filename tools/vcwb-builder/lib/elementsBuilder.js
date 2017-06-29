@@ -4,8 +4,9 @@ const fs = require('fs-extra')
 const path = require('path')
 var colors = require('colors')
 const Spinner = require('cli-spinner').Spinner
+
 class ElementsBuilder {
-  constructor (dir, repo, accountRepo) {
+  constructor (dir, repo, accountRepo, settings) {
     Object.defineProperties(this, {
       /**
        * @property {String}
@@ -89,8 +90,7 @@ class ElementsBuilder {
         get: () => {
           return path.join(this.dir, this.bundleDir)
         }
-      }
-      ,
+      },
       /**
        * @property {String}
        * @name ElementsBuilder#bundleData
@@ -100,6 +100,10 @@ class ElementsBuilder {
         configurable: false,
         value: {},
         writable: true
+      },
+      'settings': {
+        value: settings,
+        writable: false
       }
     })
   }
@@ -154,7 +158,8 @@ class ElementsBuilder {
 
             this.consoleSeparator()
             console.log('Copy editor files and update elements settings in bundle data...'.green)
-            Promise.all([ this.updateBundleDataWithElementsSettingsAsync(elements), this.copyEditorsFilesAsync() ]).then(() => {
+            this.updateBundleDataWithElementsSettingsMetaSettings(elements)
+            Promise.all([ this.copyEditorsFilesAsync() ]).then(() => {
 
               this.consoleSeparator()
               console.log('Clean up elements and update bundle.json file...'.green)
@@ -310,6 +315,13 @@ class ElementsBuilder {
       }))
     })
     return Promise.all(promises)
+  }
+
+  updateBundleDataWithElementsSettingsMetaSettings (elements) {
+    elements.forEach((tag) => {
+      this.bundleData.elements[ tag ] = this.settings.bundleElementsSettings[ tag ]
+    })
+    return this
   }
 
   updateBundleJSONFileAsync () {
