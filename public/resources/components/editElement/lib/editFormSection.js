@@ -51,7 +51,7 @@ export default class EditFormSection extends React.Component {
     let sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
       'vcv-ui-edit-form-section--opened': isActive,
-      'vcv-ui-edit-form-section--closed': !isActive,
+      'vcv-ui-edit-form-section--closed': !isActive
     })
     let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
 
