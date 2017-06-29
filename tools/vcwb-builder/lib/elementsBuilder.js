@@ -129,6 +129,10 @@ class ElementsBuilder {
   }
 
   build (elements, commit, version, callback) {
+    if (!elements) {
+      console.log('Error! Wrong elements.'.red)
+      process.exit()
+    }
     this.startSpinner()
     this.addEventsToProcess()
     this.consoleSeparator()
