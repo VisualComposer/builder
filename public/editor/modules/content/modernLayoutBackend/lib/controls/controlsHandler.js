@@ -352,16 +352,6 @@ export default class ControlsHandler {
       })
     }
 
-    // clone control
-    actions.push({
-      label: cloneText,
-      title: `${cloneText} ${options.title}`,
-      icon: 'vcv-ui-icon-copy',
-      data: {
-        vcControlEvent: 'clone'
-      }
-    })
-
     // edit general control
     actions.push({
       label: env('DROPDOWN_DESIGN_OPTIONS_SECTION') ? editGeneralText : editText,
@@ -384,6 +374,16 @@ export default class ControlsHandler {
         }
       })
     }
+
+    // clone control
+    actions.push({
+      label: cloneText,
+      title: `${cloneText} ${options.title}`,
+      icon: 'vcv-ui-icon-copy',
+      data: {
+        vcControlEvent: 'clone'
+      }
+    })
 
     // remove control
     actions.push({
