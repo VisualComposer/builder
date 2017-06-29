@@ -201,6 +201,8 @@ export default class ElementControl extends React.Component {
     if (iframe) {
       iframe.style = ''
     }
+    window.clearTimeout(this.dragTimeout)
+    this.dragTimeout = 0
   }
 
   /**
@@ -314,7 +316,7 @@ export default class ElementControl extends React.Component {
         this.dragTimeout = setTimeout(() => {
           this.layoutBarOverlayRect = this.layoutBarOverlay.getBoundingClientRect()
           document.body.addEventListener('mousemove', this.initDrag)
-        }, 150)
+        }, 1)
       }
     }
   }
@@ -329,8 +331,6 @@ export default class ElementControl extends React.Component {
     } else {
       this.endDragGlobal()
     }
-    window.clearTimeout(this.dragTimeout)
-    this.dragTimeout = 0
   }
 
   render () {
