@@ -39,7 +39,7 @@ export default class FieldDependencyManager extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    this.updateAccordionSectionDependency(prevState)
+    // this.updateAccordionSectionDependency(prevState)
   }
 
   /**
@@ -47,6 +47,7 @@ export default class FieldDependencyManager extends React.Component {
    * @param prevState
    */
   updateAccordionSectionDependency (prevState) {
+    console.log('prevState, this.state: ', prevState.dependenciesClasses, this.state.dependenciesClasses)
     if (this.state.dependenciesClasses.length &&
       this.state.dependenciesClasses.length !== prevState.dependenciesClasses.length &&
       this.state.dependenciesClasses.length === 1
