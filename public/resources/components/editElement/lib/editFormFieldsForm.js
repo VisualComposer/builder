@@ -12,11 +12,6 @@ export default class EditFormFieldsForm extends React.Component {
     onElementChange: React.PropTypes.func.isRequired
   }
 
-  constructor (props) {
-    super(props)
-    this.getAccordionSections = this.getAccordionSections.bind(this)
-  }
-
   field = (field) => {
     return (
       <FieldDependencyManager
