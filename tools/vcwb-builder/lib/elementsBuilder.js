@@ -157,6 +157,10 @@ class ElementsBuilder {
           this.buildElementsAsync(elements).then(() => {
 
             this.consoleSeparator()
+            console.log('Update elements bundle files...'.green)
+            this.updateElementsBundles(elements)
+
+            this.consoleSeparator()
             console.log('Copy editor files and update elements settings in bundle data...'.green)
             this.updateBundleDataWithElementsSettingsMetaSettings(elements)
             Promise.all([ this.copyEditorsFilesAsync() ]).then(() => {
@@ -231,7 +235,7 @@ class ElementsBuilder {
 
   buildElement (path) {
     console.log(`Building element in ${path}...`)
-    return this.exec('npm run build && sed -i "" "s:../../node_modules/:./node_modules/:g" public/dist/element.bundle.js ', {
+    return this.exec('npm run build', {
       cwd: path
     })
   }
@@ -244,7 +248,17 @@ class ElementsBuilder {
     })
     return Promise.all(promises)
   }
-
+  updateElementsBundles (elements) {
+    elements.forEach((tag) => {
+      this.changeElementNodePathElement(tag)
+    })
+  }
+  changeElementNodePathElement (tag) {
+    const elementBundlePath = path.join(this.elementsPath, tag, 'public', 'dist', 'element.bundle.js')
+    let content = fs.readFileSync(elementBundlePath, 'utf8')
+    content = content.replace(/\.\.\/\.\.\/node_modules\//g, './node_modules/')
+    fs.writeFileSync(elementBundlePath, content)
+  }
   copyEditorsFilesAsync () {
     const promises = []
     const join = path.join
