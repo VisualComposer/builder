@@ -44,8 +44,11 @@ export default class EditFormSection extends React.Component {
     const { isActive, contentEnd } = this.state
     const contentEndRect = contentEnd.getBoundingClientRect()
     const headerRect = this.sectionHeader.getBoundingClientRect()
+    const headerOffset = this.sectionHeader.offsetTop + headerRect.height
     if (isActive && headerRect.bottom >= contentEndRect.bottom) {
-      workspaceStorage.state('editForm').set({ scroll: contentEndRect.bottom + 50 })
+      // will scroll to top
+      // workspaceStorage.state('editForm').set({ scroll: headerOffset - 50 })
+      workspaceStorage.state('editForm').set({ scroll: headerOffset - contentEndRect.bottom + headerRect.height + 50 })
     }
   }
 
