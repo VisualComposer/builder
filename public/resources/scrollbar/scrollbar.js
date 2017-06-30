@@ -1,10 +1,32 @@
 import React from 'react'
 import classNames from 'classnames'
 import {Scrollbars} from 'react-custom-scrollbars'
+import { getStorage } from 'vc-cake'
+
+const workspaceStorage = getStorage('workspaceStorage')
 
 export default class Scrollbar extends React.Component {
   static propTypes = {
     content: React.PropTypes.number
+  }
+
+  constructor (props) {
+    super(props)
+    this.handleEditFormStateChange = this.handleEditFormStateChange.bind(this)
+  }
+
+  componentDidMount () {
+    workspaceStorage.state('editForm').onChange(this.handleEditFormStateChange)
+  }
+
+  componentWillUnmount () {
+    workspaceStorage.state('editForm').ignoreChange(this.handleEditFormStateChange)
+  }
+
+  handleEditFormStateChange (data) {
+    if (data && data.scroll) {
+      this.scrollTop(data.scroll)
+    }
   }
 
   scrollTop (top) {

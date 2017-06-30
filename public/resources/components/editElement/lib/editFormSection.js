@@ -1,19 +1,24 @@
 import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
+import { getStorage } from 'vc-cake'
+
+const workspaceStorage = getStorage('workspaceStorage')
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
     tab: React.PropTypes.object.isRequired
   }
 
+  sectionHeader = null
+
   constructor (props) {
     super(props)
     this.state = {
       isActive: false,
-      dependenciesClasses: []
+      dependenciesClasses: [],
+      contentEnd: document.getElementById('vcv-editor-end')
     }
-    this.getSectionFormFields = this.getSectionFormFields.bind(this)
     this.toggleSection = this.toggleSection.bind(this)
     this.updateDependencyClasses = this.updateDependencyClasses.bind(this)
   }
@@ -24,8 +29,24 @@ export default class EditFormSection extends React.Component {
     }
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    this.checkSectionPosition()
+  }
+
   updateDependencyClasses (newState) {
     this.setState({ dependenciesClasses: newState })
+  }
+
+  /**
+   * Set workspace storage state to scroll edit form if section content is below the fold
+   */
+  checkSectionPosition () {
+    const { isActive, contentEnd } = this.state
+    const contentEndRect = contentEnd.getBoundingClientRect()
+    const headerRect = this.sectionHeader.getBoundingClientRect()
+    if (isActive && headerRect.bottom >= contentEndRect.bottom) {
+      workspaceStorage.state('editForm').set({ scroll: contentEndRect.bottom + 50 })
+    }
   }
 
   /**
@@ -63,7 +84,11 @@ export default class EditFormSection extends React.Component {
     let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
 
     return <div className={sectionClasses} key={tab.key}>
-      <div className='vcv-ui-edit-form-section-header' onClick={this.toggleSection}>
+      <div
+        className='vcv-ui-edit-form-section-header'
+        onClick={this.toggleSection}
+        ref={(header) => { this.sectionHeader = header }}
+      >
         {tabTitle}
       </div>
       <div className='vcv-ui-edit-form-section-content'>
