@@ -24,7 +24,7 @@ export default class EditFormSection extends React.Component {
   }
 
   componentDidMount () {
-    if (!this.props.tab.index) {
+    if (this.props.tab.index === this.props.activeTabIndex) {
       this.toggleSection()
     }
   }
