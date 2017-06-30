@@ -10,16 +10,22 @@ export default class EditFormSection extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isActive: false
+      isActive: false,
+      dependenciesClasses: []
     }
     this.getSectionFormFields = this.getSectionFormFields.bind(this)
     this.toggleSection = this.toggleSection.bind(this)
+    this.updateDependencyClasses = this.updateDependencyClasses.bind(this)
   }
 
   componentDidMount () {
     if (!this.props.tab.index) {
       this.toggleSection()
     }
+  }
+
+  updateDependencyClasses (newState) {
+    this.setState({ dependenciesClasses: newState })
   }
 
   /**
@@ -41,18 +47,19 @@ export default class EditFormSection extends React.Component {
         key={`edit-form-field-${param.key}`}
         fieldKey={param.key}
         updater={this.props.onElementChange}
+        updateDependencies={this.updateDependencyClasses}
       />
     })
   }
 
   render () {
     let { tab } = this.props
-    let { isActive } = this.state
+    let { isActive, dependenciesClasses } = this.state
     let sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
       'vcv-ui-edit-form-section--opened': isActive,
       'vcv-ui-edit-form-section--closed': !isActive
-    })
+    }, dependenciesClasses)
     let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
 
     return <div className={sectionClasses} key={tab.key}>

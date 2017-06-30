@@ -7,10 +7,15 @@ export default class FieldDependencyManager extends React.Component {
     fieldKey: React.PropTypes.string.isRequired,
     updater: React.PropTypes.func.isRequired,
     setFieldMount: React.PropTypes.func.isRequired,
-    setFieldUnmount: React.PropTypes.func.isRequired
+    setFieldUnmount: React.PropTypes.func.isRequired,
+    updateDependencies: React.PropTypes.func.isRequired
   }
-  state = {
-    dependenciesClasses: []
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      dependenciesClasses: []
+    }
   }
 
   componentDidMount () {
@@ -31,6 +36,23 @@ export default class FieldDependencyManager extends React.Component {
       refComponent: this,
       refDomComponent: this.refs[ 'domComponent' ]
     })
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    this.updateAccordionSectionDependency(prevState)
+  }
+
+  /**
+   * Check if dependency state differs from previous and update accordion section state
+   * @param prevState
+   */
+  updateAccordionSectionDependency (prevState) {
+    if (this.state.dependenciesClasses.length &&
+      this.state.dependenciesClasses.length !== prevState.dependenciesClasses.length &&
+      this.state.dependenciesClasses.length === 1
+    ) {
+      this.props.updateDependencies(this.state.dependenciesClasses)
+    }
   }
 
   render () {
