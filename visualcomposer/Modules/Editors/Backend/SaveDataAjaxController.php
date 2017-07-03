@@ -72,6 +72,7 @@ class SaveDataAjaxController extends Container implements Module
             $response = [];
         }
         $response['status'] = false;
+
         return $response;
     }
 
@@ -84,7 +85,6 @@ class SaveDataAjaxController extends Container implements Module
             // $post->meta_input = [ 'vcv:pageContent' => $data ]
             update_post_meta($post->ID, VCV_PREFIX . 'pageContent', $data);
         }
-
 
         //bring it back once you're done posting
         add_filter('content_save_pre', 'wp_filter_post_kses');
@@ -105,7 +105,9 @@ class SaveDataAjaxController extends Container implements Module
 
         return $responseExtra;
     }
-    protected function setEditor (\WP_Post $post, Request $requestHelper) {
+
+    protected function setEditor(\WP_Post $post, Request $requestHelper)
+    {
         update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $requestHelper->input('vcv-be-editor'));
     }
 }
