@@ -33,8 +33,10 @@ export default class EditFormSection extends React.Component {
     this.checkSectionPosition()
   }
 
-  updateDependencyClasses (newState) {
-    this.setState({ dependenciesClasses: newState })
+  updateDependencyClasses (newState, fieldKey) {
+    if (this.props.tab.fieldKey === fieldKey) {
+      this.setState({ dependenciesClasses: newState })
+    }
   }
 
   /**
