@@ -234,13 +234,6 @@
 }
 
 .vcv-ui-edit-form-section {
-  border-bottom: @edit-form-section-border;
-  &:first-child {
-    border-top: @edit-form-section-border;
-  }
-  &:last-child {
-    border-bottom: none;
-  }
   &.vcv-ui-state--hidden {
     display: none;
   }
@@ -278,6 +271,7 @@
   padding: @edit-form-section-header-padding;
   color: @edit-form-text-color-white;
   background: @edit-form-section-header-background-color;
+  border-top: @edit-form-section-border;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
