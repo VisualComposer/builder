@@ -29,6 +29,10 @@ export default class EditFormSection extends React.Component {
     }
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.setState({ isActive: nextProps.tab.index === nextProps.activeTabIndex })
+  }
+
   componentDidUpdate (prevProps, prevState) {
     this.checkSectionPosition()
   }
