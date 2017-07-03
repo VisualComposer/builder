@@ -40,7 +40,6 @@ export default class BackendClassicSwitcher extends React.Component {
         window.editorExpand.on()
         window.editorExpand.on() // double call fixes "space" in height from VCPB
       }
-
     }, 0)
   }
 
@@ -53,8 +52,8 @@ export default class BackendClassicSwitcher extends React.Component {
     console.log(editor)
     let output = <div className='vcv-wpbackend-switcher-wrapper'>
       <div className='vcv-wpbackend-switcher'>
-        <span className='vcv-wpbackend-switcher-logo'/>
-        <a className='vcv-wpbackend-switcher-option' href={window.vcvFrontendEditorLink}>
+        <span className='vcv-wpbackend-switcher-logo' />
+        <a className='vcv-wpbackend-switcher-option' href={window.vcvFrontendEditorLink} >
           {buttonFEText}
         </a>
         { editor !== 'be' ? <button className='vcv-wpbackend-switcher-option'
