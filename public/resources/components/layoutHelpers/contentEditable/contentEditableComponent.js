@@ -376,7 +376,9 @@ export default class ContentEditableComponent extends React.Component {
       this.medium.destroy()
       if (vcCake.getData('vcv:layoutCustomMode') !== null) {
         vcCake.setData('vcv:layoutCustomMode', null)
-        this.handleLayoutModeChange(null)
+        window.setTimeout(() => {
+          this.handleLayoutModeChange(null)
+        }, 0)
       }
       this.updateHtmlWithServer(this.state.realContent)
     }

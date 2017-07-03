@@ -234,15 +234,18 @@
 }
 
 .vcv-ui-edit-form-section {
+  border-bottom: @edit-form-section-border;
   &:first-child {
-    .vcv-ui-edit-form-section-header {
-      border-top: @edit-form-section-header-border;
-    }
+    border-top: @edit-form-section-border;
   }
   &:last-child {
-    .vcv-ui-edit-form-section-header {
-      border-bottom: none;
-    }
+    border-bottom: none;
+  }
+  &.vcv-ui-state--hidden {
+    display: none;
+  }
+  &.vcv-ui-state--visible {
+    display: block;
   }
 }
 
@@ -275,7 +278,9 @@
   padding: @edit-form-section-header-padding;
   color: @edit-form-text-color-white;
   background: @edit-form-section-header-background-color;
-  border-bottom: @edit-form-section-header-border;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
 
   &::after {

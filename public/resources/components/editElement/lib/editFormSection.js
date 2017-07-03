@@ -1,24 +1,56 @@
 import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
+import { getStorage } from 'vc-cake'
+
+const workspaceStorage = getStorage('workspaceStorage')
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
     tab: React.PropTypes.object.isRequired
   }
 
+  sectionHeader = null
+
   constructor (props) {
     super(props)
     this.state = {
-      isActive: false
+      isActive: false,
+      dependenciesClasses: [],
+      contentEnd: document.getElementById('vcv-editor-end')
     }
-    this.getSectionFormFields = this.getSectionFormFields.bind(this)
     this.toggleSection = this.toggleSection.bind(this)
+    this.updateDependencyClasses = this.updateDependencyClasses.bind(this)
   }
 
   componentDidMount () {
-    if (!this.props.tab.index) {
+    if (this.props.tab.index === this.props.activeTabIndex) {
       this.toggleSection()
+    }
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    this.checkSectionPosition()
+  }
+
+  updateDependencyClasses (newState, fieldKey) {
+    if (this.props.tab.fieldKey === fieldKey) {
+      this.setState({ dependenciesClasses: newState })
+    }
+  }
+
+  /**
+   * Set workspace storage state to scroll edit form if section content is below the fold
+   */
+  checkSectionPosition () {
+    const { isActive, contentEnd } = this.state
+    const contentEndRect = contentEnd.getBoundingClientRect()
+    const headerRect = this.sectionHeader.getBoundingClientRect()
+    const headerOffset = this.sectionHeader.offsetTop + headerRect.height
+    if (isActive && headerRect.bottom >= contentEndRect.bottom) {
+      // will scroll to top
+      // workspaceStorage.state('editForm').set({ scroll: headerOffset - 50 })
+      workspaceStorage.state('editForm').set({ scroll: headerOffset - contentEndRect.bottom + headerRect.height + 50 })
     }
   }
 
@@ -41,22 +73,27 @@ export default class EditFormSection extends React.Component {
         key={`edit-form-field-${param.key}`}
         fieldKey={param.key}
         updater={this.props.onElementChange}
+        updateDependencies={this.updateDependencyClasses}
       />
     })
   }
 
   render () {
     let { tab } = this.props
-    let { isActive } = this.state
+    let { isActive, dependenciesClasses } = this.state
     let sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
       'vcv-ui-edit-form-section--opened': isActive,
       'vcv-ui-edit-form-section--closed': !isActive
-    })
+    }, dependenciesClasses)
     let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
 
     return <div className={sectionClasses} key={tab.key}>
-      <div className='vcv-ui-edit-form-section-header' onClick={this.toggleSection}>
+      <div
+        className='vcv-ui-edit-form-section-header'
+        onClick={this.toggleSection}
+        ref={(header) => { this.sectionHeader = header }}
+      >
         {tabTitle}
       </div>
       <div className='vcv-ui-edit-form-section-content'>
