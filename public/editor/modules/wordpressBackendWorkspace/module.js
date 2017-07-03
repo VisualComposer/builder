@@ -31,14 +31,14 @@ add('wordpressBackendWorkspace', (api) => {
   const layout = document.getElementById('vcv-layout')
   window.vcvRenderBEWorkspace = () => {
     const editor = document.getElementById('vcv-be-editor') ? document.getElementById('vcv-be-editor').value : ''
-    if(!editor || editor === 'be') {
+    if (!editor || editor === 'be') {
       ReactDOM.render(
         <WorkspaceCont layout={layout} layoutHeader={layoutHeader} />,
         layoutHeader
       )
     }
   }
-  vcvRenderBEWorkspace()
+  window.vcvRenderBEWorkspace()
 
   if (env('FEATURE_START_BLANK')) {
     // Start blank overlay
