@@ -30,7 +30,7 @@ vcCake.add('backendSwitcher', (api) => {
       <BackendClassicSwitcher />,
       switcherContainer
     )
-  } else if(render) {
+  } else if (render) {
     ReactDOM.render(
       <BackendSwitcher />,
       switcherContainer
