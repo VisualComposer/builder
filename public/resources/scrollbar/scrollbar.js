@@ -25,6 +25,7 @@ export default class Scrollbar extends React.Component {
 
   handleEditFormStateChange (data) {
     if (data && data.scroll) {
+      this.refs.scrollbars.scrollToTop()
       this.scrollTop(data.scroll)
     }
   }
