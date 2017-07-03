@@ -6,13 +6,14 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-class MetaDataController extends Container implements Module
+class PluginsInfoController extends Container implements Module
 {
     use WpFiltersActions;
 
     public function __construct()
     {
         $this->wpAddAction('wp_head', 'addMetaGenerator');
+        $this->wpAddFilter('body_class', 'addBodyClass');
     }
 
     protected function addMetaGenerator()
@@ -31,5 +32,13 @@ class MetaDataController extends Container implements Module
                 $text
             );
         }
+    }
+
+    protected function addBodyClass($classes)
+    {
+        $classes[] = 'vcwb';
+        $classes[] = sprintf('vcwb-ver-%s-lite', VCV_VERSION);
+
+        return $classes;
     }
 }
