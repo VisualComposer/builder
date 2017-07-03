@@ -234,6 +234,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   removeOverlay () {
+    console.log(elementOverlay, 'removeOverlay')
     this.stopAutoUpdateOverlayPosition()
     let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
     if (elementOverlay) {

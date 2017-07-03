@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 
 import BackendSwitcher from './lib/helpers/backendSwitcher/component'
+import BackendClassicSwitcher from './lib/helpers/backendSwitcher/backendClassicSwitcher'
 
 vcCake.add('backendSwitcher', (api) => {
   let titleDiv = document.querySelector('div#titlediv')
@@ -24,7 +25,12 @@ vcCake.add('backendSwitcher', (api) => {
     }
   }
 
-  if (render) {
+  if (render && vcCake.env('FEATURE_CLASSIC_EDITOR_CONTROL')) {
+    ReactDOM.render(
+      <BackendClassicSwitcher />,
+      switcherContainer
+    )
+  } else if(render) {
     ReactDOM.render(
       <BackendSwitcher />,
       switcherContainer
