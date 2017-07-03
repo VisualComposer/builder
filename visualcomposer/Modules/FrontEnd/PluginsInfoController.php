@@ -24,7 +24,7 @@ class PluginsInfoController extends Container implements Module
                     'Powered by Visual Composer Website Builder %s - fast and easy to use drag and drop builder for experts and beginners.',
                     'vcwb'
                 ),
-                VCV_VERSION . ' <strong>(Lite)</strong>'
+                VCV_VERSION . ' (Lite)'
             );
             echo sprintf(
                 '<meta name="generator" content="%s"/>',
