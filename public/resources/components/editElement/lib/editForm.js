@@ -19,7 +19,7 @@ export default class EditForm extends React.Component {
 
     if (vcCake.env('EDIT_FORM_ACCORDION')) {
       return (
-        <div className='vcv-ui-tree-view-content'>
+        <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
           <div className='vcv-ui-edit-form-header'>
             <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.data.name} />
             <span className='vcv-ui-edit-form-header-title'>{element.data.name}</span>

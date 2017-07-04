@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import Field from './field'
+import vcCake from 'vc-cake'
 
 export default class FieldDependencyManager extends React.Component {
   static propTypes = {
@@ -8,7 +9,7 @@ export default class FieldDependencyManager extends React.Component {
     updater: React.PropTypes.func.isRequired,
     setFieldMount: React.PropTypes.func.isRequired,
     setFieldUnmount: React.PropTypes.func.isRequired,
-    updateDependencies: React.PropTypes.func.isRequired
+    updateDependencies: vcCake.env('EDIT_FORM_ACCORDION') ? React.PropTypes.func.isRequired : React.PropTypes.func
   }
 
   constructor (props) {
@@ -39,7 +40,9 @@ export default class FieldDependencyManager extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    this.updateAccordionSectionDependency(prevState)
+    if (vcCake.env('EDIT_FORM_ACCORDION')) {
+      this.updateAccordionSectionDependency(prevState)
+    }
   }
 
   /**
