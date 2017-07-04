@@ -29,16 +29,10 @@ add('wordpressBackendWorkspace', (api) => {
   })
   const layoutHeader = document.getElementById('vcv-wpbackend-layout-header')
   const layout = document.getElementById('vcv-layout')
-  window.vcvRenderBEWorkspace = () => {
-    const editor = document.getElementById('vcv-be-editor') ? document.getElementById('vcv-be-editor').value : ''
-    if (!editor || editor === 'be') {
-      ReactDOM.render(
-        <WorkspaceCont layout={layout} layoutHeader={layoutHeader} />,
-        layoutHeader
-      )
-    }
-  }
-  window.vcvRenderBEWorkspace()
+  ReactDOM.render(
+    <WorkspaceCont layout={layout} layoutHeader={layoutHeader} />,
+    layoutHeader
+  )
 
   if (env('FEATURE_START_BLANK')) {
     // Start blank overlay

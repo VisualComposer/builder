@@ -52,6 +52,7 @@ class SaveDataAjaxController extends Container implements Module
         Request $requestHelper
     ) {
         global $post;
+        $this->setEditor($requestHelper);
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
@@ -60,10 +61,10 @@ class SaveDataAjaxController extends Container implements Module
         if (!is_array($response)) {
             $response = [];
         }
+
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);
             $data = $requestHelper->input('vcv-data');
-            $this->setEditor($post, $requestHelper);
             if ($post) {
                 return array_merge($response, $this->getSourceResponse($post, $data));
             }
@@ -106,8 +107,11 @@ class SaveDataAjaxController extends Container implements Module
         return $responseExtra;
     }
 
-    protected function setEditor(\WP_Post $post, Request $requestHelper)
+    protected function setEditor(Request $requestHelper)
     {
-        update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $requestHelper->input('vcv-be-editor'));
+        $post = get_post();
+        if ($post && $requestHelper->input('vcv-be-editor')) {
+            update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $requestHelper->input('vcv-be-editor'));
+        }
     }
 }

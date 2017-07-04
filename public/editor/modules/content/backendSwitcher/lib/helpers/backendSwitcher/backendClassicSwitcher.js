@@ -1,5 +1,7 @@
 import React from 'react'
-
+import {getStorage} from 'vc-cake'
+const wordpressBackendDataStorage = getStorage('wordpressData')
+const workspaceStorage = getStorage('workspace')
 export default class BackendClassicSwitcher extends React.Component {
   constructor (props) {
     super(props)
@@ -13,23 +15,27 @@ export default class BackendClassicSwitcher extends React.Component {
   }
 
   enableClassicEditor () {
-    this.showClassicEditor()
     const editor = 'classic'
     this.setState({ editor: editor })
     this.beEditorInput.value = editor
+    this.showClassicEditor()
   }
 
   enableBackendEditor () {
-    this.showEditor()
     const editor = 'be'
     this.setState({ editor: editor })
     this.beEditorInput.value = editor
+    this.showEditor()
   }
 
   showEditor () {
     document.getElementById('vcwb_visual_composer').classList.remove('vcv-hidden')
     document.getElementById('postdivrich').classList.add('vcv-hidden')
-    window.vcvRenderBEWorkspace()
+    const dataStatus = wordpressBackendDataStorage.state('status').get()
+    if (!dataStatus || !dataStatus.status || dataStatus.status !== 'loaded') {
+      wordpressBackendDataStorage.trigger('start')
+    }
+    workspaceStorage.state('settings').set(false)
   }
 
   showClassicEditor () {
@@ -49,11 +55,10 @@ export default class BackendClassicSwitcher extends React.Component {
     const buttonBEText = localizations && localizations.backendEditor ? localizations.backendEditor : 'Backend Editor'
     const buttonClassictext = localizations && localizations.classicEditor ? localizations.classicEditor : 'Classic Editor'
     const { editor } = this.state
-    console.log(editor)
     let output = <div className='vcv-wpbackend-switcher-wrapper'>
       <div className='vcv-wpbackend-switcher'>
-        <span className='vcv-wpbackend-switcher-logo' />
-        <a className='vcv-wpbackend-switcher-option' href={window.vcvFrontendEditorLink} >
+        <span className='vcv-wpbackend-switcher-logo'/>
+        <a className='vcv-wpbackend-switcher-option' href={window.vcvFrontendEditorLink}>
           {buttonFEText}
         </a>
         { editor !== 'be' ? <button className='vcv-wpbackend-switcher-option'

@@ -1,4 +1,4 @@
-import { addStorage, getStorage, getService, setData } from 'vc-cake'
+import {addStorage, getStorage, getService, setData, env} from 'vc-cake'
 import lodash from 'lodash'
 import $ from 'jquery'
 import SaveController from './lib/saveController'
@@ -11,9 +11,10 @@ addStorage('wordpressData', (storage) => {
   const settingsStorage = getStorage('settings')
   const documentManager = getService('document')
   const cook = getService('cook')
+  const beEditorInput = document.getElementById('vcv-be-editor')
   storage.on('start', () => {
     // Here we call data load
-    controller.load({}, storage.state('status'))
+    !isClassicEditor() && controller.load({}, storage.state('status'))
   })
   storage.on('save', (options, source = '', callback) => {
     storage.state('status').set({ status: 'saving' }, source)
@@ -130,29 +131,31 @@ addStorage('wordpressData', (storage) => {
   }
   let dataSaved = false
   $post.submit((e) => {
-    previewVal = $('input#wp-preview').val()
-    if (previewVal === 'dopreview') {
-      e.preventDefault()
-      storage.trigger('save', {}, '', () => {
-        previewPage(jQuery('#post-preview'))
-      })
-      return
-    }
-    if (!dataSaved) {
-      e.preventDefault()
-      if (submitter === null) {
-        submitter = $submitters[ 0 ]
+    if (!isClassicEditor()) {
+      previewVal = $('input#wp-preview').val()
+      if (previewVal === 'dopreview') {
+        e.preventDefault()
+        storage.trigger('save', {}, '', () => {
+          previewPage(jQuery('#post-preview'))
+        })
+        return
       }
-      $submitpost.find('#major-publishing-actions .spinner').addClass('is-active')
-      dataSaved = true
-      storage.trigger('save', {}, '', () => {
-        submitter.classList.remove('disabled')
-        setTimeout(() => {
-          submitter.click()
-        }, 150)
-      })
-    } else {
-      dataSaved = false
+      if (!dataSaved) {
+        e.preventDefault()
+        if (submitter === null) {
+          submitter = $submitters[ 0 ]
+        }
+        $submitpost.find('#major-publishing-actions .spinner').addClass('is-active')
+        dataSaved = true
+        storage.trigger('save', {}, '', () => {
+          submitter.classList.remove('disabled')
+          setTimeout(() => {
+            submitter.click()
+          }, 150)
+        })
+      } else {
+        dataSaved = false
+      }
     }
   })
 
@@ -181,12 +184,21 @@ addStorage('wordpressData', (storage) => {
     })
   })
   jQuery(document).on('before-autosave', function (e, saveObj) {
-    const documentData = documentManager.all()
-    storage.trigger('wordpress:beforeSave', {
-      pageElements: documentData
-    })
-    saveObj[ 'vcv-data' ] = encodeURIComponent(JSON.stringify({
-      elements: documentData
-    }))
+    if (!isClassicEditor()) {
+      const documentData = documentManager.all()
+      storage.trigger('wordpress:beforeSave', {
+        pageElements: documentData
+      })
+      saveObj[ 'vcv-data' ] = encodeURIComponent(JSON.stringify({
+        elements: documentData
+      }))
+    }
+
   })
+  const isClassicEditor = () => {
+    if (!env('FEATURE_CLASSIC_EDITOR_CONTROL')) {
+      return false
+    }
+    return beEditorInput.value === 'classic'
+  }
 })
