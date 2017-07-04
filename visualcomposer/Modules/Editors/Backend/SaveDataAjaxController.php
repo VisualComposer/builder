@@ -63,6 +63,7 @@ class SaveDataAjaxController extends Container implements Module
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);
             $data = $requestHelper->input('vcv-data');
+            $this->setEditor($post, $requestHelper);
             if ($post) {
                 return array_merge($response, $this->getSourceResponse($post, $data));
             }
@@ -85,7 +86,6 @@ class SaveDataAjaxController extends Container implements Module
             update_post_meta($post->ID, VCV_PREFIX . 'pageContent', $data);
         }
 
-
         //bring it back once you're done posting
         add_filter('content_save_pre', 'wp_filter_post_kses');
         add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
@@ -104,5 +104,10 @@ class SaveDataAjaxController extends Container implements Module
         );
 
         return $responseExtra;
+    }
+
+    protected function setEditor(\WP_Post $post, Request $requestHelper)
+    {
+        update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $requestHelper->input('vcv-be-editor'));
     }
 }

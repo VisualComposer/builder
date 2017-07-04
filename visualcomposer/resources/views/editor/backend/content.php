@@ -13,9 +13,10 @@ $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
 $postTypeHelper = vchelper('PostType');
+$beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true)
 ?>
     <script>
-      document.getElementById('postdivrich').classList.add('vcv-hidden')
+      document.getElementById('<?php echo $beEditor === 'classic' ? 'vcwb_visual_composer' : 'postdivrich' ?>').classList.add('vcv-hidden')
       window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
       window.vcvSourceID = <?php echo get_the_ID(); ?>;
       window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
@@ -44,14 +45,14 @@ $postTypeHelper = vchelper('PostType');
                     <div id="vcv-wpbackend-layout-content" class="vcv-wpbackend-layout-content"></div>
                     <div class="vcv-wpbackend-layout-content-overlay" id="vcv-wpbackend-layout-content-overlay"></div>
                     <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
-	                    <div class="vcv-loading-overlay">
-		                    <div class="vcv-loading-overlay-inner">
-			                    <div class="vcv-loading-dots-container">
-				                    <div class="vcv-loading-dot vcv-loading-dot-1"></div>
-				                    <div class="vcv-loading-dot vcv-loading-dot-2"></div>
-			                    </div>
-		                    </div>
-	                    </div>
+                        <div class="vcv-loading-overlay">
+                            <div class="vcv-loading-overlay-inner">
+                                <div class="vcv-loading-dots-container">
+                                    <div class="vcv-loading-dot vcv-loading-dot-1"></div>
+                                    <div class="vcv-loading-dot vcv-loading-dot-2"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -68,6 +69,7 @@ $postTypeHelper = vchelper('PostType');
         <input type="hidden" name="vcv-settings-global-css" id="vcv-settings-global-css">
         <input type="hidden" name="vcv-elements-css-data" id="vcv-elements-css-data">
         <input type="hidden" name="vcv-tf" id="vcv-tf">
+        <input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="<?php echo esc_attr($beEditor) ?>">
     </div>
 
 <?php
