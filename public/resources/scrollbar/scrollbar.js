@@ -67,7 +67,7 @@ export default class Scrollbar extends React.Component {
         renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}
         renderThumbVertical={props => <div {...props} className='vcv-ui-scroll-thumb--vertical' />}
         renderView={props => <div {...props} className='vcv-ui-scroll-content' />}
-        hideTracksWhenNotNeeded={true}
+        hideTracksWhenNotNeeded={1}
       />
     )
   }
