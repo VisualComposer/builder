@@ -35,6 +35,9 @@ export default class EditFormSection extends React.Component {
 
   componentDidUpdate (prevProps, prevState) {
     this.checkSectionPosition()
+    if (prevState.isActive !== this.state.isActive) {
+      workspaceStorage.state('editForm').set({ checkHeight: true })
+    }
   }
 
   updateDependencyClasses (newState, fieldKey) {
