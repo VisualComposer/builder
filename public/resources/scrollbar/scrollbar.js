@@ -37,15 +37,7 @@ export default class Scrollbar extends React.Component {
       this.refs.scrollbars.scrollToTop()
       this.scrollTop(data.scroll)
     } else if (data && data.checkHeight) {
-      const scrollbarContainer = this.refs.scrollbars.refs.container
-      const scrollbarContent = scrollbarContainer.querySelector('.vcv-ui-scroll-content').firstChild
-      const scrollbarContainerRect = scrollbarContainer.getBoundingClientRect()
-      const scrollbarContentRect = scrollbarContent.getBoundingClientRect()
-      if (scrollbarContentRect.height < scrollbarContainerRect.height && this.state.showTracks) {
-        this.setState({ showTracks: false })
-      } else if (scrollbarContentRect.height > scrollbarContainerRect.height && !this.state.showTracks) {
-        this.setState({ showTracks: true })
-      }
+      this.setState({ showTracks: true })
     }
   }
 
