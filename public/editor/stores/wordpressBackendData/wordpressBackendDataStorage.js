@@ -11,7 +11,6 @@ addStorage('wordpressData', (storage) => {
   const settingsStorage = getStorage('settings')
   const documentManager = getService('document')
   const cook = getService('cook')
-  const beEditorInput = document.getElementById('vcv-be-editor')
   storage.on('start', () => {
     // Here we call data load
     !isClassicEditor() && controller.load({}, storage.state('status'))
@@ -193,12 +192,26 @@ addStorage('wordpressData', (storage) => {
         elements: documentData
       }))
     }
-
   })
+
+  // Editor mode control.
+  const beEditorInput = document.getElementById('vcv-be-editor')
+  storage.state('activeEditor').set(beEditorInput && beEditorInput.value ? beEditorInput.value : 'be')
   const isClassicEditor = () => {
     if (!env('FEATURE_CLASSIC_EDITOR_CONTROL')) {
       return false
     }
-    return beEditorInput.value === 'classic'
+    return storage.state('activeEditor').get() === 'classic'
   }
+  storage.state('activeEditor').onChange((state) => {
+    beEditorInput.value = state
+    workspaceStorage.state('settings').set(false)
+    workspaceStorage.state('contentStart').set(false)
+    if (state === 'be') {
+      const dataStatus = storage.state('status').get()
+      if (!dataStatus || !dataStatus.status || dataStatus.status !== 'loaded') {
+        storage.trigger('start')
+      }
+    }
+  })
 })

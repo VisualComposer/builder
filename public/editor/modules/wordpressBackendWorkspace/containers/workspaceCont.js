@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PanelsContainer from './panelsContainer'
 import NavbarContainer from './navbarContainer'
 import Workspace from '../../../../resources/components/workspace'
-import { getStorage } from 'vc-cake'
+import {getStorage} from 'vc-cake'
 
 const workspace = getStorage('workspace')
 
@@ -59,7 +59,7 @@ export default class WorkspaceCont extends React.Component {
 
   setContentEnd (value) {
     const contentEnd = value || false
-    this.setState({contentEnd: contentEnd, settings: workspace.state('settings').get() || {}})
+    this.setState({ contentEnd: contentEnd, settings: workspace.state('settings').get() || {} })
   }
 
   setContentStart (value, id) {
