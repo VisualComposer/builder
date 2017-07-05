@@ -36,6 +36,7 @@ export default class BackendClassicSwitcher extends React.Component {
   showClassicEditor () {
     document.getElementById('vcwb_visual_composer').classList.add('vcv-hidden')
     document.getElementById('postdivrich').classList.remove('vcv-hidden')
+    wordpressBackendDataStorage.state('activeEditor').set('classic')
     window.setTimeout(() => {
       if (window.editorExpand) {
         window.editorExpand.on()
