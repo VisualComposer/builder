@@ -7,7 +7,7 @@ import {getRealSize} from './tools'
 const Utils = vcCake.getService('utils')
 const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')
 const positionState = vcCake.getStorage('workspace').state('navbarPosition')
-
+const wordpressBackendDataStorage = vcCake.getStorage('wordpressData')
 export default class Navbar extends React.Component {
   static propTypes = {
     children: React.PropTypes.oneOfType([
@@ -58,6 +58,7 @@ export default class Navbar extends React.Component {
     this.handleDragging = this.handleDragging.bind(this)
     this.setHiddenControlsReference = this.setHiddenControlsReference.bind(this)
     this.updateNavbarBounding = this.updateNavbarBounding.bind(this)
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
   }
   setVisibleControls () {
     const children = React.Children.toArray(this.props.children)
@@ -113,6 +114,7 @@ export default class Navbar extends React.Component {
     boundingRectState.onChange(this.updateNavbarBounding)
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
     window.addEventListener('resize', lodash.debounce(this.handleWindowResize, 300))
+    wordpressBackendDataStorage.state('activeEditor').onChange(this.handleVisibilityChange)
     this.handleElementResize()
   }
   updateWrapper () {
@@ -166,7 +168,9 @@ export default class Navbar extends React.Component {
   handleElementResize () {
     this.refreshControls(this.state.visibleControls)
   }
-
+  handleVisibilityChange () {
+    this.refreshControls(this.state.visibleControls, true)
+  }
   handleWindowResize () {
     this.setState({
       windowSize: {
@@ -205,6 +209,7 @@ export default class Navbar extends React.Component {
   componentWillUnmount () {
     this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
     window.removeEventListener('resize', this.handleWindowResize)
+    wordpressBackendDataStorage.state('activeEditor').ignoreChange(this.handleVisibilityChange)
     boundingRectState.ignoreChange(this.updateNavbarBounding)
   }
 
@@ -318,7 +323,7 @@ export default class Navbar extends React.Component {
    * Update controls to set visible or collapsed controls in bar.
    * @param visibleControls {array} of visible controls keys
    */
-  refreshControls (visibleControls) {
+  refreshControls (visibleControls, refreshMetaBox = false) {
     let isSideNavbar = () => {
       let sidePlacements = [ 'left', 'right' ]
       return sidePlacements.indexOf(this.state.navbarPosition) !== -1
@@ -326,7 +331,7 @@ export default class Navbar extends React.Component {
 
     const metabox = document.getElementById('vcwb_visual_composer')
     // Condition for collapsed initial metabox
-    if (metabox && ReactDOM.findDOMNode(this).getBoundingClientRect().width === 0) {
+    if (refreshMetaBox || (metabox && ReactDOM.findDOMNode(this).getBoundingClientRect().width === 0)) {
       this.setMetaboxInlineStyles(metabox)
     }
 
