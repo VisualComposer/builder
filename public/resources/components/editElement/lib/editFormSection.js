@@ -35,9 +35,7 @@ export default class EditFormSection extends React.Component {
 
   componentDidUpdate (prevProps, prevState) {
     this.checkSectionPosition()
-    if (prevState.isActive !== this.state.isActive) {
-      workspaceStorage.state('editForm').set({ checkHeight: true })
-    }
+    workspaceStorage.state('editForm').set({ checkHeight: true })
   }
 
   updateDependencyClasses (newState, fieldKey) {
@@ -54,7 +52,7 @@ export default class EditFormSection extends React.Component {
     const contentEndRect = contentEnd.getBoundingClientRect()
     const headerRect = this.sectionHeader.getBoundingClientRect()
     const headerOffset = this.sectionHeader.offsetTop + headerRect.height
-    if (isActive && headerRect.bottom >= contentEndRect.bottom) {
+    if (isActive) {
       // will scroll to top
       workspaceStorage.state('editForm').set({ scroll: headerOffset - headerRect.height })
       // will scroll 50px to bottom

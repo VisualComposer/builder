@@ -33,10 +33,11 @@ export default class Scrollbar extends React.Component {
    * @param data
    */
   handleEditFormStateChange (data) {
-    if (data && data.scroll) {
+    if (data && data.hasOwnProperty('scroll')) {
       this.refs.scrollbars.scrollToTop()
       this.scrollTop(data.scroll)
-    } else if (data && data.checkHeight) {
+    }
+    if (data && data.checkHeight) {
       this.setState({ showTracks: true })
     }
   }
