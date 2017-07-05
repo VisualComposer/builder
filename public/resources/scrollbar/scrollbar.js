@@ -19,15 +19,15 @@ export default class Scrollbar extends React.Component {
   }
 
   componentDidMount () {
-    workspaceStorage.state('editForm').onChange(this.handleEditFormStateChange)
+    workspaceStorage.state('scrollbarSettings').onChange(this.handleEditFormStateChange)
   }
 
   componentWillUnmount () {
-    workspaceStorage.state('editForm').ignoreChange(this.handleEditFormStateChange)
+    workspaceStorage.state('scrollbarSettings').ignoreChange(this.handleEditFormStateChange)
   }
 
   /**
-   * React to editForm state change:
+   * React to scroll settings state change:
    * 1. Perform scroll
    * 2. Set state to trigger render() for hideTracksWhenNotNeeded prop
    * @param data
