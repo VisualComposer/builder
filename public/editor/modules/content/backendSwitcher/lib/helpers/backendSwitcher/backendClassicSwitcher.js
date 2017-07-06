@@ -12,16 +12,22 @@ export default class BackendClassicSwitcher extends React.Component {
     this.enableBackendEditor = this.enableBackendEditor.bind(this)
   }
 
-  enableClassicEditor () {
+  enableClassicEditor (e) {
+    e.preventDefault()
     const editor = 'classic'
     this.setState({ editor: editor })
     this.showClassicEditor()
   }
 
-  enableBackendEditor () {
-    const editor = 'be'
-    this.setState({ editor: editor })
-    this.showEditor()
+  enableBackendEditor (e) {
+    e.preventDefault()
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const confirmMessage = localizations && localizations.enableBackendEditorConfirmMessage ? localizations.enableBackendEditorConfirmMessage : 'Visual Composer will overwrite your content created in WordPress Classic editor with the latest version of content created in Visual Composer Website Builder. Do you want to continue?'
+    if (window.confirm(confirmMessage)) {
+      const editor = 'be'
+      this.setState({ editor: editor })
+      this.showEditor()
+    }
   }
 
   showEditor () {

@@ -6,7 +6,7 @@
  * Version: 0.9.4
  * Author: The Visual Composer Team
  * Author URI: https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-backend&utm_medium=vc-wb-plugins-admin-author
- * Copyright: (c) 2017 Visual Composer
+ * Copyright: (c) 2017 TechMill Ltd.
  * License: GNU General Public License v2.0
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 4.5
@@ -36,7 +36,7 @@ if (defined('WP_INSTALLING') && WP_INSTALLING) {
  * Check for plugin conflict.
  */
 if (defined('VCV_VERSION')) {
-    wp_die('It seems that another version of Visual Composer is active. Please deactivate it before use this version.');
+    wp_die('It seems that another version of Visual Composer Website Builder is active. Please deactivate it before use this version.');
 }
 
 /**

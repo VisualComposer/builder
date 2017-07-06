@@ -101,6 +101,7 @@ class Localizations extends Container implements Helper
             'frontendEditor' => __('Frontend Editor', 'vcwb'),
             'backendEditor' => __('Backend Editor', 'vcwb'),
             'classicEditor' => __('Classic Editor', 'vcwb'),
+            'enableBackendEditorConfirmMessage' => __('Visual Composer will overwrite your content created in WordPress Classic editor with the latest version of content created in Visual Composer Website Builder. Do you want to continue?', 'vcwb'),
             'blankPage' => __('Blank Page', 'vcwb'),
             'searchTemplates' => __('Search templates by name and description', 'vcwb'),
             'noResultOpenHub' => __('No Results. Open Visual Composer Hub', 'vcwb'),
@@ -110,7 +111,7 @@ class Localizations extends Container implements Helper
             ),
             'readAndAgreeTerms' => __(
             // @codingStandardsIgnoreLine
-                'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer.',
+                'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer Website Builder.',
                 'vcwb'
             ),
             'incorrectEmailFormat' => __(
@@ -119,7 +120,7 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'mustAgreeToActivate' => __(
-                'To activate and use Visual Composer, you must read and agree to the terms of service.',
+                'To activate and use Visual Composer Website Builder, you must read and agree to the terms of service.',
                 'vcwb'
             ),
             'activationFailed' => __('Your activation request failed. Please try again.', 'vcwb'),

@@ -70,7 +70,7 @@ class MetaboxController extends Container implements Module
         ) {
             add_meta_box(
                 'vcwb_visual_composer',
-                __('Visual Composer', 'vcwb'),
+                __('Visual Composer Website Builder', 'vcwb'),
                 [
                     $this,
                     'render',
