@@ -24,6 +24,7 @@ export default class TokenizationList extends React.Component {
     this.state = {
       value: value,
       editing: false,
+      loading: false,
       inputValue: '',
       suggestedItems: [],
       loadTokenLabels: []
@@ -37,7 +38,11 @@ export default class TokenizationList extends React.Component {
   }
 
   handleChange (e) {
-    this.setState({ inputValue: e.currentTarget.value, callSuggestionAjax: true })
+    let loading = true
+    if (!e.currentTarget.value || this.checkValue(e.currentTarget.value)) {
+      loading = false
+    }
+    this.setState({ inputValue: e.currentTarget.value, callSuggestionAjax: true, loading: loading })
   }
 
   handleFocus (e) {
@@ -57,7 +62,7 @@ export default class TokenizationList extends React.Component {
   handleTagListClick (e) {
     if (e.target === e.currentTarget) {
       if (!this.state.inputValue || !this.checkValue(this.state.inputValue)) {
-        this.setState({ suggestedItems: [] })
+        this.setState({ suggestedItems: [], loading: false })
       }
       this.handleFocus({ target: e.currentTarget.previousSibling })
       e.currentTarget.previousSibling.focus()
@@ -91,7 +96,7 @@ export default class TokenizationList extends React.Component {
         this.loadSuggestions(value[ value.length - 1 ])
       } else {
         if (_.size(this.state.suggestedItems) > 0) {
-          this.setState({ suggestedItems: [] })
+          this.setState({ suggestedItems: [], loading: false })
         }
       }
     }
@@ -102,6 +107,7 @@ export default class TokenizationList extends React.Component {
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
+
     this.serverRequest = ajax({
       'vcv-action': 'autoComplete:findString:adminNonce',
       'vcv-search': search.trim(),
@@ -112,14 +118,14 @@ export default class TokenizationList extends React.Component {
     }, (request) => {
       let response = JSON.parse(request.response)
       if (response.status) {
-        this.setState({ suggestedItems: response.results, callSuggestionAjax: false }) // [{label:'',value:''}]
+        this.setState({ suggestedItems: response.results, callSuggestionAjax: false, loading: false })
       }
     })
   }
 
   removeToken (index) {
     this.state.value.splice(index, 1)
-    this.setState({ value: this.state.value, suggestedItems: [] })
+    this.setState({ value: this.state.value, suggestedItems: [], loading: false })
     this.props.onChange(this.state.value)
   }
 
@@ -207,6 +213,14 @@ export default class TokenizationList extends React.Component {
     }
   }
 
+  getLoading () {
+    if (this.state.loading) {
+      return (
+        <span className='vcv-ui-icon vcv-ui-wp-spinner' />
+      )
+    }
+  }
+
   render () {
     let cssClasses = classNames({
       'vcv-ui-form-input': true,
@@ -226,6 +240,7 @@ export default class TokenizationList extends React.Component {
       />
       {this.renderSuggestionBox()}
       {this.renderTokensList()}
+      {this.getLoading()}
     </div>
   }
 }
