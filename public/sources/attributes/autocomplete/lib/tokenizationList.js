@@ -106,12 +106,13 @@ export default class TokenizationList extends React.Component {
       'vcv-action': 'autoComplete:findString:adminNonce',
       'vcv-search': search.trim(),
       'vcv-nonce': window.vcvNonce,
-      'vcv-tag': this.props.element,
+      'vcv-tag': this.props.element.get('tag'),
       'vcv-param': this.props.fieldKey,
       'vcv-source-id': window.vcvSourceID
     }, (request) => {
-      if (request.response) {
-        this.setState({ suggestedItems: JSON.parse(request.response), callSuggestionAjax: false }) // [{label:'',value:''}]
+      let response = JSON.parse(request.response)
+      if (response.status) {
+        this.setState({ suggestedItems: response.results, callSuggestionAjax: false }) // [{label:'',value:''}]
       }
     })
   }

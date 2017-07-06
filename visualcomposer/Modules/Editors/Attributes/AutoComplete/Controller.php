@@ -46,36 +46,28 @@ class Controller extends Container implements Module
         $sourceId = (int)$requestHelper->input('vcv-source-id');
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             $searchValue = $requestHelper->input('vcv-search');
+            $tag = $requestHelper->input('vcv-tag');
+            $param = $requestHelper->input('vcv-param');
 
-            global $wpdb;
-            $productId = (int)$searchValue;
-            $postMetaInfos = $wpdb->get_results(
-                $wpdb->prepare(
-                    "SELECT a.ID AS id, a.post_title AS title, b.meta_value AS sku
-					FROM {$wpdb->posts} AS a
-					LEFT JOIN ( SELECT meta_value, post_id  FROM {$wpdb->postmeta} WHERE `meta_key` = '_sku' ) AS b ON b.post_id = a.ID
-					WHERE a.post_type = 'product' AND ( a.ID = '%d' OR b.meta_value LIKE '%%%s%%' OR a.post_title LIKE '%%%s%%' )",
-                    $productId > 0 ? $productId : -1,
-                    stripslashes($searchValue),
-                    stripslashes($searchValue)
-                ),
-                ARRAY_A
+            // Output Result Form JSON.
+            if (!is_array($response)) {
+                $response = [];
+            }
+            $response['results'] = '';
+            $response['status'] = true;
+
+            // Do Filter with action/data.
+            $response = vcfilter(
+                'vcv:autocomplete:'.$tag.':'.$param.':render',
+                $response,
+                [
+                    'tag' => $tag,
+                    'param' => $param,
+                    'searchValue' => $searchValue,
+                ]
             );
 
-            $results = [];
-            if (is_array($postMetaInfos) && !empty($postMetaInfos)) {
-                foreach ($postMetaInfos as $value) {
-                    $data = [];
-                    $data['value'] = $value['id'];
-                    $data['label'] = __('Id', 'js_composer') . ': ' . $value['id'] . ((strlen($value['title']) > 0)
-                            ? ' - ' . __('Title', 'js_composer') . ': ' . $value['title'] : '') . ((strlen(
-                                $value['sku']
-                            ) > 0) ? ' - ' . __('Sku', 'js_composer') . ': ' . $value['sku'] : '');
-                    $results[] = $data;
-                }
-            }
-
-            return $results;
+            return $response;
         }
     }
 

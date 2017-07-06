@@ -10,12 +10,25 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class Controller extends Container implements Module
 {
-    public function productIdAutocompleteSuggester($searchValue)
+    use EventsFilters;
+
+    public function __construct()
+    {
+        $this->addFilter('vcv:autocomplete:product:id:render', 'productIdAutocompleteSuggester');
+        $this->addFilter('vcv:autocomplete:products:ids:render', 'productIdAutocompleteSuggester');
+        $this->addFilter('vcv:autocomplete:add_to_cart:id:render', 'productIdAutocompleteSuggester');
+        $this->addFilter('vcv:autocomplete:add_to_cart_url:id:render', 'productIdAutocompleteSuggester');
+        $this->addFilter('vcv:autocomplete:product_page:id:render', 'productIdAutocompleteSuggester');
+    }
+
+    public function productIdAutocompleteSuggester($response, $payload)
     {
         global $wpdb;
+        $searchValue = $payload['searchValue'];
         $productId = (int)$searchValue;
         $postMetaInfos = $wpdb->get_results(
             $wpdb->prepare(
@@ -29,20 +42,19 @@ class Controller extends Container implements Module
             ),
             ARRAY_A
         );
-
-        $results = [];
+        $response['results'] = [];
         if (is_array($postMetaInfos) && !empty($postMetaInfos)) {
             foreach ($postMetaInfos as $value) {
                 $data = [];
                 $data['value'] = $value['id'];
-                $data['label'] = __('Id', 'js_composer') . ': ' . $value['id'] . ((strlen($value['title']) > 0)
-                        ? ' - ' . __('Title', 'js_composer') . ': ' . $value['title'] : '') . ((strlen(
+                $data['label'] = __('Id', 'vcwb') . ': ' . $value['id'] . ((strlen($value['title']) > 0)
+                        ? ' - ' . __('Title', 'vcwb') . ': ' . $value['title'] : '') . ((strlen(
                             $value['sku']
-                        ) > 0) ? ' - ' . __('Sku', 'js_composer') . ': ' . $value['sku'] : '');
-                $results[] = $data;
+                        ) > 0) ? ' - ' . __('Sku', 'vcwb') . ': ' . $value['sku'] : '');
+                $response['results'][] = $data;
             }
         }
 
-        return $results;
+        return $response;
     }
 }
