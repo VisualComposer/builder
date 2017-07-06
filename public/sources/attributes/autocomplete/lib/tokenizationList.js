@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import _ from 'lodash'
 import Textarea from 'react-textarea-autosize'
 import 'jquery.caret'
+import $ from 'jquery'
 
 import Token from './token'
 
@@ -27,7 +28,11 @@ export default class TokenizationList extends React.Component {
       loading: false,
       inputValue: '',
       suggestedItems: [],
-      loadTokenLabels: []
+      loadTokenLabels: [],
+      activeSuggestion: -1,
+      suggestedValue: null,
+      cursorPosition: null,
+      addedSuggested: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
@@ -35,14 +40,72 @@ export default class TokenizationList extends React.Component {
     this.removeToken = this.removeToken.bind(this)
     this.handleTagListClick = this.handleTagListClick.bind(this)
     this.handleSuggestionMouseDown = this.handleSuggestionMouseDown.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.updateValue = this.updateValue.bind(this)
+  }
+
+  handleKeyDown (e) {
+    let key = e.which || e.keyCode
+    let updateBoxPosition = true
+    if (key === 40) {
+      e.preventDefault()
+      this.setActiveSuggestion(1)
+      updateBoxPosition = false
+    } else if (key === 38) {
+      e.preventDefault()
+      this.setActiveSuggestion(-1)
+      updateBoxPosition = false
+    } else if (key === 13 && this.state.activeSuggestion > -1) {
+      e.preventDefault()
+      this.updateValue(this.state.suggestedValue)
+      this.setState({ addedSuggested: true })
+    } else if (key === 13) {
+      e.target.blur()
+      this.setState({editing: false})
+    }
+    updateBoxPosition && this.updateBoxPosition(e.target)
+  }
+
+  updateBoxPosition (el) {
+    this.keydownTimeout = setTimeout(() => {
+      let caret = $(el).caret('offset')
+      let offset = el.getBoundingClientRect()
+      this.setState({
+        cursorPosition: {
+          top: offset.top + offset.height,
+          left: caret.left
+        }
+      })
+    }, 10)
+  }
+
+  setActiveSuggestion (incr) {
+    let suggestions = this.state.suggestedItems
+    let index = this.state.activeSuggestion + incr
+    if (suggestions[index] !== undefined) {
+      let value = this.state.inputValue.split(',')
+      if (!this.checkValue(this.state.inputValue)) {
+        value.pop()
+        if (value.length > 0) {
+          value = value + ', '
+        }
+      }
+      this.setState({ activeSuggestion: index, suggestedValue: value + suggestions[ index ].value })
+    }
+  }
+
+  updateValue (value) {
+    let loading = true
+    if (!value || this.checkValue(value)) {
+      loading = false
+    }
+
+    this.setState({ inputValue: value, callSuggestionAjax: true, loading: loading, suggestedValue: null, activeSuggestion: -1 })
   }
 
   handleChange (e) {
-    let loading = true
-    if (!e.currentTarget.value || this.checkValue(e.currentTarget.value)) {
-      loading = false
-    }
-    this.setState({ inputValue: e.currentTarget.value, callSuggestionAjax: true, loading: loading })
+    this.updateValue(e.currentTarget.value)
+    this.setState({ addedSuggested: false })
   }
 
   handleFocus (e) {
@@ -81,7 +144,7 @@ export default class TokenizationList extends React.Component {
     let { value } = this.state
     value.push(e.target.getAttribute('data-vcv-suggest-value'))//  label: e.target.getAttribute('data-vcv-suggest') }
 
-    this.setState({ value: value, inputValue: value.join(', ') })
+    this.setState({ value: value, inputValue: value.join(', '), suggestedValue: null, activeSuggestion: -1 })
     this.props.onChange(value)
   }
 
@@ -190,12 +253,12 @@ export default class TokenizationList extends React.Component {
       'vcv-ui-autocomplete': true
     })
     let reactItems = []
-
-    if (!this.checkValue(this.state.inputValue)) {
-      this.state.suggestedItems.forEach((item) => {
-        // let isActive = item.value === this.state.activeSuggestion
+    if (!this.checkValue(this.state.inputValue) && !this.state.addedSuggested) {
+      this.state.suggestedItems.forEach((item, index) => {
+        let isActive = index === this.state.activeSuggestion
         let cssClasses = classNames({
-          'vcv-ui-suggest-box-item': true
+          'vcv-ui-suggest-box-item': true,
+          'vcv-selected': isActive
         })
         reactItems.push(<span key={'vcvSuggestBoxItem' + item.value}
           className={cssClasses}
@@ -237,6 +300,7 @@ export default class TokenizationList extends React.Component {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         data-vcv-type='vcv-tokenized-input'
+        onKeyDown={this.handleKeyDown}
       />
       {this.renderSuggestionBox()}
       {this.renderTokensList()}
