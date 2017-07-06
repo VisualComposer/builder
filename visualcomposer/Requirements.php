@@ -20,11 +20,11 @@ class VcvCoreRequirements
      */
     public function coreChecks()
     {
-        $exitMsgPhp = sprintf('Visual Composer requires PHP %s or newer.', VCV_REQUIRED_PHP_VERSION)
+        $exitMsgPhp = sprintf('Visual Composer Website Builder requires PHP %s or newer.', VCV_REQUIRED_PHP_VERSION)
             . '<a href="https://wordpress.org/about/requirements/"> ' . 'Please update!' . '</a>';
         self::checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION, $exitMsgPhp);
 
-        $exitMsgWp = sprintf('Visual Composer requires WordPress %s or newer.', VCV_REQUIRED_BLOG_VERSION)
+        $exitMsgWp = sprintf('Visual Composer Website Builder requires WordPress %s or newer.', VCV_REQUIRED_BLOG_VERSION)
             . '<a href="https://codex.wordpress.org/Upgrading_WordPress"> ' . 'Please update!' . '</a>';
         self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'), $exitMsgWp);
 
@@ -33,7 +33,7 @@ class VcvCoreRequirements
 
     public function imagesExtChecks()
     {
-        $exitMsgPhpExt = 'Visual Composer requires GD/Imagick extension to be loaded.';
+        $exitMsgPhpExt = 'Visual Composer Website Builder requires GD/Imagick extension to be loaded.';
         $implementation = _wp_image_editor_choose();
         if (!$implementation) {
             //$this->deactivate(VCV_PLUGIN_FULL_PATH);
