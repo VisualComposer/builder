@@ -43,6 +43,6 @@ class Controller extends Container implements Module
             }
         }
 
-        return $results
+        return $results;
     }
 }
