@@ -11,7 +11,9 @@ import Token from './token'
 
 export default class TokenizationList extends React.Component {
 
-  static propTypes = {}
+  static propTypes = {
+    validator: React.PropTypes.func.isRequired
+  }
 
   stayEditing = false
   keydownTimeout = 0
@@ -26,6 +28,7 @@ export default class TokenizationList extends React.Component {
       value: value,
       editing: false,
       loading: false,
+      validating: false,
       inputValue: '',
       suggestedItems: [],
       loadTokenLabels: [],
@@ -114,8 +117,8 @@ export default class TokenizationList extends React.Component {
 
   handleBlur (e) {
     let value = this.state.inputValue.split(',').map((i, index) => {
-      return parseInt(i).toString()
-    }).filter((i) => { return !isNaN(i) })
+      return i
+    })
 
     this.setState({ editing: false, value: value })
     this.props.onChange(value)
@@ -144,7 +147,7 @@ export default class TokenizationList extends React.Component {
     let { value } = this.state
     value.push(e.target.getAttribute('data-vcv-suggest-value'))//  label: e.target.getAttribute('data-vcv-suggest') }
 
-    this.setState({ value: value, inputValue: value.join(', '), suggestedValue: null, activeSuggestion: -1 })
+    this.setState({ value: value, inputValue: value.join(', '), suggestedValue: null, activeSuggestion: -1, validating: true })
     this.props.onChange(value)
   }
 
@@ -197,12 +200,16 @@ export default class TokenizationList extends React.Component {
     let reactTokens = []
     tokens.forEach((token, index) => {
       let title = token
+      let valid = false
       if (this.state.loadTokenLabels[ token ]) {
         title = this.state.loadTokenLabels[ token ]
+        valid = true
       }
       reactTokens.push(<Token
         key={`vcvToken-${token}-${index}`}
         title={title}
+        valid={this.props.validator(valid)}
+        validating={this.state.validating}
         removeCallback={this.removeToken}
         value={token}
         index={index}
@@ -234,7 +241,7 @@ export default class TokenizationList extends React.Component {
       'vcv-source-id': window.vcvSourceID
     }, (request) => {
       if (request.response) {
-        this.setState({ loadTokenLabels: JSON.parse(request.response) })
+        this.setState({ loadTokenLabels: JSON.parse(request.response), validating: false })
       }
     })
   }

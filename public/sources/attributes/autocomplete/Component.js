@@ -4,6 +4,11 @@ import Attribute from '../attribute'
 import TokenizationList from './lib/tokenizationList'
 
 export default class AutoComplete extends Attribute {
+
+  validateSize (text) {
+    return text
+  }
+
   render () {
     return (
       <TokenizationList
@@ -11,6 +16,7 @@ export default class AutoComplete extends Attribute {
         value={this.props.value}
         fieldKey={this.props.fieldKey}
         element={this.props.element}
+        validator={this.validateSize}
       />
     )
   }

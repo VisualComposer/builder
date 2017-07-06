@@ -13,7 +13,9 @@ export default class Token extends React.Component {
       React.PropTypes.string,
       React.PropTypes.number
     ]).isRequired,
-    removeCallback: React.PropTypes.func.isRequired
+    removeCallback: React.PropTypes.func.isRequired,
+    valid: React.PropTypes.bool,
+    validating: React.PropTypes.bool
   }
 
   constructor (props) {
@@ -26,11 +28,14 @@ export default class Token extends React.Component {
   }
 
   render () {
-    let { title, value } = this.props
+    let { title, value, valid, validating } = this.props
 
     let tagClasses = classNames({
-      'vcv-ui-tag-list-item': true
+      'vcv-ui-tag-list-item': true,
+      'vcv-ui-tag-list-item-error': !valid,
+      'vcv-ui-tag-list-item-validating': validating
     })
+
     return <span
       className={tagClasses}
       title={title}

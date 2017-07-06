@@ -88,8 +88,12 @@ class Controller extends Container implements Module
             if ($tokens && is_array($tokens)) {
                 foreach ($tokens as $token) {
                     $post = get_post($token);
-                    // @codingStandardsIgnoreLine
-                    $tokenLabels[ $token ] = $post->post_title;
+                    if ($post) {
+                        // @codingStandardsIgnoreLine
+                        $tokenLabels[ $token ] = $post->post_title;
+                    } else {
+                        $tokenLabels[ $token ] = false;
+                    }
                 }
             }
         }

@@ -1,3 +1,6 @@
+@background-validating: #c6c6c6;
+@background-validating-hover: #c6c6c6;
+
 .vcv-layout-header {
   .vcv-ui-suggest-box.vcv-ui-autocomplete {
     max-width: 250px;
@@ -11,4 +14,12 @@
   top: 0;
   bottom: 0;
   margin: auto;
+}
+
+.vcv-ui-tag-list-item-validating {
+  background-color: @background-validating;
+
+  &:hover {
+    background-color: @background-validating-hover;
+  }
 }
