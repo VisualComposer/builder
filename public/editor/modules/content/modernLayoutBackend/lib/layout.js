@@ -5,13 +5,13 @@ import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpe
 
 const elementsStorage = getStorage('elements')
 const wordpressBackendDataStorage = getStorage('wordpressData')
+const backendAssetsStorage = getStorage('assetsBackend')
+const workspaceStorage = getStorage('workspace')
 
 export default class Layout extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired
   }
-
-  layoutContainer = null
 
   constructor (props) {
     super(props)
@@ -19,8 +19,11 @@ export default class Layout extends React.Component {
       data: [],
       isDataLoaded: false,
       layoutWidth: 0,
-      hasResizeEvent: false
+      hasResizeEvent: false,
+      isElementsExist: false
     }
+    this.layoutContainer = null
+    this.layoutContainerRect = null
     this.handleElementSize = this.handleElementSize.bind(this)
   }
 
@@ -37,6 +40,11 @@ export default class Layout extends React.Component {
     wordpressBackendDataStorage.state('status').onChange((data) => {
       if (data.status === 'loaded') {
         this.setState({ isDataLoaded: true })
+      }
+    })
+    workspaceStorage.state('settings').onChange((data) => {
+      if (data && !this.state.isElementsExist) {
+        this.setState({ isElementsExist: !this.state.isElementsExist })
       }
     })
   }
@@ -76,7 +84,16 @@ export default class Layout extends React.Component {
   }
 
   getElements () {
-    let { data, layoutWidth } = this.state
+    const { data, layoutWidth, isElementsExist } = this.state
+    const backendAssetsState = backendAssetsStorage.state('jobs').get()
+    let loader = this.getLoader()
+    let layoutStyles = {
+      visibility: 'hidden',
+      opacity: 0
+    }
+    let wrapperStyles = {
+      height: '216px'
+    }
     let elementsList
     if (data) {
       elementsList = data.map((element) => {
@@ -91,22 +108,42 @@ export default class Layout extends React.Component {
       })
     }
 
-    return <div
-      className='vcv-wpbackend-layout'
-      data-vcv-module='content-layout'
-      ref={(container) => { this.layoutContainer = container }}>
-      {elementsList}
-      <BlankRowPlaceholder api={this.props.api} />
+    if ((backendAssetsState && !backendAssetsState.jobs) || (data.length && isElementsExist)) {
+      layoutStyles = {}
+      wrapperStyles = {}
+      loader = null
+    }
+
+    return <div className='vcv-wpbackend-layout-wrapper' style={wrapperStyles}>
+      {loader}
+      <div
+        className='vcv-wpbackend-layout'
+        data-vcv-module='content-layout'
+        style={layoutStyles}
+        ref={(container) => { this.layoutContainer = container }}>
+        {elementsList}
+        <BlankRowPlaceholder api={this.props.api} />
+      </div>
+    </div>
+  }
+
+  getLoader () {
+    return <div className='vcv-loading-overlay'>
+      <div className='vcv-loading-overlay-inner'>
+        <div className='vcv-loading-dots-container'>
+          <div className='vcv-loading-dot vcv-loading-dot-1' />
+          <div className='vcv-loading-dot vcv-loading-dot-2' />
+        </div>
+      </div>
     </div>
   }
 
   render () {
-    const { data, isDataLoaded } = this.state
+    const { data, isElementsExist } = this.state
 
-    if (!data.length && isDataLoaded) {
+    if (!data.length && isElementsExist) {
       return <BlankRowPlaceholder api={this.props.api} />
     }
-
     return this.getElements()
   }
 }
