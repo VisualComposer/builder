@@ -852,6 +852,415 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Toggle element for frequently added questions (Faq) or similar structure for display of content per request.',
                     ],
                 ],
+
+                'woocommerceTopRatedProducts' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceTopRatedProducts/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceTopRatedProducts/woocommerceTopRatedProducts/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceTopRatedProducts/woocommerceTopRatedProducts/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Top Rated Products',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceTopRatedProducts/woocommerceTopRatedProducts/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceTopRatedProducts/woocommerceTopRatedProducts/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceSaleProducts' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceSaleProducts/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceSaleProducts/woocommerceSaleProducts/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceSaleProducts/woocommerceSaleProducts/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Sale Products',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceSaleProducts/woocommerceSaleProducts/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceSaleProducts/woocommerceSaleProducts/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceRelatedProducts' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceRelatedProducts/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceRelatedProducts/woocommerceRelatedProducts/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceRelatedProducts/woocommerceRelatedProducts/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Related Products',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceRelatedProducts/woocommerceRelatedProducts/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceRelatedProducts/woocommerceRelatedProducts/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceRecentProducts' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceRecentProducts/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceRecentProducts/woocommerceRecentProducts/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceRecentProducts/woocommerceRecentProducts/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Recent Products',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceRecentProducts/woocommerceRecentProducts/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceRecentProducts/woocommerceRecentProducts/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceProducts' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceProducts/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceProducts/woocommerceProducts/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceProducts/woocommerceProducts/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Products',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProducts/woocommerceProducts/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProducts/woocommerceProducts/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceProductPage' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceProductPage/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceProductPage/woocommerceProductPage/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceProductPage/woocommerceProductPage/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Product Page',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProductPage/woocommerceProductPage/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProductPage/woocommerceProductPage/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceProductCategory' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceProductCategory/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceProductCategory/woocommerceProductCategory/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceProductCategory/woocommerceProductCategory/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Product Category',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProductCategory/woocommerceProductCategory/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProductCategory/woocommerceProductCategory/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceProductCategories' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceProductCategories/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceProductCategories/woocommerceProductCategories/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceProductCategories/woocommerceProductCategories/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Product Categories',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProductCategories/woocommerceProductCategories/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProductCategories/woocommerceProductCategories/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceProductAttribute' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceProductAttribute/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceProductAttribute/woocommerceProductAttribute/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceProductAttribute/woocommerceProductAttribute/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Product Attribute',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProductAttribute/woocommerceProductAttribute/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProductAttribute/woocommerceProductAttribute/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceProduct' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceProduct/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceProduct/woocommerceProduct/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceProduct/woocommerceProduct/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Product',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProduct/woocommerceProduct/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceProduct/woocommerceProduct/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceOrderTracking' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceOrderTracking/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceOrderTracking/woocommerceOrderTracking/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceOrderTracking/woocommerceOrderTracking/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Order Tracking',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceOrderTracking/woocommerceOrderTracking/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceOrderTracking/woocommerceOrderTracking/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceMyAccount' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceMyAccount/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceMyAccount/woocommerceMyAccount/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceMyAccount/woocommerceMyAccount/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'My Account',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceMyAccount/woocommerceMyAccount/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceMyAccount/woocommerceMyAccount/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceFeaturedProducts' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceFeaturedProducts/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceFeaturedProducts/woocommerceFeaturedProducts/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceFeaturedProducts/woocommerceFeaturedProducts/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Featured Products',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceFeaturedProducts/woocommerceFeaturedProducts/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceFeaturedProducts/woocommerceFeaturedProducts/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceCheckout' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceCheckout/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceCheckout/woocommerceCheckout/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceCheckout/woocommerceCheckout/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Checkout',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceCheckout/woocommerceCheckout/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceCheckout/woocommerceCheckout/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceCart' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceCart/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceCart/woocommerceCart/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceCart/woocommerceCart/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Cart',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceCart/woocommerceCart/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceCart/woocommerceCart/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceBestSellingProducts' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceBestSellingProducts/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceBestSellingProducts/woocommerceBestSellingProducts/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceBestSellingProducts/woocommerceBestSellingProducts/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Best Selling Products',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceBestSellingProducts/woocommerceBestSellingProducts/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceBestSellingProducts/woocommerceBestSellingProducts/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
+                'woocommerceAddToCart' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/woocommerceAddToCart/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceAddToCart/woocommerceAddToCart/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/woocommerceAddToCart/woocommerceAddToCart/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Add To Cart',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceAddToCart/woocommerceAddToCart/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/woocommerceAddToCart/woocommerceAddToCart/public/preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'WooCommerce Element',
+                    ],
+                ],
             ]
         );
         // 'animatedOutlineButton' => [
