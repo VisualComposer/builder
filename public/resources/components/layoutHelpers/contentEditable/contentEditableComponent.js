@@ -234,14 +234,9 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   removeOverlay () {
-    console.log(elementOverlay, 'removeOverlay')
     this.stopAutoUpdateOverlayPosition()
     let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
-    if (elementOverlay) {
-      elementOverlay.addEventListener('transitionend', clearAfterTransition.bind(this))
-      elementOverlay.style.opacity = 0
-    }
-    function clearAfterTransition () {
+    const clearAfterTransition = () => {
       let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
       if (elementOverlay) {
         elementOverlay.removeEventListener('transitionend', clearAfterTransition.bind(this))
@@ -251,6 +246,11 @@ export default class ContentEditableComponent extends React.Component {
       if (elementOverlayShadow) {
         elementOverlayShadow.parentNode.removeChild(elementOverlayShadow)
       }
+    }
+    if (elementOverlay) {
+      // elementOverlay.addEventListener('transitionend', clearAfterTransition.bind(this))
+      clearAfterTransition()
+      elementOverlay.style.opacity = 0
     }
   }
 
