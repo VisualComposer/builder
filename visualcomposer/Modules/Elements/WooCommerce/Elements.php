@@ -101,7 +101,7 @@ class Elements extends Container implements Module
      *
      * @return string
      */
-    protected function getShortcodeString(Str $strHelper, $atts, $content = '', $tag)
+    protected function getShortcodeString(Str $strHelper, $atts, $content, $tag)
     {
         $shortcodeString = sprintf(
             '[%s %s]%s[/%s]',
