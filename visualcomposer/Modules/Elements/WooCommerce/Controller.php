@@ -13,11 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 
 class Controller extends Container implements Module
 {
-    public function __construct()
-    {
-
-    }
-
     public function productIdAutocompleteSuggester($searchValue)
     {
         global $wpdb;
