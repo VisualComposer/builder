@@ -111,7 +111,7 @@ class Localizations extends Container implements Helper
             ),
             'readAndAgreeTerms' => __(
             // @codingStandardsIgnoreLine
-                'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer.',
+                'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer Website Builder.',
                 'vcwb'
             ),
             'incorrectEmailFormat' => __(
@@ -120,7 +120,7 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'mustAgreeToActivate' => __(
-                'To activate and use Visual Composer, you must read and agree to the terms of service.',
+                'To activate and use Visual Composer Website Builder, you must read and agree to the terms of service.',
                 'vcwb'
             ),
             'activationFailed' => __('Your activation request failed. Please try again.', 'vcwb'),
