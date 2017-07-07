@@ -25,10 +25,10 @@ class VcvCoreRequirements
         self::checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION, $exitMsgPhp);
 
         $exitMsgWp = sprintf(
-                'Visual Composer Website Builder requires WordPress %s or newer.',
-                VCV_REQUIRED_BLOG_VERSION
-            )
-            . '<a href="https://codex.wordpress.org/Upgrading_WordPress"> ' . 'Please update!' . '</a>';
+            'Visual Composer Website Builder requires WordPress %s or newer.',
+            VCV_REQUIRED_BLOG_VERSION
+        );
+        $exitMsgWp .= '<a href="https://codex.wordpress.org/Upgrading_WordPress"> ' . 'Please update!' . '</a>';
         self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'), $exitMsgWp);
 
         return true;
@@ -77,6 +77,8 @@ class VcvCoreRequirements
     public function deactivate($path)
     {
         require_once ABSPATH . '/wp-admin/includes/plugin.php';
-        deactivate_plugins($path);
+        if (!defined('VCV_PHPUNIT') || !VCV_PHPUNIT) {
+            deactivate_plugins($path);
+        }
     }
 }
