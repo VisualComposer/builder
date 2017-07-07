@@ -19,6 +19,7 @@ class Controller extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:autocomplete:woocommerce:render', 'productIdAutocompleteSuggester');
+        $this->addFilter('vcv:autocomplete:woocommerceCategory:render', 'productCategoryAutocompleteSuggester');
     }
 
     public function productIdAutocompleteSuggester($response, $payload)
@@ -47,6 +48,40 @@ class Controller extends Container implements Module
                         ? ' - ' . __('Title', 'vcwb') . ': ' . $value['title'] : '') . ((strlen(
                             $value['sku']
                         ) > 0) ? ' - ' . __('Sku', 'vcwb') . ': ' . $value['sku'] : '');
+                $response['results'][] = $data;
+            }
+        }
+
+        return $response;
+    }
+
+    public function productCategoryAutocompleteSuggester($response, $payload)
+    {
+        global $wpdb;
+        $searchValue = $payload['searchValue'];
+        $carId = (int)$searchValue;
+        $searchValue = trim($searchValue);
+        $postMetaInfos = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT a.term_id AS id, b.name as name, b.slug AS slug
+						FROM {$wpdb->term_taxonomy} AS a
+						INNER JOIN {$wpdb->terms} AS b ON b.term_id = a.term_id
+						WHERE a.taxonomy = 'product_cat' AND (a.term_id = '%d' OR b.slug LIKE '%%%s%%' OR b.name LIKE '%%%s%%' )",
+                $carId > 0 ? $carId : -1,
+                stripslashes($searchValue),
+                stripslashes($searchValue)
+            ),
+            ARRAY_A
+        );
+
+        $response['results'] = [];
+        if (is_array($postMetaInfos) && !empty($postMetaInfos)) {
+            foreach ($postMetaInfos as $value) {
+                $data = [];
+                $data['value'] = $value['id'];
+                $data['label'] = __('Id', 'vcwb') . ': ' . $value['id'] . ((strlen($value['name']) > 0) ? ' - '
+                        . __('Name', 'vcwb') . ': ' . $value['name'] : '') . ((strlen($value['slug']) > 0)
+                        ? ' - ' . __('Slug', 'vcwb') . ': ' . $value['slug'] : '');
                 $response['results'][] = $data;
             }
         }
