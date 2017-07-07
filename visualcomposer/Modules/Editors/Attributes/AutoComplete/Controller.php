@@ -103,7 +103,7 @@ class Controller extends Container implements Module
             if ($tokens && is_array($tokens)) {
                 foreach ($tokens as $token) {
                     if ($action && 'product_cat' === $action) {
-                        $term = get_term_by( 'id', $token, 'product_cat');
+                        $term = get_term_by('id', $token, 'product_cat');
                         if ($term) {
                             $tokenLabels[ (int)$token ] = $term->name;
                         } else {
