@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { getService, setData, getData, getStorage } from 'vc-cake'
+import {getService, setData, getData, getStorage, env} from 'vc-cake'
 import SmartLine from './smartLine'
 import Helper from './helper'
 import HelperClone from './helperClone'
@@ -314,20 +314,22 @@ export default class DnD {
       this.helper && this.helper.show()
     }, 200)
   }
+
   createDraggingElementFromTag (tag, domNode) {
-    let element = cook.get({tag: tag})
+    let element = cook.get({ tag: tag })
     if (!element) { return }
     let containerFor = element.get('containerFor')
     let relatedTo = element.get('relatedTo')
     return new DOMElement('dropElement', domNode, {
       containerFor: containerFor ? containerFor.value : null,
-      relatedTo: relatedTo ? relatedTo.value.concat(['RootElements']) : null,
+      relatedTo: relatedTo ? relatedTo.value.concat([ 'RootElements' ]) : null,
       parent: this.options.rootID,
       handler: this.options.handler,
       tag: element.get('tag'),
       iconLink: hubCategories.getElementIcon(element.get('tag'))
     })
   }
+
   end () {
     // Remove helper
     this.helper && this.helper.remove()
@@ -342,6 +344,8 @@ export default class DnD {
     if (typeof this.options.endCallback === 'function') {
       this.options.endCallback(this.draggingElement)
     }
+    const isValidLayoutCustomMode = !env('FIX_INLINE_CONTAINER_DRAG_ISSUE') ? true : getData('vcv:layoutCustomMode') === 'dnd'
+
     if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
       this.position && this.options.dropCallback(
         this.draggingElement.id,
@@ -352,7 +356,7 @@ export default class DnD {
       if (!this.position) {
         workspaceStorage.state('drag').set({ terminate: true })
       }
-    } else if (this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
+    } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
       this.position && this.options.moveCallback(
         this.draggingElement.id,
         this.position,

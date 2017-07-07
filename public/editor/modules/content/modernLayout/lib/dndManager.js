@@ -116,7 +116,6 @@ export default class DndManager {
   move (id, action, related) {
     if (id && related) {
       workspaceStorage.trigger('move', id, { action: action, related: related })
-      // this.api.request('data:move', id, { action: action, related: related })
     }
   }
   drop (id, action, related, element) {
