@@ -74,29 +74,4 @@ class RequirementsTest extends WP_UnitTestCase
         }
         $this->assertTrue($catched);
     }
-
-    public function testDeactivate()
-    {
-        $requirements = new VcvCoreRequirements();
-        $plugins = function () {
-            return ['testpath'];
-        };
-        add_filter('pre_option_active_plugins', $plugins);
-        $called = false;
-        add_action(
-            'deactivated_plugin',
-            function ($plugin) use (&$called) {
-                if ($plugin == 'testpath') {
-                    $called = true;
-                }
-            }
-        );
-        $requirements->deactivate('testpath2');
-        $this->assertFalse($called);
-
-        $requirements->deactivate('testpath');
-        $this->assertTrue($called);
-
-        remove_filter('pre_option_active_plugins', $plugins);
-    }
 }
