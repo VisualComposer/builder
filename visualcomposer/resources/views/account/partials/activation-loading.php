@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 
     <?php if ($controller->getActivePage() !== 'last') : ?>
         <span class="vcv-popup-loading-heading"><?php
-            echo __('Activating your copy of Visual Composer ... Please wait.', 'vcwb');
+            echo __('Activating your copy ... Please wait.', 'vcwb');
             ?></span>
         <span class="vcv-popup-helper"><?php
             echo __('Don’t close this window while activation is in the process.', 'vcwb');

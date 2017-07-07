@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
         </svg>
     </div>
     <div class="vcv-popup-heading">
-        <?php echo __('Advance Your WordPress With Visual Composer', 'vcwb'); ?>
+        <?php echo __('Advance Your WordPress With Visual Composer Website Builder', 'vcwb'); ?>
     </div>
     <!-- Form -->
     <form class="vcv-popup-form" id="vcv-account-login-form">
@@ -45,7 +45,7 @@ if (!defined('ABSPATH')) {
                 ); ?></span>
         </div>
         <input type="submit" value="<?php echo __(
-            'Activate Visual Composer',
+            'Activate Now',
             'vcwb'
         ); ?>" class="vcv-popup-form-submit vcv-popup-button">
     </form>

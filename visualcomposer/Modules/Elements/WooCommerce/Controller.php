@@ -18,11 +18,7 @@ class Controller extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:autocomplete:product:id:render', 'productIdAutocompleteSuggester');
-        $this->addFilter('vcv:autocomplete:products:ids:render', 'productIdAutocompleteSuggester');
-        $this->addFilter('vcv:autocomplete:add_to_cart:id:render', 'productIdAutocompleteSuggester');
-        $this->addFilter('vcv:autocomplete:add_to_cart_url:id:render', 'productIdAutocompleteSuggester');
-        $this->addFilter('vcv:autocomplete:product_page:id:render', 'productIdAutocompleteSuggester');
+        $this->addFilter('vcv:autocomplete:woocommerce:render', 'productIdAutocompleteSuggester');
     }
 
     public function productIdAutocompleteSuggester($response, $payload)

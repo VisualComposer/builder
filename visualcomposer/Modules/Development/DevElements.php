@@ -864,7 +864,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceTopRatedProducts/woocommerceTopRatedProducts/public/'
                     ),
                     'settings' => [
-                        'name' => 'Top Rated Products',
+                        'name' => 'WooCommerce Top Rated Products',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceTopRatedProducts/woocommerceTopRatedProducts/public/thumbnail.jpg'
@@ -888,7 +888,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceSaleProducts/woocommerceSaleProducts/public/'
                     ),
                     'settings' => [
-                        'name' => 'Sale Products',
+                        'name' => 'WooCommerce Sale Products',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceSaleProducts/woocommerceSaleProducts/public/thumbnail.jpg'
@@ -912,7 +912,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceRelatedProducts/woocommerceRelatedProducts/public/'
                     ),
                     'settings' => [
-                        'name' => 'Related Products',
+                        'name' => 'WooCommerce Related Products',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceRelatedProducts/woocommerceRelatedProducts/public/thumbnail.jpg'
@@ -936,7 +936,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceRecentProducts/woocommerceRecentProducts/public/'
                     ),
                     'settings' => [
-                        'name' => 'Recent Products',
+                        'name' => 'WooCommerce Recent Products',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceRecentProducts/woocommerceRecentProducts/public/thumbnail.jpg'
@@ -960,7 +960,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceProducts/woocommerceProducts/public/'
                     ),
                     'settings' => [
-                        'name' => 'Products',
+                        'name' => 'WooCommerce Products',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceProducts/woocommerceProducts/public/thumbnail.jpg'
@@ -984,7 +984,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceProductPage/woocommerceProductPage/public/'
                     ),
                     'settings' => [
-                        'name' => 'Product Page',
+                        'name' => 'WooCommerce Product Page',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceProductPage/woocommerceProductPage/public/thumbnail.jpg'
@@ -1008,7 +1008,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceProductCategory/woocommerceProductCategory/public/'
                     ),
                     'settings' => [
-                        'name' => 'Product Category',
+                        'name' => 'WooCommerce Product Category',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceProductCategory/woocommerceProductCategory/public/thumbnail.jpg'
@@ -1032,7 +1032,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceProductCategories/woocommerceProductCategories/public/'
                     ),
                     'settings' => [
-                        'name' => 'Product Categories',
+                        'name' => 'WooCommerce Product Categories',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceProductCategories/woocommerceProductCategories/public/thumbnail.jpg'
@@ -1056,7 +1056,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceProductAttribute/woocommerceProductAttribute/public/'
                     ),
                     'settings' => [
-                        'name' => 'Product Attribute',
+                        'name' => 'WooCommerce Product Attribute',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceProductAttribute/woocommerceProductAttribute/public/thumbnail.jpg'
@@ -1080,7 +1080,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceProduct/woocommerceProduct/public/'
                     ),
                     'settings' => [
-                        'name' => 'Product',
+                        'name' => 'WooCommerce Product',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceProduct/woocommerceProduct/public/thumbnail.jpg'
@@ -1104,7 +1104,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceOrderTracking/woocommerceOrderTracking/public/'
                     ),
                     'settings' => [
-                        'name' => 'Order Tracking',
+                        'name' => 'WooCommerce Order Tracking',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceOrderTracking/woocommerceOrderTracking/public/thumbnail.jpg'
@@ -1128,7 +1128,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceMyAccount/woocommerceMyAccount/public/'
                     ),
                     'settings' => [
-                        'name' => 'My Account',
+                        'name' => 'WooCommerce My Account',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceMyAccount/woocommerceMyAccount/public/thumbnail.jpg'
@@ -1152,7 +1152,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceFeaturedProducts/woocommerceFeaturedProducts/public/'
                     ),
                     'settings' => [
-                        'name' => 'Featured Products',
+                        'name' => 'WooCommerce Featured Products',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceFeaturedProducts/woocommerceFeaturedProducts/public/thumbnail.jpg'
@@ -1176,7 +1176,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceCheckout/woocommerceCheckout/public/'
                     ),
                     'settings' => [
-                        'name' => 'Checkout',
+                        'name' => 'WooCommerce Checkout',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceCheckout/woocommerceCheckout/public/thumbnail.jpg'
@@ -1200,7 +1200,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceCart/woocommerceCart/public/'
                     ),
                     'settings' => [
-                        'name' => 'Cart',
+                        'name' => 'WooCommerce Cart',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceCart/woocommerceCart/public/thumbnail.jpg'
@@ -1224,7 +1224,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceBestSellingProducts/woocommerceBestSellingProducts/public/'
                     ),
                     'settings' => [
-                        'name' => 'Best Selling Products',
+                        'name' => 'WooCommerce Best Selling Products',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceBestSellingProducts/woocommerceBestSellingProducts/public/thumbnail.jpg'
@@ -1248,7 +1248,7 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceAddToCart/woocommerceAddToCart/public/'
                     ),
                     'settings' => [
-                        'name' => 'Add To Cart',
+                        'name' => 'WooCommerce Add To Cart',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/woocommerceAddToCart/woocommerceAddToCart/public/thumbnail.jpg'
