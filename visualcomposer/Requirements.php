@@ -24,7 +24,10 @@ class VcvCoreRequirements
             . '<a href="https://wordpress.org/about/requirements/"> ' . 'Please update!' . '</a>';
         self::checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION, $exitMsgPhp);
 
-        $exitMsgWp = sprintf('Visual Composer Website Builder requires WordPress %s or newer.', VCV_REQUIRED_BLOG_VERSION)
+        $exitMsgWp = sprintf(
+                'Visual Composer Website Builder requires WordPress %s or newer.',
+                VCV_REQUIRED_BLOG_VERSION
+            )
             . '<a href="https://codex.wordpress.org/Upgrading_WordPress"> ' . 'Please update!' . '</a>';
         self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'), $exitMsgWp);
 
@@ -36,7 +39,18 @@ class VcvCoreRequirements
         $exitMsgPhpExt = 'Visual Composer Website Builder requires GD/Imagick extension to be loaded.';
         $implementation = _wp_image_editor_choose();
         if (!$implementation) {
-            //$this->deactivate(VCV_PLUGIN_FULL_PATH);
+            $this->deactivate(VCV_PLUGIN_FULL_PATH);
+            wp_die($exitMsgPhpExt);
+        }
+
+        return true;
+    }
+
+    public function curlExtChecks()
+    {
+        if (!function_exists('curl_init') || !function_exists('curl_exec')) {
+            $this->deactivate(VCV_PLUGIN_FULL_PATH);
+            $exitMsgPhpExt = 'Visual Composer Website Builder requires cURL extension to be loaded.';
             wp_die($exitMsgPhpExt);
         }
 

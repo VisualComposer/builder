@@ -105,6 +105,7 @@ if (!defined('DOING_AJAX') || !DOING_AJAX) {
     $requirements = new VcvCoreRequirements();
     $requirements->coreChecks();
     $requirements->imagesExtChecks();
+    $requirements->curlExtChecks();
 }
 
 // !! PHP 5.4 Required under this line (parse error otherwise).
