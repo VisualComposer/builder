@@ -22,13 +22,13 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Attributes\AutoComplete\Controller::render */
         $this->addFilter(
-            'vcv:ajax:autoComplete:findString:adminNonce',
+            'vcv:ajax:autocomplete:findString:adminNonce',
             'render'
         );
 
         /** @see \VisualComposer\Modules\Editors\Attributes\AutoComplete\Controller::getTokenLabels */
         $this->addFilter(
-            'vcv:ajax:autoComplete:getTokenLabels:adminNonce',
+            'vcv:ajax:autocomplete:getTokenLabels:adminNonce',
             'getTokenLabels'
         );
     }
@@ -48,6 +48,7 @@ class Controller extends Container implements Module
             $searchValue = $requestHelper->input('vcv-search');
             $tag = $requestHelper->input('vcv-tag');
             $param = $requestHelper->input('vcv-param');
+            $action = $requestHelper->input('vcv-autocomplete-action');
 
             // Output Result Form JSON.
             if (!is_array($response)) {
@@ -57,8 +58,20 @@ class Controller extends Container implements Module
             $response['status'] = true;
 
             // Do Filter with action/data.
+            if (!empty($action)) {
+                $response = vcfilter(
+                    'vcv:autocomplete:' . $action . ':render',
+                    $response,
+                    [
+                        'tag' => $tag,
+                        'param' => $param,
+                        'searchValue' => $searchValue,
+                        'action' => $action,
+                    ]
+                );
+            }
             $response = vcfilter(
-                'vcv:autocomplete:'.$tag.':'.$param.':render',
+                'vcv:autocomplete:' . $tag . ':' . $param . ':render',
                 $response,
                 [
                     'tag' => $tag,
@@ -82,17 +95,18 @@ class Controller extends Container implements Module
     protected function getTokenLabels($response, $payload, Request $requestHelper, CurrentUser $currentUserAccessHelper)
     {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
+        $tokenLabels = [];
+
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
-            $tokenLabels = [];
             $tokens = $requestHelper->input('vcv-tokens');
             if ($tokens && is_array($tokens)) {
                 foreach ($tokens as $token) {
-                    $post = get_post($token);
+                    $post = get_post((int)$token);
                     if ($post) {
                         // @codingStandardsIgnoreLine
-                        $tokenLabels[ $token ] = $post->post_title;
+                        $tokenLabels[ (int)$token ] = $post->post_title;
                     } else {
-                        $tokenLabels[ $token ] = false;
+                        $tokenLabels[ (int)$token ] = false;
                     }
                 }
             }

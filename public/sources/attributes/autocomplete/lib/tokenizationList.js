@@ -64,7 +64,7 @@ export default class TokenizationList extends React.Component {
       this.setState({ addedSuggested: true })
     } else if (key === 13) {
       e.target.blur()
-      this.setState({editing: false})
+      this.setState({ editing: false })
     }
     updateBoxPosition && this.updateBoxPosition(e.target)
   }
@@ -85,7 +85,7 @@ export default class TokenizationList extends React.Component {
   setActiveSuggestion (incr) {
     let suggestions = this.state.suggestedItems
     let index = this.state.activeSuggestion + incr
-    if (suggestions[index] !== undefined) {
+    if (suggestions[ index ] !== undefined) {
       let value = this.state.inputValue.split(',')
       if (!this.checkValue(this.state.inputValue)) {
         value.pop()
@@ -117,8 +117,13 @@ export default class TokenizationList extends React.Component {
 
   handleBlur (e) {
     let value = this.state.inputValue.split(',')
+    if (this.props.single) {
+      value = [ value[ value.length - 1 ] ]
+      this.props.onChange(value[ value.length - 1 ])
+    } else {
+      this.props.onChange(value)
+    }
     this.setState({ editing: false, value: value, validating: this.props.validation })
-    this.props.onChange(value)
     this.loadTokenLabels(value)
   }
 
@@ -147,7 +152,11 @@ export default class TokenizationList extends React.Component {
     inputValue.push(e.target.getAttribute('data-vcv-suggest-value'))
 
     this.setState({ value: inputValue, inputValue: inputValue.join(','), suggestedValue: null, activeSuggestion: -1, validating: this.props.validation })
-    this.props.onChange(inputValue)
+    if (this.props.single) {
+      this.props.onChange(inputValue[ inputValue.length - 1 ])
+    } else {
+      this.props.onChange(inputValue)
+    }
   }
 
   componentWillMount () {
@@ -183,11 +192,12 @@ export default class TokenizationList extends React.Component {
     }
 
     this.serverRequest = ajax({
-      'vcv-action': 'autoComplete:findString:adminNonce',
+      'vcv-action': 'autocomplete:findString:adminNonce',
       'vcv-search': search.trim(),
       'vcv-nonce': window.vcvNonce,
       'vcv-tag': this.props.element.get('tag'),
       'vcv-param': this.props.fieldKey,
+      'vcv-autocomplete-action': this.props.action,
       'vcv-source-id': window.vcvSourceID
     }, (request) => {
       let response = JSON.parse(request.response)
@@ -200,7 +210,11 @@ export default class TokenizationList extends React.Component {
   removeToken (index) {
     this.state.value.splice(index, 1)
     this.setState({ value: this.state.value, suggestedItems: [], loading: false })
-    this.props.onChange(this.state.value)
+    if (this.props.single) {
+      this.props.onChange(this.state.value[ this.state.value.length - 1 ])
+    } else {
+      this.props.onChange(this.state.value)
+    }
   }
 
   getTokensList () {
@@ -208,6 +222,9 @@ export default class TokenizationList extends React.Component {
     let reactTokens = []
 
     tokens.forEach((token, index) => {
+      if (this.props.single && index > 0) {
+        return false
+      }
       if (token && token.length > 1) {
         let title = token
         let valid = false
@@ -251,7 +268,7 @@ export default class TokenizationList extends React.Component {
       this.serverRequestLabels.abort()
     }
     this.serverRequestLabels = ajax({
-      'vcv-action': 'autoComplete:getTokenLabels:adminNonce',
+      'vcv-action': 'autocomplete:getTokenLabels:adminNonce',
       'vcv-tokens': value,
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID

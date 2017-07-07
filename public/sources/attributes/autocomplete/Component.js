@@ -18,6 +18,8 @@ export default class AutoComplete extends Attribute {
         element={this.props.element}
         validator={this.validate}
         validation={this.props.options.validation}
+        action={this.props.options.action}
+        single={this.props.options.single}
       />
     )
   }
