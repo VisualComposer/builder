@@ -12,10 +12,10 @@ import Token from './token'
 export default class TokenizationList extends React.Component {
 
   static propTypes = {
-    validator: React.PropTypes.func.isRequired
+    validator: React.PropTypes.func.isRequired,
+    validation: React.PropTypes.bool.isRequired
   }
 
-  stayEditing = false
   keydownTimeout = 0
 
   constructor (props) {
@@ -28,7 +28,7 @@ export default class TokenizationList extends React.Component {
       value: value,
       editing: false,
       loading: false,
-      validating: false,
+      validating: this.props.validation,
       inputValue: '',
       suggestedItems: [],
       loadTokenLabels: [],
@@ -103,7 +103,7 @@ export default class TokenizationList extends React.Component {
       loading = false
     }
 
-    this.setState({ inputValue: value, callSuggestionAjax: true, loading: loading, suggestedValue: null, activeSuggestion: -1 })
+    this.setState({ inputValue: value, suggestedItems: [], callSuggestionAjax: true, loading: loading, suggestedValue: null, activeSuggestion: -1 })
   }
 
   handleChange (e) {
@@ -112,15 +112,12 @@ export default class TokenizationList extends React.Component {
   }
 
   handleFocus (e) {
-    this.setState({ inputValue: this.state.value.join(', '), editing: true })
+    this.setState({ inputValue: this.state.value.join(','), editing: true })
   }
 
   handleBlur (e) {
-    let value = this.state.inputValue.split(',').map((i, index) => {
-      return i
-    })
-
-    this.setState({ editing: false, value: value })
+    let value = this.state.inputValue.split(',')
+    this.setState({ editing: false, value: value, validating: this.props.validation })
     this.props.onChange(value)
     this.loadTokenLabels(value)
   }
@@ -144,15 +141,26 @@ export default class TokenizationList extends React.Component {
   }
 
   handleSuggestionMouseDown (e) {
-    let { value } = this.state
-    value.push(e.target.getAttribute('data-vcv-suggest-value'))//  label: e.target.getAttribute('data-vcv-suggest') }
+    let { inputValue } = this.state
+    inputValue = inputValue.split(',')
+    inputValue.pop()
+    inputValue.push(e.target.getAttribute('data-vcv-suggest-value'))
 
-    this.setState({ value: value, inputValue: value.join(', '), suggestedValue: null, activeSuggestion: -1, validating: true })
-    this.props.onChange(value)
+    this.setState({ value: inputValue, inputValue: inputValue.join(','), suggestedValue: null, activeSuggestion: -1, validating: this.props.validation })
+    this.props.onChange(inputValue)
   }
 
   componentWillMount () {
     this.loadTokenLabels(this.state.value)
+  }
+
+  componentWillUnmount () {
+    if (this.serverRequest) {
+      this.serverRequest.abort()
+    }
+    if (this.serverRequestLabels) {
+      this.serverRequestLabels.abort()
+    }
   }
 
   componentWillUpdate (nextProps, nextState) {
@@ -198,22 +206,30 @@ export default class TokenizationList extends React.Component {
   getTokensList () {
     let tokens = this.state.value
     let reactTokens = []
+
     tokens.forEach((token, index) => {
-      let title = token
-      let valid = false
-      if (this.state.loadTokenLabels[ token ]) {
-        title = this.state.loadTokenLabels[ token ]
-        valid = true
+      if (token && token.length > 1) {
+        let title = token
+        let valid = false
+        if (this.state.loadTokenLabels[ token ]) {
+          title = this.state.loadTokenLabels[ token ]
+          valid = true
+        }
+
+        if (!this.props.validation) {
+          valid = true
+        }
+
+        reactTokens.push(<Token
+          key={`vcvToken-${token}-${index}`}
+          title={title}
+          valid={this.props.validator(valid)}
+          validating={this.state.validating}
+          removeCallback={this.removeToken}
+          value={token}
+          index={index}
+        />)
       }
-      reactTokens.push(<Token
-        key={`vcvToken-${token}-${index}`}
-        title={title}
-        valid={this.props.validator(valid)}
-        validating={this.state.validating}
-        removeCallback={this.removeToken}
-        value={token}
-        index={index}
-      />)
     })
 
     return reactTokens
