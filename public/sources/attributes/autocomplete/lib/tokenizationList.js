@@ -271,7 +271,8 @@ export default class TokenizationList extends React.Component {
       'vcv-action': 'autocomplete:getTokenLabels:adminNonce',
       'vcv-tokens': value,
       'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID
+      'vcv-source-id': window.vcvSourceID,
+      'vcv-label-action': this.props.labelAction
     }, (request) => {
       if (request.response) {
         this.setState({ loadTokenLabels: JSON.parse(request.response), validating: false })

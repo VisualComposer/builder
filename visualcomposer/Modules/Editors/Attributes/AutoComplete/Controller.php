@@ -95,18 +95,28 @@ class Controller extends Container implements Module
     protected function getTokenLabels($response, $payload, Request $requestHelper, CurrentUser $currentUserAccessHelper)
     {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
+        $action = $requestHelper->input('vcv-label-action');
         $tokenLabels = [];
 
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             $tokens = $requestHelper->input('vcv-tokens');
             if ($tokens && is_array($tokens)) {
                 foreach ($tokens as $token) {
-                    $post = get_post((int)$token);
-                    if ($post) {
-                        // @codingStandardsIgnoreLine
-                        $tokenLabels[ (int)$token ] = $post->post_title;
+                    if ($action && 'product_cat' === $action) {
+                        $term = get_term_by('id', $token, 'product_cat');
+                        if ($term) {
+                            $tokenLabels[ (int)$token ] = $term->name;
+                        } else {
+                            $tokenLabels[ (int)$token ] = false;
+                        }
                     } else {
-                        $tokenLabels[ (int)$token ] = false;
+                        $post = get_post((int)$token);
+                        if ($post) {
+                            // @codingStandardsIgnoreLine
+                            $tokenLabels[ (int)$token ] = $post->post_title;
+                        } else {
+                            $tokenLabels[ (int)$token ] = false;
+                        }
                     }
                 }
             }
