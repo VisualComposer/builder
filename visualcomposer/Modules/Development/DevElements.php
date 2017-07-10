@@ -601,7 +601,7 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest.',
                     ],
                 ],
-                 'postsGrid' => [
+                'postsGrid' => [
                      'bundlePath' => $urlHelper->to(
                          'devElements/postsGrid/public/dist/element.bundle.js'
                      ),
@@ -624,7 +624,7 @@ class DevElements extends Container implements Module
                          'metaDescription' => 'Long description',
                      ],
                  ],
-                 'postsGridDataSourceCustomPostType' => [
+                'postsGridDataSourceCustomPostType' => [
                      'bundlePath' => $urlHelper->to(
                          'devElements/postsGridDataSourceCustomPostType/public/dist/element.bundle.js'
                      ),
@@ -639,7 +639,7 @@ class DevElements extends Container implements Module
                          'metaDescription' => '',
                      ],
                  ],
-                 'postsGridDataSourcePage' => [
+                'postsGridDataSourcePage' => [
                      'bundlePath' => $urlHelper->to(
                          'devElements/postsGridDataSourcePage/public/dist/element.bundle.js'
                      ),
@@ -654,7 +654,7 @@ class DevElements extends Container implements Module
                          'metaDescription' => '',
                      ],
                  ],
-                 'postsGridDataSourcePost' => [
+                'postsGridDataSourcePost' => [
                      'bundlePath' => $urlHelper->to(
                          'devElements/postsGridDataSourcePost/public/dist/element.bundle.js'
                      ),
@@ -669,7 +669,7 @@ class DevElements extends Container implements Module
                          'metaDescription' => '',
                      ],
                  ],
-                 'postsGridItemPostDescription' => [
+                'postsGridItemPostDescription' => [
                      'bundlePath' => $urlHelper->to(
                          'devElements/postsGridItemPostDescription/public/dist/element.bundle.js'
                      ),
