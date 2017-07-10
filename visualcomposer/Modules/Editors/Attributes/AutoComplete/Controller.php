@@ -49,6 +49,8 @@ class Controller extends Container implements Module
             $tag = $requestHelper->input('vcv-tag');
             $param = $requestHelper->input('vcv-param');
             $action = $requestHelper->input('vcv-autocomplete-action');
+            $returnValue = $requestHelper->input('vcv-return-value');
+            $returnValue = !$returnValue ? false : $returnValue;
 
             // Output Result Form JSON.
             if (!is_array($response)) {
@@ -66,6 +68,7 @@ class Controller extends Container implements Module
                         'tag' => $tag,
                         'param' => $param,
                         'searchValue' => $searchValue,
+                        'returnValue' => $returnValue,
                         'action' => $action,
                     ]
                 );
@@ -77,6 +80,7 @@ class Controller extends Container implements Module
                     'tag' => $tag,
                     'param' => $param,
                     'searchValue' => $searchValue,
+                    'returnValue' => $returnValue,
                 ]
             );
 
@@ -96,6 +100,9 @@ class Controller extends Container implements Module
     {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
         $action = $requestHelper->input('vcv-label-action');
+        $returnValue = $requestHelper->input('vcv-return-value');
+        $returnValue = !$returnValue ? false : $returnValue;
+
         $tokenLabels = [];
 
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
@@ -103,11 +110,16 @@ class Controller extends Container implements Module
             if ($tokens && is_array($tokens)) {
                 foreach ($tokens as $token) {
                     if ($action && 'product_cat' === $action) {
-                        $term = get_term_by( 'id', $token, 'product_cat');
-                        if ($term) {
-                            $tokenLabels[ (int)$token ] = $term->name;
+                        if ('slug' == $returnValue) {
+                            $term = get_term_by('slug', $token, 'product_cat');
                         } else {
-                            $tokenLabels[ (int)$token ] = false;
+                            $term = get_term_by('id', $token, 'product_cat');
+                        }
+
+                        if ($term) {
+                            $tokenLabels[ $token ] = $term->name;
+                        } else {
+                            $tokenLabels[ $token ] = false;
                         }
                     } else {
                         $post = get_post((int)$token);

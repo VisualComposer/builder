@@ -59,6 +59,7 @@ class Controller extends Container implements Module
     {
         global $wpdb;
         $searchValue = $payload['searchValue'];
+        $returnValue = $payload['returnValue'];
         $carId = (int)$searchValue;
         $searchValue = trim($searchValue);
         $postMetaInfos = $wpdb->get_results(
@@ -78,7 +79,7 @@ class Controller extends Container implements Module
         if (is_array($postMetaInfos) && !empty($postMetaInfos)) {
             foreach ($postMetaInfos as $value) {
                 $data = [];
-                $data['value'] = $value['id'];
+                $data['value'] = $returnValue ? $value[$returnValue] : $value['id'];
                 $data['label'] = __('Id', 'vcwb') . ': ' . $value['id'] . ((strlen($value['name']) > 0) ? ' - '
                         . __('Name', 'vcwb') . ': ' . $value['name'] : '') . ((strlen($value['slug']) > 0)
                         ? ' - ' . __('Slug', 'vcwb') . ': ' . $value['slug'] : '');
