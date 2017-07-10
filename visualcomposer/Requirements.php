@@ -25,15 +25,21 @@ class VcvCoreRequirements
 
         if (!self::checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION)) {
             $die = true;
-            $message .= '<li>' . sprintf(
-                'PHP version %s or greater (recommended 7 or greater)',
-                VCV_REQUIRED_PHP_VERSION) . '</li>';
+            $message .= '<li>' .
+                sprintf(
+                    'PHP version %s or greater (recommended 7 or greater)',
+                    VCV_REQUIRED_PHP_VERSION
+                ) .
+                '</li>';
         }
         if (!self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'))) {
             $die = true;
-            $message .= '<li>' . sprintf(
-                'WordPress version %s or greater',
-                VCV_REQUIRED_BLOG_VERSION) . '</li>';
+            $message .= '<li>' .
+                sprintf(
+                    'WordPress version %s or greater',
+                    VCV_REQUIRED_BLOG_VERSION
+                ) .
+                '</li>';
         }
         if ($die === true) {
             wp_die(
