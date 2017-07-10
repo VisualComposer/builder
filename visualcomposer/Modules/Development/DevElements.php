@@ -601,89 +601,89 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest.',
                     ],
                 ],
-                // 'postsGrid' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'devElements/postsGrid/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'devElements/postsGrid/postsGrid/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'devElements/postsGrid/postsGrid/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Posts Grid',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'devElements/postsGrid/postsGrid/public/thumbnail.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'devElements/postsGrid/postsGrid/public/preview.jpg'
-                //         ),
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
-                // 'postsGridDataSourceCustomPostType' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'devElements/postsGridDataSourceCustomPostType/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Custom Post Type',
-                //         'metaDescription' => '',
-                //     ],
-                // ],
-                // 'postsGridDataSourcePage' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'devElements/postsGridDataSourcePage/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'devElements/postsGridDataSourcePage/postsGridDataSourcePage/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'devElements/postsGridDataSourcePage/postsGridDataSourcePage/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Pages',
-                //         'metaDescription' => '',
-                //     ],
-                // ],
-                // 'postsGridDataSourcePost' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'devElements/postsGridDataSourcePost/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'devElements/postsGridDataSourcePost/postsGridDataSourcePost/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'devElements/postsGridDataSourcePost/postsGridDataSourcePost/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Posts',
-                //         'metaDescription' => '',
-                //     ],
-                // ],
-                // 'postsGridItemPostDescription' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'devElements/postsGridItemPostDescription/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'devElements/postsGridItemPostDescription/postsGridItemPostDescription/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'devElements/postsGridItemPostDescription/postsGridItemPostDescription/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Outline Button',
-                //         'metaDescription' => '',
-                //     ],
-                // ],
+                'postsGrid' => [
+                     'bundlePath' => $urlHelper->to(
+                         'devElements/postsGrid/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'devElements/postsGrid/postsGrid/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'devElements/postsGrid/postsGrid/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Posts Grid',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'devElements/postsGrid/postsGrid/public/thumbnail.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'devElements/postsGrid/postsGrid/public/preview.jpg'
+                         ),
+                         'metaDescription' => 'Long description',
+                     ],
+                 ],
+                'postsGridDataSourceCustomPostType' => [
+                     'bundlePath' => $urlHelper->to(
+                         'devElements/postsGridDataSourceCustomPostType/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Custom Post Type',
+                         'metaDescription' => '',
+                     ],
+                 ],
+                'postsGridDataSourcePage' => [
+                     'bundlePath' => $urlHelper->to(
+                         'devElements/postsGridDataSourcePage/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'devElements/postsGridDataSourcePage/postsGridDataSourcePage/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'devElements/postsGridDataSourcePage/postsGridDataSourcePage/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Pages',
+                         'metaDescription' => '',
+                     ],
+                 ],
+                'postsGridDataSourcePost' => [
+                     'bundlePath' => $urlHelper->to(
+                         'devElements/postsGridDataSourcePost/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'devElements/postsGridDataSourcePost/postsGridDataSourcePost/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'devElements/postsGridDataSourcePost/postsGridDataSourcePost/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Posts',
+                         'metaDescription' => '',
+                     ],
+                 ],
+                'postsGridItemPostDescription' => [
+                     'bundlePath' => $urlHelper->to(
+                         'devElements/postsGridItemPostDescription/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'devElements/postsGridItemPostDescription/postsGridItemPostDescription/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'devElements/postsGridItemPostDescription/postsGridItemPostDescription/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Post Description',
+                         'metaDescription' => '',
+                     ],
+                 ],
                 'rawJs' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/rawJs/public/dist/element.bundle.js'

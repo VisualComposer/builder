@@ -190,7 +190,9 @@ class HubCategories extends Container implements Module
                 ],
                 'Grids' => [
                     'title' => 'Grids',
-                    'elements' => [],
+                    'elements' => [
+                        'postsGrid',
+                    ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),
                 ],
@@ -200,6 +202,14 @@ class HubCategories extends Container implements Module
                         'postsGridDataSourcePost',
                         'postsGridDataSourcePage',
                         'postsGridDataSourceCustomPostType',
+                    ],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),
+                ],
+                '_postsGridItems' => [
+                    'title' => 'Post Grid Item Post Description',
+                    'elements' => [
+                        'postsGridItemPostDescription',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),

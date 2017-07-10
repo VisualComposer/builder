@@ -21,6 +21,7 @@ export default class AutoComplete extends Attribute {
         action={this.props.options.action}
         single={this.props.options.single}
         labelAction={this.props.options.labelAction}
+        returnValue={this.props.options.returnValue}
       />
     )
   }

@@ -198,7 +198,8 @@ export default class TokenizationList extends React.Component {
       'vcv-tag': this.props.element.get('tag'),
       'vcv-param': this.props.fieldKey,
       'vcv-autocomplete-action': this.props.action,
-      'vcv-source-id': window.vcvSourceID
+      'vcv-source-id': window.vcvSourceID,
+      'vcv-return-value': this.props.returnValue
     }, (request) => {
       let response = JSON.parse(request.response)
       if (response.status) {
@@ -272,7 +273,8 @@ export default class TokenizationList extends React.Component {
       'vcv-tokens': value,
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID,
-      'vcv-label-action': this.props.labelAction
+      'vcv-label-action': this.props.labelAction,
+      'vcv-return-value': this.props.returnValue
     }, (request) => {
       if (request.response) {
         this.setState({ loadTokenLabels: JSON.parse(request.response), validating: false })

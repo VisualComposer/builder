@@ -35,6 +35,11 @@ declare -a arr=(
 'wpWidgetsDefault'
 'youtubePlayer'
 'faqToggle'
+'postsGridItemPostDescription'
+'postsGridDataSourcePost'
+'postsGridDataSourcePage'
+'postsGridDataSourceCustomPostType'
+'postsGrid'
 )
 
 EXECDIR=`pwd`
