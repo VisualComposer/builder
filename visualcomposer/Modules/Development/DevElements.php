@@ -40,6 +40,7 @@ class DevElements extends Container implements Module
                 'row' => [
                     'bundlePath' => $urlHelper->to('devElements/row/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('devElements/row/row/'),
+                    'elementRealPath' => vcapp()->path('devElements/row/row/'),
                     'assetsPath' => $urlHelper->to('devElements/row/row/public/'),
                     'settings' => [
                         'name' => 'Row',
@@ -56,6 +57,7 @@ class DevElements extends Container implements Module
                 'column' => [
                     'bundlePath' => $urlHelper->to('devElements/column/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('devElements/column/column/'),
+                    'elementRealPath' => vcapp()->path('devElements/column/column/'),
                     'assetsPath' => $urlHelper->to('devElements/column/column/public/'),
                     'settings' => [
                         'name' => 'Column',
@@ -69,6 +71,7 @@ class DevElements extends Container implements Module
                         'devElements/textBlock/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/textBlock/textBlock/'),
+                    'elementRealPath' => vcapp()->path('devElements/textBlock/textBlock/'),
                     'assetsPath' => $urlHelper->to('devElements/textBlock/textBlock/public'),
                     'settings' => [
                         'name' => 'Text Block',
@@ -87,6 +90,7 @@ class DevElements extends Container implements Module
                         'devElements/basicButton/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/basicButton/basicButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/basicButton/basicButton/'),
                     'assetsPath' => $urlHelper->to('devElements/basicButton/basicButton/public/'),
                     'settings' => [
                         'name' => 'Basic Button',
@@ -104,6 +108,7 @@ class DevElements extends Container implements Module
                         'devElements/outlineButton/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/outlineButton/outlineButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/outlineButton/outlineButton/'),
                     'assetsPath' => $urlHelper->to('devElements/outlineButton/outlineButton/public/'),
                     'settings' => [
                         'name' => 'Outline Button',
@@ -122,6 +127,7 @@ class DevElements extends Container implements Module
                         'devElements/youtubePlayer/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/youtubePlayer/youtubePlayer/'),
+                    'elementRealPath' => vcapp()->path('devElements/youtubePlayer/youtubePlayer/'),
                     'assetsPath' => $urlHelper->to('devElements/youtubePlayer/youtubePlayer/public/'),
                     'settings' => [
                         'name' => 'Youtube Player',
@@ -140,6 +146,7 @@ class DevElements extends Container implements Module
                         'devElements/vimeoPlayer/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/vimeoPlayer/vimeoPlayer/'),
+                    'elementRealPath' => vcapp()->path('devElements/vimeoPlayer/vimeoPlayer/'),
                     'assetsPath' => $urlHelper->to('devElements/vimeoPlayer/vimeoPlayer/public/'),
                     'settings' => [
                         'name' => 'Vimeo Player',
@@ -158,6 +165,7 @@ class DevElements extends Container implements Module
                         'devElements/singleImage/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/singleImage/singleImage/'),
+                    'elementRealPath' => vcapp()->path('devElements/singleImage/singleImage/'),
                     'assetsPath' => $urlHelper->to('devElements/singleImage/singleImage/public/'),
                     'settings' => [
                         'name' => 'Single Image',
@@ -176,6 +184,7 @@ class DevElements extends Container implements Module
                         'devElements/heroSection/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/heroSection/heroSection/'),
+                    'elementRealPath' => vcapp()->path('devElements/heroSection/heroSection/'),
                     'assetsPath' => $urlHelper->to('devElements/heroSection/heroSection/public/'),
                     'settings' => [
                         'name' => 'Hero Section',
@@ -194,6 +203,7 @@ class DevElements extends Container implements Module
                         'devElements/icon/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/icon/icon/'),
+                    'elementRealPath' => vcapp()->path('devElements/icon/icon/'),
                     'assetsPath' => $urlHelper->to('devElements/icon/icon/public/'),
                     'settings' => [
                         'name' => 'Icon',
@@ -211,9 +221,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/googleFontsHeading/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/googleFontsHeading/googleFontsHeading/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/googleFontsHeading/googleFontsHeading/'),
+                    'elementRealPath' => vcapp()->path('devElements/googleFontsHeading/googleFontsHeading/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/googleFontsHeading/googleFontsHeading/public/'
                     ),
@@ -235,9 +244,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/wpWidgetsCustom/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/wpWidgetsCustom/wpWidgetsCustom/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/wpWidgetsCustom/wpWidgetsCustom/'),
+                    'elementRealPath' => vcapp()->path('devElements/wpWidgetsCustom/wpWidgetsCustom/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/wpWidgetsCustom/wpWidgetsCustom/public/'
                     ),
@@ -258,9 +266,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/wpWidgetsDefault/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/wpWidgetsDefault/wpWidgetsDefault/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/wpWidgetsDefault/wpWidgetsDefault/'),
+                    'elementRealPath' => vcapp()->path('devElements/wpWidgetsDefault/wpWidgetsDefault/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/wpWidgetsDefault/wpWidgetsDefault/public/'
                     ),
@@ -283,6 +290,7 @@ class DevElements extends Container implements Module
                         'devElements/shortcode/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/shortcode/shortcode/'),
+                    'elementRealPath' => vcapp()->path('devElements/shortcode/shortcode/'),
                     'assetsPath' => $urlHelper->to('devElements/shortcode/shortcode/public/'),
                     'settings' => [
                         'name' => 'Shortcode',
@@ -301,6 +309,7 @@ class DevElements extends Container implements Module
                         'devElements/rawHtml/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/rawHtml/rawHtml/'),
+                    'elementRealPath' => vcapp()->path('devElements/rawHtml/rawHtml/'),
                     'assetsPath' => $urlHelper->to('devElements/rawHtml/rawHtml/public/'),
                     'settings' => [
                         'name' => 'Raw HTML',
@@ -342,9 +351,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/facebookLike/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/facebookLike/facebookLike/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/facebookLike/facebookLike/'),
+                    'elementRealPath' => vcapp()->path('devElements/facebookLike/facebookLike/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/facebookLike/facebookLike/public/'
                     ),
@@ -366,9 +374,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/feature/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/feature/feature/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/feature/feature/'),
+                    'elementRealPath' => vcapp()->path('devElements/feature/feature/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/feature/feature/public/'
                     ),
@@ -390,9 +397,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/featureSection/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/featureSection/featureSection/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/featureSection/featureSection/'),
+                    'elementRealPath' => vcapp()->path('devElements/featureSection/featureSection/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/featureSection/featureSection/public/'
                     ),
@@ -414,9 +420,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/flickrImage/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/flickrImage/flickrImage/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/flickrImage/flickrImage/'),
+                    'elementRealPath' => vcapp()->path('devElements/flickrImage/flickrImage/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/flickrImage/flickrImage/public/'
                     ),
@@ -437,9 +442,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/googleMaps/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/googleMaps/googleMaps/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/googleMaps/googleMaps/'),
+                    'elementRealPath' => vcapp()->path('devElements/googleMaps/googleMaps/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/googleMaps/googleMaps/public/'
                     ),
@@ -461,9 +465,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/googlePlusButton/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/googlePlusButton/googlePlusButton/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/googlePlusButton/googlePlusButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/googlePlusButton/googlePlusButton/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/googlePlusButton/googlePlusButton/public/'
                     ),
@@ -509,9 +512,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/imageGallery/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/imageGallery/imageGallery/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/imageGallery/imageGallery/'),
+                    'elementRealPath' => vcapp()->path('devElements/imageGallery/imageGallery/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/imageGallery/imageGallery/public/'
                     ),
@@ -533,9 +535,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/imageMasonryGallery/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/imageMasonryGallery/imageMasonryGallery/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/imageMasonryGallery/imageMasonryGallery/'),
+                    'elementRealPath' => vcapp()->path('devElements/imageMasonryGallery/imageMasonryGallery/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/imageMasonryGallery/imageMasonryGallery/public/'
                     ),
@@ -557,9 +558,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/instagramImage/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/instagramImage/instagramImage/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/instagramImage/instagramImage/'),
+                    'elementRealPath' => vcapp()->path('devElements/instagramImage/instagramImage/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/instagramImage/instagramImage/public/'
                     ),
@@ -581,9 +581,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/pinterestPinit/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/pinterestPinit/pinterestPinit/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/pinterestPinit/pinterestPinit/'),
+                    'elementRealPath' => vcapp()->path('devElements/pinterestPinit/pinterestPinit/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/pinterestPinit/pinterestPinit/public/'
                     ),
@@ -602,95 +601,97 @@ class DevElements extends Container implements Module
                     ],
                 ],
                 'postsGrid' => [
-                     'bundlePath' => $urlHelper->to(
-                         'devElements/postsGrid/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'devElements/postsGrid/postsGrid/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'devElements/postsGrid/postsGrid/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Posts Grid',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'devElements/postsGrid/postsGrid/public/thumbnail.jpg'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'devElements/postsGrid/postsGrid/public/preview.jpg'
-                         ),
-                         'metaDescription' => 'Long description',
-                     ],
-                 ],
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/postsGrid/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/postsGrid/postsGrid/'),
+                    'elementRealPath' => vcapp()->path('devElements/postsGrid/postsGrid/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/postsGrid/postsGrid/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Posts Grid',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/postsGrid/postsGrid/public/thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/postsGrid/postsGrid/public/preview.jpg'
+                        ),
+                        'metaDescription' => 'Long description',
+                    ],
+                ],
                 'postsGridDataSourceCustomPostType' => [
-                     'bundlePath' => $urlHelper->to(
-                         'devElements/postsGridDataSourceCustomPostType/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Custom Post Type',
-                         'metaDescription' => '',
-                     ],
-                 ],
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/postsGridDataSourceCustomPostType/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/'
+                    ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Custom Post Type',
+                        'metaDescription' => '',
+                    ],
+                ],
                 'postsGridDataSourcePage' => [
-                     'bundlePath' => $urlHelper->to(
-                         'devElements/postsGridDataSourcePage/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'devElements/postsGridDataSourcePage/postsGridDataSourcePage/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'devElements/postsGridDataSourcePage/postsGridDataSourcePage/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Pages',
-                         'metaDescription' => '',
-                     ],
-                 ],
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/postsGridDataSourcePage/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/postsGridDataSourcePage/postsGridDataSourcePage/'),
+                    'elementRealPath' => vcapp()->path('devElements/postsGridDataSourcePage/postsGridDataSourcePage/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/postsGridDataSourcePage/postsGridDataSourcePage/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Pages',
+                        'metaDescription' => '',
+                    ],
+                ],
                 'postsGridDataSourcePost' => [
-                     'bundlePath' => $urlHelper->to(
-                         'devElements/postsGridDataSourcePost/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'devElements/postsGridDataSourcePost/postsGridDataSourcePost/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'devElements/postsGridDataSourcePost/postsGridDataSourcePost/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Posts',
-                         'metaDescription' => '',
-                     ],
-                 ],
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/postsGridDataSourcePost/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/postsGridDataSourcePost/postsGridDataSourcePost/'),
+                    'elementRealPath' => vcapp()->path('devElements/postsGridDataSourcePost/postsGridDataSourcePost/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/postsGridDataSourcePost/postsGridDataSourcePost/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Posts',
+                        'metaDescription' => '',
+                    ],
+                ],
                 'postsGridItemPostDescription' => [
-                     'bundlePath' => $urlHelper->to(
-                         'devElements/postsGridItemPostDescription/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'devElements/postsGridItemPostDescription/postsGridItemPostDescription/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'devElements/postsGridItemPostDescription/postsGridItemPostDescription/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Post Description',
-                         'metaDescription' => '',
-                     ],
-                 ],
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/postsGridItemPostDescription/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/postsGridItemPostDescription/postsGridItemPostDescription/'
+                    ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/postsGridItemPostDescription/postsGridItemPostDescription/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/postsGridItemPostDescription/postsGridItemPostDescription/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Post Description',
+                        'metaDescription' => '',
+                    ],
+                ],
                 'rawJs' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/rawJs/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/rawJs/rawJs/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/rawJs/rawJs/'),
+                    'elementRealPath' => vcapp()->path('devElements/rawJs/rawJs/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/rawJs/rawJs/public/'
                     ),
@@ -712,9 +713,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/separator/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/separator/separator/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/separator/separator/'),
+                    'elementRealPath' => vcapp()->path('devElements/separator/separator/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/separator/separator/public/'
                     ),
@@ -736,9 +736,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/twitterButton/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/twitterButton/twitterButton/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/twitterButton/twitterButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/twitterButton/twitterButton/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/twitterButton/twitterButton/public/'
                     ),
@@ -760,9 +759,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/twitterGrid/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/twitterGrid/twitterGrid/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/twitterGrid/twitterGrid/'),
+                    'elementRealPath' => vcapp()->path('devElements/twitterGrid/twitterGrid/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/twitterGrid/twitterGrid/public/'
                     ),
@@ -784,9 +782,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/twitterTimeline/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/twitterTimeline/twitterTimeline/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/twitterTimeline/twitterTimeline/'),
+                    'elementRealPath' => vcapp()->path('devElements/twitterTimeline/twitterTimeline/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/twitterTimeline/twitterTimeline/public/'
                     ),
@@ -808,9 +805,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/twitterTweet/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/twitterTweet/twitterTweet/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/twitterTweet/twitterTweet/'),
+                    'elementRealPath' => vcapp()->path('devElements/twitterTweet/twitterTweet/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/twitterTweet/twitterTweet/public/'
                     ),
@@ -832,9 +828,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/faqToggle/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/faqToggle/faqToggle/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/faqToggle/faqToggle/'),
+                    'elementRealPath' => vcapp()->path('devElements/faqToggle/faqToggle/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/faqToggle/faqToggle/public/'
                     ),
@@ -860,6 +855,9 @@ class DevElements extends Container implements Module
                     'elementPath' => $urlHelper->to(
                         'devElements/woocommerceTopRatedProducts/woocommerceTopRatedProducts/'
                     ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/woocommerceTopRatedProducts/woocommerceTopRatedProducts/'
+                    ),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceTopRatedProducts/woocommerceTopRatedProducts/public/'
                     ),
@@ -881,9 +879,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceSaleProducts/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/woocommerceSaleProducts/woocommerceSaleProducts/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/woocommerceSaleProducts/woocommerceSaleProducts/'),
+                    'elementRealPath' => vcapp()->path('devElements/woocommerceSaleProducts/woocommerceSaleProducts/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceSaleProducts/woocommerceSaleProducts/public/'
                     ),
@@ -908,6 +905,9 @@ class DevElements extends Container implements Module
                     'elementPath' => $urlHelper->to(
                         'devElements/woocommerceRelatedProducts/woocommerceRelatedProducts/'
                     ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/woocommerceRelatedProducts/woocommerceRelatedProducts/'
+                    ),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceRelatedProducts/woocommerceRelatedProducts/public/'
                     ),
@@ -929,7 +929,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceRecentProducts/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
+                    'elementPath' => $urlHelper->to('devElements/woocommerceRecentProducts/woocommerceRecentProducts/'),
+                    'elementRealPath' => vcapp()->path(
                         'devElements/woocommerceRecentProducts/woocommerceRecentProducts/'
                     ),
                     'assetsPath' => $urlHelper->to(
@@ -953,9 +954,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceProducts/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/woocommerceProducts/woocommerceProducts/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/woocommerceProducts/woocommerceProducts/'),
+                    'elementRealPath' => vcapp()->path('devElements/woocommerceProducts/woocommerceProducts/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceProducts/woocommerceProducts/public/'
                     ),
@@ -977,9 +977,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceProductPage/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/woocommerceProductPage/woocommerceProductPage/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/woocommerceProductPage/woocommerceProductPage/'),
+                    'elementRealPath' => vcapp()->path('devElements/woocommerceProductPage/woocommerceProductPage/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceProductPage/woocommerceProductPage/public/'
                     ),
@@ -1002,6 +1001,9 @@ class DevElements extends Container implements Module
                         'devElements/woocommerceProductCategory/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to(
+                        'devElements/woocommerceProductCategory/woocommerceProductCategory/'
+                    ),
+                    'elementRealPath' => vcapp()->path(
                         'devElements/woocommerceProductCategory/woocommerceProductCategory/'
                     ),
                     'assetsPath' => $urlHelper->to(
@@ -1028,6 +1030,9 @@ class DevElements extends Container implements Module
                     'elementPath' => $urlHelper->to(
                         'devElements/woocommerceProductCategories/woocommerceProductCategories/'
                     ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/woocommerceProductCategories/woocommerceProductCategories/'
+                    ),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceProductCategories/woocommerceProductCategories/public/'
                     ),
@@ -1052,6 +1057,9 @@ class DevElements extends Container implements Module
                     'elementPath' => $urlHelper->to(
                         'devElements/woocommerceProductAttribute/woocommerceProductAttribute/'
                     ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/woocommerceProductAttribute/woocommerceProductAttribute/'
+                    ),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceProductAttribute/woocommerceProductAttribute/public/'
                     ),
@@ -1073,9 +1081,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceProduct/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/woocommerceProduct/woocommerceProduct/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/woocommerceProduct/woocommerceProduct/'),
+                    'elementRealPath' => vcapp()->path('devElements/woocommerceProduct/woocommerceProduct/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceProduct/woocommerceProduct/public/'
                     ),
@@ -1097,7 +1104,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceOrderTracking/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
+                    'elementPath' => $urlHelper->to('devElements/woocommerceOrderTracking/woocommerceOrderTracking/'),
+                    'elementRealPath' => vcapp()->path(
                         'devElements/woocommerceOrderTracking/woocommerceOrderTracking/'
                     ),
                     'assetsPath' => $urlHelper->to(
@@ -1121,9 +1129,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceMyAccount/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/woocommerceMyAccount/woocommerceMyAccount/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/woocommerceMyAccount/woocommerceMyAccount/'),
+                    'elementRealPath' => vcapp()->path('devElements/woocommerceMyAccount/woocommerceMyAccount/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceMyAccount/woocommerceMyAccount/public/'
                     ),
@@ -1148,6 +1155,9 @@ class DevElements extends Container implements Module
                     'elementPath' => $urlHelper->to(
                         'devElements/woocommerceFeaturedProducts/woocommerceFeaturedProducts/'
                     ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/woocommerceFeaturedProducts/woocommerceFeaturedProducts/'
+                    ),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceFeaturedProducts/woocommerceFeaturedProducts/public/'
                     ),
@@ -1169,9 +1179,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceCheckout/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/woocommerceCheckout/woocommerceCheckout/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/woocommerceCheckout/woocommerceCheckout/'),
+                    'elementRealPath' => vcapp()->path('devElements/woocommerceCheckout/woocommerceCheckout/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceCheckout/woocommerceCheckout/public/'
                     ),
@@ -1193,9 +1202,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceCart/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/woocommerceCart/woocommerceCart/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/woocommerceCart/woocommerceCart/'),
+                    'elementRealPath' => vcapp()->path('devElements/woocommerceCart/woocommerceCart/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceCart/woocommerceCart/public/'
                     ),
@@ -1220,6 +1228,9 @@ class DevElements extends Container implements Module
                     'elementPath' => $urlHelper->to(
                         'devElements/woocommerceBestSellingProducts/woocommerceBestSellingProducts/'
                     ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/woocommerceBestSellingProducts/woocommerceBestSellingProducts/'
+                    ),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceBestSellingProducts/woocommerceBestSellingProducts/public/'
                     ),
@@ -1241,9 +1252,8 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceAddToCart/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to(
-                        'devElements/woocommerceAddToCart/woocommerceAddToCart/'
-                    ),
+                    'elementPath' => $urlHelper->to('devElements/woocommerceAddToCart/woocommerceAddToCart/'),
+                    'elementRealPath' => vcapp()->path('devElements/woocommerceAddToCart/woocommerceAddToCart/'),
                     'assetsPath' => $urlHelper->to(
                         'devElements/woocommerceAddToCart/woocommerceAddToCart/public/'
                     ),
@@ -1268,6 +1278,7 @@ class DevElements extends Container implements Module
         //       'devElements/animatedOutlineButton/public/dist/element.bundle.js'
         //   ),
         //   'elementPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/'),
+        //'elementRealPath' => vcapp()->path('devElements/animatedOutlineButton/animatedOutlineButton/'),
         // @codingStandardsIgnoreLine
         //   'assetsPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/public/'),
         //   'settings' => [

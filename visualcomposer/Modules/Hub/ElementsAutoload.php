@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Autoload;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Framework\Application as ApplicationVc;
 
 class ElementsAutoload extends Autoload implements Module
 {
@@ -23,13 +24,14 @@ class ElementsAutoload extends Autoload implements Module
      */
     protected $classStartString = 2;
 
-    /** @noinspection PhpMissingParentConstructorInspection */
-    public function __construct()
+    public function __construct(ApplicationVc $app, $init = true)
     {
-        if (vcvenv('VCV_ENV_ELEMENT_DOWNLOAD')) {
+        $this->app = $app;
+        if ($init) {
             $components = $this->getComponents();
             $this->bootstrapFiles($components);
             $this->initComponents($components);
+            $this->bootComponents($components);
         }
     }
 
@@ -57,9 +59,8 @@ class ElementsAutoload extends Autoload implements Module
         $appHelper = vcapp();
 
         foreach ($hubHelper->getElements() as $key => $element) {
-            $path = $hubHelper->getElementPath($key . '/*/*.php');
-            $components = $appHelper->rglob($path);
-            $all = array_merge($all, $this->checkElementController($components));
+            $components = $appHelper->rglob(rtrim($element['elementRealPath'], '\//') . '/*.php');
+            $all = array_merge_recursive($all, $this->checkElementController($components));
         }
 
         return $all;
@@ -80,6 +81,7 @@ class ElementsAutoload extends Autoload implements Module
                     $all['modules'][ $name ] = [
                         'name' => $name,
                         'abstract' => $data['namespace'] . "\\" . $data['class'],
+                        'singleton' => true,
                         'make' => true,
                         'path' => $componentPath,
                     ];

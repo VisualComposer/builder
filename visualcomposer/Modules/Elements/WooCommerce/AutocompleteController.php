@@ -12,7 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class Controller extends Container implements Module
+class AutocompleteController extends Container/* implements Module*/
 {
     use EventsFilters;
 

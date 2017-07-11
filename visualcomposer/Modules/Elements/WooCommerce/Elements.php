@@ -10,7 +10,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class Elements extends Container implements Module
+class Elements extends Container /*implements Module*/
 {
     use EventsFilters;
 

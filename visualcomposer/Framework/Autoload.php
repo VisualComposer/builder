@@ -16,7 +16,7 @@ use VisualComposer\Framework\Application as ApplicationVc;
 class Autoload extends Container
 {
     /** @var  ApplicationVc */
-    private $app;
+    protected $app;
 
     /**
      * Autoload constructor.
