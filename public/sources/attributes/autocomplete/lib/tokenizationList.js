@@ -116,7 +116,7 @@ export default class TokenizationList extends React.Component {
   }
 
   handleBlur (e) {
-    let value = this.state.inputValue.split(',')
+    let value = this.state.inputValue ? this.state.inputValue.split(',') : []
     if (this.props.single) {
       value = [ value[ value.length - 1 ] ]
       this.props.onChange(value[ value.length - 1 ])
@@ -210,12 +210,17 @@ export default class TokenizationList extends React.Component {
   }
 
   removeToken (index) {
-    this.state.value.splice(index, 1)
-    this.setState({ value: this.state.value, suggestedItems: [], loading: false })
+    let valueCopy = this.state.value.slice()
+    valueCopy.splice(index, 1)
+    this.setState({ value: valueCopy, suggestedItems: [], loading: false })
     if (this.props.single) {
-      this.props.onChange(this.state.value[ this.state.value.length - 1 ].trim())
+      if (valueCopy.length > 0) {
+        this.props.onChange(valueCopy[ valueCopy.length - 1 ].trim())
+      } else {
+        this.props.onChange([])
+      }
     } else {
-      this.props.onChange(this.state.value)
+      this.props.onChange(valueCopy)
     }
   }
 
