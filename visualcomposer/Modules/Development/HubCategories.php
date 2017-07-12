@@ -62,6 +62,7 @@ class HubCategories extends Container implements Module
                     'title' => 'Simple Button',
                     'elements' => [
                         'basicButton',
+                        'basicButtonIcon',
                         'outlineButton',
                         'gradientButton',
                         'animatedOutlineButton',

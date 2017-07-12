@@ -99,6 +99,23 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Basic flat style button with hover effect to catch visitor\'s attention.',
                     ],
                 ],
+                'basicButtonIcon' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/basicButtonIcon/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/basicButtonIcon/basicButtonIcon/'),
+                    'assetsPath' => $urlHelper->to('devElements/basicButtonIcon/basicButtonIcon/public/'),
+                    'settings' => [
+                        'name' => 'Basic Button Icon',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/basicButtonIcon/basicButtonIcon/public/thumbnail-basic-button-icon.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/basicButtonIcon/basicButtonIcon/public/preview-basic-button-icon.jpg'
+                        ),
+                        'metaDescription' => 'Flat style button with icon and slide effect to catch visitor\'s attention.',
+                    ],
+                ],
                 'outlineButton' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/outlineButton/public/dist/element.bundle.js'
