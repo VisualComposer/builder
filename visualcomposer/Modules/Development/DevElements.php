@@ -108,6 +108,7 @@ class DevElements extends Container implements Module
                         'devElements/basicButtonIcon/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/basicButtonIcon/basicButtonIcon/'),
+                    'elementRealPath' => vcapp()->path('devElements/basicButtonIcon/basicButtonIcon/'),
                     'assetsPath' => $urlHelper->to('devElements/basicButtonIcon/basicButtonIcon/public/'),
                     'settings' => [
                         'name' => 'Basic Button Icon',
