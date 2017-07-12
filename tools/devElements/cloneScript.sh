@@ -8,6 +8,7 @@ declare -a arr=(
 'textBlock'
 'singleImage'
 'basicButton'
+'basicButtonIcon'
 'featureSection'
 'flickrImage'
 'googleFontsHeading'
