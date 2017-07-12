@@ -48,6 +48,7 @@ class Controller extends Container implements Module
             $searchValue = $requestHelper->input('vcv-search');
             $tag = $requestHelper->input('vcv-tag');
             $param = $requestHelper->input('vcv-param');
+            $element = $requestHelper->input('vcv-element');
             $action = $requestHelper->input('vcv-autocomplete-action');
             $returnValue = $requestHelper->input('vcv-return-value');
             $returnValue = !$returnValue ? false : $returnValue;
@@ -70,6 +71,7 @@ class Controller extends Container implements Module
                         'searchValue' => $searchValue,
                         'returnValue' => $returnValue,
                         'action' => $action,
+                        'element' => $element,
                     ]
                 );
             }
@@ -81,6 +83,7 @@ class Controller extends Container implements Module
                     'param' => $param,
                     'searchValue' => $searchValue,
                     'returnValue' => $returnValue,
+                    'element' => $element,
                 ]
             );
 
@@ -96,8 +99,12 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    protected function getTokenLabels($response, $payload, Request $requestHelper, CurrentUser $currentUserAccessHelper)
-    {
+    protected function getTokenLabels(
+        $response,
+        $payload,
+        Request $requestHelper,
+        CurrentUser $currentUserAccessHelper
+    ) {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
         $action = $requestHelper->input('vcv-label-action');
         $returnValue = $requestHelper->input('vcv-return-value');
@@ -108,30 +115,78 @@ class Controller extends Container implements Module
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             $tokens = $requestHelper->input('vcv-tokens');
             if ($tokens && is_array($tokens)) {
-                foreach ($tokens as $token) {
-                    if ($action && 'product_cat' === $action) {
-                        if ('slug' == $returnValue) {
-                            $term = get_term_by('slug', $token, 'product_cat');
-                        } else {
-                            $term = get_term_by('id', $token, 'product_cat');
-                        }
-
-                        if ($term) {
-                            $tokenLabels[ $token ] = $term->name;
-                        } else {
-                            $tokenLabels[ $token ] = false;
-                        }
-                    } else {
-                        $post = get_post((int)$token);
-                        if ($post) {
-                            // @codingStandardsIgnoreLine
-                            $tokenLabels[ (int)$token ] = $post->post_title;
-                        } else {
-                            $tokenLabels[ (int)$token ] = false;
-                        }
-                    }
-                }
+                $tokenLabels = $this->getLabels($tokens, $action, $returnValue, $requestHelper);
             }
+        }
+
+        return $tokenLabels;
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param $tokens
+     * @param $action
+     * @param $returnValue
+     *
+     * @return mixed
+     */
+    protected function getLabels($tokens, $action, $returnValue, Request $requestHelper)
+    {
+        $tokenLabels = [];
+        foreach ($tokens as $token) {
+            $token = trim($token);
+
+            $tokenLabels = $this->checkAction($action, $returnValue, $requestHelper, $token, $tokenLabels);
+
+            if (empty($tokenLabels)) {
+                $tokenLabels[ $token ] = false;
+            }
+        }
+
+        return $tokenLabels;
+    }
+
+    /**
+     * @param $action
+     * @param $returnValue
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param $token
+     * @param $tokenLabels
+     *
+     * @return mixed
+     */
+    protected function checkAction($action, $returnValue, Request $requestHelper, $token, $tokenLabels)
+    {
+        switch ($action) {
+            case 'productAttribute':
+                $attribute = taxonomy_exists('pa_' . $token);
+                if ($attribute) {
+                    $tokenLabels[ $token ] = $token;
+                }
+                break;
+            case 'productFilter':
+                $selectedAttribute = $requestHelper->input('vcv-element');
+                $filter = get_term_by('slug', $token, 'pa_' . $selectedAttribute['atts_attribute']);
+                if ($filter) {
+                    $tokenLabels[ $token ] = $filter->name;
+                }
+                break;
+            case 'product_cat':
+                if ('slug' == $returnValue) {
+                    $term = get_term_by('slug', $token, 'product_cat');
+                } else {
+                    $term = get_term_by('id', $token, 'product_cat');
+                }
+                if ($term) {
+                    $tokenLabels[ $token ] = $term->name;
+                }
+                break;
+            default:
+                $post = get_post((int)$token);
+                if ($post) {
+                    // @codingStandardsIgnoreLine
+                    $tokenLabels[ (int)$token ] = $post->post_title;
+                }
         }
 
         return $tokenLabels;
