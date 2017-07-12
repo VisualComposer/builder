@@ -10,7 +10,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class Elements extends Container implements Module
+class Elements extends Container /*implements Module*/
 {
     use EventsFilters;
 
@@ -79,9 +79,17 @@ class Elements extends Container implements Module
      */
     protected function renderEditorShortcode(Request $request)
     {
+        global $wp;
+
         $atts = $request->input('vcv-atts');
         $content = $request->input('vcv-content');
         $tag = $request->input('vcv-tag');
+
+        // @codingStandardsIgnoreLine
+        if ('woocommerce_my_account' === $tag && !isset($wp->query_vars)) {
+            // @codingStandardsIgnoreLine
+            $wp->query_vars['page_id'] = get_the_ID();
+        }
 
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::getShortcodeString */
         return $this->call(

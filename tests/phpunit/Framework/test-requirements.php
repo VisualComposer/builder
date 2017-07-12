@@ -30,48 +30,18 @@ class RequirementsTest extends WP_UnitTestCase
             $this->equalTo(VCV_PLUGIN_FULL_PATH)
         )->will($this->returnValue(true));
         /** @var VcvCoreRequirements $requirements */
-        $catched = false;
-        try {
-            $requirements->checkVersion('5.0', '4.0');
-        } catch (WPDieException $e) {
-            $catched = true;
-        }
-        $this->assertTrue($catched);
+        $this->assertFalse($requirements->checkVersion('5.0', '4.0'));
 
         // 5.0
-        $catched = false;
-        try {
-            $this->assertTrue($requirements->checkVersion('5.0', '5.0'));
-        } catch (WPDieException $e) {
-            $catched = true;
-        }
-        $this->assertFalse($catched);
+        $this->assertTrue($requirements->checkVersion('5.0', '5.0'));
 
         // 5.1
-        $catched = false;
-        try {
-            $this->assertTrue($requirements->checkVersion('5.0', '5.1'));
-        } catch (WPDieException $e) {
-            $catched = true;
-        }
-        $this->assertFalse($catched);
+        $this->assertTrue($requirements->checkVersion('5.0', '5.1'));
 
         // 6.0-dev
-        $catched = false;
-        try {
-            $this->assertTrue($requirements->checkVersion('5.0', '6.0-dev'));
-        } catch (WPDieException $e) {
-            $catched = true;
-        }
-        $this->assertFalse($catched);
+        $this->assertTrue($requirements->checkVersion('5.0', '6.0-dev'));
 
         // 5.0-beta
-        $catched = false;
-        try {
-            $requirements->checkVersion('5.0', '5.0-beta');
-        } catch (WPDieException $e) {
-            $catched = true;
-        }
-        $this->assertTrue($catched);
+        $this->assertFalse($requirements->checkVersion('5.0', '5.0-beta'));
     }
 }

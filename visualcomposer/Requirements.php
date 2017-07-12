@@ -20,38 +20,32 @@ class VcvCoreRequirements
      */
     public function coreChecks()
     {
-        $exitMsgPhp = sprintf('Visual Composer Website Builder requires PHP %s or newer.', VCV_REQUIRED_PHP_VERSION)
-            . '<a href="https://wordpress.org/about/requirements/"> ' . 'Please update!' . '</a>';
-        self::checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION, $exitMsgPhp);
+        $message = '';
+        $die = false;
 
-        $exitMsgWp = sprintf(
-            'Visual Composer Website Builder requires WordPress %s or newer.',
-            VCV_REQUIRED_BLOG_VERSION
-        );
-        $exitMsgWp .= '<a href="https://codex.wordpress.org/Upgrading_WordPress"> ' . 'Please update!' . '</a>';
-        self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'), $exitMsgWp);
-
-        return true;
-    }
-
-    public function imagesExtChecks()
-    {
-        $exitMsgPhpExt = 'Visual Composer Website Builder requires GD/Imagick extension to be loaded.';
-        $implementation = _wp_image_editor_choose();
-        if (!$implementation) {
-            $this->deactivate(VCV_PLUGIN_FULL_PATH);
-            wp_die($exitMsgPhpExt);
+        if (!self::checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION)) {
+            $die = true;
+            $message .= '<li>' .
+                sprintf(
+                    'PHP version %s or greater (recommended 7 or greater)',
+                    VCV_REQUIRED_PHP_VERSION
+                ) .
+                '</li>';
         }
-
-        return true;
-    }
-
-    public function curlExtChecks()
-    {
-        if (!function_exists('curl_init') || !function_exists('curl_exec')) {
-            $this->deactivate(VCV_PLUGIN_FULL_PATH);
-            $exitMsgPhpExt = 'Visual Composer Website Builder requires cURL extension to be loaded.';
-            wp_die($exitMsgPhpExt);
+        if (!self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'))) {
+            $die = true;
+            $message .= '<li>' .
+                sprintf(
+                    'WordPress version %s or greater',
+                    VCV_REQUIRED_BLOG_VERSION
+                ) .
+                '</li>';
+        }
+        if ($die === true) {
+            wp_die(
+                'To run Visual Composer Website Builder your host needs to have:<ul>' . $message . '</ul>' . '<a href="'
+                . admin_url('plugins.php') . '">Go back to dashboard</a>'
+            );
         }
 
         return true;
@@ -60,15 +54,15 @@ class VcvCoreRequirements
     /**
      * @param string $mustHaveVersion
      * @param string $versionToCheck
-     * @param string $errorMessage
      *
      * @return bool
      */
-    public function checkVersion($mustHaveVersion, $versionToCheck, $errorMessage = '')
+    public function checkVersion($mustHaveVersion, $versionToCheck)
     {
         if (version_compare($mustHaveVersion, $versionToCheck, '>')) {
             $this->deactivate(VCV_PLUGIN_FULL_PATH);
-            wp_die($errorMessage);
+
+            return false;
         }
 
         return true;
