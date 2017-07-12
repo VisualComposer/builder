@@ -213,7 +213,7 @@ export default class TokenizationList extends React.Component {
     this.state.value.splice(index, 1)
     this.setState({ value: this.state.value, suggestedItems: [], loading: false })
     if (this.props.single) {
-      this.props.onChange(this.state.value[ this.state.value.length - 1 ])
+      this.props.onChange(this.state.value[ this.state.value.length - 1 ].trim())
     } else {
       this.props.onChange(this.state.value)
     }
