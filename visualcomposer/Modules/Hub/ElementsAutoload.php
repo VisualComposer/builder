@@ -59,8 +59,10 @@ class ElementsAutoload extends Autoload implements Module
         $appHelper = vcapp();
 
         foreach ($hubHelper->getElements() as $key => $element) {
-            $components = $appHelper->rglob(rtrim($element['elementRealPath'], '\//') . '/*.php');
-            $all = array_merge_recursive($all, $this->checkElementController($components));
+            if (isset($element['elementRealPath'])) {
+                $components = $appHelper->rglob(rtrim($element['elementRealPath'], '\//') . '/*.php');
+                $all = array_merge_recursive($all, $this->checkElementController($components));
+            }
         }
 
         return $all;
