@@ -179,7 +179,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Separators' => [
                     'title' => 'Separators',
-                    'elements' => ['separator'],
+                    'elements' => ['separator', 'basicSeparator'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Separator.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Separator.svg'),
                 ],
