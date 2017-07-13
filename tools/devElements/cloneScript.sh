@@ -20,6 +20,7 @@ declare -a arr=(
 'imageMasonryGallery'
 'instagramImage'
 'outlineButton'
+'outlineButtonIcon'
 'pinterestPinit'
 'rawHtml'
 'facebookLike'

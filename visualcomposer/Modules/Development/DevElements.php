@@ -140,6 +140,25 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website.',
                     ],
                 ],
+                'outlineButtonIcon' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/outlineButtonIcon/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/outlineButtonIcon/outlineButtonIcon/'),
+                    'elementRealPath' => vcapp()->path('devElements/outlineButtonIcon/outlineButtonIcon/'),
+                    'assetsPath' => $urlHelper->to('devElements/outlineButtonIcon/outlineButtonIcon/public/'),
+                    'settings' => [
+                        'name' => 'Outline Button Icon',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/outlineButtonIcon/outlineButtonIcon/public/outline-button-icon-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/outlineButtonIcon/outlineButtonIcon/public/outline-button-icon-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Outline button with solid fill and icon appearance o hover. Great solution to be used as a secondary button within a website.',
+                    ],
+                ],
                 'youtubePlayer' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/youtubePlayer/public/dist/element.bundle.js'

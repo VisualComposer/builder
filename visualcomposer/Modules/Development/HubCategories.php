@@ -64,6 +64,7 @@ class HubCategories extends Container implements Module
                         'basicButton',
                         'basicButtonIcon',
                         'outlineButton',
+                        'outlineButtonIcon',
                         'gradientButton',
                         'animatedOutlineButton',
                         'doubleOutlineButton',
