@@ -140,6 +140,25 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website.',
                     ],
                 ],
+                'outlineButtonIcon' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/outlineButtonIcon/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/outlineButtonIcon/outlineButtonIcon/'),
+                    'elementRealPath' => vcapp()->path('devElements/outlineButtonIcon/outlineButtonIcon/'),
+                    'assetsPath' => $urlHelper->to('devElements/outlineButtonIcon/outlineButtonIcon/public/'),
+                    'settings' => [
+                        'name' => 'Outline Button Icon',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/outlineButtonIcon/outlineButtonIcon/public/outline-button-icon-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/outlineButtonIcon/outlineButtonIcon/public/outline-button-icon-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Outline button with solid fill and icon appearance o hover. Great solution to be used as a secondary button within a website.',
+                    ],
+                ],
                 'youtubePlayer' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/youtubePlayer/public/dist/element.bundle.js'
@@ -879,7 +898,29 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Toggle element for frequently added questions (Faq) or similar structure for display of content per request.',
                     ],
                 ],
-
+                'basicSeparator' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/basicSeparator/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/basicSeparator/basicSeparator/'),
+                    'elementRealPath' => vcapp()->path('devElements/basicSeparator/basicSeparator/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/basicSeparator/basicSeparator/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Basic Separator',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/basicSeparator/basicSeparator/public/separator-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/basicSeparator/basicSeparator/public/separator-preview.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add single line, double, dashed, dotted or shadow style separator as decoration or for separating content blocks.',
+                    ],
+                ],
                 'woocommerceTopRatedProducts' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceTopRatedProducts/public/dist/element.bundle.js'
