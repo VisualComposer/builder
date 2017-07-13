@@ -58,7 +58,7 @@ class ListOfIdsController extends Container implements Module
 
         $posts = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT ID AS id, post_title AS title FROM {$wpdb->posts} WHERE ( post_status = 'publish' OR post_status = 'inherit' ) AND ({$postQuery}) AND ( ID = '%d' OR post_title LIKE '%%%s%%' ) LIMIT 30",
+                "SELECT ID AS id, post_title AS title FROM {$wpdb->posts} WHERE ( post_status = 'publish' ) AND ({$postQuery}) AND ( ID = '%d' OR post_title LIKE '%%%s%%' ) LIMIT 30",
                 $postId > 0 ? $postId : -1,
                 stripslashes($searchValue)
             ),
