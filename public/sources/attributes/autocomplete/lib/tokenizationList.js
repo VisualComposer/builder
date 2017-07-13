@@ -234,7 +234,7 @@ export default class TokenizationList extends React.Component {
       }
       token = token.trim()
 
-      if (token && token.length > 1) {
+      if (token && token.length) {
         let title = token
         let valid = false
         if (this.state.loadTokenLabels[ token ]) {
