@@ -27,6 +27,7 @@ declare -a arr=(
 'feature'
 'rawJs'
 'separator'
+'basicSeparator'
 'shortcode'
 'twitterButton'
 'twitterGrid'
