@@ -39,6 +39,7 @@ declare -a arr=(
 'postsGridDataSourcePost'
 'postsGridDataSourcePage'
 'postsGridDataSourceCustomPostType'
+'postsGridDataSourceListOfIds'
 'postsGrid'
 'woocommerceTopRatedProducts'
 'woocommerceSaleProducts'
