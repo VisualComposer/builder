@@ -108,6 +108,7 @@ class ListOfIdsController extends Container implements Module
                 }
             }
 
+            $query = array_merge($query, ['post_type' => get_post_types(['public' => true], 'names')]);
             $posts = array_merge(
                 $posts,
                 $postTypeHelper->query($query)
