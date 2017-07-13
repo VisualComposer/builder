@@ -686,6 +686,20 @@ class DevElements extends Container implements Module
                         'metaDescription' => '',
                     ],
                 ],
+                'postsGridDataSourceListOfIds' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/postsGridDataSourceListOfIds/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/'),
+                    'elementRealPath' => vcapp()->path('devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'List Of Ids',
+                        'metaDescription' => '',
+                    ],
+                ],
                 'postsGridItemPostDescription' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/postsGridItemPostDescription/public/dist/element.bundle.js'

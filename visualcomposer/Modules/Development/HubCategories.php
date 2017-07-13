@@ -203,6 +203,7 @@ class HubCategories extends Container implements Module
                         'postsGridDataSourcePost',
                         'postsGridDataSourcePage',
                         'postsGridDataSourceCustomPostType',
+                        'postsGridDataSourceListOfIds',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),
