@@ -85,7 +85,7 @@ export default class CssBuilder {
     this.globalAssetsStorageService.addElement(data.id)
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
-    this.addElementFiles(data.tag)
+    this.addElementFiles(data)
     this.doJobs().then(() => {
       this.window.vcv.trigger('ready', 'add', data.id)
     })
@@ -98,6 +98,7 @@ export default class CssBuilder {
     this.globalAssetsStorageService.updateElement(data.id)
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
+    this.addElementFiles(data)
     this.doJobs().then(() => {
       this.window.vcv.trigger('ready', 'update', data.id)
     })
@@ -161,8 +162,9 @@ export default class CssBuilder {
     }
   }
 
-  addElementFiles (tag) {
-    let elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByTags([ tag ])
+  addElementFiles (data) {
+    let cookElement = cook.get(data)
+    let elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByElement(cookElement)
     const doc = this.window.document
     elementAssetsFiles.cssBundles.forEach((file) => {
       let slug = this.slugify(file)

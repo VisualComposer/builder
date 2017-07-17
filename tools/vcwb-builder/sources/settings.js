@@ -33,7 +33,30 @@ module.exports = {
     'wpWidgetsCustom',
     'wpWidgetsDefault',
     'youtubePlayer',
-    'faqToggle'
+    'faqToggle',
+    'postsGridItemPostDescription',
+    'postsGridDataSourcePost',
+    'postsGridDataSourcePage',
+    'postsGridDataSourceCustomPostType',
+    'postsGridDataSourceListOfIds',
+    'postsGrid',
+    'woocommerceTopRatedProducts',
+    'woocommerceSaleProducts',
+    'woocommerceRelatedProducts',
+    'woocommerceRecentProducts',
+    'woocommerceProducts',
+    'woocommerceProductPage',
+    'woocommerceProductCategory',
+    'woocommerceProductCategories',
+    'woocommerceProductAttribute',
+    'woocommerceProduct',
+    'woocommerceOrderTracking',
+    'woocommerceMyAccount',
+    'woocommerceFeaturedProducts',
+    'woocommerceCheckout',
+    'woocommerceCart',
+    'woocommerceBestSellingProducts',
+    'woocommerceAddToCart'
   ],
   bundleElementsSettings: {
     "row": {
@@ -290,6 +313,150 @@ module.exports = {
         "metaThumbnailUrl": "[publicPath]\/faq-thumbnail.png",
         "metaPreviewUrl": "[publicPath]\/faq-preview.png",
         "metaDescription": "Toggle element for frequently added questions (Faq) or similar structure for display of content per request."
+      }
+    },
+    "basicSeparator": {
+      "settings": {
+        "name": "Basic Separator",
+        "metaThumbnailUrl": "[publicPath]\/separator-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]\/separator-preview.png",
+        "metaDescription": "Add single line, double, dashed, dotted or shadow style separator as decoration or for separating content blocks."
+      }
+    },
+    "woocommerceTopRatedProducts": {
+      "settings": {
+        "name": "WooCommerce Top Rated Products",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceSaleProducts": {
+      "settings": {
+        "name": "WooCommerce Sale Products",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceRelatedProducts": {
+      "settings": {
+        "name": "WooCommerce Related Products",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceRecentProducts": {
+      "settings": {
+        "name": "WooCommerce Recent Products",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceProducts": {
+      "settings": {
+        "name": "WooCommerce Products",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceProductPage": {
+      "settings": {
+        "name": "WooCommerce Product Page",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceProductCategory": {
+      "settings": {
+        "name": "WooCommerce Product Category",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceProductCategories": {
+      "settings": {
+        "name": "WooCommerce Product Categories",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceProductAttribute": {
+      "settings": {
+        "name": "WooCommerce Product Attribute",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceProduct": {
+      "settings": {
+        "name": "WooCommerce Product",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceOrderTracking": {
+      "settings": {
+        "name": "WooCommerce Order Tracking",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceMyAccount": {
+      "settings": {
+        "name": "WooCommerce My Account",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceFeaturedProducts": {
+      "settings": {
+        "name": "WooCommerce Featured Products",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceCheckout": {
+      "settings": {
+        "name": "WooCommerce Checkout",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceCart": {
+      "settings": {
+        "name": "WooCommerce Cart",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceBestSellingProducts": {
+      "settings": {
+        "name": "WooCommerce Best Selling Products",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
+      }
+    },
+    "woocommerceAddToCart": {
+      "settings": {
+        "name": "WooCommerce Add To Cart",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "WooCommerce Element"
       }
     }
   }

@@ -11,6 +11,7 @@ codestyle:js:
   stage: codestyle
   except:
     - refactor
+    - headerFooter
   script:
     - npm run standard
   tags:
