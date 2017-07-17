@@ -182,6 +182,25 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Outline button with solid fill and icon appearance o hover. Great solution to be used as a secondary button within a website.',
                     ],
                 ],
+                'messageBox' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/messageBox/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/messageBox/messageBox/'),
+                    'elementRealPath' => vcapp()->path('devElements/messageBox/messageBox/'),
+                    'assetsPath' => $urlHelper->to('devElements/messageBox/messageBox/public/'),
+                    'settings' => [
+                        'name' => 'Message Box',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/messageBox/messageBox/public/message-box-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/messageBox/messageBox/public/message-box-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add simple message box with predefined notification or create custom message with custom icon.',
+                    ],
+                ],
                 'youtubePlayer' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/youtubePlayer/public/dist/element.bundle.js'
