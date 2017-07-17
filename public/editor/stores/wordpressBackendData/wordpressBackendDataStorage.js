@@ -13,7 +13,9 @@ addStorage('wordpressData', (storage) => {
   const cook = getService('cook')
   storage.on('start', () => {
     // Here we call data load
-    !isClassicEditor() && controller.load({}, storage.state('status'))
+    if (storage.state('status').get() === 'init' && !isClassicEditor()) {
+      controller.load({}, storage.state('status'))
+    }
   })
   storage.on('save', (options, source = '', callback) => {
     storage.state('status').set({ status: 'saving' }, source)
