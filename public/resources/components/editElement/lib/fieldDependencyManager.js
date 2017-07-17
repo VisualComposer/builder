@@ -54,7 +54,7 @@ export default class FieldDependencyManager extends React.Component {
       this.state.dependenciesClasses.length !== prevState.dependenciesClasses.length &&
       this.state.dependenciesClasses.length === 1
     ) {
-      this.props.updateDependencies(this.state.dependenciesClasses, this.props.fieldKey)
+      this.props.updateDependencies(this.state.dependenciesClasses, this.props.tab.fieldKey)
     }
   }
 
