@@ -37,6 +37,29 @@ class DevElements extends Container implements Module
         $optionHelper->set(
             'hubElements',
             [
+                //'demoElement' => [
+                //    'bundlePath' => $urlHelper->to(
+                //        'devElements/demoElement/public/dist/element.bundle.js'
+                //    ),
+                //    'elementPath' => $urlHelper->to('devElements/demoElement/demoElement/'),
+                //    'elementRealPath' => vcapp()->path('devElements/demoElement/demoElement/'),
+                //    'assetsPath' => $urlHelper->to(
+                //        'devElements/demoElement/demoElement/public/'
+                //    ),
+                //    'settings' => [
+                //        'name' => 'Demo Element',
+                //        // 'metaThumbnailUrl' => $urlHelper->to(
+                //        // @codingStandardsIgnoreLine
+                //            // 'devElements/demoElement/demoElement/public/demo-element-thumbnail.png'
+                //        // ),
+                //        // 'metaPreviewUrl' => $urlHelper->to(
+                //        // @codingStandardsIgnoreLine
+                //            // 'devElements/googleFontsHeading/googleFontsHeading/public/demo-element-preview.png'
+                //        // ),
+                //        // @codingStandardsIgnoreLine
+                //        'metaDescription' => 'This is just a demo element.',
+                //    ],
+                //],
                 'row' => [
                     'bundlePath' => $urlHelper->to('devElements/row/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('devElements/row/row/'),
