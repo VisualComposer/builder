@@ -38,10 +38,8 @@ export default class EditFormSection extends React.Component {
     workspaceStorage.state('scrollbarSettings').set({ checkHeight: true })
   }
 
-  updateDependencyClasses (newState, fieldKey) {
-    if (this.props.tab.fieldKey === fieldKey) {
-      this.setState({ dependenciesClasses: newState })
-    }
+  updateDependencyClasses (newState) {
+    this.setState({ dependenciesClasses: newState })
   }
 
   /**

@@ -50,11 +50,12 @@ export default class FieldDependencyManager extends React.Component {
    * @param prevState
    */
   updateAccordionSectionDependency (prevState) {
-    if (this.state.dependenciesClasses.length &&
+    if (this.props.fieldKey === this.props.tab.fieldKey &&
+      this.state.dependenciesClasses.length &&
       this.state.dependenciesClasses.length !== prevState.dependenciesClasses.length &&
       this.state.dependenciesClasses.length === 1
     ) {
-      this.props.updateDependencies(this.state.dependenciesClasses, this.props.tab.fieldKey)
+      this.props.updateDependencies(this.state.dependenciesClasses)
     }
   }
 
