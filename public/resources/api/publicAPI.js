@@ -1,16 +1,18 @@
-import EventEmitter from 'events'
-const apiEventEmitter = new EventEmitter()
-apiEventEmitter.setMaxListeners(300)
+import ee from 'event-emitter'
+const MyEventEmitter = function () {}
+ee(MyEventEmitter.prototype)
+const apiEventEmitter = new MyEventEmitter()
 
 export default {
   on (event, callback) {
+    console.log(event, 'on')
     apiEventEmitter.on('vcv:api:' + event, callback)
   },
   once (event, callback) {
     apiEventEmitter.once('vcv:api:' + event, callback)
   },
   off (event, callback) {
-    apiEventEmitter.removeListener('vcv:api:' + event, callback)
+    apiEventEmitter.off('vcv:api:' + event, callback)
   },
   trigger (event) {
     var args = Array.prototype.slice.call(arguments, 1)
