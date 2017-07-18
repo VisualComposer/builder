@@ -963,6 +963,29 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add single line, double, dashed, dotted or shadow style separator as decoration or for separating content blocks.',
                     ],
                 ],
+                'separatorIcon' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/separatorIcon/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/separatorIcon/separatorIcon/'),
+                    'elementRealPath' => vcapp()->path('devElements/separatorIcon/separatorIcon/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/basicSeparator/basicSeparator/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Separator with Icon',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/separatorIcon/separatorIcon/public/separator-with-icon-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/separatorIcon/separatorIcon/public/separator-with-icon-preview.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add separator with an icon as decoration or visual eye-catching marker before content blocks.',
+                    ],
+                ],
                 'woocommerceTopRatedProducts' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceTopRatedProducts/public/dist/element.bundle.js'
