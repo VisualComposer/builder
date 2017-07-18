@@ -11,6 +11,7 @@ declare -a arr=(
 'basicButtonIcon'
 'featureSection'
 'flickrImage'
+'flipBox'
 'messageBox'
 'googleFontsHeading'
 'googleMaps'
