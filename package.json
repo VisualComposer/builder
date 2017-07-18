@@ -90,6 +90,7 @@
     "babel-plugin-rewire": "1.0.0",
     "bootstrap": "3.3.7",
     "bootstrap-webpack": "0.0.5",
+    "brace": "^0.10.0",
     "concatenate-files": "0.1.1",
     "draft-js": "0.9.1",
     "eslint-plugin-promise": "3.3.0",
