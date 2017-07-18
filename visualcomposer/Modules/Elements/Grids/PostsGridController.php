@@ -17,7 +17,7 @@ use VisualComposer\Modules\Elements\Traits\ShortcodesTrait;
  * Class PostsGridController
  * @package VisualComposer\Modules\Elements\Grids
  */
-class PostsGridController extends Container implements Module
+class PostsGridController extends Container /*implements Module*/
 {
     use EventsFilters;
     use ShortcodesTrait;

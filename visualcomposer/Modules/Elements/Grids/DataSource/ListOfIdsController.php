@@ -17,7 +17,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
  * Class ListOfIdsController
  * @package VisualComposer\Modules\Elements\Grids\DataSource
  */
-class ListOfIdsController extends Container implements Module
+class ListOfIdsController extends Container /*implements Module*/
 {
     use EventsFilters;
 

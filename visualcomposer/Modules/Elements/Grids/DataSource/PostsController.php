@@ -18,7 +18,7 @@ use WP_Query;
  * Class PostsController
  * @package VisualComposer\Modules\Elements\Grids\DataSource
  */
-class PostsController extends Container implements Module
+class PostsController extends Container /*implements Module*/
 {
     use EventsFilters;
 

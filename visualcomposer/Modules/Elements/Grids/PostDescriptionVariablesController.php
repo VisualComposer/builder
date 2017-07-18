@@ -16,7 +16,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
  * Class PostDescriptionVariablesController
  * @package VisualComposer\Modules\Elements\Grids
  */
-class PostDescriptionVariablesController extends Container implements Module
+class PostDescriptionVariablesController extends Container /*implements Module*/
 {
     use EventsFilters;
 

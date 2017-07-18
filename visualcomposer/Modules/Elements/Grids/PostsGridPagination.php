@@ -14,7 +14,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use WP_Query;
 
-class PostsGridPagination extends Container implements Module
+class PostsGridPagination extends Container /*implements Module*/
 {
     use EventsFilters;
 

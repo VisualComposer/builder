@@ -13,7 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\PostsGridPostIterator;
 use VisualComposer\Modules\Elements\Traits\AddShortcodeTrait;
 
-class PostsGridShortcode extends Container implements Module
+class PostsGridShortcode extends Container /*implements Module*/
 {
     use AddShortcodeTrait;
 

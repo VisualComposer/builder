@@ -17,7 +17,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
  * Class PagesController
  * @package VisualComposer\Modules\Elements\Grids\DataSource
  */
-class PagesController extends Container implements Module
+class PagesController extends Container /*implements Module*/
 {
     use EventsFilters;
 
