@@ -38,6 +38,9 @@ export default class Backend extends Representer {
 
   getOutput (value) {
     let cookElement = Cook.get(value)
+    if (!cookElement.get('metaBackendLabels')) {
+      return null
+    }
     let backendLabels = cookElement.get('metaBackendLabels').value
     return backendLabels.map((group, i) => {
       return <div
