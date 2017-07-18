@@ -5,7 +5,6 @@ const apiEventEmitter = new MyEventEmitter()
 
 export default {
   on (event, callback) {
-    console.log(event, 'on')
     apiEventEmitter.on('vcv:api:' + event, callback)
   },
   once (event, callback) {
