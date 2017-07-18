@@ -201,6 +201,25 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add simple message box with predefined notification or create custom message with custom icon.',
                     ],
                 ],
+                'flipBox' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/flipBox/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/flipBox/flipBox/'),
+                    'elementRealPath' => vcapp()->path('devElements/flipBox/flipBox/'),
+                    'assetsPath' => $urlHelper->to('devElements/flipBox/flipBox/public/'),
+                    'settings' => [
+                        'name' => 'Flip Box',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/flipBox/flipBox/public/flip-box-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/flipBox/flipBox/public/flip-box-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Flip box element with image slide and textual content slide allowing to define default state and flip box background color.',
+                    ],
+                ],
                 'youtubePlayer' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/youtubePlayer/public/dist/element.bundle.js'
