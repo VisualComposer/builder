@@ -56,7 +56,13 @@ module.exports = {
     'woocommerceCheckout',
     'woocommerceCart',
     'woocommerceBestSellingProducts',
-    'woocommerceAddToCart'
+    'woocommerceAddToCart',
+    'basicSeparator',
+    'separatorIcon',
+    'messageBox',
+    'flipBox',
+    'outlineButtonIcon',
+    'basicButtonIcon'
   ],
   bundleElementsSettings: {
     "row": {
@@ -457,6 +463,54 @@ module.exports = {
         "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
         "metaPreviewUrl": "[publicPath]\/preview.jpg",
         "metaDescription": "WooCommerce Element"
+      }
+    },
+    "basicSeparator": {
+      "settings": {
+        "name": "Basic Separator",
+        "metaThumbnailUrl": "[publicPath]\/separator-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]\/separator-preview.png",
+        "metaDescription": "Add single line, double, dashed, dotted or shadow style separator as decoration or for separating content blocks."
+      }
+    },
+    "separatorIcon": {
+      "settings": {
+        "name": "Separator with Icon",
+        "metaThumbnailUrl": "[publicPath]\/separator-with-icon-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]\/separator-with-icon-preview.png",
+        "metaDescription": "Add separator with an icon as decoration or visual eye-catching marker before content blocks."
+      }
+    },
+    "messageBox": {
+      "settings": {
+        "name": "Message Box",
+        "metaThumbnailUrl": "[publicPath]\/message-box-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]\/message-box-preview.jpg",
+        "metaDescription": "Add simple message box with predefined notification or create custom message with custom icon."
+      }
+    },
+    "flipBox": {
+      "settings": {
+        "name": "Flip Box",
+        "metaThumbnailUrl": "[publicPath]\/flip-box-thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/flip-box-preview.jpg",
+        "metaDescription": "Flip box element with image slide and textual content slide allowing to define default state and flip box background color."
+      }
+    },
+    "outlineButtonIcon": {
+      "settings": {
+        "name": "Outline Button Icon",
+        "metaThumbnailUrl": "[publicPath]\/outline-button-icon-thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/outline-button-icon-preview.jpg",
+        "metaDescription": "Outline button with solid fill and icon appearance o hover. Great solution to be used as a secondary button within a website."
+      }
+    },
+    "basicButtonIcon": {
+      "settings": {
+        "name": "Basic Button Icon",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail-basic-button-icon.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview-basic-button-icon.jpg",
+        "metaDescription": "Flat style button with icon and slide effect to catch visitor's attention."
       }
     }
   }
