@@ -35,7 +35,7 @@ export default class PanelsContainer extends React.Component {
   getEndContent () {
     const { end, settings } = this.props
     if (end === 'addElement') {
-      return <AddElementPanel />
+      return <AddElementPanel options={settings || {}} />
     } else if (end === 'addTemplate') {
       return <AddTemplatePanel />
     } else if (end === 'settings') {

@@ -12,7 +12,7 @@ const cook = vcCake.getService('cook')
 
 export default class Categories extends React.Component {
   static propTypes = {
-    options: React.PropTypes.object
+    parent: React.PropTypes.object
   }
 
   allElements = []
@@ -33,11 +33,19 @@ export default class Categories extends React.Component {
   }
 
   getAllElements () {
+    const { parent } = this.props
+    let relatedTo = [ 'General', 'RootElements' ]
+    if (parent && parent.tag) {
+      const parentElement = cook.get(parent)
+      if (parentElement) {
+        relatedTo = parentElement.containerFor()
+      }
+    }
     if (!this.allElements.length) {
       let allElements = categoriesService.getSortedElements()
       this.allElements = allElements.filter((elementData) => {
         let cookElement = cook.get(elementData)
-        return cookElement ? cookElement.relatedTo([ 'General', 'RootElements' ]) : false
+        return cookElement ? cookElement.relatedTo(relatedTo) : false
       })
     }
 
