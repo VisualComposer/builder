@@ -35,6 +35,10 @@ class ElementViews implements Helper
         }
 
         ob_start();
+        
+        /**
+         * @var $element
+         */
         extract($_args);
 
         /** @var Filters $filterHelper */
