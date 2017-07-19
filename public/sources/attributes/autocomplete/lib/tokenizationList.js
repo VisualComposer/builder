@@ -159,6 +159,14 @@ export default class TokenizationList extends React.Component {
     }
   }
 
+  componentDidMound () {
+    this.updateSuggestBoxPosition()
+  }
+
+  componentDidUpdate () {
+    this.updateSuggestBoxPosition()
+  }
+
   componentWillMount () {
     this.loadTokenLabels(this.state.value)
   }
@@ -180,6 +188,31 @@ export default class TokenizationList extends React.Component {
       } else {
         if (_.size(this.state.suggestedItems) > 0) {
           this.setState({ suggestedItems: [], loading: false })
+        }
+      }
+    }
+  }
+
+  updateSuggestBoxPosition () {
+    if (this.state.editing === false) {
+      return
+    }
+
+    const box = this.refs.suggestBox
+    const boxRect = box ? box.getBoundingClientRect() : null
+
+    if (boxRect) {
+      const windowHeight = window.innerHeight
+      const bottomOffset = windowHeight - boxRect.top - boxRect.height
+
+      if (bottomOffset < 0) {
+        box.style.left = `${boxRect.left + 10}px`
+
+        if (windowHeight < boxRect.height) {
+          box.style.top = '0px'
+          box.style.maxHeight = `${windowHeight}px`
+        } else {
+          box.style.top = `${boxRect.top + bottomOffset - 1}px`
         }
       }
     }
@@ -322,7 +355,7 @@ export default class TokenizationList extends React.Component {
         </span>)
       })
 
-      return <div className={cssClasses} style={this.state.cursorPosition}>
+      return <div className={cssClasses} style={this.state.cursorPosition} ref={'suggestBox'}>
         {reactItems}
       </div>
     }
