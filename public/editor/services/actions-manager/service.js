@@ -29,6 +29,23 @@ const ActionsManager = {
       }, 50)
       */
     },
+    toggleSectionVisibility: (state, target, options) => {
+      if (typeof options !== 'undefined') {
+        // Reverse state
+        state = options ? !state : state
+      }
+      ActionsManager.actions.updateSectionDependenciesClasses.call(this, state, target, {
+        class: 'vcv-ui-state--visible'
+      })
+      ActionsManager.actions.updateSectionDependenciesClasses.call(this, !state, target, {
+        class: 'vcv-ui-state--hidden'
+      })
+      /*
+       lodash.delay(() => {
+       ActionsManager.actions.checkTabsDropdown.call(this, state, target, options)
+       }, 50)
+       */
+    },
     checkTabsDropdown: (state, target, options) => {
       // TODO: Check if it works vcv-ui-editor-tab-dropdown-content not found
       let $el = ReactDOM.findDOMNode(target.ref)
@@ -58,6 +75,15 @@ const ActionsManager = {
         newStateClasses.push(options.class)
       }
       target.ref.parentNode.parentNode && target.refComponent.setState({ dependenciesClasses: newStateClasses })
+    },
+    updateSectionDependenciesClasses: (state, target, options, element) => {
+      let newStateClasses = (target.refComponent.state.tabDependenciesClasses || []).filter((item) => {
+        return item !== options.class
+      })
+      if (state) {
+        newStateClasses.push(options.class)
+      }
+      target.ref.parentNode.parentNode && target.refComponent.setState({ tabDependenciesClasses: newStateClasses })
     },
     fieldMethod: (state, target, options, element) => {
       if (
