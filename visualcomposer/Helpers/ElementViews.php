@@ -41,7 +41,7 @@ class ElementViews implements Helper
         $filterHelper = vchelper('Filters');
         $_path = $filterHelper->fire(
             'vcv:helpers:elementviews:render:path',
-            ltrim($elementPath . 'views/' . $_path, '/\\'),
+            ltrim($this->elementRealPath($element) . 'views/' . $_path, '/\\'),
             [
                 'path' => $_path,
                 'args' => $_args,
@@ -52,5 +52,20 @@ class ElementViews implements Helper
         $content = ob_get_clean();
 
         return $content;
+    }
+
+    /**
+     * @return string|false
+     */
+    protected function elementRealPath($element)
+    {
+        $hubHelper = vchelper('HubElements');
+        $hubElements = $hubHelper->getElements();
+
+        if ($hubElements[ $element ]) {
+            return $hubElements[ $element ]['elementRealPath'];
+        }
+
+        return false;
     }
 }
