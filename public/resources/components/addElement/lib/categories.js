@@ -37,7 +37,7 @@ export default class Categories extends React.Component {
       let allElements = categoriesService.getSortedElements()
       this.allElements = allElements.filter((elementData) => {
         let cookElement = cook.get(elementData)
-        return cookElement ? cookElement.relatedTo([ 'General' ]) : false
+        return cookElement ? cookElement.relatedTo([ 'General', 'RootElements' ]) : false
       })
     }
 
