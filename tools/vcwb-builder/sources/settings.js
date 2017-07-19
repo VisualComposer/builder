@@ -465,14 +465,6 @@ module.exports = {
         "metaDescription": "WooCommerce Element"
       }
     },
-    "basicSeparator": {
-      "settings": {
-        "name": "Basic Separator",
-        "metaThumbnailUrl": "[publicPath]\/separator-thumbnail.png",
-        "metaPreviewUrl": "[publicPath]\/separator-preview.png",
-        "metaDescription": "Add single line, double, dashed, dotted or shadow style separator as decoration or for separating content blocks."
-      }
-    },
     "separatorIcon": {
       "settings": {
         "name": "Separator with Icon",
