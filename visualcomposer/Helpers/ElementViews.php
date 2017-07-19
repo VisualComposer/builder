@@ -41,7 +41,7 @@ class ElementViews implements Helper
         $filterHelper = vchelper('Filters');
         $_path = $filterHelper->fire(
             'vcv:helpers:elementviews:render:path',
-            ltrim($this->elementRealPath($element) . 'views/' . $_path, '/\\'),
+            $this->elementRealPath($element) . 'views/' . ltrim($_path, '/\\'),
             [
                 'path' => $_path,
                 'args' => $_args,
