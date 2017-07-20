@@ -1045,7 +1045,7 @@ class DevElements extends Container implements Module
                     'elementPath' => $urlHelper->to('devElements/separatorIcon/separatorIcon/'),
                     'elementRealPath' => vcapp()->path('devElements/separatorIcon/separatorIcon/'),
                     'assetsPath' => $urlHelper->to(
-                        'devElements/basicSeparator/basicSeparator/public/'
+                        'devElements/separatorIcon/separatorIcon/public/'
                     ),
                     'settings' => [
                         'name' => 'Separator with Icon',
@@ -1059,6 +1059,29 @@ class DevElements extends Container implements Module
                         ),
                         // @codingStandardsIgnoreLine
                         'metaDescription' => 'Add separator with an icon as decoration or visual eye-catching marker before content blocks.',
+                    ],
+                ],
+                'separatorTitle' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/separatorTitle/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/separatorTitle/separatorTitle/'),
+                    'elementRealPath' => vcapp()->path('devElements/separatorTitle/separatorTitle/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/separatorTitle/separatorTitle/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Separator with Title',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/separatorTitle/separatorTitle/public/separator-with-text-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/separatorTitle/separatorTitle/public/separator-with-text-preview.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add separator with title as decoration or visual eye-catching marker before content blocks.',
                     ],
                 ],
                 'woocommerceTopRatedProducts' => [

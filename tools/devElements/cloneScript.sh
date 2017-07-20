@@ -31,6 +31,7 @@ declare -a arr=(
 'separator'
 'basicSeparator'
 'separatorIcon'
+'separatorTitle'
 'shortcode'
 'section'
 'twitterButton'
