@@ -50,6 +50,13 @@ addStorage('elements', (storage) => {
         createdElements.push(columnElement.id)
       }
     }
+    // if (wrap && element.get('tag') === 'tabsWithSlide') {
+    //   let tabData = cook.get({ tag: 'tab', parent: data.id })
+    //   if (tabData) {
+    //     let tabElement = documentManager.create(tabData.toJS())
+    //     createdElements.push(tabElement.id)
+    //   }
+    // }
     if (data.tag === 'column') {
       let rowElement = documentManager.get(data.parent)
       rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size }, documentManager)

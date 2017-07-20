@@ -201,6 +201,39 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add simple message box with predefined notification or create custom message with custom icon.',
                     ],
                 ],
+//                'tabsWithSlide' => [
+//                    'bundlePath' => $urlHelper->to(
+//                        'devElements/tabsWithSlide/public/dist/element.bundle.js'
+//                    ),
+//                    'elementPath' => $urlHelper->to('devElements/tabsWithSlide/tabsWithSlide/'),
+//                    'elementRealPath' => vcapp()->path('devElements/tabsWithSlide/tabsWithSlide/'),
+//                    'assetsPath' => $urlHelper->to('devElements/tabsWithSlide/tabsWithSlide/public/'),
+//                    'settings' => [
+//                        'name' => 'Tabs With Slide',
+//                        'metaThumbnailUrl' => $urlHelper->to(
+//                            'devElements/tabsWithSlide/tabsWithSlide/public/tabs-with-slide-thumbnail.png'
+//                        ),
+//                        'metaPreviewUrl' => $urlHelper->to(
+//                            'devElements/tabsWithSlide/tabsWithSlide/public/tabs-with-slide-preview.png'
+//                        ),
+//                        // @codingStandardsIgnoreLine
+//                        'metaDescription' => 'Add tabs with slide.',
+//                    ],
+//                ],
+//                'tab' => [
+//                    'bundlePath' => $urlHelper->to(
+//                        'devElements/tab/public/dist/element.bundle.js'
+//                    ),
+//                    'elementPath' => $urlHelper->to('devElements/tab/tab/'),
+//                    'elementRealPath' => vcapp()->path('devElements/tab/tab/'),
+//                    'assetsPath' => $urlHelper->to('devElements/tab/tab/public/'),
+//                    'settings' => [
+//                        'name' => 'Tab',
+//                        'metaThumbnailUrl' => '',
+//                        'metaPreviewUrl' => '',
+//                        'metaDescription' => '',
+//                    ],
+//                ],
                 'flipBox' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/flipBox/public/dist/element.bundle.js'
