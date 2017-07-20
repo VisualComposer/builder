@@ -15,7 +15,7 @@ const innerApi = {
         if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
           files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
         }
-        if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
+        if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
           files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
         }
       })
@@ -45,21 +45,22 @@ const innerApi = {
       jsBundles: []
     }
 
-    const cook = vcCake.getService('cook')
+    // const cook = vcCake.getService('cook')
     cookElement.filter((key, value, settings) => {
       if (settings.type === 'element') {
         // Element Public JS
-        let cookElement = cook.get(value)
-        if (!cookElement) {
-          return
-        }
-        let elementPublicAssetsFiles = publicApi.getAssetsFilesByElement(cookElement)
+        let elementPublicAssetsFiles = publicApi.getAssetsFilesByTags([ value.tag ])
+        // let cookElement = cook.get(value)
+        // if (!cookElement) {
+        //   return
+        // }
+        // let elementPublicAssetsFiles = publicApi.getAssetsFilesByElement(cookElement)
         files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
         files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
       }
     })
-    files.cssBundles = [ ...new Set(files.cssBundles) ]
-    files.jsBundles = [ ...new Set(files.jsBundles) ]
+    // files.cssBundles = [ ...new Set(files.cssBundles) ]
+    // files.jsBundles = [ ...new Set(files.jsBundles) ]
 
     return files
   }
