@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import Field from './field'
-// import vcCake from 'vc-cake'
 
 export default class FieldDependencyManager extends React.Component {
   static propTypes = {
@@ -9,7 +8,6 @@ export default class FieldDependencyManager extends React.Component {
     updater: React.PropTypes.func.isRequired,
     setFieldMount: React.PropTypes.func.isRequired,
     setFieldUnmount: React.PropTypes.func.isRequired
-    // updateDependencies: vcCake.env('EDIT_FORM_ACCORDION') ? React.PropTypes.func.isRequired : React.PropTypes.func
   }
 
   constructor (props) {
@@ -30,34 +28,6 @@ export default class FieldDependencyManager extends React.Component {
   componentWillUnmount () {
     this.props.setFieldUnmount(this.props.fieldKey, 'field')
   }
-
-  componentWillReceiveProps (nextProps) {
-    this.props.setFieldMount(nextProps.fieldKey, {
-      ref: this.refs[ 'field' ],
-      refComponent: this,
-      refDomComponent: this.refs[ 'domComponent' ]
-    })
-  }
-
-  // componentDidUpdate (prevProps, prevState) {
-  //   if (vcCake.env('EDIT_FORM_ACCORDION')) {
-  //     this.updateAccordionSectionDependency(prevState)
-  //   }
-  // }
-
-  /**
-   * Check if dependency state differs from previous and update accordion section state
-   * @param prevState
-   */
-  // updateAccordionSectionDependency (prevState) {
-  //   if (this.props.fieldKey === this.props.tab.fieldKey &&
-  //     this.state.dependenciesClasses.length &&
-  //     this.state.dependenciesClasses.length !== prevState.dependenciesClasses.length &&
-  //     this.state.dependenciesClasses.length === 1
-  //   ) {
-      // this.props.updateDependencies(this.state.dependenciesClasses)
-  //   }
-  // }
 
   render () {
     let classes = classNames({

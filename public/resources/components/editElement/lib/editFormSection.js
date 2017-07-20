@@ -21,27 +21,21 @@ export default class EditFormSection extends React.Component {
       contentEnd: document.getElementById('vcv-editor-end')
     }
     this.toggleSection = this.toggleSection.bind(this)
-    // this.updateDependencyClasses = this.updateDependencyClasses.bind(this)
   }
 
   componentDidMount () {
     if (this.props.tab.index === this.props.activeTabIndex) {
       this.toggleSection()
     }
-    // this.props.setFieldMount(this.props.tab.fieldKey, {
-    //   ref: this.refs[ 'section' ],
-    //   refComponent: this,
-    //   refDomComponent: this.refs[ 'section' ]
-    // }, 'section')
+    this.props.setFieldMount(this.props.tab.fieldKey, {
+      ref: this.refs[ 'section' ],
+      refComponent: this,
+      refDomComponent: this.refs[ 'section' ]
+    }, 'section')
   }
 
   componentWillReceiveProps (nextProps) {
     this.setState({ isActive: nextProps.tab.index === nextProps.activeTabIndex })
-    // this.props.setFieldMount(nextProps.tab.fieldKey, {
-    //   ref: this.refs[ 'section' ],
-    //   refComponent: this,
-    //   refDomComponent: this.refs[ 'section' ]
-    // })
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -50,12 +44,8 @@ export default class EditFormSection extends React.Component {
   }
 
   componentWillUnmount () {
-    // this.props.setFieldUnmount(this.props.tab.fieldKey, 'section')
+    this.props.setFieldUnmount(this.props.tab.fieldKey, 'section')
   }
-
-  // updateDependencyClasses (newState) {
-    // this.setState({ dependenciesClasses: newState })
-  // }
 
   /**
    * Set workspace storage state to scroll edit form if section content is below the fold
