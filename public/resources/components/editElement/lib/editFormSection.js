@@ -17,7 +17,7 @@ export default class EditFormSection extends React.Component {
     super(props)
     this.state = {
       isActive: false,
-      tabDependenciesClasses: [],
+      sectionDependenciesClasses: [],
       contentEnd: document.getElementById('vcv-editor-end')
     }
     this.toggleSection = this.toggleSection.bind(this)
@@ -88,12 +88,12 @@ export default class EditFormSection extends React.Component {
 
   render () {
     let { tab } = this.props
-    let { isActive, tabDependenciesClasses } = this.state
+    let { isActive, sectionDependenciesClasses } = this.state
     let sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
       'vcv-ui-edit-form-section--opened': isActive,
       'vcv-ui-edit-form-section--closed': !isActive
-    }, tabDependenciesClasses)
+    }, sectionDependenciesClasses)
     let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
 
     return <div

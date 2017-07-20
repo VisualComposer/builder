@@ -77,13 +77,13 @@ const ActionsManager = {
       target.ref.parentNode.parentNode && target.refComponent.setState({ dependenciesClasses: newStateClasses })
     },
     updateSectionDependenciesClasses: (state, target, options, element) => {
-      let newStateClasses = (target.refComponent.state.tabDependenciesClasses || []).filter((item) => {
+      let newStateClasses = (target.refComponent.state.sectionDependenciesClasses || []).filter((item) => {
         return item !== options.class
       })
       if (state) {
         newStateClasses.push(options.class)
       }
-      target.ref.parentNode.parentNode && target.refComponent.setState({ tabDependenciesClasses: newStateClasses })
+      target.ref.parentNode.parentNode && target.refComponent.setState({ sectionDependenciesClasses: newStateClasses })
     },
     fieldMethod: (state, target, options, element) => {
       if (
