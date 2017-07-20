@@ -59,10 +59,12 @@ module.exports = {
     'woocommerceAddToCart',
     'basicSeparator',
     'separatorIcon',
+    'separatorTitle',
     'messageBox',
     'flipBox',
     'outlineButtonIcon',
-    'basicButtonIcon'
+    'basicButtonIcon',
+    'section'
   ],
   bundleElementsSettings: {
     "row": {
@@ -541,6 +543,22 @@ module.exports = {
       "settings": {
         "name": "Post Description",
         "metaDescription": ""
+      }
+    },
+    "separatorTitle": {
+      "settings": {
+        "metaDescription": "Add separator with title as decoration or visual eye-catching marker before content blocks."
+        "metaPreviewUrl": "[publicPath]\/separator-with-text-preview.png"
+        "metaThumbnailUrl": "[publicPath]\/separator-with-text-thumbnail.png"
+        "name": "Separator with Title"
+      }
+    },
+    "section": {
+      "settings": {
+        "name": "Section",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail-section.png",
+        "metaPreviewUrl": "[publicPath]\/preview-section.jpg",
+        "metaDescription": "Section is an optional root element which can be used to group rows in order to apply joint background."
       }
     }
   }
