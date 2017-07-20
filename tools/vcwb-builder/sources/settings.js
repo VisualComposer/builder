@@ -504,6 +504,44 @@ module.exports = {
         "metaPreviewUrl": "[publicPath]\/preview-basic-button-icon.jpg",
         "metaDescription": "Flat style button with icon and slide effect to catch visitor's attention."
       }
+    },
+    "postsGrid": {
+      "settings": {
+        "name": "Posts Grid",
+        "metaThumbnailUrl": "[publicPath]\/thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/preview.jpg",
+        "metaDescription": "Long description"
+      }
+    },
+    "postsGridDataSourceCustomPostType": {
+      "settings": {
+        "name": "Custom Post Type",
+        "metaDescription": ""
+      }
+    },
+    "postsGridDataSourcePage": {
+      "settings": {
+        "name": "Pages",
+        "metaDescription": ""
+      }
+    },
+    "postsGridDataSourcePost": {
+      "settings": {
+       "name": "Posts",
+       "metaDescription": ""
+      }
+    },
+    "postsGridDataSourceListOfIds": {
+      "settings": {
+        "name": "List Of Ids",
+        "metaDescription": ""
+      }
+    },
+    "postsGridItemPostDescription": {
+      "settings": {
+        "name": "Post Description",
+        "metaDescription": ""
+      }
     }
   }
 }
