@@ -32,6 +32,7 @@ declare -a arr=(
 'basicSeparator'
 'separatorIcon'
 'shortcode'
+'section'
 'twitterButton'
 'twitterGrid'
 'twitterTimeline'
