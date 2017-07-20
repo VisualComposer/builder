@@ -60,6 +60,29 @@ class DevElements extends Container implements Module
                 //        'metaDescription' => 'This is just a demo element.',
                 //    ],
                 //],
+                'section' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/section/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/section/section/'),
+                    'elementRealPath' => vcapp()->path('devElements/section/section/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/section/section/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Section',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'devElements/section/section/public/thumbnail-section.png'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'devElements/section/section/public/preview-section.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Section is an optional root element which can be used to group rows in order to apply joint background.',
+                    ],
+                ],
                 'row' => [
                     'bundlePath' => $urlHelper->to('devElements/row/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('devElements/row/row/'),

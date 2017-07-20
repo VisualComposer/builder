@@ -57,6 +57,22 @@ addStorage('elements', (storage) => {
     //     createdElements.push(tabElement.id)
     //   }
     // }
+    if (wrap && element.get('tag') === 'section') {
+      let rowData = cook.get({ tag: 'row', parent: data.id })
+      let rowElement
+      if (rowData) {
+        rowElement = documentManager.create(rowData.toJS())
+        createdElements.push(rowElement.id)
+      }
+
+      let columnData = cook.get({ tag: 'column', parent: rowElement.id })
+      if (columnData) {
+        let columnElement = documentManager.create(columnData.toJS())
+        createdElements.push(columnElement.id)
+      }
+
+      rebuildRawLayout(rowElement.id, {}, documentManager)
+    }
     if (data.tag === 'column') {
       let rowElement = documentManager.get(data.parent)
       rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size }, documentManager)
