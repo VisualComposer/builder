@@ -112,12 +112,15 @@ export default class WorkspaceCont extends React.Component {
 
   /**
    *  Set layout header height if navbar is sticky,
-   *  to calculate proper position during window scroll
+   *  to calculate proper position during window scroll.
+   *  Remove header style attribute if not sticky (for Classic editor toggle).
    */
   refreshHeaderHeight () {
     if (this.state.isSticky) {
       let bar = ReactDOM.findDOMNode(this.layoutBar).getBoundingClientRect()
       this.props.layoutHeader.style.height = `${bar.height}px`
+    } else if (!this.state.isSticky && this.props.layoutHeader.hasAttribute('style')) {
+      this.props.layoutHeader.removeAttribute('style')
     }
   }
 
