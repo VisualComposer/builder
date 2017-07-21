@@ -547,9 +547,9 @@ module.exports = {
     },
     "separatorTitle": {
       "settings": {
-        "metaDescription": "Add separator with title as decoration or visual eye-catching marker before content blocks."
-        "metaPreviewUrl": "[publicPath]\/separator-with-text-preview.png"
-        "metaThumbnailUrl": "[publicPath]\/separator-with-text-thumbnail.png"
+        "metaDescription": "Add separator with title as decoration or visual eye-catching marker before content blocks.",
+        "metaPreviewUrl": "[publicPath]\/separator-with-text-preview.png",
+        "metaThumbnailUrl": "[publicPath]\/separator-with-text-thumbnail.png",
         "name": "Separator with Title"
       }
     },

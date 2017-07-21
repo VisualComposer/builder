@@ -29,6 +29,22 @@ class Bundle implements Helper
         return $downloadedArchive;
     }
 
+    public function requestBundleDownloadWithToken($token, $requestedData = [])
+    {
+        $urlHelper = vchelper('Url');
+        $fileHelper = vchelper('File');
+        $downloadUrl = $urlHelper->query(
+            sprintf(
+                '%s/download/bundle/token/%s',
+                VCV_HUB_URL,
+                $token
+            ),
+            $requestedData
+        );
+        $downloadedArchive = $fileHelper->download($downloadUrl);
+
+        return $downloadedArchive;
+    }
     public function unzipDownloadedBundle($bundle)
     {
         $fileHelper = vchelper('File');
