@@ -1,72 +1,367 @@
-module.exports = {
-  repo: 'git@gitlab.com:visual-composer-website-builder/builder.git',
-  accountRepo: 'git@gitlab.com:visual-composer-website-builder/account.git',
-  bundleElements: [
-    'row',
-    'column',
-    'textBlock',
-    'singleImage',
-    'basicButton',
-    'featureSection',
-    'flickrImage',
-    'googleFontsHeading',
-    'googleMaps',
-    'googlePlusButton',
-    'heroSection',
-    'icon',
-    'imageGallery',
-    'imageMasonryGallery',
-    'instagramImage',
-    'outlineButton',
-    'pinterestPinit',
-    'rawHtml',
-    'facebookLike',
-    'feature',
-    'rawJs',
-    'separator',
-    'shortcode',
-    'twitterButton',
-    'twitterGrid',
-    'twitterTimeline',
-    'twitterTweet',
-    'vimeoPlayer',
-    'wpWidgetsCustom',
-    'wpWidgetsDefault',
-    'youtubePlayer',
-    'faqToggle',
-    'postsGridItemPostDescription',
-    'postsGridDataSourcePost',
-    'postsGridDataSourcePage',
-    'postsGridDataSourceCustomPostType',
-    'postsGridDataSourceListOfIds',
-    'postsGrid',
-    'woocommerceTopRatedProducts',
-    'woocommerceSaleProducts',
-    'woocommerceRelatedProducts',
-    'woocommerceRecentProducts',
-    'woocommerceProducts',
-    'woocommerceProductPage',
-    'woocommerceProductCategory',
-    'woocommerceProductCategories',
-    'woocommerceProductAttribute',
-    'woocommerceProduct',
-    'woocommerceOrderTracking',
-    'woocommerceMyAccount',
-    'woocommerceFeaturedProducts',
-    'woocommerceCheckout',
-    'woocommerceCart',
-    'woocommerceBestSellingProducts',
-    'woocommerceAddToCart',
-    'basicSeparator',
-    'separatorIcon',
-    'separatorTitle',
-    'messageBox',
-    'flipBox',
-    'outlineButtonIcon',
-    'basicButtonIcon',
-    'section'
+{
+  "repo": "git@gitlab.com:visual-composer-website-builder/builder.git",
+  "accountRepo": "git@gitlab.com:visual-composer-website-builder/account.git",
+  "bundleElements": [
+    "row",
+    "column",
+    "textBlock",
+    "singleImage",
+    "basicButton",
+    "featureSection",
+    "flickrImage",
+    "googleFontsHeading",
+    "googleMaps",
+    "googlePlusButton",
+    "heroSection",
+    "icon",
+    "imageGallery",
+    "imageMasonryGallery",
+    "instagramImage",
+    "outlineButton",
+    "pinterestPinit",
+    "rawHtml",
+    "facebookLike",
+    "feature",
+    "rawJs",
+    "separator",
+    "shortcode",
+    "twitterButton",
+    "twitterGrid",
+    "twitterTimeline",
+    "twitterTweet",
+    "vimeoPlayer",
+    "wpWidgetsCustom",
+    "wpWidgetsDefault",
+    "youtubePlayer",
+    "faqToggle",
+    "postsGridItemPostDescription",
+    "postsGridDataSourcePost",
+    "postsGridDataSourcePage",
+    "postsGridDataSourceCustomPostType",
+    "postsGridDataSourceListOfIds",
+    "postsGrid",
+    "woocommerceTopRatedProducts",
+    "woocommerceSaleProducts",
+    "woocommerceRelatedProducts",
+    "woocommerceRecentProducts",
+    "woocommerceProducts",
+    "woocommerceProductPage",
+    "woocommerceProductCategory",
+    "woocommerceProductCategories",
+    "woocommerceProductAttribute",
+    "woocommerceProduct",
+    "woocommerceOrderTracking",
+    "woocommerceMyAccount",
+    "woocommerceFeaturedProducts",
+    "woocommerceCheckout",
+    "woocommerceCart",
+    "woocommerceBestSellingProducts",
+    "woocommerceAddToCart",
+    "basicSeparator",
+    "separatorIcon",
+    "separatorTitle",
+    "messageBox",
+    "flipBox",
+    "outlineButtonIcon",
+    "basicButtonIcon",
+    "section"
   ],
-  bundleElementsSettings: {
+  "categories": {
+    "Row": {
+      "title": "Row/Column",
+      "elements": [
+        "row"
+      ],
+      "icon": "[publicPath]/icons/Row.svg",
+      "iconDark": "[publicPath]/icons-dark/Row.svg"
+    },
+    "Column": {
+      "title": "Column",
+      "elements": [
+        "column"
+      ],
+      "icon": "[publicPath]/icons/Column.svg",
+      "iconDark": "[publicPath]/icons-dark/Column.svg"
+    },
+    "Button": {
+      "title": "Simple Button",
+      "elements": [
+        "basicButton",
+        "basicButtonIcon",
+        "outlineButton",
+        "outlineButtonIcon"
+      ],
+      "icon": "[publicPath]/icons/Button.svg",
+      "iconDark": "[publicPath]/icons-dark/Button.svg"
+    },
+    "Feature": {
+      "title": "Feature",
+      "elements": [
+        "feature"
+      ],
+      "icon": "[publicPath]/icons/Feature.svg",
+      "iconDark": "[publicPath]/icons-dark/Feature.svg"
+    },
+    "Feature section": {
+      "title": "Feature Section",
+      "elements": [
+        "featureSection"
+      ],
+      "icon": "[publicPath]/icons/Feature.svg",
+      "iconDark": "[publicPath]/icons-dark/Feature.svg"
+    },
+    "Section": {
+      "title": "Section",
+      "elements": [
+        "section"
+      ],
+      "icon": "[publicPath]/icons/Section.svg",
+      "iconDark": "[publicPath]/icons-dark/Section.svg"
+    },
+    "Hero section": {
+      "title": "Hero Section",
+      "elements": [
+        "heroSection"
+      ],
+      "icon": "[publicPath]/icons/Hero-Section.svg",
+      "iconDark": "[publicPath]/icons-dark/Hero-Section.svg"
+    },
+    "Icon": {
+      "title": "Icon",
+      "elements": [
+        "icon"
+      ],
+      "icon": "[publicPath]/icons/Icon.svg",
+      "iconDark": "[publicPath]/icons-dark/Icon.svg"
+    },
+    "Single image": {
+      "title": "Single Image",
+      "elements": [
+        "singleImage"
+      ],
+      "icon": "[publicPath]/icons/Single-Image.svg",
+      "iconDark": "[publicPath]/icons-dark/Single-Image.svg"
+    },
+    "Image gallery": {
+      "title": "Image Gallery",
+      "elements": [
+        "imageMasonryGallery",
+        "imageGallery"
+      ],
+      "icon": "[publicPath]/icons/Image-Gallery.svg",
+      "iconDark": "[publicPath]/icons-dark/Image-Gallery.svg"
+    },
+    "Text block": {
+      "title": "Text Block",
+      "elements": [
+        "textBlock",
+        "googleFontsHeading"
+      ],
+      "icon": "[publicPath]/icons/Text-Block.svg",
+      "iconDark": "[publicPath]/icons-dark/Text-Block.svg"
+    },
+    "Misc": {
+      "title": "Misc",
+      "elements": [
+        "rawHtml",
+        "rawJs",
+        "shortcode",
+        "messageBox",
+        "flipBox"
+      ],
+      "icon": "[publicPath]/icons/Misc.svg",
+      "iconDark": "[publicPath]/icons-dark/Misc.svg"
+    },
+    "Social": {
+      "title": "Social",
+      "elements": [
+        "twitterGrid",
+        "twitterTweet",
+        "twitterTimeline",
+        "twitterButton",
+        "flickrImage",
+        "instagramImage",
+        "googlePlusButton",
+        "pinterestPinit",
+        "facebookLike"
+      ],
+      "icon": "[publicPath]/icons/Social.svg",
+      "iconDark": "[publicPath]/icons-dark/Social.svg"
+    },
+    "Videos": {
+      "title": "Videos",
+      "elements": [
+        "youtubePlayer",
+        "vimeoPlayer"
+      ],
+      "icon": "[publicPath]/icons/Video.svg",
+      "iconDark": "[publicPath]/icons-dark/Video.svg"
+    },
+    "WP Widgets": {
+      "title": "WP Widgets",
+      "elements": [
+        "wpWidgetsCustom",
+        "wpWidgetsDefault"
+      ],
+      "icon": "[publicPath]/icons/WordPress.svg",
+      "iconDark": "[publicPath]/icons-dark/WordPress.svg"
+    },
+    "Separators": {
+      "title": "Separators",
+      "elements": [
+        "separator",
+        "basicSeparator",
+        "separatorTitle",
+        "separatorIcon"
+      ],
+      "icon": "[publicPath]/icons/Separator.svg",
+      "iconDark": "[publicPath]/icons-dark/Separator.svg"
+    },
+    "Maps": {
+      "title": "Maps",
+      "elements": [
+        "googleMaps"
+      ],
+      "icon": "[publicPath]/icons/Map.svg",
+      "iconDark": "[publicPath]/icons-dark/Map.svg"
+    },
+    "Toggle": {
+      "title": "Toggle",
+      "elements": [
+        "faqToggle"
+      ],
+      "icon": "[publicPath]/icons/Toggle.svg",
+      "iconDark": "[publicPath]/icons-dark/Toggle.svg"
+    },
+    "WooCommerce": {
+      "title": "WooCommerce",
+      "elements": [
+        "woocommerceTopRatedProducts",
+        "woocommerceSaleProducts",
+        "woocommerceRelatedProducts",
+        "woocommerceRecentProducts",
+        "woocommerceProducts",
+        "woocommerceProductPage",
+        "woocommerceProductCategory",
+        "woocommerceProductCategories",
+        "woocommerceProductAttribute",
+        "woocommerceProduct",
+        "woocommerceOrderTracking",
+        "woocommerceMyAccount",
+        "woocommerceFeaturedProducts",
+        "woocommerceCheckout",
+        "woocommerceCart",
+        "woocommerceBestSellingProducts",
+        "woocommerceAddToCart"
+      ],
+      "icon": "[publicPath]/icons/Misc.svg",
+      "iconDark": "[publicPath]/icons-dark/Misc.svg"
+    },
+    "Grids": {
+      "title": "Grids",
+      "elements": [
+        "postsGrid"
+      ],
+      "icon": "[publicPath]/icons/Post-Grid.svg",
+      "iconDark": "[publicPath]/icons-dark/Post-Grid.svg"
+    },
+    "_postsGridSources": {
+      "title": "Post Grid Data Sources",
+      "elements": [
+        "postsGridDataSourcePost",
+        "postsGridDataSourcePage",
+        "postsGridDataSourceCustomPostType",
+        "postsGridDataSourceListOfIds"
+      ],
+      "icon": "[publicPath]/icons/Post-Grid.svg",
+      "iconDark": "[publicPath]/icons-dark/Post-Grid.svg"
+    },
+    "_postsGridItems": {
+      "title": "Post Grid Item Post Description",
+      "elements": [
+        "postsGridItemPostDescription"
+      ],
+      "icon": "[publicPath]/icons/Post-Grid.svg",
+      "iconDark": "[publicPath]/icons-dark/Post-Grid.svg"
+    }
+  },
+  "groups": {
+    "All": {
+      "title": "All",
+      "metaOrder": 1,
+      "categories": true
+    },
+    "Basic": {
+      "title": "Basic",
+      "categories": [
+        "Row",
+        "Column",
+        "Section",
+        "Text block",
+        "Single image",
+        "Button"
+      ]
+    },
+    "Media": {
+      "title": "Media",
+      "categories": [
+        "Image gallery",
+        "Image sliders",
+        "Single image",
+        "Videos"
+      ]
+    },
+    "Containers": {
+      "title": "Containers",
+      "categories": [
+        "Tabs",
+        "Tours",
+        "Accordions",
+        "Row",
+        "Section"
+      ]
+    },
+    "Social": {
+      "title": "Social",
+      "categories": [
+        "Social"
+      ]
+    },
+    "Wordpress": {
+      "title": "Wordpress",
+      "categories": [
+        "Wordpress"
+      ]
+    },
+    "Content": {
+      "title": "Content",
+      "categories": [
+        "Hero section",
+        "Icon",
+        "Single image",
+        "Text Block",
+        "Feature",
+        "Grids",
+        "Maps",
+        "Separators",
+        "Feature section",
+        "Toggle"
+      ]
+    },
+    "WooCommerce": {
+      "title": "WooCommerce",
+      "categories": [
+        "WooCommerce"
+      ]
+    },
+    "WP Widgets": {
+      "title": "WP Widgets",
+      "categories": [
+        "WP Widgets"
+      ]
+    }
+  },
+  "bundleElementsSettings": {
     "row": {
       "settings": {
         "name": "Row",
@@ -529,8 +824,8 @@ module.exports = {
     },
     "postsGridDataSourcePost": {
       "settings": {
-       "name": "Posts",
-       "metaDescription": ""
+        "name": "Posts",
+        "metaDescription": ""
       }
     },
     "postsGridDataSourceListOfIds": {

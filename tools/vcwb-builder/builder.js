@@ -2,8 +2,10 @@ const buildTemplateFromFile = require('./controller/templates').buildFromFile
 const buildPlugin = require('./controller/wpPlugin').build
 const buildElements = require('./controller/elements').build
 const program = require('commander')
-const settings = require('./sources/settings')
 const fs = require('fs-extra')
+const path = require('path')
+
+const settings = fs.readJSONSync(path.join(__dirname, 'sources', 'settings.json'))
 program
   .version('0.0.1')
   .command('template <jsonFile>')
