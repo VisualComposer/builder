@@ -157,7 +157,7 @@ export default class TokenizationList extends React.Component {
     inputValue.pop()
     inputValue.push(e.target.getAttribute('data-vcv-suggest-value'))
 
-    this.setState({ value: inputValue + ',', inputValue: inputValue.join(','), suggestedValue: null, activeSuggestion: -1, validating: this.props.validation })
+    this.setState({ value: inputValue, inputValue: inputValue.join(','), suggestedValue: null, activeSuggestion: -1, validating: this.props.validation })
     if (this.props.single) {
       this.props.onChange(inputValue[ inputValue.length - 1 ])
     } else {
