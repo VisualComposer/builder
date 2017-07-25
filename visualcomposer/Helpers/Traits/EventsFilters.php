@@ -13,14 +13,23 @@ use VisualComposer\Helpers\Filters;
 
 trait EventsFilters
 {
-    private function addFilter($filterName, $methodCallback, $weight = 0)
+    private function addFilter($filterName, $methodCallback, $weight = 0, $extraPayload = [])
     {
         /** @var Filters $filterHelper */
         $filterHelper = vchelper('Filters');
         $filterHelper->listen(
             $filterName,
-            function () use ($methodCallback) {
+            function () use ($methodCallback, $extraPayload) {
                 $args = func_get_args();
+                if (!empty($extraPayload)) {
+                    foreach ($extraPayload as $key => $value) {
+                        if (is_numeric($key)) {
+                            $args[] = $value;
+                        } else {
+                            $args[ $key ] = $value;
+                        }
+                    }
+                }
 
                 /**
                  * @var $this \VisualComposer\Application|\VisualComposer\Framework\Container
@@ -32,14 +41,23 @@ trait EventsFilters
         );
     }
 
-    private function addEvent($eventName, $methodCallback, $weight = 0)
+    private function addEvent($eventName, $methodCallback, $weight = 0, $extraPayload = [])
     {
         /** @var Events $filter */
         $eventHelper = vchelper('Events');
         $eventHelper->listen(
             $eventName,
-            function () use ($methodCallback) {
+            function () use ($methodCallback, $extraPayload) {
                 $args = func_get_args();
+                if (!empty($extraPayload)) {
+                    foreach ($extraPayload as $key => $value) {
+                        if (is_numeric($key)) {
+                            $args[] = $value;
+                        } else {
+                            $args[ $key ] = $value;
+                        }
+                    }
+                }
 
                 /**
                  * @var $this \VisualComposer\Application|\VisualComposer\Framework\Container
