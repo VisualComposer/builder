@@ -134,7 +134,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Misc' => [
                     'title' => 'Misc',
-                    'elements' => ['rawHtml', 'rawJs', 'shortcode', 'demoElement', 'messageBox', 'flipBox', 'section'],
+                    'elements' => ['rawHtml', 'rawJs', 'demoElement', 'section'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
@@ -181,8 +181,8 @@ class HubCategories extends Container implements Module
                         'woocommerceBestSellingProducts',
                         'woocommerceAddToCart',
                     ],
-                    'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
-                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
+                    'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
                 ],
                 'WP Widgets' => [
                     'title' => 'WP Widgets',
@@ -234,6 +234,24 @@ class HubCategories extends Container implements Module
                     'elements' => ['faqToggle'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Toggle.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Toggle.svg'),
+                ],
+                'Shortcode' => [
+                    'title' => 'Shortcode',
+                    'elements' => ['shortcode'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
+                ],
+                'Message Box' => [
+                    'title' => 'Message Box',
+                    'elements' => ['messageBox'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Message-Box.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Message-Box.svg'),
+                ],
+                'Flip Box' => [
+                    'title' => 'Flip Box',
+                    'elements' => ['flipBox'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Hover-Box.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Hover-Box.svg'),
                 ],
             ]
         );
