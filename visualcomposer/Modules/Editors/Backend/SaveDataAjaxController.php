@@ -81,6 +81,7 @@ class SaveDataAjaxController extends Container implements Module
     {
         $postTypeHelper = vchelper('PostType');
         $requestHelper = vchelper('Request');
+        //@codingStandardsIgnoreLine
         if ($requestHelper->input('wp-preview', '') !== 'dopreview' || 'publish' !== $post->post_status) {
             // In WordPress 4.4 + update_post_meta called if we use
             // $post->meta_input = [ 'vcv:pageContent' => $data ]
