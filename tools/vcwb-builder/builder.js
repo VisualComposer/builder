@@ -1,6 +1,7 @@
 const buildTemplateFromFile = require('./controller/templates').buildFromFile
 const buildPlugin = require('./controller/wpPlugin').build
 const buildElements = require('./controller/elements').build
+const buildUpdate = require('./controller/updates').build
 const program = require('commander')
 const fs = require('fs-extra')
 const path = require('path')
@@ -42,6 +43,21 @@ program.command('elements')
       options.accountRepository || settings.accountRepo,
       elements,
       options.builderCommit,
-      options.bundleVersion)
+      options.bundleVersion, settings)
+  })
+program.command('update <type> [updateSettings ...]')
+  .description('Build VCWB update bundle zip archive')
+  .option('-p, --path <s>', 'Path where to create zip file')
+  .option('-e, --elementsJSON <s>', 'Set JSON file path for a list of elements.')
+  .option('-c, --builderCommit <s>', 'Select commit SHA1 for VCWB.')
+  .option('-b, --bundleVersion <s>', 'Add version to bundle.')
+  .action((type, updateSettings, options) => {
+    const elements = options.elementsJSON ? fs.readJsonSync(options.elementsJSON, { throws: false }) : settings.bundleElements
+    buildUpdate(
+      type,
+      options.path,
+      elements,
+      options.builderCommit,
+      options.bundleVersion, settings, updateSettings)
   })
 program.parse(process.argv)
