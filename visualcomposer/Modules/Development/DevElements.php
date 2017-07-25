@@ -890,14 +890,14 @@ class DevElements extends Container implements Module
                         'name' => 'Separator',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
-                            'devElements/separator/separator/public/thumbnail-separator.jpg'
+                            'devElements/separator/separator/public/separator-thumbnail.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
-                            'devElements/separator/separator/public/preview-separator.jpg'
+                            'devElements/separator/separator/public/separator-preview.png'
                         ),
                         // @codingStandardsIgnoreLine
-                        'metaDescription' => 'Double line separator with different line length - calculated automatically. ',
+                        'metaDescription' => 'Add single line, double, dashed, dotted or shadow style separator as decoration or for separating content blocks.',
                     ],
                 ],
                 'twitterButton' => [
@@ -1015,27 +1015,27 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Toggle element for frequently added questions (Faq) or similar structure for display of content per request.',
                     ],
                 ],
-                'basicSeparator' => [
+                'doubleSeparator' => [
                     'bundlePath' => $urlHelper->to(
-                        'devElements/basicSeparator/public/dist/element.bundle.js'
+                        'devElements/doubleSeparator/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('devElements/basicSeparator/basicSeparator/'),
-                    'elementRealPath' => vcapp()->path('devElements/basicSeparator/basicSeparator/'),
+                    'elementPath' => $urlHelper->to('devElements/doubleSeparator/doubleSeparator/'),
+                    'elementRealPath' => vcapp()->path('devElements/doubleSeparator/doubleSeparator/'),
                     'assetsPath' => $urlHelper->to(
-                        'devElements/basicSeparator/basicSeparator/public/'
+                        'devElements/doubleSeparator/doubleSeparator/public/'
                     ),
                     'settings' => [
-                        'name' => 'Basic Separator',
+                        'name' => 'Double Separator',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
-                            'devElements/basicSeparator/basicSeparator/public/separator-thumbnail.png'
+                            'devElements/doubleSeparator/doubleSeparator/public/double-separator-thumbnail.jpg'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
-                            'devElements/basicSeparator/basicSeparator/public/separator-preview.png'
+                            'devElements/doubleSeparator/doubleSeparator/public/double-separator-preview.jpg'
                         ),
                         // @codingStandardsIgnoreLine
-                        'metaDescription' => 'Add single line, double, dashed, dotted or shadow style separator as decoration or for separating content blocks.',
+                        'metaDescription' => 'Double line separator with different line length - calculated automatically.',
                     ],
                 ],
                 'separatorIcon' => [

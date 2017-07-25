@@ -12,7 +12,14 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Bundle implements Helper
 {
-    public function requestBundleDownload($requestedData = [])
+    protected $bundlePath;
+
+    public function __construct()
+    {
+        $this->bundlePath = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle';
+    }
+
+    public function requestBundleDownload()
     {
         $urlHelper = vchelper('Url');
         $fileHelper = vchelper('File');
@@ -21,12 +28,26 @@ class Bundle implements Helper
                 '%s/download/bundle/lite?plugin=%s',
                 VCV_HUB_URL,
                 VCV_VERSION
-            ),
-            $requestedData
+            )
         );
         $downloadedArchive = $fileHelper->download($downloadUrl);
 
         return $downloadedArchive;
+    }
+
+    public function getJsonDownloadUrl($requestedData = [])
+    {
+        $urlHelper = vchelper('Url');
+        $downloadUrl = $urlHelper->query(
+            sprintf(
+                '%s/download/json/lite?plugin=%s',
+                VCV_HUB_URL,
+                VCV_VERSION
+            ),
+            $requestedData
+        );
+
+        return $downloadUrl;
     }
 
     public function requestBundleDownloadWithToken($token, $requestedData = [])
@@ -45,6 +66,7 @@ class Bundle implements Helper
 
         return $downloadedArchive;
     }
+
     public function unzipDownloadedBundle($bundle)
     {
         $fileHelper = vchelper('File');
@@ -55,7 +77,7 @@ class Bundle implements Helper
 
     public function getTempBundleFolder($path = '')
     {
-        $bundleFolder = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle';
+        $bundleFolder = $this->bundlePath;
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
         }
@@ -95,7 +117,7 @@ class Bundle implements Helper
             )
         );
         $request = wp_remote_get($versionUrl);
-        if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
+        if (wp_remote_retrieve_response_code($request) === 200) {
             return $request['body'];
         }
 

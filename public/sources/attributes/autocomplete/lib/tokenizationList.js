@@ -122,7 +122,8 @@ export default class TokenizationList extends React.Component {
   }
 
   handleBlur (e) {
-    let value = this.state.inputValue ? this.state.inputValue.split(',') : []
+    let value = this.state.inputValue.replace(/,+$/, '')
+    value = value ? value.split(',') : []
     if (this.props.single) {
       value = [ value[ value.length - 1 ] ]
       this.props.onChange(value[ value.length - 1 ])
