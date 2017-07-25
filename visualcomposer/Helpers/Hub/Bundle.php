@@ -12,7 +12,14 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Bundle implements Helper
 {
-    public function requestBundleDownload($requestedData = [])
+    protected $bundlePath;
+
+    public function __construct()
+    {
+        $this->bundlePath = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle';
+    }
+
+    public function requestBundleDownload()
     {
         $urlHelper = vchelper('Url');
         $fileHelper = vchelper('File');
@@ -21,8 +28,7 @@ class Bundle implements Helper
                 '%s/download/bundle/lite?plugin=%s',
                 VCV_HUB_URL,
                 VCV_VERSION
-            ),
-            $requestedData
+            )
         );
         $downloadedArchive = $fileHelper->download($downloadUrl);
 
@@ -60,6 +66,7 @@ class Bundle implements Helper
 
         return $downloadedArchive;
     }
+
     public function unzipDownloadedBundle($bundle)
     {
         $fileHelper = vchelper('File');
@@ -70,7 +77,7 @@ class Bundle implements Helper
 
     public function getTempBundleFolder($path = '')
     {
-        $bundleFolder = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle';
+        $bundleFolder = $this->bundlePath;
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
         }
