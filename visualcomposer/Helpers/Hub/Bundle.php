@@ -110,7 +110,7 @@ class Bundle implements Helper
             )
         );
         $request = wp_remote_get($versionUrl);
-        if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
+        if (wp_remote_retrieve_response_code($request) === 200) {
             return $request['body'];
         }
 
