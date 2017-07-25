@@ -134,7 +134,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Misc' => [
                     'title' => 'Misc',
-                    'elements' => ['rawHtml', 'rawJs', 'shortcode', 'demoElement', 'messageBox', 'flipBox', 'section'],
+                    'elements' => ['rawHtml', 'rawJs', 'demoElement', 'section'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
@@ -181,18 +181,12 @@ class HubCategories extends Container implements Module
                         'woocommerceBestSellingProducts',
                         'woocommerceAddToCart',
                     ],
-                    'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
-                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
-                ],
-                'WP Widgets' => [
-                    'title' => 'WP Widgets',
-                    'elements' => ['wpWidgetsCustom', 'wpWidgetsDefault'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
                 ],
                 'Separators' => [
                     'title' => 'Separators',
-                    'elements' => ['separator', 'basicSeparator', 'separatorIcon', 'separatorTitle'],
+                    'elements' => ['separator', 'doubleSeparator', 'separatorIcon', 'separatorTitle'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Separator.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Separator.svg'),
                 ],
@@ -234,6 +228,28 @@ class HubCategories extends Container implements Module
                     'elements' => ['faqToggle'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Toggle.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Toggle.svg'),
+                ],
+                'Message Box' => [
+                    'title' => 'Message Box',
+                    'elements' => ['messageBox'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Message-Box.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Message-Box.svg'),
+                ],
+                'Hover Box' => [
+                    'title' => 'Hover Box',
+                    'elements' => ['flipBox'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Hover-Box.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Hover-Box.svg'),
+                ],
+                'WordPress' => [
+                    'title' => 'WordPress',
+                    'elements' => [
+                        'shortcode',
+                        'wpWidgetsCustom',
+                        'wpWidgetsDefault',
+                    ],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
                 ],
             ]
         );
