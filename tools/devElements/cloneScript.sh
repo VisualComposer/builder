@@ -29,7 +29,7 @@ declare -a arr=(
 'feature'
 'rawJs'
 'separator'
-'basicSeparator'
+'doubleSeparator'
 'separatorIcon'
 'separatorTitle'
 'shortcode'
@@ -65,7 +65,9 @@ declare -a arr=(
 'woocommerceCheckout'
 'woocommerceCart'
 'woocommerceBestSellingProducts'
-'woocommerceAddToCart'
+'woocommerceAddToCart',
+'tab',
+'tabsWithSlide'
 )
 
 EXECDIR=`pwd`
