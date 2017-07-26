@@ -57,7 +57,7 @@
     "woocommerceCart",
     "woocommerceBestSellingProducts",
     "woocommerceAddToCart",
-    "basicSeparator",
+    "doubleSeparator",
     "separatorIcon",
     "separatorTitle",
     "messageBox",
@@ -210,7 +210,7 @@
       "title": "Separators",
       "elements": [
         "separator",
-        "basicSeparator",
+        "doubleSeparator",
         "separatorTitle",
         "separatorIcon"
       ],
@@ -573,9 +573,9 @@
     "separator": {
       "settings": {
         "name": "Separator",
-        "metaThumbnailUrl": "[publicPath]\/thumbnail-separator.jpg",
-        "metaPreviewUrl": "[publicPath]\/preview-separator.jpg",
-        "metaDescription": "Double line separator with different line length - calculated automatically. "
+        "metaThumbnailUrl": "[publicPath]\/separator-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]\/separator-preview.png",
+        "metaDescription": "Add single line, double, dashed, dotted or shadow style separator as decoration or for separating content blocks."
       }
     },
     "twitterButton": {
@@ -618,12 +618,12 @@
         "metaDescription": "Toggle element for frequently added questions (Faq) or similar structure for display of content per request."
       }
     },
-    "basicSeparator": {
+    "doubleSeparator": {
       "settings": {
-        "name": "Basic Separator",
-        "metaThumbnailUrl": "[publicPath]\/separator-thumbnail.png",
-        "metaPreviewUrl": "[publicPath]\/separator-preview.png",
-        "metaDescription": "Add single line, double, dashed, dotted or shadow style separator as decoration or for separating content blocks."
+        "name": "Double Separator",
+        "metaThumbnailUrl": "[publicPath]\//double-separator-thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]\/double-separator-preview.jpg",
+        "metaDescription": "Double line separator with different line length - calculated automatically."
       }
     },
     "woocommerceTopRatedProducts": {
