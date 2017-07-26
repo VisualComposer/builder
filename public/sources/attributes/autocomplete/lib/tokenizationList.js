@@ -16,6 +16,7 @@ export default class TokenizationList extends React.Component {
     validation: React.PropTypes.bool.isRequired
   }
 
+  stayEditing = false
   keydownTimeout = 0
 
   constructor (props) {
@@ -122,6 +123,13 @@ export default class TokenizationList extends React.Component {
   }
 
   handleBlur (e) {
+    if (this.stayEditing === false) {
+      this.setState({ editing: false })
+    } else {
+      e.currentTarget.focus()
+      this.stayEditing = false
+    }
+
     let value = this.state.inputValue.replace(/,+$/, '')
     value = value ? value.split(',') : []
     if (this.props.single) {
@@ -130,7 +138,7 @@ export default class TokenizationList extends React.Component {
     } else {
       this.props.onChange(value)
     }
-    this.setState({ editing: false, value: value, validating: this.props.validation })
+    this.setState({ value: value, validating: this.props.validation })
     this.loadTokenLabels(value)
   }
 
@@ -164,6 +172,7 @@ export default class TokenizationList extends React.Component {
     } else {
       this.props.onChange(inputValue)
     }
+    this.stayEditing = true
   }
 
   componentDidMound () {
