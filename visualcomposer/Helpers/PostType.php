@@ -172,7 +172,8 @@ class PostType implements Helper
         if (!$permalink) {
             $permalink = '';
         }
-        $previewUrl = get_preview_post_link($post);
+        $nonce = wp_create_nonce('post_preview_' . $post->ID);
+        $previewUrl = get_preview_post_link($post, ['preview_id' => $post->ID, 'preview_nonce' => $nonce]);
         // @codingStandardsIgnoreLine
         $viewable = is_post_type_viewable($post_type_object);
         $data['permalink'] = $permalink;

@@ -2,12 +2,15 @@
 import React from 'react'
 import NavbarContent from '../navbarContent'
 
-import {env, getService, getStorage} from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
 
 export default class WordPressAdminControl extends NavbarContent {
+  previewWindow = false
+  previewWindowTarget = false
+
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -42,9 +45,42 @@ export default class WordPressAdminControl extends NavbarContent {
     // this.props.api.request('wordpress:data:saving', { draft: true })
   }
 
+  savePreview = (e) => {
+    e && e.preventDefault && e.preventDefault()
+
+    const target = e.currentTarget
+    wordpressDataStorage.state('status').ignoreChange(this.afterSaveChangeUrl)
+    wordpressDataStorage.state('status').onChange(this.afterSaveChangeUrl)
+
+    if (!this.previewWindow) {
+      this.previewWindow = window.open(
+        window.location.href,
+        '_blank'
+      )
+    }
+    this.previewWindowTarget = target.dataset.href
+
+    wordpressDataStorage.trigger('save', { inherit: true }, 'wordpressAdminControl')
+  }
+
+  afterSaveChangeUrl = (data) => {
+    const { status } = data
+    if (status === 'saving' && this.previewOpened) {
+      this.previewWindow.location.href = this.previewWindowTarget
+      this.previewWindow.blur()
+      this.previewWindow.focus()
+    } else if (status === 'success') {
+      this.previewWindow.location.href = this.previewWindowTarget
+      wordpressDataStorage.state('status').ignoreChange(this.afterSaveChangeUrl)
+      this.previewOpened = true
+    } else if (status === 'failed') {
+      wordpressDataStorage.state('status').ignoreChange(this.afterSaveChangeUrl)
+    }
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const { saveDraft, backendEditor, wordPressDashboard, editInBackendEditor } = localizations
+    const { saveDraft, backendEditor, wordPressDashboard, editInBackendEditor, preview, previewChanges } = localizations
 
     let saveDraftButton = ''
     if (PostData.isDraft()) {
@@ -74,17 +110,19 @@ export default class WordPressAdminControl extends NavbarContent {
         </span>
       )
     }
-    // let previewText = PostData.isPublished() ? 'Preview Changes' : 'Preview'
-    // let previewButton = (
-    //   <span
-    //     className='vcv-ui-navbar-control'
-    //     title={previewText}
-    //     data-href={PostData.previewUrl()}
-    //     data-target='_blank'
-    //   >
-    //     <span className='vcv-ui-navbar-control-content'>{previewText}</span>
-    //   </span>
-    // )
+
+    let previewText = PostData.isPublished() ? previewChanges : preview
+    let previewButton = (
+      <span
+        className='vcv-ui-navbar-control'
+        title={previewText}
+        onClick={this.savePreview}
+        data-href={PostData.previewUrl()}
+        data-target='_blank'
+      >
+        <span className='vcv-ui-navbar-control-content'>{previewText}</span>
+      </span>
+    )
 
     let backendEditorButton = (
       <span
@@ -111,6 +149,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
     return (
       <div className='vcv-ui-navbar-controls-set'>
+        {previewButton}
         {saveDraftButton}
         {viewButton}
         {backendEditorButton}

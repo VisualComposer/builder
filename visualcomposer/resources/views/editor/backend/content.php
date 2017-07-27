@@ -57,7 +57,7 @@ $beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true)
                 </div>
             </div>
         </div>
-        <input type="hidden" value="0" name="vcv-ready" id="vcv-ready">
+        <input type="hidden" value="0" name="vcv-backend" id="vcv-backend">
         <input type="hidden" name="vcv-action" id="vcv-action">
         <input type="hidden" name="vcv-data" id="vcv-data">
         <input type="hidden" name="vcv-global-elements-css" id="vcv-global-elements-css">

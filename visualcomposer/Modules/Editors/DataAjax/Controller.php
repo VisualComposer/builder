@@ -99,28 +99,19 @@ class Controller extends Container implements Module
      * Save post content and used assets.
      *
      * @param $response
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\PostType $postTypeHelper
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
      * @return array|null
      */
     private function setData(
         $response,
-        Filters $filterHelper,
         Request $requestHelper,
-        PostType $postTypeHelper,
-        CurrentUser $currentUserAccessHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
-        $data = $requestHelper->input('vcv-data');
-        $dataDecoded = $requestHelper->inputJson('vcv-data');
-        $content = $requestHelper->input('vcv-content');
         $sourceId = $requestHelper->input('vcv-source-id');
 
         if (!is_array($response)) {
@@ -131,44 +122,7 @@ class Controller extends Container implements Module
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
-                // @codingStandardsIgnoreStart
-                $post->post_content = $content;
-                if (isset($dataDecoded['draft']) && $post->post_status !== 'publish') {
-                    $post->post_status = 'draft';
-                } else {
-                    if($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->publish_posts, $sourceId])->get()) {
-                        $post->post_status = 'publish';
-                    } else {
-                        $post->post_status = 'pending';
-                    }
-                }
-                // @codingStandardsIgnoreEnd
-                //temporarily disable
-                remove_filter('content_save_pre', 'wp_filter_post_kses');
-                remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
-                wp_update_post($post);
-                // In WordPress 4.4 + update_post_meta called if we use
-                // $post->meta_input = [ 'vcv:pageContent' => $data ]
-                update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
-
-                //bring it back once you're done posting
-                add_filter('content_save_pre', 'wp_filter_post_kses');
-                add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
-                $postTypeHelper->setupPost($sourceId);
-                $responseExtra = $filterHelper->fire(
-                    'vcv:dataAjax:setData',
-                    [
-                        'status' => true,
-                        'postData' => $postTypeHelper->getPostData(),
-                    ],
-                    [
-                        'sourceId' => $sourceId,
-                        'post' => $post,
-                        'data' => $data,
-                    ]
-                );
-
-                return array_merge($response, $responseExtra);
+                return $this->updatePostData($post, $sourceId, $response);
             }
         }
         if (!is_array($response)) {
@@ -177,5 +131,138 @@ class Controller extends Container implements Module
         $response['status'] = false;
 
         return $response;
+    }
+
+    protected function createPreviewPost($post, $sourceId)
+    {
+        $previewPosts = get_posts(
+            [
+                'post_parent' => $sourceId,
+                'author' => $post->author,
+                'post_status' => 'inherit',
+                'post_type' => 'revision',
+                'orderby' => 'ID',
+                'order' => 'DESC',
+            ]
+        );
+        $previewPost = [];
+        // @codingStandardsIgnoreLine
+        if ('publish' === $post->post_status) {
+            $previewPost[0]['post_name'] = $post->ID . '-autosave-v1';
+        } else {
+            $previewPost[0]['post_name'] = $post->ID . '-revision-v1';
+        }
+        // @codingStandardsIgnoreLine
+        $previewPost[0]['post_content'] = $post->post_content;
+        $previewPost[0]['post_status'] = 'inherit';
+        $previewPost[0]['post_type'] = 'revision';
+        $previewPost[0]['comment_status'] = 'closed';
+        $previewPost[0]['ping_status'] = 'closed';
+        $previewPost[0]['author'] = $post->author;
+        $previewPost[0]['post_parent'] = $post->ID;
+
+        if ($previewPosts) {
+            $previewPost[0]['ID'] = $previewPosts[0]->ID;
+        } else {
+            $previewPost[0]['ID'] = null;
+        }
+
+        return $previewPost;
+    }
+
+    protected function updatePreviewPostMeta($postId)
+    {
+        $requestHelper = vchelper('Request');
+        $data = $requestHelper->input('vcv-data');
+
+        update_metadata('post', $postId, VCV_PREFIX . 'pageContent', $data);
+        // Base css
+        update_metadata('post', $postId, 'elementsCssData', $requestHelper->inputJson('vcv-elements-css-data', ''));
+        // Other data
+        update_metadata('post', $postId, 'globalElementsCss', $requestHelper->input('vcv-global-elements-css', ''));
+        update_metadata('post', $postId, 'settingsGlobalCss', $requestHelper->input('vcv-settings-global-css', ''));
+        update_metadata(
+            'post',
+            $postId,
+            'vcvPreviewSourceAssetsFiles',
+            $requestHelper->inputJson('vcv-source-assets-files')
+        );
+        update_metadata('post', $postId, 'vcvPreviewSourceCss', $requestHelper->input('vcv-source-css'));
+        update_metadata(
+            'post',
+            $postId,
+            'vcvPreviewSettingsSourceCustomCss',
+            $requestHelper->input('vcv-settings-source-custom-css')
+        );
+    }
+
+    protected function updatePostData($post, $sourceId, $response)
+    {
+        $filterHelper = vchelper('Filters');
+        $postTypeHelper = vchelper('PostType');
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        $requestHelper = vchelper('Request');
+
+        $data = $requestHelper->input('vcv-data');
+        $dataDecoded = $requestHelper->inputJson('vcv-data');
+        $content = $requestHelper->input('vcv-content');
+
+        // @codingStandardsIgnoreStart
+        $post->post_content = $content;
+        if (isset($dataDecoded['draft']) && $post->post_status !== 'publish') {
+            $post->post_status = 'draft';
+        } else if (isset($dataDecoded['inherit'])) {
+            $previewPost = $this->createPreviewPost($post,$sourceId);
+        } else {
+            if ($currentUserAccessHelper->wpAll(
+                [get_post_type_object($post->post_type)->cap->publish_posts, $sourceId]
+            )->get()) {
+                $post->post_status = 'publish';
+            } else {
+                $post->post_status = 'pending';
+            }
+        }
+        // @codingStandardsIgnoreEnd
+        //temporarily disable
+        remove_filter('content_save_pre', 'wp_filter_post_kses');
+        remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+
+        if (isset($dataDecoded['inherit'])) {
+            // @codingStandardsIgnoreLine
+            if ('draft' === $post->post_status || 'auto-draft' === $post->post_status) {
+                // @codingStandardsIgnoreLine
+                $post->post_status = 'draft';
+                wp_update_post($post);
+                $this->updatePreviewPostMeta($sourceId);
+
+                $previewSourceId = wp_update_post($previewPost[0]);
+                $this->updatePreviewPostMeta($previewSourceId);
+            } else {
+                $previewSourceId = wp_update_post($previewPost[0]);
+                $this->updatePreviewPostMeta($previewSourceId);
+            }
+        } else {
+            wp_update_post($post);
+            update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
+        }
+
+        //bring it back once you're done posting
+        add_filter('content_save_pre', 'wp_filter_post_kses');
+        add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+        $postTypeHelper->setupPost($sourceId);
+        $responseExtra = $filterHelper->fire(
+            'vcv:dataAjax:setData',
+            [
+                'status' => true,
+                'postData' => $postTypeHelper->getPostData(),
+            ],
+            [
+                'sourceId' => $sourceId,
+                'post' => $post,
+                'data' => $data,
+            ]
+        );
+
+        return array_merge($response, $responseExtra);
     }
 }
