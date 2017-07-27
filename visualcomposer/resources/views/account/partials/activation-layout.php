@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 
 /**
  * @var \VisualComposer\Modules\Account\Pages\ActivationPage $controller
+ * @var array $page
  */
 $optionsHelper = vchelper('Options');
 
@@ -14,6 +15,7 @@ $errorMsg = $optionsHelper->getTransient('account:activation:error');
 if ($errorMsg) {
     $optionsHelper->deleteTransient('account:activation:error');
 }
+$type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <script>
   window.vcvAccountUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>'
@@ -29,16 +31,17 @@ if (is_array($extraOutput)) {
 }
 ?>
 <div class="vcv-popup-container vcv-popup-container--hidden">
-    <div class="vcv-popup-scroll-container">
-        <div class="vcv-popup">
-            <!-- Back button -->
-            <!--<button class="vcv-popup-back-button">
+	<div class="vcv-popup-scroll-container">
+		<div class="vcv-popup">
+			<!-- Back button -->
+			<!--<button class="vcv-popup-back-button">
                 <span><?php /*echo __('GO BACK'); */ ?></span>
             </button>-->
-            <!-- Close button -->
-            <button class="vcv-popup-close-button"></button>
+			<!-- Close button -->
+			<button class="vcv-popup-close-button"></button>
             <?php echo vcview(
-                'account/partials/activation-login',
+                $type !== 'standalone' ? 'account/partials/activation-login'
+                    : 'account/partials/activation-login-standalone',
                 [
                     'controller' => $controller,
                 ]
@@ -55,10 +58,10 @@ if (is_array($extraOutput)) {
                     'controller' => $controller,
                 ]
             ); ?>
-            <!-- Error block -->
-            <div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active' : ''; ?>"><?php echo $errorMsg
+			<!-- Error block -->
+			<div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active' : ''; ?>"><?php echo $errorMsg
                     ? $errorMsg : ''; ?></div>
-        </div>
-        <div class="vcv-hidden-helper"></div>
-    </div>
+		</div>
+		<div class="vcv-hidden-helper"></div>
+	</div>
 </div>

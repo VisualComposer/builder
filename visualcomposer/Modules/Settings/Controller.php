@@ -152,9 +152,9 @@ class Controller extends Container implements Module
                     $page['title'],
                     isset($page['capability']) ? $page['capability'] : 'manage_options',
                     $page['slug'],
-                    function () {
+                    function () use ($page, $pages) {
                         /** @see \VisualComposer\Modules\Settings\Controller::renderPage */
-                        echo $this->call('renderPage');
+                        echo $this->call('renderPage', ['page' => $page, 'pages' => $pages]);
                     }
                 );
             }
@@ -164,39 +164,34 @@ class Controller extends Container implements Module
     }
 
     /**
-     * @param Request $request
+     * @param array $page
+     * @param array $pages
      * @param \VisualComposer\Helpers\Data $data
      *
      * @return string
      */
-    protected function renderPage(Request $request, Data $data)
+    protected function renderPage($page, $pages, Data $data)
     {
-        $pageSlug = $request->input('page');
         $layout = $this->layout;
 
-        $pages = $this->getPages();
-        $page = $data->arraySearch($pages, 'slug', $pageSlug);
-        if ($page) {
-            wp_enqueue_script('vcv:settings:script');
-            wp_enqueue_style('vcv:settings:style');
-            // pages can define different layout, by setting 'layout' key/value.
-            if (isset($page['layout'])) {
-                $layout = $page['layout'];
-            }
-            /** @var Page $controller */
-            $controller = $page['controller'];
-
-            return vcview(
-                'settings/layouts/' . $layout,
-                [
-                    'content' => $controller->render(),
-                    'tabs' => $pages,
-                    'activeSlug' => $page['slug'],
-                ]
-            );
+        wp_enqueue_script('vcv:settings:script');
+        wp_enqueue_style('vcv:settings:style');
+        // pages can define different layout, by setting 'layout' key/value.
+        if (isset($page['layout'])) {
+            $layout = $page['layout'];
         }
+        /** @var Page $controller */
+        $controller = $page['controller'];
 
-        return '';
+        return vcview(
+            'settings/layouts/' . $layout,
+            [
+                'content' => $controller->render(),
+                'tabs' => $pages,
+                'activeSlug' => $page['slug'],
+                'page' => $page,
+            ]
+        );
     }
 
     /**

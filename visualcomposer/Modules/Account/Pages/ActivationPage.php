@@ -84,6 +84,7 @@ class ActivationPage extends Container implements Module
             'showTab' => false,
             'layout' => 'standalone',
             'controller' => $this,
+            'type' => 'default',
         ];
 
         return $pages;
