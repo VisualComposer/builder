@@ -98,7 +98,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Section' => [
                     'title' => 'Section',
-                    'elements' => [],
+                    'elements' => ['section'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Section.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Section.svg'),
                 ],
@@ -134,7 +134,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Misc' => [
                     'title' => 'Misc',
-                    'elements' => ['rawHtml', 'rawJs', 'demoElement', 'section'],
+                    'elements' => ['rawHtml', 'rawJs', 'demoElement'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
