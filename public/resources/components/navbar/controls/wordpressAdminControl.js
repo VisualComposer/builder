@@ -52,7 +52,7 @@ export default class WordPressAdminControl extends NavbarContent {
     wordpressDataStorage.state('status').ignoreChange(this.afterSaveChangeUrl)
     wordpressDataStorage.state('status').onChange(this.afterSaveChangeUrl)
 
-    if (!this.previewWindow) {
+    if (!this.previewWindow || this.previewWindow.closed) {
       this.previewWindow = window.open(
         window.location.href,
         '_blank'
@@ -65,7 +65,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   afterSaveChangeUrl = (data) => {
     const { status } = data
-    if (status === 'saving' && this.previewOpened) {
+    if (status === 'saving' && this.previewOpened && !this.previewWindow.closed) {
       this.previewWindow.location.href = this.previewWindowTarget
       this.previewWindow.blur()
       this.previewWindow.focus()
