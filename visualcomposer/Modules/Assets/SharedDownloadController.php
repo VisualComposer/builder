@@ -25,7 +25,7 @@ class SharedDownloadController extends Container implements Module
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Assets\SharedDownloadController::updateSharedLibraries */
             $this->addFilter(
-                'vcv:hub:download:bundle',
+                'vcv:hub:download:bundle vcv:hub:download:bundle:assets',
                 'updateSharedLibraries',
                 70
             );
@@ -77,7 +77,7 @@ class SharedDownloadController extends Container implements Module
     {
         $fileHelper = vchelper('File');
         $hubSharedLibrariesHelper = vchelper('HubSharedLibraries');
-        $hubBundleHelper = vchelper('HubBundle');
+        $hubBundleHelper = vchelper('HubActionsSharedLibrariesBundle');
         $assetPath = $hubSharedLibrariesHelper->getLibraryPath($asset['name']);
 
         $result = $fileHelper->copyDirectory(

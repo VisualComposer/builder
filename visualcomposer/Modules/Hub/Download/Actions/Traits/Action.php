@@ -22,13 +22,13 @@ trait Action
             $hubHelper->removeTempBundleFolder();
             $archive = $hubHelper->requestBundleDownload($payload['data']);
             $archive = $this->readBundleJson($archive);
-            if ($archive) {
-                $status = $filterHelper->fire(
-                    'vcv:hub:download:bundle:' . $this->actionName,
-                    true,
-                    ['archive' => $archive]
-                );
-            }
+            //if ($archive) {
+            $status = $filterHelper->fire(
+                'vcv:hub:download:bundle:' . $payload['action'],
+                true,
+                ['archive' => $archive]
+            );
+            //}
             $hubHelper->removeTempBundleFolder();
         }
 

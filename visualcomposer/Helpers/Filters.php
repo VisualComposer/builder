@@ -25,4 +25,11 @@ interface Filters extends EventsDispatcher
      * @return array|null
      */
     public function fire($filter, $body = '', $payload = []);
+
+    /**
+     * Return last called filter
+     *
+     * @return string|null
+     */
+    public function firing();
 }

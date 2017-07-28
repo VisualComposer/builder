@@ -20,7 +20,7 @@ class GroupsUpdater extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Download\GroupsUpdater::updateGroups */
-        $this->addFilter('vcv:hub:download:bundle', 'updateGroups');
+        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:categories', 'updateGroups');
     }
 
     protected function updateGroups($response, $payload)

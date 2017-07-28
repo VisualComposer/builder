@@ -20,7 +20,7 @@ class ElementsUpdater extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Download\ElementsUpdater::updateElements */
-        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:elements', 'updateElements');
+        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:element/*', 'updateElements');
     }
 
     protected function updateElements($response, $payload)

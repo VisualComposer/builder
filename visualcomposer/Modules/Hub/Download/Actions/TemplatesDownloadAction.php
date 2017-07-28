@@ -6,11 +6,11 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Modules\Hub\Download\Actions\Traits\Action;
 
-class ElementDownloadAction extends Container implements Module
+class TemplatesDownloadAction extends Container implements Module
 {
-    protected $helperName = 'HubActionsElementsBundle';
+    protected $helperName = 'HubActionsTemplatesBundle';
 
-    protected $actionName = 'element/*';
+    protected $actionName = 'templates';
 
     use Action;
 }

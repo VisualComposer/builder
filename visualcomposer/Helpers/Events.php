@@ -60,4 +60,11 @@ interface Events
      * @return array
      */
     public function getListeners($eventName);
+
+    /**
+     * Return last called event
+     *
+     * @return string|null
+     */
+    public function firing();
 }

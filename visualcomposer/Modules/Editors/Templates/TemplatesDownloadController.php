@@ -12,7 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\File;
-use VisualComposer\Helpers\Hub\Bundle;
+use VisualComposer\Helpers\Hub\Actions\TemplatesBundle;
 use VisualComposer\Helpers\Hub\Templates;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -35,7 +35,7 @@ class TemplatesDownloadController extends Container implements Module
         if (vcvenv('VCV_ENV_TEMPLATES_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
             $this->addFilter(
-                'vcv:hub:download:bundle',
+                'vcv:hub:download:bundle vcv:hub:download:bundle:templates',
                 'updateTemplates',
                 60
             );
@@ -47,7 +47,7 @@ class TemplatesDownloadController extends Container implements Module
      * @param $payload
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
-     * @param \VisualComposer\Helpers\Hub\Bundle $hubBundleHelper
+     * @param \VisualComposer\Helpers\Hub\Actions\TemplatesBundle $hubBundleHelper
      * @param \VisualComposer\Helpers\File $fileHelper
      * @param \VisualComposer\Helpers\Hub\Templates $hubTemplatesHelper
      *
@@ -58,7 +58,7 @@ class TemplatesDownloadController extends Container implements Module
         $payload,
         Options $optionsHelper,
         EditorTemplates $editorTemplatesHelper,
-        Bundle $hubBundleHelper,
+        TemplatesBundle $hubBundleHelper,
         File $fileHelper,
         Templates $hubTemplatesHelper
     ) {

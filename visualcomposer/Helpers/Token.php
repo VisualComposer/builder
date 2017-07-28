@@ -49,7 +49,7 @@ class Token extends Container implements Helper
             ->set('siteId', '')
             ->set('siteSecret', '')
             ->set('siteAuthState', '')
-            ->set('siteAuthToken', '')
+            ->setTransient('siteAuthToken', '')
             ->set('siteAuthRefreshToken', '')
             ->set('siteAuthTokenTtl', '');
 
@@ -84,7 +84,7 @@ class Token extends Container implements Helper
      *
      * @return bool
      */
-    public function setClientSecret($body)
+    protected function setClientSecret($body)
     {
         // @codingStandardsIgnoreStart
         $this->optionsHelper->set(
@@ -106,55 +106,69 @@ class Token extends Container implements Helper
      * @return bool|string
      * @throws \Exception
      */
-    public function createToken($code)
+    public function createToken($id)
     {
-        $result = wp_remote_post(
-            VCV_ACCOUNT_URL . '/token',
+        $result = wp_remote_get(
+            VCV_ACCOUNT_URL . '/authorization-token',
             [
                 'body' => [
-                    'code' => $code,
-                    'grant_type' => 'authorization_code',
-                    'client_secret' => $this->optionsHelper->get('siteSecret'),
-                    'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'account:token:api']),
-                    'client_id' => $this->optionsHelper->get('siteId'),
+                    'hoster_id' => 'account',
+                    'id' => $id,
                 ],
             ]
         );
-        if (is_array($result) && 200 == $result['response']['code']) {
-            $body = json_decode($result['body']);
-            // @codingStandardsIgnoreLine
-            if ($body->access_token) {
-                $this->setToken($body);
-
-                // @codingStandardsIgnoreLine
-                return $body->access_token;
-            }
-        } else {
-            // TODO: Handle error.
-            throw new Exception('HTTP request for getting token failed.');
-        }
-
-        return false;
-    }
-
-    /**
-     * @return bool|string
-     */
-    public function getToken()
-    {
-        if (vcvenv('VCV_ENV_TOKEN_GENERATION')) {
-            if ($this->isSiteAuthorized()) {
-                $token = $this->optionsHelper->get('siteAuthToken');
-                $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('siteAuthTokenTtl');
-                if ($ttl > 3600) {
-                    $token = $this->refreshToken();
-                }
+        if (wp_remote_retrieve_response_code($result) === 200) {
+            $body = json_decode($result['body'], true);
+            if ($body['success']) {
+                $token = $body['data']['token'];
+                $this->setToken($token);
 
                 return $token;
             }
         }
 
         return false;
+        //  $result = wp_remote_post(
+        //      VCV_ACCOUNT_URL . '/token',
+        //      [
+        //          'body' => [
+        //              'code' => $code,
+        //              'grant_type' => 'authorization_code',
+        //              'client_secret' => $this->optionsHelper->get('siteSecret'),
+        //              'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'account:token:api']),
+        //              'client_id' => $this->optionsHelper->get('siteId'),
+        //          ],
+        //      ]
+        //  );
+        //  if (is_array($result) && 200 == $result['response']['code']) {
+        //      $body = json_decode($result['body']);
+        //      // @codingStandardsIgnoreLine
+        //      if ($body->access_token) {
+        //          $this->setToken($body);
+        //
+        //          // @codingStandardsIgnoreLine
+        //          return $body->access_token;
+        //      }
+        //  } else {
+        //      // TODO: Handle error.
+        //      throw new Exception('HTTP request for getting token failed.');
+        //  }
+        //
+        //  return false;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function getToken($id)
+    {
+        $token = $this->optionsHelper->getTransient('siteAuthToken');
+        if (!$token) {
+            $token = $this->createToken($id);
+            $this->setToken($token);
+        }
+
+        return $token;
     }
 
     public function setSiteAuthorized()
@@ -166,27 +180,28 @@ class Token extends Container implements Helper
     }
 
     /**
-     * @param $body
+     * @param $token
      *
      * @return string
      */
-    protected function setToken($body)
+    public function setToken($token)
     {
         // @codingStandardsIgnoreStart
-        $this->setSiteAuthorized()->set(
-            'siteAuthToken',
-            $body->access_token
-        )->set(
-            'siteAuthRefreshToken',
-            $body->refresh_token
-        )->set(
-            'siteAuthTokenTtl',
-            current_time('timestamp')
-        );
+        return $this->optionsHelper->setTransient('siteAuthToken', $token, 3600);
+        //        $this->setSiteAuthorized()->set(
+        //            'siteAuthToken',
+        //            $body->access_token
+        //        )->set(
+        //            'siteAuthRefreshToken',
+        //            $body->refresh_token
+        //        )->set(
+        //            'siteAuthTokenTtl',
+        //            current_time('timestamp')
+        //        );
 
         // @codingStandardsIgnoreEnd
 
-        return true;
+        // return true;
     }
 
     /**
@@ -236,7 +251,7 @@ class Token extends Container implements Helper
     /**
      * @return string
      */
-    public function getTokenActivationUrl()
+    protected function getTokenActivationUrl()
     {
         $clientId = esc_attr($this->optionsHelper->get('siteId'));
         $redirectUrl = rawurlencode($this->urlHelper->ajax(['vcv-action' => 'account:token:api']));

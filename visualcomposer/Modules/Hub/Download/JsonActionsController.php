@@ -38,6 +38,8 @@ class JsonActionsController extends Container implements Module
                     );
                 }
             }
+        } else {
+            $status = false;
         }
 
         return $status;
