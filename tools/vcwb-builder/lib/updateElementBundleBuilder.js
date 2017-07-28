@@ -120,12 +120,8 @@ class UpdateElementBundleBuilder {
     return Promise.all(promises)
   }
   createBundleFileAsync () {
-    const data = {
-      elements: {}
-    }
     const manifestData = fs.readJSONSync(path.join(this.elementPath, 'manifest.json'))
-    data.elements[this.tag] = manifestData
-    return fs.writeJSON(path.join(this.bundlePath, 'bundle.json'), data)
+    return fs.writeJSON(path.join(this.bundlePath, 'bundle.json'), manifestData)
   }
   createZipArchiveAsync (version) {
     const bundleZipPath = path.join(this.dir, `element-${this.tag}-${version || 0.1}.bundle.zip`)
