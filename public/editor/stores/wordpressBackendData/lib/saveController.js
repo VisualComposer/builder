@@ -76,7 +76,7 @@ export default class SaveController {
         window.switchEditors.go('content', 'html')
       }
       document.getElementById('content').value = content
-      document.getElementById('vcv-ready').value = '1'
+      document.getElementById('vcv-backend').value = '1'
       document.getElementById('vcv-action').value = `set${action}Data:adminNonce`
       document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
       document.getElementById('vcv-global-elements-css').value = globalStyles

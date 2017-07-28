@@ -49,7 +49,7 @@ class RevisionController extends Container implements Module
         if (wp_is_post_revision($postId)) {
             if (false !== $vcvData) {
                 // @codingStandardsIgnoreLine
-                add_metadata('post', $postId, VCV_PREFIX . 'pageContent', $vcvData);
+                update_metadata('post', $postId, VCV_PREFIX . 'pageContent', $vcvData);
             }
         }
     }

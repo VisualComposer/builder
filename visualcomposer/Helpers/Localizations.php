@@ -145,6 +145,8 @@ class Localizations extends Container implements Helper
             'titleAttributeText' => __('Title attribute will be displayed on link hover', 'vcwb'),
             'title' => __('Title', 'vcwb'),
             'bundleUpdateFailed' => __('Visual Composer Cloud update failed, please try again.', 'vcwb'),
+            'preview' => __('Preview', 'vcwb'),
+            'previewChanges' => __('Preview Changes', 'vcwb'),
         ];
 
         return $locale;

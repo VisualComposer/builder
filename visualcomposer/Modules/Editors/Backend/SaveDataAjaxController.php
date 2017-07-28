@@ -53,7 +53,7 @@ class SaveDataAjaxController extends Container implements Module
     ) {
         global $post;
         $this->setEditor($requestHelper);
-        if ($requestHelper->input('vcv-ready') !== '1') {
+        if ($requestHelper->input('vcv-backend') !== '1') {
             return $response;
         }
         $sourceId = $post->ID;
