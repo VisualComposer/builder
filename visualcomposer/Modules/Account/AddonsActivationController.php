@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Options;
@@ -23,7 +22,7 @@ use VisualComposer\Modules\Account\Pages\ActivationPage;
  * Class ActivationController
  * @package VisualComposer\Modules\Account
  */
-class ActivationController extends Container implements Module
+class AddonsActivationController extends Container
 {
     use WpFiltersActions;
     use EventsFilters;
@@ -33,38 +32,7 @@ class ActivationController extends Container implements Module
      */
     public function __construct()
     {
-        if (VCV_ENV_ADDONS_ID !== 'account') {
-            vcapp('\VisualComposer\Modules\Account\AddonsActivationController');
-        } else {
-            /** @see \VisualComposer\Modules\Account\ActivationController::setRedirect */
-            $this->addEvent('vcv:system:activation:hook', 'setRedirect');
-            /** @see \VisualComposer\Modules\Account\ActivationController::doRedirect */
-            $this->wpAddAction('admin_init', 'doRedirect');
-
-            $this->addFilter(
-                'vcv:editors:backend:addMetabox vcv:editors:frontend:render',
-                'setRedirectNotActivated',
-                100
-            );
-            $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'doRedirect', 110);
-            // TODO: Check parter id and split request logic
-            /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
-            $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
-            $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivationResponseCode', 100);
-
-            if (vcvenv('VCV_ENV_ELEMENT_DOWNLOAD')
-                && !vchelper('Options')
-                    ->get(
-                        'resetAppliedV' . vcvenv('VCV_ENV_ELEMENT_DOWNLOAD_V')
-                    )
-            ) {
-                vchelper('Options')
-                    ->delete('hubElements')
-                    ->delete('hubCategories')
-                    ->delete('hubGroups')
-                    ->set('resetAppliedV' . vcvenv('VCV_ENV_ELEMENT_DOWNLOAD_V'), 1);
-            }
-        }
+        // TODO: latest checks for partners
     }
 
     /**
