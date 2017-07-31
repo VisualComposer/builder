@@ -109,7 +109,7 @@ class Token extends Container implements Helper
     public function createToken($id)
     {
         $result = wp_remote_get(
-            VCV_ACCOUNT_URL . '/authorization-token',
+            VCV_TOKEN_URL . '/authorization-token',
             [
                 'body' => [
                     'hoster_id' => 'account',

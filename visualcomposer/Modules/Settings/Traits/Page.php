@@ -88,7 +88,7 @@ trait Page
     /**
      * Render page.
      */
-    public function render()
+    public function render($page)
     {
         /**
          * @var $this \VisualComposer\Application|\VisualComposer\Framework\Container
@@ -103,6 +103,7 @@ trait Page
                 'controller' => $this,
                 'slug' => $this->getSlug(),
                 'path' => $this->getTemplatePath(),
+                'page' => $page,
             ]
         );
 
