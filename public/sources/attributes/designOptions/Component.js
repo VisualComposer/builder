@@ -248,7 +248,7 @@ class DesignOptions extends Attribute {
           })
         } else {
           // image is empty
-          if (!newValue[ device ].hasOwnProperty('image') || !newValue[ device ].image.urls || newValue[ device ].image.urls.length === 0) {
+          if (!newValue[ device ].hasOwnProperty('image') || ((!newValue[ device ].image.urls || newValue[ device ].image.urls.length === 0) && newValue[ device ].image.length === 0)) {
             delete newValue[ device ].image
             delete newValue[ device ].backgroundStyle
           }
