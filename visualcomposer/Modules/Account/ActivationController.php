@@ -40,6 +40,7 @@ class ActivationController extends Container implements Module
 
         $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'setRedirectNotActivated', 100);
         $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'doRedirect', 110);
+        // TODO: Check parter id and split request logic
         /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivationResponseCode', 100);
@@ -129,22 +130,9 @@ class ActivationController extends Container implements Module
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
         ) {
-            // This is a place where we need to make registration/activation request in account
-            $result = wp_remote_get(
-                VCV_ACCOUNT_URL . '/subscribe-lite-version',
-                [
-                    'body' => [
-                        'url' => VCV_PLUGIN_URL,
-                        'email' => trim($requestHelper->input('email')),
-                        'agreement' => $requestHelper->input('agreement'),
-                    ],
-                ]
-            );
-
-            if (is_array($result) && 200 === $result['response']['code']) {
-                return $filterHelper->fire('vcv:activation:success', true);
-            } elseif (is_array($result)) {
-                return $result;
+            $token = $tokenHelper->createToken(VCV_PLUGIN_URL . trim($requestHelper->input('email')));
+            if ($token) {
+                return $filterHelper->fire('vcv:activation:success', true, ['token' => $token]);
             }
         }
 

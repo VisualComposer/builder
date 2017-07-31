@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Events;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -84,7 +85,7 @@ class ActivationPage extends Container implements Module
             'showTab' => false,
             'layout' => 'standalone',
             'controller' => $this,
-            'type' => 'default',
+            'type' => 'default', // TODO: set type based on parter_id
         ];
 
         return $pages;

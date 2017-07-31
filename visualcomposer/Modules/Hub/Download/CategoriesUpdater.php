@@ -20,7 +20,7 @@ class CategoriesUpdater extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Download\CategoriesUpdater::updateCategories */
-        $this->addFilter('vcv:hub:download:bundle', 'updateCategories');
+        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:categories', 'updateCategories');
     }
 
     protected function updateCategories($response, $payload)
@@ -29,7 +29,7 @@ class CategoriesUpdater extends Container implements Module
         if (!$response || is_wp_error($bundleJson)) {
             return false;
         }
-        $hubBundleHelper = vchelper('HubBundle');
+        $hubBundleHelper = vchelper('HubActionsCategoriesBundle');
         $hubHelper = vchelper('HubCategories');
         /** @var Differ $categoriesDiffer */
         $hubCategories = $hubHelper->getCategories();

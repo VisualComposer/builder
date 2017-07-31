@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\File;
-use VisualComposer\Helpers\Hub\Bundle;
+use VisualComposer\Helpers\Hub\Actions\EditorBundle;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -33,7 +33,7 @@ class EditorFilesDownloadController extends Container implements Module
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Editors\EditorFilesDownloadController::updateEditorFiles */
             $this->addFilter(
-                'vcv:hub:download:bundle',
+                'vcv:hub:download:bundle vcv:hub:download:bundle:editor',
                 'updateEditorFiles',
                 80
             );
@@ -44,8 +44,7 @@ class EditorFilesDownloadController extends Container implements Module
      * @param $response
      * @param $payload
      * @param \VisualComposer\Helpers\File $fileHelper
-     * @param \VisualComposer\Helpers\Hub\Bundle $hubBundleHelper
-     * @param \VisualComposer\Helpers\Options $optionHelper
+     * @param \VisualComposer\Helpers\Hub\Actions\EditorBundle $hubBundleHelper
      *
      * @return bool
      */
@@ -53,22 +52,21 @@ class EditorFilesDownloadController extends Container implements Module
         $response,
         $payload,
         File $fileHelper,
-        Bundle $hubBundleHelper,
-        Options $optionHelper
+        EditorBundle $hubBundleHelper
     ) {
         $bundleJson = $payload['archive'];
         if (!$response || is_wp_error($bundleJson)) {
             return false;
         }
-        if (isset($bundleJson['editor']) && $bundleJson['editor']) {
-            $fileHelper->createDirectory(VCV_PLUGIN_ASSETS_DIR_PATH . '/editor');
-            $fileHelper->copyDirectory(
-                $hubBundleHelper->getTempBundleFolder('editor'),
-                VCV_PLUGIN_ASSETS_DIR_PATH . '/editor'
-            );
-            $optionHelper->set('bundleUpdateRequired', false);
-            $optionHelper->set('bundleVersion', $bundleJson['editor']);
-        }
+        //if (isset($bundleJson['editor']) && $bundleJson['editor']) {
+        $fileHelper->createDirectory(VCV_PLUGIN_ASSETS_DIR_PATH . '/editor');
+        $fileHelper->copyDirectory(
+            $hubBundleHelper->getTempBundleFolder('editor'),
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/editor'
+        );
+        // $optionHelper->set('bundleUpdateRequired', false);
+        // $optionHelper->set('bundleVersion', $bundleJson['editor']);
+        // }
 
         return true;
     }

@@ -30,9 +30,12 @@ class Dispatcher extends EventsDispatcher implements DispatcherContract
         $response = $body;
         /** @var \VisualComposer\Framework\Application $vcapp */
         $vcapp = vcapp();
+        $this->firing[] = $filter;
         foreach ($this->getListeners($filter) as $listener) {
             $response = $vcapp->call($listener, [$response, $payload]);
         }
+
+        array_pop($this->firing);
 
         return $response;
     }

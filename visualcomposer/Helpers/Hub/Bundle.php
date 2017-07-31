@@ -9,6 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\Token;
 
 class Bundle implements Helper
 {

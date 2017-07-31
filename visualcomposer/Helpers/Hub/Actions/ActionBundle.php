@@ -9,24 +9,14 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\Hub\Bundle;
 
-class ElementsBundle extends ActionBundle implements Helper
+class ActionBundle extends Bundle implements Helper
 {
-    /** @noinspection PhpMissingParentConstructorInspection */
-    /**
-     * ElementsBundle constructor.
-     */
-    public function __construct()
-    {
-        $this->bundlePath = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-elements';
-    }
-
     public function requestBundleDownload()
     {
         list ($data) = func_get_args(); // To make declaration of method compatible of parent
         $url = $data['url'];
-        $element = $data['element'];
-        $this->bundlePath = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-elements-' . $element;
         $fileHelper = vchelper('File');
         $downloadedArchive = $fileHelper->download($url);
 

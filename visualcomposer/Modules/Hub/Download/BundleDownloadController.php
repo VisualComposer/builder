@@ -14,13 +14,13 @@ use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Hub\Bundle;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class BundleDownloadController extends Container implements Module
+class BundleDownloadController extends Container /*implements Module*/
 {
     use EventsFilters;
 
     public function __construct()
     {
-        if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
+        if (vcvenv('VCV_ENV_HUB_DOWNLOAD!!!!')) {
             $this->addFilter(
                 'vcv:activation:success vcv:hub:bundle:update:adminNonce',
                 'prepareBundleDownload',

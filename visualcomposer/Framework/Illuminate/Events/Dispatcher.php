@@ -47,6 +47,13 @@ class Dispatcher implements DispatcherContract
     protected $sorted = [];
 
     /**
+     * The event firing stack.
+     *
+     * @var array
+     */
+    protected $firing = [];
+
+    /**
      * Create a new event dispatcher instance.
      *
      * @param  \VisualComposer\Framework\Illuminate\Contracts\Container\Container $container
@@ -109,6 +116,7 @@ class Dispatcher implements DispatcherContract
             $payload = [$payload];
         }
 
+        $this->firing[] = $event;
         $responses = [];
         /** @var \VisualComposer\Framework\Application $vcapp */
         $vcapp = vcapp();
@@ -117,6 +125,8 @@ class Dispatcher implements DispatcherContract
 
             $responses[] = $response;
         }
+
+        array_pop($this->firing);
 
         return $responses;
     }
@@ -201,5 +211,15 @@ class Dispatcher implements DispatcherContract
     public function forgetWildcard($event)
     {
         unset($this->wildcards[ $event ]);
+    }
+
+    /**
+     * Get the event that is currently firing.
+     *
+     * @return string
+     */
+    public function firing()
+    {
+        return end($this->firing);
     }
 }
