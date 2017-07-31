@@ -21,6 +21,7 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
   window.vcvAccountUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>'
   window.vcvAdminNonce = '<?php echo vchelper('Nonce')->admin(); ?>'
   window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>'
+  window.vcvActivationType = '<?php echo $type; ?>'
 </script>
 <?php
 $extraOutput = vcfilter('vcv:backend:settings:extraOutput', []);

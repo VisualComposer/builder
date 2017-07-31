@@ -291,7 +291,7 @@ class DesignOptionsAdvanced extends Attribute {
             // not image type background selected
             delete newValue[ device ].images
             delete newValue[ device ].backgroundStyle
-          } else if (!newValue[ device ].hasOwnProperty('images') || !newValue[ device ].images.urls || newValue[ device ].images.urls.length === 0) {
+          } else if (!newValue[ device ].hasOwnProperty('images') || ((!newValue[ device ].images.urls || newValue[ device ].images.urls.length === 0) && newValue[ device ].images.length === 0)) {
             // images are empty
             delete newValue[ device ].images
             delete newValue[ device ].backgroundType

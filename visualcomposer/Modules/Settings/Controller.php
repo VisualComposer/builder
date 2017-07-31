@@ -186,7 +186,7 @@ class Controller extends Container implements Module
         return vcview(
             'settings/layouts/' . $layout,
             [
-                'content' => $controller->render(),
+                'content' => $controller->render($page),
                 'tabs' => $pages,
                 'activeSlug' => $page['slug'],
                 'page' => $page,
