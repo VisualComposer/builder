@@ -155,8 +155,10 @@ $(() => {
         showError(readAndAgreeTermsText)
         return
       }
-
       let email = $inputEmail.val()
+      if (window.vcvActivationType !== 'default') {
+        email = 'standalone'
+      }
       if (email) {
         // third / loading screen shows, loading starts here
         showLoadingScreen()

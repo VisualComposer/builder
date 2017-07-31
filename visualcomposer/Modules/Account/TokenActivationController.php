@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Options;
@@ -23,7 +22,7 @@ use VisualComposer\Modules\Account\Pages\ActivationPage;
  * Class TokenActivationController
  * @package VisualComposer\Modules\Account
  */
-class TokenActivationController extends Container implements Module
+class TokenActivationController extends Container/* implements Module*/
 {
     use WpFiltersActions;
     use EventsFilters;

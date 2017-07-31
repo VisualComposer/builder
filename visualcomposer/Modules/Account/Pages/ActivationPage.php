@@ -85,7 +85,7 @@ class ActivationPage extends Container implements Module
             'showTab' => false,
             'layout' => 'standalone',
             'controller' => $this,
-            'type' => 'default', // TODO: set type based on parter_id
+            'type' => VCV_ENV_ADDONS_ID !== 'account' ? 'standalone' : 'default',
         ];
 
         return $pages;
