@@ -61,14 +61,14 @@ class HubCategories extends Container implements Module
                 // 'Tabs' => [
                 //     'title' => 'Tabs',
                 //     'elements' => ['tabsWithSlide'],
-                //     'icon' => $urlHelper->to('devCategories/categories/icons/Row.svg'),
-                //     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Row.svg'),
+                //     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
+                //     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
                 // ],
                 // 'Tab' => [
                 //     'title' => 'Tab',
                 //     'elements' => ['tab'],
-                //     'icon' => $urlHelper->to('devCategories/categories/icons/Column.svg'),
-                //     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Column.svg'),
+                //     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
+                //     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
                 // ],
                 'Button' => [
                     'title' => 'Simple Button',
