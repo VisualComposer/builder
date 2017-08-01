@@ -9,6 +9,7 @@ addStorage('wordpressData', (storage) => {
   const settingsStorage = getStorage('settings')
   const documentManager = getService('document')
   const wordpressDataStorage = getStorage('wordpressData')
+  const utils = getService('utils')
   const cook = getService('cook')
   storage.on('start', () => {
     // Here we call data load
@@ -27,7 +28,7 @@ addStorage('wordpressData', (storage) => {
     controller.save(options, storage.state('status'))
   })
   const wrapExistingContent = (content) => {
-    let textElement = cook.get({ tag: 'textBlock', output: content })
+    let textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(content, '__VCVID__') })
     if (textElement) {
       elementsStorage.trigger('add', textElement.toJS())
     }
@@ -51,7 +52,7 @@ addStorage('wordpressData', (storage) => {
         globalElements && globalAssetsStorage.setElements(globalElements)
       }
       const initialContent = responseData.post_content
-      if (!responseData.data && initialContent && initialContent.length) {
+      if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         wrapExistingContent(initialContent)
       } else
       if (responseData.data) {

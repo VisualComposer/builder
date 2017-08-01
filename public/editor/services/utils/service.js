@@ -1,4 +1,5 @@
 import vcCake from 'vc-cake'
+
 const API = {
   createKey: () => {
     let uuid = ''
@@ -106,7 +107,7 @@ const API = {
       .replace(/\s*\bdata-vcv-[^"]+"[^"]+"+/g, '')
       .replace(/<!\-\-\[vcvSourceHtml]/g, '')
       .replace(/\[\/vcvSourceHtml]\-\->/g, '')
-      // .replace(/&quot;/g, "'")
+    // .replace(/&quot;/g, "'")
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(data)
     let vcvHelper = documentFragment.querySelectorAll('vcvhelper')
@@ -140,6 +141,14 @@ const API = {
       .replace(/[^\w\s-]/g, '') // remove non-word [a-z0-9_], non-whitespace, non-hyphen characters
       .replace(/[\s_-]+/g, '-') // swap any length of whitespace, underscore, hyphen characters with a single -
       .replace(/^-+|-+$/g, '').trim() // remove leading, trailing -
+  },
+  wpAutoP (string, id = 'content') {
+    if (window.tinyMCEPreInit.mceInit[ id ]
+      && window.tinyMCEPreInit.mceInit[ id ].wpautop
+      && window.switchEditors && window.switchEditors.wpautop) {
+      return window.switchEditors.wpautop(string)
+    }
+    return string;
   }
 }
 vcCake.addService('utils', API)

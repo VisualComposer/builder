@@ -1,4 +1,4 @@
-import {addStorage, getStorage, getService, setData, env} from 'vc-cake'
+import { addStorage, getStorage, getService, setData, env } from 'vc-cake'
 import lodash from 'lodash'
 import $ from 'jquery'
 import SaveController from './lib/saveController'
@@ -11,6 +11,7 @@ addStorage('wordpressData', (storage) => {
   const settingsStorage = getStorage('settings')
   const documentManager = getService('document')
   const cook = getService('cook')
+  const utils = getService('utils')
   storage.on('start', () => {
     // Here we call data load
     if (storage.state('status').get() === 'init' && !isClassicEditor()) {
@@ -30,7 +31,7 @@ addStorage('wordpressData', (storage) => {
     controller.save(options, storage.state('status'), callback)
   })
   const wrapExistingContent = (content) => {
-    let textElement = cook.get({ tag: 'textBlock', output: content })
+    let textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(content) })
     if (textElement) {
       elementsStorage.trigger('add', textElement.toJS())
     }

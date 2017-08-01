@@ -40,7 +40,6 @@ class WpEditor extends Container implements Module
             '__VCVID__',
             $settings = [
                 'media_buttons' => true,
-                'wpautop' => false,
             ]
         );
         $output = ob_get_clean();
