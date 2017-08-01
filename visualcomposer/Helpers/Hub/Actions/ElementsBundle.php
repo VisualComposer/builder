@@ -23,13 +23,31 @@ class ElementsBundle extends ActionBundle implements Helper
 
     public function requestBundleDownload()
     {
-        list ($data) = func_get_args(); // To make declaration of method compatible of parent
+        list ($data, $action) = func_get_args(); // To make declaration of method compatible of parent
         $url = $data['url'];
-        $element = $data['element'];
-        $this->bundlePath = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-elements-' . $element;
+        $element = explode('/', $action);
+        $this->bundlePath = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-elements-' . $element[1];
         $fileHelper = vchelper('File');
         $downloadedArchive = $fileHelper->download($url);
 
         return $downloadedArchive;
+    }
+
+    public function getTempBundleFolder($path = '')
+    {
+        $bundleFolder = $this->bundlePath;
+        if ($path) {
+            $bundleFolder .= '/' . ltrim($path, '\//');
+        }
+
+        return $bundleFolder;
+    }
+
+    public function removeTempBundleFolder()
+    {
+        $folder = $this->getTempBundleFolder();
+        $fileHelper = vchelper('File');
+
+        return $fileHelper->removeDirectory($folder);
     }
 }

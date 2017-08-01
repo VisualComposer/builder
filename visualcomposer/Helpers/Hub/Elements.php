@@ -28,7 +28,7 @@ class Elements implements Helper
 
     public function updateElement($key, $prev, $new, $merged)
     {
-        $hubBundleHelper = vchelper('HubBundle');
+        $hubBundleHelper = vchelper('HubActionsElementsBundle');
         $fileHelper = vchelper('File');
         $result = $fileHelper->copyDirectory(
             $hubBundleHelper->getTempBundleFolder('elements/' . $key),

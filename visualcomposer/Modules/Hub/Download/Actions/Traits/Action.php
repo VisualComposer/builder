@@ -26,7 +26,7 @@ trait Action
             $hubHelper = vchelper($this->helperName);
             /** @var $hubHelper \VisualComposer\Helpers\Hub\Bundle */
             $hubHelper->removeTempBundleFolder();
-            $archive = $hubHelper->requestBundleDownload($payload['data']);
+            $archive = $hubHelper->requestBundleDownload($payload['data'], $payload['action']);
             $archive = $this->readBundleJson($archive);
             //if ($archive) {
             $status = $filterHelper->fire(
