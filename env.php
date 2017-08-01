@@ -53,6 +53,6 @@ if (!defined('VCV_TOKEN_URL')) {
     define(
         'VCV_TOKEN_URL',
         isset($_SERVER['ENV_VCV_TOKEN_URL']) ? $_SERVER['ENV_VCV_TOKEN_URL']
-            : 'http://account.visualcomposer.io'
+            : 'http://account.visualcomposer.io/authorization-token'
     );
 }
