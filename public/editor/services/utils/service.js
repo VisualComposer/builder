@@ -143,12 +143,11 @@ const API = {
       .replace(/^-+|-+$/g, '').trim() // remove leading, trailing -
   },
   wpAutoP (string, id = 'content') {
-    if (window.tinyMCEPreInit.mceInit[ id ]
-      && window.tinyMCEPreInit.mceInit[ id ].wpautop
-      && window.switchEditors && window.switchEditors.wpautop) {
+    if (window.tinyMCEPreInit.mceInit[ id ] && window.tinyMCEPreInit.mceInit[ id ].wpautop &&
+      window.switchEditors && window.switchEditors.wpautop) {
       return window.switchEditors.wpautop(string)
     }
-    return string;
+    return string
   }
 }
 vcCake.addService('utils', API)
