@@ -73,7 +73,7 @@ class UpdateAssetsLibrariesBundleBuilder {
     const prebuildJSON = join(__dirname, '..', 'sources', 'bundlePrebuild', jsonFilename)
     const bundleDir = join(this.dir, this.bundleDir)
     return Promise.all(
-      [ fs.copy(prebuildDir, join(bundleDir, 'assetsLibraries')),
+      [ fs.copy(prebuildDir, join(bundleDir, 'assetsLibrary')),
         fs.copy(prebuildJSON, join(bundleDir, 'bundle.json')) ])
   }
 

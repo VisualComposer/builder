@@ -141,7 +141,7 @@
       "title": "Separators",
       "elements": [
         "separator",
-        "basicSeparator",
+        "doubleSeparator",
         "separatorTitle",
         "separatorIcon"
       ],
@@ -230,6 +230,22 @@
       ],
       "icon": "[publicPath]/icons/Hover-Box.svg",
       "iconDark": "[publicPath]/icons-dark/Hover-Box.svg"
+    },
+    "Tabs": {
+      "title": "Tabs",
+      "elements": [
+        "tabsWithSlide"
+      ],
+      "icon": "[publicPath]/icons/Container.svg",
+      "iconDark": "[publicPath]/icons-dark/Container.svg"
+    },
+    "Tab": {
+      "title": "Tab",
+      "elements": [
+        "tab"
+      ],
+      "icon": "[publicPath]/icons/Container.svg",
+      "iconDark": "[publicPath]/icons-dark/Container.svg"
     }
   },
   "groups": {
