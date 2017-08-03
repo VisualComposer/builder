@@ -112,7 +112,7 @@ class Bundle implements Helper
         $urlHelper = vchelper('Url');
         $versionUrl = $urlHelper->query(
             sprintf(
-                '%s/version/bundle/lite?plugin=%s',
+                '%s/download/json/lite?plugin=%s',
                 VCV_HUB_URL,
                 VCV_VERSION
             )
