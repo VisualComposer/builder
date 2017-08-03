@@ -48,13 +48,30 @@ class BundleUpdateController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         $hubBundleHelper = vchelper('HubBundle');
-        $version = $hubBundleHelper->getRemoteVersionInfo();
-        if (version_compare($optionsHelper->get('bundleVersion', '0'), $version, '<')) {
-            // we need to update bundle!!
-            $optionsHelper->set('bundleUpdateRequired', true);
+        $tokenHelper = vchelper('Token');
+        $token = $tokenHelper->createToken($optionsHelper->get('hubTokenId'));
+        if ($token) {
+            $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
+            $json = $this->readBundleJson($url);
+            if ($json) {
+                $this->processJson($json);
+            }
         }
 
         return true;
+    }
+
+    protected function readBundleJson($url)
+    {
+        $result = false;
+        if ($url && !is_wp_error($url)) {
+            $response = wp_remote_get($url);
+            if (wp_remote_retrieve_response_code($response) === 200) {
+                $result = json_decode($response['body'], true);
+            }
+        }
+
+        return $result;
     }
 
     protected function setUpdatingViewFe($response, Options $optionsHelper)
@@ -130,7 +147,9 @@ class BundleUpdateController extends Container implements Module
 
     protected function triggerPrepareBundleDownload($response, $payload)
     {
-        $result = vcfilter('vcv:hub:bundle:update:adminNonce', true, $payload);
+        $optionsHelper = vchelper('Options');
+        $json = $optionsHelper->get('bundleUpdateJson');
+        $result = vcfilter('vcv:hub:download:json', true, ['json' => $json]);
         if (is_wp_error($result) || $result !== true) {
             header('Status: 403', true, 403);
             header('HTTP/1.0 403 Forbidden', true, 403);
@@ -147,5 +166,25 @@ class BundleUpdateController extends Container implements Module
         }
 
         return $result;
+    }
+
+    /**
+     * @param $json
+     */
+    protected function processJson($json)
+    {
+        $optionsHelper = vchelper('Options');
+        foreach ($json['actions'] as $key => $value) {
+            if (isset($value['action'])) {
+                $action = $value['action'];
+                $version = $value['version'];
+                $previousVersion = $optionsHelper->get('hubAction' . $action, '0');
+                if ($version && version_compare($version, $previousVersion, '>') || !$version) {
+                    $optionsHelper->set('bundleUpdateRequired', true);
+                    $optionsHelper->set('bundleUpdateJson', $json);
+                    break;
+                }
+            }
+        }
     }
 }
