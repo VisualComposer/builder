@@ -37,6 +37,8 @@ class ActivationController extends Container implements Module
             vcapp('\VisualComposer\Modules\Account\AddonsActivationController');
         } else {
             $this->boot();
+            /** @see \VisualComposer\Modules\Account\ActivationController::subscribeLiteVersion */
+            $this->addFilter('vcv:activation:success', 'subscribeLiteVersion');
         }
     }
 
@@ -146,6 +148,30 @@ class ActivationController extends Container implements Module
             $token = $tokenHelper->createToken(VCV_PLUGIN_URL . trim($requestHelper->input('email')));
             if ($token) {
                 return $filterHelper->fire('vcv:activation:success', true, ['token' => $token]);
+            }
+        }
+
+        return false;
+    }
+
+    protected function subscribeLiteVersion($status, $payload, Request $requestHelper)
+    {
+        if ($status) {
+            // This is a place where we need to make registration/activation request in account
+            $result = wp_remote_get(
+                VCV_ACCOUNT_URL . '/subscribe-lite-version',
+                [
+                    'body' => [
+                        'url' => VCV_PLUGIN_URL,
+                        'email' => trim($requestHelper->input('email')),
+                        'agreement' => $requestHelper->input('agreement'),
+                    ],
+                ]
+            );
+            if (wp_remote_retrieve_response_code($result) === 200) {
+                return true;
+            } elseif (is_array($result)) {
+                return $result;
             }
         }
 
