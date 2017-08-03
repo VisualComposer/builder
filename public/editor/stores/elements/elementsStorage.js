@@ -50,16 +50,16 @@ addStorage('elements', (storage) => {
         createdElements.push(columnElement.id)
       }
     }
-    // if (wrap && element.get('tag') === 'tabsWithSlide') {
-    //   let tabData = cook.get({ tag: 'tab', parent: data.id })
-    //   let tabData1 = cook.get({ tag: 'tab', parent: data.id })
-    //   if (tabData) {
-    //     let tabElement = documentManager.create(tabData.toJS())
-    //     let tabElement1 = documentManager.create(tabData1.toJS())
-    //     createdElements.push(tabElement.id)
-    //     createdElements.push(tabElement1.id)
-    //   }
-    // }
+    if (wrap && element.get('tag') === 'tabsWithSlide') {
+      let tabData = cook.get({ tag: 'tab', parent: data.id })
+      let tabData1 = cook.get({ tag: 'tab', parent: data.id })
+      if (tabData) {
+        let tabElement = documentManager.create(tabData.toJS())
+        let tabElement1 = documentManager.create(tabData1.toJS())
+        createdElements.push(tabElement.id)
+        createdElements.push(tabElement1.id)
+      }
+    }
     if (wrap && element.get('tag') === 'section') {
       let rowData = cook.get({ tag: 'row', parent: data.id })
       let rowElement
