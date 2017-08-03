@@ -31,7 +31,7 @@ class JsonActionsController extends Container implements Module
                     $data = $value['data'];
                     $version = $value['version'];
                     $previousVersion = $optionHelper->get('hubAction' . $action, '0');
-                    if ($version && version_compare($version, $previousVersion, '<') || !$version) {
+                    if ($version && version_compare($version, $previousVersion, '>') || !$version) {
                         $actionResult = vcfilter(
                             'vcv:hub:process:json:' . $action,
                             $status,
