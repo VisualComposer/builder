@@ -170,32 +170,6 @@ class Controller extends Container implements Module
         return $previewPost;
     }
 
-    protected function updatePreviewPostMeta($postId)
-    {
-        $requestHelper = vchelper('Request');
-        $data = $requestHelper->input('vcv-data');
-
-        update_metadata('post', $postId, VCV_PREFIX . 'pageContent', $data);
-        // Base css
-        update_metadata('post', $postId, 'elementsCssData', $requestHelper->inputJson('vcv-elements-css-data', ''));
-        // Other data
-        update_metadata('post', $postId, 'globalElementsCss', $requestHelper->input('vcv-global-elements-css', ''));
-        update_metadata('post', $postId, 'settingsGlobalCss', $requestHelper->input('vcv-settings-global-css', ''));
-        update_metadata(
-            'post',
-            $postId,
-            'vcvPreviewSourceAssetsFiles',
-            $requestHelper->inputJson('vcv-source-assets-files')
-        );
-        update_metadata('post', $postId, 'vcvPreviewSourceCss', $requestHelper->input('vcv-source-css'));
-        update_metadata(
-            'post',
-            $postId,
-            'vcvPreviewSettingsSourceCustomCss',
-            $requestHelper->input('vcv-settings-source-custom-css')
-        );
-    }
-
     protected function updatePostData($post, $sourceId, $response)
     {
         $filterHelper = vchelper('Filters');
@@ -233,13 +207,13 @@ class Controller extends Container implements Module
                 // @codingStandardsIgnoreLine
                 $post->post_status = 'draft';
                 wp_update_post($post);
-                $this->updatePreviewPostMeta($sourceId);
+                update_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', $data);
 
                 $previewSourceId = wp_update_post($previewPost[0]);
-                $this->updatePreviewPostMeta($previewSourceId);
+                update_metadata('post', $previewSourceId, VCV_PREFIX . 'pageContent', $data);
             } else {
                 $previewSourceId = wp_update_post($previewPost[0]);
-                $this->updatePreviewPostMeta($previewSourceId);
+                update_metadata('post', $previewSourceId, VCV_PREFIX . 'pageContent', $data);
             }
         } else {
             wp_update_post($post);
