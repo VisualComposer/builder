@@ -501,6 +501,25 @@ class DevElements extends Container implements Module
                 //         'metaDescription' => 'Double outline button with solid color hover. Great solution for light and dark websites to keep website design consistent.',
                 //     ],
                 // ],
+                // 'simpleImageSlider' => [
+                //     'bundlePath' => $urlHelper->to(
+                //         'devElements/simpleImageSlider/public/dist/element.bundle.js'
+                //     ),
+                //     'elementPath' => $urlHelper->to('devElements/simpleImageSlider/simpleImageSlider/'),
+                //     'elementRealPath' => vcapp()->path('devElements/simpleImageSlider/simpleImageSlider/'),
+                //     'assetsPath' => $urlHelper->to('devElements/simpleImageSlider/simpleImageSlider/public/'),
+                //     'settings' => [
+                //         'name' => 'Simple Image Slider',
+                //         'metaThumbnailUrl' => $urlHelper->to(
+                //             'devElements/simpleImageSlider/simpleImageSlider/public/thumbnail-simple-image-slider.jpg'
+                //         ),
+                //         'metaPreviewUrl' => $urlHelper->to(
+                //             'devElements/simpleImageSlider/simpleImageSlider/public/preview-simple-image-slider.jpg'
+                //         ),
+                //         // @codingStandardsIgnoreLine
+                //         'metaDescription' => 'Media Library Image slider with dot controls and swipe option for better mobile experience.',
+                //     ],
+                // ],
                 'facebookLike' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/facebookLike/public/dist/element.bundle.js'
