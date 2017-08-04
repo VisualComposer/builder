@@ -11,7 +11,7 @@ export default class Logo extends React.Component {
     }
 
     return (
-      <a href={url} className='vcv-ui-navbar-logo' title='Visual Composer Website Builder'>
+      <a href={url} target='_blank' className='vcv-ui-navbar-logo' title='Visual Composer Website Builder'>
         <span className='vcv-ui-navbar-logo-title'>Visual Composer Website Builder</span>
       </a>
     )
