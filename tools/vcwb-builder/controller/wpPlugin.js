@@ -45,6 +45,7 @@ exports.build = (dir, repo, commit, version) => {
           'cp -fr ' + repoPath + '/env.php ./ &' +
           'cp -fr ' + repoPath + '/license.txt ./ &' +
           'cp -fr ' + repoPath + '/visualcomposer ./ &' +
+          'cp -fr ' + repoPath + '/languages ./ &' +
           'cp -fr ' + repoPath + '/plugin-wordpress.php  ./ &' +
           'cp -fr ' + repoPath + '/vendor  ./ &' +
           'cp -fr ' + repoPath + '/bootstrap  ./ &' +
