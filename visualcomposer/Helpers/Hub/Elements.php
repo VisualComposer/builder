@@ -46,7 +46,7 @@ class Elements implements Helper
         $merged['bundlePath'] = $this->getElementUrl($key . '/public/dist/element.bundle.js');
         $merged['elementPath'] = $this->getElementUrl($key . '/' . $key . '/');
         $merged['elementRealPath'] = $this->getElementPath($key . '/' . $key . '/');
-        $merged['assetsPath'] = $merged['elementPath'] . 'public';
+        $merged['assetsPath'] = $merged['elementPath'] . 'public/';
         if (isset($merged['settings'])) {
             $merged['settings']['metaThumbnailUrl'] = str_replace(
                 '[publicPath]',
