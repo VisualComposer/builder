@@ -31,8 +31,8 @@ class BundleDownloadController extends Container /*implements Module*/
 
     protected function prepareBundleDownload($response, Bundle $hubHelper, Filters $filterHelper)
     {
-        $status = false;
-        if ($response !== false) {
+        $status = $response;
+        if ($response !== false && !is_array($response)) {
             $hubHelper->removeTempBundleFolder();
             $archive = $hubHelper->requestBundleDownload();
             $archive = $this->readBundleJson($archive);

@@ -25,10 +25,11 @@ class JsonDownloadController extends Container implements Module
 
     protected function prepareJsonDownload($response, $payload, Bundle $hubHelper, Filters $filterHelper)
     {
-        $status = false;
-        if ($response !== false) {
+        $status = $response;
+        if ($response !== false && !is_array($response)) {
             $url = $hubHelper->getJsonDownloadUrl(['token' => $payload['token']]);
             $json = $this->readBundleJson($url);
+            // if json is empty array it means that no release yet available!
             if ($json) {
                 $status = $filterHelper->fire('vcv:hub:download:json', true, ['json' => $json]);
             }

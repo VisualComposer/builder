@@ -77,7 +77,7 @@ class UpdateElementBundleBuilder {
     terminalOutput.consoleSeparator('Clone repo')
     executer.clone(`git@gitlab.com:visualcomposer-hub/${this.tag}.git`, this.elementPath).then(() => {
       terminalOutput.consoleSeparator('Build project')
-      executer.exec('npm install && npm build', {
+      executer.exec('npm install && npm run build', {
         cwd: this.elementPath
       }).then(() => {
         terminalOutput.consoleSeparator('Create bundle file')
