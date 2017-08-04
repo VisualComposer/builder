@@ -2,7 +2,7 @@
 import React from 'react'
 import NavbarContent from '../navbarContent'
 
-import { env, getService, getStorage } from 'vc-cake'
+import { env, setData, getService, getStorage } from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -47,6 +47,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   savePreview = (e) => {
     e && e.preventDefault && e.preventDefault()
+    setData('wp-preview', 'dopreview')
 
     const target = e.currentTarget
     wordpressDataStorage.state('status').ignoreChange(this.afterSaveChangeUrl)
@@ -73,8 +74,10 @@ export default class WordPressAdminControl extends NavbarContent {
       this.previewWindow.location.href = this.previewWindowTarget
       wordpressDataStorage.state('status').ignoreChange(this.afterSaveChangeUrl)
       this.previewOpened = true
+      setData('wp-preview', '')
     } else if (status === 'failed') {
       wordpressDataStorage.state('status').ignoreChange(this.afterSaveChangeUrl)
+      setData('wp-preview', '')
     }
   }
 
@@ -97,7 +100,7 @@ export default class WordPressAdminControl extends NavbarContent {
     }
 
     let viewButton = ''
-    if (PostData.isViewable()) {
+    if (PostData.isViewable() && PostData.isPublished()) {
       viewButton = (
         <span
           className='vcv-ui-navbar-control'
