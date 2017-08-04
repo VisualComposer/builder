@@ -59,8 +59,14 @@ class Elements implements Helper
                 $merged['settings']['metaPreviewUrl']
             );
         }
+        array_walk_recursive($merged, [$this, 'fixDoubleSlash']);
 
         return $merged;
+    }
+
+    public function fixDoubleSlash(&$value)
+    {
+        $value = str_replace('//', '/', $value);
     }
 
     public function getElementPath($key = '')
