@@ -38,7 +38,7 @@ export default class NavbarContainer extends React.Component {
     const {locked} = this.state
     return <NavbarWrapper>
       <Navbar locked={locked} draggable>
-        <Logo visibility='pinned' name='Visual Composer Website Builder' />
+        <Logo visibility='pinned' name='Visual Composer Website Builder' editor='frontend' />
         <PlusControl visibility='pinned' name='Add Element' />
         <AddTemplateControl />
         <TreeViewControl visibility='pinned' />
