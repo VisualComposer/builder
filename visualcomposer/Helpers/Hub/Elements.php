@@ -66,7 +66,7 @@ class Elements implements Helper
 
     public function fixDoubleSlash(&$value)
     {
-        $value = str_replace('//', '/', $value);
+        $value = preg_replace('/([^:])(\/{2,})/', '$1/', $value);
     }
 
     public function getElementPath($key = '')
