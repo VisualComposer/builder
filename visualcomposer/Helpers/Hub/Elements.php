@@ -46,7 +46,7 @@ class Elements implements Helper
         $merged['bundlePath'] = $this->getElementUrl($key . '/public/dist/element.bundle.js');
         $merged['elementPath'] = $this->getElementUrl($key . '/' . $key . '/');
         $merged['elementRealPath'] = $this->getElementPath($key . '/' . $key . '/');
-        $merged['assetsPath'] = $merged['elementPath'] . 'public';
+        $merged['assetsPath'] = $merged['elementPath'] . 'public/';
         if (isset($merged['settings'])) {
             $merged['settings']['metaThumbnailUrl'] = str_replace(
                 '[publicPath]',
@@ -59,8 +59,14 @@ class Elements implements Helper
                 $merged['settings']['metaPreviewUrl']
             );
         }
+        array_walk_recursive($merged, [$this, 'fixDoubleSlash']);
 
         return $merged;
+    }
+
+    public function fixDoubleSlash(&$value)
+    {
+        $value = preg_replace('/([^:])(\/{2,})/', '$1/', $value);
     }
 
     public function getElementPath($key = '')

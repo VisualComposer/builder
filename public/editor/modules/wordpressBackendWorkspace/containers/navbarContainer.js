@@ -31,7 +31,7 @@ export default class NavbarContainer extends React.Component {
   }
   render () {
     return <Navbar editor='backend'>
-      <Logo visibility='pinned' />
+      <Logo visibility='pinned' editor='backend' />
       <PlusControl visibility='pinned' />
       <AddTemplateControl />
       <TreeViewControl visibility='pinned' />

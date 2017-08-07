@@ -83,7 +83,8 @@ export default class SaveController {
         'vcv-source-css': pageStyles,
         'vcv-settings-source-custom-css': settingsStorage.state('customCss').get() || '',
         'vcv-settings-global-css': settingsStorage.state('globalCss').get() || '',
-        'vcv-tf': 'noGlobalCss'
+        'vcv-tf': 'noGlobalCss',
+        'wp-preview': vcCake.getData('wp-preview')
       }
       this.ajax(
         requestData,

@@ -163,6 +163,8 @@ class BundleUpdateController extends Container implements Module
                 echo json_encode(['status' => false]);
             }
             exit;
+        } else {
+            $optionsHelper->set('bundleUpdateRequired', false);
         }
 
         return $result;
