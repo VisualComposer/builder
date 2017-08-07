@@ -71,15 +71,15 @@ class DevElements extends Container implements Module
                     ),
                     'settings' => [
                         'name' => 'Section',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'devElements/section/section/public/thumbnail-section.png'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'devElements/section/section/public/preview-section.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/section/section/public/thumbnail-section.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/section/section/public/preview-section.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Section is an optional root element which can be used to group rows in order to apply joint background.',
                     ],
                 ],
@@ -224,39 +224,39 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add simple message box with predefined notification or create custom message with custom icon.',
                     ],
                 ],
-                 'tabsWithSlide' => [
-                     'bundlePath' => $urlHelper->to(
-                         'devElements/tabsWithSlide/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to('devElements/tabsWithSlide/tabsWithSlide/'),
-                     'elementRealPath' => vcapp()->path('devElements/tabsWithSlide/tabsWithSlide/'),
-                     'assetsPath' => $urlHelper->to('devElements/tabsWithSlide/tabsWithSlide/public/'),
-                     'settings' => [
-                         'name' => 'Tabs With Slide',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                             'devElements/tabsWithSlide/tabsWithSlide/public/tabs-with-slide-thumbnail.png'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                             'devElements/tabsWithSlide/tabsWithSlide/public/tabs-with-slide-preview.png'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Add tabs with slide.',
-                     ],
-                 ],
-                 'tab' => [
-                     'bundlePath' => $urlHelper->to(
-                         'devElements/tab/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to('devElements/tab/tab/'),
-                     'elementRealPath' => vcapp()->path('devElements/tab/tab/'),
-                     'assetsPath' => $urlHelper->to('devElements/tab/tab/public/'),
-                     'settings' => [
-                         'name' => 'Tab',
-                         'metaThumbnailUrl' => '',
-                         'metaPreviewUrl' => '',
-                         'metaDescription' => '',
-                     ],
-                 ],
+                'tabsWithSlide' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/tabsWithSlide/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/tabsWithSlide/tabsWithSlide/'),
+                    'elementRealPath' => vcapp()->path('devElements/tabsWithSlide/tabsWithSlide/'),
+                    'assetsPath' => $urlHelper->to('devElements/tabsWithSlide/tabsWithSlide/public/'),
+                    'settings' => [
+                        'name' => 'Tabs With Slide',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/tabsWithSlide/tabsWithSlide/public/tabs-with-slide-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/tabsWithSlide/tabsWithSlide/public/tabs-with-slide-preview.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add tabs with slide.',
+                    ],
+                ],
+                'tab' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/tab/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/tab/tab/'),
+                    'elementRealPath' => vcapp()->path('devElements/tab/tab/'),
+                    'assetsPath' => $urlHelper->to('devElements/tab/tab/public/'),
+                    'settings' => [
+                        'name' => 'Tab',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
                 'flipBox' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/flipBox/public/dist/element.bundle.js'
@@ -501,25 +501,25 @@ class DevElements extends Container implements Module
                 //         'metaDescription' => 'Double outline button with solid color hover. Great solution for light and dark websites to keep website design consistent.',
                 //     ],
                 // ],
-                // 'simpleImageSlider' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'devElements/simpleImageSlider/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to('devElements/simpleImageSlider/simpleImageSlider/'),
-                //     'elementRealPath' => vcapp()->path('devElements/simpleImageSlider/simpleImageSlider/'),
-                //     'assetsPath' => $urlHelper->to('devElements/simpleImageSlider/simpleImageSlider/public/'),
-                //     'settings' => [
-                //         'name' => 'Simple Image Slider',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //             'devElements/simpleImageSlider/simpleImageSlider/public/thumbnail-simple-image-slider.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //             'devElements/simpleImageSlider/simpleImageSlider/public/preview-simple-image-slider.jpg'
-                //         ),
-                //         // @codingStandardsIgnoreLine
-                //         'metaDescription' => 'Media Library Image slider with dot controls and swipe option for better mobile experience.',
-                //     ],
-                // ],
+                'simpleImageSlider' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/simpleImageSlider/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/simpleImageSlider/simpleImageSlider/'),
+                    'elementRealPath' => vcapp()->path('devElements/simpleImageSlider/simpleImageSlider/'),
+                    'assetsPath' => $urlHelper->to('devElements/simpleImageSlider/simpleImageSlider/public/'),
+                    'settings' => [
+                        'name' => 'Simple Image Slider',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/simpleImageSlider/simpleImageSlider/public/thumbnail-simple-image-slider.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/simpleImageSlider/simpleImageSlider/public/preview-simple-image-slider.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Media Library Image slider with dot controls and swipe option for better mobile experience.',
+                    ],
+                ],
                 'facebookLike' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/facebookLike/public/dist/element.bundle.js'
@@ -845,8 +845,12 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/postsGridDataSourceListOfIds/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/'),
-                    'elementRealPath' => vcapp()->path('devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/'),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/'
+                    ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/'
+                    ),
                     'assetsPath' => $urlHelper->to(
                         'devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/public/'
                     ),

@@ -58,18 +58,18 @@ class HubCategories extends Container implements Module
                     'icon' => $urlHelper->to('devCategories/categories/icons/Column.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Column.svg'),
                 ],
-                 'Tabs' => [
-                     'title' => 'Tabs',
-                     'elements' => ['tabsWithSlide'],
-                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
-                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
-                 ],
-                 'Tab' => [
-                     'title' => 'Tab',
-                     'elements' => ['tab'],
-                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
-                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
-                 ],
+                'Tabs' => [
+                    'title' => 'Tabs',
+                    'elements' => ['tabsWithSlide'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
+                ],
+                'Tab' => [
+                    'title' => 'Tab',
+                    'elements' => ['tab'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
+                ],
                 'Button' => [
                     'title' => 'Simple Button',
                     'elements' => [
@@ -114,12 +114,12 @@ class HubCategories extends Container implements Module
                     'icon' => $urlHelper->to('devCategories/categories/icons/Icon.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Icon.svg'),
                 ],
-                // 'Image Slider' => [
-                //     'title' => 'Image Slider',
-                //     'elements' => ['simpleImageSlider'],
-                //     'icon' => $urlHelper->to('devCategories/categories/icons/Image-Slider.svg'),
-                //     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Image-Slider.svg'),
-                // ],
+                'Image Slider' => [
+                    'title' => 'Image Slider',
+                    'elements' => ['simpleImageSlider'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Image-Slider.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Image-Slider.svg'),
+                ],
                 'Single image' => [
                     'title' => 'Single Image',
                     'elements' => ['singleImage'],
