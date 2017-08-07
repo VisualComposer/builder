@@ -38,6 +38,12 @@ export default class SearchElement extends React.Component {
     }
   }
 
+  handleKeyPress (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+    }
+  }
+
   handleSearch (e) {
     let inputVal = e.currentTarget.value.toLowerCase()
     this.setState({
@@ -121,6 +127,7 @@ export default class SearchElement extends React.Component {
           value={this.state.inputValue}
           placeholder={searchPlaceholder}
           autoFocus='true'
+          onKeyPress={this.handleKeyPress}
         />
       </div>
     </div>
