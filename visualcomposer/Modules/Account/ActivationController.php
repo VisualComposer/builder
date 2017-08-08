@@ -162,6 +162,7 @@ class ActivationController extends Container implements Module
     {
         if ($status) {
             // This is a place where we need to make registration/activation request in account
+            $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
             $result = wp_remote_get(
                 VCV_ACCOUNT_URL . '/subscribe-lite-version',
                 [
@@ -169,6 +170,7 @@ class ActivationController extends Container implements Module
                         'url' => VCV_PLUGIN_URL,
                         'email' => trim($requestHelper->input('email')),
                         'agreement' => $requestHelper->input('agreement'),
+                        'id' => $id,
                     ],
                 ]
             );
