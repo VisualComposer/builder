@@ -135,7 +135,6 @@ class DataController extends Container implements Module
             $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
             $globalElementsCssData[ $sourceId ] = $elementsCssData;
             $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
-            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
             // Other data
             $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
             $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
