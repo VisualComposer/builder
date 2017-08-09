@@ -146,7 +146,9 @@ class ActivationController extends Container implements Module
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
+            && !$optionsHelper->getTransient('vcv:activation:request')
         ) {
+            $optionsHelper->setTransient('vcv:activation:request', 60);
             $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
             $optionsHelper->set('hubTokenId', $id);
             $token = $tokenHelper->createToken($id);
