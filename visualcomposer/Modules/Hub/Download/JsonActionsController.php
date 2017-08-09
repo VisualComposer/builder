@@ -25,28 +25,26 @@ class JsonActionsController extends Container implements Module
     {
         if ($status && $payload['json'] && !empty($payload['json']['actions'])) {
             $optionHelper = vchelper('Options');
+            $errorCnt = 0;
             foreach ($payload['json']['actions'] as $key => $value) {
+                $break = false;
                 if (isset($value['action'])) {
                     $action = $value['action'];
                     $data = $value['data'];
                     $version = $value['version'];
                     $previousVersion = $optionHelper->get('hubAction' . $action, '0');
-                    if ($version && version_compare($version, $previousVersion, '>') || !$version) {
-                        $actionResult = vcfilter(
-                            'vcv:hub:process:json:' . $action,
-                            $status,
-                            [
-                                'action' => $action,
-                                'data' => $data,
-                                'version' => $version,
-                            ]
-                        );
-                        if ($actionResult !== false) {
-                            $optionHelper->set('hubAction' . $action, $version);
-                        } else {
-                            $status = false;
-                            break; // we should not continue if some part was broken
-                        }
+                    $status = $this->proccessAction(
+                        $status,
+                        $version,
+                        $previousVersion,
+                        $action,
+                        $data,
+                        $optionHelper,
+                        $errorCnt,
+                        $break
+                    );
+                    if ($break) {
+                        break;
                     }
                 }
             }
@@ -55,5 +53,73 @@ class JsonActionsController extends Container implements Module
         }
 
         return $status;
+    }
+
+    /**
+     * @param $status
+     * @param $version
+     * @param $previousVersion
+     * @param $action
+     * @param $data
+     * @param $optionHelper
+     * @param $errorCnt
+     *
+     * @param $break
+     *
+     * @return bool
+     */
+    protected function proccessAction(
+        $status,
+        $version,
+        $previousVersion,
+        $action,
+        $data,
+        $optionHelper,
+        &$errorCnt,
+        &$break
+    ): bool {
+        if ($version && version_compare($version, $previousVersion, '>') || !$version) {
+            $actionResult = $this->triggerAction($status, $version, $action, $data);
+            if ($actionResult !== false) {
+                $optionHelper->set('hubAction' . $action, $version);
+            } else {
+                // Try one more time
+                $actionResult = $this->triggerAction($status, $version, $action, $data);
+                if ($actionResult !== false) {
+                    $optionHelper->set('hubAction' . $action, $version);
+                } else {
+                    $status = false;
+                    $errorCnt++;
+                    if ($errorCnt > 2) {
+                        $break = true;
+                    }
+                }
+            }
+        }
+
+        return $status;
+    }
+
+    /**
+     * @param $status
+     * @param $version
+     * @param $action
+     * @param $data
+     *
+     * @return array|null
+     */
+    protected function triggerAction($status, $version, $action, $data)
+    {
+        $actionResult = vcfilter(
+            'vcv:hub:process:json:' . $action,
+            $status,
+            [
+                'action' => $action,
+                'data' => $data,
+                'version' => $version,
+            ]
+        );
+
+        return $actionResult;
     }
 }
