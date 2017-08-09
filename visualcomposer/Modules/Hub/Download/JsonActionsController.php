@@ -77,7 +77,7 @@ class JsonActionsController extends Container implements Module
         $optionHelper,
         &$errorCnt,
         &$break
-    ): bool {
+    ) {
         if ($version && version_compare($version, $previousVersion, '>') || !$version) {
             $actionResult = $this->triggerAction($status, $version, $action, $data);
             if ($actionResult !== false) {
