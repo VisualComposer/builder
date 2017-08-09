@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Hub\Bundle;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class JsonDownloadController extends Container implements Module
@@ -23,12 +24,21 @@ class JsonDownloadController extends Container implements Module
         $this->addFilter('vcv:activation:success', 'prepareJsonDownload');
     }
 
-    protected function prepareJsonDownload($response, $payload, Bundle $hubHelper, Filters $filterHelper)
-    {
+    protected function prepareJsonDownload(
+        $response,
+        $payload,
+        Bundle $hubHelper,
+        Filters $filterHelper,
+        Options $optionsHelper
+    ) {
         $status = $response;
         if ($response !== false && !is_array($response)) {
-            $url = $hubHelper->getJsonDownloadUrl(['token' => $payload['token']]);
-            $json = $this->readBundleJson($url);
+            $json = $optionsHelper->getTransient('vcv:hub:download:json');
+            if (!$json) {
+                $url = $hubHelper->getJsonDownloadUrl(['token' => $payload['token']]);
+                $json = $this->readBundleJson($url);
+                $optionsHelper->setTransient('vcv:hub:download:json', $json, 3600);
+            }
             // if json is empty array it means that no release yet available!
             if ($json) {
                 $status = $filterHelper->fire('vcv:hub:download:json', true, ['json' => $json]);

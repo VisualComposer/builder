@@ -148,23 +148,26 @@ class BundleUpdateController extends Container implements Module
     protected function triggerPrepareBundleDownload($response, $payload)
     {
         $optionsHelper = vchelper('Options');
-        $json = $optionsHelper->get('bundleUpdateJson');
-        $result = vcfilter('vcv:hub:download:json', true, ['json' => $json]);
-        if (is_wp_error($result) || $result !== true) {
-            header('Status: 403', true, 403);
-            header('HTTP/1.0 403 Forbidden', true, 403);
+        if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
+            $optionsHelper->setTransient('vcv:hub:update:request', 60);
+            $json = $optionsHelper->get('bundleUpdateJson');
+            $result = vcfilter('vcv:hub:download:json', true, ['json' => $json]);
+            if (is_wp_error($result) || $result !== true) {
+                header('Status: 403', true, 403);
+                header('HTTP/1.0 403 Forbidden', true, 403);
 
-            if (is_wp_error($result)) {
-                /** @var $response \WP_Error */
-                echo json_encode(['message' => implode('. ', $result->get_error_messages())]);
-            } elseif (is_array($result)) {
-                echo json_encode(['message' => $result['body']]);
+                if (is_wp_error($result)) {
+                    /** @var $response \WP_Error */
+                    echo json_encode(['message' => implode('. ', $result->get_error_messages())]);
+                } elseif (is_array($result)) {
+                    echo json_encode(['message' => $result['body']]);
+                } else {
+                    echo json_encode(['status' => false]);
+                }
+                exit;
             } else {
-                echo json_encode(['status' => false]);
+                $optionsHelper->set('bundleUpdateRequired', false);
             }
-            exit;
-        } else {
-            $optionsHelper->set('bundleUpdateRequired', false);
         }
 
         return $result;
