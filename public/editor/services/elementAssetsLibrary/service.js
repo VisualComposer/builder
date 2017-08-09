@@ -23,12 +23,50 @@ const innerApi = {
 
     return files
   },
+  getElementBackendAssetsLibraryFiles (cookElement) {
+    const assetsLibrary = cookElement.get('backendAssetsLibrary')
+    /** @see public/editor/services/sharedAssetsLibrary/service.js */
+    const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+    let files = {
+      cssBundles: [],
+      jsBundles: []
+    }
+    if (assetsLibrary && assetsLibrary.length) {
+      assetsLibrary.forEach((lib) => {
+        let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
+        if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
+          files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
+        }
+        if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
+          files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
+        }
+      })
+    }
+
+    return files
+  },
   getElementPublicAssetsFiles (cookElement) {
     let files = {
       cssBundles: [],
       jsBundles: []
     }
     let jsFiles = cookElement.get('metaPublicJs')
+    if (jsFiles && jsFiles.length) {
+      const elementPath = cookElement.get('metaElementPath')
+      jsFiles = jsFiles.map((url) => {
+        return elementPath + url
+      })
+      files.jsBundles = files.jsBundles.concat(jsFiles)
+    }
+
+    return files
+  },
+  getElementBackendEditorAssetsFiles (cookElement) {
+    let files = {
+      cssBundles: [],
+      jsBundles: []
+    }
+    let jsFiles = cookElement.get('metaBackendEditorJs')
     if (jsFiles && jsFiles.length) {
       const elementPath = cookElement.get('metaElementPath')
       jsFiles = jsFiles.map((url) => {
@@ -153,6 +191,31 @@ const publicApi = {
     let innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement)
     files.cssBundles = files.cssBundles.concat(innerElementAssets.cssBundles)
     files.jsBundles = files.jsBundles.concat(innerElementAssets.jsBundles)
+
+    // Remove duplicates
+    files.cssBundles = [ ...new Set(files.cssBundles) ]
+    files.jsBundles = [ ...new Set(files.jsBundles) ]
+
+    return files
+  },
+  getBackendEditorAssetsFilesByElement (cookElement) {
+    let files = {
+      cssBundles: [],
+      jsBundles: []
+    }
+    if (!cookElement) {
+      return files
+    }
+    let elementAssetsLibraryFiles = innerApi.getElementBackendAssetsLibraryFiles(cookElement)
+    let elementPublicAssetsFiles = innerApi.getElementBackendEditorAssetsFiles(cookElement)
+
+    // SharedAssets
+    files.cssBundles = files.cssBundles.concat(elementAssetsLibraryFiles.cssBundles)
+    files.jsBundles = files.jsBundles.concat(elementAssetsLibraryFiles.jsBundles)
+
+    // Element Public JS
+    files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
+    files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
 
     // Remove duplicates
     files.cssBundles = [ ...new Set(files.cssBundles) ]
