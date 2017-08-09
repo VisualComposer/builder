@@ -5,7 +5,7 @@ const UpdateEditorBundleBuilder = require('../lib/updateEditorBundleBuilder')
 const UpdatePredefinedTemplatesBundleBuilder = require('../lib/updatePredefinedTemplatesBundleBuilder')
 const UpdateCategoriesBundleBuilder = require('../lib/updateCategoriesBundleBuilder')
 const UpdateAssetsLibrariesBundleBuilder = require('../lib/updateAssetsLibrariesBundleBuilder')
-const UpdateElementBundleBuilder = require('../lib/UpdateElementBundleBuilder')
+const UpdateElementBundleBuilder = require('../lib/updateElementBundleBuilder')
 const terminalOutput = require('../lib/tools/terminalOutput')
 /**
  * Build update bundle
