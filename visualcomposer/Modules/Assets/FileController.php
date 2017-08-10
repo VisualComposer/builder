@@ -65,10 +65,8 @@ class FileController extends Container implements Module
         foreach ($globalElementsCssData as $postID => $postElements) {
             if ($postElements) {
                 foreach ($postElements as $element) {
-                    if ($postID === $payload['sourceId']) {
-                        $baseCssHash = wp_hash($element['baseCss'].$postID);
-                        $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
-                    }
+                    $baseCssHash = wp_hash($element['baseCss'].$postID);
+                    $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
                     $globalElementsMixinsCss[] = $element['mixinsCss'];
                     $globalElementsAttributesCss[] = $element['attributesCss'];
                 }
