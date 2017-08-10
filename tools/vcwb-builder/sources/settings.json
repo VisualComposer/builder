@@ -67,7 +67,10 @@
       "flipBox",
       "outlineButtonIcon",
       "basicButtonIcon",
-      "section"
+      "section",
+      "tab",
+      "tabsWithSlide",
+      "simpleImageSlider"
   ],
   "categories": {
     "Row": {
