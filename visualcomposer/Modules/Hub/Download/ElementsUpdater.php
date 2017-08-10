@@ -26,7 +26,7 @@ class ElementsUpdater extends Container implements Module
     protected function updateElements($response, $payload)
     {
         $bundleJson = $payload['archive'];
-        if (!$response || is_wp_error($bundleJson)) {
+        if (!$response || !$bundleJson || is_wp_error($bundleJson)) {
             return false;
         }
         $hubHelper = vchelper('HubElements');
