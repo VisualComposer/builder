@@ -321,7 +321,10 @@ export default class ControlsHandler {
 
     // add element action
     if (options.isContainer) {
-      designOptionEvent = 'designOptionsAdvanced'
+      // tabs don't have advanced design options
+      if (options.tag !== 'tabsWithSlide' && options.tag !== 'tab') {
+        designOptionEvent = 'designOptionsAdvanced'
+      }
       let label = addElementText
       let addElementTag = ''
       let children = cook.getChildren(options.tag)
