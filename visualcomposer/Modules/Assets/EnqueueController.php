@@ -109,7 +109,7 @@ class EnqueueController extends Container implements Module
             if ($postElements) {
                 foreach ($postElements as $element) {
                     if (isset($element['baseCss'])) {
-                        $baseCssHash = wp_hash($element['baseCss'].$sourceId);
+                        $baseCssHash = wp_hash($element['baseCss']);
                         $previewElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
                     }
                     if (isset($element['mixinsCss'])) {

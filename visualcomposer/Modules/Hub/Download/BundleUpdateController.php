@@ -149,7 +149,7 @@ class BundleUpdateController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
-            $optionsHelper->setTransient('vcv:hub:update:request', 60);
+            $optionsHelper->setTransient('vcv:hub:update:request', 1, 60);
             $json = $optionsHelper->get('bundleUpdateJson');
             $result = vcfilter('vcv:hub:download:json', true, ['json' => $json]);
             if (is_wp_error($result) || $result !== true) {

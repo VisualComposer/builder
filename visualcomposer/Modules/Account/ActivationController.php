@@ -148,7 +148,7 @@ class ActivationController extends Container implements Module
             && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
         ) {
-            $optionsHelper->setTransient('vcv:activation:request', 60);
+            $optionsHelper->setTransient('vcv:activation:request', 1, 60);
             $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
             $optionsHelper->set('hubTokenId', $id);
             $token = $tokenHelper->createToken($id);

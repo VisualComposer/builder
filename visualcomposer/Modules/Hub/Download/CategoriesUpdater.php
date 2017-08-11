@@ -26,7 +26,7 @@ class CategoriesUpdater extends Container implements Module
     protected function updateCategories($response, $payload)
     {
         $bundleJson = $payload['archive'];
-        if (!$response || is_wp_error($bundleJson)) {
+        if (!$response || !$bundleJson || is_wp_error($bundleJson)) {
             return false;
         }
         $hubBundleHelper = vchelper('HubActionsCategoriesBundle');
