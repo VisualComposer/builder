@@ -191,7 +191,7 @@ export default class ControlsHandler {
       return false
     }
     const containerElement = cook.get(documentManager.get(container))
-    if (!containerElement || !containerElement.relatedTo([ 'Column' ])) {
+    if (!containerElement || (!containerElement.relatedTo([ 'Column' ]) && !containerElement.relatedTo([ 'Tab' ]))) {
       return false
     }
     let appendControl = document.createElement('span')
