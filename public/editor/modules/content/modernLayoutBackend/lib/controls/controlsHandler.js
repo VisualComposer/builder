@@ -453,7 +453,10 @@ export default class ControlsHandler {
   getElementColorIndex (vcElement) {
     let colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
-      colorIndex = vcElement.containerFor().indexOf('Column') > -1 ? 0 : 1
+      let colContainer = vcElement.containerFor().indexOf('Column') > -1
+      let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
+
+      colorIndex = colContainer || tabContainer ? 0 : 1
     }
     return colorIndex
   }

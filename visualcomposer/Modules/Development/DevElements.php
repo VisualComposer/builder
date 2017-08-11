@@ -240,7 +240,7 @@ class DevElements extends Container implements Module
                             'devElements/tabsWithSlide/tabsWithSlide/public/tabs-with-slide-preview.png'
                         ),
                         // @codingStandardsIgnoreLine
-                        'metaDescription' => 'Add tabs with slide.',
+                        'metaDescription' => 'Divide your content into blocks via tab element with slide navigation effect.',
                     ],
                 ],
                 'tab' => [
