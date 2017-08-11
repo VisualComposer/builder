@@ -57,7 +57,7 @@ export default class Element extends React.Component {
   }
 
   getContent () {
-    let { element, api, layoutWidth } = this.props
+    let {element, api, layoutWidth} = this.props
     const currentElement = cook.get(element)
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
       return <Element
@@ -78,16 +78,16 @@ export default class Element extends React.Component {
         return option === key
       })
       if (findOption) {
-        layoutAtts[ key ] = element.settings(findOption).settings.value
+        layoutAtts[key] = element.settings(findOption).settings.value
       } else {
-        layoutAtts[ key ] = atts[ key ]
+        layoutAtts[key] = atts[key]
       }
     })
     return layoutAtts
   }
 
   getOutput (el) {
-    let { element, api, layoutWidth } = this.props
+    let {element, api, layoutWidth, ...other} = this.props
     if (!el) {
       return null
     }
@@ -109,6 +109,7 @@ export default class Element extends React.Component {
         key={'vcvLayoutContentComponent' + id}
         atts={this.visualizeAttributes(el)}
         editor={editor}
+        {...other}
       >
         {this.getContent()}
       </ContentComponent>
