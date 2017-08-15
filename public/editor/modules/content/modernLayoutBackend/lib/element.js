@@ -123,7 +123,7 @@ export default class Element extends React.Component {
   }
 
   render () {
-    let el = cook.get(this.props.element)
+    let el = cook.get(this.state.element)
     return this.getOutput(el)
   }
 }
