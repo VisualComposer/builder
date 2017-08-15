@@ -21,7 +21,9 @@ class JsonDownloadController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:activation:success', 'prepareJsonDownload');
+        if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
+            $this->addFilter('vcv:activation:success', 'prepareJsonDownload');
+        }
     }
 
     protected function prepareJsonDownload(
