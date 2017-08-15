@@ -96,6 +96,15 @@ class JsonActionsController extends Container implements Module
                 if ($actionResult !== false) {
                     $optionHelper->set('hubAction' . $action, $version);
                 } else {
+                    $loggerHelper = vchelper('Logger');
+                    $loggerHelper->log(
+                        sprintf(__('Failed to download element on hubAction %1$s', 'vcwb'), $action),
+                        [
+                            'version' => $version,
+                            'action' => $action,
+                            'data' => $data,
+                        ]
+                    );
                     $status = false;
                     $errorCnt++;
                     if ($errorCnt > 2) {
