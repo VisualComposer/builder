@@ -71,6 +71,7 @@ bash tools/devElements/buildScriptWindows.sh
 ```
 <?php
 
+define('VCV_ENV_ADDONS_ID', 'account');
 define('VCV_ENV_DEV_ELEMENTS', true);
 define('VCV_ENV_DEV_CATEGORIES', true);
 define('VCV_ENV_HUB_DOWNLOAD', false);
