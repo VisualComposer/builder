@@ -62,17 +62,28 @@ class FileController extends Container implements Module
         $globalElementsBaseCss = [];
         $globalElementsAttributesCss = [];
         $globalElementsMixinsCss = [];
-        foreach ($globalElementsCssData as $postElements) {
-            if ($postElements) {
-                foreach ($postElements as $element) {
-                    $baseCssHash = wp_hash($element['baseCss']);
-                    $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
-                    $globalElementsMixinsCss[] = $element['mixinsCss'];
-                    $globalElementsAttributesCss[] = $element['attributesCss'];
+        $toRemove = [];
+        foreach ($globalElementsCssData as $postId => $postElements) {
+            if (get_post($postId)) {
+                if ($postElements) {
+                    foreach ($postElements as $element) {
+                        $baseCssHash = wp_hash($element['baseCss']);
+                        $globalElementsBaseCss[$baseCssHash] = $element['baseCss'];
+                        $globalElementsMixinsCss[] = $element['mixinsCss'];
+                        $globalElementsAttributesCss[] = $element['attributesCss'];
+                    }
                 }
+            } else {
+                $toRemove[] = $postId;
             }
         }
 
+        if (!empty($toRemove)) {
+            foreach ($toRemove as $postId) {
+                unset($globalElementsCssData[$postId]);
+            }
+            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+        }
         $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
         $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
         $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
@@ -80,11 +91,22 @@ class FileController extends Container implements Module
         $globalCss = $optionsHelper->get('globalElementsCss', '');
         $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
             . $globalElementsMixinsCssContent . $globalCss ;
+        // Remove previous file
+        $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
+        $this->removeStaleFile($assetsHelper->getFilePath($previousCssFile));
         $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
         $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
         $response['globalBundleCssFileUrl'] = $bundleUrl;
 
         return $response;
+    }
+
+    protected function removeStaleFile($path)
+    {
+        $fileHelper = vchelper('File');
+        if (!empty($path)) {
+            $fileHelper->getFileSystem()->delete($path);
+        }
     }
 
     /**
