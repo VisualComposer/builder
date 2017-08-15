@@ -33,7 +33,7 @@ class ActivationController extends Container implements Module
      */
     public function __construct()
     {
-        if (VCV_ENV_ADDONS_ID !== 'account') {
+        if (vcvenv('VCV_ENV_ADDONS_ID') !== 'account') {
             vcapp('\VisualComposer\Modules\Account\AddonsActivationController');
         } else {
             $this->boot();
