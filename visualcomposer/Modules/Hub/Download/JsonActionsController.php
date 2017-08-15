@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class JsonActionsController extends Container implements Module
@@ -21,7 +22,7 @@ class JsonActionsController extends Container implements Module
         $this->addFilter('vcv:hub:download:json', 'processJson');
     }
 
-    protected function processJson($status, $payload)
+    protected function processJson($status, $payload, Logger $loggerHelper)
     {
         if ($status && $payload['json'] && !empty($payload['json']['actions'])) {
             $optionHelper = vchelper('Options');
@@ -49,6 +50,13 @@ class JsonActionsController extends Container implements Module
                 }
             }
         } else {
+            $loggerHelper->log(
+                __('Failed to process json', 'vcwb'),
+                [
+                    'payload' => $payload,
+                    'status' => $status,
+                ]
+            );
             $status = false;
         }
 

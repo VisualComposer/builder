@@ -15,6 +15,7 @@ use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Account\Pages\ActivationPage;
@@ -142,7 +143,8 @@ class ActivationController extends Container implements Module
         Token $tokenHelper,
         Options $optionsHelper,
         CurrentUser $currentUserHelper,
-        Filters $filterHelper
+        Filters $filterHelper,
+        Logger $loggerHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
@@ -157,10 +159,19 @@ class ActivationController extends Container implements Module
             }
         }
 
+        if (!$currentUserHelper->wpAll('manage_options')->get()) {
+            $loggerHelper->log(
+                __('You have no rights to activate plugin', 'vcwb'),
+                [
+                    'manage_options' => $currentUserHelper->wpAll('manage_options')->get(),
+                ]
+            );
+        }
+
         return false;
     }
 
-    protected function subscribeLiteVersion($status, $payload, Request $requestHelper)
+    protected function subscribeLiteVersion($status, $payload, Request $requestHelper, Logger $loggerHelper)
     {
         if ($status) {
             // This is a place where we need to make registration/activation request in account
@@ -179,6 +190,13 @@ class ActivationController extends Container implements Module
             if (wp_remote_retrieve_response_code($result) === 200) {
                 return true;
             } elseif (is_array($result)) {
+                $loggerHelper->log(
+                    __('Failed to subscribe to the lite version', 'vcwb'),
+                    [
+                        'response' => $result['body'],
+                    ]
+                );
+
                 return $result;
             }
         }
@@ -198,17 +216,21 @@ class ActivationController extends Container implements Module
         $response,
         Options $optionsHelper,
         Token $tokenHelper,
-        Request $requestHelper
+        Request $requestHelper,
+        Logger $loggerHelper
     ) {
         if (is_wp_error($response) || $response !== true) {
             header('Status: 403', true, 403);
             header('HTTP/1.0 403 Forbidden', true, 403);
+            $optionsHelper->deleteTransient('vcv:activation:request');
 
             if (is_wp_error($response)) {
                 /** @var $response \WP_Error */
                 echo json_encode(['message' => implode('. ', $response->get_error_messages())]);
             } elseif (is_array($response)) {
                 echo json_encode(['message' => $response['body']]);
+            } elseif ($loggerHelper->all()) {
+                echo json_encode(['message' => $loggerHelper->all(), 'details' => $loggerHelper->details()]);
             } else {
                 echo json_encode(['status' => false]);
             }

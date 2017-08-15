@@ -56,7 +56,19 @@ class JsonDownloadController extends Container implements Module
             if (wp_remote_retrieve_response_code($response) === 200) {
                 $result = json_decode($response['body'], true);
             }
+        } else {
+            $loggerHelper = vchelper('Logger');
+            $loggerHelper->log(
+                __('Failed read bundle json', 'vcwb'),
+                [
+                    'body' => $result['body'],
+                    'url' => $url,
+                    'wp_error' => is_wp_error($url),
+                ]
+            );
         }
+
+
 
         return $result;
     }
