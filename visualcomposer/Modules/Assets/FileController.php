@@ -62,17 +62,28 @@ class FileController extends Container implements Module
         $globalElementsBaseCss = [];
         $globalElementsAttributesCss = [];
         $globalElementsMixinsCss = [];
-        foreach ($globalElementsCssData as $postElements) {
-            if ($postElements) {
-                foreach ($postElements as $element) {
-                    $baseCssHash = wp_hash($element['baseCss']);
-                    $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
-                    $globalElementsMixinsCss[] = $element['mixinsCss'];
-                    $globalElementsAttributesCss[] = $element['attributesCss'];
+        $toRemove = [];
+        foreach ($globalElementsCssData as $postId => $postElements) {
+            if (get_post($postId)) {
+                if ($postElements) {
+                    foreach ($postElements as $element) {
+                        $baseCssHash = wp_hash($element['baseCss']);
+                        $globalElementsBaseCss[$baseCssHash] = $element['baseCss'];
+                        $globalElementsMixinsCss[] = $element['mixinsCss'];
+                        $globalElementsAttributesCss[] = $element['attributesCss'];
+                    }
                 }
+            } else {
+                $toRemove[] = $postId;
             }
         }
 
+        if (!empty($toRemove)) {
+            foreach ($toRemove as $postId) {
+                unset($globalElementsCssData[$postId]);
+            }
+            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+        }
         $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
         $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
         $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
