@@ -91,11 +91,22 @@ class FileController extends Container implements Module
         $globalCss = $optionsHelper->get('globalElementsCss', '');
         $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
             . $globalElementsMixinsCssContent . $globalCss ;
+        // Remove previous file
+        $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
+        $this->removeStaleFile($assetsHelper->getFilePath($previousCssFile));
         $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
         $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
         $response['globalBundleCssFileUrl'] = $bundleUrl;
 
         return $response;
+    }
+
+    protected function removeStaleFile($path)
+    {
+        $fileHelper = vchelper('File');
+        if (!empty($path)) {
+            $fileHelper->getFileSystem()->delete($path);
+        }
     }
 
     /**
