@@ -140,9 +140,11 @@ class FileController extends Container implements Module
         $extension = $sourceId . '.source.css';
         $assetsHelper->deleteAssetsBundles($extension);
         $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
-        unset($globalElementsCssData[ $sourceId ]);
-        $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
-        vcfilter('vcv:assets:file:generate', true);
+        if (is_array($globalElementsCssData)) {
+            unset($globalElementsCssData[ $sourceId ]);
+            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+        }
+        vcfilter('vcv:assets:file:generate', []);
 
         return true;
     }
