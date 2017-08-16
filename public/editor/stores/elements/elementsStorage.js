@@ -107,6 +107,10 @@ addStorage('elements', (storage) => {
       let rowElement = documentManager.get(element.parent)
       storage.trigger('update', rowElement.id, rowElement)
     }
+    if (element.tag === 'tab') {
+      let tabParent = documentManager.get(element.parent)
+      storage.trigger('update', tabParent.id, tabParent)
+    }
     if (!options.silent) {
       updateTimeMachine(source || 'elements')
     }
