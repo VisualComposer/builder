@@ -40,6 +40,11 @@ class UpdatesController extends Container implements Module
             'pre_set_site_transient_update_plugins',
             'checkForUpdates'
         );
+
+        $this->wpAddFilter('plugins_api', [
+            $this,
+            'changelog',
+        ]);
     }
 
     /**
@@ -87,5 +92,27 @@ class UpdatesController extends Container implements Module
         }
 
         return false;
+    }
+
+    protected function changelog($response, $action, $arg)
+    {
+        var_dump($arg);
+        if (isset($arg->slug) && $arg->slug === VCV_PLUGIN_DIRNAME) {
+            $information = new stdClass();
+            $information->name = 'Visual Composer Website Builder';
+            $information->author = 'The Visual Composer Team';
+            $information->version = '1.0';
+            $information->banners = ['high'=>vchelper('Url')->assetUrl('images/logo/visualcomposer-changelog-cover.jpg')];
+            $information->homepage = '1.0';
+            $information->requires = '1.0';
+            $information->last_updated = date('c', time());
+            $information->sections = [];
+            $information->sections['description'] = 'description';
+            $information->sections['installation'] = 'installation';
+            $information->sections['changelog'] = 'changelog';
+            $information->sections['faq'] = 'faq';
+            return $information;
+        }
+        return $response;
     }
 }
