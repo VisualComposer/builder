@@ -159,11 +159,14 @@ class ActivationController extends Container implements Module
             }
         }
 
-        if (!$currentUserHelper->wpAll('manage_options')->get()) {
+        if (!isset($token) && $optionsHelper->getTransient('vcv:activation:request')) {
+            $expirationTime = get_option('_transient_timeout_vcv-vcv:activation:request');
+            $expiresAfter = $expirationTime - time();
             $loggerHelper->log(
-                __('You have no rights to activate plugin', 'vcwb'),
+                sprintf(__('Activation failed! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter),
                 [
-                    'manage_options' => $currentUserHelper->wpAll('manage_options')->get(),
+                    'getTransient' => $optionsHelper->getTransient('vcv:activation:request'),
+                    'expiresAfter' => $expiresAfter,
                 ]
             );
         }

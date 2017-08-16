@@ -24,7 +24,7 @@ class FileController extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Assets\FileController::setData */
         $this->addFilter(
-            'vcv:dataAjax:setData',
+            'vcv:dataAjax:setData vcv:assets:file:generate',
             'generateGlobalElementsCssFile'
         );
 
@@ -68,7 +68,7 @@ class FileController extends Container implements Module
                 if ($postElements) {
                     foreach ($postElements as $element) {
                         $baseCssHash = wp_hash($element['baseCss']);
-                        $globalElementsBaseCss[$baseCssHash] = $element['baseCss'];
+                        $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
                         $globalElementsMixinsCss[] = $element['mixinsCss'];
                         $globalElementsAttributesCss[] = $element['attributesCss'];
                     }
@@ -80,7 +80,7 @@ class FileController extends Container implements Module
 
         if (!empty($toRemove)) {
             foreach ($toRemove as $postId) {
-                unset($globalElementsCssData[$postId]);
+                unset($globalElementsCssData[ $postId ]);
             }
             $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
         }
@@ -90,7 +90,7 @@ class FileController extends Container implements Module
 
         $globalCss = $optionsHelper->get('globalElementsCss', '');
         $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
-            . $globalElementsMixinsCssContent . $globalCss ;
+            . $globalElementsMixinsCssContent . $globalCss;
         // Remove previous file
         $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
         $this->removeStaleFile($assetsHelper->getFilePath($previousCssFile));
@@ -135,10 +135,16 @@ class FileController extends Container implements Module
         return $response;
     }
 
-    protected function deleteSourceAssetsFile($sourceId, Assets $assetsHelper)
+    protected function deleteSourceAssetsFile($sourceId, Assets $assetsHelper, Options $optionsHelper)
     {
         $extension = $sourceId . '.source.css';
         $assetsHelper->deleteAssetsBundles($extension);
+        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
+        if (is_array($globalElementsCssData)) {
+            unset($globalElementsCssData[ $sourceId ]);
+            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+        }
+        vcfilter('vcv:assets:file:generate', []);
 
         return true;
     }
