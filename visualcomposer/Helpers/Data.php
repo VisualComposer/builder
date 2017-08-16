@@ -63,4 +63,14 @@ class Data implements Helper
 
         return false;
     }
+
+    public function arrayColumn($array, $columnName)
+    {
+        return array_map(
+            function ($element) use ($columnName) {
+                return $element[ $columnName ];
+            },
+            $array
+        );
+    }
 }
