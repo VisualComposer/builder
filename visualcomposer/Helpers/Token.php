@@ -51,6 +51,7 @@ class Token extends Container implements Helper
             ->set('siteAuthState', '')
             ->setTransient('siteAuthToken', '')
             ->set('siteAuthRefreshToken', '')
+            ->set('vcv:activation:request', '')
             ->set('siteAuthTokenTtl', '');
 
         return true;
@@ -108,6 +109,7 @@ class Token extends Container implements Helper
      */
     public function createToken($id)
     {
+        $loggerHelper = vchelper('Logger');
         $result = wp_remote_get(
             VCV_TOKEN_URL,
             [
@@ -127,6 +129,7 @@ class Token extends Container implements Helper
             }
         }
 
+        $loggerHelper->log(__('Token generation failed', 'vcwb'), [$result['body']]);
         return false;
         //  $result = wp_remote_post(
         //      VCV_ACCOUNT_URL . '/token',

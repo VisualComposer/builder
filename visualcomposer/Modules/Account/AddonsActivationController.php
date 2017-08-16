@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
@@ -51,7 +52,8 @@ class AddonsActivationController extends ActivationController
         Token $tokenHelper,
         Options $optionsHelper,
         CurrentUser $currentUserHelper,
-        Filters $filterHelper
+        Filters $filterHelper,
+        Logger $loggerHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
@@ -62,6 +64,18 @@ class AddonsActivationController extends ActivationController
             if ($token) {
                 return $filterHelper->fire('vcv:activation:success', true, ['token' => $token]);
             }
+        }
+
+        if (!isset($token) && $optionsHelper->getTransient('vcv:activation:request')) {
+            $expirationTime = get_option('_transient_timeout_vcv-vcv:activation:request');
+            $expiresAfter = $expirationTime - time();
+            $loggerHelper->log(
+                sprintf(__('Activation failed! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter),
+                [
+                    'getTransient' => $optionsHelper->getTransient('vcv:activation:request'),
+                    'expiresAfter' => $expiresAfter,
+                ]
+            );
         }
 
         return false;

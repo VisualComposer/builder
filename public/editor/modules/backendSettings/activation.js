@@ -184,6 +184,8 @@ $(() => {
               showError(incorrectEmailFormatText, 10000)
             } else if (messageJson && messageJson.agreement) {
               showError(mustAgreeToActivateText, 10000)
+            } else if (messageJson) {
+              showError(messageJson, 10000)
             } else {
               showError(activationFailedText, 10000)
             }

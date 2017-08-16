@@ -1107,6 +1107,25 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add separator with title as decoration or visual eye-catching marker before content blocks.',
                     ],
                 ],
+                'pricingTable' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/pricingTable/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/pricingTable/pricingTable/'),
+                    'elementRealPath' => vcapp()->path('devElements/pricingTable/pricingTable/'),
+                    'assetsPath' => $urlHelper->to('devElements/pricingTable/pricingTable/public/'),
+                    'settings' => [
+                        'name' => 'Pricing Table',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/pricingTable/pricingTable/public/thumbnail-pricing-table.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/pricingTable/pricingTable/public/preview-pricing-table.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Simple filled or outline pricing table to display prices of your products or services.',
+                    ],
+                ],
                 'woocommerceTopRatedProducts' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceTopRatedProducts/public/dist/element.bundle.js'

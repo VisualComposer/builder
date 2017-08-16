@@ -1,0 +1,52 @@
+.vcv-layout-header {
+  .vcv-ui-form-input-select {
+    .vcv-ui-form-input {
+      border-right: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      flex-grow: 0;
+      min-width: 0;
+      width: @vcui-form-input-select-input-width;
+    }
+
+    .vcv-ui-form-dropdown {
+      width: @vcui-form-input-select-dropdown-width;
+      background-color: @vcui-form-input-select-dropdown-background-color;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  .vcv-ui-form-input-select-list {
+    display: flex;
+    flex-wrap: wrap;
+    border: @vcui-form-input-select-list-border;
+    border-radius: @vcui-form-input-select-list-border-radius;
+    font-size: 14px;
+    margin-top: @vcui-form-input-select-list-margin-top;
+    padding: @vcui-form-input-select-list-padding;
+  }
+
+  .vcv-ui-form-input-select-item {
+    width: @vcui-form-input-select-item-width;
+    min-height: @vcui-form-input-select-item-min-height;
+    padding: @vcui-form-input-select-item-padding;
+    cursor: pointer;
+    border-radius: @vcui-form-input-select-item-border-radius;
+
+    span {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      display: block;
+    }
+
+    &:hover {
+      background: @vcui-form-input-select-item-active-background;
+    }
+  }
+
+  .vcv-ui-form-input-select-item-active {
+    background: @vcui-form-input-select-item-active-background;
+  }
+}

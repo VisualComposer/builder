@@ -68,7 +68,8 @@ declare -a arr=(
 'woocommerceAddToCart'
 'tab'
 'tabsWithSlide'
-'simpleImageSlider'
+'simpleImageSlider',
+'pricingTable'
 )
 
 EXECDIR=`pwd`
