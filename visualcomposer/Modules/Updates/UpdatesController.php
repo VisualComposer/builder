@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use stdClass;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class UpdatesController extends Container implements Module
@@ -24,7 +25,7 @@ class UpdatesController extends Container implements Module
      */
     protected $updateVersionUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/index.html';
 
-    protected $updateChangelogUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.html';
+    protected $updateChangelogUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.json';
 
     // @codingStandardsIgnoreLine
     protected $updatePackageUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/visualcomposer.zip';
@@ -94,25 +95,62 @@ class UpdatesController extends Container implements Module
         return false;
     }
 
-    protected function changelog($response, $action, $arg)
+    protected function changelog($response, $action, $arg, Options $optionsHelper)
     {
-        var_dump($arg);
         if (isset($arg->slug) && $arg->slug === VCV_PLUGIN_DIRNAME) {
-            $information = new stdClass();
-            $information->name = 'Visual Composer Website Builder';
-            $information->author = 'The Visual Composer Team';
-            $information->version = '1.0';
-            $information->banners = ['high'=>vchelper('Url')->assetUrl('images/logo/visualcomposer-changelog-cover.jpg')];
-            $information->homepage = '1.0';
-            $information->requires = '1.0';
-            $information->last_updated = date('c', time());
-            $information->sections = [];
-            $information->sections['description'] = 'description';
-            $information->sections['installation'] = 'installation';
-            $information->sections['changelog'] = 'changelog';
-            $information->sections['faq'] = 'faq';
-            return $information;
+            $this->wpAddAction('admin_head', 'changelogAssets');
+
+            return $this->getRemoteChangelogInformation();
         }
+
         return $response;
+    }
+
+    protected function getRemoteChangelogInformation()
+    {
+        $information = [];
+        $information['name'] = 'Visual Composer Website Builder';
+        $information['author'] = '<a target="_blank" href="https://visualcomposer.io">Visual Composer</a>';
+        $information['slug'] = VCV_PLUGIN_DIRNAME;
+        $information['banners'] = ['high' => vchelper('Url')->assetUrl('images/logo/visualcomposer-changelog-cover.jpg')];
+        $information['homepage'] = 'https://visualcomposer.io';
+        $information['sections'] = [];
+        $information['sections']['description'] = __('
+<p>Visual Composer Website Builder is a perfect solution to create your WordPress site via drag and drop interface. Use content elements or predefined layouts to create any layout fast and easy.</p>
+<ul>
+<li>Use Frontend, Backend or Tree View to create structure</li>
+<li>Create responsive websites automatically</li>
+<li>Use with any WordPress theme</li>
+<li>Work with pages, posts and custom post types</li>
+<li>Access content elements and WordPress widgets</li>
+<li>Integrate any 3rd party shortcode easily</li>
+<li>Apply predefined pro quality templates</li>
+<li>Control look of elements via multiple parameters and rich design options</li>
+<li>Receive high-quality code optimized for SEO</li>
+</ul>', 'vcwb');
+        $information['sections']['Installation &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/installation/">Installation</a>';
+        $information['sections']['FAQ &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/faq/">FAQ</a>';
+
+        $response = wp_remote_get($this->updateChangelogUrl . '?v=' . VCV_VERSION);
+        if (wp_remote_retrieve_response_code($response) === 200) {
+            $changelogInformation = json_decode($response['body'], true);
+            $information = array_merge_recursive($information, $changelogInformation);
+        } else {
+            $information['sections']['changelog'] = __('Failed to get changelog', 'vcwb');
+        }
+
+        return (object)$information;
+    }
+
+    protected function changelogAssets()
+    {
+        echo <<<HTML
+        <style>
+        #plugin-information-title h2 {
+            display: none !important;
+        }
+        </style>
+HTML;
+        wp_enqueue_script('vcv:settings:script');
     }
 }
