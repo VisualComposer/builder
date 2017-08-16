@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Attribute from '../attribute'
 import options from './options'
 
-export default class Input extends Attribute {
+export default class InputSelect extends Attribute {
   selectChildren = null
   selectValues = null
 
@@ -135,6 +135,7 @@ export default class Input extends Attribute {
   }
 
   hangleLargeListClick (value) {
+    this.toggleSelect()
     this.setFieldValue('select', value)
   }
 

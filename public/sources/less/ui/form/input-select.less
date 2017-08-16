@@ -5,47 +5,48 @@
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       flex-grow: 0;
-      -webkit-box-flex-group: 0;
-      -webkit-flex-grow: 0;
       min-width: 0;
-      width: 140px;
+      width: @vcui-form-input-select-input-width;
     }
 
     .vcv-ui-form-dropdown {
-      width: 80px;
-      background-color: #f5f5f5;
+      width: @vcui-form-input-select-dropdown-width;
+      background-color: @vcui-form-input-select-dropdown-background-color;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
+  }
 
-    &-list {
-      display: flex;
-      flex-wrap: wrap;
-      border: 1px solid #d1d1d1;
-      border-radius: 3px;
-      font-size: 14px;
-      font-weight: 400;
-      margin-top: 4px;
-      padding: 5px;
+  .vcv-ui-form-input-select-list {
+    display: flex;
+    flex-wrap: wrap;
+    border: @vcui-form-input-select-list-border;
+    border-radius: @vcui-form-input-select-list-border-radius;
+    font-size: 14px;
+    margin-top: @vcui-form-input-select-list-margin-top;
+    padding: @vcui-form-input-select-list-padding;
+  }
+
+  .vcv-ui-form-input-select-item {
+    width: @vcui-form-input-select-item-width;
+    min-height: @vcui-form-input-select-item-min-height;
+    padding: @vcui-form-input-select-item-padding;
+    cursor: pointer;
+    border-radius: @vcui-form-input-select-item-border-radius;
+
+    span {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      display: block;
     }
 
-    &-item {
-      width: calc(100% / 3);
-      min-height: 35px;
-      padding: 5px 5px 5px 14px;
-      cursor: pointer;
-      border-radius: 3px;
-
-      span {
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-        display: block;
-      }
-
-      &-active, &:hover {
-        background: #eaeaea;
-      }
+    &:hover {
+      background: @vcui-form-input-select-item-active-background;
     }
+  }
+
+  .vcv-ui-form-input-select-item-active {
+    background: @vcui-form-input-select-item-active-background;
   }
 }
