@@ -96,19 +96,27 @@
 }
 
 .vcv-ui-form-button-group--attribute {
-  border: 1px solid #d0d0d0;
+  border: @vcui-button-group-attribute-border;
   .vcv-ui-form-button {
     margin: 0;
-    border-left: 1px solid #d0d0d0;
-    font-size: 8px;
+    padding: 0;
+    border: 0;
+    border-left: @vcui-button-group-attribute-border;
+    font-size: @vcui-button-group-attribute-font-size;
     font-weight: bold;
-    background: #eaeaea;
+    background: @vcui-button-group-attribute-background;
+    min-width: @vcui-button-group-attribute-size;
+    height: @vcui-button-group-attribute-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     &:first-child {
       border-left: none;
     }
     &.vcv-ui-form-button--active,
     &:hover {
-      background: #ddd;
+      background: @vcui-button-group-attribute-background-active;
     }
   }
 }
