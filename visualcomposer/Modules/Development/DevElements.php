@@ -589,6 +589,29 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Feature section divided into image and content columns. Great for representing product features or company services.',
                     ],
                 ],
+                //                'featureDescription' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/featureDescription/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/featureDescription/featureDescription/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/featureDescription/featureDescription/'),
+                //                    'assetsPath' => $urlHelper->to(
+                //                        'devElements/featureDescription/featureDescription/public/'
+                //                    ),
+                //                    'settings' => [
+                //                        'name' => 'Feature Description',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                        // @codingStandardsIgnoreLine
+                //                            'devElements/featureDescription/featureDescription/public/thumbnail-feature-description.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                        // @codingStandardsIgnoreLine
+                //                            'devElements/featureDescription/featureDescription/public/preview-feature-description.png'
+                //                        ),
+                //                        // @codingStandardsIgnoreLine
+                //                        'metaDescription' => 'Feature element with image and call to action button for further information.',
+                //                    ],
+                //                ],
                 'flickrImage' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/flickrImage/public/dist/element.bundle.js'
