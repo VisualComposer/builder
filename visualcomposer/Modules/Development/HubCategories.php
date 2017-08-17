@@ -263,6 +263,12 @@ class HubCategories extends Container implements Module
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
                 ],
+                'Feature Description' => [
+                    'title' => 'Feature Description',
+                    'elements' => ['featureDescription'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Feature.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Feature.svg'),
+                ],
             ]
         );
     }

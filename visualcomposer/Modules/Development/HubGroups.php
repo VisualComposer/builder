@@ -100,6 +100,7 @@ class HubGroups extends Container implements Module
                         'Separators',
                         'Grids',
                         'Feature section',
+                        'Feature Description'
                     ],
                 ],
                 'WooCommerce' => [
