@@ -14,6 +14,8 @@ export default class WordPressAdminControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.saveDraft = this.saveDraft.bind(this)
+    this.savePreview = this.savePreview.bind(this)
   }
 
   componentDidMount () {
@@ -39,13 +41,13 @@ export default class WordPressAdminControl extends NavbarContent {
     )
   }
 
-  saveDraft = (e) => {
+  saveDraft (e) {
     e && e.preventDefault && e.preventDefault()
     wordpressDataStorage.trigger('save', { draft: true }, 'wordpressAdminControl')
     // this.props.api.request('wordpress:data:saving', { draft: true })
   }
 
-  savePreview = (e) => {
+  savePreview (e) {
     e && e.preventDefault && e.preventDefault()
     setData('wp-preview', 'dopreview')
 
