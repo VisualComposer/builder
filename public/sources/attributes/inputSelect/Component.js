@@ -1,11 +1,9 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Attribute from '../attribute'
 import options from './options'
 
 export default class InputSelect extends Attribute {
-  selectChildren = null
-  selectValues = null
+  list = null
 
   constructor (props) {
     super(props)
@@ -19,7 +17,6 @@ export default class InputSelect extends Attribute {
   }
 
   updateState (props) {
-    this.generateSelectChildren(props)
     return {
       input: props.value.input,
       select: props.value.select,
@@ -29,8 +26,7 @@ export default class InputSelect extends Attribute {
 
   handleClick (e) {
     e && e.preventDefault()
-    let list = ReactDOM.findDOMNode(this.refs.list)
-    if (!list.contains(e.target)) {
+    if (!this.list.contains(e.target)) {
       this.toggleSelect()
     }
   }
@@ -48,7 +44,7 @@ export default class InputSelect extends Attribute {
 
   createGroup (key, groupObject, fieldKey) {
     let optionElements = []
-    let {values, label} = groupObject
+    let { values, label } = groupObject
     let labelValue = label.replace(/\s+/g, '')
     for (let key in values) {
       if (values.hasOwnProperty(key)) {
@@ -59,12 +55,13 @@ export default class InputSelect extends Attribute {
   }
 
   createOptions (key, values, fieldKey, type) {
-    let value = values[key].value
-    let label = values[key].label
+    let value = values[ key ].value
+    let label = values[ key ].label
     if (type === 'large') {
       let displayValue = value.replace('_', '')
       let itemClasses = 'vcv-ui-form-input-select-item'
-      if (this.props.value.select === value) {
+      let activeValue = this.state && this.state.select || this.props.value.select
+      if (activeValue === value) {
         itemClasses += ' vcv-ui-form-input-select-item-active'
       }
       return (
@@ -86,10 +83,10 @@ export default class InputSelect extends Attribute {
     if (!props) {
       props = this.props
     }
-    let {values} = props.options || {}
-    let {global} = props.options || {}
+    let { values } = props.options || {}
+    let { global } = props.options || {}
     if (global && (!values || !values.length)) {
-      values = window[global] || []
+      values = window[ global ] || []
     }
 
     return values
@@ -99,9 +96,9 @@ export default class InputSelect extends Attribute {
     if (!props) {
       props = this.props
     }
-    let {type} = props.options || ''
-    if (type && options[type]) {
-      return options[type]
+    let { type } = props.options || ''
+    if (type && options[ type ]) {
+      return options[ type ]
     }
     return []
   }
@@ -109,21 +106,21 @@ export default class InputSelect extends Attribute {
   generateSelectChildren (props) {
     let optionElements = []
     let defaultValues = this.getDefaultOptions(props)
-    let values = this.selectValues = [...defaultValues, ...this.getSelectOptions(props)]
-    let {fieldKey} = props
+    let values = [ ...defaultValues, ...this.getSelectOptions(props) ]
+    let { fieldKey } = props
     let type = props.options && (props.options.type === 'currency' || props.options.large) ? 'large' : 'small'
 
     for (let key in values) {
       if (values.hasOwnProperty(key)) {
-        if (values[key].hasOwnProperty('group') && type === 'small') {
-          optionElements.push(this.createGroup(key, values[key].group, fieldKey))
+        if (values[ key ].hasOwnProperty('group') && type === 'small') {
+          optionElements.push(this.createGroup(key, values[ key ].group, fieldKey))
         } else {
           optionElements.push(this.createOptions(key, values, fieldKey, type))
         }
       }
     }
 
-    this.selectChildren = optionElements
+    return optionElements
   }
 
   handleInputChange (event) {
@@ -140,8 +137,8 @@ export default class InputSelect extends Attribute {
   }
 
   setFieldValue (key, value) {
-    let {updater, fieldKey} = this.props
-    let {input, select} = this.state
+    let { updater, fieldKey } = this.props
+    let { input, select } = this.state
     let updatedValues = {
       input,
       select,
@@ -168,25 +165,40 @@ export default class InputSelect extends Attribute {
         </div>
       )
     } else {
+      let selectChildren = this.generateSelectChildren(props)
       return (
         <select
           value={this.state.select}
           onChange={this.handleDropdownChange}
           className='vcv-ui-form-dropdown'>
-          {this.selectChildren}
+          {selectChildren}
         </select>
       )
     }
   }
 
+  getList () {
+    if (this.state.openedSelect) {
+      let selectChildren = this.generateSelectChildren(this.props)
+      return (
+        <div className='vcv-ui-form-input-select-list' ref={el => { this.list = el }}>
+          {selectChildren}
+        </div>
+      )
+    } else {
+      return null
+    }
+  }
+
   render () {
-    let {input, openedSelect} = this.state
-    let {placeholder} = this.props
+    let { input } = this.state
+    let { placeholder } = this.props
     if (!placeholder && this.props.options && this.props.options.placeholder) {
       placeholder = this.props.options.placeholder
     }
 
     let Select = this.getSelect(this.props)
+    let List = this.getList()
 
     return (
       <div className='vcv-ui-form-input-select'>
@@ -200,12 +212,7 @@ export default class InputSelect extends Attribute {
           />
           {Select}
         </div>
-        {openedSelect ? (
-          <div className='vcv-ui-form-input-select-list' ref='list'>
-            {this.selectChildren}
-          </div>)
-          : null
-        }
+        {List}
       </div>
     )
   }

@@ -14,6 +14,7 @@ use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use WP_Query;
 
 class FileController extends Container implements Module
 {
@@ -58,32 +59,35 @@ class FileController extends Container implements Module
         if ($requestHelper->input('wp-preview', '') === 'dopreview') {
             return $response;
         }
-        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
+
         $globalElementsBaseCss = [];
         $globalElementsAttributesCss = [];
         $globalElementsMixinsCss = [];
-        $toRemove = [];
-        foreach ($globalElementsCssData as $postId => $postElements) {
-            if (get_post($postId)) {
-                if ($postElements) {
-                    foreach ($postElements as $element) {
+        $vcvPosts = new WP_Query(
+            [
+                'post_type' => 'any',
+                'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
+                'posts_per_page' => -1,
+                'meta_key' => VCV_PREFIX . 'globalElementsCssData',
+            ]
+        );
+
+        while ($vcvPosts->have_posts()) {
+            $vcvPosts->the_post();
+            $globalElementsCssData = get_post_meta(get_the_ID(), VCV_PREFIX . 'globalElementsCssData', true);
+            if (is_array($globalElementsCssData)) {
+                foreach ($globalElementsCssData as $element) {
+                    if ($element) {
                         $baseCssHash = wp_hash($element['baseCss']);
                         $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
                         $globalElementsMixinsCss[] = $element['mixinsCss'];
                         $globalElementsAttributesCss[] = $element['attributesCss'];
                     }
                 }
-            } else {
-                $toRemove[] = $postId;
             }
         }
+        wp_reset_postdata();
 
-        if (!empty($toRemove)) {
-            foreach ($toRemove as $postId) {
-                unset($globalElementsCssData[ $postId ]);
-            }
-            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
-        }
         $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
         $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
         $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
@@ -139,11 +143,6 @@ class FileController extends Container implements Module
     {
         $extension = $sourceId . '.source.css';
         $assetsHelper->deleteAssetsBundles($extension);
-        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
-        if (is_array($globalElementsCssData)) {
-            unset($globalElementsCssData[ $sourceId ]);
-            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
-        }
         vcfilter('vcv:assets:file:generate', []);
 
         return true;
