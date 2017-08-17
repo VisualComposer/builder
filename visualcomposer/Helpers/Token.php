@@ -129,7 +129,19 @@ class Token extends Container implements Helper
             }
         }
 
-        $loggerHelper->log(__('Token generation failed', 'vcwb'), [$result['body']]);
+        if (is_wp_error($result)) {
+            $resultDetails = $result->get_error_message();
+        } else {
+            $resultDetails = $result['body'];
+        }
+
+        $loggerHelper->log(
+            __('Token generation failed', 'vcwb'),
+            [
+                'result' => $resultDetails,
+            ]
+        );
+
         return false;
         //  $result = wp_remote_post(
         //      VCV_ACCOUNT_URL . '/token',

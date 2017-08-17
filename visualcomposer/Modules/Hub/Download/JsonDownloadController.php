@@ -60,10 +60,17 @@ class JsonDownloadController extends Container implements Module
             }
         } else {
             $loggerHelper = vchelper('Logger');
+
+            if (is_wp_error($result)) {
+                $resultDetails = $result->get_error_message();
+            } else {
+                $resultDetails = $result['body'];
+            }
+
             $loggerHelper->log(
                 __('Failed read bundle json', 'vcwb'),
                 [
-                    'body' => $result['body'],
+                    'result' => $resultDetails,
                     'url' => $url,
                     'wp_error' => is_wp_error($url),
                 ]
