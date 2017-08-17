@@ -49,11 +49,11 @@ class Token extends Container implements Helper
             ->set('siteId', '')
             ->set('siteSecret', '')
             ->set('siteAuthState', '')
-            ->setTransient('siteAuthToken', '')
+            ->deleteTransient('siteAuthToken')
             ->set('siteAuthRefreshToken', '')
             ->set('vcv:activation:request', '')
             ->set('siteAuthTokenTtl', '')
-            ->set('vcv:hub:download:json', '');
+            ->deleteTransient('vcv:hub:download:json');
 
         return true;
     }
