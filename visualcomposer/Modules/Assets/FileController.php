@@ -75,7 +75,7 @@ class FileController extends Container implements Module
         while ($vcvPosts->have_posts()) {
             $vcvPosts->the_post();
             $globalElementsCssData = get_post_meta(get_the_ID(), VCV_PREFIX . 'globalElementsCssData', true);
-            if(is_array($globalElementsCssData)){
+            if (is_array($globalElementsCssData)) {
                 foreach ($globalElementsCssData as $element) {
                     if ($element) {
                         $baseCssHash = wp_hash($element['baseCss']);
