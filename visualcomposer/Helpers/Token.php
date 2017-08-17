@@ -52,7 +52,8 @@ class Token extends Container implements Helper
             ->setTransient('siteAuthToken', '')
             ->set('siteAuthRefreshToken', '')
             ->set('vcv:activation:request', '')
-            ->set('siteAuthTokenTtl', '');
+            ->set('siteAuthTokenTtl', '')
+            ->set('vcv:hub:download:json', '');
 
         return true;
     }
