@@ -14,6 +14,8 @@ export default class WordPressAdminControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.saveDraft = this.saveDraft.bind(this)
+    this.savePreview = this.savePreview.bind(this)
   }
 
   componentDidMount () {
@@ -39,13 +41,13 @@ export default class WordPressAdminControl extends NavbarContent {
     )
   }
 
-  saveDraft = (e) => {
+  saveDraft (e) {
     e && e.preventDefault && e.preventDefault()
     wordpressDataStorage.trigger('save', { draft: true }, 'wordpressAdminControl')
     // this.props.api.request('wordpress:data:saving', { draft: true })
   }
 
-  savePreview = (e) => {
+  savePreview (e) {
     e && e.preventDefault && e.preventDefault()
     setData('wp-preview', 'dopreview')
 
@@ -55,12 +57,115 @@ export default class WordPressAdminControl extends NavbarContent {
 
     if (!this.previewWindow || this.previewWindow.closed) {
       this.previewWindow = window.open(
-        window.location.href,
-        '_blank'
+        '',
+        target.dataset.href
       )
     }
     this.previewWindowTarget = target.dataset.href
 
+    let loadingView = '<style>\n' +
+      '.vcv-loading-overlay {\n' +
+      '  position: absolute;\n' +
+      '  top: 0;\n' +
+      '  left: 0;\n' +
+      '  bottom: 0;\n' +
+      '  right: 0;\n' +
+      '  overflow: hidden;\n' +
+      '  background: #fff;\n' +
+      '  display: -webkit-box;\n' +
+      '  display: -ms-flexbox;\n' +
+      '  display: flex;\n' +
+      '  -webkit-box-orient: vertical;\n' +
+      '  -webkit-box-direction: normal;\n' +
+      '      -ms-flex-direction: column;\n' +
+      '          flex-direction: column;\n' +
+      '  -webkit-box-pack: center;\n' +
+      '      -ms-flex-pack: center;\n' +
+      '          justify-content: center;\n' +
+      '}\n' +
+      '.vcv-loading-overlay-inner {\n' +
+      '  display: -webkit-box;\n' +
+      '  display: -ms-flexbox;\n' +
+      '  display: flex;\n' +
+      '  -webkit-box-orient: vertical;\n' +
+      '  -webkit-box-direction: normal;\n' +
+      '      -ms-flex-direction: column;\n' +
+      '          flex-direction: column;\n' +
+      '  -ms-flex-line-pack: center;\n' +
+      '      align-content: center;\n' +
+      '  -webkit-box-align: center;\n' +
+      '      -ms-flex-align: center;\n' +
+      '          align-items: center;\n' +
+      '}\n' +
+      '.vcv-loading-dots-container {\n' +
+      '  width: 60px;\n' +
+      '  height: 60px;\n' +
+      '  text-align: center;\n' +
+      '  -webkit-animation: vcvDotsRotate 2s infinite linear;\n' +
+      '          animation: vcvDotsRotate 2s infinite linear;\n' +
+      '}\n' +
+      '.vcv-loading-dots-container .vcv-loading-dot {\n' +
+      '  width: 60%;\n' +
+      '  height: 60%;\n' +
+      '  display: inline-block;\n' +
+      '  position: absolute;\n' +
+      '  top: 0;\n' +
+      '  background-color: #eee;\n' +
+      '  border-radius: 100%;\n' +
+      '  -webkit-animation: vcvDotsBounce 2s infinite ease-in-out;\n' +
+      '          animation: vcvDotsBounce 2s infinite ease-in-out;\n' +
+      '}\n' +
+      '.vcv-loading-dots-container .vcv-loading-dot-2 {\n' +
+      '  top: auto;\n' +
+      '  bottom: 0;\n' +
+      '  -webkit-animation-delay: -1s;\n' +
+      '          animation-delay: -1s;\n' +
+      '}\n' +
+      '@-webkit-keyframes vcvDotsRotate {\n' +
+      '  100% {\n' +
+      '    -webkit-transform: rotate(360deg);\n' +
+      '            transform: rotate(360deg);\n' +
+      '  }\n' +
+      '}\n' +
+      '@keyframes vcvDotsRotate {\n' +
+      '  100% {\n' +
+      '    -webkit-transform: rotate(360deg);\n' +
+      '            transform: rotate(360deg);\n' +
+      '  }\n' +
+      '}\n' +
+      '@-webkit-keyframes vcvDotsBounce {\n' +
+      '  0%,\n' +
+      '  100% {\n' +
+      '    -webkit-transform: scale(0);\n' +
+      '            transform: scale(0);\n' +
+      '  }\n' +
+      '  50% {\n' +
+      '    -webkit-transform: scale(1);\n' +
+      '            transform: scale(1);\n' +
+      '  }\n' +
+      '}\n' +
+      '@keyframes vcvDotsBounce {\n' +
+      '  0%,\n' +
+      '  100% {\n' +
+      '    -webkit-transform: scale(0);\n' +
+      '            transform: scale(0);\n' +
+      '  }\n' +
+      '  50% {\n' +
+      '    -webkit-transform: scale(1);\n' +
+      '            transform: scale(1);\n' +
+      '  }\n' +
+      '}\n' +
+      '</style>\n' +
+      '<div class="vcv-loading-overlay">\n' +
+      '                        <div class="vcv-loading-overlay-inner">\n' +
+      '                            <div class="vcv-loading-dots-container">\n' +
+      '                                <div class="vcv-loading-dot vcv-loading-dot-1"></div>\n' +
+      '                                <div class="vcv-loading-dot vcv-loading-dot-2"></div>\n' +
+      '                            </div>\n' +
+      '                        </div>\n' +
+      '                    </div>'
+
+    this.previewWindow.document.write(loadingView)
     wordpressDataStorage.trigger('save', { inherit: true }, 'wordpressAdminControl')
   }
 

@@ -51,6 +51,7 @@ class Token extends Container implements Helper
             ->set('siteAuthState', '')
             ->setTransient('siteAuthToken', '')
             ->set('siteAuthRefreshToken', '')
+            ->set('vcv:activation:request', '')
             ->set('siteAuthTokenTtl', '');
 
         return true;
@@ -108,6 +109,7 @@ class Token extends Container implements Helper
      */
     public function createToken($id)
     {
+        $loggerHelper = vchelper('Logger');
         $result = wp_remote_get(
             VCV_TOKEN_URL,
             [
@@ -126,6 +128,23 @@ class Token extends Container implements Helper
                 return $token;
             }
         }
+
+        $message = __('Token generation failed. ', 'vcwb');
+        if (is_wp_error($result)) {
+            $resultDetails = $result->get_error_message();
+            if ("http_request_failed" === $result->get_error_code()) {
+                $message.= __('Possibly the process exceeded the timeout of 5 seconds', 'vcwb');
+            }
+        } else {
+            $resultDetails = $result['body'];
+        }
+
+        $loggerHelper->log(
+            $message,
+            [
+                'result' => $resultDetails,
+            ]
+        );
 
         return false;
         //  $result = wp_remote_post(

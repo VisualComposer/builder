@@ -70,6 +70,7 @@ declare -a arr=(
 'tabsWithSlide'
 'simpleImageSlider'
 'featureDescription'
+'pricingTable'
 )
 
 EXECDIR=`pwd`

@@ -94,3 +94,33 @@
     &:extend(.vcv-ui-form-button--action all);
   }
 }
+
+.vcv-ui-form-button-group--attribute {
+  border: @vcui-button-group-attribute-border;
+  .vcv-ui-form-button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-left: @vcui-button-group-attribute-border;
+    font-size: @vcui-button-group-attribute-font-size;
+    font-weight: bold;
+    background: @vcui-button-group-attribute-background;
+    min-width: @vcui-button-group-attribute-size;
+    height: @vcui-button-group-attribute-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:first-child {
+      border-left: none;
+    }
+    &.vcv-ui-form-button--active,
+    &:hover {
+      background: @vcui-button-group-attribute-background-active;
+    }
+
+    .vcv-ui-icon-attribute {
+      font-size: @vcui-button-group-attribute-icon-font-size;
+    }
+  }
+}

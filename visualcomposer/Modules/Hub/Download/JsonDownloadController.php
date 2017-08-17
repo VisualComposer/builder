@@ -21,7 +21,9 @@ class JsonDownloadController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:activation:success', 'prepareJsonDownload');
+        if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
+            $this->addFilter('vcv:activation:success', 'prepareJsonDownload');
+        }
     }
 
     protected function prepareJsonDownload(
@@ -56,7 +58,26 @@ class JsonDownloadController extends Container implements Module
             if (wp_remote_retrieve_response_code($response) === 200) {
                 $result = json_decode($response['body'], true);
             }
+        } else {
+            $loggerHelper = vchelper('Logger');
+
+            if (is_wp_error($result)) {
+                $resultDetails = $result->get_error_message();
+            } else {
+                $resultDetails = $result['body'];
+            }
+
+            $loggerHelper->log(
+                __('Failed read bundle json', 'vcwb'),
+                [
+                    'result' => $resultDetails,
+                    'url' => $url,
+                    'wp_error' => is_wp_error($url),
+                ]
+            );
         }
+
+
 
         return $result;
     }

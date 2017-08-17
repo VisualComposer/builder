@@ -21,6 +21,9 @@ class EnqueueController extends Container implements Module
 
     public function __construct()
     {
+        // TODO: Remove this in upcoming versions
+        $this->wpAddAction('init', 'getGlobalCssFromOptions');
+
         $actionPriority = 50;
         $requestHelper = vchelper('Request');
         if ($requestHelper->input('preview', '') === 'true') {
@@ -169,5 +172,68 @@ class EnqueueController extends Container implements Module
         $output .= ' data-vcv-no-js="true" ';
 
         return $output;
+    }
+
+    /**
+     * Add backward compatible for global css data
+     */
+    protected function getGlobalCssFromOptions()
+    {
+        $optionsHelper = vchelper('Options');
+        $assetsHelper = vchelper('Assets');
+
+        $globalElementsCssDataUpdated = $optionsHelper->get('globalElementsCssDataUpdated');
+        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
+
+        if ('1' !== $globalElementsCssDataUpdated && $globalElementsCssData && is_array($globalElementsCssData)) {
+            $globalElementsBaseCss = [];
+            $globalElementsAttributesCss = [];
+            $globalElementsMixinsCss = [];
+            $toRemove = [];
+
+            foreach ($globalElementsCssData as $postId => $postElements) {
+                if (get_post($postId)) {
+                    if ($postElements) {
+                        foreach ($postElements as $element) {
+                            $baseCssHash = wp_hash($element['baseCss']);
+                            $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
+                            $globalElementsMixinsCss[] = $element['mixinsCss'];
+                            $globalElementsAttributesCss[] = $element['attributesCss'];
+                        }
+                        update_post_meta($postId, VCV_PREFIX . 'globalElementsCssData', $postElements);
+                    }
+                } else {
+                    $toRemove[] = $postId;
+                }
+            }
+
+            if (!empty($toRemove)) {
+                foreach ($toRemove as $postId) {
+                    unset($globalElementsCssData[ $postId ]);
+                }
+                $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+            }
+            $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
+            $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
+            $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
+
+            $globalCss = $optionsHelper->get('globalElementsCss', '');
+            $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
+                . $globalElementsMixinsCssContent . $globalCss;
+            // Remove previous file
+            $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
+            $this->removeStaleFile($assetsHelper->getFilePath($previousCssFile));
+            $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
+            $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
+            $optionsHelper->set('globalElementsCssDataUpdated', '1');
+        }
+    }
+
+    protected function removeStaleFile($path)
+    {
+        $fileHelper = vchelper('File');
+        if (!empty($path)) {
+            $fileHelper->getFileSystem()->delete($path);
+        }
     }
 }

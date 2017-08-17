@@ -89,13 +89,32 @@
       "icon": "[publicPath]/icons/Column.svg",
       "iconDark": "[publicPath]/icons-dark/Column.svg"
     },
+    "Tabs": {
+      "title": "Tabs",
+      "elements": [
+        "tabsWithSlide"
+      ],
+      "icon": "[publicPath]/icons/Container.svg",
+      "iconDark": "[publicPath]/icons-dark/Container.svg"
+    },
+    "Tab": {
+      "title": "Tab",
+      "elements": [
+        "tab"
+      ],
+      "icon": "[publicPath]/icons/Container.svg",
+      "iconDark": "[publicPath]/icons-dark/Container.svg"
+    },
     "Button": {
       "title": "Simple Button",
       "elements": [
         "basicButton",
         "basicButtonIcon",
         "outlineButton",
-        "outlineButtonIcon"
+        "outlineButtonIcon",
+        "gradientButton",
+        "animatedOutlineButton",
+        "doubleOutlineButton"
       ],
       "icon": "[publicPath]/icons/Button.svg",
       "iconDark": "[publicPath]/icons-dark/Button.svg"
@@ -140,6 +159,14 @@
       "icon": "[publicPath]/icons/Icon.svg",
       "iconDark": "[publicPath]/icons-dark/Icon.svg"
     },
+    "Image Slider" : {
+      "title": "Image Slider",
+      "elements": [
+        "simpleImageSlider"
+      ],
+      "icon": "[publicPath]/icons/Image-Slider.svg",
+      "iconDark": "[publicPath]/icons-dark/Image-Slider.svg"
+    },
     "Single image": {
       "title": "Single Image",
       "elements": [
@@ -170,13 +197,18 @@
       "title": "Misc",
       "elements": [
         "rawHtml",
-        "rawJs",
-        "shortcode",
-        "messageBox",
-        "flipBox"
+        "rawJs"
       ],
       "icon": "[publicPath]/icons/Misc.svg",
       "iconDark": "[publicPath]/icons-dark/Misc.svg"
+    },
+    "Pricing table" : {
+      "title": "Pricing Table",
+      "elements": [
+        "pricingTable"
+      ],
+      "icon": "[publicPath]/icons/Pricing-Table.svg",
+      "iconDark": "[publicPath]/icons-dark/Pricing-Table.svg"
     },
     "Social": {
       "title": "Social",
@@ -203,9 +235,10 @@
       "icon": "[publicPath]/icons/Video.svg",
       "iconDark": "[publicPath]/icons-dark/Video.svg"
     },
-    "WP Widgets": {
-      "title": "WP Widgets",
+    "WordPress": {
+      "title": "WordPress",
       "elements": [
+        "shortcode",
         "wpWidgetsCustom",
         "wpWidgetsDefault"
       ],
@@ -238,6 +271,22 @@
       ],
       "icon": "[publicPath]/icons/Toggle.svg",
       "iconDark": "[publicPath]/icons-dark/Toggle.svg"
+    },
+    "Message Box" : {
+      "title": "Message Box",
+      "elements": [
+        "messageBox"
+      ],
+      "icon": "[publicPath]/icons/Message-Box.svg",
+      "iconDark": "[publicPath]/icons-dark/Message-Box.svg"
+    },
+    "Hover Box" : {
+      "title": "Hover Box",
+      "elements": [
+        "flipBox"
+      ],
+      "icon": "[publicPath]/icons/Hover-Box.svg",
+      "iconDark": "[publicPath]/icons-dark/Hover-Box.svg"
     },
     "WooCommerce": {
       "title": "WooCommerce",
@@ -333,10 +382,10 @@
         "Social"
       ]
     },
-    "Wordpress": {
-      "title": "Wordpress",
+    "WordPress": {
+      "title": "WordPress",
       "categories": [
-        "Wordpress"
+        "WordPress"
       ]
     },
     "Content": {
