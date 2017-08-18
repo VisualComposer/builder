@@ -16,7 +16,7 @@ export default class EditFormSection extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isActive: false,
+      isActive: true,
       sectionDependenciesClasses: [],
       contentEnd: document.getElementById('vcv-editor-end')
     }
@@ -24,9 +24,6 @@ export default class EditFormSection extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.tab.index === this.props.activeTabIndex) {
-      this.toggleSection()
-    }
     this.props.setFieldMount(this.props.tab.fieldKey, {
       ref: this.refs[ 'section' ],
       refComponent: this,
