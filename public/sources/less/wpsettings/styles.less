@@ -20,7 +20,7 @@
   justify-content: center;
   word-wrap: break-word;
   background: @vcv-popupOverlayBackground;
-  z-index: 10000;
+  z-index: 100000;
 
   &--hidden {
     opacity: 0;
@@ -102,6 +102,10 @@
     overflow: visible;
     opacity: 1;
     transition: 1s opacity;
+  }
+
+  .vcv-popup-close-button {
+    display: none;
   }
 }
 

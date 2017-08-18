@@ -130,10 +130,11 @@ class Token extends Container implements Helper
             }
         }
 
-        $message = __('Token generation failed. ', 'vcwb');
+        $message = __('Token generation failed', 'vcwb');
         if (is_wp_error($result)) {
             $resultDetails = $result->get_error_message();
             if ("http_request_failed" === $result->get_error_code()) {
+                $message.= '. ';
                 $message.= __('Possibly the process exceeded the timeout of 5 seconds', 'vcwb');
             }
         } else {
