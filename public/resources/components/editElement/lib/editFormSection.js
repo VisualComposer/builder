@@ -36,7 +36,7 @@ export default class EditFormSection extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    this.checkSectionPosition()
+    this.checkSectionPosition(prevState)
     workspaceStorage.state('scrollbarSettings').set({ checkHeight: true })
   }
 
@@ -47,11 +47,11 @@ export default class EditFormSection extends React.Component {
   /**
    * Set workspace storage state to scroll edit form if section content is below the fold
    */
-  checkSectionPosition () {
+  checkSectionPosition (prevState) {
     const { isActive } = this.state
     const headerRect = this.sectionHeader.getBoundingClientRect()
     const headerOffset = this.sectionHeader.offsetTop + headerRect.height
-    if (isActive) {
+    if (!prevState.isActive && isActive) {
       // will scroll to top
       workspaceStorage.state('scrollbarSettings').set({ scroll: headerOffset - headerRect.height })
       // will scroll 50px to bottom
