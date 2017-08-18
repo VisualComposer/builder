@@ -137,7 +137,7 @@ export default class DOMElement {
     return this
   }
   get dragHandler () {
-    return this.options.handler ? this.handler : this.node
+    return this.options.handler && this.handler ? this.handler : this.node
   }
   get tag () {
     return this.options.tag
