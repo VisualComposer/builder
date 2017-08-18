@@ -5,6 +5,7 @@ import './sources/css/wordpress.less'
 import './config/variables'
 import './config/wpbackend-services'
 import './config/wpbackend-attributes'
+import publicAPI from './resources/api/publicAPI'
 
 const $ = require('expose?$!jquery')
 $(() => {
@@ -48,3 +49,5 @@ $(() => {
 if (vcCake.env('debug') === true) {
   window.app = vcCake
 }
+
+window.vcv = publicAPI

@@ -1,4 +1,4 @@
-import { getService, getStorage } from 'vc-cake'
+import {getService, getStorage} from 'vc-cake'
 const cook = getService('cook')
 const backendAssetsStorage = getStorage('assetsBackend')
 
@@ -88,7 +88,7 @@ export default class CssBuilder {
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data.tag)
     this.doJobs().then(() => {
-      // this.window.vcv.trigger('ready', 'add', data.id)
+      window.vcv.trigger('ready', 'add', data.id)
     })
   }
 
@@ -100,7 +100,7 @@ export default class CssBuilder {
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.doJobs().then(() => {
-     // this.window.vcv.trigger('ready', 'update', id)
+      window.vcv.trigger('ready', 'update', data.id)
     })
   }
 
@@ -109,7 +109,7 @@ export default class CssBuilder {
     this.removeCssElementBaseByElement(tag)
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
-    // this.window.vcv.trigger('ready', 'destroy', id)
+    window.vcv.trigger('ready', 'destroy', id)
   }
 
   updateStyleDomNodes (data) {
@@ -163,7 +163,7 @@ export default class CssBuilder {
   }
 
   addElementFiles (tag) {
-    let cookElement = cook.get({tag: tag})
+    let cookElement = cook.get({ tag: tag })
     let elementAssetsFiles = this.elementAssetsLibrary.getBackendEditorAssetsFilesByElement(cookElement)
     const doc = this.window.document
     elementAssetsFiles.cssBundles.forEach((file) => {
