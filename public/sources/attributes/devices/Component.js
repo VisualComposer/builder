@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import Attribute from '../attribute'
 import Dropdown from '../dropdown/Component'
 
-class Devices extends Attribute {
+export default class Devices extends Attribute {
   constructor (props) {
     super(props)
 
@@ -96,7 +96,7 @@ class Devices extends Attribute {
       customDevices.forEach((device) => {
         let classes = classNames({
           'vcv-ui-form-button': true,
-          'vcv-ui-state--active': this.state.value === device.value
+          'vcv-ui-form-button--active': this.state.value === device.value
         })
         let icon = classNames([
           'vcv-ui-form-button-icon',
@@ -116,7 +116,7 @@ class Devices extends Attribute {
       returnData = (
         <div className='vcv-ui-col vcv-ui-col--fixed-width'>
           <div className='vcv-ui-form-group'>
-            <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--action vcv-ui-form-devices'>
+            <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--attribute vcv-ui-form-devices'>
               {devices}
             </div>
           </div>
@@ -148,5 +148,3 @@ class Devices extends Attribute {
     )
   }
 }
-
-export default Devices
