@@ -208,7 +208,7 @@ $(() => {
 
     $(document.body).on('click', function (e) {
       var $el = $(e.target)
-      if (($el.closest('.vcv-loading-screen--active').length || $el.is('.vcv-loading-screen--active')) || ($el.closest('.vcv-popup').length || $el.is('.vcv-popup'))) {
+      if ($el.closest('.vcv-loading-screen--active').length || $el.is('.vcv-loading-screen--active') || $el.closest('.vcv-popup').length || $el.is('.vcv-popup')) {
         return
       } else {
         window.location.href = 'index.php'
