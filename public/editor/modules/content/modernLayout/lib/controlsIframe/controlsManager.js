@@ -299,7 +299,7 @@ export default class ControlsManager {
   interactWithTree () {
     workspaceStorage.state('userInteractWith').onChange((id = false) => {
       if (id && this.state.showOutline) {
-        let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
+        let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`)
         if (element) {
           this.outline.show(element, id)
         }
@@ -404,7 +404,7 @@ export default class ControlsManager {
       if (data && data.type === 'mouseEnter') {
         if (this.state.showOutline) {
           // show outline over content element
-          let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]`)
+          let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
           if (contentElement) {
             this.outline.show(contentElement, data.vcElementId)
           }
@@ -488,7 +488,7 @@ export default class ControlsManager {
       }
     })
     elementsToShow = elementsToShow.map((id) => {
-      let selector = `[data-vcv-element="${id}"]`
+      let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
       return this.iframeDocument.querySelector(selector)
     })
     elementsToShow = elementsToShow.filter((el) => {
@@ -508,7 +508,7 @@ export default class ControlsManager {
       elementsToShow.push(child.id)
     })
     elementsToShow = elementsToShow.map((id) => {
-      let selector = `[data-vcv-element="${id}"]`
+      let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
       return this.iframeDocument.querySelector(selector)
     })
     elementsToShow = elementsToShow.filter((el) => {
@@ -531,7 +531,7 @@ export default class ControlsManager {
    * @param id
    */
   showFramesOnOneElement (id) {
-    const selector = `[data-vcv-element="${id}"]`
+    const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
     let elementsToShow = []
     elementsToShow.push(this.iframeDocument.querySelector(selector))
     this.frames.show({ path: elementsToShow })
