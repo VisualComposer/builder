@@ -43,7 +43,6 @@ export default class Scrollbar extends React.Component {
   }
 
   scrollTop (top) {
-    console.log(this.refs.scrollbars)
     return this.refs.scrollbars.scrollTop(top)
   }
 
