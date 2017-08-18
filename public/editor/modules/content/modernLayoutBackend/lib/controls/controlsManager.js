@@ -238,7 +238,7 @@ export default class ControlsManager {
   interactWithTree () {
     workspaceStorage.state('userInteractWith').onChange((id = false) => {
       if (id && this.state.showOutline) {
-        let element = this.iframeContainer.querySelector(`[data-vcv-element="${id}"]`)
+        let element = this.iframeContainer.querySelector(`[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`)
         if (element) {
           this.outline.show(element, id)
         }
@@ -246,19 +246,6 @@ export default class ControlsManager {
         this.outline.hide()
       }
     })
-    /*
-     this.api.reply('treeContent:element:mouseEnter', (id) => {
-     if (this.state.showOutline) {
-     let element = this.iframeContainer.querySelector(`[data-vcv-element="${id}"]`)
-     if (element) {
-     this.outline.show(element)
-     }
-     }
-     })
-     this.api.reply('treeContent:element:mouseLeave', () => {
-     this.outline.hide()
-     })
-     */
   }
 
   /**
@@ -405,7 +392,7 @@ export default class ControlsManager {
              })
              */
             // show outline over content element
-            let contentElement = this.iframeContainer.querySelector(`[data-vcv-element="${element}"]`)
+            let contentElement = this.iframeContainer.querySelector(`[data-vcv-element="${element}"]:not([data-vcv-interact-with-controls="false"])`)
             if (contentElement) {
               this.outline.show(contentElement, element)
             }

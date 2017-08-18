@@ -196,9 +196,11 @@ class EnqueueController extends Container implements Module
                     if ($postElements) {
                         foreach ($postElements as $element) {
                             $baseCssHash = wp_hash($element['baseCss']);
+                            $mixinsCssHash = wp_hash($element['mixinsCss']);
+                            $attributesCssHash = wp_hash($element['attributesCss']);
                             $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
-                            $globalElementsMixinsCss[] = $element['mixinsCss'];
-                            $globalElementsAttributesCss[] = $element['attributesCss'];
+                            $globalElementsMixinsCss[ $mixinsCssHash ] = $element['mixinsCss'];
+                            $globalElementsAttributesCss[ $attributesCssHash ] = $element['attributesCss'];
                         }
                         update_post_meta($postId, VCV_PREFIX . 'globalElementsCssData', $postElements);
                     }

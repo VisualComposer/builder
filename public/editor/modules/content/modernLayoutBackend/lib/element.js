@@ -26,6 +26,11 @@ export default class Element extends React.Component {
     this.dataUpdate = this.dataUpdate.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    assetsStorage.trigger('updateElement', this.state.element.id)
+    this.setState({ element: nextProps.element })
+  }
+
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
@@ -106,6 +111,7 @@ export default class Element extends React.Component {
     if (el.get('backendView') === 'frontend') {
       return <ContentComponent
         id={id}
+        isBackend={'true'}
         key={'vcvLayoutContentComponent' + id}
         atts={this.visualizeAttributes(el)}
         editor={editor}
