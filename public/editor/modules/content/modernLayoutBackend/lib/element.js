@@ -106,6 +106,7 @@ export default class Element extends React.Component {
     if (el.get('backendView') === 'frontend') {
       return <ContentComponent
         id={id}
+        isBackend={'true'}
         key={'vcvLayoutContentComponent' + id}
         atts={this.visualizeAttributes(el)}
         editor={editor}
