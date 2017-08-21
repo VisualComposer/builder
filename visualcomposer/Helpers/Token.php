@@ -138,7 +138,11 @@ class Token extends Container implements Helper
                 $message.= __('Possibly the process exceeded the timeout of 5 seconds', 'vcwb');
             }
         } else {
-            $resultDetails = $result['body'];
+        	// @codingStandardsIgnoreLine
+            $resultDetails = @json_decode($result['body'], 1);
+            if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                $message = $resultDetails['message'];
+            }
         }
 
         $loggerHelper->log(

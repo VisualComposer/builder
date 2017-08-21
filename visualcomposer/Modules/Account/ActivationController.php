@@ -171,6 +171,10 @@ class ActivationController extends Container implements Module
             );
         }
 
+        if ($tokenHelper->isSiteAuthorized()) {
+            return true;
+        }
+
         return false;
     }
 
