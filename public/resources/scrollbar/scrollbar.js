@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
-import { Scrollbars } from 'react-custom-scrollbars'
-import { getStorage } from 'vc-cake'
+import {Scrollbars} from 'react-custom-scrollbars'
+import {getStorage} from 'vc-cake'
 
 const workspaceStorage = getStorage('workspaceStorage')
 
@@ -19,6 +19,12 @@ export default class Scrollbar extends React.Component {
   }
 
   componentDidMount () {
+    let { scroll } = workspaceStorage.state('scrollbarSettings').get() || {}
+    if (scroll) {
+      this.handleEditFormStateChange({
+        scroll
+      })
+    }
     workspaceStorage.state('scrollbarSettings').onChange(this.handleEditFormStateChange)
   }
 
