@@ -146,11 +146,12 @@ class ActivationController extends Container implements Module
         Filters $filterHelper,
         Logger $loggerHelper
     ) {
+
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
         ) {
-            $optionsHelper->setTransient('vcv:activation:request', 1, 60);
+            $optionsHelper->setTransient('vcv:activation:request', $_SERVER['REQUEST_TIME'], 60);
             $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
             $optionsHelper->set('hubTokenId', $id);
             $token = $tokenHelper->createToken($id);
@@ -178,9 +179,12 @@ class ActivationController extends Container implements Module
         return false;
     }
 
-    protected function subscribeLiteVersion($status, $payload, Request $requestHelper, Logger $loggerHelper)
+    protected function subscribeLiteVersion($status, $payload, Request $requestHelper, Logger $loggerHelper, Options $optionsHelper)
     {
         if ($status) {
+            if ($optionsHelper->getTransient('vcv:activation:request')) {
+                return true;
+            }
             // This is a place where we need to make registration/activation request in account
             $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
             $result = wp_remote_get(
@@ -195,6 +199,8 @@ class ActivationController extends Container implements Module
                 ]
             );
             if (wp_remote_retrieve_response_code($result) === 200) {
+                // Register in options subscribe request time for future request.
+                $optionsHelper->setTransient('vcv:activation:subscribe', 1, 600);
                 return true;
             } elseif (is_array($result)) {
                 $loggerHelper->log(
@@ -229,7 +235,11 @@ class ActivationController extends Container implements Module
         if (is_wp_error($response) || $response !== true) {
             header('Status: 403', true, 403);
             header('HTTP/1.0 403 Forbidden', true, 403);
-            $optionsHelper->deleteTransient('vcv:activation:request');
+
+            $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
+            if ($currentTransient && $currentTransient === $_SERVER['REQUEST_TIME']) {
+                $optionsHelper->deleteTransient('vcv:activation:request');
+            }
 
             if (is_wp_error($response)) {
                 /** @var $response \WP_Error */

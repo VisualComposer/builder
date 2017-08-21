@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Logger;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class JsonActionsController extends Container implements Module
@@ -22,7 +23,7 @@ class JsonActionsController extends Container implements Module
         $this->addFilter('vcv:hub:download:json', 'processJson');
     }
 
-    protected function processJson($status, $payload, Logger $loggerHelper)
+    protected function processJson($status, $payload, Logger $loggerHelper, Options $optionsHelper)
     {
         if ($status && $payload['json'] && !empty($payload['json']['actions'])) {
             $optionHelper = vchelper('Options');
@@ -33,6 +34,7 @@ class JsonActionsController extends Container implements Module
                     $action = $value['action'];
                     $data = $value['data'];
                     $version = $value['version'];
+                    $optionsHelper->setTransient('vcv:activation:request', $_SERVER['REQUEST_TIME'], 60);
                     $previousVersion = $optionHelper->get('hubAction' . $action, '0');
                     $status = $this->proccessAction(
                         $status,
