@@ -157,9 +157,13 @@ export default class InputSelect extends Attribute {
     }
     if (props.options && (props.options.type === 'currency' || props.options.large)) {
       let displayValue = this.state.select.replace('_', '')
+      let classNames = 'vcv-ui-form-dropdown'
+      if (this.state.openedSelect) {
+        classNames += ' vcv-ui-form-state--focus'
+      }
       return (
         <div
-          className='vcv-ui-form-dropdown'
+          className={classNames}
           onClick={this.toggleSelect}>
           {displayValue}
         </div>
