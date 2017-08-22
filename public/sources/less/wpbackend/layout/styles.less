@@ -82,6 +82,7 @@
       left: 0;
       width: 100%;
       height: @vcv-wpbackend-element-header-size;
+      z-index: @vcv-wpbackend-element-header-overlay-z-index;
       cursor: pointer;
     }
   }
@@ -92,6 +93,11 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: @vcv-wpbackend-element-name-wrapper-margin;
+  }
+
+  &-name-container-editable {
+    white-space: normal;
+    text-overflow: initial;
   }
 
   &-icon {
@@ -152,6 +158,21 @@
         border-top: none;
       }
     }
+  }
+
+  &-name {
+    position: relative;
+    z-index: 2;
+  }
+
+  &-name-icon {
+    position: relative;
+    z-index: 2;
+    width: 30px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 12px;
   }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getService, getStorage } from 'vc-cake'
+import {getService, getStorage} from 'vc-cake'
 
 // const categories = getService('categories')
 const hubCategoriesService = getService('hubCategories')
@@ -23,11 +23,17 @@ export default class DefaultElement extends React.Component {
       hasAttributes: true,
       element: props.element,
       activeElement: false,
-      attributeState: 'closed'
+      attributeState: 'closed',
+      content: props.element.customHeaderTitle || props.element.name,
+      editable: false
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleElementSize = this.handleElementSize.bind(this)
     this.dataUpdate = this.dataUpdate.bind(this)
+    this.enableEditable = this.enableEditable.bind(this)
+    this.validateContent = this.validateContent.bind(this)
+    this.editTitle = this.editTitle.bind(this)
+    this.preventNewLine = this.preventNewLine.bind(this)
   }
 
   // Lifecycle
@@ -58,6 +64,16 @@ export default class DefaultElement extends React.Component {
 
   dataUpdate (data) {
     this.setState({ element: data || this.props.element })
+    if (data && data.hasOwnProperty('customHeaderTitle')) {
+      let content = data.customHeaderTitle || data.name
+      if (this.state.content !== content) {
+        this.setState({
+          content
+        }, () => {
+          this.span.innerText = content
+        })
+      }
+    }
   }
 
   // Events
@@ -143,8 +159,54 @@ export default class DefaultElement extends React.Component {
     })
   }
 
+  enableEditable () {
+    this.setState({
+      editable: true
+    }, () => {
+      this.span.focus()
+    })
+  }
+
+  editTitle () {
+    this.enableEditable()
+    let range = document.createRange()
+    let selection = window.getSelection()
+    range.selectNodeContents(this.span)
+    selection.removeAllRanges()
+    selection.addRange(range)
+  }
+
+  updateContent (value) {
+    const { element } = this.props
+    element.customHeaderTitle = value
+    elementsStorage.trigger('update', element.id, element, 'editFormTitle')
+    this.setState({
+      content: value || this.props.element.name,
+      editable: false
+    }, () => {
+      if (!value) {
+        this.span.innerText = this.props.element.name
+      }
+    })
+  }
+
+  validateContent () {
+    let value = this.span.innerText.trim()
+    this.updateContent(value)
+  }
+
+  preventNewLine = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      event.nativeEvent.stopImmediatePropagation()
+      event.stopPropagation()
+      this.span.blur()
+      this.validateContent()
+    }
+  }
+
   render () {
-    const { element, hasAttributes, activeElement } = this.state
+    const { element, hasAttributes, activeElement, editable, content } = this.state
     let icon = hubCategoriesService.getElementIcon(element.tag, true)
     let attributesClasses = classNames({
       'vce-wpbackend-element-attributes-container': true,
@@ -155,6 +217,11 @@ export default class DefaultElement extends React.Component {
       'vce-wpbackend-element-arrow': true,
       'vce-wpbackend-element-arrow-closed': !activeElement,
       'vce-wpbackend-element-arrow-opened': activeElement
+    })
+
+    let nameContainerClasses = classNames({
+      'vce-wpbackend-element-name-container': true,
+      'vce-wpbackend-element-name-container-editable': editable
     })
 
     if (hasAttributes) {
@@ -174,8 +241,18 @@ export default class DefaultElement extends React.Component {
                 title={element.name}
               />
             </div>
-            <div className='vce-wpbackend-element-name-container'>
-              <span className='vce-wpbackend-element-name'>{element.name}</span>
+            <div className={nameContainerClasses}>
+              <span className='vce-wpbackend-element-name'
+                ref={span => { this.span = span }}
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onClick={this.enableEditable}
+                onKeyDown={this.preventNewLine}
+                onBlur={this.validateContent}>
+                {content}
+              </span>
+              <i className='vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit vce-wpbackend-element-name-icon'
+                onClick={this.editTitle} />
             </div>
             <div className={arrowClasses} />
             <div className='vce-wpbackend-element-header-overlay' onClick={this.handleClick} />
@@ -202,8 +279,18 @@ export default class DefaultElement extends React.Component {
               title={element.name}
             />
           </div>
-          <div className='vce-wpbackend-element-name-container'>
-            <span className='vce-wpbackend-element-name'>{element.name}</span>
+          <div className={nameContainerClasses}>
+            <span className='vce-wpbackend-element-name'
+              ref={span => { this.span = span }}
+              contentEditable={editable}
+              suppressContentEditableWarning
+              onClick={this.enableEditable}
+              onKeyDown={this.preventNewLine}
+              onBlur={this.validateContent}>
+              {content}
+            </span>
+            <i className='vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit vce-wpbackend-element-name-icon'
+              onClick={this.editTitle} />
           </div>
         </div>
       </div>

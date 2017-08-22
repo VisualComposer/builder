@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
+
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
 const documentManger = vcCake.getService('document')
@@ -36,7 +37,9 @@ export default class TreeViewElement extends React.Component {
       isActive: false,
       hasChild: false,
       showOutline: false,
-      element: props.element
+      element: props.element,
+      content: props.element.customHeaderTitle || props.element.name,
+      editable: false
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -45,17 +48,35 @@ export default class TreeViewElement extends React.Component {
     this.handleOutline = this.handleOutline.bind(this)
     this.checkActive = this.checkActive.bind(this)
     this.dataUpdate = this.dataUpdate.bind(this)
+    this.enableEditable = this.enableEditable.bind(this)
+    this.validateContent = this.validateContent.bind(this)
+    this.preventNewLine = this.preventNewLine.bind(this)
   }
+
   dataUpdate (data) {
-    this.setState({element: data || this.props.element})
+    this.setState({ element: data || this.props.element })
+    if (data) {
+      let content = data.customHeaderTitle || data.name
+      if (this.state.content !== content) {
+        this.setState({
+          content
+        }, () => {
+          this.span.innerText = content
+        })
+      }
+    }
   }
+
   componentWillReceiveProps (nextProps) {
     const newShowOutline = nextProps.showOutlineCallback(nextProps.element.id)
-    newShowOutline !== this.state.showOutline && this.setState({showOutline: newShowOutline})
+    newShowOutline !== this.state.showOutline && this.setState({ showOutline: newShowOutline })
+    // this.dataUpdate(nextProps.element)
   }
+
   componentWillMount () {
     this.checkActive(workspaceStorage.state('settings').get())
   }
+
   componentDidMount () {
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
     this.props.onMountCallback(this.state.element.id)
@@ -131,7 +152,7 @@ export default class TreeViewElement extends React.Component {
   }
 
   getContent () {
-    const {showOutlineCallback, onMountCallback, onUnmountCallback} = this.props
+    const { showOutlineCallback, onMountCallback, onUnmountCallback } = this.props
     const level = this.props.level + 1
     let elementsList = documentManger.children(this.state.element.id).map((element) => {
       return <TreeViewElement
@@ -162,7 +183,7 @@ export default class TreeViewElement extends React.Component {
     const above = elRect.bottom < 0 && elRect.top < 0
 
     if (above || below) {
-      editorEl.scrollIntoView({behavior: 'smooth'})
+      editorEl.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -212,6 +233,43 @@ export default class TreeViewElement extends React.Component {
   handleMouseLeave (e) {
     if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
       workspaceStorage.state('userInteractWith').set(false)
+    }
+  }
+
+  enableEditable () {
+    this.setState({
+      editable: true
+    }, () => {
+      this.span.focus()
+    })
+  }
+
+  updateContent (value) {
+    const { element } = this.props
+    element.customHeaderTitle = value
+    elementsStorage.trigger('update', element.id, element, 'editFormTitle')
+    this.setState({
+      content: value || this.props.element.name,
+      editable: false
+    }, () => {
+      if (!value) {
+        this.span.innerText = this.props.element.name
+      }
+    })
+  }
+
+  validateContent () {
+    let value = this.span.innerText.trim()
+    this.updateContent(value)
+  }
+
+  preventNewLine = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      event.nativeEvent.stopImmediatePropagation()
+      event.stopPropagation()
+      this.span.blur()
+      this.validateContent()
     }
   }
 
@@ -301,6 +359,13 @@ export default class TreeViewElement extends React.Component {
     let publicPath = hubCategoriesService.getElementIcon(element.get('tag'))
     let space = 0.8
 
+    let { editable, content } = this.state
+
+    let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
+    if (editable) {
+      controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
+    }
+
     return (
       <li
         className={treeChildClasses}
@@ -321,8 +386,15 @@ export default class TreeViewElement extends React.Component {
           <div className='vcv-ui-tree-layout-control-content'>
             {expandTrigger}
             <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon' alt='' /></i>
-            <span className='vcv-ui-tree-layout-control-label'>
-              <span>{element.get('name')}</span>
+            <span className={controlLabelClasses}>
+              <span ref={span => { this.span = span }}
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onClick={this.enableEditable}
+                onKeyDown={this.preventNewLine}
+                onBlur={this.validateContent}>
+                {content}
+              </span>
             </span>
             {childControls}
           </div>
