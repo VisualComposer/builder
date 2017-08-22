@@ -35,6 +35,10 @@
     max-width: 100%;
   }
 
+  .vcv-ui-form-attach-image-thumbnail img {
+    max-width: none;
+  }
+
   .vcv-layout {
     &-header {
       z-index: @vcv-wpbackend-layout-header-zindex;
@@ -289,5 +293,9 @@
 
   .vcv-start-blank-container:hover .vcv-ui-item-preview-container {
     z-index: @vcv-wpbackend-start-blank-zindex-hover;
+  }
+
+  .vcv-ui-edit-form-header {
+    border-top: 1px solid @vce-wpbackend-edit-form-header-border-top-color;
   }
 }
