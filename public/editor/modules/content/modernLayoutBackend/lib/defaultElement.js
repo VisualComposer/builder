@@ -53,6 +53,7 @@ export default class DefaultElement extends React.Component {
         this.handleElementSize()
       }, 1)
     }
+    this.dataUpdate(nextProps.element)
   }
 
   componentWillUnmount () {

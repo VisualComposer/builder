@@ -55,7 +55,7 @@ export default class TreeViewElement extends React.Component {
 
   dataUpdate (data) {
     this.setState({ element: data || this.props.element })
-    if (data) {
+    if (data && data.hasOwnProperty('customHeaderTitle')) {
       let content = data.customHeaderTitle || data.name
       if (this.state.content !== content) {
         this.setState({
@@ -70,7 +70,7 @@ export default class TreeViewElement extends React.Component {
   componentWillReceiveProps (nextProps) {
     const newShowOutline = nextProps.showOutlineCallback(nextProps.element.id)
     newShowOutline !== this.state.showOutline && this.setState({ showOutline: newShowOutline })
-    // this.dataUpdate(nextProps.element)
+    this.dataUpdate(nextProps.element)
   }
 
   componentWillMount () {
