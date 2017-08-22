@@ -113,13 +113,13 @@ export default class DefaultElement extends React.Component {
         return null
       }
       let RepresenterComponent = cookElement.settings(label).type.getRepresenter('Backend')
-      return <RepresenterComponent
+      return RepresenterComponent ? <RepresenterComponent
         key={`representer-${label}-${cookElement.get('id')}`}
         fieldKey={label}
         value={element[ label ]}
         element={cookElement.toJS()}
         {...this.props}
-      />
+      /> : null
     })
   }
 
