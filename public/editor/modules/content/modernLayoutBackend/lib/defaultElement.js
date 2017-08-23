@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getService, getStorage } from 'vc-cake'
+import vcCake, {getService, getStorage} from 'vc-cake'
 
 // const categories = getService('categories')
 const hubCategoriesService = getService('hubCategories')
@@ -23,11 +23,17 @@ export default class DefaultElement extends React.Component {
       hasAttributes: true,
       element: props.element,
       activeElement: false,
-      attributeState: 'closed'
+      attributeState: 'closed',
+      content: props.element.customHeaderTitle || props.element.name,
+      editable: false
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleElementSize = this.handleElementSize.bind(this)
     this.dataUpdate = this.dataUpdate.bind(this)
+    this.enableEditable = this.enableEditable.bind(this)
+    this.validateContent = this.validateContent.bind(this)
+    this.editTitle = this.editTitle.bind(this)
+    this.preventNewLine = this.preventNewLine.bind(this)
   }
 
   // Lifecycle
@@ -37,27 +43,37 @@ export default class DefaultElement extends React.Component {
     if (!cookElement.get('metaBackendLabels')) {
       this.setState({ hasAttributes: false })
     }
-    elementsStorage.state('element:' + this.props.element.id).onChange(this.dataUpdate)
+    // elementsStorage.state('element:' + this.props.element.id).onChange(this.dataUpdate)
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.layoutWidth !== this.props.layoutWidth) {
-      this.setState({ element: nextProps.element })
       this.receivePropsTimeout = setTimeout(() => {
         this.handleElementSize()
       }, 1)
     }
+    this.dataUpdate(nextProps.element)
   }
 
   componentWillUnmount () {
     if (this.receivePropsTimeout) {
       this.receivePropsTimeout = 0
     }
-    elementsStorage.state('element:' + this.props.element.id).ignoreChange(this.dataUpdate)
+    // elementsStorage.state('element:' + this.props.element.id).ignoreChange(this.dataUpdate)
   }
 
   dataUpdate (data) {
     this.setState({ element: data || this.props.element })
+    if (data && data.hasOwnProperty('customHeaderTitle')) {
+      let content = data.customHeaderTitle || data.name
+      if (this.state.content !== content) {
+        this.setState({
+          content
+        }, () => {
+          this.span.innerText = content
+        })
+      }
+    }
   }
 
   // Events
@@ -113,13 +129,13 @@ export default class DefaultElement extends React.Component {
         return null
       }
       let RepresenterComponent = cookElement.settings(label).type.getRepresenter('Backend')
-      return <RepresenterComponent
+      return RepresenterComponent ? <RepresenterComponent
         key={`representer-${label}-${cookElement.get('id')}`}
         fieldKey={label}
         value={element[ label ]}
         element={cookElement.toJS()}
         {...this.props}
-      />
+      /> : null
     })
   }
 
@@ -143,8 +159,55 @@ export default class DefaultElement extends React.Component {
     })
   }
 
+  enableEditable () {
+    this.setState({
+      editable: true
+    }, () => {
+      this.span.focus()
+    })
+  }
+
+  editTitle () {
+    this.enableEditable()
+    let range = document.createRange()
+    let selection = window.getSelection()
+    range.selectNodeContents(this.span)
+    selection.removeAllRanges()
+    selection.addRange(range)
+  }
+
+  updateContent (value) {
+    let element = cook.get(this.props.element)
+    element.set('customHeaderTitle', value)
+    let elementData = element.toJS()
+    elementsStorage.trigger('update', elementData.id, elementData, 'editFormTitle')
+    this.setState({
+      content: value || element.get('name'),
+      editable: false
+    }, () => {
+      if (!value) {
+        this.span.innerText = element.get('name')
+      }
+    })
+  }
+
+  validateContent () {
+    let value = this.span.innerText.trim()
+    this.updateContent(value)
+  }
+
+  preventNewLine = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      event.nativeEvent.stopImmediatePropagation()
+      event.stopPropagation()
+      this.span.blur()
+      this.validateContent()
+    }
+  }
+
   render () {
-    const { element, hasAttributes, activeElement } = this.state
+    const { element, hasAttributes, activeElement, editable, content } = this.state
     let icon = hubCategoriesService.getElementIcon(element.tag, true)
     let attributesClasses = classNames({
       'vce-wpbackend-element-attributes-container': true,
@@ -156,6 +219,36 @@ export default class DefaultElement extends React.Component {
       'vce-wpbackend-element-arrow-closed': !activeElement,
       'vce-wpbackend-element-arrow-opened': activeElement
     })
+
+    let nameContainerClasses = classNames({
+      'vce-wpbackend-element-name-container': true,
+      'vce-wpbackend-element-name-container-editable': editable
+    })
+
+    let envContent = (
+      <div className='vce-wpbackend-element-name-container'>
+        <span className='vce-wpbackend-element-name'>{element.name}</span>
+      </div>
+
+    )
+
+    if (vcCake.env('FEATURE_RENAME_ELEMENT')) {
+      envContent = (
+        <div className={nameContainerClasses}>
+          <span className='vce-wpbackend-element-name'
+            ref={span => { this.span = span }}
+            contentEditable={editable}
+            suppressContentEditableWarning
+            onClick={this.enableEditable}
+            onKeyDown={this.preventNewLine}
+            onBlur={this.validateContent}>
+            {content}
+          </span>
+          <i className='vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit vce-wpbackend-element-name-icon'
+            onClick={this.editTitle} />
+        </div>
+      )
+    }
 
     if (hasAttributes) {
       return <div
@@ -174,9 +267,7 @@ export default class DefaultElement extends React.Component {
                 title={element.name}
               />
             </div>
-            <div className='vce-wpbackend-element-name-container'>
-              <span className='vce-wpbackend-element-name'>{element.name}</span>
-            </div>
+            {envContent}
             <div className={arrowClasses} />
             <div className='vce-wpbackend-element-header-overlay' onClick={this.handleClick} />
           </div>
@@ -202,9 +293,7 @@ export default class DefaultElement extends React.Component {
               title={element.name}
             />
           </div>
-          <div className='vce-wpbackend-element-name-container'>
-            <span className='vce-wpbackend-element-name'>{element.name}</span>
-          </div>
+          {envContent}
         </div>
       </div>
     </div>

@@ -166,8 +166,13 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: @tree-gold-value / 2;
+  padding-left: @tree-gold-value / 2 + 5;
   padding-right: @tree-gold-value / 2;
+}
+
+.vcv-ui-tree-layout-control-label-editable {
+  white-space: normal;
+  text-overflow: initial;
 }
 
 .vcv-ui-tree-layout-control-icon {
