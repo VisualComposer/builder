@@ -43,12 +43,11 @@ export default class DefaultElement extends React.Component {
     if (!cookElement.get('metaBackendLabels')) {
       this.setState({ hasAttributes: false })
     }
-    elementsStorage.state('element:' + this.props.element.id).onChange(this.dataUpdate)
+    // elementsStorage.state('element:' + this.props.element.id).onChange(this.dataUpdate)
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.layoutWidth !== this.props.layoutWidth) {
-      this.setState({ element: nextProps.element })
       this.receivePropsTimeout = setTimeout(() => {
         this.handleElementSize()
       }, 1)
@@ -60,7 +59,7 @@ export default class DefaultElement extends React.Component {
     if (this.receivePropsTimeout) {
       this.receivePropsTimeout = 0
     }
-    elementsStorage.state('element:' + this.props.element.id).ignoreChange(this.dataUpdate)
+    // elementsStorage.state('element:' + this.props.element.id).ignoreChange(this.dataUpdate)
   }
 
   dataUpdate (data) {
@@ -178,15 +177,16 @@ export default class DefaultElement extends React.Component {
   }
 
   updateContent (value) {
-    const { element } = this.props
-    element.customHeaderTitle = value
-    elementsStorage.trigger('update', element.id, element, 'editFormTitle')
+    let element = cook.get(this.props.element)
+    element.set('customHeaderTitle', value)
+    let elementData = element.toJS()
+    elementsStorage.trigger('update', elementData.id, elementData, 'editFormTitle')
     this.setState({
-      content: value || this.props.element.name,
+      content: value || element.get('name'),
       editable: false
     }, () => {
       if (!value) {
-        this.span.innerText = this.props.element.name
+        this.span.innerText = element.get('name')
       }
     })
   }

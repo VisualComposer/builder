@@ -16,7 +16,7 @@ export default class Element extends React.Component {
   }
 
   // element (row/column) options to prevent applying of in the backend view
-  elementOptions = ['columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced']
+  elementOptions = [ 'columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced' ]
 
   constructor (props) {
     super(props)
@@ -57,12 +57,12 @@ export default class Element extends React.Component {
   }
 
   dataUpdate (data) {
-    this.setState({element: data || this.props.element})
+    this.setState({ element: data || this.props.element })
     assetsStorage.trigger('updateElement', this.state.element.id)
   }
 
   getContent () {
-    let {element, api, layoutWidth} = this.props
+    let { element, api, layoutWidth } = this.props
     const currentElement = cook.get(element)
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
       return <Element
@@ -83,16 +83,17 @@ export default class Element extends React.Component {
         return option === key
       })
       if (findOption) {
-        layoutAtts[key] = element.settings(findOption).settings.value
+        layoutAtts[ key ] = element.settings(findOption).settings.value
       } else {
-        layoutAtts[key] = atts[key]
+        layoutAtts[ key ] = atts[ key ]
       }
     })
     return layoutAtts
   }
 
   getOutput (el) {
-    let {element, api, layoutWidth, ...other} = this.props
+    let { api, layoutWidth, ...other } = this.props
+    let { element } = this.state
     if (!el) {
       return null
     }
@@ -105,7 +106,7 @@ export default class Element extends React.Component {
       'data-vcv-element': id
     }
     if (el.get('metaDisableInteractionInEditor')) {
-      editor['data-vcv-element-disable-interaction'] = true
+      editor[ 'data-vcv-element-disable-interaction' ] = true
     }
 
     if (el.get('backendView') === 'frontend') {
