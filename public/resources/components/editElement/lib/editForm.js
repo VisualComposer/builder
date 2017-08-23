@@ -131,7 +131,7 @@ export default class EditForm extends React.Component {
             onBlur={this.validateContent}>
             {content}
           </span>
-          <i className='vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title'
+          <i className='vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title'
             onClick={this.editTitle} />
         </div>
       )

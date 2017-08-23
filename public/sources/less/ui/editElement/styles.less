@@ -237,6 +237,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  outline: none;
 
   &.active {
     text-overflow: clip;
@@ -248,7 +249,18 @@
   padding: @icon-edit-form-header-title-padding;
   margin-right: @icon-edit-form-header-title-margin-right;
   cursor: pointer;
-  font-size: @icon-edit-form-header-title-font-size
+  font-size: @icon-edit-form-header-title-font-size;
+  opacity: @icon-edit-form-header-title-opacity;
+  position: relative;
+  text-align: center;
+
+  &:before {
+    font-style: 1.25em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .vcv-ui-tree-view-content-accordion {
