@@ -70,7 +70,9 @@
       "section",
       "tab",
       "tabsWithSlide",
-      "simpleImageSlider"
+      "simpleImageSlider",
+      "pricingTable",
+      "featureDescription"
   ],
   "bundleElementsSettings": {
     "row": {

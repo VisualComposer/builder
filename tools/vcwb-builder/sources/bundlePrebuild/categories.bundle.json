@@ -49,7 +49,8 @@
     "Feature": {
       "title": "Feature",
       "elements": [
-        "feature"
+        "feature",
+        "featureDescription"
       ],
       "icon": "[publicPath]/icons/Feature.svg",
       "iconDark": "[publicPath]/icons-dark/Feature.svg"
