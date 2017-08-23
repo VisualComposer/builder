@@ -271,15 +271,20 @@ $(() => {
               processActions(json.actions)
             } else {
               if (json.message) {
-                let messageJson = JSON.parse(json.message)
-                if (messageJson && messageJson.email) {
-                  showError(incorrectEmailFormatText, 15000)
-                } else if (messageJson && messageJson.agreement) {
-                  showError(mustAgreeToActivateText, 15000)
-                } else if (messageJson) {
-                  showError(messageJson, 15000)
-                } else {
+                try {
+                  let messageJson = JSON.parse(json.message)
+                  if (messageJson && messageJson.email) {
+                    showError(incorrectEmailFormatText, 15000)
+                  } else if (messageJson && messageJson.agreement) {
+                    showError(mustAgreeToActivateText, 15000)
+                  } else if (messageJson) {
+                    showError(messageJson, 15000)
+                  } else {
+                    showError(activationFailedText, 15000)
+                  }
+                } catch (e) {
                   showError(activationFailedText, 15000)
+                  console.warn(e, json.message)
                 }
               } else {
                 showError(activationFailedText, 15000)
@@ -291,15 +296,20 @@ $(() => {
             if (jqxhr.responseJSON) {
               let json = jqxhr.responseJSON
               if (json.message) {
-                let messageJson = JSON.parse(json.message)
-                if (messageJson && messageJson.email) {
-                  showError(incorrectEmailFormatText, 15000)
-                } else if (messageJson && messageJson.agreement) {
-                  showError(mustAgreeToActivateText, 15000)
-                } else if (messageJson) {
-                  showError(messageJson, 15000)
-                } else {
+                try {
+                  let messageJson = JSON.parse(json.message)
+                  if (messageJson && messageJson.email) {
+                    showError(incorrectEmailFormatText, 15000)
+                  } else if (messageJson && messageJson.agreement) {
+                    showError(mustAgreeToActivateText, 15000)
+                  } else if (messageJson) {
+                    showError(messageJson, 15000)
+                  } else {
+                    showError(activationFailedText, 15000)
+                  }
+                } catch (e) {
                   showError(activationFailedText, 15000)
+                  console.warn(e, json.message)
                 }
               } else {
                 showError(activationFailedText, 15000)
