@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Nonce;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
@@ -54,9 +55,9 @@ class Controller extends Container implements Module
         if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
             $this->setGlobals();
             /** @see \VisualComposer\Modules\System\Ajax\Controller::parseRequest */
-            $response = $this->call('parseRequest');
-            $output = $this->renderResponse($response);
-            $this->output($output);
+            $rawResponse = $this->call('parseRequest');
+            $output = $this->renderResponse($rawResponse);
+            $this->output($output, $rawResponse);
         }
     }
 
@@ -81,15 +82,32 @@ class Controller extends Container implements Module
         }
     }
 
-    protected function output($output)
+    protected function output($response, $rawResponse)
     {
-        wp_die($output);
+        if (vcIsBadResponse($rawResponse)) {
+            header('Status: 403', true, 403);
+            header('HTTP/1.0 403 Forbidden', true, 403);
+            $loggerHelper = vchelper('Logger');
+            if (is_wp_error($rawResponse)) {
+                /** @var $rawResponse \WP_Error */
+                wp_die(json_encode(['status' => false, 'message' => implode('. ', $rawResponse->get_error_messages())]));
+            } elseif (is_array($rawResponse)) {
+                wp_die(json_encode(['status' => false, 'message' => isset($rawResponse['body']) ? $rawResponse['body'] : $rawResponse, 'details' => $loggerHelper->details()]));
+            } elseif ($loggerHelper->all()) {
+                wp_die(json_encode(['status' => false, 'response' => $rawResponse, 'message' => $loggerHelper->all(), 'details' => $loggerHelper->details()]));
+            } else {
+                wp_die(json_encode(['status' => false, 'response' => $rawResponse]));
+            }
+        }
+
+        wp_die($response);
     }
 
-    protected function parseRequest(Request $requestHelper)
+    protected function parseRequest(Request $requestHelper, Logger $loggerHelper)
     {
         // Require an action parameter.
         if (!$requestHelper->exists('vcv-action')) {
+            $loggerHelper->log('Action doesn`t set');
             return false;
         }
         $requestAction = $requestHelper->input('vcv-action');
@@ -101,6 +119,8 @@ class Controller extends Container implements Module
 
             /** @see \VisualComposer\Modules\System\Ajax\Controller::getResponse */
             return $this->call('getResponse', [$requestAction]);
+        } else {
+            $loggerHelper->log('Nonce not validated');
         }
 
         return false;

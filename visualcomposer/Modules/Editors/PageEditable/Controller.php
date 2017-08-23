@@ -61,16 +61,16 @@ class Controller extends Container implements Module
             9999 // Do with high weight - when all other actions is done
         );
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
-            $bundleJsUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.js?' . VCV_VERSION;
-            $bundleCssUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.css?' . VCV_VERSION;
+            $bundleJsUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.js';
+            $bundleCssUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.css';
         } else {
-            $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js?' . VCV_VERSION);
-            $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css?' . VCV_VERSION);
+            $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js');
+            $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css');
         }
-        $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js?' . VCV_VERSION);
-        wp_enqueue_script('vcv:pageEditable:vendor', $vendorBundleJsUrl);
-        wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl);
-        wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl);
+        $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js');
+        wp_enqueue_script('vcv:pageEditable:vendor', $vendorBundleJsUrl, ['jquery'], VCV_VERSION);
+        wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl, ['vcv:pageEditable:vendor'], VCV_VERSION);
+        wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl, [], VCV_VERSION);
     }
 
     protected function addTheContentFilteringForPost()

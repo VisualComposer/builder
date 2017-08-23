@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Hub\Bundle;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -22,7 +23,7 @@ class JsonDownloadController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD')) {
-            $this->addFilter('vcv:activation:success', 'prepareJsonDownload');
+            $this->addFilter('vcv:activation:token:success', 'prepareJsonDownload');
         }
     }
 
@@ -31,23 +32,35 @@ class JsonDownloadController extends Container implements Module
         $payload,
         Bundle $hubHelper,
         Filters $filterHelper,
-        Options $optionsHelper
+        Options $optionsHelper,
+        Logger $loggerHelper
     ) {
-        $status = $response;
-        if ($response !== false && !is_array($response)) {
+        if (!vcIsBadResponse($response)) {
             $json = $optionsHelper->getTransient('vcv:hub:download:json');
             if (!$json) {
                 $url = $hubHelper->getJsonDownloadUrl(['token' => $payload['token']]);
                 $json = $this->readBundleJson($url);
-                $optionsHelper->setTransient('vcv:hub:download:json', $json, 3600);
+                $optionsHelper->setTransient('vcv:hub:download:json', $json, 600);
             }
             // if json is empty array it means that no release yet available!
             if ($json) {
-                $status = $filterHelper->fire('vcv:hub:download:json', true, ['json' => $json]);
+                $response = $filterHelper->fire('vcv:hub:download:json', $response, ['json' => $json]);
+            } else {
+                $response['status'] = false;
+                $loggerHelper->log(
+                    __('Failed to download json', 'vcwb'),
+                    [
+                        'url' => isset($url) ? $url : 'url not set',
+                    ]
+                );
             }
+        } else {
+            $loggerHelper->log(__('Failed to prepare json download', 'vcwb'), [
+                'response' => $response,
+            ]);
         }
 
-        return $status;
+        return $response;
     }
 
     protected function readBundleJson($url)
@@ -76,7 +89,6 @@ class JsonDownloadController extends Container implements Module
                 ]
             );
         }
-
 
 
         return $result;

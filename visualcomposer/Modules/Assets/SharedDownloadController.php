@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\AssetsShared;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\SharedLibraries;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -38,11 +39,17 @@ class SharedDownloadController extends Container implements Module
         Options $optionsHelper,
         File $fileHelper,
         SharedLibraries $sharedLibrariesHelper,
-        AssetsShared $assetsSharedHelper
+        AssetsShared $assetsSharedHelper,
+        Logger $loggerHelper
     ) {
         $bundleJson = $payload['archive'];
-        if (!$response || is_wp_error($bundleJson)) {
-            return false;
+        if (vcIsBadResponse($response) || is_wp_error($bundleJson)) {
+            $loggerHelper->log(__('Failed to update shared libraries', 'vcwb'), [
+                'response' => $response,
+                'bundleJson' => $bundleJson,
+            ]);
+
+            return ['status' => false];
         }
         if (isset($bundleJson['assetsLibrary'])) {
             $assetsLibrary = $bundleJson['assetsLibrary'];
@@ -70,7 +77,7 @@ class SharedDownloadController extends Container implements Module
             $optionsHelper->set('assetsLibrary', $differ->get());
         }
 
-        return true;
+        return $response;
     }
 
     protected function processLibrary($asset)

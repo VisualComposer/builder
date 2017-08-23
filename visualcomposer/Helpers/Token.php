@@ -82,31 +82,8 @@ class Token extends Container implements Helper
     }
 
     /**
-     * @param $body
-     *
-     * @return bool
-     */
-    protected function setClientSecret($body)
-    {
-        // @codingStandardsIgnoreStart
-        $this->optionsHelper->set(
-            'siteId',
-            $body->client_id
-        )->set(
-            'siteSecret',
-            $body->client_secret
-        );
-
-        // @codingStandardsIgnoreEnd
-
-        return true;
-    }
-
-    /**
-     * @param $code
-     *
+     * @param $id
      * @return bool|string
-     * @throws \Exception
      */
     public function createToken($id)
     {
@@ -114,6 +91,7 @@ class Token extends Container implements Helper
         $result = wp_remote_get(
             VCV_TOKEN_URL,
             [
+                'timeout' => 10,
                 'body' => [
                     'hoster_id' => 'account',
                     'id' => $id,
@@ -134,11 +112,11 @@ class Token extends Container implements Helper
         if (is_wp_error($result)) {
             $resultDetails = $result->get_error_message();
             if ("http_request_failed" === $result->get_error_code()) {
-                $message.= '. ';
-                $message.= __('Possibly the process exceeded the timeout of 5 seconds', 'vcwb');
+                $message .= '. ';
+                $message .= __('Possibly the process exceeded the timeout of 5 seconds', 'vcwb');
             }
         } else {
-        	// @codingStandardsIgnoreLine
+            // @codingStandardsIgnoreLine
             $resultDetails = @json_decode($result['body'], 1);
             if (is_array($resultDetails) && isset($resultDetails['message'])) {
                 $message = $resultDetails['message'];
@@ -153,33 +131,6 @@ class Token extends Container implements Helper
         );
 
         return false;
-        //  $result = wp_remote_post(
-        //      VCV_ACCOUNT_URL . '/token',
-        //      [
-        //          'body' => [
-        //              'code' => $code,
-        //              'grant_type' => 'authorization_code',
-        //              'client_secret' => $this->optionsHelper->get('siteSecret'),
-        //              'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'account:token:api']),
-        //              'client_id' => $this->optionsHelper->get('siteId'),
-        //          ],
-        //      ]
-        //  );
-        //  if (is_array($result) && 200 == $result['response']['code']) {
-        //      $body = json_decode($result['body']);
-        //      // @codingStandardsIgnoreLine
-        //      if ($body->access_token) {
-        //          $this->setToken($body);
-        //
-        //          // @codingStandardsIgnoreLine
-        //          return $body->access_token;
-        //      }
-        //  } else {
-        //      // TODO: Handle error.
-        //      throw new Exception('HTTP request for getting token failed.');
-        //  }
-        //
-        //  return false;
     }
 
     /**
@@ -205,67 +156,6 @@ class Token extends Container implements Helper
     }
 
     /**
-     * @param $token
-     *
-     * @return string
-     */
-    public function setToken($token)
-    {
-        // @codingStandardsIgnoreStart
-        return $this->optionsHelper->setTransient('siteAuthToken', $token, 3600);
-        //        $this->setSiteAuthorized()->set(
-        //            'siteAuthToken',
-        //            $body->access_token
-        //        )->set(
-        //            'siteAuthRefreshToken',
-        //            $body->refresh_token
-        //        )->set(
-        //            'siteAuthTokenTtl',
-        //            current_time('timestamp')
-        //        );
-
-        // @codingStandardsIgnoreEnd
-
-        // return true;
-    }
-
-    /**
-     * @throws \Exception
-     *
-     * @return bool
-     */
-    protected function refreshToken()
-    {
-        $refreshToken = $this->optionsHelper->get('siteAuthRefreshToken');
-        $result = wp_remote_post(
-            VCV_ACCOUNT_URL . '/token',
-            [
-                'body' => [
-                    'grant_type' => 'refresh_token',
-                    'client_secret' => $this->optionsHelper->get('siteSecret'),
-                    'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'api']),
-                    'client_id' => $this->optionsHelper->get('siteId'),
-                    'refresh_token' => $refreshToken,
-                ],
-            ]
-        );
-        if (is_array($result) && 200 == $result['response']['code']) {
-            $body = json_decode($result['body']);
-            // @codingStandardsIgnoreLine
-            if ($body->access_token) {
-                $this->setToken($body);
-
-                // @codingStandardsIgnoreLine
-                return $body->access_token;
-            }
-        } else {
-            throw new Exception('HTTP request for refreshing token failed.');
-        }
-
-        return false;
-    }
-
-    /**
      * @return bool
      */
     public function isSiteAuthorized()
@@ -274,22 +164,12 @@ class Token extends Container implements Helper
     }
 
     /**
+     * @param $token
+     *
      * @return string
      */
-    protected function getTokenActivationUrl()
+    public function setToken($token)
     {
-        $clientId = esc_attr($this->optionsHelper->get('siteId'));
-        $redirectUrl = rawurlencode($this->urlHelper->ajax(['vcv-action' => 'account:token:api']));
-        $scope = 'user.read,elements.read';
-
-        $url = sprintf(
-            '%s/authorization?response_type=code&client_id=%s&redirect_uri=%s&scope=%s',
-            VCV_ACCOUNT_URL,
-            $clientId,
-            $redirectUrl,
-            $scope
-        );
-
-        return $url;
+        return $this->optionsHelper->setTransient('siteAuthToken', $token, 3600);
     }
 }

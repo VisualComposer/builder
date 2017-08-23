@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Differ;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class CategoriesUpdater extends Container implements Module
@@ -23,11 +24,16 @@ class CategoriesUpdater extends Container implements Module
         $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:categories', 'updateCategories');
     }
 
-    protected function updateCategories($response, $payload)
+    protected function updateCategories($response, $payload, Logger $loggerHelper)
     {
-        $bundleJson = $payload['archive'];
-        if (!$response || !$bundleJson || is_wp_error($bundleJson)) {
-            return false;
+        $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
+        if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
+            $loggerHelper->log(__('Failed to update categories', 'vcwb'), [
+                'response' => $response,
+                'bundleJson' => $bundleJson,
+            ]);
+
+            return ['status' => false];
         }
         $hubBundleHelper = vchelper('HubActionsCategoriesBundle');
         $hubHelper = vchelper('HubCategories');
@@ -53,6 +59,6 @@ class CategoriesUpdater extends Container implements Module
         );
         $hubHelper->setCategories($categoriesDiffer->get());
 
-        return true;
+        return $response;
     }
 }
