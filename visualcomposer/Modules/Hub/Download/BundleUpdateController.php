@@ -183,7 +183,7 @@ class BundleUpdateController extends Container implements Module
             if (isset($value['action'])) {
                 $action = $value['action'];
                 $version = $value['version'];
-                $previousVersion = $optionsHelper->get('hubAction' . $action, '0');
+                $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
                 if ($version && version_compare($version, $previousVersion, '>') || !$version) {
                     $optionsHelper->set('bundleUpdateRequired', true);
                     $optionsHelper->set('bundleUpdateJson', $json);
