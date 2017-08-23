@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import vcCake, {getService, getStorage} from 'vc-cake'
+import {env, getService, getStorage} from 'vc-cake'
 
 // const categories = getService('categories')
 const hubCategoriesService = getService('hubCategories')
@@ -196,7 +196,7 @@ export default class DefaultElement extends React.Component {
     this.updateContent(value)
   }
 
-  preventNewLine = (event) => {
+  preventNewLine (event) {
     if (event.key === 'Enter') {
       event.preventDefault()
       event.nativeEvent.stopImmediatePropagation()
@@ -232,7 +232,7 @@ export default class DefaultElement extends React.Component {
 
     )
 
-    if (vcCake.env('FEATURE_RENAME_ELEMENT')) {
+    if (env('FEATURE_RENAME_ELEMENT')) {
       envContent = (
         <div className={nameContainerClasses}>
           <span className='vce-wpbackend-element-name'

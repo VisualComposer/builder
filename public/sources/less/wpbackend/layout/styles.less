@@ -93,6 +93,8 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: @vcv-wpbackend-element-name-wrapper-margin;
+    display: @vcv-wpbackend-element-name-container-display;
+    align-items: @vcv-wpbackend-element-name-container-align-items;
   }
 
   &-name-container-editable {
@@ -170,9 +172,8 @@
     z-index: 2;
     width: 30px;
     height: 20px;
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 12px;
+    font-size: @vcv-wpbackend-element-name-icon-font-size;
+    opacity: @vcv-wpbackend-element-name-icon-opacity;
   }
 }
 

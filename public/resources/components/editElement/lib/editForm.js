@@ -86,7 +86,7 @@ export default class EditForm extends React.Component {
     this.updateContent(value)
   }
 
-  preventNewLine = (event) => {
+  preventNewLine (event) {
     if (event.key === 'Enter') {
       event.preventDefault()
       event.nativeEvent.stopImmediatePropagation()
