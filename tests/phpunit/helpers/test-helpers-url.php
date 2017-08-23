@@ -112,7 +112,7 @@ class HelpersUrlTest extends WP_UnitTestCase
     {
         $helper = vchelper('Url');
         $url = $helper->current();
-        $this->assertEquals(get_site_url(), $url);
+        $this->assertEquals(get_site_url(), 'http://' . getenv('WP_TESTS_DOMAIN'));
     }
 
     public function testRedirect()
