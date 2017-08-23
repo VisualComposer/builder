@@ -330,7 +330,6 @@ $(() => {
         // Downloading elements: Row 12.5%
         // ....
 
-
         // $.post(window.vcvAccountUrl, {
         //   email: email,
         //   agreement: $agreementCheckbox.val(),
