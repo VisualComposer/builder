@@ -85,8 +85,10 @@ class Controller extends Container implements Module
     protected function output($response, $rawResponse)
     {
         if (vcIsBadResponse($rawResponse)) {
-            header('Status: 403', true, 403);
-            header('HTTP/1.0 403 Forbidden', true, 403);
+            if (!headers_sent()) {
+                header('Status: 403', true, 403);
+                header('HTTP/1.0 403 Forbidden', true, 403);
+            }
             $loggerHelper = vchelper('Logger');
             if (is_wp_error($rawResponse)) {
                 /** @var $rawResponse \WP_Error */

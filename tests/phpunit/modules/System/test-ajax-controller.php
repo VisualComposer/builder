@@ -220,15 +220,13 @@ class AjaxControllerTest extends WP_UnitTestCase
         $catched = false;
         $catchedMessage = '';
         try {
-            ob_start();
             $method->invokeArgs($controller, [$requestHelper]);
-            ob_get_clean();
         } catch (WPDieException $e) {
             $catched = true;
             $catchedMessage = $e->getMessage();
         }
         $this->assertTrue($catched);
-        $this->assertEquals('false', $catchedMessage);
+        $this->assertEquals('{"status":false,"response":false,"message":"\"Action doesn`t set. Nonce not validated. Action doesn`t set.\"","details":[[],[],[]]}', $catchedMessage);
 
         // Test some real response
         $catched = false;
@@ -281,7 +279,7 @@ class AjaxControllerTest extends WP_UnitTestCase
             $catchedMessage = $e->getMessage();
         }
         $this->assertTrue($catched);
-        $this->assertEquals('false', $catchedMessage);
+        $this->assertEquals('{"status":false,"response":false,"message":"\"Action doesn`t set. Nonce not validated. Action doesn`t set. Nonce not validated.\"","details":[[],[],[],[]]}', $catchedMessage);
 
         /** Test normal nonce */
         $catched = false;

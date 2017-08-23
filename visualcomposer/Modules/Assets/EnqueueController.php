@@ -224,7 +224,9 @@ class EnqueueController extends Container implements Module
                 . $globalElementsMixinsCssContent . $globalCss;
             // Remove previous file
             $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
-            $this->removeStaleFile($assetsHelper->getFilePath($previousCssFile));
+            if (!empty($previousCssFile)) {
+                $this->removeStaleFile($assetsHelper->getFilePath($previousCssFile));
+            }
             $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
             $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
             $optionsHelper->set('globalElementsCssDataUpdated', '1');
