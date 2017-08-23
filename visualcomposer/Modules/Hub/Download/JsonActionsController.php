@@ -22,6 +22,7 @@ class JsonActionsController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:hub:download:json', 'ajaxGetRequiredActions');
+        $this->addFilter('vcv:hub:update:json', 'processUpdateActions');
         $this->addFilter('vcv:ajax:hub:action:adminNonce', 'ajaxProcessAction');
     }
 
@@ -56,6 +57,39 @@ class JsonActionsController extends Container implements Module
                         'response' => $response,
                     ]
                 );
+            }
+        }
+
+        return $response;
+    }
+
+    protected function processUpdateActions($response, $payload, Options $optionsHelper, Logger $loggerHelper)
+    {
+        if ($optionsHelper->get('bundleUpdateRequired')) {
+            $requiredActions = $optionsHelper->get('bundleUpdateActions');
+            $failed = false;
+            $response = ['status' => true];
+            if (is_array($requiredActions)) {
+                foreach ($requiredActions as $value) {
+                    $optionsHelper->setTransient('vcv:hub:update:request', 1, 60);
+                    $actionResult = $this->processAction(
+                        $value['action'],
+                        $value['data'],
+                        $value['version']
+                    );
+                    if (vcIsBadResponse($actionResult)) {
+                        $loggerHelper->log('Failed to update action', [
+                            'action' => $value,
+                            'result' => $actionResult,
+                        ]);
+                        $failed = true;
+                    }
+                }
+                if ($failed) {
+                    $response = ['status' => false];
+                }
+            } else {
+                $optionsHelper->set('bundleUpdateRequired', false);
             }
         }
 

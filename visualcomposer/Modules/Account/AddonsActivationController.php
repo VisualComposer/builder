@@ -26,6 +26,8 @@ class AddonsActivationController extends ActivationController
     use WpFiltersActions;
     use EventsFilters;
 
+    /** @noinspection PhpMissingParentConstructorInspection */
+
     /**
      * ActivationController constructor.
      */
@@ -42,6 +44,7 @@ class AddonsActivationController extends ActivationController
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\Filters $filterHelper
+     * @param Logger $loggerHelper
      *
      * @return array|bool|\WP_Error
      */
@@ -59,10 +62,10 @@ class AddonsActivationController extends ActivationController
             && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
         ) {
-            $optionsHelper->setTransient('vcv:activation:request', $_SERVER['REQUEST_TIME'], 60);
+            $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
             $token = $tokenHelper->createToken($_SERVER['ENV_VCV_SITE_ID']);
             if ($token) {
-                return $filterHelper->fire('vcv:activation:success', true, ['token' => $token]);
+                return $filterHelper->fire('vcv:activation:token:success', true, ['token' => $token]);
             }
         }
 
@@ -76,6 +79,10 @@ class AddonsActivationController extends ActivationController
                     'expiresAfter' => $expiresAfter,
                 ]
             );
+        }
+
+        if ($tokenHelper->isSiteAuthorized()) {
+            return ['status' => true];
         }
 
         return false;

@@ -36,7 +36,6 @@ class Localizations extends Container implements Helper
             'update' => __('Update', 'vcwb'),
             'menu' => __('Menu', 'vcwb'),
             'viewPage' => __('View Page', 'vcwb'),
-            'backendEditor' => __('Backend Editor', 'vcwb'),
             'editInBackendEditor' => __('Edit in Backend Editor', 'vcwb'),
             'wordPressDashboard' => __('WordPress Dashboard', 'vcwb'),
             'publish' => __('Publish', 'vcwb'),

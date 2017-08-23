@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -24,6 +25,7 @@ class BundleUpdateController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized()) {
             $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
+            $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);
             $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', 120);
             $this->addFilter('vcv:frontend:update:head:extraOutput', 'addUpdateAssets', 10);
             $this->addFilter(
@@ -36,12 +38,16 @@ class BundleUpdateController extends Container implements Module
         }
     }
 
-    protected function checkForUpdate(Options $optionsHelper)
+    protected function checkForUpdate($response, Options $optionsHelper)
     {
-        if ($optionsHelper->getTransient('lastBundleUpdate') < time()) {
-            $this->checkVersion();
-            $optionsHelper->setTransient('lastBundleUpdate', time() + DAY_IN_SECONDS);
+        if ($optionsHelper->getTransient('lastBundleUpdate' . VCV_VERSION) < time()) {
+            $result = $this->checkVersion();
+            if (!vcIsBadResponse($result)) {
+                $optionsHelper->setTransient('lastBundleUpdate' . VCV_VERSION, time() + DAY_IN_SECONDS);
+            }
         }
+
+        return $response;
     }
 
     protected function checkVersion()
@@ -54,11 +60,13 @@ class BundleUpdateController extends Container implements Module
             $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
             $json = $this->readBundleJson($url);
             if ($json) {
-                $this->processJson($json);
+                return $this->processJson($json);
+            } else {
+                return ['status' => false];
             }
         }
 
-        return true;
+        return ['status' => false];
     }
 
     protected function readBundleJson($url)
@@ -68,6 +76,11 @@ class BundleUpdateController extends Container implements Module
             $response = wp_remote_get($url);
             if (wp_remote_retrieve_response_code($response) === 200) {
                 $result = json_decode($response['body'], true);
+            } else {
+                $loggerHelper = vchelper('Logger');
+                $loggerHelper->log('Failed to download updates list', [
+                    'body' => $response['body'],
+                ]);
             }
         }
 
@@ -113,6 +126,7 @@ class BundleUpdateController extends Container implements Module
      * Do redirect if required on welcome page
      *
      * @param $response
+     * @param UpdateBePage $updateBePage
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return
@@ -145,51 +159,60 @@ class BundleUpdateController extends Container implements Module
         return $response;
     }
 
-    protected function triggerPrepareBundleDownload($response, $payload)
+    protected function triggerPrepareBundleDownload($response, $payload, Logger $loggerHelper, Options $optionsHelper)
     {
-        $optionsHelper = vchelper('Options');
+        if (!$optionsHelper->get('bundleUpdateRequired')) {
+            return ['status' => true];
+        }
+
         if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
             $optionsHelper->setTransient('vcv:hub:update:request', 1, 60);
             $json = $optionsHelper->get('bundleUpdateJson');
-            $result = vcfilter('vcv:hub:download:json', true, ['json' => $json]);
-            if (is_wp_error($result) || $result !== true) {
-                header('Status: 403', true, 403);
-                header('HTTP/1.0 403 Forbidden', true, 403);
-
-                if (is_wp_error($result)) {
-                    /** @var $response \WP_Error */
-                    echo json_encode(['message' => implode('. ', $result->get_error_messages())]);
-                } elseif (is_array($result)) {
-                    echo json_encode(['message' => $result['body']]);
-                } else {
-                    echo json_encode(['status' => false]);
-                }
-                exit;
-            } else {
+            $response = vcfilter('vcv:hub:update:json', ['status' => true], ['json' => $json]);
+            if (!vcIsBadResponse($response)) {
                 $optionsHelper->set('bundleUpdateRequired', false);
+            } else {
+                $loggerHelper->log(__('Failed to update'), [
+                    'response' => $response,
+                ]);
             }
+        } else {
+            $loggerHelper->log(__('Update already in process, please try again later.', 'vcwb'));
+
+            return ['status' => false];
         }
 
-        return $result;
+        return $response;
     }
 
     /**
      * @param $json
+     * @return bool|array
      */
     protected function processJson($json)
     {
-        $optionsHelper = vchelper('Options');
-        foreach ($json['actions'] as $key => $value) {
-            if (isset($value['action'])) {
-                $action = $value['action'];
-                $version = $value['version'];
-                $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
-                if ($version && version_compare($version, $previousVersion, '>') || !$version) {
-                    $optionsHelper->set('bundleUpdateRequired', true);
-                    $optionsHelper->set('bundleUpdateJson', $json);
-                    break;
+        if (is_array($json) && isset($json['actions'])) {
+            $optionsHelper = vchelper('Options');
+            $requiredActions = [];
+            foreach ($json['actions'] as $key => $value) {
+                if (isset($value['action'])) {
+                    $action = $value['action'];
+                    $version = $value['version'];
+                    $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
+                    if ($version && version_compare($version, $previousVersion, '>') || !$version) {
+                        $requiredActions[] = $value;
+                    }
                 }
             }
+            if (!empty($requiredActions)) {
+                $optionsHelper->set('bundleUpdateActions', $requiredActions);
+                $optionsHelper->set('bundleUpdateRequired', true);
+                $optionsHelper->set('bundleUpdateJson', $json);
+            }
+
+            return ['status' => true];
         }
+
+        return false;
     }
 }
