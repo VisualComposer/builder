@@ -9,6 +9,9 @@ $(() => {
   const mustAgreeToActivateText = localizations ? localizations.mustAgreeToActivate : 'To activate and use Visual Composer Website Builder, you must read and agree to the terms of service.'
   const activationFailedText = localizations ? localizations.activationFailed : 'Your activation request failed. Please try again.'
   const provideCorrectEmailText = localizations ? localizations.provideCorrectEmail : 'Please provide correct E-Mail'
+  const savingResultsText = localizations ? localizations.savingResults : 'Saving Results'
+  const downloadingInitialExtensionsText = localizations ? localizations.downloadingInitialExtensions : 'Downloading initial extensions'
+  const downloadingAssetsText = localizations ? localizations.downloadingAssetsText : 'Downloading assets {i} of {cnt}'
 
   if ($popup.length) {
     let $errorPopup = $('.vcv-popup-error')
@@ -141,7 +144,7 @@ $(() => {
     let $heading = $('.vcv-popup-loading-heading')
 
     let doneActions = (requestFailed) => {
-      $heading.text(`Saving results`)
+      $heading.text(savingResultsText)
       $.ajax(window.vcvActivationFinishedUrl,
         {
           dataType: 'json',
@@ -183,9 +186,7 @@ $(() => {
       function doAction (i, finishCb) {
         let action = actions[i]
         let name = action.name
-        let progress = Math.round(((i + 1) / (cnt + 1)) * 100)
-        progress = progress > 100 ? 100 : progress
-        $heading.text(`Downloading assets ${progress}%:  ${name}`)
+        $heading.text(downloadingAssetsText.replace('{i}', i + 1).replace('{cnt}', cnt + 1).replace('{name}', name))
         $.ajax(window.vcvActionsUrl,
           {
             dataType: 'json',
@@ -257,7 +258,7 @@ $(() => {
         // #2.x. trigger required action loop
         // #2.x+1. if last action trigger end.
         let $heading = $('.vcv-popup-loading-heading')
-        $heading.text('Downloading initial extensions')
+        $heading.text(downloadingInitialExtensionsText)
         $.getJSON(window.vcvActivationUrl,
           {
             email: email,

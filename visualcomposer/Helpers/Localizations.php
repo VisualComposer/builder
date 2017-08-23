@@ -71,7 +71,7 @@ class Localizations extends Container implements Helper
             'blankPageHeadingPart1' => __('Select Blank Canvas', 'vcwb'),
             'blankPageHeadingPart2' => __('or Start With a Template', 'vcwb'),
             'blankPageHelperText' => __(
-                // @codingStandardsIgnoreLine
+            // @codingStandardsIgnoreLine
                 'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.',
                 'vcwb'
             ),
@@ -146,6 +146,9 @@ class Localizations extends Container implements Helper
             'bundleUpdateFailed' => __('Visual Composer Cloud update failed, please try again.', 'vcwb'),
             'preview' => __('Preview', 'vcwb'),
             'previewChanges' => __('Preview Changes', 'vcwb'),
+            'savingResults' => __('Saving Results', 'vcwb'),
+            'downloadingInitialExtensions' => __('Downloading initial extensions', 'vcwb'),
+            'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
         ];
 
         return $locale;
