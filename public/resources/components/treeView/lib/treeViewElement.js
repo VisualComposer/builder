@@ -367,6 +367,28 @@ export default class TreeViewElement extends React.Component {
       controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
     }
 
+    let envContent = (
+      <span className='vcv-ui-tree-layout-control-label'>
+        <span>{element.get('name')}</span>
+      </span>
+
+    )
+
+    if (vcCake.env('FEATURE_RENAME_ELEMENT')) {
+      envContent = (
+        <span className={controlLabelClasses}>
+          <span ref={span => { this.span = span }}
+            contentEditable={editable}
+            suppressContentEditableWarning
+            onClick={this.enableEditable}
+            onKeyDown={this.preventNewLine}
+            onBlur={this.validateContent}>
+            {content}
+          </span>
+        </span>
+      )
+    }
+
     return (
       <li
         className={treeChildClasses}
@@ -387,16 +409,7 @@ export default class TreeViewElement extends React.Component {
           <div className='vcv-ui-tree-layout-control-content'>
             {expandTrigger}
             <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon' alt='' /></i>
-            <span className={controlLabelClasses}>
-              <span ref={span => { this.span = span }}
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onClick={this.enableEditable}
-                onKeyDown={this.preventNewLine}
-                onBlur={this.validateContent}>
-                {content}
-              </span>
-            </span>
+            {envContent}
             {childControls}
           </div>
         </div>

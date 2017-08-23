@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getService, getStorage} from 'vc-cake'
+import vcCake, {getService, getStorage} from 'vc-cake'
 
 // const categories = getService('categories')
 const hubCategoriesService = getService('hubCategories')
@@ -225,6 +225,31 @@ export default class DefaultElement extends React.Component {
       'vce-wpbackend-element-name-container-editable': editable
     })
 
+    let envContent = (
+      <div className='vce-wpbackend-element-name-container'>
+        <span className='vce-wpbackend-element-name'>{element.name}</span>
+      </div>
+
+    )
+
+    if (vcCake.env('FEATURE_RENAME_ELEMENT')) {
+      envContent = (
+        <div className={nameContainerClasses}>
+          <span className='vce-wpbackend-element-name'
+            ref={span => { this.span = span }}
+            contentEditable={editable}
+            suppressContentEditableWarning
+            onClick={this.enableEditable}
+            onKeyDown={this.preventNewLine}
+            onBlur={this.validateContent}>
+            {content}
+          </span>
+          <i className='vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit vce-wpbackend-element-name-icon'
+            onClick={this.editTitle} />
+        </div>
+      )
+    }
+
     if (hasAttributes) {
       return <div
         className='vce-wpbackend-element-container'
@@ -242,19 +267,7 @@ export default class DefaultElement extends React.Component {
                 title={element.name}
               />
             </div>
-            <div className={nameContainerClasses}>
-              <span className='vce-wpbackend-element-name'
-                ref={span => { this.span = span }}
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onClick={this.enableEditable}
-                onKeyDown={this.preventNewLine}
-                onBlur={this.validateContent}>
-                {content}
-              </span>
-              <i className='vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit vce-wpbackend-element-name-icon'
-                onClick={this.editTitle} />
-            </div>
+            {envContent}
             <div className={arrowClasses} />
             <div className='vce-wpbackend-element-header-overlay' onClick={this.handleClick} />
           </div>
@@ -280,19 +293,7 @@ export default class DefaultElement extends React.Component {
               title={element.name}
             />
           </div>
-          <div className={nameContainerClasses}>
-            <span className='vce-wpbackend-element-name'
-              ref={span => { this.span = span }}
-              contentEditable={editable}
-              suppressContentEditableWarning
-              onClick={this.enableEditable}
-              onKeyDown={this.preventNewLine}
-              onBlur={this.validateContent}>
-              {content}
-            </span>
-            <i className='vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit vce-wpbackend-element-name-icon'
-              onClick={this.editTitle} />
-          </div>
+          {envContent}
         </div>
       </div>
     </div>

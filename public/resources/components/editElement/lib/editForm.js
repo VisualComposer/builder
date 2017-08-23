@@ -109,23 +109,38 @@ export default class EditForm extends React.Component {
       'active': this.state.editable
     })
 
+    let envContent = (
+      <div className='vcv-ui-edit-form-header'>
+        <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.get('name')} />
+        <span className={headerTitleClasses}>
+          {element.get('name')}
+        </span>
+      </div>
+    )
+
+    if (vcCake.env('FEATURE_RENAME_ELEMENT')) {
+      envContent = (
+        <div className='vcv-ui-edit-form-header'>
+          <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.get('name')} />
+          <span className={headerTitleClasses}
+            ref={span => { this.span = span }}
+            contentEditable={editable}
+            suppressContentEditableWarning
+            onClick={this.enableEditable}
+            onKeyDown={this.preventNewLine}
+            onBlur={this.validateContent}>
+            {content}
+          </span>
+          <i className='vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title'
+            onClick={this.editTitle} />
+        </div>
+      )
+    }
+
     if (vcCake.env('EDIT_FORM_ACCORDION')) {
       return (
         <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
-          <div className='vcv-ui-edit-form-header'>
-            <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.get('name')} />
-            <span className={headerTitleClasses}
-              ref={span => { this.span = span }}
-              contentEditable={editable}
-              suppressContentEditableWarning
-              onClick={this.enableEditable}
-              onKeyDown={this.preventNewLine}
-              onBlur={this.validateContent}>
-              {content}
-            </span>
-            <i className='vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title'
-              onClick={this.editTitle} />
-          </div>
+          {envContent}
           <div className={treeContentClasses}>
             <EditFormContent {...this.props} />
           </div>
