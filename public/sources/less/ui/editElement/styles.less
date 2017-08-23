@@ -227,12 +227,28 @@
 .vcv-layout-dock--detached, .vcv-layout-dock--top {
 
   & .vcv-ui-edit-form-header {
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid @edit-form-header-border-top-color;
   }
 }
 
 .vcv-ui-edit-form-header-title {
   padding: @edit-form-header-title-padding;
+  max-width: @edit-form-header-title-max-width;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &.active {
+    text-overflow: clip;
+    white-space: normal;
+  }
+}
+
+.vcv-ui-icon-edit-form-header-title {
+  padding: @icon-edit-form-header-title-padding;
+  margin-right: @icon-edit-form-header-title-margin-right;
+  cursor: pointer;
+  font-size: @icon-edit-form-header-title-font-size
 }
 
 .vcv-ui-tree-view-content-accordion {

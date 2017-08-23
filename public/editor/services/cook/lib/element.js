@@ -14,8 +14,9 @@ export default class CookElement {
   static propTypes = {
     tag: React.PropTypes.string.isRequired
   }
+
   constructor (data) {
-    let { id = createKey(), parent = false, tag, order, ...attr } = data
+    let { id = createKey(), parent = false, tag, order, customHeaderTitle, ...attr } = data
     attr.tag = tag
     attr.id = id
     let element = window.VCV_HUB_GET_ELEMENTS()[ tag ]
@@ -39,6 +40,7 @@ export default class CookElement {
         metaAssetsPath: element.assetsPath,
         metaElementPath: element.elementPath,
         metaBundlePath: element.bundlePath,
+        customHeaderTitle: customHeaderTitle || '',
         order: order,
         settings: elSettings && elSettings.settings ? elSettings.settings : {},
         cssSettings: elSettings && elSettings.cssSettings ? elSettings.cssSettings : {},
@@ -64,7 +66,7 @@ export default class CookElement {
   }
 
   get (k, raw = false) {
-    if ([ 'id', 'name', 'metaThumbnailUrl', 'metaPreviewUrl', 'metaDescription', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings', 'metaAssetsPath', 'metaElementPath', 'metaBundlePath' ].indexOf(k) > -1) {
+    if ([ 'id', 'name', 'metaThumbnailUrl', 'metaPreviewUrl', 'metaDescription', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings', 'metaAssetsPath', 'metaElementPath', 'metaBundlePath', 'customHeaderTitle' ].indexOf(k) > -1) {
       return this[ elData ][ k ]
     }
     let { type, settings } = this[ elData ].getAttributeType(k)
@@ -81,6 +83,10 @@ export default class CookElement {
   }
 
   set (k, v) {
+    if ([ 'customHeaderTitle' ].indexOf(k) > -1) {
+      this[ elData ][ k ] = v
+      return this[ elData ][ k ]
+    }
     let { type, settings } = this[ elData ].getAttributeType(k)
     if (type && settings) {
       this[ elData ].data = type.setValue(settings, this[ elData ].data, k, v)
@@ -94,6 +100,7 @@ export default class CookElement {
     }
     return this[ elComponent ].get()
   }
+
   static create (tag) {
     return new CookElement({ tag: tag })
   }
@@ -115,6 +122,9 @@ export default class CookElement {
     data.metaAssetsPath = this[ elData ].metaAssetsPath
     data.metaElementPath = this[ elData ].metaElementPath
     data.metaBundlePath = this[ elData ].metaBundlePath
+    if (this[ elData ].customHeaderTitle !== undefined) {
+      data.customHeaderTitle = this[ elData ].customHeaderTitle
+    }
     if (this[ elData ].parent !== undefined) {
       data.parent = this[ elData ].parent
     }
@@ -123,6 +133,7 @@ export default class CookElement {
     }
     return data
   }
+
   render (content, editor) {
     if (!this[ elComponent ].has()) {
       elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
@@ -142,6 +153,7 @@ export default class CookElement {
 
     return <ElementToRender {...props} />
   }
+
   /**
    * Get all fields as groups: if group in group
    * Lazy list
@@ -173,9 +185,10 @@ export default class CookElement {
   getAll () {
     return this.toJS(false)
   }
+
   filter (callback) {
     return Object.keys(this[ elData ].settings).filter((key) => {
-      let settings = this[ elData ].settings[key]
+      let settings = this[ elData ].settings[ key ]
       let value = this.get(key)
       return callback(key, value, settings)
     })
