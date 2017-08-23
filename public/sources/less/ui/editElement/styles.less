@@ -233,13 +233,22 @@
 
 .vcv-ui-edit-form-header-title {
   padding: @edit-form-header-title-padding;
+  max-width: @edit-form-header-title-max-width;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &.active {
+    text-overflow: clip;
+    white-space: normal;
+  }
 }
 
 .vcv-ui-icon-edit-form-header-title {
-  padding: @edit-form-header-title-padding;
-  margin-right: @edit-form-header-title-margin-right;
+  padding: @icon-edit-form-header-title-padding;
+  margin-right: @icon-edit-form-header-title-margin-right;
   cursor: pointer;
-  font-size: @edit-form-header-title-font-size
+  font-size: @icon-edit-form-header-title-font-size
 }
 
 .vcv-ui-tree-view-content-accordion {
