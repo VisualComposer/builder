@@ -245,15 +245,16 @@ export default class TreeViewElement extends React.Component {
   }
 
   updateContent (value) {
-    const { element } = this.props
-    element.customHeaderTitle = value
-    elementsStorage.trigger('update', element.id, element, 'editFormTitle')
+    let element = cook.get(this.props.element)
+    element.set('customHeaderTitle', value)
+    let elementData = element.toJS()
+    elementsStorage.trigger('update', elementData.id, elementData, 'editFormTitle')
     this.setState({
-      content: value || this.props.element.name,
+      content: value || element.get('name'),
       editable: false
     }, () => {
       if (!value) {
-        this.span.innerText = this.props.element.name
+        this.span.innerText = element.get('name')
       }
     })
   }

@@ -15,7 +15,7 @@ export default class EditForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      content: props.element.data.customHeaderTitle || props.element.data.name,
+      content: props.element.get('customHeaderTitle') || props.element.get('name'),
       editable: false
     }
 
@@ -70,13 +70,14 @@ export default class EditForm extends React.Component {
 
   updateContent (value) {
     const { element } = this.props
-    element.data.customHeaderTitle = value
-    elementsStorage.trigger('update', element.data.id, element.data, 'editFormTitle')
+    element.set('customHeaderTitle', value)
+    let elementData = element.toJS()
+    elementsStorage.trigger('update', elementData.id, elementData, 'editFormTitle')
     this.setState({
       editable: false
     })
     if (!value) {
-      this.span.innerText = this.props.element.data.name
+      this.span.innerText = element.get('name')
     }
   }
 
@@ -112,7 +113,7 @@ export default class EditForm extends React.Component {
       return (
         <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
           <div className='vcv-ui-edit-form-header'>
-            <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.data.name} />
+            <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.get('name')} />
             <span className={headerTitleClasses}
               ref={span => { this.span = span }}
               contentEditable={editable}
