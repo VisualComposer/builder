@@ -11,7 +11,7 @@ $(() => {
   const provideCorrectEmailText = localizations ? localizations.provideCorrectEmail : 'Please provide correct E-Mail'
   const savingResultsText = localizations ? localizations.savingResults : 'Saving Results'
   const downloadingInitialExtensionsText = localizations ? localizations.downloadingInitialExtensions : 'Downloading initial extensions'
-  const downloadingAssetsText = localizations ? localizations.downloadingAssetsText : 'Downloading assets {i} of {cnt}'
+  const downloadingAssetsText = localizations ? localizations.downloadingAssets : 'Downloading assets {i} of {cnt}'
 
   if ($popup.length) {
     let $errorPopup = $('.vcv-popup-error')
