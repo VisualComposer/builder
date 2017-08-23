@@ -82,7 +82,7 @@ export default class DOMElement {
     this.node.setAttribute('data-vcv-dnd-element', this.id)
     if (this.handler) {
       this.handler.setAttribute('data-vcv-dnd-element-handler', this.id)
-    } else {
+    } else if (!this.options.handler) {
       this.node.setAttribute('data-vcv-dnd-element-handler', this.id)
     }
   }
@@ -137,7 +137,7 @@ export default class DOMElement {
     return this
   }
   get dragHandler () {
-    return this.options.handler && this.handler ? this.handler : this.node
+    return this.options.handler ? this.handler : this.node
   }
   get tag () {
     return this.options.tag
