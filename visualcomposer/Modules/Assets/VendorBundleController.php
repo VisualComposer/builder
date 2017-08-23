@@ -39,27 +39,29 @@ class VendorBundleController extends Container implements Module
             'vcv:assets:vendor:script',
             vcvenv('VCV_ENV_EXTENSION_DOWNLOAD___!!!!')
                 ?
-                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
+                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'
                 :
                 $urlHelper->to(
-                    'public/dist/vendor.bundle.js?' . VCV_VERSION
+                    'public/dist/vendor.bundle.js'
                 ),
             [
                 'jquery',
-            ]
+            ],
+            VCV_VERSION
         );
         wp_register_script(
             'vcv:assets:front:script',
             vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                 ?
-                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/front.bundle.js?' . VCV_VERSION
+                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/front.bundle.js'
                 :
                 $urlHelper->to(
-                    'public/dist/front.bundle.js?' . VCV_VERSION
+                    'public/dist/front.bundle.js'
                 ),
             [
                 'vcv:assets:vendor:script',
-            ]
+            ],
+            VCV_VERSION
         );
     }
 
@@ -73,10 +75,10 @@ class VendorBundleController extends Container implements Module
                     '<script id="vcv-script-vendor-bundle" type="text/javascript" src="%s"></script>',
                     vcvenv('VCV_ENV_EXTENSION_DOWNLOAD___!!!')
                         ?
-                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?' . VCV_VERSION
+                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?v=' . VCV_VERSION
                         :
                         $urlHelper->to(
-                            'public/dist/vendor.bundle.js?' . VCV_VERSION
+                            'public/dist/vendor.bundle.js?v=' . VCV_VERSION
                         )
                 ),
             ]

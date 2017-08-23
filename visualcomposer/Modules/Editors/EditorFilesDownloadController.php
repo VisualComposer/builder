@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\Actions\EditorBundle;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -45,18 +46,25 @@ class EditorFilesDownloadController extends Container implements Module
      * @param $payload
      * @param \VisualComposer\Helpers\File $fileHelper
      * @param \VisualComposer\Helpers\Hub\Actions\EditorBundle $hubBundleHelper
+     * @param Logger $loggerHelper
      *
-     * @return bool
+     * @return array|bool
      */
     protected function updateEditorFiles(
         $response,
         $payload,
         File $fileHelper,
-        EditorBundle $hubBundleHelper
+        EditorBundle $hubBundleHelper,
+        Logger $loggerHelper
     ) {
         $bundleJson = $payload['archive'];
-        if (!$response || is_wp_error($bundleJson)) {
-            return false;
+        if (vcIsBadResponse($response) || is_wp_error($bundleJson)) {
+            $loggerHelper->log(__('Failed to update editor', 'vcwb'), [
+                'response' => $response,
+                'bundleJson' => $bundleJson,
+            ]);
+
+            return ['status' => false];
         }
         //if (isset($bundleJson['editor']) && $bundleJson['editor']) {
         $fileHelper->createDirectory(VCV_PLUGIN_ASSETS_DIR_PATH . '/editor');
@@ -68,6 +76,6 @@ class EditorFilesDownloadController extends Container implements Module
         // $optionHelper->set('bundleVersion', $bundleJson['editor']);
         // }
 
-        return true;
+        return $response;
     }
 }

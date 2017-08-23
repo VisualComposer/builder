@@ -129,3 +129,26 @@ function vcvadmininit()
     require_once VCV_PLUGIN_DIR_PATH . 'bootstrap/app.php';
     vcapp()->adminInit();
 }
+
+function vcIsBadResponse($response)
+{
+    $bad = false;
+    if (is_array($response) && isset($response['body'])) {
+        $body = $response['body'];
+        if (is_string($body)) {
+            // @codingStandardsIgnoreLine
+            $bodyJson = @json_decode($body, true);
+            $bad = $bodyJson && isset($bodyJson['status']) && !$bodyJson['status'];
+        } else {
+            $bad = isset($body['status']) && !$body['status'];
+        }
+    }
+
+    return !$response ||
+        $response === 'false' ||
+        is_wp_error($response) ||
+        (is_array($response) && isset($response['status']) && !$response['status']) ||
+        (is_object($response) && isset($response->status) && !$response->status) ||
+        (is_array($response) && isset($response['body'], $response['response']) && wp_remote_retrieve_response_code($response) !== 200) ||
+        $bad;
+}

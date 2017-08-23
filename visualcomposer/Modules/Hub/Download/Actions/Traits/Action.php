@@ -20,25 +20,25 @@ trait Action
         $this->addFilter('vcv:hub:process:json:' . $this->actionName, 'processAction');
     }
 
-    protected function processAction($status, $payload, Filters $filterHelper)
+    protected function processAction($response, $payload, Filters $filterHelper)
     {
-        if ($status && $payload['data']) {
+        if (!vcIsBadResponse($response) && $payload['data']) {
             $hubHelper = vchelper($this->helperName);
             /** @var $hubHelper \VisualComposer\Helpers\Hub\Bundle */
             $hubHelper->removeTempBundleFolder();
             $archive = $hubHelper->requestBundleDownload($payload['data'], $payload['action']);
             $archive = $this->readBundleJson($archive);
             //if ($archive) {
-            $status = $filterHelper->fire(
+            $response = $filterHelper->fire(
                 'vcv:hub:download:bundle:' . $payload['action'],
-                true,
+                ['status' => true],
                 ['archive' => $archive]
             );
             //}
             $hubHelper->removeTempBundleFolder();
         }
 
-        return $status;
+        return $response;
     }
 
     protected function readBundleJson($archive)

@@ -14,6 +14,7 @@ use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\Actions\TemplatesBundle;
 use VisualComposer\Helpers\Hub\Templates;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -50,8 +51,9 @@ class TemplatesDownloadController extends Container implements Module
      * @param \VisualComposer\Helpers\Hub\Actions\TemplatesBundle $hubBundleHelper
      * @param \VisualComposer\Helpers\File $fileHelper
      * @param \VisualComposer\Helpers\Hub\Templates $hubTemplatesHelper
+     * @param Logger $loggerHelper
      *
-     * @return bool
+     * @return array|bool
      */
     protected function updateTemplates(
         $response,
@@ -60,11 +62,17 @@ class TemplatesDownloadController extends Container implements Module
         EditorTemplates $editorTemplatesHelper,
         TemplatesBundle $hubBundleHelper,
         File $fileHelper,
-        Templates $hubTemplatesHelper
+        Templates $hubTemplatesHelper,
+        Logger $loggerHelper
     ) {
         $bundleJson = $payload['archive'];
-        if (!$response || is_wp_error($bundleJson)) {
-            return false;
+        if (vcIsBadResponse($response) || is_wp_error($bundleJson)) {
+            $loggerHelper->log(__('Failed to update templates', 'vcwb'), [
+                'response' => $response,
+                'bundleJson' => $bundleJson,
+            ]);
+
+            return ['status' => false];
         }
         if (isset($bundleJson['templates'])) {
             $templates = $bundleJson['templates'];
@@ -124,16 +132,16 @@ class TemplatesDownloadController extends Container implements Module
                 $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
             }
 
-            //$differ = vchelper('Differ');
+            // $differ = vchelper('Differ');
             // Set old
             // $differ->set($editorTemplatesHelper->allPredefined(false, true));
             // Merge new
-            //$differ->set($toSaveTemplates);
+            // $differ->set($toSaveTemplates);
 
             $editorTemplatesHelper->setPredefined(array_values($toSaveTemplates));
         }
 
-        return true;
+        return $response;
     }
 
     /**

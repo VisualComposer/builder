@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Differ;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class ElementsUpdater extends Container implements Module
@@ -23,11 +24,16 @@ class ElementsUpdater extends Container implements Module
         $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:element/*', 'updateElements');
     }
 
-    protected function updateElements($response, $payload)
+    protected function updateElements($response, $payload, Logger $loggerHelper)
     {
-        $bundleJson = $payload['archive'];
-        if (!$response || !$bundleJson || is_wp_error($bundleJson)) {
-            return false;
+        $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
+        if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
+            $loggerHelper->log(__('Failed to update elements', 'vcwb'), [
+                'response' => $response,
+                'bundleJson' => $bundleJson,
+            ]);
+
+            return ['status' => false];
         }
         $hubHelper = vchelper('HubElements');
         /** @var Differ $elementsDiffer */
@@ -47,6 +53,6 @@ class ElementsUpdater extends Container implements Module
         );
         $hubHelper->setElements($elementsDiffer->get());
 
-        return true;
+        return $response;
     }
 }

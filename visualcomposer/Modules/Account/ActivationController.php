@@ -39,7 +39,7 @@ class ActivationController extends Container implements Module
         } else {
             $this->boot();
             /** @see \VisualComposer\Modules\Account\ActivationController::subscribeLiteVersion */
-            $this->addFilter('vcv:activation:success', 'subscribeLiteVersion');
+            $this->addFilter('vcv:activation:token:success', 'subscribeLiteVersion');
         }
     }
 
@@ -59,7 +59,7 @@ class ActivationController extends Container implements Module
 
         /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
-        $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivationResponseCode', 100);
+        $this->addFilter('vcv:ajax:account:activation:finished:adminNonce', 'finishActivation');
 
         if (vcvenv('VCV_ENV_ELEMENT_DOWNLOAD')
             && !vchelper('Options')
@@ -133,6 +133,7 @@ class ActivationController extends Container implements Module
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\Filters $filterHelper
+     * @param Logger $loggerHelper
      *
      * @return array|bool|\WP_Error
      */
@@ -146,17 +147,16 @@ class ActivationController extends Container implements Module
         Filters $filterHelper,
         Logger $loggerHelper
     ) {
-
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
         ) {
-            $optionsHelper->setTransient('vcv:activation:request', $_SERVER['REQUEST_TIME'], 60);
+            $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
             $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
             $optionsHelper->set('hubTokenId', $id);
             $token = $tokenHelper->createToken($id);
             if ($token) {
-                return $filterHelper->fire('vcv:activation:success', true, ['token' => $token]);
+                return $filterHelper->fire('vcv:activation:token:success', ['status' => true], ['token' => $token]);
             }
         }
 
@@ -173,23 +173,24 @@ class ActivationController extends Container implements Module
         }
 
         if ($tokenHelper->isSiteAuthorized()) {
-            return true;
+            return ['status' => true];
         }
 
-        return false;
+        return ['status' => false];
     }
 
-    protected function subscribeLiteVersion($status, $payload, Request $requestHelper, Logger $loggerHelper, Options $optionsHelper)
+    protected function subscribeLiteVersion($response, $payload, Request $requestHelper, Logger $loggerHelper, Options $optionsHelper)
     {
-        if ($status) {
-            if ($optionsHelper->getTransient('vcv:activation:request')) {
-                return true;
+        if (!vcIsBadResponse($response)) {
+            if ($optionsHelper->getTransient('vcv:activation:subscribe')) {
+                return $response;
             }
             // This is a place where we need to make registration/activation request in account
             $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
             $result = wp_remote_get(
                 VCV_ACCOUNT_URL . '/subscribe-lite-version',
                 [
+                    'timeout' => 10,
                     'body' => [
                         'url' => VCV_PLUGIN_URL,
                         'email' => trim($requestHelper->input('email')),
@@ -198,23 +199,27 @@ class ActivationController extends Container implements Module
                     ],
                 ]
             );
-            if (wp_remote_retrieve_response_code($result) === 200) {
+            if (!vcIsBadResponse($result)) {
                 // Register in options subscribe request time for future request.
                 $optionsHelper->setTransient('vcv:activation:subscribe', 1, 600);
-                return true;
-            } elseif (is_array($result)) {
+                $optionsHelper->set('activation-email', $requestHelper->input('email'));
+                $optionsHelper->set('activation-agreement', $requestHelper->input('agreement'));
+
+                return $response;
+            } else {
                 $loggerHelper->log(
                     __('Failed to subscribe to the lite version', 'vcwb'),
                     [
-                        'response' => $result['body'],
+                        'response' => is_wp_error($result) ? $result->get_error_message() : is_array($result) ? $result['body'] : '',
                     ]
                 );
-
+                $result['status'] = false;
+                $optionsHelper->deleteTransient('vcv:activation:request');
                 return $result;
             }
         }
 
-        return false;
+        return ['status' => false];
     }
 
     /**
@@ -225,39 +230,24 @@ class ActivationController extends Container implements Module
      *
      * @return mixed
      */
-    protected function requestActivationResponseCode(
+    protected function finishActivation(
         $response,
         Options $optionsHelper,
         Token $tokenHelper,
-        Request $requestHelper,
-        Logger $loggerHelper
+        Request $requestHelper
     ) {
-        if (is_wp_error($response) || $response !== true) {
-            header('Status: 403', true, 403);
-            header('HTTP/1.0 403 Forbidden', true, 403);
-
-            $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
-            if ($currentTransient && $currentTransient === $_SERVER['REQUEST_TIME']) {
+        $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
+        if ($currentTransient) {
+            if ($currentTransient !== $requestHelper->input('time')) {
+                return ['status' => false];
+            } else {
                 $optionsHelper->deleteTransient('vcv:activation:request');
             }
-
-            if (is_wp_error($response)) {
-                /** @var $response \WP_Error */
-                echo json_encode(['message' => implode('. ', $response->get_error_messages())]);
-            } elseif (is_array($response)) {
-                echo json_encode(['message' => $response['body']]);
-            } elseif ($loggerHelper->all()) {
-                echo json_encode(['message' => $loggerHelper->all(), 'details' => $loggerHelper->details()]);
-            } else {
-                echo json_encode(['status' => false]);
-            }
-            exit;
-        } else {
-            $optionsHelper->set('activation-email', $requestHelper->input('email'));
-            $optionsHelper->set('activation-agreement', $requestHelper->input('agreement'));
-            $tokenHelper->setSiteAuthorized();
         }
+        $tokenHelper->setSiteAuthorized();
 
-        return $response;
+        return [
+            'status' => true,
+        ];
     }
 }

@@ -32,9 +32,8 @@ class HelpersWpWidgetsTest extends WP_UnitTestCase
         $this->assertTrue(count($widgets) >= 12);
         foreach ($widgets as $widget) {
             /** @var $widget \WP_Widget */
-            $this->assertTrue(is_object($widget));
-            $this->assertTrue(isset($widget->name));
-            $this->assertTrue(array_key_exists($widget->id_base, $defaults));
+            $this->assertTrue(is_object($widget), json_encode($widget));
+            $this->assertTrue(isset($widget->name), json_encode($widget));
             $defaults[ $widget->id_base ] = true;
         }
         foreach ($defaults as $widgetId => $exists) {
