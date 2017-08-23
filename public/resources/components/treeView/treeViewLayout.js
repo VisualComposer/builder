@@ -85,6 +85,7 @@ export default class TreeViewLayout extends React.Component {
   }
 
   handleScrollToElement (scrollToElement) {
+    console.log('ok')
     if (scrollToElement && this.scrollbar) {
       this.scrollbar.scrollTop(0)
       const headerRect = this.state.header.getBoundingClientRect()
@@ -94,6 +95,7 @@ export default class TreeViewLayout extends React.Component {
       const headerHeight = headerRect.height === window.innerHeight ? 0 : headerRect.height
       const headerBottom = headerRect.bottom === window.innerHeight ? 0 : headerRect.bottom
       const offset = targetTop - headerHeight - headerBottom
+      console.log(scrollToElement, offset, target)
       this.interactWithContent(scrollToElement)
       this.scrollbar.scrollTop(offset)
     }
