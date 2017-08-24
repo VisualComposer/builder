@@ -17,7 +17,7 @@ export default class DOMElement {
         configurable: false,
         enumerable: false,
         value: DOMNode,
-        writable: false
+        writable: true
       },
       /**
        * @memberOf! DOMElement
@@ -87,7 +87,10 @@ export default class DOMElement {
     }
   }
 
-  refresh () {
+  refresh (domNode) {
+    if (domNode) {
+      this.node = domNode
+    }
     this.setAttributes()
     return this
   }
@@ -99,6 +102,7 @@ export default class DOMElement {
   isChild (domElement) {
     return this.relatedTo(domElement.containerFor())
   }
+
   relatedTo (container) {
     if (!this.options.relatedTo || !container) {
       return false
@@ -118,27 +122,33 @@ export default class DOMElement {
   containerFor () {
     return this.options.containerFor
   }
+
   equals (domElement) {
     return this.id === domElement.id
   }
+
   isNearBoundaries (point, gap) {
     let rect = this.node.getBoundingClientRect()
     return point.y - rect.top < gap || rect.bottom - point.y < gap ||
       point.x - rect.left < gap || rect.right - point.x < gap
   }
+
   on (event, callback, capture) {
     let handler = this.dragHandler
     handler && handler.addEventListener(event, callback, !!capture)
     return this
   }
+
   off (event, callback, capture) {
     let handler = this.dragHandler
     handler && handler.removeEventListener(event, callback, !!capture)
     return this
   }
+
   get dragHandler () {
     return this.options.handler ? this.handler : this.node
   }
+
   get tag () {
     return this.options.tag
   }
