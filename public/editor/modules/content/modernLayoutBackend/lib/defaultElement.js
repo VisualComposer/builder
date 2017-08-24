@@ -229,7 +229,6 @@ export default class DefaultElement extends React.Component {
       <div className='vce-wpbackend-element-name-container'>
         <span className='vce-wpbackend-element-name'>{element.name}</span>
       </div>
-
     )
 
     if (env('FEATURE_RENAME_ELEMENT')) {
