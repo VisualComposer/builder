@@ -117,7 +117,10 @@ class UpdateElementBundleBuilder {
     promises.push(fs.remove(join(this.elementPath, this.tag, 'editor.css')))
     promises.push(fs.remove(join(this.elementPath, this.tag, 'cssMixins')))
     promises.push(fs.remove(join(this.elementPath, this.tag, 'public', 'src')))
-    return Promise.all(promises)
+    return Promise.all(promises).catch((e) => {
+      console.log(e)
+      process.exit()
+    })
   }
   createBundleFileAsync () {
     const manifestData = fs.readJSONSync(path.join(this.elementPath, 'manifest.json'))
