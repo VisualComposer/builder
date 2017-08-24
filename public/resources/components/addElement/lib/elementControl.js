@@ -199,7 +199,7 @@ export default class ElementControl extends React.Component {
       this.helper = null
     }
     if (iframe) {
-      iframe.style = ''
+      iframe.removeAttribute('style')
     }
     window.clearTimeout(this.dragTimeout)
     this.dragTimeout = 0
