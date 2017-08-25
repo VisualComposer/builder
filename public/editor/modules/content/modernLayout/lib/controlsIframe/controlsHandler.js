@@ -423,8 +423,8 @@ export default class ControlsHandler {
 
       // paste action
       if (options.tag === 'column') {
-        let copyData = workspaceStorage.state('copyData').get()
-        let disabled = !(copyData && copyData.element)
+        let copyData = workspaceStorage.state('copyData').get() || window.localStorage && window.localStorage.getItem('vcv-copy-data')
+        let disabled = !copyData
         actions.push({
           label: pasteText,
           disabled,

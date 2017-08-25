@@ -61,10 +61,14 @@ addStorage('workspace', (storage) => {
   })
   storage.on('copy', (id, tag, options) => {
     let element = documentManager.copy(id)
-    storage.state('copyData').set({
-      element: element,
-      options: options
-    })
+    let copyData = {
+      element,
+      options
+    }
+    storage.state('copyData').set(copyData)
+    if (window.localStorage) {
+      window.localStorage.setItem('vcv-copy-data', JSON.stringify(copyData))
+    }
   })
   const pasteElementAndChildren = (data, parentId, options) => {
     let elementId = createKey()
@@ -81,17 +85,17 @@ addStorage('workspace', (storage) => {
     })
   }
   storage.on('paste', (id) => {
-    let copyData = storage.state('copyData').get()
-    if (!copyData || !copyData.element) {
+    let copyData = storage.state('copyData').get() || window.localStorage && window.localStorage.getItem('vcv-copy-data')
+    if (!copyData) {
       return
+    } else if (copyData.constructor === String) {
+      try {
+        copyData = JSON.parse(copyData)
+      } catch (err) {
+        return
+      }
     }
     pasteElementAndChildren(copyData.element, id, copyData.options)
-    // let element = cook.get(copyData.element)
-    // element.set('id', createKey())
-    // element.set('parent', id)
-    // let elementData = element.toJS()
-
-    // elementsStorage.trigger('add', elementData, true, copyData.options)
   })
   storage.on('move', (id, settings) => {
     elementsStorage.trigger('move', id, settings)
