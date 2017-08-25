@@ -44,7 +44,7 @@ export default class DndManager {
         startCallback: DndManager.start,
         endCallback: DndManager.end,
         container: document.querySelector('#vcwb_visual_composer > .inside'),
-        handler: '> .vce-wpbackend-element-header-container, > div > div > vcvhelper.vcv-row-control-container'
+        handler: vcCake.env('FIX_DND_FOR_TABS') ? '' : '> .vce-wpbackend-element-header-container, > div > div > vcvhelper.vcv-row-control-container'
       })
       this.items.init()
       this.apiDnD = DnD.api(this.items)
