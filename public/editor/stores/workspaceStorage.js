@@ -85,7 +85,7 @@ addStorage('workspace', (storage) => {
     })
   }
   storage.on('paste', (id) => {
-    let copyData = storage.state('copyData').get() || window.localStorage && window.localStorage.getItem('vcv-copy-data')
+    let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || storage.state('copyData').get()
     if (!copyData) {
       return
     } else if (copyData.constructor === String) {
