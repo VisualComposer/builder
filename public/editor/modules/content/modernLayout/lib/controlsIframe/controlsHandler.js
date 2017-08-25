@@ -1,5 +1,7 @@
-import {getService, env} from 'vc-cake'
+import {getService, getStorage, env} from 'vc-cake'
+
 const documentManager = getService('document')
+const workspaceStorage = getStorage('workspace')
 const cook = getService('cook')
 const hubCategoriesService = getService('hubCategories')
 
@@ -261,7 +263,8 @@ export default class ControlsHandler {
       {
         isContainer: colorIndex < 2,
         title: vcElement.get('name'),
-        tag: vcElement.get('tag')
+        tag: vcElement.get('tag'),
+        relatedTo: vcElement.get('relatedTo')
       }
     ))
 
@@ -308,6 +311,8 @@ export default class ControlsHandler {
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const moveText = localizations ? localizations.move : 'Move'
     const cloneText = localizations ? localizations.clone : 'Clone'
+    const copyText = localizations ? localizations.copy : 'Copy'
+    const pasteText = localizations ? localizations.paste : 'Paste'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
     const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
@@ -398,6 +403,39 @@ export default class ControlsHandler {
       }
     })
 
+    if (env('FEATURE_COPY_PASTE')) {
+      // copy action
+      if (
+        options.relatedTo &&
+        options.relatedTo.value &&
+        options.relatedTo.value.includes('General') &&
+        !options.relatedTo.value.includes('RootElement')
+      ) {
+        actions.push({
+          label: copyText,
+          title: `${copyText} ${options.title}`,
+          icon: 'vcv-ui-icon-copy',
+          data: {
+            vcControlEvent: 'copy'
+          }
+        })
+      }
+
+      // paste action
+      if (options.tag === 'column') {
+        let copyData = workspaceStorage.state('copyData').get()
+        let disabled = !(copyData && copyData.element)
+        actions.push({
+          label: pasteText,
+          disabled,
+          icon: 'vcv-ui-icon-paste',
+          data: {
+            vcControlEvent: 'paste'
+          }
+        })
+      }
+    }
+
     // remove control
     actions.push({
       label: removeText,
@@ -435,6 +473,9 @@ export default class ControlsHandler {
     let actionContent = document.createElement('span')
     actionContent.classList.add('vcv-ui-outline-control-content')
     actionContent.title = options.title || options.label
+    if (options.disabled) {
+      actionContent.setAttribute('disabled', true)
+    }
     action.appendChild(actionContent)
 
     let icon = document.createElement('i')
