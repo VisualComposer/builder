@@ -107,13 +107,13 @@ class BundleUpdateController extends Container implements Module
                 sprintf(
                     '<link rel="stylesheet" href="%s"></link>',
                     $urlHelper->to(
-                        'public/dist/wpupdate.bundle.css?' . VCV_VERSION
+                        'public/dist/wpupdate.bundle.css?v=' . VCV_VERSION
                     )
                 ),
                 sprintf(
                     '<script id="vcv-script-vendor-bundle-update" type="text/javascript" src="%s"></script>',
                     $urlHelper->to(
-                        'public/dist/wpupdate.bundle.js?' . VCV_VERSION
+                        'public/dist/wpupdate.bundle.js?v=' . VCV_VERSION
                     )
                 ),
             ]
