@@ -501,27 +501,4 @@ class DependencyInjectionTest extends WP_UnitTestCase
         vcevent('vcv:test:testDiDefaultParamsEventLast', ['something']);
         $this->assertTrue($called, 'function must be called');
     }
-
-    /**
-     * @expectedException ArgumentCountError
-     */
-    public function testDiDefaultParamsEventFailing()
-    {
-        $called = false;
-        $func = function (
-            $response,
-            $payload,
-            \VisualComposer\Helpers\Options $optionsHelper
-        ) use (
-            &$called
-        ) {
-            $called = true;
-            $this->assertTrue(is_object($optionsHelper));
-
-            return $response;
-        };
-        vchelper('Events')->listen('vcv:test:testDiDefaultParamsEventFailing', $func);
-        vcevent('vcv:test:testDiDefaultParamsEventFailing', ['something']);
-        $this->assertTrue($called, 'function must be called');
-    }
 }
