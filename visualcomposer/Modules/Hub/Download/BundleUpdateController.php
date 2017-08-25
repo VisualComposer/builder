@@ -38,7 +38,7 @@ class BundleUpdateController extends Container implements Module
         }
     }
 
-    protected function checkForUpdate($response = '', Options $optionsHelper)
+    protected function checkForUpdate(Options $optionsHelper, $response = '')
     {
         if ($optionsHelper->getTransient('lastBundleUpdate' . VCV_VERSION) < time()) {
             $result = $this->checkVersion();
