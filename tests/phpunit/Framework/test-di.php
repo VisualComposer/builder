@@ -399,4 +399,84 @@ class DependencyInjectionTest extends WP_UnitTestCase
         vcapp()->call($func, [new stdClass(), 'params one', ['my second param'], vcapp('ViewsHelper')]);
         $this->assertTrue($called, 'function must be called');
     }
+
+    public function testDiDefaultParams()
+    {
+        $called = false;
+        $func = function (
+            $response = '',
+            $payload = [],
+            \VisualComposer\Helpers\Options $optionsHelper
+        ) use (
+            &$called
+        ) {
+            $called = true;
+        };
+        vcapp()->call($func);
+        $this->assertTrue($called, 'function must be called');
+    }
+
+    public function testDiDefaultParamsFilter()
+    {
+        $called = false;
+        $func = function (
+            $response = '',
+            $payload = [],
+            \VisualComposer\Helpers\Options $optionsHelper
+        ) use (
+            &$called
+        ) {
+            $called = true;
+            $this->assertTrue(is_object($optionsHelper));
+
+            return $response;
+        };
+        vchelper('Filters')->listen('vcv:test:testDiDefaultParamsFilter', $func);
+        $result = vcfilter('vcv:test:testDiDefaultParamsFilter', ['test']);
+        $this->assertTrue($called, 'function must be called');
+        $this->assertEquals(['test'], $result, 'results must be same');
+    }
+
+    public function testDiDefaultParamsEvent()
+    {
+        $called = false;
+        $func = function (
+            $response = '',
+            $payload = [],
+            \VisualComposer\Helpers\Options $optionsHelper
+        ) use (
+            &$called
+        ) {
+            $called = true;
+            $this->assertTrue(is_object($optionsHelper));
+
+            return $response;
+        };
+        vchelper('Events')->listen('vcv:test:testDiDefaultParamsEvent', $func);
+        vcevent('vcv:test:testDiDefaultParamsEvent', ['something']);
+        $this->assertTrue($called, 'function must be called');
+    }
+
+    /**
+     * @expectedException ArgumentCountError
+     */
+    public function testDiDefaultParamsEventFailing()
+    {
+        $called = false;
+        $func = function (
+            $response,
+            $payload,
+            \VisualComposer\Helpers\Options $optionsHelper
+        ) use (
+            &$called
+        ) {
+            $called = true;
+            $this->assertTrue(is_object($optionsHelper));
+
+            return $response;
+        };
+        vchelper('Events')->listen('vcv:test:testDiDefaultParamsEventFailing', $func);
+        vcevent('vcv:test:testDiDefaultParamsEventFailing', ['something']);
+        $this->assertTrue($called, 'function must be called');
+    }
 }
