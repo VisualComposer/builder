@@ -206,21 +206,27 @@ class Controller extends Container implements Module
             wp_register_script(
                 'vcv:settings:script',
                 content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.js',
-                ['vcv:assets:vendor:script']
+                ['vcv:assets:vendor:script'],
+                VCV_VERSION
             );
             wp_register_style(
                 'vcv:settings:style',
-                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.css'
+                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.css',
+                [],
+                VCV_VERSION
             );
         } else {
             wp_register_script(
                 'vcv:settings:script',
                 $urlHelper->to('public/dist/wpsettings.bundle.js'),
-                ['vcv:assets:vendor:script']
+                ['vcv:assets:vendor:script'],
+                VCV_VERSION
             );
             wp_register_style(
                 'vcv:settings:style',
-                $urlHelper->to('public/dist/wpsettings.bundle.css')
+                $urlHelper->to('public/dist/wpsettings.bundle.css'),
+                [],
+                VCV_VERSION
             );
         }
 

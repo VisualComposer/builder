@@ -80,6 +80,8 @@ class Localizations extends Container implements Helper
             'edit' => __('Edit', 'vcwb'),
             'designOptions' => __('Design Options', 'vcwb'),
             'clone' => __('Clone', 'vcwb'),
+            'copy' => __('Copy', 'vcwb'),
+            'paste' => __('Paste', 'vcwb'),
             'remove' => __('Remove', 'vcwb'),
             'move' => __('Move', 'vcwb'),
             'searchContentElements' => __('Search content elements', 'vcwb'),

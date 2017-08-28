@@ -38,12 +38,12 @@ class BundleController extends Container implements Module
 rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
                     vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                         ?
-                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackendswitch.bundle.css?'
+                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackendswitch.bundle.css?v='
                         . VCV_VERSION
                         // TODO: Check latest downloaded version
                         :
                         $urlHelper->to(
-                            'public/dist/wpbackendswitch.bundle.css?' . VCV_VERSION
+                            'public/dist/wpbackendswitch.bundle.css?v=' . VCV_VERSION
                         )
                 ),
             ]
@@ -72,12 +72,12 @@ rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
                     '<script id="vcv-script-be-switch-bundle" type="text/javascript" src="%s"></script>',
                     vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                         ?
-                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackendswitch.bundle.js?'
+                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackendswitch.bundle.js?v='
                         . VCV_VERSION
                         // TODO: Check latest downloaded version
                         :
                         $urlHelper->to(
-                            'public/dist/wpbackendswitch.bundle.js?' . VCV_VERSION
+                            'public/dist/wpbackendswitch.bundle.js?v=' . VCV_VERSION
                         )
                 ),
             ]

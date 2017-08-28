@@ -427,12 +427,35 @@ class DependencyInjectionTest extends WP_UnitTestCase
             &$called
         ) {
             $called = true;
+            $this->assertTrue(is_array($response));
             $this->assertTrue(is_object($optionsHelper));
 
             return $response;
         };
         vchelper('Filters')->listen('vcv:test:testDiDefaultParamsFilter', $func);
         $result = vcfilter('vcv:test:testDiDefaultParamsFilter', ['test']);
+        $this->assertTrue($called, 'function must be called');
+        $this->assertEquals(['test'], $result, 'results must be same');
+    }
+
+    public function testDiDefaultParamsFilterLast()
+    {
+        $called = false;
+        $func = function (
+            \VisualComposer\Helpers\Options $optionsHelper,
+            $response = '',
+            $payload = []
+        ) use (
+            &$called
+        ) {
+            $called = true;
+            $this->assertTrue(is_array($response));
+            $this->assertTrue(is_object($optionsHelper));
+
+            return $response;
+        };
+        vchelper('Filters')->listen('vcv:test:testDiDefaultParamsFilterLast', $func);
+        $result = vcfilter('vcv:test:testDiDefaultParamsFilterLast', ['test']);
         $this->assertTrue($called, 'function must be called');
         $this->assertEquals(['test'], $result, 'results must be same');
     }
@@ -448,6 +471,7 @@ class DependencyInjectionTest extends WP_UnitTestCase
             &$called
         ) {
             $called = true;
+            $this->assertTrue(is_string($response));
             $this->assertTrue(is_object($optionsHelper));
 
             return $response;
@@ -457,26 +481,24 @@ class DependencyInjectionTest extends WP_UnitTestCase
         $this->assertTrue($called, 'function must be called');
     }
 
-    /**
-     * @expectedException ArgumentCountError
-     */
-    public function testDiDefaultParamsEventFailing()
+    public function testDiDefaultParamsEventLast()
     {
         $called = false;
         $func = function (
-            $response,
-            $payload,
-            \VisualComposer\Helpers\Options $optionsHelper
+            \VisualComposer\Helpers\Options $optionsHelper,
+            $response = '',
+            $payload = []
         ) use (
             &$called
         ) {
             $called = true;
             $this->assertTrue(is_object($optionsHelper));
+            $this->assertTrue(is_string($response));
 
             return $response;
         };
-        vchelper('Events')->listen('vcv:test:testDiDefaultParamsEventFailing', $func);
-        vcevent('vcv:test:testDiDefaultParamsEventFailing', ['something']);
+        vchelper('Events')->listen('vcv:test:testDiDefaultParamsEventLast', $func);
+        vcevent('vcv:test:testDiDefaultParamsEventLast', ['something']);
         $this->assertTrue($called, 'function must be called');
     }
 }

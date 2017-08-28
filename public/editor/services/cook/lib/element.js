@@ -83,7 +83,7 @@ export default class CookElement {
   }
 
   set (k, v) {
-    if ([ 'customHeaderTitle' ].indexOf(k) > -1) {
+    if ([ 'customHeaderTitle', 'parent' ].indexOf(k) > -1) {
       this[ elData ][ k ] = v
       return this[ elData ][ k ]
     }

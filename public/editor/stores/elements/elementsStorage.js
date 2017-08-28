@@ -1,5 +1,6 @@
 import {addStorage, getStorage, getService} from 'vc-cake'
 import {rebuildRawLayout, isElementOneRelation, addRowColumnBackground} from './lib/tools'
+
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
   // const timeMachineStorage = getStorage('timeMachine')
@@ -50,7 +51,7 @@ addStorage('elements', (storage) => {
         createdElements.push(columnElement.id)
       }
     }
-    if (wrap && element.get('tag') === 'tabsWithSlide') {
+    if (wrap && element.get('tag') === 'tabsWithSlide' && !elementData.skipInitialTabs) {
       let tabData = cook.get({ tag: 'tab', parent: data.id })
       let tabData1 = cook.get({ tag: 'tab', parent: data.id })
       if (tabData) {
