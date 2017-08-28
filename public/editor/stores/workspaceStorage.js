@@ -70,15 +70,28 @@ addStorage('workspace', (storage) => {
       window.localStorage.setItem('vcv-copy-data', JSON.stringify(copyData))
     }
   })
-  const pasteElementAndChildren = (data, parentId, options) => {
+  const markLastChild = (data) => {
+    if (data.children.length) {
+      let lastChildIndex = data.children.length - 1
+      data.children[lastChildIndex] = markLastChild(data.children[lastChildIndex])
+    } else {
+      data.lastItem = true
+    }
+    return data
+  }
+  const pasteElementAndChildren = (data, parentId, options = {}) => {
     let elementId = createKey()
+    options = {
+      ...options,
+      silent: !data.lastItem
+    }
     let element = cook.get({
       ...data.element,
       id: elementId,
       parent: parentId
     })
     let elementData = element.toJS()
-    elementData.skipInitialTabs = true
+    elementData.skipInitialExtraElements = true
     elementsStorage.trigger('add', elementData, true, options)
     data.children.forEach(child => {
       pasteElementAndChildren(child, elementId)
@@ -95,6 +108,7 @@ addStorage('workspace', (storage) => {
         return
       }
     }
+    copyData.element = markLastChild(copyData.element)
     pasteElementAndChildren(copyData.element, id, copyData.options)
   })
   storage.on('move', (id, settings) => {
