@@ -1048,7 +1048,7 @@ class DevElements extends Container implements Module
                         'devElements/faqToggle/faqToggle/public/'
                     ),
                     'settings' => [
-                        'name' => 'Faq toggle',
+                        'name' => 'Faq Toggle',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/faqToggle/faqToggle/public/faq-thumbnail.png'
