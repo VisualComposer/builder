@@ -362,6 +362,10 @@ export default class TreeViewElement extends React.Component {
 
     let { editable, content } = this.state
 
+    if (!content) {
+      content = element.get('name')
+    }
+
     let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
     if (editable) {
       controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
