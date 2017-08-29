@@ -254,7 +254,8 @@ export default class ControlsHandler {
         isContainer: colorIndex < 2,
         title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
         tag: vcElement.get('tag'),
-        relatedTo: vcElement.get('relatedTo')
+        relatedTo: vcElement.get('relatedTo'),
+        hidden: documentManager.get(elementId) && documentManager.get(elementId).hidden
       }
     ))
 
@@ -308,6 +309,10 @@ export default class ControlsHandler {
     const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
     let designOptionEvent = 'designOptions'
+    let visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
+    if (options && options.hidden) {
+      visibilityText = localizations ? localizations.hideOn : 'Hide: On'
+    }
 
     let dropdown = document.createElement('div')
     dropdown.classList.add('vcv-ui-outline-control-dropdown-content')
@@ -423,6 +428,17 @@ export default class ControlsHandler {
           }
         })
       }
+    }
+
+    if (env('VISIBILITY_CONTROL')) {
+      actions.push({
+        label: visibilityText,
+        title: visibilityText,
+        icon: 'vcv-ui-icon-eye-on',
+        data: {
+          vcControlEvent: 'hide'
+        }
+      })
     }
 
     // remove control
