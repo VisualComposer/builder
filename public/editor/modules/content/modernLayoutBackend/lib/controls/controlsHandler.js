@@ -144,7 +144,7 @@ export default class ControlsHandler {
     const vcElement = this.getVcElement(elementId)
     const colorIndex = this.getElementColorIndex(vcElement)
     const control = document.createElement('div')
-    const elName = vcElement.get('name')
+    const elName = vcElement.get('customHeaderTitle') || vcElement.get('name')
 
     control.classList.add('vcv-ui-outline-control-simple', `vcv-ui-outline-control-type-index-${colorIndex}`)
     control.dataset.vcvElementControls = elementId
@@ -241,7 +241,7 @@ export default class ControlsHandler {
     control.appendChild(this.createControlTrigger(
       elementId,
       {
-        title: vcElement.get('name'),
+        title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
         icon: hubCategoriesService.getElementIcon(vcElement.get('tag'))
       }
     ))
@@ -250,7 +250,7 @@ export default class ControlsHandler {
       elementId,
       {
         isContainer: colorIndex < 2,
-        title: vcElement.get('name'),
+        title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
         tag: vcElement.get('tag')
       }
     ))
