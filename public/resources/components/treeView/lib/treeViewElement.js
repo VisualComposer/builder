@@ -379,7 +379,7 @@ export default class TreeViewElement extends React.Component {
             title={copyText}
             onClick={this.clickCopy.bind(this)}
           >
-            <i className='vcv-ui-icon vcv-ui-icon-copy' />
+            <i className='vcv-ui-icon vcv-ui-icon-copy-icon' />
           </span>
         )
       }

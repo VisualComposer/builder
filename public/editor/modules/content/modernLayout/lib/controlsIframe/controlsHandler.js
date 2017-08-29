@@ -419,7 +419,7 @@ export default class ControlsHandler {
         actions.push({
           label: copyText,
           title: `${copyText} ${options.title}`,
-          icon: 'vcv-ui-icon-copy',
+          icon: 'vcv-ui-icon-copy-icon',
           data: {
             vcControlEvent: 'copy'
           }
