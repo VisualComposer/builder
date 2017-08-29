@@ -1572,6 +1572,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'WooCommerce Element',
                     ],
                 ],
+                //                'transparentOutlineButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/transparentOutlineButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/transparentOutlineButton/transparentOutlineButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Transparent Outline Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/transparentOutlineButton/transparentOutlineButton/public/thumbnail-transparent-outline-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/transparentOutlineButton/transparentOutlineButton/public/preview-transparent-outline-button.png'
+                //                        ),
+                //                        'metaDescription' => 'Transparent outline button with fill color effect on hover is perfect for dark or colorful backgrounds.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [
