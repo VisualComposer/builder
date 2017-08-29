@@ -51,6 +51,7 @@ export default class TreeViewElement extends React.Component {
     this.enableEditable = this.enableEditable.bind(this)
     this.validateContent = this.validateContent.bind(this)
     this.preventNewLine = this.preventNewLine.bind(this)
+    this.clickHide = this.clickHide.bind(this)
   }
 
   dataUpdate (data) {
@@ -149,6 +150,10 @@ export default class TreeViewElement extends React.Component {
   clickDelete = (e) => {
     e && e.preventDefault()
     workspaceStorage.trigger('remove', this.state.element.id)
+  }
+
+  clickHide () {
+    workspaceStorage.trigger('hide', this.state.element.id)
   }
 
   getContent () {
@@ -275,12 +280,19 @@ export default class TreeViewElement extends React.Component {
   }
 
   render () {
+    const hidden = this.state.element.hidden
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addText = localizations ? localizations.add : 'Add'
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const cloneText = localizations ? localizations.clone : 'Clone'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
+    let visibilityText = ''
+    if (hidden) {
+      visibilityText = localizations ? localizations.hiddenOff : 'Hide: Off'
+    } else {
+      visibilityText = localizations ? localizations.hiddenOn : 'Hide: On'
+    }
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
 
     let element = cook.get(this.props.element)
@@ -290,7 +302,8 @@ export default class TreeViewElement extends React.Component {
     let treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
-      'vcv-ui-tree-layout-node-state-draft': false
+      'vcv-ui-tree-layout-node-state-draft': false,
+      'vcv-ui-tree-layout-node-hidden': hidden
     })
 
     let child = this.getContent()
@@ -337,6 +350,15 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
+    let visibilityControl = ''
+    if (vcCake.env('VISIBILITY_CONTROL')) {
+      visibilityControl = (
+        <span className='vcv-ui-tree-layout-control-action' title={visibilityText} onClick={this.clickHide}>
+          <i className='vcv-ui-icon vcv-ui-icon-eye-on' />
+        </span>
+      )
+    }
+
     let childControls = <span className='vcv-ui-tree-layout-control-actions'>
       {addChildControl}
       {editRowLayoutControl}
@@ -346,6 +368,7 @@ export default class TreeViewElement extends React.Component {
       <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.clickClone}>
         <i className='vcv-ui-icon vcv-ui-icon-copy' />
       </span>
+      {visibilityControl}
       <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.clickDelete}>
         <i className='vcv-ui-icon vcv-ui-icon-trash' />
       </span>

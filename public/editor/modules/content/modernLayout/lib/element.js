@@ -93,6 +93,9 @@ export default class Element extends React.Component {
     if (!el) {
       return null
     }
+    if (element && element.hidden) {
+      return null
+    }
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {
