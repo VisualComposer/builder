@@ -54,7 +54,9 @@ export default class Element extends React.Component {
   }
 
   elementComponentTransformation (data) {
-    this.props.api.notify('element:didUpdate', this.props.element.id)
+    if (data && data.transformed) {
+      this.props.api.notify('element:didUpdate', this.props.element.id)
+    }
   }
 
   getContent (content) {
