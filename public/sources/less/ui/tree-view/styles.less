@@ -214,6 +214,11 @@
     transform: translate(-50%, -50%);
     font-size: @tree-control-action-size;
   }
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 .vcv-ui-tree-layout-control {

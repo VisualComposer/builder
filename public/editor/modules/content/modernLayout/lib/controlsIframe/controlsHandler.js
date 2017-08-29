@@ -23,6 +23,7 @@ export default class ControlsHandler {
       appendContainerTimeout: null
     }
     this.updateDropdownsPosition = this.updateDropdownsPosition.bind(this)
+    this.hide = this.hide.bind(this)
 
     this.setup()
   }
@@ -44,6 +45,10 @@ export default class ControlsHandler {
     this.appendControlContainer = document.createElement('div')
     this.appendControlContainer.classList.add('vcv-ui-append-control-container')
     this.appendControlWrapper.appendChild(this.appendControlContainer)
+  }
+
+  componentDidMount () {
+    workspaceStorage.state('copyData').onChange(this.hide)
   }
 
   /**
@@ -409,7 +414,7 @@ export default class ControlsHandler {
         options.relatedTo &&
         options.relatedTo.value &&
         options.relatedTo.value.includes('General') &&
-        !options.relatedTo.value.includes('RootElement')
+        !options.relatedTo.value.includes('RootElements')
       ) {
         actions.push({
           label: copyText,
@@ -422,13 +427,13 @@ export default class ControlsHandler {
       }
 
       // paste action
-      if (options.tag === 'column') {
+      if (options.tag === 'column' || options.tag === 'tab') {
         let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
         let disabled = !copyData
         actions.push({
           label: pasteText,
           disabled,
-          icon: 'vcv-ui-icon-paste',
+          icon: 'vcv-ui-icon-paste-icon',
           data: {
             vcControlEvent: 'paste'
           }
