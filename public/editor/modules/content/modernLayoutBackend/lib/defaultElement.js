@@ -209,6 +209,13 @@ export default class DefaultElement extends React.Component {
   render () {
     const { element, hasAttributes, activeElement, editable, content } = this.state
     let icon = hubCategoriesService.getElementIcon(element.tag, true)
+    let hidden = this.state.element.hidden
+
+    let containerClasses = classNames({
+      'vce-wpbackend-element-container': true,
+      'vce-wpbackend-default-element-hidden': env('VISIBILITY_CONTROL') && hidden
+    })
+
     let attributesClasses = classNames({
       'vce-wpbackend-element-attributes-container': true,
       'vce-wpbackend-hidden': !activeElement
@@ -251,7 +258,7 @@ export default class DefaultElement extends React.Component {
 
     if (hasAttributes) {
       return <div
-        className='vce-wpbackend-element-container'
+        className={containerClasses}
         id={`el-${element.id}-temp`}
         data-vcv-element={element.id}
         ref={(container) => { this.elementContainer = container }}
@@ -277,7 +284,7 @@ export default class DefaultElement extends React.Component {
       </div>
     }
     return <div
-      className='vce-wpbackend-element-container'
+      className={containerClasses}
       id={`el-${element.id}-temp`}
       data-vcv-element={element.id}
       ref={(container) => { this.elementContainer = container }}
