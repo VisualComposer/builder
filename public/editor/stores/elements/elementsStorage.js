@@ -113,6 +113,7 @@ addStorage('elements', (storage) => {
       storage.trigger('update', tabParent.id, tabParent)
     }
     if (!options.silent) {
+      storage.state('document').set(documentManager.children(false))
       updateTimeMachine(source || 'elements')
     }
   })

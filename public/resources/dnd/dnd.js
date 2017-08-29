@@ -185,15 +185,15 @@ export default class DnD {
 
   updateItem (id) {
     if (!this.items[ id ]) { return }
-    let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
-    if (!domNode || !domNode.ELEMENT_NODE) { return }
     this.items[ id ]
-      .refresh(env('FIX_DND_FOR_TABS') ? domNode : false)
+      .refresh()
       .off('mousedown', this.handleDragStartFunction)
       .off('mousedown', this.handleDragFunction)
       .on('dragstart', function (e) { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
       .on('mousedown', this.handleDragFunction)
+    this.removeItem(id)
+    this.addItem(id)
   }
 
   removeItem (id) {

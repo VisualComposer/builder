@@ -39,7 +39,8 @@ export default class TreeViewElement extends React.Component {
       showOutline: false,
       element: props.element,
       content: props.element.customHeaderTitle || props.element.name,
-      editable: false
+      editable: false,
+      copyData: window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -47,6 +48,7 @@ export default class TreeViewElement extends React.Component {
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.handleOutline = this.handleOutline.bind(this)
     this.checkActive = this.checkActive.bind(this)
+    this.checkPaste = this.checkPaste.bind(this)
     this.dataUpdate = this.dataUpdate.bind(this)
     this.enableEditable = this.enableEditable.bind(this)
     this.validateContent = this.validateContent.bind(this)
@@ -82,6 +84,7 @@ export default class TreeViewElement extends React.Component {
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
     this.props.onMountCallback(this.state.element.id)
     workspaceStorage.state('settings').onChange(this.checkActive)
+    workspaceStorage.state('copyData').onChange(this.checkPaste)
     // vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
 
     /*
@@ -121,6 +124,14 @@ export default class TreeViewElement extends React.Component {
     })
   }
 
+  checkPaste (data) {
+    if (data && data.element) {
+      this.setState({
+        copyData: true
+      })
+    }
+  }
+
   handleOutline (outlineElementId) {
     let showOutline = outlineElementId === this.props.element.id
     if (this.state.showOutline !== showOutline) {
@@ -141,6 +152,16 @@ export default class TreeViewElement extends React.Component {
   clickClone = (e) => {
     e && e.preventDefault()
     workspaceStorage.trigger('clone', this.state.element.id)
+  }
+
+  clickCopy = (e) => {
+    e && e.preventDefault()
+    workspaceStorage.trigger('copy', this.state.element.id)
+  }
+
+  clickPaste = (e) => {
+    e && e.preventDefault()
+    workspaceStorage.trigger('paste', this.state.element.id)
   }
 
   clickEdit = (tab = '') => {
@@ -253,7 +274,7 @@ export default class TreeViewElement extends React.Component {
     let element = cook.get(this.props.element)
     element.set('customHeaderTitle', value)
     let elementData = element.toJS()
-    elementsStorage.trigger('update', elementData.id, elementData, 'editFormTitle')
+    elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
     this.setState({
       content: value || element.get('name'),
       editable: false
@@ -285,6 +306,8 @@ export default class TreeViewElement extends React.Component {
     const addText = localizations ? localizations.add : 'Add'
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const cloneText = localizations ? localizations.clone : 'Clone'
+    const copyText = localizations ? localizations.copy : 'Copy'
+    const pasteText = localizations ? localizations.paste : 'Paste'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
     let visibilityText = ''
@@ -294,6 +317,8 @@ export default class TreeViewElement extends React.Component {
       visibilityText = localizations ? localizations.hideOn : 'Hide: On'
     }
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
+
+    let { editable, content, copyData } = this.state
 
     let element = cook.get(this.props.element)
     if (!element) {
@@ -359,6 +384,48 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
+    let copyControl = false
+    let pasteControl = false
+    if (vcCake.env('FEATURE_COPY_PASTE')) {
+      let relatedTo = element.get('relatedTo')
+      // copy action
+      if (
+        relatedTo &&
+        relatedTo.value &&
+        relatedTo.value.includes('General') &&
+        !relatedTo.value.includes('RootElements')
+      ) {
+        copyControl = (
+          <span
+            className='vcv-ui-tree-layout-control-action'
+            title={copyText}
+            onClick={this.clickCopy.bind(this)}
+          >
+            <i className='vcv-ui-icon vcv-ui-icon-copy-icon' />
+          </span>
+        )
+      }
+
+      // paste action
+      if (element.get('tag') === 'column' || element.get('tag') === 'tab') {
+        let attrs = {}
+        if (!copyData) {
+          attrs.disabled = true
+        }
+
+        pasteControl = (
+          <span
+            className='vcv-ui-tree-layout-control-action'
+            title={pasteText}
+            onClick={this.clickPaste.bind(this)}
+            {...attrs}
+          >
+            <i className='vcv-ui-icon vcv-ui-icon-paste-icon' />
+          </span>
+        )
+      }
+    }
+
     let childControls = <span className='vcv-ui-tree-layout-control-actions'>
       {addChildControl}
       {editRowLayoutControl}
@@ -369,6 +436,8 @@ export default class TreeViewElement extends React.Component {
         <i className='vcv-ui-icon vcv-ui-icon-copy' />
       </span>
       {visibilityControl}
+      {copyControl}
+      {pasteControl}
       <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.clickDelete}>
         <i className='vcv-ui-icon vcv-ui-icon-trash' />
       </span>
@@ -382,8 +451,6 @@ export default class TreeViewElement extends React.Component {
 
     let publicPath = hubCategoriesService.getElementIcon(element.get('tag'))
     let space = 0.8
-
-    let { editable, content } = this.state
 
     if (!content) {
       content = element.get('name')

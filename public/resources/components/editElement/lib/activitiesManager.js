@@ -3,8 +3,9 @@ import lodash from 'lodash'
 import vcCake from 'vc-cake'
 const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
+const documentManger = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
-// const cook = vcCake.getService('cook')
+const cook = vcCake.getService('cook')
 
 export default class ActivitiesManager extends React.Component {
   static propTypes = {
@@ -89,7 +90,9 @@ export default class ActivitiesManager extends React.Component {
 
   onElementChange = (key, value) => {
     this.props.element.set(key, value)
-    const { element } = this.props
+    let element = documentManger.get(this.props.element.get('id'))
+    element = cook.get(element)
+    element.set(key, value)
     const elementData = element.toJS()
     elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
     this.callFieldActivities(null, key)
