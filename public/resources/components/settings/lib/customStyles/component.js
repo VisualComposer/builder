@@ -1,10 +1,10 @@
 import React from 'react'
-import StyleControl from './styleControl'
-import StyleEditor from './styleEditor'
+import StyleControl from './control'
+import StyleEditor from './editor'
 import {setData, getStorage} from 'vc-cake'
 const settingsStorage = getStorage('settings')
 
-export default class SettingsCustomStyles extends React.Component {
+export default class CustomStyles extends React.Component {
   static propTypes = {
     styleData: React.PropTypes.array
   }
@@ -12,14 +12,14 @@ export default class SettingsCustomStyles extends React.Component {
   static defaultProps = {
     styleData: [
       {
-        buttonTitle: SettingsCustomStyles.localizations ? SettingsCustomStyles.localizations.localCSS : 'Local CSS',
-        editorLabel: SettingsCustomStyles.localizations ? SettingsCustomStyles.localizations.localCSSLabel : 'Local CSS will be applied to this particular page only',
+        buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.localCSS : 'Local CSS',
+        editorLabel: CustomStyles.localizations ? CustomStyles.localizations.localCSSLabel : 'Local CSS will be applied to this particular page only',
         index: 1,
         name: 'local'
       },
       {
-        buttonTitle: SettingsCustomStyles.localizations ? SettingsCustomStyles.localizations.globalCSS : 'Global CSS',
-        editorLabel: SettingsCustomStyles.localizations ? SettingsCustomStyles.localizations.globalCSSLabel : 'Global CSS will be applied site wide',
+        buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.globalCSS : 'Global CSS',
+        editorLabel: CustomStyles.localizations ? CustomStyles.localizations.globalCSSLabel : 'Global CSS will be applied site wide',
         index: 2,
         name: 'global'
       }
