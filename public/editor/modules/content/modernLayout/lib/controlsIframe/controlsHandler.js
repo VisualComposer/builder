@@ -258,7 +258,7 @@ export default class ControlsHandler {
     control.appendChild(this.createControlTrigger(
       elementId,
       {
-        title: vcElement.get('name'),
+        title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
         icon: hubCategoriesService.getElementIcon(vcElement.get('tag'))
       }
     ))
@@ -320,6 +320,7 @@ export default class ControlsHandler {
     const pasteText = localizations ? localizations.paste : 'Paste'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
+    const hideOffText = localizations ? localizations.hideOff : 'Hide: Off'
     const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
     let designOptionEvent = 'designOptions'
@@ -439,6 +440,17 @@ export default class ControlsHandler {
           }
         })
       }
+    }
+
+    if (env('VISIBILITY_CONTROL')) {
+      actions.push({
+        label: hideOffText,
+        title: hideOffText,
+        icon: 'vcv-ui-icon-eye-on',
+        data: {
+          vcControlEvent: 'hide'
+        }
+      })
     }
 
     // remove control

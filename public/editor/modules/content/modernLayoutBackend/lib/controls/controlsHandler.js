@@ -1,7 +1,9 @@
-import {getService, env} from 'vc-cake'
+import {getService, getStorage, env} from 'vc-cake'
+
 const documentManager = getService('document')
 const cook = getService('cook')
 const hubCategoriesService = getService('hubCategories')
+const workspaceStorage = getStorage('workspace')
 
 export default class ControlsHandler {
   constructor (props) {
@@ -144,7 +146,7 @@ export default class ControlsHandler {
     const vcElement = this.getVcElement(elementId)
     const colorIndex = this.getElementColorIndex(vcElement)
     const control = document.createElement('div')
-    const elName = vcElement.get('name')
+    const elName = vcElement.get('customHeaderTitle') || vcElement.get('name')
 
     control.classList.add('vcv-ui-outline-control-simple', `vcv-ui-outline-control-type-index-${colorIndex}`)
     control.dataset.vcvElementControls = elementId
@@ -241,7 +243,7 @@ export default class ControlsHandler {
     control.appendChild(this.createControlTrigger(
       elementId,
       {
-        title: vcElement.get('name'),
+        title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
         icon: hubCategoriesService.getElementIcon(vcElement.get('tag'))
       }
     ))
@@ -250,8 +252,10 @@ export default class ControlsHandler {
       elementId,
       {
         isContainer: colorIndex < 2,
-        title: vcElement.get('name'),
-        tag: vcElement.get('tag')
+        title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
+        tag: vcElement.get('tag'),
+        relatedTo: vcElement.get('relatedTo'),
+        hidden: documentManager.get(elementId) && documentManager.get(elementId).hidden
       }
     ))
 
@@ -298,11 +302,17 @@ export default class ControlsHandler {
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const moveText = localizations ? localizations.move : 'Move'
     const cloneText = localizations ? localizations.clone : 'Clone'
+    const copyText = localizations ? localizations.copy : 'Copy'
+    const pasteText = localizations ? localizations.paste : 'Paste'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
     const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
     let designOptionEvent = 'designOptions'
+    let visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
+    if (options && options.hidden) {
+      visibilityText = localizations ? localizations.hideOn : 'Hide: On'
+    }
 
     let dropdown = document.createElement('div')
     dropdown.classList.add('vcv-ui-outline-control-dropdown-content')
@@ -387,6 +397,50 @@ export default class ControlsHandler {
       }
     })
 
+    if (env('FEATURE_COPY_PASTE')) {
+      // copy action
+      if (
+        options.relatedTo &&
+        options.relatedTo.value &&
+        options.relatedTo.value.includes('General') &&
+        !options.relatedTo.value.includes('RootElements')
+      ) {
+        actions.push({
+          label: copyText,
+          title: `${copyText} ${options.title}`,
+          icon: 'vcv-ui-icon-copy-icon',
+          data: {
+            vcControlEvent: 'copy'
+          }
+        })
+      }
+
+      // paste action
+      if (options.tag === 'column' || options.tag === 'tab') {
+        let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
+        let disabled = !copyData
+        actions.push({
+          label: pasteText,
+          disabled,
+          icon: 'vcv-ui-icon-paste-icon',
+          data: {
+            vcControlEvent: 'paste'
+          }
+        })
+      }
+    }
+
+    if (env('VISIBILITY_CONTROL')) {
+      actions.push({
+        label: visibilityText,
+        title: visibilityText,
+        icon: 'vcv-ui-icon-eye-on',
+        data: {
+          vcControlEvent: 'hide'
+        }
+      })
+    }
+
     // remove control
     actions.push({
       label: removeText,
@@ -424,6 +478,9 @@ export default class ControlsHandler {
     let actionContent = document.createElement('span')
     actionContent.classList.add('vcv-ui-outline-control-content')
     actionContent.title = options.title || options.label
+    if (options.disabled) {
+      actionContent.setAttribute('disabled', true)
+    }
     action.appendChild(actionContent)
 
     let icon = document.createElement('i')

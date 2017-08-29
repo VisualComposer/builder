@@ -1,3 +1,11 @@
+.vcv-ui-navbar-control-icon.vcv-ui-settings-title-icon {
+  margin-left: 5px;
+
+  & + span {
+    margin-left: 10px;
+  }
+}
+
 .vcv-ui-style-control-container {
   display: flex;
   justify-content: center;
@@ -9,6 +17,7 @@
   border: none;
   padding: @control-padding-top-bottom @control-padding-left-right;
   background: @control-background-color;
+  border: @control-border;
   color: @control-color;
   cursor: pointer;
   transition: background @transition-duration @transition-timing-function;
@@ -21,6 +30,7 @@
   &:first-child {
     border-top-left-radius: @settings-border-radius;
     border-bottom-left-radius: @settings-border-radius;
+    border-right: none;
   }
 
   &:last-child {
@@ -52,6 +62,11 @@
   flex-direction: row;
   flex-wrap: wrap;
   flex: 0 0 auto;
+
+  &.vcv-ui-settings-actions-background {
+    background-color: #203251;
+  }
+
   .vcv-ui-settings-action-content {
     span {
       margin-left: @settings-gold-value;
