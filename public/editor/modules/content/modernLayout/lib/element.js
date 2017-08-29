@@ -46,6 +46,10 @@ export default class Element extends React.Component {
     assetsStorage.trigger('removeElement', this.state.element.id)
   }
 
+  componentDidUpdate () {
+    this.props.api.notify('element:didUpdate', this.props.element.id)
+  }
+
   getContent (content) {
     let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
@@ -91,6 +95,9 @@ export default class Element extends React.Component {
     element = this.state.element
     let el = cook.get(element)
     if (!el) {
+      return null
+    }
+    if (vcCake.env('VISIBILITY_CONTROL') && element && element.hidden) {
       return null
     }
     let id = el.get('id')

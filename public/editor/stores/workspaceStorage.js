@@ -137,6 +137,19 @@ addStorage('workspace', (storage) => {
       options: {}
     })
   })
+  storage.on('hide', (id, options) => {
+    if (!id) {
+      return
+    }
+    const element = documentManager.get(id)
+    if (!element) {
+      return
+    }
+
+    let newElement = element
+    newElement.hidden = !element.hidden
+    elementsStorage.trigger('update', id, newElement)
+  })
   storage.state('navbarBoundingRect').set({
     resizeTop: 0,
     resizeLeft: 0

@@ -17,7 +17,7 @@ export default class DOMElement {
         configurable: false,
         enumerable: false,
         value: DOMNode,
-        writable: true
+        writable: false
       },
       /**
        * @memberOf! DOMElement
@@ -87,10 +87,7 @@ export default class DOMElement {
     }
   }
 
-  refresh (domNode) {
-    if (domNode) {
-      this.node = domNode
-    }
+  refresh () {
     this.setAttributes()
     return this
   }
