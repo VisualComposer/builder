@@ -110,10 +110,10 @@ class UpdatesController extends Container implements Module
     {
         $information = [];
         $information['name'] = 'Visual Composer Website Builder';
-        $information['author'] = '<a target="_blank" href="https://visualcomposer.io">Visual Composer</a>';
+        $information['author'] = '<a target="_blank" href="https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-backend&utm_medium=vc-wb-plugins-admin-changelog-author">The Visual Composer Team</a>';
         $information['slug'] = VCV_PLUGIN_DIRNAME;
         $information['banners'] = ['high' => vchelper('Url')->assetUrl('images/logo/visualcomposer-changelog-cover.jpg')];
-        $information['homepage'] = 'https://visualcomposer.io';
+        $information['homepage'] = 'https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-backend&utm_medium=vc-wb-plugins-changelog';
         $information['sections'] = [];
         $information['sections']['description'] = __('
 <p>Visual Composer Website Builder is a perfect solution to create your WordPress site via drag and drop interface. Use content elements or predefined layouts to create any layout fast and easy.</p>
