@@ -93,7 +93,7 @@ export default class Element extends React.Component {
     if (!el) {
       return null
     }
-    if (element && element.hidden) {
+    if (vcCake.env('VISIBILITY_CONTROL') && element && element.hidden) {
       return null
     }
     let id = el.get('id')

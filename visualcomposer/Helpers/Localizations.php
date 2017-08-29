@@ -149,8 +149,8 @@ class Localizations extends Container implements Helper
             'preview' => __('Preview', 'vcwb'),
             'previewChanges' => __('Preview Changes', 'vcwb'),
             'savingResults' => __('Saving Results', 'vcwb'),
-            'hiddenOff' => __('Hidden: Off', 'vcwb'),
-            'hiddenOn' => __('Hidden: On', 'vcwb'),
+            'hideOff' => __('Hide: Off', 'vcwb'),
+            'hideOn' => __('Hide: On', 'vcwb'),
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'vcwb'),
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
         ];

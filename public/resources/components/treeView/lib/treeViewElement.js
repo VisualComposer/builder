@@ -289,9 +289,9 @@ export default class TreeViewElement extends React.Component {
     const editText = localizations ? localizations.edit : 'Edit'
     let visibilityText = ''
     if (hidden) {
-      visibilityText = localizations ? localizations.hiddenOff : 'Hide: Off'
+      visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
     } else {
-      visibilityText = localizations ? localizations.hiddenOn : 'Hide: On'
+      visibilityText = localizations ? localizations.hideOn : 'Hide: On'
     }
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
 
@@ -303,7 +303,7 @@ export default class TreeViewElement extends React.Component {
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
       'vcv-ui-tree-layout-node-state-draft': false,
-      'vcv-ui-tree-layout-node-hidden': hidden
+      'vcv-ui-tree-layout-node-hidden': vcCake.env('VISIBILITY_CONTROL') && hidden
     })
 
     let child = this.getContent()
