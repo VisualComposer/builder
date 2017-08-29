@@ -46,6 +46,10 @@ export default class Element extends React.Component {
     assetsStorage.trigger('removeElement', this.state.element.id)
   }
 
+  componentDidUpdate () {
+    this.props.api.notify('element:didUpdate', this.props.element.id)
+  }
+
   getContent (content) {
     let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
