@@ -269,6 +269,12 @@ class HubCategories extends Container implements Module
                     'icon' => $urlHelper->to('devCategories/categories/icons/Feature.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Feature.svg'),
                 ],
+                'Transparent Outline Button' => [
+                    'title' => 'Transparent Outline Button',
+                    'elements' => ['transparentOutlineButton'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
+                ],
             ]
         );
     }
