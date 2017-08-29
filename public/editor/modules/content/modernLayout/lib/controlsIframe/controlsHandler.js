@@ -258,7 +258,7 @@ export default class ControlsHandler {
     control.appendChild(this.createControlTrigger(
       elementId,
       {
-        title: vcElement.get('name'),
+        title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
         icon: hubCategoriesService.getElementIcon(vcElement.get('tag'))
       }
     ))
