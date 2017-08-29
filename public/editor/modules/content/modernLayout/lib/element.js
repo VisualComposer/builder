@@ -18,6 +18,7 @@ export default class Element extends React.Component {
   constructor (props) {
     super(props)
     this.dataUpdate = this.dataUpdate.bind(this)
+    this.elementComponentTransformation = this.elementComponentTransformation.bind(this)
     this.state = {
       element: props.element
     }
@@ -32,7 +33,19 @@ export default class Element extends React.Component {
     this.props.api.notify('element:mount', this.state.element.id)
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
     assetsStorage.trigger('addElement', this.state.element.id)
+    elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
     // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
+  }
+
+  componentWillUnmount () {
+    this.props.api.notify('element:unmount', this.state.element.id)
+    elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
+    assetsStorage.trigger('removeElement', this.state.element.id)
+    elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
+  }
+
+  componentDidUpdate () {
+    this.props.api.notify('element:didUpdate', this.props.element.id)
   }
 
   dataUpdate (data) {
@@ -40,13 +53,7 @@ export default class Element extends React.Component {
     assetsStorage.trigger('updateElement', this.state.element.id)
   }
 
-  componentWillUnmount () {
-    this.props.api.notify('element:unmount', this.state.element.id)
-    elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
-    assetsStorage.trigger('removeElement', this.state.element.id)
-  }
-
-  componentDidUpdate () {
+  elementComponentTransformation (data) {
     this.props.api.notify('element:didUpdate', this.props.element.id)
   }
 
