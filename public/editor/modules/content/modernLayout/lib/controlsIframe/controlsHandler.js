@@ -442,7 +442,7 @@ export default class ControlsHandler {
       }
     }
 
-    if (env('VISIBILITY_CONTROL')) {
+    if (env('VISIBILITY_CONTROL') && options.tag !== 'column') {
       actions.push({
         label: hideOffText,
         title: hideOffText,
