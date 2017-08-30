@@ -1590,6 +1590,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'Transparent outline button with fill color effect on hover is perfect for dark or colorful backgrounds.',
                 //                    ],
                 //                ],
+                //                'parallelogramButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/parallelogramButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/parallelogramButton/parallelogramButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Parallelogram Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/parallelogramButton/parallelogramButton/public/thumbnail-parallelogram-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/parallelogramButton/parallelogramButton/public/preview-parallelogram-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A button in parallelogram shape with ability to control angle.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [

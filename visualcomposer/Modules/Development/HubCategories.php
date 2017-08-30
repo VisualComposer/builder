@@ -275,6 +275,12 @@ class HubCategories extends Container implements Module
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
                 ],
+                'Parallelogram Button' => [
+                    'title' => 'Parallelogram Button',
+                    'elements' => ['parallelogramButton'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
+                ],
             ]
         );
     }
