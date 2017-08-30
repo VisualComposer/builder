@@ -1590,6 +1590,42 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'Transparent outline button with fill color effect on hover is perfect for dark or colorful backgrounds.',
                 //                    ],
                 //                ],
+                'outlineShadowButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/outlineShadowButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/outlineShadowButton/outlineShadowButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/outlineShadowButton/outlineShadowButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/outlineShadowButton/outlineShadowButton/public/'),
+                    'settings' => [
+                        'name' => 'Outline Shadow Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/outlineShadowButton/outlineShadowButton/public/thumbnail-outline-shadow-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/outlineShadowButton/outlineShadowButton/public/preview-outline-shadow-button.png'
+                        ),
+                        'metaDescription' => 'A geometric style outline button with custom hover color option.',
+                    ],
+                ],
+                'underlineButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/underlineButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/underlineButton/underlineButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/underlineButton/underlineButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/underlineButton/underlineButton/public/'),
+                    'settings' => [
+                        'name' => 'Underline Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/underlineButton/underlineButton/public/thumbnail-underline-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/underlineButton/underlineButton/public/preview-underline-button.png'
+                        ),
+                        'metaDescription' => 'A simple text button with underline and resize animation.',
+                    ],
+                ],
             ]
         );
         // 'animatedOutlineButton' => [

@@ -80,6 +80,8 @@ class HubCategories extends Container implements Module
                         'gradientButton',
                         'animatedOutlineButton',
                         'doubleOutlineButton',
+                        'outlineShadowButton',
+                        'underlineButton'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
@@ -268,13 +270,7 @@ class HubCategories extends Container implements Module
                     'elements' => ['featureDescription'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Feature.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Feature.svg'),
-                ],
-                'Transparent Outline Button' => [
-                    'title' => 'Transparent Outline Button',
-                    'elements' => ['transparentOutlineButton'],
-                    'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
-                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
-                ],
+                ]
             ]
         );
     }
