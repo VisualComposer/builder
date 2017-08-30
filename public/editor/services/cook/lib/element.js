@@ -16,7 +16,7 @@ export default class CookElement {
   }
 
   constructor (data) {
-    let { id = createKey(), parent = false, tag, order, customHeaderTitle, ...attr } = data
+    let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, ...attr } = data
     attr.tag = tag
     attr.id = id
     let element = window.VCV_HUB_GET_ELEMENTS()[ tag ]
@@ -42,6 +42,7 @@ export default class CookElement {
         metaBundlePath: element.bundlePath,
         customHeaderTitle: customHeaderTitle || '',
         order: order,
+        hidden: hidden,
         settings: elSettings && elSettings.settings ? elSettings.settings : {},
         cssSettings: elSettings && elSettings.cssSettings ? elSettings.cssSettings : {},
         jsSettings: elSettings && elSettings.javascript ? elSettings.javascript : {},
@@ -66,7 +67,7 @@ export default class CookElement {
   }
 
   get (k, raw = false) {
-    if ([ 'id', 'name', 'metaThumbnailUrl', 'metaPreviewUrl', 'metaDescription', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings', 'metaAssetsPath', 'metaElementPath', 'metaBundlePath', 'customHeaderTitle' ].indexOf(k) > -1) {
+    if ([ 'id', 'name', 'metaThumbnailUrl', 'metaPreviewUrl', 'metaDescription', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings', 'metaAssetsPath', 'metaElementPath', 'metaBundlePath', 'customHeaderTitle', 'hidden' ].indexOf(k) > -1) {
       return this[ elData ][ k ]
     }
     let { type, settings } = this[ elData ].getAttributeType(k)
@@ -124,6 +125,9 @@ export default class CookElement {
     data.metaBundlePath = this[ elData ].metaBundlePath
     if (this[ elData ].customHeaderTitle !== undefined) {
       data.customHeaderTitle = this[ elData ].customHeaderTitle
+    }
+    if (this[ elData ].hidden !== undefined) {
+      data.hidden = this[ elData ].hidden
     }
     if (this[ elData ].parent !== undefined) {
       data.parent = this[ elData ].parent

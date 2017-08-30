@@ -82,7 +82,10 @@ class HubCategories extends Container implements Module
                         'doubleOutlineButton',
                         'transparentOutlineButton',
                         'parallelogramButton',
-                        'resizeButton'
+                        'resizeButton',
+                        'outlineShadowButton',
+                        'underlineButton',
+                        'parallelogramButton'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
