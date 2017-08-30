@@ -376,7 +376,7 @@ export default class TreeViewElement extends React.Component {
     }
 
     let visibilityControl = ''
-    if (vcCake.env('VISIBILITY_CONTROL')) {
+    if (vcCake.env('VISIBILITY_CONTROL') && this.props.element.tag !== 'column') {
       let iconClasses = classNames({
         'vcv-ui-icon': true,
         'vcv-ui-icon-eye-on': !hidden,

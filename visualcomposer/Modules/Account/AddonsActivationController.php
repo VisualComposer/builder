@@ -70,8 +70,9 @@ class AddonsActivationController extends ActivationController
         }
 
         if (!isset($token) && $optionsHelper->getTransient('vcv:activation:request')) {
-            $expirationTime = get_option('_transient_timeout_vcv-vcv:activation:request');
+            $expirationTime = get_option('_transient_timeout_vcv-' . VCV_VERSION . 'vcv:activation:request');
             $expiresAfter = $expirationTime - time();
+            $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
             $loggerHelper->log(
                 sprintf(__('Activation failed! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter),
                 [

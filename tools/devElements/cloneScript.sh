@@ -75,6 +75,7 @@ declare -a arr=(
 'outlineShadowButton'
 'underlineButton'
 'parallelogramButton'
+'resizeButton'
 '3dButton'
 )
 

@@ -15,8 +15,9 @@ $errorMsg = $optionsHelper->getTransient('account:activation:error');
 if ($errorMsg) {
     $optionsHelper->deleteTransient('account:activation:error');
 }
-$expirationTime = get_option('_transient_timeout_vcv-vcv:activation:request');
+$expirationTime = get_option('_transient_timeout_vcv-' . VCV_VERSION . 'vcv:activation:request');
 $expiresAfter = $expirationTime - time();
+$expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
 
 $errorMsg = sprintf(__('Activation already in process! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter);
 $type = isset($page, $page['type']) ? $page['type'] : 'default';

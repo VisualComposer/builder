@@ -81,6 +81,8 @@ class HubCategories extends Container implements Module
                         'animatedOutlineButton',
                         'doubleOutlineButton',
                         'transparentOutlineButton',
+                        'parallelogramButton',
+                        'resizeButton',
                         'outlineShadowButton',
                         'underlineButton',
                         'parallelogramButton',

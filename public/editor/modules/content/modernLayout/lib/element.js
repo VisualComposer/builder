@@ -72,7 +72,8 @@ export default class Element extends React.Component {
       }
       return elements
     })
-    if (elementsList.length) {
+    let visibleElementsList = DocumentData.children(currentElement.get('id')).filter(childElement => childElement.hidden !== true)
+    if (visibleElementsList.length) {
       returnData = elementsList
     } else {
       returnData = currentElement.containerFor().length > 0
