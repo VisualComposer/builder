@@ -72,6 +72,9 @@ declare -a arr=(
 'featureDescription'
 'pricingTable'
 'transparentOutlineButton'
+'outlineShadowButton'
+'underlineButton'
+'parallelogramButton'
 )
 
 EXECDIR=`pwd`
