@@ -60,7 +60,7 @@ class Options implements Helper
      */
     public function setTransient($transient, $value, $expiration = 0)
     {
-        set_transient(VCV_PREFIX . $transient, $value, $expiration);
+        set_transient(VCV_PREFIX . VCV_VERSION . $transient, $value, $expiration);
 
         return $this;
     }
@@ -72,12 +72,12 @@ class Options implements Helper
      */
     public function getTransient($transient)
     {
-        return get_transient(VCV_PREFIX . $transient);
+        return get_transient(VCV_PREFIX . VCV_VERSION . $transient);
     }
 
     public function deleteTransient($transient)
     {
-        delete_transient(VCV_PREFIX . $transient);
+        delete_transient(VCV_PREFIX . VCV_VERSION . $transient);
 
         return $this;
     }
