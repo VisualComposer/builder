@@ -1644,6 +1644,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A simple text button with underline and resize animation.',
                 //                    ],
                 //                ],
+                //                '3dButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/3dButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/3dButton/3dButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/3dButton/3dButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/3dButton/3dButton/public/'),
+                //                    'settings' => [
+                //                        'name' => '3D Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/3dButton/3dButton/public/thumbnail-3d-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/3dButton/3dButton/public/preview-3d-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A 3D style button with the ability to control a hover and animation states.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [
