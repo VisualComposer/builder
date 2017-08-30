@@ -1608,6 +1608,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A button in parallelogram shape with ability to control angle.',
                 //                    ],
                 //                ],
+                //                'resizeButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/resizeButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/resizeButton/resizeButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/resizeButton/resizeButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/resizeButton/resizeButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Resize Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/resizeButton/resizeButton/public/thumbnail-resize-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/resizeButton/resizeButton/public/preview-resize-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A simple button that resizes with animation on hover to catch user attention.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [
