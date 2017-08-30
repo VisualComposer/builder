@@ -1,9 +1,11 @@
 import {addStorage, getService, getStorage} from 'vc-cake'
 
+const createKey = getService('utils').createKey
+
 addStorage('workspace', (storage) => {
   const elementsStorage = getStorage('elements')
   const localStorage = getStorage('localStorage')
-  const documentManger = getService('document')
+  const documentManager = getService('document')
   const cook = getService('cook')
   const isElementOneRelation = (parent) => {
     let children = cook.getChildren(parent.tag)
@@ -15,7 +17,7 @@ addStorage('workspace', (storage) => {
   storage.on('add', (id, tag, options) => {
     let element = false
     if (id) {
-      element = documentManger.get(id)
+      element = documentManager.get(id)
     }
     if (element) {
       let oneTag = isElementOneRelation(element)
@@ -36,7 +38,7 @@ addStorage('workspace', (storage) => {
     if (!id) {
       return
     }
-    const element = documentManger.get(id)
+    const element = documentManager.get(id)
     if (!element) {
       return
     }
@@ -57,16 +59,68 @@ addStorage('workspace', (storage) => {
   storage.on('clone', (id) => {
     elementsStorage.trigger('clone', id)
   })
+  storage.on('copy', (id, tag, options) => {
+    let element = documentManager.copy(id)
+    let copyData = {
+      element,
+      options
+    }
+    storage.state('copyData').set(copyData)
+    if (window.localStorage) {
+      window.localStorage.setItem('vcv-copy-data', JSON.stringify(copyData))
+    }
+  })
+  const markLastChild = (data) => {
+    if (data.children.length) {
+      let lastChildIndex = data.children.length - 1
+      data.children[lastChildIndex] = markLastChild(data.children[lastChildIndex])
+    } else {
+      data.lastItem = true
+    }
+    return data
+  }
+  const pasteElementAndChildren = (data, parentId, options = {}) => {
+    let elementId = createKey()
+    options = {
+      ...options,
+      silent: !data.lastItem
+    }
+    let element = cook.get({
+      ...data.element,
+      id: elementId,
+      parent: parentId
+    })
+    let elementData = element.toJS()
+    elementData.skipInitialExtraElements = true
+    elementsStorage.trigger('add', elementData, true, options)
+    data.children.forEach(child => {
+      pasteElementAndChildren(child, elementId)
+    })
+  }
+  storage.on('paste', (id) => {
+    let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || storage.state('copyData').get()
+    if (!copyData) {
+      return
+    } else if (copyData.constructor === String) {
+      try {
+        copyData = JSON.parse(copyData)
+      } catch (err) {
+        return
+      }
+    }
+    copyData.element = markLastChild(copyData.element)
+    pasteElementAndChildren(copyData.element, id, copyData.options)
+  })
   storage.on('move', (id, settings) => {
     elementsStorage.trigger('move', id, settings)
   })
   storage.on('drop', (id, settings) => {
-    const relatedElement = settings.related ? cook.get(documentManger.get(settings.related)) : false
+    const relatedElement = settings.related ? cook.get(documentManager.get(settings.related)) : false
     const data = cook.get({ tag: settings.element.tag, parent: relatedElement.get('parent') })
     elementsStorage.trigger('add', data.toJS())
     let movingID = data.get('id')
     if (settings.action !== 'append' && relatedElement.relatedTo([ 'RootElements' ]) && !data.relatedTo([ 'RootElements' ])) {
-      movingID = documentManger.getTopParent(movingID)
+      movingID = documentManager.getTopParent(movingID)
     }
     elementsStorage.trigger('move', movingID, settings)
     storage.trigger('edit', data.toJS().id, '')
@@ -82,6 +136,19 @@ addStorage('workspace', (storage) => {
       tag: false,
       options: {}
     })
+  })
+  storage.on('hide', (id, options) => {
+    if (!id) {
+      return
+    }
+    const element = documentManager.get(id)
+    if (!element) {
+      return
+    }
+
+    let newElement = element
+    newElement.hidden = !element.hidden
+    elementsStorage.trigger('update', id, newElement)
   })
   storage.state('navbarBoundingRect').set({
     resizeTop: 0,

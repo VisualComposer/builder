@@ -287,10 +287,15 @@ export default class ControlsManager {
           setTimeout(() => {
             this.iframeDocument.body.addEventListener('mousemove', this.findElement)
           }, 100)
+        } else if (event === 'copy') {
+          this.controls.hide()
+          workspaceStorage.trigger(event, elementId, tag, options)
+        } else if (event === 'hide') {
+          this.controls.hide()
+          workspaceStorage.trigger(event, elementId)
         } else {
           workspaceStorage.trigger(event, elementId, tag, options)
         }
-        // this.api.request(event, elementId, tag, options)
       }
     }
   }

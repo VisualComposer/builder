@@ -71,6 +71,11 @@ declare -a arr=(
 'simpleImageSlider'
 'featureDescription'
 'pricingTable'
+'transparentOutlineButton'
+'outlineShadowButton'
+'underlineButton'
+'parallelogramButton'
+'resizeButton'
 )
 
 EXECDIR=`pwd`

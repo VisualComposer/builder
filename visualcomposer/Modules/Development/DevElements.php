@@ -1048,7 +1048,7 @@ class DevElements extends Container implements Module
                         'devElements/faqToggle/faqToggle/public/'
                     ),
                     'settings' => [
-                        'name' => 'Faq toggle',
+                        'name' => 'Faq Toggle',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
                             'devElements/faqToggle/faqToggle/public/faq-thumbnail.png'
@@ -1572,6 +1572,94 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'WooCommerce Element',
                     ],
                 ],
+                //                'transparentOutlineButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/transparentOutlineButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/transparentOutlineButton/transparentOutlineButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Transparent Outline Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/transparentOutlineButton/transparentOutlineButton/public/thumbnail-transparent-outline-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/transparentOutlineButton/transparentOutlineButton/public/preview-transparent-outline-button.png'
+                //                        ),
+                //                        'metaDescription' => 'Transparent outline button with fill color effect on hover is perfect for dark or colorful backgrounds.',
+                //                    ],
+                //                ],
+                //                'parallelogramButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/parallelogramButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/parallelogramButton/parallelogramButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Parallelogram Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/parallelogramButton/parallelogramButton/public/thumbnail-parallelogram-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/parallelogramButton/parallelogramButton/public/preview-parallelogram-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A button in parallelogram shape with ability to control angle.',
+                //                    ],
+                //                ],
+                //                'resizeButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/resizeButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/resizeButton/resizeButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/resizeButton/resizeButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/resizeButton/resizeButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Resize Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/resizeButton/resizeButton/public/thumbnail-resize-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/resizeButton/resizeButton/public/preview-resize-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A simple button that resizes with animation on hover to catch user attention.',
+                //                'outlineShadowButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/outlineShadowButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/outlineShadowButton/outlineShadowButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/outlineShadowButton/outlineShadowButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/outlineShadowButton/outlineShadowButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Outline Shadow Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/outlineShadowButton/outlineShadowButton/public/thumbnail-outline-shadow-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/outlineShadowButton/outlineShadowButton/public/preview-outline-shadow-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A geometric style outline button with custom hover color option.',
+                //                    ],
+                //                ],
+                //                'underlineButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/underlineButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/underlineButton/underlineButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/underlineButton/underlineButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/underlineButton/underlineButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Underline Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/underlineButton/underlineButton/public/thumbnail-underline-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/underlineButton/underlineButton/public/preview-underline-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A simple text button with underline and resize animation.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [

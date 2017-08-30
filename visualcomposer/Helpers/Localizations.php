@@ -80,6 +80,8 @@ class Localizations extends Container implements Helper
             'edit' => __('Edit', 'vcwb'),
             'designOptions' => __('Design Options', 'vcwb'),
             'clone' => __('Clone', 'vcwb'),
+            'copy' => __('Copy', 'vcwb'),
+            'paste' => __('Paste', 'vcwb'),
             'remove' => __('Remove', 'vcwb'),
             'move' => __('Move', 'vcwb'),
             'searchContentElements' => __('Search content elements', 'vcwb'),
@@ -147,6 +149,8 @@ class Localizations extends Container implements Helper
             'preview' => __('Preview', 'vcwb'),
             'previewChanges' => __('Preview Changes', 'vcwb'),
             'savingResults' => __('Saving Results', 'vcwb'),
+            'hideOff' => __('Hide: Off', 'vcwb'),
+            'hideOn' => __('Hide: On', 'vcwb'),
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'vcwb'),
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
         ];

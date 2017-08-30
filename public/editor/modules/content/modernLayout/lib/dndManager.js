@@ -76,10 +76,12 @@ export default class DndManager {
       })
     }
   }
+
   removeItems () {
     this.items = null
     workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
   }
+
   getOffsetTop () {
     if (this.iframe) {
       let rect = this.iframe.getBoundingClientRect()
@@ -96,6 +98,7 @@ export default class DndManager {
     this.api
       .on('element:mount', this.add.bind(this))
       .on('element:unmount', this.remove.bind(this))
+      .on('element:didUpdate', this.update.bind(this))
   }
 
   add (id) {
@@ -113,17 +116,24 @@ export default class DndManager {
     }, 0)
   }
 
+  update (id) {
+    this.buildItems()
+    this.items.updateItem(id, this.documentDOM)
+  }
+
   move (id, action, related) {
     if (id && related) {
       workspaceStorage.trigger('move', id, { action: action, related: related })
     }
   }
+
   drop (id, action, related, element) {
     if (id && related) {
       workspaceStorage.trigger('drop', id, { action: action, related: related, element: element })
       // this.api.request('data:move', id, { action: action, related: related })
     }
   }
+
   static start () {
     vcCake.setData('elementControls:disable', true)
     document.body.classList.add('vcv-is-no-selection')

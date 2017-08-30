@@ -214,6 +214,11 @@
     transform: translate(-50%, -50%);
     font-size: @tree-control-action-size;
   }
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 .vcv-ui-tree-layout-control {
@@ -281,6 +286,11 @@
   &:not(.vcv-ui-tree-layout-node-expand) {
     > .vcv-ui-tree-layout-node {
       display: none;
+    }
+  }
+  &.vcv-ui-tree-layout-node-hidden {
+    .vcv-ui-tree-layout-control-content {
+      opacity: 0.5;
     }
   }
 }

@@ -148,6 +148,28 @@ const api = {
     }
     return clone.toJS()
   },
+  copy: function (id) {
+    let children = []
+    let obj = dataStore.data.get(id)
+    if (!obj) {
+      return false
+    }
+    let cloneId = createKey()
+    let clone = obj.withMutations(function (map) {
+      map.set('id', cloneId)
+      map.set('metaCustomId', '')
+      map.set('parent', '')
+    })
+
+    dataStore.getChildren(obj.get('id')).forEach((el) => {
+      children.push(this.copy(el.get('id'), cloneId, true))
+    }, this)
+
+    return {
+      element: clone.toJS(),
+      children
+    }
+  },
   all: function () {
     return dataStore.data.toJS()
   },
