@@ -1678,6 +1678,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A 3D style button with the ability to control a hover and animation states.',
                 //                    ],
                 //                ],
+                //                'simpleGradientButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/simpleGradientButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/simpleGradientButton/simpleGradientButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Simple Gradient Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/simpleGradientButton/simpleGradientButton/public/thumbnail-simple-gradient-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/simpleGradientButton/simpleGradientButton/public/preview-simple-gradient-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A simple gradient button with automatic gradient effect calculation.',
+                //                    ],
+                //                ]
             ]
         );
         // 'animatedOutlineButton' => [
