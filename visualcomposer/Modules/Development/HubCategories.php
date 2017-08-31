@@ -85,7 +85,7 @@ class HubCategories extends Container implements Module
                         'resizeButton',
                         'outlineShadowButton',
                         'underlineButton',
-                        'parallelogramButton'
+                        'borderHoverButton'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
