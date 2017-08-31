@@ -186,7 +186,7 @@ $(() => {
       function doAction (i, finishCb) {
         let action = actions[i]
         let name = action.name
-        $heading.text(downloadingAssetsText.replace('{i}', i + 1).replace('{cnt}', cnt + 1).replace('{name}', name))
+        $heading.text(downloadingAssetsText.replace('{i}', i + 1).replace('{cnt}', cnt).replace('{name}', name))
         $.ajax(window.vcvActionsUrl,
           {
             dataType: 'json',
