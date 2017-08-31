@@ -26,7 +26,7 @@ class DeactivationController extends Container implements Module
      */
     public function __construct()
     {
-        $this->addEvent('vcv:system:deactivation:hook', 'unsetOptions');
+        $this->addEvent('vcv:system:deactivation:hook vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**

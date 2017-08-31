@@ -24,6 +24,8 @@ class JsonActionsController extends Container implements Module
         $this->addFilter('vcv:hub:download:json', 'ajaxGetRequiredActions');
         $this->addFilter('vcv:hub:update:json', 'processUpdateActions');
         $this->addFilter('vcv:ajax:hub:action:adminNonce', 'ajaxProcessAction');
+
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     protected function ajaxGetRequiredActions($response, $payload, Logger $loggerHelper, Options $optionsHelper)
@@ -186,5 +188,14 @@ class JsonActionsController extends Container implements Module
         );
 
         return $response;
+    }
+
+    protected function unsetOptions(Options $optionsHelper)
+    {
+        $optionsHelper
+            ->deleteTransient('vcv:hub:download:json')
+            ->deleteTransient('vcv:activation:request');
+        global $wpdb;
+        $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"', VCV_PREFIX . 'hubAction:%'));
     }
 }

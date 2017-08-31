@@ -12,11 +12,13 @@ use stdClass;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class UpdatesController extends Container implements Module
 {
     use WpFiltersActions;
+    use EventsFilters;
 
     /**
      * Update path
@@ -46,6 +48,8 @@ class UpdatesController extends Container implements Module
             $this,
             'changelog',
         ]);
+
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**
@@ -55,7 +59,7 @@ class UpdatesController extends Container implements Module
      *
      * @return mixed
      */
-    protected function checkForUpdates($transient)
+    protected function checkForUpdates($transient, Options $optionsHelper)
     {
         // Extra check for 3rd plugins.
         if (isset($transient->response[ VCV_PLUGIN_BASE_NAME ])) {
@@ -63,7 +67,11 @@ class UpdatesController extends Container implements Module
         }
 
         // Get the remote version.
-        $info = $this->getRemoteVersionInfo();
+        $info = $optionsHelper->getTransient('vcv:update:remoteVersion');
+        if (!$info) {
+            $info = $this->getRemoteVersionInfo();
+            $optionsHelper->setTransient('vcv:update:remoteVersion', $info, 600);
+        }
         // If a newer version is available, add the update.
         if ($info && version_compare(VCV_VERSION, $info['version'], '<')) {
             $plugin = new stdClass();
@@ -152,5 +160,13 @@ class UpdatesController extends Container implements Module
         </style>
 HTML;
         wp_enqueue_script('vcv:settings:script');
+    }
+
+
+    protected function unsetOptions(Options $optionsHelper)
+    {
+        $optionsHelper
+            ->deleteTransient('vcv:update:remoteVersion');
+        delete_site_transient('update_plugins');
     }
 }

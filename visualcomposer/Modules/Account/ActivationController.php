@@ -60,19 +60,7 @@ class ActivationController extends Container implements Module
         /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
         $this->addFilter('vcv:ajax:account:activation:finished:adminNonce', 'finishActivation');
-
-        if (vcvenv('VCV_ENV_ELEMENT_DOWNLOAD')
-            && !vchelper('Options')
-                ->get(
-                    'resetAppliedV' . vcvenv('VCV_ENV_ELEMENT_DOWNLOAD_V')
-                )
-        ) {
-            vchelper('Options')
-                ->delete('hubElements')
-                ->delete('hubCategories')
-                ->delete('hubGroups')
-                ->set('resetAppliedV' . vcvenv('VCV_ENV_ELEMENT_DOWNLOAD_V'), 1);
-        }
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**
@@ -250,5 +238,15 @@ class ActivationController extends Container implements Module
         return [
             'status' => true,
         ];
+    }
+
+    protected function unsetOptions(Options $optionsHelper)
+    {
+        $optionsHelper
+            ->deleteTransient('_vcv_activation_page_redirect')
+            ->deleteTransient('vcv:activation:request')
+            ->deleteTransient('vcv:activation:subscribe')
+            ->delete('activation-email')
+            ->delete('activation-agreement');
     }
 }

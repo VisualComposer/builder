@@ -11,29 +11,26 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
-use VisualComposer\Modules\Settings\Traits\Page;
 
 class PostTypes extends Container implements Module
 {
     use Fields;
-    use Page;
-    use EventsFilters;
     use WpFiltersActions;
+    use EventsFilters;
 
-    /**
-     * @var string
-     */
-    protected $slug = 'vcv-post-types';
 
-    /**
-     * @var string
-     */
-    protected $templatePath = 'settings/pages/index';
+    public function getSlug()
+    {
+        /** @var Settings $settings */
+        $settings = vcapp('SettingsPagesSettings');
+        return $settings->getSlug();
+    }
 
     /**
      * General constructor.
@@ -43,44 +40,15 @@ class PostTypes extends Container implements Module
     public function __construct(Token $tokenHelper)
     {
         if ($tokenHelper->isSiteAuthorized()) {
-            $this->optionGroup = 'vcv-post-types';
+            $this->optionGroup = $this->getSlug();
             $this->optionSlug = 'vcv-post-types';
-
-            /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::addPage */
-            $this->addFilter(
-                'vcv:settings:getPages',
-                'addPage',
-                20
-            );
-
             /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::buildPage */
             $this->wpAddAction(
                 'vcv:settings:initAdmin:page:' . $this->getSlug(),
                 'buildPage'
             );
         }
-    }
-
-    /**
-     * @param array $pages
-     *
-     * @return array
-     */
-    protected function addPage($pages)
-    {
-        $currentUserAccess = vchelper('AccessCurrentUser');
-        if (!$currentUserAccess->wpAll('manage_options')->get()) {
-            return $pages;
-        }
-        $pages[] = [
-            'slug' => $this->getSlug(),
-            'title' => __('Settings', 'vcwb'),
-            'showTab' => false,
-            'layout' => 'settings-standalone',
-            'controller' => $this,
-        ];
-
-        return $pages;
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**
@@ -132,5 +100,11 @@ class PostTypes extends Container implements Module
                 'enabledPostTypes' => $editorPostTypeHelper->getEnabledPostTypes(),
             ]
         );
+    }
+
+    protected function unsetOptions(Options $optionsHelper)
+    {
+        $optionsHelper
+            ->delete('post-types');
     }
 }

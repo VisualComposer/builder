@@ -60,10 +60,10 @@ trait Fields
         );
 
         add_settings_section(
-            $sectionData['group'] . '_' . $sectionData['page'],
+            $sectionData['group'] . '_' . $sectionData['slug'],
             $sectionData['title'],
             $sectionData['callback'],
-            $sectionData['slug'] . '_' . $sectionData['page']
+            $sectionData['page']
         );
 
         return $this;
@@ -104,8 +104,8 @@ trait Fields
             $fieldData['id'] ? $fieldData['id'] : VCV_PREFIX . $fieldData['name'],
             $fieldData['title'],
             $fieldData['fieldCallback'],
-            $fieldData['slug'] . '_' . $fieldData['page'],
-            $fieldData['group'] . '_' . $fieldData['page'],
+            $fieldData['page'],
+            $fieldData['group'] . '_' . $fieldData['slug'],
             $fieldData['args']
         );
 
