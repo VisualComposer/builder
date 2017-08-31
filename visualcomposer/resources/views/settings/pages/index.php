@@ -5,9 +5,8 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
-/** @var $controller \VisualComposer\Modules\Settings\Pages\PostTypes */
+/** @var $controller \VisualComposer\Modules\Settings\Pages\Settings */
 /** @var string $slug */
-$optionGroup = $controller->getOptionGroup();
 ?>
 
 <form action="options.php"
@@ -16,9 +15,9 @@ $optionGroup = $controller->getOptionGroup();
     class="vcv-settings-tab-content vcv-settings-tab-content-active"
     <?php echo apply_filters('vc_setting-tab-form-' . $slug, '') ?>
 >
-    <?php settings_fields($optionGroup . '_' . $slug) ?>
+    <?php settings_fields($slug . '_' . $slug) ?>
 
-    <?php do_settings_sections($slug . '_' . $slug) ?>
+    <?php do_settings_sections($slug) ?>
 
     <?php
 

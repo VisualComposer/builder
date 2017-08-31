@@ -26,6 +26,11 @@
     opacity: 0;
     visibility: hidden;
   }
+  :not(&--hidden) {
+    // Over style=""
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
 }
 
 .vcv-popup-scroll-container {

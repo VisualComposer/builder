@@ -45,15 +45,14 @@ class Token extends Container implements Helper
     public function reset()
     {
         $this->optionsHelper
-            ->set('siteRegistered', 0)
-            ->set('siteId', '')
-            ->set('siteSecret', '')
-            ->set('siteAuthState', '')
+            ->delete('siteRegistered')
+            ->delete('siteId')
+            ->delete('siteSecret')
+            ->delete('siteAuthState')
             ->deleteTransient('siteAuthToken')
-            ->set('siteAuthRefreshToken', '')
-            ->set('vcv:activation:request', '')
-            ->set('siteAuthTokenTtl', '')
-            ->deleteTransient('vcv:hub:download:json');
+            ->delete('siteAuthRefreshToken')
+            ->delete('vcv:activation:request')
+            ->delete('siteAuthTokenTtl');
 
         return true;
     }

@@ -36,6 +36,7 @@ class BundleUpdateController extends Container implements Module
             $this->addFilter('vcv:editors:backend:addMetabox', 'doRedirectBe', 130);
             $this->addFilter('vcv:ajax:bundle:update:adminNonce', 'triggerPrepareBundleDownload', 130);
         }
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     protected function checkForUpdate(Options $optionsHelper, $response = '')
@@ -214,5 +215,17 @@ class BundleUpdateController extends Container implements Module
         }
 
         return false;
+    }
+
+    protected function unsetOptions(Options $optionsHelper)
+    {
+        $optionsHelper
+            ->delete('bundleUpdateRequired')
+            ->delete('bundleUpdateActions')
+            ->delete('bundleUpdateJson')
+            ->deleteTransient('lastBundleUpdate')
+            ->deleteTransient('_vcv_update_page_redirect')
+            ->deleteTransient('_vcv_update_page_redirect_url')
+            ->deleteTransient('vcv:hub:update:request');
     }
 }
