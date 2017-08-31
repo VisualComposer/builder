@@ -67,7 +67,7 @@ class FactoryResetController extends Container implements Module
                 );
             }
             $url = $urlHelper->ajax(['vcv-action' => 'vcv:settings:factoryReset:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]);
-            $confirm = __('Are you sure to do factory reset? All posts will be saved', 'vcwb');
+            $confirm = __('Proceed with a factory reset?‘', 'vcwb');
             $linkTitle = __('initiate factory reset', 'vcwb');
             $link = sprintf('<a href="%s" onclick="return confirm(\'%s\')">%s</a>', $url, $confirm, $linkTitle);
 
