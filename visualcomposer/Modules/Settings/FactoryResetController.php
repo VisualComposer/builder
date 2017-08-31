@@ -71,7 +71,7 @@ class FactoryResetController extends Container implements Module
             $linkTitle = __('initiate factory reset', 'vcwb');
             $link = sprintf('<a href="%s" onclick="return confirm(\'%s\')">%s</a>', $url, $confirm, $linkTitle);
 
-            $sectionDescription = __('Overwrite your existing extensions and assets with the latest versions from Visual Composer Cloud service to %s.', 'vcwb');
+            $sectionDescription = __('Overwrite your existing extensions and assets with the latest versions from Visual Composer Cloud service - %s.', 'vcwb');
             echo sprintf(
                 '<p class="description">%s</p>',
                 sprintf($sectionDescription, $link)
