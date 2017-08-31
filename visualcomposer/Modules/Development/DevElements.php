@@ -1751,7 +1751,25 @@ class DevElements extends Container implements Module
                 //                        ),
                 //                        'metaDescription' => 'Quote button is a good call to action that points directly to the content.',
                 //                    ],
-                //                ]
+                //                ],
+                'strikethroughButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/strikethroughButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/strikethroughButton/strikethroughButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/strikethroughButton/strikethroughButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/strikethroughButton/strikethroughButton/public/'),
+                    'settings' => [
+                        'name' => 'Strikethrough Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/strikethroughButton/strikethroughButton/public/thumbnail-strikethrough-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/strikethroughButton/strikethroughButton/public/preview-strikethrough-button.png'
+                        ),
+                        'metaDescription' => 'A simple text button with animated strike through effect on hover.',
+                    ],
+                ],
             ]
         );
         // 'animatedOutlineButton' => [
