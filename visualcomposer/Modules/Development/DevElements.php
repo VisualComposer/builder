@@ -1698,6 +1698,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A 3D style button with the ability to control a hover and animation states.',
                 //                    ],
                 //                ],
+                //                'strikeThroughOutlineButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/strikeThroughOutlineButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/strikeThroughOutlineButton/strikeThroughOutlineButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/strikeThroughOutlineButton/strikeThroughOutlineButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/strikeThroughOutlineButton/strikeThroughOutlineButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Strike Through Outline Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/strikeThroughOutlineButton/strikeThroughOutlineButton/public/thumbnail-strike-through-outline-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/strikeThroughOutlineButton/strikeThroughOutlineButton/public/preview-strike-through-outline-button.png'
+                //                        ),
+                //                        'metaDescription' => 'Outline button with a horizontal or vertical strike through and fill color effect on hover.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [
