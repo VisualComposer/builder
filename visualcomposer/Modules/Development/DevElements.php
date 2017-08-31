@@ -1590,40 +1590,42 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'Transparent outline button with fill color effect on hover is perfect for dark or colorful backgrounds.',
                 //                    ],
                 //                ],
-                //                'parallelogramButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/parallelogramButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/parallelogramButton/parallelogramButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Parallelogram Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/parallelogramButton/parallelogramButton/public/thumbnail-parallelogram-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/parallelogramButton/parallelogramButton/public/preview-parallelogram-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A button in parallelogram shape with ability to control angle.',
-                //                    ],
-                //                ],
-                //                'resizeButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/resizeButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/resizeButton/resizeButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/resizeButton/resizeButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/resizeButton/resizeButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Resize Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/resizeButton/resizeButton/public/thumbnail-resize-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/resizeButton/resizeButton/public/preview-resize-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A simple button that resizes with animation on hover to catch user attention.',
+                //                                'parallelogramButton' => [
+                //                                    'bundlePath' => $urlHelper->to(
+                //                                        'devElements/parallelogramButton/public/dist/element.bundle.js'
+                //                                    ),
+                //                                    'elementPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/'),
+                //                                    'elementRealPath' => vcapp()->path('devElements/parallelogramButton/parallelogramButton/'),
+                //                                    'assetsPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/public/'),
+                //                                    'settings' => [
+                //                                        'name' => 'Parallelogram Button',
+                //                                        'metaThumbnailUrl' => $urlHelper->to(
+                //                                            'devElements/parallelogramButton/parallelogramButton/public/thumbnail-parallelogram-button.png'
+                //                                        ),
+                //                                        'metaPreviewUrl' => $urlHelper->to(
+                //                                            'devElements/parallelogramButton/parallelogramButton/public/preview-parallelogram-button.png'
+                //                                        ),
+                //                                        'metaDescription' => 'A button in parallelogram shape with ability to control angle.',
+                //                                    ],
+                //                                ],
+                //                                'resizeButton' => [
+                //                                    'bundlePath' => $urlHelper->to(
+                //                                        'devElements/resizeButton/public/dist/element.bundle.js'
+                //                                    ),
+                //                                    'elementPath' => $urlHelper->to('devElements/resizeButton/resizeButton/'),
+                //                                    'elementRealPath' => vcapp()->path('devElements/resizeButton/resizeButton/'),
+                //                                    'assetsPath' => $urlHelper->to('devElements/resizeButton/resizeButton/public/'),
+                //                                    'settings' => [
+                //                                        'name' => 'Resize Button',
+                //                                        'metaThumbnailUrl' => $urlHelper->to(
+                //                                            'devElements/resizeButton/resizeButton/public/thumbnail-resize-button.png'
+                //                                        ),
+                //                                        'metaPreviewUrl' => $urlHelper->to(
+                //                                            'devElements/resizeButton/resizeButton/public/preview-resize-button.png'
+                //                                        ),
+                //                                        'metaDescription' => 'A simple button that resizes with animation on hover to catch user attention.',
+                //                                    ],
+                //                                ],
                 //                'outlineShadowButton' => [
                 //                    'bundlePath' => $urlHelper->to(
                 //                        'devElements/outlineShadowButton/public/dist/element.bundle.js'
@@ -1660,6 +1662,78 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A simple text button with underline and resize animation.',
                 //                    ],
                 //                ],
+                //                'borderHoverButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/borderHoverButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/borderHoverButton/borderHoverButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/borderHoverButton/borderHoverButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/borderHoverButton/borderHoverButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Border Hover Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/borderHoverButton/borderHoverButton/public/thumbnail-border-hover-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/borderHoverButton/borderHoverButton/public/preview-border-hover-button.png'
+                //                        ),
+                //                        'metaDescription' => 'Button with border accent as a hover effect and ability to control border color.',
+                //                    ],
+                //                ],
+                //                '3dButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/3dButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/3dButton/3dButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/3dButton/3dButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/3dButton/3dButton/public/'),
+                //                    'settings' => [
+                //                        'name' => '3D Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/3dButton/3dButton/public/thumbnail-3d-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/3dButton/3dButton/public/preview-3d-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A 3D style button with the ability to control a hover and animation states.',
+                //                    ],
+                //                ],
+                //                'simpleGradientButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/simpleGradientButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/simpleGradientButton/simpleGradientButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Simple Gradient Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/simpleGradientButton/simpleGradientButton/public/thumbnail-simple-gradient-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/simpleGradientButton/simpleGradientButton/public/preview-simple-gradient-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A simple gradient button with automatic gradient effect calculation.',
+                //                    ],
+                //                ]
+                //                'quoteButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/quoteButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/quoteButton/quoteButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/quoteButton/quoteButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/quoteButton/quoteButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Quote Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/quoteButton/quoteButton/public/thumbnail-quote-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/quoteButton/quoteButton/public/preview-quote-button.png'
+                //                        ),
+                //                        'metaDescription' => 'Quote button is a good call to action that points directly to the content.',
+                //                    ],
+                //                ]
             ]
         );
         // 'animatedOutlineButton' => [
