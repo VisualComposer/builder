@@ -79,6 +79,7 @@ declare -a arr=(
 'borderHoverButton'
 '3dButton'
 'simpleGradientButton'
+'quoteButton'
 )
 
 EXECDIR=`pwd`

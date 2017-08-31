@@ -88,7 +88,8 @@ class HubCategories extends Container implements Module
                         'borderHoverButton',
                         '3dButton',
                         'simpleGradientButton',
-                        'borderHoverButton'
+                        'borderHoverButton',
+                        'quoteButton'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),

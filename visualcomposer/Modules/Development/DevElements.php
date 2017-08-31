@@ -1716,6 +1716,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A simple gradient button with automatic gradient effect calculation.',
                 //                    ],
                 //                ]
+                //                'quoteButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/quoteButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/quoteButton/quoteButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/quoteButton/quoteButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/quoteButton/quoteButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Quote Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/quoteButton/quoteButton/public/thumbnail-quote-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/quoteButton/quoteButton/public/preview-quote-button.png'
+                //                        ),
+                //                        'metaDescription' => 'Quote button is a good call to action that points directly to the content.',
+                //                    ],
+                //                ]
             ]
         );
         // 'animatedOutlineButton' => [
