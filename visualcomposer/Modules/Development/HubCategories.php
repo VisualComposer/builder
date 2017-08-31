@@ -87,7 +87,7 @@ class HubCategories extends Container implements Module
                         'underlineButton',
                         'borderHoverButton',
                         '3dButton',
-                        'strikeThroughOutlineButton',
+                        'strikethroughOutlineButton',
                         'simpleGradientButton',
                         'quoteButton'
                     ],
