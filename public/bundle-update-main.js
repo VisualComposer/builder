@@ -80,7 +80,7 @@ $(() => {
         redirect()
       } else {
         if (requestFailed) {
-          showErrorMessage(json.message ? json.message : activationFailedText, 15000)
+          showErrorMessage(json.message ? json.message : bundleUpdateFailed, 15000)
           console.warn(json)
         } else {
           // Try again one more time.
@@ -126,7 +126,7 @@ $(() => {
           }
         } else {
           if (requestFailed) {
-            showErrorMessage(json.message ? json.message : activationFailedText, 15000)
+            showErrorMessage(json.message ? json.message : bundleUpdateFailed, 15000)
             console.warn(json)
           } else {
             // Try again one more time.
@@ -152,7 +152,6 @@ $(() => {
       doAction(i, doneActions)
     }
   }
-
 
   let serverRequest = () => {
     hideRetryButton()

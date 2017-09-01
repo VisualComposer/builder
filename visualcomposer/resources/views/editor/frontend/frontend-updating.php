@@ -152,12 +152,11 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
                                 <div class="vcv-popup-heading">
                                     <?php echo __('Oops!', 'vcwb'); ?>
                                 </div>
-                                <span class="vcv-popup-loading-heading"><?php
-                                    echo __(
-                                        'The update process was already started. Please try again later',
-                                        'vcwb'
-                                    );
-                                    ?></span>
+                                <span class="vcv-popup-loading-heading">
+                                <?php
+                                echo __('The update process was already started. Please try again later', 'vcwb');
+                                ?>
+                                </span>
                             </div>
                         <?php endif; ?>
                     </div>
