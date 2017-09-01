@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Hub\Download;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
@@ -28,7 +29,7 @@ class JsonActionsController extends Container implements Module
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
-    protected function ajaxGetRequiredActions($response, $payload, Logger $loggerHelper, Options $optionsHelper)
+    protected function ajaxGetRequiredActions($response, $payload, Logger $loggerHelper, Options $optionsHelper, Download $downloadHelper)
     {
         if (!vcIsBadResponse($response)) {
             $requiredActions = [];
@@ -42,7 +43,7 @@ class JsonActionsController extends Container implements Module
                         $previousVersion = $optionHelper->get('hubAction:' . $action, '0');
                         if ($version && version_compare($version, $previousVersion, '>') || !$version) {
                             $requiredActions[] = [
-                                'name' => $this->getActionName($action),
+                                'name' => $downloadHelper->getActionName($action),
                                 'action' => $action,
                                 'data' => $data,
                                 'version' => $version,
@@ -115,35 +116,6 @@ class JsonActionsController extends Container implements Module
         }
 
         return $response;
-    }
-
-    protected function getActionName($action)
-    {
-        $name = $action;
-        /*
-         Editor bundle
-         Downloading assets 5%: Categories bundle
-         Downloading assets 7.5%: Library extension
-         Downloading assets 10%: Templates library
-         Downloading assets 12.5%: Row element
-         */
-        switch ($action) {
-            case 'editor':
-                $name = 'Editor bundle';
-                break;
-            case 'categories':
-                $name = 'Categories bundle';
-                break;
-            case 'assets':
-                $name = 'Library extensions';
-                break;
-            case 'templates':
-                $name = 'Templates library';
-                break;
-        }
-        $name = preg_replace('/(element\/)(.*)/', '$2 Element', $name);
-
-        return ucfirst($name);
     }
 
     protected function processAction(

@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
@@ -34,7 +35,7 @@ class BundleUpdateController extends Container implements Module
                 120
             );
             $this->addFilter('vcv:editors:backend:addMetabox', 'doRedirectBe', 130);
-            $this->addFilter('vcv:ajax:bundle:update:adminNonce', 'triggerPrepareBundleDownload', 130);
+            $this->addFilter('vcv:ajax:bundle:update:finished:adminNonce', 'setUpdateDone');
         }
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
@@ -92,7 +93,10 @@ class BundleUpdateController extends Container implements Module
     {
         if ($optionsHelper->get('bundleUpdateRequired')) {
             return vcview(
-                'editor/frontend/frontend-updating.php'
+                'editor/frontend/frontend-updating.php',
+                [
+                    'actions' => $optionsHelper->get('bundleUpdateActions'),
+                ]
             );
         }
 
@@ -160,30 +164,23 @@ class BundleUpdateController extends Container implements Module
         return $response;
     }
 
-    protected function triggerPrepareBundleDownload($response, $payload, Logger $loggerHelper, Options $optionsHelper)
+    protected function setUpdateDone($response, $payload, Request $requestHelper, Options $optionsHelper)
     {
-        if (!$optionsHelper->get('bundleUpdateRequired')) {
-            return ['status' => true];
-        }
-
-        if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
-            $optionsHelper->setTransient('vcv:hub:update:request', 1, 60);
-            $json = $optionsHelper->get('bundleUpdateJson');
-            $response = vcfilter('vcv:hub:update:json', ['status' => true], ['json' => $json]);
-            if (!vcIsBadResponse($response)) {
-                $optionsHelper->set('bundleUpdateRequired', false);
+        $currentTransient = $optionsHelper->getTransient('vcv:hub:update:request');
+        if ($currentTransient) {
+            if ($currentTransient !== $requestHelper->input('time')) {
+                return ['status' => false];
             } else {
-                $loggerHelper->log(__('Failed to update'), [
-                    'response' => $response,
-                ]);
+                // Reset bundles from activation
+                $optionsHelper->deleteTransient('vcv:activation:request');
+                $optionsHelper->deleteTransient('vcv:hub:update:request');
             }
-        } else {
-            $loggerHelper->log(__('Update already in process, please try again later.', 'vcwb'));
-
-            return ['status' => false];
         }
+        $optionsHelper->set('bundleUpdateRequired', false);
 
-        return $response;
+        return [
+            'status' => true,
+        ];
     }
 
     /**
@@ -195,10 +192,12 @@ class BundleUpdateController extends Container implements Module
         if (is_array($json) && isset($json['actions'])) {
             $optionsHelper = vchelper('Options');
             $requiredActions = [];
+            $downloadHelper = vchelper('HubDownload');
             foreach ($json['actions'] as $key => $value) {
                 if (isset($value['action'])) {
                     $action = $value['action'];
                     $version = $value['version'];
+                    $value['name'] = $downloadHelper->getActionName($action);
                     $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
                     if ($version && version_compare($version, $previousVersion, '>') || !$version) {
                         $requiredActions[] = $value;
