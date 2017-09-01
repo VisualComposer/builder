@@ -22,6 +22,8 @@ export default class ElementControl extends React.Component {
   layoutBarOverlay = document.querySelector('.vcv-layout-bar-overlay')
   layoutBarOverlayRect = null
   dragTimeout = 0
+  addedId = null
+  iframeWindow = null
 
   constructor (props) {
     super(props)
@@ -37,6 +39,7 @@ export default class ElementControl extends React.Component {
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.initDrag = this.initDrag.bind(this)
+    this.openEditForm = this.openEditForm.bind(this)
     this.handleDragStateChange = this.handleDragStateChange.bind(this)
   }
 
@@ -67,8 +70,18 @@ export default class ElementControl extends React.Component {
     elementsStorage.trigger('add', data.toJS(), true, {
       insertAfter: workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
     })
-    workspaceStorage.trigger('edit', data.toJS().id, '')
-    // this.props.api.request('app:edit', data.toJS().id, '')
+    this.addedId = data.toJS().id
+
+    let iframe = document.getElementById('vcv-editor-iframe')
+    this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
+    this.iframeWindow.vcv.on('ready', this.openEditForm)
+  }
+
+  openEditForm (action, id) {
+    if (action === 'add' && id === this.addedId) {
+      workspaceStorage.trigger('edit', this.addedId, '')
+      this.iframeWindow.vcv.off('ready', this.openEditForm)
+    }
   }
 
   showPreview () {
