@@ -43,7 +43,7 @@ class JsonActionsController extends Container implements Module
                         $previousVersion = $optionHelper->get('hubAction:' . $action, '0');
                         if ($version && version_compare($version, $previousVersion, '>') || !$version) {
                             $requiredActions[] = [
-                                'name' => $downloadHelper->getActionName($action),
+                                'name' => isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action),
                                 'action' => $action,
                                 'data' => $data,
                                 'checksum' => $checksum,
