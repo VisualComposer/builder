@@ -197,7 +197,7 @@ class BundleUpdateController extends Container implements Module
                 if (isset($value['action'])) {
                     $action = $value['action'];
                     $version = $value['version'];
-                    $value['name'] = $downloadHelper->getActionName($action);
+                    $value['name'] = isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action);
                     $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
                     if ($version && version_compare($version, $previousVersion, '>') || !$version) {
                         $requiredActions[] = $value;
