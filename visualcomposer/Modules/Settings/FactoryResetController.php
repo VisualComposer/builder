@@ -79,7 +79,7 @@ class FactoryResetController extends Container implements Module
         };
         $this->addSection(
             [
-                'title' => __('Factory reset', 'vcwb'),
+                'title' => __('Factory Reset', 'vcwb'),
                 'page' => $this->getSlug(),
                 'callback' => $sectionCallback,
             ]
