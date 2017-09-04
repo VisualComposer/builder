@@ -18,6 +18,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
+use VisualComposer\Modules\Account\Pages\ActivationPage;
 use VisualComposer\Modules\Settings\Pages\Settings;
 use VisualComposer\Modules\Settings\Traits\Fields;
 
@@ -58,14 +59,6 @@ class FactoryResetController extends Container implements Module
         // Allow to make factory reset for 1h
         $optionsHelper->setTransient('vcv:settings:factoryReset:allow', 1, 3600);
         $sectionCallback = function () use ($urlHelper, $nonceHelper, $requestHelper) {
-            if ($requestHelper->input('reset') === 'true') {
-                echo sprintf(
-                    '<div class="notice notice-warning">
-		<p>%s</p>
-	</div>',
-                    __('Visual Composer factory reset successfully completed')
-                );
-            }
             $url = $urlHelper->ajax(['vcv-action' => 'vcv:settings:factoryReset:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]);
             $confirm = __('Proceed with a factory reset?‘', 'vcwb');
             $linkTitle = __('initiate factory reset', 'vcwb');
@@ -86,7 +79,7 @@ class FactoryResetController extends Container implements Module
         );
     }
 
-    protected function initiateFactoryReset(Options $optionsHelper, CurrentUser $currentUserAccess, Logger $loggerHelper)
+    protected function initiateFactoryReset(Options $optionsHelper, CurrentUser $currentUserAccess, Logger $loggerHelper, ActivationPage $activationPageModule)
     {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             $loggerHelper->log(__('Wrong permissions'));
@@ -101,7 +94,7 @@ class FactoryResetController extends Container implements Module
         $optionsHelper->set('version', VCV_VERSION);
         vcevent('vcv:system:factory:reset');
 
-        wp_redirect(admin_url('admin.php?page=' . rawurlencode($this->getSlug()) . '&reset=true'));
+        wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
         die();
     }
 }
