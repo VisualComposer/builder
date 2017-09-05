@@ -10,7 +10,8 @@ let iconsSets = {
   monosocial: require('./lib/monosocial-1.10-101'),
   typicons: require('./lib/typicons-2.0.7'),
   openiconic: require('./lib/openiconic-1.1.1'),
-  material: require('./lib/material-845')
+  material: require('./lib/material-845'),
+  batch: require('./lib/batch-1.3')
 }
 
 class Iconpicker extends Attribute {

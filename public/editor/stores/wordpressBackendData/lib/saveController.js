@@ -75,7 +75,7 @@ export default class SaveController {
       if (window.switchEditors && window.tinymce) {
         window.switchEditors.go('content', 'html')
       }
-      document.getElementById('content').value = content
+      document.getElementById('content').value = '<!--vcv no formatting start-->' + content + '<!--vcv no formatting end-->'
       document.getElementById('vcv-backend').value = '1'
       document.getElementById('vcv-action').value = `set${action}Data:adminNonce`
       document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
