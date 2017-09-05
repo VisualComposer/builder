@@ -17,7 +17,7 @@ export default class ImageSlideshowBackground extends Component {
 
   render () {
     const { reactKey, deviceKey, deviceData } = this.props
-    const { images, backgroundStyle, sliderTimeout, sliderEffect } = deviceData
+    const { images, backgroundStyle, backgroundPosition, sliderTimeout, sliderEffect } = deviceData
     let timeout = sliderTimeout
     if (!timeout) {
       timeout = 5
@@ -51,6 +51,9 @@ export default class ImageSlideshowBackground extends Component {
       ]
       if (backgroundStyle) {
         containerClasses.push(`vce-asset-background-slider--style-${backgroundStyle}`)
+      }
+      if (backgroundPosition) {
+        containerClasses.push(`vce-asset-background-slider--position-${backgroundPosition}`)
       }
       let slideshowClasses = [
         `vce-asset-background-slider`

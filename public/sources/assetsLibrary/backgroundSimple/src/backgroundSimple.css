@@ -61,6 +61,42 @@
   background-repeat: no-repeat;
 }
 
+.vce-asset-background-simple--position-left-top .vce-asset-background-simple-item{
+  background-position: left top;
+}
+
+.vce-asset-background-simple--position-center-top .vce-asset-background-simple-item{
+  background-position: center top;
+}
+
+.vce-asset-background-simple--position-right-top .vce-asset-background-simple-item{
+  background-position: right top;
+}
+
+.vce-asset-background-simple--position-left-center .vce-asset-background-simple-item{
+  background-position: left center;
+}
+
+.vce-asset-background-simple--position-center-center .vce-asset-background-simple-item{
+  background-position: center center;
+}
+
+.vce-asset-background-simple--position-right-center .vce-asset-background-simple-item{
+  background-position: right center;
+}
+
+.vce-asset-background-simple--position-left-bottom .vce-asset-background-simple-item{
+  background-position: left bottom;
+}
+
+.vce-asset-background-simple--position-center-bottom .vce-asset-background-simple-item{
+  background-position: center bottom;
+}
+
+.vce-asset-background-simple--position-right-bottom .vce-asset-background-simple-item{
+  background-position: right bottom;
+}
+
 .vce-asset-background-simple-container.vce-visible-all-only {
   display: block;
 }
