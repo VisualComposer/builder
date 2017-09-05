@@ -13,7 +13,8 @@ let iconsSets = {
   material: require('./lib/material-845'),
   batch: require('./lib/batch-1.3'),
   mfglabs: require('./lib/mfglabs'),
-  metrize: require('./lib/metrize-1.0')
+  metrize: require('./lib/metrize-1.0'),
+  dripicons: require('./lib/dripicons-2.0')
 }
 
 class Iconpicker extends Attribute {
