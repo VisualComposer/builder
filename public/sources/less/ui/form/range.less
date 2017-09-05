@@ -1,33 +1,18 @@
 // range input
 
-@track-color: #fff;
-@thumb-color: #fff;
-
-@thumb-radius: 50%;
-@thumb-height: 18px;
-@thumb-width: 18px;
-@thumb-border-width: 5px;
-@thumb-border-color: #2b4b80;
-
-@track-width: 100%;
-@track-height: 8px;
-@track-border-width: 1px;
-@track-border-color: #d3d3d3;
-@track-radius: 5px;
-
 .track() {
-  width: @track-width;
-  height: @track-height;
+  width: @vcui-form-range-track-width;
+  height: @vcui-form-range-track-height;
   cursor: pointer;
   animate: 0.2s;
 }
 
 .thumb() {
-  border: @thumb-border-width solid @thumb-border-color;
-  height: @thumb-height;
-  width: @thumb-width;
-  border-radius: @thumb-radius;
-  background: @thumb-color;
+  border: @vcui-form-range-thumb-border-width solid @vcui-form-range-thumb-border-color;
+  height: @vcui-form-range-thumb-height;
+  width: @vcui-form-range-thumb-width;
+  border-radius: @vcui-form-range-thumb-radius;
+  background: @vcui-form-range-thumb-color;
   cursor: pointer;
   position: relative;
   z-index: 2;
@@ -52,15 +37,15 @@
     min-width: 12px;
     max-width: 99%;
     height: 8px;
-    border-radius: @track-radius;
+    border-radius: @vcui-form-range-track-radius;
     z-index: 0;
   }
 
   .vcv-ui-form-range-slider {
     -webkit-appearance: none;
-    margin: @thumb-height/2 0;
+    margin: @vcui-form-range-thumb-height/2 0;
     padding: 0;
-    width: @track-width;
+    width: @vcui-form-range-track-width;
     background: transparent;
 
     &:focus {
@@ -69,26 +54,26 @@
 
     &::-webkit-slider-runnable-track {
       .track();
-      background: @track-color;
-      border-radius: @track-radius;
-      border: @track-border-width solid @track-border-color;
+      background: @vcui-form-range-track-color;
+      border-radius: @vcui-form-range-track-radius;
+      border: @vcui-form-range-track-border-width solid @vcui-form-range-track-border-color;
     }
 
     &::-webkit-slider-thumb {
       .thumb();
       -webkit-appearance: none;
-      margin-top: ((-@track-border-width * 2 + @track-height) / 2) - (@thumb-height / 2);
+      margin-top: ((-@vcui-form-range-track-border-width * 2 + @vcui-form-range-track-height) / 2) - (@vcui-form-range-thumb-height / 2);
     }
 
     &:focus::-webkit-slider-runnable-track {
-      background: @track-color;
+      background: @vcui-form-range-track-color;
     }
 
     &::-moz-range-track {
       .track();
-      background: @track-color;
-      border-radius: @track-radius;
-      border: @track-border-width solid @track-border-color;
+      background: @vcui-form-range-track-color;
+      border-radius: @vcui-form-range-track-radius;
+      border: @vcui-form-range-track-border-width solid @vcui-form-range-track-border-color;
     }
 
     &::-moz-range-thumb {
@@ -99,14 +84,14 @@
       .track();
       background: transparent;
       border-color: transparent;
-      border-width: @thumb-width 0;
+      border-width: @vcui-form-range-thumb-width 0;
       color: transparent;
     }
 
     &::-ms-fill-lower, &::-ms-fill-upper {
-      background: @track-color;
-      border: @track-border-width solid @track-border-color;
-      border-radius: @track-radius*2;
+      background: @vcui-form-range-track-color;
+      border: @vcui-form-range-track-border-width solid @vcui-form-range-track-border-color;
+      border-radius: @vcui-form-range-track-radius*2;
     }
 
     &::-ms-thumb {
@@ -114,7 +99,7 @@
     }
 
     &:focus::-ms-fill-lower, &:focus::-ms-fill-upper {
-      background: @track-color;
+      background: @vcui-form-range-track-color;
     }
   }
 
