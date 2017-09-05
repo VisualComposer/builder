@@ -1770,6 +1770,42 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A simple text button with animated strike through effect on hover.',
                 //                    ],
                 //                ],
+                //                'filledShadowButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/filledShadowButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/filledShadowButton/filledShadowButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/filledShadowButton/filledShadowButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/filledShadowButton/filledShadowButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Filled Shadow Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/filledShadowButton/filledShadowButton/public/thumbnail-filled-shadow-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/filledShadowButton/filledShadowButton/public/preview-filled-shadow-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A geometric style filled button with shadow effect and custom hover color controls.',
+                //                    ],
+                //                ],
+                //                'animatedShadowButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/animatedShadowButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/animatedShadowButton/animatedShadowButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/animatedShadowButton/animatedShadowButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/animatedShadowButton/animatedShadowButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Animated Shadow Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/animatedShadowButton/animatedShadowButton/public/thumbnail-animated-shadow-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/animatedShadowButton/animatedShadowButton/public/preview-animated-shadow-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A button with centered shadow effect and animation.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [
