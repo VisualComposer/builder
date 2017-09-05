@@ -12,7 +12,8 @@ let iconsSets = {
   openiconic: require('./lib/openiconic-1.1.1'),
   material: require('./lib/material-845'),
   batch: require('./lib/batch-1.3'),
-  mfglabs: require('./lib/mfglabs')
+  mfglabs: require('./lib/mfglabs'),
+  metrize: require('./lib/metrize-1.0')
 }
 
 class Iconpicker extends Attribute {
