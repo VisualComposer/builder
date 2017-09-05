@@ -12,7 +12,9 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 class UpdateBePage extends Container implements Module
@@ -30,7 +32,7 @@ class UpdateBePage extends Container implements Module
      */
     protected $templatePath = 'hub/updating-layout';
 
-    public function __construct()
+    public function __construct(Token $tokenHelper)
     {
         $this->addEvent(
             'vcv:inited',
@@ -48,6 +50,14 @@ class UpdateBePage extends Container implements Module
                 }
             }
         );
+        if (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized()) {
+            $this->addFilter(
+                'vcv:editors:backend:addMetabox',
+                'setRedirectToUpdateBe',
+                120
+            );
+            $this->addFilter('vcv:editors:backend:addMetabox', 'doRedirectBe', 130);
+        }
     }
 
     /**
@@ -78,5 +88,42 @@ class UpdateBePage extends Container implements Module
         ];
 
         return $pages;
+    }
+
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return mixed
+     */
+    protected function setRedirectToUpdateBe($response, $payload, Options $optionsHelper, Url $urlHelper)
+    {
+        if ($optionsHelper->get('bundleUpdateRequired')) {
+            $optionsHelper->setTransient('_vcv_update_page_redirect', 1, 30);
+            $optionsHelper->setTransient('_vcv_update_page_redirect_url', $urlHelper->current(), 30);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Do redirect if required on welcome page
+     *
+     * @param $response
+     * @param UpdateBePage $updateBePage
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return
+     */
+    protected function doRedirectBe($response, UpdateBePage $updateBePage, Options $optionsHelper)
+    {
+        $redirect = $optionsHelper->getTransient('_vcv_update_page_redirect');
+        $optionsHelper->deleteTransient('_vcv_update_page_redirect');
+        if ($redirect) {
+            wp_redirect(admin_url('admin.php?page=' . rawurlencode($updateBePage->getSlug())));
+        }
+
+        return $response;
     }
 }

@@ -25,6 +25,7 @@ $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
 $optionsHelper = vchelper('Options');
+$hubUpdateHelper = vchelper('HubUpdate');
 $time = $_SERVER['REQUEST_TIME'];
 if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
     $optionsHelper->setTransient('vcv:hub:update:request', $time, 60);
@@ -36,7 +37,7 @@ if (is_array($extraOutput)) {
     }
     unset($output);
 }
-$actions = $optionsHelper->get('bundleUpdateActions');
+$actions = $hubUpdateHelper->getRequiredActions();
 ?>
 <script>
   window.vcvUpdateUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>'
@@ -130,10 +131,13 @@ $actions = $optionsHelper->get('bundleUpdateActions');
         </div>
         <span class="vcv-popup-loading-heading">
         <?php
-        echo __(
-            'The update process was already started. Please try again later',
-            'vcwb'
-        );
+        $expirationTime = get_option('_transient_timeout_vcv-' . VCV_VERSION . 'vcv:activation:request');
+        $expiresAfter = $expirationTime - time();
+        $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
+
+        $errorMsg = sprintf(__('The update process was already started! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter);
+
+        echo $errorMsg;
         ?>
         </span>
     </div>

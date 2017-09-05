@@ -154,7 +154,13 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
                                 </div>
                                 <span class="vcv-popup-loading-heading">
                                 <?php
-                                echo __('The update process was already started. Please try again later', 'vcwb');
+                                $expirationTime = get_option('_transient_timeout_vcv-' . VCV_VERSION . 'vcv:activation:request');
+                                $expiresAfter = $expirationTime - time();
+                                $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
+
+                                $errorMsg = sprintf(__('The update process was already started! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter);
+
+                                echo $errorMsg;
                                 ?>
                                 </span>
                             </div>
