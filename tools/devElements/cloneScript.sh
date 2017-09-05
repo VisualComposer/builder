@@ -83,6 +83,7 @@ declare -a arr=(
 'quoteButton'
 'strikethroughButton'
 'filledShadowButton'
+'animatedShadowButton'
 )
 
 EXECDIR=`pwd`
