@@ -24,7 +24,7 @@ class FrontEndController extends Container implements Module
         /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::encode */
         $this->wpAddFilter('the_content', 'encode', 1);
         /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::decode */
-        $this->wpAddFilter('the_content', 'decode', 99);
+        $this->wpAddFilter('the_content', 'decode', 10);
     }
 
     protected function encode($content)
