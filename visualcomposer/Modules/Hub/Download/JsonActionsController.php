@@ -38,7 +38,7 @@ class JsonActionsController extends Container implements Module
                     if (isset($value['action'])) {
                         $action = $value['action'];
                         $data = $value['data'];
-                        $checksum = $value['checksum'];
+                        $checksum = isset($value['checksum']) ? $value['checksum'] : '';
                         $version = $value['version'];
                         $previousVersion = $optionHelper->get('hubAction:' . $action, '0');
                         if ($version && version_compare($version, $previousVersion, '>') || !$version) {
