@@ -85,12 +85,15 @@ export default class BlankRowPlaceholder extends React.Component {
   rowContainer = null
   elementsContainer = null
   initialSetControlsLayoutTimeout = null
+  addedId = null
+  iframeWindow = null
 
   constructor (props) {
     super(props)
     this.state = {}
     this.handleClick = this.handleClick.bind(this)
     this.setControlsLayout = this.setControlsLayout.bind(this)
+    this.openEditForm = this.openEditForm.bind(this)
   }
 
   componentDidMount () {
@@ -155,13 +158,29 @@ export default class BlankRowPlaceholder extends React.Component {
   }
 
   /**
-   * Handle click for element control, open edit form
+   * Handle click for element control
    * @param element
    * @param tab
    */
   handleElementControlWithForm (element, tab = '') {
     elementsStorage.trigger('add', element)
-    workspaceStorage.trigger('edit', element.id, tab)
+    this.addedId = element.id
+
+    let iframe = document.getElementById('vcv-editor-iframe')
+    this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
+    this.iframeWindow.vcv.on('ready', this.openEditForm)
+  }
+
+  /**
+   * Open edit form
+   * @param action
+   * @param id
+   */
+  openEditForm (action, id) {
+    if (action === 'add' && id === this.addedId) {
+      workspaceStorage.trigger('edit', this.addedId, '')
+      this.iframeWindow.vcv.off('ready', this.openEditForm)
+    }
   }
 
   /**

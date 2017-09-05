@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Hub\Download;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
@@ -22,13 +23,12 @@ class JsonActionsController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:hub:download:json', 'ajaxGetRequiredActions');
-        $this->addFilter('vcv:hub:update:json', 'processUpdateActions');
         $this->addFilter('vcv:ajax:hub:action:adminNonce', 'ajaxProcessAction');
 
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
-    protected function ajaxGetRequiredActions($response, $payload, Logger $loggerHelper, Options $optionsHelper)
+    protected function ajaxGetRequiredActions($response, $payload, Logger $loggerHelper, Options $optionsHelper, Download $downloadHelper)
     {
         if (!vcIsBadResponse($response)) {
             $requiredActions = [];
@@ -38,13 +38,15 @@ class JsonActionsController extends Container implements Module
                     if (isset($value['action'])) {
                         $action = $value['action'];
                         $data = $value['data'];
+                        $checksum = isset($value['checksum']) ? $value['checksum'] : '';
                         $version = $value['version'];
                         $previousVersion = $optionHelper->get('hubAction:' . $action, '0');
                         if ($version && version_compare($version, $previousVersion, '>') || !$version) {
                             $requiredActions[] = [
-                                'name' => $this->getActionName($action),
+                                'name' => isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action),
                                 'action' => $action,
                                 'data' => $data,
+                                'checksum' => $checksum,
                                 'version' => $version,
                             ];
                         }
@@ -65,39 +67,6 @@ class JsonActionsController extends Container implements Module
         return $response;
     }
 
-    protected function processUpdateActions($response, $payload, Options $optionsHelper, Logger $loggerHelper)
-    {
-        if ($optionsHelper->get('bundleUpdateRequired')) {
-            $requiredActions = $optionsHelper->get('bundleUpdateActions');
-            $failed = false;
-            $response = ['status' => true];
-            if (is_array($requiredActions)) {
-                foreach ($requiredActions as $value) {
-                    $optionsHelper->setTransient('vcv:hub:update:request', 1, 60);
-                    $actionResult = $this->processAction(
-                        $value['action'],
-                        $value['data'],
-                        $value['version']
-                    );
-                    if (vcIsBadResponse($actionResult)) {
-                        $loggerHelper->log('Failed to update action', [
-                            'action' => $value,
-                            'result' => $actionResult,
-                        ]);
-                        $failed = true;
-                    }
-                }
-                if ($failed) {
-                    $response = ['status' => false];
-                }
-            } else {
-                $optionsHelper->set('bundleUpdateRequired', false);
-            }
-        }
-
-        return $response;
-    }
-
     protected function ajaxProcessAction($response, $payload, Request $requestHelper, Options $optionsHelper)
     {
         $response = [
@@ -110,52 +79,25 @@ class JsonActionsController extends Container implements Module
             $response = $this->processAction(
                 $action['action'],
                 $action['data'],
-                $action['version']
+                $action['version'],
+                $action['checksum']
             );
         }
 
         return $response;
     }
 
-    protected function getActionName($action)
-    {
-        $name = $action;
-        /*
-         Editor bundle
-         Downloading assets 5%: Categories bundle
-         Downloading assets 7.5%: Library extension
-         Downloading assets 10%: Templates library
-         Downloading assets 12.5%: Row element
-         */
-        switch ($action) {
-            case 'editor':
-                $name = 'Editor bundle';
-                break;
-            case 'categories':
-                $name = 'Categories bundle';
-                break;
-            case 'assets':
-                $name = 'Library extensions';
-                break;
-            case 'templates':
-                $name = 'Templates library';
-                break;
-        }
-        $name = preg_replace('/(element\/)(.*)/', '$2 Element', $name);
-
-        return ucfirst($name);
-    }
-
     protected function processAction(
         $action,
         $data,
-        $version
+        $version,
+        $checksum
     ) {
         $response = [
             'status' => true,
         ];
         $optionHelper = vchelper('Options');
-        $actionResult = $this->triggerAction($action, $data, $version);
+        $actionResult = $this->triggerAction($action, $data, $version, $checksum);
         if (is_array($actionResult) && $actionResult['status']) {
             $optionHelper->set('hubAction:' . $action, $version);
         } else {
@@ -166,6 +108,7 @@ class JsonActionsController extends Container implements Module
                     'version' => $version,
                     'action' => $action,
                     'data' => $data,
+                    'checksum' => $checksum,
                 ]
             );
             $response['status'] = false;
@@ -175,7 +118,7 @@ class JsonActionsController extends Container implements Module
         return $response;
     }
 
-    protected function triggerAction($action, $data, $version)
+    protected function triggerAction($action, $data, $version, $checksum)
     {
         $response = vcfilter(
             'vcv:hub:process:json:' . $action,
@@ -184,6 +127,7 @@ class JsonActionsController extends Container implements Module
                 'action' => $action,
                 'data' => $data,
                 'version' => $version,
+                'checksum' => $checksum,
             ]
         );
 

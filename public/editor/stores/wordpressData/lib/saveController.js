@@ -75,7 +75,7 @@ export default class SaveController {
         'vcv-action': 'setData:adminNonce',
         'vcv-source-id': window.vcvSourceID,
         'vcv-ready': '1', // Used for backend editor when post being saved
-        'vcv-content': content,
+        'vcv-content': '<!--vcv no formatting start-->' + content + '<!--vcv no formatting end-->',
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
         'vcv-global-elements-css': globalStyles,
         'vcv-elements-css-data': encodeURIComponent(JSON.stringify(elementsCss)),

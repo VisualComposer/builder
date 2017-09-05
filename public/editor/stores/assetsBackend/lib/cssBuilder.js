@@ -3,7 +3,7 @@ const cook = getService('cook')
 const backendAssetsStorage = getStorage('assetsBackend')
 
 export default class CssBuilder {
-  constructor (globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
+  constructor (globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, contentWindowObject, slugify) {
     Object.defineProperties(this, {
       /**
        * @memberOf! CssBuilder
@@ -60,6 +60,15 @@ export default class CssBuilder {
       /**
        * @memberOf! CssBuilder
        */
+      contentWindow: {
+        configurable: false,
+        enumerable: false,
+        value: contentWindowObject,
+        writable: true
+      },
+      /**
+       * @memberOf! CssBuilder
+       */
       jobs: {
         configurable: false,
         enumerable: false,
@@ -88,7 +97,8 @@ export default class CssBuilder {
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data.tag)
     this.doJobs().then(() => {
-      window.vcv.trigger('ready', 'add', data.id)
+      this.contentWindow.vcv.trigger('ready', 'add', data.id)
+      this.window.vcv.trigger('ready', 'add', data.id)
     })
   }
 
@@ -100,7 +110,8 @@ export default class CssBuilder {
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.doJobs().then(() => {
-      window.vcv.trigger('ready', 'update', data.id)
+      this.contentWindow.vcv.trigger('ready', 'update', data.id)
+      this.window.vcv.trigger('ready', 'update', data.id)
     })
   }
 
@@ -109,7 +120,8 @@ export default class CssBuilder {
     this.removeCssElementBaseByElement(tag)
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
-    window.vcv.trigger('ready', 'destroy', id)
+    this.contentWindow.vcv.trigger('ready', 'destroy', id)
+    this.window.vcv.trigger('ready', 'destroy', id)
   }
 
   updateStyleDomNodes (data) {

@@ -15,7 +15,7 @@ export default class ImageSimpleBackground extends Component {
 
   render () {
     const { reactKey, deviceKey, deviceData } = this.props
-    const { images, backgroundStyle } = deviceData
+    const { images, backgroundStyle, backgroundPosition } = deviceData
     if (images) {
       let imagesJSX = []
       if (images.urls && images.urls.length) {
@@ -45,6 +45,9 @@ export default class ImageSimpleBackground extends Component {
       ]
       if (backgroundStyle) {
         containerClasses.push(`vce-asset-background-simple--style-${backgroundStyle}`)
+      }
+      if (backgroundPosition) {
+        containerClasses.push(`vce-asset-background-simple--position-${backgroundPosition}`)
       }
       let slideshowClasses = classNames([
         `vce-asset-background-simple`

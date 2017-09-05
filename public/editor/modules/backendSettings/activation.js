@@ -257,7 +257,6 @@ $(() => {
         // #2. get required actions.
         // #2.x. trigger required action loop
         // #2.x+1. if last action trigger end.
-        let $heading = $('.vcv-popup-loading-heading')
         $heading.text(downloadingInitialExtensionsText)
         $.getJSON(window.vcvActivationUrl,
           {

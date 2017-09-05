@@ -25,7 +25,11 @@ $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
 $optionsHelper = vchelper('Options');
-
+$hubUpdateHelper = vchelper('HubUpdate');
+$time = $_SERVER['REQUEST_TIME'];
+if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
+    $optionsHelper->setTransient('vcv:hub:update:request', $time, 60);
+}
 $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
@@ -33,11 +37,15 @@ if (is_array($extraOutput)) {
     }
     unset($output);
 }
+$actions = $hubUpdateHelper->getRequiredActions();
 ?>
 <script>
-  window.vcvAccountUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>'
-  window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
-  window.vcvPageBack = '<?php echo $optionsHelper->getTransient('_vcv_update_page_redirect_url'); ?>';
+  window.vcvUpdateUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>'
+  window.vcvAdminNonce = '<?php echo $nonceHelper->admin(); ?>';
+  window.vcvUpdateActions = <?php echo json_encode($actions); ?>;
+  window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>'
+  window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>'
+  window.vcvAjaxTime = <?php echo $time; ?>
 </script>
 
 <!-- Third screen / loading screen -->
@@ -52,7 +60,7 @@ if (is_array($extraOutput)) {
         echo __('We are updating assets from the Visual Composer Cloud ... Please wait.', 'vcwb');
         ?></span>
 
-
+    <p class="vcv-loading-text-main"></p>
     <span class="vcv-popup-helper"><?php
         echo __('Don’t close this window while update is in process.', 'vcwb');
         ?></span>
@@ -92,3 +100,46 @@ if (is_array($extraOutput)) {
                 ); ?></span></button>
     </div>
 </div>
+<?php if ($optionsHelper->getTransient('vcv:activation:request')) : ?>
+    <div data-vcv-error-lock
+         class="vcv-popup-content vcv-popup-error-description">
+        <div class="vcv-logo">
+            <svg width="36px" height="37px" viewBox="0 0 36 37" version="1.1"
+                 xmlns="http://www.w3.org/2000/svg">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="01-Intro-Free" transform="translate(-683.000000, -185.000000)">
+                        <g id="VC-Logo" transform="translate(683.000000, 185.000000)">
+                            <polygon id="Fill-1" fill="#257CA0"
+                                     points="17.982 21.662 17.989 37 8.999 31.837 8.999 21.499"></polygon>
+                            <polyline id="Fill-5" fill="#74953D"
+                                      points="17.71 5.977 26.694 6.139 26.708 21.494 17.71 21.315 17.71 5.977"></polyline>
+                            <polyline id="Fill-4" fill="#2CA2CF"
+                                      points="26.708 21.494 17.982 26.656 8.999 21.498 17.72 16.315 26.708 21.494"></polyline>
+                            <polyline id="Fill-6" fill="#9AC753"
+                                      points="35.42 5.972 26.694 11.135 17.71 5.977 26.432 0.793 35.42 5.972"></polyline>
+                            <polygon id="Fill-8" fill="#A77E2D"
+                                     points="8.984 6.145 8.998 21.499 0 16.32 0 5.98"></polygon>
+                            <polyline id="Fill-9" fill="#F2AE3B"
+                                      points="17.71 5.977 8.984 11.139 0 5.98 8.722 0.799 17.71 5.977"></polyline>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </div>
+        <div class="vcv-popup-heading">
+            <?php echo __('Oops!', 'vcwb'); ?>
+        </div>
+        <span class="vcv-popup-loading-heading">
+        <?php
+        $expirationTime = get_option('_transient_timeout_vcv-' . VCV_VERSION . 'vcv:activation:request');
+        $expiresAfter = $expirationTime - time();
+        $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
+
+        $errorMsg = sprintf(__('The update process was already started! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter);
+
+        echo $errorMsg;
+        ?>
+        </span>
+    </div>
+<?php
+endif;

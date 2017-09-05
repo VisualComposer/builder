@@ -27,11 +27,11 @@ trait Action
             /** @var $hubHelper \VisualComposer\Helpers\Hub\Bundle */
             $hubHelper->removeTempBundleFolder();
             $archive = $hubHelper->requestBundleDownload($payload['data'], $payload['action']);
-            $archive = $this->readBundleJson($archive);
+            $archive = $this->readBundleJson($archive, $payload);
             //if ($archive) {
             $response = $filterHelper->fire(
                 'vcv:hub:download:bundle:' . $payload['action'],
-                ['status' => true],
+                ['status' => $archive !== false],
                 ['archive' => $archive]
             );
             //}
@@ -41,12 +41,22 @@ trait Action
         return $response;
     }
 
-    protected function readBundleJson($archive)
+    protected function readBundleJson($archive, $payload)
     {
         $result = false;
         if (!is_wp_error($archive)) {
             $hubHelper = vchelper($this->helperName);
             $result = $hubHelper->unzipDownloadedBundle($archive);
+            if (isset($payload['checksum']) && !empty($payload['checksum'])) {
+                $mdOriginalFile = md5_file($archive);
+                if ($mdOriginalFile !== $payload['checksum']) {
+                    return false;
+                }
+            }
+            // If zip is less than 1kb something wrong
+            if (filesize($archive) < 1024) {
+                return false;
+            }
             if (!is_wp_error($result)) {
                 return $hubHelper->readBundleJson($hubHelper->getTempBundleFolder('bundle.json'));
             }
