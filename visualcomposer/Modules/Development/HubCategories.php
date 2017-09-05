@@ -90,7 +90,8 @@ class HubCategories extends Container implements Module
                         'strikethroughOutlineButton',
                         'simpleGradientButton',
                         'quoteButton',
-                        'strikethroughButton'
+                        'strikethroughButton',
+                        'filledShadowButton'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
