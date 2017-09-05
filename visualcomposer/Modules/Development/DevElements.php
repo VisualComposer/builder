@@ -1806,6 +1806,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A button with centered shadow effect and animation.',
                 //                    ],
                 //                ],
+                //                'zigZagButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/zigZagButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/zigZagButton/zigZagButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/zigZagButton/zigZagButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/zigZagButton/zigZagButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'ZigZag Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/zigZagButton/zigZagButton/public/thumbnail-zigzag-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/zigZagButton/zigZagButton/public/preview-zigzag-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A text based button with zig zag underline and custom hover color controls.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [
