@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import DnD from '../../../../../../resources/dnd/dnd'
+
 const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class DndManager {
@@ -43,7 +44,8 @@ export default class DndManager {
         dropCallback: this.drop.bind(this),
         startCallback: DndManager.start,
         endCallback: DndManager.end,
-        container: document.querySelector('#vcwb_visual_composer > .inside')
+        container: document.querySelector('#vcwb_visual_composer > .inside'),
+        handler: '> .vce-wpbackend-element-header-container, > div > div > vcvhelper.vcv-row-control-container' + (vcCake.env('FIX_DND_FOR_TABS') ? ', > [data-vce-target]' : '')
       })
       this.items.init()
       this.apiDnD = DnD.api(this.items)
@@ -105,13 +107,13 @@ export default class DndManager {
   move (id, action, related) {
     if (id && related) {
       // this.api.request('data:move', id, { action: action, related: related })
-      workspaceStorage.trigger('move', id, { action: action, related: related })
+      workspaceStorage.trigger('move', id, {action: action, related: related})
     }
   }
 
   drop (id, action, related, element) {
     if (id && related) {
-      workspaceStorage.trigger('drop', id, { action: action, related: related, element: element })
+      workspaceStorage.trigger('drop', id, {action: action, related: related, element: element})
       // this.api.request('data:move', id, { action: action, related: related })
     }
   }
