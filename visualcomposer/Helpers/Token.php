@@ -82,22 +82,28 @@ class Token extends Container implements Helper
 
     /**
      * @param $id
+     *
      * @return bool|string
      */
     public function createToken($id)
     {
         $loggerHelper = vchelper('Logger');
+        $licenseHelper = vchelper('License');
+        $body = [
+            'hoster_id' => 'account',
+            'id' => $id,
+        ];
+        if ($licenseHelper->isActivated()) {
+            $body['key'] = $licenseHelper->getKey();
+        }
         $result = wp_remote_get(
             VCV_TOKEN_URL,
             [
                 'timeout' => 10,
-                'body' => [
-                    'hoster_id' => 'account',
-                    'id' => $id,
-                ],
+                'body' => $body,
             ]
         );
-        if (wp_remote_retrieve_response_code($result) === 200) {
+        if (!vcIsBadResponse($result)) {
             $body = json_decode($result['body'], true);
             if ($body['success']) {
                 $token = $body['data']['token'];

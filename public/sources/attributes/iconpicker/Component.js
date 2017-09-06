@@ -4,8 +4,8 @@ import classNames from 'classnames'
 import './css/styles.less'
 
 let iconsSets = {
-  fontawesome: require('./lib/font-awesome-4.6.3'),
-  lineicons: require('./lib/lineicons-13.07-48'),
+  fontawesome: require('./lib/font-awesome-4.7.0'),
+  lineicons: require('./lib/lineicons'),
   entypo: require('./lib/entypo-13.07-411'),
   monosocial: require('./lib/monosocial-1.10-303'),
   typicons: require('./lib/typicons-2.0.7'),

@@ -52,6 +52,12 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             </button>-->
             <!-- Close button -->
             <button class="vcv-popup-close-button"></button>
+            <?php /*echo vcview(
+                'account/partials/activation-intro',
+                [
+                    'controller' => $controller,
+                ]
+            ); */?>
             <?php echo vcview(
                 $type !== 'standalone' ? 'account/partials/activation-login'
                     : 'account/partials/activation-login-standalone',
