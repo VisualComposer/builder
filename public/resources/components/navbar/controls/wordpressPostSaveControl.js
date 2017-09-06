@@ -79,7 +79,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     })
     let saveIconClasses = classNames({
       'vcv-ui-navbar-control-icon': true,
-      'vcv-ui-wp-spinner': this.state.saving,
+      'vcv-ui-wp-spinner-light': this.state.saving,
       'vcv-ui-icon': !this.state.saving,
       'vcv-ui-icon-save': !this.state.saving
     })
