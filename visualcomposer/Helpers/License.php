@@ -197,9 +197,13 @@ class License extends Container implements Helper
         }
 
         $chunks = explode('|', $token);
+        $nonceHelper = vchelper('Nonce');
 
         $diff = time() - $ttlInSeconds;
-        if (intval($chunks[0]) < $diff) {
+        if (!$nonceHelper->verifyAdmin($chunks[0])) {
+            return false;
+        }
+        if (intval($chunks[1]) < $diff) {
             return false;
         }
 

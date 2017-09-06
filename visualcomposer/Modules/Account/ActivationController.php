@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
@@ -168,10 +169,10 @@ class ActivationController extends Container implements Module
         return ['status' => false];
     }
 
-    protected function subscribeLiteVersion($response, $payload, Request $requestHelper, Logger $loggerHelper, Options $optionsHelper)
+    protected function subscribeLiteVersion($response, $payload, Request $requestHelper, Logger $loggerHelper, Options $optionsHelper, License $licenseHelper)
     {
         if (!vcIsBadResponse($response)) {
-            if ($optionsHelper->getTransient('vcv:activation:subscribe')) {
+            if ($optionsHelper->getTransient('vcv:activation:subscribe') || $licenseHelper->isActivated()) {
                 return $response;
             }
             // This is a place where we need to make registration/activation request in account
