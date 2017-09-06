@@ -58,7 +58,7 @@ class RangeAttribute extends Attribute {
         </div>
         <input
           className='vcv-ui-form-input vcv-ui-form-range-input'
-          type='string'
+          type='text'
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           min={min}
