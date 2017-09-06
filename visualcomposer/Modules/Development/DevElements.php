@@ -1878,6 +1878,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'Outline button with half outline, position and animation controls.',
                 //                    ],
                 //                ],
+                //                'gatsbyButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/gatsbyButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/gatsbyButton/gatsbyButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/gatsbyButton/gatsbyButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/gatsbyButton/gatsbyButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Gatsby Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/gatsbyButton/gatsbyButton/public/thumbnail-gatsby-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/gatsbyButton/gatsbyButton/public/preview-gatsby-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A Gatsby style button with a misplaced outline and transparent fill color.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [
