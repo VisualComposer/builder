@@ -45,7 +45,8 @@ export default class DndManager {
         startCallback: DndManager.start,
         endCallback: DndManager.end,
         container: document.querySelector('#vcwb_visual_composer > .inside'),
-        handler: '> .vce-wpbackend-element-header-container, > div > div > vcvhelper.vcv-row-control-container' + (vcCake.env('FIX_DND_FOR_TABS') ? ', > [data-vce-target]' : '')
+        handler: '> .vce-wpbackend-element-header-container, > div > div > vcvhelper.vcv-row-control-container' + (vcCake.env('FIX_DND_FOR_TABS') ? ', > [data-vce-target]' : ''),
+        allowMultiNodes: vcCake.env('FIX_DND_FOR_TABS')
       })
       this.items.init()
       this.apiDnD = DnD.api(this.items)

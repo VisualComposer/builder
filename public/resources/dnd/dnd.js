@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import {getService, setData, getData, getStorage, env} from 'vc-cake'
+import { getService, setData, getData, getStorage, env } from 'vc-cake'
 import SmartLine from './smartLine'
 import Helper from './helper'
 import HelperClone from './helperClone'
@@ -132,14 +132,15 @@ export default class DnD {
           document: document,
           container: document.body,
           boundariesGap: 10,
-          rootContainerFor: [ 'RootElements' ],
+          rootContainerFor: ['RootElements'],
           rootID: 'vcv-content-root',
           handler: null,
           ignoreHandling: null,
           disabled: false,
           helperType: null,
           manualScroll: false,
-          drop: false
+          drop: false,
+          allowMultiNodes: false
         })
       }
     })
@@ -150,11 +151,11 @@ export default class DnD {
   }
 
   option (name, value) {
-    this.options[ name ] = value
+    this.options[name] = value
   }
 
   init () {
-    this.items[ this.options.rootID ] = new DOMElement(this.options.rootID, this.container, {
+    this.items[this.options.rootID] = new DOMElement(this.options.rootID, this.container, {
       containerFor: this.options.rootContainerFor
     })
     this.handleDragFunction = this.handleDrag.bind(this)
@@ -166,11 +167,26 @@ export default class DnD {
   addItem (id) {
     let element = cook.get(documentManager.get(id))
     if (!element) { return }
-    let containerFor = element.get('containerFor')
-    let relatedTo = element.get('relatedTo')
-    let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
-    if (!domNode || !domNode.ELEMENT_NODE) { return }
-    this.items[ id ] = new DOMElement(id, domNode, {
+    if (this.options.allowMultiNodes) {
+      let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
+      domNodes.forEach((domNode) => {
+        if (domNode && domNode.ELEMENT_NODE) {
+          this.buildNodeElement(domNode, element)
+        }
+      })
+    } else {
+      let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
+      if (domNode && domNode.ELEMENT_NODE) {
+        this.buildNodeElement(domNode, element)
+      }
+    }
+  }
+
+  buildNodeElement (domNode, element) {
+    const id = element.get('id')
+    const containerFor = element.get('containerFor')
+    const relatedTo = element.get('relatedTo')
+    this.items[id] = new DOMElement(id, domNode, {
       containerFor: containerFor ? containerFor.value : null,
       relatedTo: relatedTo ? relatedTo.value : null,
       parent: element.get('parent') || this.options.rootID,
@@ -184,8 +200,8 @@ export default class DnD {
   }
 
   updateItem (id) {
-    if (!this.items[ id ]) { return }
-    this.items[ id ]
+    if (!this.items[id]) { return }
+    this.items[id]
       .refresh()
       .off('mousedown', this.handleDragStartFunction)
       .off('mousedown', this.handleDragFunction)
@@ -197,10 +213,10 @@ export default class DnD {
   }
 
   removeItem (id) {
-    this.items[ id ] && this.items[ id ]
+    this.items[id] && this.items[id]
       .off('mousedown', this.handleDragStartFunction)
       .off('mousedown', this.handleDragFunction)
-    delete this.items[ id ]
+    delete this.items[id]
   }
 
   removePlaceholder () {
@@ -211,7 +227,7 @@ export default class DnD {
   }
 
   findElementWithValidParent (domElement) {
-    let parentElement = domElement.parent() ? this.items[ domElement.parent() ] : null
+    let parentElement = domElement.parent() ? this.items[domElement.parent()] : null
     if (parentElement && this.draggingElement.isChild(parentElement)) {
       return domElement
     } else if (parentElement) {
@@ -239,14 +255,14 @@ export default class DnD {
   checkItems (point) {
     let domNode = this.findDOMNode(point)
     if (!domNode || !domNode.ELEMENT_NODE) { return }
-    let domElement = this.items[ domNode.getAttribute('data-vcv-dnd-element') ]
+    let domElement = this.items[domNode.getAttribute('data-vcv-dnd-element')]
     if (!domElement) {
       return
     }
-    let parentDOMElement = this.items[ domElement.parent() ] || null
+    let parentDOMElement = this.items[domElement.parent()] || null
     if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
       domElement = this.findElementWithValidParent(parentDOMElement) || domElement
-      parentDOMElement = this.items[ domElement.parent() ] || null
+      parentDOMElement = this.items[domElement.parent()] || null
     }
     if (this.isDraggingElementParent(domElement)) {
       return
@@ -277,7 +293,7 @@ export default class DnD {
     if (id && tag) {
       this.draggingElement = this.createDraggingElementFromTag(tag, domNode)
     } else {
-      this.draggingElement = id ? this.items[ id ] : null
+      this.draggingElement = id ? this.items[id] : null
       this.options.drop = false
       if (!this.draggingElement) {
         this.draggingElement = null
@@ -318,13 +334,13 @@ export default class DnD {
   }
 
   createDraggingElementFromTag (tag, domNode) {
-    let element = cook.get({ tag: tag })
+    let element = cook.get({tag: tag})
     if (!element) { return }
     let containerFor = element.get('containerFor')
     let relatedTo = element.get('relatedTo')
     return new DOMElement('dropElement', domNode, {
       containerFor: containerFor ? containerFor.value : null,
-      relatedTo: relatedTo ? relatedTo.value.concat([ 'RootElements' ]) : null,
+      relatedTo: relatedTo ? relatedTo.value.concat(['RootElements']) : null,
       parent: this.options.rootID,
       handler: this.options.handler,
       tag: element.get('tag'),
@@ -356,7 +372,7 @@ export default class DnD {
         this.draggingElement
       )
       if (!this.position) {
-        workspaceStorage.state('drag').set({ terminate: true })
+        workspaceStorage.state('drag').set({terminate: true})
       }
     } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
       this.position && this.options.moveCallback(
@@ -433,7 +449,7 @@ export default class DnD {
       this.handleDragEnd()
       return false
     }
-    e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX, y: e.clientY })
+    e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX, y: e.clientY})
   }
 
   /**
@@ -450,7 +466,7 @@ export default class DnD {
       return
     }
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    this.start(id, { x: e.clientX, y: e.clientY })
+    this.start(id, {x: e.clientX, y: e.clientY})
   }
 
   handleDragEnd () {
