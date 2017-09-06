@@ -11,8 +11,10 @@ import Color from '../color/Component'
 import String from '../string/Component'
 import Number from '../number/Component'
 import Animate from '../animateDropdown/Component'
+import ButtonGroup from '../buttonGroup/Component'
+import vcCake from 'vc-cake'
 
-class DesignOptionsAdvanced extends Attribute {
+export default class DesignOptionsAdvanced extends Attribute {
   /**
    * Attribute Mixins
    */
@@ -160,6 +162,7 @@ class DesignOptionsAdvanced extends Attribute {
     backgroundType: 'imagesSimple',
     borderStyle: 'solid',
     backgroundStyle: 'cover',
+    backgroundPosition: 'center-top',
     gradientAngle: 45,
     sliderEffect: 'slide'
   }
@@ -178,6 +181,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
+    this.backgroundPositionChangeHandler = this.backgroundPositionChangeHandler.bind(this)
     this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
     this.sliderEffectChangeHandler = this.sliderEffectChangeHandler.bind(this)
@@ -268,6 +272,9 @@ class DesignOptionsAdvanced extends Attribute {
         if (!newState.devices[ device ].backgroundStyle) {
           newState.devices[ device ].backgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
         }
+        if (!newState.devices[ device ].backgroundPosition) {
+          newState.devices[ device ].backgroundPosition = DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+        }
         if (typeof newState.devices[ device ].gradientAngle === 'undefined') {
           newState.devices[ device ].gradientAngle = DesignOptionsAdvanced.deviceDefaults.gradientAngle
         }
@@ -291,6 +298,7 @@ class DesignOptionsAdvanced extends Attribute {
             // not image type background selected
             delete newValue[ device ].images
             delete newValue[ device ].backgroundStyle
+            delete newValue[ device ].backgroundPosition
           } else if (!newValue[ device ].hasOwnProperty('images') || ((!newValue[ device ].images.urls || newValue[ device ].images.urls.length === 0) && newValue[ device ].images.length === 0)) {
             // images are empty
             delete newValue[ device ].images
@@ -298,6 +306,7 @@ class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].backgroundStyle
             delete newValue[ device ].sliderTimeout
             delete newValue[ device ].sliderEffect
+            delete newValue[ device ].backgroundPosition
           }
 
           // Embed video bg
@@ -490,6 +499,7 @@ class DesignOptionsAdvanced extends Attribute {
   /**
    * Flush field value to updater
    * @param value
+   * @param mixins
    */
   setFieldValue (value, mixins) {
     let { updater, fieldKey } = this.props
@@ -942,6 +952,97 @@ class DesignOptionsAdvanced extends Attribute {
   backgroundStyleChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ].backgroundStyle = value
+    this.updateValue(newState)
+  }
+
+  /**
+   * Render background position control
+   * @returns {*}
+   */
+  getBackgroundPositionRender () {
+    let allowedBackgroundTypes = [
+      'imagesSimple',
+      'imagesSlideshow'
+    ]
+    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
+      this.state.devices[ this.state.currentDevice ].display ||
+      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 ||
+      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
+      !this.state.devices[ this.state.currentDevice ].images.urls ||
+      this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
+      return null
+    }
+    let options = {
+      values: [
+        {
+          label: 'Left Top',
+          value: 'left-top',
+          icon: 'vcv-ui-icon-attribute-background-position-left-top'
+        },
+        {
+          label: 'Center Top',
+          value: 'center-top',
+          icon: 'vcv-ui-icon-attribute-background-position-center-top'
+        },
+        {
+          label: 'Right Top',
+          value: 'right-top',
+          icon: 'vcv-ui-icon-attribute-background-position-right-top'
+        },
+        {
+          label: 'Left Center',
+          value: 'left-center',
+          icon: 'vcv-ui-icon-attribute-background-position-left-center'
+        },
+        {
+          label: 'Center Center',
+          value: 'center-center',
+          icon: 'vcv-ui-icon-attribute-background-position-center-center'
+        },
+        {
+          label: 'Right Center',
+          value: 'right-center',
+          icon: 'vcv-ui-icon-attribute-background-position-right-center'
+        },
+        {
+          label: 'Left Bottom',
+          value: 'left-bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-left-bottom'
+        },
+        {
+          label: 'Center Bottom',
+          value: 'center-bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-center-bottom'
+        },
+        {
+          label: 'Right Bottom',
+          value: 'right-bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-right-bottom'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].backgroundPosition || DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Background position
+      </span>
+      <ButtonGroup
+        api={this.props.api}
+        fieldKey='backgroundPosition'
+        options={options}
+        updater={this.backgroundPositionChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle background position change
+   * @param fieldKey
+   * @param value
+   */
+  backgroundPositionChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ].backgroundPosition = value
     this.updateValue(newState)
   }
 
@@ -1597,6 +1698,7 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getVimeoVideoRender()}
             {this.getEmbedVideoRender()}
             {this.getBackgroundStyleRender()}
+            {this.getBackgroundPositionRender()}
             {this.getBackgroundColorRender()}
             {this.getGradientOverlayRender()}
             {this.getGradientStartColorRender()}
@@ -1611,5 +1713,3 @@ class DesignOptionsAdvanced extends Attribute {
     )
   }
 }
-
-export default DesignOptionsAdvanced

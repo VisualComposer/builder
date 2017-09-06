@@ -8,8 +8,10 @@ import BoxModel from '../boxModel/Component'
 import AttachImage from '../attachimage/Component'
 import Color from '../color/Component'
 import Animate from '../animateDropdown/Component'
+import ButtonGroup from '../buttonGroup/Component'
+import vcCake from 'vc-cake'
 
-class DesignOptions extends Attribute {
+export default class DesignOptions extends Attribute {
   /**
    * Attribute Mixins
    */
@@ -151,6 +153,7 @@ class DesignOptions extends Attribute {
   static defaultState = {
     currentDevice: 'all',
     borderStyle: 'solid',
+    backgroundPosition: 'center top',
     devices: {},
     attributeMixins: {}
   }
@@ -163,6 +166,7 @@ class DesignOptions extends Attribute {
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
+    this.backgroundPositionChangeHandler = this.backgroundPositionChangeHandler.bind(this)
     this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
@@ -258,6 +262,11 @@ class DesignOptions extends Attribute {
             delete newValue[ device ].backgroundStyle
           }
 
+          // background position is empty
+          if (newValue[ device ].backgroundPosition === '') {
+            delete newValue[ device ].backgroundPosition
+          }
+
           // background color is empty
           if (newValue[ device ].backgroundColor === '') {
             delete newValue[ device ].backgroundColor
@@ -279,8 +288,6 @@ class DesignOptions extends Attribute {
             delete newValue[ device ].borderStyle
             delete newValue[ device ].borderColor
           }
-
-          delete newValue[ device ].backgroundPosition
         }
         // mixins
         if (newValue[ device ].hasOwnProperty('display')) {
@@ -370,7 +377,7 @@ class DesignOptions extends Attribute {
                       value: newValue[ device ].backgroundStyle
                     }
                     newMixins[ mixinName ].variables.backgroundPosition = {
-                      value: 'center'
+                      value: DesignOptions.defaultState.backgroundPosition
                     }
                 }
               } else {
@@ -380,6 +387,12 @@ class DesignOptions extends Attribute {
                 newMixins[ mixinName ].variables.backgroundSize = {
                   value: false
                 }
+              }
+            }
+
+            if (newValue[ device ].backgroundPosition) {
+              newMixins[ mixinName ].variables.backgroundPosition = {
+                value: newValue[ device ].backgroundPosition
               }
             }
 
@@ -795,6 +808,92 @@ class DesignOptions extends Attribute {
   }
 
   /**
+   * Render background position control
+   * @returns {*}
+   */
+  getBackgroundPositionRender () {
+    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
+      this.state.devices[ this.state.currentDevice ].display ||
+      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('image') ||
+      !this.state.devices[ this.state.currentDevice ].image.urls ||
+      this.state.devices[ this.state.currentDevice ].image.urls.length === 0) {
+      return null
+    }
+    let options = {
+      values: [
+        {
+          label: 'Left Top',
+          value: 'left top',
+          icon: 'vcv-ui-icon-attribute-background-position-left-top'
+        },
+        {
+          label: 'Center Top',
+          value: 'center top',
+          icon: 'vcv-ui-icon-attribute-background-position-center-top'
+        },
+        {
+          label: 'Right Top',
+          value: 'right top',
+          icon: 'vcv-ui-icon-attribute-background-position-right-top'
+        },
+        {
+          label: 'Left Center',
+          value: 'left center',
+          icon: 'vcv-ui-icon-attribute-background-position-left-center'
+        },
+        {
+          label: 'Center Center',
+          value: 'center center',
+          icon: 'vcv-ui-icon-attribute-background-position-center-center'
+        },
+        {
+          label: 'Right Center',
+          value: 'right center',
+          icon: 'vcv-ui-icon-attribute-background-position-right-center'
+        },
+        {
+          label: 'Left Bottom',
+          value: 'left bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-left-bottom'
+        },
+        {
+          label: 'Center Bottom',
+          value: 'center bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-center-bottom'
+        },
+        {
+          label: 'Right Bottom',
+          value: 'right bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-right-bottom'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].backgroundPosition || DesignOptions.defaultState.backgroundPosition
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Background position
+      </span>
+      <ButtonGroup
+        api={this.props.api}
+        fieldKey='backgroundPosition'
+        options={options}
+        updater={this.backgroundPositionChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle background position change
+   * @param fieldKey
+   * @param value
+   */
+  backgroundPositionChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ].backgroundPosition = value
+    this.updateValue(newState)
+  }
+
+  /**
    * Render color picker for background color
    * @returns {*}
    */
@@ -987,6 +1086,7 @@ class DesignOptions extends Attribute {
             {this.getBackgroundColorRender()}
             {this.getAttachImageRender()}
             {this.getBackgroundStyleRender()}
+            {this.getBackgroundPositionRender()}
             {this.getBorderStyleRender()}
             {this.getBorderColorRender()}
             {this.getAnimationRender()}
@@ -996,5 +1096,3 @@ class DesignOptions extends Attribute {
     )
   }
 }
-
-export default DesignOptions

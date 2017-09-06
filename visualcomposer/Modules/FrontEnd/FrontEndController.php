@@ -24,7 +24,7 @@ class FrontEndController extends Container implements Module
         /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::encode */
         $this->wpAddFilter('the_content', 'encode', 1);
         /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::decode */
-        $this->wpAddFilter('the_content', 'decode', 99);
+        $this->wpAddFilter('the_content', 'decode', 10);
     }
 
     protected function encode($content)
@@ -32,7 +32,7 @@ class FrontEndController extends Container implements Module
         $content = preg_replace_callback(
             '/((<!--vcv no formatting start-->)(.*?)(<!--vcv no formatting end-->))/si',
             function ($matches) {
-                return $matches[2] . base64_encode(do_shortcode($matches[3])) . $matches[4];
+                return '<p>' . $matches[2] . base64_encode(do_shortcode($matches[3])) . $matches[4] . '</p>';
             },
             $content
         );
@@ -43,7 +43,7 @@ class FrontEndController extends Container implements Module
     protected function decode($content)
     {
         $content = preg_replace_callback(
-            '/((<!--vcv no formatting start-->)(.*?)(<!--vcv no formatting end-->))/si',
+            '/(\<p\>(<!--vcv no formatting start-->)(.*?)(<!--vcv no formatting end-->)<\/p>)/si',
             function ($matches) {
                 return base64_decode($matches[3]);
             },

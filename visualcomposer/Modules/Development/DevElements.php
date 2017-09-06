@@ -1716,24 +1716,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'Outline button with a horizontal or vertical strike through and fill color effect on hover.',
                 //                    ],
                 //                ],
-                //                'simpleGradientButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/simpleGradientButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/simpleGradientButton/simpleGradientButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Simple Gradient Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/simpleGradientButton/simpleGradientButton/public/thumbnail-simple-gradient-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/simpleGradientButton/simpleGradientButton/public/preview-simple-gradient-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A simple gradient button with automatic gradient effect calculation.',
-                //                    ],
-                //                ],
+                                'simpleGradientButton' => [
+                                    'bundlePath' => $urlHelper->to(
+                                        'devElements/simpleGradientButton/public/dist/element.bundle.js'
+                                    ),
+                                    'elementPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/'),
+                                    'elementRealPath' => vcapp()->path('devElements/simpleGradientButton/simpleGradientButton/'),
+                                    'assetsPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/public/'),
+                                    'settings' => [
+                                        'name' => 'Simple Gradient Button',
+                                        'metaThumbnailUrl' => $urlHelper->to(
+                                            'devElements/simpleGradientButton/simpleGradientButton/public/thumbnail-simple-gradient-button.png'
+                                        ),
+                                        'metaPreviewUrl' => $urlHelper->to(
+                                            'devElements/simpleGradientButton/simpleGradientButton/public/preview-simple-gradient-button.png'
+                                        ),
+                                        'metaDescription' => 'A simple gradient button with automatic gradient effect calculation.',
+                                    ],
+                                ],
                 //                'quoteButton' => [
                 //                    'bundlePath' => $urlHelper->to(
                 //                        'devElements/quoteButton/public/dist/element.bundle.js'
@@ -1822,6 +1822,42 @@ class DevElements extends Container implements Module
                 //                            'devElements/largeCircleZoomButton/largeCircleZoomButton/public/preview-large-circle-zoom-button.png'
                 //                        ),
                 //                        'metaDescription' => 'A large circle button with text and zoom effect on hover.',
+                //                    ],
+                //                ],
+                //                'zigZagButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/zigZagButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/zigZagButton/zigZagButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/zigZagButton/zigZagButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/zigZagButton/zigZagButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'ZigZag Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/zigZagButton/zigZagButton/public/thumbnail-zigzag-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/zigZagButton/zigZagButton/public/preview-zigzag-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A text based button with zig zag underline and custom hover color controls.',
+                //                    ],
+                //                ],
+                //                'smoothShadowButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/smoothShadowButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/smoothShadowButton/smoothShadowButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/smoothShadowButton/smoothShadowButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/smoothShadowButton/smoothShadowButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Smooth Shadow Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/smoothShadowButton/smoothShadowButton/public/thumbnail-smooth-shadow-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/smoothShadowButton/smoothShadowButton/public/preview-smooth-shadow-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A filled button with bold shadow smooth edges.',
                 //                    ],
                 //                ],
             ]
