@@ -1,5 +1,7 @@
 import 'slick-carousel'
 import $ from 'jquery'
+import {closeError, showError} from './errors'
+import { showIntroScreen, showLoadingScreen, showFirstScreen, showLastScreen } from './screens'
 
 $(() => {
   let $popup = $('.vcv-popup-container')
@@ -85,7 +87,7 @@ $(() => {
     }
 
     let loadLastScreen = () => {
-      closeError()
+      closeError($errorPopup)
       loadAnimation()
       $popup.addClass('vcv-form-loaded')
 
@@ -110,35 +112,9 @@ $(() => {
 
       $('.vcv-popup-loading-zoom').one(transitionEvent, (event) => {
         // last screen shows
-        showLastScreen()
+        showLastScreen($popup)
         loadSlider()
       })
-    }
-
-    let showLoadingScreen = () => {
-      $popup.removeClass('vcv-first-screen--active vcv-last-screen--active').addClass('vcv-loading-screen--active')
-    }
-    let showFirstScreen = () => {
-      $popup.removeClass('vcv-loading-screen--active vcv-last-screen--active').addClass('vcv-first-screen--active')
-    }
-    let showLastScreen = () => {
-      $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active').addClass('vcv-last-screen--active')
-    }
-    let closeError = () => {
-      $errorPopup.removeClass('vcv-popup-error--active')
-    }
-    let errorTimeout
-    let showError = (msg, timeout) => {
-      if (errorTimeout) {
-        window.clearTimeout(errorTimeout)
-        errorTimeout = 0
-      }
-      $errorPopup.text(msg)
-      $errorPopup.addClass('vcv-popup-error--active')
-
-      if (timeout) {
-        errorTimeout = window.setTimeout(closeError, timeout)
-      }
     }
 
     let $heading = $('.vcv-popup-loading-heading')
@@ -158,9 +134,9 @@ $(() => {
           loadLastScreen()
         } else {
           if (requestFailed) {
-            showError(json.message ? json.message : activationFailedText, 15000)
+            showError($errorPopup, json.message ? json.message : activationFailedText, 15000)
             console.warn(json)
-            showFirstScreen()
+            showFirstScreen($popup)
           } else {
             // Try again one more time.
             doneActions(true)
@@ -168,9 +144,9 @@ $(() => {
         }
       }).fail(function (jqxhr, textStatus, error) {
         if (requestFailed) {
-          showError(error, 15000)
+          showError($errorPopup, error, 15000)
           console.warn(textStatus, error)
-          showFirstScreen()
+          showFirstScreen($popup)
         } else {
           // Try again one more time.
           doneActions(true)
@@ -206,9 +182,9 @@ $(() => {
             }
           } else {
             if (requestFailed) {
-              showError(json.message ? json.message : activationFailedText, 15000)
+              showError($errorPopup, json.message ? json.message : activationFailedText, 15000)
               console.warn(json)
-              showFirstScreen()
+              showFirstScreen($popup)
             } else {
               // Try again one more time.
               requestFailed = true
@@ -217,9 +193,9 @@ $(() => {
           }
         }).fail(function (jqxhr, textStatus, error) {
           if (requestFailed) {
-            showError(error, 15000)
+            showError($errorPopup, error, 15000)
             console.warn(textStatus, error)
-            showFirstScreen()
+            showFirstScreen($popup)
           } else {
             // Try again one more time.
             requestFailed = true
@@ -249,7 +225,7 @@ $(() => {
       }
       if (email) {
         // third / loading screen shows, loading starts here
-        showLoadingScreen()
+        showLoadingScreen($popup)
         // loading ends / loaded
         // Assign handlers immediately after making the request,
         // and remember the jqxhr object for this request
@@ -274,22 +250,22 @@ $(() => {
                 try {
                   let messageJson = JSON.parse(json.message)
                   if (messageJson && messageJson.email) {
-                    showError(incorrectEmailFormatText, 15000)
+                    showError($errorPopup, incorrectEmailFormatText, 15000)
                   } else if (messageJson && messageJson.agreement) {
-                    showError(mustAgreeToActivateText, 15000)
+                    showError($errorPopup, mustAgreeToActivateText, 15000)
                   } else if (messageJson) {
-                    showError(messageJson, 15000)
+                    showError($errorPopup, messageJson, 15000)
                   } else {
-                    showError(activationFailedText, 15000)
+                    showError($errorPopup, activationFailedText, 15000)
                   }
                 } catch (e) {
-                  showError(activationFailedText, 15000)
+                  showError($errorPopup, activationFailedText, 15000)
                   console.warn(e, json.message)
                 }
               } else {
-                showError(activationFailedText, 15000)
+                showError($errorPopup, activationFailedText, 15000)
               }
-              showFirstScreen()
+              showFirstScreen($popup)
             }
           })
           .fail(function (jqxhr, textStatus, error) {
@@ -299,25 +275,25 @@ $(() => {
                 try {
                   let messageJson = JSON.parse(json.message)
                   if (messageJson && messageJson.email) {
-                    showError(incorrectEmailFormatText, 15000)
+                    showError($errorPopup, incorrectEmailFormatText, 15000)
                   } else if (messageJson && messageJson.agreement) {
-                    showError(mustAgreeToActivateText, 15000)
+                    showError($errorPopup, mustAgreeToActivateText, 15000)
                   } else if (messageJson) {
-                    showError(messageJson, 15000)
+                    showError($errorPopup, messageJson, 15000)
                   } else {
-                    showError(activationFailedText, 15000)
+                    showError($errorPopup, activationFailedText, 15000)
                   }
                 } catch (e) {
-                  showError(activationFailedText, 15000)
+                  showError($errorPopup, activationFailedText, 15000)
                   console.warn(e, json.message)
                 }
               } else {
-                showError(activationFailedText, 15000)
+                showError($errorPopup, activationFailedText, 15000)
               }
             } else {
-              showError(activationFailedText, 15000)
+              showError($errorPopup, activationFailedText, 15000)
             }
-            showFirstScreen()
+            showFirstScreen($popup)
             console.warn(jqxhr.responseText, textStatus, error)
           })
         // Messages:
@@ -357,28 +333,28 @@ $(() => {
         //     if (responseJson && responseJson.message) {
         //       let messageJson = JSON.parse(responseJson.message)
         //       if (messageJson && messageJson.email) {
-        //         showError(incorrectEmailFormatText, 10000)
+        //         showError($errorPopup, incorrectEmailFormatText, 10000)
         //       } else if (messageJson && messageJson.agreement) {
-        //         showError(mustAgreeToActivateText, 10000)
+        //         showError($errorPopup, mustAgreeToActivateText, 10000)
         //       } else if (messageJson) {
-        //         showError(messageJson, 10000)
+        //         showError($errorPopup, messageJson, 10000)
         //       } else {
-        //         showError(activationFailedText, 10000)
+        //         showError($errorPopup, activationFailedText, 10000)
         //       }
         //     } else {
-        //       showError(activationFailedText, 10000)
+        //       showError($errorPopup, activationFailedText, 10000)
         //     }
         //   } catch (e) {
-        //     showError(activationFailedText, 10000)
+        //     showError($errorPopup, activationFailedText, 10000)
         //     console.warn(response, e)
         //   }
         //   clearTimeout(ajaxTimeout)
         //   ajaxTimeoutFinished = false
-        //   showFirstScreen()
+        //   showFirstScreen($popup)
         // })
       } else {
         // error shows\
-        showError(provideCorrectEmailText)
+        showError($errorPopup, provideCorrectEmailText)
       }
     })
 
@@ -403,12 +379,19 @@ $(() => {
       $popup.removeClass('vcv-popup-container--hidden')
       if (window.vcvActivationActivePage === 'last') {
         loadSlider()
-        showLastScreen()
+        showLastScreen($popup)
       } else {
-        showLoadingScreen()
-        setTimeout(() => {
-          showFirstScreen()
-        }, 300)
+        showLoadingScreen($popup)
+        let a = true
+        if (a) {
+          setTimeout(() => {
+            showFirstScreen($popup)
+          }, 300)
+        } else {
+          setTimeout(() => {
+            showIntroScreen($popup)
+          }, 300)
+        }
       }
     }
     img.src = url
