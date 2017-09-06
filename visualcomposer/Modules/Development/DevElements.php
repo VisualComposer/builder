@@ -1896,6 +1896,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A Gatsby style button with a misplaced outline and transparent fill color.',
                 //                    ],
                 //                ],
+                //                'animatedOutlineButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/animatedOutlineButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/animatedOutlineButton/animatedOutlineButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Animated Outline Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/animatedOutlineButton/animatedOutlineButton/public/thumbnail-animated-outline-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/animatedOutlineButton/animatedOutlineButton/public/preview-animated-outline-button.png'
+                //                        ),
+                //                        'metaDescription' => 'Outline button with an animation effect that wraps around button text.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [

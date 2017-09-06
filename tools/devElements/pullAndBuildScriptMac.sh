@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "My script is running."
-
 declare -a arr=(
 'row'
 'column'
@@ -89,7 +87,6 @@ declare -a arr=(
 'smoothShadowbutton'
 'halfOutlineButton'
 'gatsbyButton'
-'animatedOutlineButton'
 )
 
 EXECDIR=`pwd`
@@ -97,6 +94,9 @@ EXECDIR=`pwd`
 for i in "${arr[@]}"
 do
    if cd $EXECDIR/devElements/$i; then cd $EXECDIR/devElements/$i && git pull; else git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/devElements/$i; fi
+
+  sh -c 'npm run build && sed -i "" "s:../../node_modules/:./node_modules/:g" public/dist/element.bundle.js'
 done
 
 echo "Done!"
+
