@@ -1806,6 +1806,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A button with centered shadow effect and animation.',
                 //                    ],
                 //                ],
+                //                'largeCircleZoomButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/largeCircleZoomButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/largeCircleZoomButton/largeCircleZoomButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/largeCircleZoomButton/largeCircleZoomButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/largeCircleZoomButton/largeCircleZoomButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Large Circle Zoom Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/largeCircleZoomButton/largeCircleZoomButton/public/thumbnail-large-circle-zoom-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/largeCircleZoomButton/largeCircleZoomButton/public/preview-large-circle-zoom-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A large circle button with text and zoom effect on hover.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [
