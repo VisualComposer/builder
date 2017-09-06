@@ -17,6 +17,38 @@
     display: block;
     height: @wp-spinner-base-size;
     width: @wp-spinner-base-size;
+    background: transparent url(@wp-spinner-svg-src) 50% 50% no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: vcv-ui-wp-spinner-animation @wp-spinner-animation-duration linear infinite;
+  }
+
+  &.vcv-ui-wp-spinner-lg {
+    &::before {
+      height: @wp-spinner-base-size * 1.3;
+      width: @wp-spinner-base-size * 1.3;
+    }
+  }
+}
+
+.vcv-ui-wp-spinner-light {
+  margin: 0;
+  padding: 0;
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  opacity: .7;
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    height: @wp-spinner-base-size;
+    width: @wp-spinner-base-size;
     background: transparent url(@wp-spinner-light-svg-src) 50% 50% no-repeat;
     background-size: contain;
     position: absolute;

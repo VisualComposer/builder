@@ -30,7 +30,7 @@ class FrontEndController extends Container implements Module
     protected function encode($content)
     {
         $content = preg_replace_callback(
-            '/((<!--vcv no formatting start-->)(.*?)(<!--vcv no formatting end-->))/si',
+            '/((<!--vcv no format-->)(.*?)(<!--vcv no format-->))/si',
             function ($matches) {
                 return '<p>' . $matches[2] . base64_encode(do_shortcode($matches[3])) . $matches[4] . '</p>';
             },
@@ -43,7 +43,7 @@ class FrontEndController extends Container implements Module
     protected function decode($content)
     {
         $content = preg_replace_callback(
-            '/(\<p\>(<!--vcv no formatting start-->)(.*?)(<!--vcv no formatting end-->)<\/p>)/si',
+            '/(\<p\>(<!--vcv no format-->)(.*?)(<!--vcv no format-->)<\/p>)/si',
             function ($matches) {
                 return base64_decode($matches[3]);
             },
