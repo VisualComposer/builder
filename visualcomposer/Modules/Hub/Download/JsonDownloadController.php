@@ -68,7 +68,7 @@ class JsonDownloadController extends Container implements Module
         $result = false;
         if ($url && !is_wp_error($url)) {
             $response = wp_remote_get($url);
-            if (wp_remote_retrieve_response_code($response) === 200) {
+            if (!vcIsBadResponse($response)) {
                 $result = json_decode($response['body'], true);
             }
         } else {

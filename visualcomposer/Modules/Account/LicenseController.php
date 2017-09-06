@@ -77,7 +77,7 @@ class LicenseController extends Container/* implements Module*/
                             ]
                         );
 
-                        if (!is_wp_error($result) || wp_remote_retrieve_response_code($result) === 200) {
+                        if (!vcIsBadResponse($result)) {
                             $result = json_decode($result['body'], true);
                             $licenseHelper->setKey($result['license_key']);
                         }
