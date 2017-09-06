@@ -58,7 +58,8 @@ export default class DndManager {
         endCallback: DndManager.end,
         document: this.documentDOM || document,
         container: document.getElementById('vcv-editor-iframe-overlay') || document.body,
-        manualScroll: true
+        manualScroll: true,
+        allowMultiNodes: vcCake.env('FIX_DND_FOR_TABS')
       })
       this.items.init()
       this.apiDnD = DnD.api(this.items)
