@@ -86,6 +86,7 @@ declare -a arr=(
 'animatedShadowButton'
 'zigZagButton'
 'smoothShadowbutton'
+'halfOutlineButton'
 )
 
 EXECDIR=`pwd`

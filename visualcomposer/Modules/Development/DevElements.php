@@ -1842,6 +1842,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'A filled button with bold shadow smooth edges.',
                 //                    ],
                 //                ],
+                //                'halfOutlineButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/halfOutlineButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/halfOutlineButton/halfOutlineButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/halfOutlineButton/halfOutlineButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/halfOutlineButton/halfOutlineButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Half Outline Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/halfOutlineButton/halfOutlineButton/public/thumbnail-half-outline-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/halfOutlineButton/halfOutlineButton/public/preview-half-outline-button.png'
+                //                        ),
+                //                        'metaDescription' => 'Outline button with half outline, position and animation controls.',
+                //                    ],
+                //                ],
             ]
         );
         // 'animatedOutlineButton' => [
