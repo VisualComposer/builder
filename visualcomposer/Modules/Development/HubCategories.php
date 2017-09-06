@@ -93,6 +93,7 @@ class HubCategories extends Container implements Module
                         'strikethroughButton',
                         'filledShadowButton',
                         'animatedShadowButton',
+                        'largeCircleZoomButton',
                         'zigZagButton',
                         'smoothShadowButton',
                         'halfOutlineButton'
