@@ -7,7 +7,7 @@ let iconsSets = {
   fontawesome: require('./lib/font-awesome-4.6.3'),
   lineicons: require('./lib/lineicons-13.07-48'),
   entypo: require('./lib/entypo-13.07-411'),
-  monosocial: require('./lib/monosocial-1.10-101'),
+  monosocial: require('./lib/monosocial-1.10-303'),
   typicons: require('./lib/typicons-2.0.7'),
   openiconic: require('./lib/openiconic-1.1.1'),
   material: require('./lib/material-845'),
