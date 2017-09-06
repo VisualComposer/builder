@@ -108,13 +108,12 @@ class StylesManager {
         use.push(postcssColor)
         use.push(postcssNested)
         use.push(postcssClean)
-
         postcss(use).process(style.src)
           .then((result) => {
             resolve(result.css)
           })
           .catch((result) => {
-            window.console && window.console.warn && window.console.warn('Failed to compile css')
+            window.console && window.console.warn && window.console.warn('Failed to compile css', style, result)
             resolve('')
           })
       })
