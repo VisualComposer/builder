@@ -96,7 +96,8 @@ class HubCategories extends Container implements Module
                         'largeCircleZoomButton',
                         'zigZagButton',
                         'smoothShadowButton',
-                        'halfOutlineButton'
+                        'halfOutlineButton',
+                        'gatsbyButton'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
