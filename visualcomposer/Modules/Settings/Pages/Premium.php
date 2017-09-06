@@ -8,16 +8,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Token;
-use VisualComposer\Modules\Account\Pages\ActivationPage;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Premium.
  */
-class Premium extends ActivationPage implements Module
+class Premium extends Container/* implements Module*/
 {
+    use Page;
     use EventsFilters;
 
     /**

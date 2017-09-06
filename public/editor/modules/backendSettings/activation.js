@@ -382,9 +382,16 @@ $(() => {
         showLastScreen($popup)
       } else {
         showLoadingScreen($popup)
-        setTimeout(() => {
-          showIntroScreen($popup)
-        }, 300)
+        let a = true
+        if (a) {
+          setTimeout(() => {
+            showFirstScreen($popup)
+          }, 300)
+        } else {
+          setTimeout(() => {
+            showIntroScreen($popup)
+          }, 300)
+        }
       }
     }
     img.src = url

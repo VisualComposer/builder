@@ -40,7 +40,7 @@ if (!defined('VCV_ACCOUNT_URL')) {
     define(
         'VCV_ACCOUNT_URL',
         isset($_SERVER['ENV_VCV_ACCOUNT_URL']) ? $_SERVER['ENV_VCV_ACCOUNT_URL']
-            : 'http://account.visualcomposer.io'
+            : 'https://account.visualcomposer.io'
     );
 }
 if (!defined('VCV_HUB_URL')) {
@@ -53,6 +53,22 @@ if (!defined('VCV_TOKEN_URL')) {
     define(
         'VCV_TOKEN_URL',
         isset($_SERVER['ENV_VCV_TOKEN_URL']) ? $_SERVER['ENV_VCV_TOKEN_URL']
-            : 'http://account.visualcomposer.io/authorization-token'
+            : 'https://account.visualcomposer.io/authorization-token'
+    );
+}
+
+if (!defined('VCV_ACTIVATE_LICENSE_URL')) {
+    define(
+        'VCV_ACTIVATE_LICENSE_URL',
+        isset($_SERVER['ENV_VCV_ACTIVATE_LICENSE_URL']) ? $_SERVER['ENV_VCV_ACTIVATE_LICENSE_URL']
+            : 'https://account.visualcomposer.io/activate-license'
+    );
+}
+
+if (!defined('VCV_ACTIVATE_LICENSE_FINISH_URL')) {
+    define(
+        'VCV_ACTIVATE_LICENSE_FINISH_URL',
+        isset($_SERVER['ENV_VCV_ACTIVATE_LICENSE_FINISH_URL']) ? $_SERVER['ENV_VCV_ACTIVATE_LICENSE_FINISH_URL']
+            : 'https://account.visualcomposer.io/finish-license-activation'
     );
 }
