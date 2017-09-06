@@ -34,7 +34,7 @@ class EditorFilesDownloadController extends Container implements Module
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Editors\EditorFilesDownloadController::updateEditorFiles */
             $this->addFilter(
-                'vcv:hub:download:bundle vcv:hub:download:bundle:editor',
+                'vcv:hub:download:bundle vcv:hub:download:bundle:editor vcv:hub:download:bundle:editors/*',
                 'updateEditorFiles',
                 80
             );
