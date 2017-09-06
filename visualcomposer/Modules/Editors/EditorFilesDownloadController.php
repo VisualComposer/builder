@@ -70,7 +70,8 @@ class EditorFilesDownloadController extends Container implements Module
         $fileHelper->createDirectory(VCV_PLUGIN_ASSETS_DIR_PATH . '/editor');
         $fileHelper->copyDirectory(
             $hubBundleHelper->getTempBundleFolder('editor'),
-            VCV_PLUGIN_ASSETS_DIR_PATH . '/editor'
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/editor',
+            false
         );
         // $optionHelper->set('bundleUpdateRequired', false);
         // $optionHelper->set('bundleVersion', $bundleJson['editor']);
