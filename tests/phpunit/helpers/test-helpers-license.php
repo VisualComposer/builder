@@ -72,6 +72,7 @@ class HelpersLicenseTest extends WP_UnitTestCase
 
     public function testGenerateNewKeyToken()
     {
+        wp_set_current_user(1);
         /** @var \VisualComposer\Helpers\License $helper */
         $helper = vchelper('License');
         $token = $helper->newKeyToken();
