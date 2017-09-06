@@ -1,3 +1,4 @@
+import './editor/modules/backendSettings/activation-intro'
 import './editor/modules/backendSettings/activation'
 import './editor/modules/backendSettings/deactivation'
 

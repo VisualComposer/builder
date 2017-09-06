@@ -58,70 +58,67 @@ class License extends Container implements Helper
     /**
      * Get license key.
      *
-     * @param Options $options
-     *
      * @return string
      */
-    public function getKey(Options $options)
+    public function getKey()
     {
-        return $options->get(self::getKeyOptionName());
+        $optionsHelper = vchelper('Options');
+        return $optionsHelper->get('license-key');
     }
 
     /**
      * Set license key.
      *
      * @param string $licenseKey
-     * @param Options $options
      */
-    public function setKey($licenseKey, Options $options)
+    public function setKey($licenseKey)
     {
-        $options->set(self::getKeyOptionName(), $licenseKey);
+        $optionsHelper = vchelper('Options');
+        $optionsHelper->set('license-key', $licenseKey);
     }
 
     /**
      * Get license type.
      *
-     * @param Options $options
-     *
      * @return string
      */
-    public function getType(Options $options)
+    public function getType()
     {
-        return $options->get(self::getTypeOptionName());
+        $optionsHelper = vchelper('Options');
+        return $optionsHelper->get('license-type');
     }
 
     /**
      * Set license type.
      *
      * @param string $licenseType
-     * @param Options $options
      */
-    public function setType($licenseType, Options $options)
+    public function setType($licenseType)
     {
-        $options->set(self::getTypeOptionName(), $licenseType);
+        $optionsHelper = vchelper('Options');
+        $optionsHelper->set('license-type', $licenseType);
     }
 
     /**
      * Get license key token.
      *
-     * @param Options $options
-     *
      * @return string
      */
-    public function getKeyToken(Options $options)
+    public function getKeyToken()
     {
-        return $options->get(self::getKeyTokenOptionName());
+        $optionsHelper = vchelper('Options');
+        return $optionsHelper->get('license-key-token');
     }
 
     /**
      * Set license key token.
      *
      * @param string $token
-     * @param Options $options
      */
-    public function setKeyToken($token, Options $options)
+    public function setKeyToken($token)
     {
-        $options->set(self::getKeyTokenOptionName(), $token);
+        $optionsHelper = vchelper('Options');
+        $optionsHelper->set('license-key-token', $token);
     }
 
     /**
@@ -155,11 +152,13 @@ class License extends Container implements Helper
      *
      * @param Str $strHelper
      *
+     * @param \VisualComposer\Helpers\Nonce $nonceHelper
+     *
      * @return string
      */
-    public function generateKeyToken(Str $strHelper)
+    protected function generateKeyToken(Str $strHelper, Nonce $nonceHelper)
     {
-        $token = time() . '|' . $strHelper->quickRandom(20);
+        $token = $nonceHelper->admin() . '|' . time() . '|' . $strHelper->quickRandom(10);
 
         return $token;
     }
@@ -175,7 +174,7 @@ class License extends Container implements Helper
         $token = $this->call('generateKeyToken');
 
         /** @see \VisualComposer\Helpers\License::setKeyToken */
-        $this->call('setKeyToken', [$token]);
+        $this->setKeyToken($token);
 
         return $token;
     }

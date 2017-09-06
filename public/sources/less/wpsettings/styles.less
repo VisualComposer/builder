@@ -26,7 +26,7 @@
     opacity: 0;
     visibility: hidden;
   }
-  :not(&--hidden) {
+  &:not(&--hidden) {
     // Over style=""
     opacity: 1 !important;
     visibility: visible !important;
@@ -68,6 +68,7 @@
   }
 }
 
+.vcv-popup-intro-screen,
 .vcv-popup-first-screen,
 .vcv-popup-form-screen,
 .vcv-popup-loading-screen,
@@ -98,6 +99,32 @@
     overflow: visible;
     opacity: 1;
     transition: 1s opacity;
+  }
+}
+
+.vcv-intro-screen--active {
+  .vcv-popup-intro-screen {
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+    transition: 1s opacity;
+  }
+
+  .vcv-intro-button-lite {
+    &:hover {
+      background: @vcv-introButtonLiteHoverBackground;
+      border-color: @vcv-introButtonLiteHoverBorder;
+      color: @vcv-introButtonLiteHoverColor;
+    }
+  }
+  .vcv-intro-button-premium {
+    background: @vcv-introButtonPremiumBackground;
+    border-color: @vcv-introButtonPremiumBackground;
+
+    &:hover {
+      background: @vcv-introButtonPremiumHoverBackground;
+      border-color: @vcv-introButtonPremiumHoverBorder;
+    }
   }
 }
 
