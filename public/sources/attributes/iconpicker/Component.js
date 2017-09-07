@@ -15,7 +15,8 @@ let iconsSets = {
   mfglabs: require('./lib/mfglabs'),
   metrize: require('./lib/metrize-1.0'),
   dripicons: require('./lib/dripicons-2.0'),
-  feather: require('./lib/feather-163')
+  feather: require('./lib/feather-163'),
+  linearicons: require('./lib/linearicons-1.0-170')
 }
 
 class Iconpicker extends Attribute {
