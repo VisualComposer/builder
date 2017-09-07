@@ -1,5 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
+import debounce from 'lodash/debounce'
 
 class RangeAttribute extends Attribute {
   constructor (props) {
@@ -23,8 +24,12 @@ class RangeAttribute extends Attribute {
     if (Number.isNaN(val)) {
       val = value
     }
-    updater(fieldKey, val.toString())
-    this.setState({ value: val.toString() })
+
+    this.setState({ value: val.toString() }, () => {
+      debounce(() => {
+        updater(fieldKey, val.toString())
+      }, 500)()
+    })
   }
 
   handleBlur () {
