@@ -1,6 +1,5 @@
 import React from 'react'
 import Attribute from '../attribute'
-import debounce from 'lodash/debounce'
 
 class RangeAttribute extends Attribute {
   constructor (props) {
@@ -10,6 +9,11 @@ class RangeAttribute extends Attribute {
     this.setFieldValue = this.setFieldValue.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
+    this.update = this.update.bind(this)
+  }
+
+  componentDidMount () {
+    this.lastCall = new Date()
   }
 
   handleChange (event) {
@@ -17,7 +21,7 @@ class RangeAttribute extends Attribute {
   }
 
   setFieldValue (val) {
-    let { updater, fieldKey, value } = this.props
+    let { value } = this.props
     let { measurement } = this.props.options
     val = val.replace(measurement, '')
     val = val ? parseInt(val) : val
@@ -25,11 +29,18 @@ class RangeAttribute extends Attribute {
       val = value
     }
 
-    this.setState({ value: val.toString() }, () => {
-      debounce(() => {
-        updater(fieldKey, val.toString())
-      }, 500)()
-    })
+    this.setState({ value: val.toString() }, this.update)
+  }
+
+  update () {
+    clearInterval(this.updateInterval)
+    let currentCall = new Date()
+    if (currentCall - this.lastCall >= 300) {
+      this.props.updater(this.props.fieldKey, this.state.value)
+    } else {
+      this.updateInterval = setInterval(this.update, 300)
+    }
+    this.lastCall = currentCall
   }
 
   handleBlur () {
