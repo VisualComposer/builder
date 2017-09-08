@@ -1934,24 +1934,5 @@ class DevElements extends Container implements Module
                 //                ],
             ]
         );
-        // 'animatedOutlineButton' => [
-        //   'bundlePath' => $urlHelper->to(
-        //       'devElements/animatedOutlineButton/public/dist/element.bundle.js'
-        //   ),
-        //   'elementPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/'),
-        //'elementRealPath' => vcapp()->path('devElements/animatedOutlineButton/animatedOutlineButton/'),
-        // @codingStandardsIgnoreLine
-        //   'assetsPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/public/'),
-        //   'settings' => [
-        //       'name' => 'Animated Outline Button',
-        //       'metaThumbnailUrl' => $urlHelper->to(
-        //           'devElements/animatedOutlineButton/animatedOutlineButton/public/animated-outline-button-thumbnail.jpg'
-        //       ),
-        //       'metaPreviewUrl' => $urlHelper->to(
-        //           'devElements/animatedOutlineButton/animatedOutlineButton/public/animated-outline-button-preview.jpg'
-        //       ),
-        //       'metaDescription' => 'Underline-to-outline button with smooth transition effect for hover state.',
-        //   ],
-        // ],
     }
 }
