@@ -33,6 +33,7 @@ if (is_array($extraOutput)) {
         echo $output;
     }
 }
+
 if ($optionsHelper->getTransient('vcv:activation:request')) {
     echo vcview(
         'account/partials/activation-layout-loading',
@@ -52,12 +53,28 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             </button>-->
             <!-- Close button -->
             <button class="vcv-popup-close-button"></button>
-            <?php /*echo vcview(
-                'account/partials/activation-intro',
-                [
-                    'controller' => $controller,
-                ]
-            ); */?>
+            <?php
+            if ($optionsHelper->getTransient('vcv_finish_activation_failed')) {
+                echo vcview(
+                    'account/partials/activation-oops',
+                    [
+                        'controller' => $controller,
+                    ]
+                );
+
+                return;
+            }
+            ?>
+            <?php
+            if (vcvenv('VCV_ENV_LICENSES')) {
+            	echo vcview(
+                    'account/partials/activation-intro',
+                    [
+                        'controller' => $controller,
+                    ]
+                );
+            }
+            ?>
             <?php echo vcview(
                 $type !== 'standalone' ? 'account/partials/activation-login'
                     : 'account/partials/activation-login-standalone',

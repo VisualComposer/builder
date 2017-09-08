@@ -2,19 +2,6 @@
 
 class HelpersLicenseTest extends WP_UnitTestCase
 {
-    /**
-     * By changing these properties we can break BC.
-     */
-    public function testProperties()
-    {
-        /** @var \VisualComposer\Helpers\License $helper */
-        $helper = vchelper('License');
-
-        $this->assertEquals('license-key', $helper->getKeyOptionName());
-        $this->assertEquals('license-type', $helper->getTypeOptionName());
-        $this->assertEquals('license-key-token', $helper->getKeyTokenOptionName());
-    }
-
     public function testKey()
     {
         /** @var \VisualComposer\Helpers\License $helper */
@@ -22,8 +9,9 @@ class HelpersLicenseTest extends WP_UnitTestCase
 
         vcapp()->call([$helper, 'setKey'], ['test']);
         $this->assertEquals('test', vcapp()->call([$helper, 'getKey']));
-        $this->assertTrue(vcapp()->call([$helper, 'isValid'], ['test']));
-        $this->assertFalse(vcapp()->call([$helper, 'isValid'], ['testFalse']));
+
+        vcapp()->call([vcapp('LicenseHelper'), 'setKey'], ['test2']);
+        $this->assertEquals('test2', vcapp()->call([vcapp('LicenseHelper'), 'getKey']));
     }
 
     public function testKeyToken()
@@ -33,15 +21,6 @@ class HelpersLicenseTest extends WP_UnitTestCase
 
         vcapp()->call([$helper, 'setKeyToken'], ['testToken']);
         $this->assertEquals('testToken', vcapp()->call([$helper, 'getKeyToken']));
-    }
-
-    public function testType()
-    {
-        /** @var \VisualComposer\Helpers\License $helper */
-        $helper = vchelper('License');
-
-        vcapp()->call([$helper, 'setType'], ['mega']);
-        $this->assertEquals('mega', vcapp()->call([$helper, 'getType']));
     }
 
     public function testIsActivated()
@@ -62,12 +41,6 @@ class HelpersLicenseTest extends WP_UnitTestCase
         //reset
         $helper->setKey(false, $optionsHelper);
 
-    }
-
-    public function testIsValidFormat()
-    {
-        $this->assertTrue(vchelper('License')->isValidFormat('c634fef7-6195-4a77-a3c9-d888b90d235e'));
-        $this->assertFalse(vchelper('License')->isValidFormat('xxxx-xxxx'));
     }
 
     public function testGenerateNewKeyToken()

@@ -134,14 +134,20 @@ class ActivationController extends Container implements Module
         Options $optionsHelper,
         CurrentUser $currentUserHelper,
         Filters $filterHelper,
-        Logger $loggerHelper
+        Logger $loggerHelper,
+        License $licenseHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
         ) {
             $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
-            $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
+
+            if ($licenseHelper->isActivated()) {
+                $id = VCV_PLUGIN_URL . $licenseHelper->getKey();
+            } else {
+                $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
+            }
             $optionsHelper->set('hubTokenId', $id);
             $token = $tokenHelper->createToken($id);
             if ($token) {
@@ -200,7 +206,8 @@ class ActivationController extends Container implements Module
                 $loggerHelper->log(
                     __('Failed to subscribe to the lite version', 'vcwb'),
                     [
-                        'response' => is_wp_error($result) ? $result->get_error_message() : is_array($result) ? $result['body'] : '',
+                        'response' => is_wp_error($result) ? $result->get_error_message()
+                            : (is_array($result) ? $result['body'] : ''),
                     ]
                 );
                 $result['status'] = false;

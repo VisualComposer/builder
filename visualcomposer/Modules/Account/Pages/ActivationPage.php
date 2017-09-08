@@ -141,6 +141,12 @@ class ActivationPage extends Container implements Module
      */
     public function getActivePage()
     {
+        if (vcvenv('VCV_ENV_LICENSES')) {
+            $licenseHelper = vchelper('License');
+
+            return $licenseHelper->isActivated() ? 'download' : 'intro';
+        }
+
         return 'first';
     }
 }
