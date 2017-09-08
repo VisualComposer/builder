@@ -67,17 +67,12 @@ class Token extends Container implements Helper
         );
     }
 
-    /**
-     * @return bool
-     */
     public function setIsSiteRegistered()
     {
-        $this->optionsHelper->set(
+        return $this->optionsHelper->set(
             'siteRegistered',
             1
         );
-
-        return true;
     }
 
     /**

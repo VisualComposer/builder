@@ -1,5 +1,5 @@
 import {default as lodash} from 'lodash'
-import {addService, getService} from 'vc-cake'
+import {addService, getService, env} from 'vc-cake'
 
 import {buildSettingsObject} from './lib/tools'
 import {default as elementSettings} from './lib/element-settings'
@@ -15,7 +15,7 @@ const API = {
       return null
     }
     if (!window.VCV_HUB_GET_ELEMENTS()[data.tag]) {
-      console.warn('Element is not registered in system', data)
+      env('debug') === true && console.warn('Element is not registered in system', data)
       return null
     }
 

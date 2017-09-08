@@ -25,6 +25,8 @@ class FrontEndController extends Container implements Module
         $this->wpAddFilter('the_content', 'encode', 1);
         /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::decode */
         $this->wpAddFilter('the_content', 'decode', 10);
+        /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::removeOldCommentTags */
+        $this->wpAddFilter('the_content', 'removeOldCommentTags');
     }
 
     protected function encode($content)
@@ -47,6 +49,24 @@ class FrontEndController extends Container implements Module
             function ($matches) {
                 return base64_decode($matches[3]);
             },
+            $content
+        );
+
+        return $content;
+    }
+
+    /**
+     * Remove old no formatting tags
+     *
+     * @param $content
+     *
+     * @return mixed
+     */
+    protected function removeOldCommentTags($content)
+    {
+        $content = str_replace(
+            ['<!--vcv no formatting start-->', '<!--vcv no formatting end-->'],
+            '',
             $content
         );
 

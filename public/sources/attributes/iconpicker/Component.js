@@ -5,7 +5,7 @@ import './css/styles.less'
 
 let iconsSets = {
   fontawesome: require('./lib/font-awesome-4.7.0'),
-  lineicons: require('./lib/lineicons'),
+  lineicons: require('./lib/lineicons-13.07-48'),
   entypo: require('./lib/entypo-13.07-411'),
   monosocial: require('./lib/monosocial-1.10-303'),
   typicons: require('./lib/typicons-2.0.7'),
@@ -15,7 +15,8 @@ let iconsSets = {
   mfglabs: require('./lib/mfglabs'),
   metrize: require('./lib/metrize-1.0'),
   dripicons: require('./lib/dripicons-2.0'),
-  feather: require('./lib/feather-163')
+  feather: require('./lib/feather-163'),
+  linearicons: require('./lib/linearicons-1.0-170')
 }
 
 class Iconpicker extends Attribute {
