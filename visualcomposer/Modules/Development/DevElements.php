@@ -1716,24 +1716,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'Outline button with a horizontal or vertical strike through and fill color effect on hover.',
                 //                    ],
                 //                ],
-                                'simpleGradientButton' => [
-                                    'bundlePath' => $urlHelper->to(
-                                        'devElements/simpleGradientButton/public/dist/element.bundle.js'
-                                    ),
-                                    'elementPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/'),
-                                    'elementRealPath' => vcapp()->path('devElements/simpleGradientButton/simpleGradientButton/'),
-                                    'assetsPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/public/'),
-                                    'settings' => [
-                                        'name' => 'Simple Gradient Button',
-                                        'metaThumbnailUrl' => $urlHelper->to(
-                                            'devElements/simpleGradientButton/simpleGradientButton/public/thumbnail-simple-gradient-button.png'
-                                        ),
-                                        'metaPreviewUrl' => $urlHelper->to(
-                                            'devElements/simpleGradientButton/simpleGradientButton/public/preview-simple-gradient-button.png'
-                                        ),
-                                        'metaDescription' => 'A simple gradient button with automatic gradient effect calculation.',
-                                    ],
-                                ],
+                //                                'simpleGradientButton' => [
+                //                                    'bundlePath' => $urlHelper->to(
+                //                                        'devElements/simpleGradientButton/public/dist/element.bundle.js'
+                //                                    ),
+                //                                    'elementPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/'),
+                //                                    'elementRealPath' => vcapp()->path('devElements/simpleGradientButton/simpleGradientButton/'),
+                //                                    'assetsPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/public/'),
+                //                                    'settings' => [
+                //                                        'name' => 'Simple Gradient Button',
+                //                                        'metaThumbnailUrl' => $urlHelper->to(
+                //                                            'devElements/simpleGradientButton/simpleGradientButton/public/thumbnail-simple-gradient-button.png'
+                //                                        ),
+                //                                        'metaPreviewUrl' => $urlHelper->to(
+                //                                            'devElements/simpleGradientButton/simpleGradientButton/public/preview-simple-gradient-button.png'
+                //                                        ),
+                //                                        'metaDescription' => 'A simple gradient button with automatic gradient effect calculation.',
+                //                                    ],
+                //                                ],
                 //                'quoteButton' => [
                 //                    'bundlePath' => $urlHelper->to(
                 //                        'devElements/quoteButton/public/dist/element.bundle.js'
@@ -1912,6 +1912,24 @@ class DevElements extends Container implements Module
                 //                            'devElements/animatedOutlineButton/animatedOutlineButton/public/preview-animated-outline-button.png'
                 //                        ),
                 //                        'metaDescription' => 'Outline button with an animation effect that wraps around button text.',
+                //                    ],
+                //                ],
+                //                'animatedIconButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/animatedIconButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/animatedIconButton/animatedIconButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/animatedIconButton/animatedIconButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/animatedIconButton/animatedIconButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Animated Outline Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/animatedIconButton/animatedIconButton/public/thumbnail-animated-icon-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/animatedIconButton/animatedIconButton/public/preview-animated-icon-button.png'
+                //                        ),
+                //                        'metaDescription' => 'An icon button with animation effect and button text display on hover.',
                 //                    ],
                 //                ],
             ]

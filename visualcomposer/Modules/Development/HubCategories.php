@@ -98,7 +98,8 @@ class HubCategories extends Container implements Module
                         'smoothShadowButton',
                         'halfOutlineButton',
                         'gatsbyButton',
-                        'animatedOutlineButton'
+                        'animatedOutlineButton',
+                        'animatedIconButton'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
