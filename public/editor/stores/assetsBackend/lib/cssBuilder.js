@@ -130,8 +130,11 @@ export default class CssBuilder {
     elementTags.forEach((tag) => {
       if (!this.window.document.getElementById(`vcv-base-css-styles-${tag}`)) {
         let baseStyleElement = this.window.document.createElement('style')
+        let baseStyleElementIframe = this.contentWindow.document.createElement('style')
         baseStyleElement.id = `vcv-base-css-styles-${tag}`
+        baseStyleElementIframe.id = `vcv-base-css-styles-${tag}`
         this.window.document.body.appendChild(baseStyleElement)
+        this.contentWindow.document.body.appendChild(baseStyleElementIframe)
       }
       if (!this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)) {
         let editorStyleElement = this.window.document.createElement('style')
@@ -284,8 +287,10 @@ export default class CssBuilder {
           styles.add(elementCssBase)
           let css = styles.compile().then((result) => {
             const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
+            const styleIframe = this.contentWindow.document.getElementById(`vcv-base-css-styles-${tag}`)
             if (style) {
               style.innerHTML = result
+              styleIframe.innerHTML = result
             }
           })
           this.addJob(css)
@@ -298,7 +303,9 @@ export default class CssBuilder {
     const usedTags = this.globalAssetsStorageService.getElementsTagsList()
     if (usedTags.indexOf(tag) === -1) {
       const node = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
+      const nodeIframe = this.contentWindow.document.getElementById(`vcv-base-css-styles-${tag}`)
       node && node.remove()
+      nodeIframe && nodeIframe.remove()
     }
   }
 
