@@ -11,7 +11,7 @@ let showError = ($errorPopup, msg, timeout) => {
   $errorPopup.addClass('vcv-popup-error--active')
 
   if (timeout) {
-    errorTimeout = window.setTimeout(closeError, timeout)
+    errorTimeout = window.setTimeout(closeError.bind(this, $errorPopup), timeout)
   }
 }
 

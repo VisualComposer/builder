@@ -1,7 +1,8 @@
-import 'slick-carousel'
 import $ from 'jquery'
-import {closeError, showError} from './errors'
+import { showError } from './errors'
 import { showIntroScreen, showLoadingScreen, showFirstScreen, showLastScreen } from './screens'
+import { loadSlider } from './slider'
+import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-screens'
 
 $(() => {
   let $popup = $('.vcv-popup-container')
@@ -19,55 +20,8 @@ $(() => {
     let $errorPopup = $('.vcv-popup-error')
     let $zoomContainer = $('.vcv-popup-loading-zoom')
     let $popupInner = $('.vcv-popup')
-    let $slider = $('.vcv-popup-slider')
     let $inputEmail = $('#vcv-account-login-form-email')
     let $agreementCheckbox = $('#vcv-account-activation-agreement')
-
-    let loadSlider = () => {
-      if ($slider.hasClass('slick-initialized')) {
-        return
-      }
-      $slider.slick({
-        dots: true,
-        slidesToShow: 1,
-        arrows: false,
-        autoplay: true,
-        autoplaySpeed: 5000,
-        centerMode: true,
-        centerPadding: '0px',
-        focusOnSelect: true
-      })
-
-      let isGifImage = (img) => {
-        return /^(?!data:).*\.gif/i.test(img.src)
-      }
-      let createGifCanvas = (img, width, height) => {
-        let c = document.createElement('canvas')
-        c.width = width
-        c.height = height
-        c.getContext('2d').drawImage(img, 0, 0, width, height)
-        for (let j = 0; j < img.attributes.length; j++) {
-          let attr = img.attributes[j]
-          c.setAttribute(attr.name, attr.value)
-        }
-        c.className = 'vcv-popup-slider-canvas'
-        img.parentNode.appendChild(c, img)
-      }
-      let getNaturalImgSizes = (imgElement) => {
-        let imgSrc = imgElement.src
-        let newImg = new window.Image()
-
-        newImg.onload = () => {
-          if (isGifImage(imgElement)) {
-            createGifCanvas(imgElement, newImg.width, newImg.height)
-          }
-        }
-        newImg.src = imgSrc
-      }
-
-      // create canvas for all slider gifs
-      [].slice.apply($('.vcv-popup-slider-img')).map(getNaturalImgSizes)
-    }
 
     let loadAnimation = () => {
       let popupWidth = $popupInner[0].getBoundingClientRect().width
@@ -86,130 +40,7 @@ $(() => {
       $zoomContainer[0].style.left = -leftPosition + 'px'
     }
 
-    let loadLastScreen = () => {
-      closeError($errorPopup)
-      loadAnimation()
-      $popup.addClass('vcv-form-loaded')
-
-      function whichTransitionEvent () {
-        let t
-        let el = document.createElement('fakeelement')
-        let transitions = {
-          'transition': 'transitionend',
-          'OTransition': 'oTransitionEnd',
-          'MozTransition': 'transitionend',
-          'WebkitTransition': 'webkitTransitionEnd'
-        }
-
-        for (t in transitions) {
-          if (el.style[t] !== undefined) {
-            return transitions[t]
-          }
-        }
-      }
-
-      let transitionEvent = whichTransitionEvent()
-
-      $('.vcv-popup-loading-zoom').one(transitionEvent, (event) => {
-        // last screen shows
-        showLastScreen($popup)
-        loadSlider()
-      })
-    }
-
     let $heading = $('.vcv-popup-loading-heading')
-
-    let doneActions = (requestFailed) => {
-      $heading.text(savingResultsText)
-      $.ajax(window.vcvActivationFinishedUrl,
-        {
-          dataType: 'json',
-          data: {
-            'vcv-nonce': window.vcvAdminNonce,
-            time: window.vcvAjaxTime
-          }
-        }
-      ).done(function (json) {
-        if (json.status) {
-          loadLastScreen()
-        } else {
-          if (requestFailed) {
-            showError($errorPopup, json.message ? json.message : activationFailedText, 15000)
-            console.warn(json)
-            showFirstScreen($popup)
-          } else {
-            // Try again one more time.
-            doneActions(true)
-          }
-        }
-      }).fail(function (jqxhr, textStatus, error) {
-        if (requestFailed) {
-          showError($errorPopup, error, 15000)
-          console.warn(textStatus, error)
-          showFirstScreen($popup)
-        } else {
-          // Try again one more time.
-          doneActions(true)
-        }
-      })
-    }
-
-    let processActions = (actions) => {
-      let cnt = actions.length
-      let i = 0
-      let requestFailed = false
-
-      function doAction (i, finishCb) {
-        let action = actions[i]
-        let name = action.name
-        $heading.text(downloadingAssetsText.replace('{i}', i + 1).replace('{cnt}', cnt).replace('{name}', name))
-        $.ajax(window.vcvActionsUrl,
-          {
-            dataType: 'json',
-            data: {
-              action: action,
-              'vcv-nonce': window.vcvAdminNonce,
-              time: window.vcvAjaxTime
-            }
-          }
-        ).done(function (json) {
-          if (json.status) {
-            requestFailed = false
-            if (i === cnt - 1) {
-              finishCb()
-            } else {
-              doAction(i + 1, finishCb)
-            }
-          } else {
-            if (requestFailed) {
-              showError($errorPopup, json.message ? json.message : activationFailedText, 15000)
-              console.warn(json)
-              showFirstScreen($popup)
-            } else {
-              // Try again one more time.
-              requestFailed = true
-              doAction(i, finishCb)
-            }
-          }
-        }).fail(function (jqxhr, textStatus, error) {
-          if (requestFailed) {
-            showError($errorPopup, error, 15000)
-            console.warn(textStatus, error)
-            showFirstScreen($popup)
-          } else {
-            // Try again one more time.
-            requestFailed = true
-            doAction(i, finishCb)
-          }
-        })
-      }
-
-      if (!cnt) {
-        doneActions()
-      } else {
-        doAction(i, doneActions)
-      }
-    }
 
     $('#vcv-account-login-form').on('submit', (e) => {
       e.preventDefault()
@@ -219,142 +50,18 @@ $(() => {
         showError(readAndAgreeTermsText)
         return
       }
-      let email = $inputEmail.val()
-      if (window.vcvActivationType !== 'default') {
-        email = 'standalone'
-      }
-      if (email) {
-        // third / loading screen shows, loading starts here
-        showLoadingScreen($popup)
-        // loading ends / loaded
-        // Assign handlers immediately after making the request,
-        // and remember the jqxhr object for this request
-        // #1. request for activation start
-        // #2. get required actions.
-        // #2.x. trigger required action loop
-        // #2.x+1. if last action trigger end.
-        $heading.text(downloadingInitialExtensionsText)
-        $.getJSON(window.vcvActivationUrl,
-          {
-            email: email,
-            agreement: $agreementCheckbox.val(),
-            'vcv-nonce': window.vcvAdminNonce,
-            time: window.vcvAjaxTime
-          })
-          .done(function (json) {
-            // process actions.
-            if (json && json.status && json.actions) {
-              processActions(json.actions)
-            } else {
-              if (json.message) {
-                try {
-                  let messageJson = JSON.parse(json.message)
-                  if (messageJson && messageJson.email) {
-                    showError($errorPopup, incorrectEmailFormatText, 15000)
-                  } else if (messageJson && messageJson.agreement) {
-                    showError($errorPopup, mustAgreeToActivateText, 15000)
-                  } else if (messageJson) {
-                    showError($errorPopup, messageJson, 15000)
-                  } else {
-                    showError($errorPopup, activationFailedText, 15000)
-                  }
-                } catch (e) {
-                  showError($errorPopup, activationFailedText, 15000)
-                  console.warn(e, json.message)
-                }
-              } else {
-                showError($errorPopup, activationFailedText, 15000)
-              }
-              showFirstScreen($popup)
-            }
-          })
-          .fail(function (jqxhr, textStatus, error) {
-            if (jqxhr.responseJSON) {
-              let json = jqxhr.responseJSON
-              if (json.message) {
-                try {
-                  let messageJson = JSON.parse(json.message)
-                  if (messageJson && messageJson.email) {
-                    showError($errorPopup, incorrectEmailFormatText, 15000)
-                  } else if (messageJson && messageJson.agreement) {
-                    showError($errorPopup, mustAgreeToActivateText, 15000)
-                  } else if (messageJson) {
-                    showError($errorPopup, messageJson, 15000)
-                  } else {
-                    showError($errorPopup, activationFailedText, 15000)
-                  }
-                } catch (e) {
-                  showError($errorPopup, activationFailedText, 15000)
-                  console.warn(e, json.message)
-                }
-              } else {
-                showError($errorPopup, activationFailedText, 15000)
-              }
-            } else {
-              showError($errorPopup, activationFailedText, 15000)
-            }
-            showFirstScreen($popup)
-            console.warn(jqxhr.responseText, textStatus, error)
-          })
-        // Messages:
-        // Sending activation request
-        // Downloading required actions
-        // Downloading assets: editor 2.5%
-        // Downloading assets: categories 5%
-        // Downloading assets: assets libraries 7.5%
-        // Downloading assets: templates 10%
-        // Downloading elements: Row 12.5%
-        // ....
 
-        // $.post(window.vcvAccountUrl, {
-        //   email: email,
-        //   agreement: $agreementCheckbox.val(),
-        //   'vcv-nonce': window.vcvAdminNonce
-        // }, () => {
-        //   // Get actions list
-        //   // Loop actions requests
-        //     // Set current status message in design (loader).
-        //     // Check request status ->done(()=>{}),->fail(()=>{})
-        //     // Break if error again.
-        //     // Check response body (error messages)
-        //   // Once loop actions done - send activation success request.
-        //     // Check response.
-        //   // Show welcome page.
-        //
-        //
-        //   if (ajaxTimeoutFinished) {
-        //     loadLastScreen()
-        //   } else {
-        //     ajaxTimeoutFinished = true
-        //   }
-        // }).fail((response) => {
-        //   try {
-        //     let responseJson = JSON.parse(response.responseText)
-        //     if (responseJson && responseJson.message) {
-        //       let messageJson = JSON.parse(responseJson.message)
-        //       if (messageJson && messageJson.email) {
-        //         showError($errorPopup, incorrectEmailFormatText, 10000)
-        //       } else if (messageJson && messageJson.agreement) {
-        //         showError($errorPopup, mustAgreeToActivateText, 10000)
-        //       } else if (messageJson) {
-        //         showError($errorPopup, messageJson, 10000)
-        //       } else {
-        //         showError($errorPopup, activationFailedText, 10000)
-        //       }
-        //     } else {
-        //       showError($errorPopup, activationFailedText, 10000)
-        //     }
-        //   } catch (e) {
-        //     showError($errorPopup, activationFailedText, 10000)
-        //     console.warn(response, e)
-        //   }
-        //   clearTimeout(ajaxTimeout)
-        //   ajaxTimeoutFinished = false
-        //   showFirstScreen($popup)
-        // })
-      } else {
-        // error shows\
-        showError($errorPopup, provideCorrectEmailText)
+      if (window.vcvActivationType !== 'download') {
+        let email = $inputEmail.val()
+        if (window.vcvActivationType !== 'default') {
+          email = 'standalone'
+        }
+        if (email) {
+          showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText)
+        } else {
+          // error shows\
+          showError($errorPopup, provideCorrectEmailText)
+        }
       }
     })
 
@@ -382,12 +89,15 @@ $(() => {
         showLastScreen($popup)
       } else {
         showLoadingScreen($popup)
-        let a = true
-        if (a) {
+        if (window.vcvActivationActivePage === 'first') {
           setTimeout(() => {
             showFirstScreen($popup)
           }, 300)
-        } else {
+        } else if (window.vcvActivationActivePage === 'download') {
+          setTimeout(() => {
+            showDownloadWithLicenseScreen($popup, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation)
+          }, 300)
+        } else if (window.vcvActivationActivePage === 'intro') {
           setTimeout(() => {
             showIntroScreen($popup)
           }, 300)
@@ -395,8 +105,5 @@ $(() => {
       }
     }
     img.src = url
-    if (img.complete) {
-      img.onload()
-    }
   }
 })

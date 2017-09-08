@@ -17,45 +17,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 class License extends Container implements Helper
 {
     /**
-     * @var string
-     */
-    static protected $licenseKeyOption = 'license-key';
-
-    /**
-     * @var string
-     */
-    static protected $licenseTypeOption = 'license-type';
-
-    /**
-     * @var string
-     */
-    static protected $licenseKeyTokenOption = 'license-key-token';
-
-    /**
-     * @return string
-     */
-    public static function getKeyOptionName()
-    {
-        return self::$licenseKeyOption;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getTypeOptionName()
-    {
-        return self::$licenseTypeOption;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getKeyTokenOptionName()
-    {
-        return self::$licenseKeyTokenOption;
-    }
-
-    /**
      * Get license key.
      *
      * @return string
@@ -63,6 +24,7 @@ class License extends Container implements Helper
     public function getKey()
     {
         $optionsHelper = vchelper('Options');
+
         return $optionsHelper->get('license-key');
     }
 
@@ -78,28 +40,6 @@ class License extends Container implements Helper
     }
 
     /**
-     * Get license type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        $optionsHelper = vchelper('Options');
-        return $optionsHelper->get('license-type');
-    }
-
-    /**
-     * Set license type.
-     *
-     * @param string $licenseType
-     */
-    public function setType($licenseType)
-    {
-        $optionsHelper = vchelper('Options');
-        $optionsHelper->set('license-type', $licenseType);
-    }
-
-    /**
      * Get license key token.
      *
      * @return string
@@ -107,6 +47,7 @@ class License extends Container implements Helper
     public function getKeyToken()
     {
         $optionsHelper = vchelper('Options');
+
         return $optionsHelper->get('license-key-token');
     }
 
@@ -122,25 +63,11 @@ class License extends Container implements Helper
     }
 
     /**
-     * Check if specified license key is valid.
-     *
-     * @param string $licenseKey
-     *
-     * @return bool
-     */
-    public function isValid($licenseKey)
-    {
-        /** @see \VisualComposer\Helpers\License::getKey */
-        return $licenseKey === $this->call('getKey');
-    }
-
-    /**
      * @return bool
      */
     public function isActivated()
     {
-        /** @see \VisualComposer\Helpers\License::getKey */
-        return (bool)$this->call('getKey');
+        return (bool)$this->getKey();
     }
 
     /**
@@ -189,8 +116,7 @@ class License extends Container implements Helper
      */
     public function isValidToken($tokenToCheck, $ttlInSeconds = 1200)
     {
-        /** @see \VisualComposer\Helpers\License::getKeyToken */
-        $token = $this->call('getKeyToken');
+        $token = $this->getKeyToken();
 
         if (!$tokenToCheck || $tokenToCheck !== sha1($token)) {
             return false;
@@ -208,22 +134,5 @@ class License extends Container implements Helper
         }
 
         return true;
-    }
-
-    /**
-     * Check if license key format is valid.
-     *
-     * license key is version 4 UUID, that have form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.
-     * where x is any hexadecimal digit and y is one of 8, 9, A, or B.
-     *
-     * @param string $licenseKey
-     *
-     * @return bool
-     */
-    public function isValidFormat($licenseKey)
-    {
-        $pattern = '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i';
-
-        return (bool)preg_match($pattern, $licenseKey);
     }
 }

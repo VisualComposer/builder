@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
@@ -56,7 +57,8 @@ class AddonsActivationController extends ActivationController
         Options $optionsHelper,
         CurrentUser $currentUserHelper,
         Filters $filterHelper,
-        Logger $loggerHelper
+        Logger $loggerHelper,
+        License $licenseHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()

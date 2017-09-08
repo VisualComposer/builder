@@ -7,6 +7,7 @@ import postcssColor from 'postcss-color-function'
 import postcssNested from 'postcss-nested'
 import postcssPrefixUrl from 'postcss-prefix-url'
 import postcssMedia from 'postcss-custom-media'
+import colorBlend from 'color-blend'
 
 class StylesManager {
   constructor (styles = []) {
@@ -104,7 +105,7 @@ class StylesManager {
             prefix: style.path
           }))
         }
-
+        use.push(colorBlend())
         use.push(postcssColor)
         use.push(postcssNested)
         use.push(postcssClean)

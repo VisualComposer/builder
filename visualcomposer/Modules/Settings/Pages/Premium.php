@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -17,7 +18,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Premium.
  */
-class Premium extends Container/* implements Module*/
+class Premium extends Container /*implements Module*/
 {
     use Page;
     use EventsFilters;
@@ -32,9 +33,9 @@ class Premium extends Container/* implements Module*/
      *
      * @param \VisualComposer\Helpers\Token $tokenHelper
      */
-    public function __construct(Token $tokenHelper)
+    public function __construct(Token $tokenHelper, License $licenseHelper)
     {
-        if (!$tokenHelper->isSiteAuthorized()) {
+        if (!$tokenHelper->isSiteAuthorized() || $licenseHelper->isActivated()) {
             return;
         }
 
