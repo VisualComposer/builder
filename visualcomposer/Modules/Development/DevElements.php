@@ -1932,6 +1932,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'An icon button with animation effect and button text display on hover.',
                 //                    ],
                 //                ],
+                //                'animatedTwoColorButton' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/animatedTwoColorButton/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/animatedTwoColorButton/animatedTwoColorButton/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/animatedTwoColorButton/animatedTwoColorButton/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/animatedTwoColorButton/animatedTwoColorButton/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Animated Two Color Button',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/animatedTwoColorButton/animatedTwoColorButton/public/thumbnail-animated-two-color-button.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/animatedTwoColorButton/animatedTwoColorButton/public/preview-animated-two-color-button.png'
+                //                        ),
+                //                        'metaDescription' => 'A modern animated button with two color intersection and smooth animation.',
+                //                    ],
+                //                ],
             ]
         );
     }
