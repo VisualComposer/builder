@@ -89,11 +89,6 @@ if (!defined('VCV_AJAX_REQUEST')) {
 if (!defined('VCV_LAZY_LOAD')) {
     define('VCV_LAZY_LOAD', false);
 }
-if (file_exists(__DIR__ . '/env-dev.php')) {
-    require_once __DIR__ . '/env-dev.php';
-} else {
-    require_once __DIR__ . '/env.php';
-}
 /**
  * Check PHP version.
  * Check WordPress version.
@@ -104,6 +99,12 @@ require_once __DIR__ . '/visualcomposer/Requirements.php';
 if (!defined('DOING_AJAX') || !DOING_AJAX) {
     $requirements = new VcvCoreRequirements();
     $requirements->coreChecks();
+}
+
+if (file_exists(__DIR__ . '/env-dev.php')) {
+    require_once __DIR__ . '/env-dev.php';
+} else {
+    require_once __DIR__ . '/env.php';
 }
 
 // !! PHP 5.4 Required under this line (parse error otherwise).
