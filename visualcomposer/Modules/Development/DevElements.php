@@ -1922,7 +1922,7 @@ class DevElements extends Container implements Module
                     'elementRealPath' => vcapp()->path('devElements/animatedIconButton/animatedIconButton/'),
                     'assetsPath' => $urlHelper->to('devElements/animatedIconButton/animatedIconButton/public/'),
                     'settings' => [
-                        'name' => 'Animated Outline Button',
+                        'name' => 'Animated Icon Button',
                         'metaThumbnailUrl' => $urlHelper->to(
                             'devElements/animatedIconButton/animatedIconButton/public/thumbnail-animated-icon-button.png'
                         ),
