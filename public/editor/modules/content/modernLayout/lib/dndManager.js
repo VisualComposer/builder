@@ -1,5 +1,7 @@
 import vcCake from 'vc-cake'
 import DnD from '../../../../../resources/dnd/dnd'
+import DndDataSet from '../../../../../resources/dndUpdate/dndDataSet'
+
 const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class DndManager {
@@ -50,7 +52,8 @@ export default class DndManager {
       if (!this.documentDOM && this.iframe) {
         this.documentDOM = this.iframe.contentWindow.document
       }
-      this.items = new DnD(this.documentDOM.querySelector('[data-vcv-module="content-layout"]'), {
+      const DndConstructor = vcCake.env('FIX_DND_FOR_TABS') ? DndDataSet : DnD
+      this.items = new DndConstructor(this.documentDOM.querySelector('[data-vcv-module="content-layout"]'), {
         cancelMove: true,
         moveCallback: this.move.bind(this),
         dropCallback: this.drop.bind(this),
@@ -124,13 +127,13 @@ export default class DndManager {
 
   move (id, action, related) {
     if (id && related) {
-      workspaceStorage.trigger('move', id, { action: action, related: related })
+      workspaceStorage.trigger('move', id, {action: action, related: related})
     }
   }
 
   drop (id, action, related, element) {
     if (id && related) {
-      workspaceStorage.trigger('drop', id, { action: action, related: related, element: element })
+      workspaceStorage.trigger('drop', id, {action: action, related: related, element: element})
       // this.api.request('data:move', id, { action: action, related: related })
     }
   }
