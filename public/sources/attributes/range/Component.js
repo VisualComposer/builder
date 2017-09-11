@@ -59,7 +59,7 @@ class RangeAttribute extends Attribute {
       placeholder = this.props.options.placeholder
     }
     let sliderValue = Number.isInteger(parseInt(value)) ? value : min
-    let width = `calc(${(max - min) / 100 * sliderValue}%)`
+    let width = `${100 / (max - min) * sliderValue}%`
     return (
       <div className='vcv-ui-form-range'>
         <div className='vcv-ui-form-range-helper'>
