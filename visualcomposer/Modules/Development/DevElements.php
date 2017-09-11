@@ -1572,384 +1572,384 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'WooCommerce Element',
                     ],
                 ],
-                //                'transparentOutlineButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/transparentOutlineButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/transparentOutlineButton/transparentOutlineButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Transparent Outline Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/transparentOutlineButton/transparentOutlineButton/public/thumbnail-transparent-outline-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/transparentOutlineButton/transparentOutlineButton/public/preview-transparent-outline-button.png'
-                //                        ),
-                //                        'metaDescription' => 'Transparent outline button with fill color effect on hover is perfect for dark or colorful backgrounds.',
-                //                    ],
-                //                ],
-                //                                'parallelogramButton' => [
-                //                                    'bundlePath' => $urlHelper->to(
-                //                                        'devElements/parallelogramButton/public/dist/element.bundle.js'
-                //                                    ),
-                //                                    'elementPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/'),
-                //                                    'elementRealPath' => vcapp()->path('devElements/parallelogramButton/parallelogramButton/'),
-                //                                    'assetsPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/public/'),
-                //                                    'settings' => [
-                //                                        'name' => 'Parallelogram Button',
-                //                                        'metaThumbnailUrl' => $urlHelper->to(
-                //                                            'devElements/parallelogramButton/parallelogramButton/public/thumbnail-parallelogram-button.png'
-                //                                        ),
-                //                                        'metaPreviewUrl' => $urlHelper->to(
-                //                                            'devElements/parallelogramButton/parallelogramButton/public/preview-parallelogram-button.png'
-                //                                        ),
-                //                                        'metaDescription' => 'A button in parallelogram shape with ability to control angle.',
-                //                                    ],
-                //                                ],
-                //                                'resizeButton' => [
-                //                                    'bundlePath' => $urlHelper->to(
-                //                                        'devElements/resizeButton/public/dist/element.bundle.js'
-                //                                    ),
-                //                                    'elementPath' => $urlHelper->to('devElements/resizeButton/resizeButton/'),
-                //                                    'elementRealPath' => vcapp()->path('devElements/resizeButton/resizeButton/'),
-                //                                    'assetsPath' => $urlHelper->to('devElements/resizeButton/resizeButton/public/'),
-                //                                    'settings' => [
-                //                                        'name' => 'Resize Button',
-                //                                        'metaThumbnailUrl' => $urlHelper->to(
-                //                                            'devElements/resizeButton/resizeButton/public/thumbnail-resize-button.png'
-                //                                        ),
-                //                                        'metaPreviewUrl' => $urlHelper->to(
-                //                                            'devElements/resizeButton/resizeButton/public/preview-resize-button.png'
-                //                                        ),
-                //                                        'metaDescription' => 'A simple button that resizes with animation on hover to catch user attention.',
-                //                                    ],
-                //                                ],
-                //                'outlineShadowButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/outlineShadowButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/outlineShadowButton/outlineShadowButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/outlineShadowButton/outlineShadowButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/outlineShadowButton/outlineShadowButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Outline Shadow Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/outlineShadowButton/outlineShadowButton/public/thumbnail-outline-shadow-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/outlineShadowButton/outlineShadowButton/public/preview-outline-shadow-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A geometric style outline button with custom hover color option.',
-                //                    ],
-                //                ],
-                //                'underlineButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/underlineButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/underlineButton/underlineButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/underlineButton/underlineButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/underlineButton/underlineButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Underline Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/underlineButton/underlineButton/public/thumbnail-underline-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/underlineButton/underlineButton/public/preview-underline-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A simple text button with underline and resize animation.',
-                //                    ],
-                //                ],
-                //                'borderHoverButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/borderHoverButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/borderHoverButton/borderHoverButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/borderHoverButton/borderHoverButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/borderHoverButton/borderHoverButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Border Hover Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/borderHoverButton/borderHoverButton/public/thumbnail-border-hover-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/borderHoverButton/borderHoverButton/public/preview-border-hover-button.png'
-                //                        ),
-                //                        'metaDescription' => 'Button with border accent as a hover effect and ability to control border color.',
-                //                    ],
-                //                ],
-                //                '3dButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/3dButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/3dButton/3dButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/3dButton/3dButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/3dButton/3dButton/public/'),
-                //                    'settings' => [
-                //                        'name' => '3D Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/3dButton/3dButton/public/thumbnail-3d-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/3dButton/3dButton/public/preview-3d-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A 3D style button with the ability to control a hover and animation states.',
-                //                    ],
-                //                ],
-                //                'strikethroughOutlineButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/strikethroughOutlineButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/strikethroughOutlineButton/strikethroughOutlineButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/strikethroughOutlineButton/strikethroughOutlineButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/strikethroughOutlineButton/strikethroughOutlineButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Strikethrough Outline Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/strikethroughOutlineButton/strikethroughOutlineButton/public/thumbnail-strikethrough-outline-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/strikethroughOutlineButton/strikethroughOutlineButton/public/preview-strikethrough-outline-button.png'
-                //                        ),
-                //                        'metaDescription' => 'Outline button with a horizontal or vertical strike through and fill color effect on hover.',
-                //                    ],
-                //                ],
-                //                                'simpleGradientButton' => [
-                //                                    'bundlePath' => $urlHelper->to(
-                //                                        'devElements/simpleGradientButton/public/dist/element.bundle.js'
-                //                                    ),
-                //                                    'elementPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/'),
-                //                                    'elementRealPath' => vcapp()->path('devElements/simpleGradientButton/simpleGradientButton/'),
-                //                                    'assetsPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/public/'),
-                //                                    'settings' => [
-                //                                        'name' => 'Simple Gradient Button',
-                //                                        'metaThumbnailUrl' => $urlHelper->to(
-                //                                            'devElements/simpleGradientButton/simpleGradientButton/public/thumbnail-simple-gradient-button.png'
-                //                                        ),
-                //                                        'metaPreviewUrl' => $urlHelper->to(
-                //                                            'devElements/simpleGradientButton/simpleGradientButton/public/preview-simple-gradient-button.png'
-                //                                        ),
-                //                                        'metaDescription' => 'A simple gradient button with automatic gradient effect calculation.',
-                //                                    ],
-                //                                ],
-                //                'quoteButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/quoteButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/quoteButton/quoteButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/quoteButton/quoteButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/quoteButton/quoteButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Quote Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/quoteButton/quoteButton/public/thumbnail-quote-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/quoteButton/quoteButton/public/preview-quote-button.png'
-                //                        ),
-                //                        'metaDescription' => 'Quote button is a good call to action that points directly to the content.',
-                //                    ],
-                //                ],
-                //                'strikethroughButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/strikethroughButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/strikethroughButton/strikethroughButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/strikethroughButton/strikethroughButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/strikethroughButton/strikethroughButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Strikethrough Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/strikethroughButton/strikethroughButton/public/thumbnail-strikethrough-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/strikethroughButton/strikethroughButton/public/preview-strikethrough-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A simple text button with animated strike through effect on hover.',
-                //                    ],
-                //                ],
-                //                'filledShadowButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/filledShadowButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/filledShadowButton/filledShadowButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/filledShadowButton/filledShadowButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/filledShadowButton/filledShadowButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Filled Shadow Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/filledShadowButton/filledShadowButton/public/thumbnail-filled-shadow-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/filledShadowButton/filledShadowButton/public/preview-filled-shadow-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A geometric style filled button with shadow effect and custom hover color controls.',
-                //                    ],
-                //                ],
-                //                'animatedShadowButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/animatedShadowButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/animatedShadowButton/animatedShadowButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/animatedShadowButton/animatedShadowButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/animatedShadowButton/animatedShadowButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Animated Shadow Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/animatedShadowButton/animatedShadowButton/public/thumbnail-animated-shadow-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/animatedShadowButton/animatedShadowButton/public/preview-animated-shadow-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A button with centered shadow effect and animation.',
-                //                    ],
-                //                ],
-                //                'largeCircleZoomButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/largeCircleZoomButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/largeCircleZoomButton/largeCircleZoomButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/largeCircleZoomButton/largeCircleZoomButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/largeCircleZoomButton/largeCircleZoomButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Large Circle Zoom Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/largeCircleZoomButton/largeCircleZoomButton/public/thumbnail-large-circle-zoom-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/largeCircleZoomButton/largeCircleZoomButton/public/preview-large-circle-zoom-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A large circle button with text and zoom effect on hover.',
-                //                    ],
-                //                ],
-                //                'zigZagButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/zigZagButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/zigZagButton/zigZagButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/zigZagButton/zigZagButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/zigZagButton/zigZagButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'ZigZag Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/zigZagButton/zigZagButton/public/thumbnail-zigzag-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/zigZagButton/zigZagButton/public/preview-zigzag-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A text based button with zig zag underline and custom hover color controls.',
-                //                    ],
-                //                ],
-                //                'smoothShadowButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/smoothShadowButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/smoothShadowButton/smoothShadowButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/smoothShadowButton/smoothShadowButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/smoothShadowButton/smoothShadowButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Smooth Shadow Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/smoothShadowButton/smoothShadowButton/public/thumbnail-smooth-shadow-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/smoothShadowButton/smoothShadowButton/public/preview-smooth-shadow-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A filled button with bold shadow smooth edges.',
-                //                    ],
-                //                ],
-                //                'halfOutlineButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/halfOutlineButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/halfOutlineButton/halfOutlineButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/halfOutlineButton/halfOutlineButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/halfOutlineButton/halfOutlineButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Half Outline Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/halfOutlineButton/halfOutlineButton/public/thumbnail-half-outline-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/halfOutlineButton/halfOutlineButton/public/preview-half-outline-button.png'
-                //                        ),
-                //                        'metaDescription' => 'Outline button with half outline, position and animation controls.',
-                //                    ],
-                //                ],
-                //                'gatsbyButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/gatsbyButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/gatsbyButton/gatsbyButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/gatsbyButton/gatsbyButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/gatsbyButton/gatsbyButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Gatsby Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/gatsbyButton/gatsbyButton/public/thumbnail-gatsby-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/gatsbyButton/gatsbyButton/public/preview-gatsby-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A Gatsby style button with a misplaced outline and transparent fill color.',
-                //                    ],
-                //                ],
-                //                'animatedOutlineButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/animatedOutlineButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/animatedOutlineButton/animatedOutlineButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Animated Outline Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/animatedOutlineButton/animatedOutlineButton/public/thumbnail-animated-outline-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/animatedOutlineButton/animatedOutlineButton/public/preview-animated-outline-button.png'
-                //                        ),
-                //                        'metaDescription' => 'Outline button with an animation effect that wraps around button text.',
-                //                    ],
-                //                ],
-                //                'animatedIconButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/animatedIconButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/animatedIconButton/animatedIconButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/animatedIconButton/animatedIconButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/animatedIconButton/animatedIconButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Animated Outline Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/animatedIconButton/animatedIconButton/public/thumbnail-animated-icon-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/animatedIconButton/animatedIconButton/public/preview-animated-icon-button.png'
-                //                        ),
-                //                        'metaDescription' => 'An icon button with animation effect and button text display on hover.',
-                //                    ],
-                //                ],
-                //                'animatedTwoColorButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/animatedTwoColorButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/animatedTwoColorButton/animatedTwoColorButton/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/animatedTwoColorButton/animatedTwoColorButton/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/animatedTwoColorButton/animatedTwoColorButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Animated Two Color Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/animatedTwoColorButton/animatedTwoColorButton/public/thumbnail-animated-two-color-button.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/animatedTwoColorButton/animatedTwoColorButton/public/preview-animated-two-color-button.png'
-                //                        ),
-                //                        'metaDescription' => 'A modern animated button with two color intersection and smooth animation.',
-                //                    ],
-                //                ],
+                'transparentOutlineButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/transparentOutlineButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/transparentOutlineButton/transparentOutlineButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/public/'),
+                    'settings' => [
+                        'name' => 'Transparent Outline Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/transparentOutlineButton/transparentOutlineButton/public/thumbnail-transparent-outline-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/transparentOutlineButton/transparentOutlineButton/public/preview-transparent-outline-button.png'
+                        ),
+                        'metaDescription' => 'Transparent outline button with fill color effect on hover is perfect for dark or colorful backgrounds.',
+                    ],
+                ],
+                'parallelogramButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/parallelogramButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/parallelogramButton/parallelogramButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/parallelogramButton/parallelogramButton/public/'),
+                    'settings' => [
+                        'name' => 'Parallelogram Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/parallelogramButton/parallelogramButton/public/thumbnail-parallelogram-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/parallelogramButton/parallelogramButton/public/preview-parallelogram-button.png'
+                        ),
+                        'metaDescription' => 'A button in parallelogram shape with ability to control angle.',
+                    ],
+                ],
+                'resizeButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/resizeButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/resizeButton/resizeButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/resizeButton/resizeButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/resizeButton/resizeButton/public/'),
+                    'settings' => [
+                        'name' => 'Resize Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/resizeButton/resizeButton/public/thumbnail-resize-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/resizeButton/resizeButton/public/preview-resize-button.png'
+                        ),
+                        'metaDescription' => 'A simple button that resizes with animation on hover to catch user attention.',
+                    ],
+                ],
+                'outlineShadowButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/outlineShadowButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/outlineShadowButton/outlineShadowButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/outlineShadowButton/outlineShadowButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/outlineShadowButton/outlineShadowButton/public/'),
+                    'settings' => [
+                        'name' => 'Outline Shadow Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/outlineShadowButton/outlineShadowButton/public/thumbnail-outline-shadow-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/outlineShadowButton/outlineShadowButton/public/preview-outline-shadow-button.png'
+                        ),
+                        'metaDescription' => 'A geometric style outline button with custom hover color option.',
+                    ],
+                ],
+                'underlineButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/underlineButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/underlineButton/underlineButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/underlineButton/underlineButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/underlineButton/underlineButton/public/'),
+                    'settings' => [
+                        'name' => 'Underline Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/underlineButton/underlineButton/public/thumbnail-underline-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/underlineButton/underlineButton/public/preview-underline-button.png'
+                        ),
+                        'metaDescription' => 'A simple text button with underline and resize animation.',
+                    ],
+                ],
+                'borderHoverButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/borderHoverButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/borderHoverButton/borderHoverButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/borderHoverButton/borderHoverButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/borderHoverButton/borderHoverButton/public/'),
+                    'settings' => [
+                        'name' => 'Border Hover Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/borderHoverButton/borderHoverButton/public/thumbnail-border-hover-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/borderHoverButton/borderHoverButton/public/preview-border-hover-button.png'
+                        ),
+                        'metaDescription' => 'Button with border accent as a hover effect and ability to control border color.',
+                    ],
+                ],
+                '3dButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/3dButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/3dButton/3dButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/3dButton/3dButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/3dButton/3dButton/public/'),
+                    'settings' => [
+                        'name' => '3D Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/3dButton/3dButton/public/thumbnail-3d-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/3dButton/3dButton/public/preview-3d-button.png'
+                        ),
+                        'metaDescription' => 'A 3D style button with the ability to control a hover and animation states.',
+                    ],
+                ],
+                'strikethroughOutlineButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/strikethroughOutlineButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/strikethroughOutlineButton/strikethroughOutlineButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/strikethroughOutlineButton/strikethroughOutlineButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/strikethroughOutlineButton/strikethroughOutlineButton/public/'),
+                    'settings' => [
+                        'name' => 'Strikethrough Outline Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/strikethroughOutlineButton/strikethroughOutlineButton/public/thumbnail-strikethrough-outline-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/strikethroughOutlineButton/strikethroughOutlineButton/public/preview-strikethrough-outline-button.png'
+                        ),
+                        'metaDescription' => 'Outline button with a horizontal or vertical strike through and fill color effect on hover.',
+                    ],
+                ],
+                'simpleGradientButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/simpleGradientButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/simpleGradientButton/simpleGradientButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/simpleGradientButton/simpleGradientButton/public/'),
+                    'settings' => [
+                        'name' => 'Simple Gradient Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/simpleGradientButton/simpleGradientButton/public/thumbnail-simple-gradient-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/simpleGradientButton/simpleGradientButton/public/preview-simple-gradient-button.png'
+                        ),
+                        'metaDescription' => 'A simple gradient button with automatic gradient effect calculation.',
+                    ],
+                ],
+                'quoteButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/quoteButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/quoteButton/quoteButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/quoteButton/quoteButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/quoteButton/quoteButton/public/'),
+                    'settings' => [
+                        'name' => 'Quote Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/quoteButton/quoteButton/public/thumbnail-quote-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/quoteButton/quoteButton/public/preview-quote-button.png'
+                        ),
+                        'metaDescription' => 'Quote button is a good call to action that points directly to the content.',
+                    ],
+                ],
+                'strikethroughButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/strikethroughButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/strikethroughButton/strikethroughButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/strikethroughButton/strikethroughButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/strikethroughButton/strikethroughButton/public/'),
+                    'settings' => [
+                        'name' => 'Strikethrough Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/strikethroughButton/strikethroughButton/public/thumbnail-strikethrough-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/strikethroughButton/strikethroughButton/public/preview-strikethrough-button.png'
+                        ),
+                        'metaDescription' => 'A simple text button with animated strike through effect on hover.',
+                    ],
+                ],
+                'filledShadowButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/filledShadowButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/filledShadowButton/filledShadowButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/filledShadowButton/filledShadowButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/filledShadowButton/filledShadowButton/public/'),
+                    'settings' => [
+                        'name' => 'Filled Shadow Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/filledShadowButton/filledShadowButton/public/thumbnail-filled-shadow-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/filledShadowButton/filledShadowButton/public/preview-filled-shadow-button.png'
+                        ),
+                        'metaDescription' => 'A geometric style filled button with shadow effect and custom hover color controls.',
+                    ],
+                ],
+                'animatedShadowButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/animatedShadowButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/animatedShadowButton/animatedShadowButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/animatedShadowButton/animatedShadowButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/animatedShadowButton/animatedShadowButton/public/'),
+                    'settings' => [
+                        'name' => 'Animated Shadow Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/animatedShadowButton/animatedShadowButton/public/thumbnail-animated-shadow-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/animatedShadowButton/animatedShadowButton/public/preview-animated-shadow-button.png'
+                        ),
+                        'metaDescription' => 'A button with centered shadow effect and animation.',
+                    ],
+                ],
+                'largeCircleZoomButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/largeCircleZoomButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/largeCircleZoomButton/largeCircleZoomButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/largeCircleZoomButton/largeCircleZoomButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/largeCircleZoomButton/largeCircleZoomButton/public/'),
+                    'settings' => [
+                        'name' => 'Large Circle Zoom Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/largeCircleZoomButton/largeCircleZoomButton/public/thumbnail-large-circle-zoom-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/largeCircleZoomButton/largeCircleZoomButton/public/preview-large-circle-zoom-button.png'
+                        ),
+                        'metaDescription' => 'A large circle button with text and zoom effect on hover.',
+                    ],
+                ],
+                'zigZagButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/zigZagButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/zigZagButton/zigZagButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/zigZagButton/zigZagButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/zigZagButton/zigZagButton/public/'),
+                    'settings' => [
+                        'name' => 'ZigZag Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/zigZagButton/zigZagButton/public/thumbnail-zigzag-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/zigZagButton/zigZagButton/public/preview-zigzag-button.png'
+                        ),
+                        'metaDescription' => 'A text based button with zig zag underline and custom hover color controls.',
+                    ],
+                ],
+                'smoothShadowButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/smoothShadowButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/smoothShadowButton/smoothShadowButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/smoothShadowButton/smoothShadowButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/smoothShadowButton/smoothShadowButton/public/'),
+                    'settings' => [
+                        'name' => 'Smooth Shadow Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/smoothShadowButton/smoothShadowButton/public/thumbnail-smooth-shadow-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/smoothShadowButton/smoothShadowButton/public/preview-smooth-shadow-button.png'
+                        ),
+                        'metaDescription' => 'A filled button with bold shadow smooth edges.',
+                    ],
+                ],
+                'halfOutlineButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/halfOutlineButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/halfOutlineButton/halfOutlineButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/halfOutlineButton/halfOutlineButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/halfOutlineButton/halfOutlineButton/public/'),
+                    'settings' => [
+                        'name' => 'Half Outline Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/halfOutlineButton/halfOutlineButton/public/thumbnail-half-outline-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/halfOutlineButton/halfOutlineButton/public/preview-half-outline-button.png'
+                        ),
+                        'metaDescription' => 'Outline button with half outline, position and animation controls.',
+                    ],
+                ],
+                'gatsbyButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/gatsbyButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/gatsbyButton/gatsbyButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/gatsbyButton/gatsbyButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/gatsbyButton/gatsbyButton/public/'),
+                    'settings' => [
+                        'name' => 'Gatsby Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/gatsbyButton/gatsbyButton/public/thumbnail-gatsby-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/gatsbyButton/gatsbyButton/public/preview-gatsby-button.png'
+                        ),
+                        'metaDescription' => 'A Gatsby style button with a misplaced outline and transparent fill color.',
+                    ],
+                ],
+                'animatedOutlineButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/animatedOutlineButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/animatedOutlineButton/animatedOutlineButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/animatedOutlineButton/animatedOutlineButton/public/'),
+                    'settings' => [
+                        'name' => 'Animated Outline Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/animatedOutlineButton/animatedOutlineButton/public/thumbnail-animated-outline-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/animatedOutlineButton/animatedOutlineButton/public/preview-animated-outline-button.png'
+                        ),
+                        'metaDescription' => 'Outline button with an animation effect that wraps around button text.',
+                    ],
+                ],
+                'animatedIconButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/animatedIconButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/animatedIconButton/animatedIconButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/animatedIconButton/animatedIconButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/animatedIconButton/animatedIconButton/public/'),
+                    'settings' => [
+                        'name' => 'Animated Outline Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/animatedIconButton/animatedIconButton/public/thumbnail-animated-icon-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/animatedIconButton/animatedIconButton/public/preview-animated-icon-button.png'
+                        ),
+                        'metaDescription' => 'An icon button with animation effect and button text display on hover.',
+                    ],
+                ],
+                'animatedTwoColorButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/animatedTwoColorButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/animatedTwoColorButton/animatedTwoColorButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/animatedTwoColorButton/animatedTwoColorButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/animatedTwoColorButton/animatedTwoColorButton/public/'),
+                    'settings' => [
+                        'name' => 'Animated Two Color Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/animatedTwoColorButton/animatedTwoColorButton/public/thumbnail-animated-two-color-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/animatedTwoColorButton/animatedTwoColorButton/public/preview-animated-two-color-button.png'
+                        ),
+                        'metaDescription' => 'A modern animated button with two color intersection and smooth animation.',
+                    ],
+                ],
             ]
         );
     }
