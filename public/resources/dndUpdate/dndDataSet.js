@@ -23,7 +23,7 @@ export default class DndDataSet {
   constructor (container, options) {
     Object.defineProperties(this, {
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       helper: {
         enumerable: false,
@@ -32,7 +32,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       position: {
         enumerable: false,
@@ -41,7 +41,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       placeholder: {
         enumerable: false,
@@ -50,7 +50,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       items: {
         enumerable: false,
@@ -59,7 +59,7 @@ export default class DndDataSet {
         value: {}
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       currentElement: {
         enumerable: false,
@@ -68,7 +68,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       draggingElement: {
         enumerable: false,
@@ -77,7 +77,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       point: {
         enumerable: false,
@@ -86,7 +86,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       hover: {
         enumerable: false,
@@ -95,7 +95,7 @@ export default class DndDataSet {
         value: ''
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       container: {
         enumerable: false,
@@ -104,7 +104,7 @@ export default class DndDataSet {
         value: container
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       manualScroll: {
         enumerable: false,
@@ -113,7 +113,7 @@ export default class DndDataSet {
         value: false
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       options: {
         enumerable: false,
@@ -312,7 +312,6 @@ export default class DndDataSet {
     if (this.options.helperType === 'clone') {
       this.helper = new HelperClone(this.draggingElement.node, point)
     } else {
-      console.log(this.draggingElement)
       this.helper = new Helper(this.draggingElement, {
         container: this.options.container
       })

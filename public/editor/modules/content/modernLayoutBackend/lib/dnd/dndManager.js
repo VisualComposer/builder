@@ -51,7 +51,7 @@ export default class DndManager {
         allowMultiNodes: vcCake.env('FIX_DND_FOR_TABS')
       })
       this.items.init()
-      this.apiDnD = DnD.api(this.items)
+      this.apiDnD = DndConstructor.api(this.items)
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
       vcCake.onDataChange('dropNewElement', this.apiDnD.addNew.bind(this.apiDnD))
       // this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
