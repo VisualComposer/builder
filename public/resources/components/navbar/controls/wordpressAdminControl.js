@@ -2,10 +2,11 @@
 import React from 'react'
 import NavbarContent from '../navbarContent'
 
-import { env, setData, getService, getStorage } from 'vc-cake'
+import {env, setData, getService, getStorage} from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
+const workspaceStorage = getStorage('workspace')
 
 export default class WordPressAdminControl extends NavbarContent {
   previewWindow = false
@@ -16,6 +17,7 @@ export default class WordPressAdminControl extends NavbarContent {
     this.handleClick = this.handleClick.bind(this)
     this.saveDraft = this.saveDraft.bind(this)
     this.savePreview = this.savePreview.bind(this)
+    this.triggerPreviewClick = this.triggerPreviewClick.bind(this)
   }
 
   componentDidMount () {
@@ -26,6 +28,7 @@ export default class WordPressAdminControl extends NavbarContent {
      this.forceUpdate()
      })
      */
+    workspaceStorage.state('shortcutPreview').onChange(this.triggerPreviewClick)
   }
 
   handleClick (e) {
@@ -186,6 +189,13 @@ export default class WordPressAdminControl extends NavbarContent {
     }
   }
 
+  triggerPreviewClick (data) {
+    if (data) {
+      this.previewBtn.click()
+      workspaceStorage.state('shortcutPreview').set(false)
+    }
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const { saveDraft, backendEditor, wordPressDashboard, editInBackendEditor, preview, previewChanges } = localizations
@@ -227,6 +237,7 @@ export default class WordPressAdminControl extends NavbarContent {
         onClick={this.savePreview}
         data-href={PostData.previewUrl()}
         data-target='_blank'
+        ref={(previewBtn) => { this.previewBtn = previewBtn }}
       >
         <span className='vcv-ui-navbar-control-content'>{previewText}</span>
       </span>
