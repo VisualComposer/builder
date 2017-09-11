@@ -59,7 +59,6 @@ export default class LayoutEditor extends React.Component {
       return false
     })
     this.editor.bind([ 'command+shift+p', 'ctrl+shift+p' ], () => {
-      console.log('preview')
       workspaceStorage.state('shortcutPreview').set(true)
       return false
     })

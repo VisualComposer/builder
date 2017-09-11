@@ -63,7 +63,6 @@ export default class Workspace extends React.Component {
       return false
     })
     this.workspace.bind([ 'command+shift+p', 'ctrl+shift+p' ], () => {
-      console.log('1preview')
       workspaceStorage.state('shortcutPreview').set(true)
       return false
     })
