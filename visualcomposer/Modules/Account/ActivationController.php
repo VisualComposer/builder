@@ -172,7 +172,7 @@ class ActivationController extends Container implements Module
             return ['status' => true];
         }
 
-        return ['status' => false];
+        return false;
     }
 
     protected function subscribeLiteVersion($response, $payload, Request $requestHelper, Logger $loggerHelper, Options $optionsHelper, License $licenseHelper)
@@ -216,7 +216,7 @@ class ActivationController extends Container implements Module
             }
         }
 
-        return ['status' => false];
+        return false;
     }
 
     /**
