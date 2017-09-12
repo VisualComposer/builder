@@ -34,7 +34,7 @@ export default class LayoutEditor extends React.Component {
       historyStorage.state('canUndo').get() && historyStorage.trigger('undo')
       return false
     })
-    this.editor.bind([ 'command+shift+z', 'ctrl+' ], (e) => {
+    this.editor.bind([ 'command+shift+z', 'ctrl+shift+z' ], (e) => {
       e.preventDefault()
       historyStorage.state('canRedo').get() && historyStorage.trigger('redo')
       return false
