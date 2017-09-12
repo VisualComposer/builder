@@ -220,14 +220,59 @@ export default class {
               path: element.get('metaElementPath')
             }
           }
-          let mixinValue = settings[ key ].value
-          let tempValue = element.get(key)
-          if (typeof tempValue === 'string') {
-            mixinValue = tempValue
-          }
-          foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
-          if (mixin.namePattern) {
-            foundMixins[ mixin.mixin ].variables[ mixin.property ].namePattern = mixin.namePattern
+          if (key === 'designOptions') {
+            let DO = element.get('designOptions')
+            if (DO && DO.attributeMixins) {
+              foundMixins[ mixin.mixin ].selector = mixin.selector
+              for (let deviceMixin in DO.attributeMixins) {
+                if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
+                  let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value || 'all'
+                  if (device === 'all') {
+                    device = ''
+                  }
+                  let properties = {
+                    all: {
+                      value: !device
+                    }
+                  }
+                  if (mixin.property === 'all') {
+                    for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
+                      let variableName = device + variable
+                      if (variable === 'combined') {
+                        variableName = 'combined'
+                      }
+                      properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                    }
+                  } else {
+                    for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
+                      if (variable.indexOf(mixin.property) >= 0 || variable === 'combined') {
+                        let variableName = device + variable
+                        if (variable === 'combined') {
+                          variableName = 'combined'
+                        }
+                        properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                      }
+                    }
+                  }
+                  foundMixins[ mixin.mixin ].variables = {
+                    ...foundMixins[ mixin.mixin ].variables,
+                    ...properties
+                  }
+                }
+              }
+            }
+          } else {
+            let mixinValue = settings[ key ].value
+            let tempValue = element.get(key)
+
+            if (typeof tempValue === 'string') {
+              mixinValue = tempValue
+            }
+
+            foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
+            if (mixin.namePattern) {
+              foundMixins[ mixin.mixin ].variables[ mixin.property ].namePattern = mixin.namePattern
+            }
           }
         }
       }
@@ -256,10 +301,10 @@ export default class {
           useMixin = true
         }
       })
-      names = names.join('--')
-      if (names && useMixin) {
-        variables[ 'selector' ] = names
-        mixins[ element.data.tag ][ mixin ][ names ] = variables
+      let selector = foundMixins[ mixin ].selector || names.join('--')
+      if (selector && useMixin) {
+        variables[ 'selector' ] = selector
+        mixins[ element.data.tag ][ mixin ][ selector ] = variables
       }
     }
     return mixins
@@ -279,24 +324,68 @@ export default class {
     let settings = element.get('settings')
     let foundMixins = {}
     for (let key in settings) {
-      if (settings[ key ].hasOwnProperty('options') && settings[ key ].options.hasOwnProperty('cssMixin')) {
-        let mixin = settings[ key ].options.cssMixin
-        let cssSettings = element.get('cssSettings')
-        if (!foundMixins[ mixin.mixin ] && cssSettings.mixins[ mixin.mixin ]) {
-          foundMixins[ mixin.mixin ] = {
-            variables: {},
-            src: cssSettings.mixins[ mixin.mixin ].mixin,
-            path: element.get('metaElementPath')
+      // If found element then get actual data form element
+      if (settings[ key ].type === 'element') {
+        mixins = this.getCssMixinsByElement(element.get(key), mixins)
+      } else {
+        if (settings[ key ].hasOwnProperty('options') && settings[ key ].options.hasOwnProperty('cssMixin')) {
+          let mixin = settings[ key ].options.cssMixin
+          let cssSettings = element.get('cssSettings')
+          if (!foundMixins[ mixin.mixin ] && cssSettings.mixins[ mixin.mixin ]) {
+            foundMixins[ mixin.mixin ] = {
+              variables: {},
+              src: cssSettings.mixins[ mixin.mixin ].mixin,
+              path: element.get('metaElementPath')
+            }
           }
-        }
-        let mixinValue = settings[ key ].value
-        let tempValue = element.get(key)
-        if (typeof tempValue === 'string') {
-          mixinValue = tempValue
-        }
-        foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
-        if (mixin.namePattern) {
-          foundMixins[ mixin.mixin ].variables[ mixin.property ].namePattern = mixin.namePattern
+          if (key === 'designOptions') {
+            let DO = element.get('designOptions')
+            if (DO && DO.attributeMixins) {
+              foundMixins[ mixin.mixin ].selector = mixin.selector
+              for (let deviceMixin in DO.attributeMixins) {
+                if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
+                  let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value || 'all'
+                  if (device === 'all') {
+                    device = ''
+                  }
+                  let properties = {
+                    all: {
+                      value: !device
+                    }
+                  }
+                  if (mixin.property === 'all') {
+                    for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
+                      let variableName = device + variable
+                      properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                    }
+                  } else {
+                    for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
+                      if (variable.indexOf(mixin.property) >= 0) {
+                        let variableName = device + variable
+                        properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                      }
+                    }
+                  }
+                  foundMixins[ mixin.mixin ].variables = {
+                    ...foundMixins[ mixin.mixin ].variables,
+                    ...properties
+                  }
+                }
+              }
+            }
+          } else {
+            let mixinValue = settings[ key ].value
+            let tempValue = element.get(key)
+
+            if (typeof tempValue === 'string') {
+              mixinValue = tempValue
+            }
+
+            foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
+            if (mixin.namePattern) {
+              foundMixins[ mixin.mixin ].variables[ mixin.property ].namePattern = mixin.namePattern
+            }
+          }
         }
       }
     }
@@ -324,10 +413,10 @@ export default class {
           useMixin = true
         }
       })
-      names = names.join('--')
-      if (names && useMixin) {
-        variables[ 'selector' ] = names
-        mixins[ element.data.tag ][ mixin ][ names ] = variables
+      let selector = foundMixins[ mixin ].selector || names.join('--')
+      if (selector && useMixin) {
+        variables[ 'selector' ] = selector
+        mixins[ element.data.tag ][ mixin ][ selector ] = variables
       }
     }
     return mixins

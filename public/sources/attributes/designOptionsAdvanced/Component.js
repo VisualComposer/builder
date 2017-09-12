@@ -13,6 +13,7 @@ import Number from '../number/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import Range from '../range/Component'
+import IconPicker from '../iconpicker/Component'
 import vcCake from 'vc-cake'
 
 export default class DesignOptionsAdvanced extends Attribute {
@@ -169,7 +170,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     dividerFlipHorizontal: 'horizontally-left',
     dividerFlipVertical: 'vertically-down',
     dividerPosition: 'bottom',
-    dividerBackgroundType: 'color'
+    dividerBackgroundType: 'color',
+    dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-shape1', iconSet: 'all' }
   }
   static defaultState = {
     currentDevice: 'all',
@@ -1869,6 +1871,33 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render divider shape - icon picker
+   * @returns {XML}
+   */
+  getDividerShapeRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerShape || DesignOptionsAdvanced.deviceDefaults.dividerShape
+
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider shape
+        </span>
+        <IconPicker
+          api={this.props.api}
+          fieldKey='dividerShape'
+          options={{ search: false, iconType: 'shapes' }}
+          updater={this.dividerChangeHandler}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
    * Render divider width range
    * @returns {XML}
    */
@@ -2098,6 +2127,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getDividerFlipHorizontalRender()}
             {this.getDividerFlipVerticalRender()}
             {this.getDividerPositionRender()}
+            {this.getDividerShapeRender()}
             {this.getDividerWidthRender()}
             {this.getDividerHeightRender()}
             {this.getDividerBackgroundTypeRender()}
