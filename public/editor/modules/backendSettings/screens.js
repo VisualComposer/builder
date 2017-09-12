@@ -1,18 +1,28 @@
 import $ from 'jquery'
-import { closeError } from './errors'
-import { loadSlider } from './slider'
+import {closeError} from './errors'
+import {loadSlider} from './slider'
 
 let showIntroScreen = ($popup) => {
-  $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active vcv-last-screen--active vcv-intro-screen--active').addClass('vcv-intro-screen--active')
+  $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active vcv-last-screen--active vcv-oops-screen--active').addClass('vcv-intro-screen--active')
 }
 let showLoadingScreen = ($popup) => {
-  $popup.removeClass('vcv-first-screen--active vcv-last-screen--active vcv-intro-screen--active').addClass('vcv-loading-screen--active')
+  $popup.removeClass('vcv-first-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-loading-screen--active')
 }
 let showFirstScreen = ($popup) => {
-  $popup.removeClass('vcv-loading-screen--active vcv-last-screen--active vcv-intro-screen--active').addClass('vcv-first-screen--active')
+  $popup.removeClass('vcv-loading-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-first-screen--active')
 }
 let showLastScreen = ($popup) => {
-  $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active').addClass('vcv-last-screen--active')
+  $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-last-screen--active')
+}
+
+let showOopsScreen = ($popup, msg, action) => {
+  $popup.find('.vcv-oops-screen .vcv-popup-loading-heading').text(msg)
+  $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active').addClass('vcv-oops-screen--active')
+  let $tryAgain = $popup.find('.vcv-oops-screen [data-vcv-retry]')
+  $tryAgain.off('click').on('click.vcv-try-again', (e) => {
+    e && e.preventDefault && e.preventDefault()
+    action()
+  })
 }
 
 let loadLastScreen = ($errorPopup, loadAnimation, $popup) => {
@@ -31,8 +41,8 @@ let loadLastScreen = ($errorPopup, loadAnimation, $popup) => {
     }
 
     for (t in transitions) {
-      if (el.style[ t ] !== undefined) {
-        return transitions[ t ]
+      if (el.style[t] !== undefined) {
+        return transitions[t]
       }
     }
   }
@@ -46,4 +56,11 @@ let loadLastScreen = ($errorPopup, loadAnimation, $popup) => {
   })
 }
 
-module.exports = { showIntroScreen: showIntroScreen, showLoadingScreen: showLoadingScreen, showFirstScreen: showFirstScreen, showLastScreen: showLastScreen, loadLastScreen: loadLastScreen }
+module.exports = {
+  showIntroScreen: showIntroScreen,
+  showLoadingScreen: showLoadingScreen,
+  showFirstScreen: showFirstScreen,
+  showLastScreen: showLastScreen,
+  loadLastScreen: loadLastScreen,
+  showOopsScreen: showOopsScreen
+}

@@ -42,7 +42,7 @@ class JsonDownloadController extends Container implements Module
                 $json = $this->readBundleJson($url);
             }
             // if json is empty array it means that no release yet available!
-            if ($json) {
+            if (!vcIsBadResponse($json)) {
                 $response = $filterHelper->fire('vcv:hub:download:json', $response, ['json' => $json]);
                 $optionsHelper->setTransient('vcv:hub:download:json', $json, 600);
             } else {

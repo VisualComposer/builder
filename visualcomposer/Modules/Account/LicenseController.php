@@ -53,11 +53,13 @@ class LicenseController extends Container /*implements Module*/
         CurrentUser $currentUserHelper,
         License $licenseHelper,
         ActivationPage $activationPageModule,
-        Premium $premiumPageModule
+        Premium $premiumPageModule,
+        Options $optionsHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
             return;
         } elseif ($requestHelper->input('page') === $premiumPageModule->getSlug()) {
+            $optionsHelper->setTransient('license:activation:fromPremium', 1);
             wp_redirect(
                 VCV_ACTIVATE_LICENSE_URL .
                 '/?redirect=' . admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())) .
