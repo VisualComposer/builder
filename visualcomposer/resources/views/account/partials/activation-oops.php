@@ -5,8 +5,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$premiumPage = vcapp('SettingsPagesPremium');
-
 ?>
 <!-- Oops screen -->
 <div class="vcv-popup-content vcv-popup-error-description vcv-oops-screen">
