@@ -18,7 +18,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Account\Pages\ActivationPage;
-use VisualComposer\Modules\Settings\Traits\Page;
+use VisualComposer\Modules\Settings\Pages\Premium;
 
 /**
  * Class LicenseController
@@ -26,13 +26,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
  */
 class LicenseController extends Container /*implements Module*/
 {
-    use Page;
     use EventsFilters;
-
-    /**
-     * @var string
-     */
-    protected $slug = 'vcv-update-to-premium';
 
     /**
      * LicenseController constructor.
@@ -52,16 +46,20 @@ class LicenseController extends Container /*implements Module*/
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Modules\Account\Pages\ActivationPage $activationPageModule
+     * @param \VisualComposer\Modules\Settings\Pages\Premium $premiumPageModule
      */
     protected function redirectToAccount(
         Request $requestHelper,
         CurrentUser $currentUserHelper,
         License $licenseHelper,
-        ActivationPage $activationPageModule
+        ActivationPage $activationPageModule,
+        Premium $premiumPageModule,
+        Options $optionsHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
             return;
-        } elseif ($requestHelper->input('page') === $this->getSlug()) {
+        } elseif ($requestHelper->input('page') === $premiumPageModule->getSlug()) {
+            $optionsHelper->setTransient('license:activation:fromPremium', 1);
             wp_redirect(
                 VCV_ACTIVATE_LICENSE_URL .
                 '/?redirect=' . admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())) .
@@ -80,7 +78,6 @@ class LicenseController extends Container /*implements Module*/
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Token $tokenHelper
      * @param \VisualComposer\Helpers\Logger $loggerHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return bool|void
      */
@@ -89,8 +86,7 @@ class LicenseController extends Container /*implements Module*/
         CurrentUser $currentUserHelper,
         License $licenseHelper,
         Token $tokenHelper,
-        Logger $loggerHelper,
-        Options $optionsHelper
+        Logger $loggerHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
             return;
@@ -109,7 +105,6 @@ class LicenseController extends Container /*implements Module*/
                 );
 
                 if (!vcIsBadResponse($result)) {
-                    $optionsHelper->deleteTransient('vcv_finish_activation_failed');
                     $result = json_decode($result['body'], true);
                     $licenseHelper->setKey($result['license_key']);
                     $tokenHelper->setIsSiteRegistered();
@@ -123,7 +118,6 @@ class LicenseController extends Container /*implements Module*/
                                 : (is_array($result) ? $result['body'] : ''),
                         ]
                     );
-                    $optionsHelper->setTransient('vcv_finish_activation_failed', 1, 60);
                 }
             } else {
                 $loggerHelper->log(
@@ -132,7 +126,6 @@ class LicenseController extends Container /*implements Module*/
                         'token' => $token,
                     ]
                 );
-                $optionsHelper->setTransient('vcv_finish_activation_failed', 1, 60);
             }
         }
 
@@ -142,7 +135,6 @@ class LicenseController extends Container /*implements Module*/
     protected function unsetOptions(Options $optionsHelper)
     {
         $optionsHelper
-            ->deleteTransient('vcv_finish_activation_failed')
             ->delete('license-key-token')
             ->delete('siteRegistered')
             ->delete('license-key');

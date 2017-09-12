@@ -9,7 +9,7 @@ $premiumPage = vcapp('SettingsPagesPremium');
 
 ?>
 <!-- Oops screen -->
-<div class="vcv-popup-content vcv-popup-error-description">
+<div class="vcv-popup-content vcv-popup-error-description vcv-oops-screen">
     <div class="vcv-logo">
         <svg width="36px" height="37px" viewBox="0 0 36 37" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -39,7 +39,7 @@ $premiumPage = vcapp('SettingsPagesPremium');
         ?>
 	</span>
 	<div class="vcv-button-container">
-		<a href="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>" data-vcv-retry class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+		<a href="#" data-vcv-retry class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
 			<span>
 				<?php echo __('Try Again', 'vcwb'); ?>
 			</span>

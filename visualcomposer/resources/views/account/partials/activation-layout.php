@@ -54,16 +54,12 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             <!-- Close button -->
             <button class="vcv-popup-close-button"></button>
             <?php
-            if ($optionsHelper->getTransient('vcv_finish_activation_failed')) {
                 echo vcview(
                     'account/partials/activation-oops',
                     [
                         'controller' => $controller,
                     ]
                 );
-
-                return;
-            }
             ?>
             <?php
             if (vcvenv('VCV_ENV_LICENSES')) {

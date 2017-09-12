@@ -87,6 +87,17 @@ class ActivationPage extends Container implements Module
             'controller' => $this,
             'type' => VCV_ENV_ADDONS_ID !== 'account' ? 'standalone' : 'default',
         ];
+        if (vcvenv('VCV_ENV_LICENSES')) {
+            $length = count($pages) - 1;
+
+            $licenseHelper = vchelper('License');
+            $optionsHelper = vchelper('Options');
+
+            if ($pages[ $length ]['type'] === 'default' && ($licenseHelper->isActivated() || $optionsHelper->getTransient('license:activation:fromPremium'))) {
+                $pages[ $length ]['type'] = 'premium';
+            }
+        }
+
 
         return $pages;
     }
@@ -144,7 +155,11 @@ class ActivationPage extends Container implements Module
         if (vcvenv('VCV_ENV_LICENSES')) {
             $licenseHelper = vchelper('License');
 
-            return $licenseHelper->isActivated() ? 'download' : 'intro';
+            if ($licenseHelper->isActivated()) {
+                return 'download';
+            } else {
+                return 'intro';
+            }
         }
 
         return 'first';

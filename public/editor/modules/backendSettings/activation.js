@@ -1,8 +1,8 @@
 import $ from 'jquery'
-import { showError } from './errors'
-import { showIntroScreen, showLoadingScreen, showFirstScreen, showLastScreen } from './screens'
-import { loadSlider } from './slider'
-import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-screens'
+import {showError} from './errors'
+import {showIntroScreen, showLoadingScreen, showFirstScreen, showLastScreen} from './screens'
+import {loadSlider} from './slider'
+import {showDownloadScreen, showDownloadWithLicenseScreen} from './download-screens'
 
 $(() => {
   let $popup = $('.vcv-popup-container')
@@ -15,7 +15,7 @@ $(() => {
   const savingResultsText = localizations ? localizations.savingResults : 'Saving Results'
   const downloadingInitialExtensionsText = localizations ? localizations.downloadingInitialExtensions : 'Downloading initial extensions'
   const downloadingAssetsText = localizations ? localizations.downloadingAssets : 'Downloading assets {i} of {cnt}'
-
+  let ready = false
   if ($popup.length) {
     let $errorPopup = $('.vcv-popup-error')
     let $zoomContainer = $('.vcv-popup-loading-zoom')
@@ -40,7 +40,7 @@ $(() => {
       $zoomContainer[0].style.left = -leftPosition + 'px'
     }
 
-    let $heading = $('.vcv-popup-loading-heading')
+    let $heading = $('.vcv-popup-loading-screen .vcv-popup-loading-heading')
 
     $('#vcv-account-login-form').on('submit', (e) => {
       e.preventDefault()
@@ -53,7 +53,7 @@ $(() => {
 
       if (window.vcvActivationType !== 'download') {
         let email = $inputEmail.val()
-        if (window.vcvActivationType !== 'default') {
+        if (window.vcvActivationType === 'standalone') {
           email = 'standalone'
         }
         if (email) {
@@ -70,11 +70,13 @@ $(() => {
     })
 
     $(document.body).on('click', function (e) {
-      var $el = $(e.target)
-      if ($el.closest('.vcv-loading-screen--active').length || $el.is('.vcv-loading-screen--active') || $el.closest('.vcv-popup').length || $el.is('.vcv-popup')) {
-        return
-      } else {
-        window.location.href = 'index.php'
+      if (ready) {
+        var $el = $(e.target)
+        if ($el.closest('.vcv-loading-screen--active').length || $el.is('.vcv-loading-screen--active') || $el.closest('.vcv-popup').length || $el.is('.vcv-popup')) {
+          return
+        } else {
+          window.location.href = 'index.php'
+        }
       }
     })
 
@@ -83,6 +85,7 @@ $(() => {
 
     let img = new window.Image()
     img.onload = () => {
+      ready = true
       $popup.removeClass('vcv-popup-container--hidden')
       if (window.vcvActivationActivePage === 'last') {
         loadSlider()
