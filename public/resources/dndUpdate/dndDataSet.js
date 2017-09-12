@@ -155,33 +155,32 @@ export default class DndDataSet {
   }
 
   init () {
-    this.container.dataset[this.options.datasetKey] = new DOMElement(this.options.rootID, this.container, {
+    const root = new DOMElement(this.options.rootID, this.container, {
       containerFor: this.options.rootContainerFor
     })
     this.handleDragFunction = this.handleDrag.bind(this)
     this.handleDragStartFunction = this.handleDragStart.bind(this)
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
+    root.refresh()
   }
 
   addItem (id) {
     if (!documentManager.get(id)) { return }
-    if (this.options.allowMultiNodes) {
-      let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
-      domNodes.forEach((domNode) => {
-        if (domNode && domNode.ELEMENT_NODE) {
-          this.buildNodeElement(domNode, id)
-        }
-      })
-    } else {
-      let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
+    let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
+    domNodes.forEach((domNode) => {
       if (domNode && domNode.ELEMENT_NODE) {
         this.buildNodeElement(domNode, id)
       }
-    }
+    })
   }
 
   dOMElementCreate (domNode, id) {
+    if (id === this.options.rootID) {
+      return new DOMElement(this.options.rootID, this.container, {
+        containerFor: this.options.rootContainerFor
+      })
+    }
     let element = cook.get(documentManager.get(id))
     if (!element) { return null }
     const containerFor = element.get('containerFor')
@@ -227,7 +226,7 @@ export default class DndDataSet {
   }
 
   getDomElementParent (id) {
-    let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
+    let domNode = this.options.document.querySelector(`[data-vcv-dnd-element="${id}"]`)
     return this.getDomElement(domNode)
   }
 
