@@ -15,10 +15,13 @@ class Logger implements Helper
 
     public function log($message, $details = [])
     {
+        $activationStatusHelper = vchelper('ActivationStatus');
         $this->logs[] = [
             'message' => $message,
             'details' => $details,
         ];
+
+        $activationStatusHelper->activationFailed();
     }
 
     public function all()

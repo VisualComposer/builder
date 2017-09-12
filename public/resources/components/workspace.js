@@ -3,9 +3,12 @@ import ClassNames from 'classnames'
 import {getStorage, onDataChange, ignoreDataChange} from 'vc-cake'
 
 import Resizer from '../../resources/resizer/resizer'
+import Combokeys from 'combokeys'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceStorageNavbarBoundingRectState = workspaceStorage.state('navbarBoundingRect')
+const wordpressDataStorage = getStorage('wordpressData')
+const historyStorage = getStorage('history')
 
 export default class Workspace extends React.Component {
   static propTypes = {
@@ -29,6 +32,48 @@ export default class Workspace extends React.Component {
 
   componentDidMount () {
     onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+    this.workspace = new Combokeys(this.document)
+    this.workspace.bind([ 'command+z', 'ctrl+z' ], (e) => {
+      e.preventDefault()
+      historyStorage.state('canUndo').get() && historyStorage.trigger('undo')
+      return false
+    })
+    this.workspace.bind([ 'command+shift+z', 'ctrl+shift+z' ], (e) => {
+      e.preventDefault()
+      historyStorage.state('canRedo').get() && historyStorage.trigger('redo')
+      return false
+    })
+    this.workspace.bind('a', (e) => {
+      e.preventDefault()
+      workspaceStorage.trigger('add')
+    })
+    this.workspace.bind('l', (e) => {
+      e.preventDefault()
+      workspaceStorage.trigger('addTemplate')
+    })
+    this.workspace.bind('t', (e) => {
+      e.preventDefault()
+      workspaceStorage.state('contentStart').set('treeView')
+    })
+    this.workspace.bind([ 'command+s', 'ctrl+s' ], (e) => {
+      e.preventDefault()
+      wordpressDataStorage.trigger('save', {
+        options: {}
+      }, 'postSaveControl')
+      return false
+    })
+    this.workspace.bind([ 'command+shift+p', 'ctrl+shift+p' ], () => {
+      workspaceStorage.state('shortcutPreview').set(true)
+      return false
+    })
+    this.document.onkeyup = function (e) {
+      e = e || window.event
+      if (e && e.key && e.key === 'Esc' || e.keyCode === 27) {
+        e.preventDefault()
+        workspaceStorage.state('contentStart').set(false)
+        workspaceStorage.state('settings').set({})
+      }
+    }
   }
 
   componentWillUnmount () {
@@ -64,7 +109,7 @@ export default class Workspace extends React.Component {
   }
 
   render () {
-    const {contentStart, contentEnd, stickyBar} = this.props
+    const { contentStart, contentEnd, stickyBar } = this.props
     let layoutClasses = ClassNames({
       'vcv-layout-bar': true,
       'vcv-ui-content--hidden': !(contentEnd || contentStart),
@@ -73,7 +118,11 @@ export default class Workspace extends React.Component {
       'vcv-inline-editor--active': this.state.contentEditableMode
     })
     return (
-      <div className={layoutClasses} style={stickyBar} onMouseUp={this.handleMouseUp}>
+      <div className={layoutClasses} style={stickyBar} onMouseUp={this.handleMouseUp} ref={(workspace) => {
+        if (workspace && workspace.ownerDocument) {
+          this.document = workspace.ownerDocument
+        }
+      }}>
         <div className='vcv-layout-bar-overlay' />
         {this.props.children}
         <Resizer params={{

@@ -143,8 +143,13 @@ class ActivationPage extends Container implements Module
     {
         if (vcvenv('VCV_ENV_LICENSES')) {
             $licenseHelper = vchelper('License');
+            $activationStatusHelper = vchelper('ActivationStatus');
 
-            return $licenseHelper->isActivated() ? 'download' : 'intro';
+            if (!$activationStatusHelper->getStatus() && $licenseHelper->isActivated()) {
+                return 'download';
+            } else {
+                return 'intro';
+            }
         }
 
         return 'first';
