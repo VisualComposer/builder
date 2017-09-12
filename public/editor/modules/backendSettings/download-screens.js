@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { processActions } from './actions'
-import { showLoadingScreen, showFirstScreen } from './screens'
+import { showLoadingScreen, showFirstScreen, showOopsScreen } from './screens'
 import { showError } from './errors'
 
 let showDownloadScreen = ($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText) => {
@@ -24,7 +24,7 @@ let showDownloadScreen = ($popup, $heading, downloadingInitialExtensionsText, em
     .done(function (json) {
       // process actions.
       if (json && json.status && json.actions) {
-        processActions(json.actions, $heading, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
+        processActions(json.actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
       } else {
         if (json.message) {
           try {
@@ -80,6 +80,9 @@ let showDownloadScreen = ($popup, $heading, downloadingInitialExtensionsText, em
 
 let showDownloadWithLicenseScreen = ($popup, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation) => {
   showLoadingScreen($popup)
+  let errorCallback = () => {
+    showDownloadWithLicenseScreen($popup, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation)
+  }
   $heading.text(downloadingInitialExtensionsText)
   $.getJSON(window.vcvActivationUrl,
     {
@@ -89,24 +92,23 @@ let showDownloadWithLicenseScreen = ($popup, $heading, downloadingInitialExtensi
     .done(function (json) {
       // process actions.
       if (json && json.status && json.actions) {
-        processActions(json.actions, $heading, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
+        processActions(json.actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
       } else {
         if (json.message) {
           try {
             let messageJson = JSON.parse(json.message)
             if (messageJson) {
-              showError($errorPopup, messageJson, 15000)
+              showOopsScreen($popup, messageJson, errorCallback)
             } else {
-              showError($errorPopup, activationFailedText, 15000)
+              showOopsScreen($popup, activationFailedText, errorCallback)
             }
           } catch (e) {
-            showError($errorPopup, activationFailedText, 15000)
+            showOopsScreen($popup, activationFailedText, errorCallback)
             console.warn(e, json.message)
           }
         } else {
-          showError($errorPopup, activationFailedText, 15000)
+          showOopsScreen($popup, activationFailedText, errorCallback)
         }
-        showFirstScreen($popup)
       }
     })
     .fail(function (jqxhr, textStatus, error) {
@@ -116,21 +118,20 @@ let showDownloadWithLicenseScreen = ($popup, $heading, downloadingInitialExtensi
           try {
             let messageJson = JSON.parse(json.message)
             if (messageJson) {
-              showError($errorPopup, messageJson, 15000)
+              showOopsScreen($popup, messageJson, errorCallback)
             } else {
-              showError($errorPopup, activationFailedText, 15000)
+              showOopsScreen($popup, activationFailedText, errorCallback)
             }
           } catch (e) {
-            showError($errorPopup, activationFailedText, 15000)
+            showOopsScreen($popup, activationFailedText, errorCallback)
             console.warn(e, json.message)
           }
         } else {
-          showError($errorPopup, activationFailedText, 15000)
+          showOopsScreen($popup, activationFailedText, errorCallback)
         }
       } else {
-        showError($errorPopup, activationFailedText, 15000)
+        showOopsScreen($popup, activationFailedText, errorCallback)
       }
-      showFirstScreen($popup)
       console.warn(jqxhr.responseText, textStatus, error)
     })
 }

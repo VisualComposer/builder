@@ -12,6 +12,7 @@ import String from '../string/Component'
 import Number from '../number/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
+import Range from '../range/Component'
 import vcCake from 'vc-cake'
 
 export default class DesignOptionsAdvanced extends Attribute {
@@ -164,7 +165,11 @@ export default class DesignOptionsAdvanced extends Attribute {
     backgroundStyle: 'cover',
     backgroundPosition: 'center-top',
     gradientAngle: 45,
-    sliderEffect: 'slide'
+    sliderEffect: 'slide',
+    dividerFlipHorizontal: 'horizontally-left',
+    dividerFlipVertical: 'vertically-down',
+    dividerPosition: 'bottom',
+    dividerBackgroundType: 'color'
   }
   static defaultState = {
     currentDevice: 'all',
@@ -194,6 +199,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.embedVideoChangeHandler = this.embedVideoChangeHandler.bind(this)
     this.parallaxChangeHandler = this.parallaxChangeHandler.bind(this)
     this.parallaxSpeedChangeHandler = this.parallaxSpeedChangeHandler.bind(this)
+    this.dividerChangeHandler = this.dividerChangeHandler.bind(this)
   }
 
   /**
@@ -890,8 +896,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     ]
 
     if (this.state.devices[ this.state.currentDevice ].display ||
-      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
-      !this.state.devices[ this.state.currentDevice ].images.urls || this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
+      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') || !this.state.devices[ this.state.currentDevice ].images.urls || this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
       return null
     }
     let options = {
@@ -966,9 +971,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     ]
     if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
       this.state.devices[ this.state.currentDevice ].display ||
-      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 ||
-      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
-      !this.state.devices[ this.state.currentDevice ].images.urls ||
+      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') || !this.state.devices[ this.state.currentDevice ].images.urls ||
       this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
       return null
     }
@@ -1676,6 +1679,389 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render divider toggle
+   * @returns {XML}
+   */
+  getDividerRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].divider || false
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <Toggle
+          api={this.props.api}
+          fieldKey='divider'
+          updater={this.dividerChangeHandler}
+          options={{ labelText: `Enable divider` }}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
+   * Handle divider change
+   * @param fieldKey
+   * @param value
+   */
+  dividerChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
+   * Render divider rotation range
+   * @returns {XML}
+   */
+  getDividerRotationRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerRotation || '180'
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider rotation
+        </span>
+        <Range
+          api={this.props.api}
+          fieldKey='dividerRotation'
+          updater={this.dividerChangeHandler}
+          options={{ min: 0, max: 360, measurement: 'deg' }}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
+   * Render divider flip horizontal button group
+   * @returns {XML}
+   */
+  getDividerFlipHorizontalRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'Left',
+          value: 'horizontally-left',
+          icon: 'vcv-ui-icon-attribute-mirror-horizontally-left'
+        },
+        {
+          label: 'Right',
+          value: 'horizontally-right',
+          icon: 'vcv-ui-icon-attribute-mirror-horizontally-right'
+        }
+      ]
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerFlipHorizontal || DesignOptionsAdvanced.deviceDefaults.dividerFlipHorizontal
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Flip horizontal
+        </span>
+        <ButtonGroup
+          api={this.props.api}
+          fieldKey='dividerFlipHorizontal'
+          options={options}
+          updater={this.dividerChangeHandler}
+          value={value} />
+      </div>
+    )
+  }
+
+  /**
+   * Render divider flip vertical button group
+   * @returns {XML}
+   */
+  getDividerFlipVerticalRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'Top',
+          value: 'vertically-up',
+          icon: 'vcv-ui-icon-attribute-mirror-vertically-up'
+        },
+        {
+          label: 'Bottom',
+          value: 'vertically-down',
+          icon: 'vcv-ui-icon-attribute-mirror-vertically-down'
+        }
+      ]
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerFlipVertical || DesignOptionsAdvanced.deviceDefaults.dividerFlipVertical
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Flip vertical
+        </span>
+        <ButtonGroup
+          api={this.props.api}
+          fieldKey='dividerFlipVertical'
+          options={options}
+          updater={this.dividerChangeHandler}
+          value={value} />
+      </div>
+    )
+  }
+
+  /**
+   * Render divider position button group
+   * @returns {XML}
+   */
+  getDividerPositionRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'Top',
+          value: 'top',
+          icon: 'vcv-ui-icon-attribute-background-position-center-top'
+        },
+        {
+          label: 'Left',
+          value: 'left',
+          icon: 'vcv-ui-icon-attribute-background-position-left-center'
+        },
+        {
+          label: 'Right',
+          value: 'right',
+          icon: 'vcv-ui-icon-attribute-background-position-right-center'
+        },
+        {
+          label: 'Bottom',
+          value: 'bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-center-bottom'
+        }
+      ]
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerPosition || DesignOptionsAdvanced.deviceDefaults.dividerPosition
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Position
+        </span>
+        <ButtonGroup
+          api={this.props.api}
+          fieldKey='dividerPosition'
+          options={options}
+          updater={this.dividerChangeHandler}
+          value={value} />
+      </div>
+    )
+  }
+
+  /**
+   * Render divider width range
+   * @returns {XML}
+   */
+  getDividerWidthRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerWidth || '100'
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider width
+        </span>
+        <Range
+          api={this.props.api}
+          fieldKey='dividerWidth'
+          updater={this.dividerChangeHandler}
+          options={{ min: 1, max: 200, measurement: '%' }}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
+   * Render divider height range
+   * @returns {XML}
+   */
+  getDividerHeightRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerHeight || '100'
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider height
+        </span>
+        <Range
+          api={this.props.api}
+          fieldKey='dividerHeight'
+          updater={this.dividerChangeHandler}
+          options={{ min: 1, max: 200, measurement: '%' }}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
+   * Render divider background type dropdown
+   * @returns {*}
+   */
+  getDividerBackgroundTypeRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+    let options = {
+      values: [
+        {
+          label: 'Color',
+          value: 'color'
+        },
+        {
+          label: 'Gradient',
+          value: 'gradient'
+        },
+        {
+          label: 'Image',
+          value: 'image'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundType || DesignOptionsAdvanced.deviceDefaults.dividerBackgroundType
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider background type
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='dividerBackgroundType'
+        options={options}
+        updater={this.dividerChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Render color picker for divider background color
+   * @returns {*}
+   */
+  getDividerBackgroundColorRender () {
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'color' || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundColor || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider background color
+      </span>
+      <Color
+        api={this.props.api}
+        fieldKey='dividerBackgroundColor'
+        updater={this.dividerChangeHandler}
+        value={value}
+        defaultValue='' />
+    </div>
+  }
+
+  /**
+   * Render color picker for divider gradient background start color
+   * @returns {*}
+   */
+  getDividerBackgroundGradientStartColorRender () {
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'gradient' || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientStartColor || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider start color
+      </span>
+      <Color
+        api={this.props.api}
+        fieldKey='dividerBackgroundGradientStartColor'
+        updater={this.dividerChangeHandler}
+        value={value}
+        defaultValue='' />
+    </div>
+  }
+
+  /**
+   * Render color picker for divider gradient background end color
+   * @returns {*}
+   */
+  getDividerBackgroundGradientEndColorRender () {
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'gradient' || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientEndColor || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider end color
+      </span>
+      <Color
+        api={this.props.api}
+        fieldKey='dividerBackgroundGradientEndColor'
+        updater={this.dividerChangeHandler}
+        value={value}
+        defaultValue='' />
+    </div>
+  }
+
+  /**
+   * Render dividerattach image
+   * @returns {*}
+   */
+  getDividerAttachImageRender () {
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'image' || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundImage || ''
+
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider image
+      </span>
+      <AttachImage
+        api={this.props.api}
+        fieldKey='dividerBackgroundImage'
+        options={{
+          multiple: false
+        }}
+        updater={this.dividerChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -1707,6 +2093,18 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getParallaxRender()}
             {this.getParallaxSpeedRender()}
             {this.getAnimationRender()}
+            {this.getDividerRender()}
+            {this.getDividerRotationRender()}
+            {this.getDividerFlipHorizontalRender()}
+            {this.getDividerFlipVerticalRender()}
+            {this.getDividerPositionRender()}
+            {this.getDividerWidthRender()}
+            {this.getDividerHeightRender()}
+            {this.getDividerBackgroundTypeRender()}
+            {this.getDividerBackgroundColorRender()}
+            {this.getDividerBackgroundGradientStartColorRender()}
+            {this.getDividerBackgroundGradientEndColorRender()}
+            {this.getDividerAttachImageRender()}
           </div>
         </div>
       </div>
