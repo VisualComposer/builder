@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
  * @var array $page
  */
 $optionsHelper = vchelper('Options');
+$activationStatusHelper = vchelper('ActivationStatus');
 
 $errorMsg = $optionsHelper->getTransient('account:activation:error');
 if ($errorMsg) {
@@ -54,7 +55,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             <!-- Close button -->
             <button class="vcv-popup-close-button"></button>
             <?php
-            if ($optionsHelper->getTransient('vcv_finish_activation_failed')) {
+            if ($activationStatusHelper->getStatus()) {
                 echo vcview(
                     'account/partials/activation-oops',
                     [

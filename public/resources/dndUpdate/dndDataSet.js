@@ -12,7 +12,7 @@ const cook = getService('cook')
 const hubCategories = getService('hubCategories')
 const workspaceStorage = getStorage('workspace')
 
-export default class DnD {
+export default class DndDataSet {
   /**
    * Drag&drop builder.
    *
@@ -23,7 +23,7 @@ export default class DnD {
   constructor (container, options) {
     Object.defineProperties(this, {
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       helper: {
         enumerable: false,
@@ -32,7 +32,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       position: {
         enumerable: false,
@@ -41,7 +41,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       placeholder: {
         enumerable: false,
@@ -50,7 +50,16 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
+       */
+      items: {
+        enumerable: false,
+        configurable: false,
+        writable: false,
+        value: {}
+      },
+      /**
+       * @memberOf! DndDataSet
        */
       currentElement: {
         enumerable: false,
@@ -59,7 +68,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       draggingElement: {
         enumerable: false,
@@ -68,7 +77,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       point: {
         enumerable: false,
@@ -77,7 +86,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       hover: {
         enumerable: false,
@@ -86,7 +95,7 @@ export default class DnD {
         value: ''
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       container: {
         enumerable: false,
@@ -95,7 +104,7 @@ export default class DnD {
         value: container
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       manualScroll: {
         enumerable: false,
@@ -104,7 +113,7 @@ export default class DnD {
         value: false
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       options: {
         enumerable: false,
@@ -131,8 +140,7 @@ export default class DnD {
           helperType: null,
           manualScroll: false,
           drop: false,
-          allowMultiNodes: false,
-          datasetKey: 'vcvDndDomElement'
+          allowMultiNodes: false
         })
       }
     })
@@ -157,28 +165,28 @@ export default class DnD {
   }
 
   addItem (id) {
-    let element = cook.get(documentManager.get(id))
-    if (!element) { return }
+    if (!documentManager.get(id)) { return }
     if (this.options.allowMultiNodes) {
       let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
       domNodes.forEach((domNode) => {
         if (domNode && domNode.ELEMENT_NODE) {
-          this.buildNodeElement(domNode, element)
+          this.buildNodeElement(domNode, id)
         }
       })
     } else {
       let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
       if (domNode && domNode.ELEMENT_NODE) {
-        this.buildNodeElement(domNode, element)
+        this.buildNodeElement(domNode, id)
       }
     }
   }
 
-  buildNodeElement (domNode, element) {
-    const id = element.get('id')
+  dOMElementCreate (domNode, id) {
+    let element = cook.get(documentManager.get(id))
+    if (!element) { return null }
     const containerFor = element.get('containerFor')
     const relatedTo = element.get('relatedTo')
-    const domElement = new DOMElement(id, domNode, {
+    return new DOMElement(id, domNode, {
       containerFor: containerFor ? containerFor.value : null,
       relatedTo: relatedTo ? relatedTo.value : null,
       parent: element.get('parent') || this.options.rootID,
@@ -186,11 +194,14 @@ export default class DnD {
       tag: element.get('tag'),
       iconLink: hubCategories.getElementIcon(element.get('tag'))
     })
-    domElement
+  }
+
+  buildNodeElement (domNode, id) {
+    const dOMElement = this.dOMElementCreate(domNode, id)
+    dOMElement
       .on('dragstart', (e) => { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
       .on('mousedown', this.handleDragFunction)
-    domNode.dataset[this.options.datasetKey] = domElement
   }
 
   updateItem (id) {
@@ -208,7 +219,11 @@ export default class DnD {
   }
 
   getDomElement (domNode) {
-    return domNode && domNode.ELEMENT_NODE && domNode.dataset[this.options.datasetKey] ? domNode.dataset[this.options.datasetKey] : null
+    if (!domNode || !domNode.ELEMENT_NODE && elementID) {
+      return null
+    }
+    const elementID = domNode.dataset.vcvDndElement || domNode.dataset.vcvDndElementHandler
+    return this.dOMElementCreate(domNode, elementID)
   }
 
   getDomElementParent (id) {

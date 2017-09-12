@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import DnD from '../../../../../../resources/dnd/dnd'
+import DndDataSet from '../../../../../../resources/dndUpdate/dndDataSet'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 
@@ -38,7 +39,8 @@ export default class DndManager {
 
   buildItems () {
     if (!this.items) {
-      this.items = new DnD(document.querySelector('[data-vcv-module="content-layout"]'), {
+      const DndConstructor = vcCake.env('FIX_DND_FOR_TABS') ? DndDataSet : DnD
+      this.items = new DndConstructor(document.querySelector('[data-vcv-module="content-layout"]'), {
         cancelMove: true,
         moveCallback: this.move.bind(this),
         dropCallback: this.drop.bind(this),
@@ -49,7 +51,7 @@ export default class DndManager {
         allowMultiNodes: vcCake.env('FIX_DND_FOR_TABS')
       })
       this.items.init()
-      this.apiDnD = DnD.api(this.items)
+      this.apiDnD = DndConstructor.api(this.items)
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
       vcCake.onDataChange('dropNewElement', this.apiDnD.addNew.bind(this.apiDnD))
       // this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
