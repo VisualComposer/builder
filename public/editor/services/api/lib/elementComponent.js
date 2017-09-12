@@ -8,6 +8,7 @@ import ImageSlideshowBackground from './imageSlideshowBackground'
 import EmbedVideoBackground from './embedVideoBackground'
 import ColorGradientBackground from './colorGradientBackground'
 import ParallaxBackground from './parallaxBackground'
+import Divider from './divider'
 
 const { Component, PropTypes } = React
 
@@ -227,6 +228,35 @@ eval(unescape('${escapedString}'))
       </div>
     }
     return null
+  }
+
+  getContainerDivider () {
+    const vcCake = require('vc-cake')
+    if (!vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+    let { designOptionsAdvanced } = this.props.atts
+    if (lodash.isEmpty(designOptionsAdvanced) || lodash.isEmpty(designOptionsAdvanced.device)) {
+      return null
+    }
+
+    let { device } = designOptionsAdvanced
+    let dividerElements = []
+
+    Object.keys(device).forEach((deviceKey, index) => {
+      let { divider } = device[ deviceKey ]
+      let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-${index}`
+
+      if (divider) {
+        dividerElements.push(
+          <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey} key={reactKey} atts={this.props.atts} />
+        )
+      }
+    })
+
+    return <div className='vce-container-divider'>
+      {dividerElements}
+    </div>
   }
 
   render () {
