@@ -101,6 +101,10 @@ class AssetsShared extends Container implements Helper
                     'dependencies' => [],
                     'cssBundle' => $urlHelper->to('public/sources/assetsLibrary/iconpicker/dist/iconpicker.bundle.css'),
                 ],
+                'divider' => [
+                    'dependencies' => [],
+                    'cssBundle' => $urlHelper->to('public/sources/assetsLibrary/divider/dist/divider.bundle.css'),
+                ],
             ];
         }
     }

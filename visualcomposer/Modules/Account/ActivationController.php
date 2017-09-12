@@ -125,6 +125,7 @@ class ActivationController extends Container implements Module
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param Logger $loggerHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
      *
      * @return array|bool|\WP_Error
      */
