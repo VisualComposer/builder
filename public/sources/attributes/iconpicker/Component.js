@@ -155,8 +155,10 @@ class Iconpicker extends Attribute {
       )
     }
 
-    let renderSearch = showSearch
-      ? (
+    let renderSearch = null
+
+    if (showSearch) {
+      renderSearch = (
         <div className='vcv-ui-input-search'>
           <input type='search' value={search} onChange={this.search} placeholder='Search Icon'
             className='vcv-ui-form-input' />
@@ -164,7 +166,8 @@ class Iconpicker extends Attribute {
             <i className='vcv-ui-icon vcv-ui-icon-search' />
           </label>
         </div>
-      ) : null
+      )
+    }
 
     content = (
       <div className={popupClasses}>
