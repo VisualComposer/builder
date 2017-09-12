@@ -60,6 +60,8 @@ class ActivationController extends Container implements Module
 
         /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
+        /** @see \VisualComposer\Modules\Account\ActivationController::checkActivationError */
+        $this->addFilter('vcv:ajax:account:activation:adminNonce', 'checkActivationError', 100);
         $this->addFilter('vcv:ajax:account:activation:finished:adminNonce', 'finishActivation');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
@@ -211,7 +213,6 @@ class ActivationController extends Container implements Module
                     ]
                 );
                 $result['status'] = false;
-                $optionsHelper->deleteTransient('vcv:activation:request');
                 return $result;
             }
         }
@@ -246,6 +247,20 @@ class ActivationController extends Container implements Module
         return [
             'status' => true,
         ];
+    }
+
+    protected function checkActivationError($response, Options $optionsHelper, Request $requestHelper)
+    {
+        $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
+        if ($currentTransient && $requestHelper->input('time')) {
+            if ($currentTransient !== $requestHelper->input('time')) {
+                return false;
+            } else {
+                $optionsHelper->deleteTransient('vcv:activation:request');
+            }
+        }
+
+        return $response;
     }
 
     protected function unsetOptions(Options $optionsHelper)
