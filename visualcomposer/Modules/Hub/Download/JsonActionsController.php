@@ -111,7 +111,7 @@ class JsonActionsController extends Container implements Module
                     'checksum' => $checksum,
                 ]
             );
-            $response['status'] = false;
+            return false;
         }
 
 

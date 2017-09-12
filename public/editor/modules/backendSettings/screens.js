@@ -16,7 +16,20 @@ let showLastScreen = ($popup) => {
 }
 
 let showOopsScreen = ($popup, msg, action) => {
-  $popup.find('.vcv-oops-screen .vcv-popup-loading-heading').text(msg)
+  let message = ''
+  if (Object.prototype.toString.call(msg) === '[object Object]') {
+    if (msg.email) {
+      message = msg.email
+    } else if (msg.agreement) {
+      message = msg.agreement
+    } else if (msg.message) {
+      message = msg.message
+    }
+  } else {
+    message = msg
+  }
+
+  $popup.find('.vcv-oops-screen .vcv-popup-loading-heading').text(message)
   $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active').addClass('vcv-oops-screen--active')
   let $tryAgain = $popup.find('.vcv-oops-screen [data-vcv-retry]')
   $tryAgain.off('click').on('click.vcv-try-again', (e) => {
