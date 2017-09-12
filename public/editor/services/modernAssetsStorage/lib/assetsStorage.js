@@ -451,7 +451,6 @@ export default class {
         mixins[ element.data.tag ][ mixin ][ selector ] = variables
       }
     }
-    console.log(mixins)
     return mixins
   }
 
