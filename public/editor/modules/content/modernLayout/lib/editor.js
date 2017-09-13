@@ -41,15 +41,30 @@ export default class LayoutEditor extends React.Component {
     })
     this.editor.bind('a', (e) => {
       e.preventDefault()
-      workspaceStorage.trigger('add')
+      let settings = workspaceStorage.state('settings').get()
+      if (settings && settings.action === 'add') {
+        workspaceStorage.state('settings').set({})
+      } else {
+        workspaceStorage.trigger('add')
+      }
     })
     this.editor.bind('l', (e) => {
       e.preventDefault()
-      workspaceStorage.trigger('addTemplate')
+      let settings = workspaceStorage.state('settings').get()
+      if (settings && settings.action === 'addTemplate') {
+        workspaceStorage.state('settings').set({})
+      } else {
+        workspaceStorage.trigger('addTemplate')
+      }
     })
     this.editor.bind('t', (e) => {
       e.preventDefault()
-      workspaceStorage.state('contentStart').set('treeView')
+      let settings = workspaceStorage.state('contentStart').get()
+      if (settings === 'treeView') {
+        workspaceStorage.state('contentStart').set(false)
+      } else {
+        workspaceStorage.state('contentStart').set('treeView')
+      }
     })
     this.editor.bind([ 'command+s', 'ctrl+s' ], (e) => {
       e.preventDefault()
