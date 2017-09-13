@@ -7,6 +7,7 @@ import postcssColor from 'postcss-color-function'
 import postcssNested from 'postcss-nested'
 import postcssPrefixUrl from 'postcss-prefix-url'
 import postcssMedia from 'postcss-custom-media'
+import postcssEach from 'postcss-each'
 import colorBlend from 'color-blend'
 
 class StylesManager {
@@ -81,6 +82,7 @@ class StylesManager {
     this.get().forEach((style) => {
       let stylePromise = new Promise((resolve, reject) => {
         let use = []
+        use.push(postcssEach)
         if (style.hasOwnProperty('variables')) {
           use.push(postcssAdvancedVars({
             variables: style.variables

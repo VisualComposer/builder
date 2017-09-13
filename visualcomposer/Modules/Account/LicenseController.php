@@ -47,6 +47,7 @@ class LicenseController extends Container /*implements Module*/
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Modules\Account\Pages\ActivationPage $activationPageModule
      * @param \VisualComposer\Modules\Settings\Pages\Premium $premiumPageModule
+     * @param \VisualComposer\Modules\Account\LicenseController $optionsHelper
      */
     protected function redirectToAccount(
         Request $requestHelper,

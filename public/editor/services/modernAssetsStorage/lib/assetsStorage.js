@@ -224,32 +224,45 @@ export default class {
             let DO = element.get('designOptions')
             if (DO && DO.attributeMixins) {
               foundMixins[ mixin.mixin ].selector = mixin.selector
+              foundMixins[ mixin.mixin ].variables = {
+                all: {
+                  value: false
+                },
+                xs: {
+                  value: false
+                },
+                sm: {
+                  value: false
+                },
+                md: {
+                  value: false
+                },
+                lg: {
+                  value: false
+                },
+                xl: {
+                  value: false
+                }
+              }
               for (let deviceMixin in DO.attributeMixins) {
                 if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
                   let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value || 'all'
-                  if (device === 'all') {
-                    device = ''
-                  }
                   let properties = {
-                    all: {
-                      value: !device
+                    [device]: {
+                      value: true
                     }
                   }
                   if (mixin.property === 'all') {
                     for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
                       let variableName = device + variable
-                      if (variable === 'combined') {
-                        variableName = 'combined'
+                      if (variable !== 'device') {
+                        properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
                       }
-                      properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
                     }
                   } else {
                     for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
-                      if (variable.indexOf(mixin.property) >= 0 || variable === 'combined') {
+                      if (variable.indexOf(mixin.property) >= 0) {
                         let variableName = device + variable
-                        if (variable === 'combined') {
-                          variableName = 'combined'
-                        }
                         properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
                       }
                     }
@@ -342,21 +355,40 @@ export default class {
             let DO = element.get('designOptions')
             if (DO && DO.attributeMixins) {
               foundMixins[ mixin.mixin ].selector = mixin.selector
+              foundMixins[ mixin.mixin ].variables = {
+                all: {
+                  value: false
+                },
+                xs: {
+                  value: false
+                },
+                sm: {
+                  value: false
+                },
+                md: {
+                  value: false
+                },
+                lg: {
+                  value: false
+                },
+                xl: {
+                  value: false
+                }
+              }
               for (let deviceMixin in DO.attributeMixins) {
                 if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
                   let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value || 'all'
-                  if (device === 'all') {
-                    device = ''
-                  }
                   let properties = {
-                    all: {
-                      value: !device
+                    [device]: {
+                      value: true
                     }
                   }
                   if (mixin.property === 'all') {
                     for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
                       let variableName = device + variable
-                      properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                      if (variable !== 'device') {
+                        properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                      }
                     }
                   } else {
                     for (let variable in DO.attributeMixins[ deviceMixin ].variables) {

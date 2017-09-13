@@ -80,7 +80,8 @@ class JsonActionsController extends Container implements Module
                 $action['action'],
                 $action['data'],
                 $action['version'],
-                $action['checksum']
+                $action['checksum'],
+                $action['name']
             );
         }
 
@@ -91,7 +92,8 @@ class JsonActionsController extends Container implements Module
         $action,
         $data,
         $version,
-        $checksum
+        $checksum,
+        $name
     ) {
         $response = [
             'status' => true,
@@ -103,7 +105,7 @@ class JsonActionsController extends Container implements Module
         } else {
             $loggerHelper = vchelper('Logger');
             $loggerHelper->log(
-                sprintf(__('Failed to download bundle on action %1$s', 'vcwb'), $action),
+                sprintf(__('Failed to download %1$s', 'vcwb'), $name),
                 [
                     'version' => $version,
                     'action' => $action,
@@ -111,7 +113,7 @@ class JsonActionsController extends Container implements Module
                     'checksum' => $checksum,
                 ]
             );
-            $response['status'] = false;
+            return false;
         }
 
 

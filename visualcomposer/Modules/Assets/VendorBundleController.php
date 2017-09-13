@@ -13,13 +13,14 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
+use VisualComposer\Helpers\Token;
 
 class VendorBundleController extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
 
-    public function __construct()
+    public function __construct(Token $tokenHelper)
     {
         /** @see \VisualComposer\Modules\Assets\VendorBundleController::addVendorScript */
         $this->addFilter(
@@ -27,10 +28,11 @@ class VendorBundleController extends Container implements Module
             'addVendorScript',
             1
         );
-
-        $this->wpAddAction('admin_init', 'registerVendorScripts');
-        $this->wpAddAction('init', 'registerVendorScripts');
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorFrontScripts', 1);
+        if ($tokenHelper->isSiteAuthorized()) {
+            $this->wpAddAction('admin_init', 'registerVendorScripts');
+            $this->wpAddAction('init', 'registerVendorScripts');
+            $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorFrontScripts', 1);
+        }
     }
 
     protected function registerVendorScripts(Url $urlHelper)
