@@ -74,12 +74,17 @@
     display: flex;
     justify-content: space-between;
 
+    // avoiding flex-basis prevents unwanted behaviour on Safari
     .vcv-ui-form-input {
-      flex: @add-template-save-input-flex;
+      flex-grow: 0;
+      flex-shrink: 1;
+      -webkit-appearance: none; // remove inner shadow in Safari
     }
 
+    // avoiding flex-basis prevents unwanted behaviour on Safari
     .vcv-ui-editor-no-items-action {
-      flex: @add-template-save-action-flex;
+      flex-grow: 0;
+      flex-shrink: 0;
       padding: @add-template-save-action-padding;
       margin: @add-template-save-action-margin;
       min-height: auto;
