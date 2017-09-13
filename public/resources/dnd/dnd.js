@@ -169,6 +169,7 @@ export default class DnD {
     if (!element) { return }
     if (this.options.allowMultiNodes) {
       let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
+      domNodes = Array.prototype.slice.call(domNodes)
       domNodes.forEach((domNode) => {
         if (domNode && domNode.ELEMENT_NODE) {
           this.buildNodeElement(domNode, element)

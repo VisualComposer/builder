@@ -38,11 +38,13 @@ if (is_array($extraOutput)) {
     unset($output);
 }
 $actions = $hubUpdateHelper->getRequiredActions();
+$posts = $optionsHelper->get('bundleUpdatePosts', []);
 ?>
 <script>
   window.vcvUpdateUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>'
   window.vcvAdminNonce = '<?php echo $nonceHelper->admin(); ?>';
   window.vcvUpdateActions = <?php echo json_encode($actions); ?>;
+  window.vcvUpdatePosts = <?php echo json_encode($posts); ?>;
   window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>'
   window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>'
   window.vcvAjaxTime = <?php echo $time; ?>

@@ -24,7 +24,6 @@ class JsonActionsController extends Container implements Module
     {
         $this->addFilter('vcv:hub:download:json', 'ajaxGetRequiredActions');
         $this->addFilter('vcv:ajax:hub:action:adminNonce', 'ajaxProcessAction');
-
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
@@ -34,25 +33,10 @@ class JsonActionsController extends Container implements Module
             $requiredActions = [];
             if ($payload['json'] && !empty($payload['json']['actions'])) {
                 $optionHelper = vchelper('Options');
-                foreach ($payload['json']['actions'] as $key => $value) {
-                    if (isset($value['action'])) {
-                        $action = $value['action'];
-                        $data = $value['data'];
-                        $checksum = isset($value['checksum']) ? $value['checksum'] : '';
-                        $version = $value['version'];
-                        $previousVersion = $optionHelper->get('hubAction:' . $action, '0');
-                        if ($version && version_compare($version, $previousVersion, '>') || !$version) {
-                            $requiredActions[] = [
-                                'name' => isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action),
-                                'action' => $action,
-                                'data' => $data,
-                                'checksum' => $checksum,
-                                'version' => $version,
-                            ];
-                        }
-                    }
-                }
+                $needUpdatePost = [];
+                list($needUpdatePost, $requiredActions) = $this->loopActions($requiredActions, $needUpdatePost, $payload, $downloadHelper, $optionHelper);
                 $response['actions'] = $requiredActions;
+                $response['post_update_required'] = array_unique($needUpdatePost);
             } else {
                 $loggerHelper->log(
                     __('Failed to process required actions', 'vcwb'),
@@ -143,5 +127,42 @@ class JsonActionsController extends Container implements Module
             ->deleteTransient('vcv:activation:request');
         global $wpdb;
         $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"', VCV_PREFIX . 'hubAction:%'));
+    }
+
+    /**
+     * @param $requiredActions
+     * @param $needUpdatePost
+     * @param $payload
+     * @param Download $downloadHelper
+     * @param Options $optionHelper
+     * @return array
+     */
+    protected function loopActions($requiredActions, $needUpdatePost, $payload, Download $downloadHelper, Options $optionHelper)
+    {
+        foreach ($payload['json']['actions'] as $key => $value) {
+            if (isset($value['action'])) {
+                $action = $value['action'];
+                $data = $value['data'];
+                $checksum = isset($value['checksum']) ? $value['checksum'] : '';
+                $version = $value['version'];
+                $previousVersion = $optionHelper->get('hubAction:' . $action, '0');
+                if ($version && version_compare($version, $previousVersion, '>') || !$version) {
+                    if (isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')) {
+                        $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
+                        if (!empty($posts) && is_array($posts)) {
+                            $needUpdatePost = $posts + $needUpdatePost;
+                        }
+                    }
+                    $requiredActions[] = [
+                        'name' => isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action),
+                        'action' => $action,
+                        'data' => $data,
+                        'checksum' => $checksum,
+                        'version' => $version,
+                    ];
+                }
+            }
+        }
+        return [$needUpdatePost, $requiredActions];
     }
 }

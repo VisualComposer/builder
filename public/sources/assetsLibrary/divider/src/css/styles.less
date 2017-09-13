@@ -1,17 +1,101 @@
-.vce-container-divider {
-  overflow: hidden;
+.vce-dividers-wrapper {
   position: absolute;
+  top: 0;
+  bottom: 0;
   left: 0;
-  top: -1px;
-  width: 100%;
-  line-height: 0;
-  direction: ltr;
+  right: 0;
+  overflow: hidden;
+  //pointer-events: none;
+}
+
+.vce-container-divider {
+  position: absolute;
 
   svg {
     display: block;
-    width: calc(100% + 1.3px);
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  .vce-svg-custom-rotation {
+    transform-origin: 50% 50%;
+  }
+}
+
+.vce-container-divider-position--top {
+  height: 200px;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.vce-container-divider-position--bottom {
+  height: 200px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+
+.vce-container-divider-position--right {
+  width: 200px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+
+  svg {
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    float: right;
+  }
+}
+
+.vce-container-divider-position--left {
+  width: 200px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  svg {
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    float: left;
+  }
+}
+
+.vce-container-divider.vce-visible-all-only {
+  display: block;
+}
+
+@media (max-width: 543px) {
+  .vce-container-divider.vce-visible-xs-only {
+    display: block;
+  }
+}
+
+@media (min-width: 544px) and (max-width: 767px) {
+  .vce-container-divider.vce-visible-sm-only {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .vce-container-divider.vce-visible-md-only {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .vce-container-divider.vce-visible-lg-only {
+    display: block;
+  }
+}
+
+@media (min-width: 1200px) {
+  .vce-container-divider.vce-visible-xl-only {
+    display: block;
   }
 }
