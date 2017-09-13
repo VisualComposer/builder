@@ -61,7 +61,7 @@ class ActivationController extends Container implements Module
         /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
         /** @see \VisualComposer\Modules\Account\ActivationController::checkActivationError */
-        $this->addFilter('vcv:ajax:account:activation:adminNonce', 'checkActivationError', 100);
+        $this->addFilter('vcv:ajax:account:activation:adminNonce vcv:hub:download:bundle:*', 'checkActivationError', 100);
         $this->addFilter('vcv:ajax:account:activation:finished:adminNonce', 'finishActivation');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }

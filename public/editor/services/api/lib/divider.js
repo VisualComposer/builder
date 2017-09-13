@@ -1,22 +1,46 @@
 import React from 'react'
+import classNames from 'classnames'
+import DividerShape from './dividerShape'
 const { Component, PropTypes } = React
+
 export default class Divider extends Component {
   static propTypes = {
-    id: PropTypes.string,
     atts: PropTypes.object,
-    editor: PropTypes.object
+    deviceData: PropTypes.object,
+    deviceKey: PropTypes.string
+  }
+
+  static defaults = {
+    backgroundColor: '#424242'
   }
 
   render () {
+    let { deviceData, deviceKey } = this.props
+    let position = deviceData && deviceData.dividerPosition
+    let containerClasses = [
+      `vce-container-divider`,
+      `vce-container-divider-position--${position}`,
+      `vce-visible-${deviceKey}-only`
+    ]
+
+    let fill = deviceData && deviceData.dividerBackgroundColor ? deviceData.dividerBackgroundColor : Divider.defaults.backgroundColor
+    let height = deviceData && deviceData.dividerHeight ? deviceData.dividerHeight : '100'
+    let width = deviceData && deviceData.dividerWidth ? deviceData.dividerWidth : '100'
+    height = `${height}%`
+    width = `${width}%`
+
+    let rotation = deviceData && deviceData.dividerRotation
+    let customRotation = rotation ? parseInt(rotation) - 180 : null
+    let rotationTransform = customRotation ? `rotate(${customRotation})` : ''
+
+    let shape = deviceData && deviceData.dividerShape && deviceData.dividerShape.icon
+    let shapeIconArrayClass = shape && shape.split('-')
+    shape = shapeIconArrayClass[ shapeIconArrayClass.length - 1 ]
+
     return (
-      <svg viewBox='0 0 1000 230'>
-        <g stroke='none' strokeWidth='1' fillRule='nonzero' fill='#424242'>
-          <polygon id='Rectangle-3' fillOpacity='0.203153306' points='0 0 1000 0 1000 97.1111111 0 230' />
-          <polygon id='Rectangle-3' fillOpacity='0.197463768' points='0 0 1000 0 1000 92 0 184' />
-          <polygon id='Rectangle-3' fillOpacity='0.197463768' points='0 0 1000 0 1000 86.8888889 0 153.333333' />
-          <polyline id='Rectangle-3' points='0 0 1000 0 1000 84.8444444 0 127.777778' />
-        </g>
-      </svg>
+      <div className={classNames(containerClasses)}>
+        <DividerShape position={position} shape={shape} width={width} height={height} customRotation={rotationTransform} fill={fill} />
+      </div>
     )
   }
 }

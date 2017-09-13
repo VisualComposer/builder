@@ -108,7 +108,6 @@ class BundleUpdateController extends Container implements Module
             $hubUpdateHelper = vchelper('HubUpdate');
             $requiredActions = $hubUpdateHelper->getRequiredActions($json);
             if (!empty($requiredActions)) {
-                $optionsHelper->set('bundleUpdateActions', $requiredActions);
                 $optionsHelper->set('bundleUpdateRequired', true);
                 $optionsHelper->set('bundleUpdateJson', $json);
             }

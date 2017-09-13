@@ -88,7 +88,7 @@ export default class Component extends Attribute {
         id: id,
         selector: '#' + id,
         setup: (editor) => {
-          editor.on('keyup change undo redo SetContent', this.handleChangeWpEditor.bind(this, editor))
+          editor.on('keyup change undo redo', this.handleChangeWpEditor.bind(this, editor))
         },
         init_instance_callback: () => {
           this.setState({ editorLoaded: true })
