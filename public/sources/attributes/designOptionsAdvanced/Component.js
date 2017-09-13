@@ -169,7 +169,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     sliderEffect: 'slide',
     dividerFlipHorizontal: 'horizontally-left',
     dividerFlipVertical: 'vertically-down',
-    dividerPosition: 'bottom',
+    dividerPosition: 'top',
     dividerBackgroundType: 'color',
     dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-circle', iconSet: 'all' }
   }
@@ -1837,11 +1837,6 @@ export default class DesignOptionsAdvanced extends Attribute {
           icon: 'vcv-ui-icon-attribute-background-position-center-top'
         },
         {
-          label: 'Left',
-          value: 'left',
-          icon: 'vcv-ui-icon-attribute-background-position-left-center'
-        },
-        {
           label: 'Right',
           value: 'right',
           icon: 'vcv-ui-icon-attribute-background-position-right-center'
@@ -1850,6 +1845,11 @@ export default class DesignOptionsAdvanced extends Attribute {
           label: 'Bottom',
           value: 'bottom',
           icon: 'vcv-ui-icon-attribute-background-position-center-bottom'
+        },
+        {
+          label: 'Left',
+          value: 'left',
+          icon: 'vcv-ui-icon-attribute-background-position-left-center'
         }
       ]
     }

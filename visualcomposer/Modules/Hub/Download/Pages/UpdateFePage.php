@@ -37,6 +37,7 @@ class UpdateFePage extends Container implements Module
                 'editor/frontend/frontend-updating.php',
                 [
                     'actions' => $requiredActions,
+                    'posts' => $optionsHelper->get('bundleUpdatePosts', []),
                 ]
             );
         }

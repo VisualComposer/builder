@@ -46,18 +46,21 @@ class JsonDownloadController extends Container implements Module
                 $response = $filterHelper->fire('vcv:hub:download:json', $response, ['json' => $json]);
                 $optionsHelper->setTransient('vcv:hub:download:json', $json, 600);
             } else {
-                $response['status'] = false;
                 $loggerHelper->log(
                     __('Failed to download json', 'vcwb'),
                     [
                         'url' => isset($url) ? $url : 'url not set',
                     ]
                 );
+
+                return false;
             }
         } else {
             $loggerHelper->log(__('Failed to prepare json download', 'vcwb'), [
                 'response' => $response,
             ]);
+
+            return false;
         }
 
         return $response;
@@ -71,7 +74,9 @@ class JsonDownloadController extends Container implements Module
             if (!vcIsBadResponse($response)) {
                 $result = json_decode($response['body'], true);
             }
-        } else {
+        }
+
+        if (!$url || is_wp_error($url) || vcIsBadResponse($response)) {
             $loggerHelper = vchelper('Logger');
 
             if (is_wp_error($result)) {
