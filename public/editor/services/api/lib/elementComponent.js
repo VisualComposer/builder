@@ -249,12 +249,12 @@ eval(unescape('${escapedString}'))
 
       if (divider) {
         dividerElements.push(
-          <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey} key={reactKey} atts={this.props.atts} />
+          <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey} key={reactKey} />
         )
       }
     })
 
-    return <div className='vce-container-divider'>
+    return <div className='vce-dividers-wrapper'>
       {dividerElements}
     </div>
   }
