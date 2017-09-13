@@ -34,6 +34,7 @@ class JsonActionsController extends Container implements Module
             $requiredActions = [];
             if ($payload['json'] && !empty($payload['json']['actions'])) {
                 $optionHelper = vchelper('Options');
+                $needUpdatePost = [];
                 foreach ($payload['json']['actions'] as $key => $value) {
                     if (isset($value['action'])) {
                         $action = $value['action'];
@@ -42,6 +43,12 @@ class JsonActionsController extends Container implements Module
                         $version = $value['version'];
                         $previousVersion = $optionHelper->get('hubAction:' . $action, '0');
                         if ($version && version_compare($version, $previousVersion, '>') || !$version) {
+                            if (isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')) {
+                                $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
+                                if (!empty($posts) && is_array($posts)) {
+                                    $needUpdatePost = $posts + $needUpdatePost;
+                                }
+                            }
                             $requiredActions[] = [
                                 'name' => isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action),
                                 'action' => $action,
@@ -53,6 +60,7 @@ class JsonActionsController extends Container implements Module
                     }
                 }
                 $response['actions'] = $requiredActions;
+                $response['post_update_required'] = array_unique($needUpdatePost);
             } else {
                 $loggerHelper->log(
                     __('Failed to process required actions', 'vcwb'),
