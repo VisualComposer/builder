@@ -31,11 +31,12 @@ let doneActions = (requestFailed, $heading, downloadingInitialExtensionsText, sa
     } else {
       if (requestFailed) {
         console.warn(json)
+        let messageJson = JSON.parse(json.message)
         if (window.vcvActivationType !== 'premium') {
-          showError($errorPopup, json.message ? json.message : activationFailedText, 15000)
+          showError($errorPopup, messageJson || activationFailedText, 15000)
           showFirstScreen($popup)
         } else {
-          showOopsScreen($popup, json.message ? json.message : activationFailedText, premiumErrorCallback)
+          showOopsScreen($popup, messageJson || activationFailedText, premiumErrorCallback)
         }
       } else {
         // Try again one more time.
@@ -100,11 +101,12 @@ let processActions = (actions, $heading, downloadingInitialExtensionsText, downl
       } else {
         if (requestFailed) {
           console.warn(json)
+          let messageJson = JSON.parse(json.message)
           if (window.vcvActivationType !== 'premium') {
-            showError($errorPopup, json.message ? json.message : activationFailedText, 15000)
+            showError($errorPopup, messageJson || activationFailedText, 15000)
             showFirstScreen($popup)
           } else {
-            showOopsScreen($popup, json.message ? json.message : activationFailedText, premiumErrorCallback)
+            showOopsScreen($popup, messageJson || activationFailedText, premiumErrorCallback)
           }
         } else {
           // Try again one more time.
