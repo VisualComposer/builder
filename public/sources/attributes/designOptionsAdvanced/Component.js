@@ -171,7 +171,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     dividerFlipVertical: 'vertically-down',
     dividerPosition: 'top',
     dividerBackgroundType: 'color',
-    dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-shape1', iconSet: 'all' }
+    dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-circle', iconSet: 'all' }
   }
   static defaultState = {
     currentDevice: 'all',
