@@ -59,7 +59,7 @@ class ActivationController extends Container implements Module
         $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'doRedirect', 110);
 
         /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
-        $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
+        $this->addFilter('vcv:ajax:account:activation:adminNonce vcv:ajax:test', 'requestActivation');
         /** @see \VisualComposer\Modules\Account\ActivationController::checkActivationError */
         $this->addFilter('vcv:ajax:account:activation:adminNonce vcv:hub:download:bundle:*', 'checkActivationError', 100);
         $this->addFilter('vcv:ajax:account:activation:finished:adminNonce', 'finishActivation');
@@ -141,8 +141,8 @@ class ActivationController extends Container implements Module
         License $licenseHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
-            && !$tokenHelper->isSiteAuthorized()
-            && !$optionsHelper->getTransient('vcv:activation:request')
+           // && !$tokenHelper->isSiteAuthorized()
+           // && !$optionsHelper->getTransient('vcv:activation:request')
         ) {
             $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
 
