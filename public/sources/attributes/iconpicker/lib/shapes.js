@@ -9,7 +9,7 @@ module.exports = [
   { title: 'Inner Triangle With Offset', id: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-inner-triangle-with-offset' },
   { title: 'Inner Triangle', id: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-inner-triangle' },
   { title: 'Outer Triangle', id: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-outer-triangle' },
-  { title: 'Outer Triangle With Offset', id: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-outer-triangle-with-offset'},
+  { title: 'Outer Triangle With Offset', id: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-outer-triangle-with-offset' },
   { title: 'Rounded Outer Triangle With Offset', id: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-rounded-outer-triangle-with-offset' },
   { title: 'Rounded Outer Triangle', id: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-rounded-outer-triangle' },
   { title: 'Round', id: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-round' },
