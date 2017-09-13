@@ -39,7 +39,7 @@ export default class Divider extends Component {
 
     return (
       <div className={classNames(containerClasses)}>
-        <DividerShape shape={shape} width={width} height={height} customRotation={rotationTransform} fill={fill} />
+        <DividerShape position={position} shape={shape} width={width} height={height} customRotation={rotationTransform} fill={fill} />
       </div>
     )
   }
