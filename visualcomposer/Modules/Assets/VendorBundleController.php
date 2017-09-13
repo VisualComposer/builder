@@ -33,7 +33,6 @@ class VendorBundleController extends Container implements Module
             $this->wpAddAction('init', 'registerVendorScripts');
             $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorFrontScripts', 1);
         }
-
     }
 
     protected function registerVendorScripts(Url $urlHelper)
