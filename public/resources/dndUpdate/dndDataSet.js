@@ -168,6 +168,7 @@ export default class DndDataSet {
   addItem (id) {
     if (!documentManager.get(id)) { return }
     let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
+    domNodes = Array.prototype.slice.call(domNodes)
     domNodes.forEach((domNode) => {
       if (domNode && domNode.ELEMENT_NODE) {
         this.buildNodeElement(domNode, id)
