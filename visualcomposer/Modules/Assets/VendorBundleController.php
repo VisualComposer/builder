@@ -28,8 +28,9 @@ class VendorBundleController extends Container implements Module
             'addVendorScript',
             1
         );
+        $this->wpAddAction('admin_init', 'registerVendorScripts');
+        $this->wpAddAction('admin_enqueue_scripts', 'enqueueVendorFrontScripts', 1);
         if ($tokenHelper->isSiteAuthorized()) {
-            $this->wpAddAction('admin_init', 'registerVendorScripts');
             $this->wpAddAction('init', 'registerVendorScripts');
             $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorFrontScripts', 1);
         }
