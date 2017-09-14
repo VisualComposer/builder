@@ -24,12 +24,16 @@ class RangeAttribute extends Attribute {
     let { value } = this.props
     let { measurement } = this.props.options
     val = val.replace(measurement, '')
-    val = val ? parseInt(val) : val
+    val = val && val !== '-' ? parseInt(val) : val
     if (Number.isNaN(val)) {
       val = value
     }
 
-    this.setState({ value: val.toString() }, this.update)
+    this.setState({ value: val.toString() }, () => {
+      if (val !== '-') {
+        this.update()
+      }
+    })
   }
 
   update () {
@@ -58,8 +62,9 @@ class RangeAttribute extends Attribute {
     if (!placeholder && this.props.options && this.props.options.placeholder) {
       placeholder = this.props.options.placeholder
     }
-    let sliderValue = Number.isInteger(parseInt(value)) ? value : min
-    let width = `${100 / (max - min) * sliderValue}%`
+    let parsedValue = parseInt(value)
+    let sliderValue = Number.isInteger(parsedValue) && parsedValue > min ? value : min
+    let width = `${(sliderValue - min) / (max - min) * 100}%`
     return (
       <div className='vcv-ui-form-range'>
         <div className='vcv-ui-form-range-helper'>
