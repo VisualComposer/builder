@@ -1,0 +1,31 @@
+import React from 'react'
+import NavbarContent from '../navbarContent'
+
+export default class GoPremiumControl extends NavbarContent {
+
+  goPremium (e) {
+    e && e.preventDefault && e.preventDefault()
+    const target = e.currentTarget
+    window.open(target.dataset.href)
+  }
+
+  render () {
+    if (typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium !== '1') {
+      const localizations = window.VCV_I18N && window.VCV_I18N()
+      const goPremium = localizations ? localizations.goPremium : 'Go Premium'
+      return (
+        <span
+          className='vcv-ui-navbar-control vcv-go-premium'
+          onClick={this.goPremium}
+          title={goPremium}
+          data-href={window.vcvGoPremiumUrl}
+        >
+          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-star' />
+          <span className='vcv-ui-navbar-control-content'>{goPremium}</span>
+        </span>
+      )
+    } else {
+      return null
+    }
+  }
+}

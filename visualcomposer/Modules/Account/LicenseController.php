@@ -17,8 +17,6 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Modules\Account\Pages\ActivationPage;
-use VisualComposer\Modules\Settings\Pages\Premium;
 
 /**
  * Class LicenseController
@@ -33,42 +31,9 @@ class LicenseController extends Container /*implements Module*/
      */
     public function __construct()
     {
-        $this->addEvent('vcv:inited', 'redirectToAccount');
         $this->addEvent('vcv:admin:inited', 'getLicenseKey');
         // TODO: vcv:system:deactivation:hook
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
-    }
-
-    /**
-     * Redirect to account to select license
-     *
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Modules\Account\Pages\ActivationPage $activationPageModule
-     * @param \VisualComposer\Modules\Settings\Pages\Premium $premiumPageModule
-     * @param \VisualComposer\Modules\Account\LicenseController $optionsHelper
-     */
-    protected function redirectToAccount(
-        Request $requestHelper,
-        CurrentUser $currentUserHelper,
-        License $licenseHelper,
-        ActivationPage $activationPageModule,
-        Premium $premiumPageModule,
-        Options $optionsHelper
-    ) {
-        if (!$currentUserHelper->wpAll('manage_options')->get()) {
-            return;
-        } elseif ($requestHelper->input('page') === $premiumPageModule->getSlug()) {
-            $optionsHelper->setTransient('license:activation:fromPremium', 1);
-            wp_redirect(
-                VCV_ACTIVATE_LICENSE_URL .
-                '/?redirect=' . admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())) .
-                '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
-                '&url=' . VCV_PLUGIN_URL
-            );
-            exit;
-        }
     }
 
     /**

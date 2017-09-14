@@ -41,6 +41,7 @@ class Localizations extends Container implements Helper
             'publish' => __('Publish', 'vcwb'),
             'submitForReview' => __('Submit for Review', 'vcwb'),
             'saveDraft' => __('Save Draft', 'vcwb'),
+            'goPremium' => __('Go Premium', 'vcwb'),
             'close' => __('Close', 'vcwb'),
             'premiumElementsButton' => __('Premium Elements - Coming Soon', 'vcwb'),
             'premiumTemplatesButton' => __('Premium Templates - Coming Soon', 'vcwb'),

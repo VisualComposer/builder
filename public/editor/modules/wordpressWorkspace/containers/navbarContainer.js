@@ -12,6 +12,7 @@ import WordPressPostSaveControl from '../../../../resources/components/navbar/co
 import NavbarSeparator from '../../../../resources/components/navbar/controls/navbarSeparator'
 import Navbar from '../../../../resources/components/navbar/navbar'
 import NavbarWrapper from '../../../../resources/components/navbar/navbarWrapper'
+import GoPremiumControl from '../../../../resources/components/navbar/controls/goPremiumControl'
 import {getStorage} from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
@@ -42,6 +43,7 @@ export default class NavbarContainer extends React.Component {
     const {locked} = this.state
     return <NavbarWrapper>
       <Navbar locked={locked} draggable>
+        <GoPremiumControl visibility='hidden' />
         <Logo visibility='pinned' editor='frontend' />
         <PlusControl visibility='pinned' />
         <AddTemplateControl />
