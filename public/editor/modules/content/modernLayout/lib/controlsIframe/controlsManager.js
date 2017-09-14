@@ -348,7 +348,8 @@ export default class ControlsManager {
           if (workspaceContentStartState.get() === 'treeView') {
             workspaceContentStartState.set('treeView', elementId)
           }
-          if (workspaceStorage.state('settings').get().action === 'edit') {
+          let settings = workspaceStorage.state('settings').get()
+          if (settings && settings.action === 'edit') {
             workspaceStorage.state('settings').set(false)
           }
           workspaceStorage.trigger(event, elementId, tag, options)
