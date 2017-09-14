@@ -62,8 +62,8 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                 );
             ?>
             <?php
-            if (vcvenv('VCV_ENV_LICENSES')) {
-            	echo vcview(
+            if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
+                echo vcview(
                     'account/partials/activation-intro',
                     [
                         'controller' => $controller,

@@ -38,14 +38,20 @@ class Premium extends About /*implements Module*/
      */
     public function __construct(Token $tokenHelper, License $licenseHelper)
     {
-        /** @see \VisualComposer\Modules\Settings\Pages\Premium::addPage */
-        $this->addFilter(
-            'vcv:settings:getPages',
-            'addPage',
-            70
-        );
-        /** @see \VisualComposer\Modules\Settings\Pages\Premium::redirectToAccount */
-        $this->addEvent('vcv:inited', 'redirectToAccount');
+        $this->addEvent('vcv:inited', 'stopUpgrade');
+        if ('account' === vcvenv('VCV_ENV_ADDONS_ID')) {
+            /** @see \VisualComposer\Modules\Settings\Pages\Premium::addPage */
+            {
+                $this->addFilter(
+                    'vcv:settings:getPages',
+                    'addPage',
+                    70
+                );
+            }
+
+            /** @see \VisualComposer\Modules\Settings\Pages\Premium::redirectToAccount */
+            $this->addEvent('vcv:inited', 'redirectToAccount');
+        }
         /** @see \VisualComposer\Modules\Settings\Pages\Premium::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
@@ -134,6 +140,27 @@ class Premium extends About /*implements Module*/
     public function getActivePage()
     {
         return 'download';
+    }
+
+    /**
+     * Stop upgrade in case there is licence token but no license key
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     */
+    protected function stopUpgrade(
+        Options $optionsHelper,
+        License $licenseHelper,
+        Request $requestHelper
+    ) {
+        if ($optionsHelper->getTransient('license:activation:fromPremium')
+            && !$licenseHelper->isActivated()
+            && $licenseHelper->getKeyToken()
+            && !$requestHelper->input('activate')
+        ) {
+            $optionsHelper->deleteTransient('license:activation:fromPremium');
+        }
     }
 
     /**
