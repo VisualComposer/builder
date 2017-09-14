@@ -89,7 +89,7 @@ class Token extends Container implements Helper
             'id' => $id,
         ];
         if ($licenseHelper->isActivated()) {
-            $body['key'] = $licenseHelper->getKey();
+            $body['license-key'] = $licenseHelper->getKey();
         }
         $result = wp_remote_get(
             VCV_TOKEN_URL,
