@@ -92,7 +92,7 @@ $(() => {
         showLastScreen($popup)
       } else {
         showLoadingScreen($popup)
-        if (window.vcvActivationActivePage === 'first') {
+        if (window.vcvActivationActivePage === 'first' || window.vcvActivationType === 'standalone') {
           setTimeout(() => {
             showFirstScreen($popup)
           }, 300)
