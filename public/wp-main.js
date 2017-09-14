@@ -1,5 +1,6 @@
 // @flow
 import vcCake from 'vc-cake'
+import MobileDetect from 'mobile-detect'
 // import React from 'react'
 import './polyfills'
 import './sources/less/bootstrap/init.less'
@@ -10,7 +11,8 @@ import './config/wp-attributes'
 
 const $ = require('expose?$!jquery')
 $(() => {
-  let $iframe = $('#vcv-editor-iframe')
+  let $iframeContainer = $('.vcv-layout-iframe-container')
+  let $iframe = $iframeContainer.find('#vcv-editor-iframe')
   // Get a handle to the iframe element
   let iframe = $iframe.get(0)
   let iframeDoc = iframe.contentDocument || iframe.contentWindow.document
@@ -50,6 +52,11 @@ $(() => {
 
   if (iframeDoc && iframeDoc.readyState === 'complete' && isContentLoaded) {
     iframeLoadEvent()
+  }
+
+  const mobileDetect = new MobileDetect(window.navigator.userAgent)
+  if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+    $iframeContainer.addClass('vcv-layout-iframe-container--mobile')
   }
 })
 

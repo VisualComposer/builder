@@ -110,6 +110,7 @@
     "less": "^2.7.1",
     "lodash": "4.16.4",
     "medium-editor": "5.22.1",
+    "mobile-detect": "^1.3.7",
     "normalize-url": "1.6.1",
     "normalize.css": "5.0.0",
     "npm": "3.10.9",
