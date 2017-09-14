@@ -25,8 +25,6 @@ export default class Divider extends Component {
       flipHorizontally = true
     }
 
-    console.log(this.props.id, deviceData.dividerBackgroundType)
-
     let containerClasses = classNames({
       'vce-container-divider': true,
       'vce-container-divider-flip--horizontally': flipHorizontally

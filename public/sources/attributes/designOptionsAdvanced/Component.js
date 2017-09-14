@@ -2128,7 +2128,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getDividerRender()}
             {this.getDividerRotationRender()}
             {this.getDividerFlipHorizontalRender()}
-            {this.getDividerFlipVerticalRender()}
+            {/* {this.getDividerFlipVerticalRender()} */}
             {this.getDividerPositionRender()}
             {this.getDividerShapeRender()}
             {this.getDividerWidthRender()}
