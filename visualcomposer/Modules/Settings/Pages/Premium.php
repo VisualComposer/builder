@@ -38,14 +38,19 @@ class Premium extends About /*implements Module*/
      */
     public function __construct(Token $tokenHelper, License $licenseHelper)
     {
-        /** @see \VisualComposer\Modules\Settings\Pages\Premium::addPage */
-        $this->addFilter(
-            'vcv:settings:getPages',
-            'addPage',
-            70
-        );
-        /** @see \VisualComposer\Modules\Settings\Pages\Premium::redirectToAccount */
-        $this->addEvent('vcv:inited', 'redirectToAccount');
+        if ('account' === vcvenv('VCV_ENV_ADDONS_ID')) {
+            /** @see \VisualComposer\Modules\Settings\Pages\Premium::addPage */
+            {
+                $this->addFilter(
+                    'vcv:settings:getPages',
+                    'addPage',
+                    70
+                );
+            }
+
+            /** @see \VisualComposer\Modules\Settings\Pages\Premium::redirectToAccount */
+            $this->addEvent('vcv:inited', 'redirectToAccount');
+        }
         /** @see \VisualComposer\Modules\Settings\Pages\Premium::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
