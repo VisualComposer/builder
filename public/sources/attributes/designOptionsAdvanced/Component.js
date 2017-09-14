@@ -171,7 +171,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     dividerFlipVertical: 'vertically-down',
     dividerPosition: 'top',
     dividerBackgroundType: 'color',
-    dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-circle', iconSet: 'all' }
+    dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-circle', iconSet: 'all' },
+    dividerBackgroundColor: '#424242'
   }
   static defaultState = {
     currentDevice: 'all',
@@ -1998,7 +1999,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundColor || ''
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundColor || DesignOptionsAdvanced.deviceDefaults.dividerBackgroundColor
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background color

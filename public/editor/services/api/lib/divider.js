@@ -5,25 +5,25 @@ const { Component, PropTypes } = React
 
 export default class Divider extends Component {
   static propTypes = {
-    atts: PropTypes.object,
     deviceData: PropTypes.object,
     deviceKey: PropTypes.string
-  }
-
-  static defaults = {
-    backgroundColor: '#424242'
   }
 
   render () {
     let { deviceData, deviceKey } = this.props
     let position = deviceData && deviceData.dividerPosition
-    let containerClasses = [
-      `vce-container-divider`,
-      `vce-container-divider-position--${position}`,
-      `vce-visible-${deviceKey}-only`
-    ]
+    let flipHorizontally = false
 
-    let fill = deviceData && deviceData.dividerBackgroundColor ? deviceData.dividerBackgroundColor : Divider.defaults.backgroundColor
+    if (deviceData && deviceData.dividerFlipHorizontal === 'horizontally-right') {
+      flipHorizontally = true
+    }
+
+    let containerClasses = classNames({
+      'vce-container-divider': true,
+      'vce-container-divider-flip--horizontally': flipHorizontally
+    }, `vce-container-divider-position--${position}`, `vce-visible-${deviceKey}-only`)
+
+    let fill = deviceData && deviceData.dividerBackgroundColor
     let height = deviceData && deviceData.dividerHeight ? deviceData.dividerHeight : '100'
     let width = deviceData && deviceData.dividerWidth ? deviceData.dividerWidth : '100'
     height = `${height}%`
@@ -34,12 +34,12 @@ export default class Divider extends Component {
     let rotationTransform = customRotation ? `rotate(${customRotation})` : ''
 
     let shape = deviceData && deviceData.dividerShape && deviceData.dividerShape.icon
-    let shapeIconArrayClass = shape && shape.split('-')
-    shape = shapeIconArrayClass[ shapeIconArrayClass.length - 1 ]
+    shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-dividers-', '')
 
     return (
       <div className={classNames(containerClasses)}>
-        <DividerShape position={position} shape={shape} width={width} height={height} customRotation={rotationTransform} fill={fill} />
+        <DividerShape position={position} shape={shape} width={width} height={height} customRotation={rotationTransform}
+          fill={fill} />
       </div>
     )
   }

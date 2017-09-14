@@ -16,6 +16,7 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    overflow: visible;
   }
 
   .vce-svg-custom-rotation {
@@ -57,12 +58,31 @@
   top: 0;
   bottom: 0;
   left: 0;
+  transform: rotate(180deg);
 
   svg {
     left: auto;
     top: 50%;
     transform: translateY(-50%);
     float: left;
+  }
+}
+
+.vce-container-divider-flip--horizontally {
+  &.vce-container-divider-position--top {
+    transform: scaleX(-1);
+  }
+
+  &.vce-container-divider-position--bottom {
+    transform: rotate(180deg) scaleX(-1);
+  }
+
+  &.vce-container-divider-position--right {
+    transform: scaleY(-1);
+  }
+
+  &.vce-container-divider-position--left {
+    transform: rotate(180deg) scaleY(-1);
   }
 }
 
