@@ -25,6 +25,10 @@ $nonceHelper = vchelper('Nonce');
 wp_enqueue_style('wp-admin');
 wp_enqueue_media();
 $postTypeHelper = vchelper('PostType');
+if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
+    $licenseHelper = vchelper('License');
+    $premiumPage = vcapp('SettingsPagesPremium');
+}
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
@@ -62,6 +66,10 @@ $postTypeHelper = vchelper('PostType');
   window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
   window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
   window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
+	<?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) { ?>
+	window.vcvIsPremium = '<?php echo $licenseHelper->isActivated() ?>';
+	window.vcvGoPremiumUrl = '<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>';
+	<?php } ?>
 </script>
 <?php
 $extraOutput = vcfilter('vcv:frontend:body:extraOutput', []);

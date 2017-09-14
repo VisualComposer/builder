@@ -5,6 +5,7 @@
   height: @vcui-form-range-track-height;
   cursor: pointer;
   animate: 0.2s;
+  background: transparent;
 }
 
 .thumb() {
@@ -16,10 +17,12 @@
   cursor: pointer;
   position: relative;
   z-index: 2;
+  box-sizing: border-box;
 }
 
 .vcv-ui-form-range {
   display: flex;
+  height: 40px;
 
   .vcv-ui-form-range-helper {
     position: relative;
@@ -38,8 +41,21 @@
     max-width: 99%;
     height: 8px;
     border-radius: @vcui-form-range-track-radius;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .vcv-ui-form-range-slider-bg {
+    background: #fff;
+    position: absolute;
+    left: 0px;
+    top: 17px;
+    width: 100%;
+    height: 8px;
+    border-radius: @vcui-form-range-track-radius;
     z-index: 0;
     pointer-events: none;
+    border: @vcui-form-range-track-border-width solid @vcui-form-range-track-border-color;
   }
 
   .vcv-ui-form-range-slider {
@@ -48,6 +64,9 @@
     padding: 0;
     width: @vcui-form-range-track-width;
     background: transparent;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
 
     &:focus {
       outline: none;
@@ -55,9 +74,6 @@
 
     &::-webkit-slider-runnable-track {
       .track();
-      background: @vcui-form-range-track-color;
-      border-radius: @vcui-form-range-track-radius;
-      border: @vcui-form-range-track-border-width solid @vcui-form-range-track-border-color;
     }
 
     &::-webkit-slider-thumb {
@@ -67,14 +83,15 @@
     }
 
     &:focus::-webkit-slider-runnable-track {
-      background: @vcui-form-range-track-color;
+      background: transparent;
     }
 
     &::-moz-range-track {
       .track();
-      background: @vcui-form-range-track-color;
-      border-radius: @vcui-form-range-track-radius;
-      border: @vcui-form-range-track-border-width solid @vcui-form-range-track-border-color;
+    }
+
+    &:focus::-moz-range-track {
+      background: transparent;
     }
 
     &::-moz-range-thumb {
@@ -85,26 +102,25 @@
       .track();
       background: transparent;
       border-color: transparent;
-      border-width: @vcui-form-range-thumb-width 0;
+      border-width: @vcui-form-range-track-border-width 0;
       color: transparent;
     }
 
     &::-ms-fill-lower, &::-ms-fill-upper {
-      background: @vcui-form-range-track-color;
-      border: @vcui-form-range-track-border-width solid @vcui-form-range-track-border-color;
-      border-radius: @vcui-form-range-track-radius*2;
+      background: transparent;
     }
 
     &::-ms-thumb {
       .thumb();
+      margin-top: 0;
     }
 
     &:focus::-ms-fill-lower, &:focus::-ms-fill-upper {
-      background: @vcui-form-range-track-color;
+      background: transparent;
     }
   }
 
   .vcv-ui-form-range-input {
-    width: 70px;
+    width: 76px;
   }
 }
