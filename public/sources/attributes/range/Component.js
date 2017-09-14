@@ -68,6 +68,7 @@ class RangeAttribute extends Attribute {
     return (
       <div className='vcv-ui-form-range'>
         <div className='vcv-ui-form-range-helper'>
+          <div className='vcv-ui-form-range-slider-bg' />
           <div className='vcv-ui-form-range-bg' style={{ width }} />
           <input
             className='vcv-ui-form-range-slider'
