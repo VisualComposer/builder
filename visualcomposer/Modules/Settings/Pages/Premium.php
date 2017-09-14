@@ -38,6 +38,7 @@ class Premium extends About /*implements Module*/
      */
     public function __construct(Token $tokenHelper, License $licenseHelper)
     {
+        $this->addEvent('vcv:inited', 'stopUpgrade');
         if ('account' === vcvenv('VCV_ENV_ADDONS_ID')) {
             /** @see \VisualComposer\Modules\Settings\Pages\Premium::addPage */
             {
@@ -139,6 +140,27 @@ class Premium extends About /*implements Module*/
     public function getActivePage()
     {
         return 'download';
+    }
+
+    /**
+     * Stop upgrade in case there is licence token but no license key
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     */
+    protected function stopUpgrade(
+        Options $optionsHelper,
+        License $licenseHelper,
+        Request $requestHelper
+    ) {
+        if ($optionsHelper->getTransient('license:activation:fromPremium')
+            && !$licenseHelper->isActivated()
+            && $licenseHelper->getKeyToken()
+            && !$requestHelper->input('activate')
+        ) {
+            $optionsHelper->deleteTransient('license:activation:fromPremium');
+        }
     }
 
     /**
