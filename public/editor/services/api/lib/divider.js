@@ -39,7 +39,7 @@ export default class Divider extends Component {
     return (
       <div className={classNames(containerClasses)}>
         <DividerShape position={position} shape={shape} width={width} height={height} customRotation={rotationTransform}
-          fill={fill} />
+          fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} />
       </div>
     )
   }
