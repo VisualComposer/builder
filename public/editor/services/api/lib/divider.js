@@ -37,10 +37,6 @@ export default class Divider extends Component {
     height = `${height}%`
     width = `${width}%`
 
-    let rotation = deviceData && deviceData.dividerRotation
-    let customRotation = rotation ? parseInt(rotation) - 180 : null
-    let rotationTransform = customRotation ? `rotate(${customRotation})` : ''
-
     let shape = deviceData && deviceData.dividerShape && deviceData.dividerShape.icon
     shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-dividers-', '')
 
@@ -58,8 +54,7 @@ export default class Divider extends Component {
     return (
       <div className={classNames(containerClasses)} {...applyDivider}>
         <div className='vce-container-divider-inner'>
-          <DividerShape id={id} position={position} shape={shape} width={width} height={height} customRotation={rotationTransform}
-            fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} backgroundImage={imageUrl} />
+          <DividerShape id={id} position={position} shape={shape} width={width} height={height} fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} backgroundImage={imageUrl} />
         </div>
       </div>
     )

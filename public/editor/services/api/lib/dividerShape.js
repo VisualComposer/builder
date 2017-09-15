@@ -6,7 +6,6 @@ export default class DividerShape extends Component {
   static propTypes = {
     width: PropTypes.string,
     height: PropTypes.string,
-    customRotation: PropTypes.string,
     fill: PropTypes.string,
     shape: PropTypes.string,
     position: PropTypes.string,
@@ -47,7 +46,7 @@ export default class DividerShape extends Component {
   }
 
   render () {
-    let { width, height, customRotation, fill, shape, position, fillType, backgroundImage } = this.props
+    let { width, height, fill, shape, position, fillType, backgroundImage } = this.props
 
     if (!shapes[ shape ]) {
       return null
@@ -61,10 +60,6 @@ export default class DividerShape extends Component {
     if (position === 'left' || position === 'right') {
       viewBox = `0 0 ${viewBoxHeight} ${viewBoxWidth}`
       html = shapes[ shape ].html.vertical
-    }
-
-    if (customRotation) {
-      customAttributes.transform = customRotation
     }
 
     if (fillType === 'color') {
