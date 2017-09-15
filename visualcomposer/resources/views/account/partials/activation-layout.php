@@ -18,6 +18,9 @@ if ($errorMsg) {
 $type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <script>
+	<?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
+    window.vcvActivationRequest = '1'
+	<?php } ?>
   window.vcvActivationUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>'
   window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>'
   window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:finished:adminNonce']); ?>'
