@@ -43,8 +43,7 @@ class Premium extends About /*implements Module*/
             if ($requestHelper->input('page') === $this->getSlug()) {
                 $this->addEvent('vcv:inited', 'beforePageRender');
             }
-            if (
-                ($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
+            if (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
                 ||
                 ($licenseHelper->getKey() && $licenseHelper->getKeyToken())
             ) {
