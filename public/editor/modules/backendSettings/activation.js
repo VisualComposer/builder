@@ -65,6 +65,13 @@ $(() => {
       }
     })
 
+    if (window.vcvActivationType !== 'standalone') {
+      $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button', () => {
+        showIntroScreen($popup)
+      })
+    } else {
+      $('.vcv-popup-back-button').hide()
+    }
     $('.vcv-popup-close-button').on('click', () => {
       window.location.href = 'index.php'
     })

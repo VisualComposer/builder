@@ -51,9 +51,9 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
     <div class="vcv-popup-scroll-container">
         <div class="vcv-popup">
             <!-- Back button -->
-            <!--<button class="vcv-popup-back-button">
+            <button class="vcv-popup-back-button">
                 <span><?php /*echo __('GO BACK'); */ ?></span>
-            </button>-->
+            </button>
             <!-- Close button -->
             <button class="vcv-popup-close-button"></button>
             <?php
