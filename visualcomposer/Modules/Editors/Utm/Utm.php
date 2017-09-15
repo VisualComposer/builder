@@ -25,7 +25,7 @@ class Utm extends Container implements Module
         );
     }
 
-    protected function outputLocalizations($response, $payload, UtmHelper $utmHelper)
+    protected function outputUtm($response, $payload, UtmHelper $utmHelper)
     {
         $response = array_merge(
             $response,
