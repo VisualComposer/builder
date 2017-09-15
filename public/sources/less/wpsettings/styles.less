@@ -92,7 +92,7 @@
   }
 
   .vcv-popup-back-button {
-    display: none;
+    display: flex;
     opacity: 1;
   }
 }
@@ -291,23 +291,24 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  padding: 9px 9px 9px 30px;
+  padding: 16px 16px 16px 16px;
   font: @vcv-buttonFont;
   text-transform: uppercase;
   color: @vcv-backButtonColor;
   background: transparent;
   border: 0;
   transition: color @vcv-transitionDuration @vcv-transitionTimingFunction;
+  display: none;
 
   &::before,
   &::after {
     content: '';
     height: 2px;
-    width: 10px;
+    width: 13px;
     position: absolute;
     background: @vcv-backButtonColor;
     top: 0;
-    bottom: 6px;
+    bottom: 8px;
     left: 0;
     margin: auto;
     transform: rotate(-45deg);
@@ -316,7 +317,7 @@
 
   &::after {
     transform: rotate(45deg);
-    top: 6px;
+    top: 8px;
     bottom: 0;
   }
 

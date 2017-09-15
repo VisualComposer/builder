@@ -86,6 +86,9 @@ class Premium extends About /*implements Module*/
 
     protected function beforePageRender()
     {
+        if (!vchelper('AccessCurrentUser')->wpAll('manage_options')->get()) {
+            return;
+        }
         $licenseHelper = vchelper('License');
         if (!$licenseHelper->getKey()) {
             $licenseHelper->redirectToAccount();

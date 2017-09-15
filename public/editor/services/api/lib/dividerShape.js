@@ -35,32 +35,42 @@ export default class DividerShape extends Component {
       return null
     }
 
-    let id = `image-${this.props.id}`
+    let id = `url(#image-${this.props.id})`
     return (
-      <defs>
-        <pattern id={id} patternUnits='userSpaceOnUse' width='100%' height='100%'>
-          <image preserveAspectRatio='xMidYMid slice' xlinkHref={this.props.backgroundImage} x='0' y='0' width='100%' height='100%' />
-        </pattern>
-      </defs>
+      <image clipPath={id} xlinkHref={this.props.backgroundImage} width='100%' height='100%'
+        preserveAspectRatio='xMidYMid slice' x='0' y='0' />
     )
   }
 
-  render () {
-    let { width, height, fill, shape, position, fillType, backgroundImage } = this.props
+  getShapeContent (customAttributes, currentShape) {
+    let html = currentShape.content
+    let wrapper = currentShape.verticalWrapper
+    if (!html || !wrapper) {
+      return null
+    }
 
-    if (!shapes[ shape ]) {
+    if (this.props.fillType === 'image') {
+      let id = `image-${this.props.id}`
+      let clipPath = `<clipPath id="${id}">${html}</clipPath>`
+      let realHtml = wrapper.replace('[content]', clipPath)
+
+      return <g dangerouslySetInnerHTML={{ __html: realHtml }} />
+    } else {
+      return <g className='vce-svg-custom-rotation' {...customAttributes} dangerouslySetInnerHTML={{ __html: html }} />
+    }
+  }
+
+  render () {
+    let { width, height, fill, shape, fillType, backgroundImage } = this.props
+    let currentShape = shapes[ shape ]
+
+    if (!currentShape) {
       return null
     }
     let customAttributes = {}
     let viewBoxWidth = shapes[ shape ].viewBox.width
     let viewBoxHeight = shapes[ shape ].viewBox.height
     let viewBox = `0 0 ${viewBoxWidth} ${viewBoxHeight}`
-    let html = shapes[ shape ].html.horizontal
-
-    if (position === 'left' || position === 'right') {
-      viewBox = `0 0 ${viewBoxHeight} ${viewBoxWidth}`
-      html = shapes[ shape ].html.vertical
-    }
 
     if (fillType === 'color') {
       customAttributes.fill = fill
@@ -79,8 +89,8 @@ export default class DividerShape extends Component {
     return (
       <svg viewBox={viewBox} preserveAspectRatio='none' width={width} height={height}>
         {this.getLinearGradient()}
+        {this.getShapeContent(customAttributes, currentShape)}
         {this.getBackgroundImagePattern()}
-        <g className='vce-svg-custom-rotation' {...customAttributes} dangerouslySetInnerHTML={{ __html: html }} />
       </svg>
     )
   }
