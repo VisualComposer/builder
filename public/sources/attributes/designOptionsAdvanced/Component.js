@@ -166,6 +166,9 @@ export default class DesignOptionsAdvanced extends Attribute {
         },
         horizontalPosition: {
           value: `0`
+        },
+        customRotate: {
+          value: `0`
         }
       }
     }
@@ -522,6 +525,12 @@ export default class DesignOptionsAdvanced extends Attribute {
             if (newValue[ device ].dividerHorizontalPosition) {
               newMixins[ mixinName ].variables.horizontalPosition = {
                 value: newValue[ device ].dividerHorizontalPosition
+              }
+            }
+
+            if (newValue[ device ].dividerRotation) {
+              newMixins[ mixinName ].variables.customRotate = {
+                value: newValue[ device ].dividerRotation
               }
             }
 
@@ -1761,7 +1770,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerRotation || '180'
+    let value = this.state.devices[ this.state.currentDevice ].dividerRotation || '0'
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <span className='vcv-ui-form-group-heading'>
@@ -1771,7 +1780,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           api={this.props.api}
           fieldKey='dividerRotation'
           updater={this.dividerChangeHandler}
-          options={{ min: 0, max: 360, measurement: 'deg' }}
+          options={{ min: -180, max: 180, measurement: 'deg' }}
           value={value}
         />
       </div>

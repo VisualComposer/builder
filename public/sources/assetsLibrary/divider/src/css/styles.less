@@ -11,6 +11,7 @@
 .vce-container-divider {
   position: absolute;
   display: none;
+  transform-origin: 50% 50%;
 
   svg {
     display: block;
@@ -18,10 +19,10 @@
     left: 50%;
     transform: translateX(-50%);
     overflow: visible;
-  }
 
-  .vce-svg-custom-rotation {
-    transform-origin: 50% 50%;
+    image {
+      transform-origin: 50% 50%;
+    }
   }
 }
 
@@ -47,6 +48,10 @@
   right: 0;
 
   .vce-container-divider-inner {
+    transform: rotate(180deg);
+  }
+
+  svg image {
     transform: rotate(180deg);
   }
 }
@@ -80,6 +85,10 @@
     top: 50%;
     transform: translateY(-50%);
     float: left;
+  }
+
+  svg image {
+    transform: rotate(180deg);
   }
 }
 

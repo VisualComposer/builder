@@ -220,7 +220,7 @@ export default class {
               path: element.get('metaElementPath')
             }
           }
-          if (key === 'designOptions') {
+          if (settings[ key ].type === 'designOptions' || settings[ key ].type === 'designOptionsAdvanced') {
             let DO = element.get('designOptions')
             if (DO && DO.attributeMixins) {
               foundMixins[ mixin.mixin ].selector = mixin.selector
@@ -260,12 +260,14 @@ export default class {
                       }
                     }
                   } else {
-                    for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
-                      if (variable.indexOf(mixin.property) >= 0) {
-                        let variableName = device + variable
-                        properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                    mixin.property.split(' ').forEach(property => {
+                      for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
+                        if (variable.indexOf(property) >= 0) {
+                          let variableName = device + variable
+                          properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                        }
                       }
-                    }
+                    })
                   }
                   foundMixins[ mixin.mixin ].variables = {
                     ...foundMixins[ mixin.mixin ].variables,
@@ -351,7 +353,7 @@ export default class {
               path: element.get('metaElementPath')
             }
           }
-          if (key === 'designOptions') {
+          if (settings[ key ].type === 'designOptions' || settings[ key ].type === 'designOptionsAdvanced') {
             let DO = element.get('designOptions')
             if (DO && DO.attributeMixins) {
               foundMixins[ mixin.mixin ].selector = mixin.selector
@@ -391,12 +393,14 @@ export default class {
                       }
                     }
                   } else {
-                    for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
-                      if (variable.indexOf(mixin.property) >= 0) {
-                        let variableName = device + variable
-                        properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                    mixin.property.split(' ').forEach(property => {
+                      for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
+                        if (variable.indexOf(property) >= 0) {
+                          let variableName = device + variable
+                          properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
+                        }
                       }
-                    }
+                    })
                   }
                   foundMixins[ mixin.mixin ].variables = {
                     ...foundMixins[ mixin.mixin ].variables,
