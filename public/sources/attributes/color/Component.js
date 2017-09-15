@@ -105,13 +105,6 @@ class Color extends Attribute {
     let value = ''
 
     if (color.toString(format || 'rgb') !== this.getEmptyColor()) {
-      // update color opacity
-      if (this.state.value) {
-        let oldColor = tinycolor(this.state.value)
-        if (color.toString('hex') !== oldColor.toString('hex')) {
-          color.setAlpha(oldColor.getAlpha())
-        }
-      }
       // update color value
       value = color.toString(format || 'rgb')
     }
