@@ -165,6 +165,10 @@ export default class TreeViewElement extends React.Component {
   }
 
   clickEdit = (tab = '') => {
+    let settings = workspaceStorage.state('settings').get()
+    if (settings && settings.action === 'edit') {
+      workspaceStorage.state('settings').set(false)
+    }
     workspaceStorage.trigger('edit', this.state.element.id, tab)
   }
 
