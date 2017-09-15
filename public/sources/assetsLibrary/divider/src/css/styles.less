@@ -19,6 +19,10 @@
     left: 50%;
     transform: translateX(-50%);
     overflow: visible;
+
+    image {
+      transform-origin: 50% 50%;
+    }
   }
 }
 
@@ -44,6 +48,10 @@
   right: 0;
 
   .vce-container-divider-inner {
+    transform: rotate(180deg);
+  }
+
+  svg image {
     transform: rotate(180deg);
   }
 }
@@ -77,6 +85,10 @@
     top: 50%;
     transform: translateY(-50%);
     float: left;
+  }
+
+  svg image {
+    transform: rotate(180deg);
   }
 }
 
