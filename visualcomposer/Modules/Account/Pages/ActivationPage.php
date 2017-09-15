@@ -91,9 +91,8 @@ class ActivationPage extends Container implements Module
             $length = count($pages) - 1;
 
             $licenseHelper = vchelper('License');
-            $optionsHelper = vchelper('Options');
 
-            if ($pages[ $length ]['type'] === 'default' && ($licenseHelper->isActivated() || $optionsHelper->getTransient('license:activation:fromPremium'))) {
+            if ($pages[ $length ]['type'] === 'default' && $licenseHelper->isActivated()) {
                 $pages[ $length ]['type'] = 'premium';
             }
         }
