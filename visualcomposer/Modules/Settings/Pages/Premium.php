@@ -36,65 +36,27 @@ class Premium extends About /*implements Module*/
      * @param \VisualComposer\Helpers\Token $tokenHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      */
-    public function __construct(Token $tokenHelper, License $licenseHelper)
+    public function __construct(Token $tokenHelper, License $licenseHelper, Request $requestHelper)
     {
-        $this->addEvent('vcv:inited', 'stopUpgrade');
         if ('account' === vcvenv('VCV_ENV_ADDONS_ID')) {
             /** @see \VisualComposer\Modules\Settings\Pages\Premium::addPage */
-            {
+            if ($requestHelper->input('page') === $this->getSlug()) {
+                $this->addEvent('vcv:inited', 'beforePageRender');
+            }
+            if (
+                ($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
+                ||
+                ($licenseHelper->getKey() && $licenseHelper->getKeyToken())
+            ) {
                 $this->addFilter(
                     'vcv:settings:getPages',
                     'addPage',
                     70
                 );
             }
-
-            /** @see \VisualComposer\Modules\Settings\Pages\Premium::redirectToAccount */
-            $this->addEvent('vcv:inited', 'redirectToAccount');
         }
         /** @see \VisualComposer\Modules\Settings\Pages\Premium::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
-    }
-
-    /**
-     * Redirect to account to select license
-     *
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Modules\Settings\Pages\Premium $premiumPageModule
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     */
-    protected function redirectToAccount(
-        Request $requestHelper,
-        CurrentUser $currentUserHelper,
-        License $licenseHelper,
-        Premium $premiumPageModule,
-        Options $optionsHelper
-    ) {
-        if (!$currentUserHelper->wpAll('manage_options')->get()) {
-            return;
-        } elseif ($licenseHelper->isActivated() && $requestHelper->input('page') === $premiumPageModule->getSlug()
-            && !$optionsHelper->getTransient(
-                'license:activation:fromPremium'
-            )) {
-            $aboutPage = vcapp('SettingsPagesAbout');
-            wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
-            exit;
-        } elseif ($requestHelper->input('page') === $premiumPageModule->getSlug()
-            && !$optionsHelper->getTransient(
-                'license:activation:fromPremium'
-            )) {
-            $optionsHelper->setTransient('license:activation:fromPremium', 1);
-            $optionsHelper->deleteTransient('vcv:hub:download:json');
-            wp_redirect(
-                VCV_ACTIVATE_LICENSE_URL .
-                '/?redirect=' . admin_url('admin.php?page=' . rawurlencode($premiumPageModule->getSlug())) .
-                '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
-                '&url=' . VCV_PLUGIN_URL
-            );
-            exit;
-        }
     }
 
     /**
@@ -104,18 +66,6 @@ class Premium extends About /*implements Module*/
      */
     protected function addPage($pages)
     {
-        $tokenHelper = vchelper('Token');
-        $licenseHelper = vchelper('License');
-        $optionsHelper = vchelper('Options');
-
-        if (!$tokenHelper->isSiteAuthorized()
-            || $licenseHelper->isActivated()
-            && !$optionsHelper->getTransient(
-                'license:activation:fromPremium'
-            )) {
-            return $pages;
-        }
-
         $pages[] = [
             'slug' => $this->getSlug(),
             'title' => $this->premiumIcon() . '<strong style="color:#fff;vertical-align: middle;font-weight:700">' .
@@ -127,6 +77,15 @@ class Premium extends About /*implements Module*/
         ];
 
         return $pages;
+    }
+
+    protected function beforePageRender()
+    {
+        $licenseHelper = vchelper('License');
+        if (!$licenseHelper->getKey()) {
+            $licenseHelper->redirectToAccount();
+            exit;
+        }
     }
 
     protected function premiumIcon()
@@ -143,31 +102,9 @@ class Premium extends About /*implements Module*/
     }
 
     /**
-     * Stop upgrade in case there is licence token but no license key
-     *
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     */
-    protected function stopUpgrade(
-        Options $optionsHelper,
-        License $licenseHelper,
-        Request $requestHelper
-    ) {
-        if ($optionsHelper->getTransient('license:activation:fromPremium')
-            && !$licenseHelper->isActivated()
-            && $licenseHelper->getKeyToken()
-            && !$requestHelper->input('activate')
-        ) {
-            $optionsHelper->deleteTransient('license:activation:fromPremium');
-        }
-    }
-
-    /**
      * @param \VisualComposer\Helpers\Options $optionsHelper
      */
     protected function unsetOptions(Options $optionsHelper)
     {
-        $optionsHelper->deleteTransient('license:activation:fromPremium');
     }
 }

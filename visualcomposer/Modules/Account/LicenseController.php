@@ -17,6 +17,7 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Modules\Settings\Pages\Premium;
 
 /**
  * Class LicenseController
@@ -31,8 +32,9 @@ class LicenseController extends Container /*implements Module*/
      */
     public function __construct()
     {
-        $this->addEvent('vcv:admin:inited', 'getLicenseKey');
+        //$this->addEvent('vcv:admin:inited', 'getLicenseKey');
         // TODO: vcv:system:deactivation:hook
+        $this->addFilter('vcv:ajax:license:activate:adminNonce', 'getLicenseKey');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
@@ -52,11 +54,15 @@ class LicenseController extends Container /*implements Module*/
         CurrentUser $currentUserHelper,
         License $licenseHelper,
         Token $tokenHelper,
-        Logger $loggerHelper
+        Logger $loggerHelper,
+        Options $optionsHelper,
+        Premium $premiumPageModule
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
             return;
-        } elseif ($requestHelper->input('activate')) {
+        }
+
+        if ($requestHelper->input('activate')) {
             $token = $requestHelper->input('activate');
 
             if ($licenseHelper->isValidToken($token)) {
@@ -73,9 +79,9 @@ class LicenseController extends Container /*implements Module*/
                 if (!vcIsBadResponse($result)) {
                     $result = json_decode($result['body'], true);
                     $licenseHelper->setKey($result['license_key']);
-                    $tokenHelper->setIsSiteRegistered();
-
-                    return true;
+                    $optionsHelper->deleteTransient('vcv:hub:download:json');
+                    wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
+                    exit;
                 } else {
                     $loggerHelper->log(
                         __('Failed to finish licence activation', 'vcwb'),
