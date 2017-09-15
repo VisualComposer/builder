@@ -249,7 +249,7 @@ eval(unescape('${escapedString}'))
 
       if (divider) {
         dividerElements.push(
-          <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey} metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id} />
+          <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey} metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id} applyDivider={this.applyDO('divider')} />
         )
       }
     })
