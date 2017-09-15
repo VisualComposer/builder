@@ -154,6 +154,20 @@ export default class DesignOptionsAdvanced extends Attribute {
           value: 0
         }
       }
+    },
+    dividerMixin: {
+      src: require('raw-loader!./cssMixins/divider.pcss'),
+      variables: {
+        device: {
+          value: `all`
+        },
+        verticalPosition: {
+          value: `0`
+        },
+        horizontalPosition: {
+          value: `0`
+        }
+      }
     }
   }
 
@@ -490,6 +504,27 @@ export default class DesignOptionsAdvanced extends Attribute {
             newMixins[ mixinName ].variables.angle = {
               value: newValue[ device ].gradientAngle || 0
             }
+            newMixins[ mixinName ].variables.device = {
+              value: device
+            }
+          }
+          // dividerMixin
+          if (newValue[ device ] && newValue[ device ].divider) {
+            let mixinName = `dividerMixin:${device}`
+            newMixins[ mixinName ] = {}
+            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
+            if (newValue[ device ].dividerVerticalPosition) {
+              newMixins[ mixinName ].variables.verticalPosition = {
+                value: newValue[ device ].dividerVerticalPosition
+              }
+            }
+
+            if (newValue[ device ].dividerHorizontalPosition) {
+              newMixins[ mixinName ].variables.horizontalPosition = {
+                value: newValue[ device ].dividerHorizontalPosition
+              }
+            }
+
             newMixins[ mixinName ].variables.device = {
               value: device
             }
@@ -1953,6 +1988,58 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render divider vertical position range
+   * @returns {XML}
+   */
+  getDividerVerticalPositionRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerVerticalPosition || '0'
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider vertical position
+        </span>
+        <Range
+          api={this.props.api}
+          fieldKey='dividerVerticalPosition'
+          updater={this.dividerChangeHandler}
+          options={{ min: -100, max: 100, measurement: '%' }}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
+   * Render divider horizontal position range
+   * @returns {XML}
+   */
+  getDividerHorizontalPositionRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerHorizontalPosition || '0'
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider horizontal position
+        </span>
+        <Range
+          api={this.props.api}
+          fieldKey='dividerHorizontalPosition'
+          updater={this.dividerChangeHandler}
+          options={{ min: -100, max: 100, measurement: '%' }}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
    * Render divider background type dropdown
    * @returns {*}
    */
@@ -2133,6 +2220,8 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getDividerShapeRender()}
             {this.getDividerWidthRender()}
             {this.getDividerHeightRender()}
+            {this.getDividerVerticalPositionRender()}
+            {this.getDividerHorizontalPositionRender()}
             {this.getDividerBackgroundTypeRender()}
             {this.getDividerBackgroundColorRender()}
             {this.getDividerBackgroundGradientStartColorRender()}

@@ -25,6 +25,14 @@
   }
 }
 
+.vce-container-divider-inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 .vce-container-divider-position--top {
   height: 200px;
   top: 0;
@@ -37,7 +45,10 @@
   bottom: 0;
   left: 0;
   right: 0;
-  transform: rotate(180deg);
+
+  .vce-container-divider-inner {
+    transform: rotate(180deg);
+  }
 }
 
 .vce-container-divider-position--right {
@@ -59,7 +70,10 @@
   top: 0;
   bottom: 0;
   left: 0;
-  transform: rotate(180deg);
+
+  .vce-container-divider-inner {
+    transform: rotate(180deg);
+  }
 
   svg {
     left: auto;
@@ -70,19 +84,19 @@
 }
 
 .vce-container-divider-flip--horizontally {
-  &.vce-container-divider-position--top {
+  &.vce-container-divider-position--top .vce-container-divider-inner {
     transform: scaleX(-1);
   }
 
-  &.vce-container-divider-position--bottom {
+  &.vce-container-divider-position--bottom .vce-container-divider-inner {
     transform: rotate(180deg) scaleX(-1);
   }
 
-  &.vce-container-divider-position--right {
+  &.vce-container-divider-position--right .vce-container-divider-inner {
     transform: scaleY(-1);
   }
 
-  &.vce-container-divider-position--left {
+  &.vce-container-divider-position--left .vce-container-divider-inner {
     transform: rotate(180deg) scaleY(-1);
   }
 }

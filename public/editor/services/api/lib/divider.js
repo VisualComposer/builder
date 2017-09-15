@@ -8,16 +8,17 @@ export default class Divider extends Component {
     deviceData: PropTypes.object,
     deviceKey: PropTypes.string,
     metaAssetsPath: PropTypes.string,
-    id: PropTypes.string
+    id: PropTypes.string,
+    applyDivider: PropTypes.object
   }
 
   getPublicImage (filename) {
-    let { metaAssetsPath } = this.props.atts
+    let { metaAssetsPath } = this.props
     return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
   }
 
   render () {
-    let { deviceData, deviceKey } = this.props
+    let { deviceData, deviceKey, id, applyDivider } = this.props
     let position = deviceData && deviceData.dividerPosition
     let flipHorizontally = false
 
@@ -55,9 +56,11 @@ export default class Divider extends Component {
     }
 
     return (
-      <div className={classNames(containerClasses)}>
-        <DividerShape id={this.props.id} position={position} shape={shape} width={width} height={height} customRotation={rotationTransform}
-          fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} backgroundImage={imageUrl} />
+      <div className={classNames(containerClasses)} {...applyDivider}>
+        <div className='vce-container-divider-inner'>
+          <DividerShape id={id} position={position} shape={shape} width={width} height={height} customRotation={rotationTransform}
+            fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} backgroundImage={imageUrl} />
+        </div>
       </div>
     )
   }
