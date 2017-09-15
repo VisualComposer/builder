@@ -143,7 +143,7 @@ class ActivationController extends Container implements Module
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
-            || ($tokenHelper->isSiteAuthorized() && $licenseHelper->isActivated())
+            || ($tokenHelper->isSiteAuthorized() && $licenseHelper->isActivated() && !$optionsHelper->getTransient('vcv:activation:request'))
         ) {
             $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
 

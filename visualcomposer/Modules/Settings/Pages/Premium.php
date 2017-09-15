@@ -43,8 +43,7 @@ class Premium extends About /*implements Module*/
             if ($requestHelper->input('page') === $this->getSlug()) {
                 $this->addEvent('vcv:inited', 'beforePageRender');
             }
-            if (
-                ($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
+            if (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
                 ||
                 ($licenseHelper->getKey() && $licenseHelper->getKeyToken())
             ) {
@@ -57,6 +56,12 @@ class Premium extends About /*implements Module*/
         }
         /** @see \VisualComposer\Modules\Settings\Pages\Premium::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+    }
+
+    protected function redirectToAbout(About $aboutPageModule)
+    {
+        wp_redirect(admin_url('admin.php?page=' . $aboutPageModule->getSlug()));
+        exit;
     }
 
     /**
@@ -85,6 +90,8 @@ class Premium extends About /*implements Module*/
         if (!$licenseHelper->getKey()) {
             $licenseHelper->redirectToAccount();
             exit;
+        } elseif (!$licenseHelper->getKeyToken()) {
+            $this->call('redirectToAbout');
         }
     }
 
