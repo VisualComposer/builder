@@ -648,18 +648,19 @@ export default class DesignOptions extends Attribute {
   getElementStyles (clonedElement, innerSelector) {
     let styles = {}
     if (clonedElement) {
-      let defaultStyles = ''
+      let computedStyles = ''
       if (innerSelector) {
-        defaultStyles = Object.assign({}, window.getComputedStyle(clonedElement.querySelector(innerSelector)))
+        computedStyles = window.getComputedStyle(clonedElement.querySelector(innerSelector))
       } else {
-        defaultStyles = Object.assign({}, window.getComputedStyle(clonedElement))
+        computedStyles = window.getComputedStyle(clonedElement)
       }
 
       for (let style in BoxModel.defaultState) {
-        if (defaultStyles && defaultStyles[ style ] &&
-          defaultStyles[ style ] !== '0px' &&
-          defaultStyles[ style ].split(' ').length === 1) {
-          styles[ style ] = defaultStyles[ style ]
+        if (computedStyles && computedStyles.getPropertyValue) {
+          let styleValue = computedStyles.getPropertyValue(style.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)) // Transform camelCase to hyphen-case
+          if (styleValue && styleValue !== '0px' && styleValue.split(' ').length === 1) {
+            styles[style] = styleValue
+          }
         }
       }
     }
