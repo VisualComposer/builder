@@ -59,6 +59,12 @@ class Premium extends About /*implements Module*/
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
+    protected function redirectToAbout(About $aboutPageModule)
+    {
+        wp_redirect(admin_url('admin.php?page=' . $aboutPageModule->getSlug()));
+        exit;
+    }
+
     /**
      * @param array $pages
      *
@@ -85,6 +91,8 @@ class Premium extends About /*implements Module*/
         if (!$licenseHelper->getKey()) {
             $licenseHelper->redirectToAccount();
             exit;
+        } elseif (!$licenseHelper->getKeyToken()) {
+            $this->call('redirectToAbout');
         }
     }
 
