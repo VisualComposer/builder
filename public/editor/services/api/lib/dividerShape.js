@@ -47,7 +47,7 @@ export default class DividerShape extends Component {
   }
 
   render () {
-    let { width, height, customRotation, fill, shape, position, fillType } = this.props
+    let { width, height, customRotation, fill, shape, position, fillType, backgroundImage } = this.props
 
     if (!shapes[ shape ]) {
       return null
@@ -73,8 +73,12 @@ export default class DividerShape extends Component {
       let id = `gradient-${this.props.id}`
       customAttributes.fill = `url(#${id})`
     } else if (fillType === 'image') {
-      let id = `image-${this.props.id}`
-      customAttributes.fill = `url(#${id})`
+      if (backgroundImage) {
+        let id = `image-${this.props.id}`
+        customAttributes.fill = `url(#${id})`
+      } else {
+        customAttributes.fill = '#424242'
+      }
     }
 
     return (
