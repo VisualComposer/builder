@@ -6,7 +6,14 @@ const { Component, PropTypes } = React
 export default class Divider extends Component {
   static propTypes = {
     deviceData: PropTypes.object,
-    deviceKey: PropTypes.string
+    deviceKey: PropTypes.string,
+    metaAssetsPath: PropTypes.string,
+    id: PropTypes.string
+  }
+
+  getPublicImage (filename) {
+    let { metaAssetsPath } = this.props.atts
+    return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
   }
 
   render () {
@@ -36,10 +43,21 @@ export default class Divider extends Component {
     let shape = deviceData && deviceData.dividerShape && deviceData.dividerShape.icon
     shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-dividers-', '')
 
+    let imageUrl = ''
+    const images = deviceData.dividerBackgroundImage
+
+    if (images) {
+      if (images.urls && images.urls.length) {
+        imageUrl = images.urls[ 0 ].full
+      } else if (images.length) {
+        imageUrl = this.getPublicImage(images[ 0 ])
+      }
+    }
+
     return (
       <div className={classNames(containerClasses)}>
-        <DividerShape position={position} shape={shape} width={width} height={height} customRotation={rotationTransform}
-          fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} />
+        <DividerShape id={this.props.id} position={position} shape={shape} width={width} height={height} customRotation={rotationTransform}
+          fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} backgroundImage={imageUrl} />
       </div>
     )
   }

@@ -10,7 +10,9 @@ export default class DividerShape extends Component {
     fill: PropTypes.string,
     shape: PropTypes.string,
     position: PropTypes.string,
-    fillType: PropTypes.string
+    fillType: PropTypes.string,
+    backgroundImage: PropTypes.string,
+    id: PropTypes.string
   }
 
   getLinearGradient () {
@@ -20,12 +22,27 @@ export default class DividerShape extends Component {
 
     const startColor = this.props.gradientColorStart
     const endColor = this.props.gradientColorEnd
-
+    let id = `gradient-${this.props.id}`
     return (
-      <linearGradient id='gradient' x1='0%' y1='0%' x2='100%' y2='0%'>
+      <linearGradient id={id} x1='0%' y1='0%' x2='100%' y2='0%'>
         <stop offset='0%' style={{ stopColor: startColor, stopOpacity: '1' }} />
         <stop offset='100%' style={{ stopColor: endColor, stopOpacity: '1' }} />
       </linearGradient>
+    )
+  }
+
+  getBackgroundImagePattern () {
+    if (this.props.fillType !== 'image') {
+      return null
+    }
+
+    let id = `image-${this.props.id}`
+    return (
+      <defs>
+        <pattern id={id} patternUnits='userSpaceOnUse' width='100%' height='100%'>
+          <image preserveAspectRatio='xMidYMid slice' xlinkHref={this.props.backgroundImage} x='0' y='0' width='100%' height='100%' />
+        </pattern>
+      </defs>
     )
   }
 
@@ -53,12 +70,17 @@ export default class DividerShape extends Component {
     if (fillType === 'color') {
       customAttributes.fill = fill
     } else if (fillType === 'gradient') {
-      customAttributes.fill = 'url(#gradient)'
+      let id = `gradient-${this.props.id}`
+      customAttributes.fill = `url(#${id})`
+    } else if (fillType === 'image') {
+      let id = `image-${this.props.id}`
+      customAttributes.fill = `url(#${id})`
     }
 
     return (
       <svg viewBox={viewBox} preserveAspectRatio='none' width={width} height={height}>
         {this.getLinearGradient()}
+        {this.getBackgroundImagePattern()}
         <g className='vce-svg-custom-rotation' {...customAttributes} dangerouslySetInnerHTML={{ __html: html }} />
       </svg>
     )
