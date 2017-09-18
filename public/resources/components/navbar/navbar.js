@@ -369,7 +369,7 @@ export default class Navbar extends React.Component {
         const lastControl = hiddenAndUnpinnedControls.pop()
         const lastControlIndex = this.hiddenControlsIndex.indexOf(lastControl.key)
         const controlDOM = this.hiddenControlsWrapper.childNodes[lastControlIndex]
-        if (!controlDOM) {
+        if (!controlDOM || controlDOM.nodeType !== controlDOM.ELEMENT_NODE) {
           break
         }
         const size = getRealSize(controlDOM, '.vcv-ui-navbar')
