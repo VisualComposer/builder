@@ -36,15 +36,11 @@ class JsonDownloadController extends Container implements Module
         Logger $loggerHelper
     ) {
         if (!vcIsBadResponse($response)) {
-            $json = $optionsHelper->getTransient('vcv:hub:download:json');
-            if (!$json) {
-                $url = $hubHelper->getJsonDownloadUrl(['token' => $payload['token']]);
-                $json = $this->readBundleJson($url);
-            }
+            $url = $hubHelper->getJsonDownloadUrl(['token' => $payload['token']]);
+            $json = $this->readBundleJson($url);
             // if json is empty array it means that no release yet available!
             if (!vcIsBadResponse($json)) {
                 $response = $filterHelper->fire('vcv:hub:download:json', $response, ['json' => $json]);
-                $optionsHelper->setTransient('vcv:hub:download:json', $json, 600);
             } else {
                 $loggerHelper->log(
                     __('Failed to download json', 'vcwb'),

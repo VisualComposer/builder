@@ -123,7 +123,6 @@ class JsonActionsController extends Container implements Module
     protected function unsetOptions(Options $optionsHelper)
     {
         $optionsHelper
-            ->deleteTransient('vcv:hub:download:json')
             ->deleteTransient('vcv:activation:request');
         global $wpdb;
         $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"', VCV_PREFIX . 'hubAction:%'));
