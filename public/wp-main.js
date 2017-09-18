@@ -54,9 +54,11 @@ $(() => {
     iframeLoadEvent()
   }
 
-  const mobileDetect = new MobileDetect(window.navigator.userAgent)
-  if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-    $iframeContainer.addClass('vcv-layout-iframe-container--mobile')
+  if (vcCake.env('MOBILE_DETECT')) {
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      $iframeContainer.addClass('vcv-layout-iframe-container--mobile')
+    }
   }
 })
 
