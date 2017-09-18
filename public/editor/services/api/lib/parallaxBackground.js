@@ -29,6 +29,9 @@ export default class ParallaxBackground extends Component {
       if (parallaxSpeed) {
         customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
       }
+      if ('parallaxReverse' in deviceData) {
+        customProps[ 'data-vce-assets-parallax-reverse' ] = deviceData.parallaxReverse
+      }
       return <div className={classNames(containerClasses)} {...customProps} >
         <div className={classNames(elementClasses)}>
           { content }

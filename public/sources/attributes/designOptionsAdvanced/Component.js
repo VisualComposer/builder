@@ -221,6 +221,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.embedVideoChangeHandler = this.embedVideoChangeHandler.bind(this)
     this.parallaxChangeHandler = this.parallaxChangeHandler.bind(this)
     this.parallaxSpeedChangeHandler = this.parallaxSpeedChangeHandler.bind(this)
+    this.parallaxReverseChangeHandler = this.parallaxReverseChangeHandler.bind(this)
     this.dividerChangeHandler = this.dividerChangeHandler.bind(this)
   }
 
@@ -1679,6 +1680,40 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render parallax reverse field
+   * @returns {*}
+   */
+  getParallaxReverseRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].parallax) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].parallaxReverse || false
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Parallax reverse effect
+      </span>
+      <Toggle
+        api={this.props.api}
+        fieldKey='parallaxReverse'
+        updater={this.parallaxReverseChangeHandler}
+        value={value}
+      />
+    </div>
+  }
+
+  /**
+   * Handle parallax reverse change
+   * @param fieldKey
+   * @param value
+   */
+  parallaxReverseChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
    * Render Self hosted video control
    * @returns {*}
    */
@@ -2220,6 +2255,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getGradientAngleRender()}
             {this.getParallaxRender()}
             {this.getParallaxSpeedRender()}
+            {this.getParallaxReverseRender()}
             {this.getAnimationRender()}
             {this.getDividerRender()}
             {this.getDividerRotationRender()}
