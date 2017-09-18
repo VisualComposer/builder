@@ -79,7 +79,6 @@ class LicenseController extends Container /*implements Module*/
                 if (!vcIsBadResponse($result)) {
                     $result = json_decode($result['body'], true);
                     $licenseHelper->setKey($result['license_key']);
-                    $optionsHelper->deleteTransient('vcv:hub:download:json');
                     wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
                     exit;
                 } else {
