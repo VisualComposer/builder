@@ -1691,7 +1691,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     let value = this.state.devices[ this.state.currentDevice ].parallaxReverse || false
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
-        Parallax reverse effect
+        Reverse parallax effect
       </span>
       <Toggle
         api={this.props.api}
