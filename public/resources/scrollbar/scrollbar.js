@@ -1,9 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import {Scrollbars} from 'react-custom-scrollbars'
-import {getStorage} from 'vc-cake'
-
-const workspaceStorage = getStorage('workspaceStorage')
 
 export default class Scrollbar extends React.Component {
   static propTypes = {
@@ -14,37 +11,6 @@ export default class Scrollbar extends React.Component {
     super(props)
     this.state = {
       showTracks: true
-    }
-    this.handleEditFormStateChange = this.handleEditFormStateChange.bind(this)
-  }
-
-  componentDidMount () {
-    let { scroll } = workspaceStorage.state('scrollbarSettings').get() || {}
-    if (scroll) {
-      this.handleEditFormStateChange({
-        scroll
-      })
-    }
-    workspaceStorage.state('scrollbarSettings').onChange(this.handleEditFormStateChange)
-  }
-
-  componentWillUnmount () {
-    workspaceStorage.state('scrollbarSettings').ignoreChange(this.handleEditFormStateChange)
-  }
-
-  /**
-   * React to scroll settings state change:
-   * 1. Perform scroll
-   * 2. Set state to trigger render() for hideTracksWhenNotNeeded prop
-   * @param data
-   */
-  handleEditFormStateChange (data) {
-    if (data && data.hasOwnProperty('scroll')) {
-      this.refs.scrollbars.scrollToTop()
-      this.scrollTop(data.scroll)
-    }
-    if (data && data.checkHeight) {
-      this.setState({ showTracks: true })
     }
   }
 
