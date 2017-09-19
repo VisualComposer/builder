@@ -77,6 +77,6 @@ if (!defined('VCV_ACTIVATE_LICENSE_FINISH_URL')) {
 if (!defined('VCV_ENV_LICENSES')) {
     define(
         'VCV_ENV_LICENSES',
-        isset($_SERVER['ENV_VCV_ENV_LICENSES']) ? $_SERVER['ENV_VCV_ENV_LICENSES'] : false
+        isset($_SERVER['ENV_VCV_ENV_LICENSES']) ? $_SERVER['ENV_VCV_ENV_LICENSES'] : true
     );
 }
