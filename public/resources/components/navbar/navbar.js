@@ -288,8 +288,10 @@ export default class Navbar extends React.Component {
           <span className='vcv-ui-navbar-control-content'><i
             className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>{menuTitle}</span></span>
         </dt>
-        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels' ref={this.setHiddenControlsReference}>
-          {controls}
+        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels'>
+          <div ref={this.setHiddenControlsReference}>
+            {controls}
+          </div>
         </dd>
       </dl>
     )
