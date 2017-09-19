@@ -283,6 +283,8 @@ export default class Navbar extends React.Component {
       'vcv-ui-navbar-dropdown--active': this.state.isActiveSandwich
     })
 
+    let hideTracksWhenNotNeeded = true
+
     return (
       <dl className={sandwichClasses}>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle} onClick={this.handleDropdown}>
@@ -296,7 +298,7 @@ export default class Navbar extends React.Component {
             renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}
             renderThumbVertical={props => <div {...props} className='vcv-ui-scroll-thumb--vertical' />}
             renderView={props => <div {...props} className='vcv-ui-scroll-content' />}
-            hideTracksWhenNotNeeded='true'
+            hideTracksWhenNotNeeded={hideTracksWhenNotNeeded}
             autoHeight
             autoHeightMax={'80vh'}
           >
