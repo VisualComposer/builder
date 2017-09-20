@@ -156,6 +156,10 @@ class ActivationController extends Container implements Module
             $token = $tokenHelper->createToken($id);
             if ($token) {
                 return $filterHelper->fire('vcv:activation:token:success', ['status' => true], ['token' => $token]);
+            } else {
+                $loggerHelper->log(
+                    __('Failed to get activation token', 'vcwb')
+                );
             }
         }
 

@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import {getRealSize} from './tools'
+import {Scrollbars} from 'react-custom-scrollbars'
 const Utils = vcCake.getService('utils')
 const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')
 const positionState = vcCake.getStorage('workspace').state('navbarPosition')
@@ -282,14 +283,29 @@ export default class Navbar extends React.Component {
       'vcv-ui-navbar-dropdown--active': this.state.isActiveSandwich
     })
 
+    let hideTracksWhenNotNeeded = true
+
     return (
       <dl className={sandwichClasses}>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle} onClick={this.handleDropdown}>
           <span className='vcv-ui-navbar-control-content'><i
             className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>{menuTitle}</span></span>
         </dt>
-        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels' ref={this.setHiddenControlsReference}>
-          {controls}
+        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels'>
+          <Scrollbars ref='scrollbars'
+            renderTrackHorizontal={props => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
+            renderTrackVertical={props => <div {...props} className='vcv-ui-scroll-track--vertical' />}
+            renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}
+            renderThumbVertical={props => <div {...props} className='vcv-ui-scroll-thumb--vertical' />}
+            renderView={props => <div {...props} className='vcv-ui-scroll-content' />}
+            hideTracksWhenNotNeeded={hideTracksWhenNotNeeded}
+            autoHeight
+            autoHeightMax={'80vh'}
+          >
+            <div ref={this.setHiddenControlsReference}>
+              {controls}
+            </div>
+          </Scrollbars>
         </dd>
       </dl>
     )

@@ -5,6 +5,7 @@
       bgElement: null,
       waypoint: null,
       observer: null,
+      reverse: false,
       speed: 30,
     setup: function setup(element) {
         this.resize = this.resize.bind(this);
@@ -48,12 +49,18 @@
           scrollPercent = scrollHeight / contentHeight;
         }
         var parallaxValue = this.speed * 2 * scrollPercent * -1 + this.speed;
+        if (this.reverse === 'true') {
+          parallaxValue = parallaxValue * -1;
+        }
         this.bgElement.style.transform = 'translateY(' + parallaxValue + 'vh)';
       },
       prepareElement: function prepareElement() {
         var speed = parseInt(element.dataset.vceAssetsParallaxSpeed);
         if (speed) {
           this.speed = speed;
+        }
+        if ('vceAssetsParallaxReverse' in element.dataset) {
+          this.reverse = element.dataset.vceAssetsParallaxReverse;
         }
         this.bgElement.style.top = '-' + this.speed + 'vh';
         this.bgElement.style.bottom = '-' + this.speed + 'vh';

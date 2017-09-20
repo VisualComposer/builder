@@ -4,6 +4,7 @@ import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import lodash from 'lodash'
+
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')
@@ -29,6 +30,7 @@ export default class TreeViewLayout extends React.Component {
     this.checkShowOutlineCallback = this.checkShowOutlineCallback.bind(this)
     this.onElementMount = this.onElementMount.bind(this)
     this.onElementUnmount = this.onElementUnmount.bind(this)
+    this.scrollBarMounted = this.scrollBarMounted.bind(this)
     this.dnd = new TreeViewDndManager()
     this.state = {
       data: [],
@@ -84,16 +86,18 @@ export default class TreeViewLayout extends React.Component {
     }
   }
 
+  scrollBarMounted (scrollbar) {
+    this.scrollbar = scrollbar
+    this.handleScrollToElement(this.props.contentStartId)
+  }
+
   handleScrollToElement (scrollToElement) {
     if (scrollToElement && this.scrollbar) {
-      this.scrollbar.scrollTop(0)
-      const headerRect = this.state.header.getBoundingClientRect()
+      const container = this.layoutContainer.querySelector('.vcv-ui-tree-layout').getBoundingClientRect()
       const target = this.layoutContainer.querySelector(`[data-vcv-element="${scrollToElement}"]`)
       this.expandTree(target)
       const targetTop = target.getBoundingClientRect().top
-      const headerHeight = headerRect.height === window.innerHeight ? 0 : headerRect.height
-      const headerBottom = headerRect.bottom === window.innerHeight ? 0 : headerRect.bottom
-      const offset = targetTop - headerHeight - headerBottom
+      const offset = targetTop - container.top
       this.interactWithContent(scrollToElement)
       this.scrollbar.scrollTop(offset)
     }
@@ -176,7 +180,7 @@ export default class TreeViewLayout extends React.Component {
         className='vcv-ui-tree-layout-container'
         ref={(layoutContainer) => { this.layoutContainer = layoutContainer }}
       >
-        <Scrollbar ref={(scrollbar) => { this.scrollbar = scrollbar }}>
+        <Scrollbar ref={this.scrollBarMounted}>
           {this.getElementsOutput()}
           <div className='vcv-ui-tree-layout-actions'>
             <span

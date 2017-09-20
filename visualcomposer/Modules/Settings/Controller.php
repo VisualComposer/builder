@@ -147,7 +147,7 @@ class Controller extends Container implements Module
 
             if ($hasAccess) {
                 add_submenu_page(
-                    $parentSlug,
+                    isset($page['hidePage']) && $page['hidePage'] ? null : $parentSlug,
                     $page['title'],
                     $page['title'],
                     isset($page['capability']) ? $page['capability'] : 'manage_options',
