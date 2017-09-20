@@ -1806,20 +1806,20 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'A button with centered shadow effect and animation.',
                     ],
                 ],
-                'largeCircleZoomButton' => [
+                'symmetricButton' => [
                     'bundlePath' => $urlHelper->to(
-                        'devElements/largeCircleZoomButton/public/dist/element.bundle.js'
+                        'devElements/symmetricButton/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('devElements/largeCircleZoomButton/largeCircleZoomButton/'),
-                    'elementRealPath' => vcapp()->path('devElements/largeCircleZoomButton/largeCircleZoomButton/'),
-                    'assetsPath' => $urlHelper->to('devElements/largeCircleZoomButton/largeCircleZoomButton/public/'),
+                    'elementPath' => $urlHelper->to('devElements/symmetricButton/symmetricButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/symmetricButton/symmetricButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/symmetricButton/symmetricButton/public/'),
                     'settings' => [
                         'name' => 'Large Circle Zoom Button',
                         'metaThumbnailUrl' => $urlHelper->to(
-                            'devElements/largeCircleZoomButton/largeCircleZoomButton/public/thumbnail-large-circle-zoom-button.png'
+                            'devElements/symmetricButton/symmetricButton/public/thumbnail-symmetric-button.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'devElements/largeCircleZoomButton/largeCircleZoomButton/public/preview-large-circle-zoom-button.png'
+                            'devElements/symmetricButton/symmetricButton/public/preview-symmetric-button.png'
                         ),
                         'metaDescription' => 'A large circle button with text and zoom effect on hover.',
                     ],
