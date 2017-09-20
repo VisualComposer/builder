@@ -95,12 +95,12 @@ export default class SaveController {
     })
   }
 
-  load = (data, status) => {
+  load = (data, status, id) => {
     this.ajax(
       {
         'vcv-action': 'getData:adminNonce',
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
-        'vcv-source-id': window.vcvSourceID
+        'vcv-source-id': id || window.vcvSourceID
       },
       this.loadSuccess.bind(this, status),
       this.loadFailed.bind(this, status)

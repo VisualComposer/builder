@@ -73,6 +73,7 @@
 }
 
 .vcv-popup-intro-screen,
+.vcv-popup-go-premium-screen,
 .vcv-popup-first-screen,
 .vcv-popup-form-screen,
 .vcv-popup-loading-screen,
@@ -104,6 +105,16 @@
     opacity: 1;
     transition: 1s opacity;
   }
+}
+
+.vcv-go-premium-screen--active {
+  .vcv-popup-go-premium-screen {
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+    transition: 1s opacity;
+  }
+
 }
 
 .vcv-intro-screen--active {

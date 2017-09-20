@@ -27,6 +27,7 @@ wp_enqueue_media();
 $postTypeHelper = vchelper('PostType');
 if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
     $licenseHelper = vchelper('License');
+    $getPremiumPage = vcapp('SettingsPagesGetPremium');
 }
 ?>
 <!DOCTYPE html>
@@ -67,7 +68,7 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
   window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
 	<?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) { ?>
 	window.vcvIsPremium = '<?php echo $licenseHelper->isActivated() ?>';
-	window.vcvGoPremiumUrl = '<?php echo vchelper('Utm')->get('goPremiumWpMenuSiderbar'); ?>';
+    window.vcvGoPremiumUrl = '<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>&vcv-ref=nav-bar';
 	<?php } ?>
 </script>
 <?php

@@ -1,4 +1,3 @@
-// @flow
 import vcCake from 'vc-cake'
 import React from 'react'
 import './sources/less/bootstrap/init.less'

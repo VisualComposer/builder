@@ -3,16 +3,19 @@ import {closeError} from './errors'
 import {loadSlider} from './slider'
 
 let showIntroScreen = ($popup) => {
-  $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active vcv-last-screen--active vcv-oops-screen--active').addClass('vcv-intro-screen--active')
+  $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-last-screen--active vcv-oops-screen--active').addClass('vcv-intro-screen--active')
+}
+let showGoPremiumScreen = ($popup) => {
+  $popup.removeClass('vcv-intro-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-last-screen--active vcv-oops-screen--active').addClass('vcv-go-premium-screen--active')
 }
 let showLoadingScreen = ($popup) => {
-  $popup.removeClass('vcv-first-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-loading-screen--active')
+  $popup.removeClass('vcv-go-premium-screen--active vcv-first-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-loading-screen--active')
 }
 let showFirstScreen = ($popup) => {
-  $popup.removeClass('vcv-loading-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-first-screen--active')
+  $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-first-screen--active')
 }
 let showLastScreen = ($popup) => {
-  $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-last-screen--active')
+  $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-last-screen--active')
 }
 
 let showOopsScreen = ($popup, msg, action) => {
@@ -75,5 +78,6 @@ module.exports = {
   showFirstScreen: showFirstScreen,
   showLastScreen: showLastScreen,
   loadLastScreen: loadLastScreen,
-  showOopsScreen: showOopsScreen
+  showOopsScreen: showOopsScreen,
+  showGoPremiumScreen: showGoPremiumScreen
 }
