@@ -10,7 +10,7 @@ export default class ParallaxBackground extends Component {
 
   render () {
     const { deviceKey, deviceData, content } = this.props
-    const { parallax, parallaxSpeed } = deviceData
+    const { parallax, parallaxSpeed, parallaxReverse } = deviceData
     if (parallax) {
       let customProps = {}
       let containerClasses = [
@@ -29,6 +29,7 @@ export default class ParallaxBackground extends Component {
       if (parallaxSpeed) {
         customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
       }
+      customProps[ 'data-vce-assets-parallax-reverse' ] = parallaxReverse
       return <div className={classNames(containerClasses)} {...customProps} >
         <div className={classNames(elementClasses)}>
           { content }

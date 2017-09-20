@@ -51,7 +51,7 @@ class License extends Container implements Helper
         return $optionsHelper->get('license-key-token');
     }
 
-    public function redirectToAccount()
+    public function activateInAccount()
     {
         $currentUserHelper = vchelper('AccessCurrentUser');
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
@@ -60,8 +60,25 @@ class License extends Container implements Helper
         $urlHelper = vchelper('Url');
         $nonceHelper = vchelper('Nonce');
         wp_redirect(
-            VCV_ACTIVATE_LICENSE_URL .
+            VCV_LICENSE_ACTIVATE_URL .
             '/?redirect=' . rawurlencode($urlHelper->ajax(['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()])) .
+            '&token=' . rawurlencode($this->newKeyToken()) .
+            '&url=' . VCV_PLUGIN_URL
+        );
+        exit;
+    }
+
+    public function deactivateInAccount()
+    {
+        $currentUserHelper = vchelper('AccessCurrentUser');
+        if (!$currentUserHelper->wpAll('manage_options')->get()) {
+            return;
+        }
+        $urlHelper = vchelper('Url');
+        $nonceHelper = vchelper('Nonce');
+        wp_redirect(
+            VCV_LICENSE_ACTIVATE_URL .
+            '/?redirect=' . rawurlencode($urlHelper->ajax(['vcv-action' => 'license:deactivate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()])) .
             '&token=' . rawurlencode($this->newKeyToken()) .
             '&url=' . VCV_PLUGIN_URL
         );

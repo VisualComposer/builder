@@ -345,14 +345,14 @@ export default class ControlsManager {
         if (event === 'treeView') {
           workspaceContentStartState.set('treeView', elementId)
         } else if (event === 'edit') {
-          if (workspaceContentStartState.get() === 'treeView') {
-            workspaceContentStartState.set('treeView', elementId)
-          }
           let settings = workspaceStorage.state('settings').get()
           if (settings && settings.action === 'edit') {
             workspaceStorage.state('settings').set(false)
           }
           workspaceStorage.trigger(event, elementId, tag, options)
+          if (workspaceContentStartState.get() === 'treeView') {
+            workspaceContentStartState.set('treeView', elementId)
+          }
         } else if (event === 'remove') {
           this.findElement()
           this.controlElementFind()

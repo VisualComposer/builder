@@ -84,7 +84,7 @@ declare -a arr=(
 'strikethroughButton'
 'filledShadowButton'
 'animatedShadowButton'
-'largeCircleZoomButton'
+'symmetricButton'
 'zigZagButton'
 'smoothShadowbutton'
 'halfOutlineButton'

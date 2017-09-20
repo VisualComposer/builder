@@ -20,7 +20,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 /**
  * Class Premium.
  */
-class Premium extends About /*implements Module*/
+class Premium extends About implements Module
 {
     use Page;
     use EventsFilters;
@@ -93,7 +93,7 @@ class Premium extends About /*implements Module*/
         }
         $licenseHelper = vchelper('License');
         if (!$licenseHelper->getKey()) {
-            $licenseHelper->redirectToAccount();
+            $licenseHelper->activateInAccount();
             exit;
         } elseif (!$licenseHelper->getKeyToken()) {
             $this->call('redirectToAbout');
