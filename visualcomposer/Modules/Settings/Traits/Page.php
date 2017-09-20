@@ -14,11 +14,6 @@ if (!defined('ABSPATH')) {
 trait Page
 {
     /**
-     * @var array
-     */
-    protected $templateArgs = [];
-
-    /**
      * @return string
      */
     public function getSlug()
@@ -59,26 +54,6 @@ trait Page
     }
 
     /**
-     * @return mixed
-     */
-    public function getTemplateArgs()
-    {
-        return $this->templateArgs;
-    }
-
-    /**
-     * @param mixed $templateArgs
-     *
-     * @return $this
-     */
-    public function setTemplateArgs($templateArgs)
-    {
-        $this->templateArgs = $templateArgs;
-
-        return $this;
-    }
-
-    /**
      *
      */
     protected function beforeRender()
@@ -98,7 +73,7 @@ trait Page
         $this->call('beforeRender');
         /** @var $this Page */
         $args = array_merge(
-            $this->getTemplateArgs(),
+            method_exists($this, 'getRenderArgs') ? (array)$this->getRenderArgs() : [],
             [
                 'controller' => $this,
                 'slug' => $this->getSlug(),

@@ -24,6 +24,5 @@ class SettingsHubPageTest extends WP_UnitTestCase
         $this->assertEquals('settings/pages/hub/index', $module->getTemplatePath());
 
         $module->call('beforeRender');
-        $this->assertEquals([], $module->getTemplateArgs());
     }
 }
