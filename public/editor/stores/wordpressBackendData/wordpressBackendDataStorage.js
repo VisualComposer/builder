@@ -91,6 +91,32 @@ addStorage('wordpressData', (storage) => {
       throw new Error('Failed to load loaded')
     }
   })
+  storage.on('rebuild', (postId) => {
+    postId && controller.load({}, storage.state('rebuildStatus'), postId)
+  })
+  storage.state('rebuildStatus').set({status: false})
+  storage.state('rebuildstatus').onChange((data) => {
+    const { status, request } = data
+    if (status === 'loadSuccess') {
+      const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
+      /**
+       * @typedef {Object} responseData parsed data from JSON
+       * @property {Array} globalElements list of global elements
+       * @property {string} data saved data
+       */
+      let responseData = JSON.parse(request || '{}')
+      if (responseData.globalElements && responseData.globalElements.length) {
+        let globalElements = JSON.parse(responseData.globalElements || '{}')
+        globalElements && globalAssetsStorage.setElements(globalElements)
+      }
+      if (responseData.data) {
+        let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
+        elementsStorage.trigger('reset', data.elements || {})
+        // on finish render need to update storage.trigger('save')
+      }
+    }
+  })
+
   let { jQuery, wp } = window
   let $post = jQuery('form#post')
   let $submitpost = $('#submitpost')
