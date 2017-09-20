@@ -91,7 +91,7 @@ class Premium extends About /*implements Module*/
         }
         $licenseHelper = vchelper('License');
         if (!$licenseHelper->getKey()) {
-            $licenseHelper->redirectToAccount();
+            $licenseHelper->activateInAccount();
             exit;
         } elseif (!$licenseHelper->getKeyToken()) {
             $this->call('redirectToAbout');

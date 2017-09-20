@@ -32,9 +32,9 @@ class LicenseController extends Container /*implements Module*/
      */
     public function __construct()
     {
-        //$this->addEvent('vcv:admin:inited', 'getLicenseKey');
         // TODO: vcv:system:deactivation:hook
         $this->addFilter('vcv:ajax:license:activate:adminNonce', 'getLicenseKey');
+        $this->addFilter('vcv:ajax:license:deactivate:adminNonce', 'unsetLicenseKey');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
@@ -67,9 +67,9 @@ class LicenseController extends Container /*implements Module*/
 
             if ($licenseHelper->isValidToken($token)) {
                 $result = wp_remote_get(
-                    VCV_ACTIVATE_LICENSE_FINISH_URL,
+                    VCV_LICENSE_ACTIVATE_FINISH_URL,
                     [
-                        'timeout' => 10,
+                        'timeout' => 10 ,
                         'body' => [
                             'token' => $licenseHelper->getKeyToken(),
                         ],
@@ -84,6 +84,70 @@ class LicenseController extends Container /*implements Module*/
                 } else {
                     $loggerHelper->log(
                         __('Failed to finish licence activation', 'vcwb'),
+                        [
+                            'response' => is_wp_error($result) ? $result->get_error_message()
+                                : (is_array($result) ? $result['body'] : ''),
+                        ]
+                    );
+                }
+            } else {
+                $loggerHelper->log(
+                    __('Invalid token', 'vcwb'),
+                    [
+                        'token' => $token,
+                    ]
+                );
+            }
+        }
+
+        return false;
+    }
+    /**
+     * Receive licence key and store it in DB
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Token $tokenHelper
+     * @param \VisualComposer\Helpers\Logger $loggerHelper
+     *
+     * @return bool|void
+     */
+    protected function unsetLicenseKey(
+        Request $requestHelper,
+        CurrentUser $currentUserHelper,
+        License $licenseHelper,
+        Token $tokenHelper,
+        Logger $loggerHelper,
+        Options $optionsHelper,
+        Premium $premiumPageModule
+    ) {
+        if (!$currentUserHelper->wpAll('manage_options')->get()) {
+            return;
+        }
+
+        if ($requestHelper->input('deactivate')) {
+            $token = $requestHelper->input('deactivate');
+
+            if ($licenseHelper->isValidToken($token)) {
+                $result = wp_remote_get(
+                    VCV_LICENSE_DEACTIVATE_FINISH_URL,
+                    [
+                        'timeout' => 10,
+                        'body' => [
+                            'token' => $licenseHelper->getKeyToken(),
+                        ],
+                    ]
+                );
+
+                if (!vcIsBadResponse($result)) {
+                    $result = json_decode($result['body'], true);
+                    $licenseHelper->setKey('');
+                    wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
+                    exit;
+                } else {
+                    $loggerHelper->log(
+                        __('Failed to finish licence de-activation', 'vcwb'),
                         [
                             'response' => is_wp_error($result) ? $result->get_error_message()
                                 : (is_array($result) ? $result['body'] : ''),

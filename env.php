@@ -57,19 +57,35 @@ if (!defined('VCV_TOKEN_URL')) {
     );
 }
 
-if (!defined('VCV_ACTIVATE_LICENSE_URL')) {
+if (!defined('VCV_LICENSE_ACTIVATE_URL')) {
     define(
-        'VCV_ACTIVATE_LICENSE_URL',
-        isset($_SERVER['ENV_VCV_ACTIVATE_LICENSE_URL']) ? $_SERVER['ENV_VCV_ACTIVATE_LICENSE_URL']
+        'VCV_LICENSE_ACTIVATE_URL',
+        isset($_SERVER['ENV_VCV_LICENSE_ACTIVATE_URL']) ? $_SERVER['ENV_VCV_LICENSE_ACTIVATE_URL']
             : 'https://account.visualcomposer.io/activate-license'
     );
 }
 
-if (!defined('VCV_ACTIVATE_LICENSE_FINISH_URL')) {
+if (!defined('VCV_LICENSE_DEACTIVATE_URL')) {
     define(
-        'VCV_ACTIVATE_LICENSE_FINISH_URL',
-        isset($_SERVER['ENV_VCV_ACTIVATE_LICENSE_FINISH_URL']) ? $_SERVER['ENV_VCV_ACTIVATE_LICENSE_FINISH_URL']
+        'VCV_LICENSE_DEACTIVATE_URL',
+        isset($_SERVER['ENV_VCV_LICENSE_DEACTIVATE_URL']) ? $_SERVER['ENV_VCV_LICENSE_DEACTIVATE_URL']
+            : 'https://account.visualcomposer.io/deactivate-license'
+    );
+}
+
+if (!defined('VCV_LICENSE_ACTIVATE_FINISH_URL')) {
+    define(
+        'VCV_LICENSE_ACTIVATE_FINISH_URL',
+        isset($_SERVER['ENV_VCV_LICENSE_ACTIVATE_FINISH_URL']) ? $_SERVER['ENV_VCV_LICENSE_ACTIVATE_FINISH_URL']
             : 'https://account.visualcomposer.io/finish-license-activation'
+    );
+}
+
+if (!defined('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
+    define(
+        'VCV_LICENSE_DEACTIVATE_FINISH_URL',
+        isset($_SERVER['ENV_VCV_LICENSE_DEACTIVATE_FINISH_URL']) ? $_SERVER['ENV_VCV_LICENSE_DEACTIVATE_FINISH_URL']
+            : 'https://account.visualcomposer.io/finish-license-deactivation'
     );
 }
 
