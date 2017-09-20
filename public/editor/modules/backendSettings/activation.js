@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import {showError} from './errors'
-import {showIntroScreen, showLoadingScreen, showFirstScreen, showLastScreen} from './screens'
+import {showIntroScreen, showLoadingScreen, showFirstScreen, showLastScreen, showGoPremiumScreen} from './screens'
 import {loadSlider} from './slider'
 import {showDownloadScreen, showDownloadWithLicenseScreen} from './download-screens'
 
@@ -65,7 +65,7 @@ $(() => {
       }
     })
 
-    let back = false
+    let back = true
     if (window.vcvActivationType !== 'standalone' && back) {
       $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button', () => {
         showIntroScreen($popup)
@@ -111,6 +111,10 @@ $(() => {
         } else if (window.vcvActivationActivePage === 'intro') {
           setTimeout(() => {
             showIntroScreen($popup)
+          }, 300)
+        } else if (window.vcvActivationActivePage === 'go-premium') {
+          setTimeout(() => {
+            showGoPremiumScreen($popup)
           }, 300)
         }
       }
