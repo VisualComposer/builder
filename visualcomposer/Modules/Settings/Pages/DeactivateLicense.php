@@ -64,7 +64,7 @@ class DeactivateLicense extends Container implements Module
             $deactivatePremium = sprintf('<a href="%s">%s</a>', $deactivatePremiumUrl, $deactivatePremiumTitle);
 
             $sectionDescription = __(
-                'You can deactivate your premium license on this site via your %s. You will not be able to receive premium updates, elements and templates for this site.',
+                'You can deactivate your premium license on this site via your %s. You will not be able to receive new premium updates, elements and templates.',
                 'vcwb'
             );
 
