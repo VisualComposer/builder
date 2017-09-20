@@ -61,7 +61,9 @@ class License extends Container implements Helper
         $nonceHelper = vchelper('Nonce');
         wp_redirect(
             VCV_LICENSE_ACTIVATE_URL .
-            '/?redirect=' . rawurlencode($urlHelper->ajax(['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()])) .
+            '/?redirect=' . rawurlencode(
+                $urlHelper->ajax(['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()])
+            ) .
             '&token=' . rawurlencode($this->newKeyToken()) .
             '&url=' . VCV_PLUGIN_URL
         );
@@ -77,9 +79,14 @@ class License extends Container implements Helper
         $urlHelper = vchelper('Url');
         $nonceHelper = vchelper('Nonce');
         wp_redirect(
-            VCV_LICENSE_ACTIVATE_URL .
-            '/?redirect=' . rawurlencode($urlHelper->ajax(['vcv-action' => 'license:deactivate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()])) .
+            VCV_LICENSE_DEACTIVATE_URL .
+            '/?redirect=' . rawurlencode(
+                $urlHelper->ajax(
+                    ['vcv-action' => 'license:deactivate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
+                )
+            ) .
             '&token=' . rawurlencode($this->newKeyToken()) .
+            '&license_key=' . rawurlencode($this->getKey()) .
             '&url=' . VCV_PLUGIN_URL
         );
         exit;

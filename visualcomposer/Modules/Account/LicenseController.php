@@ -143,7 +143,8 @@ class LicenseController extends Container implements Module
                 if (!vcIsBadResponse($result)) {
                     $result = json_decode($result['body'], true);
                     $licenseHelper->setKey('');
-                    wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
+                    $licenseHelper->setKeyToken('');
+                    wp_redirect(admin_url('index.php'));
                     exit;
                 } else {
                     $loggerHelper->log(
