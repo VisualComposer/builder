@@ -65,7 +65,8 @@ $(() => {
       }
     })
 
-    if (window.vcvActivationType !== 'standalone') {
+    let back = false
+    if (window.vcvActivationType !== 'standalone' && back) {
       $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button', () => {
         showIntroScreen($popup)
       })
