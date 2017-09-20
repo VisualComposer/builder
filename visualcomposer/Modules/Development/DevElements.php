@@ -1814,7 +1814,7 @@ class DevElements extends Container implements Module
                     'elementRealPath' => vcapp()->path('devElements/symmetricButton/symmetricButton/'),
                     'assetsPath' => $urlHelper->to('devElements/symmetricButton/symmetricButton/public/'),
                     'settings' => [
-                        'name' => 'Large Circle Zoom Button',
+                        'name' => 'Symmetric Button',
                         'metaThumbnailUrl' => $urlHelper->to(
                             'devElements/symmetricButton/symmetricButton/public/thumbnail-symmetric-button.png'
                         ),
