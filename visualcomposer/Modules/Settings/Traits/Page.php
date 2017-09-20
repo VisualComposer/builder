@@ -73,7 +73,7 @@ trait Page
         $this->call('beforeRender');
         /** @var $this Page */
         $args = array_merge(
-            method_exists($this, 'getRenderArgs') ? (array)$this->getRenderArgs() : [],
+            method_exists($this, 'getRenderArgs') ? (array)$this->call('getRenderArgs') : [],
             [
                 'controller' => $this,
                 'slug' => $this->getSlug(),
