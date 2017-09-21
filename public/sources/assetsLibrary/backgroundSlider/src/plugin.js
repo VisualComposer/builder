@@ -83,9 +83,9 @@
           }
         }
         // create first slide clone
-        let clone = this.slides[0].cloneNode();
-        clone.classList.add('clone');
-        this.slidesContainer.appendChild(clone);
+        let clone = this.slides && this.slides[0] && this.slides[0].cloneNode();
+        clone && clone.classList.add('clone');
+        clone && this.slidesContainer.appendChild(clone);
         // count slides
         let count = this.slides.length + 1;
         // set slidesContainer css settings depending on count and direction
