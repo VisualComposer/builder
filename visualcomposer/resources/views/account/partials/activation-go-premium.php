@@ -10,8 +10,10 @@ $utmHelper = vchelper('Utm');
 $requestHelper = vchelper('Request');
 if ('nav-bar' === $requestHelper->input('vcv-ref')) {
     $utm = 'goPremiumNavBar';
+} elseif ('plugins-page' === $requestHelper->input('vcv-ref')) {
+    $utm = 'goPremiumPluginsPage';
 } else {
-    $utm = 'goPremiumWpMenuSiderbar';
+    $utm = 'goPremiumWpMenuSidebar';
 }
 ?>
 <!-- First screen -->
