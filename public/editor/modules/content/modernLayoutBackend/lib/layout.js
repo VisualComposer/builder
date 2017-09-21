@@ -12,7 +12,7 @@ export default class Layout extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired
   }
-
+  loaded = false
   constructor (props) {
     super(props)
     this.state = {
@@ -28,6 +28,7 @@ export default class Layout extends React.Component {
   }
 
   componentDidMount () {
+    backendAssetsStorage.state('jobs').onChange(this.triggerRender.bind(this))
     elementsStorage.state('document').onChange((data) => {
       this.setState({ data: data })
       if (this.layoutContainer && !this.state.hasResizeEvent) {
@@ -50,7 +51,15 @@ export default class Layout extends React.Component {
   }
 
   componentWillUnmount () {
+    backendAssetsStorage.state('jobs').ignoreChange(this.triggerRender.bind(this))
     this.removeResizeListener(this.layoutContainer, this.handleElementSize)
+  }
+
+  triggerRender (jobsValue) {
+    if (!jobsValue.jobs && !this.loaded) {
+      console.log('forceUpdate')
+      this.forceUpdate()
+    }
   }
 
   addResizeListener (element, fn) {
@@ -86,7 +95,6 @@ export default class Layout extends React.Component {
   getElements () {
     const { data, layoutWidth, isElementsExist } = this.state
     const backendAssetsState = backendAssetsStorage.state('jobs').get()
-    let loader = this.getLoader()
     let layoutStyles = {
       visibility: 'hidden',
       opacity: 0
@@ -107,11 +115,16 @@ export default class Layout extends React.Component {
         )
       })
     }
+    let loader = null
 
     if ((backendAssetsState && !backendAssetsState.jobs) || (data.length && isElementsExist)) {
       layoutStyles = {}
       wrapperStyles = {}
       loader = null
+      this.loaded = true
+    } else {
+      loader = this.getLoader()
+      this.loaded = false
     }
 
     return <div className='vcv-wpbackend-layout-wrapper' style={wrapperStyles}>
