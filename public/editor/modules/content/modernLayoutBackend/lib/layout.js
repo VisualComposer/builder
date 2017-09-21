@@ -57,7 +57,6 @@ export default class Layout extends React.Component {
 
   triggerRender (jobsValue) {
     if (!jobsValue.jobs && !this.loaded) {
-      console.log('forceUpdate')
       this.forceUpdate()
     }
   }
