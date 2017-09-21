@@ -62,9 +62,8 @@ class GetPremium extends About implements Module
                 || ($tokenHelper->isSiteAuthorized()
                     && !$licenseHelper->isActivated())
             ) {
-                $prefix = is_network_admin() ? 'network_admin_' : '';
                 $this->wpAddFilter(
-                    $prefix . 'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
+                    'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
                     'pluginsPageLink'
                 );
             }
