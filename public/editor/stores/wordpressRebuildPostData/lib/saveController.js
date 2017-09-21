@@ -13,6 +13,7 @@ export default class SaveController {
       dataProcessor.appServerRequest(data).then(successCallback, failureCallback)
     })
   }
+
   /**
    * Send data to server
    * @param data
@@ -54,9 +55,9 @@ export default class SaveController {
       const elementBaseStyleManager = stylesManager.create()
       const elementAttributesStyleManager = stylesManager.create()
       const elementMixinsStyleManager = stylesManager.create()
-      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { attributeMixins: false, cssMixins: false })
-      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, cssMixins: false })
-      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, attributeMixins: false })
+      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], {attributeMixins: false, cssMixins: false})
+      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], {tags: false, cssMixins: false})
+      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], {tags: false, attributeMixins: false})
       promises.push(elementBaseStyleManager.add(baseCss).compile().then((result) => {
         elementsCss[key].baseCss = result
       }))
@@ -67,8 +68,8 @@ export default class SaveController {
         elementsCss[key].mixinsCss = result
       }))
     })
-    assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
-    assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
+    assetsFiles.cssBundles = [...new Set(assetsFiles.cssBundles)]
+    assetsFiles.jsBundles = [...new Set(assetsFiles.jsBundles)]
     Promise.all(promises).then(() => {
       const requestData = {
         'vcv-action': 'setData:adminNonce',
@@ -80,7 +81,7 @@ export default class SaveController {
         'vcv-elements-css-data': encodeURIComponent(JSON.stringify(elementsCss)),
         'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
         'vcv-source-css': pageStyles,
-        'vcv-tf': 'noGlobalCss',
+        'vcv-tf': 'noGlobalCss'
       }
       this.ajax(
         requestData,
