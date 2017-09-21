@@ -45,15 +45,25 @@ class BundleUpdateController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         $hubBundleHelper = vchelper('HubBundle');
+        $licenseHelper = vchelper('License');
         $tokenHelper = vchelper('Token');
         $token = $tokenHelper->createToken($optionsHelper->get('hubTokenId'));
-        if ($token) {
+        if (!vcIsBadResponse($token)) {
             $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
             $json = $this->readBundleJson($url);
             if ($json) {
                 return $this->processJson($json);
             } else {
                 return ['status' => false];
+            }
+        } elseif ($licenseHelper->isActivated() && isset($token['code'])) {
+            $licenseHelper->setKey('');
+            if (!$optionsHelper->getTransient('premium:deactivated')
+                && !$optionsHelper->getTransient(
+                    'premium:deactivated:time'
+                )) {
+                $optionsHelper->setTransient('premium:deactivated', $token['code']);
+                $optionsHelper->setTransient('premium:deactivated:time', time());
             }
         }
 

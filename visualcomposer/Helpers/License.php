@@ -176,4 +176,21 @@ class License extends Container implements Helper
 
         return true;
     }
+
+    public function licenseErrorCodes($errorCode)
+    {
+        switch ($errorCode) {
+            case 1:
+                $message = __('Visual Composer Website Builder license has expired.', 'vcwb');
+                break;
+            case 2:
+                $message = __('Couldn\'t find a valid Visual Composer Website Builder license.', 'vcwb');
+                break;
+            case 3:
+                $message = __('Visual Composer Website Builder license has been deactivated.', 'vcwb');
+                break;
+        }
+
+        return $message;
+    }
 }
