@@ -23,7 +23,6 @@ class GetPremium extends About implements Module
     use EventsFilters;
     use WpFiltersActions;
 
-
     /**
      * @var string
      */
@@ -56,6 +55,17 @@ class GetPremium extends About implements Module
                 $this->wpAddAction(
                     'in_admin_header',
                     'addCss'
+                );
+            }
+
+            if (!$tokenHelper->isSiteAuthorized()
+                || ($tokenHelper->isSiteAuthorized()
+                    && !$licenseHelper->isActivated())
+            ) {
+                $prefix = is_network_admin() ? 'network_admin_' : '';
+                $this->wpAddFilter(
+                    $prefix . 'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
+                    'pluginsPageLink'
                 );
             }
         }
@@ -92,7 +102,7 @@ class GetPremium extends About implements Module
     protected function goPremium()
     {
         global $submenu;
-        $url = vchelper('Utm')->get('goPremiumWpMenuSiderbar');
+        $url = vchelper('Utm')->get('goPremiumWpMenuSidebar');
         $submenu['vcv-activation']['vcv-settings'] = [$this->buttonTitle(), 'manage_options', $url];
     }
 
@@ -147,5 +157,29 @@ class GetPremium extends About implements Module
     public function getActivePage()
     {
         return 'go-premium';
+    }
+
+    /**
+     * Add go premium link in plugins page
+     *
+     * @param $links
+     *
+     * @return mixed
+     */
+    protected function pluginsPageLink($links)
+    {
+        $getPremiumPage = vcapp('SettingsPagesGetPremium');
+        $licenseHelper = vchelper('License');
+        $tokenHelper = vchelper('Token');
+
+        if (!$tokenHelper->isSiteAuthorized()) {
+            $goPremiumLink = '<a href="' . vchelper('Utm')->get('goPremiumPluginsPage') . '&vcv-ref=plugins-page" target="_blank">' . __('Go Premium', 'vcwb') . '</a>';
+        } elseif (!$licenseHelper->isActivated()) {
+            $goPremiumLink = '<a href="' . esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))) . '&vcv-ref=plugins-page">' . __('Go Premium', 'vcwb') . '</a>';
+        }
+
+        array_push($links, $goPremiumLink);
+
+        return $links;
     }
 }

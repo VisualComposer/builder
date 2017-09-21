@@ -22,8 +22,9 @@ class Utm implements Helper
             'feNavbarLinkLogo' => 'https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-navbar&utm_medium=vc-wb-frontend',
             'updatesChangelogAuthorLink' => 'https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-backend&utm_medium=vc-wb-plugins-admin-changelog-author',
             'updatesChangelogHomepageLink' => 'https://visualcomposer.io/?utm_campaign=vcwb&utm_source=vc-wb-backend&utm_medium=vc-wb-plugins-changelog',
-            'goPremiumWpMenuSiderbar' => 'https://visualcomposer.io/?utm_campaign=gopremium&utm_medium=vc-wb-backend&utm_source=wp-menu',
+            'goPremiumWpMenuSidebar' => 'https://visualcomposer.io/?utm_campaign=gopremium&utm_medium=vc-wb-backend&utm_source=wp-menu',
             'goPremiumNavBar' => 'https://visualcomposer.io/?utm_campaign=gopremium&utm_medium=vc-wb-frontend&utm_source=navbar',
+            'goPremiumPluginsPage' => 'https://visualcomposer.io/?utm_campaign=gopremium&utm_medium=vc-wb-backend&utm_source=wp-plugins-page',
         ];
 
         return $utm;
