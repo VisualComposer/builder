@@ -9,7 +9,7 @@ export default class ParallaxBackground extends Component {
   }
 
   render () {
-    const { deviceKey, deviceData, content } = this.props
+    const { deviceKey, deviceData, content, divider } = this.props
     const { parallax, parallaxSpeed, parallaxReverse } = deviceData
     if (parallax) {
       let customProps = {}
@@ -23,10 +23,12 @@ export default class ParallaxBackground extends Component {
       if (parallax) {
         customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-parallax'
       }
-      if (parallax === 'simple-fade') {
+      if (parallax === 'simple-fade' && !divider) {
         customProps[ 'data-vce-assets-parallax-fade' ] = true
       }
-      if (parallaxSpeed) {
+      if (divider) {
+        customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed ? parallaxSpeed / 2 : 15
+      } else if (parallaxSpeed) {
         customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
       }
       customProps[ 'data-vce-assets-parallax-reverse' ] = parallaxReverse

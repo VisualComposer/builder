@@ -244,15 +244,28 @@ eval(unescape('${escapedString}'))
     let dividerElements = []
 
     Object.keys(device).forEach((deviceKey, index) => {
-      let { divider } = device[ deviceKey ]
+      let { divider, parallax } = device[ deviceKey ]
       let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-${index}`
 
       if (divider) {
-        dividerElements.push(
+        let dividerElement = (
           <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey} metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id} applyDivider={this.applyDO('divider')} />
         )
+
+        if (parallax) {
+          dividerElements.push(
+            <ParallaxBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} atts={this.props.atts} content={dividerElement} divider={divider} />
+          )
+        } else {
+          dividerElements.push(dividerElement)
+        }
       }
     })
+
+    if (dividerElements.length === 0) {
+      return null
+    }
 
     return <div className='vce-dividers-wrapper'>
       {dividerElements}
