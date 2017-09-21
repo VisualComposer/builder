@@ -1,7 +1,8 @@
 (function (window, document) {
   function createSlider (element) {
-    var Slider = {
+    let Slider = {
       slider: null,
+      slidesContainer: null,
       slides: [],
       activeSlide: 0,
       isRtl: false,
@@ -27,13 +28,21 @@
         event.target.style.left = null;
       },
       refresh: function refresh () {
-        var _this = this;
+        let _this = this;
 
         this.isRtl = window.getComputedStyle(this.slider).direction === 'rtl';
         this.timeout = parseInt(this.slider.dataset.vceAssetsSlider) * 1000;
+        this.direction = this.slider.dataset.vceAssetsSliderDirection || 'left';
         // set slides
-        this.slides = this.slider.querySelectorAll(this.slider.dataset.vceAssetsSliderSlide);
+        this.slidesContainer = this.slider.querySelector(this.slider.dataset.vceAssetsSliderSlides);
+        this.slides = this.slidesContainer.querySelectorAll(this.slider.dataset.vceAssetsSliderSlide);
         this.slides = [].slice.call(this.slides); // to create array from slides list
+
+        if (this.slider.dataset.vceAssetsSliderEffect === 'carousel') {
+          this.initCarousel();
+          return;
+        }
+
         this.slides.forEach(function (slide, index) {
           slide.setAttribute('data-vce-assets-slider-stay-visible', !index);
           slide.removeEventListener('animationend', _this.handleAnimationEnd);
@@ -45,6 +54,72 @@
         this.effect = this.slider.dataset.vceAssetsSliderEffect;
         this.autoplay();
       },
+      findKeyframesRule: function findKeyframesRule (rule) {
+        let ss = document.styleSheets;
+        let result = [];
+        for (let i = 0; i < ss.length; ++i) {
+          if (ss[i].cssRules && ss[i].cssRules.length) {
+            for (let j = 0; j < ss[i].cssRules.length; ++j) {
+              if (ss[i].cssRules[j].type === window.CSSRule.KEYFRAMES_RULE && ss[i].cssRules[j].name === rule) {
+                result.push(ss[i].cssRules[j]);
+              }
+            }
+          }
+        }
+        return result.length ? result : null;
+      },
+      initCarousel: function initCarousel () {
+        let isHorizontal = this.direction === 'left' || this.direction === 'right';
+        this.slidesContainer.classList.add('vce-asset-background-slider-slides-carousel');
+        if (!isHorizontal) {
+          this.slidesContainer.classList.add('vce-asset-background-slider-slides-carousel-vertical');
+        }
+        // remove old clones
+        for (let i = 0; i < this.slides.length; i++) {
+          if (this.slides[i].classList.contains('clone')) {
+            this.slidesContainer.removeChild(this.slides[i]);
+            this.slides.splice(i, 1);
+            // delete this.slides[i];
+          }
+        }
+        // create first slide clone
+        let clone = this.slides && this.slides[0] && this.slides[0].cloneNode();
+        clone && clone.classList.add('clone');
+        clone && this.slidesContainer.appendChild(clone);
+        // count slides
+        let count = this.slides.length + 1;
+        // set slidesContainer css settings depending on count and direction
+        this.slidesContainer.style[ isHorizontal ? 'width' : 'height' ] = `${count}00%`;
+        this.slidesContainer.style.animationDuration = `${(count - 1) * (this.timeout / 1000)}s`;
+        // update animation keyframes rules depending on count
+        let keyframesRules = {
+          left: {
+            key: '100%',
+            value: `100% { transform: translateX(-${100 - (100 / count)}%); }`
+          },
+          top: {
+            key: '100%',
+            value: `100% { transform: translateY(-${100 - (100 / count)}%); }`
+          },
+          right: {
+            key: '0%',
+            value: `0% { transform: translateX(-${100 - (100 / count)}%); }`
+          },
+          bottom: {
+            key: '0%',
+            value: `0% { transform: translateY(-${100 - (100 / count)}%); }`
+          },
+        };
+        let carouselRule = this.findKeyframesRule(`vce-asset-background-slide--carousel-${this.direction}`);
+        if (carouselRule) {
+          carouselRule.forEach((rule) => {
+            rule.deleteRule(keyframesRules[ this.direction ].key);
+            rule.appendRule(keyframesRules[ this.direction ].value);
+          });
+        }
+        // add animation
+        this.slidesContainer.classList.add(`animate-${this.direction}`);
+      },
       destroy: function destroy () {
         this.stopAutoplay();
         this.slides.forEach(function (slide) {
@@ -54,7 +129,7 @@
       },
       slideTo: function slideTo (index) {
         if (index >= 0 && index < this.slides.length) {
-          var prevIndex = this.activeSlide;
+          let prevIndex = this.activeSlide;
           this.activeSlide = index;
           switch (this.effect) {
             case 'fade':
@@ -104,7 +179,7 @@
         }
       },
       autoplay: function autoplay () {
-        var _this2 = this;
+        let _this2 = this;
 
         this.stopAutoplay();
         if (this.isRtl) {
@@ -124,9 +199,9 @@
     return Slider.init(element);
   }
 
-  var sliders = {
+  let sliders = {
     init: function init (selector) {
-      var sliders = document.querySelectorAll(selector);
+      let sliders = document.querySelectorAll(selector);
       sliders = [].slice.call(sliders);
       sliders.forEach(function (slider) {
         if (slider.getVceSlider) {

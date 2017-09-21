@@ -132,6 +132,7 @@ export default class AttachImage extends Attribute {
     srcUrl.id = attachment.id
     srcUrl.title = attachment.title
     srcUrl.alt = attachment.alt
+    srcUrl.caption = attachment.caption
 
     return {
       id: attachment.id,

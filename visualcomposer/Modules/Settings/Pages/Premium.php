@@ -9,21 +9,20 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Token;
-use VisualComposer\Modules\Settings\Traits\Page;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class Premium.
  */
-class Premium extends About /*implements Module*/
+class Premium extends About implements Module
 {
-    use Page;
     use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * @var string
@@ -73,12 +72,13 @@ class Premium extends About /*implements Module*/
     {
         $pages[] = [
             'slug' => $this->getSlug(),
-            'title' => $this->premiumIcon() . '<strong style="color:#fff;vertical-align: middle;font-weight:700">' .
-                __('Go Premium', 'vcwb') . '</strong>',
+            'title' => __('Go Premium', 'vcwb'),
             'layout' => 'standalone',
             'showTab' => false,
+            'hidePage' => true,
             'controller' => $this,
             'capability' => 'manage_options',
+            'type' => 'premium'
         ];
 
         return $pages;
@@ -91,19 +91,11 @@ class Premium extends About /*implements Module*/
         }
         $licenseHelper = vchelper('License');
         if (!$licenseHelper->getKey()) {
-            $licenseHelper->redirectToAccount();
+            $licenseHelper->activateInAccount();
             exit;
         } elseif (!$licenseHelper->getKeyToken()) {
             $this->call('redirectToAbout');
         }
-    }
-
-    protected function premiumIcon()
-    {
-        return '<svg version="1.1" id="Star" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;fill:#fff;width:20px;padding: 0 8px 0 0;vertical-align: -6px;" xml:space="preserve">
-<path d="M10,1.3l2.388,6.722H18.8l-5.232,3.948l1.871,6.928L10,14.744l-5.438,4.154l1.87-6.928L1.199,8.022h6.412L10,1.3z"/>
-</svg>';
     }
 
     public function getActivePage()

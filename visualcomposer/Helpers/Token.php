@@ -78,7 +78,7 @@ class Token extends Container implements Helper
     /**
      * @param $id
      *
-     * @return bool|string
+     * @return bool|string|array
      */
     public function createToken($id)
     {
@@ -105,6 +105,20 @@ class Token extends Container implements Helper
                 $this->setToken($token);
 
                 return $token;
+            }
+        } else {
+            if (isset($result['body'])) {
+                $response = json_decode($result['body'], true);
+            }
+            if (isset($response['error'], $response['error']['type'], $response['error']['code'])) {
+                $loggerHelper->log(
+                    $licenseHelper->licenseErrorCodes($response['error']['code']),
+                    [
+                        'result' => $response,
+                    ]
+                );
+
+                return ['status' => false, 'code' => $response['error']['code']];
             }
         }
 

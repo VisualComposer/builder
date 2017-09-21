@@ -211,6 +211,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.backgroundPositionChangeHandler = this.backgroundPositionChangeHandler.bind(this)
     this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
+    this.sliderDirectionChangeHandler = this.sliderDirectionChangeHandler.bind(this)
     this.sliderEffectChangeHandler = this.sliderEffectChangeHandler.bind(this)
     this.gradientOverlayChangeHandler = this.gradientOverlayChangeHandler.bind(this)
     this.gradientAngleChangeHandler = this.gradientAngleChangeHandler.bind(this)
@@ -221,6 +222,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.embedVideoChangeHandler = this.embedVideoChangeHandler.bind(this)
     this.parallaxChangeHandler = this.parallaxChangeHandler.bind(this)
     this.parallaxSpeedChangeHandler = this.parallaxSpeedChangeHandler.bind(this)
+    this.parallaxReverseChangeHandler = this.parallaxReverseChangeHandler.bind(this)
     this.dividerChangeHandler = this.dividerChangeHandler.bind(this)
   }
 
@@ -333,6 +335,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].backgroundType
             delete newValue[ device ].backgroundStyle
             delete newValue[ device ].sliderTimeout
+            delete newValue[ device ].sliderDirection
             delete newValue[ device ].sliderEffect
             delete newValue[ device ].backgroundPosition
           }
@@ -356,6 +359,9 @@ export default class DesignOptionsAdvanced extends Attribute {
           }
           if (newValue[ device ].sliderEffect === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
             delete newValue[ device ].sliderEffect
+          }
+          if (newValue[ device ].sliderDirection === '' || newValue[ device ].backgroundType !== 'imagesSlideshow' || newValue[ device ].sliderEffect !== 'carousel') {
+            delete newValue[ device ].sliderDirection
           }
 
           // youtube video is empty
@@ -1340,6 +1346,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     let value = this.state.devices[ this.state.currentDevice ].sliderTimeout || ''
+    let defaultValue = this.state.devices[ this.state.currentDevice ].sliderEffect === `carousel` ? 10 : 5
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Animation timeout (in seconds)
@@ -1348,10 +1355,44 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='sliderTimeout'
         updater={this.sliderTimeoutChangeHandler}
-        placeholder='5'
+        placeholder={defaultValue}
         options={{
           min: 1,
           max: false
+        }}
+        value={value}
+      />
+    </div>
+  }
+
+  /**
+   * Render grid slider direction field
+   * @returns {*}
+   */
+  getSliderDirectionRender () {
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== `imagesSlideshow` ||
+      this.state.devices[ this.state.currentDevice ].sliderEffect !== `carousel`) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].sliderDirection || 'left'
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Slider direction
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='sliderDirection'
+        updater={this.sliderDirectionChangeHandler}
+        placeholder='Left'
+        options={{
+          values: [
+            { label: 'Left', value: 'left' },
+            { label: 'Top', value: 'top' },
+            { label: 'Right', value: 'right' },
+            { label: 'Bottom', value: 'bottom' }
+          ]
         }}
         value={value}
       />
@@ -1377,6 +1418,10 @@ export default class DesignOptionsAdvanced extends Attribute {
         {
           label: 'Fade',
           value: 'fade'
+        },
+        {
+          label: 'Carousel',
+          value: 'carousel'
         }
       ]
     }
@@ -1413,6 +1458,17 @@ export default class DesignOptionsAdvanced extends Attribute {
   sliderTimeoutChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
+    this.updateValue(newState)
+  }
+
+  /**
+   * Handle slider direction change
+   * @param fieldKey
+   * @param value
+   */
+  sliderDirectionChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
     this.updateValue(newState)
   }
 
@@ -1675,6 +1731,40 @@ export default class DesignOptionsAdvanced extends Attribute {
   parallaxSpeedChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
+    this.updateValue(newState)
+  }
+
+  /**
+   * Render parallax reverse field
+   * @returns {*}
+   */
+  getParallaxReverseRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].parallax) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].parallaxReverse || false
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Reverse parallax effect
+      </span>
+      <Toggle
+        api={this.props.api}
+        fieldKey='parallaxReverse'
+        updater={this.parallaxReverseChangeHandler}
+        value={value}
+      />
+    </div>
+  }
+
+  /**
+   * Handle parallax reverse change
+   * @param fieldKey
+   * @param value
+   */
+  parallaxReverseChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
     this.updateValue(newState)
   }
 
@@ -2034,6 +2124,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getAttachImageRender()}
             {this.getSliderEffectRender()}
             {this.getSliderTimeoutRender()}
+            {this.getSliderDirectionRender()}
             {this.getYoutubeVideoRender()}
             {this.getVimeoVideoRender()}
             {this.getEmbedVideoRender()}
@@ -2046,6 +2137,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getGradientAngleRender()}
             {this.getParallaxRender()}
             {this.getParallaxSpeedRender()}
+            {this.getParallaxReverseRender()}
             {this.getAnimationRender()}
             {this.getDividerRender()}
             {this.getDividerShapeRender()}

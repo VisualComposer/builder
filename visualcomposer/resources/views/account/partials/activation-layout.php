@@ -10,6 +10,8 @@ if (!defined('ABSPATH')) {
  * @var array $page
  */
 $optionsHelper = vchelper('Options');
+$licenseHelper = vchelper('License');
+$tokenHelper = vchelper('Token');
 
 $errorMsg = $optionsHelper->getTransient('account:activation:error');
 if ($errorMsg) {
@@ -19,7 +21,7 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <script>
 	<?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
-    window.vcvActivationRequest = '1'
+    window.vcvActivationRequest = 1
 	<?php } ?>
   window.vcvActivationUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>'
   window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>'
@@ -72,6 +74,14 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                         'controller' => $controller,
                     ]
                 );
+                if (!$licenseHelper->isActivated() && $tokenHelper->isSiteAuthorized()) {
+                    echo vcview(
+                        'account/partials/activation-go-premium',
+                        [
+                            'controller' => $controller,
+                        ]
+                    );
+                }
             }
             ?>
             <?php echo vcview(

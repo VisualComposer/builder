@@ -1,6 +1,5 @@
 import React from 'react'
 import Element from './element'
-import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpers/blankRowPlaceholder/component'
 
 export default class HtmlLayout extends React.Component {
   static propTypes = {
@@ -20,7 +19,6 @@ export default class HtmlLayout extends React.Component {
     return (
       <div className='vcv-layouts-html' data-vcv-module='content-layout'>
         {elementsList}
-        <BlankRowPlaceholder api={this.props.api} />
       </div>
     )
   }

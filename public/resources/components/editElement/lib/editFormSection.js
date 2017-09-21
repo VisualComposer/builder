@@ -1,9 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
-import { getStorage } from 'vc-cake'
-
-const workspaceStorage = getStorage('workspaceStorage')
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
@@ -37,7 +34,6 @@ export default class EditFormSection extends React.Component {
 
   componentDidUpdate (prevProps, prevState) {
     this.checkSectionPosition(prevState)
-    workspaceStorage.state('scrollbarSettings').set({ checkHeight: true })
   }
 
   componentWillUnmount () {
@@ -53,9 +49,10 @@ export default class EditFormSection extends React.Component {
     const headerOffset = this.sectionHeader.offsetTop + headerRect.height
     if (prevState && !prevState.isActive && isActive || this.props.tab.index === this.props.activeTabIndex) {
       // will scroll to top
-      workspaceStorage.state('scrollbarSettings').set({ scroll: headerOffset - headerRect.height })
-      // will scroll 50px to bottom
-      // workspaceStorage.state('scrollbarSettings').set({ scroll: headerOffset - contentEndRect.bottom + headerRect.height + 50 })
+      let scrollbar = this.props.getSectionContentScrollbar()
+      if (scrollbar) {
+        scrollbar.scrollTop(headerOffset - headerRect.height)
+      }
     }
   }
 
