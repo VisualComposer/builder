@@ -19,7 +19,6 @@ export default class Divider extends Component {
 
   render () {
     let { deviceData, deviceKey, id, applyDivider } = this.props
-    let position = deviceData && deviceData.dividerPosition
     let flipHorizontally = false
 
     if (deviceData && deviceData.dividerFlipHorizontal === 'horizontally-right') {
@@ -29,12 +28,11 @@ export default class Divider extends Component {
     let containerClasses = classNames({
       'vce-container-divider': true,
       'vce-container-divider-flip--horizontally': flipHorizontally
-    }, `vce-container-divider-position--${position}`, `vce-visible-${deviceKey}-only`)
+    }, `vce-visible-${deviceKey}-only`)
 
     let fill = deviceData && deviceData.dividerBackgroundColor
-    let height = deviceData && deviceData.dividerHeight ? deviceData.dividerHeight : '100'
+    let height = deviceData && deviceData.dividerHeight ? deviceData.dividerHeight : '200'
     let width = deviceData && deviceData.dividerWidth ? deviceData.dividerWidth : '100'
-    height = `${height}%`
     width = `${width}%`
 
     let shape = deviceData && deviceData.dividerShape && deviceData.dividerShape.icon
@@ -54,7 +52,7 @@ export default class Divider extends Component {
     return (
       <div className={classNames(containerClasses)} {...applyDivider}>
         <div className='vce-container-divider-inner'>
-          <DividerShape id={id} position={position} shape={shape} width={width} height={height} fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} backgroundImage={imageUrl} />
+          <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} backgroundImage={imageUrl} flipHorizontally={flipHorizontally} />
         </div>
       </div>
     )

@@ -5,13 +5,17 @@
   left: 0;
   right: 0;
   overflow: hidden;
-  //pointer-events: none;
+  pointer-events: none;
 }
 
 .vce-container-divider {
   position: absolute;
   display: none;
   transform-origin: 50% 50%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
   svg {
     display: block;
@@ -19,10 +23,6 @@
     left: 50%;
     transform: translateX(-50%);
     overflow: visible;
-
-    image {
-      transform-origin: 50% 50%;
-    }
   }
 }
 
@@ -34,80 +34,8 @@
   left: 0;
 }
 
-.vce-container-divider-position--top {
-  height: 200px;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.vce-container-divider-position--bottom {
-  height: 200px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  .vce-container-divider-inner {
-    transform: rotate(180deg);
-  }
-
-  svg image {
-    transform: rotate(180deg);
-  }
-}
-
-.vce-container-divider-position--right {
-  width: 200px;
-  top: 0;
-  bottom: 0;
-  right: 0;
-
-  svg {
-    left: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    float: right;
-  }
-}
-
-.vce-container-divider-position--left {
-  width: 200px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-
-  .vce-container-divider-inner {
-    transform: rotate(180deg);
-  }
-
-  svg {
-    left: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    float: left;
-  }
-
-  svg image {
-    transform: rotate(180deg);
-  }
-}
-
-.vce-container-divider-flip--horizontally {
-  &.vce-container-divider-position--top .vce-container-divider-inner {
-    transform: scaleX(-1);
-  }
-
-  &.vce-container-divider-position--bottom .vce-container-divider-inner {
-    transform: rotate(180deg) scaleX(-1);
-  }
-
-  &.vce-container-divider-position--right .vce-container-divider-inner {
-    transform: scaleY(-1);
-  }
-
-  &.vce-container-divider-position--left .vce-container-divider-inner {
-    transform: rotate(180deg) scaleY(-1);
-  }
+.vce-container-divider-flip--horizontally .vce-container-divider-inner {
+  transform: scaleX(-1);
 }
 
 .vce-container-divider.vce-visible-all-only {
