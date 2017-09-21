@@ -17,10 +17,10 @@ export default class ImageSlideshowBackground extends Component {
 
   render () {
     const { reactKey, deviceKey, deviceData } = this.props
-    const { images, backgroundStyle, backgroundPosition, sliderTimeout, sliderEffect } = deviceData
+    const { images, backgroundStyle, backgroundPosition, sliderTimeout, sliderEffect, sliderDirection } = deviceData
     let timeout = sliderTimeout
     if (!timeout) {
-      timeout = 5
+      timeout = sliderEffect === 'carousel' ? 10 : 5
     }
     if (images) {
       let imagesJSX = []
@@ -62,12 +62,16 @@ export default class ImageSlideshowBackground extends Component {
       let sliderProps = {
         'data-vce-assets-slider': timeout,
         'data-vce-assets-slider-effect': sliderEffect,
+        'data-vce-assets-slider-direction': sliderDirection,
+        'data-vce-assets-slider-slides': '.vce-asset-background-slider-items',
         'data-vce-assets-slider-slide': '.vce-asset-background-slider-item'
       }
 
       let vcvHelperHTML = ReactDOMServer.renderToStaticMarkup(
         <div className={classNames(slideshowClasses)} {...sliderProps}>
-          {imagesJSX}
+          <div className='vce-asset-background-slider-items'>
+            {imagesJSX}
+          </div>
         </div>)
 
       return <div className={classNames(containerClasses)}>
