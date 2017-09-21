@@ -8,12 +8,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
@@ -23,7 +20,6 @@ use VisualComposer\Helpers\Token;
  */
 class GetPremium extends About implements Module
 {
-    use Page;
     use EventsFilters;
     use WpFiltersActions;
 

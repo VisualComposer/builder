@@ -24,7 +24,6 @@ class SettingsLicensePageTest extends WP_UnitTestCase
         $this->assertEquals('settings/pages/license/index', $module->getTemplatePath());
 
         $module->call('beforeRender');
-        $this->assertEquals([], $module->getTemplateArgs());
     }
 
     public function testRender()

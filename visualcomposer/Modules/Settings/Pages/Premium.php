@@ -14,7 +14,6 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Token;
-use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
@@ -22,7 +21,6 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
  */
 class Premium extends About implements Module
 {
-    use Page;
     use EventsFilters;
     use WpFiltersActions;
 

@@ -46,28 +46,4 @@ class SettingsAboutPageTest extends WP_UnitTestCase
         $this->assertFalse($newPages[0]['showTab']);
         $this->assertTrue($newPages[0]['controller'] instanceof \VisualComposer\Modules\Settings\Pages\About);
     }
-
-    public function testTemplate()
-    {
-        /** @var \VisualComposer\Modules\Settings\Pages\About $module */
-        $module = vc_create_module_mock('\VisualComposer\Modules\Settings\Pages\About');
-
-        $this->assertEquals([], $module->getTemplateArgs());
-        $module->setTemplateArgs(['test' => 1]);
-        $this->assertEquals(['test' => 1], $module->getTemplateArgs());
-
-        $this->assertEquals('settings/pages/about/index', $module->getTemplatePath());
-        $module->setTemplatePath('settings/pages/about/index2');
-        $this->assertEquals('settings/pages/about/index2', $module->getTemplatePath());
-
-        $this->assertEquals('vcv-about', $module->getSlug());
-        $module->setSlug('vcv-about-2');
-        $this->assertEquals('vcv-about-2', $module->getSlug());
-
-        $module->call('beforeRender');
-        $newArgs = $module->getTemplateArgs();
-        $this->assertTrue(array_key_exists('tabs', $newArgs));
-        $this->assertTrue(array_key_exists('activeTabSlug', $newArgs));
-        $this->assertTrue(array_key_exists('hasAccessToSettings', $newArgs));
-    }
 }
