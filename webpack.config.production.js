@@ -13,7 +13,6 @@ module.exports = Object.assign(webpackConfig, {
     wpbackendswitch: './public/wpbackend-switch',
     wpsettings: './public/wp-settings-main',
     wpupdate: './public/bundle-update-main',
-    app: [],
     vendor: [
       'jquery',
       'react',
@@ -36,7 +35,8 @@ module.exports = Object.assign(webpackConfig, {
       'babel-runtime/core-js/object/create.js',
       'babel-runtime/core-js/object/assign.js',
       'babel-runtime/core-js/object/keys.js'
-    ]
+    ],
+    wpPostRebuild: './public/wp-post-rebuild'
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path

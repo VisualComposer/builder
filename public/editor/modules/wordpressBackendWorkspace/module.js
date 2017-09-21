@@ -26,6 +26,7 @@ add('wordpressBackendWorkspace', (api) => {
     } else if (settings.action === 'addTemplate') {
       workspaceStorage.state('contentEnd').set('addTemplate')
     }
+    workspaceStorage.state('lastAction').set(settings.action)
   })
   const layoutHeader = document.getElementById('vcv-wpbackend-layout-header')
   const layout = document.getElementById('vcv-layout')
@@ -33,7 +34,7 @@ add('wordpressBackendWorkspace', (api) => {
     <WorkspaceCont layout={layout} layoutHeader={layoutHeader} />,
     layoutHeader
   )
-
+  workspaceStorage.state('lastAction').set(false)
   if (env('FEATURE_START_BLANK')) {
     // Start blank overlay
     let iframeContent = document.getElementById('vcv-layout-iframe-content')
