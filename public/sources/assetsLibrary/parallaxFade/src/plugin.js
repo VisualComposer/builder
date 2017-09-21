@@ -13,7 +13,7 @@
         if (!element.getVceParallaxFade) {
           element.getVceParallaxFade = this;
           this.element = element;
-          this.fadeElement = element.parentNode.nextElementSibling.nextElementSibling;
+          this.fadeElement = element.parentNode.parentNode.lastElementChild;
           this.create();
         } else {
           this.update();

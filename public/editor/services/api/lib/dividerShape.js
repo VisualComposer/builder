@@ -36,7 +36,11 @@ export default class DividerShape extends Component {
     )
   }
 
-  changeHeight (height, svgContent) {
+  changeHeight (height, svgContent, units) {
+    if (units) { // for image and video
+      height = height / 200
+    }
+
     let parser = new window.DOMParser()
     let doc = parser.parseFromString(svgContent, 'text/html')
     height = parseFloat(height)
@@ -69,35 +73,70 @@ export default class DividerShape extends Component {
   }
 
   render () {
-    let { width, height, fill, shape, fillType } = this.props
+    let { width, height, fill, shape, fillType, backgroundImage } = this.props
     let currentShape = shapes[ shape ]
 
     if (!currentShape) {
       return null
     }
-    let customAttributes = {}
 
     let svgContent = currentShape.content
+    let svgUnitContent = currentShape.unitContent
+    let shapeSize = currentShape.shapeSize
     let viewBoxWidth = currentShape.viewBox.width
     let viewBoxHeight = currentShape.viewBox.height
     let viewBox = `0 0 ${viewBoxWidth} ${viewBoxHeight}`
 
-    if (fillType === 'color') {
-      customAttributes.fill = fill
-    } else if (fillType === 'gradient') {
-      let id = `gradient-${this.props.id}`
-      customAttributes.fill = `url(#${id})`
-    } else if (fillType === 'image') {
-      customAttributes.fill = '#6567DF'
+    if (fillType === 'color' || fillType === 'gradient') {
+      let html = this.changeHeight(height, svgContent)
+      let customAttributes = {}
+
+      if (fillType === 'color') {
+        customAttributes.fill = fill
+      } else if (fillType === 'gradient') {
+        let id = `gradient-${this.props.id}`
+        customAttributes.fill = `url(#${id})`
+      }
+
+      return (
+        <svg viewBox={viewBox} width={width} height={viewBoxHeight} preserveAspectRatio='none'>
+          {this.getLinearGradient()}
+          <g {...customAttributes} dangerouslySetInnerHTML={{ __html: html }} />
+        </svg>
+      )
     }
 
-    let html = this.changeHeight(height, svgContent)
+    if (fillType === 'image') {
+      let imageId = `image-${this.props.id}`
+      let clipPathUrl = `url(#${imageId})`
+      let html = this.changeHeight(height, svgUnitContent, true)
+      let backgroundImageUrl = `url(${backgroundImage})`
+      let imageProps = {}
 
-    return (
-      <svg viewBox={viewBox} width={width} height={viewBoxHeight} preserveAspectRatio='none'>
-        {this.getLinearGradient()}
-        <g {...customAttributes} dangerouslySetInnerHTML={{ __html: html }} />
-      </svg>
-    )
+      imageProps.style = {
+        WebkitClipPath: clipPathUrl,
+        clipPath: clipPathUrl
+      }
+
+      let innerImageProps = {}
+
+      let imageHeight = `${parseFloat(height) + parseInt(shapeSize)}px`
+
+      innerImageProps.style = {
+        backgroundImage: backgroundImageUrl,
+        height: imageHeight
+      }
+
+      return (
+        <div className='vce-divider-with-image'>
+          <svg>
+            <clipPath id={imageId} dangerouslySetInnerHTML={{ __html: html }} clipPathUnits='objectBoundingBox' />
+          </svg>
+          <div {...imageProps} className='vce-divider-image-block'>
+            <div {...innerImageProps} className='vce-divider-image-inner-block' />
+          </div>
+        </div>
+      )
+    }
   }
 }

@@ -1852,32 +1852,6 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
-   * Render divider rotation range
-   * @returns {XML}
-   */
-  getDividerRotationRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
-      return null
-    }
-
-    let value = this.state.devices[ this.state.currentDevice ].dividerRotation || '0'
-    return (
-      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-        <span className='vcv-ui-form-group-heading'>
-          Divider rotation
-        </span>
-        <Range
-          api={this.props.api}
-          fieldKey='dividerRotation'
-          updater={this.dividerChangeHandler}
-          options={{ min: -180, max: 180, measurement: 'deg' }}
-          value={value}
-        />
-      </div>
-    )
-  }
-
-  /**
    * Render divider flip button group
    * @returns {XML}
    */
@@ -2013,6 +1987,10 @@ export default class DesignOptionsAdvanced extends Attribute {
         {
           label: 'Gradient',
           value: 'gradient'
+        },
+        {
+          label: 'Image',
+          value: 'image'
         }
       ]
     }
@@ -2106,6 +2084,34 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render attach image for divider background
+   * @returns {*}
+   */
+  getDividerAttachImageRender () {
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'image' || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundImage || ''
+
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider image
+      </span>
+      <AttachImage
+        api={this.props.api}
+        fieldKey='dividerBackgroundImage'
+        options={{
+          multiple: false
+        }}
+        updater={this.dividerChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -2148,6 +2154,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getDividerBackgroundColorRender()}
             {this.getDividerBackgroundGradientStartColorRender()}
             {this.getDividerBackgroundGradientEndColorRender()}
+            {this.getDividerAttachImageRender()}
           </div>
         </div>
       </div>

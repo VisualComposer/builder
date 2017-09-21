@@ -89,6 +89,9 @@ export default class CssBuilder {
   }
 
   add (data) {
+    if (!data) {
+      return
+    }
     this.updateStyleDomNodes(data)
     this.addCssElementBaseByElement(data)
     this.addElementEditorFiles(data)
@@ -103,6 +106,9 @@ export default class CssBuilder {
   }
 
   update (data) {
+    if (!data) {
+      return
+    }
     this.updateStyleDomNodes(data)
     this.addCssElementBaseByElement(data)
     this.addElementEditorFiles(data)
