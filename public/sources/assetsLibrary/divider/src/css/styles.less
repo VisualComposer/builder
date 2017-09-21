@@ -38,6 +38,37 @@
   transform: scaleX(-1);
 }
 
+.vce-divider-with-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  svg {
+    position: absolute;
+    height: 0;
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+.vce-divider-image-block {
+  height: 200px;
+  position: relative;
+}
+
+.vce-divider-image-inner-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-position: center;
+  background-size: cover;
+}
+
 .vce-container-divider.vce-visible-all-only {
   display: block;
 }
