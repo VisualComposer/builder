@@ -95,7 +95,7 @@ export default class ControlsManager {
       let path = this.getPath(e)
       let elPath = []
       // check if elements are inside backend layout
-      if (e.target && e.target.closest('.vcv-wpbackend-layout')) {
+      if (e.target && e.target.closest && e.target.closest('.vcv-wpbackend-layout')) {
         path.forEach((el) => {
           if (el.hasAttribute && el.hasAttribute('data-vcv-element')) {
             elPath.push(el)
