@@ -19,7 +19,7 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
 <!-- First screen -->
 <div class="vcv-popup-content vcv-popup-go-premium-screen">
     <div class="vcv-logo">
-        <svg width="36px" height="37px" viewBox="0 0 36 37" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <svg width="67px" height="69px" viewBox="0 0 36 37" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g id="01-Intro-Free" transform="translate(-683.000000, -185.000000)">
                     <g id="VC-Logo" transform="translate(683.000000, 185.000000)">
@@ -35,10 +35,12 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
         </svg>
     </div>
     <div class="vcv-popup-heading">
-        <?php echo __('Advance Your WordPress With Visual Composer Website Builder', 'vcwb'); ?>
+        <?php echo __('Get Premium Elements, Templates, and Support.', 'vcwb'); ?>
     </div>
-    <a href="<?php echo $utmHelper->get($utm);?>" class="vcv-intro-button-lite vcv-popup-button"><?php echo __('Get Premium', 'vcwb'); ?></a>
-    <a href="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>" class="vcv-intro-button-premium vcv-popup-button">
-		<?php echo __('Go Premium', 'vcwb'); ?>
+	<div class="vcv-popup-go-premium-container"></div>
+    <a href="<?php echo $utmHelper->get($utm);?>" class="vcv-purchase-premium vcv-popup-button"><?php echo __('Purchase License', 'vcwb'); ?></a>
+    <a href="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>" class="vcv-activate-premium vcv-popup-button">
+		<?php echo __('Activate Premium', 'vcwb'); ?>
 	</a>
+	<span class="vcv-popup-slider-item-text"><?php echo __('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
 </div>
