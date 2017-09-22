@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
+import MobileDetect from 'mobile-detect'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
@@ -472,12 +473,15 @@ export default class TreeViewElement extends React.Component {
 
     let envContent = (
       <span className='vcv-ui-tree-layout-control-label'>
-        <span>{element.get('name')}</span>
+        <span>{content}</span>
       </span>
 
     )
 
-    if (vcCake.env('FEATURE_RENAME_ELEMENT')) {
+    if (
+      vcCake.env('FEATURE_RENAME_ELEMENT') &&
+      (vcCake.env('MOBILE_DETECT') ? !(new MobileDetect(window.navigator.userAgent)).mobile() : true)
+    ) {
       envContent = (
         <span className={controlLabelClasses}>
           <span ref={span => { this.span = span }}

@@ -3,6 +3,7 @@ import React from 'react'
 import ContentControls from '../../../../../resources/components/layoutHelpers/contentControls/component'
 import ContentEditableComponent from '../../../../../resources/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
+import MobileDetect from 'mobile-detect'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -85,14 +86,27 @@ export default class Element extends React.Component {
   visualizeAttributes (element) {
     let layoutAtts = {}
     let atts = element.getAll()
+    let allowInline = true
+    if (vcCake.env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        allowInline = false
+      }
+    }
     Object.keys(atts).forEach((key) => {
       let attrSettings = element.settings(key)
       if (attrSettings.settings.options && attrSettings.settings.options.inline === true) {
-        layoutAtts[key] =
-          <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api}
-            options={attrSettings.settings.options}>
-            {atts[key] || ''}
-          </ContentEditableComponent>
+        if (allowInline) {
+          layoutAtts[ key ] =
+            <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api}
+              options={attrSettings.settings.options}>
+              {atts[ key ] || ''}
+            </ContentEditableComponent>
+        } else {
+          layoutAtts[ key ] = (
+            <vcvhelper dangerouslySetInnerHTML={{ __html: atts[ key ] || '' }} />
+          )
+        }
       } else {
         layoutAtts[key] = atts[key]
       }
