@@ -312,7 +312,7 @@ export default class {
         names.push(name)
         variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value || false
         // if any variable is set we can use mixin
-        if (variables[ variable ]) {
+        if (variables[ variable ] && [ 'all', 'xs', 'sm', 'md', 'lg', 'xl' ].indexOf(variable) < 0) {
           useMixin = true
         }
       })
@@ -445,7 +445,7 @@ export default class {
         names.push(name)
         variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value || false
         // if any variable is set we can use mixin
-        if (variables[ variable ]) {
+        if (variables[ variable ] && [ 'all', 'xs', 'sm', 'md', 'lg', 'xl' ].indexOf(variable) < 0) {
           useMixin = true
         }
       })
