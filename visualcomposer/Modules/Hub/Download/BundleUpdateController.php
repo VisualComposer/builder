@@ -47,6 +47,7 @@ class BundleUpdateController extends Container implements Module
         $hubBundleHelper = vchelper('HubBundle');
         $licenseHelper = vchelper('License');
         $tokenHelper = vchelper('Token');
+        $noticeHelper = vchelper('Notice');
         $token = $tokenHelper->createToken($optionsHelper->get('hubTokenId'));
         if (!vcIsBadResponse($token)) {
             $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
@@ -58,13 +59,7 @@ class BundleUpdateController extends Container implements Module
             }
         } elseif ($licenseHelper->isActivated() && isset($token['code'])) {
             $licenseHelper->setKey('');
-            if (!$optionsHelper->getTransient('premium:deactivated')
-                && !$optionsHelper->getTransient(
-                    'premium:deactivated:time'
-                )) {
-                $optionsHelper->setTransient('premium:deactivated', $token['code']);
-                $optionsHelper->setTransient('premium:deactivated:time', time());
-            }
+            $noticeHelper->addNotice('premium:deactivated', $licenseHelper->licenseErrorCodes($token['code']));
         }
 
         return ['status' => false];
