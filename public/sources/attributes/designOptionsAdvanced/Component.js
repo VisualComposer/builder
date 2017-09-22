@@ -154,23 +154,6 @@ export default class DesignOptionsAdvanced extends Attribute {
           value: 0
         }
       }
-    },
-    dividerMixin: {
-      src: require('raw-loader!./cssMixins/divider.pcss'),
-      variables: {
-        device: {
-          value: `all`
-        },
-        verticalPosition: {
-          value: `0`
-        },
-        horizontalPosition: {
-          value: `0`
-        },
-        customRotate: {
-          value: `0`
-        }
-      }
     }
   }
 
@@ -513,33 +496,6 @@ export default class DesignOptionsAdvanced extends Attribute {
             newMixins[ mixinName ].variables.angle = {
               value: newValue[ device ].gradientAngle || 0
             }
-            newMixins[ mixinName ].variables.device = {
-              value: device
-            }
-          }
-          // dividerMixin
-          if (newValue[ device ] && newValue[ device ].divider) {
-            let mixinName = `dividerMixin:${device}`
-            newMixins[ mixinName ] = {}
-            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
-            if (newValue[ device ].dividerVerticalPosition) {
-              newMixins[ mixinName ].variables.verticalPosition = {
-                value: newValue[ device ].dividerVerticalPosition
-              }
-            }
-
-            if (newValue[ device ].dividerHorizontalPosition) {
-              newMixins[ mixinName ].variables.horizontalPosition = {
-                value: newValue[ device ].dividerHorizontalPosition
-              }
-            }
-
-            if (newValue[ device ].dividerRotation) {
-              newMixins[ mixinName ].variables.customRotate = {
-                value: newValue[ device ].dividerRotation
-              }
-            }
-
             newMixins[ mixinName ].variables.device = {
               value: device
             }
@@ -2112,6 +2068,143 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render divider background style
+   * @returns {*}
+   */
+  getDividerBackgroundStyleRender () {
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider ||
+      backgroundTypeToSearch !== 'image' || !vcCake.env('CONTAINER_DIVIDER') || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('dividerBackgroundImage') || !this.state.devices[ this.state.currentDevice ].dividerBackgroundImage.urls || this.state.devices[ this.state.currentDevice ].dividerBackgroundImage.urls.length === 0) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'Cover',
+          value: 'cover'
+        },
+        {
+          label: 'Contain',
+          value: 'contain'
+        },
+        {
+          label: 'Full width',
+          value: 'full-width'
+        },
+        {
+          label: 'Full height',
+          value: 'full-height'
+        },
+        {
+          label: 'Repeat',
+          value: 'repeat'
+        },
+        {
+          label: 'Repeat horizontal',
+          value: 'repeat-x'
+        },
+        {
+          label: 'Repeat vertical',
+          value: 'repeat-y'
+        },
+        {
+          label: 'No repeat',
+          value: 'no-repeat'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider background style
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='dividerBackgroundStyle'
+        options={options}
+        updater={this.dividerChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Render divider background position control
+   * @returns {*}
+   */
+  getDividerBackgroundPositionRender () {
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider ||
+      backgroundTypeToSearch !== 'image' || !vcCake.env('CONTAINER_DIVIDER') || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('dividerBackgroundImage') || !this.state.devices[ this.state.currentDevice ].dividerBackgroundImage.urls || this.state.devices[ this.state.currentDevice ].dividerBackgroundImage.urls.length === 0) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'Left Top',
+          value: 'left-top',
+          icon: 'vcv-ui-icon-attribute-background-position-left-top'
+        },
+        {
+          label: 'Center Top',
+          value: 'center-top',
+          icon: 'vcv-ui-icon-attribute-background-position-center-top'
+        },
+        {
+          label: 'Right Top',
+          value: 'right-top',
+          icon: 'vcv-ui-icon-attribute-background-position-right-top'
+        },
+        {
+          label: 'Left Center',
+          value: 'left-center',
+          icon: 'vcv-ui-icon-attribute-background-position-left-center'
+        },
+        {
+          label: 'Center Center',
+          value: 'center-center',
+          icon: 'vcv-ui-icon-attribute-background-position-center-center'
+        },
+        {
+          label: 'Right Center',
+          value: 'right-center',
+          icon: 'vcv-ui-icon-attribute-background-position-right-center'
+        },
+        {
+          label: 'Left Bottom',
+          value: 'left-bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-left-bottom'
+        },
+        {
+          label: 'Center Bottom',
+          value: 'center-bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-center-bottom'
+        },
+        {
+          label: 'Right Bottom',
+          value: 'right-bottom',
+          icon: 'vcv-ui-icon-attribute-background-position-right-bottom'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundPosition || DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider background position
+      </span>
+      <ButtonGroup
+        api={this.props.api}
+        fieldKey='dividerBackgroundPosition'
+        options={options}
+        updater={this.dividerChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -2155,6 +2248,8 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getDividerBackgroundGradientStartColorRender()}
             {this.getDividerBackgroundGradientEndColorRender()}
             {this.getDividerAttachImageRender()}
+            {this.getDividerBackgroundStyleRender()}
+            {this.getDividerBackgroundPositionRender()}
           </div>
         </div>
       </div>
