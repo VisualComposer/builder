@@ -2,7 +2,7 @@ import React from 'react'
 import vcCake from 'vc-cake'
 import HtmlLayout from './htmlLayout'
 const elementsStorage = vcCake.getStorage('elements')
-
+const wordpressBackendWorkspace = vcCake.getStorage('wordpressBackendWorkspace')
 export default class LayoutEditor extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired
@@ -18,7 +18,7 @@ export default class LayoutEditor extends React.Component {
   componentDidMount () {
     elementsStorage.state('document').onChange((data) => {
       this.setState({ data: data }, () => {
-        // content.trigger('data:editor:render')
+        wordpressBackendWorkspace.state('lastAction').set('contentBuilt')
       })
     }, {
       debounce: 50

@@ -5,7 +5,6 @@ const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
 const stylesManager = vcCake.getService('stylesManager')
 const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
-const settingsStorage = vcCake.getStorage('settings')
 const cook = vcCake.getService('cook')
 
 export default class SaveController {
@@ -14,13 +13,14 @@ export default class SaveController {
       dataProcessor.appServerRequest(data).then(successCallback, failureCallback)
     })
   }
+
   /**
    * Send data to server
    * @param data
    * @param status
    * @private
    */
-  save (data, status, id) {
+  save (id, data, status) {
     const iframe = document.getElementById('vcv-editor-iframe')
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
     let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
@@ -55,9 +55,9 @@ export default class SaveController {
       const elementBaseStyleManager = stylesManager.create()
       const elementAttributesStyleManager = stylesManager.create()
       const elementMixinsStyleManager = stylesManager.create()
-      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { attributeMixins: false, cssMixins: false })
-      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, cssMixins: false })
-      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, attributeMixins: false })
+      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], {attributeMixins: false, cssMixins: false})
+      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], {tags: false, cssMixins: false})
+      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], {tags: false, attributeMixins: false})
       promises.push(elementBaseStyleManager.add(baseCss).compile().then((result) => {
         elementsCss[key].baseCss = result
       }))
@@ -68,12 +68,12 @@ export default class SaveController {
         elementsCss[key].mixinsCss = result
       }))
     })
-    assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
-    assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
+    assetsFiles.cssBundles = [...new Set(assetsFiles.cssBundles)]
+    assetsFiles.jsBundles = [...new Set(assetsFiles.jsBundles)]
     Promise.all(promises).then(() => {
       const requestData = {
         'vcv-action': 'setData:adminNonce',
-        'vcv-source-id': id || window.vcvSourceID,
+        'vcv-source-id': id,
         'vcv-ready': '1', // Used for backend editor when post being saved
         'vcv-content': '<!--vcv no format-->' + content + '<!--vcv no format-->',
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
@@ -81,10 +81,7 @@ export default class SaveController {
         'vcv-elements-css-data': encodeURIComponent(JSON.stringify(elementsCss)),
         'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
         'vcv-source-css': pageStyles,
-        'vcv-settings-source-custom-css': settingsStorage.state('customCss').get() || '',
-        'vcv-settings-global-css': settingsStorage.state('globalCss').get() || '',
-        'vcv-tf': 'noGlobalCss',
-        'wp-preview': vcCake.getData('wp-preview')
+        'vcv-tf': 'noGlobalCss'
       }
       this.ajax(
         requestData,
@@ -120,11 +117,11 @@ export default class SaveController {
     // })
   }
 
-  load = (data, status) => {
+  load = (id, data, status) => {
     this.ajax(
       {
         'vcv-action': 'getData:adminNonce',
-        'vcv-source-id': window.vcvSourceID,
+        'vcv-source-id': id,
         'vcv-data': encodeURIComponent(JSON.stringify(data))
       },
       this.loadSuccess.bind(this, status),

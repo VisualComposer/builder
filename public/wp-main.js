@@ -1,4 +1,3 @@
-// @flow
 import vcCake from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 // import React from 'react'

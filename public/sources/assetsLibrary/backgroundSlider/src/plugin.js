@@ -54,19 +54,20 @@
         this.effect = this.slider.dataset.vceAssetsSliderEffect;
         this.autoplay();
       },
-      findKeyframesRule: function findKeyframesRule (rule) {
+      updateKeyframesRule: function updateKeyframesRule (rule, keyframesRules, direction) {
         let ss = document.styleSheets;
-        let result = [];
         for (let i = 0; i < ss.length; ++i) {
-          if (ss[i].cssRules && ss[i].cssRules.length) {
-            for (let j = 0; j < ss[i].cssRules.length; ++j) {
-              if (ss[i].cssRules[j].type === window.CSSRule.KEYFRAMES_RULE && ss[i].cssRules[j].name === rule) {
-                result.push(ss[i].cssRules[j]);
+          try {
+            if (ss[i].cssRules && ss[i].cssRules.length) {
+              for (let j = 0; j < ss[i].cssRules.length; ++j) {
+                if (ss[i].cssRules[j].type === window.CSSRule.KEYFRAMES_RULE && ss[i].cssRules[j].name === rule) {
+                  ss[i].cssRules[j].deleteRule(keyframesRules[ direction ].key);
+                  ss[i].cssRules[j].appendRule(keyframesRules[ direction ].value);
+                }
               }
             }
-          }
+          } catch (e) {}
         }
-        return result.length ? result : null;
       },
       initCarousel: function initCarousel () {
         let isHorizontal = this.direction === 'left' || this.direction === 'right';
@@ -110,13 +111,7 @@
             value: `0% { transform: translateY(-${100 - (100 / count)}%); }`
           },
         };
-        let carouselRule = this.findKeyframesRule(`vce-asset-background-slide--carousel-${this.direction}`);
-        if (carouselRule) {
-          carouselRule.forEach((rule) => {
-            rule.deleteRule(keyframesRules[ this.direction ].key);
-            rule.appendRule(keyframesRules[ this.direction ].value);
-          });
-        }
+        this.updateKeyframesRule(`vce-asset-background-slide--carousel-${this.direction}`, keyframesRules, this.direction);
         // add animation
         this.slidesContainer.classList.add(`animate-${this.direction}`);
       },
