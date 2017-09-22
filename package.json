@@ -8,7 +8,7 @@
     "url": "git@gitlab.com:visual-composer-website-builder/builder.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 jest",
     "start": "babel-node server.js",
     "start-new": "babel-node server.babel.js",
     "standard": "standard",
@@ -29,6 +29,7 @@
     "babel-core": "6.17.0",
     "babel-eslint": "7.0.0",
     "babel-loader": "6.2.5",
+    "babel-jest": "^9.0.3",
     "babel-plugin-transform-runtime": "6.15.0",
     "babel-preset-es2015": "6.16.0",
     "babel-preset-react": "6.16.0",
@@ -47,8 +48,7 @@
     "expose-loader": "0.7.1",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.9.0",
-    "jest": "21.1.0",
-    "jest-cli": "16.0.2",
+    "jest-cli": "15.1.1",
     "jscs": "3.0.7",
     "json-loader": "0.5.4",
     "less-loader": "2.2.3",
@@ -114,7 +114,7 @@
     "postcss-nested": "1.0.0",
     "postcss-prefix-url": "git://github.com/say2me/postcss-prefix-url.git",
     "raw-loader": "0.5.1",
-    "react": "15.3.2",
+    "react": "15.6.1",
     "react-ace": "3.6.1",
     "react-addons-shallow-compare": "15.3.2",
     "react-color": "2.10.0",
@@ -125,6 +125,7 @@
     "react-dom": "15.3.2",
     "react-motion": "0.4.5",
     "react-sortable-hoc": "0.6.3",
+    "react-test-renderer": "15.6.1",
     "react-textarea-autosize": "4.0.5",
     "react-tinymce": "0.5.1",
     "reactcss": "1.2.3",
@@ -172,6 +173,7 @@
     ]
   },
   "jest": {
-    "testRegex": "(/tests/jest/.*|\\.(test|spec))\\.jsx?$"
+    "testRegex": "(/tests/jest/.*|\\.(test|spec))\\.jsx?$",
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest"
   }
 }
