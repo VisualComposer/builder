@@ -144,7 +144,7 @@ eval(unescape('${escapedString}'))
     let returnData = null
     let mixinData = assetsStorage.getCssMixinsByElement(this.props.atts)
     let { tag } = this.props.atts
-    if (mixinData[ tag ][ mixinName ]) {
+    if (mixinData[ tag ] && mixinData[ tag ][ mixinName ]) {
       let mixin = Object.keys(mixinData[ tag ][ mixinName ])
       mixin = mixin.length ? mixin.pop() : null
       if (mixin) {

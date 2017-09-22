@@ -31,9 +31,6 @@ class GetPremium extends About implements Module
     public function __construct(License $licenseHelper, Token $tokenHelper, Request $requestHelper)
     {
         if ('account' === vcvenv('VCV_ENV_ADDONS_ID')) {
-            $this->optionGroup = $this->getSlug();
-            $this->optionSlug = 'vcv-go-premium';
-
             if (!$tokenHelper->isSiteAuthorized()) {
                 $this->wpAddAction(
                     'admin_menu',
@@ -46,17 +43,26 @@ class GetPremium extends About implements Module
                 'addJs'
             );
 
-            if (!$licenseHelper->isActivated() && $tokenHelper->isSiteAuthorized()) {
-                $this->addFilter(
-                    'vcv:settings:getPages',
-                    'addPage',
-                    70
-                );
-                $this->wpAddAction(
-                    'in_admin_header',
-                    'addCss'
-                );
-            }
+            $this->addEvent(
+                'vcv:inited',
+                function (License $licenseHelper, Token $tokenHelper, Request $requestHelper) {
+                    if (!$licenseHelper->isActivated() && $tokenHelper->isSiteAuthorized()) {
+                        /** @see \VisualComposer\Modules\Account\Pages\ActivationPage::addPage */
+                        $this->addFilter(
+                            'vcv:settings:getPages',
+                            'addPage',
+                            70
+                        );
+
+                        $this->wpAddAction('in_admin_header', 'addCss');
+                    } elseif ($requestHelper->input('page') === $this->getSlug()) {
+                        $aboutPage = vcapp('SettingsPagesAbout');
+                        wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
+                        exit;
+                    }
+                },
+                70
+            );
 
             if (!$tokenHelper->isSiteAuthorized()
                 || ($tokenHelper->isSiteAuthorized()

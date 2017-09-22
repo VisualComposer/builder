@@ -222,3 +222,18 @@ class CustomContainer extends \VisualComposer\Framework\Illuminate\Container\Con
         return $this->hasStringKeys($data);
     }
 }
+
+function call()
+{
+    echo 'WE are break everything :)';
+}
+
+function a()
+{
+    echo 'WE are break everything :)';
+}
+
+function b()
+{
+    echo 'WE are break everything :)';
+}
