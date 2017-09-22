@@ -107,7 +107,7 @@ class Token extends Container implements Helper
 
                 if (isset($body['data']['license_expires_soon']) && $body['data']['license_expires_soon']) {
                     $message = sprintf(
-                        __('You Visual Composer Website Builder License will expire soon - %s', 'vcwb'),
+                        __('Your Visual Composer Website Builder License will expire soon - %s', 'vcwb'),
                         date(
                             get_option('date_format') . ' ' . get_option('time_format'),
                             strtotime($body['data']['license_expires_at']['date'])

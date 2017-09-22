@@ -11,10 +11,12 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Nonce;
+use VisualComposer\Helpers\Notice;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Url;
 
 /**
  * Class NoticeController.
@@ -27,22 +29,24 @@ class NoticeController extends Container implements Module
     public function __construct()
     {
         /** \VisualComposer\Modules\Settings\NoticeController::dismissNotice */
-        $this->wpAddAction('admin_init', 'dismissNotice');
+        $this->addFilter('vcv:ajax:notice:dismiss:adminNonce', 'dismissNotice');
         /** \VisualComposer\Modules\Settings\NoticeController::createNotice */
         $this->wpAddAction('admin_notices', 'createNotice');
-        /** \VisualComposer\Modules\Settings\NoticeController::unsetOptions */
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+        $this->addEvent('vcv:system:factory:reset', '\VisualComposer\Helpers\Notice::reset');
     }
 
     /**
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
+     * @param Notice $noticeHelper
+     * @param Url $urlHelper
      */
     protected function createNotice(
-        Options $optionsHelper,
-        CurrentUser $currentUserHelper
+        CurrentUser $currentUserHelper,
+        Notice $noticeHelper,
+        Nonce $nonceHelper,
+        Url $urlHelper
     ) {
-        $notices = $optionsHelper->getTransient('admin:notices');
+        $notices = $noticeHelper->all();
         if (!empty($notices)) {
             foreach ($notices as $notice) {
                 if (!$currentUserHelper->wpAll('manage_options')->get()
@@ -54,15 +58,18 @@ class NoticeController extends Container implements Module
                     return;
                 }
 
-                $class = 'notice notice-'.$notice['type'];
+                $class = 'notice notice-' . $notice['type'];
 
                 if ($notice['dismissible']) {
                     printf(
-                        '<div class="%1$s"><p>%2$s</p><p><a href="%3$s?vcv:%4$s:dismiss=1">%5$s</a></p></div>',
+                        '<div class="%1$s"><p>%2$s</p><p><a href="%3$s">%4$s</a></p></div>',
                         esc_attr($class),
                         $notice['message'],
-                        esc_url(admin_url('index.php')),
-                        $notice['name'],
+                        $urlHelper->ajax([
+                            'vcv-action' => 'notice:dismiss:adminNonce',
+                            'vcv-notice-name' => $notice['name'],
+                            'vcv-nonce' => $nonceHelper->admin(),
+                        ]),
                         __('Dismiss', 'vcwb')
                     );
                 } else {
@@ -78,29 +85,13 @@ class NoticeController extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param Notice $noticeHelper
      */
-    protected function dismissNotice(
-        Request $requestHelper,
-        Options $optionsHelper
-    ) {
-        $notices = $optionsHelper->getTransient('admin:notices');
-        if (!empty($notices)) {
-            foreach ($notices as $notice) {
-                if ($notice['name'] && $notice['dismissible'] && $requestHelper->input('vcv:' . $notice['name'] . ':dismiss')) {
-                    update_user_meta(
-                        get_current_user_id(),
-                        'vcv:' . $notice['name'] . ':notice:' . $notice['time'],
-                        true
-                    );
-                }
-            }
-        }
-    }
-
-    protected function unsetOptions(Options $optionsHelper)
+    protected function dismissNotice(Request $requestHelper, Notice $noticeHelper)
     {
-        $optionsHelper
-            ->delete('admin:notices');
+        $name = $requestHelper->input('vcv-notice-name');
+        $noticeHelper->dismissNotice($name);
+        wp_redirect($_SERVER['HTTP_REFERER']);
+        exit;
     }
 }

@@ -7,45 +7,70 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
+
 use VisualComposer\Framework\Illuminate\Support\Helper;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class Notice implements Helper
 {
-    use WpFiltersActions;
-
-    protected $notices = [];
-
     public function addNotice($name, $message, $type = 'warning', $dismissible = true)
     {
-        $optionsHelper = vchelper('Options');
-        $notices = $optionsHelper->getTransient('admin:notices');
-
-        if (is_array($notices)) {
-            $this->notices = $notices;
+        $notices = $this->all();
+        if (!is_array($notices)) {
+            $notices = [];
         }
 
-        if (!isset($this->notices[ $name ]) && !isset($this->notices[ $name ][ $message ])) {
-            $this->notices[$name] = [
+        if (!isset($notices[ $name ]) && !isset($notices[ $name ][ $message ])) {
+            $notices[ $name ] = [
                 'name' => $name,
                 'message' => $message,
                 'type' => $type,
                 'time' => time(),
                 'dismissible' => $dismissible,
             ];
-            $optionsHelper->setTransient('admin:notices', $this->notices);
+            $optionsHelper = vchelper('Options');
+            $optionsHelper->setTransient('admin:notices', $notices);
         }
     }
 
     public function removeNotice($name)
     {
-        $optionsHelper = vchelper('Options');
-        $this->notices = $optionsHelper->getTransient('admin:notices');
+        $notices = $this->all();
 
-        if (isset($this->notices[ $name ])) {
-            unset($this->notices[ $name ]);
+        if (isset($notices[ $name ])) {
+            unset($notices[ $name ]);
         }
+        $optionsHelper = vchelper('Options');
+        $optionsHelper->setTransient('admin:notices', $notices);
+    }
 
-        $optionsHelper->setTransient('admin:notices', $this->notices);
+    public function dismissNotice($name)
+    {
+        $notices = $this->all();
+        if (!empty($notices)) {
+            foreach ($notices as $notice) {
+                if ($notice['name'] && $notice['dismissible'] && $notice['name'] === $name) {
+                    update_user_meta(
+                        get_current_user_id(),
+                        'vcv:' . $notice['name'] . ':notice:' . $notice['time'],
+                        true
+                    );
+                    break;
+                }
+            }
+        }
+    }
+
+    public function all()
+    {
+        $optionsHelper = vchelper('Options');
+
+        return $optionsHelper->getTransient('admin:notices');
+    }
+
+    public function reset()
+    {
+        $optionsHelper = vchelper('Options');
+
+        $optionsHelper->delete('admin:notices');
     }
 }

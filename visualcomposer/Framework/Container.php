@@ -9,6 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use BadMethodCallException;
+use ReflectionFunction;
 use ReflectionMethod;
 use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;
 
@@ -31,16 +32,17 @@ abstract class Container
     {
         $func = $method;
         $inner = false;
-        if (!is_callable($method)) {
+        if (!is_callable($method) || (is_string($method) && method_exists($this, $method))) {
             if (is_array($method)) {
                 throw new BadMethodCallException('method is not callable');
             }
             $func = [$this, $method];
             $inner = true;
         }
-
+        /** @var ReflectionMethod|ReflectionFunction $reflector */
+        $reflector = $this->getCallReflector($func);
         $dependencies = $this->getMethodDependencies(
-            $this->getCallReflector($func),
+            $reflector,
             $parameters
         );
 
@@ -52,7 +54,11 @@ abstract class Container
 
             return $reflectionMethod->invokeArgs($this, $dependencies);
         } else {
-            return call_user_func_array($func, $dependencies);
+            if ($func instanceof \Closure) {
+                return call_user_func_array($func, $dependencies);
+            } else {
+                return $reflector instanceof ReflectionFunction ? $reflector->invokeArgs($dependencies) : $reflector->invokeArgs(vcapp($reflector->class), $dependencies);
+            }
         }
     }
 }
