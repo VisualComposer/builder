@@ -49,7 +49,7 @@ export default class EditFormSection extends React.Component {
     const headerOffset = this.sectionHeader.offsetTop + headerRect.height
     if (prevState && !prevState.isActive && isActive || this.props.tab.index === this.props.activeTabIndex) {
       // will scroll to top
-      let scrollbar = this.props.getSectionContentScrollbar()
+      let scrollbar = this.props.sectionContentScrollbar
       if (scrollbar) {
         scrollbar.scrollTop(headerOffset - headerRect.height)
       }
