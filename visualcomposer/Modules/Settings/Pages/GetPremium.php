@@ -31,17 +31,12 @@ class GetPremium extends About implements Module
     public function __construct(License $licenseHelper, Token $tokenHelper, Request $requestHelper)
     {
         if ('account' === vcvenv('VCV_ENV_ADDONS_ID')) {
-            if (!$tokenHelper->isSiteAuthorized()) {
+            if (!$licenseHelper->isActivated()) {
                 $this->wpAddAction(
-                    'admin_menu',
-                    'goPremium'
+                    'in_admin_footer',
+                    'addJs'
                 );
             }
-
-            $this->wpAddAction(
-                'in_admin_footer',
-                'addJs'
-            );
 
             $this->addEvent(
                 'vcv:inited',
@@ -101,28 +96,12 @@ class GetPremium extends About implements Module
             . '</strong>';
     }
 
-    /**
-     * Add external link
-     */
-    protected function goPremium()
-    {
-        global $submenu;
-        $url = vchelper('Utm')->get('goPremiumWpMenuSidebar');
-        $submenu['vcv-activation']['vcv-settings'] = [$this->buttonTitle(), 'manage_options', $url];
-    }
 
     /**
      * Add target _blank to external "Go Premium" link in sidebar
      */
-    protected function addJs(Token $tokenHelper, License $licenseHelper)
+    protected function addJs(License $licenseHelper)
     {
-        if (!$tokenHelper->isSiteAuthorized()) {
-            echo "<script>
-        jQuery(document).ready(function($) {
-            $('#toplevel_page_vcv-activation .wp-submenu li:last a').attr('target','_blank');
-        });
-        </script>";
-        }
         if (!$licenseHelper->isActivated()) {
             echo "<script>
             jQuery(document).ready(function($) {
@@ -175,11 +154,8 @@ class GetPremium extends About implements Module
     {
         $getPremiumPage = vcapp('SettingsPagesGetPremium');
         $licenseHelper = vchelper('License');
-        $tokenHelper = vchelper('Token');
 
-        if (!$tokenHelper->isSiteAuthorized()) {
-            $goPremiumLink = '<a href="' . vchelper('Utm')->get('goPremiumPluginsPage') . '&vcv-ref=plugins-page" target="_blank">' . __('Go Premium', 'vcwb') . '</a>';
-        } elseif (!$licenseHelper->isActivated()) {
+        if (!$licenseHelper->isActivated()) {
             $goPremiumLink = '<a href="' . esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))) . '&vcv-ref=plugins-page">' . __('Go Premium', 'vcwb') . '</a>';
         }
 
