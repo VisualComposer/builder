@@ -67,7 +67,7 @@ $(() => {
 
     let back = true
     if (window.vcvActivationType !== 'standalone' && back) {
-      $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button', () => {
+      $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button, .vcv-go-premium-screen--active .vcv-popup-back-button', () => {
         showIntroScreen($popup)
       })
     } else {

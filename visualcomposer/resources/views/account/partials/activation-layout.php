@@ -54,7 +54,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
         <div class="vcv-popup">
             <!-- Back button -->
             <button class="vcv-popup-back-button">
-                <span><?php /*echo __('GO BACK'); */ ?></span>
+                <span><?php echo __('BACK'); ?></span>
             </button>
             <!-- Close button -->
             <button class="vcv-popup-close-button"></button>
@@ -99,6 +99,12 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             ); ?>
             <?php echo vcview(
                 'account/partials/activation-slider',
+                [
+                    'controller' => $controller,
+                ]
+            ); ?>
+            <?php echo vcview(
+                'account/partials/activation-go-premium',
                 [
                     'controller' => $controller,
                 ]
