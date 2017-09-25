@@ -8,22 +8,25 @@ export default class EditFormContent extends React.Component {
 
   constructor (props) {
     super(props)
-    this.getSectionContentScrollbar = this.getSectionContentScrollbar.bind(this)
+    this.state = {
+      scrollbar: null
+    }
+    this.scrollBarMounted = this.scrollBarMounted.bind(this)
   }
 
-  getSectionContentScrollbar () {
-    return this.scrollbar
+  scrollBarMounted (scrollbar) {
+    this.setState({ scrollbar: scrollbar })
   }
 
   render () {
     return (
       <div className='vcv-ui-tree-content-section'>
-        <Scrollbar ref={(scrollbar) => { this.scrollbar = scrollbar }}>
+        <Scrollbar ref={this.scrollBarMounted}>
           <div className='vcv-ui-tree-content-section-inner'>
             <div className='vcv-ui-editor-plates-container'>
               <div className='vcv-ui-editor-plates'>
                 <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                  <EditFormFieldsForm {...this.props} getSectionContentScrollbar={this.getSectionContentScrollbar} />
+                  <EditFormFieldsForm {...this.props} sectionContentScrollbar={this.state.scrollbar} />
                 </div>
               </div>
             </div>

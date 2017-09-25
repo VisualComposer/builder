@@ -1,5 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
+import MobileDetect from 'mobile-detect'
+import vcCake from 'vc-cake'
 
 export default class SearchTemplate extends React.Component {
   static propTypes = {
@@ -12,6 +14,7 @@ export default class SearchTemplate extends React.Component {
   }
   inputTimeout = 0
   dropdownTimeout = 0
+  mobileDetect = null
 
   constructor (props) {
     super(props)
@@ -26,6 +29,8 @@ export default class SearchTemplate extends React.Component {
     this.getCategorySelect = this.getCategorySelect.bind(this)
     this.handleCategoryClick = this.handleCategoryClick.bind(this)
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
+
+    this.mobileDetect = vcCake.env('MOBILE_DETECT') ? new MobileDetect(window.navigator.userAgent) : null
   }
 
   componentWillReceiveProps (nextProps) {
@@ -112,7 +117,7 @@ export default class SearchTemplate extends React.Component {
       'vcv-ui-editor-search-dropdown-container': true,
       'vcv-ui-editor-field-highlight': this.state.dropdown
     })
-
+    let autofocus = vcCake.env('MOBILE_DETECT') && !this.mobileDetect.mobile()
     return <div className='vcv-ui-editor-search-container'>
       <div
         className={dropdownContainerClasses}
@@ -133,7 +138,7 @@ export default class SearchTemplate extends React.Component {
           type='text'
           value={this.props.inputValue}
           placeholder={searchPlaceholder}
-          autoFocus='true'
+          autoFocus={autofocus}
         />
       </div>
     </div>

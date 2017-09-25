@@ -13,6 +13,7 @@ export default class SearchElement extends React.Component {
   }
   inputTimeout = 0
   dropdownTimeout = 0
+  mobileDetect = null
 
   constructor (props) {
     super(props)
@@ -27,6 +28,8 @@ export default class SearchElement extends React.Component {
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
     this.handleCategoryClick = this.handleCategoryClick.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
+
+    this.mobileDetect = vcCake.env('MOBILE_DETECT') ? new MobileDetect(window.navigator.userAgent) : null
   }
 
   componentWillUnmount () {
@@ -108,13 +111,7 @@ export default class SearchElement extends React.Component {
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
     })
-    let autoFocus = true
-    if (vcCake.env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        autoFocus = false
-      }
-    }
+    let autoFocus = vcCake.env('MOBILE_DETECT') && !this.mobileDetect.mobile()
 
     return <div className='vcv-ui-editor-search-container'>
       <div
