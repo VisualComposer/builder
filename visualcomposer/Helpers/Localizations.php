@@ -22,6 +22,7 @@ class Localizations extends Container implements Helper
     {
         $locale = [
             'addElement' => __('Add Element', 'vcwb'),
+            'addPremiumElement' => __('Add Premium Element', 'vcwb'),
             'addTemplate' => __('Add Template', 'vcwb'),
             'treeView' => __('Tree View', 'vcwb'),
             'undo' => __('Undo', 'vcwb'),
@@ -43,7 +44,7 @@ class Localizations extends Container implements Helper
             'saveDraft' => __('Save Draft', 'vcwb'),
             'goPremium' => __('Go Premium', 'vcwb'),
             'close' => __('Close', 'vcwb'),
-            'premiumElementsButton' => __('Premium Elements - Coming Soon', 'vcwb'),
+            'premiumElementsButton' => __('Premium Version - Coming Soon', 'vcwb'),
             'premiumTemplatesButton' => __('Premium Templates - Coming Soon', 'vcwb'),
             // @codingStandardsIgnoreLine
             'emptyTreeView' => __('There are no elements on your canvas - start by adding element or template.', 'vcwb'),

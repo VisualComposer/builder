@@ -21,6 +21,8 @@ add('wordpressWorkspace', (api) => {
     }
     if (settings.action === 'add') {
       workspaceStorage.state('contentEnd').set('addElement')
+    } else if (settings.action === 'addHub') {
+      workspaceStorage.state('contentEnd').set('addHubElement')
     } else if (settings.action === 'edit') {
       workspaceStorage.state('contentEnd').set('editElement')
     } else if (settings.action === 'addTemplate') {

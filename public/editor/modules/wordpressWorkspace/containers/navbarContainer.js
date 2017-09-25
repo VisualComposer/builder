@@ -2,6 +2,7 @@ import React from 'react'
 
 import Logo from '../../../../resources/components/navbar/logo/logo'
 import PlusControl from '../../../../resources/components/navbar/controls/plusControl'
+import PlusTeaserControl from '../../../../resources/components/navbar/controls/plusTeaserControl'
 import AddTemplateControl from '../../../../resources/components/navbar/controls/addTemplateControl'
 import TreeViewControl from '../../../../resources/components/navbar/controls/treeViewControl'
 import UndoRedoControl from '../../../../resources/components/navbar/controls/undoRedoControl'
@@ -13,7 +14,7 @@ import NavbarSeparator from '../../../../resources/components/navbar/controls/na
 import Navbar from '../../../../resources/components/navbar/navbar'
 import NavbarWrapper from '../../../../resources/components/navbar/navbarWrapper'
 import GoPremiumControl from '../../../../resources/components/navbar/controls/goPremiumControl'
-import {getStorage} from 'vc-cake'
+import {getStorage, env} from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
 const contentEndState = workspaceStorage.state('contentEnd')
@@ -51,6 +52,7 @@ export default class NavbarContainer extends React.Component {
         <UndoRedoControl />
         <LayoutControl visibility='pinned' />
         <SettingsButtonControl />
+        { env('HUB_TEASER') ? <PlusTeaserControl /> : null }
         <NavbarSeparator visibility='pinned' />
         <WordPressPostSaveControl visibility='pinned' />
         <WordPressAdminControl visibility='hidden' />

@@ -7,9 +7,14 @@ export default class AddElementPanel extends React.Component {
   }
 
   render () {
+    let childrenOutput = this.props.children
+    if (!childrenOutput) {
+      childrenOutput = <Categories parent={this.props.options.element ? this.props.options.element : {}}/>
+    }
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-element-content'>
-        <Categories parent={this.props.options.element ? this.props.options.element : {}} />
+        {childrenOutput}
       </div>
     )
   }
