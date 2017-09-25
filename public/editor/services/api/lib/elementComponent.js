@@ -249,7 +249,7 @@ eval(unescape('${escapedString}'))
 
       if (divider) {
         let dividerElement = (
-          <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey} metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id} applyDivider={this.applyDO('divider')} />
+          <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey} metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id} applyDivider={this.applyDO('divider')} index={index} />
         )
 
         if (parallax) {

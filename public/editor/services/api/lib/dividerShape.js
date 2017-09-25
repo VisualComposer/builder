@@ -11,7 +11,8 @@ export default class DividerShape extends Component {
     fillType: PropTypes.string,
     backgroundImage: PropTypes.string,
     id: PropTypes.string,
-    flipHorizontally: PropTypes.bool
+    flipHorizontally: PropTypes.bool,
+    index: PropTypes.number
   }
 
   getLinearGradient () {
@@ -27,7 +28,7 @@ export default class DividerShape extends Component {
       endColor = this.props.gradientColorStart
     }
 
-    let id = `gradient-${this.props.id}`
+    let id = `gradient-${this.props.id}-${this.props.index}`
     return (
       <linearGradient id={id} x1='0%' y1='0%' x2='100%' y2='0%'>
         <stop offset='0%' style={{ stopColor: startColor, stopOpacity: '1' }} />
@@ -36,11 +37,7 @@ export default class DividerShape extends Component {
     )
   }
 
-  changeHeight (height, svgContent, units) {
-    if (units) { // for image and video
-      height = height / 200
-    }
-
+  changeHeight (height, svgContent) {
     let parser = new window.DOMParser()
     let doc = parser.parseFromString(svgContent, 'text/html')
     height = parseFloat(height)
@@ -69,11 +66,11 @@ export default class DividerShape extends Component {
       })
       path.setAttribute('d', `${pointArrays.join(' ')} Z`)
     })
-    return doc.documentElement && doc.documentElement.outerHTML
+    return doc.body && doc.body.innerHTML
   }
 
   render () {
-    let { width, height, fill, shape, fillType, backgroundImage } = this.props
+    let { width, height, fill, shape, fillType, backgroundImage, index, id } = this.props
     let currentShape = shapes[ shape ]
 
     if (!currentShape) {
@@ -82,7 +79,6 @@ export default class DividerShape extends Component {
 
     let svgContent = currentShape.content
     let svgUnitContent = currentShape.unitContent
-    let shapeSize = currentShape.shapeSize
     let viewBoxWidth = currentShape.viewBox.width
     let viewBoxHeight = currentShape.viewBox.height
     let viewBox = `0 0 ${viewBoxWidth} ${viewBoxHeight}`
@@ -94,8 +90,8 @@ export default class DividerShape extends Component {
       if (fillType === 'color') {
         customAttributes.fill = fill
       } else if (fillType === 'gradient') {
-        let id = `gradient-${this.props.id}`
-        customAttributes.fill = `url(#${id})`
+        let gradientId = `gradient-${id}-${index}`
+        customAttributes.fill = `url(#${gradientId})`
       }
 
       return (
@@ -107,24 +103,25 @@ export default class DividerShape extends Component {
     }
 
     if (fillType === 'image') {
-      let imageId = `image-${this.props.id}`
+      let imageId = `image-${id}-${index}`
       let clipPathUrl = `url(#${imageId})`
-      let html = this.changeHeight(height, svgUnitContent, true)
+      let html = svgUnitContent
       let backgroundImageUrl = `url(${backgroundImage})`
       let imageProps = {}
 
       imageProps.style = {
+        clipPath: clipPathUrl,
         WebkitClipPath: clipPathUrl,
-        clipPath: clipPathUrl
+        height: `${parseFloat(height)}px`,
+        width: width
       }
 
-      let innerImageProps = {}
+      let percentage = width.replace('%', '')
+      let backgroundProps = {}
 
-      let imageHeight = `${parseFloat(height) + parseInt(shapeSize)}px`
-
-      innerImageProps.style = {
-        backgroundImage: backgroundImageUrl,
-        height: imageHeight
+      backgroundProps.style = {
+        width: `${100 / percentage * 100}%`,
+        backgroundImage: backgroundImageUrl
       }
 
       return (
@@ -133,7 +130,7 @@ export default class DividerShape extends Component {
             <clipPath id={imageId} dangerouslySetInnerHTML={{ __html: html }} clipPathUnits='objectBoundingBox' />
           </svg>
           <div {...imageProps} className='vce-divider-image-block'>
-            <div {...innerImageProps} className='vce-divider-image-inner-block' />
+            <div {...backgroundProps} className='vce-divider-image-background-block' />
           </div>
         </div>
       )

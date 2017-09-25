@@ -9,7 +9,8 @@ export default class Divider extends Component {
     deviceKey: PropTypes.string,
     metaAssetsPath: PropTypes.string,
     id: PropTypes.string,
-    applyDivider: PropTypes.object
+    applyDivider: PropTypes.object,
+    index: PropTypes.number
   }
 
   getPublicImage (filename) {
@@ -18,28 +19,35 @@ export default class Divider extends Component {
   }
 
   render () {
-    let { deviceData, deviceKey, id, applyDivider } = this.props
+    let { deviceData, deviceKey, id, applyDivider, index } = this.props
+    let { dividerShape, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundType } = deviceData
+
     let flipHorizontally = false
 
-    if (deviceData && deviceData.dividerFlipHorizontal === 'horizontally-right') {
+    if (dividerFlipHorizontal === 'horizontally-right') {
       flipHorizontally = true
     }
 
+    let backgroundStyleClass = `vce-container-divider-background-style--${dividerBackgroundStyle}`
+    let backgroundPositionClass = `vce-container-divider-background-position--${dividerBackgroundPosition}`
+
     let containerClasses = classNames({
       'vce-container-divider': true,
-      'vce-container-divider-flip--horizontally': flipHorizontally
+      'vce-container-divider-flip--horizontally': flipHorizontally,
+      [backgroundStyleClass]: dividerBackgroundStyle,
+      [backgroundPositionClass]: dividerBackgroundPosition
     }, `vce-visible-${deviceKey}-only`)
 
-    let fill = deviceData && deviceData.dividerBackgroundColor
-    let height = deviceData && deviceData.dividerHeight ? deviceData.dividerHeight : '200'
-    let width = deviceData && deviceData.dividerWidth ? deviceData.dividerWidth : '100'
+    let fill = dividerBackgroundColor
+    let height = dividerHeight || '200'
+    let width = dividerWidth || '100'
     width = `${width}%`
 
-    let shape = deviceData && deviceData.dividerShape && deviceData.dividerShape.icon
+    let shape = dividerShape && dividerShape.icon
     shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-dividers-', '')
 
     let imageUrl = ''
-    const images = deviceData.dividerBackgroundImage
+    const images = dividerBackgroundImage
 
     if (images) {
       if (images.urls && images.urls.length) {
@@ -52,7 +60,7 @@ export default class Divider extends Component {
     return (
       <div className={classNames(containerClasses)} {...applyDivider}>
         <div className='vce-container-divider-inner'>
-          <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={deviceData.dividerBackgroundType} gradientColorStart={deviceData.dividerBackgroundGradientStartColor} gradientColorEnd={deviceData.dividerBackgroundGradientEndColor} backgroundImage={imageUrl} flipHorizontally={flipHorizontally} />
+          <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={dividerBackgroundType} gradientColorStart={dividerBackgroundGradientStartColor} gradientColorEnd={dividerBackgroundGradientEndColor} backgroundImage={imageUrl} flipHorizontally={flipHorizontally} index={index} />
         </div>
       </div>
     )

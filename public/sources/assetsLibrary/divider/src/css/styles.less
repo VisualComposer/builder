@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   overflow: hidden;
-  pointer-events: none;
+  //pointer-events: none;
 }
 
 .vce-container-divider {
@@ -56,17 +56,95 @@
 }
 
 .vce-divider-image-block {
-  height: 200px;
-  position: relative;
-}
-
-.vce-divider-image-inner-block {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  background-position: center;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vce-divider-image-background-block {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vce-container-divider-flip--horizontally {
+  .vce-divider-image-background-block {
+    transform: translateX(-50%) scaleX(-1);
+    transform-origin: 50% 50%;
+  }
+}
+
+.vce-container-divider-background-style--cover .vce-divider-image-background-block {
   background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.vce-container-divider-background-style--contain .vce-divider-image-background-block {
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.vce-container-divider-background-style--full-width .vce-divider-image-background-block {
+  background-size: 100% auto;
+}
+
+.vce-container-divider-background-style--full-height .vce-divider-image-background-block {
+  background-size: auto 100%;
+}
+
+.vce-container-divider-background-style--repeat .vce-divider-image-background-block {
+  background-repeat: repeat;
+}
+
+.vce-container-divider-background-style--repeat-x .vce-divider-image-background-block {
+  background-repeat: repeat-x;
+}
+
+.vce-container-divider-background-style--repeat-y .vce-divider-image-background-block {
+  background-repeat: repeat-y;
+}
+
+.vce-container-divider-background-style--no-repeat .vce-divider-image-background-block {
+  background-repeat: no-repeat;
+}
+
+.vce-container-divider-background-position--left-top .vce-divider-image-background-block {
+  background-position: left top;
+}
+
+.vce-container-divider-background-position--center-top .vce-divider-image-background-block {
+  background-position: center top;
+}
+
+.vce-container-divider-background-position--right-top .vce-divider-image-background-block {
+  background-position: right top;
+}
+
+.vce-container-divider-background-position--left-center .vce-divider-image-background-block {
+  background-position: left center;
+}
+
+.vce-container-divider-background-position--center-center .vce-divider-image-background-block {
+  background-position: center center;
+}
+
+.vce-container-divider-background-position--right-center .vce-divider-image-background-block {
+  background-position: right center;
+}
+
+.vce-container-divider-background-position--left-bottom .vce-divider-image-background-block {
+  background-position: left bottom;
+}
+
+.vce-container-divider-background-position--center-bottom .vce-divider-image-background-block {
+  background-position: center bottom;
+}
+
+.vce-container-divider-background-position--right-bottom .vce-divider-image-background-block {
+  background-position: right bottom;
 }
 
 .vce-container-divider.vce-visible-all-only {

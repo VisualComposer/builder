@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import Layout from './lib/layout'
 import DndManager from './lib/dnd/dndManager'
 import ControlsManager from './lib/controls/controlsManager'
+import MobileDetect from 'mobile-detect'
 
 if (vcCake.env('FEATURE_WPBACKEND')) {
   vcCake.add('contentModernLayoutBackend', (api) => {
@@ -14,6 +15,12 @@ if (vcCake.env('FEATURE_WPBACKEND')) {
     )
     let dnd = new DndManager(api)
     dnd.init()
+    if (vcCake.env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        return
+      }
+    }
     let controls = new ControlsManager(api)
     let options = {
       iframeContainer: document.querySelector('.vcv-wpbackend-layout-content-container'),

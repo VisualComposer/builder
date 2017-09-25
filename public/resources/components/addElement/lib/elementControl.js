@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import Helper from '../../../dnd/helper'
 import DOMElement from '../../../dnd/domElement'
+import MobileDetect from 'mobile-detect'
 
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -85,6 +86,12 @@ export default class ElementControl extends React.Component {
   }
 
   showPreview () {
+    if (vcCake.env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        return
+      }
+    }
     const dragState = workspaceStorage.state('drag').get()
     const activeDragging = dragState && dragState.active
     if (this.updatePreviewPosition() && !activeDragging) {
