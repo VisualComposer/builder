@@ -101,7 +101,7 @@ class Token extends Container implements Helper
         );
         if (!vcIsBadResponse($result)) {
             $body = json_decode($result['body'], true);
-            if ($body['success']) {
+            if (is_array($body) && $body['success']) {
                 $token = $body['data']['token'];
                 $this->setToken($token);
 
@@ -119,43 +119,54 @@ class Token extends Container implements Helper
                 }
                 return $token;
             }
-        } else {
-            if (isset($result['body'])) {
-                $response = json_decode($result['body'], true);
-            }
-            if (isset($response['error'], $response['error']['type'], $response['error']['code'])) {
+
+            if (is_array($body) && isset($body['error'], $body['error']['type'], $body['error']['code'])) {
                 $loggerHelper->log(
-                    $licenseHelper->licenseErrorCodes($response['error']['code']),
+                    $licenseHelper->licenseErrorCodes($body['error']['code']),
                     [
-                        'result' => $response,
+                        'result' => $body,
                     ]
                 );
 
-                return ['status' => false, 'code' => $response['error']['code']];
-            }
-        }
-
-        $message = __('Token generation failed', 'vcwb');
-        if (is_wp_error($result)) {
-            $resultDetails = $result->get_error_message();
-            if ("http_request_failed" === $result->get_error_code()) {
-                $message .= '. ';
-                $message .= __('Possibly the process exceeded the timeout of 5 seconds', 'vcwb');
+                return ['status' => false, 'code' => $body['error']['code']];
             }
         } else {
-            // @codingStandardsIgnoreLine
-            $resultDetails = @json_decode($result['body'], 1);
-            if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                $message = $resultDetails['message'];
+            $message = __('Token generation failed', 'vcwb');
+            if (is_wp_error($result)) {
+                $resultDetails = $result->get_error_message();
+                if ("http_request_failed" === $result->get_error_code()) {
+                    $message .= '. ';
+                    $message .= __('Possibly the process exceeded the timeout of 5 seconds', 'vcwb');
+                }
+            } else {
+                // @codingStandardsIgnoreLine
+                $resultDetails = @json_decode($result['body'], 1);
+                if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                    $message = $resultDetails['message'];
+                }
+            }
+
+            $loggerHelper->log(
+                $message,
+                [
+                    'result' => $resultDetails,
+                ]
+            );
+
+            if (is_array($result) && isset($result['body'])) {
+                $response = json_decode($result['body'], true);
+                if (is_array($response) && isset($response['error'], $response['error']['type'], $response['error']['code'])) {
+                    $loggerHelper->log(
+                        $licenseHelper->licenseErrorCodes($response['error']['code']),
+                        [
+                            'result' => $response,
+                        ]
+                    );
+
+                    return ['status' => false, 'code' => $response['error']['code']];
+                }
             }
         }
-
-        $loggerHelper->log(
-            $message,
-            [
-                'result' => $resultDetails,
-            ]
-        );
 
         return false;
     }
