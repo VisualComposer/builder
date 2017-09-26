@@ -99,6 +99,59 @@ class Token extends Container implements Helper
                 'body' => $body,
             ]
         );
+
+        return $this->getTokenResponse($result);
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function getToken($id)
+    {
+        $token = $this->optionsHelper->getTransient('siteAuthToken');
+        if (!$token) {
+            $token = $this->createToken($id);
+            $this->setToken($token);
+        }
+
+        return $token;
+    }
+
+    public function setSiteAuthorized()
+    {
+        return $this->optionsHelper->set(
+            'siteAuthState',
+            1
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSiteAuthorized()
+    {
+        return (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
+    }
+
+    /**
+     * @param $token
+     *
+     * @return string
+     */
+    public function setToken($token)
+    {
+        return $this->optionsHelper->setTransient('siteAuthToken', $token, 3600);
+    }
+
+    /**
+     * @param $result
+     * @return array|bool
+     */
+    protected function getTokenResponse($result)
+    {
+        $loggerHelper = vchelper('Logger');
+        $licenseHelper = vchelper('License');
+        $noticeHelper = vchelper('Notice');
         if (!vcIsBadResponse($result)) {
             $body = json_decode($result['body'], true);
             if (is_array($body) && $body['success']) {
@@ -169,45 +222,5 @@ class Token extends Container implements Helper
         }
 
         return false;
-    }
-
-    /**
-     * @return bool|string
-     */
-    public function getToken($id)
-    {
-        $token = $this->optionsHelper->getTransient('siteAuthToken');
-        if (!$token) {
-            $token = $this->createToken($id);
-            $this->setToken($token);
-        }
-
-        return $token;
-    }
-
-    public function setSiteAuthorized()
-    {
-        return $this->optionsHelper->set(
-            'siteAuthState',
-            1
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSiteAuthorized()
-    {
-        return (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
-    }
-
-    /**
-     * @param $token
-     *
-     * @return string
-     */
-    public function setToken($token)
-    {
-        return $this->optionsHelper->setTransient('siteAuthToken', $token, 3600);
     }
 }
