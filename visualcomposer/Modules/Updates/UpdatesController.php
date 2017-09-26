@@ -45,10 +45,7 @@ class UpdatesController extends Container implements Module
             'checkForUpdates'
         );
 
-        $this->wpAddFilter('plugins_api', [
-            $this,
-            'changelog',
-        ]);
+        $this->wpAddFilter('plugins_api', 'changelog');
 
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
