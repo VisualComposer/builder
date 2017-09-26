@@ -17,7 +17,7 @@ export default class PlusTeaserControl extends NavbarContent {
   }
 
   setActiveState (state) {
-    this.setState({ isActive: state === 'addHubElement' })
+    this.setState({isActive: state === 'addHubElement'})
   }
 
   componentDidMount () {
@@ -29,7 +29,6 @@ export default class PlusTeaserControl extends NavbarContent {
   }
 
   toggleAddElement (e) {
-    debugger
     e && e.preventDefault()
     const settings = this.state.isActive ? false : {
       action: 'addHub',
