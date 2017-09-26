@@ -111,7 +111,7 @@ export default class SearchElement extends React.Component {
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
     })
-    let autoFocus = vcCake.env('MOBILE_DETECT') && !this.mobileDetect.mobile()
+    let autoFocus = vcCake.env('MOBILE_DETECT') ? !this.mobileDetect.mobile() : true
 
     return <div className='vcv-ui-editor-search-container'>
       <div
