@@ -641,7 +641,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
-   * Handle simple filedKEy - value type change
+   * Handle simple fieldKey - value type change
    * @param fieldKey
    * @param value
    */
