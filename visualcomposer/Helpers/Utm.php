@@ -22,9 +22,9 @@ class Utm implements Helper
             'feNavbarLinkLogo' => 'https://visualcomposer.io/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo',
             'updatesChangelogAuthorLink' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog-author',
             'updatesChangelogHomepageLink' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog',
-            'goPremiumWpMenuSidebar' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=wp-menu&utm_campaign=gopremium',
-            'goPremiumNavBar' => 'https://visualcomposer.io/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=gopremium',
-            'goPremiumPluginsPage' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=gopremium',
+            'goPremiumWpMenuSidebar' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=wp-menu&utm_campaign=gopremium',
+            'goPremiumNavBar' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=gopremium',
+            'goPremiumPluginsPage' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=gopremium',
         ];
 
         return $utm;
