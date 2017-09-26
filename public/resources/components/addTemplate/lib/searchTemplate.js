@@ -117,7 +117,8 @@ export default class SearchTemplate extends React.Component {
       'vcv-ui-editor-search-dropdown-container': true,
       'vcv-ui-editor-field-highlight': this.state.dropdown
     })
-    let autofocus = vcCake.env('MOBILE_DETECT') && !this.mobileDetect.mobile()
+
+    let autofocus = vcCake.env('MOBILE_DETECT') ? !this.mobileDetect.mobile() : true
     return <div className='vcv-ui-editor-search-container'>
       <div
         className={dropdownContainerClasses}
