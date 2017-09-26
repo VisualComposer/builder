@@ -4,6 +4,10 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
+
+$loginCategoryHelper = vchelper('LoginCategory');
+$loginCategories = $loginCategoryHelper->all();
+
 ?>
 <!-- First screen -->
 <div class="vcv-popup-content vcv-popup-first-screen">
@@ -32,6 +36,12 @@ if (!defined('ABSPATH')) {
             'Your E-mail',
             'vcwb'
         ); ?>" class="vcv-popup-form-input" required="required">
+	    <select class="vcv-popup-form-select vcv-select-light" name="category"  id="vcv-account-login-form-category" required="required">
+		    <option value disabled selected><?php echo __('Select Your Category', 'vcwb'); ?></option>
+            <?php foreach ($loginCategories as $key => $loginCategory) { ?>
+			    <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
+            <?php } ?>
+	    </select>
         <div class="vcv-popup-form-checkbox">
            <span class="vcv-popup-form-checkbox-inner">
               <input type="checkbox" value="<?php echo time(
