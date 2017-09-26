@@ -198,6 +198,7 @@ class ActivationController extends Container implements Module
                     'body' => [
                         'url' => VCV_PLUGIN_URL,
                         'email' => trim($requestHelper->input('email')),
+                        'category' => trim($requestHelper->input('category')),
                         'agreement' => $requestHelper->input('agreement'),
                         'id' => $id,
                     ],
@@ -208,6 +209,7 @@ class ActivationController extends Container implements Module
                 $optionsHelper->setTransient('vcv:activation:subscribe', 1, 600);
                 $optionsHelper->set('activation-email', $requestHelper->input('email'));
                 $optionsHelper->set('activation-agreement', $requestHelper->input('agreement'));
+                $optionsHelper->set('activation-category', $requestHelper->input('category'));
 
                 return $response;
             } else {
