@@ -82,9 +82,7 @@ class Token extends Container implements Helper
      */
     public function createToken($id)
     {
-        $loggerHelper = vchelper('Logger');
         $licenseHelper = vchelper('License');
-        $noticeHelper = vchelper('Notice');
         $body = [
             'hoster_id' => 'account',
             'id' => $id,
