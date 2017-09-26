@@ -92,6 +92,7 @@ declare -a arr=(
 'animatedOutlineButton'
 'animatedIconButton'
 'animatedTwoColorButton'
+'callToAction'
 )
 
 EXECDIR=`pwd`

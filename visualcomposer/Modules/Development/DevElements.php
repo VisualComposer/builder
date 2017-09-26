@@ -1950,6 +1950,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'A modern animated button with two color intersection and smooth animation.',
                     ],
                 ],
+                //                'callToAction' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/callToAction/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/callToAction/callToAction/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/callToAction/callToAction/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/callToAction/callToAction/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Call To Action',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/callToAction/callToAction/public/thumbnail-call-to-action.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/callToAction/callToAction/public/preview-call-to-action.png'
+                //                        ),
+                //                        'metaDescription' => 'Add an eye-catching call to action block to immediately drag visitor\'s attention and deliver a specific message.',
+                //                    ],
+                //                ]
             ]
         );
     }
