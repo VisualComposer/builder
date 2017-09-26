@@ -4,6 +4,7 @@ import lodash from 'lodash'
 import YoutubeBackground from './youtubeBackground'
 import VimeoBackground from './vimeoBackground'
 import ImageSimpleBackground from './imageSimpleBackground'
+import ImageBackgroundZoom from './ImageBackgroundZoom'
 import ImageSlideshowBackground from './imageSlideshowBackground'
 import EmbedVideoBackground from './embedVideoBackground'
 import ColorGradientBackground from './colorGradientBackground'
@@ -181,6 +182,11 @@ eval(unescape('${escapedString}'))
         case 'imagesSimple':
           backgroundElements.push(
             <ImageSimpleBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} atts={this.props.atts} />)
+          break
+        case 'backgroundZoom':
+          backgroundElements.push(
+            <ImageBackgroundZoom deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
         case 'imagesSlideshow':

@@ -46,6 +46,15 @@ class AssetsShared extends Container implements Helper
                         'public/sources/assetsLibrary/backgroundSimple/dist/backgroundSimple.bundle.css'
                     ),
                 ],
+                'backgroundZoom' => [
+                    'dependencies' => [],
+                    'jsBundle' => $urlHelper->to(
+                        'public/sources/assetsLibrary/backgroundZoom/dist/backgroundZoom.bundle.js'
+                    ),
+                    'cssBundle' => $urlHelper->to(
+                        'public/sources/assetsLibrary/backgroundZoom/dist/backgroundZoom.bundle.css'
+                    ),
+                ],
                 'backgroundSlider' => [
                     'dependencies' => [],
                     'jsBundle' => $urlHelper->to(

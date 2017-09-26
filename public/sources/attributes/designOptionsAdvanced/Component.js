@@ -165,6 +165,9 @@ export default class DesignOptionsAdvanced extends Attribute {
     borderStyle: 'solid',
     backgroundStyle: 'cover',
     backgroundPosition: 'center-top',
+    backgroundZoom: 50,
+    backgroundZoomSpeed: 30,
+    backgroundZoomReverse: false,
     gradientAngle: 45,
     sliderEffect: 'slide',
     dividerFlipHorizontal: 'horizontally-left',
@@ -192,6 +195,9 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
     this.backgroundPositionChangeHandler = this.backgroundPositionChangeHandler.bind(this)
+    this.backgroundZoomChangeHandler = this.backgroundZoomChangeHandler.bind(this)
+    this.backgroundZoomSpeedChangeHandler = this.backgroundZoomSpeedChangeHandler.bind(this)
+    this.backgroundZoomReverseChangeHandler = this.backgroundZoomReverseChangeHandler.bind(this)
     this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
     this.sliderDirectionChangeHandler = this.sliderDirectionChangeHandler.bind(this)
@@ -305,6 +311,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           // Image type backgrounds
           let imgTypeBackgrounds = [
             'imagesSimple',
+            'backgroundZoom',
             'imagesSlideshow'
           ]
           if (imgTypeBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1) {
@@ -312,6 +319,9 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].images
             delete newValue[ device ].backgroundStyle
             delete newValue[ device ].backgroundPosition
+            delete newValue[ device ].backgroundZoom
+            delete newValue[ device ].backgroundZoomSpeed
+            delete newValue[ device ].backgroundZoomReverse
           } else if (!newValue[ device ].hasOwnProperty('images') || ((!newValue[ device ].images.urls || newValue[ device ].images.urls.length === 0) && newValue[ device ].images.length === 0)) {
             // images are empty
             delete newValue[ device ].images
@@ -321,6 +331,9 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].sliderDirection
             delete newValue[ device ].sliderEffect
             delete newValue[ device ].backgroundPosition
+            delete newValue[ device ].backgroundZoom
+            delete newValue[ device ].backgroundZoomSpeed
+            delete newValue[ device ].backgroundZoomReverse
           }
 
           // Embed video bg
@@ -395,6 +408,7 @@ export default class DesignOptionsAdvanced extends Attribute {
 
           let parallaxBackgrounds = [
             'imagesSimple',
+            'backgroundZoom',
             'imagesSlideshow',
             'videoYoutube',
             'videoVimeo',
@@ -659,6 +673,10 @@ export default class DesignOptionsAdvanced extends Attribute {
           value: 'imagesSimple'
         },
         {
+          label: 'Background zoom',
+          value: 'backgroundZoom'
+        },
+        {
           label: 'Image slideshow',
           value: 'imagesSlideshow'
         },
@@ -850,6 +868,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getAttachImageRender () {
     let allowedBackgroundTypes = [
       'imagesSimple',
+      'backgroundZoom',
       'imagesSlideshow'
     ]
     let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].backgroundType
@@ -978,6 +997,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getBackgroundPositionRender () {
     let allowedBackgroundTypes = [
       'imagesSimple',
+      'backgroundZoom',
       'imagesSlideshow'
     ]
     if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
@@ -1057,6 +1077,131 @@ export default class DesignOptionsAdvanced extends Attribute {
   backgroundPositionChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ].backgroundPosition = value
+    this.updateValue(newState)
+  }
+
+  /**
+   * Render background zoom control
+   * @returns {*}
+   */
+  getBackgroundZoomRender () {
+    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
+      this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
+      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
+      !this.state.devices[ this.state.currentDevice ].images.urls ||
+      this.state.devices[ this.state.currentDevice ].images.urls.length === 0
+    ) {
+      return null
+    }
+    let options = {
+      min: 0,
+      max: 100,
+      measurement: '%'
+    }
+    let value = this.state.devices[ this.state.currentDevice ].backgroundZoom || DesignOptionsAdvanced.deviceDefaults.backgroundZoom
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Background zoom scale
+      </span>
+      <Range
+        api={this.props.api}
+        fieldKey='backgroundZoom'
+        options={options}
+        updater={this.backgroundZoomChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle background zoom change
+   * @param fieldKey
+   * @param value
+   */
+  backgroundZoomChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ].backgroundZoom = value
+    this.updateValue(newState)
+  }
+
+  /**
+   * Render background zoom speed control
+   * @returns {*}
+   */
+  getBackgroundZoomSpeedRender () {
+    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
+      this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
+      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
+      !this.state.devices[ this.state.currentDevice ].images.urls ||
+      this.state.devices[ this.state.currentDevice ].images.urls.length === 0
+    ) {
+      return null
+    }
+    let options = {
+      min: 1,
+      max: false
+    }
+    let value = this.state.devices[ this.state.currentDevice ].backgroundZoomSpeed || DesignOptionsAdvanced.deviceDefaults.backgroundZoomSpeed
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Background zoom time (in seconds)
+      </span>
+      <Number
+        api={this.props.api}
+        fieldKey='backgroundZoomSpeed'
+        options={options}
+        updater={this.backgroundZoomSpeedChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle background zoom speed change
+   * @param fieldKey
+   * @param value
+   */
+  backgroundZoomSpeedChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ].backgroundZoomSpeed = value
+    this.updateValue(newState)
+  }
+
+  /**
+   * Render background zoom reverse control
+   * @returns {*}
+   */
+  getBackgroundZoomReverseRender () {
+    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
+      this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
+      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
+      !this.state.devices[ this.state.currentDevice ].images.urls ||
+      this.state.devices[ this.state.currentDevice ].images.urls.length === 0
+    ) {
+      return null
+    }
+    let value = this.state.devices[ this.state.currentDevice ].backgroundZoomReverse || DesignOptionsAdvanced.deviceDefaults.backgroundZoomReverse
+
+    return <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+      <Toggle
+        api={this.props.api}
+        fieldKey='backgroundZoomReverse'
+        updater={this.backgroundZoomReverseChangeHandler}
+        options={{ labelText: `Use reverse zoom` }}
+        value={value}
+      />
+    </div>
+  }
+
+  /**
+   * Handle background zoom reverse change
+   * @param fieldKey
+   * @param value
+   */
+  backgroundZoomReverseChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ].backgroundZoomReverse = value
     this.updateValue(newState)
   }
 
@@ -1610,6 +1755,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getParallaxRender () {
     let allowedBackgroundTypes = [
       'imagesSimple',
+      'backgroundZoom',
       'imagesSlideshow',
       'videoYoutube',
       'videoVimeo',
@@ -2229,6 +2375,9 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getEmbedVideoRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
+            {this.getBackgroundZoomRender()}
+            {this.getBackgroundZoomSpeedRender()}
+            {this.getBackgroundZoomReverseRender()}
             {this.getBackgroundColorRender()}
             {this.getGradientOverlayRender()}
             {this.getGradientStartColorRender()}
