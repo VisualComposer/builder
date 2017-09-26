@@ -1,0 +1,114 @@
+.vce-asset-background-zoom-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  display: none;
+}
+
+.vce-asset-background-zoom {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition-property: transform;
+  transition-timing-function: linear;
+}
+
+.vce-asset-background-zoom--scale-helper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.vce-asset-background-zoom-item {
+  background-position: 50% 0;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.vce-asset-background-zoom-container .vce-asset-background-zoom-item {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.vce-asset-background-zoom--position-left-top .vce-asset-background-zoom-item{
+  background-position: left top;
+}
+
+.vce-asset-background-zoom--position-center-top .vce-asset-background-zoom-item{
+  background-position: center top;
+}
+
+.vce-asset-background-zoom--position-right-top .vce-asset-background-zoom-item{
+  background-position: right top;
+}
+
+.vce-asset-background-zoom--position-left-center .vce-asset-background-zoom-item{
+  background-position: left center;
+}
+
+.vce-asset-background-zoom--position-center-center .vce-asset-background-zoom-item{
+  background-position: center center;
+}
+
+.vce-asset-background-zoom--position-right-center .vce-asset-background-zoom-item{
+  background-position: right center;
+}
+
+.vce-asset-background-zoom--position-left-bottom .vce-asset-background-zoom-item{
+  background-position: left bottom;
+}
+
+.vce-asset-background-zoom--position-center-bottom .vce-asset-background-zoom-item{
+  background-position: center bottom;
+}
+
+.vce-asset-background-zoom--position-right-bottom .vce-asset-background-zoom-item{
+  background-position: right bottom;
+}
+
+.vce-asset-background-zoom-container.vce-visible-all-only {
+  display: block;
+}
+
+@media (max-width: 543px) {
+  .vce-asset-background-zoom-container.vce-visible-xs-only {
+    display: block;
+  }
+}
+
+@media (min-width: 544px) and (max-width: 767px) {
+  .vce-asset-background-zoom-container.vce-visible-sm-only {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .vce-asset-background-zoom-container.vce-visible-md-only {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .vce-asset-background-zoom-container.vce-visible-lg-only {
+    display: block;
+  }
+}
+
+@media (min-width: 1200px) {
+  .vce-asset-background-zoom-container.vce-visible-xl-only {
+    display: block;
+  }
+}
+

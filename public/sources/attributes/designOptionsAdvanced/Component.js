@@ -154,6 +154,14 @@ export default class DesignOptionsAdvanced extends Attribute {
           value: 0
         }
       }
+    },
+    dividerMixin: {
+      src: require('raw-loader!./cssMixins/divider.pcss'),
+      variables: {
+        device: {
+          value: `all`
+        }
+      }
     }
   }
 
@@ -165,6 +173,9 @@ export default class DesignOptionsAdvanced extends Attribute {
     borderStyle: 'solid',
     backgroundStyle: 'cover',
     backgroundPosition: 'center-top',
+    backgroundZoom: 50,
+    backgroundZoomSpeed: 30,
+    backgroundZoomReverse: false,
     gradientAngle: 45,
     sliderEffect: 'slide',
     dividerFlipHorizontal: 'horizontally-left',
@@ -187,26 +198,11 @@ export default class DesignOptionsAdvanced extends Attribute {
 
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
-    this.backgroundTypeChangeHandler = this.backgroundTypeChangeHandler.bind(this)
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
-    this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
-    this.backgroundPositionChangeHandler = this.backgroundPositionChangeHandler.bind(this)
-    this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
-    this.sliderDirectionChangeHandler = this.sliderDirectionChangeHandler.bind(this)
-    this.sliderEffectChangeHandler = this.sliderEffectChangeHandler.bind(this)
-    this.gradientOverlayChangeHandler = this.gradientOverlayChangeHandler.bind(this)
-    this.gradientAngleChangeHandler = this.gradientAngleChangeHandler.bind(this)
-    this.animationChangeHandler = this.animationChangeHandler.bind(this)
-    this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
-    this.youtubeVideoChangeHandler = this.youtubeVideoChangeHandler.bind(this)
-    this.vimeoVideoChangeHandler = this.vimeoVideoChangeHandler.bind(this)
-    this.embedVideoChangeHandler = this.embedVideoChangeHandler.bind(this)
-    this.parallaxChangeHandler = this.parallaxChangeHandler.bind(this)
     this.parallaxSpeedChangeHandler = this.parallaxSpeedChangeHandler.bind(this)
-    this.parallaxReverseChangeHandler = this.parallaxReverseChangeHandler.bind(this)
-    this.dividerChangeHandler = this.dividerChangeHandler.bind(this)
+    this.valueChangeHandler = this.valueChangeHandler.bind(this)
   }
 
   /**
@@ -305,6 +301,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           // Image type backgrounds
           let imgTypeBackgrounds = [
             'imagesSimple',
+            'backgroundZoom',
             'imagesSlideshow'
           ]
           if (imgTypeBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1) {
@@ -312,6 +309,9 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].images
             delete newValue[ device ].backgroundStyle
             delete newValue[ device ].backgroundPosition
+            delete newValue[ device ].backgroundZoom
+            delete newValue[ device ].backgroundZoomSpeed
+            delete newValue[ device ].backgroundZoomReverse
           } else if (!newValue[ device ].hasOwnProperty('images') || ((!newValue[ device ].images.urls || newValue[ device ].images.urls.length === 0) && newValue[ device ].images.length === 0)) {
             // images are empty
             delete newValue[ device ].images
@@ -321,6 +321,9 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].sliderDirection
             delete newValue[ device ].sliderEffect
             delete newValue[ device ].backgroundPosition
+            delete newValue[ device ].backgroundZoom
+            delete newValue[ device ].backgroundZoomSpeed
+            delete newValue[ device ].backgroundZoomReverse
           }
 
           // Embed video bg
@@ -395,6 +398,7 @@ export default class DesignOptionsAdvanced extends Attribute {
 
           let parallaxBackgrounds = [
             'imagesSimple',
+            'backgroundZoom',
             'imagesSlideshow',
             'videoYoutube',
             'videoVimeo',
@@ -496,6 +500,17 @@ export default class DesignOptionsAdvanced extends Attribute {
             newMixins[ mixinName ].variables.angle = {
               value: newValue[ device ].gradientAngle || 0
             }
+            newMixins[ mixinName ].variables.device = {
+              value: device
+            }
+          }
+
+          // dividerMixin
+          if (newValue[ device ] && newValue[ device ].divider && newValue[ device ].dividerBackgroundType === 'image') {
+            let mixinName = `dividerMixin:${device}`
+            newMixins[ mixinName ] = {}
+            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
+
             newMixins[ mixinName ].variables.device = {
               value: device
             }
@@ -645,6 +660,17 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Handle simple fieldKey - value type change
+   * @param fieldKey
+   * @param value
+   */
+  valueChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
    * Render background type dropdown
    * @returns {*}
    */
@@ -657,6 +683,10 @@ export default class DesignOptionsAdvanced extends Attribute {
         {
           label: 'Simple images',
           value: 'imagesSimple'
+        },
+        {
+          label: 'Background zoom',
+          value: 'backgroundZoom'
         },
         {
           label: 'Image slideshow',
@@ -685,20 +715,9 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='backgroundType'
         options={options}
-        updater={this.backgroundTypeChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
-  }
-
-  /**
-   * Handle background type change
-   * @param fieldKey
-   * @param value
-   */
-  backgroundTypeChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ].backgroundType = value
-    this.updateValue(newState)
   }
 
   /**
@@ -850,6 +869,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getAttachImageRender () {
     let allowedBackgroundTypes = [
       'imagesSimple',
+      'backgroundZoom',
       'imagesSlideshow'
     ]
     let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].backgroundType
@@ -955,20 +975,9 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='backgroundStyle'
         options={options}
-        updater={this.backgroundStyleChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
-  }
-
-  /**
-   * Handle background style change
-   * @param fieldKey
-   * @param value
-   */
-  backgroundStyleChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ].backgroundStyle = value
-    this.updateValue(newState)
   }
 
   /**
@@ -978,6 +987,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getBackgroundPositionRender () {
     let allowedBackgroundTypes = [
       'imagesSimple',
+      'backgroundZoom',
       'imagesSlideshow'
     ]
     if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
@@ -1044,20 +1054,101 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='backgroundPosition'
         options={options}
-        updater={this.backgroundPositionChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
   }
 
   /**
-   * Handle background position change
-   * @param fieldKey
-   * @param value
+   * Render background zoom control
+   * @returns {*}
    */
-  backgroundPositionChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ].backgroundPosition = value
-    this.updateValue(newState)
+  getBackgroundZoomRender () {
+    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
+      this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
+      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
+      !this.state.devices[ this.state.currentDevice ].images.urls ||
+      this.state.devices[ this.state.currentDevice ].images.urls.length === 0
+    ) {
+      return null
+    }
+    let options = {
+      min: 0,
+      max: 100,
+      measurement: '%'
+    }
+    let value = this.state.devices[ this.state.currentDevice ].backgroundZoom || DesignOptionsAdvanced.deviceDefaults.backgroundZoom
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Background zoom scale
+      </span>
+      <Range
+        api={this.props.api}
+        fieldKey='backgroundZoom'
+        options={options}
+        updater={this.valueChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Render background zoom speed control
+   * @returns {*}
+   */
+  getBackgroundZoomSpeedRender () {
+    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
+      this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
+      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
+      !this.state.devices[ this.state.currentDevice ].images.urls ||
+      this.state.devices[ this.state.currentDevice ].images.urls.length === 0
+    ) {
+      return null
+    }
+    let options = {
+      min: 1,
+      max: false
+    }
+    let value = this.state.devices[ this.state.currentDevice ].backgroundZoomSpeed || DesignOptionsAdvanced.deviceDefaults.backgroundZoomSpeed
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Background zoom time (in seconds)
+      </span>
+      <Number
+        api={this.props.api}
+        fieldKey='backgroundZoomSpeed'
+        options={options}
+        updater={this.valueChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Render background zoom reverse control
+   * @returns {*}
+   */
+  getBackgroundZoomReverseRender () {
+    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
+      this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
+      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
+      !this.state.devices[ this.state.currentDevice ].images.urls ||
+      this.state.devices[ this.state.currentDevice ].images.urls.length === 0
+    ) {
+      return null
+    }
+    let value = this.state.devices[ this.state.currentDevice ].backgroundZoomReverse || DesignOptionsAdvanced.deviceDefaults.backgroundZoomReverse
+
+    return <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+      <Toggle
+        api={this.props.api}
+        fieldKey='backgroundZoomReverse'
+        updater={this.valueChangeHandler}
+        options={{ labelText: `Use reverse zoom` }}
+        value={value}
+      />
+    </div>
   }
 
   /**
@@ -1077,7 +1168,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Color
         api={this.props.api}
         fieldKey='backgroundColor'
-        updater={this.colorChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
         defaultValue='' />
     </div>
@@ -1098,23 +1189,12 @@ export default class DesignOptionsAdvanced extends Attribute {
         <Toggle
           api={this.props.api}
           fieldKey='gradientOverlay'
-          updater={this.gradientOverlayChangeHandler}
+          updater={this.valueChangeHandler}
           options={{ labelText: `Use gradient overlay` }}
           value={value}
         />
       </div>
     )
-  }
-
-  /**
-   * Handle colors change
-   * @param fieldKey
-   * @param value
-   */
-  gradientOverlayChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1134,7 +1214,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Color
         api={this.props.api}
         fieldKey='gradientStartColor'
-        updater={this.colorChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
         defaultValue='' />
     </div>
@@ -1157,7 +1237,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Color
         api={this.props.api}
         fieldKey='gradientEndColor'
-        updater={this.colorChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
         defaultValue='' />
     </div>
@@ -1237,20 +1317,9 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='borderStyle'
         options={options}
-        updater={this.borderStyleChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
-  }
-
-  /**
-   * Handle border style change
-   * @param fieldKey
-   * @param value
-   */
-  borderStyleChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1274,21 +1343,10 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Color
         api={this.props.api}
         fieldKey='borderColor'
-        updater={this.colorChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
         defaultValue='' />
     </div>
-  }
-
-  /**
-   * Handle colors change
-   * @param fieldKey
-   * @param value
-   */
-  colorChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1340,7 +1398,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Dropdown
         api={this.props.api}
         fieldKey='sliderDirection'
-        updater={this.sliderDirectionChangeHandler}
+        updater={this.valueChangeHandler}
         placeholder='Left'
         options={{
           values: [
@@ -1390,20 +1448,9 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='sliderEffect'
         options={options}
-        updater={this.sliderEffectChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
-  }
-
-  /**
-   * Handle slider effect type change
-   * @param fieldKey
-   * @param value
-   */
-  sliderEffectChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1414,17 +1461,6 @@ export default class DesignOptionsAdvanced extends Attribute {
   sliderTimeoutChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
-    this.updateValue(newState)
-  }
-
-  /**
-   * Handle slider direction change
-   * @param fieldKey
-   * @param value
-   */
-  sliderDirectionChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
     this.updateValue(newState)
   }
 
@@ -1485,20 +1521,9 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='gradientAngle'
         options={options}
-        updater={this.gradientAngleChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
-  }
-
-  /**
-   * Handle change of gradient angle control
-   * @param fieldKey
-   * @param value
-   */
-  gradientAngleChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1517,20 +1542,9 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Animate
         api={this.props.api}
         fieldKey='animation'
-        updater={this.animationChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
-  }
-
-  /**
-   * Handle change of animation control
-   * @param fieldKey
-   * @param value
-   */
-  animationChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1551,21 +1565,10 @@ export default class DesignOptionsAdvanced extends Attribute {
       <String
         api={this.props.api}
         fieldKey='videoYoutube'
-        updater={this.youtubeVideoChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
       />
     </div>
-  }
-
-  /**
-   * Handle change of youtube video control
-   * @param fieldKey
-   * @param value
-   */
-  youtubeVideoChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1586,21 +1589,10 @@ export default class DesignOptionsAdvanced extends Attribute {
       <String
         api={this.props.api}
         fieldKey='videoVimeo'
-        updater={this.vimeoVideoChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
       />
     </div>
-  }
-
-  /**
-   * Handle change of vimeo video control
-   * @param fieldKey
-   * @param value
-   */
-  vimeoVideoChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1610,6 +1602,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getParallaxRender () {
     let allowedBackgroundTypes = [
       'imagesSimple',
+      'backgroundZoom',
       'imagesSlideshow',
       'videoYoutube',
       'videoVimeo',
@@ -1646,7 +1639,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='parallax'
         options={options}
-        updater={this.parallaxChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
   }
@@ -1707,21 +1700,10 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Toggle
         api={this.props.api}
         fieldKey='parallaxReverse'
-        updater={this.parallaxReverseChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
       />
     </div>
-  }
-
-  /**
-   * Handle parallax reverse change
-   * @param fieldKey
-   * @param value
-   */
-  parallaxReverseChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1745,32 +1727,10 @@ export default class DesignOptionsAdvanced extends Attribute {
         options={{
           multiple: false
         }}
-        updater={this.embedVideoChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
       <p className='vcv-ui-form-helper'>For better browser compatibility please use <b>mp4</b> video format</p>
     </div>
-  }
-
-  /**
-   * Handle change of self hosted video control
-   * @param fieldKey
-   * @param value
-   */
-  embedVideoChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
-  }
-
-  /**
-   * Handle change of parallax control
-   * @param fieldKey
-   * @param value
-   */
-  parallaxChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1788,23 +1748,12 @@ export default class DesignOptionsAdvanced extends Attribute {
         <Toggle
           api={this.props.api}
           fieldKey='divider'
-          updater={this.dividerChangeHandler}
+          updater={this.valueChangeHandler}
           options={{ labelText: `Enable divider` }}
           value={value}
         />
       </div>
     )
-  }
-
-  /**
-   * Handle divider change
-   * @param fieldKey
-   * @param value
-   */
-  dividerChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1841,7 +1790,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           api={this.props.api}
           fieldKey='dividerFlipHorizontal'
           options={options}
-          updater={this.dividerChangeHandler}
+          updater={this.valueChangeHandler}
           value={value} />
       </div>
     )
@@ -1867,7 +1816,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           api={this.props.api}
           fieldKey='dividerShape'
           options={{ search: false, iconType: 'shapes' }}
-          updater={this.dividerChangeHandler}
+          updater={this.valueChangeHandler}
           value={value}
         />
       </div>
@@ -1892,7 +1841,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         <Range
           api={this.props.api}
           fieldKey='dividerWidth'
-          updater={this.dividerChangeHandler}
+          updater={this.valueChangeHandler}
           options={{ min: 100, max: 300, measurement: '%' }}
           value={value}
         />
@@ -1918,7 +1867,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         <Range
           api={this.props.api}
           fieldKey='dividerHeight'
-          updater={this.dividerChangeHandler}
+          updater={this.valueChangeHandler}
           options={{ min: 0, max: 1600, measurement: 'px' }}
           value={value}
         />
@@ -1959,7 +1908,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='dividerBackgroundType'
         options={options}
-        updater={this.dividerChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
   }
@@ -1983,7 +1932,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Color
         api={this.props.api}
         fieldKey='dividerBackgroundColor'
-        updater={this.dividerChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
         defaultValue='' />
     </div>
@@ -2008,7 +1957,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Color
         api={this.props.api}
         fieldKey='dividerBackgroundGradientStartColor'
-        updater={this.dividerChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
         defaultValue='' />
     </div>
@@ -2033,7 +1982,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Color
         api={this.props.api}
         fieldKey='dividerBackgroundGradientEndColor'
-        updater={this.dividerChangeHandler}
+        updater={this.valueChangeHandler}
         value={value}
         defaultValue='' />
     </div>
@@ -2062,7 +2011,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         options={{
           multiple: false
         }}
-        updater={this.dividerChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
   }
@@ -2124,7 +2073,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='dividerBackgroundStyle'
         options={options}
-        updater={this.dividerChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
   }
@@ -2199,7 +2148,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='dividerBackgroundPosition'
         options={options}
-        updater={this.dividerChangeHandler}
+        updater={this.valueChangeHandler}
         value={value} />
     </div>
   }
@@ -2229,6 +2178,9 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getEmbedVideoRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
+            {this.getBackgroundZoomRender()}
+            {this.getBackgroundZoomSpeedRender()}
+            {this.getBackgroundZoomReverseRender()}
             {this.getBackgroundColorRender()}
             {this.getGradientOverlayRender()}
             {this.getGradientStartColorRender()}

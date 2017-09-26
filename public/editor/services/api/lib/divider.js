@@ -9,8 +9,7 @@ export default class Divider extends Component {
     deviceKey: PropTypes.string,
     metaAssetsPath: PropTypes.string,
     id: PropTypes.string,
-    applyDivider: PropTypes.object,
-    index: PropTypes.number
+    applyDivider: PropTypes.object
   }
 
   getPublicImage (filename) {
@@ -19,7 +18,7 @@ export default class Divider extends Component {
   }
 
   render () {
-    let { deviceData, deviceKey, id, applyDivider, index } = this.props
+    let { deviceData, deviceKey, id, applyDivider } = this.props
     let { dividerShape, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundType } = deviceData
 
     let flipHorizontally = false
@@ -60,7 +59,7 @@ export default class Divider extends Component {
     return (
       <div className={classNames(containerClasses)} {...applyDivider}>
         <div className='vce-container-divider-inner'>
-          <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={dividerBackgroundType} gradientColorStart={dividerBackgroundGradientStartColor} gradientColorEnd={dividerBackgroundGradientEndColor} backgroundImage={imageUrl} flipHorizontally={flipHorizontally} index={index} />
+          <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={dividerBackgroundType} gradientColorStart={dividerBackgroundGradientStartColor} gradientColorEnd={dividerBackgroundGradientEndColor} backgroundImage={imageUrl} flipHorizontally={flipHorizontally} deviceKey={deviceKey} />
         </div>
       </div>
     )

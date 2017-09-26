@@ -3,7 +3,7 @@ import {showLoadingScreen, showFirstScreen, showOopsScreen} from './screens'
 import {showError} from './errors'
 
 (($) => {
-  let showDownloadScreen = ($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText) => {
+  let showDownloadScreen = ($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category) => {
     // third / loading screen shows, loading starts here
     showLoadingScreen($popup)
     // loading ends / loaded
@@ -17,6 +17,7 @@ import {showError} from './errors'
     $.getJSON(window.vcvActivationUrl,
       {
         email: email,
+        category: category,
         agreement: $agreementCheckbox.val(),
         'vcv-nonce': window.vcvAdminNonce,
         time: window.vcvAjaxTime

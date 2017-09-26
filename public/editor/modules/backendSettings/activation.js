@@ -21,6 +21,7 @@ import {showDownloadScreen, showDownloadWithLicenseScreen} from './download-scre
       let $zoomContainer = $('.vcv-popup-loading-zoom')
       let $popupInner = $('.vcv-popup')
       let $inputEmail = $('#vcv-account-login-form-email')
+      let $selectCategory = $('#vcv-account-login-form-category')
       let $agreementCheckbox = $('#vcv-account-activation-agreement')
 
       let loadAnimation = () => {
@@ -53,11 +54,12 @@ import {showDownloadScreen, showDownloadWithLicenseScreen} from './download-scre
 
         if (window.vcvActivationType !== 'download') {
           let email = $inputEmail.val()
+          let category = $selectCategory.val()
           if (window.vcvActivationType === 'standalone') {
             email = 'standalone'
           }
           if (email) {
-            showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText)
+            showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category)
           } else {
             // error shows\
             showError($errorPopup, provideCorrectEmailText)
@@ -76,7 +78,13 @@ import {showDownloadScreen, showDownloadWithLicenseScreen} from './download-scre
       $('.vcv-popup-close-button').on('click', () => {
         window.location.href = 'index.php'
       })
-
+      $('.vcv-popup-form-select').on('change', (e) => {
+        var $el = $(e.currentTarget)
+        $el.removeClass('vcv-select-light')
+        if ($el.children('option:first-child').is(':selected')) {
+          $el.addClass('vcv-select-light')
+        }
+      })
       $(document.body).on('click', function (e) {
         if (ready) {
           var $el = $(e.target)
