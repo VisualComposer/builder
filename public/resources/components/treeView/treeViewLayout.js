@@ -92,7 +92,7 @@ export default class TreeViewLayout extends React.Component {
   }
 
   handleScrollToElement (scrollToElement) {
-    if (scrollToElement && this.scrollbar) {
+    if (scrollToElement && this.scrollbar && this.layoutContainer) {
       const container = this.layoutContainer.querySelector('.vcv-ui-tree-layout').getBoundingClientRect()
       const target = this.layoutContainer.querySelector(`[data-vcv-element="${scrollToElement}"]`)
       this.expandTree(target)
