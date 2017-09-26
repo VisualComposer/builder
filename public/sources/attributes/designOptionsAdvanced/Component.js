@@ -154,6 +154,14 @@ export default class DesignOptionsAdvanced extends Attribute {
           value: 0
         }
       }
+    },
+    dividerMixin: {
+      src: require('raw-loader!./cssMixins/divider.pcss'),
+      variables: {
+        device: {
+          value: `all`
+        }
+      }
     }
   }
 
@@ -492,6 +500,17 @@ export default class DesignOptionsAdvanced extends Attribute {
             newMixins[ mixinName ].variables.angle = {
               value: newValue[ device ].gradientAngle || 0
             }
+            newMixins[ mixinName ].variables.device = {
+              value: device
+            }
+          }
+
+          // dividerMixin
+          if (newValue[ device ] && newValue[ device ].divider && newValue[ device ].dividerBackgroundType === 'image') {
+            let mixinName = `dividerMixin:${device}`
+            newMixins[ mixinName ] = {}
+            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
+
             newMixins[ mixinName ].variables.device = {
               value: device
             }

@@ -9,6 +9,7 @@ import postcssPrefixUrl from 'postcss-prefix-url'
 import postcssMedia from 'postcss-custom-media'
 import postcssEach from 'postcss-each'
 import colorBlend from 'color-blend'
+import functions from 'postcss-functions'
 
 class StylesManager {
   constructor (styles = []) {
@@ -108,6 +109,13 @@ class StylesManager {
           }))
         }
         use.push(colorBlend())
+        use.push(functions({
+          functions: {
+            rawUrl: (path) => {
+              return `url(${path})`
+            }
+          }
+        }))
         use.push(postcssColor)
         use.push(postcssNested)
         use.push(postcssClean)

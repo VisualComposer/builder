@@ -12,7 +12,7 @@ export default class DividerShape extends Component {
     backgroundImage: PropTypes.string,
     id: PropTypes.string,
     flipHorizontally: PropTypes.bool,
-    index: PropTypes.number
+    deviceKey: PropTypes.string
   }
 
   getLinearGradient () {
@@ -28,7 +28,7 @@ export default class DividerShape extends Component {
       endColor = this.props.gradientColorStart
     }
 
-    let id = `gradient-${this.props.id}-${this.props.index}`
+    let id = `gradient-${this.props.id}-${this.props.deviceKey}`
     return (
       <linearGradient id={id} x1='0%' y1='0%' x2='100%' y2='0%'>
         <stop offset='0%' style={{ stopColor: startColor, stopOpacity: '1' }} />
@@ -70,7 +70,7 @@ export default class DividerShape extends Component {
   }
 
   render () {
-    let { width, height, fill, shape, fillType, backgroundImage, index, id } = this.props
+    let { width, height, fill, shape, fillType, backgroundImage, deviceKey, id } = this.props
     let currentShape = shapes[ shape ]
 
     if (!currentShape) {
@@ -83,14 +83,13 @@ export default class DividerShape extends Component {
     let viewBoxHeight = currentShape.viewBox.height
     let viewBox = `0 0 ${viewBoxWidth} ${viewBoxHeight}`
 
-    if (fillType === 'color' || fillType === 'gradient') {
+    if (fillType === 'color' || fillType === 'gradient' || !backgroundImage) {
       let html = this.changeHeight(height, svgContent)
       let customAttributes = {}
+      customAttributes.fill = fill
 
-      if (fillType === 'color') {
-        customAttributes.fill = fill
-      } else if (fillType === 'gradient') {
-        let gradientId = `gradient-${id}-${index}`
+      if (fillType === 'gradient') {
+        let gradientId = `gradient-${id}-${deviceKey}`
         customAttributes.fill = `url(#${gradientId})`
       }
 
@@ -103,15 +102,12 @@ export default class DividerShape extends Component {
     }
 
     if (fillType === 'image') {
-      let imageId = `image-${id}-${index}`
-      let clipPathUrl = `url(#${imageId})`
+      let imageId = `image-el-${id}-${deviceKey}`
       let html = svgUnitContent
       let backgroundImageUrl = `url(${backgroundImage})`
       let imageProps = {}
 
       imageProps.style = {
-        clipPath: clipPathUrl,
-        WebkitClipPath: clipPathUrl,
         height: `${parseFloat(height)}px`,
         width: width
       }
