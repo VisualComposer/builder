@@ -1120,7 +1120,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   backgroundZoomChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ].backgroundZoom = value
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
     this.updateValue(newState)
   }
 
@@ -1151,20 +1151,9 @@ export default class DesignOptionsAdvanced extends Attribute {
         api={this.props.api}
         fieldKey='backgroundZoomSpeed'
         options={options}
-        updater={this.backgroundZoomSpeedChangeHandler}
+        updater={this.backgroundZoomChangeHandler}
         value={value} />
     </div>
-  }
-
-  /**
-   * Handle background zoom speed change
-   * @param fieldKey
-   * @param value
-   */
-  backgroundZoomSpeedChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ].backgroundZoomSpeed = value
-    this.updateValue(newState)
   }
 
   /**
@@ -1187,22 +1176,11 @@ export default class DesignOptionsAdvanced extends Attribute {
       <Toggle
         api={this.props.api}
         fieldKey='backgroundZoomReverse'
-        updater={this.backgroundZoomReverseChangeHandler}
+        updater={this.backgroundZoomChangeHandler}
         options={{ labelText: `Use reverse zoom` }}
         value={value}
       />
     </div>
-  }
-
-  /**
-   * Handle background zoom reverse change
-   * @param fieldKey
-   * @param value
-   */
-  backgroundZoomReverseChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ].backgroundZoomReverse = value
-    this.updateValue(newState)
   }
 
   /**
