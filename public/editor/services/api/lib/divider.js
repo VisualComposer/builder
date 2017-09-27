@@ -57,7 +57,7 @@ export default class Divider extends Component {
     }
 
     return (
-      <div className={classNames(containerClasses)} {...applyDivider}>
+      <div className={containerClasses} {...applyDivider}>
         <div className='vce-container-divider-inner'>
           <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={dividerBackgroundType} gradientColorStart={dividerBackgroundGradientStartColor} gradientColorEnd={dividerBackgroundGradientEndColor} backgroundImage={imageUrl} flipHorizontally={flipHorizontally} deviceKey={deviceKey} />
         </div>

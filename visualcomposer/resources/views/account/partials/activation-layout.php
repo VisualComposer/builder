@@ -76,7 +76,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                         'controller' => $controller,
                     ]
                 );
-                if (!$licenseHelper->isActivated() && $tokenHelper->isSiteAuthorized()) {
+                if (!$licenseHelper->isActivated()) {
                     echo vcview(
                         'account/partials/activation-go-premium',
                         [
@@ -101,12 +101,6 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             ); ?>
             <?php echo vcview(
                 'account/partials/activation-slider',
-                [
-                    'controller' => $controller,
-                ]
-            ); ?>
-            <?php echo vcview(
-                'account/partials/activation-go-premium',
                 [
                     'controller' => $controller,
                 ]
