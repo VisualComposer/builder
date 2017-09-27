@@ -15,8 +15,8 @@ module.exports = {
     front: './public/front-main',
     wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
-    wpsettings: './public/wp-settings-main',
-    wpupdate: './public/bundle-update-main',
+    // wpsettings: './public/wp-settings-main',
+    // wpupdate: './public/bundle-update-main',
     app: [],
     vendor: [
       'jquery',
