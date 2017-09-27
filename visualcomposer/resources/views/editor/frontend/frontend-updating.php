@@ -38,6 +38,10 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
     <link rel="stylesheet"
           href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
     <?php
+    // @codingStandardsIgnoreLine
+    do_action('admin_enqueue_scripts', $hook_suffix);
+    do_action('admin_print_scripts');
+    wp_print_head_scripts();
     $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
     if (is_array($extraOutput)) {
         foreach ($extraOutput as $output) {
