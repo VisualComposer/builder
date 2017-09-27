@@ -1815,7 +1815,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         <IconPicker
           api={this.props.api}
           fieldKey='dividerShape'
-          options={{ search: false, iconType: 'shapes' }}
+          options={{ iconType: 'shapes' }}
           updater={this.valueChangeHandler}
           value={value}
         />
