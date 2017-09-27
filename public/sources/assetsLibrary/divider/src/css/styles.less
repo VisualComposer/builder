@@ -1,21 +1,15 @@
+@import "mixins";
+
 .vce-dividers-wrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  .full-size;
   overflow: hidden;
-  //pointer-events: none;
+  pointer-events: none;
 }
 
 .vce-container-divider {
-  position: absolute;
+  .full-size;
   display: none;
   transform-origin: 50% 50%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 
   svg {
     display: block;
@@ -27,11 +21,7 @@
 }
 
 .vce-container-divider-inner {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  .full-size;
 }
 
 .vce-container-divider-flip--horizontally .vce-container-divider-inner {
@@ -39,11 +29,7 @@
 }
 
 .vce-divider-with-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  .full-size;
 
   svg {
     position: absolute;
