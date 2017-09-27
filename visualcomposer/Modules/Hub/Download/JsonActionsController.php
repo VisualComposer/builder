@@ -53,7 +53,6 @@ class JsonActionsController extends Container implements Module
                 if (sizeof($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
                     $response['post_update_required'] = $this->createPostUpdateObjects(array_unique($needUpdatePost));
                     $response['updaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
-
                 }
             } else {
                 $loggerHelper->log(
