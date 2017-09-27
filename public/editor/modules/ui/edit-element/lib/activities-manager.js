@@ -87,16 +87,14 @@ export default class ActivitiesManager extends React.Component {
 
   onElementChange = (key, value) => {
     this.props.element.set(key, value)
-    if (vcCake.env('FEATURE_INSTANT_UPDATE')) {
-      const { element, api } = this.props
-      const elementData = element.toJS()
-      if (!vcCake.getData('lockActivity')) {
-        vcCake.setData('lockActivity', 'Are you sure?')
-        vcCake.onDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
-      }
-      vcCake.setData(`element:instantMutation:${element.get('id')}`, elementData)
-      api.request('data:instantMutation', elementData, 'update')
+    const { element, api } = this.props
+    const elementData = element.toJS()
+    if (!vcCake.getData('lockActivity')) {
+      vcCake.setData('lockActivity', 'Are you sure?')
+      vcCake.onDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
     }
+    vcCake.setData(`element:instantMutation:${element.get('id')}`, elementData)
+    api.request('data:instantMutation', elementData, 'update')
     this.callFieldActivities(null, key)
   }
 

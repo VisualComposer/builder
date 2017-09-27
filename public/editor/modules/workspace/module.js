@@ -1,4 +1,4 @@
-import {add, getStorage, env} from 'vc-cake'
+import {add, getStorage} from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
@@ -34,27 +34,25 @@ add('workspace', (api) => {
     layoutHeader
   )
 
-  if (env('FEATURE_START_BLANK')) {
-    // Start blank overlay
-    let iframeContent = document.getElementById('vcv-layout-iframe-content')
+  // Start blank overlay
+  let iframeContent = document.getElementById('vcv-layout-iframe-content')
 
-    const removeStartBlank = () => {
-      ReactDOM.unmountComponentAtNode(iframeContent)
-    }
-    const addStartBlank = () => {
-      ReactDOM.render(
-        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
-        iframeContent
-      )
-    }
-
-    elementsStorage.state('document').onChange((data) => {
-      if (data.length === 0) {
-        addStartBlank()
-      } else {
-        iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
-        removeStartBlank()
-      }
-    })
+  const removeStartBlank = () => {
+    ReactDOM.unmountComponentAtNode(iframeContent)
   }
+  const addStartBlank = () => {
+    ReactDOM.render(
+      <StartBlankPanel unmountStartBlank={removeStartBlank} />,
+      iframeContent
+    )
+  }
+
+  elementsStorage.state('document').onChange((data) => {
+    if (data.length === 0) {
+      addStartBlank()
+    } else {
+      iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+      removeStartBlank()
+    }
+  })
 })

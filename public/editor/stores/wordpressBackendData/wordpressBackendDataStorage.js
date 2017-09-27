@@ -1,4 +1,4 @@
-import { addStorage, getStorage, getService, setData, env } from 'vc-cake'
+import { addStorage, getStorage, getService, setData } from 'vc-cake'
 import lodash from 'lodash'
 import $ from 'jquery'
 import SaveController from './lib/saveController'
@@ -227,9 +227,6 @@ addStorage('wordpressData', (storage) => {
   const beEditorInput = document.getElementById('vcv-be-editor')
   storage.state('activeEditor').set(beEditorInput && beEditorInput.value ? beEditorInput.value : 'be')
   const isClassicEditor = () => {
-    if (!env('FEATURE_CLASSIC_EDITOR_CONTROL')) {
-      return false
-    }
     return storage.state('activeEditor').get() === 'classic'
   }
   storage.state('activeEditor').onChange((state) => {

@@ -1,4 +1,4 @@
-import {getService, env} from 'vc-cake'
+import {getService} from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
 
@@ -31,9 +31,7 @@ export default class Outline {
 
     this.outline = document.createElement('svg')
     this.outline.classList.add('vcv-ui-element-outline')
-    if (env('FEATURE_OUTLINE_HOVER_COLOR')) {
-      this.outline.classList.add('vcv-ui-element-outline-type-custom')
-    }
+    this.outline.classList.add('vcv-ui-element-outline-type-custom')
     this.outlineContainer.appendChild(this.outline)
   }
 
@@ -42,11 +40,9 @@ export default class Outline {
    * @param element
    */
   show (element, id) {
-    if (env('FEATURE_OUTLINE_HOVER_COLOR')) {
-      const vcElement = this.getVcElement(id)
-      this.colorIndex = this.getElementColorIndex(vcElement)
-      this.outline.classList.add(`vcv-ui-element-outline-type-index-${this.colorIndex}`)
-    }
+    const vcElement = this.getVcElement(id)
+    this.colorIndex = this.getElementColorIndex(vcElement)
+    this.outline.classList.add(`vcv-ui-element-outline-type-index-${this.colorIndex}`)
     this.outline.classList.add('vcv-state--visible')
     this.autoUpdatePosition(element)
   }
@@ -55,9 +51,7 @@ export default class Outline {
    * Hide outline
    */
   hide () {
-    if (env('FEATURE_OUTLINE_HOVER_COLOR')) {
-      this.outline.classList.remove(`vcv-ui-element-outline-type-index-${this.colorIndex}`)
-    }
+    this.outline.classList.remove(`vcv-ui-element-outline-type-index-${this.colorIndex}`)
     this.outline.classList.remove('vcv-state--visible')
     this.stopAutoUpdatePosition()
   }

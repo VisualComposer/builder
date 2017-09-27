@@ -331,13 +331,11 @@ export default class ElementControl extends React.Component {
 
   handleMouseDown (e) {
     e && e.preventDefault()
-    if (vcCake.env('DRAG_AND_DROP_FROM_ADD_ELEMENT_PANEL')) {
-      if (!this.state.isDragging) {
-        this.dragTimeout = setTimeout(() => {
-          this.layoutBarOverlayRect = this.layoutBarOverlay.getBoundingClientRect()
-          document.body.addEventListener('mousemove', this.initDrag)
-        }, 1)
-      }
+    if (!this.state.isDragging) {
+      this.dragTimeout = setTimeout(() => {
+        this.layoutBarOverlayRect = this.layoutBarOverlay.getBoundingClientRect()
+        document.body.addEventListener('mousemove', this.initDrag)
+      }, 1)
     }
   }
 

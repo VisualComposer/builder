@@ -23,7 +23,7 @@ class UpdateFePage extends Container implements Module
     public function __construct(Token $tokenHelper)
     {
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized()) {
-            $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', 120);
+            $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', -1);
             $this->addFilter('vcv:frontend:update:head:extraOutput', 'addUpdateAssets', 10);
         }
     }
@@ -33,13 +33,13 @@ class UpdateFePage extends Container implements Module
         if ($optionsHelper->get('bundleUpdateRequired')) {
             $requiredActions = $updateHelper->getRequiredActions();
 
-            return vcview(
+            die(vcview(
                 'editor/frontend/frontend-updating.php',
                 [
                     'actions' => $requiredActions,
                     'posts' => $optionsHelper->get('bundleUpdatePosts', []),
                 ]
-            );
+            ));
         }
 
         return $response;

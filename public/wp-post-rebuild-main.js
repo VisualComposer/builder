@@ -38,7 +38,9 @@ publicAPI.on('vcv:rebuildPost', (posts) => {
     idState.set(false)
   })
 })
+
+window.vcv = publicAPI
+
 if (vcCake.env('debug') === true) {
   window.app = vcCake
 }
-

@@ -15,6 +15,8 @@ use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Url;
+use VisualComposer\Helpers\Frontend;
 
 class JsonActionsController extends Container implements Module
 {
@@ -27,16 +29,31 @@ class JsonActionsController extends Container implements Module
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
-    protected function ajaxGetRequiredActions($response, $payload, Logger $loggerHelper, Options $optionsHelper, Download $downloadHelper)
-    {
+    protected function ajaxGetRequiredActions(
+        $response,
+        $payload,
+        Logger $loggerHelper,
+        Download $downloadHelper,
+        Url $urlHelper
+    ) {
         if (!vcIsBadResponse($response)) {
             $requiredActions = [];
             if ($payload['json'] && !empty($payload['json']['actions'])) {
                 $optionHelper = vchelper('Options');
                 $needUpdatePost = [];
-                list($needUpdatePost, $requiredActions) = $this->loopActions($requiredActions, $needUpdatePost, $payload, $downloadHelper, $optionHelper);
+                list($needUpdatePost, $requiredActions) = $this->loopActions(
+                    $requiredActions,
+                    $needUpdatePost,
+                    $payload,
+                    $downloadHelper,
+                    $optionHelper
+                );
+                $reRenderPosts = array_unique($needUpdatePost);
                 $response['actions'] = $requiredActions;
-                $response['post_update_required'] = array_unique($needUpdatePost);
+                if (sizeof($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
+                    $response['post_update_required'] = $this->createPostUpdateObjects(array_unique($needUpdatePost));
+                    $response['updaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
+                }
             } else {
                 $loggerHelper->log(
                     __('Failed to process required actions', 'vcwb'),
@@ -49,6 +66,15 @@ class JsonActionsController extends Container implements Module
         }
 
         return $response;
+    }
+
+    protected function createPostUpdateObjects(array $posts, Frontend $frontendHelper)
+    {
+        $result = [];
+        foreach ($posts as $id) {
+            $result[] = ['id' => $id, 'editableLink' => $frontendHelper->getEditableUrl($id)];
+        }
+        return $result;
     }
 
     protected function ajaxProcessAction($response, $payload, Request $requestHelper, Options $optionsHelper)
@@ -97,9 +123,9 @@ class JsonActionsController extends Container implements Module
                     'checksum' => $checksum,
                 ]
             );
+
             return false;
         }
-
 
         return $response;
     }
@@ -125,7 +151,9 @@ class JsonActionsController extends Container implements Module
         $optionsHelper
             ->deleteTransient('vcv:activation:request');
         global $wpdb;
-        $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"', VCV_PREFIX . 'hubAction:%'));
+        $wpdb->query(
+            $wpdb->prepare('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"', VCV_PREFIX . 'hubAction:%')
+        );
     }
 
     /**
@@ -134,10 +162,16 @@ class JsonActionsController extends Container implements Module
      * @param $payload
      * @param Download $downloadHelper
      * @param Options $optionHelper
+     *
      * @return array
      */
-    protected function loopActions($requiredActions, $needUpdatePost, $payload, Download $downloadHelper, Options $optionHelper)
-    {
+    protected function loopActions(
+        $requiredActions,
+        $needUpdatePost,
+        $payload,
+        Download $downloadHelper,
+        Options $optionHelper
+    ) {
         foreach ($payload['json']['actions'] as $key => $value) {
             if (isset($value['action'])) {
                 $action = $value['action'];
@@ -146,14 +180,20 @@ class JsonActionsController extends Container implements Module
                 $version = $value['version'];
                 $previousVersion = $optionHelper->get('hubAction:' . $action, '0');
                 if ($version && version_compare($version, $previousVersion, '>') || !$version) {
-                    if (isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')) {
+                    if (isset($value['last_post_update'])
+                        && version_compare(
+                            $value['last_post_update'],
+                            $previousVersion,
+                            '>'
+                        )) {
                         $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
                         if (!empty($posts) && is_array($posts)) {
                             $needUpdatePost = $posts + $needUpdatePost;
                         }
                     }
                     $requiredActions[] = [
-                        'name' => isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action),
+                        'name' => isset($value['name']) && !empty($value['name']) ? $value['name']
+                            : $downloadHelper->getActionName($action),
                         'action' => $action,
                         'data' => $data,
                         'checksum' => $checksum,
@@ -162,6 +202,7 @@ class JsonActionsController extends Container implements Module
                 }
             }
         }
+
         return [$needUpdatePost, $requiredActions];
     }
 }

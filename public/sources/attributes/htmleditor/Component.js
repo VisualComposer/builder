@@ -14,10 +14,7 @@ export default class Component extends Attribute {
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
     this.handleSkinChange = this.handleSkinChange.bind(this)
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
-
-    if (vcCake.env('FEATURE_TINYMCE_SKIN')) {
-      this.state.darkTextSkin = this.getDarkTextSkinState()
-    }
+    this.state.darkTextSkin = this.getDarkTextSkinState()
   }
 
   shouldComponentUpdate (nextProps) {
@@ -112,13 +109,13 @@ export default class Component extends Attribute {
   }
 
   componentDidMount () {
-    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
+    if (vcCake.env('platform') === 'wordpress') {
       this.initWpEditorJs()
     }
   }
 
   componentWillUnmount () {
-    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
+    if (vcCake.env('platform') === 'wordpress') {
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
       window.tinyMCE && window.tinyMCE.editors[ id ].destroy()
@@ -151,11 +148,11 @@ export default class Component extends Attribute {
   }
 
   render () {
-    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
+    if (vcCake.env('platform') === 'wordpress') {
       const { value } = this.state
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
-      if (vcCake.env('FEATURE_TINYMCE_SKIN') && this.state.editorLoaded) {
+      if (this.state.editorLoaded) {
         const editor = window.tinymce.get(id)
         if (editor && editor.getBody()) {
           editor.getBody().style.backgroundColor = this.state.darkTextSkin ? '#2F2F2F' : ''
@@ -168,14 +165,10 @@ export default class Component extends Attribute {
         'vcv-ui-form-wp-tinymce': true,
         'vcv-is-invisible': this.state.editorLoaded !== true
       })
-      if (vcCake.env('FEATURE_TINYMCE_SKIN')) {
-        return <div className={cssClasses}>
-          <div dangerouslySetInnerHTML={{ __html: template }} />
-          {this.getSkinToggle()}
-        </div>
-      } else {
-        return <div className={cssClasses} dangerouslySetInnerHTML={{__html: template}} />
-      }
+      return <div className={cssClasses}>
+        <div dangerouslySetInnerHTML={{ __html: template }} />
+        {this.getSkinToggle()}
+      </div>
     }
     return this.renderEditor()
   }

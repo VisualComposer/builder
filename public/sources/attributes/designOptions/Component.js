@@ -9,7 +9,6 @@ import AttachImage from '../attachimage/Component'
 import Color from '../color/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
-import vcCake from 'vc-cake'
 
 export default class DesignOptions extends Attribute {
   /**
@@ -813,8 +812,7 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getBackgroundPositionRender () {
-    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
-      this.state.devices[ this.state.currentDevice ].display ||
+    if (this.state.devices[ this.state.currentDevice ].display ||
       !this.state.devices[ this.state.currentDevice ].hasOwnProperty('image') ||
       !this.state.devices[ this.state.currentDevice ].image.urls ||
       this.state.devices[ this.state.currentDevice ].image.urls.length === 0) {

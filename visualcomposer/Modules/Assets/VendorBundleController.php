@@ -24,7 +24,7 @@ class VendorBundleController extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Assets\VendorBundleController::addVendorScript */
         $this->addFilter(
-            'vcv:backend:extraOutput vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput',
+            'vcv:backend:extraOutput vcv:frontend:head:extraOutput',
             'addVendorScript',
             1
         );
@@ -33,6 +33,7 @@ class VendorBundleController extends Container implements Module
             $this->wpAddAction('init', 'registerVendorScripts');
             $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorFrontScripts', 1);
         }
+        $this->wpAddAction('admin_enqueue_scripts', 'enqueueJquery');
     }
 
     protected function registerVendorScripts(Url $urlHelper)
@@ -94,5 +95,11 @@ class VendorBundleController extends Container implements Module
         wp_enqueue_script('jquery'); // Required for 3-rd elements libraries
         wp_enqueue_script('vcv:assets:vendor:script');
         wp_enqueue_script('vcv:assets:front:script');
+    }
+
+    protected function enqueueJquery()
+    {
+        // About, Activation, FE-Update, BE-Update pages
+        wp_enqueue_script('jquery'); // Required for 3-rd elements libraries
     }
 }

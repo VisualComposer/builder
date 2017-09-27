@@ -1,5 +1,5 @@
 import React from 'react'
-import EditFormResizeTabs from './editFormResizeTabs'
+import EditForm from './editForm'
 
 export default class FormWrapper extends React.Component {
   static propTypes = {
@@ -90,7 +90,7 @@ export default class FormWrapper extends React.Component {
 
   render () {
     return (
-      <EditFormResizeTabs
+      <EditForm
         {...this.props}
         allTabs={this.allTabs}
         activeTabIndex={this.state.activeTabIndex}

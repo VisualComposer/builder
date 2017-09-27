@@ -2,7 +2,7 @@
 import React from 'react'
 import NavbarContent from '../navbarContent'
 
-import {env, setData, getService, getStorage} from 'vc-cake'
+import {setData, getService, getStorage} from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -35,7 +35,7 @@ export default class WordPressAdminControl extends NavbarContent {
     e && e.preventDefault && e.preventDefault()
     const target = e.currentTarget
     const isBackendEditor = target.dataset.backendEditor && target.dataset.backendEditor === 'backendEditor'
-    if (isBackendEditor && env('FEATURE_WPBACKEND')) {
+    if (isBackendEditor) {
       setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
     }
     window.open(

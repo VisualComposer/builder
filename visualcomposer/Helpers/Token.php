@@ -83,10 +83,15 @@ class Token extends Container implements Helper
     public function createToken($id)
     {
         $licenseHelper = vchelper('License');
+        $requestHelper = vchelper('Request');
         $body = [
             'hoster_id' => 'account',
             'id' => $id,
         ];
+        if ($requestHelper->input('category') && 'account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
+            $body['category'] = $requestHelper->input('category');
+            vchelper('Options')->set('activation-category', $requestHelper->input('category'));
+        }
         if ($licenseHelper->isActivated()) {
             $body['license-key'] = $licenseHelper->getKey();
         }
