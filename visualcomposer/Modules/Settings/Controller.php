@@ -116,15 +116,17 @@ class Controller extends Container implements Module
      */
     protected function addMenuPage(Url $urlHelper)
     {
-        /** @see \VisualComposer\Modules\Settings\Controller::getMainPageSlug */
-        $slug = $this->call('getMainPageSlug');
-        $title = __('Visual Composer ', 'vcwb');
+        if (!is_network_admin()) {
+            /** @see \VisualComposer\Modules\Settings\Controller::getMainPageSlug */
+            $slug = $this->call('getMainPageSlug');
+            $title = __('Visual Composer ', 'vcwb');
 
-        $iconUrl = $urlHelper->assetUrl('images/logo/16x16.png');
+            $iconUrl = $urlHelper->assetUrl('images/logo/16x16.png');
 
-        add_menu_page($title, $title, 'edit_posts', $slug, null, $iconUrl, 76);
+            add_menu_page($title, $title, 'edit_posts', $slug, null, $iconUrl, 76);
 
-        vcevent('vcv:settings:mainPage:menuPageBuild', ['slug' => $slug]);
+            vcevent('vcv:settings:mainPage:menuPageBuild', ['slug' => $slug]);
+        }
     }
 
     /**
