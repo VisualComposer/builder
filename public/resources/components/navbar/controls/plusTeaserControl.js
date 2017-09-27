@@ -1,8 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import {getStorage} from 'vc-cake'
+import {getStorage, getService} from 'vc-cake'
 
+const dataProcessor = getService('dataProcessor')
 const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
@@ -37,6 +38,15 @@ export default class PlusTeaserControl extends NavbarContent {
       options: {}
     }
     workspaceSettings.set(settings)
+    if (window.VCV_HUB_SHOW_TEASER_BADGE) {
+      dataProcessor.appServerRequest({
+        'vcv-action': 'vcv:hub:teaser:visit:adminNonce'
+      })
+      dataProcessor.appAllDone().then(() => {
+        window.VCV_HUB_SHOW_TEASER_BADGE = false
+        this.forceUpdate()
+      })
+    }
   }
 
   render () {
@@ -47,7 +57,7 @@ export default class PlusTeaserControl extends NavbarContent {
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
       'vcv-ui-state--active': this.state.isActive,
-      'vcv-ui-badge--warning': true
+      'vcv-ui-badge--warning': window.VCV_HUB_SHOW_TEASER_BADGE
     })
 
     return (

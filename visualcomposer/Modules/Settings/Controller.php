@@ -206,7 +206,7 @@ class Controller extends Container implements Module
             wp_register_script(
                 'vcv:settings:script',
                 content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.js',
-                ['vcv:assets:vendor:script'],
+                [],
                 VCV_VERSION
             );
             wp_register_style(
@@ -219,7 +219,7 @@ class Controller extends Container implements Module
             wp_register_script(
                 'vcv:settings:script',
                 $urlHelper->to('public/dist/wpsettings.bundle.js'),
-                ['vcv:assets:vendor:script'],
+                [],
                 VCV_VERSION
             );
             wp_register_style(

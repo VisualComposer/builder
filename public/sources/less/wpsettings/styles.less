@@ -450,6 +450,34 @@ input.vcv-popup-form-input {
   letter-spacing: @vcv-formLetterSpacing;
 }
 
+select.vcv-popup-form-select {
+  background: url(../../../../public/sources/images/icons/triangle-down.svg) right 1em center no-repeat #fff;
+  display: block;
+  color: @vcv-formInputColor;
+  letter-spacing: @vcv-formLetterSpacing;
+  font: @vcv-formFont;
+  width: 100%;
+  border-radius: 0;
+  border: 0;
+  margin-bottom: 20px;
+  padding: 17px;
+  box-sizing: border-box;
+  box-shadow: none;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: auto;
+}
+
+select.vcv-popup-form-select.vcv-select-light {
+  color: @vcv-formInputPlaceholderColor;
+
+  option {
+    color: @vcv-formInputColor;
+  }
+}
+
 .vcv-popup-form-input::-webkit-input-placeholder {
   color: @vcv-formInputPlaceholderColor;
 }
