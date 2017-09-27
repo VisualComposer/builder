@@ -41,7 +41,7 @@ class GetPremium extends About implements Module
             $this->addEvent(
                 'vcv:inited',
                 function (License $licenseHelper, Token $tokenHelper, Request $requestHelper) {
-                    if (!$licenseHelper->isActivated() && $tokenHelper->isSiteAuthorized()) {
+                    if (!$licenseHelper->isActivated()) {
                         /** @see \VisualComposer\Modules\Account\Pages\ActivationPage::addPage */
                         $this->addFilter(
                             'vcv:settings:getPages',
