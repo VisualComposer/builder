@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { getService, setData, getData, getStorage, env } from 'vc-cake'
+import { getService, setData, getData, getStorage } from 'vc-cake'
 import SmartLine from './smartLine'
 import Helper from './helper'
 import HelperClone from './helperClone'
@@ -367,7 +367,7 @@ export default class DndDataSet {
     if (typeof this.options.endCallback === 'function') {
       this.options.endCallback(this.draggingElement)
     }
-    const isValidLayoutCustomMode = !env('FIX_INLINE_CONTAINER_DRAG_ISSUE') ? true : getData('vcv:layoutCustomMode') === 'dnd'
+    const isValidLayoutCustomMode = getData('vcv:layoutCustomMode') === 'dnd'
 
     if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
       this.position && this.options.dropCallback(

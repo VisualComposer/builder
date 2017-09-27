@@ -990,8 +990,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       'backgroundZoom',
       'imagesSlideshow'
     ]
-    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
-      this.state.devices[ this.state.currentDevice ].display ||
+    if (this.state.devices[ this.state.currentDevice ].display ||
       allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') || !this.state.devices[ this.state.currentDevice ].images.urls ||
       this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
       return null
@@ -1064,8 +1063,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundZoomRender () {
-    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
-      this.state.devices[ this.state.currentDevice ].display ||
+    if (this.state.devices[ this.state.currentDevice ].display ||
       this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
       !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
       !this.state.devices[ this.state.currentDevice ].images.urls ||
@@ -1097,8 +1095,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundZoomSpeedRender () {
-    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
-      this.state.devices[ this.state.currentDevice ].display ||
+    if (this.state.devices[ this.state.currentDevice ].display ||
       this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
       !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
       !this.state.devices[ this.state.currentDevice ].images.urls ||
@@ -1129,8 +1126,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundZoomReverseRender () {
-    if (!vcCake.env('FEATURE_BACKGROUND_POSITION') ||
-      this.state.devices[ this.state.currentDevice ].display ||
+    if (this.state.devices[ this.state.currentDevice ].display ||
       this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
       !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
       !this.state.devices[ this.state.currentDevice ].images.urls ||

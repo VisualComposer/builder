@@ -1,8 +1,6 @@
 import vcCake from 'vc-cake'
 import ReactDOM from 'react-dom'
 import React from 'react'
-
-import BackendSwitcher from './lib/helpers/backendSwitcher/component'
 import BackendClassicSwitcher from './lib/helpers/backendSwitcher/backendClassicSwitcher'
 
 vcCake.add('backendSwitcher', (api) => {
@@ -25,14 +23,9 @@ vcCake.add('backendSwitcher', (api) => {
     }
   }
 
-  if (render && vcCake.env('FEATURE_CLASSIC_EDITOR_CONTROL')) {
+  if (render) {
     ReactDOM.render(
       <BackendClassicSwitcher />,
-      switcherContainer
-    )
-  } else if (render) {
-    ReactDOM.render(
-      <BackendSwitcher />,
       switcherContainer
     )
   }

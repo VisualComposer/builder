@@ -1,4 +1,4 @@
-import {getService, getStorage, env} from 'vc-cake'
+import {getService, getStorage} from 'vc-cake'
 
 const documentManager = getService('document')
 const workspaceStorage = getStorage('workspace')
@@ -124,10 +124,8 @@ export default class ControlsHandler {
         if (i !== elementIds.length - 1) {
           controlsList.insertBefore(delimiter, controlsList.children[ 0 ])
         }
-        if (env('FEATURE_CLICK_TO_EDIT')) {
-          // only for the first (most nested) element (last in the control navbar)
-          this.appendEditAndRemove(controlsList, elementId)
-        }
+        // only for the first (most nested) element (last in the control navbar)
+        this.appendEditAndRemove(controlsList, elementId)
       } else {
         const controlsRect = controlsList.getBoundingClientRect()
         const controlWidth = (controlsRect.width - 2) / (controlsList.children.length / 2)
@@ -386,18 +384,16 @@ export default class ControlsHandler {
       })
     }
 
-    if (env('DROPDOWN_DESIGN_OPTIONS_SECTION')) {
-      // edit design options control
-      actions.push({
-        label: designOptionsText,
-        title: `${options.title} ${designOptionsText}`,
-        icon: 'vcv-ui-icon-brush-alt',
-        data: {
-          vcControlEvent: 'edit',
-          vcControlEventOptions: designOptionEvent
-        }
-      })
-    }
+    // edit design options control
+    actions.push({
+      label: designOptionsText,
+      title: `${options.title} ${designOptionsText}`,
+      icon: 'vcv-ui-icon-brush-alt',
+      data: {
+        vcControlEvent: 'edit',
+        vcControlEventOptions: designOptionEvent
+      }
+    })
 
     // clone control
     actions.push({
@@ -409,40 +405,38 @@ export default class ControlsHandler {
       }
     })
 
-    if (env('FEATURE_COPY_PASTE')) {
-      // copy action
-      if (
-        options.relatedTo &&
-        options.relatedTo.value &&
-        options.relatedTo.value.includes('General') &&
-        !options.relatedTo.value.includes('RootElements')
-      ) {
-        actions.push({
-          label: copyText,
-          title: `${copyText} ${options.title}`,
-          icon: 'vcv-ui-icon-copy-icon',
-          data: {
-            vcControlEvent: 'copy'
-          }
-        })
-      }
-
-      // paste action
-      if (options.tag === 'column' || options.tag === 'tab') {
-        let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
-        let disabled = !copyData
-        actions.push({
-          label: pasteText,
-          disabled,
-          icon: 'vcv-ui-icon-paste-icon',
-          data: {
-            vcControlEvent: 'paste'
-          }
-        })
-      }
+    // copy action
+    if (
+      options.relatedTo &&
+      options.relatedTo.value &&
+      options.relatedTo.value.includes('General') &&
+      !options.relatedTo.value.includes('RootElements')
+    ) {
+      actions.push({
+        label: copyText,
+        title: `${copyText} ${options.title}`,
+        icon: 'vcv-ui-icon-copy-icon',
+        data: {
+          vcControlEvent: 'copy'
+        }
+      })
     }
 
-    if (env('VISIBILITY_CONTROL') && options.tag !== 'column') {
+    // paste action
+    if (options.tag === 'column' || options.tag === 'tab') {
+      let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
+      let disabled = !copyData
+      actions.push({
+        label: pasteText,
+        disabled,
+        icon: 'vcv-ui-icon-paste-icon',
+        data: {
+          vcControlEvent: 'paste'
+        }
+      })
+    }
+
+    if (options.tag !== 'column') {
       actions.push({
         label: hideOffText,
         title: hideOffText,

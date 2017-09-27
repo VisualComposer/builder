@@ -1,4 +1,4 @@
-import {add, setData, getStorage, env} from 'vc-cake'
+import {add, setData, getStorage} from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
@@ -35,30 +35,27 @@ add('wordpressBackendWorkspace', (api) => {
     layoutHeader
   )
   workspaceStorage.state('lastAction').set(false)
-  if (env('FEATURE_START_BLANK')) {
-    // Start blank overlay
-    let iframeContent = document.getElementById('vcv-layout-iframe-content')
-    let layout = document.getElementById('vcv-layout')
+  // Start blank overlay
+  let iframeContent = document.getElementById('vcv-layout-iframe-content')
 
-    const removeStartBlank = () => {
-      layout && layout.classList.remove('vcv-layout-start-blank--active')
-      ReactDOM.unmountComponentAtNode(iframeContent)
-    }
-    const addStartBlank = () => {
-      layout && layout.classList.add('vcv-layout-start-blank--active')
-      ReactDOM.render(
-        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
-        iframeContent
-      )
-    }
-
-    elementsStorage.state('document').onChange((data) => {
-      if (data.length === 0) {
-        addStartBlank()
-      } else {
-        iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
-        removeStartBlank()
-      }
-    })
+  const removeStartBlank = () => {
+    layout && layout.classList.remove('vcv-layout-start-blank--active')
+    ReactDOM.unmountComponentAtNode(iframeContent)
   }
+  const addStartBlank = () => {
+    layout && layout.classList.add('vcv-layout-start-blank--active')
+    ReactDOM.render(
+      <StartBlankPanel unmountStartBlank={removeStartBlank} />,
+      iframeContent
+    )
+  }
+
+  elementsStorage.state('document').onChange((data) => {
+    if (data.length === 0) {
+      addStartBlank()
+    } else {
+      iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+      removeStartBlank()
+    }
+  })
 })

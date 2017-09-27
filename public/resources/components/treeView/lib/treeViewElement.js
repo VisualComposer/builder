@@ -333,7 +333,7 @@ export default class TreeViewElement extends React.Component {
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
       'vcv-ui-tree-layout-node-state-draft': false,
-      'vcv-ui-tree-layout-node-hidden': vcCake.env('VISIBILITY_CONTROL') && hidden
+      'vcv-ui-tree-layout-node-hidden': hidden
     })
 
     let child = this.getContent()
@@ -381,7 +381,7 @@ export default class TreeViewElement extends React.Component {
     }
 
     let visibilityControl = ''
-    if (vcCake.env('VISIBILITY_CONTROL') && this.props.element.tag !== 'column') {
+    if (this.props.element.tag !== 'column') {
       let iconClasses = classNames({
         'vcv-ui-icon': true,
         'vcv-ui-icon-eye-on': !hidden,
@@ -396,44 +396,42 @@ export default class TreeViewElement extends React.Component {
 
     let copyControl = false
     let pasteControl = false
-    if (vcCake.env('FEATURE_COPY_PASTE')) {
-      let relatedTo = element.get('relatedTo')
-      // copy action
-      if (
-        relatedTo &&
-        relatedTo.value &&
-        relatedTo.value.includes('General') &&
-        !relatedTo.value.includes('RootElements')
-      ) {
-        copyControl = (
-          <span
-            className='vcv-ui-tree-layout-control-action'
-            title={copyText}
-            onClick={this.clickCopy.bind(this)}
-          >
-            <i className='vcv-ui-icon vcv-ui-icon-copy-icon' />
-          </span>
-        )
+    let relatedTo = element.get('relatedTo')
+    // copy action
+    if (
+      relatedTo &&
+      relatedTo.value &&
+      relatedTo.value.includes('General') &&
+      !relatedTo.value.includes('RootElements')
+    ) {
+      copyControl = (
+        <span
+          className='vcv-ui-tree-layout-control-action'
+          title={copyText}
+          onClick={this.clickCopy.bind(this)}
+        >
+          <i className='vcv-ui-icon vcv-ui-icon-copy-icon' />
+        </span>
+      )
+    }
+
+    // paste action
+    if (element.get('tag') === 'column' || element.get('tag') === 'tab') {
+      let attrs = {}
+      if (!copyData) {
+        attrs.disabled = true
       }
 
-      // paste action
-      if (element.get('tag') === 'column' || element.get('tag') === 'tab') {
-        let attrs = {}
-        if (!copyData) {
-          attrs.disabled = true
-        }
-
-        pasteControl = (
-          <span
-            className='vcv-ui-tree-layout-control-action'
-            title={pasteText}
-            onClick={this.clickPaste.bind(this)}
-            {...attrs}
-          >
-            <i className='vcv-ui-icon vcv-ui-icon-paste-icon' />
-          </span>
-        )
-      }
+      pasteControl = (
+        <span
+          className='vcv-ui-tree-layout-control-action'
+          title={pasteText}
+          onClick={this.clickPaste.bind(this)}
+          {...attrs}
+        >
+          <i className='vcv-ui-icon vcv-ui-icon-paste-icon' />
+        </span>
+      )
     }
 
     let childControls = <span className='vcv-ui-tree-layout-control-actions'>
@@ -478,10 +476,7 @@ export default class TreeViewElement extends React.Component {
 
     )
 
-    if (
-      vcCake.env('FEATURE_RENAME_ELEMENT') &&
-      (vcCake.env('MOBILE_DETECT') ? !(new MobileDetect(window.navigator.userAgent)).mobile() : true)
-    ) {
+    if ((vcCake.env('MOBILE_DETECT') ? !(new MobileDetect(window.navigator.userAgent)).mobile() : true)) {
       envContent = (
         <span className={controlLabelClasses}>
           <span ref={span => { this.span = span }}
