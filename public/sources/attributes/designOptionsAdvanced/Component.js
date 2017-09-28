@@ -287,6 +287,12 @@ export default class DesignOptionsAdvanced extends Attribute {
         if (typeof newState.devices[ device ].gradientAngle === 'undefined') {
           newState.devices[ device ].gradientAngle = DesignOptionsAdvanced.deviceDefaults.gradientAngle
         }
+        if (!newState.devices[ device ].dividerBackgroundStyle) {
+          newState.devices[ device ].dividerBackgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+        }
+        if (!newState.devices[ device ].dividerBackgroundPosition) {
+          newState.devices[ device ].dividerBackgroundPosition = DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+        }
 
         // values
         newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
@@ -426,6 +432,12 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].borderStyle
             delete newValue[ device ].borderColor
           }
+
+          if (newState.devices[ device ].dividerBackgroundType !== 'image' || !newValue[ device ].hasOwnProperty('dividerBackgroundImage') || ((!newValue[ device ].dividerBackgroundImage.urls || newValue[ device ].dividerBackgroundImage.urls.length === 0) && newValue[ device ].dividerBackgroundImage.length === 0)) {
+            delete newValue[ device ].dividerBackgroundImage
+            delete newValue[ device ].dividerBackgroundStyle
+            delete newValue[ device ].dividerBackgroundPosition
+          }
         }
         // mixins
         if (newValue[ device ].hasOwnProperty('display')) {
@@ -535,6 +547,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   setFieldValue (value, mixins) {
     let { updater, fieldKey } = this.props
+    console.log(value, fieldKey)
     updater(fieldKey, {
       device: value,
       attributeMixins: mixins
@@ -1930,7 +1943,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='dividerBackgroundColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue='' />
+        defaultValue={DesignOptionsAdvanced.deviceDefaults.dividerBackgroundColor} />
     </div>
   }
 
@@ -1955,7 +1968,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='dividerBackgroundGradientStartColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue='' />
+        defaultValue={DesignOptionsAdvanced.deviceDefaults.dividerBackgroundGradientStartColor} />
     </div>
   }
 
@@ -1980,7 +1993,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='dividerBackgroundGradientEndColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue='' />
+        defaultValue={DesignOptionsAdvanced.deviceDefaults.dividerBackgroundGradientEndColor} />
     </div>
   }
 
@@ -2061,6 +2074,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       ]
     }
     let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+    console.log(value)
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background style
