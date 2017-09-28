@@ -1,7 +1,7 @@
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let webpack = require('webpack')
-const webpackConfig = require('./webpack.config')
-// delete webpackConfig.devtool
+const webpackConfig = require('./webpack-settings.config')
+delete webpackConfig.devtool
 module.exports = Object.assign(webpackConfig, {
   entry: {
     wpsettings: './public/wp-settings-main',
@@ -10,12 +10,12 @@ module.exports = Object.assign(webpackConfig, {
   plugins: [
     // new Collector(),
     new ExtractTextPlugin('[name].bundle.css'),
-    new webpack.NamedModulesPlugin()
-    // new webpack.DefinePlugin({
-    //   'process.env': {
-    //     NODE_ENV: JSON.stringify('production')
-    //   }
-    // })
+    new webpack.NamedModulesPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    })
     // new webpack.optimize.UglifyJsPlugin({
     //   minimize: true,
     //   sourceMap: false,
