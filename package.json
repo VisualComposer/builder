@@ -18,6 +18,7 @@
     "build-element": "babel-node ./tools/element-builder/index",
     "build-production": "webpack --config webpack.config.production.js --progress --colors -p",
     "build-settings": "webpack --config webpack-settings.config.js --progress --colors",
+    "build-settings-production": "webpack --config webpack-settings.config.production.js --progress --colors -p",
     "watch-settings": "webpack --config webpack-settings.config.js --progress --colors --watch"
   },
   "author": "@wpb",
