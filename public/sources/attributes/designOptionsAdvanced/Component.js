@@ -547,7 +547,6 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   setFieldValue (value, mixins) {
     let { updater, fieldKey } = this.props
-    console.log(value, fieldKey)
     updater(fieldKey, {
       device: value,
       attributeMixins: mixins
@@ -2074,7 +2073,6 @@ export default class DesignOptionsAdvanced extends Attribute {
       ]
     }
     let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
-    console.log(value)
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background style
