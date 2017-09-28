@@ -11,29 +11,71 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
-use VisualComposer\Modules\Hub\Download\Actions\Traits\Action;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class TeaserDownloadController extends Container implements Module
 {
-    use Action;
-    protected $actionName = 'hubTeaser';
-    protected $helperName = 'HubActionsHubTeaserBundle';
+    use EventsFilters;
 
     public function __construct()
     {
         if (vcvenv('VCV_ENV_HUB_TEASER')) {
-            $this->addFilter('vcv:hub:process:json:' . $this->actionName, 'processAction');
-            $this->addFilter('vcv:hub:download:bundle:' . $this->actionName, 'updateTeaser');
+            $this->addFilter('vcv:hub:process:action:hubTeaser', 'processAction');
         }
     }
 
-    protected function updateData($response, $payload, Options $optionsHelper)
+    protected function processAction($response, $payload, Options $optionsHelper)
     {
-        if (!vcIsBadResponse($response)) {
-            $archive = $payload['archive'];
-            $optionsHelper->set('hubTeaserElements', $archive);
+        if (!vcIsBadResponse($response) && $payload['data']) {
+            $teaserElements = $this->getTeaserElements($payload['data']['teasers']);
+            $optionsHelper->set('hubTeaserElements', $teaserElements);
+            $response = ['status' => true];
         }
 
         return $response;
+    }
+
+    protected function getTeaserElements($teasers)
+    {
+        $categoryList = [
+            'All' => [
+                'id' => 'All0',
+                'index' => 0,
+                'title' => 'All',
+                'elements' => [],
+            ],
+        ];
+        $x = 1;
+        $strHelper = vchelper('Str');
+        $allElements = [];
+        foreach ($teasers as $element) {
+            $categories = explode(',', $element['category']);
+            foreach ($categories as $category) {
+                $category = trim($category);
+                $catIndex = $x++;
+                if (!isset($categoryList[ $category ])) {
+                    $categoryList[ $category ] = [
+                        'id' => ucfirst(strtolower($category)) . $catIndex,
+                        'index' => $catIndex,
+                        'title' => $category,
+                        'elements' => [],
+                    ];
+                }
+                $elementData = [
+                    'tag' => $strHelper->studly($strHelper->slugify($element['name'])),
+                    'name' => $element['name'],
+                    'metaThumbnailUrl' => $element['thumbnailUrl'],
+                    'metaPreviewUrl' => $element['previewUrl'],
+                    'metaDescription' => $element['description'],
+                ];
+                $categoryList[ $category ]['elements'][] = $elementData;
+                $categoryList[ $category ]['elements'] = array_unique($categoryList[ $category ]['elements']);
+                $allElements[] = $elementData;
+            }
+        }
+        $allElements = array_unique($allElements);
+        $categoryList['All']['elements'] = $allElements;
+
+        return $categoryList;
     }
 }

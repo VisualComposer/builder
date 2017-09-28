@@ -135,7 +135,7 @@ class JsonActionsController extends Container implements Module
     protected function triggerAction($action, $data, $version, $checksum)
     {
         $response = vcfilter(
-            'vcv:hub:process:json:' . $action,
+            'vcv:hub:process:action:' . $action,
             ['status' => true],
             [
                 'action' => $action,
