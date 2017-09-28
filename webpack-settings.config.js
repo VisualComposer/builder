@@ -1,4 +1,3 @@
-let Collector = require('./tools/webpack-collector')
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let webpack = require('webpack')
 const webpackConfig = require('./webpack.config')
@@ -9,7 +8,7 @@ module.exports = Object.assign(webpackConfig, {
     wpupdate: './public/bundle-update-main'
   },
   plugins: [
-    new Collector(),
+    // new Collector(),
     new ExtractTextPlugin('[name].bundle.css'),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
