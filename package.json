@@ -17,7 +17,8 @@
     "build-module": "babel-node ./tools/module-builder/index",
     "build-element": "babel-node ./tools/element-builder/index",
     "build-production": "webpack --config webpack.config.production.js --progress --colors -p",
-    "build-settings": "webpack --config webpack-settings.config.js --progress --colors"
+    "build-settings": "webpack --config webpack-settings.config.js --progress --colors",
+    "watch-settings": "webpack --config webpack-settings.config.js --progress --colors --watch"
   },
   "author": "@wpb",
   "license": "GPL-2.0+",

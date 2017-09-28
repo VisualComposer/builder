@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 
+const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceContentStartState = workspaceStorage.state('contentStart')
 const documentManager = vcCake.getService('document')
@@ -17,7 +18,7 @@ export default class ControlsManager {
         configurable: false
       }
     })
-    this.findElement = this.findElement.bind(this)
+    this.editElement = this.editElement.bind(this)
   }
 
   /**
@@ -30,7 +31,7 @@ export default class ControlsManager {
     this.editFormId = null
 
     // Subscribe to main event to interact with content elements
-    this.iframeDocument.body.addEventListener('click', this.findElement)
+    this.iframeDocument.body.addEventListener('click', this.editElement)
   }
 
   /**
@@ -101,6 +102,11 @@ export default class ControlsManager {
       element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
       elPath[ 0 ] = element
     }
+    return element
+  }
+
+  editElement (e) {
+    let element = this.findElement(e)
     if (this.editFormId) {
       let settings = workspaceStorage.state('settings').get()
       if (settings && settings.action === 'edit') {
@@ -116,5 +122,7 @@ export default class ControlsManager {
         }
       }
     }
+    // remove treeView outline bug on mobile
+    layoutStorage.state('userInteractWith').set(false)
   }
 }

@@ -16,7 +16,6 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
-use VisualComposer\Helpers\Frontend;
 
 class JsonActionsController extends Container implements Module
 {
@@ -51,8 +50,9 @@ class JsonActionsController extends Container implements Module
                 $reRenderPosts = array_unique($needUpdatePost);
                 $response['actions'] = $requiredActions;
                 if (sizeof($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
-                    $response['post_update_required'] = $this->createPostUpdateObjects(array_unique($needUpdatePost));
-                    $response['updaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
+                    $response['vcvPostsUpdatesAreRequired'] = $this->createPostUpdateObjects(array_unique($needUpdatePost));
+                    $response['vcvUpdaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
+                    $response['vcvVendorUrl'] = $urlHelper->to('public/dist/vendor.bundle.js');
                 }
             } else {
                 $loggerHelper->log(
@@ -68,9 +68,11 @@ class JsonActionsController extends Container implements Module
         return $response;
     }
 
-    protected function createPostUpdateObjects(array $posts, Frontend $frontendHelper)
+    protected function createPostUpdateObjects(array $posts)
     {
+
         $result = [];
+        $frontendHelper = vchelper('Frontend');
         foreach ($posts as $id) {
             $result[] = ['id' => $id, 'editableLink' => $frontendHelper->getEditableUrl($id)];
         }

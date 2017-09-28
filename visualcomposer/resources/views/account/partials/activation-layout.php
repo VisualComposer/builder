@@ -54,10 +54,12 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
 <div class="vcv-popup-container vcv-popup-container--hidden" style="opacity: 0;visibility: hidden">
     <div class="vcv-popup-scroll-container">
         <div class="vcv-popup">
-            <!-- Back button -->
-            <button class="vcv-popup-back-button">
-                <span><?php echo __('BACK'); ?></span>
-            </button>
+            <?php if (!$tokenHelper->isSiteAuthorized() && 'account' === vcvenv('VCV_ENV_ADDONS_ID') && vcvenv('VCV_ENV_LICENSES')) { ?>
+		        <!-- Back button -->
+		        <button class="vcv-popup-back-button">
+			        <span><?php echo __('BACK'); ?></span>
+		        </button>
+            <?php } ?>
             <!-- Close button -->
             <button class="vcv-popup-close-button"></button>
             <?php
