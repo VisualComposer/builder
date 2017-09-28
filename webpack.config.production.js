@@ -35,8 +35,7 @@ module.exports = Object.assign(webpackConfig, {
       'babel-runtime/core-js/object/create.js',
       'babel-runtime/core-js/object/assign.js',
       'babel-runtime/core-js/object/keys.js'
-    ],
-    wpPostRebuild: './public/wp-post-rebuild'
+    ]
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
