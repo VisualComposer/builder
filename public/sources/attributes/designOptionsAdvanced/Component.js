@@ -433,10 +433,26 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].borderColor
           }
 
-          if (newState.devices[ device ].dividerBackgroundType !== 'image' || !newValue[ device ].hasOwnProperty('dividerBackgroundImage') || ((!newValue[ device ].dividerBackgroundImage.urls || newValue[ device ].dividerBackgroundImage.urls.length === 0) && newValue[ device ].dividerBackgroundImage.length === 0)) {
+          if (newState.devices[ device ].dividerBackgroundType !== 'image' && newState.devices[ device ].dividerBackgroundType !== 'videoEmbed') {
             delete newValue[ device ].dividerBackgroundImage
             delete newValue[ device ].dividerBackgroundStyle
             delete newValue[ device ].dividerBackgroundPosition
+            delete newValue[ device ].dividerVideoEmbed
+          }
+
+          if (newState.devices[ device ].dividerBackgroundType === 'image' && (!newValue[ device ].hasOwnProperty('dividerBackgroundImage') || ((!newValue[ device ].dividerBackgroundImage.urls || newValue[ device ].dividerBackgroundImage.urls.length === 0) && newValue[ device ].dividerBackgroundImage.length === 0))) {
+            delete newValue[ device ].dividerBackgroundStyle
+            delete newValue[ device ].dividerBackgroundPosition
+            delete newValue[ device ].dividerVideoEmbed
+          }
+
+          if (newState.devices[ device ].dividerBackgroundType === 'videoEmbed') {
+            delete newValue[ device ].dividerBackgroundStyle
+
+            if (!newValue[ device ].hasOwnProperty('dividerVideoEmbed') || !newValue[ device ].dividerVideoEmbed.urls || newValue[ device ].dividerVideoEmbed.urls.length === 0 && newValue[ device ].dividerVideoEmbed.length === 0) {
+              delete newValue[ device ].dividerBackgroundPosition
+              delete newValue[ device ].dividerBackgroundImage
+            }
           }
         }
         // mixins
@@ -518,7 +534,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           }
 
           // dividerMixin
-          if (newValue[ device ] && newValue[ device ].divider && newValue[ device ].dividerBackgroundType === 'image') {
+          if (newValue[ device ] && newValue[ device ].divider && (newValue[ device ].dividerBackgroundType === 'image' || newValue[ device ].dividerBackgroundType === 'videoEmbed')) {
             let mixinName = `dividerMixin:${device}`
             newMixins[ mixinName ] = {}
             newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
@@ -1907,6 +1923,13 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
+
+    if (vcCake.env('CONTAINER_DIVIDER_EMBED_VIDEO')) {
+      options.values.push({
+        label: 'Self-hosted video',
+        value: 'videoEmbed'
+      })
+    }
     let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundType || DesignOptionsAdvanced.deviceDefaults.dividerBackgroundType
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
@@ -2091,10 +2114,22 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundPositionRender () {
-    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    let backgroundTypeToSearch = deviceData.dividerBackgroundType
 
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider ||
-      backgroundTypeToSearch !== 'image' || !vcCake.env('CONTAINER_DIVIDER') || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('dividerBackgroundImage') || !this.state.devices[ this.state.currentDevice ].dividerBackgroundImage.urls || this.state.devices[ this.state.currentDevice ].dividerBackgroundImage.urls.length === 0) {
+    if (deviceData.display || !deviceData.divider || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    if (backgroundTypeToSearch !== 'image' && backgroundTypeToSearch !== 'videoEmbed') {
+      return null
+    }
+
+    if (backgroundTypeToSearch === 'image' && (!deviceData.hasOwnProperty('dividerBackgroundImage') || !deviceData.dividerBackgroundImage.urls || deviceData.dividerBackgroundImage.urls.length === 0)) {
+      return null
+    }
+
+    if (backgroundTypeToSearch === 'videoEmbed' && (!deviceData.hasOwnProperty('dividerVideoEmbed') || !deviceData.dividerVideoEmbed.urls || deviceData.dividerVideoEmbed.urls.length === 0 || !vcCake.env('CONTAINER_DIVIDER_EMBED_VIDEO'))) {
       return null
     }
 
@@ -2162,6 +2197,34 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render divider Self hosted video control
+   * @returns {*}
+   */
+  getDividerEmbedVideoRender () {
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'videoEmbed' || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerVideoEmbed || {}
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider background video
+      </span>
+      <AttachVideo
+        api={this.props.api}
+        fieldKey='dividerVideoEmbed'
+        options={{
+          multiple: false
+        }}
+        updater={this.valueChangeHandler}
+        value={value} />
+      <p className='vcv-ui-form-helper'>For better browser compatibility please use <b>mp4</b> video format</p>
+    </div>
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -2209,6 +2272,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getDividerBackgroundGradientEndColorRender()}
             {this.getDividerAttachImageRender()}
             {this.getDividerBackgroundStyleRender()}
+            {this.getDividerEmbedVideoRender()}
             {this.getDividerBackgroundPositionRender()}
           </div>
         </div>
