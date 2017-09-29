@@ -173,7 +173,7 @@ export default class AddTemplatePanel extends React.Component {
     const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.blankPageHelperText : 'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.'
 
     // let source, btnText, helper, button
-    let source, button
+    let source
     if (!this.props.categories[ 0 ].templates().length && !this.state.isSearching) {
       // btnText = buttonText
       // helper = noTemplatesText
@@ -185,6 +185,12 @@ export default class AddTemplatePanel extends React.Component {
       // button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
     }
+
+    let buttonUrl = window.VCV_UTM().feAddTemplateSearchPremiumTemplates
+    if (vcCake.env('editor') === 'backend') {
+      buttonUrl = window.VCV_UTM().beAddTemplateSearchPremiumTemplates
+    }
+
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
         <img
@@ -194,7 +200,7 @@ export default class AddTemplatePanel extends React.Component {
         />
       </div>
       <div className='vcv-ui-editor-no-items-content'>
-        <button className='vcv-start-blank-button' disabled>{buttonText}</button>
+        <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
       </div>
       <div className='vcv-ui-editor-no-items-content'>
         <p className='vcv-start-blank-helper'>{helperText}</p>

@@ -183,6 +183,11 @@ export default class startBlank extends React.Component {
       containerWidth.width = `${this.state.containerWidth}px`
     }
 
+    let buttonUrl = window.VCV_UTM().feBlankPagePremiumTemplates
+    if (vcCake.env('editor') === 'backend') {
+      buttonUrl = window.VCV_UTM().beBlankPagePremiumTemplates
+    }
+
     return (
       <div className='vcv-start-blank-container' onMouseUp={this.handleMouseUp}>
         <div className='vcv-start-blank-scroll-container'>
@@ -205,7 +210,7 @@ export default class startBlank extends React.Component {
                 </ul>
               </div>
             </div>
-            <button className='vcv-start-blank-button' disabled>{buttonText}</button>
+            <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
             <p className='vcv-start-blank-helper'>{helperText}</p>
           </div>
         </div>
