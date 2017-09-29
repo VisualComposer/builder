@@ -1773,7 +1773,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           api={this.props.api}
           fieldKey='divider'
           updater={this.valueChangeHandler}
-          options={{ labelText: `Enable divider` }}
+          options={{ labelText: `Enable shape divider` }}
           value={value}
         />
       </div>

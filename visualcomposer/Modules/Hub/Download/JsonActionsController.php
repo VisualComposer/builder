@@ -92,7 +92,7 @@ class JsonActionsController extends Container implements Module
                 $action['action'],
                 $action['data'],
                 $action['version'],
-                $action['checksum'],
+                isset($action['checksum']) ? $action['checksum'] : '',
                 $action['name']
             );
         }

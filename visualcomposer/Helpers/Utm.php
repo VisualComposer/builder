@@ -25,6 +25,14 @@ class Utm implements Helper
             'goPremiumWpMenuSidebar' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=wp-menu&utm_campaign=gopremium',
             'goPremiumNavBar' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=gopremium',
             'goPremiumPluginsPage' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=gopremium',
+            'feBlankPagePremiumTemplates' => 'http://google.com/fe',
+            'feAddTemplateSearchPremiumTemplates' => 'http://google.com/fe',
+            'feAddElementSearchPremiumVersion' => 'http://google.com/fe',
+            'feHubTeaserPremiumVersion' => 'http://google.com/fe',
+            'beBlankPagePremiumTemplates' => 'http://google.com/fe',
+            'beAddTemplateSearchPremiumTemplates' => 'http://google.com/fe',
+            'beAddElementSearchPremiumVersion' => 'http://google.com/fe',
+            'beHubTeaserPremiumVersion' => 'http://google.com/fe',
         ];
 
         return $utm;

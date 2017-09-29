@@ -35,7 +35,14 @@ class TeaserController extends Container implements Module
                     'partials/constant-script',
                     [
                         'key' => 'VCV_HUB_GET_TEASER',
-                        'value' => array_values($optionsHelper->get('hubTeaserElements')),
+                        'value' => array_values((array)$optionsHelper->get('hubTeaserElements', [
+                            'All' => [
+                                'id' => 'All0',
+                                'index' => 0,
+                                'title' => 'All',
+                                'elements' => [],
+                            ],
+                        ])),
                     ]
                 ),
             ]

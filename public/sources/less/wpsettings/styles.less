@@ -138,6 +138,10 @@
           color: @vcv-goPremiumScreenActivateButtonHoverColor;
           border-color: @vcv-goPremiumScreenActivateButtonHoverBackground;
         }
+
+        &:focus {
+          box-shadow: none;
+        }
       }
       &.vcv-purchase-premium {
         border-color: @vcv-goPremiumScreenPurchaseButtonBackground;
@@ -147,6 +151,10 @@
         &:hover {
           border-color: @vcv-goPremiumScreenPurchaseButtonHoverBackground;
           background: @vcv-goPremiumScreenPurchaseButtonHoverBackground;
+        }
+
+        &:focus {
+          box-shadow: none;
         }
       }
     }
