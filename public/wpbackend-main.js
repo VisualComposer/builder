@@ -25,6 +25,7 @@ $(() => {
       return
     }
     vcCake.env('platform', 'wordpress').start(() => {
+      vcCake.env('editor', 'backend')
       require('./editor/stores/elements/elementsStorage')
       require('./editor/stores/assetsBackend/assetsStorage')
       require('./editor/stores/workspaceStorage')

@@ -48,6 +48,7 @@ class TeaserDownloadController extends Container implements Module
         $x = 1;
         $strHelper = vchelper('Str');
         $allElements = [];
+        $dataHelper = vchelper('Data');
         foreach ($teasers as $element) {
             $categories = explode(',', $element['category']);
             foreach ($categories as $category) {
@@ -69,12 +70,11 @@ class TeaserDownloadController extends Container implements Module
                     'metaDescription' => $element['description'],
                 ];
                 $categoryList[ $category ]['elements'][] = $elementData;
-                $categoryList[ $category ]['elements'] = array_unique($categoryList[ $category ]['elements']);
+                $categoryList[ $category ]['elements'] = $dataHelper->arrayDeepUnique($categoryList[ $category ]['elements']);
                 $allElements[] = $elementData;
             }
         }
-        $allElements = array_unique($allElements);
-        $categoryList['All']['elements'] = $allElements;
+        $categoryList['All']['elements'] = $dataHelper->arrayDeepUnique($allElements);
 
         return $categoryList;
     }
