@@ -47,6 +47,7 @@ export default class ControlsManager {
     this.iframeWindow = options.iframeWindow
     this.iframeDocument = options.iframeDocument
     this.documentBody = options.documentBody
+    this.isBackend = options.isBackend
     this.editFormId = null
 
     let systemData = {
@@ -72,7 +73,9 @@ export default class ControlsManager {
     })
 
     // Subscribe to main event to interact with content elements
-    this.iframeDocument.body.addEventListener('click', this.editElement)
+    if (!this.isBackend) {
+      this.iframeDocument.body.addEventListener('click', this.editElement)
+    }
     this.iframeDocument.body.addEventListener('touchstart', this.touchStart, { passive: false })
     this.iframeDocument.body.addEventListener('touchmove', this.touchMove, { passive: false })
     this.iframeDocument.body.addEventListener('touchend', this.touchEnd, { passive: false })
