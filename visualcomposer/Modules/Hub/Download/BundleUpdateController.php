@@ -88,13 +88,18 @@ class BundleUpdateController extends Container implements Module
     {
         $result = false;
         if ($url && !is_wp_error($url)) {
-            $response = wp_remote_get($url);
+            $response = wp_remote_get(
+                $url,
+                [
+                    'timeout' => 10,
+                ]
+            );
             if (!vcIsBadResponse($response)) {
                 $result = json_decode($response['body'], true);
             } else {
                 $loggerHelper = vchelper('Logger');
                 $loggerHelper->log('Failed to download updates list', [
-                    'body' => $response['body'],
+                    'body' => is_wp_error($response) ? $response->get_error_messages() : $response['body'],
                 ]);
             }
         }

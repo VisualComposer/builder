@@ -93,7 +93,12 @@ class UpdatesController extends Container implements Module
      */
     protected function getRemoteVersionInfo()
     {
-        $request = wp_remote_get($this->updateVersionUrl);
+        $request = wp_remote_get(
+            $this->updateVersionUrl,
+            [
+                'timeout' => 10,
+            ]
+        );
         if (!vcIsBadResponse($request)) {
             return json_decode($request['body'], true);
         }
@@ -139,7 +144,12 @@ class UpdatesController extends Container implements Module
         $information['sections']['Installation &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/installation/">Installation</a>';
         $information['sections']['FAQ &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/faq/">FAQ</a>';
 
-        $response = wp_remote_get($this->updateChangelogUrl . '?v=' . VCV_VERSION);
+        $response = wp_remote_get(
+            $this->updateChangelogUrl . '?v=' . VCV_VERSION,
+            [
+                'timeout' => 10,
+            ]
+        );
         if (!vcIsBadResponse($response)) {
             $changelogInformation = json_decode($response['body'], true);
             $information = array_merge_recursive($information, $changelogInformation);

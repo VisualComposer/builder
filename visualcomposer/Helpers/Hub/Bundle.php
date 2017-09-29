@@ -117,7 +117,12 @@ class Bundle implements Helper
                 VCV_VERSION
             )
         );
-        $request = wp_remote_get($versionUrl);
+        $request = wp_remote_get(
+            $versionUrl,
+            [
+                'timeout' => 10,
+            ]
+        );
         if (!vcIsBadResponse($request)) {
             return $request['body'];
         }
