@@ -39,6 +39,9 @@ addStorage('assets', (storage) => {
       let tag = data.elements[ id ] ? data.elements[ id ].tag : null
       delete data.elements[ id ]
       builder.destroy(id, tag)
+      if (tag === 'row') {
+        storage.trigger('removeSharedLibrary', id)
+      }
     })
   })
   storage.on('resetElements', () => {
@@ -46,7 +49,18 @@ addStorage('assets', (storage) => {
   })
   storage.on('addSharedLibrary', (data) => {
     let id = data.element.data.id
-    libraryStorage.add(id, data)
+    if (data.element.data.tag === 'row') {
+      libraryStorage.add(id, data)
+    }
+  })
+  storage.on('editSharedLibrary', (data) => {
+    let id = data.element.data.id
+    if (data.element.data.tag === 'row') {
+      libraryStorage.edit(id, data)
+    }
+  })
+  storage.on('removeSharedLibrary', (id) => {
+    libraryStorage.remove(id)
   })
   const updateSettingsCss = () => {
     const globalCss = settingsStorage.state('globalCss').get() || ''

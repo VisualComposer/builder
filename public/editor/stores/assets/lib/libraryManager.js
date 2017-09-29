@@ -12,4 +12,24 @@ export default class LibraryManager {
     stateElements.push(element)
     storageState.set({ elements: stateElements })
   }
+
+  edit (id, data) {
+    let storageState = assets.state('jsLibs')
+    let stateElements = storageState.get()
+    let elementIndex = stateElements.elements.findIndex((element) => {
+      return element.id === id
+    })
+    stateElements.elements[elementIndex] = data
+  }
+
+  remove (id) {
+    let storageState = assets.state('jsLibs')
+    let stateElements = storageState.get()
+    if (stateElements && stateElements.elements) {
+      let newElements = stateElements.elements.filter((element) => {
+        return element.id !== id
+      })
+      storageState.set({ elements: newElements })
+    }
+  }
 }
