@@ -73,4 +73,9 @@ class Data implements Helper
             $array
         );
     }
+
+    public function arrayDeepUnique($array)
+    {
+        return array_map('unserialize', array_unique(array_map('serialize', $array)));
+    }
 }

@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import ContentStart from '../../../../resources/components/contentParts/contentStart'
 import ContentEnd from '../../../../resources/components/contentParts/contentEnd'
 import AddElementPanel from '../../../../resources/components/addElement/addElementPanel'
+import TeaserAddElementCategories from '../../../../resources/components/teaserAddElement/lib/teaserCategories'
 import AddTemplatePanel from '../../../../resources/components/addTemplate/addTemplatePanel'
 import TreeViewLayout from '../../../../resources/components/treeView/treeViewLayout'
 import SettingsPanel from '../../../../resources/components/settings/settingsPanel'
@@ -67,6 +68,12 @@ export default class PanelsContainer extends React.Component {
     const { end, settings } = this.props
     if (end === 'addElement') {
       return <AddElementPanel options={settings || {}} />
+    } else if (end === 'addHubElement') {
+      return (
+        <AddElementPanel options={settings || {}}>
+          <TeaserAddElementCategories parent={{}} />
+        </AddElementPanel>
+      )
     } else if (end === 'addTemplate') {
       return <AddTemplatePanel />
     } else if (end === 'settings') {
