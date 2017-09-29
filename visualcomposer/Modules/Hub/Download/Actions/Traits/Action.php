@@ -17,7 +17,7 @@ trait Action
 
     public function __construct()
     {
-        $this->addFilter('vcv:hub:process:json:' . $this->actionName, 'processAction');
+        $this->addFilter('vcv:hub:process:action:' . $this->actionName, 'processAction');
     }
 
     protected function processAction($response, $payload, Filters $filterHelper)

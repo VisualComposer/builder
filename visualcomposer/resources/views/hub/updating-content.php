@@ -48,6 +48,7 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
   window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>'
   window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>'
   window.vcvAjaxTime = <?php echo $time; ?>
+  window.vcvPageBack = '<?php echo $optionsHelper->getTransient('_vcv_update_page_redirect_url'); ?>';
 </script>
 
 <!-- Third screen / loading screen -->
