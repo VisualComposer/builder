@@ -12,7 +12,8 @@ export default class DividerShape extends Component {
     backgroundImage: PropTypes.string,
     id: PropTypes.string,
     flipHorizontally: PropTypes.bool,
-    deviceKey: PropTypes.string
+    deviceKey: PropTypes.string,
+    videoEmbed: PropTypes.object
   }
 
   getLinearGradient () {
@@ -70,20 +71,26 @@ export default class DividerShape extends Component {
   }
 
   render () {
-    let { width, height, fill, shape, fillType, backgroundImage, deviceKey, id } = this.props
+    let { width, height, fill, shape, fillType, backgroundImage, deviceKey, id, videoEmbed } = this.props
     let currentShape = shapes[ shape ]
 
     if (!currentShape) {
       return null
     }
 
+    let videoData = null
+    let videoUrl = ''
+    if (videoEmbed && videoEmbed.urls && videoEmbed.urls.length) {
+      videoData = videoEmbed.urls[ 0 ]
+      videoUrl = videoEmbed.urls[ 0 ].url
+    }
     let svgContent = currentShape.content
     let svgUnitContent = currentShape.unitContent
     let viewBoxWidth = currentShape.viewBox.width
     let viewBoxHeight = currentShape.viewBox.height
     let viewBox = `0 0 ${viewBoxWidth} ${viewBoxHeight}`
 
-    if (fillType === 'color' || fillType === 'gradient' || !backgroundImage) {
+    if (fillType === 'color' || fillType === 'gradient' || (fillType === 'image' && !backgroundImage) || (fillType === 'videoEmbed' && !videoUrl)) {
       let html = this.changeHeight(height, svgContent)
       let customAttributes = {}
       customAttributes.fill = fill
@@ -94,7 +101,7 @@ export default class DividerShape extends Component {
       }
 
       return (
-        <svg viewBox={viewBox} width={width} height={viewBoxHeight} preserveAspectRatio='none'>
+        <svg className='vce-divider-svg' viewBox={viewBox} width={width} height={viewBoxHeight} preserveAspectRatio='none'>
           {this.getLinearGradient()}
           <g {...customAttributes} dangerouslySetInnerHTML={{ __html: html }} />
         </svg>
@@ -122,11 +129,50 @@ export default class DividerShape extends Component {
 
       return (
         <div className='vce-divider-with-image'>
-          <svg>
+          <svg className='vce-divider-svg'>
             <clipPath id={imageId} dangerouslySetInnerHTML={{ __html: html }} clipPathUnits='objectBoundingBox' />
           </svg>
           <div {...imageProps} className='vce-divider-image-block'>
             <div {...backgroundProps} className='vce-divider-image-background-block' />
+          </div>
+        </div>
+      )
+    }
+
+    if (fillType === 'videoEmbed') {
+      let imageId = `video-el-${id}-${deviceKey}`
+      let html = svgUnitContent
+      let imageProps = {}
+
+      imageProps.style = {
+        height: `${parseFloat(height)}px`,
+        width: width
+      }
+
+      let percentage = width.replace('%', '')
+      let backgroundProps = {}
+
+      backgroundProps.style = {
+        width: `${100 / percentage * 100}%`
+      }
+
+      return (
+        <div className='vce-divider-with-video'>
+          <svg className='vce-divider-svg'>
+            <clipPath id={imageId} dangerouslySetInnerHTML={{ __html: html }} clipPathUnits='objectBoundingBox' />
+          </svg>
+          <div {...imageProps} className='vce-divider-video-block'>
+            <div {...backgroundProps} className='vce-divider-video-background-block'>
+              <div className='vce-divider-video-background-inner-block'
+                data-vce-assets-video-embed={videoData.id}
+                data-vce-assets-video-replacer='.vce-asset-video-embed-player'
+                data-vce-assets-video-orientation-class='vce-asset-video-embed--state-landscape'>
+                <svg className='vce-asset-video-embed-sizer' />
+                <video className='vce-asset-video-embed-player'>
+                  <source src={videoUrl} type='video/mp4' />
+                </video>
+              </div>
+            </div>
           </div>
         </div>
       )

@@ -1,12 +1,12 @@
 (function (window, document) {
-  function createPlugin(element) {
+  function createPlugin (element) {
     var Plugin = {
       element: null,
       player: null,
       videoId: null,
       resizer: null,
       ratio: null,
-      setup: function setup(element) {
+      setup: function setup (element) {
         // check for data
         if (!element.getVceEmbedVideo) {
           element.getVceEmbedVideo = this;
@@ -20,14 +20,14 @@
         }
         return element.getVceEmbedVideo;
       },
-      updatePlayerData: function updatePlayerData() {
+      updatePlayerData: function updatePlayerData () {
         var newVideoID = element.dataset.vceAssetsVideoEmbed || null;
         if (newVideoID !== this.videoId) {
           this.videoId = newVideoID;
           this.player = element.querySelector(element.dataset.vceAssetsVideoReplacer);
         }
       },
-      createPlayer: function createPlayer() {
+      createPlayer: function createPlayer () {
         var _this = this;
         this.updatePlayerData();
         this.player.load();
@@ -40,12 +40,15 @@
         };
         this.player.muted = true;
         this.player.loop = true;
-        this.player.play();
+        var playPromise = this.player.play();
+        if (playPromise !== undefined) {
+          playPromise.then(_ => {}).catch(error => {});
+        }
       },
-      updatePlayer: function updatePlayer() {
+      updatePlayer: function updatePlayer () {
         this.createPlayer();
       },
-      checkOrientation: function checkOrientation() {
+      checkOrientation: function checkOrientation () {
         var orientationClass = this.element.dataset.vceAssetsVideoOrientationClass || null;
         var parentStyles = window.getComputedStyle(this.element.parentNode);
         if (orientationClass) {
@@ -61,7 +64,7 @@
   }
 
   var plugins = {
-    init: function init(selector) {
+    init: function init (selector) {
       var elements = document.querySelectorAll(selector);
       elements = [].slice.call(elements);
       elements.forEach(function (element) {
