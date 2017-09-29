@@ -19,7 +19,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 /**
  * Class Premium.
  */
-class Premium extends About /*implements Module*/
+class Premium extends About implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
