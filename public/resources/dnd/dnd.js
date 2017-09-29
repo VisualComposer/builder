@@ -301,9 +301,9 @@ export default class DnD {
         return false
       }
     }
-
     this.options.document.addEventListener('mousedown', this.handleRightMouseClickFunction, false)
     this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
+    this.options.document.addEventListener('touchend', this.handleDragEndFunction, false)
     // Create helper/clone of element
     if (this.options.helperType === 'clone') {
       this.helper = new HelperClone(this.draggingElement.node, point)
@@ -392,6 +392,7 @@ export default class DnD {
     }
     // Set callback on dragEnd
     this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
+    this.options.document.removeEventListener('touchend', this.handleDragEndFunction, false)
   }
 
   scrollManually (point) {
@@ -431,10 +432,12 @@ export default class DnD {
   // Mouse events
   watchMouse () {
     this.options.document.addEventListener('mousemove', this.handleDragFunction, false)
+    this.options.document.addEventListener('touchmove', this.handleDragFunction, false)
   }
 
   forgetMouse () {
     this.options.document.removeEventListener('mousemove', this.handleDragFunction, false)
+    this.options.document.removeEventListener('touchmove', this.handleDragFunction, false)
   }
 
   createPlaceholder () {
@@ -450,7 +453,11 @@ export default class DnD {
       this.handleDragEnd()
       return false
     }
-    e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX, y: e.clientY})
+    if (e.changedTouches && e.changedTouches[0]) {
+      e.changedTouches[0].clientX !== undefined && e.changedTouches[0].clientY !== undefined && this.check({x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY})
+    } else {
+      e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX, y: e.clientY })
+    }
   }
 
   /**
@@ -467,7 +474,11 @@ export default class DnD {
       return
     }
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    this.start(id, {x: e.clientX, y: e.clientY})
+    if (e.changedTouches && e.changedTouches[0]) {
+      this.start(id, {x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY})
+    } else {
+      this.start(id, {x: e.clientX, y: e.clientY})
+    }
   }
 
   handleDragEnd () {
