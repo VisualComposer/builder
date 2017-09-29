@@ -18,7 +18,7 @@ use VisualComposer\Helpers\Token;
 /**
  * Class GetPremium.
  */
-class GetPremium extends About /*implements Module*/
+class GetPremium extends About implements Module
 {
     use EventsFilters;
     use WpFiltersActions;

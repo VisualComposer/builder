@@ -77,7 +77,8 @@
 .vcv-popup-first-screen,
 .vcv-popup-form-screen,
 .vcv-popup-loading-screen,
-.vcv-popup-last-screen {
+.vcv-popup-last-screen,
+.vcv-popup-last-go-premium-screen {
   overflow: hidden;
   height: 0;
   opacity: 0;
@@ -210,6 +211,15 @@
   }
 }
 
+.vcv-last-go-premium-screen--active {
+  .vcv-popup-last-go-premium-screen {
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+    transition: 1s opacity;
+  }
+}
+
 .vcv-intro-screen--active {
   .vcv-popup-intro-screen {
     opacity: 1;
@@ -251,6 +261,44 @@
 
 .vcv-last-screen--active {
   .vcv-popup-last-screen {
+    height: auto;
+    overflow: visible;
+    opacity: 1;
+    transition: 1s opacity;
+
+    &::before {
+      display: block;
+    }
+  }
+  .vcv-popup::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: @vcv-lastScreenBackground;
+  }
+
+  .vcv-popup-close-button {
+    z-index: 11;
+
+    &::before,
+    &::after {
+      background: @vcv-lastScreenCloseButtonColor;
+    }
+
+    &:hover {
+      &::before,
+      &::after {
+        background: @vcv-lastScreenCloseButtonHoverColor;
+      }
+    }
+  }
+}
+
+.vcv-last-go-premium-screen--active {
+  .vcv-popup-last-go-premium-screen {
     height: auto;
     overflow: visible;
     opacity: 1;
@@ -684,6 +732,25 @@ select.vcv-popup-form-select.vcv-select-light {
 }
 
 .vcv-popup-last-screen {
+  color: @vcv-lastScreenColor;
+
+  .vcv-popup-content {
+    padding-bottom: 10px;
+  }
+
+  &::before {
+    content: '';
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: @vcv-lastScreenBackground;
+  }
+}
+
+.vcv-popup-last-go-premium-screen {
   color: @vcv-lastScreenColor;
 
   .vcv-popup-content {
