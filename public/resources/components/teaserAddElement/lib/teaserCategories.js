@@ -51,6 +51,11 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     const buttonText = localizations ? localizations.premiumElementsButton : 'Premium Version - Coming Soon'
     const helperText = localizations ? localizations.blankPageHelperText : 'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.'
 
+    let buttonUrl = window.VCV_UTM().feHubTeaserPremiumVersion
+    if (vcCake.env('editor') === 'backend') {
+      buttonUrl = window.VCV_UTM().beHubTeaserPremiumVersion
+    }
+
     return <div className='vcv-ui-tree-content'>
       {this.getSearchElement()}
       <div className='vcv-ui-tree-content-section'>
@@ -62,7 +67,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
                   {this.getElementListContainer(itemsOutput)}
                   <div className='vcv-ui-editor-no-items-container'>
                     <div className='vcv-ui-editor-no-items-content'>
-                      <button className='vcv-start-blank-button' disabled>{buttonText}</button>
+                      <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
                     </div>
                     <div className='vcv-ui-editor-no-items-content'>
                       <p className='vcv-start-blank-helper'>{helperText}</p>

@@ -129,6 +129,11 @@ export default class Categories extends React.Component {
 
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
+    let buttonUrl = window.VCV_UTM().feAddElementSearchPremiumVersion
+    if (vcCake.env('editor') === 'backend') {
+      buttonUrl = window.VCV_UTM().beAddElementSearchPremiumVersion
+    }
+
     // return <div className='vcv-ui-editor-no-items-container'>
     //   <div className='vcv-ui-editor-no-items-content'>
     //     <img
@@ -153,7 +158,7 @@ export default class Categories extends React.Component {
         />
       </div>
       <div className='vcv-ui-editor-no-items-content'>
-        <button className='vcv-start-blank-button' disabled>{buttonText}</button>
+        <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
       </div>
       <div className='vcv-ui-editor-no-items-content'>
         <p className='vcv-start-blank-helper'>{helperText}</p>
