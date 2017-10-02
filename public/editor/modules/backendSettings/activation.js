@@ -1,5 +1,5 @@
 import {showError} from './errors'
-import {showIntroScreen, showLoadingScreen, showFirstScreen, showLastScreen, showGoPremiumScreen} from './screens'
+import {showIntroScreen, showLoadingScreen, showFirstScreen, showLastScreen, showGoPremiumScreen, showLastGoPremiumScreen} from './screens'
 import {loadSlider} from './slider'
 import {showDownloadScreen, showDownloadWithLicenseScreen} from './download-screens'
 
@@ -103,6 +103,9 @@ import {showDownloadScreen, showDownloadWithLicenseScreen} from './download-scre
         if (window.vcvActivationActivePage === 'last') {
           loadSlider()
           showLastScreen($popup)
+        } else if (window.vcvActivationActivePage === 'last-go-premium') {
+          loadSlider()
+          showLastGoPremiumScreen($popup)
         } else {
           showLoadingScreen($popup)
           if (window.vcvActivationActivePage === 'first' || window.vcvActivationType === 'standalone') {

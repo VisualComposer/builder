@@ -19,7 +19,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 /**
  * Class Premium.
  */
-class Premium extends About /*implements Module*/
+class Premium extends About implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
@@ -90,10 +90,10 @@ class Premium extends About /*implements Module*/
             return;
         }
         $licenseHelper = vchelper('License');
-        if (!$licenseHelper->getKey()) {
+        if (!$licenseHelper->getKey() && vcvenv('VCV_ENV_UPGRADE')) {
             $licenseHelper->activateInAccount();
             exit;
-        } elseif (!$licenseHelper->getKeyToken()) {
+        } elseif (!$licenseHelper->getKeyToken() || !vcvenv('VCV_ENV_UPGRADE')) {
             $this->call('redirectToAbout');
         }
     }

@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Account\Pages\ActivationPage;
@@ -65,6 +66,11 @@ class About extends ActivationPage implements Module
 
     public function getActivePage()
     {
+        $licenseHelper = vchelper('License');
+        if ($licenseHelper->isActivated()) {
+            return 'last-go-premium';
+        }
+
         return 'last';
     }
 }

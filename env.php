@@ -93,7 +93,7 @@ if (!defined('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
 if (!defined('VCV_ENV_LICENSES')) {
     define(
         'VCV_ENV_LICENSES',
-        isset($_SERVER['ENV_VCV_ENV_LICENSES']) ? $_SERVER['ENV_VCV_ENV_LICENSES'] : false
+        isset($_SERVER['ENV_VCV_ENV_LICENSES']) ? $_SERVER['ENV_VCV_ENV_LICENSES'] : true
     );
 }
 
@@ -101,5 +101,12 @@ if (!defined('VCV_ENV_HUB_TEASER')) {
     define(
         'VCV_ENV_HUB_TEASER',
         isset($_SERVER['ENV_VCV_ENV_HUB_TEASER']) ? $_SERVER['ENV_VCV_ENV_HUB_TEASER'] : false
+    );
+}
+
+if (!defined('VCV_ENV_UPGRADE')) {
+    define(
+        'VCV_ENV_UPGRADE',
+        isset($_SERVER['ENV_VCV_ENV_UPGRADE']) ? $_SERVER['ENV_VCV_ENV_UPGRADE'] : false
     );
 }

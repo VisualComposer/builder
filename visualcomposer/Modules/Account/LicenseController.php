@@ -25,7 +25,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
  * Class LicenseController
  * @package VisualComposer\Modules\Account
  */
-class LicenseController extends Container /*implements Module*/
+class LicenseController extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
