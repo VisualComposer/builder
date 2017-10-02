@@ -156,7 +156,9 @@
 
 .vcv-start-blank-button {
   background: transparent;
-  border: @editor-layout-start-blank-button-border;
+  border-width: @editor-layout-start-blank-button-border-width;
+  border-style: solid;
+  border-color: @editor-layout-start-blank-button-border-color;
   padding: @editor-layout-start-blank-button-spacing;
   font-family: @editor-layout-start-blank-button-font-family;
   font-weight: @editor-layout-start-blank-button-font-weight;
@@ -167,6 +169,21 @@
   -webkit-font-smoothing: antialiased;
   margin-bottom: @editor-layout-start-blank-button-margin-bottom;
   max-width: 100%;
+  display: inline-block;
+  text-decoration: none;
+  box-shadow: none;
+  transition: all .2s ease-in-out;
+
+  &:hover, &:focus {
+    border-color: @editor-layout-start-blank-button-border-hover-color;
+    background: @editor-layout-start-blank-button-border-hover-color;
+    color: @editor-layout-start-blank-button-color-hover;
+  }
+
+  &:hover, &:focus, &:visited, &:active {
+    text-decoration: none;
+    box-shadow: none;
+  }
 }
 
 .vcv-start-blank-helper {

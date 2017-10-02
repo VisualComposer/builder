@@ -60,7 +60,7 @@ class FactoryResetController extends Container implements Module
         $sectionCallback = function () use ($urlHelper, $nonceHelper, $requestHelper, $optionsHelper) {
             $optionsHelper->setTransient('vcv:settings:factoryReset:allow', 1, 3600);
             $url = $urlHelper->ajax(['vcv-action' => 'vcv:settings:factoryReset:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]);
-            $confirm = __('Proceed with a factory reset?‘', 'vcwb');
+            $confirm = __('Proceed with a factory reset?', 'vcwb');
             $linkTitle = __('initiate factory reset', 'vcwb');
             $link = sprintf('<a href="%s" onclick="return confirm(\'%s\')">%s</a>', $url, $confirm, $linkTitle);
 

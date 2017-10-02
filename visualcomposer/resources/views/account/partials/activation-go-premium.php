@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-//$premiumPage = vcapp('SettingsPagesPremium');
+$premiumPage = vcapp('SettingsPagesPremium');
 $utmHelper = vchelper('Utm');
 $requestHelper = vchelper('Request');
 if ('nav-bar' === $requestHelper->input('vcv-ref')) {
@@ -39,5 +39,8 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
     </div>
 	<div class="vcv-popup-go-premium-container"></div>
     <a href="<?php echo $utmHelper->get($utm);?>" class="vcv-purchase-premium vcv-popup-button" target="_blank"><?php echo __('Purchase License', 'vcwb'); ?></a>
+    <a href="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>" class="vcv-activate-premium vcv-popup-button">
+		<?php echo __('Activate Premium', 'vcwb'); ?>
+	</a>
 	<span class="vcv-popup-slider-item-text"><?php echo __('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
 </div>
