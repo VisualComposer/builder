@@ -67,7 +67,11 @@ class Controller extends Container implements Module
             $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js');
             $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css');
         }
-        $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js');
+        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
+            $vendorBundleJsUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js';
+        } else {
+            $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js');
+        }
         wp_enqueue_script('vcv:pageEditable:vendor', $vendorBundleJsUrl, ['jquery'], VCV_VERSION);
         wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl, ['vcv:pageEditable:vendor'], VCV_VERSION);
         wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl, [], VCV_VERSION);
