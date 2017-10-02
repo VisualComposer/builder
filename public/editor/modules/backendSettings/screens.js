@@ -3,19 +3,22 @@ import {loadSlider} from './slider'
 
 (($) => {
   let showIntroScreen = ($popup) => {
-    $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-last-screen--active vcv-oops-screen--active').addClass('vcv-intro-screen--active')
+    $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-last-screen--active vcv-oops-screen--active vcv-last-go-premium-screen--active').addClass('vcv-intro-screen--active')
   }
   let showGoPremiumScreen = ($popup) => {
-    $popup.removeClass('vcv-intro-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-last-screen--active vcv-oops-screen--active').addClass('vcv-go-premium-screen--active')
+    $popup.removeClass('vcv-intro-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-last-screen--active vcv-oops-screen--active vcv-last-go-premium-screen--active').addClass('vcv-go-premium-screen--active')
   }
   let showLoadingScreen = ($popup) => {
-    $popup.removeClass('vcv-go-premium-screen--active vcv-first-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-loading-screen--active')
+    $popup.removeClass('vcv-go-premium-screen--active vcv-first-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active vcv-last-go-premium-screen--active').addClass('vcv-loading-screen--active')
   }
   let showFirstScreen = ($popup) => {
-    $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-first-screen--active')
+    $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-last-screen--active vcv-intro-screen--active vcv-oops-screen--active vcv-last-go-premium-screen--active').addClass('vcv-first-screen--active')
   }
   let showLastScreen = ($popup) => {
-    $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active vcv-oops-screen--active').addClass('vcv-last-screen--active')
+    $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active vcv-oops-screen--active vcv-last-go-premium-screen--active').addClass('vcv-last-screen--active')
+  }
+  let showLastGoPremiumScreen = ($popup) => {
+    $popup.removeClass('vcv-go-premium-screen--active vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active vcv-oops-screen--active vcv-last-screen--active').addClass('vcv-last-go-premium-screen--active')
   }
 
   let showOopsScreen = ($popup, msg, action) => {
@@ -66,9 +69,15 @@ import {loadSlider} from './slider'
     let transitionEvent = whichTransitionEvent()
 
     $('.vcv-popup-loading-zoom').one(transitionEvent, (event) => {
-      // last screen shows
-      showLastScreen($popup)
-      loadSlider()
+      if (window.vcvActivationType === 'premium') {
+        // last go premium screen shows
+        showLastGoPremiumScreen($popup)
+        loadSlider()
+      } else {
+        // last screen shows
+        showLastScreen($popup)
+        loadSlider()
+      }
     })
   }
 
@@ -79,6 +88,7 @@ import {loadSlider} from './slider'
     showLastScreen: showLastScreen,
     loadLastScreen: loadLastScreen,
     showOopsScreen: showOopsScreen,
-    showGoPremiumScreen: showGoPremiumScreen
+    showGoPremiumScreen: showGoPremiumScreen,
+    showLastGoPremiumScreen: showLastGoPremiumScreen
   }
 })(window.jQuery)

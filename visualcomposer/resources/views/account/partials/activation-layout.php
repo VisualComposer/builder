@@ -107,6 +107,12 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                     'controller' => $controller,
                 ]
             ); ?>
+            <?php echo vcview(
+                'account/partials/activation-slider-go-premium',
+                [
+                    'controller' => $controller,
+                ]
+            ); ?>
             <!-- Error block -->
             <div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active' : ''; ?>"><?php echo $errorMsg
                     ? $errorMsg : ''; ?></div>
