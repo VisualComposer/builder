@@ -27,7 +27,6 @@ export default class Element extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    assetsStorage.trigger('updateElement', this.state.element.id)
     this.setState({ element: nextProps.element })
   }
 

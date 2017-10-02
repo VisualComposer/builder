@@ -51,6 +51,7 @@ public/config/elements.js
 public/config/element-settings.js
 public/config/variables.js
 public/dist/
+visualcomposer/resources/dist/
 public/custom-variables.js
 /vendor
 .env
@@ -64,6 +65,7 @@ devElements/*
 !devElements/.gitkeep
 devCategories/*
 !devCategories/.gitkeep
+!visualcomposer/resources/dist/.gitkeep
 
 .phpstorm.meta.php
 tools/vcwb-builder/temp/**/
