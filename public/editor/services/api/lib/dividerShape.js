@@ -38,7 +38,7 @@ export default class DividerShape extends Component {
     )
   }
 
-  changeHeight (height, svgContent) {
+  changeHeight (height, svgContent, position, defaultHeight) {
     let parser = new window.DOMParser()
     let doc = parser.parseFromString(svgContent, 'text/html')
     height = parseFloat(height)
@@ -57,8 +57,14 @@ export default class DividerShape extends Component {
           if (item !== '') {
             let coordinates = item.split(',')
             let newX = parseFloat(coordinates[ 1 ])
-            if (newX !== 0) {
-              newX = newX + height
+            if (position === 'top') {
+              if (newX !== 0) {
+                newX = newX + height
+              }
+            } else {
+              if (newX - defaultHeight !== 0) {
+                newX = newX - height
+              }
             }
             points.push(coordinates[ 0 ] + ',' + newX)
           }
@@ -89,9 +95,10 @@ export default class DividerShape extends Component {
     let viewBoxWidth = currentShape.viewBox.width
     let viewBoxHeight = currentShape.viewBox.height
     let viewBox = `0 0 ${viewBoxWidth} ${viewBoxHeight}`
+    let position = currentShape.position || 'top'
 
     if (fillType === 'color' || fillType === 'gradient' || (fillType === 'image' && !backgroundImage) || (fillType === 'videoEmbed' && !videoUrl)) {
-      let html = this.changeHeight(height, svgContent)
+      let html = this.changeHeight(height, svgContent, position, viewBoxHeight)
       let customAttributes = {}
       customAttributes.fill = fill
 
