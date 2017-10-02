@@ -10,6 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\License;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -27,6 +30,7 @@ class DeactivationController extends Container implements Module
     public function __construct()
     {
         $this->addEvent('vcv:system:deactivation:hook vcv:system:factory:reset', 'unsetOptions');
+        $this->addEvent('vcv:ajax:account:deactivation:ping', 'pingDeactivation');
     }
 
     /**
@@ -35,5 +39,16 @@ class DeactivationController extends Container implements Module
     protected function unsetOptions(Token $tokenHelper)
     {
         $tokenHelper->reset();
+    }
+
+    protected function pingDeactivation(Request $requestHelper, License $licenseHelper, Options $optionsHelper)
+    {
+        if ($licenseHelper->isActivated()) {
+            // TODO: Check $requestHelper->input('code')
+            // if $code is almost correct the reset update transient
+            $optionsHelper->deleteTransient('lastBundleUpdate');
+        }
+
+        return ['status' => true];
     }
 }
