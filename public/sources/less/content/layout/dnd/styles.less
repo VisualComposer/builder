@@ -35,9 +35,23 @@
     transition: opacity .5s;
     opacity: 1;
   }
+  &.vcv-smart-line-transition {
+    transform: scale(1, 4);
+    background-color: @vcv-dnd-frame-border-color-transition;
+    transition: opacity .5s, background-color .5s, transform .4s ease .5s;
+  }
   &.vcv-dnd-smart-line-frame {
-    border: @vcv-dnd-frame-border-width solid @vcv-dnd-frame-border-color;
+    transform: scale(1);
+    border: @vcv-dnd-frame-border-width solid @vcv-dnd-frame-border-color-transition;
     background-color: transparent;
+    transition: opacity .5s;
+
+    &.vcv-smart-line-transition {
+      box-shadow:
+          0 0 0 @vcv-dnd-frame-border-width @vcv-dnd-frame-border-color-transition,
+          inset  0 0 0 @vcv-dnd-frame-border-width @vcv-dnd-frame-border-color-transition;
+      transition: opacity .5s, box-shadow .4s ease .5s;
+    }
   }
 }
 .vcv-dnd-dragging--start {
