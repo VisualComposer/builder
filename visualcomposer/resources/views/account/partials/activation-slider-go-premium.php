@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
             </svg>
         </div>
         <div class="vcv-popup-heading vcv-popup-heading-last-screen">
-            <?php echo __('Premium Any Layout. Fast and Easy.', 'vcwb'); ?>
+            <?php echo __('Any Layout. Fast and Easy.', 'vcwb'); ?>
         </div>
 
         <!-- GIF Slider -->
