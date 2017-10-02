@@ -220,13 +220,13 @@ class Controller extends Container implements Module
         } else {
             wp_register_script(
                 'vcv:settings:script',
-                $urlHelper->to('public/dist/wpsettings.bundle.js'),
+                $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
                 [],
                 VCV_VERSION
             );
             wp_register_style(
                 'vcv:settings:style',
-                $urlHelper->to('public/dist/wpsettings.bundle.css'),
+                $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
                 [],
                 VCV_VERSION
             );
