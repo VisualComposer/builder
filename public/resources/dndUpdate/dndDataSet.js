@@ -1,7 +1,8 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { getService, setData, getData, getStorage } from 'vc-cake'
+import { getService, setData, getData, getStorage, env } from 'vc-cake'
 import SmartLine from './smartLine'
+import TrashBin from './trashBin'
 import Helper from './helper'
 import HelperClone from './helperClone'
 import Api from './api'
@@ -140,7 +141,8 @@ export default class DndDataSet {
           helperType: null,
           manualScroll: false,
           drop: false,
-          allowMultiNodes: false
+          allowMultiNodes: false,
+          enableTrashBin: options && options.container && options.container.id === 'vcv-editor-iframe-overlay' || false
         })
       }
     })
@@ -163,6 +165,9 @@ export default class DndDataSet {
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
     root.refresh()
+    if (env('DND_TRASH_BIN') && this.options.enableTrashBin) {
+      this.trash = new TrashBin(_.pick(this.options, 'document', 'container'))
+    }
   }
 
   addItem (id) {
@@ -257,32 +262,61 @@ export default class DndDataSet {
     return domNode || null
   }
 
-  checkItems (point) {
-    let domNode = this.findDOMNode(point)
-    let domElement = this.getDomElement(domNode)
-    if (!domElement) {
-      return
+  checkTrashBin ({ x, y }) {
+    let iframeParent = this.options && this.options.container && this.options.container.parentNode || null
+    if (iframeParent) {
+      x += iframeParent.offsetLeft
+      y += iframeParent.offsetTop
     }
-    let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
-    if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
-      domElement = this.findElementWithValidParent(parentDOMElement) || domElement
-      parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+    let domNode = document.elementFromPoint(x, y)
+    if (domNode && domNode.id === 'vcv-dnd-trash-bin') {
+      return $(domNode).get(0)
     }
-    if (this.isDraggingElementParent(domElement)) {
-      return
-    }
-    let position = this.placeholder.redraw(domElement.node, point, {
-      allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
-      allowAppend: !this.isDraggingElementParent(domElement) &&
-      domElement && this.draggingElement.isChild(domElement) &&
-      !documentManager.children(domElement.id).length
-    })
+    return null
+  }
 
-    if (position) {
-      this.point = point
-      this.setPosition(position)
-      this.currentElement = domElement.id
-      this.placeholder.setCurrentElement(domElement.id)
+  checkItems (point) {
+    let trashBin = env('DND_TRASH_BIN') ? this.checkTrashBin(point) : null
+    if (trashBin) {
+      this.trash && this.trash.setActive()
+      this.placeholder && this.placeholder.clearStyle()
+      this.placeholder && this.placeholder.setPoint(point)
+      this.helper && this.helper.setOverTrash && this.helper.setOverTrash()
+      this.currentElement = 'vcv-dnd-trash-bin'
+    } else {
+      if (env('DND_TRASH_BIN')) {
+        this.trash && this.trash.removeActive()
+        if (this.currentElement === 'vcv-dnd-trash-bin') {
+          this.currentElement = null
+        }
+        this.helper && this.helper.removeOverTrash && this.helper.removeOverTrash()
+      }
+      let domNode = this.findDOMNode(point)
+      let domElement = this.getDomElement(domNode)
+      if (!domElement) {
+        return
+      }
+      let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+      if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
+        domElement = this.findElementWithValidParent(parentDOMElement) || domElement
+        parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+      }
+      if (this.isDraggingElementParent(domElement)) {
+        return
+      }
+      let position = this.placeholder.redraw(domElement.node, point, {
+        allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
+        allowAppend: !this.isDraggingElementParent(domElement) &&
+        domElement && this.draggingElement.isChild(domElement) &&
+        !documentManager.children(domElement.id).length
+      })
+
+      if (position) {
+        this.point = point
+        this.setPosition(position)
+        this.currentElement = domElement.id
+        this.placeholder.setCurrentElement(domElement.id)
+      }
     }
   }
 
@@ -291,6 +325,9 @@ export default class DndDataSet {
   }
 
   start (id, point, tag, domNode) {
+    if (env('DND_TRASH_BIN')) {
+      this.trash && this.trash.create()
+    }
     if (!this.dragStartHandled) {
       this.dragStartHandled = true
     }
@@ -359,7 +396,10 @@ export default class DndDataSet {
     this.helper && this.helper.remove()
     // Remove css class for body
     this.options.document.body.classList.remove('vcv-dnd-dragging--start', 'vcv-is-no-selection')
-
+    if (env('DND_TRASH_BIN')) {
+      // Remove trash bin
+      this.trash && this.trash.remove()
+    }
     this.forgetMouse()
     this.removePlaceholder()
     this.options.document.removeEventListener('scroll', this.scrollEvent)
