@@ -25,14 +25,14 @@ class Utm implements Helper
             'goPremiumWpMenuSidebar' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=wp-menu&utm_campaign=gopremium',
             'goPremiumNavBar' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=gopremium',
             'goPremiumPluginsPage' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=gopremium',
-            'feBlankPagePremiumTemplates' => 'http://google.com/fe',
-            'feAddTemplateSearchPremiumTemplates' => 'http://google.com/fe',
-            'feAddElementSearchPremiumVersion' => 'http://google.com/fe',
-            'feHubTeaserPremiumVersion' => 'http://google.com/fe',
-            'beBlankPagePremiumTemplates' => 'http://google.com/fe',
-            'beAddTemplateSearchPremiumTemplates' => 'http://google.com/fe',
-            'beAddElementSearchPremiumVersion' => 'http://google.com/fe',
-            'beHubTeaserPremiumVersion' => 'http://google.com/fe',
+            'feBlankPagePremiumTemplates' => 'https://visualcomposer.io/?utm_medium=frontend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
+            'feAddTemplateSearchPremiumTemplates' => 'https://visualcomposer.io/?utm_medium=frontend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
+            'feAddElementSearchPremiumVersion' => 'https://visualcomposer.io/?utm_medium=frontend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
+            'feHubTeaserPremiumVersion' => 'https://visualcomposer.io/?utm_medium=frontend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
+            'beBlankPagePremiumTemplates' => 'https://visualcomposer.io/?utm_medium=backend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
+            'beAddTemplateSearchPremiumTemplates' => 'https://visualcomposer.io/?utm_medium=backend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
+            'beAddElementSearchPremiumVersion' => 'https://visualcomposer.io/?utm_medium=backend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
+            'beHubTeaserPremiumVersion' => 'https://visualcomposer.io/?utm_medium=backend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
         ];
 
         return $utm;
