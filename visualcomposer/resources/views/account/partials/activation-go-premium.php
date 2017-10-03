@@ -6,15 +6,17 @@ if (!defined('ABSPATH')) {
 }
 
 $premiumPage = vcapp('SettingsPagesPremium');
+$getPremiumPage = vcapp('SettingsPagesGetPremium');
+$activationPage = vcapp('AccountPagesActivationPage');
 $utmHelper = vchelper('Utm');
 $requestHelper = vchelper('Request');
 if ('nav-bar' === $requestHelper->input('vcv-ref')) {
     $utm = 'goPremiumNavBar';
 } elseif ('plugins-page' === $requestHelper->input('vcv-ref')) {
     $utm = 'goPremiumPluginsPage';
-} elseif ('vcv-activation' === $requestHelper->input('page')) {
+} elseif ($activationPage->getSlug() === $requestHelper->input('page')) {
     $utm = 'goPremiumDashboard';
-}  elseif ('vcv-go-premium' === $requestHelper->input('page')) {
+} elseif ($getPremiumPage->getSlug() === $requestHelper->input('page')) {
     $utm = 'goPremiumWpMenuSidebar';
 } else {
     $utm = 'goPremiumLostRef';
