@@ -5,7 +5,7 @@ import Editor from './lib/editor'
 import $ from 'jquery'
 
 vcCake.add('contentBackendContent', (api) => {
-  let domContainer = $('#vcv-editor', $('#vcv-editor-iframe').get(0).contentWindow.document).get(0)
+  let domContainer = document.getElementById('vcv-editor-iframe')
   ReactDOM.render(
     <Editor api={api} />,
     domContainer

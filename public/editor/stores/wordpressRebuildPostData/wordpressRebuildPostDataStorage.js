@@ -14,13 +14,14 @@ addStorage('wordpressRebuildPostData', (storage) => {
     storage.state('status').set({status: 'saving'}, source)
     settingsStorage.state('status').set({status: 'ready'})
     const documentData = documentManager.all()
+    // check this
     storage.trigger('wordpress:beforeSave', {
       pageElements: documentData
     })
     options = Object.assign({}, {
       elements: documentData
     }, options)
-    controller.save(options, storage.state('status'), id)
+    controller.save(id, options, storage.state('status'))
   })
 
   storage.on('rebuild', (postId) => {
@@ -51,7 +52,7 @@ addStorage('wordpressRebuildPostData', (storage) => {
   })
   wordpressBackendWorkspace.state('lastAction').onChange((action) => {
     if (action === 'contentBuilt') {
-      storage.trigger('saveRebuild', storage.state('id').get())
+      storage.trigger('save', storage.state('id').get())
       storage.state('id').set(false)
     }
   })

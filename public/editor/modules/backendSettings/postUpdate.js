@@ -1,27 +1,25 @@
 export default class {
-  constructor (posts, vendorUrl, updaterUrl) {
-    this.posts = posts
-    this.updaterUrl = updaterUrl
+  constructor (globalUrls, vendorUrl, updaterUrl) {
+    this.globalUrls = globalUrls
     this.vendorUrl = vendorUrl
+    this.updaterUrl = updaterUrl
   }
 
-  update () {
+  async setup () {
     const $ = window.jQuery
-    return $.getJSON(window.vcvElementsGlobalsUrl, {'vcv-nonce': window.vcvAdminNonce})
-      .done((data) => {
-        /**
-         * @param {{vcvGlobals}} data
-         */
-        data && data.vcvGlobals && this.buildGlobalVariables(data.vcvGlobals)
-        $.getScript(this.vendorUrl)
-          .done(() => {
-            $.getScript(this.updaterUrl)
-              .done(this.triggerRebuild.bind(this))
-              .fail(this.ajaxError)
-          })
-          .fail(this.ajaxError)
-      })
-      .fail(this.ajaxError)
+    await $.getJSON(this.globalUrls, {'vcv-nonce': window.vcvAdminNonce}).done((data) => {
+      /**
+       * @param {{vcvGlobals}} data
+       */
+      data && data.vcvGlobals && this.buildGlobalVariables(data.vcvGlobals)
+    }).fail(console.log)
+    await $.getScript(this.vendorUrl).fail(console.log)
+    await $.getScript(this.updaterUrl).fail(console.log)
+    this.ready = true
+  }
+
+  isReady () {
+    return !!this.ready
   }
 
   setGlobalVariable (key, data) {
@@ -32,16 +30,22 @@ export default class {
       writable: false
     })
   }
+
   buildGlobalVariables (globals) {
     Object.keys(globals).forEach((key) => {
       this.setGlobalVariable(key, globals[key])
     })
   }
-  triggerRebuild () {
-    console.log(this.posts)
-    // window.vcv.trigger('vcv:rebuildPost', this.posts)
-  }
-  ajaxError (jqxhr, settings, exception) {
-    console.log(jqxhr, settings, exception)
+
+  async update (data) {
+    if (!this.isReady()) {
+      await this.setup()
+    }
+    try {
+      await window.vcvRebuildPostSave(data)
+    } catch (e) {
+      console.warn(e)
+    }
+    return console.log('Updated', data)
   }
 }
