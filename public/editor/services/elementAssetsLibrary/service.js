@@ -5,11 +5,29 @@ const innerApi = {
     const assetsLibrary = cookElement.get('assetsLibrary')
     /** @see public/editor/services/sharedAssetsLibrary/service.js */
     const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+    const assetsStorage = vcCake.getStorage('assets')
+    const assetsStorageState = assetsStorage.state('jsLibs').get()
     let files = {
       cssBundles: [],
       jsBundles: []
     }
-    if (assetsLibrary && assetsLibrary.length) {
+    if (vcCake.env('FEATURE_ASSETS_FILTER') && cookElement.get('tag') === 'row') {
+      let elementFromStorage = assetsStorageState.elements.find((element) => {
+        return element.id === cookElement.get('id')
+      })
+      let elementLibraries = elementFromStorage.libraries
+      if (elementLibraries && elementLibraries.length) {
+        elementLibraries.forEach((lib) => {
+          let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
+          if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
+            files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
+          }
+          if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
+            files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
+          }
+        })
+      }
+    } else if (assetsLibrary && assetsLibrary.length) {
       assetsLibrary.forEach((lib) => {
         let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
         if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
