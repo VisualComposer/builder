@@ -222,7 +222,7 @@ export default class DesignOptions extends Attribute {
    * Update value
    * @param newState
    */
-  updateValue (newState) {
+  updateValue (newState, fieldKey) {
     let newValue = {}
     let newMixins = {}
 
@@ -408,7 +408,7 @@ export default class DesignOptions extends Attribute {
       }
     })
 
-    this.setFieldValue(newValue, newMixins)
+    this.setFieldValue(newValue, newMixins, fieldKey)
     this.setState(newState)
   }
 
@@ -416,12 +416,12 @@ export default class DesignOptions extends Attribute {
    * Flush field value to updater
    * @param value
    */
-  setFieldValue (value, mixins) {
+  setFieldValue (value, mixins, innerFieldKey) {
     let { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value,
       attributeMixins: mixins
-    })
+    }, innerFieldKey)
   }
 
   /**
@@ -501,7 +501,7 @@ export default class DesignOptions extends Attribute {
       })
     }
 
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -539,7 +539,7 @@ export default class DesignOptions extends Attribute {
       newState.devices[ this.state.currentDevice ].display = 'none'
     }
 
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -682,7 +682,7 @@ export default class DesignOptions extends Attribute {
       } else {
         newState.devices[ newState.currentDevice ].boxModel = value
       }
-      this.updateValue(newState)
+      this.updateValue(newState, fieldKey)
     }
   }
 
@@ -727,7 +727,7 @@ export default class DesignOptions extends Attribute {
     } else {
       newState.devices[ newState.currentDevice ].image = value
     }
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -804,7 +804,7 @@ export default class DesignOptions extends Attribute {
   backgroundStyleChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ].backgroundStyle = value
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -889,7 +889,7 @@ export default class DesignOptions extends Attribute {
   backgroundPositionChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ].backgroundPosition = value
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -996,7 +996,7 @@ export default class DesignOptions extends Attribute {
   borderStyleChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -1034,7 +1034,7 @@ export default class DesignOptions extends Attribute {
   colorChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -1066,7 +1066,7 @@ export default class DesignOptions extends Attribute {
   animationChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**

@@ -55,9 +55,9 @@ export default class Element extends React.Component {
     this.props.api.notify('element:didUpdate', this.props.element.id)
   }
 
-  dataUpdate (data) {
+  dataUpdate (data, source, options) {
     this.setState({ element: data || this.props.element })
-    assetsStorage.trigger('updateElement', this.state.element.id)
+    assetsStorage.trigger('updateElement', this.state.element.id, options)
   }
 
   getContent () {

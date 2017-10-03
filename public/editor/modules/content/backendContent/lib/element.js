@@ -30,9 +30,9 @@ export default class Element extends React.Component {
     assetsStorage.trigger('addElement', this.state.element.id)
     // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
-  dataUpdate (data) {
+  dataUpdate (data, source, options) {
     this.setState({element: data || this.props.element})
-    assetsStorage.trigger('updateElement', this.state.element.id)
+    assetsStorage.trigger('updateElement', this.state.element.id, options)
   }
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
