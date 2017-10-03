@@ -1,7 +1,6 @@
 import {processActions} from './actions'
 import {showLoadingScreen, showFirstScreen, showOopsScreen} from './screens'
 import {showError} from './errors'
-import { default as PostUpdater } from './postUpdate'
 
 (($) => {
   let showDownloadScreen = ($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category) => {

@@ -94,8 +94,6 @@ import { default as PostUpdater } from './postUpdate'
           }
         })
       }
-      doAction(i + 1, finishCb)
-      return
       $heading.text(downloadingAssetsText.replace('{i}', i + 1).replace('{cnt}', cnt).replace('{name}', name))
       $.ajax(window.vcvActionsUrl,
         {

@@ -37,7 +37,7 @@ class TeaserDownloadController extends Container implements Module
 
     protected function getTeaserElements($teasers)
     {
-        $categoryList = [
+        $groupList = [
             'All' => [
                 'id' => 'All0',
                 'index' => 0,
@@ -50,15 +50,15 @@ class TeaserDownloadController extends Container implements Module
         $allElements = [];
         $dataHelper = vchelper('Data');
         foreach ($teasers as $element) {
-            $categories = explode(',', $element['category']);
-            foreach ($categories as $category) {
-                $category = trim($category);
+            $groups = explode(',', $element['group']);
+            foreach ($groups as $group) {
+                $group = trim($group);
                 $catIndex = $x++;
-                if (!isset($categoryList[ $category ])) {
-                    $categoryList[ $category ] = [
-                        'id' => ucfirst(strtolower($category)) . $catIndex,
+                if (!isset($groupList[ $group ])) {
+                    $groupList[ $group ] = [
+                        'id' => ucfirst(strtolower($group)) . $catIndex,
                         'index' => $catIndex,
-                        'title' => $category,
+                        'title' => $group,
                         'elements' => [],
                     ];
                 }
@@ -69,13 +69,13 @@ class TeaserDownloadController extends Container implements Module
                     'metaPreviewUrl' => $element['previewUrl'],
                     'metaDescription' => $element['description'],
                 ];
-                $categoryList[ $category ]['elements'][] = $elementData;
-                $categoryList[ $category ]['elements'] = $dataHelper->arrayDeepUnique($categoryList[ $category ]['elements']);
+                $groupList[ $group ]['elements'][] = $elementData;
+                $groupList[ $group ]['elements'] = $dataHelper->arrayDeepUnique($groupList[ $group ]['elements']);
                 $allElements[] = $elementData;
             }
         }
-        $categoryList['All']['elements'] = $dataHelper->arrayDeepUnique($allElements);
+        $groupList['All']['elements'] = $dataHelper->arrayDeepUnique($allElements);
 
-        return $categoryList;
+        return $groupList;
     }
 }

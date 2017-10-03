@@ -1,4 +1,4 @@
-window.vcv.on('ready', (action, id) => {
+window.vcv.on('ready', (action, id, options) => {
   // window.Waypoint.destroyAll()
   let enableAnimate = (id) => {
     let selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'
@@ -28,7 +28,7 @@ window.vcv.on('ready', (action, id) => {
     })
   }
 
-  if (action !== 'merge') {
+  if (action === 'add' || action === undefined || (action === 'update' && options && options.changedAttribute === 'animation')) {
     enableAnimate(action && id ? id : '')
   }
 })

@@ -24,12 +24,12 @@ addStorage('assets', (storage) => {
       builder.add(element)
     })
   })
-  storage.on('updateElement', (id) => {
+  storage.on('updateElement', (id, options) => {
     let ids = Array.isArray(id) ? id : [ id ]
     ids.forEach((id) => {
       const element = documentManager.get(id)
       data.elements[ id ] = element
-      builder.update(element)
+      builder.update(element, options)
     })
   })
   storage.on('removeElement', (id) => {

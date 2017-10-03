@@ -88,13 +88,14 @@ export default class ActivitiesManager extends React.Component {
     this.callMountStack(field)
   }
 
-  onElementChange = (key, value) => {
+  onElementChange = (key, value, innerKey) => {
     this.props.element.set(key, value)
     let element = documentManger.get(this.props.element.get('id'))
+    let changedAttribute = innerKey || key
     element = cook.get(element)
     element.set(key, value)
     const elementData = element.toJS()
-    elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
+    elementsStorage.trigger('update', elementData.id, elementData, 'editForm', { changedAttribute: changedAttribute })
     this.callFieldActivities(null, key)
   }
 

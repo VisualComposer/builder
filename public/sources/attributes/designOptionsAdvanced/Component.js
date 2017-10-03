@@ -256,7 +256,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * Update value
    * @param newState
    */
-  updateValue (newState) {
+  updateValue (newState, fieldKey) {
     let newValue = {}
     let newMixins = {}
 
@@ -552,7 +552,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       }
     })
 
-    this.setFieldValue(newValue, newMixins)
+    this.setFieldValue(newValue, newMixins, fieldKey)
     this.setState(newState)
   }
 
@@ -561,12 +561,12 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @param value
    * @param mixins
    */
-  setFieldValue (value, mixins) {
+  setFieldValue (value, mixins, innerFieldKey) {
     let { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value,
       attributeMixins: mixins
-    })
+    }, innerFieldKey)
   }
 
   /**
@@ -646,7 +646,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       })
     }
 
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -684,7 +684,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       newState.devices[ this.state.currentDevice ].display = 'none'
     }
 
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -695,7 +695,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   valueChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -886,7 +886,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       } else {
         newState.devices[ newState.currentDevice ].boxModel = value
       }
-      this.updateValue(newState)
+      this.updateValue(newState, fieldKey)
     }
   }
 
@@ -941,7 +941,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     } else {
       newState.devices[ newState.currentDevice ].images = value
     }
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -1485,7 +1485,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   sliderTimeoutChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**
@@ -1704,7 +1704,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   parallaxSpeedChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
-    this.updateValue(newState)
+    this.updateValue(newState, fieldKey)
   }
 
   /**

@@ -17,11 +17,16 @@
   justify-content: center;
   text-align: center;
   cursor: pointer;
+  transition: background-color .4s ease, opacity .4s ease;
   &.vcv-drag-helper-container {
     background-color: @controls-background-row;
     &.vcv-drag-helper-column {
       background-color: @controls-background-column;
     }
+  }
+  &.vcv-drag-helper-over-trash {
+    opacity: 0.8;
+    background-color: @controls-background-over-trash;
   }
 /*  font-family: 'VC-Icons' !important;
   // transition: all 0.25s ease-in-out;

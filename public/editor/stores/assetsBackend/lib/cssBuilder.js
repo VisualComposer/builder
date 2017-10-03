@@ -105,7 +105,7 @@ export default class CssBuilder {
     })
   }
 
-  update (data) {
+  update (data, options) {
     if (!data) {
       return
     }
@@ -116,8 +116,8 @@ export default class CssBuilder {
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.doJobs().then(() => {
-      this.contentWindow.vcv.trigger('ready', 'update', data.id)
-      this.window.vcv.trigger('ready', 'update', data.id)
+      this.contentWindow.vcv.trigger('ready', 'update', data.id, options)
+      this.window.vcv.trigger('ready', 'update', data.id, options)
     })
   }
 

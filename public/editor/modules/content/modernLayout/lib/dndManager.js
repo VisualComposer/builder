@@ -126,14 +126,22 @@ export default class DndManager {
 
   move (id, action, related) {
     if (id && related) {
-      workspaceStorage.trigger('move', id, {action: action, related: related})
+      if (vcCake.env('DND_TRASH_BIN') && related === 'vcv-dnd-trash-bin') {
+        workspaceStorage.trigger('remove', id)
+      } else {
+        workspaceStorage.trigger('move', id, { action: action, related: related })
+      }
     }
   }
 
   drop (id, action, related, element) {
     if (id && related) {
-      workspaceStorage.trigger('drop', id, {action: action, related: related, element: element})
-      // this.api.request('data:move', id, { action: action, related: related })
+      if (vcCake.env('DND_TRASH_BIN') && related === 'vcv-dnd-trash-bin') {
+        workspaceStorage.trigger('remove', id)
+      } else {
+        workspaceStorage.trigger('drop', id, {action: action, related: related, element: element})
+        // this.api.request('data:move', id, { action: action, related: related })
+      }
     }
   }
 
