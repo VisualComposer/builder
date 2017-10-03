@@ -71,6 +71,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let lineHeight = defaultLiteSize
   let linePoint = { x: 0, y: 0 }
   let frame = false
+  let isVerticalLine
   settings = _.defaults(settings || {}, {
     allowAppend: true,
     allowBeforeAfter: true
@@ -94,11 +95,10 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     lineHeight = rect.height
     frame = true
   } else {
-    let prevElement = $element.prevAll('[data-vcv-dnd-element]').get(0)
+    let prevElement = $element.prevAll('[data-vcv-dnd-element]:not([data-vcv-dnd-helper="true"])').get(0)
     let nextElement = $element.nextAll('[data-vcv-dnd-element]').get(0)
     let prevRect = prevElement ? prevElement.getBoundingClientRect() : null
     let nextRect = nextElement ? nextElement.getBoundingClientRect() : null
-    let isVerticalLine
     // show vertical line in layout only
     if (!$element.closest('.vcv-ui-tree-layout').get(0)) {
       isVerticalLine = prevRect && prevRect.left !== rect.left || nextRect && nextRect.left !== rect.left
@@ -150,6 +150,11 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     window.setTimeout(function () {
       this.el && this.el.classList.add('vcv-is-shown')
       if (env('DND_SMART_LINE_TRANSITION')) {
+        if (isVerticalLine) {
+          this.el && this.el.classList.add('vcv-smart-line-vertical')
+        } else {
+          this.el && this.el.classList.remove('vcv-smart-line-vertical')
+        }
         this.el && this.el.classList.add('vcv-smart-line-transition')
       }
     }.bind(this), 0)

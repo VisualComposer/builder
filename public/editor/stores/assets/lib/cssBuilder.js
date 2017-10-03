@@ -94,7 +94,7 @@ export default class CssBuilder {
     })
   }
 
-  update (data) {
+  update (data, options) {
     if (!data) {
       return
     }
@@ -106,7 +106,7 @@ export default class CssBuilder {
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data)
     this.doJobs().then(() => {
-      this.window.vcv.trigger('ready', 'update', data.id)
+      this.window.vcv.trigger('ready', 'update', data.id, options)
     })
   }
 

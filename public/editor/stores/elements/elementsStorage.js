@@ -102,7 +102,7 @@ addStorage('elements', (storage) => {
       element.layout.layoutData = undefined
     }
     documentManager.update(id, element)
-    storage.state(`element:${id}`).set(element, source)
+    storage.state(`element:${id}`).set(element, source, options)
     if (element.tag === 'column') {
       addRowColumnBackground(id, element, documentManager)
       let rowElement = documentManager.get(element.parent)
