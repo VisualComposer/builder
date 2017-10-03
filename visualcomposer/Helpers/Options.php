@@ -81,4 +81,21 @@ class Options implements Helper
 
         return $this;
     }
+
+    public function setUser($optionName, $value)
+    {
+        update_user_option(get_current_user_id(), VCV_PREFIX . $optionName, $value);
+
+        return $this;
+    }
+
+    public function getUser($optionName, $emptyResult = '')
+    {
+        $result = get_user_option(VCV_PREFIX . $optionName);
+        if (empty($result)) {
+            return $emptyResult;
+        }
+
+        return $result;
+    }
 }

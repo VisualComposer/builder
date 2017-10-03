@@ -56,29 +56,31 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       buttonUrl = window.VCV_UTM().beHubTeaserPremiumVersion
     }
 
-    return <div className='vcv-ui-tree-content'>
-      {this.getSearchElement()}
-      <div className='vcv-ui-tree-content-section'>
-        <Scrollbar>
-          <div className={innerSectionClasses}>
-            <div className='vcv-ui-editor-plates-container'>
-              <div className='vcv-ui-editor-plates'>
-                <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                  {this.getElementListContainer(itemsOutput)}
-                  <div className='vcv-ui-editor-no-items-container'>
-                    <div className='vcv-ui-editor-no-items-content'>
-                      <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
-                    </div>
-                    <div className='vcv-ui-editor-no-items-content'>
-                      <p className='vcv-start-blank-helper'>{helperText}</p>
+    return (
+      <div className='vcv-ui-tree-content'>
+        {this.getSearchElement()}
+        <div className='vcv-ui-tree-content-section'>
+          <Scrollbar>
+            <div className={innerSectionClasses}>
+              <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
+                <div className='vcv-ui-editor-plates'>
+                  <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+                    {this.getElementListContainer(itemsOutput)}
+                    <div className='vcv-ui-editor-no-items-container'>
+                      <div className='vcv-ui-editor-no-items-content'>
+                        <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
+                      </div>
+                      <div className='vcv-ui-editor-no-items-content'>
+                        <p className='vcv-start-blank-helper'>{helperText}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Scrollbar>
+          </Scrollbar>
+        </div>
       </div>
-    </div>
+    )
   }
 }

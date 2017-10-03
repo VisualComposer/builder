@@ -58,7 +58,7 @@ class TeaserController extends Container implements Module
                     'partials/variable',
                     [
                         'key' => 'VCV_HUB_SHOW_TEASER_BADGE',
-                        'value' => version_compare($optionsHelper->getTransient('hubTeaserVisit'), $optionsHelper->get('hubAction:hubTeaser', '1.0'), '<'),
+                        'value' => version_compare($optionsHelper->getUser('hubTeaserVisit'), $optionsHelper->get('hubAction:hubTeaser', '1.0'), '<'),
                     ]
                 ),
             ]
@@ -67,7 +67,7 @@ class TeaserController extends Container implements Module
 
     protected function ajaxSetTeaserBadge(Options $optionsHelper)
     {
-        $optionsHelper->setTransient('hubTeaserVisit', $optionsHelper->get('hubAction:hubTeaser'));
+        $optionsHelper->setUser('hubTeaserVisit', $optionsHelper->get('hubAction:hubTeaser'));
 
         return true;
     }
