@@ -12,8 +12,12 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
     $utm = 'goPremiumNavBar';
 } elseif ('plugins-page' === $requestHelper->input('vcv-ref')) {
     $utm = 'goPremiumPluginsPage';
-} else {
+} elseif ('vcv-activation' === $requestHelper->input('page')) {
+    $utm = 'goPremiumDashboard';
+}  elseif ('vcv-go-premium' === $requestHelper->input('page')) {
     $utm = 'goPremiumWpMenuSidebar';
+} else {
+    $utm = 'goPremiumLostRef';
 }
 ?>
 <!-- First screen -->
@@ -37,12 +41,12 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
     <div class="vcv-popup-heading">
         <?php echo __('Get Premium Elements, Templates, and Support.', 'vcwb'); ?>
     </div>
-	<div class="vcv-popup-go-premium-container"></div>
-    <a href="<?php echo $utmHelper->get($utm);?>" class="vcv-purchase-premium vcv-popup-button" target="_blank"><?php echo __('Purchase License', 'vcwb'); ?></a>
+	<a href="<?php echo $utmHelper->get($utm);?>" class="vcv-purchase-premium vcv-popup-button" target="_blank"><?php echo __('Purchase License', 'vcwb'); ?></a>
     <?php if (vcvenv('VCV_ENV_UPGRADE')) { ?>
 		<a href="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>" class="vcv-activate-premium vcv-popup-button">
-			<?php echo __('Activate Premium', 'vcwb'); ?>
+            <?php echo __('Activate Premium', 'vcwb'); ?>
 		</a>
-	<?php } ?>
+    <?php } ?>
 	<span class="vcv-popup-slider-item-text"><?php echo __('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
+	<div class="vcv-popup-go-premium-container"></div>
 </div>
