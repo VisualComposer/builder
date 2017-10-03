@@ -57,7 +57,7 @@ class TeaserController extends Container implements Module
                 vcview(
                     'partials/variable',
                     [
-                        'key' => 'VCV_HUB_SHOW_TEASER_BADGE',
+                        'key' => 'vcvHubTeaserShowBadge',
                         'value' => version_compare($optionsHelper->getUser('hubTeaserVisit'), $optionsHelper->get('hubAction:hubTeaser', '1.0'), '<'),
                     ]
                 ),
