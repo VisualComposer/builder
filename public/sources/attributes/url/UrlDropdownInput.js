@@ -10,7 +10,8 @@ export default class UrlDropdownInput extends React.Component {
   static VALUES = [
     'http://',
     'https://',
-    'mailto:'
+    'mailto:',
+    'tel:'
   ]
   inputTimeout = 0
   dropdownTimeout = 0
@@ -70,7 +71,7 @@ export default class UrlDropdownInput extends React.Component {
   }
 
   extractProtocol (value) {
-    let protocolRegExp = new RegExp(/^https?:\/\/|mailto:/)
+    let protocolRegExp = new RegExp(/^https?:\/\/|mailto:|tel:/)
     let match = value.match(protocolRegExp)
     if (match) {
       return {
