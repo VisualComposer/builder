@@ -52,7 +52,7 @@ export default class NavbarContainer extends React.Component {
         <UndoRedoControl />
         <LayoutControl visibility='pinned' />
         <SettingsButtonControl />
-        { env('HUB_TEASER') ? <PlusTeaserControl /> : null }
+        { env('HUB_TEASER') ? <PlusTeaserControl visibility='pinned' /> : null }
         <NavbarSeparator visibility='pinned' />
         <WordPressPostSaveControl visibility='pinned' />
         <WordPressAdminControl visibility='hidden' />

@@ -37,7 +37,7 @@ export default class NavbarContainer extends React.Component {
       <AddTemplateControl />
       <TreeViewControl visibility='pinned' />
       <UndoRedoControl />
-      { env('HUB_TEASER') ? <PlusTeaserControl /> : null }
+      { env('HUB_TEASER') ? <PlusTeaserControl visibility='pinned' /> : null }
       <SettingsButtonControl />
     </Navbar>
   }
