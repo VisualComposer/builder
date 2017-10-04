@@ -32,6 +32,8 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
   window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>'
   window.vcvActivationType = '<?php echo $type; ?>'
   window.vcvAjaxTime = <?php echo $_SERVER['REQUEST_TIME']; ?>
+
+  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>'
 </script>
 <?php
 $extraOutput = vcfilter('vcv:backend:settings:extraOutput', []);

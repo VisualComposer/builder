@@ -50,9 +50,10 @@ class JsonActionsController extends Container implements Module
                 $reRenderPosts = array_unique($needUpdatePost);
                 $response['actions'] = $requiredActions;
                 if (sizeof($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
-                    $response['vcvPostsUpdatesAreRequired'] = $this->createPostUpdateObjects(array_unique($needUpdatePost));
+                    $postsActions = $this->createPostUpdateObjects(array_unique($needUpdatePost));
                     $response['vcvUpdaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
                     $response['vcvVendorUrl'] = $urlHelper->to('public/dist/vendor.bundle.js');
+                    $response['actions'] += $postsActions;
                 }
             } else {
                 $loggerHelper->log(
@@ -74,8 +75,16 @@ class JsonActionsController extends Container implements Module
         $result = [];
         $frontendHelper = vchelper('Frontend');
         foreach ($posts as $id) {
-            $result[] = ['id' => $id, 'editableLink' => $frontendHelper->getEditableUrl($id)];
+            $result[] = [
+                'action' => "updatePost/${id}",
+                'data' => [
+                    'id' => $id,
+                    'editableLink' => $frontendHelper->getEditableUrl($id),
+                ],
+                'name' => get_the_title($id),
+            ];
         }
+
         return $result;
     }
 
@@ -87,7 +96,8 @@ class JsonActionsController extends Container implements Module
         $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
         $action = $requestHelper->input('action');
         $previousVersion = $optionsHelper->get('hubAction:' . $action['action'], '0');
-        if ($action['version'] && version_compare($action['version'], $previousVersion, '>') || !$action['version']) {
+        if ($action['version'] && version_compare($action['version'], $previousVersion, '>')
+            || !$action['version']) {
             $response = $this->processAction(
                 $action['action'],
                 $action['data'],
@@ -154,7 +164,10 @@ class JsonActionsController extends Container implements Module
             ->deleteTransient('vcv:activation:request');
         global $wpdb;
         $wpdb->query(
-            $wpdb->prepare('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"', VCV_PREFIX . 'hubAction:%')
+            $wpdb->prepare(
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',
+                VCV_PREFIX . 'hubAction:%'
+            )
         );
     }
 
