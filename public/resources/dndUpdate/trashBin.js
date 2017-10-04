@@ -11,6 +11,9 @@ export default class TrashBin {
       })
     })
 
+    this.onMouseEnter = this.onMouseEnter.bind(this)
+    this.onMouseMove = this.onMouseMove.bind(this)
+    this.onMouseLeave = this.onMouseLeave.bind(this)
     this.transitionEnd = this.transitionEnd.bind(this)
   }
 
@@ -27,6 +30,28 @@ export default class TrashBin {
     setTimeout(() => {
       this.elContainer.classList.add('vcv-dnd-trash-bin-show')
     }, 0)
+    this.elContainer.addEventListener('mouseenter', this.onMouseEnter)
+    let iframe = document.getElementById('vcv-editor-iframe') || null
+    let iframeParent = iframe && iframe.parentNode || null
+    this.offsetX = iframeParent && iframeParent.offsetLeft || 0
+    this.offsetY = iframeParent && iframeParent.offsetTop || 0
+  }
+
+  onMouseEnter (e) {
+    this.options.handleDrag && this.options.handleDrag(e, this.offsetX, this.offsetY)
+    this.elContainer && this.elContainer.addEventListener('mousemove', this.onMouseMove)
+    this.elContainer && this.elContainer.addEventListener('mouseleave', this.onMouseLeave)
+    this.elContainer && this.elContainer.addEventListener('mouseup', this.options.handleDragEnd)
+  }
+
+  onMouseMove (e) {
+    this.options.handleDrag && this.options.handleDrag(e, this.offsetX, this.offsetY)
+  }
+
+  onMouseLeave () {
+    this.elContainer && this.elContainer.removeEventListener('mousemove', this.onMouseMove)
+    this.elContainer && this.elContainer.removeEventListener('mouseleave', this.onMouseLeave)
+    this.elContainer && this.elContainer.removeEventListener('mouseup', this.options.handleDragEnd)
   }
 
   setActive () {
@@ -46,7 +71,7 @@ export default class TrashBin {
   }
 
   transitionEnd () {
-    this.elContainer.removeEventListener('transitionend', this.transitionEnd)
+    this.elContainer && this.elContainer.removeEventListener('transitionend', this.transitionEnd)
     if (!this.cancelRemove) {
       this.options.container.removeChild(this.elContainer)
     }
@@ -57,8 +82,9 @@ export default class TrashBin {
       this.removeActive()
     }
     this.cancelRemove = false
-    this.elContainer.addEventListener('transitionend', this.transitionEnd)
-    this.elContainer.classList.remove('vcv-dnd-trash-bin-show')
+    this.elContainer && this.elContainer.addEventListener('transitionend', this.transitionEnd)
+    this.elContainer && this.elContainer.classList.remove('vcv-dnd-trash-bin-show')
+    this.elContainer && this.elContainer.removeEventListener('mouseenter', this.onMouseEnter)
   }
 
   setStyle (x, y) {

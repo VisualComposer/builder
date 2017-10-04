@@ -16,7 +16,7 @@ export default class API {
       this.dnd.draggingElement = null
       this.dnd.handleDragEnd()
     } else {
-      this.dnd.start(data.id, false, data.tag, data.domNode)
+      this.dnd.start(data.id, false, data.tag, data.domNode, true)
       this.dnd.manualScroll = true
       this.dnd.option('drop', true)
       data.point && this.dnd.check(data.point)

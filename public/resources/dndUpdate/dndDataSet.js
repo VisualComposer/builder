@@ -166,7 +166,11 @@ export default class DndDataSet {
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
     root.refresh()
     if (env('DND_TRASH_BIN') && this.options.enableTrashBin) {
-      this.trash = new TrashBin(_.pick(this.options, 'document', 'container'))
+      this.trash = new TrashBin({
+        ..._.pick(this.options, 'document', 'container'),
+        handleDrag: this.handleDragFunction,
+        handleDragEnd: this.handleDragEndFunction
+      })
     }
   }
 
@@ -324,8 +328,8 @@ export default class DndDataSet {
     this.position = position
   }
 
-  start (id, point, tag, domNode) {
-    if (env('DND_TRASH_BIN')) {
+  start (id, point, tag, domNode, disableTrashBin = false) {
+    if (env('DND_TRASH_BIN') && !disableTrashBin) {
       this.trash && this.trash.create()
     }
     if (!this.dragStartHandled) {
@@ -492,16 +496,16 @@ export default class DndDataSet {
   /**
    * Drag handlers
    */
-  handleDrag (e) {
+  handleDrag (e, offsetX = 0, offsetY = 0) {
     // disable dnd on right button click
     if (e.button && e.button === 2) {
       this.handleDragEnd()
       return false
     }
     if (e.changedTouches && e.changedTouches[0]) {
-      e.changedTouches[0].clientX !== undefined && e.changedTouches[0].clientY !== undefined && this.check({x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY})
+      e.changedTouches[0].clientX !== undefined && e.changedTouches[0].clientY !== undefined && this.check({x: e.changedTouches[0].clientX - offsetX, y: e.changedTouches[0].clientY - offsetY})
     } else {
-      e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX, y: e.clientY})
+      e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX - offsetX, y: e.clientY - offsetY})
     }
   }
 
