@@ -396,6 +396,9 @@ export default class DnD {
     if (env('DND_TRASH_BIN')) {
       // Remove trash bin
       this.trash && this.trash.remove()
+      if (!this.position && this.currentElement === 'vcv-dnd-trash-bin') {
+        this.position = 'after'
+      }
     }
     this.forgetMouse()
     this.removePlaceholder()
