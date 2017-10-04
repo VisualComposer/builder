@@ -100,7 +100,7 @@ if (!defined('VCV_ENV_LICENSES')) {
 if (!defined('VCV_ENV_HUB_TEASER')) {
     define(
         'VCV_ENV_HUB_TEASER',
-        isset($_SERVER['ENV_VCV_ENV_HUB_TEASER']) ? $_SERVER['ENV_VCV_ENV_HUB_TEASER'] : false
+        isset($_SERVER['ENV_VCV_ENV_HUB_TEASER']) ? $_SERVER['ENV_VCV_ENV_HUB_TEASER'] : true
     );
 }
 
