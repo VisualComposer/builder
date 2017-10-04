@@ -14,7 +14,7 @@ export default class PlusTeaserControl extends NavbarContent {
     this.setActiveState = this.setActiveState.bind(this)
     this.state = {
       isActive: false,
-      showBadge: window.VCV_HUB_SHOW_TEASER_BADGE
+      showBadge: window.vcvHubTeaserShowBadge
     }
   }
 
@@ -39,12 +39,12 @@ export default class PlusTeaserControl extends NavbarContent {
       options: {}
     }
     workspaceSettings.set(settings)
-    if (window.VCV_HUB_SHOW_TEASER_BADGE || this.state.showBadge) {
+    if (window.vcvHubTeaserShowBadge || this.state.showBadge) {
       dataProcessor.appServerRequest({
         'vcv-action': 'vcv:hub:teaser:visit:adminNonce'
       })
       dataProcessor.appAllDone().then(() => {
-        window.VCV_HUB_SHOW_TEASER_BADGE = false
+        window.vcvHubTeaserShowBadge = false
         this.setState({showBadge: false})
       })
     }
