@@ -53,8 +53,8 @@ class TeaserDownloadController extends Container implements Module
             $groups = explode(',', $element['group']);
             foreach ($groups as $group) {
                 $group = trim($group);
-                $catIndex = $x++;
                 if (!isset($groupList[ $group ])) {
+                    $catIndex = $x++;
                     $groupList[ $group ] = [
                         'id' => ucfirst(strtolower($group)) . $catIndex,
                         'index' => $catIndex,
