@@ -312,7 +312,8 @@ export default class DndDataSet {
         allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
         allowAppend: !this.isDraggingElementParent(domElement) &&
         domElement && this.draggingElement.isChild(domElement) &&
-        !documentManager.children(domElement.id).length
+        !documentManager.children(domElement.id).length &&
+        (env('DND_DISABLE_DROP_IN_CLOSED_TABS') ? !domElement.node.dataset.vceTab : true)
       })
 
       if (position) {

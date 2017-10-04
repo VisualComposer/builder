@@ -21,7 +21,7 @@ use VisualComposer\Helpers\License;
 /**
  * Class DeactivateLicense.
  */
-class DeactivateLicense extends Container implements Module
+class DeactivateLicense extends Container /*implements Module*/
 {
     use Fields;
     use EventsFilters;
