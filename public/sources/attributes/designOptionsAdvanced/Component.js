@@ -318,7 +318,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].backgroundZoom
             delete newValue[ device ].backgroundZoomSpeed
             delete newValue[ device ].backgroundZoomReverse
-          } else if (!newValue[ device ].hasOwnProperty('images') || ((!newValue[ device ].images.urls || newValue[ device ].images.urls.length === 0) && newValue[ device ].images.length === 0)) {
+          } else if (!newValue[ device ].hasOwnProperty('images')) {
             // images are empty
             delete newValue[ device ].images
             delete newValue[ device ].backgroundType
@@ -330,6 +330,22 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].backgroundZoom
             delete newValue[ device ].backgroundZoomSpeed
             delete newValue[ device ].backgroundZoomReverse
+          } else {
+            let images = newValue[ device ].images
+            let isArray = images.constructor === Array
+
+            if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+              delete newValue[ device ].images
+              delete newValue[ device ].backgroundType
+              delete newValue[ device ].backgroundStyle
+              delete newValue[ device ].sliderTimeout
+              delete newValue[ device ].sliderDirection
+              delete newValue[ device ].sliderEffect
+              delete newValue[ device ].backgroundPosition
+              delete newValue[ device ].backgroundZoom
+              delete newValue[ device ].backgroundZoomSpeed
+              delete newValue[ device ].backgroundZoomReverse
+            }
           }
 
           // Embed video bg
@@ -953,11 +969,17 @@ export default class DesignOptionsAdvanced extends Attribute {
       'imagesSimple',
       'imagesSlideshow'
     ]
-
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') || !this.state.devices[ this.state.currentDevice ].images.urls || this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !deviceData.hasOwnProperty('images')) {
       return null
     }
+    let images = deviceData.images
+    let isArray = images.constructor === Array
+
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+      return null
+    }
+
     let options = {
       values: [
         {
@@ -1018,11 +1040,17 @@ export default class DesignOptionsAdvanced extends Attribute {
       'backgroundZoom',
       'imagesSlideshow'
     ]
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') || !this.state.devices[ this.state.currentDevice ].images.urls ||
-      this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !deviceData.hasOwnProperty('images')) {
       return null
     }
+    let images = deviceData.images
+    let isArray = images.constructor === Array
+
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+      return null
+    }
+
     let options = {
       values: [
         {
@@ -1091,14 +1119,17 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundZoomRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
-      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
-      !this.state.devices[ this.state.currentDevice ].images.urls ||
-      this.state.devices[ this.state.currentDevice ].images.urls.length === 0
-    ) {
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    if (deviceData.display || this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
       return null
     }
+    let images = deviceData.images
+    let isArray = images.constructor === Array
+
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+      return null
+    }
+
     let options = {
       min: 0,
       max: 100,
@@ -1123,14 +1154,17 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundZoomSpeedRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
-      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
-      !this.state.devices[ this.state.currentDevice ].images.urls ||
-      this.state.devices[ this.state.currentDevice ].images.urls.length === 0
-    ) {
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    if (deviceData.display || this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
       return null
     }
+    let images = deviceData.images
+    let isArray = images.constructor === Array
+
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+      return null
+    }
+
     let options = {
       min: 1,
       max: false
@@ -1154,14 +1188,17 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundZoomReverseRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' ||
-      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
-      !this.state.devices[ this.state.currentDevice ].images.urls ||
-      this.state.devices[ this.state.currentDevice ].images.urls.length === 0
-    ) {
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    if (deviceData.display || this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
       return null
     }
+    let images = deviceData.images
+    let isArray = images.constructor === Array
+
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+      return null
+    }
+
     let value = this.state.devices[ this.state.currentDevice ].backgroundZoomReverse || DesignOptionsAdvanced.deviceDefaults.backgroundZoomReverse
 
     return <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
