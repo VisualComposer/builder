@@ -23,6 +23,7 @@ export default class DividerShape extends Component {
 
     let startColor = this.props.gradientColorStart
     let endColor = this.props.gradientColorEnd
+    let angle = this.props.gradientAngle
 
     if (this.props.flipHorizontally) {
       startColor = this.props.gradientColorEnd
@@ -31,7 +32,7 @@ export default class DividerShape extends Component {
 
     let id = `gradient-${this.props.id}-${this.props.deviceKey}`
     return (
-      <linearGradient id={id} x1='0%' y1='0%' x2='100%' y2='0%'>
+      <linearGradient id={id} gradientUnits='objectBoundingBox' gradientTransform={`rotate(${angle} 0.5 0.5)`}>
         <stop offset='0%' style={{ stopColor: startColor, stopOpacity: '1' }} />
         <stop offset='100%' style={{ stopColor: endColor, stopOpacity: '1' }} />
       </linearGradient>

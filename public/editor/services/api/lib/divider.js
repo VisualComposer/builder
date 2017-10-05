@@ -19,7 +19,7 @@ export default class Divider extends Component {
 
   render () {
     let { deviceData, deviceKey, id, applyDivider } = this.props
-    let { dividerShape, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundType, dividerVideoEmbed } = deviceData
+    let { dividerShape, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundGradientAngle, dividerBackgroundType, dividerVideoEmbed } = deviceData
 
     let flipHorizontally = false
 
@@ -59,7 +59,7 @@ export default class Divider extends Component {
     return (
       <div className={containerClasses} {...applyDivider}>
         <div className='vce-container-divider-inner'>
-          <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={dividerBackgroundType} gradientColorStart={dividerBackgroundGradientStartColor} gradientColorEnd={dividerBackgroundGradientEndColor} backgroundImage={imageUrl} flipHorizontally={flipHorizontally} deviceKey={deviceKey} videoEmbed={dividerVideoEmbed} />
+          <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={dividerBackgroundType} gradientColorStart={dividerBackgroundGradientStartColor} gradientColorEnd={dividerBackgroundGradientEndColor} gradientAngle={dividerBackgroundGradientAngle} backgroundImage={imageUrl} flipHorizontally={flipHorizontally} deviceKey={deviceKey} videoEmbed={dividerVideoEmbed} />
         </div>
       </div>
     )

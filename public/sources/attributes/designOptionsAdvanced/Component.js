@@ -185,7 +185,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-zigzag', iconSet: 'all' },
     dividerBackgroundColor: '#6567DF',
     dividerBackgroundGradientStartColor: 'rgb(226, 135, 135)',
-    dividerBackgroundGradientEndColor: 'rgb(93, 55, 216)'
+    dividerBackgroundGradientEndColor: 'rgb(93, 55, 216)',
+    dividerBackgroundGradientAngle: 0
   }
   static defaultState = {
     currentDevice: 'all',
@@ -1560,57 +1561,18 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
       return null
     }
-    let options = {
-      values: [
-        {
-          label: '0',
-          value: '0'
-        },
-        {
-          label: '30',
-          value: '30'
-        },
-        {
-          label: '45',
-          value: '45'
-        },
-        {
-          label: '60',
-          value: '60'
-        },
-        {
-          label: '90',
-          value: '90'
-        },
-        {
-          label: '120',
-          value: '120'
-        },
-        {
-          label: '135',
-          value: '135'
-        },
-        {
-          label: '150',
-          value: '150'
-        },
-        {
-          label: '180',
-          value: '180'
-        }
-      ]
-    }
     let value = this.state.devices[ this.state.currentDevice ].gradientAngle || DesignOptionsAdvanced.deviceDefaults.gradientAngle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Gradient angle
       </span>
-      <Dropdown
+      <Range
         api={this.props.api}
         fieldKey='gradientAngle'
-        options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        options={{ min: 0, max: 180, measurement: '°' }}
+        value={value}
+      />
     </div>
   }
 
@@ -2084,6 +2046,32 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render range input for divider gradient background angle
+   * @returns {*}
+   */
+  getDividerBackgroundGradientAngleRender () {
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'gradient' || !vcCake.env('CONTAINER_DIVIDER')) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientAngle || DesignOptionsAdvanced.deviceDefaults.dividerBackgroundGradientAngle
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Divider gradient angle
+      </span>
+      <Range
+        api={this.props.api}
+        fieldKey='dividerBackgroundGradientAngle'
+        updater={this.valueChangeHandler}
+        options={{ min: 0, max: 180, measurement: '°' }}
+        value={value}
+      />
+    </div>
+  }
+
+  /**
    * Render attach image for divider background
    * @returns {*}
    */
@@ -2356,6 +2344,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getDividerBackgroundColorRender()}
             {this.getDividerBackgroundGradientStartColorRender()}
             {this.getDividerBackgroundGradientEndColorRender()}
+            {this.getDividerBackgroundGradientAngleRender()}
             {this.getDividerAttachImageRender()}
             {this.getDividerBackgroundStyleRender()}
             {this.getDividerEmbedVideoRender()}
