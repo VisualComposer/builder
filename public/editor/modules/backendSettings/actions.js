@@ -26,17 +26,22 @@ import {showFirstScreen, loadLastScreen, showLoadingScreen, showOopsScreen} from
         }
       }
     ).done(function (json) {
-      if (json.status) {
+      if (json && json.status) {
         loadLastScreen($errorPopup, loadAnimation, $popup)
       } else {
         if (requestFailed) {
           console.warn(json)
-          let messageJson = JSON.parse(json.message)
-          if (window.vcvActivationType !== 'premium') {
-            showError($errorPopup, messageJson || activationFailedText, 15000)
-            showFirstScreen($popup)
-          } else {
-            showOopsScreen($popup, messageJson || activationFailedText, premiumErrorCallback)
+          try {
+            let messageJson = JSON.parse(json && json.message ? json.message : '""')
+            if (window.vcvActivationType !== 'premium') {
+              showError($errorPopup, messageJson || activationFailedText, 15000)
+              showFirstScreen($popup)
+            } else {
+              showOopsScreen($popup, messageJson || activationFailedText, premiumErrorCallback)
+            }
+          } catch (e) {
+            console.warn(e)
+            showOopsScreen($popup, activationFailedText, premiumErrorCallback)
           }
         } else {
           // Try again one more time.
@@ -91,7 +96,7 @@ import {showFirstScreen, loadLastScreen, showLoadingScreen, showOopsScreen} from
           }
         }
       ).done(function (json) {
-        if (json.status) {
+        if (json && json.status) {
           requestFailed = false
           if (i === cnt - 1) {
             finishCb()
@@ -101,12 +106,17 @@ import {showFirstScreen, loadLastScreen, showLoadingScreen, showOopsScreen} from
         } else {
           if (requestFailed) {
             console.warn(json)
-            let messageJson = JSON.parse(json.message)
-            if (window.vcvActivationType !== 'premium') {
-              showError($errorPopup, messageJson || activationFailedText, 15000)
-              showFirstScreen($popup)
-            } else {
-              showOopsScreen($popup, messageJson || activationFailedText, premiumErrorCallback)
+            try {
+              let messageJson = JSON.parse(json && json.message ? json.message : '""')
+              if (window.vcvActivationType !== 'premium') {
+                showError($errorPopup, messageJson || activationFailedText, 15000)
+                showFirstScreen($popup)
+              } else {
+                showOopsScreen($popup, messageJson || activationFailedText, premiumErrorCallback)
+              }
+            } catch (e) {
+              console.warn(e)
+              showOopsScreen($popup, activationFailedText, premiumErrorCallback)
             }
           } else {
             // Try again one more time.

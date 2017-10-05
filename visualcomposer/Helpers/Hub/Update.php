@@ -19,32 +19,40 @@ class Update implements Helper
     public function getRequiredActions($json = [])
     {
         $optionsHelper = vchelper('Options');
+        $loggerHelper = vchelper('Logger');
         if (empty($json) || !isset($json['actions'])) {
-            $json['actions'] = $optionsHelper->get('bundleUpdateActions');
-        }
-        $requiredActions = [];
-        $downloadHelper = vchelper('HubDownload');
-        $needUpdatePost = [];
-        foreach ($json['actions'] as $key => $value) {
-            if (isset($value['action'])) {
-                $action = $value['action'];
-                $version = $value['version'];
-                $value['name'] = isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action);
-                $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
-                if ($version && version_compare($version, $previousVersion, '>') || !$version) {
-                    if (isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')) {
-                        $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
-                        if (!empty($posts) && is_array($posts)) {
-                            $needUpdatePost = $posts + $needUpdatePost;
-                        }
-                    }
-                    $requiredActions[] = $value;
+            $json = $optionsHelper->getTransient('bundleUpdateJson');
+            if (!$json) {
+                $json = [];
+                // Current json is expired, need to update actions
+                $savedJson = vcfilter('vcv:hub:update:checkVersion', ['status' => false]);
+                if (!vcIsBadResponse($savedJson)) {
+                    // Everything is ok need to parse $requiredActions['actions']
+                    $json = $savedJson['json'];
+                } else {
+                    // Logger::add error
+                    $loggerHelper->add('Failed to update required actions list');
                 }
             }
         }
+        list($needUpdatePost, $requiredActions) = vchelper('HubBundle')->loopActions($json);
         $optionsHelper->set('bundleUpdateActions', $requiredActions);
         $optionsHelper->set('bundleUpdatePosts', array_unique($needUpdatePost));
 
         return $requiredActions;
+    }
+
+    /**
+     * @param array $json
+     * @return bool
+     */
+    public function checkIsUpdateRequired($json = [])
+    {
+        if (empty($json) || !isset($json['actions'])) {
+            return false;
+        }
+        list($needUpdatePost, $requiredActions) = vchelper('HubBundle')->loopActions($json);
+
+        return !empty($requiredActions) || !empty($needUpdatePost);
     }
 }

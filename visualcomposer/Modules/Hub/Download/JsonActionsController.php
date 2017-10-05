@@ -32,21 +32,12 @@ class JsonActionsController extends Container implements Module
         $response,
         $payload,
         Logger $loggerHelper,
-        Download $downloadHelper,
         Url $urlHelper
     ) {
         if (!vcIsBadResponse($response)) {
-            $requiredActions = [];
             if ($payload['json'] && !empty($payload['json']['actions'])) {
-                $optionHelper = vchelper('Options');
-                $needUpdatePost = [];
-                list($needUpdatePost, $requiredActions) = $this->loopActions(
-                    $requiredActions,
-                    $needUpdatePost,
-                    $payload,
-                    $downloadHelper,
-                    $optionHelper
-                );
+                $hubBundle = vchelper('HubBundle');
+                list($needUpdatePost, $requiredActions) = $hubBundle->loopActions($payload['json']);
                 $reRenderPosts = array_unique($needUpdatePost);
                 $response['actions'] = $requiredActions;
                 if (sizeof($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
@@ -88,22 +79,29 @@ class JsonActionsController extends Container implements Module
         return $result;
     }
 
-    protected function ajaxProcessAction($response, $payload, Request $requestHelper, Options $optionsHelper)
+    protected function ajaxProcessAction($response, $payload, Request $requestHelper, Options $optionsHelper, Logger $loggerHelper)
     {
         $response = [
             'status' => true,
         ];
         $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
         $action = $requestHelper->input('action');
-        $previousVersion = $optionsHelper->get('hubAction:' . $action['action'], '0');
-        if ($action['version'] && version_compare($action['version'], $previousVersion, '>')
+        $savedAction = $optionsHelper->get('hubAction:download:' . $action['key'], false);
+        if (!$savedAction) {
+            $loggerHelper->log('the update action does not exists');
+
+            return ['status' => false];
+        }
+
+        $previousVersion = $optionsHelper->get('hubAction:' . $savedAction['action'], '0');
+        if ($savedAction['version'] && version_compare($savedAction['version'], $previousVersion, '>')
             || !$action['version']) {
             $response = $this->processAction(
-                $action['action'],
-                $action['data'],
-                $action['version'],
-                isset($action['checksum']) ? $action['checksum'] : '',
-                $action['name']
+                $savedAction['action'],
+                $savedAction['data'],
+                $savedAction['version'],
+                isset($savedAction['checksum']) ? $savedAction['checksum'] : '',
+                $savedAction['name']
             );
         }
 
@@ -120,10 +118,10 @@ class JsonActionsController extends Container implements Module
         $response = [
             'status' => true,
         ];
-        $optionHelper = vchelper('Options');
+        $optionsHelper = vchelper('Options');
         $actionResult = $this->triggerAction($action, $data, $version, $checksum);
         if (is_array($actionResult) && $actionResult['status']) {
-            $optionHelper->set('hubAction:' . $action, $version);
+            $optionsHelper->set('hubAction:' . $action, $version);
         } else {
             $loggerHelper = vchelper('Logger');
             $loggerHelper->log(
@@ -169,55 +167,5 @@ class JsonActionsController extends Container implements Module
                 VCV_PREFIX . 'hubAction:%'
             )
         );
-    }
-
-    /**
-     * @param $requiredActions
-     * @param $needUpdatePost
-     * @param $payload
-     * @param Download $downloadHelper
-     * @param Options $optionHelper
-     *
-     * @return array
-     */
-    protected function loopActions(
-        $requiredActions,
-        $needUpdatePost,
-        $payload,
-        Download $downloadHelper,
-        Options $optionHelper
-    ) {
-        foreach ($payload['json']['actions'] as $key => $value) {
-            if (isset($value['action'])) {
-                $action = $value['action'];
-                $data = $value['data'];
-                $checksum = isset($value['checksum']) ? $value['checksum'] : '';
-                $version = $value['version'];
-                $previousVersion = $optionHelper->get('hubAction:' . $action, '0');
-                if ($version && version_compare($version, $previousVersion, '>') || !$version) {
-                    if (isset($value['last_post_update'])
-                        && version_compare(
-                            $value['last_post_update'],
-                            $previousVersion,
-                            '>'
-                        )) {
-                        $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
-                        if (!empty($posts) && is_array($posts)) {
-                            $needUpdatePost = $posts + $needUpdatePost;
-                        }
-                    }
-                    $requiredActions[] = [
-                        'name' => isset($value['name']) && !empty($value['name']) ? $value['name']
-                            : $downloadHelper->getActionName($action),
-                        'action' => $action,
-                        'data' => $data,
-                        'checksum' => $checksum,
-                        'version' => $version,
-                    ];
-                }
-            }
-        }
-
-        return [$needUpdatePost, $requiredActions];
     }
 }
