@@ -32,12 +32,11 @@ class JsonDownloadController extends Container implements Module
         $payload,
         Bundle $hubHelper,
         Filters $filterHelper,
-        Options $optionsHelper,
         Logger $loggerHelper
     ) {
         if (!vcIsBadResponse($response)) {
             $url = $hubHelper->getJsonDownloadUrl(['token' => $payload['token']]);
-            $json = $this->readBundleJson($url);
+            $json = $hubHelper->getRemoteBundleJson($url);
             // if json is empty array it means that no release yet available!
             if (!vcIsBadResponse($json)) {
                 $response = $filterHelper->fire('vcv:hub:download:json', $response, ['json' => $json]);
@@ -60,43 +59,5 @@ class JsonDownloadController extends Container implements Module
         }
 
         return $response;
-    }
-
-    protected function readBundleJson($url)
-    {
-        $result = false;
-        if ($url && !is_wp_error($url)) {
-            $response = wp_remote_get(
-                $url,
-                [
-                    'timeout' => 10,
-                ]
-            );
-            if (!vcIsBadResponse($response)) {
-                $result = json_decode($response['body'], true);
-            }
-        }
-
-        if (!$url || is_wp_error($url) || vcIsBadResponse($response)) {
-            $loggerHelper = vchelper('Logger');
-
-            if (is_wp_error($result)) {
-                $resultDetails = $result->get_error_message();
-            } else {
-                $resultDetails = $result['body'];
-            }
-
-            $loggerHelper->log(
-                __('Failed read bundle json', 'vcwb'),
-                [
-                    'result' => $resultDetails,
-                    'url' => $url,
-                    'wp_error' => is_wp_error($url),
-                ]
-            );
-        }
-
-
-        return $result;
     }
 }

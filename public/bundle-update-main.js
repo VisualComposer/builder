@@ -76,11 +76,11 @@ import './sources/less/wpupdates/init.less'
           }
         }
       ).done(function (json) {
-        if (json.status) {
+        if (json && json.status) {
           redirect()
         } else {
           if (requestFailed) {
-            showErrorMessage(json.message ? json.message : bundleUpdateFailed, 15000)
+            showErrorMessage(json && json.message ? json.message : bundleUpdateFailed, 15000)
             console.warn(json)
           } else {
             // Try again one more time.
@@ -117,7 +117,7 @@ import './sources/less/wpupdates/init.less'
             }
           }
         ).done(function (json) {
-          if (json.status) {
+          if (json && json.status) {
             requestFailed = false
             if (i === cnt - 1) {
               finishCb()
@@ -126,7 +126,7 @@ import './sources/less/wpupdates/init.less'
             }
           } else {
             if (requestFailed) {
-              showErrorMessage(json.message ? json.message : bundleUpdateFailed, 15000)
+              showErrorMessage(json && json.message ? json.message : bundleUpdateFailed, 15000)
               console.warn(json)
             } else {
               // Try again one more time.
