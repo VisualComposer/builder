@@ -36,6 +36,7 @@ variables.css
 variables_common.css
 mixins.css
 
+vc-cli.json
 
 node_modules
 npm-debug.log
