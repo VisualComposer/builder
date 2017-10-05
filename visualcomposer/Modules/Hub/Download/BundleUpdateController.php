@@ -23,6 +23,7 @@ class BundleUpdateController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized()) {
             $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
+            $this->addFilter('vcv:hub:update:checkVersion', 'checkVersion');
             $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);
             $this->addFilter('vcv:ajax:bundle:update:finished:adminNonce', 'setUpdateDone');
         }
@@ -51,7 +52,7 @@ class BundleUpdateController extends Container implements Module
         $token = $tokenHelper->createToken($optionsHelper->get('hubTokenId'));
         if (!vcIsBadResponse($token)) {
             $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
-            $json = $this->readBundleJson($url);
+            $json = $hubBundleHelper->getRemoteBundleJson($url);
             if ($json) {
                 return $this->processJson($json);
             } else {
@@ -84,29 +85,6 @@ class BundleUpdateController extends Container implements Module
         ];
     }
 
-    protected function readBundleJson($url)
-    {
-        $result = false;
-        if ($url && !is_wp_error($url)) {
-            $response = wp_remote_get(
-                $url,
-                [
-                    'timeout' => 10,
-                ]
-            );
-            if (!vcIsBadResponse($response)) {
-                $result = json_decode($response['body'], true);
-            } else {
-                $loggerHelper = vchelper('Logger');
-                $loggerHelper->log('Failed to download updates list', [
-                    'body' => is_wp_error($response) ? $response->get_error_messages() : $response['body'],
-                ]);
-            }
-        }
-
-        return $result;
-    }
-
     /**
      * @param $json
      * @return bool|array
@@ -116,13 +94,13 @@ class BundleUpdateController extends Container implements Module
         if (is_array($json) && isset($json['actions'])) {
             $optionsHelper = vchelper('Options');
             $hubUpdateHelper = vchelper('HubUpdate');
-            $requiredActions = $hubUpdateHelper->getRequiredActions($json);
-            if (!empty($requiredActions)) {
+            if ($hubUpdateHelper->checkIsUpdateRequired($json)) {
                 $optionsHelper->set('bundleUpdateRequired', true);
-                $optionsHelper->set('bundleUpdateJson', $json);
+                // Save in database cache for 30m
+                $optionsHelper->setTransient('bundleUpdateJson', $json, 1800);
             }
 
-            return ['status' => true];
+            return ['status' => true, 'json' => $json];
         }
 
         return false;
@@ -134,6 +112,7 @@ class BundleUpdateController extends Container implements Module
             ->delete('bundleUpdateRequired')
             ->delete('bundleUpdateActions')
             ->delete('bundleUpdateJson')
+            ->deleteTransient('bundleUpdateJson')
             ->deleteTransient('lastBundleUpdate')
             ->deleteTransient('_vcv_update_page_redirect')
             ->deleteTransient('_vcv_update_page_redirect_url')
