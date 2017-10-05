@@ -30,7 +30,7 @@ class DeactivationController extends Container implements Module
     public function __construct()
     {
         $this->addEvent('vcv:system:deactivation:hook vcv:system:factory:reset', 'unsetOptions');
-        $this->addEvent('vcv:ajax:account:deactivation:ping', 'pingDeactivation');
+        $this->addFilter('vcv:ajax:account:deactivation:ping', 'pingDeactivation');
     }
 
     /**
