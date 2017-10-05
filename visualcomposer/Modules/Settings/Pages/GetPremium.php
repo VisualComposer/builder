@@ -30,7 +30,7 @@ class GetPremium extends About implements Module
 
     public function __construct(License $licenseHelper, Token $tokenHelper, Request $requestHelper)
     {
-        if ('account' === vcvenv('VCV_ENV_ADDONS_ID')) {
+        if ('account' === vcvenv('VCV_ENV_ADDONS_ID') && vcvenv('VCV_ENV_LICENSES')) {
             if (!$licenseHelper->isActivated()) {
                 $this->wpAddAction(
                     'in_admin_footer',
