@@ -55,12 +55,12 @@ export default class TrashBin {
   }
 
   setActive () {
-    this.elContainer.classList.add('vcv-ui-trash-bin-active')
+    this.elContainer && this.elContainer.classList && this.elContainer.classList.add('vcv-ui-trash-bin-active')
     this.isActive = true
   }
 
   removeActive () {
-    this.elContainer.classList.remove('vcv-ui-trash-bin-active')
+    this.elContainer && this.elContainer.classList && this.elContainer.classList.remove('vcv-ui-trash-bin-active')
     this.isActive = false
   }
 
@@ -73,7 +73,7 @@ export default class TrashBin {
   transitionEnd () {
     this.elContainer && this.elContainer.removeEventListener('transitionend', this.transitionEnd)
     if (!this.cancelRemove) {
-      this.options.container.removeChild(this.elContainer)
+      this.options.container && this.options.container.removeChild(this.elContainer)
     }
   }
 
@@ -83,11 +83,11 @@ export default class TrashBin {
     }
     this.cancelRemove = false
     this.elContainer && this.elContainer.addEventListener('transitionend', this.transitionEnd)
-    this.elContainer && this.elContainer.classList.remove('vcv-dnd-trash-bin-show')
+    this.elContainer && this.elContainer.classList && this.elContainer.classList.remove('vcv-dnd-trash-bin-show')
     this.elContainer && this.elContainer.removeEventListener('mouseenter', this.onMouseEnter)
   }
 
   setStyle (x, y) {
-    this.elContainer.setAttribute('style', `bottom: ${y}px; right: ${x}px;`)
+    this.elContainer && this.elContainer.setAttribute('style', `bottom: ${y}px; right: ${x}px;`)
   }
 }
