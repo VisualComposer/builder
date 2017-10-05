@@ -25,11 +25,15 @@ export default class ImageSlideshowBackground extends Component {
     if (images) {
       let imagesJSX = []
       if (images.urls && images.urls.length) {
-        images.urls.forEach((imgData) => {
+        images.urls.forEach((imgData, index) => {
           let styles = {
             backgroundImage: `url(${imgData.full})`
           }
-          let imgKey = `${reactKey}-${imgData.id}`
+          let customKey = imgData.id
+          if (!imgData.id) {
+            customKey = `${imgData.full}-${index}`
+          }
+          let imgKey = `${reactKey}-${customKey}`
           imagesJSX.push((
             <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
           ))

@@ -352,13 +352,22 @@ export default class DesignOptionsAdvanced extends Attribute {
           let embedVideoTypeBackgrounds = [
             'videoEmbed'
           ]
+
           if (embedVideoTypeBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1) {
             // not image type background selected
             delete newValue[ device ].videoEmbed
-          } else if (!newValue[ device ].hasOwnProperty('videoEmbed') || newValue[ device ].videoEmbed.urls.length === 0) {
-            // images are empty
-            delete newValue[ device ].videoEmbed
-            delete newValue[ device ].backgroundType
+          } else {
+            if (newValue[ device ].hasOwnProperty('videoEmbed')) {
+              let videos = newValue[ device ].videoEmbed
+              let isArray = videos.constructor === Array
+              if ((isArray && videos.length === 0) || (!isArray && (!videos.urls || videos.urls.length === 0))) {
+                delete newValue[ device ].videoEmbed
+                delete newValue[ device ].backgroundType
+              }
+            } else {
+              delete newValue[ device ].videoEmbed
+              delete newValue[ device ].backgroundType
+            }
           }
 
           // slider timeout is empty
@@ -456,16 +465,34 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].dividerVideoEmbed
           }
 
-          if (newState.devices[ device ].dividerBackgroundType === 'image' && (!newValue[ device ].hasOwnProperty('dividerBackgroundImage') || ((!newValue[ device ].dividerBackgroundImage.urls || newValue[ device ].dividerBackgroundImage.urls.length === 0) && newValue[ device ].dividerBackgroundImage.length === 0))) {
-            delete newValue[ device ].dividerBackgroundStyle
-            delete newValue[ device ].dividerBackgroundPosition
-            delete newValue[ device ].dividerVideoEmbed
+          if (newState.devices[ device ].dividerBackgroundType === 'image') {
+            if (newValue[ device ].hasOwnProperty('dividerBackgroundImage')) {
+              let dividerImages = newValue[ device ].dividerBackgroundImage
+              let isArray = dividerImages.constructor === Array
+              if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
+                delete newValue[ device ].dividerBackgroundStyle
+                delete newValue[ device ].dividerBackgroundPosition
+                delete newValue[ device ].dividerVideoEmbed
+              }
+            } else {
+              delete newValue[ device ].dividerBackgroundStyle
+              delete newValue[ device ].dividerBackgroundPosition
+              delete newValue[ device ].dividerVideoEmbed
+            }
           }
 
           if (newState.devices[ device ].dividerBackgroundType === 'videoEmbed') {
             delete newValue[ device ].dividerBackgroundStyle
 
-            if (!newValue[ device ].hasOwnProperty('dividerVideoEmbed') || !newValue[ device ].dividerVideoEmbed.urls || newValue[ device ].dividerVideoEmbed.urls.length === 0 && newValue[ device ].dividerVideoEmbed.length === 0) {
+            if (newValue[ device ].hasOwnProperty('dividerVideoEmbed')) {
+              let dividerVideos = newValue[ device ].dividerVideoEmbed
+              let isArray = dividerVideos.constructor === Array
+
+              if ((isArray && dividerVideos.length === 0) || (!isArray && (!dividerVideos.urls || dividerVideos.urls.length === 0))) {
+                delete newValue[ device ].dividerBackgroundPosition
+                delete newValue[ device ].dividerBackgroundImage
+              }
+            } else {
               delete newValue[ device ].dividerBackgroundPosition
               delete newValue[ device ].dividerBackgroundImage
             }
@@ -2089,10 +2116,16 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundStyleRender () {
-    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+    let backgroundType = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+    let deviceData = this.state.devices[ this.state.currentDevice ]
 
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider ||
-      backgroundTypeToSearch !== 'image' || !vcCake.env('CONTAINER_DIVIDER') || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('dividerBackgroundImage') || !this.state.devices[ this.state.currentDevice ].dividerBackgroundImage.urls || this.state.devices[ this.state.currentDevice ].dividerBackgroundImage.urls.length === 0) {
+    if (deviceData.display || !deviceData.divider || backgroundType !== 'image' || !vcCake.env('CONTAINER_DIVIDER') || !deviceData.hasOwnProperty('dividerBackgroundImage')) {
+      return null
+    }
+    let images = deviceData.dividerBackgroundImage
+    let isArray = images.constructor === Array
+
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
@@ -2162,12 +2195,28 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    if (backgroundTypeToSearch === 'image' && (!deviceData.hasOwnProperty('dividerBackgroundImage') || !deviceData.dividerBackgroundImage.urls || deviceData.dividerBackgroundImage.urls.length === 0)) {
-      return null
+    if (backgroundTypeToSearch === 'image') {
+      if (!deviceData.hasOwnProperty('dividerBackgroundImage')) {
+        return null
+      }
+      let images = deviceData.dividerBackgroundImage
+      let isArray = images.constructor === Array
+
+      if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+        return null
+      }
     }
 
-    if (backgroundTypeToSearch === 'videoEmbed' && (!deviceData.hasOwnProperty('dividerVideoEmbed') || !deviceData.dividerVideoEmbed.urls || deviceData.dividerVideoEmbed.urls.length === 0 || !vcCake.env('CONTAINER_DIVIDER_EMBED_VIDEO'))) {
-      return null
+    if (backgroundTypeToSearch === 'videoEmbed') {
+      if (!deviceData.hasOwnProperty('dividerVideoEmbed') || !vcCake.env('CONTAINER_DIVIDER_EMBED_VIDEO')) {
+        return null
+      }
+      let videos = deviceData.dividerVideoEmbed
+      let isArray = videos.constructor === Array
+
+      if ((isArray && videos.length === 0) || (!isArray && (!videos.urls || videos.urls.length === 0))) {
+        return null
+      }
     }
 
     let options = {
