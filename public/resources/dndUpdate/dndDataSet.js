@@ -313,7 +313,8 @@ export default class DndDataSet {
         allowAppend: !this.isDraggingElementParent(domElement) &&
         domElement && this.draggingElement.isChild(domElement) &&
         !documentManager.children(domElement.id).length &&
-        (env('DND_DISABLE_DROP_IN_CLOSED_TABS') ? !domElement.node.dataset.vceTab : true)
+        (env('DND_DISABLE_DROP_IN_CLOSED_TABS') ? !domElement.node.dataset.vceTab : true) &&
+        ((env('DND_DISABLE_DROP_IN_CLOSED_TABS') && domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
       })
 
       if (position) {
