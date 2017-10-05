@@ -4,13 +4,25 @@ import TeaserElementControl from './teaserElementControl'
 import AddElementCategories from '../../addElement/lib/categories'
 import Scrollbar from '../../../scrollbar/scrollbar.js'
 import vcCake from 'vc-cake'
+import lodash from 'lodash'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class TeaserAddElementCategories extends AddElementCategories {
+  allCategories = null
+
   getAllCategories () {
-    return window.VCV_HUB_GET_TEASER()
+    if (!this.allCategories) {
+      let categories = window.VCV_HUB_GET_TEASER()
+      categories.forEach((item, index) => {
+        let elements = lodash.sortBy(item.elements, ['name'])
+        categories[index].elements = elements
+      })
+      this.allCategories = categories
+    }
+
+    return this.allCategories
   }
 
   getElementControl (elementData) {

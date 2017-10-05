@@ -70,11 +70,13 @@ class TeaserDownloadController extends Container implements Module
                     'metaDescription' => $element['description'],
                 ];
                 $groupList[ $group ]['elements'][] = $elementData;
-                $groupList[ $group ]['elements'] = $dataHelper->arrayDeepUnique($groupList[ $group ]['elements']);
+                $groupList[ $group ]['elements'] = array_values(
+                    $dataHelper->arrayDeepUnique($groupList[ $group ]['elements'])
+                );
                 $allElements[] = $elementData;
             }
         }
-        $groupList['All']['elements'] = $dataHelper->arrayDeepUnique($allElements);
+        $groupList['All']['elements'] = array_values($dataHelper->arrayDeepUnique($allElements));
 
         return $groupList;
     }

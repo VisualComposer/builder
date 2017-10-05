@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
-use VisualComposer\Helpers\Token;
 
 class Bundle implements Helper
 {
@@ -128,5 +127,118 @@ class Bundle implements Helper
         }
 
         return false;
+    }
+
+    public function getRemoteBundleJson($url)
+    {
+        $result = false;
+        $loggerHelper = vchelper('Logger');
+        if ($url && !is_wp_error($url)) {
+            $response = wp_remote_get(
+                $url,
+                [
+                    'timeout' => 10,
+                ]
+            );
+            if (!vcIsBadResponse($response)) {
+                $result = json_decode($response['body'], true);
+            } else {
+                if (is_wp_error($result)) {
+                    /** @var \WP_Error $result */
+                    $resultDetails = $result->get_error_message();
+                } else {
+                    $resultDetails = $result['body'];
+                }
+
+                $loggerHelper->log(
+                    __('Failed read remote bundle json', 'vcwb'),
+                    [
+                        'result' => $resultDetails,
+                    ]
+                );
+            }
+        } else {
+            if (is_wp_error($url)) {
+                /** @var \WP_Error $url */
+                $resultDetails = $url->get_error_message();
+            } else {
+                $resultDetails = $url;
+            }
+
+            $loggerHelper->log(
+                __('Failed to fetch remote bundle json', 'vcwb'),
+                [
+                    'result' => $resultDetails,
+                    'wp_error' => is_wp_error($url),
+                ]
+            );
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * @param $json
+     *
+     * @return array
+     */
+    public function loopActions($json)
+    {
+        $optionsHelper = vchelper('Options');
+        $downloadHelper = vchelper('HubDownload');
+        $needUpdatePost = [];
+        $requiredActions = [];
+        if (isset($json['actions'])) {
+            foreach ($json['actions'] as $key => $value) {
+                if (isset($value['action'])) {
+                    list($needUpdatePost, $requiredActions) = $this->loopActionIterator($value, $optionsHelper, $needUpdatePost, $downloadHelper, $requiredActions);
+                }
+            }
+        }
+        return array($needUpdatePost, $requiredActions);
+    }
+
+    /**
+     * @param $value
+     * @param $optionsHelper
+     * @param $needUpdatePost
+     * @param Download $downloadHelper
+     * @param $requiredActions
+     * @return array
+     */
+    protected function loopActionIterator($value, $optionsHelper, $needUpdatePost, $downloadHelper, $requiredActions)
+    {
+        $action = $value['action'];
+        $data = $value['data'];
+        $checksum = isset($value['checksum']) ? $value['checksum'] : '';
+        $version = $value['version'];
+        $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
+        if ($version && version_compare($version, $previousVersion, '>') || !$version) {
+            if (isset($value['last_post_update']) &&
+                version_compare($value['last_post_update'], $previousVersion, '>')
+            ) {
+                $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
+                if (!empty($posts) && is_array($posts)) {
+                    $needUpdatePost = $posts + $needUpdatePost;
+                }
+            }
+            $actionData = [
+                'name' => isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action),
+                'action' => $action,
+                'data' => $data,
+                'checksum' => $checksum,
+                'version' => $version,
+            ];
+            $optionNameKey = $action . $actionData['version'];
+            $optionsHelper->set('hubAction:download:' . $optionNameKey, $actionData);
+            $requiredActions[] = [
+                'key' => $optionNameKey,
+                'name' => $actionData['name'],
+                'action' => $actionData['action'],
+            ];
+        }
+
+        return array($needUpdatePost, $requiredActions);
     }
 }
