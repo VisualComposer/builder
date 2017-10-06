@@ -50,6 +50,21 @@ class Bundle implements Helper
         return $downloadUrl;
     }
 
+    public function getJsonDownloadVersionUrl($requestedData = [])
+    {
+        $urlHelper = vchelper('Url');
+        $downloadUrl = $urlHelper->query(
+            sprintf(
+                '%s/download/json/version?plugin=%s',
+                VCV_HUB_URL,
+                VCV_VERSION
+            ),
+            $requestedData
+        );
+
+        return $downloadUrl;
+    }
+
     public function requestBundleDownloadWithToken($token, $requestedData = [])
     {
         $urlHelper = vchelper('Url');
