@@ -41,12 +41,22 @@ class DeactivationController extends Container implements Module
         $tokenHelper->reset();
     }
 
+    /**
+     * Force license deactivation
+     * 
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return array
+     */
     protected function pingDeactivation(Request $requestHelper, License $licenseHelper, Options $optionsHelper)
     {
-        if ($licenseHelper->isActivated()) {
-            // TODO: Check $requestHelper->input('code')
-            // if $code is almost correct the reset update transient
-            $optionsHelper->deleteTransient('lastBundleUpdate');
+        $code = $requestHelper->input('code');
+        if ($code && $licenseHelper->isActivated()) {
+            if ($code === sha1($licenseHelper->getKey())) {
+                $optionsHelper->deleteTransient('lastBundleUpdate');
+            }
         }
 
         return ['status' => true];
