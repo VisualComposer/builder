@@ -22,7 +22,7 @@ class Localizations extends Container implements Helper
     {
         $locale = [
             'addElement' => __('Add Element', 'vcwb'),
-            'addPremiumElement' => __('Add Premium Element', 'vcwb'),
+            'addPremiumElement' => __('Hub', 'vcwb'),
             'addTemplate' => __('Add Template', 'vcwb'),
             'treeView' => __('Tree View', 'vcwb'),
             'undo' => __('Undo', 'vcwb'),
