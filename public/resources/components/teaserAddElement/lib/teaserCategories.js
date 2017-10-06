@@ -77,7 +77,6 @@ export default class TeaserAddElementCategories extends AddElementCategories {
               <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                 <div className='vcv-ui-editor-plates'>
                   <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                    {this.getElementListContainer(itemsOutput)}
                     <div className='vcv-ui-editor-no-items-container'>
                       <div className='vcv-ui-editor-no-items-content'>
                         <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
@@ -86,6 +85,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
                         <p className='vcv-start-blank-helper'>{helperText}</p>
                       </div>
                     </div>
+                    {this.getElementListContainer(itemsOutput)}
                   </div>
                 </div>
               </div>
