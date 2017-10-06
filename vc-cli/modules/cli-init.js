@@ -1,9 +1,6 @@
 const fs = require('fs')
 const shell = require('shelljs')
 const os = require('os')
-const Preferences = require('preferences')
-
-let prefs = new Preferences('vc-cli')
 
 const cliJson = 'vc-cli.json'
 
@@ -19,10 +16,9 @@ function setUpdateDate (date) {
   fs.writeFileSync(cliJson, data, 'utf8')
 }
 
-module.exports = function () {
-  let initFile = checkInitFile()
+function set (prefs) {
   let result = {}
-
+  let initFile = checkInitFile()
   if (!prefs.os) {
     prefs.os = os.type()
   }
@@ -40,11 +36,21 @@ module.exports = function () {
     result = JSON.stringify(userData)
 
     fs.writeFileSync(cliJson, result, 'utf8')
-  } else {
-    result = fs.readFileSync(cliJson, 'utf8')
   }
+}
 
-  result = JSON.parse(result)
-  result.setUpdateDate = setUpdateDate
-  return result
+function get () {
+  let initFile = checkInitFile()
+  if (initFile) {
+    let data = fs.readFileSync(cliJson, 'utf8')
+    return JSON.parse(data)
+  } else {
+    console.log('Missing vc-cli.json!')
+  }
+}
+
+module.exports = {
+  set,
+  get,
+  setUpdateDate
 }

@@ -1,12 +1,10 @@
 const fs = require('fs')
 const shell = require('shelljs')
 const rp = require('request-promise')
-const Preferences = require('preferences')
 
 const init = require('./cli-init')
 
-let prefs = new Preferences('vc-cli')
-let initData = init()
+let initData = init.get()
 
 const baseExec = () => {
   shell.exec('php ci/composer.phar update')
@@ -14,10 +12,9 @@ const baseExec = () => {
   shell.exec('npm run build-settings')
 }
 
-const checkElementActivity = async () => {
+const checkElementActivity = async (prefs) => {
   let result = []
 
-  console.log(prefs.gitlab)
   let body = await rp(`https://gitlab.com/api/v4/groups/${initData.hubID}?private_token=${prefs.gitlab.privateToken}`)
   let res = JSON.parse(body)
   res.projects.forEach(item => {
@@ -63,11 +60,9 @@ const updateElements = (changes) => {
   shell.cd(initData.rootDir)
 }
 
-function fullUpdate () {
+function fullUpdate (prefs) {
   shell.exec('git pull')
-  console.log(3)
   shell.exec('npm install')
-  console.log(4)
   baseExec()
   shell.exec('bash tools/devElements/cloneScript.sh')
   shell.exec('bash tools/devCategories/cloneScript.sh')
@@ -76,23 +71,21 @@ function fullUpdate () {
   } else {
     shell.exec('bash tools/devElements/buildScriptMac.sh')
   }
-  console.log('full update')
 }
 
 // Update lastUpdate date both in object and vc-cli.json
 function updateLastUpdateDate () {
   let newDate = new Date().getTime()
-  initData.setUpdateDate(newDate)
+  init.setUpdateDate(newDate)
   initData.lastUpdate = newDate
 }
 
-module.exports = async function () {
+module.exports = async function (prefs) {
   if (initData.lastUpdate) {
     updateProject(await checkProjectActivity())
-    updateElements(await checkElementActivity())
+    updateElements(await checkElementActivity(prefs))
   } else {
-    console.log(2)
-    fullUpdate()
+    fullUpdate(prefs)
   }
   updateLastUpdateDate()
 }
