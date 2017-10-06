@@ -1,5 +1,6 @@
-import {getService} from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
 const cook = getService('cook')
+const assetsStorage = getStorage('assets')
 
 export default class CssBuilder {
   constructor (globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
@@ -373,10 +374,16 @@ export default class CssBuilder {
   }
 
   doJobs () {
+    if (env('CSS_LOADING') && (!assetsStorage.state('jobs').get() || (assetsStorage.state('jobs').get() && !assetsStorage.state('jobs').get().jobs))) {
+      assetsStorage.state('jobs').set({ jobs: true })
+    }
     return Promise.all(this.jobs).catch(this.resetJobs).then(this.resetJobs)
   }
 
   resetJobs () {
     this.jobs.length = 0
+    if (env('CSS_LOADING') && assetsStorage.state('jobs').get().jobs) {
+      assetsStorage.state('jobs').set({ jobs: false })
+    }
   }
 }

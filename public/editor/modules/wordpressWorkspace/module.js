@@ -1,4 +1,4 @@
-import {add, setData, getStorage} from 'vc-cake'
+import { add, setData, getStorage, env } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
@@ -7,6 +7,7 @@ import StartBlankPanel from '../../../resources/components/startBlank/StartBlank
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
 const elementsStorage = getStorage('elements')
+const assetsStorage = getStorage('assets')
 add('wordpressWorkspace', (api) => {
   // Set Templates
   api.reply('start', () => {
@@ -52,8 +53,17 @@ add('wordpressWorkspace', (api) => {
     if (data.length === 0) {
       addStartBlank()
     } else {
-      iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+      if (!env('CSS_LOADING')) {
+        iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+      }
       removeStartBlank()
     }
   })
+  if (env('CSS_LOADING')) {
+    assetsStorage.state('jobs').onChange((data) => {
+      if (data && !data.jobs) {
+        iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+      }
+    })
+  }
 })
