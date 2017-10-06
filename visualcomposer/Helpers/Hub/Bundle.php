@@ -50,6 +50,21 @@ class Bundle implements Helper
         return $downloadUrl;
     }
 
+    public function getJsonDownloadVersionUrl($requestedData = [])
+    {
+        $urlHelper = vchelper('Url');
+        $downloadUrl = $urlHelper->query(
+            sprintf(
+                '%s/download/json/version?plugin=%s',
+                VCV_HUB_URL,
+                VCV_VERSION
+            ),
+            $requestedData
+        );
+
+        return $downloadUrl;
+    }
+
     public function requestBundleDownloadWithToken($token, $requestedData = [])
     {
         $urlHelper = vchelper('Url');
@@ -145,9 +160,9 @@ class Bundle implements Helper
             } else {
                 if (is_wp_error($result)) {
                     /** @var \WP_Error $result */
-                    $resultDetails = $result->get_error_message();
+                    $resultDetails = $response->get_error_message();
                 } else {
-                    $resultDetails = $result['body'];
+                    $resultDetails = $response['body'];
                 }
 
                 $loggerHelper->log(
