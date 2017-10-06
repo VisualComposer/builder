@@ -9,7 +9,6 @@ function checkGitlabPrivateToken (prefs) {
       privateToken: answer
     }
     console.log('Gitlab private token saved. To change it, use \'vc token\' command.')
-    process.exit()
   }
 }
 
