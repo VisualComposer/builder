@@ -6,7 +6,7 @@ import ContentControls from '../../../../../resources/components/layoutHelpers/c
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
-const assetsStorage = vcCake.getStorage('assets')
+const assetsStorage = vcCake.getStorage('assetsBackend')
 
 export default class Element extends React.Component {
   static propTypes = {

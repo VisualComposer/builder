@@ -1,5 +1,5 @@
 import { getStorage, getService } from 'vc-cake'
-const assets = getStorage('assets')
+const assets = getStorage('assetsBackend')
 const storageState = assets.state('jsLibs')
 const cook = getService('cook')
 
@@ -68,7 +68,6 @@ const libData = [
 const getElementLibNames = (id, element) => {
   let cookElement = cook.get(element)
   let elementDO = cookElement.get('designOptionsAdvanced') ? cookElement.get('designOptionsAdvanced') : cookElement.get('designOptions')
-
   let data = {
     id: id,
     libraries: []
@@ -113,7 +112,6 @@ export default class LibraryManager {
   }
 
   remove (id) {
-    let storageState = assets.state('jsLibs')
     let stateElements = storageState.get()
     if (stateElements && stateElements.elements) {
       let newElements = stateElements.elements.filter((element) => {

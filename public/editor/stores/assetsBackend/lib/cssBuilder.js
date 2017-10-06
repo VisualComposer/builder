@@ -98,7 +98,7 @@ export default class CssBuilder {
     this.globalAssetsStorageService.addElement(data.id)
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
-    this.addElementFiles(data.tag)
+    this.addElementFiles(data)
     this.doJobs().then(() => {
       this.contentWindow.vcv.trigger('ready', 'add', data.id)
       this.window.vcv.trigger('ready', 'add', data.id)
@@ -183,8 +183,8 @@ export default class CssBuilder {
     }
   }
 
-  addElementFiles (tag) {
-    let cookElement = cook.get({ tag: tag })
+  addElementFiles (data) {
+    let cookElement = cook.get(data)
     let elementAssetsFiles = this.elementAssetsLibrary.getBackendEditorAssetsFilesByElement(cookElement)
     const doc = this.window.document
     elementAssetsFiles.cssBundles.forEach((file) => {

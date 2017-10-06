@@ -49,7 +49,7 @@ export default class SaveController {
       elementsCss[key] = {
         tag: tag
       }
-      let elementAssetsFiles = elementAssetsLibrary.getAssetsFilesByElement(cookElement)
+      let elementAssetsFiles = elementAssetsLibrary.getBackendEditorAssetsFilesByElement(cookElement)
       assetsFiles.cssBundles = assetsFiles.cssBundles.concat(elementAssetsFiles.cssBundles)
       assetsFiles.jsBundles = assetsFiles.jsBundles.concat(elementAssetsFiles.jsBundles)
       const elementBaseStyleManager = stylesManager.create()
