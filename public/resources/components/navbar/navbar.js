@@ -5,6 +5,7 @@ import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import {getRealSize} from './tools'
 import {Scrollbars} from 'react-custom-scrollbars'
+import MobileDetect from 'mobile-detect'
 const Utils = vcCake.getService('utils')
 const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')
 const positionState = vcCake.getStorage('workspace').state('navbarPosition')
@@ -21,6 +22,16 @@ export default class Navbar extends React.Component {
   }
   constructor (props) {
     super(props)
+    let navbavPosition = 'left'
+    if (vcCake.env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        this.isMobile = true
+        if (window.innerWidth < window.innerHeight) {
+          navbavPosition = 'top'
+        }
+      }
+    }
     this.state = {
       visibleControls: this.setVisibleControls(),
       controlsCount: 0,
@@ -28,7 +39,7 @@ export default class Navbar extends React.Component {
       saved: false,
       isDragging: false,
       isDetached: false,
-      navbarPosition: 'left',
+      navbarPosition: navbavPosition,
       navPosX: 0,
       navPosY: 0,
       windowSize: {
@@ -173,7 +184,13 @@ export default class Navbar extends React.Component {
     this.refreshControls(this.state.visibleControls, true)
   }
   handleWindowResize () {
+    let navbarPosition = this.state.navbarPosition
+    if (this.isMobile) {
+      navbarPosition = window.innerWidth < window.innerHeight ? 'top' : 'left'
+    }
+
     this.setState({
+      navbarPosition,
       windowSize: {
         height: window.innerHeight,
         width: window.innerWidth

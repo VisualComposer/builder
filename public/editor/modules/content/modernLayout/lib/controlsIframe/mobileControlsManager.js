@@ -72,7 +72,6 @@ export default class ControlsManager {
     })
 
     // Subscribe to main event to interact with content elements
-    this.iframeDocument.body.addEventListener('click', this.editElement)
     this.iframeDocument.body.addEventListener('touchstart', this.touchStart, { passive: false })
     this.iframeDocument.body.addEventListener('touchmove', this.touchMove, { passive: false })
     this.iframeDocument.body.addEventListener('touchend', this.touchEnd, { passive: false })
@@ -212,17 +211,28 @@ export default class ControlsManager {
     let innerWidth = this.iframeWindow.innerWidth
     let outerWidth = this.iframeWindow.outerWidth
     this.windowWidth = innerWidth <= outerWidth ? innerWidth : outerWidth
-    if (data.element && !this.state.dragging && e.touches && e.touches.length === 1) {
-      this.touchStartTimer = setInterval(() => {
-        e.preventDefault && e.preventDefault()
-        e.stopPropagation && e.stopPropagation()
-        this.startDragging(e, data)
-      }, 450)
+    if (!this.state.dragging && e.touches && e.touches.length === 1) {
+      if (data.element) {
+        this.touchStartTimer = setTimeout(() => {
+          e.preventDefault && e.preventDefault()
+          e.stopPropagation && e.stopPropagation()
+          this.startDragging(e, data)
+        }, 450)
+      }
+      if (this.doubleTapTimer) {
+        this.editElement(e)
+        this.doubleTapTimer = null
+        clearTimeout(this.touchStartTimer)
+      } else {
+        this.doubleTapTimer = setTimeout(() => {
+          this.doubleTapTimer = null
+        }, 250)
+      }
     }
   }
 
   startDragging (e, { element, elPath }) {
-    clearInterval(this.touchStartTimer)
+    clearTimeout(this.touchStartTimer)
     this.touchStartTimer = null
     this.state.dragging = true
     if (element && elPath && this.state.showFrames && this.state.dragging) {
@@ -237,7 +247,7 @@ export default class ControlsManager {
 
   touchMove (e) {
     if (this.touchStartTimer) {
-      clearInterval(this.touchStartTimer)
+      clearTimeout(this.touchStartTimer)
       this.touchStartTimer = null
       return
     }
@@ -251,7 +261,7 @@ export default class ControlsManager {
         this.iframeWindow.getSelection().removeAllRanges()
       }
 
-      let { clientX, clientY, screenX } = e.changedTouches && e.changedTouches[0] || {}
+      let { clientX, clientY } = e.changedTouches && e.changedTouches[0] || {}
       let element = this.iframeDocument.elementFromPoint(clientX, clientY)
       let { elPath } = this.findElement({ target: element })
       let elRoot = elPath[ elPath.length - 1 ]
@@ -263,30 +273,30 @@ export default class ControlsManager {
         this.showFrames(element, elPath)
       }
 
-      this.state.scroll = false
-      let stepX = 0
-      let stepY = 0
-      if (screenX < 100) {
-        stepX = -1
-      } else if (this.windowWidth - 100 < screenX) {
-        stepX = 1
-      }
-      if (clientY < 100) {
-        stepY = -1
-      } else if (this.windowHeight - 150 < clientY) {
-        stepY = 1
-      }
-      if (stepX || stepY) {
-        this.state.scroll = true
-        this.scrollPage(stepX, stepY)
-      }
+      // this.state.scroll = false
+      // let stepX = 0
+      // let stepY = 0
+      // if (screenX < 100) {
+      //   stepX = -1
+      // } else if (this.windowWidth - 100 < screenX) {
+      //   stepX = 1
+      // }
+      // if (clientY < 100) {
+      //   stepY = -1
+      // } else if (this.windowHeight - 150 < clientY) {
+      //   stepY = 1
+      // }
+      // if (stepX || stepY) {
+      //   this.state.scroll = true
+      //   this.scrollPage(stepX, stepY)
+      // }
     }
   }
 
   touchEnd (e) {
     this.state.scroll = false
     if (this.touchStartTimer) {
-      clearInterval(this.touchStartTimer)
+      clearTimeout(this.touchStartTimer)
       this.touchStartTimer = null
       return
     }

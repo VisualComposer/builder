@@ -1,6 +1,7 @@
 import React from 'react'
 import RowControl from './lib/rowControl'
 import vcCake from 'vc-cake'
+import MobileDetect from 'mobile-detect'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 
@@ -19,6 +20,12 @@ export default class ContentControls extends React.Component {
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
+    if (vcCake.env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        this.isMobile = true
+      }
+    }
   }
 
   handleMouseEnter () {
@@ -45,9 +52,13 @@ export default class ContentControls extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
+    let classes = 'vcv-row-control-container vcv-row-control-container-hide-labels vcv-is-disabled-outline'
+    if (this.isMobile) {
+      classes += ' vcv-row-control-container-mobile-add'
+    }
 
     return <vcvhelper
-      className='vcv-row-control-container vcv-row-control-container-hide-labels vcv-is-disabled-outline'
+      className={classes}
       title={addElementText}
       onClick={this.handleClick}
       onMouseEnter={this.handleMouseEnter}
