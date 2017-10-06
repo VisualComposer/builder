@@ -1,6 +1,7 @@
-import {getStorage} from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 const assets = getStorage('assets')
 const storageState = assets.state('jsLibs')
+const cook = getService('cook')
 
 const libData = [
   {
@@ -65,7 +66,9 @@ const libData = [
 ]
 
 const getElementLibNames = (id, element) => {
-  let elementDO = element.designOptionsAdvanced ? element.designOptionsAdvanced : element.designOptions
+  let cookElement = cook.get(element)
+  let elementDO = cookElement.get('designOptionsAdvanced') ? cookElement.get('designOptionsAdvanced') : cookElement.get('designOptions')
+
   let data = {
     id: id,
     libraries: []
@@ -73,8 +76,8 @@ const getElementLibNames = (id, element) => {
   if (Object.keys(elementDO).length) {
     for (let device in elementDO.device) {
       if (elementDO.device.hasOwnProperty(device)) {
-        for (let fieldKey in elementDO.device[device]) {
-          if (elementDO.device[device].hasOwnProperty(fieldKey)) {
+        for (let fieldKey in elementDO.device[ device ]) {
+          if (elementDO.device[ device ].hasOwnProperty(fieldKey)) {
             let matchField = libData.find((lib) => {
               let matchKey = lib.fieldKey === fieldKey
               let matchValue = lib.value === elementDO.device[ device ][ fieldKey ]
@@ -105,7 +108,7 @@ export default class LibraryManager {
     let stateElementIndex = stateElements.findIndex((element) => {
       return element.id === id
     })
-    stateElements[stateElementIndex] = data
+    stateElements[ stateElementIndex ] = data
     storageState.set({ elements: stateElements })
   }
 
