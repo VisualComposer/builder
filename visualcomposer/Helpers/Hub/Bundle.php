@@ -160,9 +160,9 @@ class Bundle implements Helper
             } else {
                 if (is_wp_error($result)) {
                     /** @var \WP_Error $result */
-                    $resultDetails = $result->get_error_message();
+                    $resultDetails = $response->get_error_message();
                 } else {
-                    $resultDetails = $result['body'];
+                    $resultDetails = $response['body'];
                 }
 
                 $loggerHelper->log(
