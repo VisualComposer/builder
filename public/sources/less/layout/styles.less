@@ -36,9 +36,6 @@
   flex: 1 1 auto;
   position: relative;
   width: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
   background: @editor-layout-iframe-background;
   margin: 0 auto;
   transition: width @vcv-transition-duration @vcv-transition-timing-function;
@@ -61,10 +58,10 @@
 
 .vcv-layout-iframe {
   width: 100%;
-  flex: 1 1 auto;
+  height: 100%;
   overflow: auto;
   border: 0;
-  position: relative;
+  position: absolute;
   //z-index: @editor-content-zindex;
 }
 

@@ -55,6 +55,13 @@ export default class TreeViewElement extends React.Component {
     this.validateContent = this.validateContent.bind(this)
     this.preventNewLine = this.preventNewLine.bind(this)
     this.clickHide = this.clickHide.bind(this)
+
+    if (vcCake.env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        this.isMobile = true
+      }
+    }
   }
 
   dataUpdate (data) {
@@ -454,7 +461,8 @@ export default class TreeViewElement extends React.Component {
     let controlClasses = classNames({
       'vcv-ui-tree-layout-control': true,
       'vcv-ui-state--active': this.state.isActive,
-      'vcv-ui-state--outline': this.state.showOutline
+      'vcv-ui-state--outline': this.state.showOutline,
+      'vcv-ui-tree-layout-control-mobile': this.isMobile
     })
 
     let publicPath = hubCategoriesService.getElementIcon(element.get('tag'))
@@ -476,7 +484,7 @@ export default class TreeViewElement extends React.Component {
 
     )
 
-    if ((vcCake.env('MOBILE_DETECT') ? !(new MobileDetect(window.navigator.userAgent)).mobile() : true)) {
+    if (!this.isMobile) {
       envContent = (
         <span className={controlLabelClasses}>
           <span ref={span => { this.span = span }}
