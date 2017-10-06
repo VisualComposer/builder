@@ -65,21 +65,19 @@ class Bundle implements Helper
         return $downloadUrl;
     }
 
-    public function requestBundleDownloadWithToken($token, $requestedData = [])
+    public function getJsonDownloadBundleUrl($requestedData = [])
     {
         $urlHelper = vchelper('Url');
-        $fileHelper = vchelper('File');
         $downloadUrl = $urlHelper->query(
             sprintf(
-                '%s/download/bundle/token/%s',
+                '%s/download/json/bundle?plugin=%s',
                 VCV_HUB_URL,
-                $token
+                VCV_VERSION
             ),
             $requestedData
         );
-        $downloadedArchive = $fileHelper->download($downloadUrl);
 
-        return $downloadedArchive;
+        return $downloadUrl;
     }
 
     public function unzipDownloadedBundle($bundle)
@@ -158,7 +156,7 @@ class Bundle implements Helper
             if (!vcIsBadResponse($response)) {
                 $result = json_decode($response['body'], true);
             } else {
-                if (is_wp_error($result)) {
+                if (is_wp_error($response)) {
                     /** @var \WP_Error $result */
                     $resultDetails = $response->get_error_message();
                 } else {
