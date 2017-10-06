@@ -2,34 +2,38 @@
 
 const parseArgs = require('minimist')
 const Preferences = require('preferences')
-const readlineSync = require('readline-sync')
 
+// Init vc-cli.json and local preferences file
+let prefs = new Preferences('vc-cli')
+const init = require('./modules/cli-init')
+
+init.set(prefs)
+
+// CLI command modules
+const gitlab = require('./modules/gitlab')
 const update = require('./modules/update')
 
-let prefs = new Preferences('vc-cli')
-
 function CLI () {
-  checkGitlabPrivateToken()
-  console.log('cli break')
+  gitlab.checkGitlabPrivateToken(prefs)
   executeCommandLine()
 }
 
-// On every command, check if CLI user has his Gitlab private token stored.
-function checkGitlabPrivateToken () {
-  if (!prefs.gitlab || !prefs.gitlab.privateToken) {
-    let answer = readlineSync.question('Enter your gitlab private token: \n')
-    prefs.gitlab = {
-      privateToken: answer
-    }
-  }
-}
-
 function executeCommandLine () {
-  console.log('exec')
   let cliArguments = parseArgs(process.argv.slice(2))
-  if (cliArguments._.indexOf('update') > -1) {
-    console.log('update')
-    update()
+
+  function check (item) {
+    return cliArguments._.indexOf(item) > -1
+  }
+
+  switch (true) {
+    case (check('update')):
+      update(prefs)
+      break
+    case (check('token')):
+      gitlab.changeGitlabPrivateToken(prefs)
+      break
+    default:
+      console.log('Command not found!')
   }
 }
 
