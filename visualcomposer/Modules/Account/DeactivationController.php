@@ -43,7 +43,6 @@ class DeactivationController extends Container implements Module
 
     /**
      * Force license deactivation
-     * 
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
