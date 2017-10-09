@@ -291,7 +291,6 @@ export default class AddTemplatePanel extends React.Component {
     // this.props.api.request('templates:save', id)
     this.setState({
       templateName: '',
-      activeCategoryIndex: 1,
       categoryTitle: this.props.categories[ 1 ].title,
       isSearching: false,
       inputValue: '',
