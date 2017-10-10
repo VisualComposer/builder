@@ -223,7 +223,11 @@ class Bundle implements Helper
     protected function loopActionIterator($value, $optionsHelper, $needUpdatePost, $downloadHelper, $requiredActions)
     {
         $action = $value['action'];
-        $data = $value['data'];
+        if (isset($value['data'])) {
+            $data = $value['data'];
+        } else {
+            $data = '';
+        }
         $checksum = isset($value['checksum']) ? $value['checksum'] : '';
         $version = $value['version'];
         $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');

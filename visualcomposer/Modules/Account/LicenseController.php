@@ -74,7 +74,7 @@ class LicenseController extends Container implements Module
                 $result = wp_remote_get(
                     VCV_LICENSE_ACTIVATE_FINISH_URL,
                     [
-                        'timeout' => 10 ,
+                        'timeout' => 10,
                         'body' => [
                             'token' => $licenseHelper->getKeyToken(),
                         ],
@@ -88,25 +88,18 @@ class LicenseController extends Container implements Module
                     wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
                     exit;
                 } else {
-                    $loggerHelper->log(
-                        __('Failed to finish licence activation', 'vcwb'),
-                        [
-                            'response' => is_wp_error($result) ? $result->get_error_message()
-                                : (is_array($result) ? $result['body'] : ''),
-                        ]
-                    );
+                    $loggerHelper->logNotice('activation:failed', __('Failed to finish licence activation', 'vcwb'));
                 }
             } else {
-                $loggerHelper->log(
-                    __('Invalid token', 'vcwb'),
-                    [
-                        'token' => $token,
-                    ]
+                $loggerHelper->logNotice(
+                    'activation:failed',
+                    __('Failed to finish licence activation - Invalid token', 'vcwb')
                 );
             }
         }
 
-        return false;
+        wp_redirect(admin_url('index.php'));
+        exit;
     }
     /**
      * Receive licence key and store it in DB
