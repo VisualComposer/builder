@@ -222,12 +222,38 @@ export default class ControlsManager {
     // })
     layoutStorage.state('interactWithContent').onChange((data) => {
       if (data && data.type === 'mouseEnter') {
+        if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
+          if (this.closingControlsInterval) {
+            clearInterval(this.closingControlsInterval)
+            this.closingControlsInterval = null
+          }
+          if (this.closingCotnrols) {
+            if (this.closingCotnrols === data.vcElementId) {
+              return
+            }
+
+            this.controls.hide()
+            this.closingCotnrols = null
+          }
+        }
         if (this.state.showControls) {
           this.controls.show(data)
         }
       }
       if (data && data.type === 'mouseLeave') {
-        this.controls.hide()
+        if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
+          this.closingCotnrols = data.vcElementId
+          this.closingControlsInterval = setInterval(() => {
+            if (this.closingCotnrols) {
+              this.controls.hide()
+              this.closingCotnrols = null
+            }
+            clearInterval(this.closingControlsInterval)
+            this.closingControlsInterval = null
+          }, 300)
+        } else {
+          this.controls.hide()
+        }
       }
     })
   }
@@ -332,6 +358,9 @@ export default class ControlsManager {
             i++
           }
           if (el) {
+            if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
+              this.controls.hide()
+            }
             vcCake.setData('draggingElement', { id: el.dataset.vcDragHelper, point: { x: e.clientX, y: e.clientY } })
           }
         }
@@ -391,6 +420,12 @@ export default class ControlsManager {
         }
         // set new element
         if (element) {
+          if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
+            if (this.closingControlsInterval) {
+              clearInterval(this.closingControlsInterval)
+              this.closingControlsInterval = null
+            }
+          }
           if (this.state.showOutline) {
             // highlight tree view
             layoutStorage.state('userInteractWith').set(element)

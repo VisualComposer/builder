@@ -277,6 +277,23 @@ export default class ControlsManager {
     // Content interaction
     layoutStorage.state('interactWithContent').onChange((data) => {
       if (data && data.type === 'mouseEnter') {
+        if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
+          if (this.closingControlsInterval) {
+            clearInterval(this.closingControlsInterval)
+            this.closingControlsInterval = null
+          }
+          if (this.closingCotnrols) {
+            if (this.closingCotnrols === data.vcElementId) {
+              return
+            }
+
+            this.controls.hide()
+            if (this.state.showFrames) {
+              this.frames.hide()
+            }
+            this.closingCotnrols = null
+          }
+        }
         if (this.state.showControls) {
           this.controls.show(data)
         }
@@ -285,9 +302,24 @@ export default class ControlsManager {
         }
       }
       if (data && data.type === 'mouseLeave') {
-        this.controls.hide()
-        if (this.state.showFrames) {
-          this.frames.hide()
+        if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
+          this.closingCotnrols = data.vcElementId
+          this.closingControlsInterval = setInterval(() => {
+            if (this.closingCotnrols) {
+              this.controls.hide()
+              if (this.state.showFrames) {
+                this.frames.hide()
+              }
+              this.closingCotnrols = null
+            }
+            clearInterval(this.closingControlsInterval)
+            this.closingControlsInterval = null
+          }, 300)
+        } else {
+          this.controls.hide()
+          if (this.state.showFrames) {
+            this.frames.hide()
+          }
         }
       }
     })
@@ -403,6 +435,9 @@ export default class ControlsManager {
           }
           if (el) {
             this.outline.hide()
+            if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
+              this.controls.hide()
+            }
             vcCake.setData('draggingElement', { id: el.dataset.vcDragHelper, point: { x: e.clientX, y: e.clientY } })
           }
         }
@@ -412,6 +447,12 @@ export default class ControlsManager {
     // Controls interaction
     layoutStorage.state('interactWithControls').onChange((data) => {
       if (data && data.type === 'mouseEnter') {
+        if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
+          if (this.closingControlsInterval) {
+            clearInterval(this.closingControlsInterval)
+            this.closingControlsInterval = null
+          }
+        }
         if (this.state.showOutline) {
           // show outline over content element
           let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
