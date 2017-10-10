@@ -13,6 +13,11 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class AssetsShared extends Container implements Helper
 {
+    protected function parsePath($name, $path)
+    {
+        return vchelper('Url')->to(str_replace('[publicPath]/', 'public/sources/assetsLibrary/' . $name . '/', $path));
+    }
+
     public function getSharedAssets()
     {
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
@@ -21,6 +26,28 @@ class AssetsShared extends Container implements Helper
             return $optionsHelper->get('assetsLibrary', []);
         } else {
             $urlHelper = vchelper('Url');
+            if (vcvenv('VCV_TF_ASSETS_LIBRARY_JSON_FILE')) {
+                $assetsLibraries = [];
+                $json = vchelper('File')->getContents(
+                    VCV_PLUGIN_DIR_PATH . 'public/sources/assetsLibrary/assetsLibraries.json'
+                );
+                $data = json_decode($json);
+                if (isset($data->assetsLibrary) && is_array($data->assetsLibrary)) {
+                    foreach ($data->assetsLibrary as $asset) {
+                        if (isset($asset->name)) {
+                            $name = $asset->name;
+                            $assetsLibraries[ $name ] = [
+                                'dependencies' => $asset->dependencies,
+                                'jsBundle' => isset($asset->jsBundle) ? $this->parsePath($name, $asset->jsBundle) : '',
+                                'cssBundle' => isset($asset->cssBundle) ? $this->parsePath($name, $asset->cssBundle)
+                                    : '',
+                            ];
+                        }
+                    }
+                }
+
+                return $assetsLibraries;
+            }
 
             return [
                 'waypoints' => [
