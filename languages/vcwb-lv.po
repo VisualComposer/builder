@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-25 13:32+0300\n"
-"PO-Revision-Date: 2017-08-25 13:33+0300\n"
+"POT-Creation-Date: 2017-10-10 14:17+0300\n"
+"PO-Revision-Date: 2017-10-10 14:18+0300\n"
 "Last-Translator: \n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
 "Language: lv\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-KeywordsList: esc_html__;esc_html_e;esc_attr__;esc_attr_e;"
 "esc_html_x;_x;__;_e\n"
 "X-Poedit-Basepath: ..\n"
@@ -20,153 +20,191 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: node_modules\n"
 "X-Poedit-SearchPathExcluded-1: ci\n"
 
+#: Helpers/Hub/Bundle.php:167
+msgid "Failed read remote bundle json"
+msgstr ""
+
+#: Helpers/Hub/Bundle.php:182
+msgid "Failed to fetch remote bundle json"
+msgstr ""
+
+#: Helpers/License.php:184
+#, fuzzy
+#| msgid "Visual Composer Website Builder"
+msgid "Visual Composer Website Builder license has expired."
+msgstr "Visual Composer veiksmīgi aktivizēts"
+
+#: Helpers/License.php:187
+#, fuzzy
+#| msgid "Don't forget to tweet about Visual Composer Website Builder. Thanks!"
+msgid "Couldn't find a valid Visual Composer Website Builder license."
+msgstr "Neaizmirstiet ietvītot par Visual Composer Website Builder. Paldies!"
+
+#: Helpers/License.php:190
+#, fuzzy
+#| msgid "Visual Composer successfully deactivated."
+msgid "Visual Composer Website Builder license has been deactivated."
+msgstr "Visual Composer veiksmīgi deaktivizēts."
+
 #: Helpers/Localizations.php:24
 msgid "Add Element"
 msgstr "Pievienot Elementu"
 
 #: Helpers/Localizations.php:25
+msgid "Hub"
+msgstr ""
+
+#: Helpers/Localizations.php:26
 msgid "Add Template"
 msgstr "Pievienot templeitu"
 
-#: Helpers/Localizations.php:26
+#: Helpers/Localizations.php:27
 msgid "Tree View"
 msgstr "Paplašinātais skats"
 
-#: Helpers/Localizations.php:27
+#: Helpers/Localizations.php:28
 msgid "Undo"
 msgstr "Atsaukt"
 
-#: Helpers/Localizations.php:28
+#: Helpers/Localizations.php:29
 msgid "Redo"
 msgstr "Pārstrādāt"
 
-#: Helpers/Localizations.php:29
+#: Helpers/Localizations.php:30
 msgid "Responsive View"
 msgstr "Responsive Skats"
 
-#: Helpers/Localizations.php:30
+#: Helpers/Localizations.php:31
 msgid "Desktop"
 msgstr "Desktop Skats"
 
-#: Helpers/Localizations.php:31
+#: Helpers/Localizations.php:32
 msgid "Tablet Landscape"
 msgstr "Planšetes Ainavas Skats"
 
-#: Helpers/Localizations.php:32
+#: Helpers/Localizations.php:33
 msgid "Tablet Portrait"
 msgstr "Planšetes Portreta Skats"
 
-#: Helpers/Localizations.php:33
+#: Helpers/Localizations.php:34
 msgid "Mobile Landscape"
 msgstr "Mobilais Ainavas Skats"
 
-#: Helpers/Localizations.php:34
+#: Helpers/Localizations.php:35
 msgid "Mobile Portrait"
 msgstr "Mobilais Portreta Skats"
 
-#: Helpers/Localizations.php:35 Modules/Settings/Pages/PostTypes.php:77
+#: Helpers/Localizations.php:36 Modules/Settings/Pages/Settings.php:59
 #: resources/views/settings/layouts/settings-standalone.php:11
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: Helpers/Localizations.php:36 Modules/Hub/Download/Pages/UpdateBePage.php:74
+#: Helpers/Localizations.php:37 Modules/Hub/Download/Pages/UpdateBePage.php:84
 msgid "Update"
 msgstr "Atjaunot"
 
-#: Helpers/Localizations.php:37
+#: Helpers/Localizations.php:38
 msgid "Menu"
 msgstr "Izvēlne"
 
-#: Helpers/Localizations.php:38
+#: Helpers/Localizations.php:39
 msgid "View Page"
 msgstr "Skatīt Lapu"
 
-#: Helpers/Localizations.php:39
+#: Helpers/Localizations.php:40
 msgid "Edit in Backend Editor"
 msgstr "Labot Backend Editorā"
 
-#: Helpers/Localizations.php:40
+#: Helpers/Localizations.php:41
 msgid "WordPress Dashboard"
 msgstr "WordPress Panelis"
 
-#: Helpers/Localizations.php:41
+#: Helpers/Localizations.php:42
 msgid "Publish"
 msgstr "Publicēt"
 
-#: Helpers/Localizations.php:42
+#: Helpers/Localizations.php:43
 msgid "Submit for Review"
 msgstr "Pievienot Izskatīšanai"
 
-#: Helpers/Localizations.php:43
+#: Helpers/Localizations.php:44
 msgid "Save Draft"
 msgstr "Saglabāt Skici"
 
-#: Helpers/Localizations.php:44
+#: Helpers/Localizations.php:45 Modules/Settings/Pages/GetPremium.php:95
+#: Modules/Settings/Pages/GetPremium.php:159
+#: Modules/Settings/Pages/Premium.php:75
+msgid "Go Premium"
+msgstr ""
+
+#: Helpers/Localizations.php:46
 msgid "Close"
 msgstr "Aizvērt"
 
-#: Helpers/Localizations.php:45
-msgid "Premium Elements - Coming Soon"
+#: Helpers/Localizations.php:47
+#, fuzzy
+#| msgid "Premium Elements - Coming Soon"
+msgid "Premium Version - Coming Soon"
 msgstr "Premium elementi būs pieejami drīzumā"
 
-#: Helpers/Localizations.php:46
+#: Helpers/Localizations.php:48
 msgid "Premium Templates - Coming Soon"
 msgstr "Premium templeiti būs pieejami drīzumā"
 
-#: Helpers/Localizations.php:48
+#: Helpers/Localizations.php:50
 msgid ""
 "There are no elements on your canvas - start by adding element or template."
 msgstr ""
 "Lapā nav pievienots neviens elements - sāciet ar elementu vai templeita "
 "vienienošanu."
 
-#: Helpers/Localizations.php:49
+#: Helpers/Localizations.php:51
 msgid "Custom CSS"
 msgstr "Pielāgots CSS"
 
-#: Helpers/Localizations.php:50
+#: Helpers/Localizations.php:52
 msgid "Local CSS"
 msgstr "Lokāls CSS"
 
-#: Helpers/Localizations.php:51
+#: Helpers/Localizations.php:53
 msgid "Local CSS will be applied to this particular page only"
 msgstr "Lokālais CSS tiks pievienots tikai šai konkrētajai sadaļai"
 
-#: Helpers/Localizations.php:52
+#: Helpers/Localizations.php:54
 msgid "Global CSS"
 msgstr "Globāls CSS"
 
-#: Helpers/Localizations.php:53
+#: Helpers/Localizations.php:55
 msgid "Global CSS will be applied site wide"
 msgstr "Globālais CSS tiks pievienots visai lapai"
 
-#: Helpers/Localizations.php:54
+#: Helpers/Localizations.php:56
 msgid "Save"
 msgstr "Saglabāt"
 
-#: Helpers/Localizations.php:55
+#: Helpers/Localizations.php:57
 msgid "Template Name"
 msgstr "Templeita Nosaukums"
 
-#: Helpers/Localizations.php:56
+#: Helpers/Localizations.php:58
 msgid "Save Template"
 msgstr "Saglabāt Templeitu"
 
-#: Helpers/Localizations.php:57
+#: Helpers/Localizations.php:59
 #, fuzzy
 #| msgid "Save Template"
 msgid "Remove Template"
 msgstr "Saglabāt Templeitu"
 
-#: Helpers/Localizations.php:58
+#: Helpers/Localizations.php:60
 msgid "Template save failed."
 msgstr "Templeita saglabāšana neizdevās."
 
-#: Helpers/Localizations.php:59
+#: Helpers/Localizations.php:61
 msgid "Download More Templates"
 msgstr "Lejupielādēt Vairāk Templeitus"
 
-#: Helpers/Localizations.php:62
+#: Helpers/Localizations.php:64
 msgid ""
 "You don't have any templates yet. Try to save your current layout as a "
 "template or download templates from Visual Composer Hub."
@@ -174,7 +212,7 @@ msgstr ""
 "Jums nav neviena templeita. Mēģiniet saglabāt jūsu izveidoto izkārtojumu vai "
 "arī lejupielādējiet templeitus no Visual Composer Hub."
 
-#: Helpers/Localizations.php:66
+#: Helpers/Localizations.php:68
 msgid ""
 "Didn't find the right template? Check out Visual Composer Hub for more "
 "layout templates."
@@ -182,23 +220,23 @@ msgstr ""
 "Neatradāt nevienu templeitu?  Apmeklējiet Visual Composer Hub lai iegūtu "
 "vairāk templeitu."
 
-#: Helpers/Localizations.php:69
+#: Helpers/Localizations.php:71
 msgid "Do you want to remove this template?"
 msgstr "Vai vēlaties dzēst šo templeitu?"
 
-#: Helpers/Localizations.php:70
+#: Helpers/Localizations.php:72
 msgid "Template remove failed."
 msgstr "Templeita dzēšana neizdevās."
 
-#: Helpers/Localizations.php:71
+#: Helpers/Localizations.php:73
 msgid "Select Blank Canvas"
 msgstr "Izvēlēties baltu lapu"
 
-#: Helpers/Localizations.php:72
+#: Helpers/Localizations.php:74
 msgid "or Start With a Template"
 msgstr "vai sākt ar templeitu"
 
-#: Helpers/Localizations.php:75
+#: Helpers/Localizations.php:77
 msgid ""
 "Visual Composer Hub will offer you unlimited downloads of premium quality "
 "templates, elements, extensions and more."
@@ -206,114 +244,122 @@ msgstr ""
 "Visual Composer Hub jums piedāvās neierobežotu skaitu premium kvalitātes "
 "templeitus, elementus paplašinājumus un vairāk."
 
-#: Helpers/Localizations.php:78
+#: Helpers/Localizations.php:80
 msgid "Add"
 msgstr "Pievienot"
 
-#: Helpers/Localizations.php:79
+#: Helpers/Localizations.php:81
 msgid "Row Layout"
 msgstr "Rindas Izkārtojums"
 
-#: Helpers/Localizations.php:80
+#: Helpers/Localizations.php:82
 msgid "Edit"
 msgstr "Labot"
 
-#: Helpers/Localizations.php:81
+#: Helpers/Localizations.php:83
 #, fuzzy
 #| msgid "Element Design Options"
 msgid "Design Options"
 msgstr "Jauns Elements un Opcija"
 
-#: Helpers/Localizations.php:82
+#: Helpers/Localizations.php:84
 msgid "Clone"
 msgstr "Klonēt"
 
-#: Helpers/Localizations.php:83
+#: Helpers/Localizations.php:85
+msgid "Copy"
+msgstr ""
+
+#: Helpers/Localizations.php:86
+msgid "Paste"
+msgstr ""
+
+#: Helpers/Localizations.php:87
 msgid "Remove"
 msgstr "Dzēst"
 
-#: Helpers/Localizations.php:84
+#: Helpers/Localizations.php:88
 msgid "Move"
 msgstr "Pārvietot"
 
-#: Helpers/Localizations.php:85
+#: Helpers/Localizations.php:89
 msgid "Search content elements"
 msgstr "Meklēt satura elementus"
 
-#: Helpers/Localizations.php:88
+#: Helpers/Localizations.php:92
 msgid "Template with this name already exist. Please specify another name."
 msgstr "Templeits ar šādu vārdu jau eksistē. Lūdzu izvēlaties citu vārdu."
 
-#: Helpers/Localizations.php:91
+#: Helpers/Localizations.php:95
 msgid "Template content is empty."
 msgstr "Templeita ir tukšs."
 
-#: Helpers/Localizations.php:92
+#: Helpers/Localizations.php:96
 msgid "Please specify template name."
 msgstr "Lūdzu izvēlaties templeita nosaukumu."
 
-#: Helpers/Localizations.php:93
+#: Helpers/Localizations.php:97
 msgid "Add one column"
 msgstr "Pievienot vienu kolonu"
 
-#: Helpers/Localizations.php:94
+#: Helpers/Localizations.php:98
 msgid "Add two columns"
 msgstr "Pievienot divas kolonas"
 
-#: Helpers/Localizations.php:95
+#: Helpers/Localizations.php:99
 msgid "Add three columns"
 msgstr "Pievienot trīs kolonas"
 
-#: Helpers/Localizations.php:96
+#: Helpers/Localizations.php:100
 msgid "Add four columns"
 msgstr "Pievienot četras kolonas"
 
-#: Helpers/Localizations.php:97
+#: Helpers/Localizations.php:101
 msgid "Add five columns"
 msgstr "Pievienot piecas kolonas"
 
-#: Helpers/Localizations.php:98
+#: Helpers/Localizations.php:102
 msgid "Add custom row layout"
 msgstr "Pievienot pielāgojamu rindas izkārtojumu"
 
-#: Helpers/Localizations.php:99
+#: Helpers/Localizations.php:103
 msgid "Add Text block"
 msgstr "Pievienot teksta bloku"
 
-#: Helpers/Localizations.php:100
+#: Helpers/Localizations.php:104
 msgid "Frontend Editor"
 msgstr "Frontend Editors"
 
-#: Helpers/Localizations.php:101
+#: Helpers/Localizations.php:105
 msgid "Backend Editor"
 msgstr "Backend Editors"
 
-#: Helpers/Localizations.php:102
+#: Helpers/Localizations.php:106
 #, fuzzy
 #| msgid "Disable Classic editor"
 msgid "Classic Editor"
 msgstr "Atspējot klasisko editoru"
 
-#: Helpers/Localizations.php:103
+#: Helpers/Localizations.php:107
 msgid ""
 "Visual Composer will overwrite your content created in WordPress Classic "
 "editor with the latest version of content created in Visual Composer Website "
 "Builder. Do you want to continue?"
 msgstr ""
 
-#: Helpers/Localizations.php:104
+#: Helpers/Localizations.php:108
 msgid "Blank Page"
 msgstr "Jauna Lapa"
 
-#: Helpers/Localizations.php:105
+#: Helpers/Localizations.php:109
 msgid "Search templates by name and description"
 msgstr "Meklēt templeitu pēc nosaukuma un apraksta"
 
-#: Helpers/Localizations.php:106
+#: Helpers/Localizations.php:110
 msgid "No Results. Open Visual Composer Hub"
 msgstr "Nav Rezultātu"
 
-#: Helpers/Localizations.php:108
+#: Helpers/Localizations.php:112
 msgid ""
 "Didn't find the right element? Check out Visual Composer Hub for more "
 "content elements."
@@ -321,7 +367,7 @@ msgstr ""
 "Neatradāt nevienu templeitu?  Apmeklējiet Visual Composer Hub lai iegūtu "
 "vairāk templeitu."
 
-#: Helpers/Localizations.php:113
+#: Helpers/Localizations.php:117
 #, fuzzy
 #| msgid ""
 #| "Please make sure to read and agree to our terms of service in order to "
@@ -331,13 +377,13 @@ msgid ""
 "activate and use Visual Composer Website Builder."
 msgstr "Tulkojas...."
 
-#: Helpers/Localizations.php:118
+#: Helpers/Localizations.php:122
 msgid ""
 "Your activation request failed due to the e-mail address format. Please "
 "check your e-mail address and try again."
 msgstr "Tulkojas...."
 
-#: Helpers/Localizations.php:122
+#: Helpers/Localizations.php:126
 #, fuzzy
 #| msgid ""
 #| "To activate and use Visual Composer, you must read and agree to the terms "
@@ -347,120 +393,202 @@ msgid ""
 "to the terms of service."
 msgstr "Lai aktivizētu Visual Composer, jums jāpiekrīt noteikumiem."
 
-#: Helpers/Localizations.php:125
+#: Helpers/Localizations.php:129
 msgid "Your activation request failed. Please try again."
 msgstr "Aktivizācijaneizdevās."
 
-#: Helpers/Localizations.php:126
+#: Helpers/Localizations.php:130
 msgid "Please provide correct E-Mail"
 msgstr "Lūdzu ievadiet e-pastu"
 
-#: Helpers/Localizations.php:127
+#: Helpers/Localizations.php:131
 msgid "Nothing Found"
 msgstr "Nekas netika atrasts"
 
-#: Helpers/Localizations.php:128
+#: Helpers/Localizations.php:132
 msgid "Template thumbnail"
 msgstr "Templeita Nosaukums"
 
-#: Helpers/Localizations.php:129
+#: Helpers/Localizations.php:133
 msgid "Template preview"
 msgstr "Templeita priekšstats"
 
-#: Helpers/Localizations.php:130
+#: Helpers/Localizations.php:134
 #, fuzzy
 #| msgid "Add Template"
 msgid "Add Image"
 msgstr "Pievienot templeitu"
 
-#: Helpers/Localizations.php:131
+#: Helpers/Localizations.php:135
 #, fuzzy
 #| msgid "Remove"
 msgid "Remove Image"
 msgstr "Dzēst"
 
-#: Helpers/Localizations.php:132
+#: Helpers/Localizations.php:136
 msgid "Move Image"
 msgstr ""
 
-#: Helpers/Localizations.php:133
+#: Helpers/Localizations.php:137
 msgid "Edit or Replace Image"
 msgstr ""
 
-#: Helpers/Localizations.php:134
+#: Helpers/Localizations.php:138
 msgid "Add Link"
 msgstr ""
 
-#: Helpers/Localizations.php:135
+#: Helpers/Localizations.php:139
 msgid "Select URL"
 msgstr ""
 
-#: Helpers/Localizations.php:136
+#: Helpers/Localizations.php:140
 msgid "Insert or Edit Link"
 msgstr ""
 
-#: Helpers/Localizations.php:137 Helpers/Localizations.php:143
+#: Helpers/Localizations.php:141 Helpers/Localizations.php:147
 msgid "Enter the destination URL"
 msgstr ""
 
-#: Helpers/Localizations.php:138
+#: Helpers/Localizations.php:142
 msgid "Or link to existing content"
 msgstr ""
 
-#: Helpers/Localizations.php:139
+#: Helpers/Localizations.php:143
 #, fuzzy
 #| msgid "Search content elements"
 msgid "Search existing content"
 msgstr "Meklēt satura elementus"
 
-#: Helpers/Localizations.php:140
+#: Helpers/Localizations.php:144
 msgid "There is no content with such term found."
 msgstr ""
 
-#: Helpers/Localizations.php:141
+#: Helpers/Localizations.php:145
 msgid "Open link in a new tab"
 msgstr ""
 
-#: Helpers/Localizations.php:142
+#: Helpers/Localizations.php:146
 msgid "Add nofollow option to link"
 msgstr ""
 
-#: Helpers/Localizations.php:144
+#: Helpers/Localizations.php:148
 msgid "Title attribute will be displayed on link hover"
 msgstr ""
 
-#: Helpers/Localizations.php:145
+#: Helpers/Localizations.php:149
 #: Modules/Elements/Grids/DataSource/ListOfIdsController.php:72
 #: Modules/Elements/WooCommerce/AutocompleteController.php:48
 msgid "Title"
 msgstr ""
 
-#: Helpers/Localizations.php:146
+#: Helpers/Localizations.php:150
 #, fuzzy
 #| msgid "Your activation request failed. Please try again."
 msgid "Visual Composer Cloud update failed, please try again."
 msgstr "Aktivizācijaneizdevās."
 
-#: Helpers/Localizations.php:147
+#: Helpers/Localizations.php:151
 msgid "Preview"
 msgstr ""
 
-#: Helpers/Localizations.php:148
+#: Helpers/Localizations.php:152
 #, fuzzy
 #| msgid "Save Changes"
 msgid "Preview Changes"
 msgstr "Saglabāt izmaiņas"
 
-#: Helpers/Localizations.php:149
+#: Helpers/Localizations.php:153
 msgid "Saving Results"
 msgstr ""
 
-#: Helpers/Localizations.php:150
+#: Helpers/Localizations.php:154
+msgid "Hide: Off"
+msgstr ""
+
+#: Helpers/Localizations.php:155
+msgid "Hide: On"
+msgstr ""
+
+#: Helpers/Localizations.php:156
 msgid "Downloading initial extensions"
 msgstr ""
 
-#: Helpers/Localizations.php:151
+#: Helpers/Localizations.php:157
 msgid "Downloading assets {i} of {cnt}: {name}"
+msgstr ""
+
+#: Helpers/LoginCategory.php:21
+msgid "Business"
+msgstr ""
+
+#: Helpers/LoginCategory.php:22
+msgid "Blog"
+msgstr ""
+
+#: Helpers/LoginCategory.php:23
+msgid "Creative Arts"
+msgstr ""
+
+#: Helpers/LoginCategory.php:24
+msgid "Community & Education"
+msgstr ""
+
+#: Helpers/LoginCategory.php:25
+#, fuzzy
+#| msgid "Element Design Options"
+msgid "Design"
+msgstr "Jauns Elements un Opcija"
+
+#: Helpers/LoginCategory.php:26
+msgid "Entertainment & Music"
+msgstr ""
+
+#: Helpers/LoginCategory.php:27
+#, fuzzy
+#| msgid "Elements"
+msgid "Events"
+msgstr "Elementi"
+
+#: Helpers/LoginCategory.php:28
+msgid "Fashion & Beauty"
+msgstr ""
+
+#: Helpers/LoginCategory.php:29
+msgid "Health & Wellness"
+msgstr ""
+
+#: Helpers/LoginCategory.php:30
+#, fuzzy
+#| msgid "Learning More"
+msgid "Landing Pages"
+msgstr "Tulkojas"
+
+#: Helpers/LoginCategory.php:31
+msgid "Online Store"
+msgstr ""
+
+#: Helpers/LoginCategory.php:32
+msgid "Photography"
+msgstr ""
+
+#: Helpers/LoginCategory.php:33
+msgid "Portfolio & Personal"
+msgstr ""
+
+#: Helpers/LoginCategory.php:34
+msgid "Restaurants & Food"
+msgstr ""
+
+#: Helpers/LoginCategory.php:35
+msgid "Services"
+msgstr ""
+
+#: Helpers/LoginCategory.php:36
+msgid "Travel & Accommodation"
+msgstr ""
+
+#: Helpers/LoginCategory.php:37
+msgid "Other"
 msgstr ""
 
 #: Helpers/PostType.php:190
@@ -473,65 +601,90 @@ msgstr "Skatīt Lapu"
 msgid "All"
 msgstr "Visi"
 
-#: Helpers/Token.php:111
+#: Helpers/Token.php:166
+#, fuzzy, php-format
+#| msgid "Visual Composer Website Builder"
+msgid "Your Visual Composer Website Builder License will expire soon - %s"
+msgstr "Visual Composer veiksmīgi aktivizēts"
+
+#: Helpers/Token.php:190
 msgid "Token generation failed"
 msgstr ""
 
-#: Helpers/Token.php:116
+#: Helpers/Token.php:195
 msgid "Possibly the process exceeded the timeout of 5 seconds"
 msgstr ""
 
-#: Modules/Account/ActivationController.php:167
-#: Modules/Account/AddonsActivationController.php:76
+#: Modules/Account/ActivationController.php:161
+msgid "Failed to get activation token"
+msgstr ""
+
+#: Modules/Account/ActivationController.php:171
+#: Modules/Account/AddonsActivationController.php:79
 #, php-format
 msgid "Activation failed! Please wait %1$s seconds before you try again"
 msgstr ""
 
-#: Modules/Account/ActivationController.php:211
+#: Modules/Account/ActivationController.php:217
 msgid "Failed to subscribe to the lite version"
+msgstr ""
+
+#: Modules/Account/LicenseController.php:92
+msgid "Failed to finish licence activation"
+msgstr ""
+
+#: Modules/Account/LicenseController.php:101
+#: Modules/Account/LicenseController.php:166
+#, fuzzy
+#| msgid "Invalid license key"
+msgid "Invalid token"
+msgstr "Nepareiza licences atslēga"
+
+#: Modules/Account/LicenseController.php:157
+msgid "Failed to finish licence de-activation"
 msgstr ""
 
 #: Modules/Account/Pages/ActivationPage.php:84
 msgid "Activation"
 msgstr "Aktivizācija"
 
-#: Modules/Account/Pages/ActivationPage.php:104
+#: Modules/Account/Pages/ActivationPage.php:114
 msgid "Set up your own navigation position or change it at any time."
 msgstr "Iestaties pats savu navigācijas pozīciju vai mainiet to jebkurā laikā."
 
-#: Modules/Account/Pages/ActivationPage.php:108
+#: Modules/Account/Pages/ActivationPage.php:118
 msgid ""
 "Access and see the path to your elements, columns, and rows from one control."
 msgstr ""
 "Piekļūsties un redziet  savus elementus, kolonas un rindas ar vienu kontroli."
 
-#: Modules/Account/Pages/ActivationPage.php:112
+#: Modules/Account/Pages/ActivationPage.php:122
 msgid "Use inline text editing to change content with one click."
 msgstr ""
 "Lai mainītu teksta rediģēšanai izmantojiet iekļauto saturu ar vienu klikšķi."
 
-#: Modules/Account/Pages/ActivationPage.php:116
+#: Modules/Account/Pages/ActivationPage.php:126
 msgid "Control and overview your page structure from the Tree View mode."
 msgstr ""
 "Kontrolējiet un pārskatiet jūsu lappuses struktūru no koka skata režīmā."
 
-#: Modules/Account/Pages/ActivationPage.php:120
+#: Modules/Account/Pages/ActivationPage.php:130
 msgid "Divide your row into columns with Row layout and pre-made layouts."
 msgstr ""
 "Sadaliet rindu kolonnās ar rindu izkārtojumu un sagatavotajiem "
 "izkārtojumumiem."
 
-#: Modules/Account/Pages/ActivationPage.php:124
+#: Modules/Account/Pages/ActivationPage.php:134
 msgid "Apply changes instantly and revert back with Undo/Redo at any time."
 msgstr ""
 "Lietot izmaiņas uzreiz un atgriezties atpakaļ ar Atsaukt /Pārstrādāt jebkurā "
 "brīdī."
 
-#: Modules/Account/Pages/ActivationPage.php:128
+#: Modules/Account/Pages/ActivationPage.php:138
 msgid "Resize columns with easy to use resize tool."
 msgstr "Mainiet kolonas izmēru ar viegli lietojamo izmēra mainīšanas rīku."
 
-#: Modules/Account/Pages/ActivationPage.php:132
+#: Modules/Account/Pages/ActivationPage.php:142
 msgid "Choose Backend editor schematic view with the quick preview option."
 msgstr ""
 "Izvēlaties backend editora shēmas skatu ar ātro priekšskatīšanas opciju."
@@ -577,19 +730,11 @@ msgstr ""
 msgid "Slug"
 msgstr ""
 
-#: Modules/FrontEnd/PluginsInfoController.php:24
+#: Modules/FrontEnd/PluginsInfoController.php:30
 #, php-format
 msgid ""
 "Powered by Visual Composer Website Builder %s - fast and easy to use drag "
 "and drop builder for experts and beginners."
-msgstr ""
-
-#: Modules/Hub/Download/BundleUpdateController.php:175
-msgid "Failed to update"
-msgstr ""
-
-#: Modules/Hub/Download/BundleUpdateController.php:180
-msgid "Update already in process, please try again later."
 msgstr ""
 
 #: Modules/Hub/Download/CategoriesUpdater.php:31
@@ -604,45 +749,91 @@ msgstr ""
 msgid "Failed to update groups"
 msgstr ""
 
-#: Modules/Hub/Download/JsonActionsController.php:54
+#: Modules/Hub/Download/JsonActionsController.php:51
 msgid "Failed to process required actions"
 msgstr ""
 
-#: Modules/Hub/Download/JsonActionsController.php:162
+#: Modules/Hub/Download/JsonActionsController.php:128
 #, php-format
-msgid "Failed to download bundle on action %1$s"
+msgid "Failed to download %1$s"
 msgstr ""
 
-#: Modules/Hub/Download/JsonDownloadController.php:51
+#: Modules/Hub/Download/JsonDownloadController.php:45
 msgid "Failed to download json"
 msgstr ""
 
-#: Modules/Hub/Download/JsonDownloadController.php:58
+#: Modules/Hub/Download/JsonDownloadController.php:54
 msgid "Failed to prepare json download"
 msgstr ""
 
-#: Modules/Hub/Download/JsonDownloadController.php:84
-msgid "Failed read bundle json"
-msgstr ""
-
-#: Modules/Settings/Controller.php:121
+#: Modules/Settings/Controller.php:122
 msgid "Visual Composer "
 msgstr ""
 
-#: Modules/Settings/Pages/About.php:56
+#: Modules/Settings/FactoryResetController.php:63
+msgid "Proceed with a factory reset?"
+msgstr ""
+
+#: Modules/Settings/FactoryResetController.php:64
+msgid "initiate factory reset"
+msgstr ""
+
+#: Modules/Settings/FactoryResetController.php:67
+#, php-format
+msgid ""
+"Overwrite your existing extensions and assets with the latest versions from "
+"Visual Composer Cloud service - %s."
+msgstr ""
+
+#: Modules/Settings/FactoryResetController.php:75
+msgid "Factory Reset"
+msgstr ""
+
+#: Modules/Settings/FactoryResetController.php:85
+msgid "Wrong permissions"
+msgstr ""
+
+#: Modules/Settings/FactoryResetController.php:90
+msgid "Session expired"
+msgstr ""
+
+#: Modules/Settings/NoticeController.php:73
+msgid "Dismiss"
+msgstr ""
+
+#: Modules/Settings/Pages/About.php:57
 msgid "About"
 msgstr "Par"
 
-#: Modules/Settings/Pages/PostTypes.php:96
+#: Modules/Settings/Pages/DeactivateLicense.php:63
+#, fuzzy
+#| msgid "Visual Composer \"How To's\""
+msgid "Visual Composer account"
+msgstr "Tulkojas\""
+
+#: Modules/Settings/Pages/DeactivateLicense.php:67
+#, php-format
+msgid ""
+"You can deactivate your premium license on this site via your %s. You will "
+"not be able to receive new premium updates, elements and templates."
+msgstr ""
+
+#: Modules/Settings/Pages/DeactivateLicense.php:78
+#, fuzzy
+#| msgid "Deactivate Visual Composer"
+msgid "Deactivate Premium"
+msgstr "Atslēgt Visual Composer"
+
+#: Modules/Settings/Pages/PostTypes.php:64
 msgid ""
 "Specify post types where you want to use Visual Composer Website Builder."
 msgstr "Izvēlaties kur vēlaties lietot Visual Composer Website Builder."
 
-#: Modules/Settings/Pages/PostTypes.php:101
+#: Modules/Settings/Pages/PostTypes.php:69
 msgid "Post Types"
 msgstr "Raksta Veidi"
 
-#: Modules/Updates/UpdatesController.php:118
+#: Modules/Updates/UpdatesController.php:137
 msgid ""
 "\n"
 "<p>Visual Composer Website Builder is a perfect solution to create your "
@@ -662,14 +853,58 @@ msgid ""
 "</ul>"
 msgstr ""
 
-#: Modules/Updates/UpdatesController.php:139
+#: Modules/Updates/UpdatesController.php:163
 msgid "Failed to get changelog"
 msgstr ""
 
-#: resources/views/account/partials/activation-layout-loading.php:21
+#: resources/views/account/partials/activation-go-premium.php:44
+msgid "Get Premium Elements, Templates, and Support."
+msgstr ""
+
+#: resources/views/account/partials/activation-go-premium.php:46
+#, fuzzy
+#| msgid "Product License"
+msgid "Purchase License"
+msgstr "Produkta licence"
+
+#: resources/views/account/partials/activation-go-premium.php:49
+#, fuzzy
+#| msgid "Activation"
+msgid "Activate Premium"
+msgstr "Aktivizācija"
+
+#: resources/views/account/partials/activation-go-premium.php:52
+msgid ""
+"Unlock the most powerful and simplest way to create a professional website "
+"for your business."
+msgstr ""
+
+#: resources/views/account/partials/activation-intro.php:28
+#: resources/views/account/partials/activation-login-standalone.php:30
+#: resources/views/account/partials/activation-login.php:31
+#, fuzzy
+#| msgid "Advance Your WordPress With Visual Composer"
+msgid "Advance Your WordPress With Visual Composer Website Builder"
+msgstr "Virziet uz priekšu savu WordPress ar Visual Composer"
+
+#: resources/views/account/partials/activation-intro.php:30
+#, fuzzy
+#| msgid "Version %s"
+msgid "Lite Version"
+msgstr "Versija %s"
+
+#: resources/views/account/partials/activation-intro.php:32
+msgid "Premium Version"
+msgstr ""
+
+#: resources/views/account/partials/activation-layout-loading.php:22
 #, php-format
 msgid ""
 "Activation already in process! Please wait %1$s seconds before you try again"
+msgstr ""
+
+#: resources/views/account/partials/activation-layout.php:62
+msgid "BACK"
 msgstr ""
 
 #: resources/views/account/partials/activation-loading.php:20
@@ -682,15 +917,13 @@ msgstr "Aktivizējam jūsu Visual Composer kopiju... Lūdzu uzgaidiet."
 msgid "Don’t close this window while activation is in the process."
 msgstr "Neaizveriet šo logu, līdz aktivizācija nav pabeigta."
 
-#: resources/views/account/partials/activation-login-standalone.php:27
-#: resources/views/account/partials/activation-login.php:27
-#, fuzzy
-#| msgid "Advance Your WordPress With Visual Composer"
-msgid "Advance Your WordPress With Visual Composer Website Builder"
-msgstr "Virziet uz priekšu savu WordPress ar Visual Composer"
+#: resources/views/account/partials/activation-login-standalone.php:35
+#: resources/views/account/partials/activation-login.php:40
+msgid "Select Your Category"
+msgstr ""
 
-#: resources/views/account/partials/activation-login-standalone.php:38
-#: resources/views/account/partials/activation-login.php:42
+#: resources/views/account/partials/activation-login-standalone.php:47
+#: resources/views/account/partials/activation-login.php:52
 #, fuzzy, php-format
 #| msgid ""
 #| "I have read and agree to the <a href=\"%s\" target=\"_blank\">terms of "
@@ -702,31 +935,53 @@ msgstr ""
 "Esmu iepazinies un piekrītu <a href=\"%s\" target=\"_blank\">lietošanas "
 "noteikumiem</a>"
 
-#: resources/views/account/partials/activation-login-standalone.php:44
-#: resources/views/account/partials/activation-login.php:48
+#: resources/views/account/partials/activation-login-standalone.php:53
+#: resources/views/account/partials/activation-login.php:58
 #, fuzzy
 #| msgid "Activation"
 msgid "Activate Now"
 msgstr "Aktivizācija"
 
-#: resources/views/account/partials/activation-login.php:32
+#: resources/views/account/partials/activation-login.php:36
 msgid "Your E-mail"
 msgstr "E-pasts"
 
+#: resources/views/account/partials/activation-oops.php:29
+#: resources/views/editor/frontend/frontend-updating.php:115
+#: resources/views/editor/frontend/frontend-updating.php:158
+#: resources/views/hub/updating-content.php:91
+#: resources/views/hub/updating-content.php:133
+msgid "Oops!"
+msgstr ""
+
+#: resources/views/account/partials/activation-oops.php:34
+msgid ""
+"It seems that something went wrong with licence activation. Please make sure "
+"to check your internet connection and try again."
+msgstr ""
+
+#: resources/views/account/partials/activation-oops.php:42
+msgid "Try Again"
+msgstr ""
+
+#: resources/views/account/partials/activation-slider-go-premium.php:33
 #: resources/views/account/partials/activation-slider.php:33
 msgid "Any Layout. Fast and Easy."
 msgstr "Jebkurš izkārtojums. Ātri un Vienkārši."
 
+#: resources/views/account/partials/activation-slider-go-premium.php:47
 #: resources/views/account/partials/activation-slider.php:47
 msgid "Create a blank page"
 msgstr "Izveidot jaunu lapu"
 
+#: resources/views/account/partials/activation-slider-go-premium.php:51
 #: resources/views/account/partials/activation-slider.php:51
 #, fuzzy
 #| msgid "Create a blank page"
 msgid "Create a blank post"
 msgstr "Izveidot jaunu lapu"
 
+#: resources/views/account/partials/activation-slider-go-premium.php:56
 #: resources/views/account/partials/activation-slider.php:56
 msgid ""
 "Want to work with existing pages, posts or custom post types? Access your "
@@ -735,10 +990,12 @@ msgstr ""
 "Vēlaties strādāt ar eksistējošu lapu, rakstu vai pielāgotu raksta tipu? "
 "Atveriet savu saturu un izvēlaties 'Labot ar Visual Composer'."
 
+#: resources/views/account/partials/activation-slider-go-premium.php:60
 #: resources/views/account/partials/activation-slider.php:60
 msgid "Don't forget to tweet about Visual Composer Website Builder. Thanks!"
 msgstr "Neaizmirstiet ietvītot par Visual Composer Website Builder. Paldies!"
 
+#: resources/views/account/partials/activation-slider-go-premium.php:68
 #: resources/views/account/partials/activation-slider.php:68
 msgid ""
 "Visual Composer Website Builder - now I can build any #WordPress site fast "
@@ -747,48 +1004,49 @@ msgstr ""
 "Visual Composer Website Builder - tagad es varu izveidot jebkādu #WordPress "
 "lapu ātri un vienkārši!"
 
-#: resources/views/editor/frontend/frontend-updating.php:32
-#: resources/views/editor/frontend/frontend.php:35
+#: resources/views/editor/frontend/frontend-updating.php:37
+#: resources/views/editor/frontend/frontend.php:39
 #, fuzzy, php-format
 #| msgid "Frontend editor"
 msgid "Frontend editor: %s"
 msgstr "Frontend editors"
 
-#: resources/views/editor/frontend/frontend-updating.php:66
+#: resources/views/editor/frontend/frontend-updating.php:80
+#: resources/views/hub/updating-content.php:63
 #, fuzzy
 #| msgid "Activating your copy of Visual Composer ... Please wait."
-msgid ""
-"We are updating assets from the Visual Composer Cloud\n"
-"\t\t\t\t\t\t\t\t\t... Please wait."
+msgid "We are updating assets from the Visual Composer Cloud ... Please wait."
 msgstr "Aktivizējam jūsu Visual Composer kopiju... Lūdzu uzgaidiet."
 
-#: resources/views/editor/frontend/frontend-updating.php:71
+#: resources/views/editor/frontend/frontend-updating.php:84
+#: resources/views/hub/updating-content.php:68
 #, fuzzy
 #| msgid "Don’t close this window while activation is in the process."
-msgid ""
-"Don’t close this window while update is in\n"
-"\t\t\t\t\t\t\t\t\tprocess."
+msgid "Don’t close this window while update is in process."
 msgstr "Neaizveriet šo logu, līdz aktivizācija nav pabeigta."
 
-#: resources/views/editor/frontend/frontend-updating.php:101
-#: resources/views/hub/updating-content.php:80
-msgid "Oops!"
-msgstr ""
-
-#: resources/views/editor/frontend/frontend-updating.php:105
-#: resources/views/hub/updating-content.php:84
+#: resources/views/editor/frontend/frontend-updating.php:119
+#: resources/views/hub/updating-content.php:95
 msgid ""
 "It seems that something went wrong with assets update from the Visual "
 "Composer Cloud. Please make sure to check your internet connection and try "
 "again."
 msgstr ""
 
-#: resources/views/editor/frontend/frontend-updating.php:112
-#: resources/views/hub/updating-content.php:90
+#: resources/views/editor/frontend/frontend-updating.php:126
+#: resources/views/hub/updating-content.php:101
 #, fuzzy
 #| msgid "Update"
 msgid "Retry Update"
 msgstr "Atjaunot"
+
+#: resources/views/editor/frontend/frontend-updating.php:166
+#: resources/views/hub/updating-content.php:141
+#, php-format
+msgid ""
+"The update process was already started! Please wait %1$s seconds before you "
+"try again"
+msgstr ""
 
 #: resources/views/editor/pageEditable/pageEditable.php:8
 msgid "Loading..."
@@ -802,19 +1060,7 @@ msgstr "Neviens custom widgets netika atrasts"
 msgid "No Widgets found"
 msgstr "Neviens widgets netika atrasts"
 
-#: resources/views/hub/updating-content.php:52
-#, fuzzy
-#| msgid "Activating your copy of Visual Composer ... Please wait."
-msgid "We are updating assets from the Visual Composer Cloud ... Please wait."
-msgstr "Aktivizējam jūsu Visual Composer kopiju... Lūdzu uzgaidiet."
-
-#: resources/views/hub/updating-content.php:57
-#, fuzzy
-#| msgid "Don’t close this window while activation is in the process."
-msgid "Don’t close this window while update is in process."
-msgstr "Neaizveriet šo logu, līdz aktivizācija nav pabeigta."
-
-#: resources/views/settings/pages/index.php:39
+#: resources/views/settings/pages/index.php:38
 msgid "Save Changes"
 msgstr "Saglabāt izmaiņas"
 
@@ -845,6 +1091,20 @@ msgstr "ieslēgts"
 msgid "off"
 msgstr "izslēgts"
 
+#, fuzzy
+#~| msgid "Activating your copy of Visual Composer ... Please wait."
+#~ msgid ""
+#~ "We are updating assets from the Visual Composer Cloud\n"
+#~ "\t\t\t\t\t\t\t\t\t... Please wait."
+#~ msgstr "Aktivizējam jūsu Visual Composer kopiju... Lūdzu uzgaidiet."
+
+#, fuzzy
+#~| msgid "Don’t close this window while activation is in the process."
+#~ msgid ""
+#~ "Don’t close this window while update is in\n"
+#~ "\t\t\t\t\t\t\t\t\tprocess."
+#~ msgstr "Neaizveriet šo logu, līdz aktivizācija nav pabeigta."
+
 #~ msgid "What's New"
 #~ msgstr "Kas jauns"
 
@@ -859,9 +1119,6 @@ msgstr "izslēgts"
 
 #~ msgid "HUB"
 #~ msgstr "HUB"
-
-#~ msgid "Product License"
-#~ msgstr "Produkta licence"
 
 #~ msgid "Role Manager"
 #~ msgstr "Lomu vadītājs"
@@ -895,12 +1152,6 @@ msgstr "izslēgts"
 #~ msgstr ""
 #~ "Neparedzams licences veids %s. Lūdzu sazināties ar mūsu atbalsta dienestu."
 
-#~ msgid "Visual Composer successfully deactivated."
-#~ msgstr "Visual Composer veiksmīgi deaktivizēts."
-
-#~ msgid "Invalid license key"
-#~ msgstr "Nepareiza licences atslēga"
-
 #~ msgid "Server did not respond with OK: %s"
 #~ msgstr "Serveris neatbildēja ar OK: %s"
 
@@ -930,9 +1181,6 @@ msgstr "izslēgts"
 #~ "Apsveicam! Jūs grasāties izmantot pašu spēcīgāko laika taupītāju darbam "
 #~ "ar WordPress - lapas veidošanas spraudnis ar Frontend un Backend "
 #~ "labotājiem no WPBakery."
-
-#~ msgid "Version %s"
-#~ msgstr "Versija %s"
 
 #~ msgid "New to Visual Composer or Looking for More Information?"
 #~ msgstr "Jauns iekš Visual Composer vai meklējiet vairāk informācijas?"
@@ -982,9 +1230,6 @@ msgstr "izslēgts"
 #~ msgid "Content Type"
 #~ msgstr "Raksta Veidi"
 
-#~ msgid "Learning More"
-#~ msgstr "Tulkojas"
-
 #~ msgid "Basic Concept"
 #~ msgstr "Tulkojas"
 
@@ -1011,9 +1256,6 @@ msgstr "izslēgts"
 
 #~ msgid "Element Presets"
 #~ msgstr "Elementa Sākotnējie iestatījumi"
-
-#~ msgid "Visual Composer \"How To's\""
-#~ msgstr "Tulkojas\""
 
 #~ msgid ""
 #~ "In this section you will find a quick tips in form of video tutorials on "
@@ -1237,9 +1479,6 @@ msgstr "izslēgts"
 
 #~ msgid "Edit only"
 #~ msgstr "Tikai Labot"
-
-#~ msgid "Elements"
-#~ msgstr "Elementi"
 
 #~ msgid "Control user access to content elements."
 #~ msgstr "Kontrolējiet lietotāja piekļuvi satura elementiem."
