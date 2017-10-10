@@ -224,6 +224,25 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add simple message box with predefined notification or create custom message with custom icon.',
                     ],
                 ],
+                'outlineMessageBox' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/outlineMessageBox/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/outlineMessageBox/outlineMessageBox/'),
+                    'elementRealPath' => vcapp()->path('devElements/outlineMessageBox/outlineMessageBox/'),
+                    'assetsPath' => $urlHelper->to('devElements/outlineMessageBox/outlineMessageBox/public/'),
+                    'settings' => [
+                        'name' => 'Outline Message Box',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/outlineMessageBox/outlineMessageBox/public/outline-message-box-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/outlineMessageBox/outlineMessageBox/public/outline-message-box-preview.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add outline style message box with predesigned notifications or create your custom notice.',
+                    ],
+                ],
                 'tabsWithSlide' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/tabsWithSlide/public/dist/element.bundle.js'
