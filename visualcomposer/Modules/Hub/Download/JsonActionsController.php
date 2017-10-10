@@ -94,8 +94,8 @@ class JsonActionsController extends Container implements Module
         }
 
         $previousVersion = $optionsHelper->get('hubAction:' . $savedAction['action'], '0');
-        if ($savedAction['version'] && version_compare($savedAction['version'], $previousVersion, '>')
-            || !$action['version']) {
+        if (isset($savedAction['version']) && version_compare($savedAction['version'], $previousVersion, '>')
+            || !isset($savedAction['action']) || !$savedAction['version']) {
             $response = $this->processAction(
                 $savedAction['action'],
                 $savedAction['data'],
