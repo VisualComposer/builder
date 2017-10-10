@@ -109,7 +109,7 @@ export default class DividerShape extends Component {
       }
 
       return (
-        <svg className='vce-divider-svg' viewBox={viewBox} width={width} height={viewBoxHeight} preserveAspectRatio='none'>
+        <svg className='vce-divider-svg' viewBox={viewBox} preserveAspectRatio='none'>
           {this.getLinearGradient()}
           <g {...customAttributes} dangerouslySetInnerHTML={{ __html: html }} />
         </svg>

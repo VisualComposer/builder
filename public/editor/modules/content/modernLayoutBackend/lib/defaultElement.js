@@ -113,7 +113,11 @@ export default class DefaultElement extends React.Component {
     let { options } = group
     if (options && options.onChange) {
       isDependency = options.onChange.find((option) => {
-        return option.dependency === label
+        if (option.dependency.constructor === Array) {
+          return option.dependency.indexOf(label) > -1
+        } else {
+          return option.dependency === label
+        }
       })
       if (isDependency && isDependency.rule) {
         isRuleTrue = isDependency.rule.value === element[ isDependency.rule.attribute ]

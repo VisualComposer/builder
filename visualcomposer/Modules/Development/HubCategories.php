@@ -294,6 +294,12 @@ class HubCategories extends Container implements Module
                     'elements' => ['callToAction'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Call-To-Action.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Call-To-Action.svg'),
+                ],
+                'Empty Space' => [
+                    'title' => 'Empty Space',
+                    'elements' => ['emptySpace'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg')
                 ]
             ]
         );
