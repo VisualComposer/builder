@@ -183,6 +183,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     dividerPosition: 'top',
     dividerBackgroundType: 'color',
     dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-zigzag', iconSet: 'all' },
+    dividerShapeNew: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'all' },
     dividerBackgroundColor: '#6567DF',
     dividerBackgroundGradientStartColor: 'rgb(226, 135, 135)',
     dividerBackgroundGradientEndColor: 'rgb(93, 55, 216)',
@@ -1854,8 +1855,15 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
       return null
     }
-
+    let iconType = 'shapes'
+    let fieldKey = 'dividerShape'
     let value = this.state.devices[ this.state.currentDevice ].dividerShape || DesignOptionsAdvanced.deviceDefaults.dividerShape
+
+    if (vcCake.env('NEW_DIVIDER_SHAPES')) {
+      iconType = 'newShapes'
+      value = this.state.devices[ this.state.currentDevice ].dividerShapeNew || DesignOptionsAdvanced.deviceDefaults.dividerShapeNew
+      fieldKey = 'dividerShapeNew'
+    }
 
     return (
       <div className='vcv-ui-form-group'>
@@ -1864,8 +1872,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         </span>
         <IconPicker
           api={this.props.api}
-          fieldKey='dividerShape'
-          options={{ iconType: 'shapes' }}
+          fieldKey={fieldKey}
+          options={{ iconType: iconType }}
           updater={this.valueChangeHandler}
           value={value}
         />

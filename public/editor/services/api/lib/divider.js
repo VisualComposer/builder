@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import DividerShape from './dividerShape'
 const { Component, PropTypes } = React
+import vcCake from 'vc-cake'
 
 export default class Divider extends Component {
   static propTypes = {
@@ -19,7 +20,7 @@ export default class Divider extends Component {
 
   render () {
     let { deviceData, deviceKey, id, applyDivider } = this.props
-    let { dividerShape, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundGradientAngle, dividerBackgroundType, dividerVideoEmbed } = deviceData
+    let { dividerShape, dividerShapeNew, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundGradientAngle, dividerBackgroundType, dividerVideoEmbed } = deviceData
 
     let flipHorizontally = false
 
@@ -44,6 +45,11 @@ export default class Divider extends Component {
 
     let shape = dividerShape && dividerShape.icon
     shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-dividers-', '')
+
+    if (vcCake.env('NEW_DIVIDER_SHAPES')) {
+      shape = dividerShapeNew && dividerShapeNew.icon
+      shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-divider-', '')
+    }
 
     let imageUrl = ''
     const images = dividerBackgroundImage

@@ -2,6 +2,7 @@
 
 const parseArgs = require('minimist')
 const Preferences = require('preferences')
+const shell = require('shelljs')
 
 // Init vc-cli.json and local preferences file
 let prefs = new Preferences('vc-cli')
@@ -31,6 +32,9 @@ function executeCommandLine () {
       break
     case (check('token')):
       gitlab.changeGitlabPrivateToken(prefs)
+      break
+    case (check('watch')):
+      shell.exec(`./node_modules/.bin/concurrently --kill-others "npm run watch" "npm run watch-assets-and-elements"`)
       break
     default:
       console.log('Command not found!')

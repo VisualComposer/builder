@@ -1967,7 +1967,25 @@ class DevElements extends Container implements Module
                         ),
                         'metaDescription' => 'Add an eye-catching call to action block to immediately drag visitor\'s attention and deliver a specific message.',
                     ],
-                ]
+                ],
+                //                'emptySpace' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/emptySpace/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/emptySpace/emptySpace/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/emptySpace/emptySpace/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/emptySpace/emptySpace/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Empty Space',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/emptySpace/emptySpace/public/empty-space-thumbnail.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/emptySpace/emptySpace/public/empty-space-preview.png'
+                //                        ),
+                //                        'metaDescription' => 'Add empty space to your layout with a blank empty space element and control spaces across different devices.',
+                //                    ],
+                //                ]
             ]
         );
     }

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "minimist": "^1.2.0",
+    "node-watch": "^0.5.5",
     "preferences": "^0.2.1",
     "readline-sync": "^1.4.7",
     "request": "^2.83.0",
