@@ -33,7 +33,7 @@ function vc_create_module_mock($mockableClass)
             ),
             0,
             50
-        ) . (rand(1000, 9999));
+        ) . (rand(1000, 9999)) . uniqid();
 
     $code = "
         class $temporaryClass extends $mockableClass {
