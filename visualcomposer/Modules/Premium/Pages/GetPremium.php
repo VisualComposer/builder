@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Settings\Pages;
+namespace VisualComposer\Modules\Premium\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -8,18 +8,21 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class GetPremium.
  */
-class GetPremium extends About implements Module
+class GetPremium extends Container implements Module
 {
+    use Page;
     use EventsFilters;
     use WpFiltersActions;
 
@@ -27,6 +30,11 @@ class GetPremium extends About implements Module
      * @var string
      */
     protected $slug = 'vcv-go-premium';
+
+    /**
+     * @var string
+     */
+    protected $templatePath = 'account/partials/activation-layout';
 
     public function __construct(License $licenseHelper, Token $tokenHelper, Request $requestHelper)
     {
@@ -36,11 +44,15 @@ class GetPremium extends About implements Module
                     'in_admin_footer',
                     'addJs'
                 );
+                $this->wpAddAction(
+                    'in_admin_header',
+                    'addCss'
+                );
             }
 
             $this->addEvent(
                 'vcv:inited',
-                function (License $licenseHelper, Token $tokenHelper, Request $requestHelper) {
+                function (License $licenseHelper, Request $requestHelper) {
                     if (!$licenseHelper->isActivated()) {
                         /** @see \VisualComposer\Modules\Account\Pages\ActivationPage::addPage */
                         $this->addFilter(
@@ -48,8 +60,6 @@ class GetPremium extends About implements Module
                             'addPage',
                             70
                         );
-
-                        $this->wpAddAction('in_admin_header', 'addCss');
                     } elseif ($requestHelper->input('page') === $this->getSlug()) {
                         $aboutPage = vcapp('SettingsPagesAbout');
                         wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
@@ -69,6 +79,15 @@ class GetPremium extends About implements Module
                 );
             }
         }
+    }
+
+    /**
+     *
+     */
+    protected function beforeRender()
+    {
+        wp_enqueue_script('vcv:settings:script');
+        wp_enqueue_style('vcv:settings:style');
     }
 
     /**
@@ -92,33 +111,19 @@ class GetPremium extends About implements Module
 
     protected function buttonTitle()
     {
-        return '<strong style="vertical-align: middle;font-weight:500;">' . __('Go Premium', 'vcwb')
-            . '</strong>';
+        return sprintf(
+            '<strong style="vertical-align: middle;font-weight:500;">%s</strong>',
+            __('Go Premium', 'vcwb')
+        );
     }
 
 
     /**
      * Add target _blank to external "Go Premium" link in sidebar
      */
-    protected function addJs(License $licenseHelper)
+    protected function addJs()
     {
-        if (!$licenseHelper->isActivated()) {
-            echo "<script>
-            jQuery(document).ready(function($) {
-                $('#toplevel_page_vcv-activation, #toplevel_page_vcv-settings').addClass('vcv-go-premium');
-            });
-            var hoverColor = jQuery('#adminmenu li .wp-has-current-submenu, adminmenu li .current').css('background-color');
-            var color = jQuery('#adminmenu li .wp-has-current-submenu, adminmenu li .current').css('color');
-            jQuery( 'body' ).on( 'mouseenter', '#toplevel_page_vcv-activation.vcv-go-premium .wp-submenu li:last-child, #toplevel_page_vcv-settings.vcv-go-premium .wp-submenu li:last-child', function(){ 
-              jQuery(this).css({'background-color': hoverColor})
-              jQuery(this).find('a').css({'color': color})
-            }); 
-            jQuery( 'body' ).on( 'mouseleave', '#toplevel_page_vcv-activation.vcv-go-premium .wp-submenu li:last-child, #toplevel_page_vcv-settings.vcv-go-premium .wp-submenu li:last-child', function(){ 
-              jQuery(this).css({'background-color': ''})
-              jQuery(this).find('a').css({'color': ''})
-            });
-        </script>";
-        }
+        echo vcview('premium/partials/get-premium-js');
     }
 
     /**
@@ -126,16 +131,7 @@ class GetPremium extends About implements Module
      */
     protected function addCss()
     {
-        echo "<style>
-            #toplevel_page_vcv-settings.vcv-go-premium .wp-submenu,
-            #toplevel_page_vcv-activation.vcv-go-premium .wp-submenu {
-                padding-bottom: 0px!important;
-            }
-            #toplevel_page_vcv-settings.vcv-go-premium .wp-submenu li:last-child, 
-            #toplevel_page_vcv-activation.vcv-go-premium .wp-submenu li:last-child {
-                padding-bottom: 7px;
-            }
-        </style>";
+        echo vcview('premium/partials/get-premium-css');
     }
 
     public function getActivePage()
@@ -152,7 +148,7 @@ class GetPremium extends About implements Module
      */
     protected function pluginsPageLink($links)
     {
-        $getPremiumPage = vcapp('SettingsPagesGetPremium');
+        $getPremiumPage = vcapp('PremiumPagesGetPremium');
 
         $goPremiumLink = '<a href="' . esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))) . '&vcv-ref=plugins-page">' . __('Go Premium', 'vcwb') . '</a>';
 

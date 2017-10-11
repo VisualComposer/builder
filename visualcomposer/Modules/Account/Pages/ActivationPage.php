@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Events;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -85,18 +84,8 @@ class ActivationPage extends Container implements Module
             'showTab' => false,
             'layout' => 'standalone',
             'controller' => $this,
-            'type' => VCV_ENV_ADDONS_ID !== 'account' ? 'standalone' : 'default',
+            'type' => vcvenv('VCV_ENV_ADDONS_ID') !== 'account' ? 'standalone' : 'default',
         ];
-        if (vcvenv('VCV_ENV_LICENSES')) {
-            $length = count($pages) - 1;
-
-            $licenseHelper = vchelper('License');
-
-            if ($pages[ $length ]['type'] === 'default' && $licenseHelper->isActivated()) {
-                $pages[ $length ]['type'] = 'premium';
-            }
-        }
-
 
         return $pages;
     }
@@ -151,16 +140,6 @@ class ActivationPage extends Container implements Module
      */
     public function getActivePage()
     {
-        if (vcvenv('VCV_ENV_LICENSES')) {
-            $licenseHelper = vchelper('License');
-
-            if ($licenseHelper->isActivated()) {
-                return 'download';
-            } else {
-                return 'intro';
-            }
-        }
-
-        return 'first';
+        return vcfilter('vcv:account:activation:activePage', 'first');
     }
 }
