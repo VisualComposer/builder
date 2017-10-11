@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\License;
@@ -22,7 +23,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
  * Class ActivationController
  * @package VisualComposer\Modules\Account
  */
-class AddonsActivationController extends ActivationController
+class AddonsActivationController extends ActivationController implements Module
 {
     use WpFiltersActions;
     use EventsFilters;
@@ -34,7 +35,9 @@ class AddonsActivationController extends ActivationController
      */
     public function __construct()
     {
-        $this->boot();
+        if (vcvenv('VCV_ENV_ADDONS_ID') !== 'account') {
+            $this->boot();
+        }
     }
 
     /**

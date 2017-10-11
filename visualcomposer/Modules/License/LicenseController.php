@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Account;
+namespace VisualComposer\Modules\License;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -18,7 +18,7 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Modules\Settings\Pages\Premium;
+use VisualComposer\Modules\Premium\Pages\Premium;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
@@ -51,7 +51,7 @@ class LicenseController extends Container implements Module
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Logger $loggerHelper
      * @param \VisualComposer\Helpers\Notice $noticeHelper
-     * @param \VisualComposer\Modules\Settings\Pages\Premium $premiumPageModule
+     * @param \VisualComposer\Modules\Premium\Pages\Premium $premiumPageModule
      *
      * @return bool|void
      */
@@ -61,7 +61,8 @@ class LicenseController extends Container implements Module
         License $licenseHelper,
         Logger $loggerHelper,
         Notice $noticeHelper,
-        Premium $premiumPageModule
+        Premium $premiumPageModule,
+        Token $tokenHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
             return;
@@ -77,6 +78,8 @@ class LicenseController extends Container implements Module
                         'timeout' => 10,
                         'body' => [
                             'token' => $licenseHelper->getKeyToken(),
+                            'id' => get_site_url(),
+                            'hoster_id' => vcvenv('VCV_ENV_ADDONS_ID')
                         ],
                     ]
                 );
@@ -84,6 +87,7 @@ class LicenseController extends Container implements Module
                 if (!vcIsBadResponse($result)) {
                     $result = json_decode($result['body'], true);
                     $licenseHelper->setKey($result['license_key']);
+                    $tokenHelper->setToken($result['auth_token']);
                     $noticeHelper->removeNotice('premium:deactivated');
                     wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
                     exit;

@@ -27,7 +27,7 @@ wp_enqueue_media();
 $postTypeHelper = vchelper('PostType');
 if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
     $licenseHelper = vchelper('License');
-    $getPremiumPage = vcapp('SettingsPagesGetPremium');
+    $getPremiumPage = vcapp('PremiumPagesGetPremium');
 }
 ?>
 <!DOCTYPE html>
