@@ -46,7 +46,7 @@ if (!defined('VCV_ACCOUNT_URL')) {
 if (!defined('VCV_HUB_URL')) {
     define(
         'VCV_HUB_URL',
-        isset($_SERVER['ENV_VCV_HUB_URL']) ? $_SERVER['ENV_VCV_HUB_URL'] : 'http://account.visualcomposer.io'
+        isset($_SERVER['ENV_VCV_HUB_URL']) ? $_SERVER['ENV_VCV_HUB_URL'] : 'https://account.visualcomposer.io'
     );
 }
 if (!defined('VCV_TOKEN_URL')) {

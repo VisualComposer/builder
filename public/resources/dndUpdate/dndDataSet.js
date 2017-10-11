@@ -210,7 +210,9 @@ export default class DndDataSet {
     dOMElement
       .on('dragstart', (e) => { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
+      .on('touchmove', this.handleDragStartFunction)
       .on('mousedown', this.handleDragFunction)
+      .on('touchmove', this.handleDragFunction)
   }
 
   updateItem (id) {
@@ -332,7 +334,10 @@ export default class DndDataSet {
 
   start (id, point, tag, domNode, disableTrashBin = false) {
     if (env('DND_TRASH_BIN') && !disableTrashBin) {
-      this.trash && this.trash.create()
+      this.trashBinTimeout = setTimeout(() => {
+        this.trashBinTimeout = null
+        this.trash && this.trash.create()
+      }, 300)
     }
     if (!this.dragStartHandled) {
       this.dragStartHandled = true
@@ -404,6 +409,10 @@ export default class DndDataSet {
     this.options.document.body.classList.remove('vcv-dnd-dragging--start', 'vcv-is-no-selection')
     if (env('DND_TRASH_BIN')) {
       // Remove trash bin
+      if (this.trashBinTimeout) {
+        clearTimeout(this.trashBinTimeout)
+        this.trashBinTimeout = null
+      }
       this.trash && this.trash.remove()
       if (!this.position && this.currentElement === 'vcv-dnd-trash-bin') {
         this.position = 'after'
@@ -507,8 +516,8 @@ export default class DndDataSet {
       this.handleDragEnd()
       return false
     }
-    if (e.changedTouches && e.changedTouches[0]) {
-      e.changedTouches[0].clientX !== undefined && e.changedTouches[0].clientY !== undefined && this.check({x: e.changedTouches[0].clientX - offsetX, y: e.changedTouches[0].clientY - offsetY})
+    if (e.touches && e.touches[0]) {
+      e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY})
     } else {
       e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX - offsetX, y: e.clientY - offsetY})
     }
@@ -528,8 +537,9 @@ export default class DndDataSet {
       return
     }
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.changedTouches && e.changedTouches[0]) {
-      this.start(id, {x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY}, null, e.currentTarget)
+    if (e.touches && e.touches[0]) {
+      e.preventDefault()
+      this.start(id, {x: e.touches[0].clientX, y: e.touches[0].clientY}, null, e.currentTarget)
     } else {
       this.start(id, {x: e.clientX, y: e.clientY}, null, e.currentTarget)
     }

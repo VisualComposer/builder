@@ -122,8 +122,10 @@ class AjaxControllerTest extends WP_UnitTestCase
     {
         /** @var \VisualComposer\Modules\System\Ajax\Controller $module */
         $module = vc_create_module_mock('\VisualComposer\Modules\System\Ajax\Controller');
+        $loggerHelper = vchelper('Logger');
         $this->assertFalse($module->call('parseRequest'));
-
+        $this->assertEquals('"Action doesn`t set."', $loggerHelper->all());
+        $loggerHelper->reset();
         /** @var \VisualComposer\Helpers\Request $requestHelper */
         $requestHelper = vchelper('Request');
         $requestHelper->setData(
@@ -176,9 +178,12 @@ class AjaxControllerTest extends WP_UnitTestCase
                 ]
             )
         );
+        $this->assertEquals('"Nonce not validated."', $loggerHelper->all());
+        $loggerHelper->reset();
 
         // Reset
         $requestHelper->setData([]);
+        $this->assertEmpty($loggerHelper->all());
     }
 
     public function testRenderResponse()
@@ -226,7 +231,10 @@ class AjaxControllerTest extends WP_UnitTestCase
             $catchedMessage = $e->getMessage();
         }
         $this->assertTrue($catched);
-        $this->assertEquals('{"status":false,"response":false,"message":"\"Action doesn`t set. Nonce not validated. Action doesn`t set.\"","details":[[],[],[]]}', $catchedMessage);
+        $loggerHelper = vchelper('Logger');
+        $this->assertEquals('"Action doesn`t set."', $loggerHelper->all());
+        $loggerHelper->reset();
+        $this->assertEquals('{"status":false,"response":false,"message":"\"Action doesn`t set.\"","details":[[]]}', $catchedMessage);
 
         // Test some real response
         $catched = false;
@@ -279,7 +287,9 @@ class AjaxControllerTest extends WP_UnitTestCase
             $catchedMessage = $e->getMessage();
         }
         $this->assertTrue($catched);
-        $this->assertEquals('{"status":false,"response":false,"message":"\"Action doesn`t set. Nonce not validated. Action doesn`t set. Nonce not validated.\"","details":[[],[],[],[]]}', $catchedMessage);
+        $this->assertEquals('"Nonce not validated."', $loggerHelper->all());
+        $loggerHelper->reset();
+        $this->assertEquals('{"status":false,"response":false,"message":"\"Nonce not validated.\"","details":[[]]}', $catchedMessage);
 
         /** Test normal nonce */
         $catched = false;
@@ -300,6 +310,8 @@ class AjaxControllerTest extends WP_UnitTestCase
             $catchedMessage = $e->getMessage();
         }
         $this->assertTrue($catched);
+        $message = $loggerHelper->all();
+        $this->assertEmpty($loggerHelper->all(), $message);
         $this->assertEquals('{"testListenAjax:adminNonce":true}', $catchedMessage);
 
         // Reset
