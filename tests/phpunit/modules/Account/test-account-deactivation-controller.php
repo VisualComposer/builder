@@ -7,7 +7,6 @@ class TestAccountDeactivationController extends WP_UnitTestCase
         //$this->assertTrue(vcvenv('VCV_ENV_LICENSES'));
         if (vcvenv('VCV_ENV_LICENSES')) {
             $requestHelper = vchelper('Request');
-            $requestHelper = vchelper('Request');
             $requestHelper->setData([
                 'code' => 'not empty',
             ]);
