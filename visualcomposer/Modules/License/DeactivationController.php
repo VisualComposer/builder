@@ -29,12 +29,13 @@ class DeactivationController extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\License\DeactivationController::unsetOptions */
-        $this->addEvent('vcv:system:deactivation:hook vcv:system:factory:reset', 'unsetOptions');
         if (vcvenv('VCV_ENV_LICENSES')) {
             /** @see \VisualComposer\Modules\License\DeactivationController::pingDeactivation */
             $this->addFilter('vcv:ajax:account:deactivation:ping', 'pingDeactivation');
         }
+
+        /** @see \VisualComposer\Modules\License\DeactivationController::unsetOptions */
+        $this->addEvent('vcv:system:deactivation:hook vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**
