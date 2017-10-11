@@ -153,11 +153,8 @@ class GetPremium extends About implements Module
     protected function pluginsPageLink($links)
     {
         $getPremiumPage = vcapp('SettingsPagesGetPremium');
-        $licenseHelper = vchelper('License');
 
-        if (!$licenseHelper->isActivated()) {
-            $goPremiumLink = '<a href="' . esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))) . '&vcv-ref=plugins-page">' . __('Go Premium', 'vcwb') . '</a>';
-        }
+        $goPremiumLink = '<a href="' . esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))) . '&vcv-ref=plugins-page">' . __('Go Premium', 'vcwb') . '</a>';
 
         array_push($links, $goPremiumLink);
 

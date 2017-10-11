@@ -75,6 +75,10 @@
           // background-color: @background;
         }
         .vcv-ui-outline-control-dropdown-content {
+          // env('ELEMENT_CONTROLS_DELAY')
+          &.vcv-ui-outline-controls-dropdown-content-delay-toggle-feature {
+            background-color: @activeBackground;
+          }
           .vcv-ui-outline-control {
             &:hover {
               background-color: darken(@activeBackground, 7%);

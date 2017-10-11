@@ -226,6 +226,8 @@ export default class ControlsManager {
       } else {
         this.doubleTapTimer = setTimeout(() => {
           this.doubleTapTimer = null
+          this.frames.hide()
+          this.showFrames(data.element, data.elPath)
         }, 250)
       }
     }
@@ -290,6 +292,8 @@ export default class ControlsManager {
       //   this.state.scroll = true
       //   this.scrollPage(stepX, stepY)
       // }
+    } else {
+      this.frames.hide()
     }
   }
 
@@ -308,6 +312,7 @@ export default class ControlsManager {
 
   editElement (e) {
     let { element } = this.findElement(e)
+    this.frames.hide()
     if (this.editFormId) {
       let settings = workspaceStorage.state('settings').get()
       if (settings && settings.action === 'edit') {

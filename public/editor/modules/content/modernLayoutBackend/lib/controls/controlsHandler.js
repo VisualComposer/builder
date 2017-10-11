@@ -1,4 +1,4 @@
-import {getService, getStorage} from 'vc-cake'
+import {getService, getStorage, env} from 'vc-cake'
 
 const documentManager = getService('document')
 const cook = getService('cook')
@@ -30,6 +30,9 @@ export default class ControlsHandler {
   setup () {
     this.controlsContainer = document.createElement('div')
     this.controlsContainer.classList.add('vcv-ui-outline-controls-container', 'wip')
+    if (env('ELEMENT_CONTROLS_DELAY')) {
+      this.controlsContainer.classList.add('vcv-ui-outline-controls-delay-toggle-feature')
+    }
     this.iframeOverlay.appendChild(this.controlsContainer)
     this.controlsContainer.addEventListener('mouseenter', this.updateDropdownsPosition)
     this.appendControlContainer = document.createElement('div')
@@ -130,6 +133,38 @@ export default class ControlsHandler {
         }
       }
     }
+    if (env('ELEMENT_CONTROLS_DELAY')) {
+      this.addControlDropdownInteractionEvents(controlsList)
+    }
+  }
+
+  addControlDropdownInteractionEvents (controlsList) {
+    let controls = controlsList.querySelectorAll('.vcv-ui-outline-control-dropdown')
+    controls.forEach((control, index) => {
+      control.addEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control, index))
+      control.addEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control, index))
+    })
+  }
+
+  controlDropdownMouseEnter (control, index) {
+    if (this.controlDropdownInterval) {
+      clearInterval(this.controlDropdownInterval)
+      this.controlDropdownInterval = null
+    }
+    if (this.currentDropdownControl) {
+      this.currentDropdownControl.classList.remove('vcv-ui-outline-control-dropdown-active')
+    }
+    this.currentDropdownControl = control
+    this.currentDropdownControl.classList.add('vcv-ui-outline-control-dropdown-active')
+  }
+
+  controlDropdownMouseLeave (control, index) {
+    this.controlDropdownInterval = setInterval(() => {
+      control.classList.remove('vcv-ui-outline-control-dropdown-active')
+      this.currentDropdownControl = null
+      clearInterval(this.controlDropdownInterval)
+      this.controlDropdownInterval = null
+    }, 150)
   }
 
   appendEditAndRemove (appendContainer, elementId) {
@@ -519,6 +554,13 @@ export default class ControlsHandler {
    * Destroy controls
    */
   destroyControls () {
+    if (env('ELEMENT_CONTROLS_DELAY')) {
+      let controls = this.controlsContainer && this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
+      controls.forEach((control, index) => {
+        control.removeEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control, index))
+        control.removeEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control, index))
+      })
+    }
     while (this.controlsContainer && this.controlsContainer.firstChild) {
       this.controlsContainer.removeChild(this.controlsContainer.firstChild)
     }
@@ -665,10 +707,12 @@ export default class ControlsHandler {
    * @param e
    */
   updateDropdownsPosition (e) {
-    this.controlsContainer.classList.add('vcv-state--visible')
-    this.controlsContainer.addEventListener('mouseleave', () => {
-      this.controlsContainer.classList.remove('vcv-state--visible')
-    })
+    if (!env('ELEMENT_CONTROLS_DELAY')) {
+      this.controlsContainer.classList.add('vcv-state--visible')
+      this.controlsContainer.addEventListener('mouseleave', () => {
+        this.controlsContainer.classList.remove('vcv-state--visible')
+      })
+    }
     let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
     dropdowns = [].slice.call(dropdowns)
     let iframeRect = this.iframe.getBoundingClientRect()
