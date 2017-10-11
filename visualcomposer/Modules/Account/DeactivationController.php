@@ -36,14 +36,6 @@ class DeactivationController extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Token $tokenHelper
-     */
-    protected function unsetOptions(Token $tokenHelper)
-    {
-        $tokenHelper->reset();
-    }
-
-    /**
      * Force license deactivation
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
@@ -61,5 +53,13 @@ class DeactivationController extends Container implements Module
         }
 
         return ['status' => true];
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Token $tokenHelper
+     */
+    protected function unsetOptions(Token $tokenHelper)
+    {
+        $tokenHelper->reset();
     }
 }
