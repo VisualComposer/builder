@@ -314,7 +314,7 @@ export default class ControlsManager {
             }
             clearInterval(this.closingControlsInterval)
             this.closingControlsInterval = null
-          }, 300)
+          }, 400)
         } else {
           this.controls.hide()
           if (this.state.showFrames) {

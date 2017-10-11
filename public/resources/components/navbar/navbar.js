@@ -539,7 +539,7 @@ export default class Navbar extends React.Component {
   }
   renderDragHandler () {
     const {draggable} = this.props
-    if (!draggable) {
+    if (!draggable || this.isMobile) {
       return true
     }
     return <div className='vcv-ui-navbar-drag-handler vcv-ui-drag-handler' onMouseDown={this.handleDragStart}>

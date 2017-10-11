@@ -19,6 +19,10 @@ export default class TrashBin {
 
   create () {
     this.cancelRemove = true
+    const oldTrashBin = this.options.container.querySelector('#vcv-dnd-trash-bin')
+    if (oldTrashBin) {
+      this.options.container.removeChild(oldTrashBin)
+    }
     this.elContainer = document.createElement('div')
     this.elContainer.classList.add('vcv-ui-trash-bin-container')
     this.el = document.createElement('i')

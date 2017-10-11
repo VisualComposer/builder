@@ -484,6 +484,11 @@ export default class TreeViewElement extends React.Component {
 
     )
 
+    let dragHelperClasses = 'vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'
+    if (this.isMobile) {
+      dragHelperClasses += ' vcv-ui-tree-layout-control-drag-handler-mobile'
+    }
+
     if (!this.isMobile) {
       envContent = (
         <span className={controlLabelClasses}>
@@ -513,7 +518,7 @@ export default class TreeViewElement extends React.Component {
           onMouseLeave={this.handleMouseLeave}
           onClick={this.handleClick}
         >
-          <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>
+          <div className={dragHelperClasses}>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
           </div>
           <div className='vcv-ui-tree-layout-control-content'>
