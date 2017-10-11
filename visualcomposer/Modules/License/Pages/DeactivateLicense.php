@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Settings\Pages;
+namespace VisualComposer\Modules\License\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
