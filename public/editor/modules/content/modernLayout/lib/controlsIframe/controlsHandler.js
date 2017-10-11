@@ -157,13 +157,14 @@ export default class ControlsHandler {
 
   addControlDropdownInteractionEvents (controlsList) {
     let controls = controlsList.querySelectorAll('.vcv-ui-outline-control-dropdown')
-    controls.forEach((control, index) => {
-      control.addEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control, index))
-      control.addEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control, index))
+    controls = [].slice.call(controls)
+    controls.forEach(control => {
+      control.addEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control))
+      control.addEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control))
     })
   }
 
-  controlDropdownMouseEnter (control, index) {
+  controlDropdownMouseEnter (control) {
     if (this.controlDropdownInterval) {
       clearInterval(this.controlDropdownInterval)
       this.controlDropdownInterval = null
@@ -175,13 +176,13 @@ export default class ControlsHandler {
     this.currentDropdownControl.classList.add('vcv-ui-outline-control-dropdown-active')
   }
 
-  controlDropdownMouseLeave (control, index) {
+  controlDropdownMouseLeave (control) {
     this.controlDropdownInterval = setInterval(() => {
       control.classList.remove('vcv-ui-outline-control-dropdown-active')
       this.currentDropdownControl = null
       clearInterval(this.controlDropdownInterval)
       this.controlDropdownInterval = null
-    }, 150)
+    }, 300)
   }
 
   appendEditAndRemove (appendContainer, elementId) {
@@ -573,9 +574,10 @@ export default class ControlsHandler {
   destroyControls () {
     if (env('ELEMENT_CONTROLS_DELAY')) {
       let controls = this.controlsContainer && this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
-      controls.forEach((control, index) => {
-        control.removeEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control, index))
-        control.removeEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control, index))
+      controls = [].slice.call(controls)
+      controls.forEach(control => {
+        control.removeEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control))
+        control.removeEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control))
       })
     }
     while (this.controlsContainer && this.controlsContainer.firstChild) {
