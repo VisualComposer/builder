@@ -14,7 +14,7 @@ class TestAccountDeactivationController extends WP_UnitTestCase
             $licenseHelper = vchelper('License');
             $this->assertFalse($licenseHelper->isActivated());
             $optionsHelper->setTransient('lastBundleUpdate', 1, 3600);
-            $response = vcfilter('vcv:ajax:account:deactivation:ping');
+            $response = vcfilter('vcv:ajax:license:deactivation:ping');
             $this->assertEquals(['status' => true], $response);
             $this->assertEquals(1, $optionsHelper->getTransient('lastBundleUpdate'));
             $licenseHelper->setKey('test');
@@ -24,7 +24,7 @@ class TestAccountDeactivationController extends WP_UnitTestCase
                 'code' => 'wrong',
             ]);
             $this->assertTrue($licenseHelper->isActivated());
-            $response = vcfilter('vcv:ajax:account:deactivation:ping');
+            $response = vcfilter('vcv:ajax:license:deactivation:ping');
             $this->assertEquals(1, $optionsHelper->getTransient('lastBundleUpdate'));
 
             $requestHelper->setData([
@@ -32,7 +32,7 @@ class TestAccountDeactivationController extends WP_UnitTestCase
             ]);
             // Now the transient must be deleted
             $this->assertTrue($licenseHelper->isActivated());
-            $response = vcfilter('vcv:ajax:account:deactivation:ping');
+            $response = vcfilter('vcv:ajax:license:deactivation:ping');
             $this->assertFalse($optionsHelper->getTransient('lastBundleUpdate'));
 
             $licenseHelper->setKey('');
