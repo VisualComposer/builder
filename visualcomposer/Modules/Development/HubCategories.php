@@ -263,7 +263,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Message Box' => [
                     'title' => 'Message Box',
-                    'elements' => ['messageBox'],
+                    'elements' => ['messageBox', 'outlineMessageBox'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Message-Box.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Message-Box.svg'),
                 ],

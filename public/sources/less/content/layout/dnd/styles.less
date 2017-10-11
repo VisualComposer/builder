@@ -73,8 +73,8 @@
 }
 
 .vcv-ui-trash-bin-container {
-  position: absolute;
-  z-index: 11000;
+  position: fixed;
+  z-index: 10999;
   pointer-events: all;
   border-radius: 50%;
   bottom: 30px;
@@ -100,7 +100,7 @@
       height .2s ease,
       padding .2s ease,
       background .2s ease .2s,
-      opacity .5s ease .2s;
+      opacity .5s ease;
   }
 
   .vcv-ui-trash-bin-icon {

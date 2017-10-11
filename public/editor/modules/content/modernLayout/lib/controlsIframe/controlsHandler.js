@@ -362,6 +362,9 @@ export default class ControlsHandler {
 
     let dropdown = document.createElement('div')
     dropdown.classList.add('vcv-ui-outline-control-dropdown-content')
+    if (env('ELEMENT_CONTROLS_DELAY')) {
+      dropdown.classList.add('vcv-ui-outline-controls-dropdown-content-delay-toggle-feature')
+    }
 
     // prepare actions
     let actions = []

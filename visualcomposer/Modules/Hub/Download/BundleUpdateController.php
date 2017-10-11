@@ -23,6 +23,7 @@ class BundleUpdateController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized()) {
             $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
+            /** @see \VisualComposer\Modules\Hub\Download\BundleUpdateController::checkVersion */
             $this->addFilter('vcv:hub:update:checkVersion', 'checkVersion');
             $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);
             $this->addFilter('vcv:ajax:bundle:update:finished:adminNonce', 'setUpdateDone');

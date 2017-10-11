@@ -7,14 +7,12 @@
     overflow: visible;
     .vcv-ui-outline-control-dropdown-content {
       position: absolute;
-      transition: all 0s ease .3s;
     }
     .vcv-ui-outline-control-dropdown{
       &:hover {
         .vcv-ui-outline-control-dropdown-content {
           visibility: visible;
           opacity: 1;
-          transition: all 0.3s ease 0s;
         }
       }
     }
@@ -224,7 +222,11 @@
   z-index: @controls-dropdown-zindex;
   visibility: visible;
   opacity: 1;
-
+  transition: visibility 0s, opacity @transition-duration @transition-timing-function;
+  // env('ELEMENT_CONTROLS_DELAY')
+  &.vcv-ui-outline-controls-dropdown-content-delay-toggle-feature {
+    transition: none;
+  }
   .vcv-ui-outline-control {
     border-radius: @control-border-radius;
     text-align: left;

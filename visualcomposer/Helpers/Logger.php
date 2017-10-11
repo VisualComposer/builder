@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
+
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Logger implements Helper
@@ -48,6 +49,14 @@ class Logger implements Helper
     {
         $dataHelper = vchelper('Data');
 
-        return $dataHelper->arrayColumn($this->logs, 'details');
+        return array_unique($dataHelper->arrayColumn($this->logs, 'details'));
+    }
+
+    public function reset()
+    {
+        $logs = $this->logs;
+        $this->logs = [];
+
+        return $logs;
     }
 }
