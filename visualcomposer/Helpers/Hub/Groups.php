@@ -38,11 +38,12 @@ class Groups implements Helper
 
     public function updateGroup($key, $prev, $new, $merged)
     {
+        $dataHelper = vchelper('Data');
         if (!empty($prev)) {
             if (isset($new['categories']) && is_array($new['categories']) && isset($prev['categories'])
             ) {
                 $merged['categories'] = array_values(
-                    array_unique(array_merge($prev['categories'], $new['categories']))
+                    $dataHelper->arrayDeepUnique(array_merge($prev['categories'], $new['categories']))
                 );
             }
         }

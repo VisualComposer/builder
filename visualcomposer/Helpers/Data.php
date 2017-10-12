@@ -73,7 +73,7 @@ class Data implements Helper
     {
         return array_map(
             function ($element) use ($columnName) {
-                return $element[ $columnName ];
+                return is_array($element) && isset($element[ $columnName ]) ? $element[ $columnName ] : null;
             },
             $array
         );

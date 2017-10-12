@@ -53,6 +53,9 @@ class Controller extends Container implements Module
     protected function listenAjax(Request $requestHelper)
     {
         if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
+            if (!vcvenv('VCV_DEBUG')) {
+                error_reporting(0);
+            }
             $this->setGlobals();
             /** @see \VisualComposer\Modules\System\Ajax\Controller::parseRequest */
             $rawResponse = $this->call('parseRequest');
