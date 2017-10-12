@@ -61,6 +61,7 @@ export default class DndManager {
         endCallback: DndManager.end,
         document: this.documentDOM || document,
         container: document.getElementById('vcv-editor-iframe-overlay') || document.body,
+        wrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
         manualScroll: true
       })
       this.items.init()

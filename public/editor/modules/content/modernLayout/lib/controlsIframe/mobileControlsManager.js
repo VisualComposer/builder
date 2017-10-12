@@ -43,6 +43,7 @@ export default class ControlsManager {
     // get system data
     this.iframeContainer = options.iframeContainer
     this.iframeOverlay = options.iframeOverlay
+    this.iframeWrapper = options.iframeWrapper
     this.iframe = options.iframe
     this.iframeWindow = options.iframeWindow
     this.iframeDocument = options.iframeDocument
@@ -52,6 +53,7 @@ export default class ControlsManager {
     let systemData = {
       iframeContainer: this.iframeContainer,
       iframeOverlay: this.iframeOverlay,
+      iframeWrapper: this.iframeWrapper,
       iframe: this.iframe,
       iframeWindow: this.iframeWindow,
       iframeDocument: this.iframeDocument,
@@ -85,6 +87,7 @@ export default class ControlsManager {
       iframeUsed: true,
       iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
       iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
+      iframeWrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
       iframe: document.querySelector('#vcv-editor-iframe'),
       documentBody: document.body
     }
@@ -166,19 +169,19 @@ export default class ControlsManager {
     let elementsToShow = []
     data.vcElementsPath.forEach((id) => {
       let documentElement = documentService.get(id)
-      if (documentElement.tag === 'column') {
+      if (documentElement && documentElement.tag === 'column') {
         let children = documentService.children(documentElement.parent)
         children.forEach((child) => {
           elementsToShow.push(child.id)
         })
-      } else if (documentElement.tag === 'row') {
+      } else if (documentElement && documentElement.tag === 'row') {
         let children = documentService.children(documentElement.id)
         elementsToShow.push(documentElement.id)
         children.forEach((child) => {
           elementsToShow.push(child.id)
         })
       } else {
-        elementsToShow.push(documentElement.id)
+        elementsToShow.push(documentElement && documentElement.id)
       }
     })
     elementsToShow = elementsToShow.map((id) => {
@@ -243,7 +246,9 @@ export default class ControlsManager {
       this.state.hoverPath = elPath
       this.state.hoverRoot = elPath[ elPath.length - 1 ]
       this.showFrames(element, elPath)
-      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY } })
+      let scrollX = this.iframeWrapper && this.iframeWrapper.scrollLeft || 0
+      let scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop || 0
+      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY } })
     }
   }
 
@@ -263,7 +268,7 @@ export default class ControlsManager {
         this.iframeWindow.getSelection().removeAllRanges()
       }
 
-      let { clientX, clientY } = e.changedTouches && e.changedTouches[0] || {}
+      let { clientX, clientY } = e.touches && e.touches[0] || {}
       let element = this.iframeDocument.elementFromPoint(clientX, clientY)
       let { elPath } = this.findElement({ target: element })
       let elRoot = elPath[ elPath.length - 1 ]
