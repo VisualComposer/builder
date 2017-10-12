@@ -2,6 +2,7 @@ export default class Frames {
   constructor (props) {
     this.iframeContainer = props.iframeContainer
     this.iframeOverlay = props.iframeOverlay
+    this.iframeWrapper = props.iframeWrapper
     this.iframe = props.iframe
     this.iframeWindow = props.iframeWindow
     this.iframeDocument = props.iframeDocument
@@ -44,8 +45,10 @@ export default class Frames {
       top -= iframePos.top
       left -= iframePos.left
     }
-    frame.style.top = top + 'px'
-    frame.style.left = left + 'px'
+    let scrollTop = this.iframeWrapper && this.iframeWrapper.scrollTop || 0
+    let scrollLeft = this.iframeWrapper && this.iframeWrapper.scrollLeft || 0
+    frame.style.top = top - scrollTop + 'px'
+    frame.style.left = left - scrollLeft + 'px'
     frame.style.width = width + 'px'
     frame.style.height = height + 'px'
   }

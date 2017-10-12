@@ -48,6 +48,7 @@ export default class ControlsManager {
     // get system data
     this.iframeContainer = options.iframeContainer
     this.iframeOverlay = options.iframeOverlay
+    this.iframeWrapper = options.iframeWrapper
     this.iframe = options.iframe
     this.iframeWindow = options.iframeWindow
     this.iframeDocument = options.iframeDocument
@@ -57,6 +58,7 @@ export default class ControlsManager {
     let systemData = {
       iframeContainer: this.iframeContainer,
       iframeOverlay: this.iframeOverlay,
+      iframeWrapper: this.iframeWrapper,
       iframe: this.iframe,
       iframeWindow: this.iframeWindow,
       iframeDocument: this.iframeDocument,
@@ -193,6 +195,7 @@ export default class ControlsManager {
       iframeUsed: true,
       iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
       iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
+      iframeWrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
       iframe: document.querySelector('#vcv-editor-iframe'),
       documentBody: document.body
     }
