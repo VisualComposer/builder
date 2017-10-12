@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\License;
+use VisualComposer\Helpers\Notice;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
@@ -115,17 +116,19 @@ class ActivationController extends Container implements Module
      * @param $response
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Token $tokenHelper
-     * @param License $licenseHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Notice $noticeHelper
      *
-     * @return mixed
+     * @return array
      */
     protected function finishActivation(
         $response,
         Options $optionsHelper,
         Token $tokenHelper,
         License $licenseHelper,
-        Request $requestHelper
+        Request $requestHelper,
+        Notice $noticeHelper
     ) {
         $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
         if ($currentTransient) {
@@ -133,6 +136,7 @@ class ActivationController extends Container implements Module
                 return ['status' => false];
             } else {
                 $optionsHelper->deleteTransient('vcv:activation:request');
+                $noticeHelper->removeNotice('activation:failed');
             }
         }
         $tokenHelper->setSiteAuthorized();
