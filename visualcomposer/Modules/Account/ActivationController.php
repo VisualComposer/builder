@@ -36,8 +36,6 @@ class ActivationController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_ADDONS_ID') === 'account') {
             $this->boot();
-            /** @see \VisualComposer\Modules\Account\ActivationController::subscribeLiteVersion */
-            $this->addFilter('vcv:activation:token:success', 'subscribeLiteVersion');
         }
     }
 
@@ -113,51 +111,6 @@ class ActivationController extends Container implements Module
 
         if ($tokenHelper->isSiteAuthorized()) {
             return ['status' => true];
-        }
-
-        return false;
-    }
-
-    protected function subscribeLiteVersion($response, $payload, Request $requestHelper, Logger $loggerHelper, Options $optionsHelper, License $licenseHelper)
-    {
-        if (!vcIsBadResponse($response)) {
-            if ($optionsHelper->getTransient('vcv:activation:subscribe') || $licenseHelper->isActivated()) {
-                return $response;
-            }
-            // This is a place where we need to make registration/activation request in account
-            $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
-            $result = wp_remote_get(
-                VCV_ACCOUNT_URL . '/subscribe-lite-version',
-                [
-                    'timeout' => 10,
-                    'body' => [
-                        'url' => VCV_PLUGIN_URL,
-                        'email' => trim($requestHelper->input('email')),
-                        'category' => trim($requestHelper->input('category')),
-                        'agreement' => $requestHelper->input('agreement'),
-                        'id' => $id,
-                    ],
-                ]
-            );
-            if (!vcIsBadResponse($result)) {
-                // Register in options subscribe request time for future request.
-                $optionsHelper->setTransient('vcv:activation:subscribe', 1, 600);
-                $optionsHelper->set('activation-email', $requestHelper->input('email'));
-                $optionsHelper->set('activation-agreement', $requestHelper->input('agreement'));
-                $optionsHelper->set('activation-category', $requestHelper->input('category'));
-
-                return $response;
-            } else {
-                $loggerHelper->log(
-                    __('Failed to subscribe to the lite version', 'vcwb'),
-                    [
-                        'response' => is_wp_error($result) ? $result->get_error_message()
-                            : (is_array($result) ? $result['body'] : ''),
-                    ]
-                );
-                $result['status'] = false;
-                return $result;
-            }
         }
 
         return false;
