@@ -79,7 +79,7 @@ class LicenseController extends Container implements Module
                         'body' => [
                             'token' => $licenseHelper->getKeyToken(),
                             'id' => get_site_url(),
-                            'hoster_id' => vcvenv('VCV_ENV_ADDONS_ID')
+                            'hoster_id' => vcvenv('VCV_ENV_ADDONS_ID'),
                         ],
                     ]
                 );
@@ -87,7 +87,9 @@ class LicenseController extends Container implements Module
                 if (!vcIsBadResponse($result)) {
                     $result = json_decode($result['body'], true);
                     $licenseHelper->setKey($result['license_key']);
-                    $tokenHelper->setToken($result['auth_token']);
+                    if (isset($result['auth_token'])) {
+                        $tokenHelper->setToken($result['auth_token']);
+                    }
                     $noticeHelper->removeNotice('premium:deactivated');
                     wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
                     exit;
@@ -105,6 +107,7 @@ class LicenseController extends Container implements Module
         wp_redirect(admin_url('index.php'));
         exit;
     }
+
     /**
      * Receive licence key and store it in DB
      *
