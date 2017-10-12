@@ -35,14 +35,9 @@ class ActivationController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_ENV_ADDONS_ID') === 'account') {
-            $this->boot();
+            /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
+            $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
         }
-    }
-
-    protected function boot()
-    {
-        /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
-        $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
         /** @see \VisualComposer\Modules\Account\ActivationController::checkActivationError */
         $this->addFilter('vcv:ajax:account:activation:adminNonce vcv:hub:download:bundle:*', 'checkActivationError', 100);
         $this->addFilter('vcv:ajax:account:activation:finished:adminNonce', 'finishActivation');

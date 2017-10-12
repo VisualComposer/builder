@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
@@ -23,7 +24,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
  * Class ActivationController
  * @package VisualComposer\Modules\Account
  */
-class AddonsActivationController extends ActivationController implements Module
+class AddonsActivationController extends Container implements Module
 {
     use WpFiltersActions;
     use EventsFilters;
@@ -36,7 +37,8 @@ class AddonsActivationController extends ActivationController implements Module
     public function __construct()
     {
         if (vcvenv('VCV_ENV_ADDONS_ID') !== 'account') {
-            $this->boot();
+            /** @see \VisualComposer\Modules\Account\AddonsActivationController::requestAddonsActivation */
+            $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestAddonsActivation');
         }
     }
 
@@ -52,7 +54,7 @@ class AddonsActivationController extends ActivationController implements Module
      *
      * @return array|bool|\WP_Error
      */
-    protected function requestActivation(
+    protected function requestAddonsActivation(
         $response,
         $payload,
         Request $requestHelper,
