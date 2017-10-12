@@ -6,7 +6,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class About implements Helper
 {
-
     /**
      * Retrieves list of slides for latest activation page
      * @return array

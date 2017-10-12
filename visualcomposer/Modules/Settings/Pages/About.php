@@ -39,22 +39,24 @@ class About extends Container implements Module
     public function __construct()
     {
         $this->addEvent(
-            'vcv:inited', function (Token $tokenHelper, Request $requestHelper) {
-            if (!$tokenHelper->isSiteAuthorized()) {
-                if ($requestHelper->input('page') === $this->getSlug()) {
-                    $activationPageModule = vcapp('AccountPagesActivationPage');
-                    wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
-                    exit;
+            'vcv:inited',
+            function (Token $tokenHelper, Request $requestHelper) {
+                if (!$tokenHelper->isSiteAuthorized()) {
+                    if ($requestHelper->input('page') === $this->getSlug()) {
+                        $activationPageModule = vcapp('AccountPagesActivationPage');
+                        wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
+                        exit;
+                    }
+                } else {
+                    /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
+                    $this->addFilter(
+                        'vcv:settings:getPages',
+                        'addPage',
+                        70
+                    );
                 }
-            } else {
-                /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
-                $this->addFilter(
-                    'vcv:settings:getPages',
-                    'addPage',
-                    70
-                );
             }
-        });
+        );
     }
 
     /**
