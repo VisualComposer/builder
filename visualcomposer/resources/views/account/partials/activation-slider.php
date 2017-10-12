@@ -5,9 +5,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * @var \VisualComposer\Modules\Account\Pages\ActivationPage $controller
- */
+$slides = vchelper('SettingsPagesAbout');
 ?>
 <!-- Last screen -->
 <div class="vcv-popup-last-screen">
@@ -36,7 +34,7 @@ if (!defined('ABSPATH')) {
         <!-- GIF Slider -->
         <div class="vcv-popup-slider-container">
             <div class="vcv-popup-slider">
-                <?php foreach ($controller->getSlides() as $slide) : ?>
+                <?php foreach ($slides->getSlides() as $slide) : ?>
                     <?php echo vcview('account/partials/activation-slide', $slide); ?>
                 <?php endforeach; ?>
             </div>
