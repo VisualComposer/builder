@@ -12,7 +12,7 @@ import Range from '../range/Component'
 import IconPicker from '../iconpicker/Component'
 import vcCake from 'vc-cake'
 
-export default class DesignOptionsAdvanced extends Attribute {
+export default class Divider extends Attribute {
   /**
    * Attribute Mixins
    */
@@ -77,7 +77,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       newState = this.parseValue(props.value)
     } else {
       // data came from state update
-      newState = lodash.defaultsDeep({}, props, DesignOptionsAdvanced.defaultState)
+      newState = lodash.defaultsDeep({}, props, Divider.defaultState)
     }
     return newState
   }
@@ -89,7 +89,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   parseValue (value) {
     // set default values
-    let newState = lodash.defaultsDeep({}, DesignOptionsAdvanced.defaultState)
+    let newState = lodash.defaultsDeep({}, Divider.defaultState)
     // get devices data
     let devices = this.getCustomDevicesKeys()
     // set current device
@@ -99,7 +99,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     // update devices values
     devices.push('all')
     devices.forEach((device) => {
-      newState.devices[ device ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.deviceDefaults)
+      newState.devices[ device ] = lodash.defaultsDeep({}, Divider.deviceDefaults)
       if (value.device && value.device[ device ]) {
         newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], newState.devices[ device ])
       }
@@ -129,10 +129,10 @@ export default class DesignOptionsAdvanced extends Attribute {
       if (!lodash.isEmpty(newState.devices[ device ])) {
         // set default values
         if (!newState.devices[ device ].dividerBackgroundStyle) {
-          newState.devices[ device ].dividerBackgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+          newState.devices[ device ].dividerBackgroundStyle = Divider.deviceDefaults.backgroundStyle
         }
         if (!newState.devices[ device ].dividerBackgroundPosition) {
-          newState.devices[ device ].dividerBackgroundPosition = DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+          newState.devices[ device ].dividerBackgroundPosition = Divider.deviceDefaults.backgroundPosition
         }
 
         // values
@@ -187,7 +187,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
         // mixins
         if (newValue[ device ].hasOwnProperty('display')) {
-          newMixins[ `visibilityMixin:${device}` ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.visibilityMixin)
+          newMixins[ `visibilityMixin:${device}` ] = lodash.defaultsDeep({}, Divider.attributeMixins.visibilityMixin)
           newMixins[ `visibilityMixin:${device}` ].variables = {
             device: {
               value: device
@@ -198,7 +198,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           if (newValue[ device ] && newValue[ device ].divider && (newValue[ device ].dividerBackgroundType === 'image' || newValue[ device ].dividerBackgroundType === 'videoEmbed')) {
             let mixinName = `dividerMixin:${device}`
             newMixins[ mixinName ] = {}
-            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
+            newMixins[ mixinName ] = lodash.defaultsDeep({}, Divider.attributeMixins.dividerMixin)
 
             newMixins[ mixinName ].variables.device = {
               value: device
@@ -383,7 +383,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       ]
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerFlipHorizontal || DesignOptionsAdvanced.deviceDefaults.dividerFlipHorizontal
+    let value = this.state.devices[ this.state.currentDevice ].dividerFlipHorizontal || Divider.deviceDefaults.dividerFlipHorizontal
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -409,11 +409,11 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
     let iconType = 'shapes'
     let fieldKey = 'dividerShape'
-    let value = this.state.devices[ this.state.currentDevice ].dividerShape || DesignOptionsAdvanced.deviceDefaults.dividerShape
+    let value = this.state.devices[ this.state.currentDevice ].dividerShape || Divider.deviceDefaults.dividerShape
 
     if (vcCake.env('NEW_DIVIDER_SHAPES')) {
       iconType = 'newShapes'
-      value = this.state.devices[ this.state.currentDevice ].dividerShapeNew || DesignOptionsAdvanced.deviceDefaults.dividerShapeNew
+      value = this.state.devices[ this.state.currentDevice ].dividerShapeNew || Divider.deviceDefaults.dividerShapeNew
       fieldKey = 'dividerShapeNew'
     }
 
@@ -516,7 +516,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         value: 'videoEmbed'
       })
     }
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundType || DesignOptionsAdvanced.deviceDefaults.dividerBackgroundType
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundType || Divider.deviceDefaults.dividerBackgroundType
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background type
@@ -541,7 +541,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundColor || DesignOptionsAdvanced.deviceDefaults.dividerBackgroundColor
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundColor || Divider.deviceDefaults.dividerBackgroundColor
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background color
@@ -551,7 +551,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='dividerBackgroundColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={DesignOptionsAdvanced.deviceDefaults.dividerBackgroundColor} />
+        defaultValue={Divider.deviceDefaults.dividerBackgroundColor} />
     </div>
   }
 
@@ -566,7 +566,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientStartColor || DesignOptionsAdvanced.deviceDefaults.dividerBackgroundGradientStartColor
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientStartColor || Divider.deviceDefaults.dividerBackgroundGradientStartColor
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider start color
@@ -576,7 +576,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='dividerBackgroundGradientStartColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={DesignOptionsAdvanced.deviceDefaults.dividerBackgroundGradientStartColor} />
+        defaultValue={Divider.deviceDefaults.dividerBackgroundGradientStartColor} />
     </div>
   }
 
@@ -591,7 +591,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientEndColor || DesignOptionsAdvanced.deviceDefaults.dividerBackgroundGradientEndColor
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientEndColor || Divider.deviceDefaults.dividerBackgroundGradientEndColor
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider end color
@@ -601,7 +601,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='dividerBackgroundGradientEndColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={DesignOptionsAdvanced.deviceDefaults.dividerBackgroundGradientEndColor} />
+        defaultValue={Divider.deviceDefaults.dividerBackgroundGradientEndColor} />
     </div>
   }
 
@@ -616,7 +616,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientAngle || DesignOptionsAdvanced.deviceDefaults.dividerBackgroundGradientAngle
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientAngle || Divider.deviceDefaults.dividerBackgroundGradientAngle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider gradient angle
@@ -713,7 +713,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundStyle || Divider.deviceDefaults.backgroundStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background style
@@ -812,7 +812,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundPosition || DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundPosition || Divider.deviceDefaults.backgroundPosition
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background position
