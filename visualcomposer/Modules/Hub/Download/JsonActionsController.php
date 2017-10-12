@@ -40,8 +40,8 @@ class JsonActionsController extends Container implements Module
                 list($needUpdatePost, $requiredActions) = $hubBundle->loopActions($payload['json']);
                 $reRenderPosts = array_unique($needUpdatePost);
                 $response['actions'] = $requiredActions;
-                if (sizeof($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
-                    $postsActions = $this->createPostUpdateObjects(array_unique($needUpdatePost));
+                if (count($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
+                    $postsActions = $this->createPostUpdateObjects($reRenderPosts);
                     $response['vcvUpdaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
                     $response['vcvVendorUrl'] = $urlHelper->to('public/dist/vendor.bundle.js');
                     $response['actions'] += $postsActions;
