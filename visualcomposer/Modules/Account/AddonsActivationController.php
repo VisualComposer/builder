@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
-use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
@@ -62,8 +61,7 @@ class AddonsActivationController extends Container implements Module
         Options $optionsHelper,
         CurrentUser $currentUserHelper,
         Filters $filterHelper,
-        Logger $loggerHelper,
-        License $licenseHelper
+        Logger $loggerHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
@@ -90,9 +88,9 @@ class AddonsActivationController extends Container implements Module
         }
 
         if ($tokenHelper->isSiteAuthorized()) {
-            return ['status' => true];
+            return ['status' => true, 'skipped' => true];
         }
 
-        return false;
+        return ['status' => false];
     }
 }

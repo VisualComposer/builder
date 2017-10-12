@@ -105,16 +105,17 @@ class ActivationController extends Container implements Module
         }
 
         if ($tokenHelper->isSiteAuthorized()) {
-            return ['status' => true];
+            return ['status' => true, 'skipped' => true];
         }
 
-        return false;
+        return ['status' => false];
     }
 
     /**
      * @param $response
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Token $tokenHelper
+     * @param License $licenseHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return mixed
