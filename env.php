@@ -110,3 +110,7 @@ if (!defined('VCV_ENV_UPGRADE')) {
         isset($_SERVER['ENV_VCV_ENV_UPGRADE']) ? $_SERVER['ENV_VCV_ENV_UPGRADE'] : true
     );
 }
+
+if (!defined('VCV_DEBUG')) {
+    define('VCV_DEBUG', false);
+}

@@ -48,8 +48,10 @@ class Logger implements Helper
     public function details()
     {
         $dataHelper = vchelper('Data');
+        $columns = $dataHelper->arrayColumn($this->logs, 'details');
+        $unique = $dataHelper->arrayDeepUnique($columns);
 
-        return array_unique($dataHelper->arrayColumn($this->logs, 'details'));
+        return $unique;
     }
 
     public function reset()

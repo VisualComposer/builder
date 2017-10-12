@@ -35,11 +35,7 @@ class UpdatesController extends Container implements Module
 
     public function __construct()
     {
-        /**
-         * Init check update.
-         *
-         * @see \VisualComposer\Modules\Updates\UpdatesController::checkForUpdates
-         */
+        /** @see \VisualComposer\Modules\Updates\UpdatesController::checkForUpdates */
         $this->wpAddFilter(
             'pre_set_site_transient_update_plugins',
             'checkForUpdates'
@@ -54,6 +50,7 @@ class UpdatesController extends Container implements Module
      * Check for updates
      *
      * @param object $transient Transient.
+     * @param Options $optionsHelper
      *
      * @return mixed
      */

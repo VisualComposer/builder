@@ -21,19 +21,18 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <script>
 	<?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
-    window.vcvActivationRequest = 1
+    window.vcvActivationRequest = 1;
 	<?php } ?>
-  window.vcvActivationUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>'
-  window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>'
-  window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:finished:adminNonce']); ?>'
-  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>'
-  window.vcvUpdaterFileUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>'
-  window.vcvAdminNonce = '<?php echo vchelper('Nonce')->admin(); ?>'
-  window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>'
-  window.vcvActivationType = '<?php echo $type; ?>'
-  window.vcvAjaxTime = <?php echo $_SERVER['REQUEST_TIME']; ?>
-
-  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>'
+  window.vcvActivationUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>';
+  window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
+  window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:finished:adminNonce']); ?>';
+  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
+  window.vcvUpdaterFileUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
+  window.vcvAdminNonce = '<?php echo vchelper('Nonce')->admin(); ?>';
+  window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>';
+  window.vcvActivationType = '<?php echo $type; ?>';
+  window.vcvAjaxTime = <?php echo $_SERVER['REQUEST_TIME']; ?>;
+  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
 </script>
 <?php
 $extraOutput = vcfilter('vcv:backend:settings:extraOutput', []);

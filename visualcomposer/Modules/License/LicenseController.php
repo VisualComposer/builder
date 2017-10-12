@@ -37,7 +37,6 @@ class LicenseController extends Container implements Module
      */
     public function __construct(Options $optionsHelper)
     {
-        // TODO: vcv:system:deactivation:hook
         $this->addFilter('vcv:ajax:license:activate:adminNonce', 'getLicenseKey');
         $this->addFilter('vcv:ajax:license:deactivate:adminNonce', 'unsetLicenseKey');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
@@ -46,16 +45,19 @@ class LicenseController extends Container implements Module
     /**
      * Receive licence key and store it in DB
      *
+     * @param $response
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Logger $loggerHelper
      * @param \VisualComposer\Helpers\Notice $noticeHelper
      * @param \VisualComposer\Modules\Premium\Pages\Premium $premiumPageModule
+     * @param Token $tokenHelper
      *
      * @return bool|void
      */
     protected function getLicenseKey(
+        $response,
         Request $requestHelper,
         CurrentUser $currentUserHelper,
         License $licenseHelper,
@@ -65,7 +67,7 @@ class LicenseController extends Container implements Module
         Token $tokenHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
-            return;
+            return $response;
         }
 
         if ($requestHelper->input('activate')) {
@@ -79,7 +81,7 @@ class LicenseController extends Container implements Module
                         'body' => [
                             'token' => $licenseHelper->getKeyToken(),
                             'id' => get_site_url(),
-                            'hoster_id' => vcvenv('VCV_ENV_ADDONS_ID')
+                            'hoster_id' => vcvenv('VCV_ENV_ADDONS_ID'),
                         ],
                     ]
                 );
@@ -87,7 +89,9 @@ class LicenseController extends Container implements Module
                 if (!vcIsBadResponse($result)) {
                     $result = json_decode($result['body'], true);
                     $licenseHelper->setKey($result['license_key']);
-                    $tokenHelper->setToken($result['auth_token']);
+                    if (isset($result['auth_token'])) {
+                        $tokenHelper->setToken($result['auth_token']);
+                    }
                     $noticeHelper->removeNotice('premium:deactivated');
                     wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
                     exit;
@@ -105,28 +109,27 @@ class LicenseController extends Container implements Module
         wp_redirect(admin_url('index.php'));
         exit;
     }
+
     /**
      * Receive licence key and store it in DB
      *
+     * @param $response
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Token $tokenHelper
      * @param \VisualComposer\Helpers\Logger $loggerHelper
      *
      * @return bool|void
      */
     protected function unsetLicenseKey(
+        $response,
         Request $requestHelper,
         CurrentUser $currentUserHelper,
         License $licenseHelper,
-        Token $tokenHelper,
-        Logger $loggerHelper,
-        Options $optionsHelper,
-        Premium $premiumPageModule
+        Logger $loggerHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
-            return;
+            return $response;
         }
 
         if ($requestHelper->input('deactivate')) {
