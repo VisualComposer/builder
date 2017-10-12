@@ -9,6 +9,7 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Modules\Account\Pages\ActivationPage;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -44,7 +45,7 @@ class HookActivationPage extends Container implements Module
     protected function hookAddPage($response, Data $dataHelper, ActivationPage $activationPageModule)
     {
         if (is_array($response)) {
-            $index = $dataHelper->arraySearchKey($response, 'slug', $activationPageModule->getSlug());
+            $index = $dataHelper->arraySearch($response, 'slug', $activationPageModule->getSlug(), true);
             if ($index !== false) {
                 $type = $response[ $index ]['type'];
                 if ($type === 'default') {
