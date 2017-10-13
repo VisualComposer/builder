@@ -12,14 +12,12 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Data;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Account\Pages\ActivationPage;
 use VisualComposer\Modules\Settings\Pages\About;
-//use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Modules\Settings\Pages\PostTypes;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -99,7 +97,6 @@ class Controller extends Container implements Module
         ActivationPage $activationPage,
         Token $tokenHelper
     ) {
-        // TODO: Fix \is_multisite() function same issue in js_composer.
         $hasAccess = !$currentUserAccess->wpAll('manage_options')->part('settings')->can($postTypes->getSlug())->get()
             || (is_multisite()
                 && !is_main_site());

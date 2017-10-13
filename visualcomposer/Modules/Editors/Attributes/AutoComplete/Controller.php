@@ -89,6 +89,8 @@ class Controller extends Container implements Module
 
             return $response;
         }
+
+        return $response;
     }
 
     /**

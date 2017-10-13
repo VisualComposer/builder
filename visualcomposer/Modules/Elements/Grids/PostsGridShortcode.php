@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Illuminate\Support\Module;
+// use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\PostsGridPostIterator;
 use VisualComposer\Modules\Elements\Traits\AddShortcodeTrait;
 

@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use VisualComposer\Framework\Illuminate\Support\Module;
+// use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\PostType;
