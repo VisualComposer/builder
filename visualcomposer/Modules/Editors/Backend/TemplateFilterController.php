@@ -18,10 +18,8 @@ class TemplateFilterController extends Container implements Module
 
     use WpFiltersActions;
 
-    public function __construct()
+    protected function __construct()
     {
-        $this->templates = [];
-
         if (version_compare(get_bloginfo('version'), '4.7', '<')) {
             $this->wpAddFilter('page_attributes_dropdown_pages_args', 'registerProjectTemplates');
         } else {
@@ -43,14 +41,14 @@ class TemplateFilterController extends Container implements Module
         ];
     }
 
-    public function addNewTemplate($postsTemplates)
+    protected function addNewTemplate($postsTemplates)
     {
         $postsTemplates = array_merge($postsTemplates, $this->templates);
 
         return $postsTemplates;
     }
 
-    public function registerProjectTemplates($atts)
+    protected function registerProjectTemplates($atts)
     {
         $cacheKey = 'page_templates-' . md5(get_theme_root() . '/' . get_stylesheet());
         $templates = wp_get_theme()->get_page_templates();
@@ -67,7 +65,7 @@ class TemplateFilterController extends Container implements Module
         return $atts;
     }
 
-    public function viewProjectTemplate($template)
+    protected function viewProjectTemplate($template)
     {
         global $post;
 
@@ -90,7 +88,7 @@ class TemplateFilterController extends Container implements Module
         return $template;
     }
 
-    public function templatePath()
+    protected function templatePath()
     {
         /** @var \VisualComposer\Application $_app */
         $_app = vcapp();
