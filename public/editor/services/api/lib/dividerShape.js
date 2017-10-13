@@ -182,7 +182,7 @@ export default class DividerShape extends Component {
     }
 
     if (fillType === 'image') {
-      let imageId = `image-el-${id}-${deviceKey}`
+      let imageId = `image-el-${id}-${deviceKey}-${position}`
       let html = svgUnitContent
       let backgroundImageUrl = `url(${backgroundImage})`
       let imageProps = {}
@@ -219,7 +219,7 @@ export default class DividerShape extends Component {
     }
 
     if (fillType === 'videoEmbed') {
-      let imageId = `video-el-${id}-${deviceKey}`
+      let imageId = `video-el-${id}-${deviceKey}-${position}`
       let html = svgUnitContent
       let percentage = width.replace('%', '')
       let imageProps = {}
