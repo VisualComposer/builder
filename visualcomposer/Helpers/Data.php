@@ -21,9 +21,10 @@ class Data implements Helper
      * @param $column
      * @param $value
      *
+     * @param bool $returnKey
      * @return bool|int|string
      */
-    public function arraySearch($array, $column, $value)
+    public function arraySearch($array, $column, $value, $returnKey = false)
     {
         if (!is_array($array)) {
             return false;
@@ -31,7 +32,11 @@ class Data implements Helper
         foreach ($array as $key => $innerArray) {
             $exists = isset($innerArray[ $column ]) && $innerArray[ $column ] == $value;
             if ($exists) {
-                return $innerArray;
+                if ($returnKey) {
+                    return $key;
+                } else {
+                    return $innerArray;
+                }
             }
         }
 
@@ -68,7 +73,7 @@ class Data implements Helper
     {
         return array_map(
             function ($element) use ($columnName) {
-                return $element[ $columnName ];
+                return is_array($element) && isset($element[ $columnName ]) ? $element[ $columnName ] : null;
             },
             $array
         );

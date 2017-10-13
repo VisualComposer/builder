@@ -1,0 +1,17 @@
+#$selector[data-vce-do-apply*="divider"],
+#$selector [data-vce-do-apply*="divider"] {
+  &[data-vce-do-apply*="$selector"] {
+
+    @media (--$(device)-only) {
+      .vce-divider-image-block {
+        -webkit-clip-path: rawUrl(#image-$(selector)-$(device));
+        clip-path: rawUrl(#image-$(selector)-$(device));
+      }
+
+      .vce-divider-video-block {
+        -webkit-clip-path: rawUrl(#video-$(selector)-$(device));
+        clip-path: rawUrl(#video-$(selector)-$(device));
+      }
+    }
+  }
+}

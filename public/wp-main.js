@@ -29,6 +29,19 @@ $(() => {
     $(iframeDocument.body).on('click', 'a[href]', (e) => {
       e && e.preventDefault()
     })
+    if (vcCake.env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        let style = iframeDocument.createElement('style')
+        style.setAttribute('type', 'text/css')
+        style.innerText = 'html, body {'
+        style.innerText += 'height: 100%;'
+        style.innerText += 'overflow: auto;'
+        style.innerText += '-webkit-overflow-scrolling: touch;'
+        style.innerText += '}'
+        iframeDocument.head.append(style)
+      }
+    }
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
     vcCake.env('platform', 'wordpress').start(() => {
       vcCake.env('editor', 'frontend')
@@ -57,7 +70,7 @@ $(() => {
   if (vcCake.env('MOBILE_DETECT')) {
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
     if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      $iframeContainer.addClass('vcv-layout-iframe-container--mobile')
+      $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
     }
   }
 })

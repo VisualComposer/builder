@@ -8,9 +8,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
-use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
@@ -22,7 +23,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
  * Class ActivationController
  * @package VisualComposer\Modules\Account
  */
-class AddonsActivationController extends ActivationController
+class AddonsActivationController extends Container implements Module
 {
     use WpFiltersActions;
     use EventsFilters;
@@ -34,7 +35,10 @@ class AddonsActivationController extends ActivationController
      */
     public function __construct()
     {
-        $this->boot();
+        if (vcvenv('VCV_ENV_ADDONS_ID') !== 'account') {
+            /** @see \VisualComposer\Modules\Account\AddonsActivationController::requestAddonsActivation */
+            $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestAddonsActivation');
+        }
     }
 
     /**
@@ -49,7 +53,7 @@ class AddonsActivationController extends ActivationController
      *
      * @return array|bool|\WP_Error
      */
-    protected function requestActivation(
+    protected function requestAddonsActivation(
         $response,
         $payload,
         Request $requestHelper,
@@ -57,8 +61,7 @@ class AddonsActivationController extends ActivationController
         Options $optionsHelper,
         CurrentUser $currentUserHelper,
         Filters $filterHelper,
-        Logger $loggerHelper,
-        License $licenseHelper
+        Logger $loggerHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
@@ -85,9 +88,9 @@ class AddonsActivationController extends ActivationController
         }
 
         if ($tokenHelper->isSiteAuthorized()) {
-            return ['status' => true];
+            return ['status' => true, 'skipped' => true];
         }
 
-        return false;
+        return ['status' => false];
     }
 }

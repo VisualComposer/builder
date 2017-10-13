@@ -132,6 +132,7 @@ export default class DndDataSet {
           },
           document: document,
           container: document.body,
+          wrapper: null,
           boundariesGap: 10,
           rootContainerFor: ['RootElements'],
           rootID: 'vcv-content-root',
@@ -142,7 +143,7 @@ export default class DndDataSet {
           manualScroll: false,
           drop: false,
           allowMultiNodes: false,
-          enableTrashBin: options && options.container && options.container.id === 'vcv-editor-iframe-overlay' || false
+          isIframe: options && options.container && options.container.id === 'vcv-editor-iframe-overlay' || false
         })
       }
     })
@@ -165,7 +166,7 @@ export default class DndDataSet {
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
     root.refresh()
-    if (env('DND_TRASH_BIN') && this.options.enableTrashBin) {
+    if (env('DND_TRASH_BIN') && this.options.isIframe) {
       this.trash = new TrashBin({
         ..._.pick(this.options, 'document', 'container'),
         handleDrag: this.handleDragFunction,
@@ -210,9 +211,7 @@ export default class DndDataSet {
     dOMElement
       .on('dragstart', (e) => { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
-      .on('touchmove', this.handleDragStartFunction)
       .on('mousedown', this.handleDragFunction)
-      .on('touchmove', this.handleDragFunction)
   }
 
   updateItem (id) {
@@ -268,13 +267,13 @@ export default class DndDataSet {
     return domNode || null
   }
 
-  checkTrashBin ({ x, y }) {
+  checkTrashBin ({ x, y, left = 0, top = 0 }) {
     let iframeParent = this.options && this.options.container && this.options.container.parentNode || null
     if (iframeParent) {
       x += iframeParent.offsetLeft
       y += iframeParent.offsetTop
     }
-    let domNode = document.elementFromPoint(x, y)
+    let domNode = document.elementFromPoint(x - left, y - top)
     if (domNode && domNode.id === 'vcv-dnd-trash-bin') {
       return $(domNode).get(0)
     }
@@ -362,7 +361,8 @@ export default class DndDataSet {
       this.helper = new HelperClone(this.draggingElement.node, point)
     } else {
       this.helper = new Helper(this.draggingElement, {
-        container: this.options.container
+        container: this.options.container,
+        wrapper: this.options.isIframe && this.options.wrapper
       })
     }
 
@@ -516,10 +516,12 @@ export default class DndDataSet {
       this.handleDragEnd()
       return false
     }
+    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft || 0
+    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop || 0
     if (e.touches && e.touches[0]) {
-      e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY})
+      e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY, left: scrollX, top: scrollY})
     } else {
-      e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX - offsetX, y: e.clientY - offsetY})
+      e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX - offsetX, y: e.clientY - offsetY, left: scrollX, top: scrollY})
     }
   }
 
@@ -536,12 +538,14 @@ export default class DndDataSet {
     if (e.which > 1) {
       return
     }
+    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft || 0
+    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop || 0
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
     if (e.touches && e.touches[0]) {
       e.preventDefault()
-      this.start(id, {x: e.touches[0].clientX, y: e.touches[0].clientY}, null, e.currentTarget)
+      this.start(id, {x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY}, null, e.currentTarget)
     } else {
-      this.start(id, {x: e.clientX, y: e.clientY}, null, e.currentTarget)
+      this.start(id, {x: e.clientX, y: e.clientY, left: scrollX, top: scrollY}, null, e.currentTarget)
     }
   }
 

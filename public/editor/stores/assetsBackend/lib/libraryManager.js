@@ -67,7 +67,10 @@ const libData = [
 
 const getElementLibNames = (id, element) => {
   let cookElement = cook.get(element)
-  let elementDO = cookElement.get('designOptionsAdvanced') ? cookElement.get('designOptionsAdvanced') : cookElement.get('designOptions')
+  const settingsTypes = cookElement.filter((key, value, settings) => {
+    return settings.type === 'designOptionsAdvanced' || settings.type === 'designOptions'
+  })
+  let elementDO = cookElement.get(settingsTypes[0])
   let data = {
     id: id,
     libraries: []

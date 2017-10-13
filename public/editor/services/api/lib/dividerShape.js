@@ -1,4 +1,5 @@
 import React from 'react'
+import vcCake from 'vc-cake'
 const { Component, PropTypes } = React
 let shapes = require('./shapes')
 
@@ -107,9 +108,17 @@ export default class DividerShape extends Component {
         let gradientId = `gradient-${id}-${deviceKey}`
         customAttributes.fill = `url(#${gradientId})`
       }
+      let svgProps = {
+        viewBox: viewBox,
+        preserveAspectRatio: 'none'
+      }
+      if (!vcCake.env('NEW_DIVIDER_SHAPES')) {
+        svgProps.height = viewBoxHeight
+        svgProps.width = width
+      }
 
       return (
-        <svg className='vce-divider-svg' viewBox={viewBox} preserveAspectRatio='none'>
+        <svg className='vce-divider-svg' {...svgProps}>
           {this.getLinearGradient()}
           <g {...customAttributes} dangerouslySetInnerHTML={{ __html: html }} />
         </svg>

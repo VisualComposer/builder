@@ -1,0 +1,27 @@
+import React from 'react'
+import Attribute from '../attribute'
+
+class InputIcon extends Attribute {
+  render () {
+    let { value } = this.state
+    let { placeholder, options } = this.props
+    let iconClasses = 'vcv-ui-form-dropdown vcv-ui-form-icon ' + options.iconClasses
+
+    return (
+      <div className='vcv-ui-form-input-icon'>
+        <div className='vcv-ui-form-input-group'>
+          <div className={iconClasses} />
+          <input
+            className='vcv-ui-form-input'
+            type={options.inputType}
+            onChange={this.handleChange}
+            placeholder={placeholder}
+            value={value}
+          />
+        </div>
+      </div>
+    )
+  }
+}
+
+export default InputIcon
