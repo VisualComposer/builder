@@ -47,7 +47,7 @@ class ActivationPage extends Container implements Module
                     $this->addFilter(
                         'vcv:settings:getPages',
                         'addPage',
-                        40
+                        20
                     );
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
                     $aboutPage = vcapp('SettingsPagesAbout');
