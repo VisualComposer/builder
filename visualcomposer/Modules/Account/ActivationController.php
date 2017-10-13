@@ -83,7 +83,7 @@ class ActivationController extends Container implements Module
             }
             $optionsHelper->set('hubTokenId', $id);
             $token = $tokenHelper->createToken($id);
-            if ($token) {
+            if (!vcIsBadResponse($token)) {
                 return $filterHelper->fire('vcv:activation:token:success', ['status' => true], ['token' => $token]);
             } else {
                 $loggerHelper->log(
@@ -106,7 +106,7 @@ class ActivationController extends Container implements Module
         }
 
         if ($tokenHelper->isSiteAuthorized()) {
-            return ['status' => true, 'skipped' => true];
+            return ['status' => true, 'skipped' => true, 'actions' => []];
         }
 
         return ['status' => false];
@@ -118,7 +118,7 @@ class ActivationController extends Container implements Module
      * @param \VisualComposer\Helpers\Token $tokenHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\Notice $noticeHelper
+     * @param \VisualComposer\Helpers\Logger $loggerHelper
      *
      * @return array
      */
@@ -128,7 +128,7 @@ class ActivationController extends Container implements Module
         Token $tokenHelper,
         License $licenseHelper,
         Request $requestHelper,
-        Notice $noticeHelper
+        Logger $loggerHelper
     ) {
         $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
         if ($currentTransient) {
@@ -136,7 +136,7 @@ class ActivationController extends Container implements Module
                 return ['status' => false];
             } else {
                 $optionsHelper->deleteTransient('vcv:activation:request');
-                $noticeHelper->removeNotice('activation:failed');
+                $loggerHelper->removeLogNotice('activation:failed');
             }
         }
         $tokenHelper->setSiteAuthorized();
