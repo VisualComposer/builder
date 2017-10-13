@@ -234,7 +234,7 @@ export default class ControlsManager {
       this.state.hoverPath = elPath
       this.state.hoverRoot = elPath[ elPath.length - 1 ]
       this.showFrames(element, elPath)
-      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY } })
+      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY, left: 0, top: 0 } })
     }
   }
 

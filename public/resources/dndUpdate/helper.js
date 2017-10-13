@@ -12,7 +12,8 @@ export default class Helper {
       configurable: false,
       writable: false,
       value: _.defaults(options, {
-        container: document.body
+        container: document.body,
+        wrapper: null
       })
     })
     Object.defineProperty(this, 'control', {
@@ -53,8 +54,8 @@ export default class Helper {
   }
 
   setPosition (point) {
-    this.control.style.top = point.y + 'px'
-    this.control.style.left = point.x + 'px'
+    this.control.style.top = point.y - point.top + 'px'
+    this.control.style.left = point.x - point.left + 'px'
   }
 
   hide () {

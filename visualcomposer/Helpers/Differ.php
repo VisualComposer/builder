@@ -46,6 +46,7 @@ class Differ extends Container implements Helper, Immutable
         if (!empty($newValue) && !$newAssoc) {
             throw new \InvalidArgumentException('New value must be an associative array');
         }
+        $dataHelper = vchelper('Data');
         foreach ($newKeys as $key) {
             $mergedValue = $newValue[ $key ];
             if (array_key_exists($key, $this->data)) {
@@ -53,9 +54,8 @@ class Differ extends Container implements Helper, Immutable
                     $unionValue = (array)$newValue[ $key ] + $this->data[ $key ];
                     $mergedValue = $this->hasStringKeys($unionValue)
                         ? $unionValue
-                        : array_unique(
-                            $unionValue,
-                            SORT_REGULAR
+                        : $dataHelper->arrayDeepUnique(
+                            $unionValue
                         );
                 }
             }

@@ -8,18 +8,19 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\License;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Modules\Account\Pages\ActivationPage;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class About.
  */
-class About extends ActivationPage implements Module
+class About extends Container implements Module
 {
+    use Page;
     use EventsFilters;
 
     /**
@@ -28,21 +29,43 @@ class About extends ActivationPage implements Module
     protected $slug = 'vcv-about';
 
     /**
-     * About constructor.
-     *
-     * @param \VisualComposer\Helpers\Token $tokenHelper
+     * @var string
      */
-    public function __construct(Token $tokenHelper)
+    protected $templatePath = 'account/partials/activation-layout';
+
+    /**
+     * About constructor.
+     */
+    public function __construct()
     {
-        if (!$tokenHelper->isSiteAuthorized()) {
-            return;
-        }
-        /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
-        $this->addFilter(
-            'vcv:settings:getPages',
-            'addPage',
-            70
+        $this->addEvent(
+            'vcv:inited',
+            function (Token $tokenHelper, Request $requestHelper) {
+                if (!$tokenHelper->isSiteAuthorized()) {
+                    if ($requestHelper->input('page') === $this->getSlug()) {
+                        $activationPageModule = vcapp('AccountPagesActivationPage');
+                        wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
+                        exit;
+                    }
+                } else {
+                    /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
+                    $this->addFilter(
+                        'vcv:settings:getPages',
+                        'addPage',
+                        70
+                    );
+                }
+            }
         );
+    }
+
+    /**
+     *
+     */
+    protected function beforeRender()
+    {
+        wp_enqueue_script('vcv:settings:script');
+        wp_enqueue_style('vcv:settings:style');
     }
 
     /**

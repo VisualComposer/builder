@@ -5,8 +5,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$premiumPage = vcapp('SettingsPagesPremium');
-$getPremiumPage = vcapp('SettingsPagesGetPremium');
+$premiumPage = vcapp('PremiumPagesPremium');
+$getPremiumPage = vcapp('PremiumPagesGetPremium');
 $activationPage = vcapp('AccountPagesActivationPage');
 $utmHelper = vchelper('Utm');
 $requestHelper = vchelper('Request');

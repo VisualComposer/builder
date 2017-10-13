@@ -70,9 +70,6 @@ define('VCV_PLUGIN_ASSETS_DIR_PATH', WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DI
  * Plugin core prefix for options/meta and etc.
  */
 define('VCV_PREFIX', 'vcv-');
-if (!defined('VCV_DEBUG')) {
-    define('VCV_DEBUG', false);
-}
 
 // Used in requirements.php
 /**
