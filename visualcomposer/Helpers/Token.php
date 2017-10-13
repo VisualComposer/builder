@@ -177,12 +177,15 @@ class Token extends Container implements Helper
             }
 
             if (is_array($body) && isset($body['error'], $body['error']['type'], $body['error']['code'])) {
+                $licenseHelper->setKey('');
                 $loggerHelper->log(
                     $licenseHelper->licenseErrorCodes($body['error']['code']),
                     [
                         'result' => $body,
                     ]
                 );
+
+                $loggerHelper->logNotice('license:expiration', $licenseHelper->licenseErrorCodes($body['error']['code']));
 
                 return ['status' => false, 'code' => $body['error']['code']];
             }
@@ -212,12 +215,14 @@ class Token extends Container implements Helper
             if (is_array($result) && isset($result['body'])) {
                 $response = json_decode($result['body'], true);
                 if (is_array($response) && isset($response['error'], $response['error']['type'], $response['error']['code'])) {
+                    $licenseHelper->setKey('');
                     $loggerHelper->log(
                         $licenseHelper->licenseErrorCodes($response['error']['code']),
                         [
                             'result' => $response,
                         ]
                     );
+                    $loggerHelper->logNotice('license:expiration', $licenseHelper->licenseErrorCodes($response['error']['code']));
 
                     return ['status' => false, 'code' => $response['error']['code']];
                 }

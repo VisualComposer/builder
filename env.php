@@ -107,7 +107,7 @@ if (!defined('VCV_ENV_HUB_TEASER')) {
 if (!defined('VCV_ENV_UPGRADE')) {
     define(
         'VCV_ENV_UPGRADE',
-        isset($_SERVER['ENV_VCV_ENV_UPGRADE']) ? $_SERVER['ENV_VCV_ENV_UPGRADE'] : true
+        isset($_SERVER['ENV_VCV_ENV_UPGRADE']) ? $_SERVER['ENV_VCV_ENV_UPGRADE'] : false
     );
 }
 
