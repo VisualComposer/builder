@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
@@ -16,12 +17,14 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Pages\About;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Premium.
  */
-class Premium extends About implements Module
+class Premium extends Container implements Module
 {
+    use Page;
     use EventsFilters;
     use WpFiltersActions;
 
@@ -29,6 +32,11 @@ class Premium extends About implements Module
      * @var string
      */
     protected $slug = 'vcv-upgrade';
+
+    /**
+     * @var string
+     */
+    protected $templatePath = 'account/partials/activation-layout';
 
     /**
      * Premium constructor.
@@ -79,10 +87,19 @@ class Premium extends About implements Module
             'hidePage' => true,
             'controller' => $this,
             'capability' => 'manage_options',
-            'type' => 'premium'
+            'type' => 'premium',
         ];
 
         return $pages;
+    }
+
+    /**
+     *
+     */
+    protected function beforeRender()
+    {
+        wp_enqueue_script('vcv:settings:script');
+        wp_enqueue_style('vcv:settings:style');
     }
 
     protected function beforePageRender()
