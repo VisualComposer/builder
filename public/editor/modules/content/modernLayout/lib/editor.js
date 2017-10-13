@@ -18,9 +18,21 @@ export default class LayoutEditor extends React.Component {
     this.state = {
       data: []
     }
+    this.updateIframeBodyOffset = this.updateIframeBodyOffset.bind(this)
+  }
+
+  updateIframeBodyOffset (iframe) {
+    let iframeHtml = iframe.contentDocument.querySelector('html')
+    let iframeBody = iframe.contentDocument.querySelector('body')
+    iframeBody.style.marginTop = (-1 * (iframeHtml.offsetTop)) + 'px'
   }
 
   componentDidMount () {
+    let iframe = document.querySelector('.vcv-layout-iframe-container iframe')
+    iframe.contentWindow.addEventListener('resize', () => {
+      this.updateIframeBodyOffset(iframe)
+    })
+    this.updateIframeBodyOffset(iframe)
     elementsStorage.state('document').onChange((data) => {
       this.setState({ data: data }, () => {
         // content.trigger('data:editor:render')
