@@ -39,7 +39,7 @@ class Settings extends Container implements Module
         $this->addFilter(
             'vcv:settings:getPages',
             'addPage',
-            20
+            40
         );
     }
 
