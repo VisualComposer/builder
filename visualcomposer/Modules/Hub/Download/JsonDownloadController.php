@@ -13,7 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Hub\Bundle;
 use VisualComposer\Helpers\Logger;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class JsonDownloadController extends Container implements Module
