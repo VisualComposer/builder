@@ -238,44 +238,128 @@ eval(unescape('${escapedString}'))
 
   getContainerDivider () {
     const vcCake = require('vc-cake')
-    if (!vcCake.env('CONTAINER_DIVIDER')) {
-      return null
-    }
-    let { designOptionsAdvanced } = this.props.atts
-    if (lodash.isEmpty(designOptionsAdvanced) || lodash.isEmpty(designOptionsAdvanced.device)) {
-      return null
-    }
+    let { designOptionsAdvanced, dividers } = this.props.atts
 
-    let { device } = designOptionsAdvanced
-    let dividerElements = []
-
-    Object.keys(device).forEach((deviceKey, index) => {
-      let { divider, parallax } = device[ deviceKey ]
-      let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-${index}`
-
-      if (divider) {
-        let dividerElement = (
-          <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey} metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id} applyDivider={this.applyDO('divider')} />
-        )
-
-        if (parallax) {
-          dividerElements.push(
-            <ParallaxBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} atts={this.props.atts} content={dividerElement} divider={divider} />
-          )
-        } else {
-          dividerElements.push(dividerElement)
-        }
+    if (vcCake.env('NEW_DIVIDER_SHAPES')) {
+      if (lodash.isEmpty(dividers) || lodash.isEmpty(dividers.device)) {
+        return null
       }
-    })
 
-    if (dividerElements.length === 0) {
-      return null
+      let { device } = dividers
+      let dividerElements = []
+      let customDevices = []
+      let parallaxDevices = []
+      let actualDevices = []
+      let designOptionsDevices = designOptionsAdvanced && designOptionsAdvanced.device
+
+      designOptionsDevices && Object.keys(designOptionsDevices).forEach((device) => {
+        if (device !== 'all') {
+          customDevices.push(device)
+        }
+        if (designOptionsDevices[ device ].hasOwnProperty('parallax')) {
+          parallaxDevices.push(device)
+        }
+      })
+
+      if (customDevices.length && parallaxDevices.length) {
+        actualDevices = customDevices
+      } else {
+        Object.keys(device).forEach((device) => {
+          actualDevices.push(device)
+        })
+      }
+
+      actualDevices.forEach((deviceKey, index) => {
+        let dividerDeviceKey = device[ deviceKey ] ? deviceKey : 'all'
+        let dividerDeviceData = device[ dividerDeviceKey ]
+        let { dividerTop, dividerBottom } = dividerDeviceData
+        let parallaxKey = (parallaxDevices.indexOf('all') === -1 && parallaxDevices.indexOf(deviceKey) > -1) ? deviceKey : 'all'
+
+        if (dividerTop) {
+          let reactKey = `${this.props.id}-${deviceKey}-top-${index}`
+          let dividerElement = (
+            <Divider deviceData={dividerDeviceData} deviceKey={deviceKey} type={'Top'}
+              metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id}
+              applyDivider={this.applyDO('divider')} />
+          )
+
+          if (parallaxDevices.indexOf(deviceKey) > -1 || parallaxDevices.indexOf('all') > -1) {
+            dividerElements.push(
+              <ParallaxBackground deviceData={designOptionsAdvanced.device[ parallaxKey ]} deviceKey={parallaxKey}
+                reactKey={reactKey}
+                key={reactKey} atts={this.props.atts} content={dividerElement} divider={dividerTop} />
+            )
+          } else {
+            dividerElements.push(dividerElement)
+          }
+        }
+
+        if (dividerBottom) {
+          let reactKey = `${this.props.id}-${deviceKey}-bottom-${index}`
+
+          let dividerElement = (
+            <Divider deviceData={dividerDeviceData} deviceKey={deviceKey} type={'Bottom'}
+              metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id}
+              applyDivider={this.applyDO('divider')} />
+          )
+
+          if (parallaxDevices.indexOf(deviceKey) > -1 || parallaxDevices.indexOf('all') > -1) {
+            dividerElements.push(
+              <ParallaxBackground deviceData={designOptionsAdvanced.device[ parallaxKey ]} deviceKey={parallaxKey}
+                reactKey={reactKey}
+                key={reactKey} atts={this.props.atts} content={dividerElement} divider={dividerBottom} />
+            )
+          } else {
+            dividerElements.push(dividerElement)
+          }
+        }
+      })
+
+      if (dividerElements.length === 0) {
+        return null
+      }
+
+      return <div className='vce-dividers-wrapper'>
+        {dividerElements}
+      </div>
+    } else {
+      if (lodash.isEmpty(designOptionsAdvanced) || lodash.isEmpty(designOptionsAdvanced.device)) {
+        return null
+      }
+
+      let { device } = designOptionsAdvanced
+      let dividerElements = []
+
+      Object.keys(device).forEach((deviceKey, index) => {
+        let { divider, parallax } = device[ deviceKey ]
+        let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-${index}`
+
+        if (divider) {
+          let dividerElement = (
+            <Divider deviceData={device[ deviceKey ]} deviceKey={deviceKey}
+              metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id}
+              applyDivider={this.applyDO('divider')} />
+          )
+
+          if (parallax) {
+            dividerElements.push(
+              <ParallaxBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+                key={reactKey} atts={this.props.atts} content={dividerElement} divider={divider} />
+            )
+          } else {
+            dividerElements.push(dividerElement)
+          }
+        }
+      })
+
+      if (dividerElements.length === 0) {
+        return null
+      }
+
+      return <div className='vce-dividers-wrapper'>
+        {dividerElements}
+      </div>
     }
-
-    return <div className='vce-dividers-wrapper'>
-      {dividerElements}
-    </div>
   }
 
   render () {

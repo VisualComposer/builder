@@ -2,6 +2,9 @@ import React from 'react'
 import vcCake from 'vc-cake'
 const { Component, PropTypes } = React
 let shapes = require('./shapes')
+if (vcCake.env('NEW_DIVIDER_SHAPES')) {
+  shapes = require('./shapes-new')
+}
 
 export default class DividerShape extends Component {
   static propTypes = {
@@ -14,7 +17,8 @@ export default class DividerShape extends Component {
     id: PropTypes.string,
     flipHorizontally: PropTypes.bool,
     deviceKey: PropTypes.string,
-    videoEmbed: PropTypes.object
+    videoEmbed: PropTypes.object,
+    percentageHeight: PropTypes.string
   }
 
   getLinearGradient () {
@@ -38,6 +42,50 @@ export default class DividerShape extends Component {
         <stop offset='100%' style={{ stopColor: endColor, stopOpacity: '1' }} />
       </linearGradient>
     )
+  }
+
+  changePercentageHeight (height, svgContent, position, defaultWidth, defaultHeight) {
+    let heightToPx = defaultWidth * height / 100
+    let difference = heightToPx - defaultHeight
+
+    let parser = new window.DOMParser()
+    let doc = parser.parseFromString(svgContent, 'text/html')
+
+    let paths = doc.querySelectorAll('path')
+    paths = [].slice.call(paths)
+    paths.forEach((path) => {
+      let d = path.getAttribute('d')
+      let commands = d.split(/(?=[LMCZ])/)
+      commands.pop()
+
+      let pointArrays = commands.map((d) => {
+        let letter = d[ 0 ]
+        let pointsArray = d.slice(1, d.length).split(' ')
+        let points = []
+        pointsArray.forEach((item) => {
+          if (item !== '') {
+            let coordinates = item.split(',')
+            let newY = parseFloat(coordinates[ 1 ])
+            let pointToPx = defaultHeight * newY
+            let newPointToPx = pointToPx + difference
+
+            if (position === 'top') {
+              if (newY !== 0 && newY !== 1) {
+                newY = newPointToPx / heightToPx
+              }
+            } else {
+              if (newY !== 0 && newY !== 1) {
+                newY = pointToPx / heightToPx
+              }
+            }
+            points.push(coordinates[ 0 ] + ',' + newY)
+          }
+        })
+        return letter + points.join(' ')
+      })
+      path.setAttribute('d', `${pointArrays.join(' ')} Z`)
+    })
+    return doc.body && doc.body.innerHTML
   }
 
   changeHeight (height, svgContent, position, defaultHeight) {
@@ -79,8 +127,14 @@ export default class DividerShape extends Component {
   }
 
   render () {
-    let { width, height, fill, shape, fillType, backgroundImage, deviceKey, id, videoEmbed } = this.props
+    let { type, width, height, fill, shape, fillType, backgroundImage, deviceKey, id, videoEmbed, percentageHeight } = this.props
     let currentShape = shapes[ shape ]
+    let viewBoxWidth = currentShape.viewBox && currentShape.viewBox.width
+    let viewBoxHeight = currentShape.viewBox && currentShape.viewBox.height
+
+    if (vcCake.env('NEW_DIVIDER_SHAPES')) {
+      currentShape = currentShape && currentShape[ `${type.toLowerCase()}` ]
+    }
 
     if (!currentShape) {
       return null
@@ -94,13 +148,15 @@ export default class DividerShape extends Component {
     }
     let svgContent = currentShape.content
     let svgUnitContent = currentShape.unitContent
-    let viewBoxWidth = currentShape.viewBox.width
-    let viewBoxHeight = currentShape.viewBox.height
     let viewBox = `0 0 ${viewBoxWidth} ${viewBoxHeight}`
-    let position = currentShape.position || 'top'
+    let position = type ? type.toLowerCase() : 'top'
 
     if (fillType === 'color' || fillType === 'gradient' || (fillType === 'image' && !backgroundImage) || (fillType === 'videoEmbed' && !videoUrl)) {
-      let html = this.changeHeight(height, svgContent, position, viewBoxHeight)
+      let newHeight = height
+      if (percentageHeight) {
+        newHeight = viewBoxWidth * (parseFloat(percentageHeight) / 100)
+      }
+      let html = this.changeHeight(newHeight, svgContent, position, viewBoxHeight)
       let customAttributes = {}
       customAttributes.fill = fill
 
@@ -130,10 +186,16 @@ export default class DividerShape extends Component {
       let html = svgUnitContent
       let backgroundImageUrl = `url(${backgroundImage})`
       let imageProps = {}
-
       imageProps.style = {
-        height: `${parseFloat(height)}px`,
         width: width
+      }
+
+      if (percentageHeight) {
+        percentageHeight = parseFloat(percentageHeight) + 10
+        imageProps.style.paddingBottom = `${percentageHeight}%`
+        html = this.changePercentageHeight(percentageHeight, svgUnitContent, position, viewBoxWidth, viewBoxHeight)
+      } else {
+        imageProps.style.height = `${parseFloat(height)}px`
       }
 
       let percentage = width.replace('%', '')
@@ -159,18 +221,22 @@ export default class DividerShape extends Component {
     if (fillType === 'videoEmbed') {
       let imageId = `video-el-${id}-${deviceKey}`
       let html = svgUnitContent
+      let percentage = width.replace('%', '')
       let imageProps = {}
-
       imageProps.style = {
-        height: `${parseFloat(height)}px`,
         width: width
       }
-
-      let percentage = width.replace('%', '')
       let backgroundProps = {}
-
       backgroundProps.style = {
         width: `${100 / percentage * 100}%`
+      }
+
+      if (percentageHeight) {
+        percentageHeight = parseFloat(percentageHeight) + 10
+        backgroundProps.style.paddingBottom = `${percentageHeight}%`
+        html = this.changePercentageHeight(percentageHeight, svgUnitContent, position, viewBoxWidth, viewBoxHeight)
+      } else {
+        imageProps.style.height = `${parseFloat(height)}px`
       }
 
       return (

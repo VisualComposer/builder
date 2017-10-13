@@ -10,7 +10,8 @@ export default class Divider extends Component {
     deviceKey: PropTypes.string,
     metaAssetsPath: PropTypes.string,
     id: PropTypes.string,
-    applyDivider: PropTypes.object
+    applyDivider: PropTypes.object,
+    type: PropTypes.string
   }
 
   getPublicImage (filename) {
@@ -19,8 +20,27 @@ export default class Divider extends Component {
   }
 
   render () {
-    let { deviceData, deviceKey, id, applyDivider } = this.props
-    let { dividerShape, dividerShapeNew, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundGradientAngle, dividerBackgroundType, dividerVideoEmbed } = deviceData
+    let { deviceData, deviceKey, id, applyDivider, type } = this.props
+    let { dividerShape, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundGradientAngle, dividerBackgroundType, dividerVideoEmbed } = deviceData
+    let dividerType = `divider${type}`
+    let percentageHeight = ''
+
+    if (vcCake.env('NEW_DIVIDER_SHAPES')) {
+      dividerShape = deviceData[ `${dividerType}Shape` ]
+      dividerBackgroundImage = deviceData[ `${dividerType}BackgroundImage` ]
+      dividerBackgroundColor = deviceData[ `${dividerType}BackgroundColor` ]
+      dividerWidth = deviceData[ `${dividerType}Width` ]
+      dividerHeight = deviceData[ `${dividerType}Height` ]
+      percentageHeight = deviceData[ `${dividerType}Height` ] || '20'
+      dividerBackgroundStyle = deviceData[ `${dividerType}BackgroundStyle` ]
+      dividerBackgroundPosition = deviceData[ `${dividerType}BackgroundPosition` ]
+      dividerFlipHorizontal = deviceData[ `${dividerType}FlipHorizontal` ]
+      dividerBackgroundGradientStartColor = deviceData[ `${dividerType}BackgroundGradientStartColor` ]
+      dividerBackgroundGradientEndColor = deviceData[ `${dividerType}BackgroundGradientEndColor` ]
+      dividerBackgroundGradientAngle = deviceData[ `${dividerType}BackgroundGradientAngle` ]
+      dividerBackgroundType = deviceData[ `${dividerType}BackgroundType` ]
+      dividerVideoEmbed = deviceData[ `${dividerType}VideoEmbed` ]
+    }
 
     let flipHorizontally = false
 
@@ -33,6 +53,7 @@ export default class Divider extends Component {
 
     let containerClasses = classNames({
       'vce-container-divider': true,
+      [`vce-divider-position--${type && type.toLowerCase()}`]: type,
       'vce-container-divider-flip--horizontally': flipHorizontally,
       [backgroundStyleClass]: dividerBackgroundStyle,
       [backgroundPositionClass]: dividerBackgroundPosition
@@ -44,11 +65,11 @@ export default class Divider extends Component {
     width = `${width}%`
 
     let shape = dividerShape && dividerShape.icon
-    shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-dividers-', '')
 
     if (vcCake.env('NEW_DIVIDER_SHAPES')) {
-      shape = dividerShapeNew && dividerShapeNew.icon
       shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-divider-', '')
+    } else {
+      shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-dividers-', '')
     }
 
     let imageUrl = ''
@@ -65,7 +86,11 @@ export default class Divider extends Component {
     return (
       <div className={containerClasses} {...applyDivider}>
         <div className='vce-container-divider-inner'>
-          <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={dividerBackgroundType} gradientColorStart={dividerBackgroundGradientStartColor} gradientColorEnd={dividerBackgroundGradientEndColor} gradientAngle={dividerBackgroundGradientAngle} backgroundImage={imageUrl} flipHorizontally={flipHorizontally} deviceKey={deviceKey} videoEmbed={dividerVideoEmbed} />
+          <DividerShape id={id} shape={shape} width={width} height={height} fill={fill} fillType={dividerBackgroundType}
+            gradientColorStart={dividerBackgroundGradientStartColor}
+            gradientColorEnd={dividerBackgroundGradientEndColor} gradientAngle={dividerBackgroundGradientAngle}
+            backgroundImage={imageUrl} flipHorizontally={flipHorizontally} deviceKey={deviceKey}
+            videoEmbed={dividerVideoEmbed} type={type} percentageHeight={percentageHeight} />
         </div>
       </div>
     )
