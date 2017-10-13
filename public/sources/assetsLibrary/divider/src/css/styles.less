@@ -18,6 +18,29 @@
     transform: translateX(-50%);
     overflow: visible;
   }
+
+  &.vce-divider-position--top {
+    .vce-divider-svg {
+      top: 0;
+      position: absolute;
+    }
+    .vce-divider-image-block,
+    .vce-divider-video-block {
+      top: 0;
+    }
+  }
+
+  &.vce-divider-position--bottom {
+    .vce-divider-svg {
+      bottom: 0;
+      position: absolute;
+    }
+    .vce-divider-image-block,
+    .vce-divider-video-block {
+      top: auto;
+      bottom: 0;
+    }
+  }
 }
 
 .vce-container-divider-inner {

@@ -1789,7 +1789,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getDividerRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -1812,7 +1812,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getDividerFlipRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -1852,7 +1852,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getDividerShapeRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
     let iconType = 'shapes'
@@ -1886,7 +1886,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getDividerWidthRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -1912,7 +1912,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getDividerHeightRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -1938,7 +1938,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundTypeRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
     let options = {
@@ -1985,7 +1985,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getDividerBackgroundColorRender () {
     let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
 
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'color' || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'color' || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -2010,7 +2010,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getDividerBackgroundGradientStartColorRender () {
     let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
 
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'gradient' || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'gradient' || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -2035,7 +2035,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getDividerBackgroundGradientEndColorRender () {
     let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
 
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'gradient' || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'gradient' || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -2060,7 +2060,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getDividerBackgroundGradientAngleRender () {
     let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
 
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'gradient' || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'gradient' || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -2086,7 +2086,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getDividerAttachImageRender () {
     let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
 
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'image' || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'image' || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -2115,7 +2115,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     let backgroundType = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
     let deviceData = this.state.devices[ this.state.currentDevice ]
 
-    if (deviceData.display || !deviceData.divider || backgroundType !== 'image' || !vcCake.env('CONTAINER_DIVIDER') || !deviceData.hasOwnProperty('dividerBackgroundImage')) {
+    if (deviceData.display || !deviceData.divider || backgroundType !== 'image' || !vcCake.env('CONTAINER_DIVIDER') || !deviceData.hasOwnProperty('dividerBackgroundImage') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
     let images = deviceData.dividerBackgroundImage
@@ -2183,7 +2183,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     let deviceData = this.state.devices[ this.state.currentDevice ]
     let backgroundTypeToSearch = deviceData.dividerBackgroundType
 
-    if (deviceData.display || !deviceData.divider || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (deviceData.display || !deviceData.divider || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 
@@ -2285,7 +2285,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getDividerEmbedVideoRender () {
     let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
 
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'videoEmbed' || !vcCake.env('CONTAINER_DIVIDER')) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].divider || backgroundTypeToSearch !== 'videoEmbed' || !vcCake.env('CONTAINER_DIVIDER') || vcCake.env('NEW_DIVIDER_SHAPES')) {
       return null
     }
 

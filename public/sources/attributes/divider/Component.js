@@ -10,23 +10,22 @@ import Color from '../color/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import Range from '../range/Component'
 import IconPicker from '../iconpicker/Component'
-import vcCake from 'vc-cake'
 
 export default class Divider extends Attribute {
   /**
    * Attribute Mixins
    */
   static attributeMixins = {
-    visibilityMixin: {
-      src: require('raw-loader!./cssMixins/visibility.pcss'),
+    dividerTopMixin: {
+      src: require('raw-loader!./cssMixins/dividerTop.pcss'),
       variables: {
         device: {
           value: `all`
         }
       }
     },
-    dividerMixin: {
-      src: require('raw-loader!./cssMixins/divider.pcss'),
+    dividerBottomMixin: {
+      src: require('raw-loader!./cssMixins/dividerBottom.pcss'),
       variables: {
         device: {
           value: `all`
@@ -39,18 +38,26 @@ export default class Divider extends Attribute {
    * Default state values
    */
   static deviceDefaults = {
-    backgroundStyle: 'cover',
-    backgroundPosition: 'center-top',
-    dividerFlipHorizontal: 'horizontally-left',
-    dividerFlipVertical: 'vertically-down',
-    dividerPosition: 'top',
-    dividerBackgroundType: 'color',
-    dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-zigzag', iconSet: 'all' },
-    dividerShapeNew: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'all' },
-    dividerBackgroundColor: '#6567DF',
-    dividerBackgroundGradientStartColor: 'rgb(226, 135, 135)',
-    dividerBackgroundGradientEndColor: 'rgb(93, 55, 216)',
-    dividerBackgroundGradientAngle: 0
+    dividerTopBackgroundStyle: 'cover',
+    dividerTopBackgroundPosition: 'center-top',
+    dividerTopFlipHorizontal: 'horizontally-left',
+    dividerTopFlipVertical: 'vertically-down',
+    dividerTopBackgroundType: 'color',
+    dividerTopShape: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'all' },
+    dividerTopBackgroundColor: '#6567DF',
+    dividerTopBackgroundGradientStartColor: 'rgb(226, 135, 135)',
+    dividerTopBackgroundGradientEndColor: 'rgb(93, 55, 216)',
+    dividerTopBackgroundGradientAngle: 0,
+    dividerBottomBackgroundStyle: 'cover',
+    dividerBottomBackgroundPosition: 'center-top',
+    dividerBottomFlipHorizontal: 'horizontally-left',
+    dividerBottomFlipVertical: 'vertically-down',
+    dividerBottomBackgroundType: 'color',
+    dividerBottomShape: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'all' },
+    dividerBottomBackgroundColor: '#6567DF',
+    dividerBottomBackgroundGradientStartColor: 'rgb(226, 135, 135)',
+    dividerBottomBackgroundGradientEndColor: 'rgb(93, 55, 216)',
+    dividerBottomBackgroundGradientAngle: 0
   }
   static defaultState = {
     currentDevice: 'all',
@@ -61,7 +68,6 @@ export default class Divider extends Attribute {
   constructor (props) {
     super(props)
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
-    this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
   }
 
@@ -128,80 +134,114 @@ export default class Divider extends Attribute {
     checkDevices.forEach((device) => {
       if (!lodash.isEmpty(newState.devices[ device ])) {
         // set default values
-        if (!newState.devices[ device ].dividerBackgroundStyle) {
-          newState.devices[ device ].dividerBackgroundStyle = Divider.deviceDefaults.backgroundStyle
+        if (!newState.devices[ device ].dividerTopBackgroundStyle) {
+          newState.devices[ device ].dividerTopBackgroundStyle = Divider.deviceDefaults.dividerTopBackgroundStyle
         }
-        if (!newState.devices[ device ].dividerBackgroundPosition) {
-          newState.devices[ device ].dividerBackgroundPosition = Divider.deviceDefaults.backgroundPosition
+        if (!newState.devices[ device ].dividerBottomBackgroundStyle) {
+          newState.devices[ device ].dividerBottomBackgroundStyle = Divider.deviceDefaults.dividerBottomBackgroundStyle
+        }
+        if (!newState.devices[ device ].dividerTopBackgroundPosition) {
+          newState.devices[ device ].dividerTopBackgroundPosition = Divider.deviceDefaults.dividerTopBackgroundPosition
+        }
+        if (!newState.devices[ device ].dividerBottomBackgroundPosition) {
+          newState.devices[ device ].dividerBottomBackgroundPosition = Divider.deviceDefaults.dividerBottomBackgroundPosition
         }
 
         // values
         newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
-        // remove all values if display is provided
-        if (newValue[ device ].hasOwnProperty('display')) {
+
+        if (!newValue[ device ].dividerTop) {
           Object.keys(newValue[ device ]).forEach((style) => {
-            if (style !== 'display') {
+            if (style !== 'dividerTop' && style.includes('dividerTop')) {
               delete newValue[ device ][ style ]
             }
           })
         } else {
-          if (newState.devices[ device ].dividerBackgroundType !== 'image' && newState.devices[ device ].dividerBackgroundType !== 'videoEmbed') {
-            delete newValue[ device ].dividerBackgroundImage
-            delete newValue[ device ].dividerBackgroundStyle
-            delete newValue[ device ].dividerBackgroundPosition
-            delete newValue[ device ].dividerVideoEmbed
+          if (newState.devices[ device ].dividerTopBackgroundType !== 'image' && newState.devices[ device ].dividerTopBackgroundType !== 'videoEmbed') {
+            delete newValue[ device ].dividerTopBackgroundImage
+            delete newValue[ device ].dividerTopBackgroundStyle
+            delete newValue[ device ].dividerTopBackgroundPosition
+            delete newValue[ device ].dividerTopVideoEmbed
           }
 
-          if (newState.devices[ device ].dividerBackgroundType === 'image') {
-            if (newValue[ device ].hasOwnProperty('dividerBackgroundImage')) {
-              let dividerImages = newValue[ device ].dividerBackgroundImage
+          if (newState.devices[ device ].dividerTopBackgroundType === 'image') {
+            if (newValue[ device ].hasOwnProperty('dividerTopBackgroundImage')) {
+              let dividerImages = newValue[ device ].dividerTopBackgroundImage
               let isArray = dividerImages.constructor === Array
               if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
-                delete newValue[ device ].dividerBackgroundStyle
-                delete newValue[ device ].dividerBackgroundPosition
-                delete newValue[ device ].dividerVideoEmbed
+                delete newValue[ device ].dividerTopBackgroundStyle
+                delete newValue[ device ].dividerTopBackgroundPosition
+                delete newValue[ device ].dividerTopVideoEmbed
               }
             } else {
-              delete newValue[ device ].dividerBackgroundStyle
-              delete newValue[ device ].dividerBackgroundPosition
-              delete newValue[ device ].dividerVideoEmbed
+              delete newValue[ device ].dividerTopBackgroundStyle
+              delete newValue[ device ].dividerTopBackgroundPosition
+              delete newValue[ device ].dividerTopVideoEmbed
             }
           }
 
-          if (newState.devices[ device ].dividerBackgroundType === 'videoEmbed') {
-            delete newValue[ device ].dividerBackgroundStyle
+          if (newState.devices[ device ].dividerTopBackgroundType === 'videoEmbed') {
+            delete newValue[ device ].dividerTopBackgroundStyle
 
-            if (newValue[ device ].hasOwnProperty('dividerVideoEmbed')) {
-              let dividerVideos = newValue[ device ].dividerVideoEmbed
+            if (newValue[ device ].hasOwnProperty('dividerTopVideoEmbed')) {
+              let dividerVideos = newValue[ device ].dividerTopVideoEmbed
               let isArray = dividerVideos.constructor === Array
 
               if ((isArray && dividerVideos.length === 0) || (!isArray && (!dividerVideos.urls || dividerVideos.urls.length === 0))) {
-                delete newValue[ device ].dividerBackgroundPosition
-                delete newValue[ device ].dividerBackgroundImage
+                delete newValue[ device ].dividerTopBackgroundPosition
+                delete newValue[ device ].dividerTopBackgroundImage
               }
             } else {
-              delete newValue[ device ].dividerBackgroundPosition
-              delete newValue[ device ].dividerBackgroundImage
+              delete newValue[ device ].dividerTopBackgroundPosition
+              delete newValue[ device ].dividerTopBackgroundImage
             }
           }
         }
-        // mixins
-        if (newValue[ device ].hasOwnProperty('display')) {
-          newMixins[ `visibilityMixin:${device}` ] = lodash.defaultsDeep({}, Divider.attributeMixins.visibilityMixin)
-          newMixins[ `visibilityMixin:${device}` ].variables = {
-            device: {
-              value: device
+
+        if (!newValue[ device ].dividerBottom) {
+          Object.keys(newValue[ device ]).forEach((style) => {
+            if (style !== 'dividerBottom' && style.includes('dividerBottom')) {
+              delete newValue[ device ][ style ]
+            }
+          })
+        } else {
+          if (newState.devices[ device ].dividerBottomBackgroundType !== 'image' && newState.devices[ device ].dividerBottomBackgroundType !== 'videoEmbed') {
+            delete newValue[ device ].dividerBottomBackgroundImage
+            delete newValue[ device ].dividerBottomBackgroundStyle
+            delete newValue[ device ].dividerBottomBackgroundPosition
+            delete newValue[ device ].dividerBottomVideoEmbed
+          }
+
+          if (newState.devices[ device ].dividerBottomBackgroundType === 'image') {
+            if (newValue[ device ].hasOwnProperty('dividerBottomBackgroundImage')) {
+              let dividerImages = newValue[ device ].dividerBottomBackgroundImage
+              let isArray = dividerImages.constructor === Array
+              if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
+                delete newValue[ device ].dividerBottomBackgroundStyle
+                delete newValue[ device ].dividerBottomBackgroundPosition
+                delete newValue[ device ].dividerBottomVideoEmbed
+              }
+            } else {
+              delete newValue[ device ].dividerBottomBackgroundStyle
+              delete newValue[ device ].dividerBottomBackgroundPosition
+              delete newValue[ device ].dividerBottomVideoEmbed
             }
           }
-        } else {
-          // dividerMixin
-          if (newValue[ device ] && newValue[ device ].divider && (newValue[ device ].dividerBackgroundType === 'image' || newValue[ device ].dividerBackgroundType === 'videoEmbed')) {
-            let mixinName = `dividerMixin:${device}`
-            newMixins[ mixinName ] = {}
-            newMixins[ mixinName ] = lodash.defaultsDeep({}, Divider.attributeMixins.dividerMixin)
 
-            newMixins[ mixinName ].variables.device = {
-              value: device
+          if (newState.devices[ device ].dividerBottomBackgroundType === 'videoEmbed') {
+            delete newValue[ device ].dividerBottomBackgroundStyle
+
+            if (newValue[ device ].hasOwnProperty('dividerBottomVideoEmbed')) {
+              let dividerVideos = newValue[ device ].dividerBottomVideoEmbed
+              let isArray = dividerVideos.constructor === Array
+
+              if ((isArray && dividerVideos.length === 0) || (!isArray && (!dividerVideos.urls || dividerVideos.urls.length === 0))) {
+                delete newValue[ device ].dividerBottomBackgroundPosition
+                delete newValue[ device ].dividerBottomBackgroundImage
+              }
+            } else {
+              delete newValue[ device ].dividerBottomBackgroundPosition
+              delete newValue[ device ].dividerBottomBackgroundImage
             }
           }
         }
@@ -210,6 +250,22 @@ export default class Divider extends Attribute {
         if (!Object.keys(newValue[ device ]).length) {
           delete newValue[ device ]
         }
+      }
+    })
+
+    let allDevices = checkDevices.concat(this.getCustomDevicesKeys())
+    allDevices.push('all')
+    allDevices.forEach((device) => {
+      let mixinName = `dividerTopMixin:${device}`
+      newMixins[ mixinName ] = lodash.defaultsDeep({}, Divider.attributeMixins.dividerTopMixin)
+      newMixins[ mixinName ].variables.device = {
+        value: device
+      }
+
+      mixinName = `dividerBottomMixin:${device}`
+      newMixins[ mixinName ] = lodash.defaultsDeep({}, Divider.attributeMixins.dividerBottomMixin)
+      newMixins[ mixinName ].variables.device = {
+        value: device
       }
     })
 
@@ -311,44 +367,6 @@ export default class Divider extends Attribute {
   }
 
   /**
-   * Render device visibility toggle
-   * @returns {XML}
-   */
-  getDeviceVisibilityRender () {
-    if (this.state.currentDevice === 'all') {
-      return null
-    }
-
-    return (
-      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-        <Toggle
-          api={this.props.api}
-          fieldKey={`currentDeviceVisible`}
-          updater={this.deviceVisibilityChangeHandler}
-          options={{ labelText: `Show on device` }}
-          value={!this.state.devices[ this.state.currentDevice ].display}
-        />
-      </div>
-    )
-  }
-
-  /**
-   * Handle show on device toggle change
-   * @returns {XML}
-   */
-  deviceVisibilityChangeHandler (fieldKey, isVisible) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    if (isVisible) {
-      delete newState.devices[ this.state.currentDevice ].display
-    } else {
-      // set display to none
-      newState.devices[ this.state.currentDevice ].display = 'none'
-    }
-
-    this.updateValue(newState, fieldKey)
-  }
-
-  /**
    * Handle simple fieldKey - value type change
    * @param fieldKey
    * @param value
@@ -360,14 +378,75 @@ export default class Divider extends Attribute {
   }
 
   /**
-   * Render divider flip button group
+   * Render divider toggle
    * @returns {XML}
    */
-  getDividerFlipRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+  getDividerRender (type) {
+    let dividerType = `divider${type}`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+
+    let value = deviceData[ dividerType ] || false
+    let fieldKey = dividerType
+    let labelText = `Enable ${type.toLowerCase()} shape divider`
+
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <Toggle
+          api={this.props.api}
+          fieldKey={fieldKey}
+          updater={this.valueChangeHandler}
+          options={{ labelText: labelText }}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
+   * Render divider shape - icon picker
+   * @returns {XML}
+   */
+  getDividerShapeRender (type) {
+    let dividerType = `divider${type}`
+    let dividerShapeName = `${dividerType}Shape`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+
+    if (!deviceData[ dividerType ]) {
       return null
     }
 
+    let value = deviceData[ dividerShapeName ] || Divider.deviceDefaults[ dividerShapeName ]
+
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider shape
+        </span>
+        <IconPicker
+          api={this.props.api}
+          fieldKey={dividerShapeName}
+          options={{ iconType: 'newShapes' }}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
+   * Render divider flip button group
+   * @returns {XML}
+   */
+  getDividerFlipRender (type) {
+    let dividerType = `divider${type}`
+    let dividerFlipName = `${dividerType}FlipHorizontal`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+
+    if (!deviceData[ dividerType ]) {
+      return null
+    }
+
+    let value = deviceData[ dividerFlipName ] || Divider.deviceDefaults[ dividerFlipName ]
     let options = {
       values: [
         {
@@ -383,7 +462,6 @@ export default class Divider extends Attribute {
       ]
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerFlipHorizontal || Divider.deviceDefaults.dividerFlipHorizontal
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -391,7 +469,7 @@ export default class Divider extends Attribute {
         </span>
         <ButtonGroup
           api={this.props.api}
-          fieldKey='dividerFlipHorizontal'
+          fieldKey={dividerFlipName}
           options={options}
           updater={this.valueChangeHandler}
           value={value} />
@@ -400,33 +478,29 @@ export default class Divider extends Attribute {
   }
 
   /**
-   * Render divider shape - icon picker
+   * Render divider height range
    * @returns {XML}
    */
-  getDividerShapeRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+  getDividerHeightRender (type) {
+    let dividerType = `divider${type}`
+    let dividerHeightName = `${dividerType}Height`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+
+    if (!deviceData[ dividerType ]) {
       return null
     }
-    let iconType = 'shapes'
-    let fieldKey = 'dividerShape'
-    let value = this.state.devices[ this.state.currentDevice ].dividerShape || Divider.deviceDefaults.dividerShape
 
-    if (vcCake.env('NEW_DIVIDER_SHAPES')) {
-      iconType = 'newShapes'
-      value = this.state.devices[ this.state.currentDevice ].dividerShapeNew || Divider.deviceDefaults.dividerShapeNew
-      fieldKey = 'dividerShapeNew'
-    }
-
+    let value = deviceData[ dividerHeightName ] || '20'
     return (
-      <div className='vcv-ui-form-group'>
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <span className='vcv-ui-form-group-heading'>
-          Divider shape
+          Divider size
         </span>
-        <IconPicker
+        <Range
           api={this.props.api}
-          fieldKey={fieldKey}
-          options={{ iconType: iconType }}
+          fieldKey={dividerHeightName}
           updater={this.valueChangeHandler}
+          options={{ min: 0, max: 200, measurement: '%' }}
           value={value}
         />
       </div>
@@ -437,12 +511,17 @@ export default class Divider extends Attribute {
    * Render divider width range
    * @returns {XML}
    */
-  getDividerWidthRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+  getDividerWidthRender (type) {
+    let dividerType = `divider${type}`
+    let dividerWidthName = `${dividerType}Width`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+
+    if (!deviceData[ dividerType ]) {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerWidth || '100'
+    let value = deviceData[ dividerWidthName ] || '100'
+
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <span className='vcv-ui-form-group-heading'>
@@ -450,35 +529,9 @@ export default class Divider extends Attribute {
         </span>
         <Range
           api={this.props.api}
-          fieldKey='dividerWidth'
+          fieldKey={dividerWidthName}
           updater={this.valueChangeHandler}
           options={{ min: 100, max: 300, measurement: '%' }}
-          value={value}
-        />
-      </div>
-    )
-  }
-
-  /**
-   * Render divider height range
-   * @returns {XML}
-   */
-  getDividerHeightRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
-      return null
-    }
-
-    let value = this.state.devices[ this.state.currentDevice ].dividerHeight || '200'
-    return (
-      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-        <span className='vcv-ui-form-group-heading'>
-          Divider size
-        </span>
-        <Range
-          api={this.props.api}
-          fieldKey='dividerHeight'
-          updater={this.valueChangeHandler}
-          options={{ min: 0, max: 1600, measurement: 'px' }}
           value={value}
         />
       </div>
@@ -489,10 +542,15 @@ export default class Divider extends Attribute {
    * Render divider background type dropdown
    * @returns {*}
    */
-  getDividerBackgroundTypeRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+  getDividerBackgroundTypeRender (type) {
+    let dividerType = `divider${type}`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+
+    if (!deviceData[ dividerType ]) {
       return null
     }
+
     let options = {
       values: [
         {
@@ -506,24 +564,22 @@ export default class Divider extends Attribute {
         {
           label: 'Image',
           value: 'image'
+        },
+        {
+          label: 'Self-hosted video',
+          value: 'videoEmbed'
         }
       ]
     }
+    let value = deviceData[ dividerBgTypeName ] || Divider.deviceDefaults[ dividerBgTypeName ]
 
-    if (vcCake.env('CONTAINER_DIVIDER_EMBED_VIDEO')) {
-      options.values.push({
-        label: 'Self-hosted video',
-        value: 'videoEmbed'
-      })
-    }
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundType || Divider.deviceDefaults.dividerBackgroundType
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background type
       </span>
       <Dropdown
         api={this.props.api}
-        fieldKey='dividerBackgroundType'
+        fieldKey={dividerBgTypeName}
         options={options}
         updater={this.valueChangeHandler}
         value={value} />
@@ -534,24 +590,29 @@ export default class Divider extends Attribute {
    * Render color picker for divider background color
    * @returns {*}
    */
-  getDividerBackgroundColorRender () {
-    let backgroundType = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+  getDividerBackgroundColorRender (type) {
+    let dividerType = `divider${type}`
+    let dividerBgColorName = `${dividerType}BackgroundColor`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if (this.state.devices[ this.state.currentDevice ].display || backgroundType !== 'color') {
+    if (!deviceData[ dividerType ] || backgroundType !== 'color') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundColor || Divider.deviceDefaults.dividerBackgroundColor
+    let value = deviceData[ dividerBgColorName ] || Divider.deviceDefaults[ dividerBgColorName ]
+
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background color
       </span>
       <Color
         api={this.props.api}
-        fieldKey='dividerBackgroundColor'
+        fieldKey={dividerBgColorName}
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={Divider.deviceDefaults.dividerBackgroundColor} />
+        defaultValue={Divider.deviceDefaults[ dividerBgColorName ]} />
     </div>
   }
 
@@ -559,24 +620,28 @@ export default class Divider extends Attribute {
    * Render color picker for divider gradient background start color
    * @returns {*}
    */
-  getDividerBackgroundGradientStartColorRender () {
-    let backgroundType = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+  getDividerBackgroundGradientStartColorRender (type) {
+    let dividerType = `divider${type}`
+    let dividerGradientStartName = `${dividerType}BackgroundGradientStartColor`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if (this.state.devices[ this.state.currentDevice ].display || backgroundType !== 'gradient') {
+    if (!deviceData[ dividerType ] || backgroundType !== 'gradient') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientStartColor || Divider.deviceDefaults.dividerBackgroundGradientStartColor
+    let value = deviceData[ dividerGradientStartName ] || Divider.deviceDefaults[ dividerGradientStartName ]
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider start color
       </span>
       <Color
         api={this.props.api}
-        fieldKey='dividerBackgroundGradientStartColor'
+        fieldKey={dividerGradientStartName}
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={Divider.deviceDefaults.dividerBackgroundGradientStartColor} />
+        defaultValue={Divider.deviceDefaults[ dividerGradientStartName ]} />
     </div>
   }
 
@@ -584,24 +649,28 @@ export default class Divider extends Attribute {
    * Render color picker for divider gradient background end color
    * @returns {*}
    */
-  getDividerBackgroundGradientEndColorRender () {
-    let backgroundType = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+  getDividerBackgroundGradientEndColorRender (type) {
+    let dividerType = `divider${type}`
+    let dividerGradientEndName = `${dividerType}BackgroundGradientEndColor`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if (this.state.devices[ this.state.currentDevice ].display || backgroundType !== 'gradient') {
+    if (!deviceData[ dividerType ] || backgroundType !== 'gradient') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientEndColor || Divider.deviceDefaults.dividerBackgroundGradientEndColor
+    let value = deviceData[ dividerGradientEndName ] || Divider.deviceDefaults[ dividerGradientEndName ]
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider end color
       </span>
       <Color
         api={this.props.api}
-        fieldKey='dividerBackgroundGradientEndColor'
+        fieldKey={dividerGradientEndName}
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={Divider.deviceDefaults.dividerBackgroundGradientEndColor} />
+        defaultValue={Divider.deviceDefaults[ dividerGradientEndName ]} />
     </div>
   }
 
@@ -609,21 +678,25 @@ export default class Divider extends Attribute {
    * Render range input for divider gradient background angle
    * @returns {*}
    */
-  getDividerBackgroundGradientAngleRender () {
-    let backgroundType = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+  getDividerBackgroundGradientAngleRender (type) {
+    let dividerType = `divider${type}`
+    let dividerAngleName = `${dividerType}BackgroundGradientAngle`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if (this.state.devices[ this.state.currentDevice ].display || backgroundType !== 'gradient') {
+    if (!deviceData[ dividerType ] || backgroundType !== 'gradient') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundGradientAngle || Divider.deviceDefaults.dividerBackgroundGradientAngle
+    let value = deviceData[ dividerAngleName ] || Divider.deviceDefaults[ dividerAngleName ]
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider gradient angle
       </span>
       <Range
         api={this.props.api}
-        fieldKey='dividerBackgroundGradientAngle'
+        fieldKey={dividerAngleName}
         updater={this.valueChangeHandler}
         options={{ min: 0, max: 180, measurement: '°' }}
         value={value}
@@ -635,14 +708,18 @@ export default class Divider extends Attribute {
    * Render attach image for divider background
    * @returns {*}
    */
-  getDividerAttachImageRender () {
-    let backgroundType = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+  getDividerAttachImageRender (type) {
+    let dividerType = `divider${type}`
+    let dividerImageName = `${dividerType}BackgroundImage`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if (this.state.devices[ this.state.currentDevice ].display || backgroundType !== 'image') {
+    if (!deviceData[ dividerType ] || backgroundType !== 'image') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundImage || ''
+    let value = deviceData[ dividerImageName ] || ''
 
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
@@ -650,7 +727,7 @@ export default class Divider extends Attribute {
       </span>
       <AttachImage
         api={this.props.api}
-        fieldKey='dividerBackgroundImage'
+        fieldKey={dividerImageName}
         options={{
           multiple: false
         }}
@@ -663,14 +740,19 @@ export default class Divider extends Attribute {
    * Render divider background style
    * @returns {*}
    */
-  getDividerBackgroundStyleRender () {
-    let backgroundType = this.state.devices[ this.state.currentDevice ].dividerBackgroundType
+  getDividerBackgroundStyleRender (type) {
+    let dividerType = `divider${type}`
+    let dividerBgStyleName = `${dividerType}BackgroundStyle`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let dividerImageName = `${dividerType}BackgroundImage`
     let deviceData = this.state.devices[ this.state.currentDevice ]
+    let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if (deviceData.display || backgroundType !== 'image' || !deviceData.hasOwnProperty('dividerBackgroundImage')) {
+    if (!deviceData[ dividerType ] || backgroundType !== 'image' || !deviceData.hasOwnProperty(dividerImageName)) {
       return null
     }
-    let images = deviceData.dividerBackgroundImage
+
+    let images = deviceData[ dividerImageName ]
     let isArray = images.constructor === Array
 
     if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
@@ -713,14 +795,14 @@ export default class Divider extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundStyle || Divider.deviceDefaults.backgroundStyle
+    let value = deviceData[ dividerBgStyleName ] || Divider.deviceDefaults[ dividerBgStyleName ]
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background style
       </span>
       <Dropdown
         api={this.props.api}
-        fieldKey='dividerBackgroundStyle'
+        fieldKey={dividerBgStyleName}
         options={options}
         updater={this.valueChangeHandler}
         value={value} />
@@ -731,19 +813,24 @@ export default class Divider extends Attribute {
    * Render divider background position control
    * @returns {*}
    */
-  getDividerBackgroundPositionRender () {
+  getDividerBackgroundPositionRender (type) {
+    let dividerType = `divider${type}`
+    let dividerBgPositionName = `${dividerType}BackgroundPosition`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let dividerImageName = `${dividerType}BackgroundImage`
+    let dividerVideoEmbedName = `${dividerType}VideoEmbed`
     let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData.dividerBackgroundType
+    let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if ((backgroundType !== 'image' && backgroundType !== 'videoEmbed') || deviceData.display) {
+    if ((backgroundType !== 'image' && backgroundType !== 'videoEmbed') || !deviceData[ dividerType ]) {
       return null
     }
 
     if (backgroundType === 'image') {
-      if (!deviceData.hasOwnProperty('dividerBackgroundImage')) {
+      if (!deviceData.hasOwnProperty(dividerImageName)) {
         return null
       }
-      let images = deviceData.dividerBackgroundImage
+      let images = deviceData[ dividerImageName ]
       let isArray = images.constructor === Array
 
       if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
@@ -752,10 +839,10 @@ export default class Divider extends Attribute {
     }
 
     if (backgroundType === 'videoEmbed') {
-      if (!deviceData.hasOwnProperty('dividerVideoEmbed') || !vcCake.env('CONTAINER_DIVIDER_EMBED_VIDEO')) {
+      if (!deviceData.hasOwnProperty(dividerVideoEmbedName)) {
         return null
       }
-      let videos = deviceData.dividerVideoEmbed
+      let videos = deviceData[ dividerVideoEmbedName ]
       let isArray = videos.constructor === Array
 
       if ((isArray && videos.length === 0) || (!isArray && (!videos.urls || videos.urls.length === 0))) {
@@ -812,14 +899,15 @@ export default class Divider extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].dividerBackgroundPosition || Divider.deviceDefaults.backgroundPosition
+    let value = deviceData[ dividerBgPositionName ] || Divider.deviceDefaults[ dividerBgPositionName ]
+
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background position
       </span>
       <ButtonGroup
         api={this.props.api}
-        fieldKey='dividerBackgroundPosition'
+        fieldKey={dividerBgPositionName}
         options={options}
         updater={this.valueChangeHandler}
         value={value} />
@@ -830,22 +918,26 @@ export default class Divider extends Attribute {
    * Render divider Self hosted video control
    * @returns {*}
    */
-  getDividerEmbedVideoRender () {
+  getDividerEmbedVideoRender (type) {
+    let dividerType = `divider${type}`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let dividerVideoEmbedName = `${dividerType}VideoEmbed`
     let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData.dividerBackgroundType
+    let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if (deviceData.display || backgroundType !== 'videoEmbed') {
+    if (!deviceData[ dividerType ] || backgroundType !== 'videoEmbed') {
       return null
     }
 
-    let value = deviceData.dividerVideoEmbed || {}
+    let value = deviceData[ dividerVideoEmbedName ] || {}
+
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background video
       </span>
       <AttachVideo
         api={this.props.api}
-        fieldKey='dividerVideoEmbed'
+        fieldKey={dividerVideoEmbedName}
         options={{
           multiple: false
         }}
@@ -860,26 +952,38 @@ export default class Divider extends Attribute {
    */
   render () {
     return (
-      <div className='advanced-design-options'>
+      <div className='vcv-ui-divider-section'>
         {this.getDevicesRender()}
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            {this.getDeviceVisibilityRender()}
-          </div>
-          <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            {this.getDividerShapeRender()}
-            {this.getDividerFlipRender()}
-            {this.getDividerHeightRender()}
-            {this.getDividerWidthRender()}
-            {this.getDividerBackgroundTypeRender()}
-            {this.getDividerBackgroundColorRender()}
-            {this.getDividerBackgroundGradientStartColorRender()}
-            {this.getDividerBackgroundGradientEndColorRender()}
-            {this.getDividerBackgroundGradientAngleRender()}
-            {this.getDividerAttachImageRender()}
-            {this.getDividerBackgroundStyleRender()}
-            {this.getDividerEmbedVideoRender()}
-            {this.getDividerBackgroundPositionRender()}
+            {this.getDividerRender('Top')}
+            {this.getDividerShapeRender('Top')}
+            {this.getDividerFlipRender('Top')}
+            {this.getDividerHeightRender('Top')}
+            {this.getDividerWidthRender('Top')}
+            {this.getDividerBackgroundTypeRender('Top')}
+            {this.getDividerBackgroundColorRender('Top')}
+            {this.getDividerBackgroundGradientStartColorRender('Top')}
+            {this.getDividerBackgroundGradientEndColorRender('Top')}
+            {this.getDividerBackgroundGradientAngleRender('Top')}
+            {this.getDividerAttachImageRender('Top')}
+            {this.getDividerBackgroundStyleRender('Top')}
+            {this.getDividerEmbedVideoRender('Top')}
+            {this.getDividerBackgroundPositionRender('Top')}
+            {this.getDividerRender('Bottom')}
+            {this.getDividerShapeRender('Bottom')}
+            {this.getDividerFlipRender('Bottom')}
+            {this.getDividerHeightRender('Bottom')}
+            {this.getDividerWidthRender('Bottom')}
+            {this.getDividerBackgroundTypeRender('Bottom')}
+            {this.getDividerBackgroundColorRender('Bottom')}
+            {this.getDividerBackgroundGradientStartColorRender('Bottom')}
+            {this.getDividerBackgroundGradientEndColorRender('Bottom')}
+            {this.getDividerBackgroundGradientAngleRender('Bottom')}
+            {this.getDividerAttachImageRender('Bottom')}
+            {this.getDividerBackgroundStyleRender('Bottom')}
+            {this.getDividerEmbedVideoRender('Bottom')}
+            {this.getDividerBackgroundPositionRender('Bottom')}
           </div>
         </div>
       </div>

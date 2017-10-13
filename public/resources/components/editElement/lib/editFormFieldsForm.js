@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
 import EditFormSection from './editFormSection'
+import {env} from 'vc-cake'
 
 export default class EditFormFieldsForm extends React.Component {
   static propTypes = {
@@ -28,6 +29,9 @@ export default class EditFormFieldsForm extends React.Component {
    */
   getAccordionSections () {
     return this.props.allTabs.map((tab) => {
+      if (tab.fieldKey === 'dividers' && !env('NEW_DIVIDER_SHAPES')) {
+        return null
+      }
       return <EditFormSection
         {...this.props}
         key={tab.key}
