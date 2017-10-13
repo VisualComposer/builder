@@ -18,7 +18,7 @@ class TemplateFilterController extends Container implements Module
 
     use WpFiltersActions;
 
-    protected function __construct()
+    public function __construct()
     {
         if (version_compare(get_bloginfo('version'), '4.7', '<')) {
             $this->wpAddFilter('page_attributes_dropdown_pages_args', 'registerProjectTemplates');
