@@ -18,18 +18,15 @@ class Notice implements Helper
         if (!is_array($notices)) {
             $notices = [];
         }
-
-        if (!isset($notices[ $name ]) && !isset($notices[ $name ][ $message ])) {
-            $notices[ $name ] = [
-                'name' => $name,
-                'message' => $message,
-                'type' => $type,
-                'time' => time(),
-                'dismissible' => $dismissible,
-            ];
-            $optionsHelper = vchelper('Options');
-            $optionsHelper->setTransient('admin:notices', $notices);
-        }
+        $notices[ $name ] = [
+            'name' => $name,
+            'message' => $message,
+            'type' => $type,
+            'time' => time(),
+            'dismissible' => $dismissible,
+        ];
+        $optionsHelper = vchelper('Options');
+        $optionsHelper->setTransient('admin:notices', $notices);
     }
 
     public function removeNotice($name)
