@@ -45,7 +45,8 @@ export default class {
       await window.vcvRebuildPostSave(data)
     } catch (e) {
       console.warn(e)
+      return new Error('Error in rebuild process')
     }
-    return console.log('Updated', data)
+    return data
   }
 }

@@ -5,8 +5,8 @@ import './config/wpbackend-services'
 import './config/wpbackend-attributes'
 
 class PostBuilder {
-  setupIframe () {
-    document.body.innerHTML += '<div id="vcv-editor"><div class="vcv-layout-iframe-container">\n' +
+  setupIframe (link) {
+    document.getElementById('vcv-account-login-form').innerHTML += '<div id="vcv-editor"><div class="vcv-layout-iframe-container">\n' +
       '<iframe\n' +
       ' class="vcv-layout-iframe"\n' +
       ' id="vcv-editor-iframe"\n' +
@@ -35,6 +35,7 @@ class PostBuilder {
   }
 
   loadIframe () {
+    !this.cakeReady && this.setupCake()
     window.vcvSourceID = this.settings.id
     vcCake.getStorage('wordpressRebuildPostData').trigger('rebuild', this.settings.id)
   }
@@ -45,9 +46,8 @@ class PostBuilder {
    * @returns {Promise}
    */
   update (settings) {
-    !this.iframeReady && this.setupIframe()
-    !this.cakeReady && this.setupCake()
     this.settings = settings
+    !this.iframeReady && this.setupIframe(this.settings.editableLink)
     return new Promise((resolve, reject) => {
       this.resolve = resolve
       this.reject = reject
@@ -58,7 +58,7 @@ class PostBuilder {
 
 const builder = new PostBuilder()
 
-window.vcvRebuildPostSave = (data) => {
+window.vcvRebuildPostSave = async (data) => {
   return builder.update(data)
 }
 

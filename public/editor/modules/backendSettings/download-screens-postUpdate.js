@@ -1,4 +1,4 @@
-import {processActions} from './actions'
+import {processActions} from './actions-postUpdate'
 import {showLoadingScreen, showFirstScreen, showOopsScreen} from './screens'
 import {showError} from './errors'
 

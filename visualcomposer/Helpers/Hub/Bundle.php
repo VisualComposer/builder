@@ -190,7 +190,6 @@ class Bundle implements Helper
         return $result;
     }
 
-
     /**
      * @param $json
      *
@@ -205,11 +204,19 @@ class Bundle implements Helper
         if (isset($json['actions'])) {
             foreach ($json['actions'] as $key => $value) {
                 if (isset($value['action'])) {
-                    list($needUpdatePost, $requiredActions) = $this->loopActionIterator($value, $optionsHelper, $needUpdatePost, $downloadHelper, $requiredActions);
+                    $requiredActions = $this->loopActionIterator(
+                        $value,
+                        $optionsHelper,
+                        $needUpdatePost,
+                        $downloadHelper,
+                        $requiredActions
+                    );
                 }
             }
         }
-        return array($needUpdatePost, $requiredActions);
+        $needUpdatePost = vcvenv('VCV_TF_POSTS_RERENDER', false) ? $optionsHelper->get('hubAction:updatePosts', [])
+            : [];
+        return [$needUpdatePost, $requiredActions];
     }
 
     /**
@@ -218,6 +225,7 @@ class Bundle implements Helper
      * @param $needUpdatePost
      * @param Download $downloadHelper
      * @param $requiredActions
+     *
      * @return array
      */
     protected function loopActionIterator($value, $optionsHelper, $needUpdatePost, $downloadHelper, $requiredActions)
@@ -228,12 +236,12 @@ class Bundle implements Helper
         } else {
             $data = '';
         }
+        $needUpdatePost = $optionsHelper->get('hubAction:updatePosts', []);
         $checksum = isset($value['checksum']) ? $value['checksum'] : '';
         $version = $value['version'];
         $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
         if ($version && version_compare($version, $previousVersion, '>') || !$version) {
-            if (isset($value['last_post_update']) &&
-                version_compare($value['last_post_update'], $previousVersion, '>')
+            if (isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')
             ) {
                 $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
                 if (!empty($posts) && is_array($posts)) {
@@ -241,7 +249,8 @@ class Bundle implements Helper
                 }
             }
             $actionData = [
-                'name' => isset($value['name']) && !empty($value['name']) ? $value['name'] : $downloadHelper->getActionName($action),
+                'name' => isset($value['name']) && !empty($value['name']) ? $value['name']
+                    : $downloadHelper->getActionName($action),
                 'action' => $action,
                 'data' => $data,
                 'checksum' => $checksum,
@@ -255,7 +264,10 @@ class Bundle implements Helper
                 'action' => $actionData['action'],
             ];
         }
+        if (vcvenv('VCV_TF_POSTS_RERENDER', false)) {
+            $optionsHelper->set('hubAction:updatePosts', $needUpdatePost);
+        }
 
-        return array($needUpdatePost, $requiredActions);
+        return $requiredActions;
     }
 }

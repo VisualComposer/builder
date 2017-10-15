@@ -43,7 +43,7 @@ class JsonActionsController extends Container implements Module
                     $postsActions = $this->createPostUpdateObjects($reRenderPosts);
                     $response['vcvUpdaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
                     $response['vcvVendorUrl'] = $urlHelper->to('public/dist/vendor.bundle.js');
-                    $response['actions'] += $postsActions;
+                    $response['actions'] =  array_merge($response['actions'], $postsActions);
                 }
             } else {
                 $loggerHelper->log(
@@ -66,20 +66,22 @@ class JsonActionsController extends Container implements Module
         $frontendHelper = vchelper('Frontend');
         foreach ($posts as $id) {
             $result[] = [
-                'action' => "updatePost/${id}",
-                'data' => [
-                    'id' => $id,
-                    'editableLink' => $frontendHelper->getEditableUrl($id),
-                ],
+                'id' => $id,
+                'editableLink' => $frontendHelper->getEditableUrl($id),
                 'name' => get_the_title($id),
             ];
         }
 
-        return $result;
+        return [['action' => 'updatePosts', 'data' => $result]];
     }
 
-    protected function ajaxProcessAction($response, $payload, Request $requestHelper, Options $optionsHelper, Logger $loggerHelper)
-    {
+    protected function ajaxProcessAction(
+        $response,
+        $payload,
+        Request $requestHelper,
+        Options $optionsHelper,
+        Logger $loggerHelper
+    ) {
         $response = [
             'status' => true,
         ];
@@ -94,7 +96,8 @@ class JsonActionsController extends Container implements Module
 
         $previousVersion = $optionsHelper->get('hubAction:' . $savedAction['action'], '0');
         if (isset($savedAction['version']) && version_compare($savedAction['version'], $previousVersion, '>')
-            || !isset($savedAction['action']) || !$savedAction['version']) {
+            || !isset($savedAction['action'])
+            || !$savedAction['version']) {
             $response = $this->processAction(
                 $savedAction['action'],
                 $savedAction['data'],

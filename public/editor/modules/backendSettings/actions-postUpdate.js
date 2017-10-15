@@ -78,22 +78,28 @@ import { default as PostUpdater } from './postUpdate'
       $heading.text(downloadingInitialExtensionsText)
       processActions(actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
     }
+
     function doAction (i, finishCb) {
-      let action = actions[i]
-      let name = action.name
-      const testPattern = new RegExp('^updatePost')
+      let action = actions[ i ]
+      const testPattern = new RegExp('^updatePosts$')
       if (action.action && testPattern.test(action.action)) {
-        const postUpdateText = 'Update posts {i} in {cnt}: {name}'
-        console.log($heading, $heading.parent(), postUpdateText.replace('{i}', i + 1).replace('{cnt}', cnt).replace('{name}', name))
-        $heading.text(postUpdateText.replace('{i}', i + 1).replace('{cnt}', cnt).replace('{name}', name))
-        return postUpdater.update(action.data).then(() => {
-          if (i === cnt - 1) {
-            // finishCb()
+        const doUpdatePostAction = async (posts, postsIndex, finishCb) => {
+          const postData = posts[ postsIndex ]
+          const postUpdateText = 'Update posts {i} in {cnt}: {name}'
+          $heading.text(postUpdateText.replace('{i}', postsIndex + 1).replace('{cnt}', posts.length).replace('{name}', postData.name || 'No name'))
+          console.log($heading)
+          try {
+            await postUpdater.update(postData)
+          } catch (e) {}
+          if (postsIndex + 1 < posts.length) {
+            return doUpdatePostAction(posts, postsIndex + 1, finishCb)
           } else {
-            doAction(i + 1, finishCb)
+            // finishCb()
           }
-        })
+        }
+        return doUpdatePostAction(action.data, 0, finishCb)
       }
+      let name = action.name
       $heading.text(downloadingAssetsText.replace('{i}', i + 1).replace('{cnt}', cnt).replace('{name}', name))
       $.ajax(window.vcvActionsUrl,
         {
@@ -154,5 +160,5 @@ import { default as PostUpdater } from './postUpdate'
     }
   }
 
-  module.exports = {doneActions: doneActions, processActions: processActions}
+  module.exports = { doneActions: doneActions, processActions: processActions }
 })(window.jQuery)
