@@ -36,8 +36,8 @@ class UpdateBePage extends Container implements Module
     {
         $this->addEvent(
             'vcv:inited',
-            function (Options $optionsHelper, Request $requestHelper) {
-                if ($optionsHelper->get('bundleUpdateRequired')) {
+            function (Options $optionsHelper, Request $requestHelper, Token $tokenHelper) {
+                if ($tokenHelper->isSiteAuthorized() && $optionsHelper->get('bundleUpdateRequired')) {
                     $this->addFilter(
                         'vcv:settings:getPages',
                         'addPage',
