@@ -60,6 +60,8 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
   window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
   window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
   window.vcvAjaxTime = <?php echo $time; ?>;
+  window.vcvUpdaterUrl = <?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>;
+  window.vcvVendorUrl = <?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>;
 </script>
 <div class="vcv-layout-container vcv-is-disabled-outline">
     <div class="vcv-layout" id="vcv-layout">

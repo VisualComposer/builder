@@ -88,9 +88,9 @@ import { default as PostUpdater } from './postUpdate'
       const testPattern = new RegExp('^updatePosts$')
       if (action.action && testPattern.test(action.action)) {
         const postUpdater = new PostUpdater(window.vcvElementsGlobalsUrl, window.vcvVendorUrl, window.vcvUpdaterUrl)
+        const postUpdateText = 'Update posts {i} in {cnt}: {name}'
         const doUpdatePostAction = async (posts, postsIndex, finishCb) => {
           const postData = posts[ postsIndex ]
-          const postUpdateText = 'Update posts {i} in {cnt}: {name}'
           $heading.text(postUpdateText.replace('{i}', postsIndex + 1).replace('{cnt}', posts.length).replace('{name}', postData.name || 'No name'))
           try {
             await postUpdater.update(postData)

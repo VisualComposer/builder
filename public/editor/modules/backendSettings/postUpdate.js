@@ -13,18 +13,28 @@ export default class {
        */
       data && data.vcvGlobals && this.buildGlobalVariables(data.vcvGlobals)
     }).fail(console.log)
-    if (typeof VCV_HUB_GET_ELEMENTS === 'function') {
 
-    }
     await $.getScript(this.vendorUrl).fail(console.log)
     await $.getScript(this.updaterUrl).fail(console.log)
+    await this.downloadElements()
     this.ready = true
   }
 
   isReady () {
     return !!this.ready
   }
-
+  downloadElements () {
+    const $ = window.jQuery
+    const elementBundles = []
+    if (typeof window.VCV_HUB_GET_ELEMENTS === 'function') {
+      const elements = window.VCV_HUB_GET_ELEMENTS()
+      Object.keys(elements).forEach((key) => {
+        const element = elements[key]
+        elementBundles.push($.getScript(element.bundlePath).fail(console.log))
+      })
+    }
+    return Promise.all(elementBundles)
+  }
   setGlobalVariable (key, data) {
     Object.defineProperty(window, key, {
       value: function () {
