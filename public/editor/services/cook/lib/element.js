@@ -1,10 +1,11 @@
 /* eslint jsx-quotes: [2, "prefer-double"] */
 import React from 'react'
 import vcCake from 'vc-cake'
+import lodash from 'lodash'
 
-import {default as elementSettings} from './element-settings'
-import {default as elementComponent} from './element-component'
-import {getAttributeType} from './tools'
+import { default as elementSettings } from './element-settings'
+import { default as elementComponent } from './element-component'
+import { getAttributeType } from './tools'
 
 const createKey = vcCake.getService('utils').createKey
 const elData = Symbol('element data')
@@ -67,7 +68,7 @@ export default class CookElement {
   }
 
   get (k, raw = false) {
-    if ([ 'id', 'name', 'metaThumbnailUrl', 'metaPreviewUrl', 'metaDescription', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings', 'metaAssetsPath', 'metaElementPath', 'metaBundlePath', 'customHeaderTitle', 'hidden' ].indexOf(k) > -1) {
+    if (Object.keys(this[ elData ]).indexOf(k) > -1) {
       return this[ elData ][ k ]
     }
     let { type, settings } = this[ elData ].getAttributeType(k)
@@ -135,6 +136,10 @@ export default class CookElement {
     if (this[ elData ].order !== undefined) {
       data.order = this[ elData ].order
     }
+    if (vcCake.env('EXISTING_ELEMENT_ATTR_FIX')) {
+      const publicKeys = this.getPublicKeys()
+      return lodash.pick(data, publicKeys)
+    }
     return data
   }
 
@@ -196,5 +201,15 @@ export default class CookElement {
       let value = this.get(key)
       return callback(key, value, settings)
     })
+  }
+
+  getPublicKeys () {
+    return [ 'id', 'order', 'parent', 'tag', 'customHeaderTitle' ].concat(this.filter((key, value, settings) => {
+      return settings.access === 'public'
+    }))
+  }
+
+  getName () {
+    return this.get('customHeaderTitle') || this.get('name')
   }
 }

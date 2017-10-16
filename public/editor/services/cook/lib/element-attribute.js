@@ -1,4 +1,4 @@
-import {env} from 'vc-cake'
+import { env } from 'vc-cake'
 
 export default class {
   constructor (name, component, settings, representers = {}) {
@@ -53,6 +53,6 @@ export default class {
   }
 
   getRepresenter (type = 'Backend') {
-    return this.representers[type] ? this.representers[type] : false
+    return this.representers[ type ] ? this.representers[ type ] : false
   }
 }

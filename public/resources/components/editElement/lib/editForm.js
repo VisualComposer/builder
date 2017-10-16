@@ -14,7 +14,7 @@ export default class EditForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      content: props.element.get('customHeaderTitle') || props.element.get('name'),
+      content: props.element.getName(),
       editable: false
     }
 

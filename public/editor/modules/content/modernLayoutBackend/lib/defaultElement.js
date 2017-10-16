@@ -19,12 +19,13 @@ export default class DefaultElement extends React.Component {
 
   constructor (props) {
     super(props)
+    const element = cook.get(props.element)
     this.state = {
       hasAttributes: true,
       element: props.element,
       activeElement: false,
       attributeState: 'closed',
-      content: props.element.customHeaderTitle || props.element.name,
+      content: element.getName(),
       editable: false
     }
     this.handleClick = this.handleClick.bind(this)
