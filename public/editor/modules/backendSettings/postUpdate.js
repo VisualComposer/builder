@@ -7,21 +7,34 @@ export default class {
 
   async setup () {
     const $ = window.jQuery
-    await $.getJSON(this.globalUrls, {'vcv-nonce': window.vcvAdminNonce}).done((data) => {
+    await $.getJSON(this.globalUrls, { 'vcv-nonce': window.vcvAdminNonce }).done((data) => {
       /**
        * @param {{vcvGlobals}} data
        */
       data && data.vcvGlobals && this.buildGlobalVariables(data.vcvGlobals)
     }).fail(console.log)
+
     await $.getScript(this.vendorUrl).fail(console.log)
     await $.getScript(this.updaterUrl).fail(console.log)
+    await this.downloadElements()
     this.ready = true
   }
 
   isReady () {
     return !!this.ready
   }
-
+  downloadElements () {
+    const $ = window.jQuery
+    const elementBundles = []
+    if (typeof window.VCV_HUB_GET_ELEMENTS === 'function') {
+      const elements = window.VCV_HUB_GET_ELEMENTS()
+      Object.keys(elements).forEach((key) => {
+        const element = elements[key]
+        elementBundles.push($.getScript(element.bundlePath).fail(console.log))
+      })
+    }
+    return Promise.all(elementBundles)
+  }
   setGlobalVariable (key, data) {
     Object.defineProperty(window, key, {
       value: function () {
@@ -33,7 +46,7 @@ export default class {
 
   buildGlobalVariables (globals) {
     Object.keys(globals).forEach((key) => {
-      this.setGlobalVariable(key, globals[key])
+      this.setGlobalVariable(key, globals[ key ])
     })
   }
 
@@ -45,7 +58,8 @@ export default class {
       await window.vcvRebuildPostSave(data)
     } catch (e) {
       console.warn(e)
+      return new Error('Error in rebuild process')
     }
-    return console.log('Updated', data)
+    return data
   }
 }

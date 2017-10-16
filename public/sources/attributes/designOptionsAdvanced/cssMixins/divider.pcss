@@ -4,13 +4,13 @@
 
     @media (--$(device)-only) {
       .vce-divider-image-block {
-        -webkit-clip-path: rawUrl(#image-$(selector)-$(device));
-        clip-path: rawUrl(#image-$(selector)-$(device));
+        -webkit-clip-path: rawUrl(#image-$(selector)-$(device)-top);
+        clip-path: rawUrl(#image-$(selector)-$(device)-top);
       }
 
       .vce-divider-video-block {
-        -webkit-clip-path: rawUrl(#video-$(selector)-$(device));
-        clip-path: rawUrl(#video-$(selector)-$(device));
+        -webkit-clip-path: rawUrl(#video-$(selector)-$(device)-top);
+        clip-path: rawUrl(#video-$(selector)-$(device)-top);
       }
     }
   }

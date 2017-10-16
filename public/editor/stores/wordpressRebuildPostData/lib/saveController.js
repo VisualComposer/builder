@@ -81,7 +81,8 @@ export default class SaveController {
         'vcv-elements-css-data': encodeURIComponent(JSON.stringify(elementsCss)),
         'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
         'vcv-source-css': pageStyles,
-        'vcv-tf': 'noGlobalCss'
+        'vcv-tf': 'noGlobalCss',
+        'vcv-updatePost': '1'
       }
       this.ajax(
         requestData,
