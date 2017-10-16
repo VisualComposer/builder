@@ -167,12 +167,13 @@ export default class Categories extends React.Component {
   }
 
   getElementControl (elementData) {
+    const element = cook.get(elementData)
     return <ElementControl
-      key={'vcv-element-control-' + elementData.tag}
+      key={'vcv-element-control-' + element.get('tag')}
       element={elementData}
-      tag={elementData.tag}
+      tag={element.get('tag')}
       workspace={workspaceStorage.state('settings').get() || {}}
-      name={elementData.name} />
+      name={element.get('name')} />
   }
 
   changeSearchState (state) {
@@ -204,7 +205,8 @@ export default class Categories extends React.Component {
     })
 
     return allCategories[ getIndex ].elements.filter((elementData) => {
-      let elName = elementData.name.toLowerCase()
+      const element = cook.get(elementData)
+      let elName = element.get('name').toLowerCase()
       return elName.indexOf(inputValue.trim()) !== -1
     }).map((elementData) => {
       return this.getElementControl(elementData)

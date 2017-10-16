@@ -5,6 +5,7 @@ import vcCake from 'vc-cake'
 
 const hubCategories = vcCake.getService('hubCategories')
 const elementsStorage = vcCake.getStorage('elements')
+const cook = vcCake.getService('cook')
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -14,7 +15,7 @@ export default class EditForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      content: props.element.get('customHeaderTitle') || props.element.get('name'),
+      content: props.element.getName(),
       editable: false
     }
 
