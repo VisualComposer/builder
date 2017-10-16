@@ -2004,6 +2004,24 @@ class DevElements extends Container implements Module
                         ),
                         'metaDescription' => 'Add empty space to your layout with a blank empty space element and control spaces across different devices.',
                     ],
+                ],
+                'widgetizedSidebar' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/widgetizedSidebar/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/widgetizedSidebar/widgetizedSidebar/'),
+                    'elementRealPath' => vcapp()->path('devElements/widgetizedSidebar/widgetizedSidebar/'),
+                    'assetsPath' => $urlHelper->to('devElements/widgetizedSidebar/widgetizedSidebar/public/'),
+                    'settings' => [
+                        'name' => 'Widgetized Sidebar',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/widgetizedSidebar/widgetizedSidebar/public/wordpress-widgets-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/widgetizedSidebar/widgetizedSidebar/public/wordpress-widgets-preview.png'
+                        ),
+                        'metaDescription' => ' Add any of your saved WordPress sidebars anywhere in the content.',
+                    ],
                 ]
             ]
         );

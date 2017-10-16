@@ -61,7 +61,7 @@ class RevisionController extends Container implements Module
     protected function restoreRevision($postId, $revisionId)
     {
         // @codingStandardsIgnoreStart
-        $post = get_post($postId);
+        // $post = get_post($postId);
         $revision = get_post($revisionId);
         $pageContent = get_metadata('post', $revision->ID, VCV_PREFIX . 'pageContent', true);
 
