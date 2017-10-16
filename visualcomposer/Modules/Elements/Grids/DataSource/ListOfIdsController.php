@@ -44,6 +44,7 @@ class ListOfIdsController extends Container /*implements Module*/
      */
     protected function postSuggester($response, $payload, PostType $postTypeHelper)
     {
+        /** @var \wpdb $wpdb */
         global $wpdb;
         $searchValue = $payload['searchValue'];
         $postId = (int)$searchValue;
@@ -60,7 +61,7 @@ class ListOfIdsController extends Container /*implements Module*/
             $wpdb->prepare(
                 "SELECT ID AS id, post_title AS title FROM {$wpdb->posts} WHERE ( post_status = 'publish' ) AND ({$postQuery}) AND ( ID = '%d' OR post_title LIKE '%%%s%%' ) LIMIT 30",
                 $postId > 0 ? $postId : -1,
-                stripslashes($searchValue)
+                esc_sql($searchValue)
             ),
             ARRAY_A
         );
@@ -90,7 +91,7 @@ class ListOfIdsController extends Container /*implements Module*/
         $payload,
         PostType $postTypeHelper
     ) {
-        global $post;
+        // global $post;
         if (isset($payload['atts']['source'], $payload['atts']['source']['tag'])
             && $payload['atts']['source']['tag'] === 'postsGridDataSourceListOfIds'
         ) {

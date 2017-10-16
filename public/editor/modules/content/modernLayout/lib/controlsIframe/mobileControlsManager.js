@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import FramesHandler from './framesHandler'
+import MobileDetect from 'mobile-detect'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -49,6 +50,8 @@ export default class ControlsManager {
     this.iframeDocument = options.iframeDocument
     this.documentBody = options.documentBody
     this.editFormId = null
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    this.iframeScrollable = mobileDetect.os() === 'iOS' ? this.iframeWrapper : this.iframeWindow
 
     let systemData = {
       iframeContainer: this.iframeContainer,
@@ -194,26 +197,23 @@ export default class ControlsManager {
     this.frames.show({ element: data.element, path: elementsToShow })
   }
 
-  scrollPage (x, y) {
-    let posY = this.iframeWindow.scrollY
-    let posX = this.iframeWindow.scrollX
-    if (posX === this.windowWidth || posY === this.windowHeight) {
+  scrollPage (y) {
+    let posY = this.iframeScrollable && (this.iframeScrollable.scrollY || this.iframeScrollable.scrollTop)
+    let posX = this.iframeScrollable && (this.iframeScrollable.scrollX || this.iframeScrollable.scrollLeft)
+    if (posY === this.windowHeight || (posY === undefined || posX === undefined)) {
       return
     }
-    this.iframeWindow.scroll(posX + x, posY + y)
+    this.iframeScrollable && this.iframeScrollable.scroll && this.iframeScrollable.scroll(0, posY + y)
     if (this.state.scroll) {
       setTimeout(() => {
-        this.scrollPage(x, y)
-      }, 20)
+        this.scrollPage(y)
+      }, 30)
     }
   }
 
   touchStart (e) {
     let data = this.findElement(e)
-    this.windowHeight = this.iframeWindow.innerHeight
-    let innerWidth = this.iframeWindow.innerWidth
-    let outerWidth = this.iframeWindow.outerWidth
-    this.windowWidth = innerWidth <= outerWidth ? innerWidth : outerWidth
+    this.windowHeight = this.iframeScrollable.clientHeight
     if (!this.state.dragging && e.touches && e.touches.length === 1) {
       if (data.element) {
         this.touchStartTimer = setTimeout(() => {
@@ -280,23 +280,19 @@ export default class ControlsManager {
         this.showFrames(element, elPath)
       }
 
-      // this.state.scroll = false
-      // let stepX = 0
-      // let stepY = 0
-      // if (screenX < 100) {
-      //   stepX = -1
-      // } else if (this.windowWidth - 100 < screenX) {
-      //   stepX = 1
-      // }
-      // if (clientY < 100) {
-      //   stepY = -1
-      // } else if (this.windowHeight - 150 < clientY) {
-      //   stepY = 1
-      // }
-      // if (stepX || stepY) {
-      //   this.state.scroll = true
-      //   this.scrollPage(stepX, stepY)
-      // }
+      let scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop || 0
+      let screenY = clientY - scrollY
+      this.state.scroll = false
+      let stepY = 0
+      if (screenY <= 50) {
+        stepY = -5
+      } else if (this.windowHeight - 50 <= screenY) {
+        stepY = 5
+      }
+      if (stepY) {
+        this.state.scroll = true
+        this.scrollPage(stepY)
+      }
     } else {
       this.frames.hide()
     }

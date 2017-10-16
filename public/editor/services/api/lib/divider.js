@@ -56,7 +56,8 @@ export default class Divider extends Component {
       [`vce-divider-position--${type && type.toLowerCase()}`]: type,
       'vce-container-divider-flip--horizontally': flipHorizontally,
       [backgroundStyleClass]: dividerBackgroundStyle,
-      [backgroundPositionClass]: dividerBackgroundPosition
+      [backgroundPositionClass]: dividerBackgroundPosition,
+      'vce-container-divider-new': vcCake.env('NEW_DIVIDER_SHAPES')
     }, `vce-visible-${deviceKey}-only`)
 
     let fill = dividerBackgroundColor

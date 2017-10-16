@@ -36,6 +36,10 @@ export default class DividerShape extends Component {
     }
 
     let id = `gradient-${this.props.id}-${this.props.deviceKey}`
+    if (this.props.type) {
+      id = `gradient-${this.props.id}-${this.props.deviceKey}-${this.props.type}`
+    }
+
     return (
       <linearGradient id={id} gradientUnits='objectBoundingBox' gradientTransform={`rotate(${angle} 0.5 0.5)`}>
         <stop offset='0%' style={{ stopColor: startColor, stopOpacity: '1' }} />
@@ -162,15 +166,20 @@ export default class DividerShape extends Component {
 
       if (fillType === 'gradient') {
         let gradientId = `gradient-${id}-${deviceKey}`
+
+        if (type) {
+          gradientId = `gradient-${id}-${deviceKey}-${type}`
+        }
+
         customAttributes.fill = `url(#${gradientId})`
       }
       let svgProps = {
         viewBox: viewBox,
+        width: width,
         preserveAspectRatio: 'none'
       }
       if (!vcCake.env('NEW_DIVIDER_SHAPES')) {
         svgProps.height = viewBoxHeight
-        svgProps.width = width
       }
 
       return (
@@ -185,33 +194,33 @@ export default class DividerShape extends Component {
       let imageId = `image-el-${id}-${deviceKey}-${position}`
       let html = svgUnitContent
       let backgroundImageUrl = `url(${backgroundImage})`
+      let percentage = width.replace('%', '')
       let imageProps = {}
       imageProps.style = {
         width: width
       }
+      let imageBlockProps = {}
+      imageBlockProps.style = {}
+      let backgroundProps = {}
+      backgroundProps.style = {
+        backgroundImage: backgroundImageUrl,
+        width: `${100 / percentage * 100}%`
+      }
 
       if (percentageHeight) {
         percentageHeight = parseFloat(percentageHeight) + 10
-        imageProps.style.paddingBottom = `${percentageHeight}%`
+        imageBlockProps.style.paddingBottom = `${percentageHeight}%`
         html = this.changePercentageHeight(percentageHeight, svgUnitContent, position, viewBoxWidth, viewBoxHeight)
       } else {
         imageProps.style.height = `${parseFloat(height)}px`
       }
 
-      let percentage = width.replace('%', '')
-      let backgroundProps = {}
-
-      backgroundProps.style = {
-        width: `${100 / percentage * 100}%`,
-        backgroundImage: backgroundImageUrl
-      }
-
       return (
-        <div className='vce-divider-with-image'>
+        <div className='vce-divider-with-image' {...imageProps}>
           <svg className='vce-divider-svg'>
             <clipPath id={imageId} dangerouslySetInnerHTML={{ __html: html }} clipPathUnits='objectBoundingBox' />
           </svg>
-          <div {...imageProps} className='vce-divider-image-block'>
+          <div {...imageBlockProps} className='vce-divider-image-block'>
             <div {...backgroundProps} className='vce-divider-image-background-block' />
           </div>
         </div>
@@ -222,10 +231,13 @@ export default class DividerShape extends Component {
       let imageId = `video-el-${id}-${deviceKey}-${position}`
       let html = svgUnitContent
       let percentage = width.replace('%', '')
-      let imageProps = {}
-      imageProps.style = {
+      let videoProps = {}
+      videoProps.style = {
         width: width
       }
+
+      let videoBlockProps = {}
+      videoBlockProps.style = {}
       let backgroundProps = {}
       backgroundProps.style = {
         width: `${100 / percentage * 100}%`
@@ -233,18 +245,18 @@ export default class DividerShape extends Component {
 
       if (percentageHeight) {
         percentageHeight = parseFloat(percentageHeight) + 10
-        backgroundProps.style.paddingBottom = `${percentageHeight}%`
+        videoBlockProps.style.paddingBottom = `${percentageHeight}%`
         html = this.changePercentageHeight(percentageHeight, svgUnitContent, position, viewBoxWidth, viewBoxHeight)
       } else {
-        imageProps.style.height = `${parseFloat(height)}px`
+        videoBlockProps.style.height = `${parseFloat(height)}px`
       }
 
       return (
-        <div className='vce-divider-with-video'>
+        <div className='vce-divider-with-video' {...videoProps}>
           <svg className='vce-divider-svg'>
             <clipPath id={imageId} dangerouslySetInnerHTML={{ __html: html }} clipPathUnits='objectBoundingBox' />
           </svg>
-          <div {...imageProps} className='vce-divider-video-block'>
+          <div {...videoBlockProps} className='vce-divider-video-block'>
             <div {...backgroundProps} className='vce-divider-video-background-block'>
               <div className='vce-divider-video-background-inner-block'
                 data-vce-assets-video-embed={videoData.id}

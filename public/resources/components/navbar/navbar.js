@@ -22,13 +22,13 @@ export default class Navbar extends React.Component {
   }
   constructor (props) {
     super(props)
-    let navbavPosition = 'left'
+    let navbarPosition = 'left'
     if (vcCake.env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
         this.isMobile = true
         if (window.innerWidth < window.innerHeight) {
-          navbavPosition = 'top'
+          navbarPosition = 'top'
         }
       }
     }
@@ -39,7 +39,7 @@ export default class Navbar extends React.Component {
       saved: false,
       isDragging: false,
       isDetached: false,
-      navbarPosition: navbavPosition,
+      navbarPosition: navbarPosition,
       navPosX: 0,
       navPosY: 0,
       windowSize: {

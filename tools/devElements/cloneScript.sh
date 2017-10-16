@@ -95,6 +95,7 @@ declare -a arr=(
 'callToAction'
 'emptySpace'
 'outlineMessageBox'
+'widgetizedSidebar'
 )
 
 EXECDIR=`pwd`
