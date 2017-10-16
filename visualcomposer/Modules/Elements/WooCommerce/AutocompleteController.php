@@ -24,6 +24,7 @@ class AutocompleteController extends Container/* implements Module*/
 
     public function productIdAutocompleteSuggester($response, $payload)
     {
+        /** @var \wpdb $wpdb */
         global $wpdb;
         $searchValue = $payload['searchValue'];
         $productId = (int)$searchValue;
@@ -34,8 +35,8 @@ class AutocompleteController extends Container/* implements Module*/
 					LEFT JOIN ( SELECT meta_value, post_id  FROM {$wpdb->postmeta} WHERE `meta_key` = '_sku' ) AS b ON b.post_id = a.ID
 					WHERE a.post_type = 'product' AND ( a.ID = '%d' OR b.meta_value LIKE '%%%s%%' OR a.post_title LIKE '%%%s%%' )",
                 $productId > 0 ? $productId : -1,
-                stripslashes($searchValue),
-                stripslashes($searchValue)
+                esc_sql($searchValue),
+                esc_sql($searchValue)
             ),
             ARRAY_A
         );
@@ -57,6 +58,7 @@ class AutocompleteController extends Container/* implements Module*/
 
     public function productCategoryAutocompleteSuggester($response, $payload)
     {
+        /** @var \wpdb $wpdb */
         global $wpdb;
         $searchValue = $payload['searchValue'];
         $returnValue = $payload['returnValue'];
@@ -69,8 +71,8 @@ class AutocompleteController extends Container/* implements Module*/
 						INNER JOIN {$wpdb->terms} AS b ON b.term_id = a.term_id
 						WHERE a.taxonomy = 'product_cat' AND (a.term_id = '%d' OR b.slug LIKE '%%%s%%' OR b.name LIKE '%%%s%%' )",
                 $carId > 0 ? $carId : -1,
-                stripslashes($searchValue),
-                stripslashes($searchValue)
+                esc_sql($searchValue),
+                esc_sql($searchValue)
             ),
             ARRAY_A
         );

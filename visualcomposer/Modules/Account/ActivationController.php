@@ -13,7 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\License;
-use VisualComposer\Helpers\Notice;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
