@@ -179,6 +179,7 @@ class License extends Container implements Helper
 
     public function licenseErrorCodes($errorCode)
     {
+        $message = '';
         switch ($errorCode) {
             case 1:
                 $message = __('Visual Composer Website Builder license has expired.', 'vcwb');

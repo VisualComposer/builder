@@ -464,9 +464,9 @@ export default class DndDataSet {
     let top = null
     let speed = 30
     let gap = 10
-    if (clientHeight - gap <= point.y) {
+    if (clientHeight - gap <= point.y - point.top) {
       top = body.scrollTop + speed
-    } else if (point.y <= gap && body.scrollTop >= speed) {
+    } else if (point.y - point.top <= gap && body.scrollTop >= speed) {
       top = body.scrollTop - speed
     }
     if (top !== null) {

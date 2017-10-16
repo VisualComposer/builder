@@ -40,12 +40,21 @@ class WpSidebarShortcode extends Container implements Module
      */
     protected function render($atts, $content, $tag)
     {
+        // @codingStandardsIgnoreLine
+        global $wp_registered_sidebars;
         $atts = shortcode_atts(
             [
                 'key' => '',
             ],
             $atts
         );
+        if (empty($atts['key'])) {
+            // @codingStandardsIgnoreLine
+            $current = current($wp_registered_sidebars);
+            if (!empty($current)) {
+                $atts['key'] = $current['id'];
+            }
+        }
         ob_start();
         dynamic_sidebar($atts['key']);
         $output = ob_get_clean();

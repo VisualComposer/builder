@@ -12,7 +12,6 @@ use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
