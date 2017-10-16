@@ -203,7 +203,7 @@ export default class ControlsManager {
     if (posY === this.windowHeight || (posY === undefined || posX === undefined)) {
       return
     }
-    this.iframeScrollable && this.iframeScrollable.scroll && this.iframeScrollable.scroll(0, posY + y)
+    this.iframeScrollable && this.iframeScrollable.scroll && this.iframeScrollable.scroll(posX, posY + y)
     if (this.state.scroll) {
       setTimeout(() => {
         this.scrollPage(y)

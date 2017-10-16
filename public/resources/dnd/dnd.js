@@ -142,7 +142,11 @@ export default class DnD {
           manualScroll: false,
           drop: false,
           allowMultiNodes: false,
-          enableTrashBin: options && options.container && options.container.id === 'vcv-editor-iframe-overlay' || false
+          enableTrashBin: options && options.container && options.container.id === 'vcv-editor-iframe-overlay' || false,
+          customScroll: false,
+          scrollContainer: null,
+          scrollCallback: function () {
+          }
         })
       }
     })
@@ -482,6 +486,7 @@ export default class DnD {
       setData('vcv:layoutCustomMode', 'dnd')
     }
     this.options.manualScroll && this.scrollManually(point)
+    this.options.customScroll && this.options.scrollCallback(point)
     window.setTimeout(() => {
       if (!this.startPoint) {
         this.startPoint = point

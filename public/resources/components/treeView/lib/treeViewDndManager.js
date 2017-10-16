@@ -31,12 +31,19 @@ export default class TreeViewDndManager {
         writable: true,
         enumerable: false,
         configurable: true
+      },
+      sidebarContent: {
+        value: document.querySelector('.vcv-layout-bar-content'),
+        writable: false,
+        enumerable: false,
+        configurable: true
       }
     })
   }
 
   buildItems () {
     if (!this.items) {
+      this.scrollContainer = document.querySelector('.vcv-ui-tree-layout-container .vcv-ui-scroll-content')
       this.items = new DnD(document.querySelector('.vcv-ui-tree-layout'), {
         cancelMove: true,
         moveCallback: this.move.bind(this),
@@ -45,9 +52,51 @@ export default class TreeViewDndManager {
         document: document,
         container: document.getElementById('vcv-layout'),
         handler: '> .vcv-ui-tree-layout-control > .vcv-ui-tree-layout-control-drag-handler',
-        helperType: 'clone'
+        helperType: 'clone',
+        customScroll: true,
+        scrollContainer: this.scrollContainer,
+        scrollCallback: this.scrollTo.bind(this)
       })
       this.items.init()
+    }
+  }
+
+  scrollTo (point) {
+    this.scroll = false
+    if (!this.sidebarContent || !this.scrollContainer) {
+      return
+    }
+    let scrollContainer = this.scrollContainer.getBoundingClientRect()
+    let step = 0
+    if (point.y - scrollContainer.top <= 50) {
+      step = -2
+    } else if (scrollContainer.height + scrollContainer.top <= point.y + 50) {
+      step = 2
+    }
+    if (step) {
+      this.scroll = true
+      this.scrollContent(step)
+    }
+  }
+
+  scrollContent (step) {
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout)
+      this.scrollTimeout = null
+    }
+    if (this.scroll) {
+      let posY = this.scrollContainer && (this.scrollContainer.scrollY || this.scrollContainer.scrollTop)
+      let posX = this.scrollContainer && (this.scrollContainer.scrollX || this.scrollContainer.scrollLeft)
+      if (
+        (posY === undefined || posX === undefined) ||
+        (step > 0 ? posY + step >= this.scrollContainer.getBoundingClientRect().height : posY + step <= 0)
+      ) {
+        return
+      }
+      this.scrollContainer.scroll(posX, posY + step)
+      this.scrollTimeout = setTimeout(() => {
+        this.scrollContent(step)
+      }, 30)
     }
   }
 
