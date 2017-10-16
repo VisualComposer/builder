@@ -90,9 +90,6 @@ class Controller extends Container implements Module
                 ]
             );
             $response = array_merge($response, $responseExtra);
-            if ($requestHelper->input('vcv-updatePost') === '1') {
-                $filterHelper->find('vcv:hub:removePostUpdate:post/' . $sourceId);
-            }
         }
         $response['data'] = $data;
 
@@ -126,6 +123,10 @@ class Controller extends Container implements Module
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
+                if ($requestHelper->input('vcv-updatePost') === '1') {
+                    vchelper('Filters')->fire('vcv:hub:removePostUpdate:post/' . $sourceId, $sourceId);
+                }
+
                 return $this->updatePostData($post, $sourceId, $response);
             }
         }
