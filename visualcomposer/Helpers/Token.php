@@ -8,7 +8,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use Exception;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
@@ -192,6 +191,7 @@ class Token extends Container implements Helper
         } else {
             $message = __('Token generation failed', 'vcwb');
             if (is_wp_error($result)) {
+                /** @var \WP_Error $result */
                 $resultDetails = $result->get_error_message();
                 if ("http_request_failed" === $result->get_error_code()) {
                     $message .= '. ';

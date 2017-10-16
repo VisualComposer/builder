@@ -147,7 +147,7 @@ class LicenseController extends Container implements Module
                 );
 
                 if (!vcIsBadResponse($result)) {
-                    $result = json_decode($result['body'], true);
+                    // $result = json_decode($result['body'], true);
                     $licenseHelper->setKey('');
                     $licenseHelper->setKeyToken('');
                     wp_redirect(admin_url('index.php'));
