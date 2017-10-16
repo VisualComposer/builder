@@ -24,8 +24,8 @@
       top: 0;
       position: absolute;
     }
-    .vce-divider-image-block,
-    .vce-divider-video-block {
+    .vce-divider-with-image,
+    .vce-divider-with-video {
       top: 0;
     }
   }
@@ -35,8 +35,8 @@
       bottom: 0;
       position: absolute;
     }
-    .vce-divider-image-block,
-    .vce-divider-video-block {
+    .vce-divider-with-image,
+    .vce-divider-with-video {
       top: auto;
       bottom: 0;
     }
@@ -53,7 +53,6 @@
 
 .vce-divider-with-image,
 .vce-divider-with-video {
-  .full-size();
 
   .vce-divider-svg {
     position: absolute;
@@ -85,8 +84,8 @@
   }
 }
 
-.vce-divider-image-block,
-.vce-divider-video-block {
+.vce-divider-with-image,
+.vce-divider-with-video {
   position: absolute;
   top: 0;
   left: 50%;
@@ -95,6 +94,16 @@
 
 .vce-divider-video-block {
   overflow: hidden;
+  margin: auto;
+}
+
+.vce-divider-image-block {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .vce-divider-image-background-block {
@@ -103,6 +112,22 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.vce-container-divider-new {
+  .vce-divider-image-block,
+  .vce-divider-video-block {
+    position: relative;
+  }
+
+  .vce-divider-image-background-block,
+  .vce-divider-video-background-block {
+    width: 100%;
+  }
+
+  .vce-divider-video-background-block {
+    position: absolute;
+  }
 }
 
 .vce-divider-video-background-block {
