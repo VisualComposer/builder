@@ -14,6 +14,7 @@ class Update implements Helper
 {
     /**
      * @param array $json
+     *
      * @return array
      */
     public function getRequiredActions($json = [])
@@ -36,14 +37,37 @@ class Update implements Helper
             }
         }
         list($needUpdatePost, $requiredActions) = vchelper('HubBundle')->loopActions($json);
+        $reRenderPosts = array_unique($needUpdatePost);
+        $response['actions'] = $requiredActions;
+        if (count($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
+            $postsActions = $this->createPostUpdateObjects($reRenderPosts);
+            $requiredActions = array_merge($requiredActions, $postsActions);
+        }
         $optionsHelper->set('bundleUpdateActions', $requiredActions);
         $optionsHelper->set('bundleUpdatePosts', array_unique($needUpdatePost));
 
         return $requiredActions;
     }
 
+    protected function createPostUpdateObjects(array $posts)
+    {
+
+        $result = [];
+        $frontendHelper = vchelper('Frontend');
+        foreach ($posts as $id) {
+            $result[] = [
+                'id' => $id,
+                'editableLink' => $frontendHelper->getEditableUrl($id),
+                'name' => get_the_title($id),
+            ];
+        }
+
+        return [['action' => 'updatePosts', 'data' => $result]];
+    }
+
     /**
      * @param array $json
+     *
      * @return bool
      */
     public function checkIsUpdateRequired($json = [])

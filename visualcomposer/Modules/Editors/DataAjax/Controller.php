@@ -72,7 +72,8 @@ class Controller extends Container implements Module
             $response = [];
         }
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([ $post_type_object->cap->read, $sourceId])->get()) {
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()) {
+            // @codingStandardsIgnoreLine
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
             if (!empty($postMeta)) {
                 $data = $postMeta;
@@ -122,6 +123,10 @@ class Controller extends Container implements Module
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
+                if ($requestHelper->input('vcv-updatePost') === '1') {
+                    vchelper('Filters')->fire('vcv:hub:removePostUpdate:post/' . $sourceId, $sourceId);
+                }
+
                 return $this->updatePostData($post, $sourceId, $response);
             }
         }
@@ -186,7 +191,7 @@ class Controller extends Container implements Module
         if (isset($dataDecoded['draft']) && $post->post_status !== 'publish') {
             $post->post_status = 'draft';
         } else if (isset($dataDecoded['inherit'])) {
-            $previewPost = $this->createPreviewPost($post,$sourceId);
+            $previewPost = $this->createPreviewPost($post, $sourceId);
         } else {
             if ($currentUserAccessHelper->wpAll(
                 [get_post_type_object($post->post_type)->cap->publish_posts, $sourceId]
@@ -206,6 +211,7 @@ class Controller extends Container implements Module
             if ('draft' === $post->post_status || 'auto-draft' === $post->post_status) {
                 // @codingStandardsIgnoreLine
                 $post->post_status = 'draft';
+                // @codingStandardsIgnoreLine
                 wp_update_post($post);
                 update_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', $data);
 

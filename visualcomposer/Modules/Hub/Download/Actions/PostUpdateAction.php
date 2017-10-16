@@ -21,6 +21,7 @@ class PostUpdateAction extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Hub\Download\Actions\PostUpdateAction::getUpdateablePosts */
         $this->addFilter('vcv:hub:findUpdatePosts:element/*', 'getUpdateablePosts');
+        $this->addFilter('vcv:hub:removePostUpdate:post/*', 'removePostFromUpdatesList');
     }
 
     protected function getUpdateablePosts($posts, $payload)
@@ -29,7 +30,7 @@ class PostUpdateAction extends Container implements Module
         $vcvPosts = new WP_Query(
             [
                 'post_type' => 'any',
-                'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
+                'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'trash'],
                 'posts_per_page' => -1,
                 'meta_key' => VCV_PREFIX . 'pageContent',
                 'meta_value' => rawurlencode('"tag":"' . str_replace('element/', '', $event) . '"'),
@@ -43,5 +44,17 @@ class PostUpdateAction extends Container implements Module
         wp_reset_postdata();
 
         return $posts;
+    }
+
+    protected function removePostFromUpdatesList($id)
+    {
+        $optionsHelper = vchelper('Options');
+        $updatePosts = $optionsHelper->get('hubAction:updatePosts', []);
+        $key = array_search($id, $updatePosts);
+        if ($key !== false) {
+            unset($updatePosts[ $key ]);
+            $updatePosts = array_values($updatePosts);
+            $optionsHelper->set('hubAction:updatePosts', $updatePosts);
+        }
     }
 }
