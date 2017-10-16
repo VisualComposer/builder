@@ -90,7 +90,7 @@ class Controller extends Container implements Module
                 ]
             );
             $response = array_merge($response, $responseExtra);
-            if ($requestHelper->input('vcv-updatePost') === 1) {
+            if ($requestHelper->input('vcv-updatePost') === '1') {
                 $filterHelper->find('vcv:hub:removePostUpdate:post/' . $sourceId);
             }
         }

@@ -7,12 +7,15 @@ export default class {
 
   async setup () {
     const $ = window.jQuery
-    await $.getJSON(this.globalUrls, {'vcv-nonce': window.vcvAdminNonce}).done((data) => {
+    await $.getJSON(this.globalUrls, { 'vcv-nonce': window.vcvAdminNonce }).done((data) => {
       /**
        * @param {{vcvGlobals}} data
        */
       data && data.vcvGlobals && this.buildGlobalVariables(data.vcvGlobals)
     }).fail(console.log)
+    if (typeof VCV_HUB_GET_ELEMENTS === 'function') {
+
+    }
     await $.getScript(this.vendorUrl).fail(console.log)
     await $.getScript(this.updaterUrl).fail(console.log)
     this.ready = true
@@ -33,7 +36,7 @@ export default class {
 
   buildGlobalVariables (globals) {
     Object.keys(globals).forEach((key) => {
-      this.setGlobalVariable(key, globals[key])
+      this.setGlobalVariable(key, globals[ key ])
     })
   }
 

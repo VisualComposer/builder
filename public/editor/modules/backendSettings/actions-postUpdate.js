@@ -87,7 +87,6 @@ import { default as PostUpdater } from './postUpdate'
           const postData = posts[ postsIndex ]
           const postUpdateText = 'Update posts {i} in {cnt}: {name}'
           $heading.text(postUpdateText.replace('{i}', postsIndex + 1).replace('{cnt}', posts.length).replace('{name}', postData.name || 'No name'))
-          console.log($heading)
           try {
             await postUpdater.update(postData)
           } catch (e) {}
