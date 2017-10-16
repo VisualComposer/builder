@@ -94,7 +94,8 @@ declare -a arr=(
 'animatedTwoColorButton'
 'callToAction'
 'emptySpace'
-'outlineMessageBox'
+'outlineMessageBox'.
+'widgetizedSidebar'
 )
 
 EXECDIR=`pwd`

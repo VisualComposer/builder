@@ -32,13 +32,21 @@ class WpSidebarController extends Container implements Module
     {
         // @codingStandardsIgnoreLine
         global $wp_registered_sidebars;
+        $values = [];
+        // @codingStandardsIgnoreLine
+        foreach ($wp_registered_sidebars as $key => $sidebar) {
+            $values[] = [
+                'label' => $sidebar['name'],
+                'value' => $sidebar['id'],
+            ];
+        }
         $variables = [];
         $script = vcview(
             'partials/variable',
             [
                 'key' => 'vcvWpSidebars',
                 // @codingStandardsIgnoreLine
-                'value' => $wp_registered_sidebars,
+                'value' => $values,
             ]
         );
         $variables[] = $script;
