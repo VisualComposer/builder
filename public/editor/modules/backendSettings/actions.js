@@ -1,5 +1,6 @@
 import {showError} from './errors'
 import {showFirstScreen, loadLastScreen, showLoadingScreen, showOopsScreen} from './screens'
+import { default as PostUpdater } from './postUpdate'
 
 (($) => {
   let doneActions = (requestFailed, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation) => {
@@ -84,6 +85,24 @@ import {showFirstScreen, loadLastScreen, showLoadingScreen, showOopsScreen} from
 
     function doAction (i, finishCb) {
       let action = actions[ i ]
+      const testPattern = new RegExp('^updatePosts$')
+      if (action.action && testPattern.test(action.action)) {
+        const postUpdater = new PostUpdater(window.vcvElementsGlobalsUrl, window.vcvVendorUrl, window.vcvUpdaterUrl)
+        const doUpdatePostAction = async (posts, postsIndex, finishCb) => {
+          const postData = posts[ postsIndex ]
+          const postUpdateText = 'Update posts {i} in {cnt}: {name}'
+          $heading.text(postUpdateText.replace('{i}', postsIndex + 1).replace('{cnt}', posts.length).replace('{name}', postData.name || 'No name'))
+          try {
+            await postUpdater.update(postData)
+          } catch (e) {}
+          if (postsIndex + 1 < posts.length) {
+            return doUpdatePostAction(posts, postsIndex + 1, finishCb)
+          } else {
+            finishCb()
+          }
+        }
+        return doUpdatePostAction(action.data, 0, finishCb)
+      }
       let name = action.name
       $heading.text(downloadingAssetsText.replace('{i}', i + 1).replace('{cnt}', cnt).replace('{name}', name))
       $.ajax(window.vcvActionsUrl,
