@@ -5,7 +5,6 @@ import vcCake from 'vc-cake'
 
 const hubCategories = vcCake.getService('hubCategories')
 const elementsStorage = vcCake.getStorage('elements')
-const cook = vcCake.getService('cook')
 
 export default class EditForm extends React.Component {
   static propTypes = {
