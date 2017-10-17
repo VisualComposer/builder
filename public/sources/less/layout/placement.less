@@ -37,10 +37,12 @@
     .vcv-layout-bar-content-mobile {
       height: calc(~"100vh - 60px");
       overflow: hidden;
+      min-width: 0;
 
       .vcv-layout-bar-content-start,
       .vcv-layout-bar-content-end {
         width: 100%;
+        min-width: 0;
       }
     }
   }
@@ -226,6 +228,7 @@
     height: @editor-layout-content-height;
     width: @editor-layout-content-width;
     min-height: @editor-layout-content-min-height;
+    min-width: @editor-layout-content-min-width;
   }
   .vcv-layout-bar-content-start {
     height: @editor-layout-content-start-height;
@@ -235,7 +238,7 @@
   }
   .vcv-layout-bar-content-end {
     min-height: @editor-layout-content-end-min-height;
-    min-width: 50%;
+    min-width: @editor-layout-content-end-min-width;
   }
   &.vcv-layout-dock--detached {
     .vcv-layout-bar {
