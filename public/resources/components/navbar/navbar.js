@@ -184,7 +184,7 @@ export default class Navbar extends React.Component {
   handleWindowResize () {
     let navbarPosition = this.state.navbarPosition
     if (this.isMobile) {
-      navbarPosition = window.innerWidth < window.innerHeight ? 'top' : 'left'
+      navbarPosition = 'top'
     }
 
     this.setState({
