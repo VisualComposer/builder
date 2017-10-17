@@ -33,6 +33,16 @@
         }
       }
     }
+
+    .vcv-layout-bar-content-mobile {
+      height: calc(~"100vh - 60px");
+      overflow: hidden;
+
+      .vcv-layout-bar-content-start,
+      .vcv-layout-bar-content-end {
+        width: 100%;
+      }
+    }
   }
   //== bottom
   &.vcv-layout-dock--bottom {
@@ -216,7 +226,6 @@
     height: @editor-layout-content-height;
     width: @editor-layout-content-width;
     min-height: @editor-layout-content-min-height;
-    min-width: @editor-layout-content-min-width;
   }
   .vcv-layout-bar-content-start {
     height: @editor-layout-content-start-height;
@@ -226,7 +235,7 @@
   }
   .vcv-layout-bar-content-end {
     min-height: @editor-layout-content-end-min-height;
-    min-width: @editor-layout-content-end-min-width;
+    min-width: 50%;
   }
   &.vcv-layout-dock--detached {
     .vcv-layout-bar {

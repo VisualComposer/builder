@@ -2,6 +2,7 @@ import React from 'react'
 import vcCake from 'vc-cake'
 import HtmlLayout from './htmlLayout'
 import Combokeys from 'combokeys'
+import MobileDetect from 'mobile-detect'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
@@ -54,6 +55,12 @@ export default class LayoutEditor extends React.Component {
     this.editor.bind('a', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
+      if (vcCake.env('MOBILE_DETECT')) {
+        const mobileDetect = new MobileDetect(window.navigator.userAgent)
+        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+          workspaceStorage.state('contentStart').set(false)
+        }
+      }
       if (settings && settings.action === 'add') {
         workspaceStorage.state('settings').set({})
       } else {
@@ -63,6 +70,12 @@ export default class LayoutEditor extends React.Component {
     this.editor.bind('l', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
+      if (vcCake.env('MOBILE_DETECT')) {
+        const mobileDetect = new MobileDetect(window.navigator.userAgent)
+        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+          workspaceStorage.state('contentStart').set(false)
+        }
+      }
       if (settings && settings.action === 'addTemplate') {
         workspaceStorage.state('settings').set({})
       } else {
@@ -72,6 +85,12 @@ export default class LayoutEditor extends React.Component {
     this.editor.bind('t', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('contentStart').get()
+      if (vcCake.env('MOBILE_DETECT')) {
+        const mobileDetect = new MobileDetect(window.navigator.userAgent)
+        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+          workspaceStorage.state('contentEnd').set(false)
+        }
+      }
       if (settings === 'treeView') {
         workspaceStorage.state('contentStart').set(false)
       } else {

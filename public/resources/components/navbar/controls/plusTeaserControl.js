@@ -1,10 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import {getStorage, getService} from 'vc-cake'
+import {getStorage, getService, env} from 'vc-cake'
+import MobileDetect from 'mobile-detect'
 
 const dataProcessor = getService('dataProcessor')
 const workspaceSettings = getStorage('workspace').state('settings')
+const workspaceContentStartState = getStorage('workspace').state('contentStart')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
 export default class PlusTeaserControl extends NavbarContent {
@@ -37,6 +39,12 @@ export default class PlusTeaserControl extends NavbarContent {
       element: {},
       tag: '',
       options: {}
+    }
+    if (env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        workspaceContentStartState.set(false)
+      }
     }
     workspaceSettings.set(settings)
     if (window.vcvHubTeaserShowBadge || this.state.showBadge) {

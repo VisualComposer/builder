@@ -52,6 +52,7 @@ export default class ControlsManager {
     this.editFormId = null
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
     this.iframeScrollable = mobileDetect.os() === 'iOS' ? this.iframeWrapper : this.iframeWindow
+    this.isPhone = mobileDetect.mobile() && mobileDetect.phone()
 
     let systemData = {
       iframeContainer: this.iframeContainer,
@@ -78,8 +79,10 @@ export default class ControlsManager {
 
     // Subscribe to main event to interact with content elements
     this.iframeDocument.body.addEventListener('touchstart', this.touchStart, { passive: false })
-    this.iframeDocument.body.addEventListener('touchmove', this.touchMove, { passive: false })
-    this.iframeDocument.body.addEventListener('touchend', this.touchEnd, { passive: false })
+    if (!this.isPhone) {
+      this.iframeDocument.body.addEventListener('touchmove', this.touchMove, { passive: false })
+      this.iframeDocument.body.addEventListener('touchend', this.touchEnd, { passive: false })
+    }
   }
 
   /**
@@ -215,7 +218,7 @@ export default class ControlsManager {
     let data = this.findElement(e)
     this.windowHeight = this.iframeScrollable.clientHeight
     if (!this.state.dragging && e.touches && e.touches.length === 1) {
-      if (data.element) {
+      if (data.element && !this.isPhone) {
         this.touchStartTimer = setTimeout(() => {
           e.preventDefault && e.preventDefault()
           e.stopPropagation && e.stopPropagation()
@@ -229,8 +232,10 @@ export default class ControlsManager {
       } else {
         this.doubleTapTimer = setTimeout(() => {
           this.doubleTapTimer = null
-          this.frames.hide()
-          this.showFrames(data.element, data.elPath)
+          if (!this.isPhone) {
+            this.frames.hide()
+            this.showFrames(data.element, data.elPath)
+          }
         }, 250)
       }
     }
