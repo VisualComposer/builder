@@ -90,7 +90,10 @@ export default class CssBuilder {
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data)
-    this.doJobs().then(() => {
+    this.doJobs(data.id).then(() => {
+      if (env('CSS_LOADING')) {
+        this.addElementJobsToStorage(data.id, false)
+      }
       this.window.vcv.trigger('ready', 'add', data.id)
     })
   }
@@ -106,7 +109,10 @@ export default class CssBuilder {
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data)
-    this.doJobs().then(() => {
+    this.doJobs(data.id).then(() => {
+      if (env('CSS_LOADING')) {
+        this.addElementJobsToStorage(data.id, false)
+      }
       this.window.vcv.trigger('ready', 'update', data.id, options)
     })
   }
@@ -117,6 +123,24 @@ export default class CssBuilder {
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
     this.window.vcv.trigger('ready', 'destroy', id)
+  }
+
+  addElementJobsToStorage (id, status) {
+    let storageElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
+    let element
+    if (storageElements.length) {
+      element = storageElements.find(element => element.id === id)
+    }
+    if (element) {
+      element.jobs = status
+    } else {
+      let element = {
+        jobs: status,
+        id: id
+      }
+      storageElements.push(element)
+    }
+    assetsStorage.state('jobs').set({ elements: storageElements })
   }
 
   updateStyleDomNodes (data) {
@@ -373,17 +397,14 @@ export default class CssBuilder {
     this.jobs.push(job)
   }
 
-  doJobs () {
-    if (env('CSS_LOADING') && (!assetsStorage.state('jobs').get() || (assetsStorage.state('jobs').get() && !assetsStorage.state('jobs').get().jobs))) {
-      assetsStorage.state('jobs').set({ jobs: true })
+  doJobs (id) {
+    if (env('CSS_LOADING')) {
+      this.addElementJobsToStorage(id, true)
     }
     return Promise.all(this.jobs).catch(this.resetJobs).then(this.resetJobs)
   }
 
   resetJobs () {
     this.jobs.length = 0
-    if (env('CSS_LOADING') && assetsStorage.state('jobs').get().jobs) {
-      assetsStorage.state('jobs').set({ jobs: false })
-    }
   }
 }

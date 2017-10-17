@@ -226,7 +226,7 @@ addStorage('elements', (storage) => {
   storage.on('reset', (data) => {
     documentManager.reset(sanitizeData(data))
     historyStorage.trigger('init', data)
-    storage.state('document').set(documentManager.children(false))
+    storage.state('document').set(documentManager.children(false), data)
   })
   storage.on('updateAll', (data) => {
     documentManager.reset(sanitizeData(data))

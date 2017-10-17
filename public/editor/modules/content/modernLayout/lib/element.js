@@ -19,19 +19,25 @@ export default class Element extends React.Component {
   constructor (props) {
     super(props)
     this.dataUpdate = this.dataUpdate.bind(this)
+    this.cssJobsUpdate = this.cssJobsUpdate.bind(this)
     this.elementComponentTransformation = this.elementComponentTransformation.bind(this)
     this.state = {
-      element: props.element
+      element: props.element,
+      cssBuildingProcess: true,
+      isRendered: false
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({element: nextProps.element})
+    this.setState({ element: nextProps.element })
   }
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
+    if (vcCake.env('CSS_LOADING')) {
+      assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
+    }
     assetsStorage.trigger('addElement', this.state.element.id)
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
     // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
@@ -40,6 +46,9 @@ export default class Element extends React.Component {
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
     elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
+    if (vcCake.env('CSS_LOADING')) {
+      assetsStorage.state('jobs').ignoreChange(this.cssJobsUpdate)
+    }
     assetsStorage.trigger('removeElement', this.state.element.id)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
   }
@@ -49,8 +58,18 @@ export default class Element extends React.Component {
   }
 
   dataUpdate (data, source, options) {
-    this.setState({element: data || this.props.element})
+    this.setState({ element: data || this.props.element })
     assetsStorage.trigger('updateElement', this.state.element.id, options)
+  }
+
+  cssJobsUpdate (data) {
+    let elementJob = data.elements.find(element => element.id === this.state.element.id)
+    if (this.state.cssBuildingProcess !== elementJob.jobs) {
+      this.setState({ cssBuildingProcess: elementJob.jobs })
+    }
+    if (!this.state.cssBuildingProcess && !elementJob.jobs && !this.state.isRendered) {
+      this.setState({ isRendered: true })
+    }
   }
 
   elementComponentTransformation (data) {
@@ -63,7 +82,7 @@ export default class Element extends React.Component {
     let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-      let elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
+      let elements = [ <Element element={childElement} key={childElement.id} api={this.props.api} /> ]
       if (childElement.tag === 'column') {
         elements.push(
           <ColumnResizer key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
@@ -107,15 +126,18 @@ export default class Element extends React.Component {
           )
         }
       } else {
-        layoutAtts[key] = atts[key]
+        layoutAtts[ key ] = atts[ key ]
       }
     })
     return layoutAtts
   }
 
   render () {
-    let {api, element, ...other} = this.props
-    element = this.state.element
+    if (vcCake.env('CSS_LOADING') && this.state.cssBuildingProcess && !this.state.isRendered) {
+      return null
+    }
+    let { api, ...other } = this.props
+    let element = this.state.element
     let el = cook.get(element)
     if (!el) {
       return null
@@ -132,7 +154,7 @@ export default class Element extends React.Component {
       'data-vcv-element': id
     }
     if (el.get('metaDisableInteractionInEditor')) {
-      editor['data-vcv-element-disable-interaction'] = true
+      editor[ 'data-vcv-element-disable-interaction' ] = true
     }
     return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
       api={api}
