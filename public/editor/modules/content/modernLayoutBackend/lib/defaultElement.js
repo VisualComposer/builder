@@ -64,9 +64,10 @@ export default class DefaultElement extends React.Component {
   }
 
   dataUpdate (data) {
+    const element = cook.get(data)
     this.setState({ element: data || this.props.element })
     if (data && data.hasOwnProperty('customHeaderTitle')) {
-      let content = data.customHeaderTitle || data.name
+      let content = element.getName()
       if (this.state.content !== content) {
         this.setState({
           content
