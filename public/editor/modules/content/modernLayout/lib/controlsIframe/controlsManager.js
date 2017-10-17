@@ -389,6 +389,7 @@ export default class ControlsManager {
             workspaceContentStartState.set('treeView', elementId)
           }
         } else if (event === 'remove') {
+          this.controls.hide()
           this.findElement()
           this.controlElementFind()
           this.iframeDocument.body.removeEventListener('mousemove', this.findElement)

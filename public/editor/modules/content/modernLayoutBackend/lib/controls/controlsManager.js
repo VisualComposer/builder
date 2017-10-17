@@ -310,6 +310,7 @@ export default class ControlsManager {
           }
           workspaceStorage.trigger(event, elementId, tag, options)
         } else if (event === 'remove') {
+          this.controls.hide()
           this.findElement()
           this.controlElementFind()
           this.iframeDocument.body.removeEventListener('mousemove', this.findElement)
