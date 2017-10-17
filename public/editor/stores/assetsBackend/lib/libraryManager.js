@@ -93,6 +93,10 @@ const getElementLibNames = (id, element) => {
       }
     }
   }
+  // TODO: temporary fix for Row only, should take libraries from each edit form attribute accordingly
+  if (cookElement.get('tag') === 'row') {
+    data.libraries.push('divider')
+  }
   return data
 }
 
