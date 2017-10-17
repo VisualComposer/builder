@@ -373,8 +373,9 @@ export default class ControlsHandler {
       let addElementTag = ''
       let children = cook.getChildren(options.tag)
       if (children.length === 1) {
-        label = `${addText} ${children[ 0 ].name}`
-        addElementTag = children[ 0 ].tag
+        const element = cook.get(children[ 0 ])
+        label = `${addText} ${element.get('name')}`
+        addElementTag = element.get('tag')
       }
       actions.push({
         label: label,
