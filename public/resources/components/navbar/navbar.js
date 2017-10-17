@@ -27,7 +27,7 @@ export default class Navbar extends React.Component {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
         this.isMobile = true
-        if (window.innerWidth < window.innerHeight) {
+        if (window.innerWidth < window.innerHeight || mobileDetect.phone()) {
           navbarPosition = 'top'
         }
       }
