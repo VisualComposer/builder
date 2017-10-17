@@ -1,6 +1,7 @@
 import React from 'react'
 import ClassNames from 'classnames'
-import {getStorage, onDataChange, ignoreDataChange} from 'vc-cake'
+import {getStorage, onDataChange, ignoreDataChange, env} from 'vc-cake'
+import MobileDetect from 'mobile-detect'
 
 import Resizer from '../../resources/resizer/resizer'
 import Combokeys from 'combokeys'
@@ -46,6 +47,12 @@ export default class Workspace extends React.Component {
     this.workspace.bind('a', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
+      if (env('MOBILE_DETECT')) {
+        const mobileDetect = new MobileDetect(window.navigator.userAgent)
+        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+          workspaceStorage.state('contentStart').set(false)
+        }
+      }
       if (settings && settings.action === 'add') {
         workspaceStorage.state('settings').set({})
       } else {
@@ -55,6 +62,12 @@ export default class Workspace extends React.Component {
     this.workspace.bind('l', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
+      if (env('MOBILE_DETECT')) {
+        const mobileDetect = new MobileDetect(window.navigator.userAgent)
+        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+          workspaceStorage.state('contentStart').set(false)
+        }
+      }
       if (settings && settings.action === 'addTemplate') {
         workspaceStorage.state('settings').set({})
       } else {
@@ -64,6 +77,12 @@ export default class Workspace extends React.Component {
     this.workspace.bind('t', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('contentStart').get()
+      if (env('MOBILE_DETECT')) {
+        const mobileDetect = new MobileDetect(window.navigator.userAgent)
+        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+          workspaceStorage.state('contentEnd').set(false)
+        }
+      }
       if (settings === 'treeView') {
         workspaceStorage.state('contentStart').set(false)
       } else {

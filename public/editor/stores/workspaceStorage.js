@@ -1,4 +1,5 @@
-import {addStorage, getService, getStorage} from 'vc-cake'
+import MobileDetect from 'mobile-detect'
+import {addStorage, getService, getStorage, env} from 'vc-cake'
 
 const createKey = getService('utils').createKey
 
@@ -27,6 +28,12 @@ addStorage('workspace', (storage) => {
         return
       }
     }
+    if (env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        storage.state('contentStart').set(false)
+      }
+    }
     storage.state('settings').set({
       action: 'add',
       element: element,
@@ -41,6 +48,12 @@ addStorage('workspace', (storage) => {
     const element = documentManager.get(id)
     if (!element) {
       return
+    }
+    if (env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        storage.state('contentStart').set(false)
+      }
     }
     storage.state('settings').set({
       action: 'edit',
@@ -130,6 +143,12 @@ addStorage('workspace', (storage) => {
     storage.state('app').set('started')
   })
   storage.on('addTemplate', () => {
+    if (env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        storage.state('contentStart').set(false)
+      }
+    }
     storage.state('settings').set({
       action: 'addTemplate',
       element: false,

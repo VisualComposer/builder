@@ -1,12 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-
-import {getStorage} from 'vc-cake'
+import MobileDetect from 'mobile-detect'
+import {getStorage, env} from 'vc-cake'
 
 // const assetsStorage = getService('assetsStorage')
 const workspaceStorage = getStorage('workspace')
 const settingsStorage = getStorage('settings')
+const workspaceContentStartState = getStorage('workspace').state('contentStart')
 const workspaceContentEndState = workspaceStorage.state('contentEnd')
 export default class SettingsButtonControl extends NavbarContent {
   constructor (props) {
@@ -48,6 +49,12 @@ export default class SettingsButtonControl extends NavbarContent {
 
   toggleSettings (e) {
     e && e.preventDefault()
+    if (env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        workspaceContentStartState.set(false)
+      }
+    }
     workspaceContentEndState.set(!this.state.isActive ? 'settings' : false)
   }
 

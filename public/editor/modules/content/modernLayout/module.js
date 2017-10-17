@@ -19,11 +19,9 @@ vcCake.add('contentModernLayout', (api) => {
 
   if (vcCake.env('MOBILE_DETECT')) {
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile()) {
-      if (mobileDetect.tablet()) {
-        let mobileControls = new MobileControlsManager(api)
-        mobileControls.init()
-      }
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      let mobileControls = new MobileControlsManager(api)
+      mobileControls.init()
       return
     }
   }

@@ -8,7 +8,8 @@ import AddTemplatePanel from '../../../../resources/components/addTemplate/addTe
 import TreeViewLayout from '../../../../resources/components/treeView/treeViewLayout'
 import SettingsPanel from '../../../../resources/components/settings/settingsPanel'
 import EditElementPanel from '../../../../resources/components/editElement/editElementPanel'
-import {getService} from 'vc-cake'
+import {getService, env} from 'vc-cake'
+import MobileDetect from 'mobile-detect'
 
 const cook = getService('cook')
 
@@ -24,6 +25,16 @@ export default class PanelsContainer extends React.Component {
     ]),
     settings: React.PropTypes.object,
     contentStartId: React.PropTypes.string
+  }
+
+  constructor (props) {
+    super(props)
+    if (env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        this.isMobile = true
+      }
+    }
   }
 
   getStartContent () {
@@ -60,7 +71,8 @@ export default class PanelsContainer extends React.Component {
     const { start, end } = this.props
     let layoutClasses = classNames({
       'vcv-layout-bar-content': true,
-      'vcv-ui-state--visible': !!(start || end)
+      'vcv-ui-state--visible': !!(start || end),
+      'vcv-layout-bar-content-mobile': this.isMobile
     })
 
     return (
