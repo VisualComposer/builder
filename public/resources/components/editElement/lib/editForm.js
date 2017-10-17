@@ -5,6 +5,7 @@ import vcCake from 'vc-cake'
 
 const hubCategories = vcCake.getService('hubCategories')
 const elementsStorage = vcCake.getStorage('elements')
+const cook = vcCake.getService('cook')
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -38,15 +39,14 @@ export default class EditForm extends React.Component {
   }
 
   updateElementOnChange (data) {
-    if (data && data.hasOwnProperty('customHeaderTitle')) {
-      let content = data.customHeaderTitle || data.name
-      if (this.state.content !== content) {
-        this.setState({
-          content
-        }, () => {
-          this.span.innerText = content
-        })
-      }
+    const element = cook.get(data)
+    let content = element.getName()
+    if (this.state.content !== content) {
+      this.setState({
+        content
+      }, () => {
+        this.span.innerText = content
+      })
     }
   }
 

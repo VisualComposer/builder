@@ -204,7 +204,7 @@ export default class CookElement {
   }
 
   getPublicKeys () {
-    return [ 'id', 'order', 'parent', 'tag', 'customHeaderTitle' ].concat(this.filter((key, value, settings) => {
+    return [ 'id', 'order', 'parent', 'tag', 'customHeaderTitle', 'metaAssetsPath' ].concat(this.filter((key, value, settings) => {
       return settings.access === 'public'
     }))
   }

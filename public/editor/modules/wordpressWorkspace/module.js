@@ -48,8 +48,10 @@ add('wordpressWorkspace', (api) => {
       iframeContent
     )
   }
+  let documentElements
 
-  elementsStorage.state('document').onChange((data) => {
+  elementsStorage.state('document').onChange((data, elements) => {
+    documentElements = elements
     if (data.length === 0) {
       addStartBlank()
     } else {
@@ -59,10 +61,19 @@ add('wordpressWorkspace', (api) => {
       removeStartBlank()
     }
   })
+
   if (env('CSS_LOADING')) {
     assetsStorage.state('jobs').onChange((data) => {
-      if (data && !data.jobs) {
-        iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+      if (documentElements) {
+        let jobsIds = Object.keys(data.elements)
+        let documentIds = Object.keys(documentElements)
+        if (documentIds.length === jobsIds.length) {
+          let jobsInprogress = data.elements.find(element => element.jobs)
+          if (jobsInprogress) {
+            return
+          }
+          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+        }
       }
     })
   }
