@@ -107,7 +107,7 @@ export default class CookElement {
     return new CookElement({ tag: tag })
   }
 
-  toJS (raw = true) {
+  toJS (raw = true, publicOnly = true) {
     let data = {}
     for (let k of Object.keys(this[ elData ].settings)) {
       let value = this.get(k, raw)
@@ -136,7 +136,7 @@ export default class CookElement {
     if (this[ elData ].order !== undefined) {
       data.order = this[ elData ].order
     }
-    if (vcCake.env('EXISTING_ELEMENT_ATTR_FIX')) {
+    if (vcCake.env('EXISTING_ELEMENT_ATTR_FIX') && publicOnly) {
       const publicKeys = this.getPublicKeys()
       return lodash.pick(data, publicKeys)
     }
@@ -171,7 +171,6 @@ export default class CookElement {
    */
   relatedTo (keys) {
     const group = this.get('relatedTo')
-
     return group && group.has && group.has(keys)
   }
 
