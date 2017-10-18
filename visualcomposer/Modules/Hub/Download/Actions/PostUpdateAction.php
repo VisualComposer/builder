@@ -21,7 +21,7 @@ class PostUpdateAction extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Hub\Download\Actions\PostUpdateAction::getUpdateablePosts */
         $this->addFilter('vcv:hub:findUpdatePosts:element/*', 'getUpdateablePosts');
-        $this->addFilter('vcv:hub:removePostUpdate:post/*', 'removePostFromUpdatesList');
+        $this->addEvent('vcv:hub:removePostUpdate:post/*', 'removePostFromUpdatesList');
     }
 
     protected function getUpdateablePosts($posts, $payload)
