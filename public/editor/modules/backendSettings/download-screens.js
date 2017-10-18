@@ -23,13 +23,6 @@ import {showError} from './errors'
         time: window.vcvAjaxTime
       })
       .done(function (json) {
-        // process actions.
-        if (json.vcvVendorUrl) {
-          window.vcvVendorUrl = json.vcvVendorUrl
-        }
-        if (json.vcvUpdaterUrl) {
-          window.vcvUpdaterUrl = json.vcvUpdaterUrl
-        }
         if (json && json.status && json.actions) {
           processActions(json.actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
         } else {
