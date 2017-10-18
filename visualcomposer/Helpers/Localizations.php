@@ -156,6 +156,7 @@ class Localizations extends Container implements Helper
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'vcwb'),
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'vcwb'),
+            'postUpdateAjaxRequestError' => __('Downloading file for posts updates is failed. File: {file}', 'vcwb'),
         ];
 
         return $locale;
