@@ -1,6 +1,6 @@
 #!/bin/bash
 
-output=$(git log --name-only HEAD~1..HEAD public/editor public/sources/attributes public/sources/css public/sources/fonts public/sources/images public/sources/less)
+output=$(git log --name-only HEAD~1..HEAD webpack.*.js public/*.js public/editor public/sources/attributes public/sources/css public/sources/fonts public/sources/images public/sources/less)
 
 if [ -z "$output" ]
 then
