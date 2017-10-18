@@ -352,10 +352,11 @@ export default class TreeViewElement extends React.Component {
     if (element.containerFor().length) {
       let title = addElementText
       let addElementTag = ''
-      let children = cook.getChildren(this.props.element.tag)
+      let children = cook.getChildren(element.get('tag'))
       if (children.length === 1) {
-        title = `${addText} ${children[ 0 ].name}`
-        addElementTag = children[ 0 ].tag
+        let child = cook.get(children[ 0 ])
+        title = `${addText} ${child.get('name')}`
+        addElementTag = child.get('tag')
       }
       addChildControl = (
         <span
