@@ -82,6 +82,8 @@ class LicenseController extends Container implements Module
                             'token' => $licenseHelper->getKeyToken(),
                             'id' => get_site_url(),
                             'hoster_id' => vcvenv('VCV_ENV_ADDONS_ID'),
+                            'domain' => get_site_url(),
+                            'url' => VCV_PLUGIN_URL,
                         ],
                     ]
                 );
@@ -142,6 +144,8 @@ class LicenseController extends Container implements Module
                         'timeout' => 10,
                         'body' => [
                             'token' => $licenseHelper->getKeyToken(),
+                            'url' => VCV_PLUGIN_URL,
+                            'domain' => get_site_url(),
                         ],
                     ]
                 );

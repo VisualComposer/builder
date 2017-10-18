@@ -86,6 +86,8 @@ class Token extends Container implements Helper
         $body = [
             'hoster_id' => 'account',
             'id' => $id,
+            'domain' => get_site_url(),
+            'url' => VCV_PLUGIN_URL,
         ];
         if ($requestHelper->input('category') && 'account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
             $body['category'] = $requestHelper->input('category');
@@ -106,6 +108,8 @@ class Token extends Container implements Helper
     }
 
     /**
+     * @param $id
+     *
      * @return bool|string
      */
     public function getToken($id)

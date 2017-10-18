@@ -49,7 +49,7 @@ class Update implements Helper
         return $requiredActions;
     }
 
-    protected function createPostUpdateObjects(array $posts)
+    public function createPostUpdateObjects(array $posts)
     {
 
         $result = [];

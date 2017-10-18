@@ -109,7 +109,7 @@ class UpdatesController extends Container implements Module
         return false;
     }
 
-    protected function changelog($response, $action, $arg, Options $optionsHelper)
+    protected function changelog($response, $action, $arg)
     {
         if (isset($arg->slug) && $arg->slug === VCV_PLUGIN_DIRNAME) {
             $this->wpAddAction('admin_head', 'changelogAssets');
