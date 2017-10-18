@@ -95,6 +95,22 @@ test:php:modules:
   tags:
     - docker
 
+deployEditorsBundle:
+  image: node:8.6.0
+  stage: deploy
+  script:
+    - bash ci/deploy-editors-bundle.sh
+  tags:
+    - docker
+
+deployAssetsBundle:
+  image: node:8.6.0
+  stage: deploy
+  script:
+    - bash ci/deploy-assets-bundle.sh
+  tags:
+    - docker
+
 deploying:
   image: wpbakery/ci-wordpress-npm
   stage:  deploy

@@ -123,7 +123,7 @@ class Controller extends Container implements Module
             $post = get_post($sourceId);
             if ($post) {
                 if ($requestHelper->input('vcv-updatePost') === '1') {
-                    vchelper('Filters')->fire('vcv:hub:removePostUpdate:post/' . $sourceId, $sourceId);
+                    vchelper('Events')->fire('vcv:hub:removePostUpdate:post/' . $sourceId, $sourceId);
                 }
 
                 return $this->updatePostData($post, $sourceId, $response);
