@@ -200,22 +200,24 @@ export default class ControlsManager {
   }
 
   scrollPage (y) {
-    let posY = this.iframeScrollable && (this.iframeScrollable.scrollY || this.iframeScrollable.scrollTop)
-    let posX = this.iframeScrollable && (this.iframeScrollable.scrollX || this.iframeScrollable.scrollLeft)
-    if (posY === this.windowHeight || (posY === undefined || posX === undefined)) {
-      return
-    }
-    this.iframeScrollable && this.iframeScrollable.scroll && this.iframeScrollable.scroll(posX, posY + y)
-    if (this.state.scroll) {
-      setTimeout(() => {
-        this.scrollPage(y)
-      }, 30)
+    if (this.iframeScrollable) {
+      let posY = this.iframeScrollable.hasOwnProperty('scrollY') ? this.iframeScrollable.scrollY : this.iframeScrollable.scrollTop
+      let posX = this.iframeScrollable.hasOwnProperty('scrollX') ? this.iframeScrollable.scrollX : this.iframeScrollable.scrollLeft
+      if (posY === this.windowHeight || (posY === undefined || posX === undefined)) {
+        return
+      }
+      this.iframeScrollable && this.iframeScrollable.scroll && this.iframeScrollable.scroll(posX, posY + y)
+      if (this.state.scroll) {
+        setTimeout(() => {
+          this.scrollPage(y)
+        }, 30)
+      }
     }
   }
 
   touchStart (e) {
     let data = this.findElement(e)
-    this.windowHeight = this.iframeScrollable.clientHeight
+    this.windowHeight = this.iframeScrollable.hasOwnProperty('innerHeight') ? this.iframeScrollable.innerHeight : this.iframeScrollable.clientHeight
     if (!this.state.dragging && e.touches && e.touches.length === 1) {
       if (data.element && !this.isPhone) {
         this.touchStartTimer = setTimeout(() => {
