@@ -37,8 +37,10 @@
 }
 
 .vcv-ui-item-list-item {
-  margin: 0 15px (@item-element-gap/2);
-  width: @item-element-width;
+  margin: 0 (@item-element-gap/2) (@item-element-gap/2);
+  //width: @item-element-width;
+  display: flex;
+  flex: 1;
 }
 
 .vcv-ui-item-list-item--inactive {
@@ -59,6 +61,7 @@
   text-align: center;
   cursor: pointer;
   display: block;
+  margin: 0 auto;
 
   &:hover {
     .vcv-ui-item-overlay {
