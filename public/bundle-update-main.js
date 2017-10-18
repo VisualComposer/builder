@@ -1,5 +1,5 @@
 import './sources/less/wpupdates/init.less'
-import {default as PostUpdater} from './editor/modules/backendSettings/postUpdate'
+import { default as PostUpdater } from './editor/modules/backendSettings/postUpdate'
 
 (($) => {
   $(() => {
@@ -106,16 +106,22 @@ import {default as PostUpdater} from './editor/modules/backendSettings/postUpdat
       let requestFailed = false
 
       function doAction (i, finishCb) {
-        let action = actions[i]
+        let action = actions[ i ]
         const testPattern = new RegExp('^updatePosts$')
         if (action.action && testPattern.test(action.action)) {
           const postUpdater = new PostUpdater(window.vcvElementsGlobalsUrl, window.vcvVendorUrl, window.vcvUpdaterUrl)
           const doUpdatePostAction = async (posts, postsIndex, finishCb) => {
-            const postData = posts[postsIndex]
+            const postData = posts[ postsIndex ]
             $heading.text(postUpdateText.replace('{i}', postsIndex + 1).replace('{cnt}', posts.length).replace('{name}', postData.name || 'No name'))
+            let ready = false
             try {
               await postUpdater.update(postData)
+              ready = true
             } catch (e) {
+              showErrorMessage(e)
+            }
+            if (ready === false) {
+              return
             }
             if (postsIndex + 1 < posts.length) {
               return doUpdatePostAction(posts, postsIndex + 1, finishCb)
