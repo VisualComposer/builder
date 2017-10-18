@@ -52,12 +52,7 @@ class BundleUpdateController extends Container implements Module
         $noticeHelper = vchelper('Notice');
         $token = $tokenHelper->createToken($optionsHelper->get('hubTokenId'));
         if (!vcIsBadResponse($token)) {
-            if ($licenseHelper->isActivated()) {
-                $url = $hubBundleHelper->getJsonDownloadVersionUrl(['token' => $token]);
-            } else {
-                $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
-            }
-
+            $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
             $json = $hubBundleHelper->getRemoteBundleJson($url);
             if ($json) {
                 return $this->processJson($json);

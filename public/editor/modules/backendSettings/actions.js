@@ -1,6 +1,6 @@
 import {showError} from './errors'
 import {showFirstScreen, loadLastScreen, showLoadingScreen, showOopsScreen} from './screens'
-import { default as PostUpdater } from './postUpdate'
+import {default as PostUpdater} from './postUpdate'
 
 (($) => {
   let doneActions = (requestFailed, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation) => {
@@ -84,17 +84,18 @@ import { default as PostUpdater } from './postUpdate'
     }
 
     function doAction (i, finishCb) {
-      let action = actions[ i ]
-      const testPattern = new RegExp('^updatePosts$')
-      if (action.action && testPattern.test(action.action)) {
+      let action = actions[i]
+      if (action.action && action.action === 'updatePosts') {
         const postUpdater = new PostUpdater(window.vcvElementsGlobalsUrl, window.vcvVendorUrl, window.vcvUpdaterUrl)
-        const postUpdateText = 'Update posts {i} in {cnt}: {name}'
+        const localizations = window.VCV_I18N && window.VCV_I18N()
+        const postUpdateText = localizations ? localizations.postUpdateText : 'Update posts {i} in {cnt}: {name}'
         const doUpdatePostAction = async (posts, postsIndex, finishCb) => {
-          const postData = posts[ postsIndex ]
+          const postData = posts[postsIndex]
           $heading.text(postUpdateText.replace('{i}', postsIndex + 1).replace('{cnt}', posts.length).replace('{name}', postData.name || 'No name'))
           try {
             await postUpdater.update(postData)
-          } catch (e) {}
+          } catch (e) {
+          }
           if (postsIndex + 1 < posts.length) {
             return doUpdatePostAction(posts, postsIndex + 1, finishCb)
           } else {
@@ -169,5 +170,5 @@ import { default as PostUpdater } from './postUpdate'
     }
   }
 
-  module.exports = { doneActions: doneActions, processActions: processActions }
+  module.exports = {doneActions: doneActions, processActions: processActions}
 })(window.jQuery)

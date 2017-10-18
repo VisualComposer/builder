@@ -31,7 +31,6 @@ export default class ControlsManager {
       scroll: false
     }
 
-    this.editElement = this.editElement.bind(this)
     this.touchStart = this.touchStart.bind(this)
     this.touchMove = this.touchMove.bind(this)
     this.touchEnd = this.touchEnd.bind(this)
@@ -225,13 +224,15 @@ export default class ControlsManager {
           this.startDragging(e, data)
         }, 450)
       }
-      if (this.doubleTapTimer) {
+      if (this.doubleTapTimer && data.element === this.doubleTapElement) {
         this.editElement(e)
         this.doubleTapTimer = null
         clearTimeout(this.touchStartTimer)
       } else {
+        this.doubleTapElement = data.element
         this.doubleTapTimer = setTimeout(() => {
           this.doubleTapTimer = null
+          this.doubleTapElement = null
           if (!this.isPhone) {
             this.frames.hide()
             this.showFrames(data.element, data.elPath)
@@ -303,7 +304,7 @@ export default class ControlsManager {
     }
   }
 
-  touchEnd (e) {
+  touchEnd () {
     this.state.scroll = false
     if (this.touchStartTimer) {
       clearTimeout(this.touchStartTimer)

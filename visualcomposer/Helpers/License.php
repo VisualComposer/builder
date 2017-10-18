@@ -65,7 +65,8 @@ class License extends Container implements Helper
                 $urlHelper->ajax(['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()])
             ) .
             '&token=' . rawurlencode($this->newKeyToken()) .
-            '&url=' . VCV_PLUGIN_URL
+            '&url=' . VCV_PLUGIN_URL .
+            '&domain=' . get_site_url()
         );
         exit;
     }
@@ -87,7 +88,8 @@ class License extends Container implements Helper
             ) .
             '&token=' . rawurlencode($this->newKeyToken()) .
             '&license_key=' . rawurlencode($this->getKey()) .
-            '&url=' . VCV_PLUGIN_URL
+            '&url=' . VCV_PLUGIN_URL .
+            '&domain=' . get_site_url()
         );
         exit;
     }

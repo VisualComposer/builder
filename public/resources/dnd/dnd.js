@@ -165,7 +165,9 @@ export default class DnD {
       containerFor: this.options.rootContainerFor
     })
     this.handleDragFunction = this.handleDrag.bind(this)
+    this.handleMobileCancelDragFunction = this.handleMobileCancelDrag.bind(this)
     this.handleDragStartFunction = this.handleDragStart.bind(this)
+    this.handleMobileDragStartFunction = this.handleMobileDragStart.bind(this)
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
     if (env('DND_TRASH_BIN') && this.options.enableTrashBin) {
@@ -210,9 +212,9 @@ export default class DnD {
     })
       .on('dragstart', function (e) { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
-      .on('touchmove', this.handleDragStartFunction)
+      .on('touchstart', this.handleMobileDragStartFunction)
       .on('mousedown', this.handleDragFunction)
-      .on('touchmove', this.handleDragFunction)
+      .on('touchmove', this.handleMobileCancelDragFunction)
   }
 
   updateItem (id) {
@@ -220,14 +222,14 @@ export default class DnD {
     this.items[id]
       .refresh()
       .off('mousedown', this.handleDragStartFunction)
-      .off('touchmove', this.handleDragStartFunction)
+      .off('touchstart', this.handleMobileDragStartFunction)
       .off('mousedown', this.handleDragFunction)
-      .off('touchmove', this.handleDragFunction)
+      .off('touchmove', this.handleMobileCancelDragFunction)
       .on('dragstart', function (e) { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
-      .on('touchmove', this.handleDragStartFunction)
+      .on('touchstart', this.handleMobileDragStartFunction)
       .on('mousedown', this.handleDragFunction)
-      .on('touchmove', this.handleDragFunction)
+      .on('touchmove', this.handleMobileCancelDragFunction)
     this.removeItem(id)
     this.addItem(id)
   }
@@ -235,9 +237,9 @@ export default class DnD {
   removeItem (id) {
     this.items[id] && this.items[id]
       .off('mousedown', this.handleDragStartFunction)
-      .off('touchmove', this.handleDragStartFunction)
+      .off('touchstart', this.handleMobileDragStartFunction)
       .off('mousedown', this.handleDragFunction)
-      .off('touchmove', this.handleDragFunction)
+      .off('touchmove', this.handleMobileCancelDragFunction)
     delete this.items[id]
   }
 
@@ -521,9 +523,17 @@ export default class DnD {
       return false
     }
     if (e.touches && e.touches[0]) {
+      e.preventDefault()
       e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY})
     } else {
       e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX - offsetX, y: e.clientY - offsetY})
+    }
+  }
+
+  handleMobileCancelDrag (e) {
+    if (this.startDragTimeout) {
+      clearTimeout(this.startDragTimeout)
+      this.startDragTimeout = null
     }
   }
 
@@ -546,6 +556,26 @@ export default class DnD {
       this.start(id, {x: e.touches[0].clientX, y: e.touches[0].clientY})
     } else {
       this.start(id, {x: e.clientX, y: e.clientY})
+    }
+  }
+
+  handleMobileDragStart (e) {
+    if (this.options.disabled === true || this.dragStartHandled) { // hack not to use stopPropogation
+      return
+    }
+    if (this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
+      return
+    }
+    if (e.which > 1) {
+      return
+    }
+    let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
+    if (e.touches && e.touches[0]) {
+      this.startDragTimeout = setTimeout(() => {
+        this.startDragTimeout = null
+        e.preventDefault()
+        this.start(id, {x: e.touches[0].clientX, y: e.touches[0].clientY})
+      }, 300)
     }
   }
 

@@ -36,14 +36,20 @@ class JsonActionsController extends Container implements Module
         if (!vcIsBadResponse($response)) {
             if ($payload['json'] && !empty($payload['json']['actions'])) {
                 $hubBundle = vchelper('HubBundle');
+                $hubUpdateHelper = vchelper('HubUpdate');
                 list($needUpdatePost, $requiredActions) = $hubBundle->loopActions($payload['json']);
                 $reRenderPosts = array_unique($needUpdatePost);
                 $response['actions'] = $requiredActions;
                 if (count($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
-                    $postsActions = $this->createPostUpdateObjects($reRenderPosts);
-                    $response['vcvUpdaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
-                    $response['vcvVendorUrl'] = $urlHelper->to('public/dist/vendor.bundle.js');
-                    $response['actions'] =  array_merge($response['actions'], $postsActions);
+                    $postsActions = $hubUpdateHelper->createPostUpdateObjects($reRenderPosts);
+                    if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
+                        $response['vcvUpdaterUrl'] = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js';
+                        $response['vcvVendorUrl'] = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js';
+                    } else {
+                        $response['vcvUpdaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
+                        $response['vcvVendorUrl'] = $urlHelper->to('public/dist/vendor.bundle.js');
+                    }
+                    $response['actions'] = array_merge($response['actions'], $postsActions);
                 }
             } else {
                 $loggerHelper->log(
@@ -57,22 +63,6 @@ class JsonActionsController extends Container implements Module
         }
 
         return $response;
-    }
-
-    protected function createPostUpdateObjects(array $posts)
-    {
-
-        $result = [];
-        $frontendHelper = vchelper('Frontend');
-        foreach ($posts as $id) {
-            $result[] = [
-                'id' => $id,
-                'editableLink' => $frontendHelper->getEditableUrl($id),
-                'name' => get_the_title($id),
-            ];
-        }
-
-        return [['action' => 'updatePosts', 'data' => $result]];
     }
 
     protected function ajaxProcessAction(

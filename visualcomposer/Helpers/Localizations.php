@@ -155,6 +155,7 @@ class Localizations extends Container implements Helper
             'hideOn' => __('Hide: On', 'vcwb'),
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'vcwb'),
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
+            'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'vcwb'),
         ];
 
         return $locale;

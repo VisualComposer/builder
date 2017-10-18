@@ -1,10 +1,7 @@
 import vcCake from 'vc-cake'
 import FramesHandler from './framesHandler'
 
-const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
-const workspaceContentStartState = workspaceStorage.state('contentStart')
-const documentManager = vcCake.getService('document')
 
 export default class ControlsManager {
   constructor (api) {
@@ -26,11 +23,9 @@ export default class ControlsManager {
       element: null,
       hoverElement: null,
       hoverPath: null,
-      hoverRoot: null,
-      scroll: false
+      hoverRoot: null
     }
 
-    this.editElement = this.editElement.bind(this)
     this.touchStart = this.touchStart.bind(this)
     this.touchMove = this.touchMove.bind(this)
     this.touchEnd = this.touchEnd.bind(this)
@@ -72,10 +67,6 @@ export default class ControlsManager {
       }
     })
 
-    // Subscribe to main event to interact with content elements
-    if (!this.isBackend) {
-      this.iframeDocument.body.addEventListener('click', this.editElement)
-    }
     this.iframeDocument.body.addEventListener('touchstart', this.touchStart, { passive: false })
     this.iframeDocument.body.addEventListener('touchmove', this.touchMove, { passive: false })
     this.iframeDocument.body.addEventListener('touchend', this.touchEnd, { passive: false })
@@ -195,28 +186,11 @@ export default class ControlsManager {
     this.frames.show({ element: data.element, path: elementsToShow })
   }
 
-  scrollPage (x, y) {
-    let posY = this.iframeWindow.scrollY
-    let posX = this.iframeWindow.scrollX
-    if (posX === this.windowWidth || posY === this.windowHeight) {
-      return
-    }
-    this.iframeWindow.scroll(posX + x, posY + y)
-    if (this.state.scroll) {
-      setTimeout(() => {
-        this.scrollPage(x, y)
-      }, 20)
-    }
-  }
-
   touchStart (e) {
     let data = this.findElement(e)
     this.windowHeight = this.iframeWindow.innerHeight
-    let innerWidth = this.iframeWindow.innerWidth
-    let outerWidth = this.iframeWindow.outerWidth
-    this.windowWidth = innerWidth <= outerWidth ? innerWidth : outerWidth
     if (data.element && !this.state.dragging && e.touches && e.touches.length === 1) {
-      this.touchStartTimer = setInterval(() => {
+      this.touchStartTimer = setTimeout(() => {
         e.preventDefault && e.preventDefault()
         e.stopPropagation && e.stopPropagation()
         this.startDragging(e, data)
@@ -234,7 +208,7 @@ export default class ControlsManager {
       this.state.hoverPath = elPath
       this.state.hoverRoot = elPath[ elPath.length - 1 ]
       this.showFrames(element, elPath)
-      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY, left: 0, top: 0 } })
+      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.touches[0].clientX, y: e.touches[0].clientY, left: 0, top: 0 } })
     }
   }
 
@@ -254,7 +228,7 @@ export default class ControlsManager {
         this.iframeWindow.getSelection().removeAllRanges()
       }
 
-      let { clientX, clientY, screenX } = e.changedTouches && e.changedTouches[0] || {}
+      let { clientX, clientY } = e.touches && e.touches[0] || {}
       let element = this.iframeDocument.elementFromPoint(clientX, clientY)
       let { elPath } = this.findElement({ target: element })
       let elRoot = elPath[ elPath.length - 1 ]
@@ -265,29 +239,10 @@ export default class ControlsManager {
         this.state.hoverRoot = elRoot
         this.showFrames(element, elPath)
       }
-
-      this.state.scroll = false
-      let stepX = 0
-      let stepY = 0
-      if (screenX < 100) {
-        stepX = -1
-      } else if (this.windowWidth - 100 < screenX) {
-        stepX = 1
-      }
-      if (clientY < 100) {
-        stepY = -1
-      } else if (this.windowHeight - 150 < clientY) {
-        stepY = 1
-      }
-      if (stepX || stepY) {
-        this.state.scroll = true
-        this.scrollPage(stepX, stepY)
-      }
     }
   }
 
-  touchEnd (e) {
-    this.state.scroll = false
+  touchEnd () {
     if (this.touchStartTimer) {
       clearInterval(this.touchStartTimer)
       this.touchStartTimer = null
@@ -297,26 +252,5 @@ export default class ControlsManager {
       this.frames.hide()
       this.state.dragging = false
     }
-  }
-
-  editElement (e) {
-    let { element } = this.findElement(e)
-    if (this.editFormId) {
-      let settings = workspaceStorage.state('settings').get()
-      if (settings && settings.action === 'edit') {
-        workspaceStorage.state('settings').set(false)
-      }
-    } else if (element) {
-      let elementData = documentManager.get(element.dataset.vcvElement)
-      if (elementData) {
-        this.editFormId = element.dataset.vcvElement
-        workspaceStorage.trigger('edit', element.dataset.vcvElement, elementData.tag)
-        if (workspaceContentStartState.get() === 'treeView') {
-          workspaceContentStartState.set('treeView', element.dataset.vcvElement)
-        }
-      }
-    }
-    // remove treeView outline bug on mobile
-    layoutStorage.state('userInteractWith').set(false)
   }
 }
