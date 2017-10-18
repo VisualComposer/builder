@@ -41,9 +41,14 @@ class JsonActionsController extends Container implements Module
                 $response['actions'] = $requiredActions;
                 if (count($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
                     $postsActions = $this->createPostUpdateObjects($reRenderPosts);
-                    $response['vcvUpdaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
-                    $response['vcvVendorUrl'] = $urlHelper->to('public/dist/vendor.bundle.js');
-                    $response['actions'] =  array_merge($response['actions'], $postsActions);
+                    if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
+                        $response['vcvUpdaterUrl'] = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js';
+                        $response['vcvVendorUrl'] = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js';
+                    } else {
+                        $response['vcvUpdaterUrl'] = $urlHelper->to('public/dist/wpPostRebuild.bundle.js');
+                        $response['vcvVendorUrl'] = $urlHelper->to('public/dist/vendor.bundle.js');
+                    }
+                    $response['actions'] = array_merge($response['actions'], $postsActions);
                 }
             } else {
                 $loggerHelper->log(

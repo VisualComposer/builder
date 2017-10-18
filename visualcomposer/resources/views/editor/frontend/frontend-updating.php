@@ -31,9 +31,9 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
-    <link rel="profile" href="http://gmpg.org/xfn/11"/>
-    <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="profile" href="http://gmpg.org/xfn/11" />
+    <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title><?php echo sprintf(__('Frontend editor: %s', 'vcwb'), get_the_title()); ?></title>
     <link rel="stylesheet"
           href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
@@ -53,15 +53,22 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
 <script>
-  window.vcvUpdateUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>';
-  window.vcvAdminNonce = '<?php echo $nonceHelper->admin(); ?>';
-  window.vcvUpdateActions = <?php echo json_encode($actions); ?>;
-  window.vcvUpdatePosts = <?php echo json_encode($posts); ?>;
-  window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
-  window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
-  window.vcvAjaxTime = <?php echo $time; ?>;
-  window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
-  window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
+    window.vcvUpdateUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>';
+    window.vcvAdminNonce = '<?php echo $nonceHelper->admin(); ?>';
+    window.vcvUpdateActions = <?php echo json_encode($actions); ?>;
+    window.vcvUpdatePosts = <?php echo json_encode($posts); ?>;
+    window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
+    window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
+    window.vcvAjaxTime = <?php echo $time; ?>;
+    <?php
+    if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
+    ?>
+    window.vcvUpdaterUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'; ?>';
+    window.vcvVendorUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'; ?>';
+    <?php else : ?>
+    window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
+    window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
+    <?php endif; ?>
 </script>
 <div class="vcv-layout-container vcv-is-disabled-outline">
     <div class="vcv-layout" id="vcv-layout">
