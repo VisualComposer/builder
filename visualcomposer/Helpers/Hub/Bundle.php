@@ -50,36 +50,6 @@ class Bundle implements Helper
         return $downloadUrl;
     }
 
-    public function getJsonDownloadVersionUrl($requestedData = [])
-    {
-        $urlHelper = vchelper('Url');
-        $downloadUrl = $urlHelper->query(
-            sprintf(
-                '%s/download/json/version?plugin=%s',
-                VCV_HUB_URL,
-                VCV_VERSION
-            ),
-            $requestedData
-        );
-
-        return $downloadUrl;
-    }
-
-    public function getJsonDownloadBundleUrl($requestedData = [])
-    {
-        $urlHelper = vchelper('Url');
-        $downloadUrl = $urlHelper->query(
-            sprintf(
-                '%s/download/json/bundle?plugin=%s',
-                VCV_HUB_URL,
-                VCV_VERSION
-            ),
-            $requestedData
-        );
-
-        return $downloadUrl;
-    }
-
     public function unzipDownloadedBundle($bundle)
     {
         $fileHelper = vchelper('File');
@@ -112,34 +82,6 @@ class Bundle implements Helper
         $fileHelper = vchelper('File');
 
         return $fileHelper->removeDirectory($folder);
-    }
-
-    /**
-     * Get remote version
-     *
-     * @return bool|array
-     */
-    public function getRemoteVersionInfo()
-    {
-        $urlHelper = vchelper('Url');
-        $versionUrl = $urlHelper->query(
-            sprintf(
-                '%s/download/json/lite?plugin=%s',
-                VCV_HUB_URL,
-                VCV_VERSION
-            )
-        );
-        $request = wp_remote_get(
-            $versionUrl,
-            [
-                'timeout' => 10,
-            ]
-        );
-        if (!vcIsBadResponse($request)) {
-            return $request['body'];
-        }
-
-        return false;
     }
 
     public function getRemoteBundleJson($url)
