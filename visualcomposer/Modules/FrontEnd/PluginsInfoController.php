@@ -30,7 +30,7 @@ class PluginsInfoController extends Container implements Module
                     'Powered by Visual Composer Website Builder %s - fast and easy to use drag and drop builder for experts and beginners.',
                     'vcwb'
                 ),
-                VCV_VERSION . ' (Lite)'
+                VCV_VERSION
             );
             echo sprintf(
                 '<meta name="generator" content="%s"/>',
@@ -42,7 +42,7 @@ class PluginsInfoController extends Container implements Module
     protected function addBodyClass($classes)
     {
         $classes[] = 'vcwb';
-        $classes[] = sprintf('vcwb-ver-%s-lite', VCV_VERSION);
+        $classes[] = sprintf('vcwb-ver-%s', VCV_VERSION);
 
         return $classes;
     }
