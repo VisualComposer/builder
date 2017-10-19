@@ -26,13 +26,21 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
   window.vcvActivationUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>';
   window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
   window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:finished:adminNonce']); ?>';
-  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
-  window.vcvUpdaterFileUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
   window.vcvAdminNonce = '<?php echo vchelper('Nonce')->admin(); ?>';
   window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>';
   window.vcvActivationType = '<?php echo $type; ?>';
   window.vcvAjaxTime = <?php echo $_SERVER['REQUEST_TIME']; ?>;
   window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
+  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
+	<?php
+  if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
+  ?>
+  window.vcvUpdaterUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'; ?>';
+  window.vcvVendorUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'; ?>';
+  <?php else : ?>
+  window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
+  window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
+   <?php endif; ?>
 </script>
 <?php
 $extraOutput = vcfilter('vcv:backend:settings:extraOutput', []);

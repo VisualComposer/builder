@@ -57,6 +57,7 @@ addStorage('wordpressData', (storage) => {
       }
       const initialContent = document.getElementById('content').value
       if (!responseData.data && initialContent && initialContent.length) {
+        elementsStorage.trigger('reset', {})
         wrapExistingContent(initialContent)
       } else if (responseData.data) {
         let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')

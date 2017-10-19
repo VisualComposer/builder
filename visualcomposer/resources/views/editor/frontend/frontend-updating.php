@@ -60,6 +60,7 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
     window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
     window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
     window.vcvAjaxTime = <?php echo $time; ?>;
+    window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
     <?php
     if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
     ?>

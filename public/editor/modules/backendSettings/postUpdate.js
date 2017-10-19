@@ -7,41 +7,49 @@ export default class {
 
   async setup () {
     const $ = window.jQuery
+    $.ajaxSetup({
+      beforeSend: function (jqXHR, settings) {
+        jqXHR.url = settings.url
+      }
+    })
     await $.getJSON(this.globalUrls, { 'vcv-nonce': window.vcvAdminNonce }).done((data) => {
       /**
        * @param {{vcvGlobals}} data
        */
       data && data.vcvGlobals && this.buildGlobalVariables(data.vcvGlobals)
-    }).fail(console.log)
+    })
 
-    await $.getScript(this.vendorUrl).fail(console.log)
-    await $.getScript(this.updaterUrl).fail(console.log)
+    await $.getScript(this.vendorUrl)
+    await $.getScript(this.updaterUrl)
     await this.downloadElements()
-    this.ready = true
   }
 
   isReady () {
     return !!this.ready
   }
+
   downloadElements () {
     const $ = window.jQuery
     const elementBundles = []
     if (typeof window.VCV_HUB_GET_ELEMENTS === 'function') {
       const elements = window.VCV_HUB_GET_ELEMENTS()
       Object.keys(elements).forEach((key) => {
-        const element = elements[key]
-        elementBundles.push($.getScript(element.bundlePath).fail(console.log))
+        const element = elements[ key ]
+        elementBundles.push($.getScript(element.bundlePath))
       })
     }
     return Promise.all(elementBundles)
   }
+
   setGlobalVariable (key, data) {
-    Object.defineProperty(window, key, {
-      value: function () {
-        return data
-      },
-      writable: false
-    })
+    if (typeof window[ key ] === 'undefined') {
+      Object.defineProperty(window, key, {
+        value: function () {
+          return data
+        },
+        writable: false
+      })
+    }
   }
 
   buildGlobalVariables (globals) {
@@ -52,7 +60,17 @@ export default class {
 
   async update (data) {
     if (!this.isReady()) {
-      await this.setup()
+      try {
+        await this.setup()
+        this.ready = true
+      } catch (e) {
+        /**
+         * @param {{postUpdateAjaxRequestError}} localization
+         */
+        const localization = window.VCV_I18N && window.VCV_I18N()
+        throw (localization.postUpdateAjaxRequestError || `Downloading file for posts updates is failed. File: {file}`)
+          .replace(/{file}/, e.url)
+      }
     }
     try {
       await window.vcvRebuildPostSave(data)

@@ -53,6 +53,7 @@ addStorage('wordpressData', (storage) => {
       }
       const initialContent = responseData.post_content
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
+        elementsStorage.trigger('reset', {})
         wrapExistingContent(initialContent)
       } else
       if (responseData.data) {
