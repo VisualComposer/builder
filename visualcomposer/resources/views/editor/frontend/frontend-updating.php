@@ -60,6 +60,7 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
     window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
     window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
     window.vcvAjaxTime = <?php echo $time; ?>;
+    window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
     window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
     <?php
     if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
@@ -71,6 +72,7 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
     window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
     <?php endif; ?>
 </script>
+<div id="vcv-posts-update-wrapper"></div>
 <div class="vcv-layout-container vcv-is-disabled-outline">
     <div class="vcv-layout" id="vcv-layout">
         <div class="vcv-layout-header" id="vcv-layout-header">

@@ -107,8 +107,7 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
 
       function doAction (i, finishCb) {
         let action = actions[ i ]
-        const testPattern = new RegExp('^updatePosts$')
-        if (action.action && testPattern.test(action.action)) {
+        if (action.action && action.action === 'updatePosts') {
           const postUpdater = new PostUpdater(window.vcvElementsGlobalsUrl, window.vcvVendorUrl, window.vcvUpdaterUrl)
           const doUpdatePostAction = async (posts, postsIndex, finishCb) => {
             const postData = posts[ postsIndex ]

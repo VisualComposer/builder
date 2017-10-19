@@ -49,6 +49,17 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
   window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
   window.vcvAjaxTime = <?php echo $time; ?>;
   window.vcvPageBack = '<?php echo $optionsHelper->getTransient('_vcv_update_page_redirect_url'); ?>';
+  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
+  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
+    <?php
+    if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
+    ?>
+  window.vcvUpdaterUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'; ?>';
+  window.vcvVendorUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'; ?>';
+    <?php else : ?>
+  window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
+  window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
+    <?php endif; ?>
 </script>
 
 <!-- Third screen / loading screen -->

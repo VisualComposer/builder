@@ -74,9 +74,14 @@ export default class PanelsContainer extends React.Component {
       'vcv-ui-state--visible': !!(start || end),
       'vcv-layout-bar-content-mobile': this.isMobile
     })
+    let layoutStyle = {}
+
+    if (this.isMobile) {
+      layoutStyle.height = window.innerHeight - 60
+    }
 
     return (
-      <div className={layoutClasses}>
+      <div className={layoutClasses} style={layoutStyle}>
         <ContentStart>
           {this.getStartContent()}
         </ContentStart>

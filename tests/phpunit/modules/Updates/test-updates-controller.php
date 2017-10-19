@@ -56,7 +56,6 @@ class TestUpdates extends WP_UnitTestCase
                 return ['body' => '{"success":true, "data":{"token":"temp2token"}}'];
             }
             $args = func_get_args();
-            xdebug_break();
             if ($actions) {
                 $actions = false;
                 // url should be download/json/lite?plugin=[vcv_version]&token=temp2token

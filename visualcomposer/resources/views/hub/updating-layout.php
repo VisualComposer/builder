@@ -32,3 +32,4 @@ if ($errorMsg) {
         <div class="vcv-hidden-helper"></div>
     </div>
 </div>
+<div id="vcv-posts-update-wrapper"></div>

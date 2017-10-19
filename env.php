@@ -111,6 +111,14 @@ if (!defined('VCV_ENV_UPGRADE')) {
     );
 }
 
+
+if (!defined('VCV_TF_POSTS_RERENDER')) {
+    define(
+        'VCV_TF_POSTS_RERENDER',
+        isset($_SERVER['ENV_VCV_TF_POSTS_RERENDER']) ? $_SERVER['ENV_VCV_TF_POSTS_RERENDER'] : true
+    );
+}
+
 if (!defined('VCV_DEBUG')) {
     define('VCV_DEBUG', false);
 }
