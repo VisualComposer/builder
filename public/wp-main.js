@@ -73,18 +73,11 @@ $(() => {
       $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
 
       const $layoutContainer = $('.vcv-layout-container')
-      const $layoutBarContent = $('.vcv-layout-bar-content')
       if ($layoutContainer) {
         $layoutContainer.height(window.innerHeight)
-        if ($layoutBarContent) {
-          $layoutBarContent.height(window.innerHeight - 60)
-        }
         window.addEventListener('resize', () => {
           let height = window.innerHeight
           $layoutContainer.height(height)
-          if ($layoutBarContent) {
-            $layoutBarContent.height(window.innerHeight - 60)
-          }
         })
       }
     }
