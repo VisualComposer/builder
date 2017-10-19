@@ -41,40 +41,26 @@ class SaveDataAjaxController extends Container implements Module
      * Save post content and used assets.
      *
      * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param $response
-     * @param $payload
      *
      * @return array|null
      */
     protected function setData(
-        $response,
-        $payload,
         Request $requestHelper
     ) {
-        global $post;
         $this->setEditor($requestHelper);
         if ($requestHelper->input('vcv-backend') !== '1') {
-            return $response;
+            return null;
         }
-        $sourceId = $post->ID;
-
-        if (!is_array($response)) {
-            $response = [];
-        }
-
+        $sourceId = $requestHelper->input('post_ID');
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);
             $data = $requestHelper->input('vcv-data');
             if ($post) {
-                return array_merge($response, $this->getSourceResponse($post, $data));
+                return $this->getSourceResponse($post, $data);
             }
         }
-        if (!is_array($response)) {
-            $response = [];
-        }
-        $response['status'] = false;
 
-        return $response;
+        return null;
     }
 
     protected function getSourceResponse(\WP_Post $post, $data)
