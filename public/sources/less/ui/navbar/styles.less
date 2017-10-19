@@ -142,6 +142,7 @@
     .vcv-ui-navbar-dropdown-content {
       visibility: visible;
       opacity: 1;
+      max-height: none;
     }
     .vcv-ui-navbar-dropdown-trigger {
       background-color: @navbar-bg-dropdown;
@@ -181,7 +182,8 @@
 .vcv-ui-navbar-dropdown-content {
   background-color: @navbar-bg-dropdown;
   min-width: @navbar-dropdown-size;
-  max-height: @navbar-dropdown-max-height;
+  //max-height: @navbar-dropdown-max-height;
+  max-height: 0;
   overflow: hidden;
   margin: 0;
   padding: 0;
