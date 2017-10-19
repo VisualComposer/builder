@@ -36,6 +36,7 @@ $(() => {
         style.setAttribute('type', 'text/css')
         style.innerText = 'html, body {'
         style.innerText += 'height: 100%;'
+        style.innerText += 'width: 100vw;'
         style.innerText += 'overflow: auto;'
         style.innerText += '-webkit-overflow-scrolling: touch;'
         style.innerText += '}'
