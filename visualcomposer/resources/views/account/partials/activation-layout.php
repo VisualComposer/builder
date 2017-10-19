@@ -20,27 +20,27 @@ if ($errorMsg) {
 $type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <script>
-	<?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
+    <?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
     window.vcvActivationRequest = 1;
-	<?php } ?>
-  window.vcvActivationUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>';
-  window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
-  window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:finished:adminNonce']); ?>';
-  window.vcvAdminNonce = '<?php echo vchelper('Nonce')->admin(); ?>';
-  window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>';
-  window.vcvActivationType = '<?php echo $type; ?>';
-  window.vcvAjaxTime = <?php echo $_SERVER['REQUEST_TIME']; ?>;
-  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
-  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
-	<?php
-  if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
-  ?>
-  window.vcvUpdaterUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'; ?>';
-  window.vcvVendorUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'; ?>';
-  <?php else : ?>
-  window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
-  window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
-   <?php endif; ?>
+    <?php } ?>
+    window.vcvActivationUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>';
+    window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
+    window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:finished:adminNonce']); ?>';
+    window.vcvAdminNonce = '<?php echo vchelper('Nonce')->admin(); ?>';
+    window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>';
+    window.vcvActivationType = '<?php echo $type; ?>';
+    window.vcvAjaxTime = <?php echo $_SERVER['REQUEST_TIME']; ?>;
+    window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
+    window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
+    <?php
+    if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
+    ?>
+    window.vcvUpdaterUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'; ?>';
+    window.vcvVendorUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'; ?>';
+    <?php else : ?>
+    window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
+    window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
+    <?php endif; ?>
 </script>
 <?php
 $extraOutput = vcfilter('vcv:backend:settings:extraOutput', []);
@@ -65,20 +65,20 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
     <div class="vcv-popup-scroll-container">
         <div class="vcv-popup">
             <?php if (!$tokenHelper->isSiteAuthorized() && 'account' === vcvenv('VCV_ENV_ADDONS_ID') && vcvenv('VCV_ENV_LICENSES')) { ?>
-		        <!-- Back button -->
-		        <button class="vcv-popup-back-button">
-			        <span><?php echo __('BACK'); ?></span>
-		        </button>
+                <!-- Back button -->
+                <button class="vcv-popup-back-button">
+                    <span><?php echo __('BACK'); ?></span>
+                </button>
             <?php } ?>
             <!-- Close button -->
             <button class="vcv-popup-close-button"></button>
             <?php
-                echo vcview(
-                    'account/partials/activation-oops',
-                    [
-                        'controller' => $controller,
-                    ]
-                );
+            echo vcview(
+                'account/partials/activation-oops',
+                [
+                    'controller' => $controller,
+                ]
+            );
             ?>
             <?php
             if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {

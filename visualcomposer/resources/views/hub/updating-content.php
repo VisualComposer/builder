@@ -51,15 +51,15 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
   window.vcvPageBack = '<?php echo $optionsHelper->getTransient('_vcv_update_page_redirect_url'); ?>';
   window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
   window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
-  <?php
-  if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
-  ?>
+    <?php
+    if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
+    ?>
   window.vcvUpdaterUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'; ?>';
   window.vcvVendorUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'; ?>';
-  <?php else : ?>
+    <?php else : ?>
   window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
   window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
-  <?php endif; ?>
+    <?php endif; ?>
 </script>
 
 <!-- Third screen / loading screen -->
