@@ -28,8 +28,7 @@ export default class ControlsManager {
       hoverElement: null,
       hoverPath: null,
       hoverRoot: null,
-      scroll: false,
-      canEdit: false
+      scroll: false
     }
 
     this.touchStart = this.touchStart.bind(this)
@@ -79,10 +78,10 @@ export default class ControlsManager {
 
     // Subscribe to main event to interact with content elements
     this.iframeDocument.body.addEventListener('touchstart', this.touchStart, { passive: false })
-    // if (!this.isPhone) {
-    // }
-    this.iframeDocument.body.addEventListener('touchmove', this.touchMove, { passive: false })
-    this.iframeDocument.body.addEventListener('touchend', this.touchEnd, { passive: false })
+    if (!this.isPhone) {
+      this.iframeDocument.body.addEventListener('touchmove', this.touchMove, { passive: false })
+      this.iframeDocument.body.addEventListener('touchend', this.touchEnd, { passive: false })
+    }
   }
 
   /**
@@ -220,6 +219,11 @@ export default class ControlsManager {
     let data = this.findElement(e)
     this.windowHeight = this.iframeScrollable.hasOwnProperty('innerHeight') ? this.iframeScrollable.innerHeight : this.iframeScrollable.clientHeight
     if (!this.state.dragging && e.touches && e.touches.length === 1 && data.element) {
+      if (this.iframeDocument.selection) {
+        this.iframeDocument.selection.empty()
+      } else {
+        this.iframeWindow.getSelection().removeAllRanges()
+      }
       if (!this.isPhone) {
         this.touchStartTimer = setTimeout(() => {
           e.preventDefault && e.preventDefault()
@@ -227,7 +231,21 @@ export default class ControlsManager {
           this.startDragging(e, data)
         }, 450)
       }
-      this.state.canEdit = true
+      if (this.doubleTapTimer && data.element === this.doubleTapElement) {
+        this.editElement(e)
+        this.doubleTapTimer = null
+        clearTimeout(this.touchStartTimer)
+      } else {
+        this.doubleTapElement = data.element
+        this.doubleTapTimer = setTimeout(() => {
+          this.doubleTapTimer = null
+          this.doubleTapElement = null
+          if (!this.isPhone) {
+            this.frames.hide()
+            this.showFrames(data.element, data.elPath)
+          }
+        }, 250)
+      }
     }
   }
 
@@ -235,7 +253,6 @@ export default class ControlsManager {
     clearTimeout(this.touchStartTimer)
     this.touchStartTimer = null
     this.state.dragging = true
-    this.state.canEdit = false
     if (element && elPath && this.state.showFrames && this.state.dragging) {
       this.state.element = element
       this.state.hoverElement = element
@@ -249,7 +266,6 @@ export default class ControlsManager {
   }
 
   touchMove (e) {
-    this.state.canEdit = false
     if (this.touchStartTimer) {
       clearTimeout(this.touchStartTimer)
       this.touchStartTimer = null
@@ -295,20 +311,11 @@ export default class ControlsManager {
     }
   }
 
-  touchEnd (e) {
+  touchEnd () {
     this.state.scroll = false
     if (this.touchStartTimer) {
       clearTimeout(this.touchStartTimer)
       this.touchStartTimer = null
-    }
-    if (this.state.canEdit) {
-      // remove selection
-      if (this.iframeDocument.selection) {
-        this.iframeDocument.selection.empty()
-      } else {
-        this.iframeWindow.getSelection().removeAllRanges()
-      }
-      this.editElement(e)
       return
     }
     if (this.state.dragging) {
@@ -319,6 +326,12 @@ export default class ControlsManager {
 
   editElement (e) {
     let { element } = this.findElement(e)
+    this.frames.hide()
+    if (this.iframeDocument.selection) {
+      this.iframeDocument.selection.empty()
+    } else {
+      this.iframeWindow.getSelection().removeAllRanges()
+    }
     if (this.editFormId) {
       let settings = workspaceStorage.state('settings').get()
       if (settings && settings.action === 'edit') {

@@ -1,6 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import Item from './item'
+import MobileDetect from 'mobile-detect'
+import { env } from 'vc-cake'
 
 export default class LayoutButtonControl extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -67,6 +69,13 @@ export default class LayoutButtonControl extends React.Component {
       activeDevice: 0
     }
 
+    if (env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile()) {
+        this.isMobile = true
+      }
+    }
+
     this.setDefautlDevice = this.setDefautlDevice.bind(this)
     this.setSelectedLayout = this.setSelectedLayout.bind(this)
   }
@@ -129,6 +138,10 @@ export default class LayoutButtonControl extends React.Component {
         <Item key={index} device={item} index={index} onChange={this.setSelectedLayout} />
       )
     })
+
+    if (this.isMobile) {
+      return null
+    }
 
     return (
       <dl className={navbarControlClasses} tabIndex='0'>

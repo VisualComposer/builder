@@ -4,6 +4,7 @@ import ElementControl from './elementControl'
 import Scrollbar from '../../../scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
+
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
@@ -206,7 +207,13 @@ export default class Categories extends React.Component {
 
     return allCategories[ getIndex ].elements.filter((elementData) => {
       const element = cook.get(elementData)
-      let elName = element.get('name').toLowerCase()
+      let elName = ''
+      if (elementData.name) {
+        elName = elementData.name.toLowerCase()
+      } else if (element.get('name')) {
+        elName = element.get('name').toLowerCase()
+      }
+
       return elName.indexOf(inputValue.trim()) !== -1
     }).map((elementData) => {
       return this.getElementControl(elementData)

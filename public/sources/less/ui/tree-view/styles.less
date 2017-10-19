@@ -173,6 +173,12 @@
   padding-right: @tree-gold-value / 2;
 }
 
+.vcv-ui-tree-layout-control-mobile {
+  .vcv-ui-tree-layout-control-label {
+    user-select: none;
+  }
+}
+
 .vcv-ui-tree-layout-control-label-editable {
   white-space: normal;
   text-overflow: initial;
@@ -246,10 +252,13 @@
     font-size: .9em;
   }
   &.vcv-ui-tree-layout-control-drag-handler-mobile {
-    min-width: 100%;
+    top: -100%;
+    bottom: -100%;
+    left: -30px;
+    right: 0;
 
     .vcv-ui-drag-handler-icon {
-      left: 9px;
+      display: none;
     }
   }
 }

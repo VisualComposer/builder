@@ -8,6 +8,8 @@ import ControlsManager from './lib/controlsIframe/controlsManager'
 import MobileControlsManager from './lib/controlsIframe/mobileControlsManager'
 import MobileDetect from 'mobile-detect'
 
+const Utils = vcCake.getService('utils')
+
 vcCake.add('contentModernLayout', (api) => {
   let domContainer = $('#vcv-editor', $('#vcv-editor-iframe').get(0).contentWindow.document).get(0)
   ReactDOM.render(
@@ -22,6 +24,27 @@ vcCake.add('contentModernLayout', (api) => {
     if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
       let mobileControls = new MobileControlsManager(api)
       mobileControls.init()
+      let disableTooltip = Utils.getCookie('mobile-tooltip') || false
+      if (!disableTooltip) {
+        let iframeOverlay = document.querySelector('.vcv-layout-iframe-overlay')
+        let mobileToolip = document.createElement('div')
+        mobileToolip.className = 'vcv-ui-mobile-tooltip'
+        mobileToolip.innerText = 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.'
+        mobileToolip.addEventListener('click', () => {
+          if (!disableTooltip) {
+            mobileToolip.className += ' disabled'
+            disableTooltip = true
+            Utils.setCookie('mobile-tooltip', true)
+          }
+        })
+        iframeOverlay.appendChild(mobileToolip)
+        setTimeout(() => {
+          if (!disableTooltip) {
+            mobileToolip.className += ' disabled'
+            disableTooltip = true
+          }
+        }, 10000)
+      }
       return
     }
   }
