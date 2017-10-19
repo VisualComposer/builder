@@ -70,7 +70,11 @@ class JsonActionsController extends Container implements Module
         ];
         $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
         $action = $requestHelper->input('action');
-        $savedAction = $optionsHelper->get('hubAction:download:' . $action['key'], false);
+        if (!isset($action['key']) && isset($action['data'])) {
+            $savedAction = $action;
+        } else {
+            $savedAction = $optionsHelper->get('hubAction:download:' . $action['key'], false);
+        }
         if (!$savedAction) {
             $loggerHelper->log('the update action does not exists');
 

@@ -141,7 +141,6 @@ class Bundle implements Helper
     {
         $optionsHelper = vchelper('Options');
         $downloadHelper = vchelper('HubDownload');
-        $needUpdatePost = [];
         $requiredActions = [];
         if (isset($json['actions'])) {
             foreach ($json['actions'] as $key => $value) {
@@ -149,7 +148,6 @@ class Bundle implements Helper
                     $requiredActions = $this->loopActionIterator(
                         $value,
                         $optionsHelper,
-                        $needUpdatePost,
                         $downloadHelper,
                         $requiredActions
                     );
@@ -158,19 +156,22 @@ class Bundle implements Helper
         }
         $needUpdatePost = vcvenv('VCV_TF_POSTS_RERENDER', false) ? $optionsHelper->get('hubAction:updatePosts', [])
             : [];
+        if (empty($needUpdatePost)) {
+            $needUpdatePost = [];
+        }
+
         return [$needUpdatePost, $requiredActions];
     }
 
     /**
      * @param $value
      * @param $optionsHelper
-     * @param $needUpdatePost
      * @param Download $downloadHelper
      * @param $requiredActions
      *
      * @return array
      */
-    protected function loopActionIterator($value, $optionsHelper, $needUpdatePost, $downloadHelper, $requiredActions)
+    protected function loopActionIterator($value, $optionsHelper, $downloadHelper, $requiredActions)
     {
         $action = $value['action'];
         if (isset($value['data'])) {
@@ -179,6 +180,9 @@ class Bundle implements Helper
             $data = '';
         }
         $needUpdatePost = $optionsHelper->get('hubAction:updatePosts', []);
+        if (empty($needUpdatePost)) {
+            $needUpdatePost = [];
+        }
         $checksum = isset($value['checksum']) ? $value['checksum'] : '';
         $version = $value['version'];
         $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
