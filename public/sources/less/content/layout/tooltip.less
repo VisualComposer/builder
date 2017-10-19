@@ -1,0 +1,19 @@
+.vcv-ui-mobile-tooltip {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  opacity: 1;
+  transition: opacity 700ms ease;
+  pointer-events: all;
+
+  &.disabled {
+    pointer-events: none;
+    opacity: 0;
+  }
+}
