@@ -534,6 +534,8 @@ export default class DnD {
     if (this.startDragTimeout) {
       clearTimeout(this.startDragTimeout)
       this.startDragTimeout = null
+    } else {
+      this.handleDrag(e)
     }
   }
 
@@ -575,7 +577,7 @@ export default class DnD {
         this.startDragTimeout = null
         e.preventDefault()
         this.start(id, {x: e.touches[0].clientX, y: e.touches[0].clientY})
-      }, 300)
+      }, 450)
     }
   }
 

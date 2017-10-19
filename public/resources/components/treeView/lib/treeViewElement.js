@@ -381,7 +381,7 @@ export default class TreeViewElement extends React.Component {
     }
 
     let expandTrigger = ''
-    if (this.state.hasChild) {
+    if (this.state.hasChild && !this.isMobile) {
       expandTrigger = (
         <i className='vcv-ui-tree-layout-node-expand-trigger vcv-ui-icon vcv-ui-icon-expand'
           onClick={this.clickChildExpand} />
@@ -478,19 +478,36 @@ export default class TreeViewElement extends React.Component {
       controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
     }
 
-    let envContent = (
-      <span className='vcv-ui-tree-layout-control-label'>
-        <span>{content}</span>
-      </span>
-
-    )
-
     let dragHelperClasses = 'vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'
     if (this.isMobile) {
       dragHelperClasses += ' vcv-ui-tree-layout-control-drag-handler-mobile'
     }
 
-    if (!this.isMobile) {
+    let dragHandler = (
+      <div className={dragHelperClasses}>
+        <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+      </div>
+    )
+
+    let envContent = (
+      <span className='vcv-ui-tree-layout-control-label'>
+        <span>{content}</span>
+      </span>
+    )
+
+    if (this.isMobile) {
+      dragHandler = ''
+      envContent = (
+        <span className='vcv-ui-tree-layout-control-label'>
+          <div className={dragHelperClasses}>
+            <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+          </div>
+          <span>
+            {content}
+          </span>
+        </span>
+      )
+    } else {
       envContent = (
         <span className={controlLabelClasses}>
           <span ref={span => { this.span = span }}
@@ -519,9 +536,7 @@ export default class TreeViewElement extends React.Component {
           onMouseLeave={this.handleMouseLeave}
           onClick={this.handleClick}
         >
-          <div className={dragHelperClasses}>
-            <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
-          </div>
+          {dragHandler}
           <div className='vcv-ui-tree-layout-control-content'>
             {expandTrigger}
             <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon' alt='' /></i>

@@ -51,7 +51,7 @@ export default class TreeViewDndManager {
         endCallback: this.end.bind(this),
         document: document,
         container: document.getElementById('vcv-layout'),
-        handler: '> .vcv-ui-tree-layout-control > .vcv-ui-tree-layout-control-drag-handler',
+        handler: '> .vcv-ui-tree-layout-control .vcv-ui-tree-layout-control-drag-handler',
         helperType: 'clone',
         customScroll: true,
         scrollContainer: this.scrollContainer,
@@ -69,9 +69,9 @@ export default class TreeViewDndManager {
     let scrollContainer = this.scrollContainer.getBoundingClientRect()
     let step = 0
     if (point.y - scrollContainer.top <= 50) {
-      step = -2
+      step = -4
     } else if (scrollContainer.height + scrollContainer.top <= point.y + 50) {
-      step = 2
+      step = 4
     }
     if (step) {
       this.scroll = true
