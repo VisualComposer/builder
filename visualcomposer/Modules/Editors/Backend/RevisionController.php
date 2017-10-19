@@ -35,21 +35,19 @@ class RevisionController extends Container implements Module
 
     /**
      * Save meta for revision.
-     *
-     * @param $postId
-     * @param $post
      */
-    protected function saveRevisionMeta($postId, $post)
+    protected function saveRevisionMeta()
     {
         $requestHelper = vchelper('Request');
+        $sourceId = $requestHelper->input('post_ID');
         $data = $requestHelper->input('data');
 
         $vcvData = $data['wp_autosave']['vcv-data'];
         // @codingStandardsIgnoreLine
-        if (wp_is_post_revision($postId)) {
+        if (wp_is_post_revision($sourceId)) {
             if (false !== $vcvData) {
                 // @codingStandardsIgnoreLine
-                update_metadata('post', $postId, VCV_PREFIX . 'pageContent', $vcvData);
+                update_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', $vcvData);
             }
         }
     }
