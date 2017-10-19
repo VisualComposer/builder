@@ -49,6 +49,7 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
   window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
   window.vcvAjaxTime = <?php echo $time; ?>;
   window.vcvPageBack = '<?php echo $optionsHelper->getTransient('_vcv_update_page_redirect_url'); ?>';
+  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
   window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
   <?php
   if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :

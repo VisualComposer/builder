@@ -9,7 +9,7 @@ class PostBuilder {
    * Setup iframe where content of rerender post will be placed
    */
   setupIframe () {
-    document.getElementById('vcv-account-login-form').innerHTML += '<div id="vcv-editor"><div class="vcv-layout-iframe-container">\n' +
+    document.getElementById('vcv-posts-update-wrapper').innerHTML += '<div id="vcv-editor"><div class="vcv-layout-iframe-container">\n' +
       '<iframe\n' +
       ' class="vcv-layout-iframe"\n' +
       ' id="vcv-editor-iframe"\n' +

@@ -60,6 +60,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
     return;
 }
 ?>
+<div id="vcv-posts-update-wrapper"></div>
 <div class="vcv-popup-container vcv-popup-container--hidden" style="opacity: 0;visibility: hidden">
     <div class="vcv-popup-scroll-container">
         <div class="vcv-popup">
