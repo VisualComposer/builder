@@ -12,6 +12,9 @@ const innerApi = {
       jsBundles: []
     }
     if (vcCake.env('FEATURE_ASSETS_FILTER') && cookElement.get('tag') === 'row') {
+      if (!assetsStorageState) {
+        return files
+      }
       let elementFromStorage = assetsStorageState.elements.find((element) => {
         return element.id === cookElement.get('id')
       })
