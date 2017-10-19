@@ -57,6 +57,18 @@ export default class Navbar extends React.Component {
       hasEndContent: false,
       isActiveSandwich: false
     }
+
+    if (vcCake.env('MOBILE_DETECT')) {
+      let isScrolling = 0
+
+      window.addEventListener('scroll', function (event) {
+        window.clearTimeout(isScrolling)
+        isScrolling = setTimeout(function () {
+          window.scrollTo(0, 0)
+        }, 66)
+      }, false)
+    }
+
     this.hiddenControlsIndex = []
     this.handleDropdown = this.handleDropdown.bind(this)
     this.closeDropdown = this.closeDropdown.bind(this)
