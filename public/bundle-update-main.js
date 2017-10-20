@@ -73,7 +73,7 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
         {
           dataType: 'json',
           data: {
-            'vcv-nonce': window.vcvAdminNonce,
+            'vcv-nonce': window.vcvNonce,
             time: window.vcvAjaxTime
           }
         }
@@ -137,7 +137,7 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
             dataType: 'json',
             data: {
               action: action,
-              'vcv-nonce': window.vcvAdminNonce,
+              'vcv-nonce': window.vcvNonce,
               time: window.vcvAjaxTime
             }
           }
