@@ -51,6 +51,12 @@
   }
 }
 
+.vcv-layout-bar-content-mobile {
+  .vcv-ui-tree-layout-actions {
+    min-height: 60px;
+  }
+}
+
 .vcv-ui-tree-layout-filled {
   .vcv-ui-tree-layout-actions {
     flex: 0 0 100%;
@@ -147,6 +153,18 @@
   }
   &.vcv-ui-tree-layout-control-mobile {
     min-height: @tree-control-mobile-height;
+    line-height: @tree-control-mobile-height;
+    padding: 0;
+
+    .vcv-ui-tree-layout-controls-content {
+      position: absolute;
+      top: calc(~"100% + 1px");
+      background: #354e73;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      text-align: center;
+    }
   }
 }
 
@@ -256,22 +274,26 @@
     font-size: .9em;
   }
   &.vcv-ui-tree-layout-control-drag-handler-mobile {
-    top: -100%;
-    bottom: -100%;
-    left: -46px;
-    right: 0;
-
-    .vcv-ui-drag-handler-icon {
-      display: none;
-    }
+    position: relative;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
+.vcv-ui-tree-layout-controls-trigger {
+  width: 60px;
+  text-align: center;
+}
+
 .vcv-ui-tree-layout-control {
-  &:not(:hover) {
+  &:not(:hover)&:not(.vcv-ui-tree-layout-control-mobile) {
     .vcv-ui-tree-layout-control-drag-handler {
       opacity: 0;
     }
+  }
+  &.vcv-ui-tree-layout-control-mobile .vcv-ui-tree-layout-control-drag-handler-mobile {
+    opacity: 1;
   }
 }
 

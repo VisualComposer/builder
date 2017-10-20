@@ -55,6 +55,8 @@ export default class TreeViewElement extends React.Component {
     this.validateContent = this.validateContent.bind(this)
     this.preventNewLine = this.preventNewLine.bind(this)
     this.clickHide = this.clickHide.bind(this)
+    this.toggleControls = this.toggleControls.bind(this)
+    this.checkTaget = this.checkTaget.bind(this)
 
     if (vcCake.env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
@@ -312,6 +314,22 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
+  checkTaget (e) {
+    if (e && e.target && this.controlsContent && !(this.controlsContent.contains(e.target) || this.controlsTrigger.contains(e.target))) {
+      this.toggleControls()
+    }
+  }
+
+  toggleControls () {
+    let fn = this.state.showControls ? 'removeEventListener' : 'addEventListener'
+    window[ fn ]('touchstart', this.checkTaget)
+    this.setState({
+      showControls: !this.state.showControls
+    })
+  }
+
+  a
+
   render () {
     const hidden = this.state.element.hidden
     const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -381,7 +399,7 @@ export default class TreeViewElement extends React.Component {
     }
 
     let expandTrigger = ''
-    if (this.state.hasChild && !this.isMobile) {
+    if (this.state.hasChild) {
       expandTrigger = (
         <i className='vcv-ui-tree-layout-node-expand-trigger vcv-ui-icon vcv-ui-icon-expand'
           onClick={this.clickChildExpand} />
@@ -483,42 +501,42 @@ export default class TreeViewElement extends React.Component {
       dragHelperClasses += ' vcv-ui-tree-layout-control-drag-handler-mobile'
     }
 
-    let dragHandler = (
-      <div className={dragHelperClasses}>
-        <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
-      </div>
-    )
-
-    let envContent = (
-      <span className='vcv-ui-tree-layout-control-label'>
-        <span>{content}</span>
-      </span>
-    )
-
     if (this.isMobile) {
-      dragHandler = ''
-      envContent = (
-        <span className='vcv-ui-tree-layout-control-label'>
-          <span className='vcv-ui-tree-layout-control-label-text'>
-            <div className={dragHelperClasses}>
-              <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+      let controlsContent = this.state.showControls ? (
+        <div ref={controlsContent => { this.controlsContent = controlsContent }}
+          className='vcv-ui-tree-layout-controls-content'>
+          {childControls}
+        </div>
+      ) : null
+
+      return (
+        <li
+          className={treeChildClasses}
+          data-vcv-element={this.props.element.id}
+          type={element.get('type')}
+          name={element.get('name')}
+        >
+          <div className={controlClasses}>
+            <div className='vcv-ui-tree-layout-control-content'>
+              <div className={dragHelperClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}>
+                <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon'
+                  alt='' /></i>
+                <span className='vcv-ui-tree-layout-control-label'>
+                  <span>{content}</span>
+                </span>
+              </div>
+              <div
+                className='vcv-ui-tree-layout-controls-trigger'
+                onClick={this.toggleControls}
+                ref={controlsTrigger => { this.controlsTrigger = controlsTrigger }}
+              >
+                <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
+              </div>
+              {controlsContent}
             </div>
-            {content}
-          </span>
-        </span>
-      )
-    } else {
-      envContent = (
-        <span className={controlLabelClasses}>
-          <span ref={span => { this.span = span }}
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onClick={this.enableEditable}
-            onKeyDown={this.preventNewLine}
-            onBlur={this.validateContent}>
-            {content}
-          </span>
-        </span>
+          </div>
+          {child}
+        </li>
       )
     }
 
@@ -536,11 +554,22 @@ export default class TreeViewElement extends React.Component {
           onMouseLeave={this.handleMouseLeave}
           onClick={this.handleClick}
         >
-          {dragHandler}
+          <div className={dragHelperClasses}>
+            <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+          </div>
           <div className='vcv-ui-tree-layout-control-content'>
             {expandTrigger}
             <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon' alt='' /></i>
-            {envContent}
+            <span className={controlLabelClasses}>
+              <span ref={span => { this.span = span }}
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onClick={this.enableEditable}
+                onKeyDown={this.preventNewLine}
+                onBlur={this.validateContent}>
+                {content}
+              </span>
+            </span>
             {childControls}
           </div>
         </div>
