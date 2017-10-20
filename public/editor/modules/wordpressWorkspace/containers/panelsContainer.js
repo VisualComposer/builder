@@ -29,12 +29,35 @@ export default class PanelsContainer extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = {
+      height: window.innerHeight - 60
+    }
     if (env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
         this.isMobile = true
       }
     }
+
+    this.updateOnResize = this.updateOnResize.bind(this)
+  }
+
+  componentDidMount () {
+    if (this.isMobile) {
+      window.addEventListener('resize', this.updateOnResize)
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.isMobile) {
+      window.removeEventListener('resize', this.updateOnResize)
+    }
+  }
+
+  updateOnResize () {
+    this.setState({
+      height: window.innerHeight - 60
+    })
   }
 
   getStartContent () {
@@ -77,7 +100,7 @@ export default class PanelsContainer extends React.Component {
     let layoutStyle = {}
 
     if (this.isMobile) {
-      layoutStyle.height = window.innerHeight - 60
+      layoutStyle.height = this.state.height
     }
 
     return (

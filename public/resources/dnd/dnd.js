@@ -215,6 +215,7 @@ export default class DnD {
       .on('touchstart', this.handleMobileDragStartFunction)
       .on('mousedown', this.handleDragFunction)
       .on('touchmove', this.handleMobileCancelDragFunction)
+      .on('touchend', this.handleMobileCancelDragFunction)
   }
 
   updateItem (id) {
@@ -225,11 +226,13 @@ export default class DnD {
       .off('touchstart', this.handleMobileDragStartFunction)
       .off('mousedown', this.handleDragFunction)
       .off('touchmove', this.handleMobileCancelDragFunction)
+      .off('touchend', this.handleMobileCancelDragFunction)
       .on('dragstart', function (e) { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
       .on('touchstart', this.handleMobileDragStartFunction)
       .on('mousedown', this.handleDragFunction)
       .on('touchmove', this.handleMobileCancelDragFunction)
+      .on('touchend', this.handleMobileCancelDragFunction)
     this.removeItem(id)
     this.addItem(id)
   }
@@ -240,6 +243,7 @@ export default class DnD {
       .off('touchstart', this.handleMobileDragStartFunction)
       .off('mousedown', this.handleDragFunction)
       .off('touchmove', this.handleMobileCancelDragFunction)
+      .off('touchend', this.handleMobileCancelDragFunction)
     delete this.items[id]
   }
 
