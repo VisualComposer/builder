@@ -55,11 +55,14 @@ class Update implements Helper
         $result = [];
         $frontendHelper = vchelper('Frontend');
         foreach ($posts as $id) {
-            $result[] = [
-                'id' => $id,
-                'editableLink' => $frontendHelper->getEditableUrl($id),
-                'name' => get_the_title($id),
-            ];
+            $post = get_post($id);
+            if (!is_null($post)) {
+                $result[] = [
+                    'id' => $id,
+                    'editableLink' => $frontendHelper->getEditableUrl($id),
+                    'name' => get_the_title($id),
+                ];
+            }
         }
 
         return [['action' => 'updatePosts', 'data' => $result]];
