@@ -113,18 +113,15 @@ export default class Element extends React.Component {
     }
     Object.keys(atts).forEach((key) => {
       let attrSettings = element.settings(key)
-      if (attrSettings.settings.options && attrSettings.settings.options.inline === true) {
-        if (allowInline) {
-          layoutAtts[ key ] =
-            <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api}
-              options={attrSettings.settings.options}>
-              {atts[ key ] || ''}
-            </ContentEditableComponent>
-        } else {
-          layoutAtts[ key ] = (
-            <vcvhelper dangerouslySetInnerHTML={{ __html: atts[ key ] || '' }} />
-          )
-        }
+      if (attrSettings.settings.options && attrSettings.settings.options.inline) {
+        layoutAtts[ key ] =
+          <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api}
+            options={{
+              ...attrSettings.settings.options,
+              allowInline
+            }}>
+            {atts[ key ] || ''}
+          </ContentEditableComponent>
       } else {
         layoutAtts[ key ] = atts[ key ]
       }

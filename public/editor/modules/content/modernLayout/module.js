@@ -27,20 +27,20 @@ vcCake.add('contentModernLayout', (api) => {
       let disableTooltip = Utils.getCookie('mobile-tooltip') || false
       if (!disableTooltip) {
         let iframeOverlay = document.querySelector('.vcv-layout-iframe-overlay')
-        let mobileToolip = document.createElement('div')
-        mobileToolip.className = 'vcv-ui-mobile-tooltip'
-        mobileToolip.innerText = 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.'
-        mobileToolip.addEventListener('click', () => {
+        let mobileTooltip = document.createElement('div')
+        mobileTooltip.className = 'vcv-ui-mobile-tooltip'
+        mobileTooltip.innerText = 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.'
+        mobileTooltip.addEventListener('click', () => {
           if (!disableTooltip) {
-            mobileToolip.className += ' disabled'
+            mobileTooltip.className += ' disabled'
             disableTooltip = true
             Utils.setCookie('mobile-tooltip', true)
           }
         })
-        iframeOverlay.appendChild(mobileToolip)
+        iframeOverlay.appendChild(mobileTooltip)
         setTimeout(() => {
           if (!disableTooltip) {
-            mobileToolip.className += ' disabled'
+            mobileTooltip.className += ' disabled'
             disableTooltip = true
           }
         }, 10000)
