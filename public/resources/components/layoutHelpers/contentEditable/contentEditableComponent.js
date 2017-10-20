@@ -41,7 +41,8 @@ export default class ContentEditableComponent extends React.Component {
       html: ContentEditableComponent.spinnerHTML,
       realContent: this.props.children,
       mouse: null,
-      overlayTimeout: null
+      overlayTimeout: null,
+      allowInline: this.props.options.allowInline
     }
     this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
     this.handleGlobalClick = this.handleGlobalClick.bind(this)
@@ -393,7 +394,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   handleMouseDown () {
-    if (this.state.trackMouse === false && this.state.contentEditable === false) {
+    if (this.state.trackMouse === false && this.state.contentEditable === false && this.state.allowInline) {
       this.setState({ trackMouse: true, contentEditable: true })
     }
   }
