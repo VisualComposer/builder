@@ -12,7 +12,7 @@ export default class {
         jqXHR.url = settings.url
       }
     })
-    await $.getJSON(this.globalUrls, { 'vcv-nonce': window.vcvAdminNonce }).done((data) => {
+    await $.getJSON(this.globalUrls, { 'vcv-nonce': window.vcvNonce }).done((data) => {
       /**
        * @param {{vcvGlobals}} data
        */

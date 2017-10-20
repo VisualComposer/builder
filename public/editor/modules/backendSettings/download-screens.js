@@ -19,7 +19,7 @@ import {showError} from './errors'
         email: email,
         category: category,
         agreement: $agreementCheckbox.val(),
-        'vcv-nonce': window.vcvAdminNonce,
+        'vcv-nonce': window.vcvNonce,
         time: window.vcvAjaxTime
       })
       .done(function (json) {
@@ -86,7 +86,7 @@ import {showError} from './errors'
     $heading.text(downloadingInitialExtensionsText)
     $.getJSON(window.vcvActivationUrl,
       {
-        'vcv-nonce': window.vcvAdminNonce,
+        'vcv-nonce': window.vcvNonce,
         time: window.vcvAjaxTime
       })
       .done(function (json) {

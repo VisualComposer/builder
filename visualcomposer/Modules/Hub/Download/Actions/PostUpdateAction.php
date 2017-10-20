@@ -30,7 +30,7 @@ class PostUpdateAction extends Container implements Module
         $vcvPosts = new WP_Query(
             [
                 'post_type' => 'any',
-                'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
+                'post_status' => ['publish', 'pending', 'draft', 'auto-draft'], // TODO: future, private
                 'posts_per_page' => -1,
                 'meta_key' => VCV_PREFIX . 'pageContent',
                 'meta_value' => rawurlencode('"tag":"' . str_replace('element/', '', $event) . '"'),

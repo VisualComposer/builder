@@ -22,7 +22,7 @@ import { default as PostUpdater } from './postUpdate'
       {
         dataType: 'json',
         data: {
-          'vcv-nonce': window.vcvAdminNonce,
+          'vcv-nonce': window.vcvNonce,
           time: window.vcvAjaxTime
         }
       }
@@ -117,7 +117,7 @@ import { default as PostUpdater } from './postUpdate'
           dataType: 'json',
           data: {
             action: action,
-            'vcv-nonce': window.vcvAdminNonce,
+            'vcv-nonce': window.vcvNonce,
             time: window.vcvAjaxTime
           }
         }

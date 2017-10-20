@@ -67,7 +67,7 @@ const Service = {
   appServerRequest (args) {
     let url = window.vcvAjaxUrl
     args = Object.assign({
-      'vcv-nonce': window.vcvNonce || window.vcvAdminNonce,
+      'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, args)
     return this.http(url).post(args)
