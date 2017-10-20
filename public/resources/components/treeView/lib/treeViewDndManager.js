@@ -90,10 +90,7 @@ export default class TreeViewDndManager {
     if (this.scroll) {
       let posY = this.scrollContainer && (this.scrollContainer.scrollY || this.scrollContainer.scrollTop)
       let posX = this.scrollContainer && (this.scrollContainer.scrollX || this.scrollContainer.scrollLeft)
-      if (
-        (posY === undefined || posX === undefined) ||
-        (step > 0 ? posY + step >= this.scrollContainer.getBoundingClientRect().height : posY + step <= 0)
-      ) {
+      if (posY === undefined || posX === undefined) {
         return
       }
       this.scrollContainer.scroll(posX, posY + step)
