@@ -488,7 +488,9 @@ export default class DnD {
       setData('vcv:layoutCustomMode', 'dnd')
     }
     this.options.manualScroll && this.scrollManually(point)
-    this.options.customScroll && this.options.scrollCallback(point)
+    if (this.dragStartHandled) {
+      this.options.customScroll && this.options.scrollCallback(point)
+    }
     window.setTimeout(() => {
       if (!this.startPoint) {
         this.startPoint = point
@@ -583,6 +585,7 @@ export default class DnD {
 
   handleDragEnd () {
     this.dragStartHandled = false
+    this.options.customScroll && this.options.scrollCallback({end: true})
     this.end()
   }
 

@@ -63,6 +63,9 @@ export default class TreeViewDndManager {
 
   scrollTo (point) {
     this.scroll = false
+    if (point.end) {
+      return
+    }
     if (!this.sidebarContent || !this.scrollContainer) {
       return
     }
