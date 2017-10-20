@@ -41,6 +41,7 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
     // @codingStandardsIgnoreLine
     do_action('admin_enqueue_scripts', $hook_suffix);
     do_action('admin_print_scripts');
+    do_action('admin_head');
     wp_print_head_scripts();
     $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
     if (is_array($extraOutput)) {

@@ -499,10 +499,10 @@ export default class TreeViewElement extends React.Component {
       dragHandler = ''
       envContent = (
         <span className='vcv-ui-tree-layout-control-label'>
-          <div className={dragHelperClasses}>
-            <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
-          </div>
-          <span>
+          <span className='vcv-ui-tree-layout-control-label-text'>
+            <div className={dragHelperClasses}>
+              <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+            </div>
             {content}
           </span>
         </span>
