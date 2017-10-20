@@ -158,6 +158,20 @@ class Bundle implements Helper
             : [];
         if (empty($needUpdatePost)) {
             $needUpdatePost = [];
+        } else {
+            $changed = false;
+            foreach ($needUpdatePost as $id) {
+                $post = get_post($id);
+                if (!$post) {
+                    $changed = true;
+                    $key = array_search($id, $needUpdatePost);
+                    unset($needUpdatePost[ $key ]);
+                    $needUpdatePost = array_values($needUpdatePost);
+                }
+            }
+            if ($changed) {
+                $optionsHelper->set('hubAction:updatePosts', $needUpdatePost);
+            }
         }
 
         return [$needUpdatePost, $requiredActions];
