@@ -29,6 +29,12 @@ $(() => {
     $(iframeDocument.body).on('click', 'a[href]', (e) => {
       e && e.preventDefault()
     })
+    let iframeStyles = iframeDocument.createElement('style')
+    iframeStyles.setAttribute('type', 'text/css')
+    iframeStyles.innerText = `html {
+      margin-top: 0px !important;
+    }`
+    iframeDocument.head.append(iframeStyles)
     if (vcCake.env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && mobileDetect.phone() && mobileDetect.os() === 'iOS') {
