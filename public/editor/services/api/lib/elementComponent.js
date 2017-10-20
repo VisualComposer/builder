@@ -121,7 +121,7 @@ eval(unescape('${escapedString}'))
     let animationData = ''
     let designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
 
-    if (designOptions.device) {
+    if (designOptions && designOptions.device) {
       let animations = []
       Object.keys(designOptions.device).forEach((device) => {
         let prefix = (device === 'all') ? '' : device
