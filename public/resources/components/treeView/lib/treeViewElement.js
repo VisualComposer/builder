@@ -56,7 +56,7 @@ export default class TreeViewElement extends React.Component {
     this.preventNewLine = this.preventNewLine.bind(this)
     this.clickHide = this.clickHide.bind(this)
     this.toggleControls = this.toggleControls.bind(this)
-    this.checkTaget = this.checkTaget.bind(this)
+    this.checkTarget = this.checkTarget.bind(this)
 
     if (vcCake.env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
@@ -314,7 +314,7 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
-  checkTaget (e) {
+  checkTarget (e) {
     if (e && e.target && this.controlsContent && !(this.controlsContent.contains(e.target) || this.controlsTrigger.contains(e.target))) {
       this.toggleControls()
     }
@@ -322,7 +322,7 @@ export default class TreeViewElement extends React.Component {
 
   toggleControls () {
     let fn = this.state.showControls ? 'removeEventListener' : 'addEventListener'
-    window[ fn ]('touchstart', this.checkTaget)
+    window[ fn ] && window[ fn ]('touchstart', this.checkTarget)
     this.setState({
       showControls: !this.state.showControls
     })
