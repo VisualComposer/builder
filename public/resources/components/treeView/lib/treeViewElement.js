@@ -113,6 +113,7 @@ export default class TreeViewElement extends React.Component {
     elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
     this.props.onUnmountCallback(this.state.element.id)
     workspaceStorage.state('settings').ignoreChange(this.checkActive)
+    workspaceStorage.state('userInteractWith').set(false)
     // vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
 
     /*
@@ -129,6 +130,9 @@ export default class TreeViewElement extends React.Component {
   }
 
   checkActive (data = false) {
+    if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
+      return
+    }
     this.setState({
       isActive: data && data.element && data.element.id === this.props.element.id
     })

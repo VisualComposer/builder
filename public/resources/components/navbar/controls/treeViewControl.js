@@ -6,6 +6,7 @@ import {getStorage, env} from 'vc-cake'
 
 const workspaceContentStartState = getStorage('workspace').state('contentStart')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
+const workspaceContentState = getStorage('workspace').state('content')
 
 export default class TreeViewControl extends NavbarContent {
   constructor (props) {
@@ -24,10 +25,18 @@ export default class TreeViewControl extends NavbarContent {
   }
 
   componentDidMount () {
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.onChange(this.setActiveState)
+      return
+    }
     workspaceContentStartState.onChange(this.setActiveState)
   }
 
   componentWillUnmount () {
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.ignoreChange(this.setActiveState)
+      return
+    }
     workspaceContentStartState.ignoreChange(this.setActiveState)
   }
 
@@ -38,6 +47,10 @@ export default class TreeViewControl extends NavbarContent {
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
         workspaceContentEndState.set(false)
       }
+    }
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.set(!this.state.isActive ? 'treeView' : false)
+      return
     }
     workspaceContentStartState.set(!this.state.isActive ? 'treeView' : false)
   }

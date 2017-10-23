@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import Content from '../../../../resources/components/contentParts/content'
 import ContentStart from '../../../../resources/components/contentParts/contentStart'
 import ContentEnd from '../../../../resources/components/contentParts/contentEnd'
 import AddElementPanel from '../../../../resources/components/addElement/addElementPanel'
@@ -8,7 +9,7 @@ import AddTemplatePanel from '../../../../resources/components/addTemplate/addTe
 import TreeViewLayout from '../../../../resources/components/treeView/treeViewLayout'
 import SettingsPanel from '../../../../resources/components/settings/settingsPanel'
 import EditElementPanel from '../../../../resources/components/editElement/editElementPanel'
-import {getService} from 'vc-cake'
+import {getService, env} from 'vc-cake'
 
 const cook = getService('cook')
 
@@ -19,6 +20,10 @@ export default class PanelsContainer extends React.Component {
       React.PropTypes.node
     ]),
     end: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node
+    ]),
+    content: React.PropTypes.oneOfType([
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
     ]),
@@ -57,6 +62,31 @@ export default class PanelsContainer extends React.Component {
     return barsHeight
   }
 
+  getContent () {
+    const { content, settings } = this.props
+    if (content === 'treeView') {
+      return <TreeViewLayout scrollValue={this.getBarsHeight} />
+    } else if (content === 'addElement') {
+      return <AddElementPanel options={settings || {}} />
+    } else if (content === 'addHubElement') {
+      return (
+        <AddElementPanel options={settings || {}}>
+          <TeaserAddElementCategories parent={{}} />
+        </AddElementPanel>
+      )
+    } else if (content === 'addTemplate') {
+      return <AddTemplatePanel />
+    } else if (content === 'settings') {
+      return <SettingsPanel />
+    } else if (content === 'editElement') {
+      if (settings && settings.element) {
+        const activeTabId = settings.tag || ''
+        const cookElement = cook.get(settings.element)
+        return <EditElementPanel key={`panels-container-edit-element-${cookElement.get('id')}`} element={cookElement} activeTabId={activeTabId} />
+      }
+    }
+  }
+
   getStartContent () {
     const { start, contentStartId } = this.props
     if (start === 'treeView') {
@@ -88,13 +118,23 @@ export default class PanelsContainer extends React.Component {
   }
 
   render () {
-    const { start, end } = this.props
+    const { start, end, content } = this.props
     const { stack } = this.state
     let layoutClasses = classNames({
       'vcv-layout-bar-content': true,
-      'vcv-ui-state--visible': !!(start || end),
+      'vcv-ui-state--visible': !!(start || end || content),
       'vcv-layout-bar-content-stack': stack
     })
+
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      return (
+        <div className={layoutClasses}>
+          <Content content={content}>
+            {this.getContent()}
+          </Content>
+        </div>
+      )
+    }
 
     return (
       <div className={layoutClasses}>

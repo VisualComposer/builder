@@ -7,6 +7,7 @@ import MobileDetect from 'mobile-detect'
 const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentStartState = getStorage('workspace').state('contentStart')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
+const workspaceContentState = getStorage('workspace').state('content')
 
 export default class PlusControl extends NavbarContent {
   constructor (props) {
@@ -23,10 +24,18 @@ export default class PlusControl extends NavbarContent {
   }
 
   componentDidMount () {
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.onChange(this.setActiveState)
+      return
+    }
     workspaceContentEndState.onChange(this.setActiveState)
   }
 
   componentWillUnmount () {
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.ignoreChange(this.setActiveState)
+      return
+    }
     workspaceContentEndState.ignoreChange(this.setActiveState)
   }
 

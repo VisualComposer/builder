@@ -8,6 +8,7 @@ const dataProcessor = getService('dataProcessor')
 const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentStartState = getStorage('workspace').state('contentStart')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
+const workspaceContentState = getStorage('workspace').state('content')
 
 export default class PlusTeaserControl extends NavbarContent {
   constructor (props) {
@@ -25,10 +26,18 @@ export default class PlusTeaserControl extends NavbarContent {
   }
 
   componentDidMount () {
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.onChange(this.setActiveState)
+      return
+    }
     workspaceContentEndState.onChange(this.setActiveState)
   }
 
   componentWillUnmount () {
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.ignoreChange(this.setActiveState)
+      return
+    }
     workspaceContentEndState.ignoreChange(this.setActiveState)
   }
 
