@@ -328,8 +328,6 @@ export default class TreeViewElement extends React.Component {
     })
   }
 
-  a
-
   render () {
     const hidden = this.state.element.hidden
     const localizations = window.VCV_I18N && window.VCV_I18N()
