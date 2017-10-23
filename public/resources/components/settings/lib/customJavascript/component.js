@@ -29,11 +29,11 @@ export default class CustomJavascript extends React.Component {
   constructor (props) {
     super(props)
     let customJavascript = {
-      local: settingsStorage.state('customJs').get(),
+      local: settingsStorage.state('localJs').get(),
       global: settingsStorage.state('globalJs').get()
     }
-    setData('ui:settings:customJavascript:global', customJavascript.global)
-    setData('ui:settings:customJavascript:local', customJavascript.local)
+    setData('ui:settings:customJavascript:globalJs', customJavascript.global)
+    setData('ui:settings:customJavascript:localJs', customJavascript.local)
     this.state = {
       isActiveIndex: 1,
       ...customJavascript
@@ -43,8 +43,8 @@ export default class CustomJavascript extends React.Component {
   }
 
   componentWillUnmount () {
-    setData('ui:settings:customJavascript:global', null)
-    setData('ui:settings:customJavascript:local', null)
+    setData('ui:settings:customJavascript:globalJs', null)
+    setData('ui:settings:customJavascript:localJs', null)
   }
 
   changeActiveButton (buttonIndex) {
