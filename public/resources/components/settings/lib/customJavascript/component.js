@@ -39,6 +39,7 @@ export default class CustomJavascript extends React.Component {
       ...customJavascript
     }
     this.updateSettings = this.updateSettings.bind(this)
+    this.changeActiveButton = this.changeActiveButton.bind(this)
   }
 
   componentWillUnmount () {
@@ -46,7 +47,7 @@ export default class CustomJavascript extends React.Component {
     setData('ui:settings:customJavascript:local', null)
   }
 
-  changeActiveButton = (buttonIndex) => {
+  changeActiveButton (buttonIndex) {
     this.setState({
       isActiveIndex: buttonIndex
     })
