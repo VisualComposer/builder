@@ -155,6 +155,10 @@
     min-height: @tree-control-mobile-height;
     line-height: @tree-control-mobile-height;
     padding: 0;
+    
+    &:hover {
+      background-color: #354e73;
+    }
 
     .vcv-ui-tree-layout-controls-content {
       position: absolute;
@@ -336,6 +340,18 @@
   &.vcv-ui-tree-layout-node-hidden {
     .vcv-ui-tree-layout-control-content {
       opacity: 0.5;
+    }
+  }
+}
+
+.vcv-layout-bar-content-mobile {
+  .vcv-ui-tree-layout-node-child.vcv-ui-tree-layout-node-hidden {
+    .vcv-ui-tree-layout-control-content {
+      opacity: 1;
+
+      .vcv-ui-tree-layout-control-drag-handler-mobile {
+        opacity: 0.5;
+      }
     }
   }
 }
