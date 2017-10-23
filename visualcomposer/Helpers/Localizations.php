@@ -157,6 +157,7 @@ class Localizations extends Container implements Helper
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'vcwb'),
             'postUpdateAjaxRequestError' => __('Downloading file for posts updates is failed. File: {file}', 'vcwb'),
+            'mobileTooltipText' => __('Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.', 'vcwb'),
         ];
 
         return $locale;

@@ -22,14 +22,15 @@ vcCake.add('contentModernLayout', (api) => {
   if (vcCake.env('MOBILE_DETECT')) {
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
     if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      const localizations = window.VCV_I18N && window.VCV_I18N()
       let mobileControls = new MobileControlsManager(api)
       mobileControls.init()
-      let disableTooltip = Utils.getCookie('mobile-tooltip') || false
+      let disableTooltip = Utils.getCookie('vcv-mobile-tooltip') || false
       if (!disableTooltip) {
         let iframeOverlay = document.querySelector('.vcv-layout-iframe-overlay')
         let mobileTooltip = document.createElement('div')
         mobileTooltip.className = 'vcv-ui-mobile-tooltip'
-        mobileTooltip.innerText = 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.'
+        mobileTooltip.innerText = localizations.mobileTooltipText || 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.'
         mobileTooltip.addEventListener('click', () => {
           if (!disableTooltip) {
             mobileTooltip.className += ' disabled'
