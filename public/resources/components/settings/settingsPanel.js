@@ -2,6 +2,8 @@ import React from 'react'
 import SettingsContent from './lib/settingsContent'
 import SettingsFooter from './lib/settingsFooter'
 import CustomStyles from './lib/customStyles/component'
+import CustomScripts from './lib/customJavascript/component'
+import { env } from 'vc-cake'
 
 export default class SettingsPanel extends React.Component {
   constructor (props) {
@@ -15,10 +17,18 @@ export default class SettingsPanel extends React.Component {
      */
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
+    const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
     sections.push({
       title: customCSSText,
       content: CustomStyles
     })
+    if (env('CUSTOM_JS')) {
+      sections.push({
+        title: customJSText,
+        content: CustomScripts
+      })
+    }
+
     actions.push({
       state: 'globalCss',
       getData: 'ui:settings:customStyles:global'
@@ -27,6 +37,16 @@ export default class SettingsPanel extends React.Component {
       state: 'customCss',
       getData: 'ui:settings:customStyles:local'
     })
+    if (env('CUSTOM_JS')) {
+      actions.push({
+        state: 'globalJs',
+        getData: 'ui:settings:customScripts:global'
+      })
+      actions.push({
+        state: 'customJs',
+        getData: 'ui:settings:customScripts:local'
+      })
+    }
 
     this.state = {
       sections,
