@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PanelsContainer from './panelsContainer'
 import NavbarContainer from './navbarContainer'
 import Workspace from '../../../../resources/components/workspace'
-import {getStorage} from 'vc-cake'
+import {getStorage, env} from 'vc-cake'
 
 const workspace = getStorage('workspace')
 
@@ -21,6 +21,7 @@ export default class WorkspaceCont extends React.Component {
     this.state = {
       contentStart: false,
       contentEnd: false,
+      content: false,
       settings: {},
       isSticky: false,
       isStickyBottom: false,
@@ -30,6 +31,7 @@ export default class WorkspaceCont extends React.Component {
       barWidth: 0,
       adminBar: document.getElementById('wpadminbar')
     }
+    this.setContent = this.setContent.bind(this)
     this.setContentStart = this.setContentStart.bind(this)
     this.setContentEnd = this.setContentEnd.bind(this)
     this.handleNavbarPosition = this.handleNavbarPosition.bind(this)
@@ -38,8 +40,12 @@ export default class WorkspaceCont extends React.Component {
   }
 
   componentDidMount () {
-    workspace.state('contentStart').onChange(this.setContentStart)
-    workspace.state('contentEnd').onChange(this.setContentEnd)
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspace.state('content').onChange(this.setContent)
+    } else {
+      workspace.state('contentStart').onChange(this.setContentStart)
+      workspace.state('contentEnd').onChange(this.setContentEnd)
+    }
     window.addEventListener('scroll', this.handleWindowScroll)
     this.addResizeListener(this.props.layout, this.handleLayoutResize)
     const layoutRect = this.props.layout.getBoundingClientRect()
@@ -47,8 +53,12 @@ export default class WorkspaceCont extends React.Component {
   }
 
   componentWillUnmount () {
-    workspace.state('contentStart').ignoreChange(this.setContentStart)
-    workspace.state('contentEnd').ignoreChange(this.setContentEnd)
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspace.state('content').ignoreChange(this.setContent)
+    } else {
+      workspace.state('contentStart').ignoreChange(this.setContentStart)
+      workspace.state('contentEnd').ignoreChange(this.setContentEnd)
+    }
     window.removeEventListener('scroll', this.handleWindowScroll)
     this.removeResizeListener(this.props.layout, this.handleLayoutResize)
   }
@@ -66,6 +76,14 @@ export default class WorkspaceCont extends React.Component {
     this.setState({
       contentStart: value || false,
       contentStartId: id || ''
+    })
+  }
+
+  setContent (value) {
+    const content = value || false
+    this.setState({
+      content: content,
+      settings: workspace.state('settings').get() || {}
     })
   }
 
@@ -194,7 +212,7 @@ export default class WorkspaceCont extends React.Component {
   }
 
   render () {
-    const { contentStart, contentEnd, settings, isSticky, barTopPos, barLeftPos, barWidth, contentStartId } = this.state
+    const { contentStart, contentEnd, content, settings, isSticky, barTopPos, barLeftPos, barWidth, contentStartId } = this.state
 
     let stickyBar = {}
     if (isSticky) {
@@ -204,6 +222,24 @@ export default class WorkspaceCont extends React.Component {
         left: `${barLeftPos}px`,
         width: `${barWidth}px`
       }
+    }
+
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      return (
+        <Workspace
+          content={!!content}
+          stickyBar={stickyBar}
+          ref={(bar) => { this.layoutBar = bar }}
+        >
+          <NavbarContainer />
+          <PanelsContainer
+            content={content}
+            settings={settings}
+            layoutWidth={barWidth}
+            ref={(panels) => { this.panels = panels }}
+          />
+        </Workspace>
+      )
     }
 
     return (

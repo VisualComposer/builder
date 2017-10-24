@@ -92,7 +92,8 @@
 
     .vcv-layout-bar-header::after,
     .vcv-layout-bar-content-start::after,
-    .vcv-layout-bar-content-end::after {
+    .vcv-layout-bar-content-end::after,
+    .vcv-layout-bar-content-all::after{
       content: "";
       position: absolute;
       top: 0;
@@ -130,7 +131,7 @@
   }
 }
 
-.vcv-layout-bar-content-start {
+.vcv-layout-bar-content-start, .vcv-layout-bar-content-all {
   flex: 0 1 auto;
   pointer-events: all;
   position: relative;
@@ -245,7 +246,7 @@
           box-shadow: @editor-layout-bar-shadow;
         }
       }
-      &.vcv-ui-content-end--visible {
+      &.vcv-ui-content-end--visible, &.vcv-ui-content-all--visible {
         .vcv-layout-bar-content {
           box-shadow: @editor-layout-bar-shadow;
         }

@@ -58,12 +58,12 @@ export default class Navbar extends React.Component {
       isActiveSandwich: false
     }
 
-    if (vcCake.env('MOBILE_DETECT')) {
+    if (vcCake.env('MOBILE_DETECT') && this.isMobile) {
       let isScrolling = 0
 
-      window.addEventListener('scroll', function (event) {
+      window.addEventListener('scroll', () => {
         window.clearTimeout(isScrolling)
-        isScrolling = setTimeout(function () {
+        isScrolling = setTimeout(() => {
           window.scrollTo(0, 0)
         }, 66)
       }, false)

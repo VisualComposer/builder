@@ -5,6 +5,7 @@ import OutlineHandler from './outlineHandler'
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceContentStartState = workspaceStorage.state('contentStart')
+const workspaceContentState = workspaceStorage.state('content')
 
 export default class ControlsManager {
   constructor (api) {
@@ -299,16 +300,26 @@ export default class ControlsManager {
         }
         let elementId = el.dataset.vcvElementId
         if (event === 'treeView') {
+          if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
+            workspaceContentState.set('treeView')
+            return
+          }
           workspaceContentStartState.set('treeView', elementId)
         } else if (event === 'edit') {
-          if (workspaceContentStartState.get() === 'treeView') {
-            workspaceContentStartState.set('treeView', elementId)
+          if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
+            workspaceContentState.set(false)
           }
           let settings = workspaceStorage.state('settings').get()
           if (settings && settings.action === 'edit') {
             workspaceStorage.state('settings').set(false)
           }
           workspaceStorage.trigger(event, elementId, tag, options)
+          if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
+            return
+          }
+          if (workspaceContentStartState.get() === 'treeView') {
+            workspaceContentStartState.set('treeView', elementId)
+          }
         } else if (event === 'remove') {
           this.controls.hide()
           this.findElement()
