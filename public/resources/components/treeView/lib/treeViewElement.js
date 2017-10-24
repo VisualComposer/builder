@@ -113,6 +113,7 @@ export default class TreeViewElement extends React.Component {
     elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
     this.props.onUnmountCallback(this.state.element.id)
     workspaceStorage.state('settings').ignoreChange(this.checkActive)
+    workspaceStorage.state('copyData').ignoreChange(this.checkPaste)
     workspaceStorage.state('userInteractWith').set(false)
     // vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
 

@@ -159,12 +159,13 @@ export default class Divider extends Attribute {
             }
           })
         } else {
-          if (newState.devices[ device ].dividerTopBackgroundType !== 'image' && newState.devices[ device ].dividerTopBackgroundType !== 'videoEmbed' && newState.devices[ device ].dividerTopBackgroundType !== 'videoYoutube') {
+          if (newState.devices[ device ].dividerTopBackgroundType !== 'image' && newState.devices[ device ].dividerTopBackgroundType !== 'videoEmbed' && newState.devices[ device ].dividerTopBackgroundType !== 'videoYoutube' && newState.devices[ device ].dividerTopBackgroundType !== 'videoVimeo') {
             delete newValue[ device ].dividerTopBackgroundImage
             delete newValue[ device ].dividerTopBackgroundStyle
             delete newValue[ device ].dividerTopBackgroundPosition
             delete newValue[ device ].dividerTopVideoEmbed
             delete newValue[ device ].dividerTopVideoYoutube
+            delete newValue[ device ].dividerTopVideoVimeo
           }
 
           if (newState.devices[ device ].dividerTopBackgroundType === 'image') {
@@ -176,12 +177,14 @@ export default class Divider extends Attribute {
                 delete newValue[ device ].dividerTopBackgroundPosition
                 delete newValue[ device ].dividerTopVideoEmbed
                 delete newValue[ device ].dividerTopVideoYoutube
+                delete newValue[ device ].dividerTopVideoVimeo
               }
             } else {
               delete newValue[ device ].dividerTopBackgroundStyle
               delete newValue[ device ].dividerTopBackgroundPosition
               delete newValue[ device ].dividerTopVideoEmbed
               delete newValue[ device ].dividerTopVideoYoutube
+              delete newValue[ device ].dividerTopVideoVimeo
             }
           }
 
@@ -196,11 +199,13 @@ export default class Divider extends Attribute {
                 delete newValue[ device ].dividerTopBackgroundPosition
                 delete newValue[ device ].dividerTopBackgroundImage
                 delete newValue[ device ].dividerTopVideoYoutube
+                delete newValue[ device ].dividerTopVideoVimeo
               }
             } else {
               delete newValue[ device ].dividerTopBackgroundPosition
               delete newValue[ device ].dividerTopBackgroundImage
               delete newValue[ device ].dividerTopVideoYoutube
+              delete newValue[ device ].dividerTopVideoVimeo
             }
           }
 
@@ -213,11 +218,32 @@ export default class Divider extends Attribute {
                 delete newValue[ device ].dividerTopBackgroundPosition
                 delete newValue[ device ].dividerTopBackgroundImage
                 delete newValue[ device ].dividerTopVideoEmbed
+                delete newValue[ device ].dividerTopVideoVimeo
               }
             } else {
               delete newValue[ device ].dividerTopBackgroundPosition
               delete newValue[ device ].dividerTopBackgroundImage
               delete newValue[ device ].dividerTopVideoEmbed
+              delete newValue[ device ].dividerTopVideoVimeo
+            }
+          }
+
+          if (newState.devices[ device ].dividerTopBackgroundType === 'videoVimeo') {
+            delete newValue[ device ].dividerTopBackgroundStyle
+
+            if (newValue[ device ].hasOwnProperty('dividerTopVideoVimeo')) {
+              let dividerVimeoUrl = newValue[ device ].dividerTopVideoVimeo
+              if (!dividerVimeoUrl) {
+                delete newValue[ device ].dividerTopBackgroundPosition
+                delete newValue[ device ].dividerTopBackgroundImage
+                delete newValue[ device ].dividerTopVideoEmbed
+                delete newValue[ device ].dividerTopVideoYoutube
+              }
+            } else {
+              delete newValue[ device ].dividerTopBackgroundPosition
+              delete newValue[ device ].dividerTopBackgroundImage
+              delete newValue[ device ].dividerTopVideoEmbed
+              delete newValue[ device ].dividerTopVideoYoutube
             }
           }
         }
@@ -229,12 +255,13 @@ export default class Divider extends Attribute {
             }
           })
         } else {
-          if (newState.devices[ device ].dividerBottomBackgroundType !== 'image' && newState.devices[ device ].dividerBottomBackgroundType !== 'videoEmbed' && newState.devices[ device ].dividerBottomBackgroundType !== 'videoYoutube') {
+          if (newState.devices[ device ].dividerBottomBackgroundType !== 'image' && newState.devices[ device ].dividerBottomBackgroundType !== 'videoEmbed' && newState.devices[ device ].dividerBottomBackgroundType !== 'videoYoutube' && newState.devices[ device ].dividerBottomBackgroundType !== 'videoVimeo') {
             delete newValue[ device ].dividerBottomBackgroundImage
             delete newValue[ device ].dividerBottomBackgroundStyle
             delete newValue[ device ].dividerBottomBackgroundPosition
             delete newValue[ device ].dividerBottomVideoEmbed
             delete newValue[ device ].dividerBottomVideoYoutube
+            delete newValue[ device ].dividerBottomVideoVimeo
           }
 
           if (newState.devices[ device ].dividerBottomBackgroundType === 'image') {
@@ -246,12 +273,14 @@ export default class Divider extends Attribute {
                 delete newValue[ device ].dividerBottomBackgroundPosition
                 delete newValue[ device ].dividerBottomVideoEmbed
                 delete newValue[ device ].dividerBottomVideoYoutube
+                delete newValue[ device ].dividerBottomVideoVimeo
               }
             } else {
               delete newValue[ device ].dividerBottomBackgroundStyle
               delete newValue[ device ].dividerBottomBackgroundPosition
               delete newValue[ device ].dividerBottomVideoEmbed
               delete newValue[ device ].dividerBottomVideoYoutube
+              delete newValue[ device ].dividerBottomVideoVimeo
             }
           }
 
@@ -266,11 +295,13 @@ export default class Divider extends Attribute {
                 delete newValue[ device ].dividerBottomBackgroundPosition
                 delete newValue[ device ].dividerBottomBackgroundImage
                 delete newValue[ device ].dividerBottomVideoYoutube
+                delete newValue[ device ].dividerBottomVideoVimeo
               }
             } else {
               delete newValue[ device ].dividerBottomBackgroundPosition
               delete newValue[ device ].dividerBottomBackgroundImage
               delete newValue[ device ].dividerBottomVideoYoutube
+              delete newValue[ device ].dividerBottomVideoVimeo
             }
           }
 
@@ -283,11 +314,32 @@ export default class Divider extends Attribute {
                 delete newValue[ device ].dividerBottomBackgroundPosition
                 delete newValue[ device ].dividerBottomBackgroundImage
                 delete newValue[ device ].dividerBottomVideoEmbed
+                delete newValue[ device ].dividerBottomVideoVimeo
               }
             } else {
               delete newValue[ device ].dividerBottomBackgroundPosition
               delete newValue[ device ].dividerBottomBackgroundImage
               delete newValue[ device ].dividerBottomVideoEmbed
+              delete newValue[ device ].dividerBottomVideoVimeo
+            }
+          }
+
+          if (newState.devices[ device ].dividerBottomBackgroundType === 'videoVimeo') {
+            delete newValue[ device ].dividerBottomBackgroundStyle
+
+            if (newValue[ device ].hasOwnProperty('dividerBottomVideoVimeo')) {
+              let dividerVimeoUrl = newValue[ device ].dividerBottomVideoVimeo
+              if (!dividerVimeoUrl) {
+                delete newValue[ device ].dividerBottomBackgroundPosition
+                delete newValue[ device ].dividerBottomBackgroundImage
+                delete newValue[ device ].dividerBottomVideoEmbed
+                delete newValue[ device ].dividerBottomVideoYoutube
+              }
+            } else {
+              delete newValue[ device ].dividerBottomBackgroundPosition
+              delete newValue[ device ].dividerBottomBackgroundImage
+              delete newValue[ device ].dividerBottomVideoEmbed
+              delete newValue[ device ].dividerBottomVideoYoutube
             }
           }
         }
@@ -622,6 +674,10 @@ export default class Divider extends Attribute {
       options.values.push({ label: 'Youtube video', value: 'videoYoutube' })
     }
 
+    if (vcCake.env('DIVIDER_VIMEO')) {
+      options.values.push({ label: 'Vimeo video', value: 'videoVimeo' })
+    }
+
     let value = deviceData[ dividerBgTypeName ] || Divider.deviceDefaults[ dividerBgTypeName ]
 
     return <div className='vcv-ui-form-group'>
@@ -871,10 +927,11 @@ export default class Divider extends Attribute {
     let dividerImageName = `${dividerType}BackgroundImage`
     let dividerVideoEmbedName = `${dividerType}VideoEmbed`
     let dividerVideoYoutubeName = `${dividerType}VideoYoutube`
+    let dividerVideoVimeoName = `${dividerType}VideoVimeo`
     let deviceData = this.state.devices[ this.state.currentDevice ]
     let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if ((backgroundType !== 'image' && backgroundType !== 'videoEmbed' && backgroundType !== 'videoYoutube') || !deviceData[ dividerType ]) {
+    if ((backgroundType !== 'image' && backgroundType !== 'videoEmbed' && backgroundType !== 'videoYoutube' && backgroundType !== 'videoVimeo') || !deviceData[ dividerType ]) {
       return null
     }
 
@@ -903,6 +960,10 @@ export default class Divider extends Attribute {
     }
 
     if ((backgroundType === 'videoYoutube' && !deviceData[ dividerVideoYoutubeName ]) || (backgroundType === 'videoYoutube' && !vcCake.env('DIVIDER_YOUTUBE'))) {
+      return null
+    }
+
+    if ((backgroundType === 'videoVimeo' && !deviceData[ dividerVideoVimeoName ]) || (backgroundType === 'videoVimeo' && !vcCake.env('DIVIDER_VIMEO'))) {
       return null
     }
 
@@ -1034,6 +1095,36 @@ export default class Divider extends Attribute {
   }
 
   /**
+   * Render Vimeo video control
+   * @returns {*}
+   */
+  getDividerVimeoVideoRender (type) {
+    let dividerType = `divider${type}`
+    let dividerBgTypeName = `${dividerType}BackgroundType`
+    let dividerVideoVimeoName = `${dividerType}VideoVimeo`
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    let backgroundType = deviceData[ dividerBgTypeName ]
+
+    if (!deviceData[ dividerType ] || backgroundType !== 'videoVimeo' || !vcCake.env('DIVIDER_VIMEO')) {
+      return null
+    }
+
+    let value = deviceData[ dividerVideoVimeoName ] || ''
+
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Vimeo video link
+      </span>
+      <String
+        api={this.props.api}
+        fieldKey={dividerVideoVimeoName}
+        updater={this.valueChangeHandler}
+        value={value}
+      />
+    </div>
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -1056,6 +1147,7 @@ export default class Divider extends Attribute {
             {this.getDividerBackgroundStyleRender('Top')}
             {this.getDividerEmbedVideoRender('Top')}
             {this.getDividerYoutubeVideoRender('Top')}
+            {this.getDividerVimeoVideoRender('Top')}
             {this.getDividerBackgroundPositionRender('Top')}
             {this.getDividerRender('Bottom')}
             {this.getDividerShapeRender('Bottom')}
@@ -1071,6 +1163,7 @@ export default class Divider extends Attribute {
             {this.getDividerBackgroundStyleRender('Bottom')}
             {this.getDividerEmbedVideoRender('Bottom')}
             {this.getDividerYoutubeVideoRender('Bottom')}
+            {this.getDividerVimeoVideoRender('Bottom')}
             {this.getDividerBackgroundPositionRender('Bottom')}
           </div>
         </div>
