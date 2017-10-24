@@ -37,7 +37,7 @@ $(() => {
     iframeDocument.head.appendChild(iframeStyles)
     if (vcCake.env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && mobileDetect.phone() && mobileDetect.os() === 'iOS') {
+      if (mobileDetect.mobile() && mobileDetect.os() === 'iOS') {
         let style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
         style.innerText = 'html, body {'
