@@ -122,3 +122,7 @@ if (!defined('VCV_TF_POSTS_RERENDER')) {
 if (!defined('VCV_DEBUG')) {
     define('VCV_DEBUG', false);
 }
+
+if (!defined('VCV_PAGE_TEMPLATES_FE')) {
+    define('VCV_PAGE_TEMPLATES_FE', false);
+}
