@@ -15,13 +15,13 @@ export default class CustomJavascript extends React.Component {
         buttonTitle: CustomJavascript.localizations ? CustomJavascript.localizations.localJS : 'Local JavaScript',
         editorLabel: CustomJavascript.localizations ? CustomJavascript.localizations.localJSLabel : 'Local JavaScript will be applied to this particular page only',
         index: 1,
-        name: 'localJs'
+        name: 'local'
       },
       {
         buttonTitle: CustomJavascript.localizations ? CustomJavascript.localizations.globalJS : 'Global JavaScript',
         editorLabel: CustomJavascript.localizations ? CustomJavascript.localizations.globalJSLabel : 'Global JavaScript will be applied site wide',
         index: 2,
-        name: 'globalJs'
+        name: 'global'
       }
     ]
   }
@@ -32,19 +32,14 @@ export default class CustomJavascript extends React.Component {
       local: settingsStorage.state('localJs').get(),
       global: settingsStorage.state('globalJs').get()
     }
-    setData('ui:settings:customJavascript:globalJs', customJavascript.global)
-    setData('ui:settings:customJavascript:localJs', customJavascript.local)
+    setData('ui:settings:customJavascript:global', customJavascript.global)
+    setData('ui:settings:customJavascript:local', customJavascript.local)
     this.state = {
       isActiveIndex: 1,
       ...customJavascript
     }
     this.updateSettings = this.updateSettings.bind(this)
     this.changeActiveButton = this.changeActiveButton.bind(this)
-  }
-
-  componentWillUnmount () {
-    setData('ui:settings:customJavascript:globalJs', null)
-    setData('ui:settings:customJavascript:localJs', null)
   }
 
   changeActiveButton (buttonIndex) {
@@ -94,7 +89,7 @@ export default class CustomJavascript extends React.Component {
             editorLabel={scriptData[ i ].editorLabel}
             index={scriptData[ i ].index}
             activeIndex={this.state.isActiveIndex}
-            aceId={scriptData[ i ].name + 'Editor'}
+            aceId={scriptData[ i ].name + 'JsEditor'}
             value={this.state[ scriptData[ i ].name ]}
             name={scriptData[ i ].name}
             updater={this.updateSettings}

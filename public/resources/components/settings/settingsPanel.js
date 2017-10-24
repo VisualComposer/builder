@@ -52,11 +52,11 @@ export default class SettingsPanel extends React.Component {
     if (env('CUSTOM_JS')) {
       actions.push({
         state: 'globalJs',
-        getData: 'ui:settings:customJavascript:globalJs'
+        getData: 'ui:settings:customJavascript:global'
       })
       actions.push({
         state: 'localJs',
-        getData: 'ui:settings:customJavascript:localJs'
+        getData: 'ui:settings:customJavascript:local'
       })
     }
 
