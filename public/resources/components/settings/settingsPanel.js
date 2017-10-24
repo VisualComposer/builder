@@ -1,7 +1,9 @@
 import React from 'react'
+import vcCake from 'vc-cake'
 import SettingsContent from './lib/settingsContent'
 import SettingsFooter from './lib/settingsFooter'
 import CustomStyles from './lib/customStyles/component'
+import SettingsSection from './lib/settingsSection/component'
 
 export default class SettingsPanel extends React.Component {
   constructor (props) {
@@ -15,6 +17,7 @@ export default class SettingsPanel extends React.Component {
      */
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
+    const settingsText = localizations ? localizations.settings : 'Settings'
     sections.push({
       title: customCSSText,
       content: CustomStyles
@@ -27,6 +30,16 @@ export default class SettingsPanel extends React.Component {
       state: 'customCss',
       getData: 'ui:settings:customStyles:local'
     })
+    if (vcCake.env('PAGE_TEMPLATES_FE')) {
+      sections.push({
+        title: settingsText,
+        content: SettingsSection
+      })
+      actions.push({
+        state: 'pageTemplate',
+        getData: 'ui:settings:pageTemplate'
+      })
+    }
 
     this.state = {
       sections,

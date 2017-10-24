@@ -1,4 +1,4 @@
-import {addStorage, getStorage, getService, setData} from 'vc-cake'
+import {addStorage, getStorage, getService, setData, env} from 'vc-cake'
 import SaveController from './lib/saveController'
 
 addStorage('wordpressData', (storage) => {
@@ -16,8 +16,8 @@ addStorage('wordpressData', (storage) => {
     controller.load({}, storage.state('status'))
   })
   storage.on('save', (options, source = '') => {
-    storage.state('status').set({status: 'saving'}, source)
-    settingsStorage.state('status').set({status: 'ready'})
+    storage.state('status').set({ status: 'saving' }, source)
+    settingsStorage.state('status').set({ status: 'ready' })
     const documentData = documentManager.all()
     storage.trigger('wordpress:beforeSave', {
       pageElements: documentData
@@ -36,11 +36,16 @@ addStorage('wordpressData', (storage) => {
   storage.state('status').set('init')
   storage.state('status').onChange((data) => {
     const { status, request } = data
+    let pageTemplateData = ''
+    if (env('PAGE_TEMPLATES_FE')) {
+      pageTemplateData = window.VCV_PAGE_TEMPLATES()
+    }
     if (status === 'loadSuccess') {
       // setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
       const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
       const customCssState = settingsStorage.state('customCss')
       const globalCssState = settingsStorage.state('globalCss')
+      const pageTemplate = settingsStorage.state('pageTemplate')
       /**
        * @typedef {Object} responseData parsed data from JSON
        * @property {Array} globalElements list of global elements
@@ -55,8 +60,7 @@ addStorage('wordpressData', (storage) => {
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         elementsStorage.trigger('reset', {})
         wrapExistingContent(initialContent)
-      } else
-      if (responseData.data) {
+      } else if (responseData.data) {
         let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
         elementsStorage.trigger('reset', data.elements || {})
       } else {
@@ -68,12 +72,17 @@ addStorage('wordpressData', (storage) => {
       if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('global')) {
         globalCssState.set(responseData.cssSettings.global || '')
       }
+      if (env('PAGE_TEMPLATES_FE')) {
+        if (pageTemplateData.current) {
+          pageTemplate.set(pageTemplateData.current)
+        }
+      }
       if (responseData.myTemplates) {
         let templates = JSON.parse(responseData.myTemplates || '{}')
         setData('myTemplates', templates)
       }
-      storage.state('status').set({status: 'loaded'})
-      settingsStorage.state('status').set({status: 'ready'})
+      storage.state('status').set({ status: 'loaded' })
+      settingsStorage.state('status').set({ status: 'ready' })
       workspaceStorage.state('app').set('started')
       window.onbeforeunload = () => {
         const isContentChanged = wordpressDataStorage.state('status').get().status === 'changed'
@@ -86,7 +95,7 @@ addStorage('wordpressData', (storage) => {
         }
       }
     } else if (status === 'loadFailed') {
-      storage.state('status').set({status: 'loaded'})
+      storage.state('status').set({ status: 'loaded' })
       throw new Error('Failed to load loaded')
     }
   })
