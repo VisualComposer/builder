@@ -163,6 +163,9 @@ class Localizations extends Container implements Helper
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'vcwb'),
             'postUpdateAjaxRequestError' => __('Downloading file for posts updates is failed. File: {file}', 'vcwb'),
             'mobileTooltipText' => __('Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.', 'vcwb'),
+            'template' => __('Template', 'vcwb'),
+            'defaultTemplate' => __('Default template', 'vcwb'),
+            'pageTemplateDescription' => __('To apply a template you will need to save changes and reload the page.', 'vcwb'),
         ];
 
         return $locale;
