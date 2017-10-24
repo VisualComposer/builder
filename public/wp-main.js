@@ -34,7 +34,7 @@ $(() => {
     iframeStyles.innerText = `html {
       margin-top: 0px !important;
     }`
-    iframeDocument.head.append(iframeStyles)
+    iframeDocument.head.appendChild(iframeStyles)
     if (vcCake.env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && mobileDetect.phone() && mobileDetect.os() === 'iOS') {
@@ -46,7 +46,7 @@ $(() => {
         style.innerText += 'overflow: auto;'
         style.innerText += '-webkit-overflow-scrolling: touch;'
         style.innerText += '}'
-        iframeDocument.head.append(style)
+        iframeDocument.head.appendChild(style)
       }
     }
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
