@@ -1,4 +1,4 @@
-import { add, setData, getStorage, env } from 'vc-cake'
+import {add, setData, getStorage, env} from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
@@ -16,6 +16,23 @@ add('wordpressWorkspace', (api) => {
     wordpressDataStorage.trigger('start')
   })
   workspaceStorage.state('settings').onChange((settings) => {
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      if (!settings || !settings.action) {
+        workspaceStorage.state('content').set(false)
+        return
+      }
+      if (settings.action === 'add') {
+        workspaceStorage.state('content').set('addElement')
+      } else if (settings.action === 'addHub') {
+        workspaceStorage.state('content').set('addHubElement')
+      } else if (settings.action === 'edit') {
+        workspaceStorage.state('content').set('editElement')
+      } else if (settings.action === 'addTemplate') {
+        workspaceStorage.state('content').set('addTemplate')
+      }
+      return
+    }
+
     if (!settings || !settings.action) {
       workspaceStorage.state('contentEnd').set(false)
       return

@@ -9,6 +9,8 @@ const workspaceStorage = getStorage('workspace')
 const settingsStorage = getStorage('settings')
 const workspaceContentStartState = getStorage('workspace').state('contentStart')
 const workspaceContentEndState = workspaceStorage.state('contentEnd')
+const workspaceContentState = getStorage('workspace').state('content')
+
 export default class SettingsButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
@@ -30,13 +32,21 @@ export default class SettingsButtonControl extends NavbarContent {
   }
 
   componentDidMount () {
-    workspaceContentEndState.onChange(this.setActiveState)
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.onChange(this.setActiveState)
+    } else {
+      workspaceContentEndState.onChange(this.setActiveState)
+    }
     settingsStorage.state('customCss').onChange(this.checkSettings)
     settingsStorage.state('globalCss').onChange(this.checkSettings)
   }
 
   componentWillUnmount () {
-    workspaceContentEndState.ignoreChange(this.setActiveState)
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.ignoreChange(this.setActiveState)
+    } else {
+      workspaceContentEndState.ignoreChange(this.setActiveState)
+    }
     settingsStorage.state('customCss').ignoreChange(this.checkSettings)
     settingsStorage.state('globalCss').ignoreChange(this.checkSettings)
   }
@@ -54,6 +64,10 @@ export default class SettingsButtonControl extends NavbarContent {
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
         workspaceContentStartState.set(false)
       }
+    }
+    if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceContentState.set(!this.state.isActive ? 'settings' : false)
+      return
     }
     workspaceContentEndState.set(!this.state.isActive ? 'settings' : false)
   }

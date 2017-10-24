@@ -21,7 +21,7 @@ export default class Divider extends Component {
 
   render () {
     let { deviceData, deviceKey, id, applyDivider, type } = this.props
-    let { dividerShape, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundGradientAngle, dividerBackgroundType, dividerVideoEmbed } = deviceData
+    let { dividerShape, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundGradientAngle, dividerBackgroundType, dividerVideoEmbed, dividerVideoYoutube } = deviceData
     let dividerType = `divider${type}`
     let percentageHeight = ''
 
@@ -40,6 +40,7 @@ export default class Divider extends Component {
       dividerBackgroundGradientAngle = deviceData[ `${dividerType}BackgroundGradientAngle` ]
       dividerBackgroundType = deviceData[ `${dividerType}BackgroundType` ]
       dividerVideoEmbed = deviceData[ `${dividerType}VideoEmbed` ]
+      dividerVideoYoutube = deviceData[ `${dividerType}VideoYoutube` ]
     }
 
     let flipHorizontally = false
@@ -91,7 +92,8 @@ export default class Divider extends Component {
             gradientColorStart={dividerBackgroundGradientStartColor}
             gradientColorEnd={dividerBackgroundGradientEndColor} gradientAngle={dividerBackgroundGradientAngle}
             backgroundImage={imageUrl} flipHorizontally={flipHorizontally} deviceKey={deviceKey}
-            videoEmbed={dividerVideoEmbed} type={type} percentageHeight={percentageHeight} />
+            videoEmbed={dividerVideoEmbed} type={type} percentageHeight={percentageHeight}
+            videoYoutube={dividerVideoYoutube} />
         </div>
       </div>
     )

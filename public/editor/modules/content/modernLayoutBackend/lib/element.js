@@ -16,7 +16,7 @@ export default class Element extends React.Component {
   }
 
   // element (row/column) options to prevent applying of in the backend view
-  elementOptions = [ 'columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced' ]
+  elementOptions = [ 'columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced', 'dividers' ]
 
   constructor (props) {
     super(props)

@@ -15,6 +15,7 @@ export default class Workspace extends React.Component {
   static propTypes = {
     contentStart: React.PropTypes.bool,
     contentEnd: React.PropTypes.bool,
+    content: React.PropTypes.bool,
     children: React.PropTypes.oneOfType([
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
@@ -76,7 +77,8 @@ export default class Workspace extends React.Component {
     })
     this.workspace.bind('t', (e) => {
       e.preventDefault()
-      let settings = workspaceStorage.state('contentStart').get()
+      let contentState = env('NAVBAR_SINGLE_CONTENT') ? 'content' : 'contentStart'
+      let settings = workspaceStorage.state(contentState).get()
       if (env('MOBILE_DETECT')) {
         const mobileDetect = new MobileDetect(window.navigator.userAgent)
         if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
@@ -84,9 +86,9 @@ export default class Workspace extends React.Component {
         }
       }
       if (settings === 'treeView') {
-        workspaceStorage.state('contentStart').set(false)
+        workspaceStorage.state(contentState).set(false)
       } else {
-        workspaceStorage.state('contentStart').set('treeView')
+        workspaceStorage.state(contentState).set('treeView')
       }
     })
     this.workspace.bind([ 'command+s', 'ctrl+s' ], (e) => {
@@ -143,12 +145,13 @@ export default class Workspace extends React.Component {
   }
 
   render () {
-    const { contentStart, contentEnd, stickyBar } = this.props
+    const { contentStart, contentEnd, content, stickyBar } = this.props
     let layoutClasses = ClassNames({
       'vcv-layout-bar': true,
-      'vcv-ui-content--hidden': !(contentEnd || contentStart),
+      'vcv-ui-content--hidden': !(contentEnd || contentStart || content),
       'vcv-ui-content-start--visible': contentStart,
       'vcv-ui-content-end--visible': contentEnd,
+      'vcv-ui-content-all--visible': content,
       'vcv-inline-editor--active': this.state.contentEditableMode
     })
     return (

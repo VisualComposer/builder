@@ -53,6 +53,11 @@ class Localizations extends Container implements Helper
             'localCSSLabel' => __('Local CSS will be applied to this particular page only', 'vcwb'),
             'globalCSS' => __('Global CSS', 'vcwb'),
             'globalCSSLabel' => __('Global CSS will be applied site wide', 'vcwb'),
+            'customJS' => __('Custom JavaScript', 'vcwb'),
+            'localJS' => __('Local JavaScript', 'vcwb'),
+            'localJSLabel' => __('Local JavaScript will be applied to this particular page only', 'vcwb'),
+            'globalJS' => __('Global JavaScript', 'vcwb'),
+            'globalJSLabel' => __('Global JavaScript will be applied site wide', 'vcwb'),
             'save' => __('Save', 'vcwb'),
             'templateName' => __('Template Name', 'vcwb'),
             'saveTemplate' => __('Save Template', 'vcwb'),
@@ -157,6 +162,7 @@ class Localizations extends Container implements Helper
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'vcwb'),
             'postUpdateAjaxRequestError' => __('Downloading file for posts updates is failed. File: {file}', 'vcwb'),
+            'mobileTooltipText' => __('Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.', 'vcwb'),
         ];
 
         return $locale;

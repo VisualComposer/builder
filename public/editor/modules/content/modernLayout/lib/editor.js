@@ -72,7 +72,8 @@ export default class LayoutEditor extends React.Component {
     })
     this.editor.bind('t', (e) => {
       e.preventDefault()
-      let settings = workspaceStorage.state('contentStart').get()
+      let contentState = vcCake.env('NAVBAR_SINGLE_CONTENT') ? 'content' : 'contentStart'
+      let settings = workspaceStorage.state(contentState).get()
       if (vcCake.env('MOBILE_DETECT')) {
         const mobileDetect = new MobileDetect(window.navigator.userAgent)
         if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
@@ -80,9 +81,9 @@ export default class LayoutEditor extends React.Component {
         }
       }
       if (settings === 'treeView') {
-        workspaceStorage.state('contentStart').set(false)
+        workspaceStorage.state(contentState).set(false)
       } else {
-        workspaceStorage.state('contentStart').set('treeView')
+        workspaceStorage.state(contentState).set('treeView')
       }
     })
     this.editor.bind([ 'command+s', 'ctrl+s' ], (e) => {

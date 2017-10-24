@@ -56,7 +56,7 @@ export default class TreeViewElement extends React.Component {
     this.preventNewLine = this.preventNewLine.bind(this)
     this.clickHide = this.clickHide.bind(this)
     this.toggleControls = this.toggleControls.bind(this)
-    this.checkTaget = this.checkTaget.bind(this)
+    this.checkTarget = this.checkTarget.bind(this)
 
     if (vcCake.env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
@@ -113,6 +113,8 @@ export default class TreeViewElement extends React.Component {
     elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
     this.props.onUnmountCallback(this.state.element.id)
     workspaceStorage.state('settings').ignoreChange(this.checkActive)
+    workspaceStorage.state('copyData').ignoreChange(this.checkPaste)
+    workspaceStorage.state('userInteractWith').set(false)
     // vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
 
     /*
@@ -129,6 +131,9 @@ export default class TreeViewElement extends React.Component {
   }
 
   checkActive (data = false) {
+    if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
+      return
+    }
     this.setState({
       isActive: data && data.element && data.element.id === this.props.element.id
     })
@@ -314,7 +319,7 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
-  checkTaget (e) {
+  checkTarget (e) {
     if (e && e.target && this.controlsContent && !(this.controlsContent.contains(e.target) || this.controlsTrigger.contains(e.target))) {
       this.toggleControls()
     }
@@ -322,7 +327,7 @@ export default class TreeViewElement extends React.Component {
 
   toggleControls () {
     let fn = this.state.showControls ? 'removeEventListener' : 'addEventListener'
-    window[ fn ]('touchstart', this.checkTaget)
+    window[ fn ] && window[ fn ]('touchstart', this.checkTarget)
     this.setState({
       showControls: !this.state.showControls
     })
