@@ -21,17 +21,28 @@ class ElementDownloadController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
-            $this->addFilter('vcv:ajax:hub:download:element:adminNonce', 'ajaxDownloadElementJson');
+            $this->addFilter('vcv:ajax:hub:download:element:adminNonce', 'ajaxDownloadElement');
         }
     }
 
-    protected function ajaxDownloadElementJson($response, $payload, Request $requestHelper, Token $tokenHelper)
+    protected function ajaxDownloadElement($response, $payload, Request $requestHelper, Token $tokenHelper)
     {
         if (empty($response) || !vcIsBadResponse($response)) {
             $bundle = $requestHelper->input('bundle');
             $token = $tokenHelper->createToken();
 
-            $response = $this->sendRequestJson($bundle, $token);
+            $json = $this->sendRequestJson($bundle, $token);
+            if (!vcIsBadResponse($json)) {
+                // fire the download process
+                $requestHelper->setData(
+                    [
+                        'action' => $json,
+                    ]
+                );
+                $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
+            } else {
+                return $json;
+            }
         }
 
         return $response;
@@ -50,7 +61,7 @@ class ElementDownloadController extends Container implements Module
                 'timeout' => 10,
             ]
         );
-        $result = false;
+        $result = ['status' => false];
         if (!vcIsBadResponse($response)) {
             $actions = json_decode($response['body'], true);
             if (isset($actions['actions'])) {
