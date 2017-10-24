@@ -22,12 +22,12 @@ class JsDataController extends Container implements Module
     {
         if (vcvenv('VCV_TF_JS_SETTINGS')) {
             $this->addFilter(
-                'vcv:dataAjax:setData',
-                'setData'
-            );
-            $this->addFilter(
                 'vcv:dataAjax:getData',
                 'getData'
+            );
+            $this->addFilter(
+                'vcv:dataAjax:setData',
+                'setData'
             );
         }
     }
