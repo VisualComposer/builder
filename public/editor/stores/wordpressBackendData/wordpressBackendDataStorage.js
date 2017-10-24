@@ -1,4 +1,4 @@
-import { addStorage, getStorage, getService, setData } from 'vc-cake'
+import { addStorage, getStorage, getService, setData, env } from 'vc-cake'
 import lodash from 'lodash'
 import $ from 'jquery'
 import SaveController from './lib/saveController'
@@ -45,6 +45,8 @@ addStorage('wordpressData', (storage) => {
       const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
       const customCssState = settingsStorage.state('customCss')
       const globalCssState = settingsStorage.state('globalCss')
+      const localJsState = settingsStorage.state('localJs')
+      const globalJsState = settingsStorage.state('globalJs')
       /**
        * @typedef {Object} responseData parsed data from JSON
        * @property {Array} globalElements list of global elements
@@ -71,6 +73,14 @@ addStorage('wordpressData', (storage) => {
       if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('global')) {
         globalCssState.set(responseData.cssSettings.global || '')
       }
+      if (env('CUSTOM_JS')) {
+        if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('local')) {
+          localJsState.set(responseData.jsSettings.local || '')
+        }
+        if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('global')) {
+          globalJsState.set(responseData.jsSettings.global || '')
+        }
+      }
       if (responseData.myTemplates) {
         let templates = JSON.parse(responseData.myTemplates || '{}')
         setData('myTemplates', templates)
@@ -95,7 +105,7 @@ addStorage('wordpressData', (storage) => {
   storage.on('rebuild', (postId) => {
     postId && controller.load({}, storage.state('rebuildStatus'), postId)
   })
-  storage.state('rebuildStatus').set({status: false})
+  storage.state('rebuildStatus').set({ status: false })
   storage.state('rebuildstatus').onChange((data) => {
     const { status, request } = data
     if (status === 'loadSuccess') {

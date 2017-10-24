@@ -1,4 +1,4 @@
-import {addStorage, getService, getStorage, setData} from 'vc-cake'
+import { addStorage, getService, getStorage, setData, env } from 'vc-cake'
 
 addStorage('localStorage', (storage) => {
   const documentManager = getService('document')
@@ -17,6 +17,10 @@ addStorage('localStorage', (storage) => {
       cssSettings: {
         custom: settingsStorage.state('customCss').get(),
         global: settingsStorage.state('globalCss').get()
+      },
+      jsSettings: {
+        local: (env('CUSTOM_JS') && settingsStorage.state('localJs').get()) || '',
+        global: (env('CUSTOM_JS') && settingsStorage.state('globalJs').get()) || ''
       }
     })
   })
@@ -44,6 +48,14 @@ addStorage('localStorage', (storage) => {
     }
     if (data.cssSettings && data.cssSettings.global) {
       settingsStorage.state('globalCss').set(data.cssSettings.global)
+    }
+    if (env('CUSTOM_JS')) {
+      if (data.jsSettings && data.jsSettings.local) {
+        settingsStorage.state('localJs').set(data.jsSettings.local)
+      }
+      if (data.jsSettings && data.jsSettings.global) {
+        settingsStorage.state('globalJs').set(data.jsSettings.global)
+      }
     }
     if (data.myTemplates) {
       setData('myTemplates', data.myTemplates)

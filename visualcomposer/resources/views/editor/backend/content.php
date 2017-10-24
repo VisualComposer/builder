@@ -68,6 +68,8 @@ $beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true)
         <input type="hidden" name="vcv-settings-source-custom-css" id="vcv-settings-source-custom-css">
         <input type="hidden" name="vcv-settings-global-css" id="vcv-settings-global-css">
         <input type="hidden" name="vcv-elements-css-data" id="vcv-elements-css-data">
+        <input type="hidden" name="vcv-settings-source-local-js" id="vcv-settings-source-local-js">
+        <input type="hidden" name="vcv-settings-global-js" id="vcv-settings-global-js">
         <input type="hidden" name="vcv-tf" id="vcv-tf">
         <input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="<?php echo esc_attr($beEditor) ?>">
     </div>

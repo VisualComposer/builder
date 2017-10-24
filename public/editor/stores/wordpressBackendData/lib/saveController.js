@@ -14,6 +14,7 @@ export default class SaveController {
       dataProcessor.appServerRequest(data).then(successCallback, failureCallback)
     })
   }
+
   /**
    * Send data to server
    * @param data
@@ -44,9 +45,9 @@ export default class SaveController {
     }
     const elementsCss = {}
     Object.keys(data.elements).forEach((key) => {
-      const cookElement = cook.get(data.elements[key])
+      const cookElement = cook.get(data.elements[ key ])
       const tag = cookElement.get('tag')
-      elementsCss[key] = {
+      elementsCss[ key ] = {
         tag: tag
       }
       let elementAssetsFiles = elementAssetsLibrary.getBackendEditorAssetsFilesByElement(cookElement)
@@ -55,17 +56,17 @@ export default class SaveController {
       const elementBaseStyleManager = stylesManager.create()
       const elementAttributesStyleManager = stylesManager.create()
       const elementMixinsStyleManager = stylesManager.create()
-      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { attributeMixins: false, cssMixins: false })
-      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, cssMixins: false })
-      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, attributeMixins: false })
+      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { attributeMixins: false, cssMixins: false })
+      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { tags: false, cssMixins: false })
+      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { tags: false, attributeMixins: false })
       promises.push(elementBaseStyleManager.add(baseCss).compile().then((result) => {
-        elementsCss[key].baseCss = result
+        elementsCss[ key ].baseCss = result
       }))
       promises.push(elementAttributesStyleManager.add(attributesCss).compile().then((result) => {
-        elementsCss[key].attributesCss = result
+        elementsCss[ key ].attributesCss = result
       }))
       promises.push(elementMixinsStyleManager.add(mixinsCss).compile().then((result) => {
-        elementsCss[key].mixinsCss = result
+        elementsCss[ key ].mixinsCss = result
       }))
     })
     assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
@@ -86,6 +87,10 @@ export default class SaveController {
       document.getElementById('vcv-settings-source-custom-css').value = settingsStorage.state('customCss').get() || ''
       document.getElementById('vcv-settings-global-css').value = settingsStorage.state('globalCss').get() || ''
       document.getElementById('vcv-tf').value = 'noGlobalCss'
+      if (vcCake.env('CUSTOM_JS')) {
+        document.getElementById('vcv-settings-source-local-js').value = (vcCake.env('CUSTOM_JS') && settingsStorage.state('localJs').get()) || ''
+        document.getElementById('vcv-settings-global-js').value = (vcCake.env('CUSTOM_JS') && settingsStorage.state('globalJs').get()) || ''
+      }
       if (typeof callback === 'function') {
         callback('success')
       }

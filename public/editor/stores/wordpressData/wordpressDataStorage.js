@@ -1,4 +1,4 @@
-import {addStorage, getStorage, getService, setData, env} from 'vc-cake'
+import { addStorage, getStorage, getService, setData, env } from 'vc-cake'
 import SaveController from './lib/saveController'
 
 addStorage('wordpressData', (storage) => {
@@ -46,6 +46,8 @@ addStorage('wordpressData', (storage) => {
       const customCssState = settingsStorage.state('customCss')
       const globalCssState = settingsStorage.state('globalCss')
       const pageTemplate = settingsStorage.state('pageTemplate')
+      const localJsState = settingsStorage.state('localJs')
+      const globalJsState = settingsStorage.state('globalJs')
       /**
        * @typedef {Object} responseData parsed data from JSON
        * @property {Array} globalElements list of global elements
@@ -71,6 +73,14 @@ addStorage('wordpressData', (storage) => {
       }
       if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('global')) {
         globalCssState.set(responseData.cssSettings.global || '')
+      }
+      if (env('CUSTOM_JS')) {
+        if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('local')) {
+          localJsState.set(responseData.jsSettings.local || '')
+        }
+        if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('global')) {
+          globalJsState.set(responseData.jsSettings.global || '')
+        }
       }
       if (env('PAGE_TEMPLATES_FE')) {
         if (pageTemplateData.current) {

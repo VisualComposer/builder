@@ -60,26 +60,30 @@ class JsEnqueueController extends Container implements Module
     /**
      * @param $globalJs
      * @param $localJs
+     * @param string $prefix
      */
     protected function printJs($globalJs, $localJs, $prefix = '')
     {
-        if (!empty($globalJs)) {
-            echo vcview(
-                'partials/script',
-                [
-                    'key' => $prefix . 'global-js',
-                    'value' => $globalJs,
-                ]
-            );
-        }
-        if (!empty($localJs)) {
-            echo vcview(
-                'partials/script',
-                [
-                    'key' => $prefix . 'local-js',
-                    'value' => $localJs,
-                ]
-            );
+        $requestHelper = vchelper('Request');
+        if (!$requestHelper->exists('vcv-editable')) {
+            if (!empty($globalJs)) {
+                echo vcview(
+                    'partials/script',
+                    [
+                        'key' => $prefix . 'global-js',
+                        'value' => $globalJs,
+                    ]
+                );
+            }
+            if (!empty($localJs)) {
+                echo vcview(
+                    'partials/script',
+                    [
+                        'key' => $prefix . 'local-js',
+                        'value' => $localJs,
+                    ]
+                );
+            }
         }
     }
 }
