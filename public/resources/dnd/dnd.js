@@ -281,8 +281,6 @@ export default class DnD {
   }
 
   checkTrashBin ({ x, y }) {
-    // TODO predict all navbar use cases
-    // Add navbar width
     x += 60
     let domNode = document.elementFromPoint(x, y)
     if (domNode && domNode.id === 'vcv-dnd-trash-bin') {
@@ -528,7 +526,7 @@ export default class DnD {
       this.handleDragEnd()
       return false
     }
-    if (e.touches && e.touches[0]) {
+    if (e.touches && e.touches[0] && this.dragStartHandled) {
       e.preventDefault()
       e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY})
     } else {

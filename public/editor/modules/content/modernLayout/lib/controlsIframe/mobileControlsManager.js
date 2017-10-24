@@ -50,7 +50,12 @@ export default class ControlsManager {
     this.documentBody = options.documentBody
     this.editFormId = null
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    this.iframeScrollable = mobileDetect.os() === 'iOS' ? this.iframeWrapper : this.iframeWindow
+    this.iframeScrollable = this.iframeWindow
+    if (mobileDetect.os() === 'iOS') {
+      this.isIOS = true
+      this.iframeScrollable = this.iframeDocument && this.iframeDocument.body || this.iframeWrapper
+    }
+    // this.iframeScrollable = mobileDetect.os() === 'iOS' ? this.iframeWrapper : this.iframeWindow
     this.isPhone = mobileDetect.mobile() && mobileDetect.phone()
 
     let systemData = {
@@ -203,10 +208,15 @@ export default class ControlsManager {
     if (this.iframeScrollable) {
       let posY = this.iframeScrollable.hasOwnProperty('scrollY') ? this.iframeScrollable.scrollY : this.iframeScrollable.scrollTop
       let posX = this.iframeScrollable.hasOwnProperty('scrollX') ? this.iframeScrollable.scrollX : this.iframeScrollable.scrollLeft
+      if (this.isIOS && this.iframeScrollable.firstElementChild) {
+        posY = -this.iframeScrollable.firstElementChild.getBoundingClientRect().top
+      }
       if (posY === this.windowHeight || (posY === undefined || posX === undefined)) {
         return
       }
-      this.iframeScrollable && this.iframeScrollable.scroll && this.iframeScrollable.scroll(posX, posY + y)
+      if (this.iframeScrollable) {
+        this.iframeScrollable.scroll ? this.iframeScrollable.scroll(posX, posY + y) : this.iframeScrollable.scrollTop = posY + y
+      }
       if (this.state.scroll) {
         setTimeout(() => {
           this.scrollPage(y)
@@ -302,7 +312,7 @@ export default class ControlsManager {
       } else if (this.windowHeight - 50 <= screenY) {
         stepY = 5
       }
-      if (stepY) {
+      if (stepY && !this.state.scrolling) {
         this.state.scroll = true
         this.scrollPage(stepY)
       }

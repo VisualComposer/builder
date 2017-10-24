@@ -93,7 +93,7 @@ export default class TreeViewDndManager {
       if (posY === undefined || posX === undefined) {
         return
       }
-      this.scrollContainer.scroll(posX, posY + step)
+      this.scrollContainer.scroll ? this.scrollContainer.scroll(posX, posY + step) : this.scrollContainer.scrollTop = posY + step
       this.scrollTimeout = setTimeout(() => {
         this.scrollContent(step)
       }, 30)
