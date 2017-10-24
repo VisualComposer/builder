@@ -28,7 +28,7 @@ class ElementDownloadController extends Container implements Module
     protected function ajaxDownloadElement($response, $payload, Request $requestHelper, Token $tokenHelper)
     {
         if (empty($response) || !vcIsBadResponse($response)) {
-            $bundle = $requestHelper->input('bundle');
+            $bundle = $requestHelper->input('vcv-bundle');
             $token = $tokenHelper->createToken();
 
             $json = $this->sendRequestJson($bundle, $token);
@@ -66,15 +66,24 @@ class ElementDownloadController extends Container implements Module
             $actions = json_decode($response['body'], true);
             if (isset($actions['actions'])) {
                 $action = current($actions['actions']);
-                $optionNameKey = $action['action'] . $action['version'];
-                $optionsHelper->set('hubAction:download:' . $optionNameKey, $action);
-                $result = [
-                    'status' => true,
-                    'action' => $action['action'],
-                    'key' => $optionNameKey,
-                    'name' => isset($action['name']) && !empty($action['name']) ? $action['name']
-                        : $downloadHelper->getActionName($action),
-                ];
+                if (!empty($action)) {
+                    $optionNameKey = $action['action'] . $action['version'];
+                    $optionsHelper->set('hubAction:download:' . $optionNameKey, $action);
+                    $result = [
+                        'status' => true,
+                        'action' => $action['action'],
+                        'key' => $optionNameKey,
+                        'name' => isset($action['name']) && !empty($action['name']) ? $action['name']
+                            : $downloadHelper->getActionName($action),
+                    ];
+                } else {
+                    $loggerHelper->log(
+                        __('Failed to find element in hub', 'vcwb'),
+                        [
+                            'result' => $action,
+                        ]
+                    );
+                }
             }
         } else {
             if (is_wp_error($response)) {

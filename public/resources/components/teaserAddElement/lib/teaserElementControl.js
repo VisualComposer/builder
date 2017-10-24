@@ -1,8 +1,32 @@
 import React from 'react'
 import classNames from 'classnames'
+import { env, getService } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
+const dataProcessor = getService('dataProcessor')
+
 export default class TeaserElementControl extends ElementControl {
+  downloadElement (e) {
+    // TODO: start loader
+    let bundle = e.currentTarget.dataset.bundle
+    console.log('download', bundle)
+
+    let data = {
+      'vcv-action': 'hub:download:element:adminNonce',
+      'vcv-bundle': bundle,
+      'vcv-nonce': window.vcvNonce
+    }
+    dataProcessor.appServerRequest(data).then(() => {
+      // TODO: Sync element and setState loader finished
+      // TODO: Set success notice
+      console.log('success')
+    }, () => {
+      // Failed
+      // TODO: Set failed notice and finish loader
+      console.log('failed')
+    })
+  }
+
   render () {
     let { name, element } = this.props
     let { previewVisible, previewStyle } = this.state
@@ -24,6 +48,15 @@ export default class TeaserElementControl extends ElementControl {
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
 
+    let bundle
+    if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
+      // element/lcfirst(tag)
+      bundle = 'element/' + element.tag.charAt(0).toLowerCase() + element.tag.substr(1, element.tag.length - 1)
+      if (element.bundle) {
+        bundle = element.bundle
+      }
+    }
+
     return (
       <li className={listItemClasses}>
         <span className='vcv-ui-item-element'
@@ -35,6 +68,8 @@ export default class TeaserElementControl extends ElementControl {
               alt='' />
             <span className='vcv-ui-item-overlay'>
               <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
+              {/* TODO: change icon */}
+              {env('HUB_TEASER_ELEMENT_DOWNLOAD') ? <span data-bundle={bundle} className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-arrow-up' onClick={this.downloadElement.bind(this)} /> : ''}
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>

@@ -1,0 +1,151 @@
+.vcv-layout-notifications {
+  .vcv-layout-notifications-top {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+  }
+
+  .vcv-layout-notifications-bottom {
+    pointer-events: none;
+    position: absolute;
+    left: 20px;
+    bottom: 15px;
+    right: 20px;
+  }
+
+  .vcv-layout-notifications-position--top {
+    color: #fff;
+    margin: 0 0 5px;
+    padding: 30px;
+    font-size: 16px;
+    opacity: 1;
+    transition: opacity .7s ease;
+    pointer-events: all;
+    position: relative;
+    display: flex;
+
+    &.vcv-layout-notifications-type--disabled {
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .vcv-layout-notifications-close-btn {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+
+      &::before, &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        background: #fff;
+        width: 2px;
+        height: 20px;
+        transform: rotate(45deg);
+        left: 7px;
+        top: -2px;
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+      }
+
+      + .vcv-layout-notifications-text {
+        width: calc(~"100% - 30px");
+      }
+    }
+  }
+
+  .vcv-layout-notifications-position--bottom {
+    color: #fff;
+    margin: 5px 0;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    opacity: 1;
+    transition: opacity .7s ease;
+    pointer-events: all;
+    position: relative;
+    display: flex;
+
+    &.vcv-layout-notifications-type--disabled {
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .vcv-layout-notifications-close-btn {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+
+      &::before, &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        background: #fff;
+        width: 2px;
+        height: 20px;
+        transform: rotate(45deg);
+        left: 7px;
+        top: -2px;
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+      }
+
+      + .vcv-layout-notifications-text {
+        width: calc(~"100% - 30px");
+      }
+    }
+  }
+
+  .vcv-layout-notifications-type--default {
+    background: rgba(0, 0, 0, 0.75);
+  }
+
+  .vcv-layout-notifications-type--success {
+    background: rgba(76, 175, 80, .75);
+  }
+
+  .vcv-layout-notifications-type--warning {
+    //background: #f6c768;
+    background: rgba(246, 199, 104, .9);
+  }
+
+  .vcv-layout-notifications-type--error {
+    //background: #f25855;
+    background: rgba(242, 88, 85, .9);
+  }
+
+  .vcv-layout-notifications-icon {
+    margin-right: 30px;
+    font-size: 1.5em;
+
+    i {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      display: block;
+    }
+  }
+
+  .vcv-layout-notifications-text {
+    flex-grow: 1;
+  }
+
+  .vcv-layout-notifications-close {
+    width: 20px;
+    margin-left: 30px;
+  }
+}
