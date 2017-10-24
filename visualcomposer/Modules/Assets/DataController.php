@@ -60,7 +60,7 @@ class DataController extends Container implements Module
         $sourceId = $payload['sourceId'];
         if ($requestHelper->input('wp-preview', '') === 'dopreview') {
             $this->updatePreviewSourceAssets($sourceId);
-            $this->updatePostAssets($sourceId);
+            $this->updatePreviewPostAssets($sourceId);
         } else {
             $this->updateSourceAssets($sourceId);
             $this->updateGlobalAssets($sourceId);
@@ -133,14 +133,14 @@ class DataController extends Container implements Module
             // Base css
             $elementsCssData = $requestHelper->inputJson('vcv-elements-css-data', '');
 
-            update_post_meta($sourceId, VCV_PREFIX.'globalElementsCssData', $elementsCssData);
+            update_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', $elementsCssData);
             // Other data
             $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
             $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
         }
     }
 
-    protected function updatePostAssets($sourceId)
+    protected function updatePreviewPostAssets($sourceId)
     {
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         // @codingStandardsIgnoreLine

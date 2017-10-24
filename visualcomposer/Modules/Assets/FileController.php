@@ -143,7 +143,7 @@ class FileController extends Container implements Module
         return $response;
     }
 
-    protected function deleteSourceAssetsFile($sourceId, Assets $assetsHelper, Options $optionsHelper)
+    protected function deleteSourceAssetsFile($sourceId, Assets $assetsHelper)
     {
         $extension = $sourceId . '.source.css';
         $assetsHelper->deleteAssetsBundles($extension);

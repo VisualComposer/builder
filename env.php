@@ -123,6 +123,12 @@ if (!defined('VCV_DEBUG')) {
     define('VCV_DEBUG', false);
 }
 
+if (!defined('VCV_TF_JS_SETTINGS')) {
+    define(
+        'VCV_TF_JS_SETTINGS',
+        isset($_SERVER['ENV_VCV_TF_JS_SETTINGS']) ? $_SERVER['ENV_VCV_TF_JS_SETTINGS'] : false
+    );
+}
 
 if (!defined('VCV_PAGE_TEMPLATES_FE')) {
     define(
