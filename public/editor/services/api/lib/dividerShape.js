@@ -18,7 +18,9 @@ export default class DividerShape extends Component {
     flipHorizontally: PropTypes.bool,
     deviceKey: PropTypes.string,
     videoEmbed: PropTypes.object,
-    percentageHeight: PropTypes.string
+    percentageHeight: PropTypes.string,
+    videoYoutube: PropTypes.string,
+    videoVimeo: PropTypes.string
   }
 
   getLinearGradient () {
@@ -131,7 +133,7 @@ export default class DividerShape extends Component {
   }
 
   render () {
-    let { type, width, height, fill, shape, fillType, backgroundImage, deviceKey, id, videoEmbed, videoYoutube, percentageHeight } = this.props
+    let { type, width, height, fill, shape, fillType, backgroundImage, deviceKey, id, videoEmbed, videoYoutube, videoVimeo, percentageHeight } = this.props
     let currentShape = shapes[ shape ]
     let viewBoxWidth = currentShape.viewBox && currentShape.viewBox.width
     let viewBoxHeight = currentShape.viewBox && currentShape.viewBox.height
@@ -155,7 +157,7 @@ export default class DividerShape extends Component {
     let viewBox = `0 0 ${viewBoxWidth} ${viewBoxHeight}`
     let position = type ? type.toLowerCase() : 'top'
 
-    if (fillType === 'color' || fillType === 'gradient' || (fillType === 'image' && !backgroundImage) || (fillType === 'videoEmbed' && !videoUrl) || (fillType === 'videoYoutube' && !videoYoutube)) {
+    if (fillType === 'color' || fillType === 'gradient' || (fillType === 'image' && !backgroundImage) || (fillType === 'videoEmbed' && !videoUrl) || (fillType === 'videoYoutube' && !videoYoutube) || (fillType === 'videoVimeo' && !videoVimeo)) {
       let newHeight = height
       if (percentageHeight) {
         newHeight = viewBoxWidth * (parseFloat(percentageHeight) / 100)
@@ -330,6 +332,61 @@ export default class DividerShape extends Component {
       }
 
       return null
+    }
+
+    if (fillType === 'videoVimeo') {
+      let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
+      if (videoVimeo && videoVimeo.search(vrx) !== -1) {
+        let vimeoVideoId = `video-el-${id}-${deviceKey}-${position}`
+        let html = svgUnitContent
+        let percentage = width.replace('%', '')
+        let videoProps = {}
+        videoProps.style = {
+          width: width
+        }
+
+        let videoBlockProps = {}
+        videoBlockProps.style = {}
+        let backgroundProps = {}
+        backgroundProps.style = {
+          width: `${100 / percentage * 100}%`
+        }
+
+        if (percentageHeight) {
+          percentageHeight = parseFloat(percentageHeight) + 10
+          videoBlockProps.style.paddingBottom = `${percentageHeight}%`
+          html = this.changePercentageHeight(percentageHeight, svgUnitContent, position, viewBoxWidth, viewBoxHeight)
+        } else {
+          videoBlockProps.style.height = `${parseFloat(height)}px`
+        }
+
+        let videoData = videoVimeo.trim().match(vrx)
+        let videoId = videoData[ 3 ]
+        let playerSettings = {
+          videoId: videoId
+        }
+        let vcvHelperHTML = `<div class='vce-asset-video-vimeo-player' />`
+
+        return (
+          <div className='vce-divider-with-video' {...videoProps}>
+            <svg className='vce-divider-svg'>
+              <clipPath id={vimeoVideoId} dangerouslySetInnerHTML={{ __html: html }}
+                clipPathUnits='objectBoundingBox' />
+            </svg>
+            <div {...videoBlockProps} className='vce-divider-video-block'>
+              <div {...backgroundProps} className='vce-divider-video-background-block'>
+                <div className='vce-divider-video-background-inner-block'
+                  data-vce-assets-video-vimeo={playerSettings.videoId}
+                  data-vce-assets-video-replacer='.vce-asset-video-vimeo-player'
+                  data-vce-assets-video-orientation-class='vce-asset-video-vimeo--state-landscape'>
+                  <svg className='vce-asset-video-vimeo-sizer' />
+                  <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
     }
 
     return null
