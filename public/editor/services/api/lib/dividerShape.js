@@ -131,7 +131,7 @@ export default class DividerShape extends Component {
   }
 
   render () {
-    let { type, width, height, fill, shape, fillType, backgroundImage, deviceKey, id, videoEmbed, percentageHeight } = this.props
+    let { type, width, height, fill, shape, fillType, backgroundImage, deviceKey, id, videoEmbed, videoYoutube, percentageHeight } = this.props
     let currentShape = shapes[ shape ]
     let viewBoxWidth = currentShape.viewBox && currentShape.viewBox.width
     let viewBoxHeight = currentShape.viewBox && currentShape.viewBox.height
@@ -155,7 +155,7 @@ export default class DividerShape extends Component {
     let viewBox = `0 0 ${viewBoxWidth} ${viewBoxHeight}`
     let position = type ? type.toLowerCase() : 'top'
 
-    if (fillType === 'color' || fillType === 'gradient' || (fillType === 'image' && !backgroundImage) || (fillType === 'videoEmbed' && !videoUrl)) {
+    if (fillType === 'color' || fillType === 'gradient' || (fillType === 'image' && !backgroundImage) || (fillType === 'videoEmbed' && !videoUrl) || (fillType === 'videoYoutube' && !videoYoutube)) {
       let newHeight = height
       if (percentageHeight) {
         newHeight = viewBoxWidth * (parseFloat(percentageHeight) / 100)
@@ -272,5 +272,66 @@ export default class DividerShape extends Component {
         </div>
       )
     }
+
+    if (fillType === 'videoYoutube') {
+      let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
+      if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
+        let youtubeVideoId = `video-el-${id}-${deviceKey}-${position}`
+        let html = svgUnitContent
+        let percentage = width.replace('%', '')
+        let videoProps = {}
+        videoProps.style = {
+          width: width
+        }
+
+        let videoBlockProps = {}
+        videoBlockProps.style = {}
+        let backgroundProps = {}
+        backgroundProps.style = {
+          width: `${100 / percentage * 100}%`
+        }
+
+        if (percentageHeight) {
+          percentageHeight = parseFloat(percentageHeight) + 10
+          videoBlockProps.style.paddingBottom = `${percentageHeight}%`
+          html = this.changePercentageHeight(percentageHeight, svgUnitContent, position, viewBoxWidth, viewBoxHeight)
+        } else {
+          videoBlockProps.style.height = `${parseFloat(height)}px`
+        }
+
+        let videoData = videoYoutube.trim().match(ytrx)
+        let videoId = videoData[ 7 ]
+
+        let playerSettings = {
+          videoId: videoId
+        }
+
+        let vcvHelperHTML = `<div class='vce-asset-video-yt-player' />`
+
+        return (
+          <div className='vce-divider-with-video' {...videoProps}>
+            <svg className='vce-divider-svg'>
+              <clipPath id={youtubeVideoId} dangerouslySetInnerHTML={{ __html: html }}
+                clipPathUnits='objectBoundingBox' />
+            </svg>
+            <div {...videoBlockProps} className='vce-divider-video-block'>
+              <div {...backgroundProps} className='vce-divider-video-background-block'>
+                <div className='vce-divider-video-background-inner-block'
+                  data-vce-assets-video-yt={playerSettings.videoId}
+                  data-vce-assets-video-replacer='.vce-asset-video-yt-player'
+                  data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'>
+                  <svg className='vce-asset-video-yt-sizer' width='0' height='0' />
+                  <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
+
+      return null
+    }
+
+    return null
   }
 }
