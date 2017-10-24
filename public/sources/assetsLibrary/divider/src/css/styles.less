@@ -65,7 +65,8 @@
 }
 
 .vce-divider-with-video {
-  .vce-asset-video-embed-sizer {
+  .vce-asset-video-embed-sizer,
+  .vce-asset-video-yt-sizer {
     border: none;
     max-width: none;
     height: 100%;
@@ -156,6 +157,16 @@
 .vce-asset-video-embed--state-landscape .vce-asset-video-embed-sizer {
   height: auto;
   width: 100%;
+}
+
+.vce-asset-video-yt--state-landscape.vce-divider-video-background-inner-block,
+.vce-asset-video-yt--state-landscape .vce-asset-video-yt-sizer{
+  height: auto;
+  width: 100%;
+}
+
+.vce-divider-video-background-block .vce-asset-video-yt-player {
+  margin: 0;
 }
 
 .vce-container-divider-background-style--cover .vce-divider-image-background-block {
