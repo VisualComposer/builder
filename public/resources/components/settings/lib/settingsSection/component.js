@@ -38,6 +38,7 @@ export default class SettingsSection extends React.Component {
           <option key='default' value='default'>Default template</option>
           {this.getOptions()}
         </select>
+        <p className='vcv-ui-form-helper'>To apply a template you will need to save changes and reload the page.</p>
       </div>
     )
   }
