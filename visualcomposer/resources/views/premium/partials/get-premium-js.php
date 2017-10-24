@@ -1,3 +1,10 @@
+<?php
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+?>
 <script>
   jQuery(document).ready(function ($) {
     $('#toplevel_page_vcv-activation, #toplevel_page_vcv-settings').addClass('vcv-go-premium');

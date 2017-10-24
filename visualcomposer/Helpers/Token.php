@@ -79,8 +79,11 @@ class Token extends Container implements Helper
      *
      * @return bool|string|array
      */
-    public function createToken($id)
+    public function createToken($id = '')
     {
+        if (!$id) {
+            $id = vchelper('Options')->get('hubTokenId');
+        }
         $licenseHelper = vchelper('License');
         $requestHelper = vchelper('Request');
         $body = [
