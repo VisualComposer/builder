@@ -14,6 +14,7 @@ export default class SaveController {
       dataProcessor.appServerRequest(data).then(successCallback, failureCallback)
     })
   }
+
   /**
    * Send data to server
    * @param data
@@ -44,9 +45,9 @@ export default class SaveController {
     }
     const elementsCss = {}
     Object.keys(data.elements).forEach((key) => {
-      const cookElement = cook.get(data.elements[key])
+      const cookElement = cook.get(data.elements[ key ])
       const tag = cookElement.get('tag')
-      elementsCss[key] = {
+      elementsCss[ key ] = {
         tag: tag
       }
       let elementAssetsFiles = elementAssetsLibrary.getAssetsFilesByElement(cookElement)
@@ -55,23 +56,23 @@ export default class SaveController {
       const elementBaseStyleManager = stylesManager.create()
       const elementAttributesStyleManager = stylesManager.create()
       const elementMixinsStyleManager = stylesManager.create()
-      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { attributeMixins: false, cssMixins: false })
-      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, cssMixins: false })
-      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, attributeMixins: false })
+      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { attributeMixins: false, cssMixins: false })
+      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { tags: false, cssMixins: false })
+      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { tags: false, attributeMixins: false })
       promises.push(elementBaseStyleManager.add(baseCss).compile().then((result) => {
-        elementsCss[key].baseCss = result
+        elementsCss[ key ].baseCss = result
       }))
       promises.push(elementAttributesStyleManager.add(attributesCss).compile().then((result) => {
-        elementsCss[key].attributesCss = result
+        elementsCss[ key ].attributesCss = result
       }))
       promises.push(elementMixinsStyleManager.add(mixinsCss).compile().then((result) => {
-        elementsCss[key].mixinsCss = result
+        elementsCss[ key ].mixinsCss = result
       }))
     })
     assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
     assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     Promise.all(promises).then(() => {
-      const requestData = {
+      let requestData = {
         'vcv-action': 'setData:adminNonce',
         'vcv-source-id': id || window.vcvSourceID,
         'vcv-ready': '1', // Used for backend editor when post being saved
@@ -85,6 +86,9 @@ export default class SaveController {
         'vcv-settings-global-css': settingsStorage.state('globalCss').get() || '',
         'vcv-tf': 'noGlobalCss',
         'wp-preview': vcCake.getData('wp-preview')
+      }
+      if (vcCake.env('PAGE_TEMPLATES_FE')) {
+        requestData[ 'vcv-page-template' ] = settingsStorage.state('pageTemplate').get() || 'default'
       }
       this.ajax(
         requestData,

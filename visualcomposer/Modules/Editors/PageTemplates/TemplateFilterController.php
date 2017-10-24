@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Backend;
+namespace VisualComposer\Modules\Editors\PageTemplates;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -10,6 +10,8 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class TemplateFilterController extends Container implements Module
@@ -17,6 +19,7 @@ class TemplateFilterController extends Container implements Module
     protected $templates;
 
     use WpFiltersActions;
+    use EventsFilters;
 
     public function __construct()
     {
@@ -37,8 +40,47 @@ class TemplateFilterController extends Container implements Module
         );
 
         $this->templates = [
-            'blank-template.php' => __('Blank page', 'vcwb')
+            'blank-template.php' => __('Blank page', 'vcwb'),
         ];
+        if (vcvenv('VCV_PAGE_TEMPLATES_FE')) {
+            $this->addFilter('vcv:frontend:head:extraOutput', 'outputTemplates');
+            $this->addFilter('vcv:dataAjax:setData', 'setPageTemplate');
+        }
+    }
+
+    protected function setPageTemplate($response, $payload, Request $requestHelper)
+    {
+        $post = $payload['post'];
+        $pageTemplate = $requestHelper->input('vcv-page-template');
+        if ($post && $pageTemplate) {
+            // @codingStandardsIgnoreLine
+            $post->page_template = $pageTemplate;
+            wp_update_post($post);
+        }
+
+        return $response;
+    }
+
+    protected function outputTemplates($response, $payload)
+    {
+        global $post;
+
+        return array_merge(
+            $response,
+            [
+                vcview(
+                    'partials/constant-script',
+                    [
+                        'key' => 'VCV_PAGE_TEMPLATES',
+                        'value' => [
+                            // @codingStandardsIgnoreLine
+                            'current' => $post->page_template,
+                            'all' => get_page_templates($post->ID),
+                        ],
+                    ]
+                ),
+            ]
+        );
     }
 
     protected function addNewTemplate($postsTemplates)
