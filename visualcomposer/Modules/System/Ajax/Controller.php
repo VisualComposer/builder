@@ -95,11 +95,30 @@ class Controller extends Container implements Module
             $loggerHelper = vchelper('Logger');
             if (is_wp_error($rawResponse)) {
                 /** @var $rawResponse \WP_Error */
-                wp_die(json_encode(['status' => false, 'message' => implode('. ', $rawResponse->get_error_messages())]));
+                wp_die(
+                    json_encode(['status' => false, 'message' => implode('. ', $rawResponse->get_error_messages())])
+                );
             } elseif (is_array($rawResponse)) {
-                wp_die(json_encode(['status' => false, 'message' => isset($rawResponse['body']) ? $rawResponse['body'] : $rawResponse, 'details' => $loggerHelper->details()]));
+                wp_die(
+                    json_encode(
+                        [
+                            'status' => false,
+                            'message' => isset($rawResponse['body']) ? $rawResponse['body'] : $rawResponse,
+                            'details' => ['message' => $loggerHelper->all(), 'details' => $loggerHelper->details()],
+                        ]
+                    )
+                );
             } elseif ($loggerHelper->all()) {
-                wp_die(json_encode(['status' => false, 'response' => $rawResponse, 'message' => $loggerHelper->all(), 'details' => $loggerHelper->details()]));
+                wp_die(
+                    json_encode(
+                        [
+                            'status' => false,
+                            'response' => $rawResponse,
+                            'message' => $loggerHelper->all(),
+                            'details' => $loggerHelper->details(),
+                        ]
+                    )
+                );
             } else {
                 wp_die(json_encode(['status' => false, 'response' => $rawResponse]));
             }
@@ -113,6 +132,7 @@ class Controller extends Container implements Module
         // Require an action parameter.
         if (!$requestHelper->exists('vcv-action')) {
             $loggerHelper->log('Action doesn`t set');
+
             return false;
         }
         $requestAction = $requestHelper->input('vcv-action');
