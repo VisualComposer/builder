@@ -65,7 +65,7 @@ export default class Notifications {
       let iconParent = document.createElement('div')
       iconParent.setAttribute('class', 'vcv-layout-notifications-icon')
       let icon = document.createElement('i')
-      icon.setAttribute('class', `vcv-ui-icon ${data.icon}`)
+      icon.setAttribute('class', data.icon)
       iconParent.appendChild(icon)
       item.appendChild(iconParent)
     }

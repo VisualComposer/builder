@@ -27,7 +27,6 @@ vcCake.add('contentModernLayout', (api) => {
   if (vcCake.env('UI_NOTIFICATIONS')) {
     notifications = new Notifications(document.querySelector('.vcv-layout-iframe-overlay'))
     notifications.init()
-    window.notifications = notifications
   }
 
   if (vcCake.env('MOBILE_DETECT')) {
