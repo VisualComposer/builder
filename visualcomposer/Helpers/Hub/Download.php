@@ -24,16 +24,16 @@ class Download implements Helper
          */
         switch ($action) {
             case 'editor':
-                $name = 'Editor bundle';
+                $name = __('Editor bundle', 'vcwb');
                 break;
             case 'categories':
-                $name = 'Categories bundle';
+                $name = __('Categories bundle', 'vcwb');
                 break;
             case 'assets':
-                $name = 'Library extensions';
+                $name = __('Library extensions', 'vcwb');
                 break;
             case 'templates':
-                $name = 'Templates library';
+                $name = __('Templates library', 'vcwb');
                 break;
         }
         $name = preg_replace('/(element\/)(.*)/', '$2 Element', $name);

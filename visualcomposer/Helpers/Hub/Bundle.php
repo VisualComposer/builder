@@ -9,6 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\Options;
 
 class Bundle implements Helper
 {
@@ -41,6 +42,21 @@ class Bundle implements Helper
         $downloadUrl = $urlHelper->query(
             sprintf(
                 '%s/download/json/lite?plugin=%s',
+                VCV_HUB_URL,
+                VCV_VERSION
+            ),
+            $requestedData
+        );
+
+        return $downloadUrl;
+    }
+
+    public function getElementDownloadUrl($requestedData = [])
+    {
+        $urlHelper = vchelper('Url');
+        $downloadUrl = $urlHelper->query(
+            sprintf(
+                '%s/download/element?plugin=%s',
                 VCV_HUB_URL,
                 VCV_VERSION
             ),
@@ -179,7 +195,7 @@ class Bundle implements Helper
 
     /**
      * @param $value
-     * @param $optionsHelper
+     * @param Options $optionsHelper
      * @param Download $downloadHelper
      * @param $requiredActions
      *

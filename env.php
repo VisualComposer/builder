@@ -123,6 +123,23 @@ if (!defined('VCV_DEBUG')) {
     define('VCV_DEBUG', false);
 }
 
+if (!defined('VCV_TF_JS_SETTINGS')) {
+    define(
+        'VCV_TF_JS_SETTINGS',
+        isset($_SERVER['ENV_VCV_TF_JS_SETTINGS']) ? $_SERVER['ENV_VCV_TF_JS_SETTINGS'] : false
+    );
+}
+
 if (!defined('VCV_PAGE_TEMPLATES_FE')) {
-    define('VCV_PAGE_TEMPLATES_FE', false);
+    define(
+        'VCV_PAGE_TEMPLATES_FE',
+        isset($_SERVER['ENV_VCV_PAGE_TEMPLATES_FE']) ? $_SERVER['ENV_VCV_PAGE_TEMPLATES_FE'] : false
+    );
+}
+
+if (!defined('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
+    define(
+        'VCV_HUB_DOWNLOAD_SINGLE_ELEMENT',
+        isset($_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_ELEMENT']) ? $_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_ELEMENT'] : false
+    );
 }
