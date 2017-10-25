@@ -178,6 +178,7 @@ class HubCategories extends Container implements Module
                         'twitterTimeline',
                         'twitterButton',
                         'flickrImage',
+                        'flickrWidget',
                         'instagramImage',
                         'googlePlusButton',
                         'pinterestPinit',
