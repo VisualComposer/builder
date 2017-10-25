@@ -34,7 +34,6 @@ class JsDataController extends Container implements Module
 
     protected function getData($response, $payload, CurrentUser $currentUserAccessHelper, Options $optionsHelper)
     {
-
         // @codingStandardsIgnoreLine
         global $post_type_object;
         $sourceId = $payload['sourceId'];

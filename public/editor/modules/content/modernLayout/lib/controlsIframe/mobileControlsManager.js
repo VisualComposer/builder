@@ -205,7 +205,7 @@ export default class ControlsManager {
   }
 
   scrollPage (y) {
-    if (this.iframeScrollable) {
+    if (this.iframeScrollable && !this.isIOS) {
       let posY = this.iframeScrollable.hasOwnProperty('scrollY') ? this.iframeScrollable.scrollY : this.iframeScrollable.scrollTop
       let posX = this.iframeScrollable.hasOwnProperty('scrollX') ? this.iframeScrollable.scrollX : this.iframeScrollable.scrollLeft
       if (this.isIOS && this.iframeScrollable.firstElementChild) {
@@ -312,7 +312,7 @@ export default class ControlsManager {
       } else if (this.windowHeight - 50 <= screenY) {
         stepY = 5
       }
-      if (stepY && !this.state.scrolling) {
+      if (stepY) {
         this.state.scroll = true
         this.scrollPage(stepY)
       }

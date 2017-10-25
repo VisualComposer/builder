@@ -40,6 +40,25 @@ class ElementDownloadController extends Container implements Module
                     ]
                 );
                 $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
+                if (!vcIsBadResponse($response)) {
+                    // Need get element data
+                    $hubElementsHelper = vchelper('HubElements');
+                    $elementTag = lcfirst(str_replace('element/','', $bundle));
+                    $elements = $hubElementsHelper->getElements();
+                    if (isset($elements[ $elementTag ])) {
+                        // OK!
+                        $response['element'] = $elements[ $elementTag ];
+                    } else {
+                        vchelper('Logger')->log(
+                            __('Element downloaded but failed to fetch settings', 'vcwb'),
+                            ['response' => $response]
+                        );
+                        $response = [
+                            'status' => false,
+                            'message' => __('Failed to download element', 'vcwb'),
+                        ];
+                    }
+                }
             } else {
                 return $json;
             }
@@ -51,9 +70,6 @@ class ElementDownloadController extends Container implements Module
     protected function sendRequestJson($bundle, $token)
     {
         $hubBundleHelper = vchelper('HubBundle');
-        $loggerHelper = vchelper('Logger');
-        $optionsHelper = vchelper('Options');
-        $downloadHelper = vchelper('HubDownload');
         $url = $hubBundleHelper->getElementDownloadUrl(['token' => $token, 'bundle' => $bundle]);
         $response = wp_remote_get(
             $url,
@@ -61,7 +77,22 @@ class ElementDownloadController extends Container implements Module
                 'timeout' => 10,
             ]
         );
+        $result = $this->checkResponse($response);
+
+        return $result;
+    }
+
+    /**
+     * @param $response
+     *
+     * @return array
+     */
+    protected function checkResponse($response)
+    {
         $result = ['status' => false];
+        $loggerHelper = vchelper('Logger');
+        $optionsHelper = vchelper('Options');
+        $downloadHelper = vchelper('HubDownload');
         if (!vcIsBadResponse($response)) {
             $actions = json_decode($response['body'], true);
             if (isset($actions['actions'])) {
@@ -87,7 +118,7 @@ class ElementDownloadController extends Container implements Module
             }
         } else {
             if (is_wp_error($response)) {
-                /** @var \WP_Error $result */
+                /** @var \WP_Error $response */
                 $resultDetails = $response->get_error_message();
             } else {
                 $resultDetails = $response['body'];
