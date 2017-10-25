@@ -58,7 +58,7 @@ export default class Navbar extends React.Component {
       isActiveSandwich: false
     }
 
-    if (vcCake.env('MOBILE_DETECT') && this.isMobile) {
+    if (vcCake.env('MOBILE_DETECT') && this.isMobile && vcCake.env('editor') === 'frontend') {
       let isScrolling = 0
 
       window.addEventListener('scroll', () => {
