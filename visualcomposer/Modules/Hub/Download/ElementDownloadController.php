@@ -43,7 +43,7 @@ class ElementDownloadController extends Container implements Module
                 if (!vcIsBadResponse($response)) {
                     // Need get element data
                     $hubElementsHelper = vchelper('HubElements');
-                    $elementTag = lcfirst(str_replace('element/','', $bundle));
+                    $elementTag = lcfirst(str_replace('element/', '', $bundle));
                     $elements = $hubElementsHelper->getElements();
                     if (isset($elements[ $elementTag ])) {
                         // OK!
