@@ -1,20 +1,27 @@
-import {default as lodash} from 'lodash'
-import {addService, getService, env} from 'vc-cake'
+import { default as lodash } from 'lodash'
+import { addService, getService, getStorage, env } from 'vc-cake'
 
-import {buildSettingsObject} from './lib/tools'
-import {default as elementSettings} from './lib/element-settings'
-import {default as attributeManager} from './lib/attribute-manager'
+import { buildSettingsObject } from './lib/tools'
+import { default as elementSettings } from './lib/element-settings'
+import { default as attributeManager } from './lib/attribute-manager'
 import CookElement from './lib/element'
 
 const DocumentData = getService('document')
-
 const API = {
   get (data) {
     if (!data || !data.tag) {
       console.error('No element Tag provided', data)
       return null
     }
-    if (!window.VCV_HUB_GET_ELEMENTS()[data.tag]) {
+    let elements = null
+    if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
+      const HubElementsStorage = getStorage('hubElements')
+      elements = HubElementsStorage.state('elements').get()
+    } else {
+      elements = window.VCV_HUB_GET_ELEMENTS()
+    }
+
+    if (!elements || !elements[ data.tag ]) {
       env('debug') === true && console.warn('Element is not registered in system', data)
       return null
     }
@@ -59,7 +66,7 @@ const API = {
     }
   },
   getChildren: function (tag) {
-    const element = this.get({tag: tag})
+    const element = this.get({ tag: tag })
     let groups = element.containerFor()
     let allElements = this.list.settings()
     return allElements.filter((settings) => {

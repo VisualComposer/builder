@@ -56,6 +56,11 @@ $(() => {
       require('./editor/stores/assets/assetsStorage')
       require('./editor/stores/shortcodesAssets/storage')
       require('./editor/stores/workspaceStorage')
+      if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
+        require('./editor/stores/hub/hubElementsStorage')
+        const hubElementsStorage = vcCake.getStorage('hubElements')
+        hubElementsStorage.trigger('start')
+      }
       require('./editor/stores/history/historyStorage')
       require('./editor/stores/settingsStorage')
       require('./editor/stores/wordpressData/wordpressDataStorage')

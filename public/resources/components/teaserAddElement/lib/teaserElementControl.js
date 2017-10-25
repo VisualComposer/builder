@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { env, getService } from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const dataProcessor = getService('dataProcessor')
@@ -16,14 +16,26 @@ export default class TeaserElementControl extends ElementControl {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    dataProcessor.appServerRequest(data).then(() => {
+    dataProcessor.appServerRequest(data).then((response, b, c, d, e) => {
       // TODO: Sync element and setState loader finished
       // TODO: Set success notice
-      console.log('success')
+      console.log('success', response, b, c, d, e)
+      try {
+        let jsonResponse = window.JSON.parse(response)
+        if (jsonResponse && jsonResponse.status && jsonResponse.element && jsonResponse.element.settings) {
+          jsonResponse.element.tag = bundle.replace('element/', '')
+          getStorage('hubElements').trigger('add', jsonResponse.element, true)
+        } else {
+          // Failed
+        }
+      } catch (e) {
+        // Failed
+        console.warn(e)
+      }
     }, () => {
       // Failed
       // TODO: Set failed notice and finish loader
-      console.log('failed')
+      console.log('failed', arguments)
     })
   }
 

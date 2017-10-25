@@ -9,6 +9,7 @@ const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
+const hubElementsStorage = vcCake.getStorage('hubElements')
 const cook = vcCake.getService('cook')
 
 export default class Categories extends React.Component {
@@ -16,9 +17,9 @@ export default class Categories extends React.Component {
     parent: React.PropTypes.object
   }
 
-  allElements = []
-  allCategories = []
-  allElementsTags = []
+  static allElements = []
+  static allCategories = []
+  static allElementsTags = []
 
   constructor (props) {
     super(props)
@@ -31,6 +32,18 @@ export default class Categories extends React.Component {
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.changeSearchState = this.changeSearchState.bind(this)
     this.changeInput = this.changeInput.bind(this)
+    this.reset = this.reset.bind(this)
+    if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
+      hubElementsStorage.state('elements').onChange(this.reset)
+    }
+  }
+
+  reset () {
+    Categories.allCategories = []
+    Categories.allElements = []
+    Categories.allElementsTags = []
+
+    vcCake.getService('hubCategories').getSortedElements.cache.clear()
   }
 
   getAllElements () {
@@ -42,27 +55,27 @@ export default class Categories extends React.Component {
         relatedTo = parentElement.containerFor()
       }
     }
-    if (!this.allElements.length) {
+    if (!Categories.allElements.length) {
       let allElements = categoriesService.getSortedElements()
-      this.allElements = allElements.filter((elementData) => {
+      Categories.allElements = allElements.filter((elementData) => {
         let cookElement = cook.get(elementData)
         return cookElement ? cookElement.relatedTo(relatedTo) : false
       })
     }
 
-    return this.allElements
+    return Categories.allElements
   }
 
   getAllElementsTags () {
-    if (!this.allElementsTags.length) {
+    if (!Categories.allElementsTags.length) {
       let allElements = this.getAllElements()
 
-      this.allElementsTags = allElements.map((element) => {
+      Categories.allElementsTags = allElements.map((element) => {
         return element.tag
       })
     }
 
-    return this.allElementsTags
+    return Categories.allElementsTags
   }
 
   getElementsList (groupCategories, tags) {
@@ -87,11 +100,11 @@ export default class Categories extends React.Component {
   }
 
   getAllCategories () {
-    if (!this.allCategories.length) {
+    if (!Categories.allCategories.length) {
       let groupsStore = {}
       let groups = groupsService.all()
       let tags = this.getAllElementsTags()
-      this.allCategories = groups.filter((group) => {
+      Categories.allCategories = groups.filter((group) => {
         groupsStore[ group.title ] = this.getElementsList(group.categories, tags)
         return groupsStore[ group.title ].length > 0
       }).map((group, index) => {
@@ -105,7 +118,7 @@ export default class Categories extends React.Component {
       })
     }
 
-    return this.allCategories
+    return Categories.allCategories
   }
 
   changeActiveCategory (catIndex) {

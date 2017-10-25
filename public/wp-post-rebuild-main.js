@@ -27,6 +27,11 @@ class PostBuilder {
    */
   setupCake () {
     vcCake.env('platform', 'wordpress').start(() => {
+      if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
+        require('./editor/stores/hub/hubElementsStorage')
+        const hubElementsStorage = vcCake.getStorage('hubElements')
+        hubElementsStorage.trigger('start')
+      }
       require('./editor/stores/elements/elementsStorage')
       require('./editor/stores/wordpressRebuildPostData/wordpressRebuildPostDataStorage.js')
       require('./editor/modules/content/backendContent/module.js')
