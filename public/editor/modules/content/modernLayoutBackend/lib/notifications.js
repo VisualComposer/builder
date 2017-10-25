@@ -13,7 +13,6 @@ export default class Notifications {
     this.bottom = []
     this.adminBar = document.getElementById('wpadminbar')
     this.create = this.create.bind(this)
-    this.handleNotificationPosition = this.handleNotificationPosition.bind(this)
   }
 
   init () {
@@ -21,8 +20,6 @@ export default class Notifications {
       return
     }
     this.createHelpers()
-    this.handleNotificationPosition()
-    this.addResizeListener(this.container, this.handleNotificationPosition)
     workspaceNotifications.onChange(this.create)
   }
 
@@ -45,7 +42,7 @@ export default class Notifications {
     if (data.cookie && Utils.getCookie(data.cookie)) {
       return
     }
-    const pos = data.position && [ 'top', 'bottom' ].indexOf(data.position) >= 0 ? data.position : 'bottom'
+    const pos = data.position && [ 'top', 'bottom' ].indexOf(data.position) >= 0 ? data.position : 'top'
     if (this[ pos ].length >= this.limit) {
       this.close(pos, this[ pos ][ 0 ].item, this[ pos ][ 0 ].timeout)
     }
@@ -53,7 +50,12 @@ export default class Notifications {
     const type = data.type && [ 'default', 'success', 'warning', 'error' ].indexOf(data.type) >= 0 ? data.type : 'default'
     const time = parseInt(data.time) || 3000
     const item = document.createElement('div')
-    const classes = classNames([ `vcv-layout-notifications-position--${pos}`, `vcv-layout-notifications-type--${type}` ])
+    const classes = classNames({
+      [`vcv-layout-notifications-position--${pos}`]: true,
+      [`vcv-layout-notifications-type--${type}`]: true,
+      'vcv-layout-notifications-style--transparent': data.transparent,
+      'vcv-layout-notifications-shape--rounded': data.rounded
+    })
     item.setAttribute('class', classes)
 
     const text = document.createElement('div')
@@ -110,44 +112,5 @@ export default class Notifications {
       item.remove()
     })
     item.classList.add('vcv-layout-notifications-type--disabled')
-  }
-
-  handleNotificationPosition () {
-    const adminBarPos = window.getComputedStyle(this.adminBar).position
-    const adminBarHeight = adminBarPos === 'absolute' ? 0 : this.adminBar.getBoundingClientRect().height
-
-    this.topContainer.style = {}
-    this.bottomContainer.style = {}
-
-    const width = this.container && `${this.container.getBoundingClientRect().width}px`
-    const leftPos = this.container && `${this.container.getBoundingClientRect().left}px`
-
-    this.topContainer.style.left = leftPos
-    this.topContainer.style.width = width
-    this.topContainer.style.top = `${adminBarHeight + 20}px`
-
-    this.bottomContainer.style.width = width
-    this.bottomContainer.style.left = leftPos
-  }
-
-  addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
-    }
-    let obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = function () {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
   }
 }

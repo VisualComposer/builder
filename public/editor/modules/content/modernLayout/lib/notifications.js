@@ -41,7 +41,7 @@ export default class Notifications {
     if (data.cookie && Utils.getCookie(data.cookie)) {
       return
     }
-    const pos = data.position && [ 'top', 'bottom' ].indexOf(data.position) >= 0 ? data.position : 'bottom'
+    const pos = data.position && [ 'top', 'bottom' ].indexOf(data.position) >= 0 ? data.position : 'top'
     if (this[ pos ].length >= this.limit) {
       this.close(pos, this[ pos ][ 0 ].item, this[ pos ][ 0 ].timeout)
     }
@@ -49,7 +49,12 @@ export default class Notifications {
     const type = data.type && [ 'default', 'success', 'warning', 'error' ].indexOf(data.type) >= 0 ? data.type : 'default'
     const time = parseInt(data.time) || 3000
     const item = document.createElement('div')
-    const classes = classNames([ `vcv-layout-notifications-position--${pos}`, `vcv-layout-notifications-type--${type}` ])
+    const classes = classNames({
+      [`vcv-layout-notifications-position--${pos}`]: true,
+      [`vcv-layout-notifications-type--${type}`]: true,
+      'vcv-layout-notifications-style--transparent': data.transparent,
+      'vcv-layout-notifications-shape--rounded': data.rounded
+    })
     item.setAttribute('class', classes)
 
     const text = document.createElement('div')
