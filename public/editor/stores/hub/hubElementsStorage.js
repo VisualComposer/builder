@@ -1,4 +1,4 @@
-import { addStorage, getStorage } from 'vc-cake'
+import { addStorage } from 'vc-cake'
 import $ from 'jquery'
 
 addStorage('hubElements', (storage) => {
