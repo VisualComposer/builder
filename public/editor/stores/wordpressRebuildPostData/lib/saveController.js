@@ -6,6 +6,7 @@ const stylesManager = vcCake.getService('stylesManager')
 const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
 const cook = vcCake.getService('cook')
+const settingsStorage = vcCake.getStorage('settings')
 
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
@@ -81,6 +82,8 @@ export default class SaveController {
         'vcv-elements-css-data': encodeURIComponent(JSON.stringify(elementsCss)),
         'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
         'vcv-source-css': pageStyles,
+        'vcv-settings-source-local-js': (vcCake.env('CUSTOM_JS') && settingsStorage.state('localJs').get()) || '',
+        'vcv-settings-global-js': (vcCake.env('CUSTOM_JS') && settingsStorage.state('globalJs').get()) || '',
         'vcv-tf': 'noGlobalCss',
         'vcv-updatePost': '1'
       }
