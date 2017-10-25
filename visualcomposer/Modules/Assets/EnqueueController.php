@@ -70,6 +70,7 @@ class EnqueueController extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Str $strHelper
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
     protected function enqueueAssets(Str $strHelper, Frontend $frontendHelper)
     {
@@ -129,15 +130,10 @@ class EnqueueController extends Container implements Module
         $previewElementsMixinsCssContent = join('', $previewElementsMixinsCss);
         $previewElementsAttributesCssContent = join('', $previewElementsAttributesCss);
 
-        ?>
-        <style id="vcv-preview-global-css"><?php
-            echo $previewElementsBaseCssContent . $previewElementsAttributesCssContent
-                . $previewElementsMixinsCssContent . $globalCss;
-            ?></style>
-        <?php
+        $outputGlobalCss = $previewElementsBaseCssContent . $previewElementsAttributesCssContent
+            . $previewElementsMixinsCssContent . $globalCss;
         $sourceCss = get_post_meta($sourceId, 'vcvPreviewSourceCss', true);
-        ?>
-        <style id="vcv-preview-source-css"><?php echo $sourceCss ?></style><?php
+        $this->printPreviewCss($outputGlobalCss, $sourceCss);
     }
 
     /**
@@ -209,12 +205,7 @@ class EnqueueController extends Container implements Module
                 }
             }
 
-            if (!empty($toRemove)) {
-                foreach ($toRemove as $postId) {
-                    unset($globalElementsCssData[ $postId ]);
-                }
-                $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
-            }
+            $this->removeGlobalElementsCssData($toRemove);
             $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
             $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
             $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
@@ -224,20 +215,60 @@ class EnqueueController extends Container implements Module
                 . $globalElementsMixinsCssContent . $globalCss;
             // Remove previous file
             $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
-            if (!empty($previousCssFile)) {
-                $this->removeStaleFile($assetsHelper->getFilePath($previousCssFile));
-            }
             $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
             $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
             $optionsHelper->set('globalElementsCssDataUpdated', '1');
+
+            $this->removeStaleFile($previousCssFile);
         }
     }
 
     protected function removeStaleFile($path)
     {
-        $fileHelper = vchelper('File');
         if (!empty($path)) {
-            $fileHelper->getFileSystem()->delete($path);
+            $assetsHelper = vchelper('Assets');
+            $assetsPath = $assetsHelper->getFilePath($path);
+            $fileHelper = vchelper('File');
+            if (!empty($assetsPath)) {
+                $fileHelper->getFileSystem()->delete($assetsPath);
+            }
+        }
+    }
+
+    /**
+     * @param $outputGlobalCss
+     * @param $sourceCss
+     */
+    protected function printPreviewCss($outputGlobalCss, $sourceCss)
+    {
+        echo vcview(
+            'partials/style',
+            [
+                'key' => 'preview-global-css',
+                'value' => $outputGlobalCss,
+            ]
+        );
+        echo vcview(
+            'partials/style',
+            [
+                'key' => 'preview-source-css',
+                'value' => $sourceCss,
+            ]
+        );
+    }
+
+    /**
+     * @param $toRemove
+     */
+    protected function removeGlobalElementsCssData($toRemove)
+    {
+        $optionsHelper = vchelper('Options');
+        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
+        if (!empty($toRemove)) {
+            foreach ($toRemove as $postId) {
+                unset($globalElementsCssData[ $postId ]);
+            }
+            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
         }
     }
 }

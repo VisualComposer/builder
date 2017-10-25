@@ -38,7 +38,6 @@ vcCake.add('contentModernLayout', (api) => {
 
       if (vcCake.env('UI_NOTIFICATIONS')) {
         workspaceNotifications.set({
-          type: 'bottom',
           text: localizations.mobileTooltipText || 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.',
           cookie: 'vcv-mobile-tooltip',
           time: 10000
@@ -55,7 +54,7 @@ vcCake.add('contentModernLayout', (api) => {
             if (!disableTooltip) {
               mobileTooltip.className += ' disabled'
               disableTooltip = true
-              Utils.setCookie('mobile-tooltip', true)
+              Utils.setCookie('vcv-mobile-tooltip', true)
             }
           })
           iframeOverlay.appendChild(mobileTooltip)
