@@ -40,6 +40,25 @@ class ElementDownloadController extends Container implements Module
                     ]
                 );
                 $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
+                if (!vcIsBadResponse($response)) {
+                    // Need get element data
+                    $hubElementsHelper = vchelper('HubElements');
+                    $elementTag = lcfirst(str_replace('element/','', $bundle));
+                    $elements = $hubElementsHelper->getElements();
+                    if (isset($elements[ $elementTag ])) {
+                        // OK!
+                        $response['element'] = $elements[ $elementTag ];
+                    } else {
+                        vchelper('Logger')->log(
+                            __('Element downloaded but failed to fetch settings', 'vcwb'),
+                            ['response' => $response]
+                        );
+                        $response = [
+                            'status' => false,
+                            'message' => __('Failed to download element', 'vcwb'),
+                        ];
+                    }
+                }
             } else {
                 return $json;
             }
