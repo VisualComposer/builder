@@ -6,10 +6,18 @@ import ElementControl from '../../addElement/lib/elementControl'
 const dataProcessor = getService('dataProcessor')
 
 export default class TeaserElementControl extends ElementControl {
+  constructor (props) {
+    super(props)
+    this.state = {
+      elementState: 'inactive'
+    }
+  }
+
   downloadElement (e) {
     // TODO: start loader
     let bundle = e.currentTarget.dataset.bundle
     console.log('download', bundle)
+    this.setState({ elementState: 'downloading' })
 
     let data = {
       'vcv-action': 'hub:download:element:adminNonce',
@@ -20,6 +28,7 @@ export default class TeaserElementControl extends ElementControl {
       // TODO: Sync element and setState loader finished
       // TODO: Set success notice
       console.log('success', response, b, c, d, e)
+      this.setState({ elementState: 'success' })
       try {
         let jsonResponse = window.JSON.parse(response)
         if (jsonResponse && jsonResponse.status && jsonResponse.element && jsonResponse.element.settings) {
@@ -36,12 +45,13 @@ export default class TeaserElementControl extends ElementControl {
       // Failed
       // TODO: Set failed notice and finish loader
       console.log('failed', arguments)
+      this.setState({ elementState: 'failed' })
     })
   }
 
   render () {
     let { name, element } = this.props
-    let { previewVisible, previewStyle } = this.state
+    let { previewVisible, previewStyle, elementState } = this.state
 
     let listItemClasses = classNames({
       'vcv-ui-item-list-item': true,
@@ -55,6 +65,15 @@ export default class TeaserElementControl extends ElementControl {
     let previewClasses = classNames({
       'vcv-ui-item-preview-container': true,
       'vcv-ui-state--visible': previewVisible
+    })
+
+    let iconClasses = classNames({
+      'vcv-ui-item-add': true,
+      'vcv-ui-item-add-hub': true,
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-download': elementState === 'inactive',
+      'vcv-ui-icon-add': elementState === 'success',
+      'vcv-ui-wp-spinner-light': elementState === 'downloading'
     })
 
     let publicPathThumbnail = element.metaThumbnailUrl
@@ -81,7 +100,7 @@ export default class TeaserElementControl extends ElementControl {
             <span className='vcv-ui-item-overlay'>
               <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
               {/* TODO: change icon */}
-              {env('HUB_TEASER_ELEMENT_DOWNLOAD') ? <span data-bundle={bundle} className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-arrow-up' onClick={this.downloadElement.bind(this)} /> : ''}
+              {env('HUB_TEASER_ELEMENT_DOWNLOAD') ? <span data-bundle={bundle} className={iconClasses} onClick={this.downloadElement.bind(this)} /> : ''}
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>
