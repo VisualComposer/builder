@@ -50,12 +50,19 @@ class TemplateFilterController extends Container implements Module
 
     protected function setPageTemplate($response, $payload, Request $requestHelper)
     {
-        $post = $payload['post'];
+        $sourceId = $payload['sourceId'];
         $pageTemplate = $requestHelper->input('vcv-page-template');
+        $post = get_post($sourceId);
         if ($post && $pageTemplate) {
             // @codingStandardsIgnoreLine
             $post->page_template = $pageTemplate;
+            //temporarily disable
+            remove_filter('content_save_pre', 'wp_filter_post_kses');
+            remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
             wp_update_post($post);
+            //bring it back once you're done posting
+            add_filter('content_save_pre', 'wp_filter_post_kses');
+            add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
         }
 
         return $response;

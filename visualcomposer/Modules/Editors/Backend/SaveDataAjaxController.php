@@ -14,6 +14,7 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use WP_Post;
 
 /**
  * Class Controller.
@@ -63,7 +64,7 @@ class SaveDataAjaxController extends Container implements Module
         return null;
     }
 
-    protected function getSourceResponse(\WP_Post $post, $data)
+    protected function getSourceResponse(WP_Post $post, $data)
     {
         $postTypeHelper = vchelper('PostType');
         $requestHelper = vchelper('Request');

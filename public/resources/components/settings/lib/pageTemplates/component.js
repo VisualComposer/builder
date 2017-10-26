@@ -3,7 +3,7 @@ import {setData, getStorage} from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 
-export default class SettingsSection extends React.Component {
+export default class PageTemplates extends React.Component {
 
   constructor (props) {
     super(props)
