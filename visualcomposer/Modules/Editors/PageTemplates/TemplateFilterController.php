@@ -82,7 +82,7 @@ class TemplateFilterController extends Container implements Module
                         'value' => [
                             // @codingStandardsIgnoreLine
                             'current' => $post ? $post->page_template : 'default',
-                            'all' => $post ? get_page_templates($post->ID, $post->post_type) : [],
+                            'all' => $post ? get_page_templates($post, $post->post_type) : [],
                         ],
                     ]
                 ),
