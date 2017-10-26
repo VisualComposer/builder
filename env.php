@@ -133,7 +133,7 @@ if (!defined('VCV_TF_JS_SETTINGS')) {
 if (!defined('VCV_PAGE_TEMPLATES_FE')) {
     define(
         'VCV_PAGE_TEMPLATES_FE',
-        isset($_SERVER['ENV_VCV_PAGE_TEMPLATES_FE']) ? $_SERVER['ENV_VCV_PAGE_TEMPLATES_FE'] : false
+        isset($_SERVER['ENV_VCV_PAGE_TEMPLATES_FE']) ? $_SERVER['ENV_VCV_PAGE_TEMPLATES_FE'] : true
     );
 }
 
