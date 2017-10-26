@@ -34,6 +34,7 @@ export default class Workspace extends React.Component {
 
   componentDidMount () {
     onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+    workspaceStorage.state('layoutBarMount').set({ layoutBarMounted: true })
     this.workspace = new Combokeys(this.document)
     this.workspace.bind([ 'command+z', 'ctrl+z' ], (e) => {
       e.preventDefault()
