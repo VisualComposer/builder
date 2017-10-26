@@ -6,33 +6,39 @@ const workspaceNotifications = workspaceStorage.state('notifications')
 const Utils = vcCake.getService('utils')
 
 export default class Notifications {
-  constructor (parent, limit = 3) {
-    this.parent = parent
+  constructor (parentTop, parentBottom, limit = 3) {
+    this.parentTop = parentTop
+    this.parentBottom = parentBottom
     this.limit = limit
     this.top = []
     this.bottom = []
-    this.adminBar = document.getElementById('wpadminbar')
     this.create = this.create.bind(this)
+    this.handleNotificationResize = this.handleNotificationResize.bind(this)
   }
 
   init () {
-    if (!this.parent) {
+    if (!this.parentTop && !this.parentBottom) {
       return
     }
     this.createHelpers()
+    this.handleNotificationResize()
+    Utils.addResizeListener(this.parentBottom, {}, this.handleNotificationResize)
     workspaceNotifications.onChange(this.create)
   }
 
   createHelpers () {
-    this.container = document.createElement('div')
-    this.container.setAttribute('class', 'vcv-layout-notifications-backend')
+    this.topWrapper = document.createElement('div')
+    this.topWrapper.setAttribute('class', 'vcv-layout-notifications-backend')
+    this.bottomWrapper = document.createElement('div')
+    this.bottomWrapper.setAttribute('class', 'vcv-layout-notifications-backend')
     this.topContainer = document.createElement('div')
     this.topContainer.setAttribute('class', 'vcv-layout-notifications-top')
     this.bottomContainer = document.createElement('div')
     this.bottomContainer.setAttribute('class', 'vcv-layout-notifications-bottom')
-    this.container.appendChild(this.topContainer)
-    this.container.appendChild(this.bottomContainer)
-    this.parent.appendChild(this.container)
+    this.topWrapper.appendChild(this.topContainer)
+    this.bottomWrapper.appendChild(this.bottomContainer)
+    this.parentTop.appendChild(this.topWrapper)
+    this.parentBottom.appendChild(this.bottomWrapper)
   }
 
   create (data) {
@@ -44,7 +50,7 @@ export default class Notifications {
     }
     const pos = data.position && [ 'top', 'bottom' ].indexOf(data.position) >= 0 ? data.position : 'top'
     if (this[ pos ].length >= this.limit) {
-      this.close(pos, this[ pos ][ 0 ].item, this[ pos ][ 0 ].timeout)
+      this.close(pos, this[ pos ][ 0 ].item, this[ pos ][ 0 ].timeout, null, true)
     }
     const parent = pos === 'top' ? this.topContainer : this.bottomContainer
     const type = data.type && [ 'default', 'success', 'warning', 'error' ].indexOf(data.type) >= 0 ? data.type : 'default'
@@ -83,11 +89,11 @@ export default class Notifications {
       closeButtonParent.setAttribute('class', 'vcv-layout-notifications-close')
       let closeBtn = document.createElement('div')
       closeBtn.setAttribute('class', 'vcv-layout-notifications-close-btn')
-      closeBtn.addEventListener('click', this.close.bind(this, pos, item, timeout, data.cookie))
+      closeBtn.addEventListener('click', this.close.bind(this, pos, item, timeout, data.cookie, false))
       closeButtonParent.appendChild(closeBtn)
       item.appendChild(closeButtonParent)
     } else {
-      item.addEventListener('click', this.close.bind(this, pos, item, timeout, data.cookie))
+      item.addEventListener('click', this.close.bind(this, pos, item, timeout, data.cookie, false))
     }
 
     parent.appendChild(item)
@@ -95,7 +101,7 @@ export default class Notifications {
     this[ pos ].push({ item, timeout })
   }
 
-  close (pos, item, timeout = null, cookie = null) {
+  close (pos, item, timeout = null, cookie = null, limited = null) {
     if (timeout) {
       clearTimeout(timeout)
     }
@@ -111,6 +117,18 @@ export default class Notifications {
     item.addEventListener('transitionend', () => {
       item.remove()
     })
+    if (limited) {
+      item.classList.add('vcv-layout-notifications-visibility--hidden')
+    }
     item.classList.add('vcv-layout-notifications-type--disabled')
+  }
+
+  handleNotificationResize () {
+    if (this.parentBottom) {
+      const parentRect = this.parentBottom.getBoundingClientRect()
+      this.bottomContainer.style = {}
+      this.bottomContainer.style.left = `${parentRect.left}px`
+      this.bottomContainer.style.width = `${parentRect.width}px`
+    }
   }
 }

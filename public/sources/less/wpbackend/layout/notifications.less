@@ -1,25 +1,30 @@
 .vcv-layout-notifications-backend {
+  position: relative;
+
   .vcv-layout-notifications-top {
     pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1120;
+    position: relative;
+
+    .vcv-layout-notifications-position--top:last-child {
+      border-bottom: 0;
+    }
   }
 
   .vcv-layout-notifications-bottom {
     pointer-events: none;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
-    right: 0;
     z-index: 1120;
+
+    .vcv-layout-notifications-position--bottom:first-child {
+      border-top: 0;
+    }
   }
 
   .vcv-layout-notifications-position--top {
     color: #fff;
-    margin: 0 0 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, .2);
     padding: 30px;
     font-size: 16px;
     opacity: 1;
@@ -32,11 +37,16 @@
       margin: 15px 20px 0;
       border-radius: 10px;
       padding: 20px;
+      border-bottom: 0;
     }
 
     &.vcv-layout-notifications-type--disabled {
       pointer-events: none;
       opacity: 0;
+    }
+
+    &.vcv-layout-notifications-visibility--hidden {
+      display: none;
     }
 
     .vcv-layout-notifications-close-btn {
@@ -72,9 +82,8 @@
 
   .vcv-layout-notifications-position--bottom {
     color: #fff;
-    margin: 5px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, .2);
     padding: 30px;
-    border-radius: 10px;
     font-size: 16px;
     opacity: 1;
     transition: opacity .7s ease;
@@ -83,9 +92,10 @@
     display: flex;
 
     &.vcv-layout-notifications-shape--rounded {
-      margin: 0 20px 15px;
+      margin-bottom: 15px;
       border-radius: 10px;
       padding: 20px;
+      border-top: 0;
     }
 
     &.vcv-layout-notifications-type--disabled {
