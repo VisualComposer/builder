@@ -1,17 +1,20 @@
 .vcv-layout-notifications-backend {
   .vcv-layout-notifications-top {
     pointer-events: none;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    z-index: 1150;
+    right: 0;
+    z-index: 1120;
   }
 
   .vcv-layout-notifications-bottom {
     pointer-events: none;
-    position: fixed;
-    bottom: 15px;
-    z-index: 1150;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1120;
   }
 
   .vcv-layout-notifications-position--top {
@@ -24,6 +27,12 @@
     pointer-events: all;
     position: relative;
     display: flex;
+
+    &.vcv-layout-notifications-shape--rounded {
+      margin: 15px 20px 0;
+      border-radius: 10px;
+      padding: 20px;
+    }
 
     &.vcv-layout-notifications-type--disabled {
       pointer-events: none;
@@ -63,8 +72,8 @@
 
   .vcv-layout-notifications-position--bottom {
     color: #fff;
-    margin: 5px 0;
-    padding: 20px;
+    margin: 5px 0 0;
+    padding: 30px;
     border-radius: 10px;
     font-size: 16px;
     opacity: 1;
@@ -72,6 +81,12 @@
     pointer-events: all;
     position: relative;
     display: flex;
+
+    &.vcv-layout-notifications-shape--rounded {
+      margin: 0 20px 15px;
+      border-radius: 10px;
+      padding: 20px;
+    }
 
     &.vcv-layout-notifications-type--disabled {
       pointer-events: none;
@@ -110,19 +125,35 @@
   }
 
   .vcv-layout-notifications-type--default {
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 1);
+
+    &.vcv-layout-notifications-style--transparent {
+      background: rgba(0, 0, 0, 0.75);
+    }
   }
 
   .vcv-layout-notifications-type--success {
-    background: rgba(76, 175, 80, .75);
+    background: rgba(76, 175, 80, 1);
+
+    &.vcv-layout-notifications-style--transparent {
+      background: rgba(76, 175, 80, .75);
+    }
   }
 
   .vcv-layout-notifications-type--warning {
-    background: rgba(246, 199, 104, .9);
+    background: rgba(246, 199, 104, 1);
+
+    &.vcv-layout-notifications-style--transparent {
+      background: rgba(246, 199, 104, .9);
+    }
   }
 
   .vcv-layout-notifications-type--error {
-    background: rgba(242, 88, 85, .9);
+    background: rgba(242, 88, 85, 1);
+
+    &.vcv-layout-notifications-style--transparent {
+      background: rgba(242, 88, 85, .9);
+    }
   }
 
   .vcv-layout-notifications-icon {

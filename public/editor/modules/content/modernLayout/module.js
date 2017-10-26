@@ -25,7 +25,7 @@ vcCake.add('contentModernLayout', (api) => {
   let notifications
 
   if (vcCake.env('UI_NOTIFICATIONS')) {
-    notifications = new Notifications(document.querySelector('.vcv-layout-iframe-overlay'))
+    notifications = new Notifications(document.querySelector('.vcv-layout-iframe-overlay'), 10)
     notifications.init()
   }
 
@@ -38,6 +38,9 @@ vcCake.add('contentModernLayout', (api) => {
 
       if (vcCake.env('UI_NOTIFICATIONS')) {
         workspaceNotifications.set({
+          position: 'bottom',
+          transparent: true,
+          rounded: true,
           text: localizations.mobileTooltipText || 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.',
           cookie: 'vcv-mobile-tooltip',
           time: 10000

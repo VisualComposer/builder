@@ -6,7 +6,7 @@ import DndManager from './lib/dnd/dndManager'
 import ControlsManager from './lib/controls/controlsManager'
 import MobileControlsManager from './lib/controls/mobileControlsManager'
 import MobileDetect from 'mobile-detect'
-import Notifications from './lib/notifications'
+// import Notifications from './lib/notifications'
 
 vcCake.add('contentModernLayoutBackend', (api) => {
   const domContainer = document.getElementById('vcv-wpbackend-layout-content')
@@ -17,12 +17,14 @@ vcCake.add('contentModernLayoutBackend', (api) => {
   let dnd = new DndManager(api)
   dnd.init()
 
-  let notifications
-
-  if (vcCake.env('UI_NOTIFICATIONS')) {
-    notifications = new Notifications(document.querySelector('.wrap'))
-    notifications.init()
-  }
+  // let notifications
+  //
+  // if (vcCake.env('UI_NOTIFICATIONS')) {
+  //   setTimeout(() => {
+  //     notifications = new Notifications(document.querySelector('.vcv-layout-bar'))
+  //     notifications.init()
+  //   }, 1000)
+  // }
 
   let options = {
     iframeContainer: document.querySelector('.vcv-wpbackend-layout-content-container'),
