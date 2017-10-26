@@ -4,6 +4,8 @@ import { env, getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const dataProcessor = getService('dataProcessor')
+const workspaceStorage = getStorage('workspace')
+const workspaceNotifications = workspaceStorage.state('notifications')
 
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
@@ -34,6 +36,7 @@ export default class TeaserElementControl extends ElementControl {
     let bundle = e.currentTarget.dataset.bundle
     console.log('download', bundle)
     this.setState({ elementState: 'downloading' })
+    const localizations = window.VCV_I18N && window.VCV_I18N()
 
     let data = {
       'vcv-action': 'hub:download:element:adminNonce',
@@ -41,8 +44,13 @@ export default class TeaserElementControl extends ElementControl {
       'vcv-nonce': window.vcvNonce
     }
     this.ajax = dataProcessor.appServerRequest(data).then((response, b, c, d, e) => {
-      // TODO: Sync element and setState loader finished
-      // TODO: Set success notice
+      workspaceNotifications.set({
+        type: 'success',
+        text: localizations.successElementDownload || 'The element has been successfully downloaded from the Visual Composer Hub and added to your element library.',
+        showCloseButton: 'true',
+        icon: 'vcv-ui-icon vcv-ui-icon-error',
+        time: 5000
+      })
       console.log('success', response, b, c, d, e)
       this.ajax = null
       try {
@@ -52,18 +60,44 @@ export default class TeaserElementControl extends ElementControl {
           getStorage('hubElements').trigger('add', jsonResponse.element, true)
           this.setState({ elementState: 'success' })
         } else {
-          // Failed
+          if (jsonResponse.status === false) {
+            let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+            if (jsonResponse.message) {
+              errorMessage = jsonResponse.message
+            } else if (jsonResponse.details && jsonResponse.details.message) {
+              errorMessage = jsonResponse.details.message
+            }
+            console.warn('failed 1', errorMessage)
+            workspaceNotifications.set({
+              type: 'error',
+              text: errorMessage,
+              showCloseButton: 'true',
+              icon: 'vcv-ui-icon vcv-ui-icon-error',
+              time: 5000
+            })
+          }
           this.setState({ elementState: 'failed' })
         }
       } catch (e) {
-        // Failed
-        console.warn(e)
+        console.warn('failed 2', e)
+        workspaceNotifications.set({
+          type: 'error',
+          text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+          showCloseButton: 'true',
+          icon: 'vcv-ui-icon vcv-ui-icon-error',
+          time: 5000
+        })
         this.setState({ elementState: 'failed' })
       }
     }, () => {
-      // Failed
-      // TODO: Set failed notice and finish loader
-      console.log('failed', arguments)
+      console.warn('failed 3', arguments)
+      workspaceNotifications.set({
+        type: 'error',
+        text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+        showCloseButton: 'true',
+        icon: 'vcv-ui-icon vcv-ui-icon-error',
+        time: 5000
+      })
       this.setState({ elementState: 'failed' })
     })
   }
