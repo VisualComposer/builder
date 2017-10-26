@@ -8,12 +8,28 @@ const dataProcessor = getService('dataProcessor')
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
     super(props)
+    const elements = getStorage('hubElements').state('elements').get()
+
     this.state = {
-      elementState: 'inactive'
+      allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD(),
+      elementState: typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
+    }
+    this.addElement = this.addElement.bind(this)
+    this.downloadElement = this.downloadElement.bind(this)
+    this.ajax = null
+  }
+
+  componentWillUnmount () {
+    if (this.ajax) {
+      this.ajax.abort()
+      this.ajax = null
     }
   }
 
   downloadElement (e) {
+    if (this.ajax || !this.state.allowDownload) {
+      return
+    }
     // TODO: start loader
     let bundle = e.currentTarget.dataset.bundle
     console.log('download', bundle)
@@ -24,22 +40,25 @@ export default class TeaserElementControl extends ElementControl {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    dataProcessor.appServerRequest(data).then((response, b, c, d, e) => {
+    this.ajax = dataProcessor.appServerRequest(data).then((response, b, c, d, e) => {
       // TODO: Sync element and setState loader finished
       // TODO: Set success notice
       console.log('success', response, b, c, d, e)
-      this.setState({ elementState: 'success' })
+      this.ajax = null
       try {
         let jsonResponse = window.JSON.parse(response)
         if (jsonResponse && jsonResponse.status && jsonResponse.element && jsonResponse.element.settings) {
           jsonResponse.element.tag = bundle.replace('element/', '')
           getStorage('hubElements').trigger('add', jsonResponse.element, true)
+          this.setState({ elementState: 'success' })
         } else {
           // Failed
+          this.setState({ elementState: 'failed' })
         }
       } catch (e) {
         // Failed
         console.warn(e)
+        this.setState({ elementState: 'failed' })
       }
     }, () => {
       // Failed
@@ -52,6 +71,11 @@ export default class TeaserElementControl extends ElementControl {
   render () {
     let { name, element } = this.props
     let { previewVisible, previewStyle, elementState } = this.state
+
+    let itemElementClasses = classNames({
+      'vcv-ui-item-element': true,
+      'vcv-ui-item-element-inactive': elementState !== 'success'
+    })
 
     let listItemClasses = classNames({
       'vcv-ui-item-list-item': true,
@@ -67,15 +91,6 @@ export default class TeaserElementControl extends ElementControl {
       'vcv-ui-state--visible': previewVisible
     })
 
-    let iconClasses = classNames({
-      'vcv-ui-item-add': true,
-      'vcv-ui-item-add-hub': true,
-      'vcv-ui-icon': true,
-      'vcv-ui-icon-download': elementState === 'inactive',
-      'vcv-ui-icon-add': elementState === 'success',
-      'vcv-ui-wp-spinner-light': elementState === 'downloading'
-    })
-
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
 
@@ -88,19 +103,31 @@ export default class TeaserElementControl extends ElementControl {
       }
     }
 
+    let overlayOutput = <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
+    if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
+      let iconClasses = classNames({
+        'vcv-ui-item-add': true,
+        'vcv-ui-item-add-hub': true,
+        'vcv-ui-icon': true,
+        'vcv-ui-icon-download': elementState === 'inactive',
+        'vcv-ui-icon-add': elementState === 'success',
+        'vcv-ui-wp-spinner-light': elementState === 'downloading',
+        'vcv-ui-icon vcv-ui-icon-lock': !this.state.allowDownload && this.state.elementState === 'inactive'
+      })
+      let action = elementState === 'success' ? this.addElement : this.downloadElement
+      overlayOutput = <span data-bundle={bundle} className={iconClasses} onClick={action} />
+    }
+
     return (
       <li className={listItemClasses}>
-        <span className='vcv-ui-item-element'
+        <span className={itemElementClasses}
           onMouseEnter={this.showPreview}
           onMouseLeave={this.hidePreview}
           title={name}>
           <span className='vcv-ui-item-element-content'>
-            <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
-              alt='' />
+            <img className='vcv-ui-item-element-image' src={publicPathThumbnail} alt='' />
             <span className='vcv-ui-item-overlay'>
-              <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
-              {/* TODO: change icon */}
-              {env('HUB_TEASER_ELEMENT_DOWNLOAD') ? <span data-bundle={bundle} className={iconClasses} onClick={this.downloadElement.bind(this)} /> : ''}
+              {overlayOutput}
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>

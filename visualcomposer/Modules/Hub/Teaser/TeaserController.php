@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -23,11 +24,29 @@ class TeaserController extends Container implements Module
             $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:extraOutput', 'outputTeaserElements');
             $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:extraOutput', 'outputTeaserBadge');
             $this->addFilter('vcv:ajax:vcv:hub:teaser:visit:adminNonce', 'ajaxSetTeaserBadge');
+
+            if (vcvenv('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
+                $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:extraOutput', 'outputTeaserDownload');
+            }
         }
     }
 
     protected function outputTeaserElements($response, $payload, Options $optionsHelper)
     {
+        $value = array_values(
+            (array)$optionsHelper->get(
+                'hubTeaserElements',
+                [
+                    'All' => [
+                        'id' => 'All0',
+                        'index' => 0,
+                        'title' => 'All',
+                        'elements' => [],
+                    ],
+                ]
+            )
+        );
+
         return array_merge(
             $response,
             [
@@ -35,14 +54,7 @@ class TeaserController extends Container implements Module
                     'partials/constant-script',
                     [
                         'key' => 'VCV_HUB_GET_TEASER',
-                        'value' => array_values((array)$optionsHelper->get('hubTeaserElements', [
-                            'All' => [
-                                'id' => 'All0',
-                                'index' => 0,
-                                'title' => 'All',
-                                'elements' => [],
-                            ],
-                        ])),
+                        'value' => $value,
                     ]
                 ),
             ]
@@ -58,7 +70,11 @@ class TeaserController extends Container implements Module
                     'partials/variable',
                     [
                         'key' => 'vcvHubTeaserShowBadge',
-                        'value' => version_compare($optionsHelper->getUser('hubTeaserVisit'), $optionsHelper->get('hubAction:hubTeaser', '1.0'), '<'),
+                        'value' => version_compare(
+                            $optionsHelper->getUser('hubTeaserVisit'),
+                            $optionsHelper->get('hubAction:hubTeaser', '1.0'),
+                            '<'
+                        ),
                     ]
                 ),
             ]
@@ -70,5 +86,21 @@ class TeaserController extends Container implements Module
         $optionsHelper->setUser('hubTeaserVisit', $optionsHelper->get('hubAction:hubTeaser'));
 
         return true;
+    }
+
+    protected function outputTeaserDownload($response, $payload, License $licenseHelper)
+    {
+        return array_merge(
+            $response,
+            [
+                vcview(
+                    'partials/constant-script',
+                    [
+                        'key' => 'VCV_HUB_ALLOW_DOWNLOAD',
+                        'value' => $licenseHelper->isActivated(),
+                    ]
+                ),
+            ]
+        );
     }
 }

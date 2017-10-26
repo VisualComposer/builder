@@ -16,8 +16,14 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     if (!this.allCategories) {
       let categories = window.VCV_HUB_GET_TEASER()
       categories.forEach((item, index) => {
-        let elements = lodash.sortBy(item.elements, ['name'])
-        categories[index].elements = elements
+        let elements = lodash.sortBy(item.elements, [ 'name' ])
+        elements = elements.map((element) => {
+          let tag = element.tag
+          element.tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+
+          return element
+        })
+        categories[ index ].elements = elements
       })
       this.allCategories = categories
     }
@@ -27,10 +33,12 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
   getElementControl (elementData) {
     // TODO: Finish element control actions custom and without COOK!
+    let tag = elementData.tag
+    tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
     return <TeaserElementControl
-      key={'vcv-element-control-' + elementData.tag}
+      key={'vcv-element-control-' + tag}
       element={elementData}
-      tag={elementData.tag}
+      tag={tag}
       workspace={workspaceStorage.state('settings').get() || {}}
       name={elementData.name} />
   }
