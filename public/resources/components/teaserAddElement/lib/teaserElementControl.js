@@ -32,9 +32,7 @@ export default class TeaserElementControl extends ElementControl {
     if (this.ajax || !this.state.allowDownload) {
       return
     }
-    // TODO: start loader
     let bundle = e.currentTarget.dataset.bundle
-    console.log('download', bundle)
     this.setState({ elementState: 'downloading' })
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
@@ -43,7 +41,7 @@ export default class TeaserElementControl extends ElementControl {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    this.ajax = dataProcessor.appServerRequest(data).then((response, b, c, d, e) => {
+    this.ajax = dataProcessor.appServerRequest(data).then((response) => {
       workspaceNotifications.set({
         type: 'success',
         text: localizations.successElementDownload || 'The element has been successfully downloaded from the Visual Composer Hub and added to your element library.',
@@ -51,13 +49,13 @@ export default class TeaserElementControl extends ElementControl {
         icon: 'vcv-ui-icon vcv-ui-icon-error',
         time: 5000
       })
-      console.log('success', response, b, c, d, e)
       this.ajax = null
       try {
         let jsonResponse = window.JSON.parse(response)
         if (jsonResponse && jsonResponse.status && jsonResponse.element && jsonResponse.element.settings) {
           jsonResponse.element.tag = bundle.replace('element/', '')
           getStorage('hubElements').trigger('add', jsonResponse.element, true)
+          // TODO: Check for unmounted
           this.setState({ elementState: 'success' })
         } else {
           if (jsonResponse.status === false) {
@@ -76,6 +74,7 @@ export default class TeaserElementControl extends ElementControl {
               time: 5000
             })
           }
+          // TODO: Check for unmounted
           this.setState({ elementState: 'failed' })
         }
       } catch (e) {
@@ -87,6 +86,7 @@ export default class TeaserElementControl extends ElementControl {
           icon: 'vcv-ui-icon vcv-ui-icon-error',
           time: 5000
         })
+        // TODO: Check for unmounted
         this.setState({ elementState: 'failed' })
       }
     }, () => {
@@ -98,6 +98,7 @@ export default class TeaserElementControl extends ElementControl {
         icon: 'vcv-ui-icon vcv-ui-icon-error',
         time: 5000
       })
+      // TODO: Check for unmounted
       this.setState({ elementState: 'failed' })
     })
   }
