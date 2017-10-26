@@ -1,4 +1,4 @@
-import {getService, getStorage} from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
@@ -8,15 +8,16 @@ const wordpressDataStorage = getStorage('wordpressData')
 const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
 
 export default class WordPressPostSaveControl extends NavbarContent {
-  state = {
-    saving: false,
-    status: ''
-  }
   timer = 0
 
   constructor (props) {
     super(props)
+    this.state = {
+      saving: false,
+      status: ''
+    }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
+    this.clickSaveData = this.clickSaveData.bind(this)
   }
 
   updateControlOnStatusChange (data, source = '') {
@@ -25,28 +26,32 @@ export default class WordPressPostSaveControl extends NavbarContent {
       this.clickSaveData({ options: data.options }, true)
       return
     }
-    this.setState({
-      saving: status === 'saving',
-      status: status
-    })
-    this.clearTimer()
-    this.timer = setTimeout(
-      () => {
-        this.setState({
-          saving: false,
-          status: ''
-        })
-      },
-      SAVED_TIMEOUT
-    )
+    if (status === 'success') {
+      this.setState({
+        status: 'success'
+      })
+      this.clearTimer()
+      // Show success at least for 3 secs
+      this.timer = setTimeout(
+        () => {
+          this.setState({
+            saving: false,
+            status: ''
+          })
+        },
+        SAVED_TIMEOUT
+      )
+    }
   }
 
   componentDidMount () {
     wordpressDataStorage.state('status').onChange(this.updateControlOnStatusChange)
   }
+
   componentWillUnmount () {
     wordpressDataStorage.state('status').ignoreChange(this.updateControlOnStatusChange)
   }
+
   clearTimer () {
     if (this.timer) {
       window.clearTimeout(this.timer)
@@ -54,20 +59,21 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }
   }
 
-  clickSaveData = (e, noStorageRequest = false) => {
+  clickSaveData (e, noStorageRequest = false) {
     e && e.preventDefault && e.preventDefault()
 
-    if (this.state.saving) {
+    if (this.state.status === 'saving') {
       return
     }
     this.setState({
-      saving: true,
-      status: ''
+      status: 'saving'
     })
-    // Check Save option from other modules
-    !noStorageRequest && wordpressDataStorage.trigger('save', {
-      options: e ? e.options : {}
-    }, 'postSaveControl')
+    window.setTimeout(() => {
+      // Check Save option from other modules
+      !noStorageRequest && wordpressDataStorage.trigger('save', {
+        options: e ? e.options : {}
+      }, 'postSaveControl')
+    }, 1)
   }
 
   render () {
@@ -79,9 +85,9 @@ export default class WordPressPostSaveControl extends NavbarContent {
     })
     let saveIconClasses = classNames({
       'vcv-ui-navbar-control-icon': true,
-      'vcv-ui-wp-spinner-light': this.state.saving,
-      'vcv-ui-icon': !this.state.saving,
-      'vcv-ui-icon-save': !this.state.saving
+      'vcv-ui-wp-spinner-light': this.state.status === 'saving',
+      'vcv-ui-icon': this.state.status !== 'saving',
+      'vcv-ui-icon-save': this.state.status !== 'saving'
     })
     let saveText = localizations.publish
     if (!PostData.canPublish()) {
