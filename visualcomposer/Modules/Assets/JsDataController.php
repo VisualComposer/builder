@@ -50,7 +50,7 @@ class JsDataController extends Container implements Module
             return $response;
         }
 
-        return false;
+        return $response;
     }
 
     protected function setData($response, $payload, CurrentUser $currentUserAccessHelper)

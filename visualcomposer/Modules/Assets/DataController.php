@@ -20,15 +20,15 @@ class DataController extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Assets\DataController::setData */
-        $this->addFilter(
-            'vcv:dataAjax:setData',
-            'setData'
-        );
         /** @see \VisualComposer\Modules\Assets\DataController::getData */
         $this->addFilter(
             'vcv:dataAjax:getData',
             'getData'
+        );
+        /** @see \VisualComposer\Modules\Assets\DataController::setData */
+        $this->addFilter(
+            'vcv:dataAjax:setData',
+            'setData'
         );
     }
 
@@ -51,7 +51,7 @@ class DataController extends Container implements Module
             return $response;
         }
 
-        return false;
+        return $response;
     }
 
     protected function setData($response, $payload)

@@ -2,7 +2,7 @@ import React from 'react'
 import SettingsContent from './lib/settingsContent'
 import SettingsFooter from './lib/settingsFooter'
 import CustomStyles from './lib/customStyles/component'
-import SettingsSection from './lib/settingsSection/component'
+import PageTemplates from './lib/pageTemplates/component'
 import CustomScripts from './lib/customJavascript/component'
 import { env } from 'vc-cake'
 
@@ -42,7 +42,7 @@ export default class SettingsPanel extends React.Component {
     if (env('PAGE_TEMPLATES_FE')) {
       sections.push({
         title: settingsText,
-        content: SettingsSection
+        content: PageTemplates
       })
       actions.push({
         state: 'pageTemplate',

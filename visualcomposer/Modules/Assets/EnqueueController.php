@@ -105,27 +105,25 @@ class EnqueueController extends Container implements Module
     protected function enqueuePreviewGlobalCss()
     {
         $sourceId = get_the_ID();
-        $elementsCssData = get_post_meta($sourceId, 'elementsCssData', []);
+        $elementsCssData = get_post_meta($sourceId, 'elementsCssData', true);
         $previewElementsBaseCss = [];
         $previewElementsAttributesCss = [];
         $previewElementsMixinsCss = [];
-        foreach ($elementsCssData as $postElements) {
-            if ($postElements) {
-                foreach ($postElements as $element) {
-                    if (isset($element['baseCss'])) {
-                        $baseCssHash = wp_hash($element['baseCss']);
-                        $previewElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
-                    }
-                    if (isset($element['mixinsCss'])) {
-                        $previewElementsMixinsCss[] = $element['mixinsCss'];
-                    }
-                    if (isset($element['attributesCss'])) {
-                        $previewElementsAttributesCss[] = $element['attributesCss'];
-                    }
+        if ($elementsCssData) {
+            foreach ($elementsCssData as $element) {
+                if (isset($element['baseCss'])) {
+                    $baseCssHash = wp_hash($element['baseCss']);
+                    $previewElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
+                }
+                if (isset($element['mixinsCss'])) {
+                    $previewElementsMixinsCss[] = $element['mixinsCss'];
+                }
+                if (isset($element['attributesCss'])) {
+                    $previewElementsAttributesCss[] = $element['attributesCss'];
                 }
             }
         }
-        $globalCss = join('', get_post_meta($sourceId, 'globalElementsCss', ''));
+        $globalCss = get_post_meta($sourceId, 'globalElementsCss', true);
         $previewElementsBaseCssContent = join('', array_values($previewElementsBaseCss));
         $previewElementsMixinsCssContent = join('', $previewElementsMixinsCss);
         $previewElementsAttributesCssContent = join('', $previewElementsAttributesCss);

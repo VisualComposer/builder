@@ -50,12 +50,19 @@ class TemplateFilterController extends Container implements Module
 
     protected function setPageTemplate($response, $payload, Request $requestHelper)
     {
-        $post = $payload['post'];
+        $sourceId = $payload['sourceId'];
         $pageTemplate = $requestHelper->input('vcv-page-template');
+        $post = get_post($sourceId);
         if ($post && $pageTemplate) {
             // @codingStandardsIgnoreLine
             $post->page_template = $pageTemplate;
+            //temporarily disable (can break preview page and content if not removed)
+            remove_filter('content_save_pre', 'wp_filter_post_kses');
+            remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
             wp_update_post($post);
+            //bring it back once you're done posting
+            add_filter('content_save_pre', 'wp_filter_post_kses');
+            add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
         }
 
         return $response;
@@ -74,8 +81,9 @@ class TemplateFilterController extends Container implements Module
                         'key' => 'VCV_PAGE_TEMPLATES',
                         'value' => [
                             // @codingStandardsIgnoreLine
-                            'current' => $post->page_template,
-                            'all' => get_page_templates($post->ID),
+                            'current' => $post ? $post->page_template : 'default',
+                            // @codingStandardsIgnoreLine
+                            'all' => $post ? get_page_templates($post, $post->post_type) : [],
                         ],
                     ]
                 ),
