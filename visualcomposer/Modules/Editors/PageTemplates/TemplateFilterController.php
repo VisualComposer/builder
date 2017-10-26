@@ -56,7 +56,7 @@ class TemplateFilterController extends Container implements Module
         if ($post && $pageTemplate) {
             // @codingStandardsIgnoreLine
             $post->page_template = $pageTemplate;
-            //temporarily disable
+            //temporarily disable (can break preview page and content if not removed)
             remove_filter('content_save_pre', 'wp_filter_post_kses');
             remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
             wp_update_post($post);
@@ -81,8 +81,8 @@ class TemplateFilterController extends Container implements Module
                         'key' => 'VCV_PAGE_TEMPLATES',
                         'value' => [
                             // @codingStandardsIgnoreLine
-                            'current' => $post->page_template,
-                            'all' => get_page_templates($post->ID),
+                            'current' => $post ? $post->page_template : 'default',
+                            'all' => $post ? get_page_templates($post->ID, $post->post_type) : [],
                         ],
                     ]
                 ),
