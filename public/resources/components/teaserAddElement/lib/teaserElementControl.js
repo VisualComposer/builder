@@ -23,7 +23,7 @@ export default class TeaserElementControl extends ElementControl {
 
   componentWillUnmount () {
     if (this.ajax) {
-      this.ajax.abort()
+      Promise.reject(this.ajax)
       this.ajax = null
     }
   }

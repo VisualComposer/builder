@@ -105,7 +105,7 @@ class ElementDownloadController extends Container implements Module
                         'action' => $action['action'],
                         'key' => $optionNameKey,
                         'name' => isset($action['name']) && !empty($action['name']) ? $action['name']
-                            : $downloadHelper->getActionName($action),
+                            : $downloadHelper->getActionName($action['name']),
                     ];
                 } else {
                     $loggerHelper->log(
