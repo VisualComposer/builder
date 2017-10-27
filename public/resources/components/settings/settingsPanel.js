@@ -20,7 +20,7 @@ export default class SettingsPanel extends React.Component {
     const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
     const settingsText = localizations ? localizations.settings : 'Settings'
     const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
-    if (env('PAGE_TEMPLATES_FE')) {
+    if (env('editor') === 'frontend' && env('PAGE_TEMPLATES_FE')) {
       sections.push({
         title: settingsText,
         content: PageTemplates
