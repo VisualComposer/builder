@@ -4,13 +4,14 @@ import { env, getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const dataProcessor = getService('dataProcessor')
+const hubElementsService = getService('hubElements')
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
 
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
     super(props)
-    const elements = getStorage('hubElements').state('elements').get()
+    const elements = hubElementsService.all()
 
     this.state = {
       allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD(),
