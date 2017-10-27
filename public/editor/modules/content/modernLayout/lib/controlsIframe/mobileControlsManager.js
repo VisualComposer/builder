@@ -83,10 +83,8 @@ export default class ControlsManager {
 
     // Subscribe to main event to interact with content elements
     this.iframeDocument.body.addEventListener('touchstart', this.touchStart, { passive: false })
-    if (!this.isPhone) {
-      this.iframeDocument.body.addEventListener('touchmove', this.touchMove, { passive: false })
-      this.iframeDocument.body.addEventListener('touchend', this.touchEnd, { passive: false })
-    }
+    this.iframeDocument.body.addEventListener('touchmove', this.touchMove, { passive: false })
+    this.iframeDocument.body.addEventListener('touchend', this.touchEnd, { passive: false })
   }
 
   /**
@@ -205,23 +203,37 @@ export default class ControlsManager {
   }
 
   scrollPage (y) {
-    if (this.iframeScrollable && !this.isIOS) {
+    if (this.iframeScrollable && !this.state.scrolling) {
       let posY = this.iframeScrollable.hasOwnProperty('scrollY') ? this.iframeScrollable.scrollY : this.iframeScrollable.scrollTop
       let posX = this.iframeScrollable.hasOwnProperty('scrollX') ? this.iframeScrollable.scrollX : this.iframeScrollable.scrollLeft
       if (this.isIOS && this.iframeScrollable.firstElementChild) {
         posY = -this.iframeScrollable.firstElementChild.getBoundingClientRect().top
       }
-      if (posY === this.windowHeight || (posY === undefined || posX === undefined)) {
+      if (posY === undefined || posX === undefined) {
         return
       }
-      if (this.iframeScrollable) {
-        this.iframeScrollable.scroll ? this.iframeScrollable.scroll(posX, posY + y) : this.iframeScrollable.scrollTop = posY + y
-      }
-      if (this.state.scroll) {
-        setTimeout(() => {
-          this.scrollPage(y)
-        }, 30)
-      }
+      this.state.scrolling = true
+      this.scroll(posX, posY, y, 100, () => {
+        if (this.state.scroll) {
+          setTimeout(() => {
+            this.scrollPage(y)
+          }, 100)
+        }
+      })
+    }
+  }
+
+  scroll (posX, posY, y, amount, callback) {
+    if (this.iframeScrollable && amount >= 0 + y) {
+      this.iframeScrollable.scroll && !this.isIOS ? this.iframeScrollable.scroll(posX, posY + y) : this.iframeScrollable.scrollTop = posY + y
+      setTimeout(() => {
+        this.scroll(posX, posY + y, y, amount - Math.abs(y), callback)
+      }, 30)
+    } else {
+      setTimeout(() => {
+        this.state.scrolling = false
+        callback()
+      }, 100)
     }
   }
 
@@ -234,13 +246,13 @@ export default class ControlsManager {
       } else {
         this.iframeWindow.getSelection().removeAllRanges()
       }
-      if (!this.isPhone) {
-        this.touchStartTimer = setTimeout(() => {
-          e.preventDefault && e.preventDefault()
-          e.stopPropagation && e.stopPropagation()
-          this.startDragging(e, data)
-        }, 450)
-      }
+      // if (!this.isPhone) {
+      this.touchStartTimer = setTimeout(() => {
+        e.preventDefault && e.preventDefault()
+        e.stopPropagation && e.stopPropagation()
+        this.startDragging(e, data)
+      }, 450)
+      // }
       if (this.doubleTapTimer && data.element === this.doubleTapElement) {
         this.editElement(e)
         this.doubleTapTimer = null
@@ -271,7 +283,7 @@ export default class ControlsManager {
       this.showFrames(element, elPath)
       let scrollX = this.iframeWrapper && this.iframeWrapper.scrollLeft || 0
       let scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop || 0
-      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY } })
+      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY, left: scrollX, top: scrollY } })
     }
   }
 
@@ -291,7 +303,7 @@ export default class ControlsManager {
         this.iframeWindow.getSelection().removeAllRanges()
       }
 
-      let { clientX, clientY } = e.touches && e.touches[0] || {}
+      let { clientX, clientY } = e.touches && e.touches[ 0 ] || {}
       let element = this.iframeDocument.elementFromPoint(clientX, clientY)
       let { elPath } = this.findElement({ target: element })
       let elRoot = elPath[ elPath.length - 1 ]
@@ -342,12 +354,7 @@ export default class ControlsManager {
     } else {
       this.iframeWindow.getSelection().removeAllRanges()
     }
-    if (this.editFormId) {
-      let settings = workspaceStorage.state('settings').get()
-      if (settings && settings.action === 'edit') {
-        workspaceStorage.state('settings').set(false)
-      }
-    } else if (element) {
+    if (element) {
       let elementData = documentManager.get(element.dataset.vcvElement)
       if (elementData) {
         this.editFormId = element.dataset.vcvElement
