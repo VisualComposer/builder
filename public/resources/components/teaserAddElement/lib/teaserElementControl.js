@@ -23,7 +23,7 @@ export default class TeaserElementControl extends ElementControl {
 
   componentWillUnmount () {
     if (this.ajax) {
-      this.ajax.abort()
+      Promise.reject(this.ajax)
       this.ajax = null
     }
   }
@@ -33,6 +33,7 @@ export default class TeaserElementControl extends ElementControl {
       return
     }
     let bundle = e.currentTarget.dataset.bundle
+    let name = e.currentTarget.dataset.name
     this.setState({ elementState: 'downloading' })
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
@@ -41,13 +42,15 @@ export default class TeaserElementControl extends ElementControl {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
+    let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+
     this.ajax = dataProcessor.appServerRequest(data).then((response) => {
       workspaceNotifications.set({
-        type: 'success',
-        text: localizations.successElementDownload || 'The element has been successfully downloaded from the Visual Composer Hub and added to your element library.',
-        showCloseButton: 'true',
-        icon: 'vcv-ui-icon vcv-ui-icon-error',
-        time: 5000
+        position: 'bottom',
+        transparent: true,
+        rounded: true,
+        text: successMessage.replace('{name}', name),
+        time: 3000
       })
       this.ajax = null
       try {
@@ -150,7 +153,7 @@ export default class TeaserElementControl extends ElementControl {
         'vcv-ui-icon vcv-ui-icon-lock': !this.state.allowDownload && this.state.elementState === 'inactive'
       })
       let action = elementState === 'success' ? this.addElement : this.downloadElement
-      overlayOutput = <span data-bundle={bundle} className={iconClasses} onClick={action} />
+      overlayOutput = <span data-name={name} data-bundle={bundle} className={iconClasses} onClick={action} />
     }
 
     return (
