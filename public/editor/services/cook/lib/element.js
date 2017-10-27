@@ -11,6 +11,15 @@ const createKey = vcCake.getService('utils').createKey
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
 
+let _service = null
+let hubElementService = () => {
+  if (_service) {
+    return _service
+  }
+  _service = vcCake.getService('hubElements')
+  return _service
+}
+
 export default class CookElement {
   static propTypes = {
     tag: React.PropTypes.string.isRequired
@@ -22,8 +31,7 @@ export default class CookElement {
     attr.id = id
     let element = null
     if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-      const HubElementsStorage = vcCake.getStorage('hubElements')
-      const elements = HubElementsStorage.state('elements').get()
+      let elements = hubElementService().all()
       element = elements ? elements[ tag ] : null
     } else {
       element = window.VCV_HUB_GET_ELEMENTS()[ tag ]

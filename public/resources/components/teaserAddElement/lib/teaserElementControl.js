@@ -3,17 +3,17 @@ import classNames from 'classnames'
 import { env, getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
-const dataProcessor = getService('dataProcessor')
+const hubElementsService = getService('hubElements')
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
 
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
     super(props)
-    const elements = getStorage('hubElements').state('elements').get()
+    const elements = hubElementsService.all()
 
     this.state = {
-      allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD(),
+      allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD ? window.VCV_HUB_ALLOW_DOWNLOAD() : false,
       elementState: typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
     }
     this.addElement = this.addElement.bind(this)
@@ -23,8 +23,8 @@ export default class TeaserElementControl extends ElementControl {
 
   componentWillUnmount () {
     if (this.ajax) {
-      this.ajax.abort()
       this.ajax = null
+      this.props.cancelDownload(this.props.element.tag)
     }
   }
 
@@ -32,7 +32,12 @@ export default class TeaserElementControl extends ElementControl {
     if (this.ajax || !this.state.allowDownload) {
       return
     }
-    let bundle = e.currentTarget.dataset.bundle
+    let tag = this.props.element.tag
+    let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+    if (this.props.element.bundle) {
+      bundle = this.props.element.bundle
+    }
+    let name = this.props.element.name
     this.setState({ elementState: 'downloading' })
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
@@ -41,13 +46,15 @@ export default class TeaserElementControl extends ElementControl {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    this.ajax = dataProcessor.appServerRequest(data).then((response) => {
+    let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+
+    let successCallback = (response, cancelled) => {
       workspaceNotifications.set({
-        type: 'success',
-        text: localizations.successElementDownload || 'The element has been successfully downloaded from the Visual Composer Hub and added to your element library.',
-        showCloseButton: 'true',
-        icon: 'vcv-ui-icon vcv-ui-icon-error',
-        time: 5000
+        position: 'bottom',
+        transparent: true,
+        rounded: true,
+        text: successMessage.replace('{name}', name),
+        time: 3000
       })
       this.ajax = null
       try {
@@ -55,30 +62,28 @@ export default class TeaserElementControl extends ElementControl {
         if (jsonResponse && jsonResponse.status && jsonResponse.element && jsonResponse.element.settings) {
           jsonResponse.element.tag = bundle.replace('element/', '')
           getStorage('hubElements').trigger('add', jsonResponse.element, true)
-          // TODO: Check for unmounted
-          this.setState({ elementState: 'success' })
+
+          !cancelled && this.setState({ elementState: 'success' })
         } else {
-          if (jsonResponse.status === false) {
-            let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
-            if (jsonResponse.message) {
-              errorMessage = jsonResponse.message
-            } else if (jsonResponse.details && jsonResponse.details.message) {
-              errorMessage = jsonResponse.details.message
-            }
-            console.warn('failed 1', errorMessage)
-            workspaceNotifications.set({
-              type: 'error',
-              text: errorMessage,
-              showCloseButton: 'true',
-              icon: 'vcv-ui-icon vcv-ui-icon-error',
-              time: 5000
-            })
+          let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+          if (jsonResponse && jsonResponse.message) {
+            errorMessage = jsonResponse.message
+          } else if (jsonResponse && jsonResponse.details && jsonResponse.details.message) {
+            errorMessage = jsonResponse.details.message
           }
-          // TODO: Check for unmounted
-          this.setState({ elementState: 'failed' })
+          console.warn('failed to download element status is false', errorMessage, response)
+          workspaceNotifications.set({
+            type: 'error',
+            text: errorMessage,
+            showCloseButton: 'true',
+            icon: 'vcv-ui-icon vcv-ui-icon-error',
+            time: 5000
+          })
+
+          !cancelled && this.setState({ elementState: 'failed' })
         }
       } catch (e) {
-        console.warn('failed 2', e)
+        console.warn('failed to parse download response', e, response)
         workspaceNotifications.set({
           type: 'error',
           text: localizations.defaultErrorElementDownload || 'Failed to download element.',
@@ -86,11 +91,12 @@ export default class TeaserElementControl extends ElementControl {
           icon: 'vcv-ui-icon vcv-ui-icon-error',
           time: 5000
         })
-        // TODO: Check for unmounted
-        this.setState({ elementState: 'failed' })
+
+        !cancelled && this.setState({ elementState: 'failed' })
       }
-    }, () => {
-      console.warn('failed 3', arguments)
+    }
+    let errorCallback = (response, cancelled) => {
+      console.warn('failed to download element general server error', response)
       workspaceNotifications.set({
         type: 'error',
         text: localizations.defaultErrorElementDownload || 'Failed to download element.',
@@ -98,9 +104,10 @@ export default class TeaserElementControl extends ElementControl {
         icon: 'vcv-ui-icon vcv-ui-icon-error',
         time: 5000
       })
-      // TODO: Check for unmounted
-      this.setState({ elementState: 'failed' })
-    })
+
+      !cancelled && this.setState({ elementState: 'failed' })
+    }
+    this.ajax = this.props.startDownload(tag, data, successCallback, errorCallback)
   }
 
   render () {
@@ -129,15 +136,6 @@ export default class TeaserElementControl extends ElementControl {
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
 
-    let bundle
-    if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-      // element/lcfirst(tag)
-      bundle = 'element/' + element.tag.charAt(0).toLowerCase() + element.tag.substr(1, element.tag.length - 1)
-      if (element.bundle) {
-        bundle = element.bundle
-      }
-    }
-
     let overlayOutput = <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
     if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
       let iconClasses = classNames({
@@ -150,7 +148,7 @@ export default class TeaserElementControl extends ElementControl {
         'vcv-ui-icon vcv-ui-icon-lock': !this.state.allowDownload && this.state.elementState === 'inactive'
       })
       let action = elementState === 'success' ? this.addElement : this.downloadElement
-      overlayOutput = <span data-bundle={bundle} className={iconClasses} onClick={action} />
+      overlayOutput = <span className={iconClasses} onClick={action} />
     }
 
     return (

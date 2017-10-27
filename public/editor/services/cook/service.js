@@ -1,5 +1,5 @@
 import { default as lodash } from 'lodash'
-import { addService, getService, getStorage, env } from 'vc-cake'
+import { addService, getService, env } from 'vc-cake'
 
 import { buildSettingsObject } from './lib/tools'
 import { default as elementSettings } from './lib/element-settings'
@@ -7,6 +7,15 @@ import { default as attributeManager } from './lib/attribute-manager'
 import CookElement from './lib/element'
 
 const DocumentData = getService('document')
+let _service = null
+let hubElementService = () => {
+  if (_service) {
+    return _service
+  }
+  _service = getService('hubElements')
+  return _service
+}
+
 const API = {
   get (data) {
     if (!data || !data.tag) {
@@ -15,8 +24,7 @@ const API = {
     }
     let elements = null
     if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-      const HubElementsStorage = getStorage('hubElements')
-      elements = HubElementsStorage.state('elements').get()
+      elements = hubElementService().all()
     } else {
       elements = window.VCV_HUB_GET_ELEMENTS()
     }

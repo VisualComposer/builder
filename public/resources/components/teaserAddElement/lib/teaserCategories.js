@@ -8,9 +8,12 @@ import lodash from 'lodash'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
+const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class TeaserAddElementCategories extends AddElementCategories {
   allCategories = null
+  ajaxRequests = []
+  ajaxCall = false
 
   getAllCategories () {
     if (!this.allCategories) {
@@ -31,6 +34,48 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return this.allCategories
   }
 
+  startDownload (key, data, successCallback, errorCallback) {
+    this.ajaxRequests.push({ key: key, data: data, successCallback: successCallback, errorCallback: errorCallback, cancelled: false })
+    this.nextDownload()
+
+    return true
+  }
+
+  cancelDownload (key) {
+    this.ajaxRequests = this.ajaxRequests.map((i) => {
+      if (i.key === key) {
+        i.cancelled = true
+      }
+      return i
+    })
+  }
+
+  nextDownload () {
+    if (this.ajaxRequests.length === 0) {
+      return
+    }
+    if (this.ajaxCall) {
+      return
+    }
+
+    let req = this.ajaxRequests[0]
+    this.ajaxCall = true
+    dataProcessor.appServerRequest(req.data).then(
+      (response) => {
+        req.successCallback && req.successCallback(response, req.cancelled)
+        this.ajaxCall = false
+        this.ajaxRequests.splice(0, 1)
+        this.nextDownload()
+      },
+      (response) => {
+        req.errorCallback && req.errorCallback(response, req.cancelled)
+        this.ajaxCall = false
+        this.ajaxRequests.splice(0, 1)
+        this.nextDownload()
+      }
+    )
+  }
+
   getElementControl (elementData) {
     // TODO: Finish element control actions custom and without COOK!
     let tag = elementData.tag
@@ -40,6 +85,8 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       element={elementData}
       tag={tag}
       workspace={workspaceStorage.state('settings').get() || {}}
+      startDownload={this.startDownload.bind(this)}
+      cancelDownload={this.cancelDownload.bind(this)}
       name={elementData.name} />
   }
 
