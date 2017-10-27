@@ -45,6 +45,8 @@ $(() => {
         style.innerText += 'width: 100vw;'
         style.innerText += 'overflow: auto;'
         style.innerText += '-webkit-overflow-scrolling: touch;'
+        style.innerText += '-webkit-user-select: none;'
+        style.innerText += 'user-select: none;'
         style.innerText += '}'
         iframeDocument.head.appendChild(style)
       }
