@@ -50,8 +50,6 @@ export default class TeaserElementControl extends ElementControl {
         transparent: true,
         rounded: true,
         text: successMessage.replace('{name}', name),
-        showCloseButton: 'true',
-        icon: 'vcv-ui-icon vcv-ui-icon-error',
         time: 3000
       })
       this.ajax = null
