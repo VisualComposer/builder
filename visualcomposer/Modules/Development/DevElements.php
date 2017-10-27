@@ -2023,24 +2023,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => ' Add any of your saved WordPress sidebars anywhere in the content.',
                     ],
                 ],
-                //                'flickrWidget' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/flickrWidget/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/flickrWidget/flickrWidget/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/flickrWidget/flickrWidget/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/flickrWidget/flickrWidget/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Flickr Widget',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/flickrWidget/flickrWidget/public/flickr-widget-thumbnail.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/flickrWidget/flickrWidget/public/flickr-widget-preview.jpg'
-                //                        ),
-                //                        'metaDescription' => 'Add Flickr image grid gallery to your site, specify the number of images with an easy-to-use widget.',
-                //                    ],
-                //                ]
+                'flickrWidget' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/flickrWidget/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/flickrWidget/flickrWidget/'),
+                    'elementRealPath' => vcapp()->path('devElements/flickrWidget/flickrWidget/'),
+                    'assetsPath' => $urlHelper->to('devElements/flickrWidget/flickrWidget/public/'),
+                    'settings' => [
+                        'name' => 'Flickr Widget',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/flickrWidget/flickrWidget/public/flickr-widget-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/flickrWidget/flickrWidget/public/flickr-widget-preview.jpg'
+                        ),
+                        'metaDescription' => 'Add Flickr image grid gallery to your site, specify the number of images with an easy-to-use widget.',
+                    ],
+                ]
             ]
         );
     }
