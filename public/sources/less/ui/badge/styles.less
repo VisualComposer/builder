@@ -1,7 +1,7 @@
 /* ===================================
  * Visual Composer Website Builder editor Badges styles
  * =================================== */
-[class*=vcv-ui-badge--] {
+[class*=vcv-ui-badge--] i {
   &::after {
     content: '';
     display: block;
@@ -9,16 +9,16 @@
     width: @badge-size;
     border-radius: 50%;
     position: absolute;
-    top: @badge-position;
-    right: @badge-position;
+    top: @badge-top-position;
+    right: @badge-right-position;
   }
 }
-.vcv-ui-badge--warning {
+.vcv-ui-badge--warning i {
   &::after {
     background-color: @badge-state-color-warning;
   }
 }
-.vcv-ui-badge--success {
+.vcv-ui-badge--success i {
   &::after {
     background-color: @badge-state-color-success;
   }
