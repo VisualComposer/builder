@@ -76,7 +76,7 @@ export default class Element extends React.Component {
 
   visualizeAttributes (element) {
     let layoutAtts = {}
-    let atts = element.getAll()
+    let atts = element.getAll(false)
     Object.keys(atts).forEach((key) => {
       let findOption = this.elementOptions.find((option) => {
         return option === key
