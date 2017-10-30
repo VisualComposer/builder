@@ -130,6 +130,7 @@ export default class DndDataSet {
           },
           endCallback: function () {
           },
+          window: window,
           document: document,
           container: document.body,
           wrapper: null,
@@ -459,18 +460,19 @@ export default class DndDataSet {
   }
 
   scrollManually (point) {
-    let body = this.options.document.body
+    let body = this.options.isIframe ? this.options.window : this.options.document.body
     let clientHeight = this.options.document.documentElement.clientHeight
     let top = null
     let speed = 30
     let gap = 10
+    let bodyTop = this.options.isIframe ? body.scrollY : body.scrollTop
     if (clientHeight - gap <= point.y - point.top) {
-      top = body.scrollTop + speed
-    } else if (point.y - point.top <= gap && body.scrollTop >= speed) {
-      top = body.scrollTop - speed
+      top = bodyTop + speed
+    } else if (point.y - point.top <= gap && bodyTop >= speed) {
+      top = bodyTop - speed
     }
     if (top !== null) {
-      body.scrollTop = top > 0 ? top : 0
+      this.options.isIframe ? body.scroll(0, top) : body.scrollTop = top > 0 ? top : 0
     }
   }
 
