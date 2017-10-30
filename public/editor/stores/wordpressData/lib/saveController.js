@@ -92,6 +92,10 @@ export default class SaveController {
       if (vcCake.env('PAGE_TEMPLATES_FE')) {
         requestData[ 'vcv-page-template' ] = settingsStorage.state('pageTemplate').get() || 'default'
       }
+      if (vcCake.env('PAGE_TITLE_FE')) {
+        requestData[ 'vcv-page-title' ] = settingsStorage.state('pageTitle').get() || ''
+        requestData[ 'vcv-page-title-disabled' ] = settingsStorage.state('pageTitleDisabled').get() || ''
+      }
       this.ajax(
         requestData,
         this.saveSuccess.bind(this, status),
