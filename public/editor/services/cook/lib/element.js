@@ -165,7 +165,7 @@ export default class CookElement {
     let ElementToRender = this[ elComponent ].get()
     let props = {}
     let editorProps = {}
-    let atts = this.toJS()
+    let atts = this.toJS(true, false)
     props.key = this[ elData ].id
     props.id = this[ elData ].atts && typeof this[ elData ].atts.metaCustomId !== 'undefined' ? this[ elData ].atts.metaCustomId : this[ elData ].id
     editorProps[ 'data-vc-element' ] = this[ elData ].id
@@ -205,8 +205,8 @@ export default class CookElement {
   /**
    * Get all attributes using getter of attributes types
    */
-  getAll () {
-    return this.toJS(false)
+  getAll (onlyPublic = true) {
+    return this.toJS(false, onlyPublic)
   }
 
   filter (callback) {

@@ -184,6 +184,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     dividerBackgroundType: 'color',
     dividerShape: { icon: 'vcv-ui-icon-dividers vcv-ui-icon-dividers-zigzag', iconSet: 'all' },
     dividerShapeNew: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'all' },
+    gradientStartColor: 'rgba(226, 135, 135, 0.5)',
+    gradientEndColor: 'rgba(93, 55, 216, 0.5)',
     dividerBackgroundColor: '#6567DF',
     dividerBackgroundGradientStartColor: 'rgb(226, 135, 135)',
     dividerBackgroundGradientEndColor: 'rgb(93, 55, 216)',
@@ -1296,7 +1298,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].gradientStartColor || ''
+    let value = this.state.devices[ this.state.currentDevice ].gradientStartColor || DesignOptionsAdvanced.deviceDefaults.gradientStartColor
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Start color
@@ -1306,7 +1308,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='gradientStartColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue='' />
+        defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientStartColor} />
     </div>
   }
 
@@ -1319,7 +1321,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].gradientEndColor || ''
+    let value = this.state.devices[ this.state.currentDevice ].gradientEndColor || DesignOptionsAdvanced.deviceDefaults.gradientEndColor
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         End color
@@ -1329,7 +1331,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='gradientEndColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue='' />
+        defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientEndColor} />
     </div>
   }
 
