@@ -514,6 +514,11 @@ export default class Divider extends Attribute {
     }
 
     let value = deviceData[ dividerShapeName ] || Divider.deviceDefaults[ dividerShapeName ]
+    let iconType = 'newShapes'
+
+    if (vcCake.env('DIVIDER_SHAPE_UPDATE')) {
+      iconType = 'newShapes2'
+    }
 
     return (
       <div className='vcv-ui-form-group'>
@@ -523,7 +528,7 @@ export default class Divider extends Attribute {
         <IconPicker
           api={this.props.api}
           fieldKey={dividerShapeName}
-          options={{ iconType: 'newShapes' }}
+          options={{ iconType: iconType }}
           updater={this.valueChangeHandler}
           value={value}
         />

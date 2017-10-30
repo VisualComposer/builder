@@ -24,6 +24,9 @@ let setList = {
   },
   newShapes: {
     all: require('./lib/dividerShapes')
+  },
+  newShapes2: {
+    all: require('./lib/dividerShapes-2.0')
   }
 }
 

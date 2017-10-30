@@ -51,12 +51,12 @@ import { default as PostUpdater } from './postUpdate'
       }
     }).fail(function (jqxhr, textStatus, error) {
       if (requestFailed) {
-        console.warn(textStatus, error || activationFailedText)
+        console.warn(jqxhr.responseText, textStatus, error || activationFailedText)
         if (window.vcvActivationType !== 'premium') {
-          showError($errorPopup, error || activationFailedText, 15000)
+          showError($errorPopup, activationFailedText, 15000)
           showFirstScreen($popup)
         } else {
-          showOopsScreen($popup, error || activationFailedText, premiumErrorCallback)
+          showOopsScreen($popup, activationFailedText, premiumErrorCallback)
         }
       } else {
         // Try again one more time.
@@ -152,12 +152,12 @@ import { default as PostUpdater } from './postUpdate'
         }
       }).fail(function (jqxhr, textStatus, error) {
         if (requestFailed) {
-          console.warn(textStatus, error || activationFailedText)
+          console.warn(jqxhr.responseText, textStatus, error || activationFailedText)
           if (window.vcvActivationType !== 'premium') {
-            showError($errorPopup, error || activationFailedText, 15000)
+            showError($errorPopup, activationFailedText, 15000)
             showFirstScreen($popup)
           } else {
-            showOopsScreen($popup, error || activationFailedText, premiumErrorCallback)
+            showOopsScreen($popup, activationFailedText, premiumErrorCallback)
           }
         } else {
           // Try again one more time.
