@@ -100,12 +100,15 @@ const innerApi = {
 
     return files
   },
-  getElementBackendEditorAssetsFiles (cookElement) {
+  getElementBackendEditorAssetsFiles (cookElement, options) {
     let files = {
       cssBundles: [],
       jsBundles: []
     }
     let jsFiles = cookElement.get('metaBackendEditorJs')
+    if (options && options.metaPublicJs) {
+      jsFiles = cookElement.get('metaPublicJs')
+    }
     if (jsFiles && jsFiles.length) {
       const elementPath = cookElement.get('metaElementPath')
       jsFiles = jsFiles.map((url) => {
@@ -237,7 +240,7 @@ const publicApi = {
 
     return files
   },
-  getBackendEditorAssetsFilesByElement (cookElement) {
+  getBackendEditorAssetsFilesByElement (cookElement, options) {
     let files = {
       cssBundles: [],
       jsBundles: []
@@ -246,7 +249,7 @@ const publicApi = {
       return files
     }
     let elementAssetsLibraryFiles = innerApi.getElementBackendAssetsLibraryFiles(cookElement)
-    let elementPublicAssetsFiles = innerApi.getElementBackendEditorAssetsFiles(cookElement)
+    let elementPublicAssetsFiles = innerApi.getElementBackendEditorAssetsFiles(cookElement, options)
 
     // SharedAssets
     files.cssBundles = files.cssBundles.concat(elementAssetsLibraryFiles.cssBundles)
