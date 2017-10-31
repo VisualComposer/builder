@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Editors\Settings;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -37,7 +38,10 @@ class TitleController extends Container implements Module
         $pageTitle = $requestHelper->input('vcv-page-title');
         $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled');
         $post = get_post($sourceId);
-        if ($post && $pageTitle) {
+        if (isset($pageTitle) && !$pageTitle) {
+            $pageTitleDisabled = true;
+        }
+        if ($post && isset($pageTitle)) {
             // @codingStandardsIgnoreLine
             $post->post_title = $pageTitle;
             if (isset($pageTitleDisabled)) {
@@ -78,13 +82,19 @@ class TitleController extends Container implements Module
         );
     }
 
-    protected function titleDisabler($title)
+    protected function titleDisabler($title, Frontend $frontendHelper)
     {
         global $post;
         $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
 
-        if ($disableMeta) {
-            $title = '';
+        if ($frontendHelper->isPageEditable()) {
+            if (!$title) {
+                $title = ' ';
+            }
+        } else {
+            if ($disableMeta) {
+                $title = '';
+            }
         }
 
         return $title;

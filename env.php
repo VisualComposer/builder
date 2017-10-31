@@ -140,7 +140,7 @@ if (!defined('VCV_PAGE_TEMPLATES_FE')) {
 if (!defined('VCV_PAGE_TITLE_FE')) {
     define(
         'VCV_PAGE_TITLE_FE',
-        isset($_SERVER['ENV_VCV_PAGE_TITLE_FE']) ? $_SERVER['ENV_VCV_PAGE_TITLE_FE'] : true
+        isset($_SERVER['ENV_VCV_PAGE_TITLE_FE']) ? $_SERVER['ENV_VCV_PAGE_TITLE_FE'] : false
     );
 }
 
