@@ -1,6 +1,7 @@
 import React from 'react'
 import {format} from 'util'
 import {getStorage} from 'vc-cake'
+
 const elementsStorage = getStorage('elements')
 
 export default class Field extends React.Component {
@@ -9,6 +10,7 @@ export default class Field extends React.Component {
     fieldKey: React.PropTypes.string.isRequired,
     updater: React.PropTypes.func.isRequired
   }
+
   constructor (props) {
     super(props)
     this.updateElementOnExternalChange = this.updateElementOnExternalChange.bind(this)
@@ -16,24 +18,28 @@ export default class Field extends React.Component {
       element: props.element
     }
   }
+
   componentDidMount () {
-    const {element, fieldKey} = this.props
+    const { element, fieldKey } = this.props
     elementsStorage.state(`element:${element.get('id')}:attribute:${fieldKey}`)
       .onChange(this.updateElementOnExternalChange)
   }
+
   componentWillUnmount () {
-    const {element, fieldKey} = this.props
+    const { element, fieldKey } = this.props
     const id = element.get('id')
     elementsStorage.state(`element:${id}:attribute:${fieldKey}`)
       .ignoreChange(this.updateElementOnExternalChange)
     elementsStorage.state(`element:${id}:attribute:${fieldKey}`).delete()
   }
+
   updateElementOnExternalChange (value) {
-    const {element} = this.state
-    const {fieldKey} = this.props
+    const { element } = this.state
+    const { fieldKey } = this.props
     element.set(fieldKey, value)
-    this.setState({element: element})
+    this.setState({ element: element })
   }
+
   render () {
     const { fieldKey, updater } = this.props
     const { element } = this.state
@@ -56,6 +62,9 @@ export default class Field extends React.Component {
     let description = ''
     if (options && typeof options.description === 'string') {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
+    }
+    if (options && options.descriptionHTML) {
+      description = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: options.descriptionHTML }} />)
     }
     let rawValue = type.getRawValue(element.data, fieldKey)
     let defaultValue = settings.defaultValue
