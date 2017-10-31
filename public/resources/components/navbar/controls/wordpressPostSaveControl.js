@@ -69,6 +69,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
       status: 'saving'
     })
     window.setTimeout(() => {
+      window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)
       // Check Save option from other modules
       !noStorageRequest && wordpressDataStorage.trigger('save', {
         options: e ? e.options : {}
