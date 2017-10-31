@@ -103,7 +103,7 @@ export default class Element extends React.Component {
 
   visualizeAttributes (element) {
     let layoutAtts = {}
-    let atts = element.getAll()
+    let atts = element.getAll(false)
     let allowInline = true
     if (vcCake.env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)

@@ -1,4 +1,4 @@
-import { addStorage, getStorage, getService, setData, env } from 'vc-cake'
+import {addStorage, getStorage, getService, setData, env} from 'vc-cake'
 import SaveController from './lib/saveController'
 
 addStorage('wordpressData', (storage) => {
@@ -36,7 +36,11 @@ addStorage('wordpressData', (storage) => {
   storage.state('status').set('init')
   storage.state('status').onChange((data) => {
     const { status, request } = data
+    let pageTitleData = ''
     let pageTemplateData = ''
+    if (env('PAGE_TITLE_FE')) {
+      pageTitleData = window.VCV_PAGE_TITLE && window.VCV_PAGE_TITLE() || ''
+    }
     if (env('PAGE_TEMPLATES_FE')) {
       pageTemplateData = window.VCV_PAGE_TEMPLATES()
     }
@@ -45,6 +49,8 @@ addStorage('wordpressData', (storage) => {
       const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
       const customCssState = settingsStorage.state('customCss')
       const globalCssState = settingsStorage.state('globalCss')
+      const pageTitle = settingsStorage.state('pageTitle')
+      const pageTitleDisabled = settingsStorage.state('pageTitleDisabled')
       const pageTemplate = settingsStorage.state('pageTemplate')
       const localJsState = settingsStorage.state('localJs')
       const globalJsState = settingsStorage.state('globalJs')
@@ -80,6 +86,14 @@ addStorage('wordpressData', (storage) => {
         }
         if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('global')) {
           globalJsState.set(responseData.jsSettings.global || '')
+        }
+      }
+      if (env('PAGE_TITLE_FE')) {
+        if (pageTitleData.current) {
+          pageTitle.set(pageTitleData.current)
+        }
+        if (pageTitleData.hasOwnProperty('disabled')) {
+          pageTitleDisabled.set(pageTitleData.disabled)
         }
       }
       if (env('PAGE_TEMPLATES_FE')) {
