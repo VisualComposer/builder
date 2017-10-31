@@ -732,14 +732,14 @@ export default class ControlsHandler {
     dropdowns = [].slice.call(dropdowns)
     let iframeRect = this.iframe.getBoundingClientRect()
     dropdowns.forEach((dropdown) => {
+      dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-up')
+      dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-right')
       let dropdownPos = dropdown.querySelector('.vcv-ui-outline-control-dropdown-content').getBoundingClientRect()
       // drop up
-      dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-up')
       if (dropdownPos.top + dropdownPos.height > iframeRect.top + iframeRect.height) {
         dropdown.classList.add('vcv-ui-outline-control-dropdown-o-drop-up')
       }
       // drop right
-      dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-right')
       if (dropdownPos.left + dropdownPos.width > iframeRect.left + iframeRect.width) {
         dropdown.classList.add('vcv-ui-outline-control-dropdown-o-drop-right')
       }

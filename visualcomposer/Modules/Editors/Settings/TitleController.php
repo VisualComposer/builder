@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Editors\Settings;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -14,6 +15,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Class TitleController
+ * @package VisualComposer\Modules\Editors\Settings
+ */
 class TitleController extends Container implements Module
 {
     use EventsFilters;
@@ -24,7 +29,7 @@ class TitleController extends Container implements Module
         if (vcvenv('VCV_PAGE_TITLE_FE')) {
             $this->wpAddFilter(
                 'the_title',
-                'titleDisabler'
+                'titleRemove'
             );
             $this->addFilter('vcv:frontend:head:extraOutput', 'outputTitle');
             $this->addFilter('vcv:dataAjax:setData', 'setPageTitle');
@@ -35,14 +40,15 @@ class TitleController extends Container implements Module
     {
         $sourceId = $payload['sourceId'];
         $pageTitle = $requestHelper->input('vcv-page-title');
-        $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled');
+        $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled', false);
         $post = get_post($sourceId);
-        if ($post && $pageTitle) {
+        if ($requestHelper->exists('vcv-page-title') && !$pageTitle) {
+            $pageTitleDisabled = true;
+        }
+        if ($post && $requestHelper->exists('vcv-page-title')) {
             // @codingStandardsIgnoreLine
             $post->post_title = $pageTitle;
-            if (isset($pageTitleDisabled)) {
-                update_post_meta($sourceId, '_' . VCV_PREFIX . 'pageTitleDisabled', $pageTitleDisabled);
-            }
+            update_post_meta($sourceId, '_' . VCV_PREFIX . 'pageTitleDisabled', $pageTitleDisabled);
             //temporarily disable (can break preview page and content if not removed)
             remove_filter('content_save_pre', 'wp_filter_post_kses');
             remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
@@ -78,13 +84,27 @@ class TitleController extends Container implements Module
         );
     }
 
-    protected function titleDisabler($title)
+    /**
+     * @param $title
+     * @param $payload integer - id of the page/post
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     *
+     * @return string
+     */
+    protected function titleRemove($title, $payload, Frontend $frontendHelper, Request $requestHelper)
     {
-        global $post;
-        $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
-
-        if ($disableMeta) {
-            $title = '';
+        $post = get_post($payload);
+        if ($post) {
+            $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
+            // Add entry title only for correct Page Editable
+            if ($frontendHelper->isPageEditable() && intval($requestHelper->input('vcv-source-id')) === $payload) {
+                $title = '<span class="vcv-entry-title">' . $title . '</span>';
+            } else {
+                if ($disableMeta) {
+                    $title = '';
+                }
+            }
         }
 
         return $title;
