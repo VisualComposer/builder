@@ -22,3 +22,5 @@ vcCake.env('DIVIDER_VIMEO', true)
 vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD', true)
 vcCake.env('UI_NOTIFICATIONS', true)
 vcCake.env('DIVIDER_SHAPE_UPDATE', false)
+vcCake.env('PAGE_TITLE_FE', false)
+

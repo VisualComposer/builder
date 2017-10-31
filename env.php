@@ -107,7 +107,7 @@ if (!defined('VCV_ENV_HUB_TEASER')) {
 if (!defined('VCV_ENV_UPGRADE')) {
     define(
         'VCV_ENV_UPGRADE',
-        isset($_SERVER['ENV_VCV_ENV_UPGRADE']) ? $_SERVER['ENV_VCV_ENV_UPGRADE'] : true
+        isset($_SERVER['ENV_VCV_ENV_UPGRADE']) ? $_SERVER['ENV_VCV_ENV_UPGRADE'] : false
     );
 }
 
@@ -134,6 +134,13 @@ if (!defined('VCV_PAGE_TEMPLATES_FE')) {
     define(
         'VCV_PAGE_TEMPLATES_FE',
         isset($_SERVER['ENV_VCV_PAGE_TEMPLATES_FE']) ? $_SERVER['ENV_VCV_PAGE_TEMPLATES_FE'] : true
+    );
+}
+
+if (!defined('VCV_PAGE_TITLE_FE')) {
+    define(
+        'VCV_PAGE_TITLE_FE',
+        isset($_SERVER['ENV_VCV_PAGE_TITLE_FE']) ? $_SERVER['ENV_VCV_PAGE_TITLE_FE'] : true
     );
 }
 
