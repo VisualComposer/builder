@@ -41,7 +41,7 @@ class TitleController extends Container implements Module
             // @codingStandardsIgnoreLine
             $post->post_title = $pageTitle;
             if (isset($pageTitleDisabled)) {
-                update_post_meta($sourceId, VCV_PREFIX . 'pageTitleDisabled', $pageTitleDisabled);
+                update_post_meta($sourceId, '_' . VCV_PREFIX . 'pageTitleDisabled', $pageTitleDisabled);
             }
             //temporarily disable (can break preview page and content if not removed)
             remove_filter('content_save_pre', 'wp_filter_post_kses');
@@ -58,7 +58,7 @@ class TitleController extends Container implements Module
     protected function outputTitle($response, $payload)
     {
         global $post;
-        $postMeta = get_post_meta($post->ID, VCV_PREFIX . 'pageTitleDisabled', true);
+        $postMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
 
         return array_merge(
             $response,
@@ -81,7 +81,7 @@ class TitleController extends Container implements Module
     protected function titleDisabler($title)
     {
         global $post;
-        $disableMeta = get_post_meta($post->ID, VCV_PREFIX . 'pageTitleDisabled', true);
+        $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
 
         if ($disableMeta) {
             $title = '';
