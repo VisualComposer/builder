@@ -8,9 +8,11 @@ export default class TitleSettings extends React.Component {
   constructor (props) {
     super(props)
     let titleData = window.VCV_PAGE_TITLE && window.VCV_PAGE_TITLE() || {}
+    let pageTitle = settingsStorage.state('pageTitle').get()
+    let pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
     this.state = {
-      current: settingsStorage.state('pageTitle').get() || titleData.current,
-      disabled: settingsStorage.state('pageTitleDisabled').get() || titleData.disabled
+      current: pageTitle !== undefined ? pageTitle : titleData.current,
+      disabled: pageTitleDisabled !== undefined ? pageTitleDisabled : titleData.disabled
     }
     setData('ui:settings:pageTitle', titleData.current)
     setData('ui:settings:pageTitleDisabled', titleData.disabled)
