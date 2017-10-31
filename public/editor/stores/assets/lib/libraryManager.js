@@ -1,4 +1,4 @@
-import { getStorage, getService } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 const assets = getStorage('assets')
 const storageState = assets.state('jsLibs')
 const cook = getService('cook')
@@ -75,27 +75,41 @@ const getElementLibNames = (id, element) => {
     id: id,
     libraries: []
   }
-  if (Object.keys(elementDO).length) {
-    for (let device in elementDO.device) {
-      if (elementDO.device.hasOwnProperty(device)) {
-        for (let fieldKey in elementDO.device[ device ]) {
-          if (elementDO.device[ device ].hasOwnProperty(fieldKey)) {
-            let matchField = libData.find((lib) => {
-              let matchKey = lib.fieldKey === fieldKey
-              let matchValue = lib.value === elementDO.device[ device ][ fieldKey ]
-              return (matchKey && matchValue) || (fieldKey === 'animation')
-            })
-            if (matchField) {
-              data.libraries.push(matchField.library)
+  if (env('ATTRIBUTE_LIBS')) {
+    let elementAttributes = Object.keys(cookElement.getAll())
+    elementAttributes.forEach((attr) => {
+      let attribute = cookElement.settings(attr)
+      if (attribute.type.getAttributeLibs) {
+        let attributeValue = attribute.type.getRawValue(cookElement.getAll(), attr)
+        let attributeLibs = attribute.type.getAttributeLibs(attributeValue)
+        if (attributeLibs) {
+          data.libraries.push(attributeLibs)
+        }
+      }
+    })
+  } else {
+    if (Object.keys(elementDO).length) {
+      for (let device in elementDO.device) {
+        if (elementDO.device.hasOwnProperty(device)) {
+          for (let fieldKey in elementDO.device[ device ]) {
+            if (elementDO.device[ device ].hasOwnProperty(fieldKey)) {
+              let matchField = libData.find((lib) => {
+                let matchKey = lib.fieldKey === fieldKey
+                let matchValue = lib.value === elementDO.device[ device ][ fieldKey ]
+                return (matchKey && matchValue) || (fieldKey === 'animation')
+              })
+              if (matchField) {
+                data.libraries.push(matchField.library)
+              }
             }
           }
         }
       }
     }
-  }
-  // TODO: temporary fix for Row only, should take libraries from each edit form attribute accordingly
-  if (cookElement.get('tag') === 'row') {
-    data.libraries.push('divider')
+    // TODO: temporary fix for Row only, should take libraries from each edit form attribute accordingly
+    if (cookElement.get('tag') === 'row') {
+      data.libraries.push('divider')
+    }
   }
   return data
 }
@@ -119,7 +133,6 @@ export default class LibraryManager {
   }
 
   remove (id) {
-    let storageState = assets.state('jsLibs')
     let stateElements = storageState.get()
     if (stateElements && stateElements.elements) {
       let newElements = stateElements.elements.filter((element) => {
