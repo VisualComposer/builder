@@ -80,16 +80,18 @@ class TitleController extends Container implements Module
         );
     }
 
-    protected function titleDisabler($title, Frontend $frontendHelper)
+    protected function titleDisabler($title, $payload, Frontend $frontendHelper)
     {
-        global $post;
-        $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
+        $post = get_post($payload);
+        if ($post) {
+            $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
 
-        if ($frontendHelper->isPageEditable()) {
-            $title = '<span class="vcv-entry-title">' . $title . '</span>';
-        } else {
-            if ($disableMeta) {
-                $title = '';
+            if ($frontendHelper->isPageEditable()) {
+                $title = '<span class="vcv-entry-title">' . $title . '</span>';
+            } else {
+                if ($disableMeta) {
+                    $title = '';
+                }
             }
         }
 
