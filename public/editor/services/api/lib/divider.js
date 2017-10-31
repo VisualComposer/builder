@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import DividerShape from './dividerShape'
 const { Component, PropTypes } = React
-import vcCake from 'vc-cake'
 
 export default class Divider extends Component {
   static propTypes = {
@@ -21,28 +20,23 @@ export default class Divider extends Component {
 
   render () {
     let { deviceData, deviceKey, id, applyDivider, type } = this.props
-    let { dividerShape, dividerBackgroundImage, dividerBackgroundColor, dividerWidth, dividerHeight, dividerBackgroundStyle, dividerBackgroundPosition, dividerFlipHorizontal, dividerBackgroundGradientStartColor, dividerBackgroundGradientEndColor, dividerBackgroundGradientAngle, dividerBackgroundType, dividerVideoEmbed, dividerVideoYoutube, dividerVideoVimeo } = deviceData
     let dividerType = `divider${type}`
-    let percentageHeight = ''
-
-    if (vcCake.env('NEW_DIVIDER_SHAPES')) {
-      dividerShape = deviceData[ `${dividerType}Shape` ]
-      dividerBackgroundImage = deviceData[ `${dividerType}BackgroundImage` ]
-      dividerBackgroundColor = deviceData[ `${dividerType}BackgroundColor` ]
-      dividerWidth = deviceData[ `${dividerType}Width` ]
-      dividerHeight = deviceData[ `${dividerType}Height` ]
-      percentageHeight = deviceData[ `${dividerType}Height` ] || '20'
-      dividerBackgroundStyle = deviceData[ `${dividerType}BackgroundStyle` ]
-      dividerBackgroundPosition = deviceData[ `${dividerType}BackgroundPosition` ]
-      dividerFlipHorizontal = deviceData[ `${dividerType}FlipHorizontal` ]
-      dividerBackgroundGradientStartColor = deviceData[ `${dividerType}BackgroundGradientStartColor` ]
-      dividerBackgroundGradientEndColor = deviceData[ `${dividerType}BackgroundGradientEndColor` ]
-      dividerBackgroundGradientAngle = deviceData[ `${dividerType}BackgroundGradientAngle` ]
-      dividerBackgroundType = deviceData[ `${dividerType}BackgroundType` ]
-      dividerVideoEmbed = deviceData[ `${dividerType}VideoEmbed` ]
-      dividerVideoYoutube = deviceData[ `${dividerType}VideoYoutube` ]
-      dividerVideoVimeo = deviceData[ `${dividerType}VideoVimeo` ]
-    }
+    let dividerShape = deviceData[ `${dividerType}Shape` ]
+    let dividerBackgroundImage = deviceData[ `${dividerType}BackgroundImage` ]
+    let dividerBackgroundColor = deviceData[ `${dividerType}BackgroundColor` ]
+    let dividerWidth = deviceData[ `${dividerType}Width` ]
+    let dividerHeight = deviceData[ `${dividerType}Height` ]
+    let percentageHeight = deviceData[ `${dividerType}Height` ] || '20'
+    let dividerBackgroundStyle = deviceData[ `${dividerType}BackgroundStyle` ]
+    let dividerBackgroundPosition = deviceData[ `${dividerType}BackgroundPosition` ]
+    let dividerFlipHorizontal = deviceData[ `${dividerType}FlipHorizontal` ]
+    let dividerBackgroundGradientStartColor = deviceData[ `${dividerType}BackgroundGradientStartColor` ]
+    let dividerBackgroundGradientEndColor = deviceData[ `${dividerType}BackgroundGradientEndColor` ]
+    let dividerBackgroundGradientAngle = deviceData[ `${dividerType}BackgroundGradientAngle` ]
+    let dividerBackgroundType = deviceData[ `${dividerType}BackgroundType` ]
+    let dividerVideoEmbed = deviceData[ `${dividerType}VideoEmbed` ]
+    let dividerVideoYoutube = deviceData[ `${dividerType}VideoYoutube` ]
+    let dividerVideoVimeo = deviceData[ `${dividerType}VideoVimeo` ]
 
     let flipHorizontally = false
 
@@ -59,7 +53,7 @@ export default class Divider extends Component {
       'vce-container-divider-flip--horizontally': flipHorizontally,
       [backgroundStyleClass]: dividerBackgroundStyle,
       [backgroundPositionClass]: dividerBackgroundPosition,
-      'vce-container-divider-new': vcCake.env('NEW_DIVIDER_SHAPES')
+      'vce-container-divider-new': true
     }, `vce-visible-${deviceKey}-only`)
 
     let fill = dividerBackgroundColor
@@ -68,12 +62,7 @@ export default class Divider extends Component {
     width = `${width}%`
 
     let shape = dividerShape && dividerShape.icon
-
-    if (vcCake.env('NEW_DIVIDER_SHAPES')) {
-      shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-divider-', '')
-    } else {
-      shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-dividers-', '')
-    }
+    shape = shape && shape.split(' ')[ 1 ].replace('vcv-ui-icon-divider-', '')
 
     let imageUrl = ''
     const images = dividerBackgroundImage
