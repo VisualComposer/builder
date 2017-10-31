@@ -1,10 +1,6 @@
 import React from 'react'
-import vcCake from 'vc-cake'
 const { Component, PropTypes } = React
-let shapes = require('./shapes')
-if (vcCake.env('NEW_DIVIDER_SHAPES')) {
-  shapes = require('./shapes-new')
-}
+const shapes = require('./shapes-new')
 
 export default class DividerShape extends Component {
   static propTypes = {
@@ -138,9 +134,7 @@ export default class DividerShape extends Component {
     let viewBoxWidth = currentShape.viewBox && currentShape.viewBox.width
     let viewBoxHeight = currentShape.viewBox && currentShape.viewBox.height
 
-    if (vcCake.env('NEW_DIVIDER_SHAPES')) {
-      currentShape = currentShape && currentShape[ `${type.toLowerCase()}` ]
-    }
+    currentShape = currentShape && currentShape[ `${type.toLowerCase()}` ]
 
     if (!currentShape) {
       return null
@@ -179,9 +173,6 @@ export default class DividerShape extends Component {
         viewBox: viewBox,
         width: width,
         preserveAspectRatio: 'none'
-      }
-      if (!vcCake.env('NEW_DIVIDER_SHAPES')) {
-        svgProps.height = viewBoxHeight
       }
 
       return (
