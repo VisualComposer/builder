@@ -17,6 +17,12 @@ class UserCapabilities implements Helper
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         // @codingStandardsIgnoreStart
         $post = get_post($sourceId);
+        if (!$post) {
+            return false;
+        }
+        if ($post->post_status === 'trash') {
+            return false;
+        }
         if ('page' !== $post->post_type) {
             if ('publish' === $post->post_status
                 && $currentUserAccessHelper->wpAll(
@@ -34,8 +40,8 @@ class UserCapabilities implements Helper
         } elseif ('page' === $post->post_type && $currentUserAccessHelper->wpAll(['edit_pages', $post->ID])->get()) {
             return true;
         }
-        // @codingStandardsIgnoreEnd
 
+        // @codingStandardsIgnoreEnd
         return false;
     }
 }
