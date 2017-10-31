@@ -15,6 +15,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Class TitleController
+ * @package VisualComposer\Modules\Editors\Settings
+ */
 class TitleController extends Container implements Module
 {
     use EventsFilters;
@@ -80,13 +84,21 @@ class TitleController extends Container implements Module
         );
     }
 
-    protected function titleRemove($title, $payload, Frontend $frontendHelper)
+    /**
+     * @param $title
+     * @param $payload integer - id of the page/post
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     *
+     * @return string
+     */
+    protected function titleRemove($title, $payload, Frontend $frontendHelper, Request $requestHelper)
     {
         $post = get_post($payload);
         if ($post) {
             $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
-
-            if ($frontendHelper->isPageEditable()) {
+            // Add entry title only for correct Page Editable
+            if ($frontendHelper->isPageEditable() && intval($requestHelper->input('vcv-source-id')) === $payload) {
                 $title = '<span class="vcv-entry-title">' . $title . '</span>';
             } else {
                 if ($disableMeta) {
