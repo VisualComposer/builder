@@ -21,7 +21,7 @@ export default class SettingsButtonControl extends NavbarContent {
     this.toggleSettings = this.toggleSettings.bind(this)
     this.checkSettings = this.checkSettings.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
-    if (env('PAGE_TITLE_FE')) {
+    if (env('editor') === 'frontend' && env('PAGE_TITLE_FE')) {
       this.checkPageTitle()
     }
   }
@@ -64,7 +64,7 @@ export default class SettingsButtonControl extends NavbarContent {
     }
     let iframe = document.getElementById('vcv-editor-iframe')
     if (iframe) {
-      let title = iframe.contentDocument.querySelector('.entry-title')
+      let title = iframe.contentDocument.querySelector('.vcv-entry-title')
       if (title) {
         title.innerText = data.current
         title.style.display = data.disabled ? 'none' : ''

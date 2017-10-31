@@ -29,7 +29,7 @@ export default class TitleSettings extends React.Component {
   findPageTitle () {
     let iframe = document.getElementById('vcv-editor-iframe')
     if (iframe) {
-      this.title = iframe.contentDocument.querySelector('.entry-title')
+      this.title = iframe.contentDocument.querySelector('.vcv-entry-title')
       this.setTitle()
     }
   }

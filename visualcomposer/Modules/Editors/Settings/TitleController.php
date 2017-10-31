@@ -36,17 +36,15 @@ class TitleController extends Container implements Module
     {
         $sourceId = $payload['sourceId'];
         $pageTitle = $requestHelper->input('vcv-page-title');
-        $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled');
+        $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled', false);
         $post = get_post($sourceId);
-        if (isset($pageTitle) && !$pageTitle) {
+        if ($requestHelper->exists('vcv-page-title') && !$pageTitle) {
             $pageTitleDisabled = true;
         }
-        if ($post && isset($pageTitle)) {
+        if ($post && $requestHelper->exists('vcv-page-title')) {
             // @codingStandardsIgnoreLine
             $post->post_title = $pageTitle;
-            if (isset($pageTitleDisabled)) {
-                update_post_meta($sourceId, '_' . VCV_PREFIX . 'pageTitleDisabled', $pageTitleDisabled);
-            }
+            update_post_meta($sourceId, '_' . VCV_PREFIX . 'pageTitleDisabled', $pageTitleDisabled);
             //temporarily disable (can break preview page and content if not removed)
             remove_filter('content_save_pre', 'wp_filter_post_kses');
             remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
@@ -88,9 +86,7 @@ class TitleController extends Container implements Module
         $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
 
         if ($frontendHelper->isPageEditable()) {
-            if (!$title) {
-                $title = ' ';
-            }
+            $title = '<span class="vcv-entry-title">' . $title . '</span>';
         } else {
             if ($disableMeta) {
                 $title = '';
