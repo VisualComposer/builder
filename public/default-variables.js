@@ -23,4 +23,4 @@ vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD', true)
 vcCake.env('UI_NOTIFICATIONS', true)
 vcCake.env('DIVIDER_SHAPE_UPDATE', true)
 vcCake.env('PAGE_TITLE_FE', true)
-
+vcCake.env('ATTRIBUTE_LIBS', false)

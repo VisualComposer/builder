@@ -1,4 +1,5 @@
-import {default as ElementAttribute} from './element-attribute'
+import { default as ElementAttribute } from './element-attribute'
+import { env } from 'vc-cake'
 
 export default {
   items: {},
@@ -11,6 +12,13 @@ export default {
     }
     if (typeof getter === 'function') {
       this.items[ name ].setGetter(getter)
+    }
+    if (env('ATTRIBUTE_LIBS')) {
+      // TODO: move varialbe declaration to the beginnig after TF remove
+      let { getAttributeLibs } = settings
+      if (typeof getAttributeLibs === 'function') {
+        this.items[ name ].setGetAttributeLibs(getAttributeLibs)
+      }
     }
   },
   get (name) {
