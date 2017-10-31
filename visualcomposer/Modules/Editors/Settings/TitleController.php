@@ -25,7 +25,7 @@ class TitleController extends Container implements Module
         if (vcvenv('VCV_PAGE_TITLE_FE')) {
             $this->wpAddFilter(
                 'the_title',
-                'titleDisabler'
+                'titleRemove'
             );
             $this->addFilter('vcv:frontend:head:extraOutput', 'outputTitle');
             $this->addFilter('vcv:dataAjax:setData', 'setPageTitle');
@@ -80,7 +80,7 @@ class TitleController extends Container implements Module
         );
     }
 
-    protected function titleDisabler($title, Frontend $frontendHelper)
+    protected function titleRemove($title, Frontend $frontendHelper)
     {
         global $post;
         $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
