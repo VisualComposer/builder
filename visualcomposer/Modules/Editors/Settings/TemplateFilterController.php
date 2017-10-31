@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\PageTemplates;
+namespace VisualComposer\Modules\Editors\Settings;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
