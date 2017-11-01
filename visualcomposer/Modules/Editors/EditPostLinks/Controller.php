@@ -141,7 +141,7 @@ class Controller extends Container implements Module
         EditorPostType $editorPostTypeHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
-        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && $userCapabilitiesHelper->canEdit(get_the_ID())) {
+        if (intval(get_option('page_for_posts')) !== get_the_ID() && $editorPostTypeHelper->isEditorEnabled(get_post_type()) && $userCapabilitiesHelper->canEdit(get_the_ID())) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vcwb'));
         }

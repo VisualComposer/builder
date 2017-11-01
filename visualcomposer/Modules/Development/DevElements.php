@@ -2059,6 +2059,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'Display copyright information with your site name and automatic year generation.',
                 //                    ],
                 //                ]
+                //'sandwichMenu' => [
+                //    'bundlePath' => $urlHelper->to(
+                //        'devElements/sandwichMenu/public/dist/element.bundle.js'
+                //    ),
+                //    'elementPath' => $urlHelper->to('devElements/sandwichMenu/sandwichMenu/'),
+                //    'elementRealPath' => vcapp()->path('devElements/sandwichMenu/sandwichMenu/'),
+                //    'assetsPath' => $urlHelper->to('devElements/sandwichMenu/sandwichMenu/public/'),
+                //    'settings' => [
+                //        'name' => 'Sandwich Menu',
+                //        'metaThumbnailUrl' => $urlHelper->to(
+                //            'devElements/sandwichMenu/sandwichMenu/public/sandwich-menu-thumbnail.png'
+                //        ),
+                //        'metaPreviewUrl' => $urlHelper->to(
+                //            'devElements/sandwichMenu/sandwichMenu/public/sandwich-menu-preview.png'
+                //        ),
+                //        'metaDescription' => 'Add sandwich menu with/without background and full screen overlay to your site.',
+                //    ],
+                //]
             ]
         );
     }

@@ -15,8 +15,8 @@ export default class TitleSettings extends React.Component {
       current: pageTitle !== undefined ? pageTitle : titleData.current,
       disabled: pageTitleDisabled !== undefined ? pageTitleDisabled : titleData.disabled
     }
-    setData('ui:settings:pageTitle', titleData.current)
-    setData('ui:settings:pageTitleDisabled', titleData.disabled)
+    setData('ui:settings:pageTitle', this.state.current)
+    setData('ui:settings:pageTitleDisabled', this.state.disabled)
     this.updateTitle = this.updateTitle.bind(this)
     this.updateTitleToggle = this.updateTitleToggle.bind(this)
     this.findPageTitle()
