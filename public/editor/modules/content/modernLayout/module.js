@@ -83,7 +83,7 @@ vcCake.add('contentModernLayout', (api) => {
     let oopsContainer = document.getElementById('vcv-oops-screen-container')
     if (oopsContainer) {
       ReactDOM.render(
-        <OopsScreen error={window.VCV_FE_ERROR || 'default'} />,
+        <OopsScreen error={window.vcvFeError || 'default'} />,
         oopsContainer
       )
     }

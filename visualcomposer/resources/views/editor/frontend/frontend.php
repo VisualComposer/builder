@@ -80,8 +80,8 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
 	window.vcvIsPremium = '<?php echo $licenseHelper->isActivated() ?>';
     window.vcvGoPremiumUrl = '<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>&vcv-ref=nav-bar';
 	<?php } ?>
-    <?php if ($feError) { ?>
-      window.VCV_FE_ERROR = '<?php echo $feError; ?>'
+    <?php if (isset($feError) && $feError) { ?>
+      window.vcvFeError = '<?php echo $feError; ?>'
     <?php } ?>
 </script>
 <?php
