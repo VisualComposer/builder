@@ -5,8 +5,8 @@ const localizations = window.VCV_I18N && window.VCV_I18N()
 const Errors = {
   default: {
     message: localizations.feOopsMessageDefault || 'It seems that something went wrong with loading content. Please make sure you are loading correct content and try again.',
-    buttonText: localizations.feOopsButtonTextDefault || 'Back to WordPress Dashboard',
-    buttonLink: window.location.href.replace(window.location.search, '').match(/.*admin\//)[0]
+    buttonText: localizations.feOopsButtonTextDefault || 'Back to WordPress',
+    buttonLink: window.location.href.replace(/&vcv-action=frontend.*/i, '')
   },
   page_for_posts: {
     message: localizations.feOopsMessagePageForPosts || 'It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it into a static page via your WordPress admin.',
