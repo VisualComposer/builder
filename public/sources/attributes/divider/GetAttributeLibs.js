@@ -1,8 +1,11 @@
 import { env } from 'vc-cake'
 
-module.exports = (value) => {
+export default (value) => {
   if (env('ATTRIBUTE_LIBS')) {
-    let dividerLibName = 'divider'
+    let libData = {
+      name: 'divider',
+      dependencies: []
+    }
     let isActiveAttribute = false
 
     if (value && value.device && Object.keys(value.device).length) {
@@ -13,6 +16,6 @@ module.exports = (value) => {
         }
       })
     }
-    return isActiveAttribute ? dividerLibName : null
+    return isActiveAttribute ? libData : {}
   }
 }
