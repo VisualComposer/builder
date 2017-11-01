@@ -167,7 +167,7 @@ class Localizations extends Container implements Helper
             'defaultTemplate' => __('Default template', 'vcwb'),
             'pageTemplateDescription' => __('To apply a template you will need to save changes and reload the page.', 'vcwb'),
             'pageTitleDescription' => __('To apply title changes you will need to save changes and reload the page.', 'vcwb'),
-            'pageTitleDisableDescription' => __('Disable page title.', 'vcwb'),
+            'pageTitleDisableDescription' => __('Disable page title', 'vcwb'),
             'successElementDownload' => __('{name} has been successfully downloaded from the Visual Composer Hub and added to your library.', 'vcwb'),
             'licenseErrorElementDownload' => __('Failed to download element (license is expired or request to account has timed out).', 'vcwb'),
             'defaultErrorElementDownload' => __('Failed to download element.', 'vcwb'),
