@@ -38,7 +38,11 @@ export default class Dropdown extends Attribute {
     let { values } = props.options || {}
     let { global } = props.options || {}
     if (global && (!values || !values.length)) {
-      values = window[ global ] || []
+      if (typeof window[ global ] === 'function') {
+        values = window[ global ]()
+      } else {
+        values = window[ global ] || []
+      }
     }
 
     return values
