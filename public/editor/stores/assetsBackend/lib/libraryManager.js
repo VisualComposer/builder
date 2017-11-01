@@ -82,8 +82,8 @@ const getElementLibNames = (id, element) => {
       if (attribute.type.getAttributeLibs) {
         let attributeValue = attribute.type.getRawValue(cookElement.getAll(), attr)
         let attributeLibs = attribute.type.getAttributeLibs(attributeValue)
-        if (attributeLibs) {
-          data.libraries.push(attributeLibs)
+        if (attributeLibs && attributeLibs.length) {
+          data.libraries.push(...attributeLibs)
         }
       }
     })
