@@ -45,9 +45,14 @@ class ElementDownloadController extends Container implements Module
                     $hubElementsHelper = vchelper('HubElements');
                     $elementTag = lcfirst(str_replace('element/', '', $bundle));
                     $elements = $hubElementsHelper->getElements();
+
                     if (isset($elements[ $elementTag ])) {
                         // OK!
-                        $response['element'] = $elements[ $elementTag ];
+                        $element = $elements[ $elementTag ];
+                        $response['element'] = $element;
+                        // Try to initialize PHP in element via autoloader
+                        vcevent('vcv:hub:elements:autoload', ['element' => $element]);
+                        $response['variables'] = vcfilter('vcv:editor:variables/' . $elementTag, []);
                     } else {
                         vchelper('Logger')->log(
                             __('Element downloaded but failed to fetch settings', 'vcwb'),

@@ -11,9 +11,12 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Autoload;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Application as ApplicationVc;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class ElementsAutoload extends Autoload implements Module
 {
+    use EventsFilters;
+
     /**
      * Used in bitwise comparison.
      */
@@ -29,10 +32,15 @@ class ElementsAutoload extends Autoload implements Module
         $this->app = $app;
         if ($init) {
             $components = $this->getComponents();
-            $this->bootstrapFiles($components);
-            $this->initComponents($components);
-            $this->bootComponents($components);
+            $this->doComponents($components);
         }
+        $this->addEvent(
+            'vcv:hub:elements:autoload',
+            function ($element) {
+                $components = $this->getSingleComponent($element);
+                $this->doComponents($components);
+            }
+        );
     }
 
     protected function bootstrapFiles($components)
@@ -55,17 +63,21 @@ class ElementsAutoload extends Autoload implements Module
             'helpers' => [],
             'modules' => [],
         ];
-        /** @var \VisualComposer\Framework\Application $appHelper */
-        $appHelper = vcapp();
 
         foreach ($hubHelper->getElements() as $key => $element) {
             if (isset($element['elementRealPath'])) {
-                $components = $appHelper->rglob(rtrim($element['elementRealPath'], '\//') . '/*.php');
-                $all = array_merge_recursive($all, $this->checkElementController($components));
+                $all = array_merge_recursive($all, $this->getSingleComponent($element));
             }
         }
 
         return $all;
+    }
+
+    protected function getSingleComponent($element)
+    {
+        $components = $this->app->rglob(rtrim($element['elementRealPath'], '\//') . '/*.php');
+
+        return $this->checkElementController($components);
     }
 
     protected function checkElementController($components)
@@ -216,5 +228,15 @@ class ElementsAutoload extends Autoload implements Module
             '',
             $data['namespace'] . $data['class']
         );
+    }
+
+    /**
+     * @param $components
+     */
+    protected function doComponents($components)
+    {
+        $this->bootstrapFiles($components);
+        $this->initComponents($components);
+        $this->bootComponents($components);
     }
 }

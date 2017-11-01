@@ -60,6 +60,7 @@ export default class TeaserElementControl extends ElementControl {
       try {
         let jsonResponse = window.JSON.parse(response)
         if (jsonResponse && jsonResponse.status && jsonResponse.element && jsonResponse.element.settings) {
+          this.buildVariables(jsonResponse.variables)
           jsonResponse.element.tag = bundle.replace('element/', '')
           getStorage('hubElements').trigger('add', jsonResponse.element, true)
 
@@ -108,6 +109,20 @@ export default class TeaserElementControl extends ElementControl {
       !cancelled && this.setState({ elementState: 'failed' })
     }
     this.ajax = this.props.startDownload(tag, data, successCallback, errorCallback)
+  }
+
+  buildVariables (variables) {
+    if (variables.length) {
+      variables.forEach((item) => {
+        if (typeof window[ item.key ] === 'undefined') {
+          if (item.type === 'constant') {
+            window[ item.key ] = function () { return item.value }
+          } else {
+            window[ item.key ] = item.value
+          }
+        }
+      })
+    }
   }
 
   render () {
