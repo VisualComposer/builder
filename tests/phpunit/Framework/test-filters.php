@@ -362,4 +362,43 @@ class FiltersTest extends WP_UnitTestCase
 
         $this->assertEquals(2, $helper->fire('test_filter_priority:2:exact'));
     }
+
+    public function testWildCards()
+    {
+        $helper = vchelper('Filters');
+        $helper->listen(
+            'vcv:test:wildCards:variables',
+            function ($data) {
+                return $data + 2;
+            }
+        );
+        $helper->listen(
+            'vcv:test:wildCards:variables/json',
+            function ($data) {
+                return $data + 4;
+            }
+        );
+        $helper->listen(
+            'vcv:test:wildCards:variables',
+            function ($data) {
+                return $data + 8;
+            }
+        );
+
+        $response1 = vcfilter('vcv:test:wildCards:variables', 1);
+        $this->assertTrue(($response1 & 2) > 0);
+        $this->assertFalse(($response1 & 4) > 0);
+        $this->assertTrue(($response1 & 8) > 0);
+
+        // NOTE THAT IT IS IMPOSSIBLE TO FILE WILDCARD FILTER
+        $response2 = vcfilter('vcv:test:wildCards:variables*', 1);
+        $this->assertFalse(($response2 & 2) > 0);
+        $this->assertFalse(($response2 & 4) > 0);
+        $this->assertFalse(($response2 & 8) > 0);
+
+        $response2 = vcfilter('vcv:test:wildCards:variable*', 1);
+        $this->assertFalse(($response2 & 2) > 0);
+        $this->assertFalse(($response2 & 4) > 0);
+        $this->assertFalse(($response2 & 8) > 0);
+    }
 }

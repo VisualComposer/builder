@@ -7,6 +7,7 @@ import {getStorage, env} from 'vc-cake'
 const workspaceContentStartState = getStorage('workspace').state('contentStart')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 const workspaceContentState = getStorage('workspace').state('content')
+const workspaceSettings = getStorage('workspace').state('settings')
 
 export default class TreeViewControl extends NavbarContent {
   constructor (props) {
@@ -49,6 +50,7 @@ export default class TreeViewControl extends NavbarContent {
       }
     }
     if (env('NAVBAR_SINGLE_CONTENT')) {
+      workspaceSettings.set({})
       workspaceContentState.set(!this.state.isActive ? 'treeView' : false)
       return
     }
