@@ -4,14 +4,26 @@ const SharedAssets = window.VCV_GET_SHARED_ASSETS()
 
 const API = {
   getAssetsLibraryFiles: (library) => {
-    let data = SharedAssets[ library ]
+    let data = typeof library === 'string' ? SharedAssets[ library ] : SharedAssets[ library.name ]
     let files = {
       cssBundles: [],
       jsBundles: []
     }
 
     if (data) {
-      if (data.dependencies && data.dependencies.length) {
+      if (vcCake.env('ATTRIBUTE_LIBS')) {
+        if (library.dependencies && library.dependencies.length) {
+          library.dependencies.forEach((dependency) => {
+            let dependencyLibraryFiles = API.getAssetsLibraryFiles(dependency)
+            if (dependencyLibraryFiles.cssBundles && dependencyLibraryFiles.cssBundles.length) {
+              files.cssBundles = files.cssBundles.concat(dependencyLibraryFiles.cssBundles)
+            }
+            if (dependencyLibraryFiles.jsBundles && dependencyLibraryFiles.jsBundles.length) {
+              files.jsBundles = files.jsBundles.concat(dependencyLibraryFiles.jsBundles)
+            }
+          })
+        }
+      } else if (data.dependencies && data.dependencies.length) {
         data.dependencies.forEach((dependency) => {
           let dependencyLibraryFiles = API.getAssetsLibraryFiles(dependency)
           if (dependencyLibraryFiles.cssBundles && dependencyLibraryFiles.cssBundles.length) {
