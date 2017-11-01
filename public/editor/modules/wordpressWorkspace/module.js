@@ -48,50 +48,54 @@ add('wordpressWorkspace', (api) => {
     }
   })
   let layoutHeader = document.getElementById('vcv-layout-header')
-  ReactDOM.render(
-    <WorkspaceCont />,
-    layoutHeader
-  )
+  if (layoutHeader) {
+    ReactDOM.render(
+      <WorkspaceCont />,
+      layoutHeader
+    )
+  }
 
   // Start blank overlay
   let iframeContent = document.getElementById('vcv-layout-iframe-content')
 
-  const removeStartBlank = () => {
-    ReactDOM.unmountComponentAtNode(iframeContent)
-  }
-  const addStartBlank = () => {
-    ReactDOM.render(
-      <StartBlankPanel unmountStartBlank={removeStartBlank} />,
-      iframeContent
-    )
-  }
-  let documentElements
-
-  elementsStorage.state('document').onChange((data, elements) => {
-    documentElements = elements
-    if (data.length === 0) {
-      addStartBlank()
-    } else {
-      if (!env('CSS_LOADING')) {
-        iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
-      }
-      removeStartBlank()
+  if (iframeContent) {
+    const removeStartBlank = () => {
+      ReactDOM.unmountComponentAtNode(iframeContent)
     }
-  })
+    const addStartBlank = () => {
+      ReactDOM.render(
+        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
+        iframeContent
+      )
+    }
+    let documentElements
 
-  if (env('CSS_LOADING')) {
-    assetsStorage.state('jobs').onChange((data) => {
-      if (documentElements) {
-        let jobsIds = Object.keys(data.elements)
-        let documentIds = Object.keys(documentElements)
-        if (documentIds.length === jobsIds.length) {
-          let jobsInprogress = data.elements.find(element => element.jobs)
-          if (jobsInprogress) {
-            return
-          }
+    elementsStorage.state('document').onChange((data, elements) => {
+      documentElements = elements
+      if (data.length === 0) {
+        addStartBlank()
+      } else {
+        if (!env('CSS_LOADING')) {
           iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
         }
+        removeStartBlank()
       }
     })
+
+    if (env('CSS_LOADING')) {
+      assetsStorage.state('jobs').onChange((data) => {
+        if (documentElements) {
+          let jobsIds = Object.keys(data.elements)
+          let documentIds = Object.keys(documentElements)
+          if (documentIds.length === jobsIds.length) {
+            let jobsInprogress = data.elements.find(element => element.jobs)
+            if (jobsInprogress) {
+              return
+            }
+            iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+          }
+        }
+      })
+    }
   }
 })

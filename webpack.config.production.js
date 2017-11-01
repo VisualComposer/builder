@@ -13,7 +13,6 @@ module.exports = Object.assign(webpackConfig, {
     wpbackendswitch: './public/wpbackend-switch',
     // wpsettings: './public/wp-settings-main',
     // wpupdate: './public/bundle-update-main',
-    // wpfeoops: './public/bundle-fe-oops-main',
     vendor: [
       'jquery',
       'react',

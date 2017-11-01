@@ -7,6 +7,7 @@ import ControlsManager from './lib/controlsIframe/controlsManager'
 import MobileControlsManager from './lib/controlsIframe/mobileControlsManager'
 import Notifications from './lib/notifications'
 import MobileDetect from 'mobile-detect'
+import OopsScreen from '../../../../resources/components/oopsScreen/component'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -77,5 +78,14 @@ vcCake.add('contentModernLayout', (api) => {
 
     let controls = new ControlsManager(api)
     controls.init()
+  } else {
+    document.body.innerHTML = `<div id='vcv-oops-screen-container'></div>`
+    let oopsContainer = document.getElementById('vcv-oops-screen-container')
+    if (oopsContainer) {
+      ReactDOM.render(
+        <OopsScreen error={window.vcvFeError || 'default'} />,
+        oopsContainer
+      )
+    }
   }
 })
