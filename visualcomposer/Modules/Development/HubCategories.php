@@ -302,6 +302,12 @@ class HubCategories extends Container implements Module
                     'elements' => ['emptySpace'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg')
+                ],
+                'Copyright' => [
+                    'title' => 'Copyright',
+                    'elements' => ['copyright'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg')
                 ]
             ]
         );
