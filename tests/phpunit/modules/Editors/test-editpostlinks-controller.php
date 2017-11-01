@@ -59,7 +59,7 @@ class EditPostLinksControllerTest extends WP_UnitTestCase
         $actions = [];
         $post = new WP_UnitTest_Factory_For_Post($this);
         $postId = $post->create(['post_title' => 'Test Post']);
-        $GLOBALS['post'] = $post;
+        $GLOBALS['post'] = get_post($postId);
         /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminRowLinks */
         $return = $module->call('adminRowLinks', [$actions]);
         $this->assertTrue(is_array($return));

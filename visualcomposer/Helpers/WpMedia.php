@@ -1,4 +1,5 @@
 <?php
+
 namespace VisualComposer\Helpers;
 
 if (!defined('ABSPATH')) {
@@ -246,9 +247,14 @@ class WpMedia implements Helper
 
         foreach (get_intermediate_image_sizes() as $_size) {
             if (in_array($_size, ['thumbnail', 'medium', 'medium_large', 'large'])) {
-                $sizes[ $_size ]['width'] = (int)get_option("{$_size}_size_w");
-                $sizes[ $_size ]['height'] = (int)get_option("{$_size}_size_h");
-                $sizes[ $_size ]['crop'] = (bool)get_option("{$_size}_crop");
+                $sizeWidth = get_option("{$_size}_size_w");
+                $sizeHeight = get_option("{$_size}_size_h");
+                $sizeCrop = get_option("{$_size}_crop");
+                if ($sizeWidth > 0 && $sizeHeight > 0) {
+                    $sizes[ $_size ]['width'] = (int)$sizeWidth;
+                    $sizes[ $_size ]['height'] = (int)$sizeHeight;
+                    $sizes[ $_size ]['crop'] = (bool)$sizeCrop;
+                }
             } elseif (isset($_wp_additional_image_sizes[ $_size ])) {
                 $sizes[ $_size ] = [
                     'width' => (int)$_wp_additional_image_sizes[ $_size ]['width'],

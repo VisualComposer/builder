@@ -118,6 +118,16 @@ class Controller extends Container implements Module
         global $post;
         $sourceId = $post->ID;
         if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
+            if (intval(get_option('page_for_posts')) === $sourceId) {
+                $this->addFilter('vcv:frontend:update:head:extraOutput', 'addFeOopsAssets', 10);
+                return $templates->render(
+                    'editor/frontend/frontend-oops.php',
+                    [
+                        'editableLink' => get_edit_post_link($sourceId),
+                    ]
+                );
+            }
+
             return $templates->render(
                 'editor/frontend/frontend.php',
                 [
@@ -128,5 +138,29 @@ class Controller extends Container implements Module
         }
 
         return false;
+    }
+
+    protected function addFeOopsAssets($response, $payload, Url $urlHelper)
+    {
+        // Add Vendor JS
+        $response = array_merge(
+            (array)$response,
+            [
+                sprintf(
+                    '<link rel="stylesheet" href="%s"></link>',
+                    $urlHelper->assetUrl(
+                        'dist/wpfeoops.bundle.css?v=' . VCV_VERSION
+                    )
+                ),
+                sprintf(
+                    '<script id="vcv-script-vendor-bundle-fe-oops" type="text/javascript" src="%s"></script>',
+                    $urlHelper->assetUrl(
+                        'dist/wpfeoops.bundle.js?v=' . VCV_VERSION
+                    )
+                ),
+            ]
+        );
+
+        return $response;
     }
 }
