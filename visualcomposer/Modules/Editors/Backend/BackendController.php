@@ -26,7 +26,7 @@ class BackendController extends Container implements Module
 
     protected function checkPostType($status, $payload)
     {
-        return $status && post_type_supports($payload['postType'], 'editor');
+        return intval(get_option('page_for_posts')) !== get_the_ID() && $status && post_type_supports($payload['postType'], 'editor');
     }
 
     protected function checkToggleFeature($status, $payload)

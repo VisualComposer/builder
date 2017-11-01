@@ -2040,7 +2040,61 @@ class DevElements extends Container implements Module
                         ),
                         'metaDescription' => 'Add Flickr image grid gallery to your site, specify the number of images with an easy-to-use widget.',
                     ],
-                ]
+                ],
+                //                'copyright' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/copyright/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/copyright/copyright/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/copyright/copyright/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/copyright/copyright/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Copyright',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/copyright/copyright/public/copyright-thumbnail.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/copyright/copyright/public/copyright-preview.png'
+                //                        ),
+                //                        'metaDescription' => 'Display copyright information with your site name and automatic year generation.',
+                //                    ],
+                //                ]
+                //'sandwichMenu' => [
+                //    'bundlePath' => $urlHelper->to(
+                //        'devElements/sandwichMenu/public/dist/element.bundle.js'
+                //    ),
+                //    'elementPath' => $urlHelper->to('devElements/sandwichMenu/sandwichMenu/'),
+                //    'elementRealPath' => vcapp()->path('devElements/sandwichMenu/sandwichMenu/'),
+                //    'assetsPath' => $urlHelper->to('devElements/sandwichMenu/sandwichMenu/public/'),
+                //    'settings' => [
+                //        'name' => 'Sandwich Menu',
+                //        'metaThumbnailUrl' => $urlHelper->to(
+                //            'devElements/sandwichMenu/sandwichMenu/public/sandwich-menu-thumbnail.png'
+                //        ),
+                //        'metaPreviewUrl' => $urlHelper->to(
+                //            'devElements/sandwichMenu/sandwichMenu/public/sandwich-menu-preview.png'
+                //        ),
+                //        'metaDescription' => 'Add sandwich menu with/without background and full screen overlay to your site.',
+                //    ],
+                //],
+                //                'logoWidget' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/logoWidget/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/logoWidget/logoWidget/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/logoWidget/logoWidget/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/logoWidget/logoWidget/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Logo Widget',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/logoWidget/logoWidget/public/logo-widget-thumbnail.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/logoWidget/logoWidget/public/logo-widget-preview.png'
+                //                        ),
+                //                        'metaDescription' => 'Display your site logo (defined in WordPress Customizer) anywhere on the page.',
+                //                    ],
+                //                ],
             ]
         );
     }

@@ -118,15 +118,41 @@ class Controller extends Container implements Module
         global $post;
         $sourceId = $post->ID;
         if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
+            $feError = intval(get_option('page_for_posts')) === $sourceId ? 'page_for_posts' : false;
             return $templates->render(
                 'editor/frontend/frontend.php',
                 [
                     'editableLink' => $frontendHelper->getEditableUrl($sourceId),
                     'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', []),
+                    'feError' => $feError
                 ]
             );
         }
 
         return false;
+    }
+
+    protected function addFeOopsAssets($response, $payload, Url $urlHelper)
+    {
+        // Add Vendor JS
+        $response = array_merge(
+            (array)$response,
+            [
+                sprintf(
+                    '<link rel="stylesheet" href="%s"></link>',
+                    $urlHelper->assetUrl(
+                        'dist/wpfeoops.bundle.css?v=' . VCV_VERSION
+                    )
+                ),
+                sprintf(
+                    '<script id="vcv-script-vendor-bundle-fe-oops" type="text/javascript" src="%s"></script>',
+                    $urlHelper->assetUrl(
+                        'dist/wpfeoops.bundle.js?v=' . VCV_VERSION
+                    )
+                ),
+            ]
+        );
+
+        return $response;
     }
 }

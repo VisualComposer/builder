@@ -160,7 +160,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Misc' => [
                     'title' => 'Misc',
-                    'elements' => ['rawHtml', 'rawJs', 'demoElement'],
+                    'elements' => ['rawHtml', 'rawJs', 'demoElement', 'sandwichMenu', 'logoWidget'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
@@ -300,6 +300,12 @@ class HubCategories extends Container implements Module
                 'Empty Space' => [
                     'title' => 'Empty Space',
                     'elements' => ['emptySpace'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg')
+                ],
+                'Copyright' => [
+                    'title' => 'Copyright',
+                    'elements' => ['copyright'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg')
                 ]
