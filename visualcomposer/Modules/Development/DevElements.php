@@ -2058,7 +2058,25 @@ class DevElements extends Container implements Module
                 //        ),
                 //        'metaDescription' => 'Add sandwich menu with/without background and full screen overlay to your site.',
                 //    ],
-                //]
+                //],
+                //                'logoWidget' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/logoWidget/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/logoWidget/logoWidget/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/logoWidget/logoWidget/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/logoWidget/logoWidget/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Logo Widget',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/logoWidget/logoWidget/public/logo-widget-thumbnail.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/logoWidget/logoWidget/public/logo-widget-preview.png'
+                //                        ),
+                //                        'metaDescription' => 'Display your site logo (defined in WordPress Customizer) anywhere on the page.',
+                //                    ],
+                //                ],
             ]
         );
     }
