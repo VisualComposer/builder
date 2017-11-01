@@ -26,6 +26,10 @@ var Collector = {
         var isGetterExists = fs.existsSync(getterPath)
         var setterPath = join(filePath, 'Setter.js')
         var isSetterExists = fs.existsSync(setterPath)
+        if (0) {
+          var getAttributeLibsPath = join(filePath, 'GetAttributeLibs.js')
+          var isGetAttributeLibsExists = fs.existsSync(getAttributeLibsPath)
+        }
         var attributeRelativePath = join('..', config.attributePath, attribute)
         if (isComponentExists) {
           content += uf("import {default as %sComponent} from '%s'\n", attribute, join(attributeRelativePath, 'Component').replace(/\\/g, '/'))
@@ -35,6 +39,9 @@ var Collector = {
         }
         if (isSetterExists) {
           content += uf("import {default as %sSetter} from '%s'\n", attribute, join(attributeRelativePath, 'Setter').replace(/\\/g, '/'))
+        }
+        if (0 && isGetAttributeLibsExists) {
+          content += uf("import {default as %sGetAttributeLibs} from '%s'\n", attribute, join(attributeRelativePath, 'GetAttributeLibs').replace(/\\/g, '/'))
         }
         let representersDirPath = join(filePath, 'representers')
         let representers = {}
@@ -69,6 +76,9 @@ var Collector = {
         }
         if (isSetterExists) {
           gettersSetters.push(uf("setter: %sSetter", attribute))
+        }
+        if (0 && isGetAttributeLibsExists) {
+          gettersSetters.push(uf("getAttributeLibs: %sGetAttributeLibs", attribute))
         }
         content += gettersSetters.join(',')
         if (Object.keys(representers).length) {
