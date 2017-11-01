@@ -29,7 +29,7 @@ export default class TitleSettings extends React.Component {
   findPageTitle () {
     let iframe = document.getElementById('vcv-editor-iframe')
     if (iframe) {
-      this.title = iframe.contentDocument.querySelector('.vcv-entry-title')
+      this.title = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
       this.setTitle()
     }
   }
@@ -39,8 +39,10 @@ export default class TitleSettings extends React.Component {
       return
     }
     let { current, disabled } = this.state
-    this.title.innerText = current
-    this.title.style.display = disabled ? 'none' : ''
+    this.title.forEach(title => {
+      title.innerText = current
+      title.style.display = disabled ? 'none' : ''
+    })
   }
 
   updateTitle (event) {

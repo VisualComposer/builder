@@ -64,13 +64,15 @@ export default class SettingsButtonControl extends NavbarContent {
     }
     let iframe = document.getElementById('vcv-editor-iframe')
     if (iframe) {
-      let title = iframe.contentDocument.querySelector('.vcv-entry-title')
-      if (title) {
-        title.innerText = data.current
-        title.style.display = data.disabled ? 'none' : ''
-        title.onclick = () => {
-          workspaceContentState.set('settings')
-        }
+      let titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
+      if (titles) {
+        titles.forEach(title => {
+          title.innerText = data.current
+          title.style.display = data.disabled ? 'none' : ''
+          title.onclick = () => {
+            workspaceContentState.set('settings')
+          }
+        })
       }
     }
   }

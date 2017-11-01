@@ -54,6 +54,16 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
         }
         unset($output);
     }
+    $variables = vcfilter('vcv:editor:variables', []);
+    if (is_array($variables)) {
+        foreach ($variables as $variable) {
+            if (is_array($variable) && isset($variable['key'], $variable['value'])) {
+                $type = isset($variable['type']) ? $variable['type'] : 'variable';
+                echo vcview('partials/variableTypes/' . $type, $variable);
+            }
+        }
+        unset($variable);
+    }
     ?>
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">

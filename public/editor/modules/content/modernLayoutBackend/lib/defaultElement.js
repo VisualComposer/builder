@@ -39,6 +39,10 @@ export default class DefaultElement extends React.Component {
 
   // Lifecycle
 
+  componentDidMount () {
+    this.span.addEventListener('mousedown', this.enableEditable)
+  }
+
   componentWillMount () {
     let cookElement = cook.get({ tag: this.state.element.tag })
     if (!cookElement.get('metaBackendLabels')) {
@@ -260,7 +264,6 @@ export default class DefaultElement extends React.Component {
                 ref={span => { this.span = span }}
                 contentEditable={editable}
                 suppressContentEditableWarning
-                onClick={this.enableEditable}
                 onKeyDown={this.preventNewLine}
                 onBlur={this.validateContent}>
                 {content}
@@ -299,7 +302,6 @@ export default class DefaultElement extends React.Component {
               ref={span => { this.span = span }}
               contentEditable={editable}
               suppressContentEditableWarning
-              onClick={this.enableEditable}
               onKeyDown={this.preventNewLine}
               onBlur={this.validateContent}>
               {content}

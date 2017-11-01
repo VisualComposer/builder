@@ -79,13 +79,24 @@ class Controller extends Container implements Module
 
     protected function addTheContentFilteringForPost()
     {
-        // remove_all_filters('the_content'); // TODO: Check this. causes a bunch of problems with assets/enqueue
-        $this->wpAddFilter(
-            'the_content',
-            function () {
-                return vcview('editor/pageEditable/pageEditable.php');
-            },
-            9999
-        );
+        $sourceId = intval(vchelper("Request")->input('vcv-source-id'));
+        if ($sourceId === get_the_ID()) {
+            // remove_all_filters('the_content'); // TODO: Check this. causes a bunch of problems with assets/enqueue
+            $this->wpAddFilter(
+                'the_content',
+                function () {
+                    return vcview('editor/pageEditable/pageEditable.php');
+                },
+                9999
+            );
+            // In case if the_content wasn't triggered
+            //            $this->wpAddFilter(
+            //                'the_excerpt',
+            //                function () {
+            //                    return vcview('editor/pageEditable/pageEditable.php');
+            //                },
+            //                9999
+            //            );
+        }
     }
 }
