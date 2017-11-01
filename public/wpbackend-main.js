@@ -12,44 +12,46 @@ $(() => {
   let $iframe = $('#vcv-editor-iframe')
   // Get a handle to the iframe element
   let iframe = $iframe.get(0)
-  let iframeDoc = iframe.contentDocument || iframe.contentWindow.document
-  const iframeDocument = iframe.document
-  $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
-  vcCake.env('iframe', iframe)
-  let isIframeLoaded = false
+  let iframeDoc = iframe ? iframe.contentDocument || iframe.contentWindow.document : null
+  if (iframe && iframeDoc) {
+    const iframeDocument = iframe.document
+    $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
+    vcCake.env('iframe', iframe)
+    let isIframeLoaded = false
 
-  let iframeLoadEvent = () => {
-    if (!isIframeLoaded) {
-      isIframeLoaded = true
-    } else {
-      return
-    }
-    vcCake.env('platform', 'wordpress').start(() => {
-      vcCake.env('editor', 'backend')
-      require('./editor/stores/elements/elementsStorage')
-      require('./editor/stores/assetsBackend/assetsStorage')
-      require('./editor/stores/workspaceStorage')
-      if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-        require('./editor/stores/hub/hubElementsStorage')
-        const hubElementsStorage = vcCake.getStorage('hubElements')
-        hubElementsStorage.trigger('start')
+    let iframeLoadEvent = () => {
+      if (!isIframeLoaded) {
+        isIframeLoaded = true
+      } else {
+        return
       }
-      require('./editor/stores/history/historyStorage')
-      require('./editor/stores/settingsStorage')
-      require('./editor/stores/wordpressBackendData/wordpressBackendDataStorage')
-      require('./resources/components/backendEditorContent/content.js')
-      require('./config/wpbackend-modules')
-    })
-  }
+      vcCake.env('platform', 'wordpress').start(() => {
+        vcCake.env('editor', 'backend')
+        require('./editor/stores/elements/elementsStorage')
+        require('./editor/stores/assetsBackend/assetsStorage')
+        require('./editor/stores/workspaceStorage')
+        if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
+          require('./editor/stores/hub/hubElementsStorage')
+          const hubElementsStorage = vcCake.getStorage('hubElements')
+          hubElementsStorage.trigger('start')
+        }
+        require('./editor/stores/history/historyStorage')
+        require('./editor/stores/settingsStorage')
+        require('./editor/stores/wordpressBackendData/wordpressBackendDataStorage')
+        require('./resources/components/backendEditorContent/content.js')
+        require('./config/wpbackend-modules')
+      })
+    }
 
-  $iframe.on('load', iframeLoadEvent)
-  // Check if loading is complete
-  const isContentLoaded = $iframe.get(0).contentWindow.document.body &&
-    $iframe.get(0).contentWindow.document.body.getAttribute('class') &&
-    $iframe.get(0).contentWindow.document.body.childNodes.length
+    $iframe.on('load', iframeLoadEvent)
+    // Check if loading is complete
+    const isContentLoaded = $iframe.get(0).contentWindow.document.body &&
+      $iframe.get(0).contentWindow.document.body.getAttribute('class') &&
+      $iframe.get(0).contentWindow.document.body.childNodes.length
 
-  if (iframeDoc && iframeDoc.readyState === 'complete' && isContentLoaded) {
-    iframeLoadEvent()
+    if (iframeDoc && iframeDoc.readyState === 'complete' && isContentLoaded) {
+      iframeLoadEvent()
+    }
   }
 })
 if (vcCake.env('debug') === true) {

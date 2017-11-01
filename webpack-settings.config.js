@@ -6,7 +6,8 @@ const webpackConfig = require('./webpack.config')
 module.exports = Object.assign(webpackConfig, {
   entry: {
     wpsettings: './public/wp-settings-main',
-    wpupdate: './public/bundle-update-main'
+    wpupdate: './public/bundle-update-main',
+    wpfeoops: './public/bundle-fe-oops-main'
   },
   output: {
     path: path.resolve(__dirname, 'visualcomposer/resources/dist/'), // Assets dist path
