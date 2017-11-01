@@ -9,6 +9,9 @@ export default class {
 
     this.setter = null
     this.getter = null
+    if (env('ATTRIBUTE_LIBS')) {
+      this.getAttributeLibs = null
+    }
   }
 
   setSetter (setter) {
@@ -17,6 +20,12 @@ export default class {
 
   setGetter (getter) {
     this.getter = getter
+  }
+
+  setGetAttributeLibs (getAttributeLibs) {
+    if (env('ATTRIBUTE_LIBS')) {
+      this.getAttributeLibs = getAttributeLibs
+    }
   }
 
   getValue (settings, data, key, ignoreGetter = false) {

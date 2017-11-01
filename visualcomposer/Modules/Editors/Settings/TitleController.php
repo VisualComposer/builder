@@ -99,7 +99,7 @@ class TitleController extends Container implements Module
             $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
             // Add entry title only for correct Page Editable
             if ($frontendHelper->isPageEditable() && intval($requestHelper->input('vcv-source-id')) === $payload) {
-                $title = '<span class="vcv-entry-title">' . $title . '</span>';
+                $title = '<vcvtitle>' . $title . '</vcvtitle>';
             } else {
                 if ($disableMeta) {
                     $title = '';
