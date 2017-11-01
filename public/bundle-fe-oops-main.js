@@ -2,9 +2,9 @@ import './sources/less/wpfeoops/init.less'
 
 (($) => {
   $(() => {
-    let $retryButton = $('[data-vcv-back]')
-    $retryButton.on('click', () => {
-      window.location = $retryButton.data('vcvBack')
+    let $backButton = $('[data-vcv-back]')
+    $backButton.on('click', () => {
+      window.location = $backButton.data('vcvBack')
     })
   })
 })(window.jQuery)
