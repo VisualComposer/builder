@@ -48,34 +48,79 @@ export default class TeaserElementControl extends ElementControl {
     }
     let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
 
-    let successCallback = (response, cancelled) => {
-      workspaceNotifications.set({
-        position: 'bottom',
-        transparent: true,
-        rounded: true,
-        text: successMessage.replace('{name}', name),
-        time: 3000
-      })
-      this.ajax = null
-      try {
-        let jsonResponse = window.JSON.parse(response)
-        if (jsonResponse && jsonResponse.status && jsonResponse.element && jsonResponse.element.settings) {
-          this.buildVariables(jsonResponse.variables)
-          jsonResponse.element.tag = bundle.replace('element/', '')
-          getStorage('hubElements').trigger('add', jsonResponse.element, true)
+    let tries = 0
+    let tryDownload = () => {
+      let successCallback = (response, cancelled) => {
+        this.ajax = null
+        try {
+          let jsonResponse = window.JSON.parse(response)
+          if (jsonResponse && jsonResponse.status && jsonResponse.element && jsonResponse.element.settings) {
+            workspaceNotifications.set({
+              position: 'bottom',
+              transparent: true,
+              rounded: true,
+              text: successMessage.replace('{name}', name),
+              time: 3000
+            })
+            this.buildVariables(jsonResponse.variables || [])
+            jsonResponse.element.tag = bundle.replace('element/', '')
+            getStorage('hubElements').trigger('add', jsonResponse.element, true)
 
-          !cancelled && this.setState({ elementState: 'success' })
-        } else {
-          let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
-          if (jsonResponse && jsonResponse.message) {
-            errorMessage = jsonResponse.message
-          } else if (jsonResponse && jsonResponse.details && jsonResponse.details.message) {
-            errorMessage = jsonResponse.details.message
+            !cancelled && this.setState({ elementState: 'success' })
+          } else {
+            tries++
+            console.warn('failed to download element status is false', jsonResponse, response)
+            if (tries < 2) {
+              tryDownload()
+            } else {
+              this.ajax = null
+              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+              if (jsonResponse && jsonResponse.message) {
+                errorMessage = jsonResponse.message
+              } else if (jsonResponse && jsonResponse.details && jsonResponse.details.message) {
+                errorMessage = jsonResponse.details.message
+              }
+              console.warn('failed to download element status is false', errorMessage, response)
+              workspaceNotifications.set({
+                type: 'error',
+                text: errorMessage,
+                showCloseButton: 'true',
+                icon: 'vcv-ui-icon vcv-ui-icon-error',
+                time: 5000
+              })
+
+              !cancelled && this.setState({ elementState: 'failed' })
+            }
           }
-          console.warn('failed to download element status is false', errorMessage, response)
+        } catch (e) {
+          tries++
+          console.warn('failed to parse download response', e, response)
+          if (tries < 2) {
+            tryDownload()
+          } else {
+            this.ajax = null
+            workspaceNotifications.set({
+              type: 'error',
+              text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+              showCloseButton: 'true',
+              icon: 'vcv-ui-icon vcv-ui-icon-error',
+              time: 5000
+            })
+
+            !cancelled && this.setState({ elementState: 'failed' })
+          }
+        }
+      }
+      let errorCallback = (response, cancelled) => {
+        tries++
+        console.warn('failed to download element general server error', response)
+        if (tries < 2) {
+          tryDownload()
+        } else {
+          this.ajax = null
           workspaceNotifications.set({
             type: 'error',
-            text: errorMessage,
+            text: localizations.defaultErrorElementDownload || 'Failed to download element.',
             showCloseButton: 'true',
             icon: 'vcv-ui-icon vcv-ui-icon-error',
             time: 5000
@@ -83,32 +128,10 @@ export default class TeaserElementControl extends ElementControl {
 
           !cancelled && this.setState({ elementState: 'failed' })
         }
-      } catch (e) {
-        console.warn('failed to parse download response', e, response)
-        workspaceNotifications.set({
-          type: 'error',
-          text: localizations.defaultErrorElementDownload || 'Failed to download element.',
-          showCloseButton: 'true',
-          icon: 'vcv-ui-icon vcv-ui-icon-error',
-          time: 5000
-        })
-
-        !cancelled && this.setState({ elementState: 'failed' })
       }
+      this.ajax = this.props.startDownload(tag, data, successCallback, errorCallback)
     }
-    let errorCallback = (response, cancelled) => {
-      console.warn('failed to download element general server error', response)
-      workspaceNotifications.set({
-        type: 'error',
-        text: localizations.defaultErrorElementDownload || 'Failed to download element.',
-        showCloseButton: 'true',
-        icon: 'vcv-ui-icon vcv-ui-icon-error',
-        time: 5000
-      })
-
-      !cancelled && this.setState({ elementState: 'failed' })
-    }
-    this.ajax = this.props.startDownload(tag, data, successCallback, errorCallback)
+    tryDownload()
   }
 
   buildVariables (variables) {
@@ -157,7 +180,7 @@ export default class TeaserElementControl extends ElementControl {
         'vcv-ui-item-add': true,
         'vcv-ui-item-add-hub': true,
         'vcv-ui-icon': true,
-        'vcv-ui-icon-download': elementState === 'inactive',
+        'vcv-ui-icon-download': elementState === 'inactive' || elementState === 'failed',
         'vcv-ui-icon-add': elementState === 'success',
         'vcv-ui-wp-spinner-light': elementState === 'downloading',
         'vcv-ui-icon vcv-ui-icon-lock': !this.state.allowDownload && this.state.elementState === 'inactive'
