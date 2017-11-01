@@ -47,7 +47,15 @@ export default class TitleSettings extends React.Component {
 
   updateTitle (event) {
     setData('ui:settings:pageTitle', event.target.value)
-    const disabled = event.target.value ? this.state.disabled : true
+    let { disabled } = this.state
+    if (event.target.value) {
+      if (!this.state.current) {
+        disabled = false
+      }
+    } else {
+      disabled = true
+    }
+
     this.setState({
       current: event.target.value,
       disabled
@@ -65,16 +73,18 @@ export default class TitleSettings extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const settingName = localizations ? localizations.title : 'Title'
     const pageTitleDescription = localizations ? localizations.pageTitleDescription : 'To apply title changes you will need to save changes and reload the page.'
-    const pageTitleDisableDescription = localizations ? localizations.pageTitleDisableDescription : 'Disable page title.'
+    const pageTitleDisableDescription = localizations ? localizations.pageTitleDisableDescription : 'Disable page title'
 
     let reloadNotification = this.title ? '' : (<p className='vcv-ui-form-helper'>{pageTitleDescription}</p>)
     let checked = (this.state.disabled) ? 'checked' : ''
 
     return (
       <div>
-        <span className='vcv-ui-form-group-heading'>{settingName}</span>
-        <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.updateTitle} />
-        {reloadNotification}
+        <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+          <span className='vcv-ui-form-group-heading'>{settingName}</span>
+          <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.updateTitle} />
+          {reloadNotification}
+        </div>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <div className='vcv-ui-form-switch-container'>
             <label className='vcv-ui-form-switch'>
