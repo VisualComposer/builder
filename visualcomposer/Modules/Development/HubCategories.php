@@ -104,6 +104,16 @@ class HubCategories extends Container implements Module
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
                 ],
+                'Header & Footer' => [
+                    'title' => 'Header & Footer',
+                    'elements' => [
+                        'sandwichMenu',
+                        'logoWidget',
+                        'copyright'
+                    ],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Header-Footer.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Header-Footer.svg'),
+                ],
                 'Feature' => [
                     'title' => 'Feature',
                     'elements' => ['feature'],
@@ -160,7 +170,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Misc' => [
                     'title' => 'Misc',
-                    'elements' => ['rawHtml', 'rawJs', 'demoElement', 'sandwichMenu', 'logoWidget'],
+                    'elements' => ['rawHtml', 'rawJs', 'demoElement'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
@@ -300,12 +310,6 @@ class HubCategories extends Container implements Module
                 'Empty Space' => [
                     'title' => 'Empty Space',
                     'elements' => ['emptySpace'],
-                    'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
-                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg')
-                ],
-                'Copyright' => [
-                    'title' => 'Copyright',
-                    'elements' => ['copyright'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg')
                 ]
