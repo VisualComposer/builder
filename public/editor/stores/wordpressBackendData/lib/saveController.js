@@ -24,7 +24,7 @@ export default class SaveController {
   save (data, status, callback, action = '') {
     const iframe = document.getElementById('vcv-editor-iframe')
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
-    if (!contentLayout.innerHTML.length) {
+    if (!contentLayout || !contentLayout.innerHTML.length) {
       callback('success')
       status.set({
         status: 'success'
