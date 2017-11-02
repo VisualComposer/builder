@@ -267,7 +267,7 @@ class TemplatesDownloadController extends Container implements Module
         $images = [];
         $wpMediaHelper = vchelper('WpMedia');
         foreach ($element as $propKey => $propValue) {
-            if (in_array($propKey, ['metaThumbnailUrl', 'metaPreviewUrl'])) {
+            if (in_array($propKey, ['metaThumbnailUrl', 'metaPreviewUrl'], true)) {
                 continue;
             }
             // first level
@@ -305,7 +305,7 @@ class TemplatesDownloadController extends Container implements Module
         ];
 
         foreach ($recursiveIterator as $key => $value) {
-            if (is_array($value) && in_array($key, $keys) && isset($value['urls'])) {
+            if (is_array($value) && in_array($key, $keys, true) && isset($value['urls'])) {
                 $newValue = $this->processWpMedia(['value' => $value], $template);
 
                 // Get the current depth and traverse back up the tree, saving the modifications

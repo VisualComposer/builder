@@ -72,7 +72,7 @@ class Controller extends Container implements Module
             if (!$sourceId) {
                 if ($pagenow === 'post-new.php') {
                     $postType = 'post';
-                    if (in_array($requestHelper->input('post_type'), get_post_types(['show_ui' => true]))) {
+                    if (in_array($requestHelper->input('post_type'), get_post_types(['show_ui' => true]), true)) {
                         $postType = $requestHelper->input('post_type');
                     }
                     $post = \get_default_post_to_edit($postType, true);

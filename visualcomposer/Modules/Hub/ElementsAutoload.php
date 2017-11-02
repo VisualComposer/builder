@@ -119,7 +119,8 @@ class ElementsAutoload extends Autoload implements Module
                 'Module',
                 '\VisualComposer\Framework\Illuminate\Support\Module',
                 '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
-            ]
+            ],
+            true
         );
     }
 
