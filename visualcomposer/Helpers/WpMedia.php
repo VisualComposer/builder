@@ -54,7 +54,8 @@ class WpMedia implements Helper
                         'medium',
                         'large',
                         'full',
-                    ]
+                    ],
+                    true
                 ))
         ) {
             $attributes = ['class' => $thumb_class . 'attachment-' . $thumb_size];
@@ -246,7 +247,7 @@ class WpMedia implements Helper
         $sizes = [];
 
         foreach (get_intermediate_image_sizes() as $_size) {
-            if (in_array($_size, ['thumbnail', 'medium', 'medium_large', 'large'])) {
+            if (in_array($_size, ['thumbnail', 'medium', 'medium_large', 'large'], true)) {
                 $sizeWidth = get_option("{$_size}_size_w");
                 $sizeHeight = get_option("{$_size}_size_h");
                 $sizeCrop = get_option("{$_size}_crop");

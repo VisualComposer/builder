@@ -89,7 +89,7 @@ sort($fonts, SORT_NATURAL | SORT_FLAG_CASE);
 $output = [];
 foreach ($data['items'] as $item) {
     $family = $item['family'];
-    if (in_array($family, $fonts)) {
+    if (in_array($family, $fonts, true)) {
         $output[] = [
             'family' => $family,
             'variants' => $item['variants'],

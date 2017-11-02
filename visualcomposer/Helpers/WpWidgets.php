@@ -126,7 +126,7 @@ class WpWidgets implements Helper
      */
     public function isDefault($widgetClass)
     {
-        return in_array($widgetClass, $this->defaultWidgets);
+        return in_array($widgetClass, $this->defaultWidgets, true);
     }
 
     public function render($widgetKey, $args, $instance = [])

@@ -15,7 +15,7 @@ class EditorPostType implements Helper
     public function isEditorEnabled($postType)
     {
 
-        return in_array($postType, $this->getEnabledPostTypes());
+        return in_array($postType, $this->getEnabledPostTypes(), true);
     }
 
     public function getEnabledPostTypes()

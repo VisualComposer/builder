@@ -210,7 +210,7 @@ class PostType implements Helper
         );
         if (is_array($postTypes) && !empty($postTypes)) {
             foreach ($postTypes as $postType) {
-                if (!in_array($postType, $excludedPostTypes)) {
+                if (!in_array($postType, $excludedPostTypes, true)) {
                     $label = ucfirst($postType);
                     $postTypesList[] = [
                         'label' => $label,

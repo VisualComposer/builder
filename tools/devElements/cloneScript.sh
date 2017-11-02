@@ -99,6 +99,7 @@ declare -a arr=(
 'flickrWidget'
 'copyright'
 'logoWidget'
+'basicMenu'
 )
 
 EXECDIR=`pwd`
