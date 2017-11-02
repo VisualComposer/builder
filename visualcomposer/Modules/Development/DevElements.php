@@ -2041,24 +2041,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add Flickr image grid gallery to your site, specify the number of images with an easy-to-use widget.',
                     ],
                 ],
-                //                'copyright' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'devElements/copyright/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('devElements/copyright/copyright/'),
-                //                    'elementRealPath' => vcapp()->path('devElements/copyright/copyright/'),
-                //                    'assetsPath' => $urlHelper->to('devElements/copyright/copyright/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Copyright',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'devElements/copyright/copyright/public/copyright-thumbnail.png'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'devElements/copyright/copyright/public/copyright-preview.png'
-                //                        ),
-                //                        'metaDescription' => 'Display copyright information with your site name and automatic year generation.',
-                //                    ],
-                //                ]
+                'copyright' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/copyright/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/copyright/copyright/'),
+                    'elementRealPath' => vcapp()->path('devElements/copyright/copyright/'),
+                    'assetsPath' => $urlHelper->to('devElements/copyright/copyright/public/'),
+                    'settings' => [
+                        'name' => 'Copyright',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/copyright/copyright/public/copyright-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/copyright/copyright/public/copyright-preview.png'
+                        ),
+                        'metaDescription' => 'Display copyright information with your site name and automatic year generation.',
+                    ],
+                ]
                 //'sandwichMenu' => [
                 //    'bundlePath' => $urlHelper->to(
                 //        'devElements/sandwichMenu/public/dist/element.bundle.js'
