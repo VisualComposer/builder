@@ -109,7 +109,8 @@ class HubCategories extends Container implements Module
                     'elements' => [
                         'sandwichMenu',
                         'logoWidget',
-                        'copyright'
+                        'copyright',
+                        'basicMenu'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Header-Footer.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Header-Footer.svg'),

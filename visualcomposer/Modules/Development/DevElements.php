@@ -2095,6 +2095,24 @@ class DevElements extends Container implements Module
                 //                        'metaDescription' => 'Display your site logo (defined in WordPress Customizer) anywhere on the page.',
                 //                    ],
                 //                ],
+                //                'basicMenu' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/basicMenu/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/basicMenu/basicMenu/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/basicMenu/basicMenu/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/basicMenu/basicMenu/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Basic Menu',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/basicMenu/basicMenu/public/basic-menu-thumbnail.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/basicMenu/basicMenu/public/basic-menu-preview.png'
+                //                        ),
+                //                        'metaDescription' => 'Add simple text menu with hover submenu to your site.',
+                //                    ],
+                //                ]
             ]
         );
     }
