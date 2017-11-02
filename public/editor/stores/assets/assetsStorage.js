@@ -22,7 +22,7 @@ addStorage('assets', (storage) => {
     ids.forEach((id) => {
       const element = documentManager.get(id)
       data.elements[ id ] = element
-      if (env('FEATURE_ASSETS_FILTER') && element.tag === 'row') {
+      if (env('FEATURE_ASSETS_FILTER') && env('ATTRIBUTE_LIBS')) {
         storage.trigger('addSharedLibrary', element)
       }
       builder.add(element)
@@ -33,7 +33,7 @@ addStorage('assets', (storage) => {
     ids.forEach((id) => {
       const element = documentManager.get(id)
       data.elements[ id ] = element
-      if (env('FEATURE_ASSETS_FILTER') && element.tag === 'row') {
+      if (env('FEATURE_ASSETS_FILTER') && env('ATTRIBUTE_LIBS')) {
         storage.trigger('editSharedLibrary', element)
       }
       builder.update(element, options)
@@ -45,7 +45,7 @@ addStorage('assets', (storage) => {
       let tag = data.elements[ id ] ? data.elements[ id ].tag : null
       delete data.elements[ id ]
       builder.destroy(id, tag)
-      if (env('FEATURE_ASSETS_FILTER') && tag === 'row') {
+      if (env('FEATURE_ASSETS_FILTER') && env('ATTRIBUTE_LIBS')) {
         storage.trigger('removeSharedLibrary', id)
       }
     })

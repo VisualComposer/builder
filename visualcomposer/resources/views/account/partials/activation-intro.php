@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
     <div class="vcv-popup-heading">
         <?php echo __('Advance Your WordPress With Visual Composer Website Builder', 'vcwb'); ?>
     </div>
-    <a href="#" class="vcv-intro-button-lite vcv-popup-button"><?php echo __('Lite Version', 'vcwb'); ?></a>
+    <a href="#" class="vcv-intro-button-lite vcv-popup-button"><?php echo __('Free Version', 'vcwb'); ?></a>
     <a href="#" class="vcv-intro-button-premium vcv-popup-button">
 		<?php echo __('Premium Version', 'vcwb'); ?>
 	</a>

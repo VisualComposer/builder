@@ -11,7 +11,7 @@ const innerApi = {
       cssBundles: [],
       jsBundles: []
     }
-    if (vcCake.env('FEATURE_ASSETS_FILTER') && cookElement.get('tag') === 'row') {
+    if (vcCake.env('FEATURE_ASSETS_FILTER') && vcCake.env('ATTRIBUTE_LIBS')) {
       if (!assetsStorageState) {
         return files
       }
@@ -54,7 +54,7 @@ const innerApi = {
       cssBundles: [],
       jsBundles: []
     }
-    if (vcCake.env('FEATURE_ASSETS_FILTER') && cookElement.get('tag') === 'row') {
+    if (vcCake.env('FEATURE_ASSETS_FILTER') && vcCake.env('ATTRIBUTE_LIBS')) {
       let elementFromStorage = assetsStorageState.elements.find((element) => {
         return element.id === cookElement.get('id')
       })

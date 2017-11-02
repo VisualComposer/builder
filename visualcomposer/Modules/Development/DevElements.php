@@ -2041,6 +2041,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add Flickr image grid gallery to your site, specify the number of images with an easy-to-use widget.',
                     ],
                 ],
+                'copyright' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/copyright/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/copyright/copyright/'),
+                    'elementRealPath' => vcapp()->path('devElements/copyright/copyright/'),
+                    'assetsPath' => $urlHelper->to('devElements/copyright/copyright/public/'),
+                    'settings' => [
+                        'name' => 'Copyright',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/copyright/copyright/public/copyright-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/copyright/copyright/public/copyright-preview.png'
+                        ),
+                        'metaDescription' => 'Display copyright information with your site name and automatic year generation.',
+                    ],
+                ]
                 //'sandwichMenu' => [
                 //    'bundlePath' => $urlHelper->to(
                 //        'devElements/sandwichMenu/public/dist/element.bundle.js'
@@ -2058,7 +2076,43 @@ class DevElements extends Container implements Module
                 //        ),
                 //        'metaDescription' => 'Add sandwich menu with/without background and full screen overlay to your site.',
                 //    ],
-                //]
+                //],
+                //                'logoWidget' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/logoWidget/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/logoWidget/logoWidget/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/logoWidget/logoWidget/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/logoWidget/logoWidget/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Logo Widget',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/logoWidget/logoWidget/public/logo-widget-thumbnail.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/logoWidget/logoWidget/public/logo-widget-preview.png'
+                //                        ),
+                //                        'metaDescription' => 'Display your site logo (defined in WordPress Customizer) anywhere on the page.',
+                //                    ],
+                //                ],
+                //                'basicMenu' => [
+                //                    'bundlePath' => $urlHelper->to(
+                //                        'devElements/basicMenu/public/dist/element.bundle.js'
+                //                    ),
+                //                    'elementPath' => $urlHelper->to('devElements/basicMenu/basicMenu/'),
+                //                    'elementRealPath' => vcapp()->path('devElements/basicMenu/basicMenu/'),
+                //                    'assetsPath' => $urlHelper->to('devElements/basicMenu/basicMenu/public/'),
+                //                    'settings' => [
+                //                        'name' => 'Basic Menu',
+                //                        'metaThumbnailUrl' => $urlHelper->to(
+                //                            'devElements/basicMenu/basicMenu/public/basic-menu-thumbnail.png'
+                //                        ),
+                //                        'metaPreviewUrl' => $urlHelper->to(
+                //                            'devElements/basicMenu/basicMenu/public/basic-menu-preview.png'
+                //                        ),
+                //                        'metaDescription' => 'Add simple text menu with hover submenu to your site.',
+                //                    ],
+                //                ]
             ]
         );
     }

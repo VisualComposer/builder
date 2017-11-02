@@ -5,8 +5,7 @@ delete webpackConfig.devtool
 module.exports = Object.assign(webpackConfig, {
   entry: {
     wpsettings: './public/wp-settings-main',
-    wpupdate: './public/bundle-update-main',
-    wpfeoops: './public/bundle-fe-oops-main'
+    wpupdate: './public/bundle-update-main'
   },
   plugins: [
     // new Collector(),

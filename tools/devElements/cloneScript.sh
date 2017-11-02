@@ -97,6 +97,9 @@ declare -a arr=(
 'outlineMessageBox'
 'widgetizedSidebar'
 'flickrWidget'
+'copyright'
+'logoWidget'
+'basicMenu'
 )
 
 EXECDIR=`pwd`

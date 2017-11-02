@@ -72,7 +72,7 @@ class Controller extends Container implements Module
             if (!$sourceId) {
                 if ($pagenow === 'post-new.php') {
                     $postType = 'post';
-                    if (in_array($requestHelper->input('post_type'), get_post_types(['show_ui' => true]))) {
+                    if (in_array($requestHelper->input('post_type'), get_post_types(['show_ui' => true]), true)) {
                         $postType = $requestHelper->input('post_type');
                     }
                     $post = \get_default_post_to_edit($postType, true);
@@ -118,21 +118,13 @@ class Controller extends Container implements Module
         global $post;
         $sourceId = $post->ID;
         if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
-            if (intval(get_option('page_for_posts')) === $sourceId) {
-                $this->addFilter('vcv:frontend:update:head:extraOutput', 'addFeOopsAssets', 10);
-                return $templates->render(
-                    'editor/frontend/frontend-oops.php',
-                    [
-                        'editableLink' => get_edit_post_link($sourceId),
-                    ]
-                );
-            }
-
+            $feError = intval(get_option('page_for_posts')) === $sourceId ? 'page_for_posts' : false;
             return $templates->render(
                 'editor/frontend/frontend.php',
                 [
                     'editableLink' => $frontendHelper->getEditableUrl($sourceId),
                     'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', []),
+                    'feError' => $feError
                 ]
             );
         }

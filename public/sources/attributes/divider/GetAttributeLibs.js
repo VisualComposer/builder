@@ -2,19 +2,16 @@ import { env } from 'vc-cake'
 
 export default (value) => {
   if (env('ATTRIBUTE_LIBS')) {
-    let libData = {
-      name: 'divider',
-      dependencies: []
-    }
-    let isActiveAttribute = false
+    let libs = []
 
     if (value && value.device && Object.keys(value.device).length) {
       let deviceKeys = Object.keys(value.device)
       deviceKeys.forEach((deviceKey) => {
         let device = value.device[ deviceKey ]
         if (device.dividerTop || device.dividerBottom) {
-          if (!isActiveAttribute) {
-            isActiveAttribute = true
+          let libData = {
+            name: 'divider',
+            dependencies: []
           }
           let backgroundType = device.dividerTopBackgroundType || device.dividerBottomBackgroundType
           switch (backgroundType) {
@@ -28,9 +25,11 @@ export default (value) => {
               libData.dependencies.push('backgroundVideoVimeo')
               break
           }
+          libs.push(libData)
         }
       })
     }
-    return isActiveAttribute ? libData : {}
+
+    return libs
   }
 }

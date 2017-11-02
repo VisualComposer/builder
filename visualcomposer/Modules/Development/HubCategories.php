@@ -104,6 +104,17 @@ class HubCategories extends Container implements Module
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
                 ],
+                'Header & Footer' => [
+                    'title' => 'Header & Footer',
+                    'elements' => [
+                        'sandwichMenu',
+                        'logoWidget',
+                        'copyright',
+                        'basicMenu'
+                    ],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Header-Footer.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Header-Footer.svg'),
+                ],
                 'Feature' => [
                     'title' => 'Feature',
                     'elements' => ['feature'],
@@ -160,7 +171,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Misc' => [
                     'title' => 'Misc',
-                    'elements' => ['rawHtml', 'rawJs', 'demoElement', 'sandwichMenu'],
+                    'elements' => ['rawHtml', 'rawJs', 'demoElement'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
