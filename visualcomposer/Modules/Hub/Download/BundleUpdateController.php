@@ -71,7 +71,7 @@ class BundleUpdateController extends Container implements Module
     {
         $currentTransient = $optionsHelper->getTransient('vcv:hub:update:request');
         if ($currentTransient) {
-            if ($currentTransient !== $requestHelper->input('time')) {
+            if ($currentTransient !== $requestHelper->input('vcv-time')) {
                 return ['status' => false];
             } else {
                 // Reset bundles from activation

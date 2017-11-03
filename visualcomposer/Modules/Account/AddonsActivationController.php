@@ -67,7 +67,7 @@ class AddonsActivationController extends Container implements Module
             && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
         ) {
-            $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
+            $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
             $token = $tokenHelper->createToken(vcvenv('ENV_VCV_SITE_ID', ''));
             if ($token) {
                 return $filterHelper->fire('vcv:activation:token:success', ['status' => true], ['token' => $token]);
