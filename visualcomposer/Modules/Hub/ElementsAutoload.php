@@ -51,6 +51,12 @@ class ElementsAutoload extends Autoload implements Module
                 require_once($module['path']);
             }
         }
+        if (!empty($components['helpers'])) {
+            foreach ($components['helpers'] as $module) {
+                /** @noinspection PhpIncludeInspection */
+                require_once($module['path']);
+            }
+        }
     }
 
     /**
