@@ -160,15 +160,16 @@ class ElementsAutoload extends Autoload implements Module
      */
     protected function isModule($implements)
     {
-        return in_array(
-            $implements,
-            [
-                'Module',
-                '\VisualComposer\Framework\Illuminate\Support\Module',
-                '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
-            ],
-            true
-        );
+        return count(
+            array_intersect(
+                (array)$implements,
+                [
+                    'Module',
+                    '\VisualComposer\Framework\Illuminate\Support\Module',
+                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
+                ]
+            )
+        ) > 0;
     }
 
     /**
