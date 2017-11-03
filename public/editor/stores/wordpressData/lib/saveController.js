@@ -7,6 +7,8 @@ const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
 const settingsStorage = vcCake.getStorage('settings')
 const cook = vcCake.getService('cook')
+const workspaceStorage = vcCake.getStorage('workspace')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
@@ -108,6 +110,14 @@ export default class SaveController {
     let data = JSON.parse(responseText || '{}')
     if (data && data.postData) {
       window.vcvPostData = data.postData
+    }
+    if (vcCake.env('IFRAME_RELOAD')) {
+      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
+      let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+      if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
+        window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+        workspaceIFrame.set('reload')
+      }
     }
     status.set({
       status: 'success',

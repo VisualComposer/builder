@@ -18,10 +18,12 @@ $(() => {
   let isIframeLoaded = false
 
   let iframeLoadEvent = () => {
-    if (!isIframeLoaded) {
-      isIframeLoaded = true
-    } else {
-      return
+    if (!vcCake.env('IFRAME_RELOAD')) {
+      if (!isIframeLoaded) {
+        isIframeLoaded = true
+      } else {
+        return
+      }
     }
     let iframe = $iframe.get(0).contentWindow
     let iframeDocument = iframe.document

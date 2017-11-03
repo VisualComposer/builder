@@ -16,19 +16,30 @@ export default class LayoutEditor extends React.Component {
 
   constructor (props) {
     super(props)
+    const data = vcCake.env('IFRAME_RELOAD') && elementsStorage.state('document').get() || []
     this.state = {
-      data: []
+      data
     }
+    this.updateState = this.updateState.bind(this)
+  }
+
+  updateState (data) {
+    this.setState({ data })
   }
 
   componentDidMount () {
-    elementsStorage.state('document').onChange((data) => {
-      this.setState({ data: data }, () => {
-        // content.trigger('data:editor:render')
+    if (vcCake.env('IFRAME_RELOAD')) {
+      elementsStorage.state('document').onChange(this.updateState)
+    } else {
+      elementsStorage.state('document').onChange((data) => {
+        this.setState({ data: data }, () => {
+          // content.trigger('data:editor:render')
+        })
+      }, {
+        debounce: 50
       })
-    }, {
-      debounce: 50
-    })
+    }
+
     this.editor = new Combokeys(this.document)
     this.editor.bind([ 'command+z', 'ctrl+z' ], (e) => {
       e.preventDefault()
@@ -102,6 +113,12 @@ export default class LayoutEditor extends React.Component {
       workspaceStorage.state('contentStart').set(false)
       workspaceStorage.state('settings').set({})
     }, 'keyup')
+  }
+
+  componentWillUnmount () {
+    if (vcCake.env('IFRAME_RELOAD')) {
+      elementsStorage.state('document').ignoreChange(this.updateState)
+    }
   }
 
   getContent () {

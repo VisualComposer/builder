@@ -3,6 +3,7 @@ import DnD from '../../../../../resources/dnd/dnd'
 import DndDataSet from '../../../../../resources/dndUpdate/dndDataSet'
 
 const workspaceStorage = vcCake.getStorage('workspace')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class DndManager {
   constructor (api) {
@@ -49,36 +50,42 @@ export default class DndManager {
   buildItems () {
     if (!this.items) {
       this.iframe = document.getElementById('vcv-editor-iframe')
-      if (!this.documentDOM && this.iframe) {
+      if (this.iframe) {
         this.documentDOM = this.iframe.contentWindow.document
       }
-      const DndConstructor = vcCake.env('FIX_DND_FOR_TABS') ? DndDataSet : DnD
-      this.items = new DndConstructor(this.documentDOM.querySelector('[data-vcv-module="content-layout"]'), {
-        cancelMove: true,
-        moveCallback: this.move.bind(this),
-        dropCallback: this.drop.bind(this),
-        startCallback: DndManager.start,
-        endCallback: DndManager.end,
-        window: this.iframe.contentWindow || window,
-        document: this.documentDOM || document,
-        container: document.getElementById('vcv-editor-iframe-overlay') || document.body,
-        wrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
-        manualScroll: true
-      })
-      this.items.init()
-      this.apiDnD = DndConstructor.api(this.items)
-      vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
-      vcCake.onDataChange('dropNewElement', this.apiDnD.addNew.bind(this.apiDnD))
-      workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
-      vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
-        if (value === 'contentEditable' || value === 'columnResizer') {
-          this.items.option('disabled', true)
-          this.items.handleDragEnd()
-        } else {
-          this.items.option('disabled', false)
-          this.items.option('manualScroll', true)
+      let container = this.documentDOM.querySelector('[data-vcv-module="content-layout"]')
+      if (container) {
+        const DndConstructor = vcCake.env('FIX_DND_FOR_TABS') ? DndDataSet : DnD
+        this.items = new DndConstructor(container, {
+          cancelMove: true,
+          moveCallback: this.move.bind(this),
+          dropCallback: this.drop.bind(this),
+          startCallback: DndManager.start,
+          endCallback: DndManager.end,
+          window: this.iframe.contentWindow || window,
+          document: this.documentDOM || document,
+          container: document.getElementById('vcv-editor-iframe-overlay') || document.body,
+          wrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
+          manualScroll: true
+        })
+        this.items.init()
+        this.apiDnD = DndConstructor.api(this.items)
+        vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
+        vcCake.onDataChange('dropNewElement', this.apiDnD.addNew.bind(this.apiDnD))
+        workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
+        vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
+          if (value === 'contentEditable' || value === 'columnResizer') {
+            this.items.option('disabled', true)
+            this.items.handleDragEnd()
+          } else {
+            this.items.option('disabled', false)
+            this.items.option('manualScroll', true)
+          }
+        })
+        if (vcCake.env('IFRAME_RELOAD')) {
+          workspaceIFrame.onChange(this.unSubscribe.bind(this))
         }
-      })
+      }
     }
   }
 
@@ -104,6 +111,16 @@ export default class DndManager {
       .on('element:mount', this.add.bind(this))
       .on('element:unmount', this.remove.bind(this))
       .on('element:didUpdate', this.update.bind(this))
+  }
+
+  unSubscribe () {
+    if (vcCake.env('IFRAME_RELOAD')) {
+      workspaceIFrame.ignoreChange(this.unSubscribe.bind(this))
+      this.api
+        .off('element:mount', this.add.bind(this))
+        .off('element:unmount', this.remove.bind(this))
+        .off('element:didUpdate', this.update.bind(this))
+    }
   }
 
   add (id) {

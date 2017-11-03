@@ -166,6 +166,7 @@ class Localizations extends Container implements Helper
             'template' => __('Template', 'vcwb'),
             'defaultTemplate' => __('Default template', 'vcwb'),
             'pageTemplateDescription' => __('To apply a template you will need to save changes and reload the page.', 'vcwb'),
+            'pageTemplateReloadDescription' => __('To apply a template you will need to save changes and content will be reloaded.', '_vcwb'),
             'pageTitleDescription' => __('To apply title changes you will need to save changes and reload the page.', 'vcwb'),
             'pageTitleDisableDescription' => __('Disable page title', 'vcwb'),
             'successElementDownload' => __('{name} has been successfully downloaded from the Visual Composer Hub and added to your library.', 'vcwb'),
