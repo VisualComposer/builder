@@ -54,12 +54,12 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
 <script>
-    window.vcvUpdateUrl = '<?php echo $urlHelper->ajax(['vcv-action' => 'bundle:update:adminNonce']); ?>';
+    window.vcvUpdateUrl = '<?php echo $urlHelper->adminAjax(['vcv-action' => 'bundle:update:adminNonce']); ?>';
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
     window.vcvUpdateActions = <?php echo json_encode($actions); ?>;
     window.vcvUpdatePosts = <?php echo json_encode($posts); ?>;
-    window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
-    window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
+    window.vcvActionsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce']); ?>';
+    window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
     window.vcvAjaxTime = <?php echo $time; ?>;
     window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
     window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
