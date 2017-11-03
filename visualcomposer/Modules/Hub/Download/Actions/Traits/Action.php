@@ -9,6 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Helpers\Filters;
+use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 trait Action
@@ -20,21 +21,25 @@ trait Action
         $this->addFilter('vcv:hub:process:action:' . $this->actionName, 'processAction');
     }
 
-    protected function processAction($response, $payload, Filters $filterHelper)
+    protected function processAction($response, $payload, Filters $filterHelper, Logger $loggerHelper)
     {
         if (!vcIsBadResponse($response) && $payload['data']) {
             $hubHelper = vchelper($this->helperName);
             /** @var $hubHelper \VisualComposer\Helpers\Hub\Bundle */
             $hubHelper->removeTempBundleFolder();
             $archive = $hubHelper->requestBundleDownload($payload['data'], $payload['action']);
-            $archive = $this->readBundleJson($archive, $payload);
-            //if ($archive) {
-            $response = $filterHelper->fire(
-                'vcv:hub:download:bundle:' . $payload['action'],
-                ['status' => $archive !== false],
-                ['archive' => $archive]
-            );
-            //}
+            if (is_wp_error($archive)) {
+                /** @var \WP_Error $archive */
+                $loggerHelper->log(implode('. ', $archive->get_error_messages()));
+                $response['status'] = false;
+            } else {
+                $archive = $this->readBundleJson($archive, $payload);
+                $response = $filterHelper->fire(
+                    'vcv:hub:download:bundle:' . $payload['action'],
+                    ['status' => $archive !== false],
+                    ['archive' => $archive]
+                );
+            }
             $hubHelper->removeTempBundleFolder();
         }
 
@@ -46,20 +51,37 @@ trait Action
         $result = false;
         if (!is_wp_error($archive)) {
             $hubHelper = vchelper($this->helperName);
+            $loggerHelper = vchelper('Logger');
+
+            // If zip is less than 10kb something wrong (our smallest bundle is 56kb - categories)
+            if (filesize($archive) < 10 * 1024) {
+                $loggerHelper->log(
+                    __('Bundle size too small, expecting and error!', 'vcwb'),
+                    [
+                        'fileSize' => filesize($archive),
+                        'contents' => htmlentities(file_get_contents($archive)),
+                    ]
+                );
+
+                return false;
+            }
             $result = $hubHelper->unzipDownloadedBundle($archive);
+            if (is_wp_error($result)) {
+                /** @var \WP_Error $result */
+                $loggerHelper->log(implode('. ', $result->get_error_messages()));
+
+                return false;
+            }
             if (isset($payload['checksum']) && !empty($payload['checksum'])) {
                 $mdOriginalFile = md5_file($archive);
                 if ($mdOriginalFile !== $payload['checksum']) {
+                    $loggerHelper->log(__('Bundle checksum doesn\'t match!', 'vcwb'));
+
                     return false;
                 }
             }
-            // If zip is less than 1kb something wrong
-            if (filesize($archive) < 1024) {
-                return false;
-            }
-            if (!is_wp_error($result)) {
-                return $hubHelper->readBundleJson($hubHelper->getTempBundleFolder('bundle.json'));
-            }
+
+            return $hubHelper->readBundleJson($hubHelper->getTempBundleFolder('bundle.json'));
         }
 
         return $result;
