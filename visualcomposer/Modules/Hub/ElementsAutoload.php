@@ -123,15 +123,15 @@ class ElementsAutoload extends Autoload implements Module
     protected static function isHelper($implements)
     {
         return count(
-                array_intersect(
-                    (array)$implements,
-                    [
-                        'Helper',
-                        '\VisualComposer\Framework\Illuminate\Support\Helper',
-                        '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
-                    ]
-                )
-            ) > 0;
+            array_intersect(
+                (array)$implements,
+                [
+                    'Helper',
+                    '\VisualComposer\Framework\Illuminate\Support\Helper',
+                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
+                ]
+            )
+        ) > 0;
     }
 
     /**
@@ -142,15 +142,15 @@ class ElementsAutoload extends Autoload implements Module
     protected static function isImmutable($implements)
     {
         return count(
-                array_intersect(
-                    (array)$implements,
-                    [
-                        'Immutable',
-                        '\VisualComposer\Framework\Illuminate\Support\Immutable',
-                        '\\VisualComposer\\Framework\\Illuminate\\Support\\Immutable',
-                    ]
-                )
-            ) > 0;
+            array_intersect(
+                (array)$implements,
+                [
+                    'Immutable',
+                    '\VisualComposer\Framework\Illuminate\Support\Immutable',
+                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Immutable',
+                ]
+            )
+        ) > 0;
     }
 
     /**
