@@ -122,7 +122,7 @@ vcCake.add('contentModernLayout', (api) => {
       ReactDOM.unmountComponentAtNode(domContainer)
       iframe.onload = () => {
         workspaceIFrame.set('loaded')
-        elementsStorage.trigger('reset', vcCake.getService('document').all())
+        elementsStorage.trigger('updateAll', vcCake.getService('document').all())
       }
       iframe.src = iframe.src
     } else if (type === 'loaded') {
