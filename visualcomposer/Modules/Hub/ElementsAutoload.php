@@ -51,6 +51,12 @@ class ElementsAutoload extends Autoload implements Module
                 require_once($module['path']);
             }
         }
+        if (!empty($components['helpers'])) {
+            foreach ($components['helpers'] as $module) {
+                /** @noinspection PhpIncludeInspection */
+                require_once($module['path']);
+            }
+        }
     }
 
     /**
@@ -90,7 +96,16 @@ class ElementsAutoload extends Autoload implements Module
             $tokens = token_get_all(file_get_contents($componentPath));
             $data = self::checkTokens($tokens);
             if (!empty($data['namespace']) && !empty($data['class']) && !empty($data['implements'])) {
-                if (self::isModule($data['implements'])) {
+                if (self::isHelper($data['implements'])) {
+                    $name = self::getHelperName($data);
+                    $all['helpers'][ $name ] = [
+                        'name' => $name,
+                        'abstract' => $data['namespace'] . "\\" . $data['class'],
+                        'make' => false,
+                        'singleton' => !self::isImmutable($data['implements']),
+                        'path' => $componentPath,
+                    ];
+                } elseif (self::isModule($data['implements'])) {
                     $name = self::getModuleName($data);
                     $all['modules'][ $name ] = [
                         'name' => $name,
@@ -111,17 +126,56 @@ class ElementsAutoload extends Autoload implements Module
      *
      * @return bool
      */
+    protected static function isHelper($implements)
+    {
+        return count(
+            array_intersect(
+                (array)$implements,
+                [
+                    'Helper',
+                    '\VisualComposer\Framework\Illuminate\Support\Helper',
+                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
+                ]
+            )
+        ) > 0;
+    }
+
+    /**
+     * @param $implements
+     *
+     * @return bool
+     */
+    protected static function isImmutable($implements)
+    {
+        return count(
+            array_intersect(
+                (array)$implements,
+                [
+                    'Immutable',
+                    '\VisualComposer\Framework\Illuminate\Support\Immutable',
+                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Immutable',
+                ]
+            )
+        ) > 0;
+    }
+
+    /**
+     * @param $implements
+     *
+     * @return bool
+     */
     protected function isModule($implements)
     {
-        return in_array(
-            $implements,
-            [
-                'Module',
-                '\VisualComposer\Framework\Illuminate\Support\Module',
-                '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
-            ],
-            true
-        );
+        return count(
+            array_intersect(
+                (array)$implements,
+                [
+                    'Module',
+                    '\VisualComposer\Framework\Illuminate\Support\Module',
+                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
+                ]
+            )
+        ) > 0;
     }
 
     /**
@@ -139,7 +193,7 @@ class ElementsAutoload extends Autoload implements Module
             ],
             'class' => '',
             'namespace' => '',
-            'implements' => '',
+            'implements' => [],
         ];
         $i = 0;
         while ($i < count($tokens) - 1) {
@@ -164,7 +218,7 @@ class ElementsAutoload extends Autoload implements Module
                 if ($data['start']['namespace'] && $token === ';') {
                     $data['start']['namespace'] = false;
                 } elseif ($data['start']['implements'] && $token === '{') {
-                    $data['start']['implements'] = false;
+                    $data['start']['implements'] = [];
                 }
             }
             $i++;
@@ -197,19 +251,38 @@ class ElementsAutoload extends Autoload implements Module
                     $data['start']['class'] = $this->classStart + $this->classStartString;
                     $data['class'] .= $value;
                 } elseif ($data['start']['implements']) {
-                    $data['implements'] .= $value;
+                    $data['implements'][] = $value;
                 }
                 break;
             case T_NS_SEPARATOR:
                 if ($data['start']['namespace']) {
                     $data['namespace'] .= $value;
                 } elseif ($data['start']['implements']) {
-                    $data['implements'] .= $value;
+                    $data['implements'][] = $value;
                 }
                 break;
         }
 
         return $data;
+    }
+
+    /**
+     * @param $data
+     *
+     * @return mixed
+     */
+    protected static function getHelperName($data)
+    {
+        return str_replace(
+            [
+                'VisualComposer\Helpers',
+                'VisualComposer\\Helpers',
+                '\\', // this is \\
+                "\\", // this is \
+            ],
+            '',
+            $data['namespace'] . $data['class'] . 'Helper'
+        );
     }
 
     /**

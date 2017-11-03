@@ -62,7 +62,8 @@ export default (value) => {
         value: 'simple-fade',
         library: 'parallaxFade',
         dependencies: [
-          'waypoints'
+          'waypoints',
+          'parallaxBackground'
         ]
       }
     ]
