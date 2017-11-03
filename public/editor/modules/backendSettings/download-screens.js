@@ -16,11 +16,11 @@ import {showError} from './errors'
     $heading.text(downloadingInitialExtensionsText)
     $.getJSON(window.vcvActivationUrl,
       {
-        email: email,
-        category: category,
-        agreement: $agreementCheckbox.val(),
+        'vcv-email': email,
+        'vcv-category': category,
+        'vcv-agreement': $agreementCheckbox.val(),
         'vcv-nonce': window.vcvNonce,
-        time: window.vcvAjaxTime
+        'vcv-time': window.vcvAjaxTime
       })
       .done(function (json) {
         if (json && json.status && json.actions) {
@@ -87,7 +87,7 @@ import {showError} from './errors'
     $.getJSON(window.vcvActivationUrl,
       {
         'vcv-nonce': window.vcvNonce,
-        time: window.vcvAjaxTime
+        'vcv-time': window.vcvAjaxTime
       })
       .done(function (json) {
         // process actions.

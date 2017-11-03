@@ -68,8 +68,8 @@ class JsonActionsController extends Container implements Module
         $response = [
             'status' => true,
         ];
-        $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
-        $action = $requestHelper->input('action');
+        $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
+        $action = $requestHelper->input('vcv-hub-action');
         if (!isset($action['key']) && isset($action['data'])) {
             $savedAction = $action;
         } else {

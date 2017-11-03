@@ -73,12 +73,12 @@ class ActivationController extends Container implements Module
             && !$optionsHelper->getTransient('vcv:activation:request')
             || ($tokenHelper->isSiteAuthorized() && $licenseHelper->isActivated() && !$optionsHelper->getTransient('vcv:activation:request'))
         ) {
-            $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('time'), 60);
+            $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
 
             if ($licenseHelper->isActivated()) {
                 $id = VCV_PLUGIN_URL . $licenseHelper->getKey();
             } else {
-                $id = VCV_PLUGIN_URL . trim($requestHelper->input('email'));
+                $id = VCV_PLUGIN_URL . trim($requestHelper->input('vcv-email'));
             }
             $optionsHelper->set('hubTokenId', $id);
             $token = $tokenHelper->createToken($id);
@@ -131,7 +131,7 @@ class ActivationController extends Container implements Module
     ) {
         $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
         if ($currentTransient) {
-            if ($currentTransient !== $requestHelper->input('time')) {
+            if ($currentTransient !== $requestHelper->input('vcv-time')) {
                 return ['status' => false];
             } else {
                 $optionsHelper->deleteTransient('vcv:activation:request');
@@ -149,8 +149,8 @@ class ActivationController extends Container implements Module
     protected function checkActivationError($response, Options $optionsHelper, Request $requestHelper)
     {
         $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
-        if ($currentTransient && $requestHelper->input('time')) {
-            if ($currentTransient !== $requestHelper->input('time')) {
+        if ($currentTransient && $requestHelper->input('vcv-time')) {
+            if ($currentTransient !== $requestHelper->input('vcv-time')) {
                 return false;
             } else {
                 $optionsHelper->deleteTransient('vcv:activation:request');

@@ -23,7 +23,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
   updateControlOnStatusChange (data, source = '') {
     let status = data.status
     if (status === 'saving' && source !== 'postSaveControl') {
-      this.clickSaveData({ options: data.options }, {}, true)
+      this.clickSaveData({ options: data.options }, {}, {}, true)
       return
     }
     if (status === 'success') {
@@ -59,7 +59,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }
   }
 
-  clickSaveData (e, _nativeE, noStorageRequest = false) {
+  clickSaveData (e, _, __, noStorageRequest = false) {
     e && e.preventDefault && e.preventDefault()
 
     if (this.state.status === 'saving') {
