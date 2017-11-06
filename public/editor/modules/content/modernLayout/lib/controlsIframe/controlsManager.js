@@ -613,7 +613,6 @@ export default class ControlsManager {
     const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
     let elementsToShow = []
     elementsToShow.push(this.iframeDocument.querySelector(selector))
-    console.log(elementsToShow)
     this.frames.show({ path: elementsToShow })
   }
 
