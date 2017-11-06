@@ -60,13 +60,13 @@ class Controller extends Container implements Module
 
     protected function disableAjaxErrors(Request $requestHelper)
     {
-        if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
-            if (!vcvenv('VCV_DEBUG')) {
-                ini_set('display_errors', 'Off');
-                ini_set('error_reporting', 0);
-                error_reporting(0);
-            }
-        }
+//        if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
+//            if (!vcvenv('VCV_DEBUG')) {
+//                ini_set('display_errors', 'Off');
+//                ini_set('error_reporting', 0);
+//                error_reporting(0);
+//            }
+//        }
     }
 
     protected function listenAjax(Request $requestHelper)

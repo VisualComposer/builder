@@ -60,7 +60,7 @@ class DeactivateLicense extends Container /*implements Module*/
             return;
         }
         $sectionCallback = function () use ($urlHelper, $nonceHelper) {
-            $deactivatePremiumUrl = $urlHelper->ajax(['vcv-action' => 'settings:license:deactivate', 'vcv-nonce' => $nonceHelper->admin()]);
+            $deactivatePremiumUrl = $urlHelper->adminAjax(['vcv-action' => 'settings:license:deactivate', 'vcv-nonce' => $nonceHelper->admin()]);
             $deactivatePremiumTitle = __('Visual Composer account', 'vcwb');
             $deactivatePremium = sprintf('<a href="%s">%s</a>', $deactivatePremiumUrl, $deactivatePremiumTitle);
 

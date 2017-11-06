@@ -62,7 +62,7 @@ class License extends Container implements Helper
         wp_redirect(
             VCV_LICENSE_ACTIVATE_URL .
             '/?redirect=' . rawurlencode(
-                $urlHelper->ajax(['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()])
+                $urlHelper->adminAjax(['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()])
             ) .
             '&token=' . rawurlencode($this->newKeyToken()) .
             '&url=' . VCV_PLUGIN_URL .
@@ -82,7 +82,7 @@ class License extends Container implements Helper
         wp_redirect(
             VCV_LICENSE_DEACTIVATE_URL .
             '/?redirect=' . rawurlencode(
-                $urlHelper->ajax(
+                $urlHelper->adminAjax(
                     ['vcv-action' => 'license:deactivate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
                 )
             ) .

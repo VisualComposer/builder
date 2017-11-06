@@ -10,7 +10,7 @@
  * License: GNU General Public License v2.0
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 4.5
- * Tested up to: 4.5
+ * Tested up to: 4.8.3
  * Text Domain: vcwb
  */
 
@@ -82,6 +82,9 @@ define('VCV_REQUIRED_PHP_VERSION', '5.4');
 define('VCV_REQUIRED_BLOG_VERSION', '4.1');
 if (!defined('VCV_AJAX_REQUEST')) {
     define('VCV_AJAX_REQUEST', 'vcv-ajax');
+}
+if (!defined('VCV_ADMIN_AJAX_REQUEST')) {
+    define('VCV_ADMIN_AJAX_REQUEST', 'vcv-admin-ajax');
 }
 if (!defined('VCV_LAZY_LOAD')) {
     define('VCV_LAZY_LOAD', false);

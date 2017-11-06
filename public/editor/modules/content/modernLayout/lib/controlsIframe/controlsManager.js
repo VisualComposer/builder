@@ -161,6 +161,15 @@ export default class ControlsManager {
               return el.dataset.vcvElement
             })
           })
+          layoutStorage.state('interactWithContent').set({
+            type: 'mouseDown',
+            element: element,
+            vcElementId: element.dataset.vcvElement,
+            path: elPath,
+            vcElementsPath: elPath.map((el) => {
+              return el.dataset.vcvElement
+            })
+          })
         }
 
         this.state.prevElement = element
@@ -280,6 +289,10 @@ export default class ControlsManager {
   interactWithContent () {
     // Content interaction
     layoutStorage.state('interactWithContent').onChange((data) => {
+      if (layoutStorage.state('resizeColumns').get() && data && data.type === 'mouseDown') {
+        this.frames.hide()
+        this.showFrames(data)
+      }
       if (data && data.type === 'mouseEnter') {
         if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
           if (this.closingControlsInterval) {

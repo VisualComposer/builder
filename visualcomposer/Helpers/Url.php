@@ -57,6 +57,23 @@ class Url implements Helper
     }
 
     /**
+     * Url to whole plugin folder.
+     *
+     * @param $query
+     *
+     * @return string
+     */
+    public function adminAjax($query = [])
+    {
+        $ajax = [VCV_ADMIN_AJAX_REQUEST => 1];
+        $query = $ajax + $query;
+        $query['action'] = 'vcv:admin:ajax';
+        $url = admin_url('admin-ajax.php') . '?';
+
+        return $this->query($url, $query);
+    }
+
+    /**
      * Returns queried request to url
      *
      * @param $query

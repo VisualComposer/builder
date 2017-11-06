@@ -230,6 +230,6 @@ addStorage('elements', (storage) => {
   })
   storage.on('updateAll', (data) => {
     documentManager.reset(sanitizeData(data))
-    storage.state('document').set(documentManager.children(false))
+    storage.state('document').set(documentManager.children(false), data)
   })
 })

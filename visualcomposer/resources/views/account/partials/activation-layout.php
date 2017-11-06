@@ -23,9 +23,9 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
     <?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
     window.vcvActivationRequest = 1;
     <?php } ?>
-    window.vcvActivationUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>';
-    window.vcvActionsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'hub:action:adminNonce']); ?>';
-    window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:finished:adminNonce']); ?>';
+    window.vcvActivationUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'account:activation:adminNonce']); ?>';
+    window.vcvActionsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce']); ?>';
+    window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'account:activation:finished:adminNonce']); ?>';
     window.vcvNonce = '<?php echo vchelper('Nonce')->admin(); ?>';
     window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>';
     window.vcvActivationType = '<?php echo $type; ?>';
