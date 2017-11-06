@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 const elementsStorage = vcCake.getStorage('elements')
+const layoutStorage = vcCake.getStorage('layout')
 let previousLayoutCustomMode = false
 class ColumnResizer extends React.Component {
   static defaultGridPercentage = [ 20, 25, 33.33, 50, 66.66, 75 ]
@@ -123,6 +124,7 @@ class ColumnResizer extends React.Component {
         leftColPercentage: colSizes.leftCol,
         rightColPercentage: colSizes.rightCol
       })
+      layoutStorage.state('resizeColumns').set(true)
     }
   }
 
@@ -179,6 +181,7 @@ class ColumnResizer extends React.Component {
     this.removeWrapBlockers()
     this.rebuildRowLayout()
     this.removeTemporaryColStyles()
+    layoutStorage.state('resizeColumns').set(false)
   }
 
   handleMouseMove (e) {
