@@ -1,3 +1,7 @@
+.vce-content-background-container {
+  border-radius: inherit;
+}
+
 .vce-asset-background-simple-container {
   position: absolute;
   top: 0;
@@ -7,6 +11,7 @@
   overflow: hidden;
   pointer-events: none;
   display: none;
+  border-radius: inherit;
 }
 
 .vce-asset-background-simple {
