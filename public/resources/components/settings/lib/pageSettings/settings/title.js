@@ -2,6 +2,8 @@ import React from 'react'
 import {setData, getStorage} from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
+const workspaceStorage = getStorage('workspace')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class TitleSettings extends React.Component {
 
@@ -19,26 +21,40 @@ export default class TitleSettings extends React.Component {
     setData('ui:settings:pageTitleDisabled', this.state.disabled)
     this.updateTitle = this.updateTitle.bind(this)
     this.updateTitleToggle = this.updateTitleToggle.bind(this)
+    this.findPageTitle = this.findPageTitle.bind(this)
     this.findPageTitle()
+
+    workspaceIFrame.onChange(this.findPageTitle)
   }
 
   componentDidUpdate () {
     this.setTitle()
   }
 
-  findPageTitle () {
-    let iframe = document.getElementById('vcv-editor-iframe')
-    if (iframe) {
-      this.title = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
-      this.setTitle()
+  componentWillUnmount () {
+    workspaceIFrame.ignoreChange(this.findPageTitle)
+    this.findPageTitle({}, 'storage')
+  }
+
+  findPageTitle (data = {}, from = '') {
+    let { type = 'loaded' } = data
+    if (type === 'loaded') {
+      let iframe = document.getElementById('vcv-editor-iframe')
+      if (iframe) {
+        this.title = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
+        this.setTitle(from)
+      }
     }
   }
 
-  setTitle () {
+  setTitle (from) {
     if (!this.title) {
       return
     }
     let { current, disabled } = this.state
+    if (from === 'storage') {
+      current = settingsStorage.state('pageTitle').get()
+    }
     this.title.forEach(title => {
       title.innerText = current
       title.style.display = disabled ? 'none' : ''

@@ -150,3 +150,10 @@ if (!defined('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
         isset($_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_ELEMENT']) ? $_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_ELEMENT'] : true
     );
 }
+
+if (!defined('VCV_IFRAME_RELOAD')) {
+    define(
+        'VCV_PAGE_TITLE_FE',
+        isset($_SERVER['VCV_IFRAME_RELOAD']) ? $_SERVER['VCV_IFRAME_RELOAD'] : false
+    );
+}
