@@ -43,6 +43,9 @@ export default class Element extends React.Component {
       assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
     }
     assetsStorage.trigger('addElement', this.state.element.id)
+    if (this.state.element.tag === 'column') {
+      assetsStorage.trigger('updateElement', this.state.element.parent)
+    }
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
     // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
