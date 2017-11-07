@@ -14,7 +14,7 @@
     "standard": "standard",
     "build": "webpack --progress --colors",
     "watch": "webpack --progress --colors --watch",
-    "watch-assets-and-elements": "node -e 'require(\"./vc-cli/modules/watch.js\")()'",
+    "watch-assets-and-elements": "vc watch-elements-and-assets",
     "build-module": "babel-node ./tools/module-builder/index",
     "build-element": "babel-node ./tools/element-builder/index",
     "build-production": "webpack --config webpack.config.production.js --progress --colors -p",
