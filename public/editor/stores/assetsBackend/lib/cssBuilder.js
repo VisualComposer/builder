@@ -133,31 +133,32 @@ export default class CssBuilder {
   updateStyleDomNodes (data) {
     const id = data.id
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data)
+    const settingStyles = this.window.document.getElementById('vcv-settings-css-styles')
     elementTags.forEach((tag) => {
       if (!this.window.document.getElementById(`vcv-base-css-styles-${tag}`)) {
         let baseStyleElement = this.window.document.createElement('style')
         let baseStyleElementIframe = this.contentWindow.document.createElement('style')
         baseStyleElement.id = `vcv-base-css-styles-${tag}`
         baseStyleElementIframe.id = `vcv-base-css-styles-${tag}`
-        this.window.document.body.appendChild(baseStyleElement)
-        this.contentWindow.document.body.appendChild(baseStyleElementIframe)
+        this.window.document.body.insertBefore(baseStyleElement, settingStyles)
+        this.contentWindow.document.body.insertBefore(baseStyleElementIframe, settingStyles)
       }
       if (!this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)) {
         let editorStyleElement = this.window.document.createElement('style')
         editorStyleElement.id = `vcv-css-editor-styles-${tag}`
-        this.window.document.body.appendChild(editorStyleElement)
+        this.window.document.body.insertBefore(editorStyleElement, settingStyles)
       }
     })
 
     if (!this.window.document.getElementById(`vcv-css-styles-${id}`)) {
       let styleElement = this.window.document.createElement('style')
       styleElement.id = `vcv-css-styles-${id}`
-      this.window.document.body.appendChild(styleElement)
+      this.window.document.body.insertBefore(styleElement, settingStyles)
     }
     if (!this.window.document.getElementById(`vcv-do-styles-${id}`)) {
       let doStyleElement = this.window.document.createElement('style')
       doStyleElement.id = `vcv-do-styles-${id}`
-      this.window.document.body.appendChild(doStyleElement)
+      this.window.document.body.insertBefore(doStyleElement, settingStyles)
     }
 
     // Inner element css-styles and do
@@ -172,12 +173,12 @@ export default class CssBuilder {
         if (!this.window.document.getElementById(`vcv-css-styles-${id}-${checksum}`)) {
           let innerCssStyleElement = this.window.document.createElement('style')
           innerCssStyleElement.id = `vcv-css-styles-${id}-${checksum}`
-          this.window.document.body.appendChild(innerCssStyleElement)
+          this.window.document.body.insertBefore(innerCssStyleElement, settingStyles)
         }
         if (!this.window.document.getElementById(`vcv-do-styles-${id}-${checksum}`)) {
           let innerDoStyleElement = this.window.document.createElement('style')
           innerDoStyleElement.id = `vcv-do-styles-${id}-${checksum}`
-          this.window.document.body.appendChild(innerDoStyleElement)
+          this.window.document.body.insertBefore(innerDoStyleElement, settingStyles)
         }
       }
     }
