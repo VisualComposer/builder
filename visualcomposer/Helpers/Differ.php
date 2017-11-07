@@ -27,7 +27,7 @@ class Differ extends Container implements Helper, Immutable
 
     public function set($newValue)
     {
-        if ($this->data !== $newValue) {
+        if ($this->data !== $newValue && is_array($newValue)) {
             $this->merge($newValue);
         }
 
@@ -59,7 +59,7 @@ class Differ extends Container implements Helper, Immutable
                         );
                 }
             }
-            if (isset($this->updateCallback)) {
+            if (!empty($this->updateCallback)) {
                 $mergedValue = call_user_func_array(
                     $this->updateCallback,
                     [
