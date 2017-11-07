@@ -1,9 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import 'brace'
 import AceEditor from 'react-ace'
-import '../../../../../../node_modules/brace/mode/javascript'
-import '../../../../../../node_modules/brace/theme/github'
+import 'brace/mode/javascript'
+import 'brace/theme/github'
 export default class ScriptEditor extends React.Component {
   static propTypes = {
     index: React.PropTypes.number.isRequired,
