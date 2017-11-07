@@ -4,6 +4,7 @@ import ContentControls from '../../../../../resources/components/layoutHelpers/c
 import ContentEditableComponent from '../../../../../resources/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 import MobileDetect from 'mobile-detect'
+import {isEqual} from 'lodash'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -29,6 +30,9 @@ export default class Element extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    if (!isEqual(this.props, nextProps)) {
+      assetsStorage.trigger('updateElement', this.state.element.id)
+    }
     this.setState({ element: nextProps.element })
   }
 

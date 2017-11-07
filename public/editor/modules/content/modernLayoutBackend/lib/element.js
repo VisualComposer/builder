@@ -2,6 +2,7 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import DefaultElement from './defaultElement'
 import ContentControls from '../../../../../resources/components/layoutHelpers/contentControls/component'
+import {isEqual} from 'lodash'
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
@@ -27,6 +28,9 @@ export default class Element extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    if (!isEqual(this.props, nextProps)) {
+      assetsStorage.trigger('updateElement', this.state.element.id)
+    }
     this.setState({ element: nextProps.element })
   }
 

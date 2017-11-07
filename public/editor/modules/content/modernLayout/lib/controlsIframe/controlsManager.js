@@ -34,6 +34,8 @@ export default class ControlsManager {
       showControls: true
     }
 
+    this.resizeColumns = false
+
     this.findElement = this.findElement.bind(this)
     this.controlElementFind = this.controlElementFind.bind(this)
     this.handleFrameLeave = this.handleFrameLeave.bind(this)
@@ -287,9 +289,12 @@ export default class ControlsManager {
    * Interact with content
    */
   interactWithContent () {
+    layoutStorage.state('resizeColumns').onChange((data) => {
+      this.resizeColumns = data
+    })
     // Content interaction
     layoutStorage.state('interactWithContent').onChange((data) => {
-      if (layoutStorage.state('resizeColumns').get() && data && data.type === 'mouseDown') {
+      if (this.resizeColumns && data && data.type === 'mouseDown') {
         this.frames.hide()
         this.showFrames(data)
       }
