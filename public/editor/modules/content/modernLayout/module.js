@@ -114,17 +114,29 @@ vcCake.add('contentModernLayout', (api) => {
       </div>`
   }
 
-  const reloadLayout = (type) => {
+  const reloadLayout = ({type, template}) => {
     if (type === 'reload') {
       createLoadingScreen()
       let iframe = window.document.getElementById('vcv-editor-iframe')
       let domContainer = iframe.contentDocument.getElementById('vcv-editor')
       ReactDOM.unmountComponentAtNode(domContainer)
       iframe.onload = () => {
-        workspaceIFrame.set('loaded')
+        workspaceIFrame.set({type: 'loaded'})
         elementsStorage.trigger('updateAll', vcCake.getService('document').all())
       }
-      iframe.src = iframe.src
+      let url = iframe.src.split('?')
+      let params = url[1].split('&')
+      for (let i = 0; i < params.length; i++) {
+        if (params[i].indexOf('vcv-template') >= 0) {
+          params.splice(i, 1)
+          break
+        }
+      }
+      if (template) {
+        params.push(`vcv-template=${template}`)
+      }
+      url[1] = params.join('&')
+      iframe.src = url.join('?')
     } else if (type === 'loaded') {
       renderLayout()
     }

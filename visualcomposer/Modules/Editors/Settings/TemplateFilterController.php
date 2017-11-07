@@ -46,6 +46,10 @@ class TemplateFilterController extends Container implements Module
             $this->addFilter('vcv:frontend:head:extraOutput', 'outputTemplates');
             $this->addFilter('vcv:dataAjax:setData', 'setPageTemplate');
         }
+
+        if (vcvenv('VCV_IFRAME_RELOAD')) {
+            $this->wpAddFilter('template_include', 'previewCustomTemplate', 20);
+        }
     }
 
     protected function setPageTemplate($response, $payload, Request $requestHelper)
@@ -136,6 +140,28 @@ class TemplateFilterController extends Container implements Module
         }
 
         return $template;
+    }
+
+    protected function previewCustomTemplate($originalTemplate)
+    {
+        $requestHelper = vchelper('Request');
+        $templateName = $requestHelper->input('vcv-template');
+        $templateList = wp_get_theme()->get_page_templates();
+        if ($templateName) {
+            if (isset($templateList[ $templateName ])) {
+                if (locate_template($templateName)) {
+                    $template = locate_template($templateName);
+                } else {
+                    $template = $this->templatePath() . $templateName;
+                }
+                if (file_exists($template)) {
+                    return $template;
+                }
+            } elseif ($templateName === 'default') {
+                return get_page_template();
+            }
+        }
+        return $originalTemplate;
     }
 
     protected function templatePath()

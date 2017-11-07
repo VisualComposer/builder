@@ -1,8 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getData, getStorage} from 'vc-cake'
+import {getData, getStorage, env} from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
+const workspaceStorage = getStorage('workspace')
+const workspaceIFrame = workspaceStorage.state('iframe')
 export default class SettingsFooter extends React.Component {
 
   constructor (props) {
@@ -18,6 +20,14 @@ export default class SettingsFooter extends React.Component {
     actions.forEach(action => {
       settingsStorage.state(action.state).set(getData(action.getData))
     })
+    if (env('IFRAME_RELOAD')) {
+      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
+      let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+      if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
+        window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+        workspaceIFrame.set({type: 'reload', template: lastSavedPageTemplate})
+      }
+    }
     this.effect()
   }
 
