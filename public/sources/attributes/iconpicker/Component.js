@@ -124,7 +124,7 @@ class Iconpicker extends Attribute {
     let categories = this.categoriesContent()
     let iconsContent = this.iconsContent()
     if (!iconsContent.length) {
-      iconsContent.push(<div className='vcv-ui-form-iconpicker-error'>No icons found</div>)
+      iconsContent.push(<div className='vcv-ui-form-iconpicker-error' key='no-icon-found'>No icons found</div>)
     }
 
     let popupClasses = classNames({
