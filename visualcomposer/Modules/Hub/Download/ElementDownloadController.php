@@ -36,7 +36,7 @@ class ElementDownloadController extends Container implements Module
                 // fire the download process
                 $requestHelper->setData(
                     [
-                        'action' => $json,
+                        'vcv-hub-action' => $json,
                     ]
                 );
                 $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
