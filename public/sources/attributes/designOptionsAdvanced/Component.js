@@ -663,14 +663,19 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getDevicesRender () {
-    return <Devices
-      api={this.props.api}
-      fieldKey='currentDevice'
-      options={{
-        customDevices: this.getCustomDevices()
-      }}
-      updater={this.devicesChangeHandler}
-      value={this.state.currentDevice} />
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Device type
+      </span>
+      <Devices
+        api={this.props.api}
+        fieldKey='currentDevice'
+        options={{
+          customDevices: this.getCustomDevices()
+        }}
+        updater={this.devicesChangeHandler}
+        value={this.state.currentDevice} />
+    </div>
   }
 
   /**
