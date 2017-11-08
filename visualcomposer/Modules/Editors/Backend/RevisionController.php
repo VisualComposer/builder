@@ -100,12 +100,18 @@ class RevisionController extends Container implements Module
     {
         $response = [];
         $sourceId = $requestHelper->input('vcv-source-id');
-        //get all post revisions
-        $postRevisions = wp_get_post_revisions($sourceId);
-        //take the latest one
-        $latestRevision = array_shift($postRevisions);
 
-        $pageContent = get_post_meta($latestRevision->ID, 'vcv-pageContent', true);
+        if (vcvenv('VCV_REVISIONS_SAVE_FIX')) {
+            // get last auto save
+            $postAutoSave = wp_get_post_autosave($sourceId);
+            $pageContent = get_post_meta($postAutoSave->ID, 'vcv-pageContent', true);
+        } else {
+            //get all post revisions
+            $postRevisions = wp_get_post_revisions($sourceId);
+            //take the latest one
+            $latestRevision = array_shift($postRevisions);
+            $pageContent = get_post_meta($latestRevision->ID, 'vcv-pageContent', true);
+        }
 
         $response['pageContent'] = $pageContent;
 
