@@ -11,7 +11,7 @@ const settingsStorage = vcCake.getStorage('settings')
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
     dataProcessor.appAllDone().then(() => {
-      dataProcessor.appServerRequest(data).then(successCallback, failureCallback)
+      dataProcessor.appAdminServerRequest(data).then(successCallback, failureCallback)
     })
   }
 

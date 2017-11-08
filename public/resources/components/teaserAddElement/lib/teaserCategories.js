@@ -60,7 +60,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
     let req = this.ajaxRequests[0]
     this.ajaxCall = true
-    dataProcessor.appServerRequest(req.data).then(
+    dataProcessor.appAdminServerRequest(req.data).then(
       (response) => {
         req.successCallback && req.successCallback(response, req.cancelled)
         this.ajaxCall = false

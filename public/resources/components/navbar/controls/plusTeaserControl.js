@@ -57,7 +57,7 @@ export default class PlusTeaserControl extends NavbarContent {
     }
     workspaceSettings.set(settings)
     if (window.vcvHubTeaserShowBadge || this.state.showBadge) {
-      dataProcessor.appServerRequest({
+      dataProcessor.appAdminServerRequest({
         'vcv-action': 'vcv:hub:teaser:visit:adminNonce'
       })
       dataProcessor.appAllDone().then(() => {

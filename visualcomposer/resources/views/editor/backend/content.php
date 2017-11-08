@@ -20,6 +20,7 @@ $beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true)
       window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
       window.vcvSourceID = <?php echo get_the_ID(); ?>;
       window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
+      window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
       window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
       window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
       window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
