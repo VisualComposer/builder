@@ -157,3 +157,10 @@ if (!defined('VCV_IFRAME_RELOAD')) {
         isset($_SERVER['VCV_IFRAME_RELOAD']) ? $_SERVER['VCV_IFRAME_RELOAD'] : false
     );
 }
+
+if (!defined('VCV_REVISIONS_SAVE_FIX')) {
+    define(
+        'VCV_PAGE_TITLE_FE',
+        isset($_SERVER['VCV_REVISIONS_SAVE_FIX']) ? $_SERVER['VCV_REVISIONS_SAVE_FIX'] : false
+    );
+}
