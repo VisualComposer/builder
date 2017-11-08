@@ -36,18 +36,38 @@ class RevisionController extends Container implements Module
     /**
      * Save meta for revision.
      */
-    protected function saveRevisionMeta()
+    protected function saveRevisionMeta($revisionId)
     {
-        $requestHelper = vchelper('Request');
-        $sourceId = $requestHelper->input('post_ID');
-        $data = $requestHelper->input('data');
+        if (vcvenv('VCV_REVISIONS_SAVE_FIX')) {
+            $requestHelper = vchelper('Request');
+            $sourceId = $requestHelper->input('post_ID');
+            $vcvdata = $requestHelper->input('vcv-data');
+            $data = $requestHelper->input('data');
 
-        $vcvData = $data['wp_autosave']['vcv-data'];
-        // @codingStandardsIgnoreLine
-        if (wp_is_post_revision($sourceId)) {
-            if (false !== $vcvData) {
-                // @codingStandardsIgnoreLine
-                update_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', $vcvData);
+            if (!$vcvdata && $data && $data['wp_autosave']) {
+                $sourceId = $data['wp_autosave']['post_id'];
+                $vcvdata = $data['wp_autosave']['vcv-data'];
+            }
+
+            // @codingStandardsIgnoreLine
+            if (wp_is_post_revision($revisionId) === intval($sourceId)) {
+                if (false !== $vcvdata) {
+                    // @codingStandardsIgnoreLine
+                    update_metadata('post', $revisionId, VCV_PREFIX . 'pageContent', $vcvdata);
+                }
+            }
+        } else {
+            $requestHelper = vchelper('Request');
+            $sourceId = $requestHelper->input('post_ID');
+            $data = $requestHelper->input('data');
+
+            $vcvData = $data['wp_autosave']['vcv-data'];
+            // @codingStandardsIgnoreLine
+            if (wp_is_post_revision($sourceId)) {
+                if (false !== $vcvData) {
+                    // @codingStandardsIgnoreLine
+                    update_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', $vcvData);
+                }
             }
         }
     }
@@ -80,12 +100,18 @@ class RevisionController extends Container implements Module
     {
         $response = [];
         $sourceId = $requestHelper->input('vcv-source-id');
-        //get all post revisions
-        $postRevisions = wp_get_post_revisions($sourceId);
-        //take the latest one
-        $latestRevision = array_shift($postRevisions);
 
-        $pageContent = get_post_meta($latestRevision->ID, 'vcv-pageContent', true);
+        if (vcvenv('VCV_REVISIONS_SAVE_FIX')) {
+            // get last auto save
+            $postAutoSave = wp_get_post_autosave($sourceId);
+            $pageContent = get_post_meta($postAutoSave->ID, 'vcv-pageContent', true);
+        } else {
+            //get all post revisions
+            $postRevisions = wp_get_post_revisions($sourceId);
+            //take the latest one
+            $latestRevision = array_shift($postRevisions);
+            $pageContent = get_post_meta($latestRevision->ID, 'vcv-pageContent', true);
+        }
 
         $response['pageContent'] = $pageContent;
 
