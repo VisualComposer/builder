@@ -222,4 +222,22 @@ class EventsTest extends WP_UnitTestCase
 
         $this->assertEquals([], $pay);
     }
+
+    public function testNoPayload()
+    {
+        $pay = null;
+        $callback = function (
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$pay) {
+            $pay = true;
+        };
+
+        vchelper('Events')->listen('test:framework:testNoPayload', $callback);
+
+        vcevent('test:framework:testNoPayload');
+
+        $this->assertTrue($pay);
+    }
 }
