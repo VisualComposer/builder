@@ -140,6 +140,7 @@ class ActivationController extends Container implements Module
         }
         $tokenHelper->setSiteAuthorized();
         $licenseHelper->setKeyToken('');
+        vcevent('vcv:activation:finish');
 
         return [
             'status' => true,

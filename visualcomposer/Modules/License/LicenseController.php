@@ -77,7 +77,7 @@ class LicenseController extends Container implements Module
                 $result = wp_remote_get(
                     VCV_LICENSE_ACTIVATE_FINISH_URL,
                     [
-                        'timeout' => 10,
+                        'timeout' => 30,
                         'body' => [
                             'token' => $licenseHelper->getKeyToken(),
                             'id' => get_site_url(),
@@ -141,7 +141,7 @@ class LicenseController extends Container implements Module
                 $result = wp_remote_get(
                     VCV_LICENSE_DEACTIVATE_FINISH_URL,
                     [
-                        'timeout' => 10,
+                        'timeout' => 30,
                         'body' => [
                             'token' => $licenseHelper->getKeyToken(),
                             'url' => VCV_PLUGIN_URL,

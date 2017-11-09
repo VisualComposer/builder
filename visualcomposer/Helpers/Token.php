@@ -102,7 +102,7 @@ class Token extends Container implements Helper
         $result = wp_remote_get(
             VCV_TOKEN_URL,
             [
-                'timeout' => 10,
+                'timeout' => 30,
                 'body' => $body,
             ]
         );
@@ -202,7 +202,7 @@ class Token extends Container implements Helper
                 $resultDetails = $result->get_error_message();
                 if ("http_request_failed" === $result->get_error_code()) {
                     $message .= '. ';
-                    $message .= __('Possibly the process exceeded the timeout of 5 seconds', 'vcwb');
+                    $message .= __('Possibly the process exceeded the timeout of 30 seconds', 'vcwb');
                 }
             } else {
                 // @codingStandardsIgnoreLine
