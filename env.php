@@ -161,6 +161,6 @@ if (!defined('VCV_IFRAME_RELOAD')) {
 if (!defined('VCV_REVISIONS_SAVE_FIX')) {
     define(
         'VCV_REVISIONS_SAVE_FIX',
-        isset($_SERVER['VCV_REVISIONS_SAVE_FIX']) ? $_SERVER['VCV_REVISIONS_SAVE_FIX'] : false
+        isset($_SERVER['VCV_REVISIONS_SAVE_FIX']) ? $_SERVER['VCV_REVISIONS_SAVE_FIX'] : true
     );
 }
