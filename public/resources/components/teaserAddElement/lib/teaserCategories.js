@@ -17,21 +17,50 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
   getAllCategories () {
     if (!this.allCategories) {
-      let categories = window.VCV_HUB_GET_TEASER()
-      categories.forEach((item, index) => {
-        let elements = lodash.sortBy(item.elements, [ 'name' ])
-        elements = elements.map((element) => {
-          let tag = element.tag
-          element.tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+      const elementGroup = this.getElementGroup()
+      const templateGroup = this.getTemplateGroup()
+      const allGroup = this.getAllGroup([ elementGroup, templateGroup ])
 
-          return element
-        })
-        categories[ index ].elements = elements
-      })
-      this.allCategories = categories
+      if (vcCake.env('TEASER_DROPDOWN_UPDATE')) {
+        this.allCategories = [ allGroup, elementGroup, templateGroup ]
+      } else {
+        this.allCategories = elementGroup.categories
+      }
     }
-
     return this.allCategories
+  }
+
+  getAllGroup (otherGroups) {
+    let elements = []
+
+    otherGroups.forEach((group) => {
+      const groupAllElements = group.categories && group.categories[ 0 ] ? group.categories[ 0 ].elements : group.elements
+      if (groupAllElements) {
+        elements.push(...groupAllElements)
+      }
+    })
+    return { elements: elements, id: 'All0', index: 0, title: 'All' }
+  }
+
+  getElementGroup () {
+    let elementCategories = window.VCV_HUB_GET_TEASER()
+    elementCategories.forEach((item, index) => {
+      let elements = lodash.sortBy(item.elements, [ 'name' ])
+      elements = elements.map((element) => {
+        let tag = element.tag
+        element.tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+
+        return element
+      })
+      elementCategories[ index ].elements = elements
+    })
+    return { categories: elementCategories, id: 'Elements1', index: 1, title: 'Elements' }
+  }
+
+  getTemplateGroup () {
+    // TODO get and sort template elements from backend
+    let elements = []
+    return { elements: elements, id: 'Templates2', index: 2, title: 'Templates' }
   }
 
   startDownload (key, data, successCallback, errorCallback) {
@@ -58,7 +87,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       return
     }
 
-    let req = this.ajaxRequests[0]
+    let req = this.ajaxRequests[ 0 ]
     this.ajaxCall = true
     dataProcessor.appAdminServerRequest(req.data).then(
       (response) => {
@@ -105,6 +134,24 @@ export default class TeaserAddElementCategories extends AddElementCategories {
         />
       </div>
     </div>
+  }
+
+  getElementsByCategory () {
+    let { activeCategoryIndex } = this.state
+    let allCategories = this.getAllCategories()
+    let elements = []
+
+    if (activeCategoryIndex.indexOf && activeCategoryIndex.indexOf('-') > -1) {
+      const index = activeCategoryIndex.split('-')
+      const group = allCategories[ index[ 0 ] ]
+      const category = group && group.categories && group.categories[ index[ 1 ] ]
+
+      elements = category ? category.elements : []
+    } else {
+      elements = allCategories && allCategories[ activeCategoryIndex ] && allCategories[ activeCategoryIndex ].elements
+    }
+
+    return elements ? elements.map((tag) => { return this.getElementControl(tag) }) : []
   }
 
   render () {

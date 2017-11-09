@@ -38,10 +38,10 @@ class TeaserDownloadController extends Container implements Module
     protected function getTeaserElements($teasers)
     {
         $groupList = [
-            'All' => [
-                'id' => 'All0',
+            'All Elements' => [
+                'id' => 'AllElements0',
                 'index' => 0,
-                'title' => 'All',
+                'title' => 'All Elements',
                 'elements' => [],
             ],
         ];
@@ -76,7 +76,7 @@ class TeaserDownloadController extends Container implements Module
                 $allElements[] = $elementData;
             }
         }
-        $groupList['All']['elements'] = array_values($dataHelper->arrayDeepUnique($allElements));
+        $groupList['All Elements']['elements'] = array_values($dataHelper->arrayDeepUnique($allElements));
 
         return $groupList;
     }

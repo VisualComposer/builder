@@ -37,10 +37,10 @@ class TeaserController extends Container implements Module
             (array)$optionsHelper->get(
                 'hubTeaserElements',
                 [
-                    'All' => [
-                        'id' => 'All0',
+                    'All Elements' => [
+                        'id' => 'AllElements0',
                         'index' => 0,
-                        'title' => 'All',
+                        'title' => 'All Elements',
                         'elements' => [],
                     ],
                 ]
