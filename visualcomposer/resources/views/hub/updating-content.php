@@ -50,7 +50,8 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
   window.vcvAjaxTime = <?php echo $time; ?>;
   window.vcvPageBack = '<?php echo $optionsHelper->getTransient('_vcv_update_page_redirect_url'); ?>';
   window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
-  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
+  window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
+  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
     <?php
     if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
     ?>
