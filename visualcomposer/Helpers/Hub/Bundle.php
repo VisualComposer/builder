@@ -108,7 +108,7 @@ class Bundle implements Helper
             $response = wp_remote_get(
                 $url,
                 [
-                    'timeout' => 10,
+                    'timeout' => 30,
                 ]
             );
             if (!vcIsBadResponse($response)) {

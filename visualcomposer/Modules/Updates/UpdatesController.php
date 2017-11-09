@@ -99,7 +99,7 @@ class UpdatesController extends Container implements Module
         $request = wp_remote_get(
             $this->updateVersionUrl,
             [
-                'timeout' => 10,
+                'timeout' => 30,
             ]
         );
         if (!vcIsBadResponse($request)) {
@@ -150,7 +150,7 @@ class UpdatesController extends Container implements Module
         $response = wp_remote_get(
             $this->updateChangelogUrl . '?v=' . VCV_VERSION,
             [
-                'timeout' => 10,
+                'timeout' => 30,
             ]
         );
         if (!vcIsBadResponse($response)) {

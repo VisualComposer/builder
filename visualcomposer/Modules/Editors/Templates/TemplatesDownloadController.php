@@ -103,7 +103,7 @@ class TemplatesDownloadController extends Container implements Module
                     ),
                     true
                 );
-                $elementsImages = $this->getTemplateElementImages($templateElements);
+                $elementsImages = $this->getTemplateElementImages($template['data']);
                 foreach ($elementsImages as $element) {
                     foreach ($element['images'] as $image) {
                         if (isset($image['complex']) && $image['complex']) {

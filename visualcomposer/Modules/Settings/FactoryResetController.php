@@ -93,7 +93,7 @@ class FactoryResetController extends Container implements Module
         $optionsHelper->deleteTransient('vcv:settings:factoryReset:allow');
         $optionsHelper->set('version', VCV_VERSION);
         vcevent('vcv:system:factory:reset');
-
+        wp_cache_flush();
         wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
         die();
     }

@@ -401,4 +401,72 @@ class FiltersTest extends WP_UnitTestCase
         $this->assertFalse(($response2 & 4) > 0);
         $this->assertFalse(($response2 & 8) > 0);
     }
+
+    public function testNoPayload()
+    {
+        $res = null;
+        $callback = function (
+            $response,
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$res) {
+            $res = $response;
+
+            return 1;
+        };
+
+        vchelper('Filters')->listen('test:framework:noPayload', $callback);
+
+        $response = vcfilter('test:framework:noPayload');
+
+        $this->assertEquals('', $res);
+        $this->assertEquals(1, $response);
+    }
+
+    public function testEmptyPayload()
+    {
+        $pay = null;
+        $callback = function (
+            $response,
+            $payload,
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$pay) {
+            $pay = $payload;
+
+            return 1;
+        };
+
+        vchelper('Filters')->listen('test:framework:emptyPayload', $callback);
+
+        $res = vcfilter('test:framework:emptyPayload');
+
+        $this->assertEquals([], $pay);
+        $this->assertEquals(1, $res);
+    }
+
+    public function testEmptyPayloadDefault()
+    {
+        $pay = null;
+        $callback = function (
+            $response = '',
+            $payload = [],
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$pay) {
+            $pay = $payload;
+
+            return 1;
+        };
+
+        vchelper('Filters')->listen('test:framework:testEmptyPayloadDefault', $callback);
+
+        $res = vcfilter('test:framework:testEmptyPayloadDefault');
+
+        $this->assertEquals([], $pay);
+        $this->assertEquals(1, $res);
+    }
 }

@@ -115,6 +115,11 @@ class Dispatcher implements DispatcherContract
         if (!is_array($payload)) {
             $payload = [$payload];
         }
+        if (empty($payload)) {
+            $payload = [
+                'payload' => [],
+            ];
+        }
 
         $this->firing[] = $event;
         $responses = [];

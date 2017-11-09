@@ -79,7 +79,7 @@ class ElementDownloadController extends Container implements Module
         $response = wp_remote_get(
             $url,
             [
-                'timeout' => 10,
+                'timeout' => 30,
             ]
         );
         $result = $this->checkResponse($response);

@@ -31,6 +31,9 @@ $(() => {
     $(iframeDocument.body).on('click', 'a[href]', (e) => {
       e && e.preventDefault()
     })
+    $(iframeDocument.body).on('click', '[type="submit"]', (e) => {
+      e && e.preventDefault() && e.stopPropagation()
+    })
     let iframeStyles = iframeDocument.createElement('style')
     iframeStyles.setAttribute('type', 'text/css')
     iframeStyles.innerText = `html {
