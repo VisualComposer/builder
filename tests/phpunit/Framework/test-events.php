@@ -184,4 +184,42 @@ class EventsTest extends WP_UnitTestCase
         $helper->fire('test_event_priority:3:exact');
         $this->assertEquals(2, $value);
     }
+
+    public function testEmptyPayload()
+    {
+        $pay = null;
+        $callback = function (
+            $payload,
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$pay) {
+            $pay = $payload;
+        };
+
+        vchelper('Events')->listen('test:framework:emptyPayload', $callback);
+
+        vcevent('test:framework:emptyPayload');
+
+        $this->assertEquals([], $pay);
+    }
+
+    public function testEmptyPayloadDefault()
+    {
+        $pay = null;
+        $callback = function (
+            $payload = [],
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$pay) {
+            $pay = $payload;
+        };
+
+        vchelper('Events')->listen('test:framework:testEmptyPayloadDefault', $callback);
+
+        vcevent('test:framework:testEmptyPayloadDefault');
+
+        $this->assertEquals([], $pay);
+    }
 }
