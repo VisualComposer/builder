@@ -53,8 +53,8 @@ addStorage('assets', (storage) => {
   storage.on('resetElements', () => {
     globalAssetsStorage.resetElements(Object.keys(documentManager.all()))
   })
-  storage.on('updateAllElements', () => {
-    Object.values(documentManager.all()).forEach(element => {
+  storage.on('updateAllElements', (data) => {
+    Object.values(data).forEach(element => {
       if (env('FEATURE_ASSETS_FILTER') && env('ATTRIBUTE_LIBS')) {
         storage.trigger('addSharedLibrary', element)
       }
