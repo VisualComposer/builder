@@ -79,7 +79,7 @@ export default class CssBuilder {
     this.resetJobs = this.resetJobs.bind(this)
   }
 
-  add (data) {
+  add (data, force = false) {
     if (!data) {
       return
     }
@@ -89,7 +89,7 @@ export default class CssBuilder {
     this.globalAssetsStorageService.addElement(data.id)
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
-    this.addElementFiles(data)
+    this.addElementFiles(data, force)
     this.doJobs(data.id).then(() => {
       if (env('CSS_LOADING')) {
         this.addElementJobsToStorage(data.id, false)
@@ -194,13 +194,13 @@ export default class CssBuilder {
     }
   }
 
-  addElementFiles (data) {
+  addElementFiles (data, force) {
     let cookElement = cook.get(data)
     let elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByElement(cookElement)
     const doc = this.window.document
     elementAssetsFiles.cssBundles.forEach((file) => {
       let slug = this.slugify(file)
-      if (this.loadedCssFiles.indexOf(slug) === -1) {
+      if (force || this.loadedCssFiles.indexOf(slug) === -1) {
         this.loadedCssFiles.push(slug)
         let cssLink = doc.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
@@ -212,7 +212,7 @@ export default class CssBuilder {
     elementAssetsFiles.jsBundles.forEach(
       (file) => {
         let slug = this.slugify(file)
-        if (this.loadedJsFiles.indexOf(slug) === -1) {
+        if (force || this.loadedJsFiles.indexOf(slug) === -1) {
           this.loadedJsFiles.push(slug)
           let scriptPromise = new Promise(
             (resolve, reject) => {
