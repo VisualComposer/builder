@@ -36,7 +36,7 @@ class EditorTemplates implements Helper
                     ],
                     [
                         'key' => '_' . VCV_PREFIX . 'type',
-                        'value' => 'hub',
+                        'value' => 'custom',
                         'compare' => '=',
                     ],
 

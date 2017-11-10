@@ -427,46 +427,52 @@ class FiltersTest extends WP_UnitTestCase
     public function testEmptyPayload()
     {
         $pay = null;
+        $res = null;
         $callback = function (
             $response,
             $payload,
             \VisualComposer\Application $app,
             \VisualComposer\Helpers\Request $requestHelper,
             \VisualComposer\Helpers\Logger $loggerHelper
-        ) use (&$pay) {
+        ) use (&$pay, &$res) {
             $pay = $payload;
+            $res = $response;
 
             return 1;
         };
 
         vchelper('Filters')->listen('test:framework:emptyPayload', $callback);
 
-        $res = vcfilter('test:framework:emptyPayload');
+        $response = vcfilter('test:framework:emptyPayload');
 
         $this->assertEquals([], $pay);
-        $this->assertEquals(1, $res);
+        $this->assertEquals(1, $response);
+        $this->assertEquals('', $res);
     }
 
     public function testEmptyPayloadDefault()
     {
         $pay = null;
+        $res = null;
         $callback = function (
             $response = '',
             $payload = [],
             \VisualComposer\Application $app,
             \VisualComposer\Helpers\Request $requestHelper,
             \VisualComposer\Helpers\Logger $loggerHelper
-        ) use (&$pay) {
+        ) use (&$pay, &$res) {
             $pay = $payload;
+            $res = $response;
 
             return 1;
         };
 
         vchelper('Filters')->listen('test:framework:testEmptyPayloadDefault', $callback);
 
-        $res = vcfilter('test:framework:testEmptyPayloadDefault');
+        $response = vcfilter('test:framework:testEmptyPayloadDefault');
 
         $this->assertEquals([], $pay);
-        $this->assertEquals(1, $res);
+        $this->assertEquals(1, $response);
+        $this->assertEquals('', $res);
     }
 }
