@@ -107,8 +107,11 @@ class Controller extends Container implements Module
             $data['post_type'] = 'vcv_templates';
             $data['post_status'] = 'publish';
 
+            $templateId = $postTypeHelper->create($data);
+            update_post_meta($templateId, '_' . VCV_PREFIX . 'id', uniqid());
+
             return [
-                'status' => $postTypeHelper->create($data),
+                'status' => $templateId,
             ];
         }
 
