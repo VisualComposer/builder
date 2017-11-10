@@ -215,7 +215,7 @@ export default class Categories extends React.Component {
     let { inputValue } = this.state
     let allCategories = this.getAllCategories()
     let getIndex = allCategories.findIndex((val) => {
-      return val.title === 'All'
+      return val.title === 'All' || val.title === 'All Elements'
     })
 
     return allCategories[ getIndex ].elements.filter((elementData) => {
