@@ -49,6 +49,7 @@ class PostBuilder {
    * Event listener to watch when editor is loaded
    */
   loadIframe () {
+    vcCake.env('iframe', this.iframe.contentWindow)
     !this.cakeReady && this.setupCake()
     window.vcvSourceID = this.settings.id
     vcCake.getStorage('wordpressRebuildPostData').trigger('rebuild', this.settings.id)

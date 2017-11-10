@@ -98,7 +98,7 @@ const API = {
         failureCallback(request)
       }
     }
-    request.send(window.$.param(data))
+    request.send(window.jQuery.param(data))
 
     return request
   },

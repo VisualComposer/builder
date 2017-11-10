@@ -41,6 +41,7 @@ $(() => {
         require('./resources/components/backendEditorContent/content.js')
         require('./config/wpbackend-modules')
       })
+      vcCake.env('iframe', iframe.contentWindow)
     }
 
     $iframe.on('load', iframeLoadEvent)
