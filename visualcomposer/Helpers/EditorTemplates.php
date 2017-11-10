@@ -73,6 +73,8 @@ class EditorTemplates implements Helper
         $predefinedTemplates = new WP_Query(
             [
                 'post_type' => 'vcv_templates',
+                'posts_per_page' => '-1',
+                'order' => 'ASC',
                 'meta_query' => [
                     [
                         'key' => '_' . VCV_PREFIX . 'type',
