@@ -501,4 +501,140 @@ class DependencyInjectionTest extends WP_UnitTestCase
         vcevent('vcv:test:testDiDefaultParamsEventLast', ['something']);
         $this->assertTrue($called, 'function must be called');
     }
+
+    public function testAllowDiDirectCall()
+    {
+        $called = false;
+        $resA = null;
+        $resB = null;
+        $resApp = null;
+        $func = function ($a, $b, $app) use (&$called, &$resA, &$resB, &$resApp) {
+            $called = true;
+            $resA = $a;
+            $resB = $b;
+            $resApp = $app;
+        };
+
+        vcapp()->call($func, ['a' => 'test', 'b' => 1, 'app' => vcapp()]);
+        $this->assertTrue($called);
+        $this->assertEquals('test', $resA);
+        $this->assertEquals(1, $resB);
+        $this->assertTrue($resApp instanceof \VisualComposer\Application);
+        $this->assertEquals(vcapp(), $resApp);
+    }
+
+    public function testAllowDiArgumentSwap()
+    {
+        $called = false;
+        $resA = null;
+        $resB = null;
+        $resApp = null;
+        $func = function ($b, $a, $app) use (&$called, &$resA, &$resB, &$resApp) {
+            $called = true;
+            $resA = $a;
+            $resB = $b;
+            $resApp = $app;
+        };
+
+        vcapp()->call($func, ['a' => 'test', 'b' => 1, 'app' => vcapp()]);
+        $this->assertTrue($called);
+        $this->assertEquals('test', $resA);
+        $this->assertEquals(1, $resB);
+        $this->assertTrue($resApp instanceof \VisualComposer\Application);
+        $this->assertEquals(vcapp(), $resApp);
+    }
+
+    public function testAllowDiArgumentSwapWithDefault()
+    {
+        $called = false;
+        $resA = null;
+        $resB = null;
+        $resApp = null;
+        $func = function ($b = 0, $a, $app) use (&$called, &$resA, &$resB, &$resApp) {
+            $called = true;
+            $resA = $a;
+            $resB = $b;
+            $resApp = $app;
+        };
+
+        vcapp()->call($func, ['a' => 'test', 'app' => vcapp()]);
+        $this->assertTrue($called);
+        $this->assertEquals('test', $resA);
+        $this->assertEquals(0, $resB);
+        $this->assertTrue($resApp instanceof \VisualComposer\Application);
+        $this->assertEquals(vcapp(), $resApp);
+    }
+
+    public function testAllowDiArgumentSwapObjects()
+    {
+        $called = false;
+        $resA = null;
+        $resB = null;
+        $resApp = null;
+        $func = function ($b, $a, \VisualComposer\Application $app) use (&$called, &$resA, &$resB, &$resApp) {
+            $called = true;
+            $resA = $a;
+            $resB = $b;
+            $resApp = $app;
+        };
+
+        vcapp()->call($func, ['a' => 'test', 'b' => 1]);
+        $this->assertTrue($called);
+        $this->assertEquals('test', $resA);
+        $this->assertEquals(1, $resB);
+        $this->assertTrue($resApp instanceof \VisualComposer\Application);
+        $this->assertEquals(vcapp(), $resApp);
+    }
+
+    public function testAllowDiArgumentSwapObjectsDefault()
+    {
+        $called = false;
+        $resA = null;
+        $resB = null;
+        $resApp = null;
+        $func = function (
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $req,
+            $b = 1,
+            $a = 'test'
+        ) use (&$called, &$resA, &$resB, &$resApp) {
+            $called = true;
+            $resA = $a;
+            $resB = $b;
+            $resApp = $app;
+        };
+
+        vcapp()->call($func);
+        $this->assertTrue($called);
+        $this->assertEquals('test', $resA);
+        $this->assertEquals(1, $resB);
+        $this->assertTrue($resApp instanceof \VisualComposer\Application);
+        $this->assertEquals(vcapp(), $resApp);
+    }
+
+    public function testAllowDiArgumentSwapObjectsNoDefault()
+    {
+        $called = false;
+        $resA = null;
+        $resB = null;
+        $resApp = null;
+        $func = function (
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $req,
+            $b = 1,
+            $a = 'test'
+        ) use (&$called, &$resA, &$resB, &$resApp) {
+            $called = true;
+            $resA = $a;
+            $resB = $b;
+            $resApp = $app;
+        };
+
+        vcapp()->call($func, [vcapp(), 2, 'test2']);
+        $this->assertTrue($called);
+        $this->assertEquals('test2', $resA);
+        $this->assertEquals(2, $resB);
+        $this->assertTrue($resApp instanceof \VisualComposer\Application);
+        $this->assertEquals(vcapp(), $resApp);
+    }
 }
