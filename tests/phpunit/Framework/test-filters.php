@@ -553,4 +553,30 @@ class FiltersTest extends WP_UnitTestCase
         $this->assertEquals(1, $response);
         $this->assertEquals('', $res);
     }
+
+    public function testDifferentResponseSwappedPayload()
+    {
+        $pay = null;
+        $res = null;
+        $callback = function (
+            $payload,
+            $response,
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$pay, &$res) {
+            $pay = $payload;
+            $res = $response;
+
+            return 1;
+        };
+
+        vchelper('Filters')->listen('test:framework:testDifferentResponseSwappedPayload', $callback);
+
+        $response = vcfilter('test:framework:testDifferentResponseSwappedPayload', 'test', 2);
+
+        $this->assertEquals(2, $pay);
+        $this->assertEquals('test', $res);
+        $this->assertEquals(1, $response);
+    }
 }
