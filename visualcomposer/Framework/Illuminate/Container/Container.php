@@ -99,9 +99,11 @@ class Container implements ContainerContract
      * @param  \Closure|string|null $concrete
      * @param  bool $shared
      *
+     * @param array $parameters
+     *
      * @return void
      */
-    public function bind($abstract, $concrete = null, $shared = false)
+    public function bind($abstract, $concrete = null, $shared = false, $parameters = [])
     {
         // If the given types are actually an array, we will assume an alias is being
         // defined and will grab this "real" abstract class name and register this
@@ -134,7 +136,7 @@ class Container implements ContainerContract
         // rebound listener so that any objects which have already gotten resolved
         // can have their copy of the object updated via the listener callbacks.
         if ($this->resolved($abstract)) {
-            $this->make($abstract);
+            $this->make($abstract, $parameters);
         }
     }
 
@@ -163,9 +165,9 @@ class Container implements ContainerContract
      *
      * @return $this
      */
-    public function singleton($abstract, $concrete = null)
+    public function singleton($abstract, $concrete = null, $parameters = [])
     {
-        $this->bind($abstract, $concrete, true);
+        $this->bind($abstract, $concrete, true, $parameters);
 
         return $this;
     }
@@ -176,9 +178,11 @@ class Container implements ContainerContract
      * @param  string $abstract
      * @param  mixed $instance
      *
+     * @param array $parameters
+     *
      * @return void
      */
-    public function instance($abstract, $instance)
+    public function instance($abstract, $instance, $parameters = [])
     {
         // First, we will extract the alias from the abstract if it is an array so we
         // are using the correct name when binding the type. If we get an alias it
@@ -199,7 +203,7 @@ class Container implements ContainerContract
         $this->instances[ $abstract ] = $instance;
 
         if ($bound) {
-            $this->make($abstract);
+            $this->make($abstract, $parameters);
         }
     }
 

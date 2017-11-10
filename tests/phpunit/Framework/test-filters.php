@@ -475,4 +475,82 @@ class FiltersTest extends WP_UnitTestCase
         $this->assertEquals(1, $response);
         $this->assertEquals('', $res);
     }
+
+    public function testSwapResponsePayload()
+    {
+        $pay = null;
+        $res = null;
+        $callback = function (
+            $payload,
+            $response,
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$pay, &$res) {
+            $pay = $payload;
+            $res = $response;
+
+            return 1;
+        };
+
+        vchelper('Filters')->listen('test:framework:testSwapResponsePayload', $callback);
+
+        $response = vcfilter('test:framework:testSwapResponsePayload');
+
+        $this->assertEquals([], $pay);
+        $this->assertEquals(1, $response);
+        $this->assertEquals('', $res);
+    }
+
+    public function testSwapResponsePayloadDefault()
+    {
+        $pay = null;
+        $res = null;
+        $callback = function (
+            $payload = [],
+            $response = '',
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$pay, &$res) {
+            $pay = $payload;
+            $res = $response;
+
+            return 1;
+        };
+
+        vchelper('Filters')->listen('test:framework:testSwapResponsePayloadDefault', $callback);
+
+        $response = vcfilter('test:framework:testSwapResponsePayloadDefault');
+
+        $this->assertEquals([], $pay);
+        $this->assertEquals(1, $response);
+        $this->assertEquals('', $res);
+    }
+
+    public function testDifferentResponsePayload()
+    {
+        $pay = null;
+        $res = null;
+        $callback = function (
+            $r,
+            $p,
+            \VisualComposer\Application $app,
+            \VisualComposer\Helpers\Request $requestHelper,
+            \VisualComposer\Helpers\Logger $loggerHelper
+        ) use (&$pay, &$res) {
+            $pay = $p;
+            $res = $r;
+
+            return 1;
+        };
+
+        vchelper('Filters')->listen('test:framework:testDifferentResponsePayload', $callback);
+
+        $response = vcfilter('test:framework:testDifferentResponsePayload');
+
+        $this->assertEquals([], $pay);
+        $this->assertEquals(1, $response);
+        $this->assertEquals('', $res);
+    }
 }

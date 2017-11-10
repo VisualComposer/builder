@@ -60,13 +60,14 @@ class ContainerTest extends WP_UnitTestCase
         // Test rebound.
         $vcapp->instance(['UnrealAbstract' => 'myModule'], $module);
         $this->assertEquals(vcapp('myModule'), $module);
-        $this->assertNotEquals(vcapp('myModule'), vcapp('ContainerCustomModule'));
-        $this->assertNotEquals(vcapp('ContainerCustomModule'), vcapp('ContainerCustomModule'));
+        // $data must be passed
+        $this->assertNotEquals(vcapp('myModule', [0]), vcapp('ContainerCustomModule', [0]));
+        $this->assertNotEquals(vcapp('ContainerCustomModule', [0]), vcapp('ContainerCustomModule', [0]));
     }
 
     public function testSingleton()
     {
-        vcapp()->singleton(['ContainerCustomModule' => 'testSingleton']);
+        vcapp()->singleton(['ContainerCustomModule' => 'testSingleton'], null, [0]);
         $this->assertEquals(vcapp('testSingleton', [0]), vcapp('ContainerCustomModule', [0]));
         $this->assertEquals(vcapp('ContainerCustomModule', [0]), vcapp('ContainerCustomModule', [0]));
         // Test forget instance for singleton, must return new singleton!
@@ -74,7 +75,7 @@ class ContainerTest extends WP_UnitTestCase
         $this->assertEquals(vcapp('testSingleton', [0]), vcapp('ContainerCustomModule', [0]));
         $this->assertEquals(vcapp('ContainerCustomModule', [0]), vcapp('ContainerCustomModule', [0]));
         // Unsettings singleton.
-        vcapp()->bind(['ContainerCustomModule' => 'testSingleton'], null, false);
+        vcapp()->bind(['ContainerCustomModule' => 'testSingleton'], null, false, [0]);
         $this->assertNotEquals(vcapp('testSingleton', [0]), vcapp('ContainerCustomModule', [0]));
         $this->assertNotEquals(vcapp('ContainerCustomModule', [0]), vcapp('ContainerCustomModule', [0]));
     }
@@ -142,6 +143,9 @@ class ContainerCustomModule extends \VisualComposer\Framework\Container
 
     public function __construct(\VisualComposer\Helpers\Options $options, $data, $test = [])
     {
+        if (is_null($data)) {
+            throw new Exception('data must be passed');
+        }
         $this->options = $options;
         $this->creationTime = microtime(true);
         $this->data = $data;

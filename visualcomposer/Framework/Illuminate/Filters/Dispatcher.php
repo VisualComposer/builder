@@ -32,7 +32,7 @@ class Dispatcher extends EventsDispatcher implements DispatcherContract
         $vcapp = vcapp();
         $this->firing[] = $filter;
         foreach ($this->getListeners($filter) as $listener) {
-            $response = $vcapp->call($listener, [$response, $payload]);
+            $response = $vcapp->call($listener, ['response' => $response, 'payload' => $payload]);
         }
 
         array_pop($this->firing);

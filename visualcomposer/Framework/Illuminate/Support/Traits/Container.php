@@ -40,7 +40,8 @@ trait Container
         $dependencies = [];
         $assoc = $this->hasStringKeys($parameters);
 
-        foreach ($callback->getParameters() as $key => $parameter) {
+        $callbackParameters = $callback->getParameters();
+        foreach ($callbackParameters as $key => $parameter) {
             $this->addDependencyForCallParameter($parameter, $parameters, $dependencies, $assoc);
         }
 
@@ -92,6 +93,9 @@ trait Container
                 $dependencies[] = vcapp()->make($parameter->getClass()->name);
             } elseif ($parameter->isDefaultValueAvailable()) {
                 $dependencies[] = $parameter->getDefaultValue();
+            } else {
+                $data = array_shift($parameters);
+                $dependencies[] = $data;
             }
         } else {
             // first need check for type.
