@@ -17,6 +17,7 @@ use VisualComposer\Helpers\Hub\Templates;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use WP_Query;
 
 /**
  * Class TemplatesDownloadController
@@ -128,8 +129,47 @@ class TemplatesDownloadController extends Container implements Module
                 }
                 $templateElements = $this->processDesignOptions($templateElements, $template);
                 unset($template['data']);
-                $toSaveTemplates[ $template['id'] ] = $template;
-                $optionsHelper->set('predefinedTemplateElements:' . $template['id'], $templateElements);
+
+                $savedTemplates = new WP_Query(
+                    [
+                        'post_type' => 'vcv_templates',
+                        'meta_query' => [
+                            [
+                                'key' => '_' . VCV_PREFIX . 'id',
+                                'value' => $template['id'],
+                                'compare' => '=',
+                            ],
+                        ],
+                    ]
+                );
+
+                if (!$savedTemplates->have_posts()) {
+                    $templateId = wp_insert_post(
+                        [
+                            'post_title' => $template['name'],
+                            'post_type' => 'vcv_templates',
+                            'post_status' => 'publish',
+                        ]
+                    );
+                } else {
+                    $templateId = $templates[0]->ID;
+
+                    wp_update_post(
+                        [
+                            'ID' => $templateId,
+                            'post_title' => $template['name'],
+                            'post_type' => 'vcv_templates',
+                            'post_status' => 'publish',
+                        ]
+                    );
+                }
+
+                update_post_meta($templateId, '_' . VCV_PREFIX . 'description', $template['description']);
+                update_post_meta($templateId, '_' . VCV_PREFIX . 'type', $template['type']);
+                update_post_meta($templateId, '_' . VCV_PREFIX . 'thumbnail', $template['thumbnail']);
+                update_post_meta($templateId, '_' . VCV_PREFIX . 'preview', $template['preview']);
+                update_post_meta($templateId, '_' . VCV_PREFIX . 'id', $template['id']);
+                update_post_meta($templateId, 'vcvEditorTemplateElements', $templateElements);
             }
 
             // $differ = vchelper('Differ');
@@ -137,8 +177,6 @@ class TemplatesDownloadController extends Container implements Module
             // $differ->set($editorTemplatesHelper->allPredefined(false, true));
             // Merge new
             // $differ->set($toSaveTemplates);
-
-            $editorTemplatesHelper->setPredefined(array_values($toSaveTemplates));
         }
 
         return $response;

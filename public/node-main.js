@@ -19,6 +19,9 @@ $(() => {
     $(iframeDocument.body).on('click', 'a[href]', (e) => {
       e && e.preventDefault()
     })
+    $(iframeDocument.body).on('click', '[type="submit"]', (e) => {
+      e && e.preventDefault() && e.stopPropagation()
+    })
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
     vcCake.env('platform', 'node').start(() => {
       require('./editor/stores/elements/elementsStorage')

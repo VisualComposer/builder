@@ -20,7 +20,7 @@ export default class SearchElement extends React.Component {
     this.state = {
       inputValue: '',
       activeIndex: this.props.index,
-      content: this.props.allCategories[this.props.index] ? this.props.allCategories[this.props.index].title : '',
+      content: this.getContentTitle(this.props.index),
       dropdown: false,
       input: false
     }
@@ -54,34 +54,66 @@ export default class SearchElement extends React.Component {
     this.setState({
       inputValue: e.currentTarget.value,
       activeIndex: 0,
-      content: this.props.allCategories[0] ? this.props.allCategories[0].title : ''
+      content: this.getContentTitle(0)
     })
     this.props.changeActive(0)
     this.props.changeTerm('search')
     this.props.changeInput(inputVal)
   }
 
+  getContentTitle (index) {
+    if (index.indexOf && index.indexOf('-') > -1) {
+      index = index.split('-')
+      const group = this.props.allCategories[ index[ 0 ] ]
+      const category = group && group.categories && group.categories[ index[ 1 ] ]
+
+      return category ? category.title : ''
+    }
+    return this.props.allCategories[ index ] ? this.props.allCategories[ index ].title : ''
+  }
+
   handleCategorySelect (e) {
     this.setState({
       inputValue: '',
       activeIndex: e.currentTarget.value,
-      content: this.props.allCategories[e.currentTarget.value] ? this.props.allCategories[e.currentTarget.value].title : ''
+      content: this.getContentTitle(e.currentTarget.value)
     })
     this.props.changeActive(e.currentTarget.value)
     this.props.changeTerm('')
   }
 
-  getCategorySelect () {
+  getSelectOptions (categories, groupIndex) {
     let options = []
-    this.props.allCategories.forEach((item) => {
-      options.push(<option key={`search-select-item-${item.id}-${item.index}`} value={item.index}>{item.title}</option>)
+    categories.forEach((item) => {
+      options.push(<option key={`search-select-item-${item.id}-${item.index}`}
+        value={`${groupIndex}-${item.index}`}>{item.title}</option>)
     })
+    return options
+  }
+
+  getSelectGroups () {
+    let optGroup = []
+    this.props.allCategories.forEach((item, index) => {
+      if (item.categories) {
+        optGroup.push(<optgroup key={`search-select-group-item-${item.id}-${item.index}`} label={item.title}>
+          {this.getSelectOptions(item.categories, index)}
+        </optgroup>)
+      } else {
+        optGroup.push(<option key={`search-select-item-${item.id}-${item.index}`}
+          value={item.index}>{item.title}</option>)
+      }
+    })
+
+    return optGroup
+  }
+
+  getCategorySelect () {
     return <select
       className='vcv-ui-form-dropdown'
       onChange={this.handleCategorySelect}
       value={this.state.activeIndex}
     >
-      {options}
+      {this.getSelectGroups()}
     </select>
   }
 
