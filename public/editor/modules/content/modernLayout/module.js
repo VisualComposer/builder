@@ -14,6 +14,7 @@ const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const elementsStorage = vcCake.getStorage('elements')
+const assetsStorage = vcCake.getStorage('assets')
 
 vcCake.add('contentModernLayout', (api) => {
   let iframeContent = vcCake.env('IFRAME_RELOAD') && document.getElementById('vcv-layout-iframe-content')
@@ -120,9 +121,11 @@ vcCake.add('contentModernLayout', (api) => {
       let iframe = window.document.getElementById('vcv-editor-iframe')
       let domContainer = iframe.contentDocument.getElementById('vcv-editor')
       ReactDOM.unmountComponentAtNode(domContainer)
+      let data = vcCake.getService('document').all()
       iframe.onload = () => {
         workspaceIFrame.set({type: 'loaded'})
-        elementsStorage.trigger('updateAll', vcCake.getService('document').all())
+        elementsStorage.trigger('updateAll', data)
+        assetsStorage.trigger('updateAllElements', data)
       }
       let url = iframe.src.split('?')
       let params = url[1].split('&')
