@@ -13,23 +13,43 @@ addStorage('elements', (storage) => {
     historyStorage.trigger('add', documentManager.all())
   }
   let substituteIds = {}
+
+  const recursiveElementsRebuild = (cookElement) => {
+    let cookGetAll = cookElement.getAll()
+
+    let elementAttributes = Object.keys(cookGetAll)
+    elementAttributes.forEach((attrKey) => {
+      let attributeSettings = cookElement.settings(attrKey)
+      if (attributeSettings.settings.type === 'element') {
+        let value = cookElement.get(attrKey)
+        let innerElement = cook.get(value)
+        let innerElementValue = recursiveElementsRebuild(innerElement)
+        cookElement.set(attrKey, innerElementValue)
+      }
+    })
+    return cookElement.toJS()
+  }
   const sanitizeData = (data) => {
     const newData = Object.assign({}, data || {})
     Object.keys(data).forEach((key) => {
-      let element = cook.get(data[ key ])
-      if (!element) {
+      let cookElement = cook.get(data[ key ])
+      if (!cookElement) {
         delete newData[ key ]
+      } else {
+        newData[key] = recursiveElementsRebuild(cookElement)
       }
     })
     return newData
   }
+
   storage.on('add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
-    let element = cook.get(elementData)
-    if (!element) {
+    let cookElement = cook.get(elementData)
+    if (!cookElement) {
       return
     }
-    if (wrap && !element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
+    elementData = recursiveElementsRebuild(cookElement)
+    if (wrap && !cookElement.get('parent') && !cookElement.relatedTo([ 'RootElements' ])) {
       const rowElementSettings = cook.get({ tag: 'row' })
       let rowElement = documentManager.create(rowElementSettings.toJS())
       createdElements.push(rowElement.id)
@@ -44,14 +64,14 @@ addStorage('elements', (storage) => {
     })
     createdElements.push(data.id)
 
-    if (wrap && element.get('tag') === 'row' && !elementData.skipInitialExtraElements) {
+    if (wrap && cookElement.get('tag') === 'row' && !elementData.skipInitialExtraElements) {
       let columnData = cook.get({ tag: 'column', parent: data.id })
       if (columnData) {
         let columnElement = documentManager.create(columnData.toJS())
         createdElements.push(columnElement.id)
       }
     }
-    if (wrap && element.get('tag') === 'tabsWithSlide' && !elementData.skipInitialExtraElements) {
+    if (wrap && cookElement.get('tag') === 'tabsWithSlide' && !elementData.skipInitialExtraElements) {
       let tabData = cook.get({ tag: 'tab', parent: data.id })
       let tabData1 = cook.get({ tag: 'tab', parent: data.id })
       if (tabData) {
@@ -61,7 +81,7 @@ addStorage('elements', (storage) => {
         createdElements.push(tabElement1.id)
       }
     }
-    if (wrap && element.get('tag') === 'section') {
+    if (wrap && cookElement.get('tag') === 'section') {
       let rowData = cook.get({ tag: 'row', parent: data.id })
       let rowElement
       if (rowData) {
