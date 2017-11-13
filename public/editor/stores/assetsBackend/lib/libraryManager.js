@@ -65,7 +65,7 @@ const libData = [
   }
 ]
 
-const getElementLibNames = (id, element) => {
+const getElementLibNames = (id, element, callback) => {
   let cookElement = cook.get(element)
   const settingsTypes = cookElement.filter((key, value, settings) => {
     return settings.type === 'designOptionsAdvanced' || settings.type === 'designOptions'
@@ -76,15 +76,23 @@ const getElementLibNames = (id, element) => {
     libraries: []
   }
   if (env('ATTRIBUTE_LIBS')) {
-    let elementAttributes = Object.keys(cookElement.getAll())
-    elementAttributes.forEach((attr) => {
-      let attribute = cookElement.settings(attr)
-      if (attribute.type.getAttributeLibs) {
-        let attributeValue = attribute.type.getRawValue(cookElement.getAll(), attr)
-        let attributeLibs = attribute.type.getAttributeLibs(attributeValue)
+    let cookGetAll = cookElement.getAll()
+
+    let elementAttributes = Object.keys(cookGetAll)
+    elementAttributes.forEach((attrKey) => {
+      let attributeSettings = cookElement.settings(attrKey)
+      if (attributeSettings.type.getAttributeLibs) {
+        let attributeValue = cookElement.get(attrKey, true)
+        let attributeLibs = attributeSettings.type.getAttributeLibs(attributeValue)
         if (attributeLibs && attributeLibs.length) {
           data.libraries.push(...attributeLibs)
         }
+      }
+      if (attributeSettings.settings.type === 'element') {
+        let value = cookElement.get(attrKey)
+        let innerElement = cook.get(value)
+        let innerElementValue = innerElement.toJS()
+        callback(innerElementValue.id, innerElementValue)
       }
     })
   } else {
@@ -116,19 +124,23 @@ const getElementLibNames = (id, element) => {
 
 export default class LibraryManager {
   add (id, element) {
+    let data = getElementLibNames(id, element, this.add.bind(this))
     let stateElements = storageState.get() && storageState.get().elements ? storageState.get().elements : []
-    let data = getElementLibNames(id, element)
     stateElements.push(data)
     storageState.set({ elements: stateElements })
   }
 
   edit (id, element) {
+    let data = getElementLibNames(id, element, this.edit.bind(this))
     let stateElements = storageState.get() && storageState.get().elements ? storageState.get().elements : []
-    let data = getElementLibNames(id, element)
     let stateElementIndex = stateElements.findIndex((element) => {
       return element.id === id
     })
-    stateElements[ stateElementIndex ] = data
+    if (stateElementIndex < 0) {
+      stateElements.push(data)
+    } else {
+      stateElements[ stateElementIndex ] = data
+    }
     storageState.set({ elements: stateElements })
   }
 
