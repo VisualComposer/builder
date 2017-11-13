@@ -22,8 +22,7 @@ class EditorTemplates implements Helper
      */
     public function all()
     {
-        $templates = [];
-        $customTemplates = new WP_Query(
+        $args =
             [
                 'posts_per_page' => '-1',
                 'post_type' => 'vcv_templates',
@@ -41,22 +40,9 @@ class EditorTemplates implements Helper
                     ],
 
                 ],
-            ]
-        );
+            ];
 
-        if ($customTemplates->have_posts()) {
-            while ($customTemplates->have_posts()) {
-                $customTemplates->the_post();
-                $currentUserAccessHelper = vchelper('AccessCurrentUser');
-                // @codingStandardsIgnoreLine
-                if ($currentUserAccessHelper->wpAll(
-                    [get_post_type_object($customTemplates->post->post_type)->cap->read, $customTemplates->post->ID]
-                )->get()
-                ) {
-                    $templates[] = $customTemplates->post;
-                }
-            }
-        }
+        $templates = vchelper('PostType')->query($args);
 
         return $templates;
     }
@@ -70,7 +56,8 @@ class EditorTemplates implements Helper
      */
     public function allPredefined($data = true, $id = false)
     {
-        $predefinedTemplates = new WP_Query(
+        $templates = [];
+        $args =
             [
                 'post_type' => 'vcv_templates',
                 'posts_per_page' => '-1',
@@ -82,26 +69,29 @@ class EditorTemplates implements Helper
                         'compare' => '=',
                     ],
                 ],
-            ]
-        );
+            ];
 
-        $templates = [];
-        if ($predefinedTemplates->have_posts()) {
-            while ($predefinedTemplates->have_posts()) {
-                $predefinedTemplates->the_post();
+        $predefinedTemplates = vchelper('PostType')->query($args);
 
-                $template['name'] = get_the_title();
-                $template['description'] = get_post_meta(get_the_ID(), '_' . VCV_PREFIX . 'description', true);
-                $template['type'] = get_post_meta(get_the_ID(), '_' . VCV_PREFIX . 'type', true);
-                $template['thumbnail'] = get_post_meta(get_the_ID(), '_' . VCV_PREFIX . 'thumbnail', true);
-                $template['preview'] = get_post_meta(get_the_ID(), '_' . VCV_PREFIX . 'preview', true);
-                $template['id'] = get_post_meta(get_the_ID(), '_' . VCV_PREFIX . 'id', true);
+        if (is_array($predefinedTemplates)) {
+            foreach ($predefinedTemplates as $predefinedTemplate) {
+                //@codingStandardsIgnoreLine
+                $template['name'] = $predefinedTemplate->post_title;
+                $template['description'] = get_post_meta(
+                    $predefinedTemplate->ID,
+                    '_' . VCV_PREFIX . 'description',
+                    true
+                );
+                $template['type'] = get_post_meta($predefinedTemplate->ID, '_' . VCV_PREFIX . 'type', true);
+                $template['thumbnail'] = get_post_meta($predefinedTemplate->ID, '_' . VCV_PREFIX . 'thumbnail', true);
+                $template['preview'] = get_post_meta($predefinedTemplate->ID, '_' . VCV_PREFIX . 'preview', true);
+                $template['id'] = get_post_meta($predefinedTemplate->ID, '_' . VCV_PREFIX . 'id', true);
 
                 if ($data) {
-                    $template['data'] = get_post_meta(get_the_ID(), 'vcvEditorTemplateElements', true);
+                    $template['data'] = get_post_meta($predefinedTemplate->ID, 'vcvEditorTemplateElements', true);
                 }
                 if ($id) {
-                    $templateId = get_post_meta(get_the_ID(), 'id', true);
+                    $templateId = get_post_meta($predefinedTemplate->ID, 'id', true);
                     $templates[ $templateId ] = $template;
                 } else {
                     $templates[] = $template;
