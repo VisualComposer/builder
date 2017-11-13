@@ -53,8 +53,8 @@ trait Action
             $hubHelper = vchelper($this->helperName);
             $loggerHelper = vchelper('Logger');
 
-            // If zip is less than 5kb something wrong (our smallest bundle is 7.9kb - separator)
-            if (filesize($archive) < 5 * 1024) {
+            // If zip is less than 2kb something wrong (our smallest bundle is 7.9kb - separator)
+            if (filesize($archive) < 2 * 1024) {
                 $loggerHelper->log(
                     __('Bundle size too small, expecting and error!', 'vcwb'),
                     [
