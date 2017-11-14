@@ -244,6 +244,10 @@ export default class ControlsManager {
       if (data && data.type === 'mouseLeave') {
         if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
           this.closingControls = data.vcElementId
+          if (this.closingControlsInterval) {
+            clearInterval(this.closingControlsInterval)
+            this.closingControlsInterval = null
+          }
           this.closingControlsInterval = setInterval(() => {
             if (this.closingControls) {
               this.controls.hide()
