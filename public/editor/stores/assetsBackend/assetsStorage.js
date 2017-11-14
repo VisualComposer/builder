@@ -1,11 +1,10 @@
 import { addStorage, getService, env } from 'vc-cake'
 
 import CssBuilder from './lib/cssBuilder'
-import LibraryManager from './lib/libraryManager'
+import AssetsLibraryManager from './lib/assetsLibraryManager'
 
 addStorage('assetsBackend', (storage) => {
   const documentManager = getService('document')
-  // const assetsManager = getService('assetsManager')
   const stylesManager = getService('stylesManager')
   const elementAssetsLibrary = getService('elementAssetsLibrary')
   const assetsStorage = getService('modernAssetsStorage')
@@ -15,7 +14,7 @@ addStorage('assetsBackend', (storage) => {
   const assetsContentWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
   const assetsWindow = window
   const builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, assetsContentWindow, utils.slugify)
-  const libraryStorage = new LibraryManager()
+  const assetsLibraryManager = new AssetsLibraryManager()
   const data = { elements: {} }
 
   storage.on('addElement', (id) => {
@@ -56,14 +55,14 @@ addStorage('assetsBackend', (storage) => {
   })
   storage.on('addSharedLibrary', (element) => {
     let id = element.id
-    libraryStorage.add(id, element)
+    assetsLibraryManager.add(id, element)
   })
   storage.on('editSharedLibrary', (element) => {
     let id = element.id
-    libraryStorage.edit(id, element)
+    assetsLibraryManager.edit(id, element)
   })
   storage.on('removeSharedLibrary', (id) => {
-    libraryStorage.remove(id)
+    assetsLibraryManager.remove(id)
   })
   // const updateSettingsCss = () => {
   //   const globalCss = settingsStorage.state('globalCss').get() || ''

@@ -122,7 +122,7 @@ const getElementLibNames = (id, element, callback) => {
   return data
 }
 
-export default class LibraryManager {
+export default class AssetsLibraryManager {
   add (id, element) {
     let data = getElementLibNames(id, element, this.add.bind(this))
     let stateElements = storageState.get() && storageState.get().elements ? storageState.get().elements : []
