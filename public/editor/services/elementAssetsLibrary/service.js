@@ -119,7 +119,7 @@ const innerApi = {
 
     return files
   },
-  getInnerAssetsFilesByElement (cookElement) {
+  getInnerAssetsFilesByElement (cookElement, getAssetsFilesByElement) {
     let files = {
       cssBundles: [],
       jsBundles: []
@@ -133,7 +133,7 @@ const innerApi = {
         if (!cookElement) {
           return
         }
-        let elementPublicAssetsFiles = publicApi.getAssetsFilesByElement(cookElement)
+        let elementPublicAssetsFiles = getAssetsFilesByElement(cookElement)
         files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
         files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
       }
@@ -230,7 +230,8 @@ const publicApi = {
     files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
 
     // Inner elements / Sub elements
-    let innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement)
+    let { getAssetsFilesByElement } = publicApi
+    let innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement, getAssetsFilesByElement)
     files.cssBundles = files.cssBundles.concat(innerElementAssets.cssBundles)
     files.jsBundles = files.jsBundles.concat(innerElementAssets.jsBundles)
 
@@ -258,6 +259,12 @@ const publicApi = {
     // Element Public JS
     files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
     files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
+
+    // Inner elements / Sub elements
+    let { getBackendEditorAssetsFilesByElement } = publicApi
+    let innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement, getBackendEditorAssetsFilesByElement)
+    files.cssBundles = files.cssBundles.concat(innerElementAssets.cssBundles)
+    files.jsBundles = files.jsBundles.concat(innerElementAssets.jsBundles)
 
     // Remove duplicates
     files.cssBundles = [ ...new Set(files.cssBundles) ]
