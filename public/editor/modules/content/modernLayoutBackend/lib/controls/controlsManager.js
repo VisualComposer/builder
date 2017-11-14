@@ -228,13 +228,13 @@ export default class ControlsManager {
             clearInterval(this.closingControlsInterval)
             this.closingControlsInterval = null
           }
-          if (this.closingCotnrols) {
-            if (this.closingCotnrols === data.vcElementId) {
+          if (this.closingControls) {
+            if (this.closingControls === data.vcElementId) {
               return
             }
 
             this.controls.hide()
-            this.closingCotnrols = null
+            this.closingControls = null
           }
         }
         if (this.state.showControls) {
@@ -243,11 +243,11 @@ export default class ControlsManager {
       }
       if (data && data.type === 'mouseLeave') {
         if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
-          this.closingCotnrols = data.vcElementId
+          this.closingControls = data.vcElementId
           this.closingControlsInterval = setInterval(() => {
-            if (this.closingCotnrols) {
+            if (this.closingControls) {
               this.controls.hide()
-              this.closingCotnrols = null
+              this.closingControls = null
             }
             clearInterval(this.closingControlsInterval)
             this.closingControlsInterval = null
