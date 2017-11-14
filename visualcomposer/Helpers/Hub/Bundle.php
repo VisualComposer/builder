@@ -263,7 +263,7 @@ class Bundle implements Helper
         $data,
         $checksum,
         $version
-    ): array {
+    ) {
         $optionsHelper = vchelper('Options');
         $downloadHelper = vchelper('HubDownload');
         if (isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')
@@ -289,6 +289,6 @@ class Bundle implements Helper
             'action' => $actionData['action'],
         ];
 
-        return array($needUpdatePost, $requiredActions);
+        return [$needUpdatePost, $requiredActions];
     }
 }
