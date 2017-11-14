@@ -1,4 +1,4 @@
-import { addStorage, getService, env } from 'vc-cake'
+import { addStorage, getService } from 'vc-cake'
 
 import CssBuilder from './lib/cssBuilder'
 import AssetsLibraryManager from './lib/assetsLibraryManager'
@@ -22,9 +22,7 @@ addStorage('assetsBackend', (storage) => {
     ids.forEach((id) => {
       const element = documentManager.get(id)
       data.elements[ id ] = element
-      if (env('FEATURE_ASSETS_FILTER') && env('ATTRIBUTE_LIBS')) {
-        storage.trigger('addSharedLibrary', element)
-      }
+      storage.trigger('addSharedLibrary', element)
       builder.add(element)
     })
   })
@@ -33,9 +31,7 @@ addStorage('assetsBackend', (storage) => {
     ids.forEach((id) => {
       const element = documentManager.get(id)
       data.elements[ id ] = element
-      if (env('FEATURE_ASSETS_FILTER') && env('ATTRIBUTE_LIBS')) {
-        storage.trigger('editSharedLibrary', element)
-      }
+      storage.trigger('editSharedLibrary', element)
       builder.update(element, options)
     })
   })
@@ -45,9 +41,7 @@ addStorage('assetsBackend', (storage) => {
       let tag = data.elements[ id ] ? data.elements[ id ].tag : null
       delete data.elements[ id ]
       builder.destroy(id, tag)
-      if (env('FEATURE_ASSETS_FILTER') && env('ATTRIBUTE_LIBS')) {
-        storage.trigger('removeSharedLibrary', id)
-      }
+      storage.trigger('removeSharedLibrary', id)
     })
   })
   storage.on('resetElements', () => {
