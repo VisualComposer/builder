@@ -24,10 +24,10 @@ const ActionsManager = {
         class: 'vcv-ui-state--hidden'
       })
       /*
-      lodash.delay(() => {
-        ActionsManager.actions.checkTabsDropdown.call(this, state, target, options)
-      }, 50)
-      */
+       lodash.delay(() => {
+       ActionsManager.actions.checkTabsDropdown.call(this, state, target, options)
+       }, 50)
+       */
     },
     toggleSectionVisibility: (state, target, options) => {
       if (typeof options !== 'undefined') {
@@ -106,6 +106,20 @@ const ActionsManager = {
       }
     },
     preset: (state, target, options) => {
+    },
+    loadLibrary: (state, target, options, element) => {
+      if (!vcCake.env('ELEMENT_PUBLIC_JS_FILES')) {
+        return
+      }
+
+      // TODO change for more complex attributes (dropdown with multiple libraries)
+      const library = options.libraries[ 0 ]
+
+      if (state) {
+        vcCake.getStorage('assets').trigger('addElementLibrary', element, library)
+      } else {
+        vcCake.getStorage('assets').trigger('removeElementLibrary', element, library)
+      }
     }
   }
 }
