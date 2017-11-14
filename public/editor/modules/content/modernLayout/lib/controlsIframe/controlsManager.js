@@ -304,8 +304,8 @@ export default class ControlsManager {
             clearInterval(this.closingControlsInterval)
             this.closingControlsInterval = null
           }
-          if (this.closingCotnrols) {
-            if (this.closingCotnrols === data.vcElementId) {
+          if (this.closingControls) {
+            if (this.closingControls === data.vcElementId) {
               return
             }
 
@@ -313,7 +313,7 @@ export default class ControlsManager {
             if (this.state.showFrames) {
               this.frames.hide()
             }
-            this.closingCotnrols = null
+            this.closingControls = null
           }
         }
         if (this.state.showControls) {
@@ -325,14 +325,18 @@ export default class ControlsManager {
       }
       if (data && data.type === 'mouseLeave') {
         if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
-          this.closingCotnrols = data.vcElementId
+          this.closingControls = data.vcElementId
+          if (this.closingControlsInterval) {
+            clearInterval(this.closingControlsInterval)
+            this.closingControlsInterval = null
+          }
           this.closingControlsInterval = setInterval(() => {
-            if (this.closingCotnrols) {
+            if (this.closingControls) {
               this.controls.hide()
               if (this.state.showFrames) {
                 this.frames.hide()
               }
-              this.closingCotnrols = null
+              this.closingControls = null
             }
             clearInterval(this.closingControlsInterval)
             this.closingControlsInterval = null
@@ -495,6 +499,17 @@ export default class ControlsManager {
         }
       }
       if (data && data.type === 'mouseLeave') {
+        this.closingControlsInterval = setInterval(() => {
+          if (this.closingControls) {
+            this.controls.hide()
+            if (this.state.showFrames) {
+              this.frames.hide()
+            }
+            this.closingControls = null
+          }
+          clearInterval(this.closingControlsInterval)
+          this.closingControlsInterval = null
+        }, 400)
         if (this.state.showOutline) {
           this.outline.hide()
         }

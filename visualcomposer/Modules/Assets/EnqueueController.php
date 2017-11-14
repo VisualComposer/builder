@@ -93,7 +93,7 @@ class EnqueueController extends Container implements Module
 
         if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
             foreach ($assetsFiles['jsBundles'] as $asset) {
-                wp_enqueue_script('vcv:assets:source:scripts:' . $strHelper->slugify($asset), $asset);
+                wp_enqueue_script('vcv:assets:source:scripts:' . $strHelper->slugify($asset), $asset, array(), false, true);
             }
             unset($asset);
         }
@@ -155,7 +155,7 @@ class EnqueueController extends Container implements Module
 
         if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
             foreach ($assetsFiles['jsBundles'] as $asset) {
-                wp_enqueue_script('vcv:assets:source:scripts:' . $strHelper->slugify($asset), $asset);
+                wp_enqueue_script('vcv:assets:source:scripts:' . $strHelper->slugify($asset), $asset, array(), false, true);
             }
             unset($asset);
         }
