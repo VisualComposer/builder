@@ -30,11 +30,10 @@ export default class ElementLibraryManager {
     const elementData = stateElements[ stateElementIndex ]
 
     if (elementData.elementLibraries && elementData.elementLibraries.length) {
-      let newLibraries = elementData.elementLibraries.filter((currentLib) => {
+      elementData.elementLibraries = elementData.elementLibraries.filter((currentLib) => {
         return currentLib.name !== library.name
       })
 
-      elementData.elementLibraries = newLibraries
       storageState.set({ elements: stateElements })
     }
   }

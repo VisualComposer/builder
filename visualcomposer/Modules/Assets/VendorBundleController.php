@@ -50,7 +50,8 @@ class VendorBundleController extends Container implements Module
             [
                 'jquery',
             ],
-            VCV_VERSION
+            VCV_VERSION,
+            true
         );
         wp_register_script(
             'vcv:assets:front:script',
@@ -64,7 +65,8 @@ class VendorBundleController extends Container implements Module
             [
                 'vcv:assets:vendor:script',
             ],
-            VCV_VERSION
+            VCV_VERSION,
+            true
         );
     }
 
