@@ -58,9 +58,9 @@ const innerApi = {
       let elementFromStorage = assetsStorageState.elements.find((element) => {
         return element.id === cookElement.get('id')
       })
-      let elementAssetsLibraries = elementFromStorage && elementFromStorage.assetsLibraries
-      if (elementAssetsLibraries && elementAssetsLibraries.length) {
-        elementAssetsLibraries.forEach((lib) => {
+      let elementAssetLibraries = elementFromStorage && elementFromStorage.assetLibraries
+      if (elementAssetLibraries && elementAssetLibraries.length) {
+        elementAssetLibraries.forEach((lib) => {
           let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
           if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
             files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)

@@ -2,7 +2,7 @@ import { addStorage, getService, getStorage } from 'vc-cake'
 
 import CssBuilder from './lib/cssBuilder'
 import AssetsLibraryManager from './lib/assetsLibraryManager'
-import ElementLibraryManager from './lib/ElementLibraryManager'
+import ElementLibraryManager from './lib/elementLibraryManager'
 
 addStorage('assets', (storage) => {
   const documentManager = getService('document')
