@@ -7,7 +7,7 @@ const getElementLibNames = (id, element, callback) => {
   let cookElement = cook.get(element)
   let data = {
     id: id,
-    libraries: []
+    assetLibraries: []
   }
   let cookGetAll = cookElement.getAll()
   let elementAttributes = Object.keys(cookGetAll)
@@ -17,7 +17,7 @@ const getElementLibNames = (id, element, callback) => {
       let attributeValue = cookElement.get(attrKey, true)
       let attributeLibs = attributeSettings.type.getAttributeLibs(attributeValue)
       if (attributeLibs && attributeLibs.length) {
-        data.libraries.push(...attributeLibs)
+        data.assetLibraries.push(...attributeLibs)
       }
     }
     if (attributeSettings.settings.type === 'element') {
