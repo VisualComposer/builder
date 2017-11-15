@@ -111,9 +111,16 @@ const ActionsManager = {
       if (!vcCake.env('ELEMENT_PUBLIC_JS_FILES')) {
         return
       }
-
       // TODO change for more complex attributes (dropdown with multiple libraries)
-      const library = options.libraries[ 0 ]
+      let library = {}
+      if (typeof target.value === 'string') {
+        library = options.libraries.find((library) => {
+          return library.value.indexOf(target.value) > -1
+        })
+      } else {
+        library = options.libraries[ 0 ]
+      }
+      delete library.value
 
       if (state) {
         vcCake.getStorage('assets').trigger('addElementLibrary', element, library)

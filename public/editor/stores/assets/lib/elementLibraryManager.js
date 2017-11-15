@@ -33,7 +33,6 @@ export default class ElementLibraryManager {
       elementData.elementLibraries = elementData.elementLibraries.filter((currentLib) => {
         return currentLib.name !== library.name
       })
-
       storageState.set({ elements: stateElements })
     }
   }

@@ -71,6 +71,10 @@ addStorage('assets', (storage) => {
   storage.on('removeElementLibrary', (element, library) => {
     elementLibraryManager.remove(element, library)
   })
+  storage.on('editElementLibrary', (element, addLibrary, removeLibrary) => {
+    elementLibraryManager.remove(element, removeLibrary)
+    elementLibraryManager.add(element, addLibrary)
+  })
   const updateSettingsCss = () => {
     const globalCss = settingsStorage.state('globalCss').get() || ''
     const customCss = settingsStorage.state('customCss').get() || ''
