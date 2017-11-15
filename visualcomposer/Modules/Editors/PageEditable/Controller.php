@@ -72,8 +72,8 @@ class Controller extends Container implements Module
         } else {
             $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js');
         }
-        wp_enqueue_script('vcv:pageEditable:vendor', $vendorBundleJsUrl, ['jquery'], VCV_VERSION);
-        wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl, ['vcv:pageEditable:vendor'], VCV_VERSION);
+        wp_enqueue_script('vcv:assets:vendor:script', $vendorBundleJsUrl, ['jquery'], VCV_VERSION, true);
+        wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl, ['vcv:assets:vendor:script'], VCV_VERSION, true);
         wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl, [], VCV_VERSION);
     }
 

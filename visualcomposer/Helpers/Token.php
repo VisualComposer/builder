@@ -178,6 +178,7 @@ class Token extends Container implements Helper
                     $noticeHelper->addNotice('license:expiration', $message);
                 } else {
                     $noticeHelper->removeNotice('license:expiration');
+                    $loggerHelper->removeLogNotice('license:expiration');
                 }
                 return $token;
             }
