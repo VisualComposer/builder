@@ -23,11 +23,11 @@ class JsEnqueueController extends Container implements Module
             $actionPriority = 60;
             $requestHelper = vchelper('Request');
             if ($requestHelper->input('preview', '') === 'true') {
-                $this->wpAddAction('wp_head', 'enqueuePreviewJs', $actionPriority);
+                $this->wpAddAction('wp_footer', 'enqueuePreviewJs', $actionPriority);
 
                 return;
             }
-            $this->wpAddAction('wp_head', 'enqueueJs', $actionPriority);
+            $this->wpAddAction('wp_footer', 'enqueueJs', $actionPriority);
         }
     }
 

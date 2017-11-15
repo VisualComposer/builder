@@ -51,7 +51,12 @@ class EnqueueController extends Container implements Module
     {
         $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
         if ($bundleUrl && !$frontendHelper->isPageEditable()) {
-            wp_enqueue_style('vcv:assets:global:styles:' . $strHelper->slugify($bundleUrl), $bundleUrl);
+            wp_enqueue_style(
+                'vcv:assets:global:styles:' . $strHelper->slugify($bundleUrl),
+                $bundleUrl,
+                [],
+                VCV_VERSION
+            );
         }
     }
 
@@ -64,7 +69,12 @@ class EnqueueController extends Container implements Module
         $sourceId = get_the_ID();
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl && !$frontendHelper->isPageEditable()) {
-            wp_enqueue_style('vcv:assets:source:main:styles:' . $strHelper->slugify($bundleUrl), $bundleUrl);
+            wp_enqueue_style(
+                'vcv:assets:source:main:styles:' . $strHelper->slugify($bundleUrl),
+                $bundleUrl,
+                [],
+                VCV_VERSION
+            );
         }
     }
 
@@ -86,14 +96,20 @@ class EnqueueController extends Container implements Module
 
         if (isset($assetsFiles['cssBundles']) && is_array($assetsFiles['cssBundles'])) {
             foreach ($assetsFiles['cssBundles'] as $asset) {
-                wp_enqueue_style('vcv:assets:source:styles:' . $strHelper->slugify($asset), $asset);
+                wp_enqueue_style('vcv:assets:source:styles:' . $strHelper->slugify($asset), $asset, [], VCV_VERSION);
             }
             unset($asset);
         }
 
         if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
             foreach ($assetsFiles['jsBundles'] as $asset) {
-                wp_enqueue_script('vcv:assets:source:scripts:' . $strHelper->slugify($asset), $asset, array(), false, true);
+                wp_enqueue_script(
+                    'vcv:assets:source:scripts:' . $strHelper->slugify($asset),
+                    $asset,
+                    [],
+                    VCV_VERSION,
+                    true
+                );
             }
             unset($asset);
         }
@@ -148,14 +164,20 @@ class EnqueueController extends Container implements Module
 
         if (isset($assetsFiles['cssBundles']) && is_array($assetsFiles['cssBundles'])) {
             foreach ($assetsFiles['cssBundles'] as $asset) {
-                wp_enqueue_style('vcv:assets:source:styles:' . $strHelper->slugify($asset), $asset);
+                wp_enqueue_style('vcv:assets:source:styles:' . $strHelper->slugify($asset), $asset, [], VCV_VERSION);
             }
             unset($asset);
         }
 
         if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
             foreach ($assetsFiles['jsBundles'] as $asset) {
-                wp_enqueue_script('vcv:assets:source:scripts:' . $strHelper->slugify($asset), $asset, array(), false, true);
+                wp_enqueue_script(
+                    'vcv:assets:source:scripts:' . $strHelper->slugify($asset),
+                    $asset,
+                    [],
+                    VCV_VERSION,
+                    true
+                );
             }
             unset($asset);
         }

@@ -154,13 +154,13 @@ if (!defined('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
 if (!defined('VCV_IFRAME_RELOAD')) {
     define(
         'VCV_IFRAME_RELOAD',
-        isset($_SERVER['VCV_IFRAME_RELOAD']) ? $_SERVER['VCV_IFRAME_RELOAD'] : true
+        isset($_SERVER['ENV_VCV_IFRAME_RELOAD']) ? $_SERVER['ENV_VCV_IFRAME_RELOAD'] : true
     );
 }
 
 if (!defined('VCV_REVISIONS_SAVE_FIX')) {
     define(
         'VCV_REVISIONS_SAVE_FIX',
-        isset($_SERVER['VCV_REVISIONS_SAVE_FIX']) ? $_SERVER['VCV_REVISIONS_SAVE_FIX'] : true
+        isset($_SERVER['ENV_VCV_REVISIONS_SAVE_FIX']) ? $_SERVER['ENV_VCV_REVISIONS_SAVE_FIX'] : true
     );
 }
