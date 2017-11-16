@@ -46,7 +46,8 @@ $editorPostTypeHelper = vchelper('AccessEditorPostType');
 		        <a href="post-new.php?post_type=page&vcv-action=frontend" class="vcv-popup-button vcv-popup-last-screen-button">
 			        <span><?php echo __('Create a blank page', 'vcwb'); ?></span>
 		        </a>
-            <?php elseif ($editorPostTypeHelper->isEditorEnabled('post')) : ?>
+            <?php elseif (vchelper('AccessCurrentUser')->wpAll('edit_posts')->get()
+                && $editorPostTypeHelper->isEditorEnabled('post')) : ?>
 		        <a href="post-new.php?vcv-action=frontend" class="vcv-popup-button vcv-popup-last-screen-button">
 			        <span><?php echo __('Create a blank post', 'vcwb'); ?></span>
 		        </a>
