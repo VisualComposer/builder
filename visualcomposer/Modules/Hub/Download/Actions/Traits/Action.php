@@ -34,9 +34,10 @@ trait Action
                 $response['status'] = false;
             } else {
                 $archive = $this->readBundleJson($archive, $payload);
+                $response['status'] = $archive !== false;
                 $response = $filterHelper->fire(
                     'vcv:hub:download:bundle:' . $payload['action'],
-                    ['status' => $archive !== false],
+                    $response,
                     ['archive' => $archive]
                 );
             }

@@ -48,16 +48,24 @@ class Elements implements Helper
         $merged['elementRealPath'] = $this->getElementPath($key . '/' . $key . '/');
         $merged['assetsPath'] = $merged['elementPath'] . 'public/';
         if (isset($merged['settings'])) {
-            $merged['settings']['metaThumbnailUrl'] = str_replace(
-                '[publicPath]',
-                $merged['assetsPath'],
-                $merged['settings']['metaThumbnailUrl']
-            );
-            $merged['settings']['metaPreviewUrl'] = str_replace(
-                '[publicPath]',
-                $merged['assetsPath'],
-                $merged['settings']['metaPreviewUrl']
-            );
+            if (isset($merged['settings']['metaThumbnailUrl'])) {
+                $merged['settings']['metaThumbnailUrl'] = str_replace(
+                    '[publicPath]',
+                    $merged['assetsPath'],
+                    $merged['settings']['metaThumbnailUrl']
+                );
+            } else {
+                $merged['settings']['metaThumbnailUrl'] = '';
+            }
+            if (isset($merged['settings']['metaPreviewUrl'])) {
+                $merged['settings']['metaPreviewUrl'] = str_replace(
+                    '[publicPath]',
+                    $merged['assetsPath'],
+                    $merged['settings']['metaPreviewUrl']
+                );
+            } else {
+                $merged['settings']['metaPreviewUrl'] = '';
+            }
         }
         array_walk_recursive($merged, [$this, 'fixDoubleSlash']);
 
