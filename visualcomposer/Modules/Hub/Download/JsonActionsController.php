@@ -64,7 +64,12 @@ class JsonActionsController extends Container implements Module
         Options $optionsHelper,
         Logger $loggerHelper
     ) {
-        if (empty($response) || !vcIsBadResponse($response)) {
+        if (empty($response)) {
+            $response = [
+                'status' => true,
+            ];
+        }
+        if (!vcIsBadResponse($response)) {
             $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
             $action = $requestHelper->input('vcv-hub-action');
             if (!isset($action['key']) && isset($action['data'])) {
