@@ -63,8 +63,12 @@ export default class TeaserElementControl extends ElementControl {
               time: 3000
             })
             this.buildVariables(jsonResponse.variables || [])
-            jsonResponse.element.tag = bundle.replace('element/', '')
-            getStorage('hubElements').trigger('add', jsonResponse.element, true)
+            if (Array.isArray(jsonResponse.elements)) {
+              jsonResponse.elements.forEach((element) => {
+                element.tag = element.tag.replace('element/', '')
+                getStorage('hubElements').trigger('add', element, true)
+              })
+            }
 
             !cancelled && this.setState({ elementState: 'success' })
           } else {

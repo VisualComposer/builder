@@ -14,7 +14,6 @@ use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Url;
 
 class JsonActionsController extends Container implements Module
 {
@@ -24,14 +23,14 @@ class JsonActionsController extends Container implements Module
     {
         $this->addFilter('vcv:hub:download:json', 'ajaxGetRequiredActions');
         $this->addFilter('vcv:ajax:hub:action:adminNonce', 'ajaxProcessAction');
+        $this->addFilter('vcv:ajax:hub:dev', 'ajaxProcessAction');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     protected function ajaxGetRequiredActions(
         $response,
         $payload,
-        Logger $loggerHelper,
-        Url $urlHelper
+        Logger $loggerHelper
     ) {
         if (!vcIsBadResponse($response)) {
             if ($payload['json'] && !empty($payload['json']['actions'])) {
@@ -65,51 +64,49 @@ class JsonActionsController extends Container implements Module
         Options $optionsHelper,
         Logger $loggerHelper
     ) {
-        $response = [
-            'status' => true,
-        ];
-        $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
-        $action = $requestHelper->input('vcv-hub-action');
-        if (!isset($action['key']) && isset($action['data'])) {
-            $savedAction = $action;
-        } else {
-            $savedAction = $optionsHelper->get('hubAction:download:' . $action['key'], false);
-        }
-        if (!$savedAction) {
-            $loggerHelper->log('the update action does not exists');
+        if (empty($response) || !vcIsBadResponse($response)) {
+            $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
+            $action = $requestHelper->input('vcv-hub-action');
+            if (!isset($action['key']) && isset($action['data'])) {
+                $savedAction = $action;
+            } else {
+                $savedAction = $optionsHelper->get('hubAction:download:' . $action['key'], false);
+            }
+            if (!$savedAction) {
+                $loggerHelper->log('the update action does not exists');
 
-            return ['status' => false];
-        }
+                return ['status' => false];
+            }
 
-        $previousVersion = $optionsHelper->get('hubAction:' . $savedAction['action'], '0');
-        if (isset($savedAction['version']) && version_compare($savedAction['version'], $previousVersion, '>')
-            || !isset($savedAction['action'])
-            || !$savedAction['version']) {
-            $response = $this->processAction(
-                $savedAction['action'],
-                $savedAction['data'],
-                $savedAction['version'],
-                isset($savedAction['checksum']) ? $savedAction['checksum'] : '',
-                $savedAction['name']
-            );
+            $previousVersion = $optionsHelper->get('hubAction:' . $savedAction['action'], '0');
+            if (isset($savedAction['version']) && version_compare($savedAction['version'], $previousVersion, '>')
+                || !isset($savedAction['action'])
+                || !$savedAction['version']) {
+                $response = $this->processAction(
+                    $response,
+                    $savedAction['action'],
+                    $savedAction['data'],
+                    $savedAction['version'],
+                    isset($savedAction['checksum']) ? $savedAction['checksum'] : '',
+                    $savedAction['name']
+                );
+            }
         }
 
         return $response;
     }
 
     protected function processAction(
+        $response,
         $action,
         $data,
         $version,
         $checksum,
         $name
     ) {
-        $response = [
-            'status' => true,
-        ];
         $optionsHelper = vchelper('Options');
-        $actionResult = $this->triggerAction($action, $data, $version, $checksum);
-        if (is_array($actionResult) && $actionResult['status']) {
+        $response = $this->triggerAction($response, $action, $data, $version, $checksum);
+        if (is_array($response) && $response['status']) {
             $optionsHelper->set('hubAction:' . $action, $version);
         } else {
             $loggerHelper = vchelper('Logger');
@@ -129,11 +126,11 @@ class JsonActionsController extends Container implements Module
         return $response;
     }
 
-    protected function triggerAction($action, $data, $version, $checksum)
+    protected function triggerAction($response, $action, $data, $version, $checksum)
     {
         $response = vcfilter(
             'vcv:hub:process:action:' . $action,
-            ['status' => true],
+            $response,
             [
                 'action' => $action,
                 'data' => $data,
