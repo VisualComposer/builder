@@ -22,6 +22,7 @@ class TeaserDownloadController extends Container implements Module
         if (vcvenv('VCV_ENV_HUB_TEASER')) {
             $this->addFilter('vcv:hub:process:action:hubTeaser', 'processAction');
         }
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     protected function processAction($response, $payload, Options $optionsHelper)
@@ -79,5 +80,10 @@ class TeaserDownloadController extends Container implements Module
         $groupList['All Elements']['elements'] = array_values($dataHelper->arrayDeepUnique($allElements));
 
         return $groupList;
+    }
+
+    protected function unsetOptions(Options $optionsHelper)
+    {
+        $optionsHelper->delete('hubTeaserElements');
     }
 }
