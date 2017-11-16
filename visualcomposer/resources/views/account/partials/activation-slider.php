@@ -6,6 +6,7 @@ if (!defined('ABSPATH')) {
 }
 
 $slides = vchelper('SettingsPagesAbout');
+$editorPostTypeHelper = vchelper('AccessEditorPostType');
 ?>
 <!-- Last screen -->
 <div class="vcv-popup-last-screen">
@@ -40,14 +41,15 @@ $slides = vchelper('SettingsPagesAbout');
             </div>
         </div>
         <div class="vcv-button-container">
-            <?php if (vchelper('AccessCurrentUser')->wpAll('edit_pages')->get()) : ?>
-                <a href="post-new.php?post_type=page&vcv-action=frontend" class="vcv-popup-button vcv-popup-last-screen-button">
-                    <span><?php echo __('Create a blank page', 'vcwb'); ?></span>
-                </a>
-            <?php else : ?>
-                <a href="post-new.php?vcv-action=frontend" class="vcv-popup-button vcv-popup-last-screen-button">
-                    <span><?php echo __('Create a blank post', 'vcwb'); ?></span>
-                </a>
+            <?php if (vchelper('AccessCurrentUser')->wpAll('edit_pages')->get()
+                && $editorPostTypeHelper->isEditorEnabled('page')) : ?>
+		        <a href="post-new.php?post_type=page&vcv-action=frontend" class="vcv-popup-button vcv-popup-last-screen-button">
+			        <span><?php echo __('Create a blank page', 'vcwb'); ?></span>
+		        </a>
+            <?php elseif ($editorPostTypeHelper->isEditorEnabled('post')) : ?>
+		        <a href="post-new.php?vcv-action=frontend" class="vcv-popup-button vcv-popup-last-screen-button">
+			        <span><?php echo __('Create a blank post', 'vcwb'); ?></span>
+		        </a>
             <?php endif; ?>
         </div>
         <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo __(
