@@ -2,7 +2,6 @@ import { addStorage, getService, getStorage } from 'vc-cake'
 
 import CssBuilder from './lib/cssBuilder'
 import AssetsLibraryManager from './lib/assetsLibraryManager'
-import ElementLibraryManager from './lib/elementLibraryManager'
 
 addStorage('assets', (storage) => {
   const documentManager = getService('document')
@@ -15,7 +14,6 @@ addStorage('assets', (storage) => {
   const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
   const builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
   const assetsLibraryManager = new AssetsLibraryManager()
-  const elementLibraryManager = new ElementLibraryManager()
   const data = { elements: {} }
 
   storage.on('addElement', (id) => {
@@ -64,12 +62,6 @@ addStorage('assets', (storage) => {
   })
   storage.on('removeSharedLibrary', (id) => {
     assetsLibraryManager.remove(id)
-  })
-  storage.on('addElementLibrary', (element, library) => {
-    elementLibraryManager.add(element, library)
-  })
-  storage.on('removeElementLibrary', (element, library) => {
-    elementLibraryManager.remove(element, library)
   })
   const updateSettingsCss = () => {
     const globalCss = settingsStorage.state('globalCss').get() || ''

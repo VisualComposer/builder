@@ -89,13 +89,29 @@ const innerApi = {
       cssBundles: [],
       jsBundles: []
     }
-    let jsFiles = cookElement.get('metaPublicJs')
-    if (jsFiles && jsFiles.length) {
-      const elementPath = cookElement.get('metaElementPath')
-      jsFiles = jsFiles.map((url) => {
-        return elementPath + url
+    if (vcCake.env('ELEMENT_PUBLIC_JS_FILES') && cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries) {
+      let jsFiles = cookElement.get('metaPublicJs')
+      let elementLibs = jsFiles.libraries
+      elementLibs.forEach((lib) => {
+        let elementAttrValue = cookElement.get(lib.attribute.name)
+        if ((typeof elementAttrValue === 'boolean') && elementAttrValue ||
+          (typeof elementAttrValue === 'string' && lib.attribute.value.indexOf(elementAttrValue) > -1)) {
+          const elementPath = cookElement.get('metaElementPath')
+          let jsFiles = lib.libPaths.map((url) => {
+            return elementPath + url
+          })
+          files.jsBundles = files.jsBundles.concat(jsFiles)
+        }
       })
-      files.jsBundles = files.jsBundles.concat(jsFiles)
+    } else {
+      let jsFiles = cookElement.get('metaPublicJs')
+      if (jsFiles && jsFiles.length) {
+        const elementPath = cookElement.get('metaElementPath')
+        jsFiles = jsFiles.map((url) => {
+          return elementPath + url
+        })
+        files.jsBundles = files.jsBundles.concat(jsFiles)
+      }
     }
 
     return files

@@ -47,7 +47,8 @@ export default class AssetsLibraryManager {
     if (stateElementIndex < 0) {
       stateElements.push(data)
     } else {
-      stateElements[ stateElementIndex ] = data
+      stateElements[ stateElementIndex ].id = data.id
+      stateElements[ stateElementIndex ].assetLibraries = data.assetLibraries
     }
     storageState.set({ elements: stateElements })
   }
