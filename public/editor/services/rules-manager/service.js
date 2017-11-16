@@ -107,6 +107,21 @@ function createPromise (ruleData, value) {
     }
   })
 }
+function createSync (ruleData, value) {
+  return () => {
+    if (!ruleData.rule) {
+      ruleData.rule = 'true'
+    }
+    let ruleName = ruleData.rule.replace('!', '')
+    let reversed = ruleData.rule[ 0 ] === '!'
+    let result = Rules[ ruleName ](value, ruleData.options || {})
+    if (reversed) {
+      result = !result
+    }
+
+    return result
+  }
+}
 const RulesManagerAPI = {
   check: (values, rules, resultCallback) => {
     let keys = Object.keys(rules)
@@ -126,6 +141,23 @@ const RulesManagerAPI = {
           resultCallback(false)
         }
       )
+  },
+  checkSync: (values, rules, resultCallback) => {
+    let keys = Object.keys(rules)
+    let checks = []
+    keys.forEach((key) => {
+      let ruleFn = createSync(rules[ key ], values[ key ])
+      checks.push(ruleFn)
+    })
+    let res = false
+    for (let i = 0; i < checks.length; i++) {
+      res = checks[ i ]()
+      if (!res) {
+        break
+      }
+    }
+    resultCallback(res)
+    return res
   }
 }
 

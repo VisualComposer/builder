@@ -89,24 +89,43 @@ const innerApi = {
       cssBundles: [],
       jsBundles: []
     }
-    if (vcCake.env('ELEMENT_PUBLIC_JS_FILES') && cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries) {
-      let jsFiles = cookElement.get('metaPublicJs')
-      let elementLibs = jsFiles.libraries
-      elementLibs.forEach((lib) => {
-        let elementAttrValue = cookElement.get(lib.attribute.name)
-        if ((typeof elementAttrValue === 'boolean') && elementAttrValue ||
-          (typeof elementAttrValue === 'string' && lib.attribute.value.indexOf(elementAttrValue) > -1)) {
-          const elementPath = cookElement.get('metaElementPath')
-          let jsFiles = lib.libPaths.map((url) => {
-            return elementPath + url
-          })
-          files.jsBundles = files.jsBundles.concat(jsFiles)
+
+    if (vcCake.env('ELEMENT_PUBLIC_JS_FILES')) {
+      const RulesManager = vcCake.getService('rules-manager')
+      const elementPath = cookElement.get('metaElementPath')
+
+      let libraries = cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries
+      libraries && libraries.forEach((lib) => {
+        let jsFiles = []
+        if (lib.libPaths && lib.libPaths.length) {
+          if (lib.rules) {
+            RulesManager.checkSync(cookElement.toJS(), lib.rules, (status) => {
+              if (status) {
+                jsFiles = jsFiles.concat(lib.libPaths)
+              }
+            })
+          } else {
+            jsFiles = jsFiles.concat(lib.libPaths)
+          }
         }
+        jsFiles = jsFiles.map((url) => {
+          return elementPath + url
+        })
+        files.jsBundles = files.jsBundles.concat(jsFiles)
       })
     } else {
       let jsFiles = cookElement.get('metaPublicJs')
-      if (jsFiles && jsFiles.length) {
-        const elementPath = cookElement.get('metaElementPath')
+      const elementPath = cookElement.get('metaElementPath')
+      let libsToAdd = []
+      if (jsFiles && jsFiles.libraries && jsFiles.libraries.length) {
+        jsFiles.libraries.forEach((lib) => {
+          libsToAdd = libsToAdd.concat(lib.libPaths)
+        })
+        libsToAdd = libsToAdd.map((url) => {
+          return elementPath + url
+        })
+        files.jsBundles = files.jsBundles.concat(libsToAdd)
+      } else if (jsFiles && jsFiles.length) {
         jsFiles = jsFiles.map((url) => {
           return elementPath + url
         })
@@ -121,16 +140,62 @@ const innerApi = {
       cssBundles: [],
       jsBundles: []
     }
-    let jsFiles = cookElement.get('metaBackendEditorJs')
-    if (options && options.metaPublicJs) {
-      jsFiles = cookElement.get('metaPublicJs')
-    }
-    if (jsFiles && jsFiles.length) {
+    if (vcCake.env('ELEMENT_PUBLIC_JS_FILES')) {
+      if (options && options.metaPublicJs) {
+        const RulesManager = vcCake.getService('rules-manager')
+        const elementPath = cookElement.get('metaElementPath')
+
+        let libraries = cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries
+        libraries && libraries.forEach((lib) => {
+          let jsFiles = []
+          if (lib.libPaths && lib.libPaths.length) {
+            if (lib.rules) {
+              RulesManager.checkSync(cookElement.toJS(), lib.rules, (status) => {
+                if (status) {
+                  jsFiles = jsFiles.concat(lib.libPaths)
+                }
+              })
+            } else {
+              jsFiles = jsFiles.concat(lib.libPaths)
+            }
+          }
+          jsFiles = jsFiles.map((url) => {
+            return elementPath + url
+          })
+          files.jsBundles = files.jsBundles.concat(jsFiles)
+        })
+      } else {
+        let jsFiles = cookElement.get('metaBackendEditorJs')
+        const elementPath = cookElement.get('metaElementPath')
+        if (jsFiles && jsFiles.length) {
+          jsFiles = jsFiles.map((url) => {
+            return elementPath + url
+          })
+          files.jsBundles = files.jsBundles.concat(jsFiles)
+        }
+      }
+    } else {
       const elementPath = cookElement.get('metaElementPath')
-      jsFiles = jsFiles.map((url) => {
-        return elementPath + url
-      })
-      files.jsBundles = files.jsBundles.concat(jsFiles)
+      let jsFiles = cookElement.get('metaBackendEditorJs')
+      if (options && options.metaPublicJs) {
+        jsFiles = cookElement.get('metaPublicJs')
+      }
+
+      if (jsFiles && jsFiles.libraries && jsFiles.libraries.length) {
+        let libsToAdd = []
+        jsFiles.libraries.forEach((lib) => {
+          libsToAdd = libsToAdd.concat(lib.libPaths)
+        })
+        libsToAdd = libsToAdd.map((url) => {
+          return elementPath + url
+        })
+        files.jsBundles = files.jsBundles.concat(libsToAdd)
+      } else if (jsFiles && jsFiles.length) {
+        jsFiles = jsFiles.map((url) => {
+          return elementPath + url
+        })
+        files.jsBundles = files.jsBundles.concat(jsFiles)
+      }
     }
 
     return files
