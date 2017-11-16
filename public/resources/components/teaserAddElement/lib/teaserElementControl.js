@@ -54,7 +54,7 @@ export default class TeaserElementControl extends ElementControl {
         this.ajax = null
         try {
           let jsonResponse = window.JSON.parse(response)
-          if (jsonResponse && jsonResponse.status && jsonResponse.element && jsonResponse.element.settings) {
+          if (jsonResponse && jsonResponse.status && jsonResponse.elements) {
             workspaceNotifications.set({
               position: 'bottom',
               transparent: true,
