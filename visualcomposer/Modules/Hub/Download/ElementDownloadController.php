@@ -22,7 +22,6 @@ class ElementDownloadController extends Container implements Module
     {
         if (vcvenv('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
             $this->addFilter('vcv:ajax:hub:download:element:adminNonce', 'ajaxDownloadElement');
-            $this->addFilter('vcv:ajax:hub:download:element:dev', 'ajaxDownloadElement');
         }
     }
 

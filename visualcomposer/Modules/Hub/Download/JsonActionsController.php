@@ -23,7 +23,6 @@ class JsonActionsController extends Container implements Module
     {
         $this->addFilter('vcv:hub:download:json', 'ajaxGetRequiredActions');
         $this->addFilter('vcv:ajax:hub:action:adminNonce', 'ajaxProcessAction');
-        $this->addFilter('vcv:ajax:hub:dev', 'ajaxProcessAction');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
