@@ -22,46 +22,48 @@ class ElementDownloadController extends Container implements Module
     {
         if (vcvenv('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
             $this->addFilter('vcv:ajax:hub:download:element:adminNonce', 'ajaxDownloadElement');
+            $this->addFilter('vcv:ajax:hub:download:element:dev', 'ajaxDownloadElement');
         }
     }
 
     protected function ajaxDownloadElement($response, $payload, Request $requestHelper, Token $tokenHelper)
     {
-        if (empty($response) || !vcIsBadResponse($response)) {
+        if (empty($response)) {
+            $response = [
+                'status' => true,
+            ];
+        }
+        if (!vcIsBadResponse($response)) {
             $bundle = $requestHelper->input('vcv-bundle');
             $token = $tokenHelper->createToken();
 
             $json = $this->sendRequestJson($bundle, $token);
             if (!vcIsBadResponse($json)) {
                 // fire the download process
-                $requestHelper->setData(
-                    [
-                        'vcv-hub-action' => $json,
-                    ]
-                );
-                $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
-                if (!vcIsBadResponse($response)) {
-                    // Need get element data
-                    $hubElementsHelper = vchelper('HubElements');
-                    $elementTag = lcfirst(str_replace('element/', '', $bundle));
-                    $elements = $hubElementsHelper->getElements();
-
-                    if (isset($elements[ $elementTag ])) {
-                        // OK!
-                        $element = $elements[ $elementTag ];
-                        $response['element'] = $element;
-                        // Try to initialize PHP in element via autoloader
-                        vcevent('vcv:hub:elements:autoload', ['element' => $element]);
-                        $response['variables'] = vcfilter('vcv:editor:variables/' . $elementTag, []);
-                    } else {
+                foreach ($json['actions'] as $action) {
+                    $requestHelper->setData(
+                        [
+                            'vcv-hub-action' => $action, // element/row
+                        ]
+                    );
+                    $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
+                    if (vcIsBadResponse($response)) {
                         vchelper('Logger')->log(
-                            __('Element downloaded but failed to fetch settings', 'vcwb'),
+                            __('Bad response from hub:action', 'vcwb'),
                             ['response' => $response]
                         );
                         $response = [
                             'status' => false,
                             'message' => __('Failed to download element', 'vcwb'),
                         ];
+                    }
+                }
+                if(isset($response['elements'])) {
+                    $response['variables'] = [];
+                    foreach($response['elements'] as $element) {
+                        // Try to initialize PHP in element via autoloader
+                        vcevent('vcv:hub:elements:autoload', ['element' => $element]);
+                        $response['variables'] = vcfilter('vcv:editor:variables/' . $element['tag'], $response['variables']);
                     }
                 }
             } else {
@@ -82,9 +84,9 @@ class ElementDownloadController extends Container implements Module
                 'timeout' => 30,
             ]
         );
-        $result = $this->checkResponse($response);
+        $response = $this->checkResponse($response);
 
-        return $result;
+        return $response;
     }
 
     /**
@@ -94,31 +96,35 @@ class ElementDownloadController extends Container implements Module
      */
     protected function checkResponse($response)
     {
-        $result = ['status' => false];
         $loggerHelper = vchelper('Logger');
         $optionsHelper = vchelper('Options');
         $downloadHelper = vchelper('HubDownload');
         if (!vcIsBadResponse($response)) {
             $actions = json_decode($response['body'], true);
             if (isset($actions['actions'])) {
-                $action = current($actions['actions']);
-                if (!empty($action)) {
-                    $optionNameKey = $action['action'] . $action['version'];
-                    $optionsHelper->set('hubAction:download:' . $optionNameKey, $action);
-                    $result = [
-                        'status' => true,
-                        'action' => $action['action'],
-                        'key' => $optionNameKey,
-                        'name' => isset($action['name']) && !empty($action['name']) ? $action['name']
-                            : $downloadHelper->getActionName($action['name']),
-                    ];
-                } else {
-                    $loggerHelper->log(
-                        __('Failed to find element in hub', 'vcwb'),
-                        [
-                            'result' => $action,
-                        ]
-                    );
+                $response['status'] = true;
+                foreach ($actions['actions'] as $action) {
+                    if (!empty($action)) {
+                        $optionNameKey = $action['action'] . $action['version'];
+                        $optionsHelper->set('hubAction:download:' . $optionNameKey, $action);
+                        $actionData = [
+                            'action' => $action['action'],
+                            'key' => $optionNameKey,
+                            'name' => isset($action['name']) && !empty($action['name']) ? $action['name']
+                                : $downloadHelper->getActionName($action['name']),
+                        ];
+                        if (!isset($response['actions']) || !is_array($response['actions'])) {
+                            $response['actions'] = [];
+                        }
+                        $response['actions'][] = $actionData;
+                    } else {
+                        $loggerHelper->log(
+                            __('Failed to find element in hub', 'vcwb'),
+                            [
+                                'result' => $action,
+                            ]
+                        );
+                    }
                 }
             }
         } else {
@@ -137,6 +143,6 @@ class ElementDownloadController extends Container implements Module
             );
         }
 
-        return $result;
+        return $response;
     }
 }
