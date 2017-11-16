@@ -58,12 +58,15 @@ class ElementDownloadController extends Container implements Module
                         ];
                     }
                 }
-                if(isset($response['elements'])) {
+                if (isset($response['elements'])) {
                     $response['variables'] = [];
-                    foreach($response['elements'] as $element) {
+                    foreach ($response['elements'] as $element) {
                         // Try to initialize PHP in element via autoloader
                         vcevent('vcv:hub:elements:autoload', ['element' => $element]);
-                        $response['variables'] = vcfilter('vcv:editor:variables/' . $element['tag'], $response['variables']);
+                        $response['variables'] = vcfilter(
+                            'vcv:editor:variables/' . $element['tag'],
+                            $response['variables']
+                        );
                     }
                 }
             } else {
