@@ -15,6 +15,9 @@ addStorage('elements', (storage) => {
   let substituteIds = {}
 
   const recursiveElementsRebuild = (cookElement) => {
+    if (!cookElement) {
+      return cookElement
+    }
     let cookGetAll = cookElement.getAll()
 
     let elementAttributes = Object.keys(cookGetAll)
