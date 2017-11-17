@@ -59,7 +59,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
   getTemplateGroup () {
     // TODO get and sort template elements from backend
-    let elements = []
+    let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()
     return { elements: elements, id: 'Templates2', index: 2, title: 'Templates' }
   }
 
@@ -107,7 +107,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
   getElementControl (elementData) {
     // TODO: Finish element control actions custom and without COOK!
-    let tag = elementData.tag
+    let tag = elementData.tag ? elementData.tag : elementData.name
     tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
     return <TeaserElementControl
       key={'vcv-element-control-' + tag}
@@ -116,6 +116,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       workspace={workspaceStorage.state('settings').get() || {}}
       startDownload={this.startDownload.bind(this)}
       cancelDownload={this.cancelDownload.bind(this)}
+      type={elementData.type ? elementData.type : 'element'}
       name={elementData.name} />
   }
 
