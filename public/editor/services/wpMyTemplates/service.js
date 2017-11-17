@@ -1,4 +1,4 @@
-import { addService, setData, getData, getService } from 'vc-cake'
+import { addService, setData, getService, getStorage } from 'vc-cake'
 // import { predefinedTemplates } from './lib/predefinedTemplates'
 
 const utils = getService('utils')
@@ -76,7 +76,8 @@ addService('myTemplates', {
     })
   },
   all (filter = null, sort = null) {
-    let myTemplates = getData('myTemplates') ? getData('myTemplates') : []
+    let custom = getStorage('templates').state('templates').get().custom
+    let myTemplates = custom && custom.templates ? custom.templates : []
     if (filter && getType.call(filter) === '[object Function]') {
       myTemplates = myTemplates.filter(filter)
     }
@@ -90,11 +91,19 @@ addService('myTemplates', {
     return myTemplates
   },
   predefined () {
-    return window.VCV_PREDEFINED_TEMPLATES()
+    let predefinedTemplates = getStorage('templates').state('templates').get().predefined
+    return predefinedTemplates && predefinedTemplates.templates ? predefinedTemplates.templates : []
+  },
+  hub () {
+    let hubTemplates = getStorage('templates').state('templates').get().hub
+    return hubTemplates && hubTemplates.templates ? hubTemplates.templates : []
   },
   getAllTemplates (filter = null, sort = null) {
-    let myTemplates = getData('myTemplates') ? getData('myTemplates') : []
-    let allTemplates = myTemplates.concat(this.predefined()) || []
+    let allTemplatesGroups = getStorage('templates').state('templates').get() || []
+    let allTemplates = []
+    for (let key in allTemplatesGroups) {
+      allTemplates = allTemplates.concat(allTemplatesGroups[key].templates)
+    }
     if (filter && getType.call(filter) === '[object Function]') {
       allTemplates = allTemplates.filter(filter)
     }

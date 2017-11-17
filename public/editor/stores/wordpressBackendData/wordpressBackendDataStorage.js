@@ -81,10 +81,10 @@ addStorage('wordpressData', (storage) => {
           globalJsState.set(responseData.jsSettings.global || '')
         }
       }
-      if (responseData.myTemplates) {
-        let templates = JSON.parse(responseData.myTemplates || '{}')
-        setData('myTemplates', templates)
-      }
+      // if (responseData.myTemplates) {
+      //   let templates = JSON.parse(responseData.myTemplates || '{}')
+      //   setData('myTemplates', templates)
+      // }
       storage.state('status').set({ status: 'loaded' })
       workspaceStorage.state('app').set('started')
       settingsStorage.state('status').set({ status: 'ready' })

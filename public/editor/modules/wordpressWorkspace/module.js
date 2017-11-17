@@ -13,8 +13,6 @@ const documentManager = getService('document')
 add('wordpressWorkspace', (api) => {
   // Set Templates
   api.reply('start', () => {
-    setData('myTemplates', window.VCV_MY_TEMPLATES())
-
     wordpressDataStorage.trigger('start')
   })
   workspaceStorage.state('settings').onChange((settings) => {

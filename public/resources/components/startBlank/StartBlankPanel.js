@@ -12,10 +12,6 @@ export default class startBlank extends React.Component {
     unmountStartBlank: React.PropTypes.func.isRequired
   }
 
-  static defaultProps = {
-    startBlankTemplates: templateManager.getLiteVersionTemplates()
-  }
-
   rowContainer = null
   elementsContainer = null
   initialSetControlsLayoutTimeout = null
@@ -23,7 +19,8 @@ export default class startBlank extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      startBlankVisible: true
+      startBlankVisible: true,
+      templates: templateManager.predefined()
     }
     this.handleCloseClick = this.handleCloseClick.bind(this)
     this.setControlsLayout = this.setControlsLayout.bind(this)
@@ -100,7 +97,7 @@ export default class startBlank extends React.Component {
   getBlankControls () {
     let controls = []
     controls.push(<BlankControl {...this.getTemplateControlProps('blank')} />)
-    startBlank.defaultProps.startBlankTemplates.forEach((template) => {
+    this.state.templates.forEach((template) => {
       controls.push(<BlankControl {...this.getTemplateControlProps(template)} />)
     })
     return controls
@@ -153,7 +150,7 @@ export default class startBlank extends React.Component {
     const controlFullWidth = controlWidth + controlMargin
     this.setState({
       controlWidth: controlFullWidth,
-      controlsWidth: controlFullWidth * startBlank.defaultProps.startBlankTemplates.length + 1
+      controlsWidth: controlFullWidth * this.state.templates.length + 1
     })
   }
 

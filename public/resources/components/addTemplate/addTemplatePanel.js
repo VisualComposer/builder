@@ -6,7 +6,7 @@ import TemplateControl from './lib/templateControl'
 import vcCake from 'vc-cake'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
-const templateManager = vcCake.getService('myTemplates')
+const myTemplatesService = vcCake.getService('myTemplates')
 const documentManager = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceSettings = vcCake.getStorage('workspace').state('settings')
@@ -24,28 +24,28 @@ export default class AddTemplatePanel extends React.Component {
         index: 0,
         id: 'all',
         visible () { return true },
-        templates () { return templateManager.getAllTemplates() } // TODO: Merge from all categories
+        templates () { return myTemplatesService.getAllTemplates() } // TODO: Merge from all categories
       },
       {
         title: 'My Templates',
         index: 1,
         id: 'myTemplates',
         visible () { return this.templates().length },
-        templates () { return templateManager.all() }
+        templates () { return myTemplatesService.all() }
       },
       {
         title: 'Templates',
         index: 2,
         id: 'hubTemplates',
         visible () { return this.templates().length },
-        templates () { return templateManager.predefined() }
+        templates () { return myTemplatesService.predefined() }
       },
       {
         title: 'Downloaded Templates',
         index: 3,
         id: 'downloadedTemplates',
-        visible () { return false },
-        templates () { return templateManager.predefined() }
+        visible () { return this.templates().length },
+        templates () { return myTemplatesService.hub() }
       },
       {
         title: 'Download More Templates',
@@ -269,13 +269,13 @@ export default class AddTemplatePanel extends React.Component {
     let { templateName } = this.state
     templateName = templateName.trim()
     if (templateName) {
-      if (templateManager.findBy('name', templateName)) {
+      if (myTemplatesService.findBy('name', templateName)) {
         this.displayError(templateAlreadyExistsText)
       } else if (!documentManager.size()) {
         this.displayError(templateContentEmptyText)
       } else {
         this.setState({ showSpinner: templateName })
-        let templateAddResult = templateManager.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
+        let templateAddResult = myTemplatesService.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
         if (templateAddResult) {
           // this.props.api.request('templates:save', templateName)
         } else {
@@ -315,7 +315,7 @@ export default class AddTemplatePanel extends React.Component {
   handleRemoveTemplate (id) {
     const removeTemplateWarning = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.removeTemplateWarning : 'Do you want to remove this template?'
     if (window.confirm(removeTemplateWarning)) {
-      templateManager.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
+      myTemplatesService.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
     }
   }
 

@@ -25,6 +25,7 @@ class EditorTemplates implements Helper
             [
                 'posts_per_page' => '-1',
                 'post_type' => 'vcv_templates',
+                'order' => 'asc',
             ];
 
         $templatesGroups = vchelper('PostType')->queryGroupByMetaKey(
@@ -62,6 +63,9 @@ class EditorTemplates implements Helper
                 }
             }
             if (!empty($groupTemplates)) {
+                if (empty($groupKey)) {
+                    $groupKey = 'custom';
+                }
                 $outputTemplates[ $groupKey ] = [
                     'name' => $this->getGroupName($groupKey),
                     'type' => $groupKey,
@@ -78,6 +82,7 @@ class EditorTemplates implements Helper
         $name = '';
         switch ($key) {
             case '':
+            case 'custom':
                 $name = __('My Templates', 'vcwb');
                 break;
             case 'hub':

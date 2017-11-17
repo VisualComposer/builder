@@ -4,6 +4,7 @@ import { env, getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const hubElementsService = getService('hubElements')
+const templatesService = getService('myTemplates')
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
 
@@ -12,9 +13,16 @@ export default class TeaserElementControl extends ElementControl {
     super(props)
     const elements = hubElementsService.all()
 
+    let elementState
+    if(this.props.type === 'element') {
+      elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
+    } else {
+      let hubTemplates = templatesService.hub()
+      //elem
+    }
     this.state = {
       allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD ? window.VCV_HUB_ALLOW_DOWNLOAD() : false,
-      elementState: typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
+      elementState: elementState
     }
     this.addElement = this.addElement.bind(this)
     this.downloadElement = this.downloadElement.bind(this)

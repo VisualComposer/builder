@@ -62,6 +62,10 @@ $(() => {
       require('./editor/stores/elements/elementsStorage')
       require('./editor/stores/assets/assetsStorage')
       require('./editor/stores/shortcodesAssets/storage')
+      require('./editor/stores/templatesStorage')
+      const templatesStorage = vcCake.getStorage('templates')
+      templatesStorage.trigger('start')
+
       require('./editor/stores/workspaceStorage')
       if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
         require('./editor/stores/hub/hubElementsStorage')

@@ -101,10 +101,10 @@ addStorage('wordpressData', (storage) => {
           pageTemplate.set(pageTemplateData.current)
         }
       }
-      if (responseData.myTemplates) {
-        let templates = JSON.parse(responseData.myTemplates || '{}')
-        setData('myTemplates', templates)
-      }
+      // if (responseData.myTemplates) {
+      //   let templates = JSON.parse(responseData.myTemplates || '{}')
+      //   setData('myTemplates', templates)
+      // }
       storage.state('status').set({ status: 'loaded' })
       settingsStorage.state('status').set({ status: 'ready' })
       workspaceStorage.state('app').set('started')

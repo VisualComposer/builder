@@ -10,8 +10,6 @@ const elementsStorage = getStorage('elements')
 add('wordpressBackendWorkspace', (api) => {
   // Set Templates
   api.reply('start', () => {
-    setData('myTemplates', window.VCV_MY_TEMPLATES())
-
     wordpressDataStorage.trigger('start')
   })
   workspaceStorage.state('settings').onChange((settings) => {
