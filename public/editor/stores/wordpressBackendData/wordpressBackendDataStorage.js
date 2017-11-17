@@ -179,7 +179,8 @@ addStorage('wordpressData', (storage) => {
         })
         return
       }
-      if (!dataSaved) {
+      let storageState = storage.state('status').get().status
+      if (!dataSaved && (storageState === 'loaded' || storageState === 'changed')) {
         e.preventDefault()
         if (submitter === null) {
           submitter = $submitters[ 0 ]
