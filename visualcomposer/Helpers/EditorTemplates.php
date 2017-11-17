@@ -77,18 +77,15 @@ class EditorTemplates implements Helper
     {
         $name = '';
         switch ($key) {
-            case '': {
+            case '':
                 $name = __('My Templates', 'vcwb');
                 break;
-            }
-            case 'hub': {
+            case 'hub':
                 $name = __('Premium Templates', 'vcwb');
                 break;
-            }
-            case 'predefined': {
+            case 'predefined':
                 $name = __('Templates', 'vcwb');
                 break;
-            }
         }
 
         return $name;
