@@ -55,20 +55,23 @@ const innerApi = {
       jsBundles: []
     }
     if (vcCake.env('FEATURE_ASSETS_FILTER') && vcCake.env('ATTRIBUTE_LIBS')) {
-      let elementFromStorage = assetsStorageState.elements.find((element) => {
-        return element.id === cookElement.get('id')
-      })
-      let elementAssetLibraries = elementFromStorage && elementFromStorage.assetLibraries
-      if (elementAssetLibraries && elementAssetLibraries.length) {
-        elementAssetLibraries.forEach((lib) => {
-          let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
-          if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
-            files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
-          }
-          if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
-            files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
-          }
+      console.log('assetsStorageState', assetsStorageState)
+      if (assetsStorageState && assetsStorageState.elements) {
+        let elementFromStorage = assetsStorageState.elements.find((element) => {
+          return element.id === cookElement.get('id')
         })
+        let elementAssetLibraries = elementFromStorage && elementFromStorage.assetLibraries
+        if (elementAssetLibraries && elementAssetLibraries.length) {
+          elementAssetLibraries.forEach((lib) => {
+            let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
+            if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
+              files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
+            }
+            if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
+              files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
+            }
+          })
+        }
       }
     } else if (assetsLibrary && assetsLibrary.length) {
       assetsLibrary.forEach((lib) => {
