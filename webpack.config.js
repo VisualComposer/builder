@@ -79,7 +79,6 @@ module.exports = {
         'dataProcessor',
         'modernAssetsStorage',
         'stylesManager',
-        'myTemplates',
         'hubCategories',
         'hubGroups',
         'hubElements'

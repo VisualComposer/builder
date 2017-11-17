@@ -204,7 +204,7 @@ addStorage('elements', (storage) => {
   const mergeChildrenLayout = (data, parent) => {
     const children = Object.keys(data).filter((key) => {
       const element = data[ key ]
-      return element.parent === parent
+      return parent ? element.parent === parent : element.parent === '' || element.parent === parent
     })
     children.sort((a, b) => {
       if (typeof data[ a ].order === 'undefined') {

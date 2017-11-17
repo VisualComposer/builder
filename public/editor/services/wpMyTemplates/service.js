@@ -1,4 +1,4 @@
-import { addService, setData, getService, getStorage } from 'vc-cake'
+import { addService, getService, getStorage } from 'vc-cake'
 // import { predefinedTemplates } from './lib/predefinedTemplates'
 
 const utils = getService('utils')
@@ -35,9 +35,8 @@ addService('myTemplates', {
       }
     })), (response) => {
       let id = response.status
-      let myTemplates = this.all()
-      myTemplates.unshift({ id: id.toString(), name: name, data: data, html: html })
-      setData('myTemplates', myTemplates)
+      let templateData = { id: id.toString(), name: name, data: data, html: html }
+      getStorage('templates').trigger('add', 'custom', templateData)
       successCallback && typeof successCallback === 'function' && successCallback()
     }, errorCallback)
 
@@ -55,12 +54,7 @@ addService('myTemplates', {
   },
   remove (id, successCallback, errorCallback) {
     handleSaveRequest('delete', 'vcv-template-id', id, (response) => {
-      let myTemplates = this.all()
-      let removeIndex = myTemplates.findIndex((template) => {
-        return template.id === id
-      })
-      myTemplates.splice(removeIndex, 1)
-      setData('myTemplates', myTemplates)
+      getStorage('templates').trigger('remove', 'custom', id)
       successCallback && typeof successCallback === 'function' && successCallback()
     }, errorCallback)
   },

@@ -160,9 +160,13 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
         $response['templates'][] = [
             'id' => $templateId,
             'tag' => $payload['actionData']['action'],
-            'content' => $templateElements,
-            'thumbnailUrl' => $template['thumbnail'],
-            'previewUrl' => $template['preview'],
+            'bundle' => $payload['actionData']['action'],
+            'name' => $template['name'],
+            'description' => $template['description'],
+            'data' => $templateElements,
+            'thumbnail' => $template['thumbnail'],
+            'preview' => $template['preview'],
+            'type' => 'hub',
         ];
 
         return $response;

@@ -194,7 +194,11 @@ export default class TeaserElementControl extends ElementControl {
                 getStorage('hubElements').trigger('add', element, true)
               })
             }
-            // TODO: add template to templates list
+            if (jsonResponse.templates) {
+              let template = jsonResponse.templates[ 0 ]
+              template.id = template.id.toString()
+              getStorage('templates').trigger('add', 'hub', template)
+            }
 
             !cancelled && this.setState({ elementState: 'success' })
           } else {
@@ -264,8 +268,14 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   addTemplate (e) {
-    // TODO: data
+    let hubTemplates = templatesService.hub()
     let data = {}
+    for (let i = 0; i < hubTemplates.length; i++) {
+      if (hubTemplates[ i ].bundle === this.props.element.bundle) {
+        data = hubTemplates[ i ].data
+        break
+      }
+    }
     elementsStorage.trigger('merge', data)
     workspaceSettings.set(false)
   }
@@ -329,7 +339,7 @@ export default class TeaserElementControl extends ElementControl {
       } else {
         action = this.addTemplate
         if (elementState !== 'success') {
-          action = this.downloadElement
+          action = this.downloadTemplate
         }
       }
       overlayOutput = <span className={iconClasses} onClick={action} />

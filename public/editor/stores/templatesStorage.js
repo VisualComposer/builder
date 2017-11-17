@@ -8,14 +8,26 @@ addStorage('templates', (storage) => {
 
   storage.on('add', (type, templateData) => {
     console.log('add', type, templateData)
-    // let templates = storage.state('templates').get() || {}
-    // templates[ templateData.id ] = templateData
-    // storage.state('templates').set(templates)
+    let all = storage.state('templates').get()
+    if (!all[ type ]) {
+      all[ type ] = {
+        'name': type,
+        'type': type,
+        'templates': []
+      }
+    }
+    all[ type ].templates.unshift(templateData)
+    storage.state('templates').set(all)
   })
-  storage.on('remove', (type, templateData) => {
-    console.log('remove', type, templateData)
-    // let templates = storage.state('templates').get() || {}
-    // templates[ templateData.id ] = templateData
-    // storage.state('templates').set(templates)
+  storage.on('remove', (type, id) => {
+    console.log('remove', type, id)
+    let all = storage.state('templates').get()
+    if (all[ type ]) {
+      let removeIndex = all[ type ].templates.findIndex((template) => {
+        return template.id === id
+      })
+      all[ type ].templates.splice(removeIndex, 1)
+      storage.state('templates').set(all)
+    }
   })
 })
