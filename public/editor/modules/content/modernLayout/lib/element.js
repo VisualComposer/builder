@@ -37,9 +37,6 @@ export default class Element extends React.Component {
   }
 
   componentDidMount () {
-    if (this.state.element.hidden) {
-      return
-    }
     this.props.api.notify('element:mount', this.state.element.id)
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
     if (vcCake.env('CSS_LOADING')) {

@@ -86,8 +86,10 @@ add('wordpressWorkspace', (api) => {
 
     const getVisibleElements = (allElements) => {
       let visibleElements = Object.assign({}, allElements)
-      const removeHiddenElements = (hiddenElement) => {
-        delete visibleElements[ hiddenElement.id ]
+      const removeHiddenElements = (hiddenElement, removeOnlyChildren) => {
+        if (!removeOnlyChildren) {
+          delete visibleElements[ hiddenElement.id ]
+        }
         const children = documentManager.children(hiddenElement.id)
         if (children.length) {
           children.forEach((child) => {
@@ -99,7 +101,7 @@ add('wordpressWorkspace', (api) => {
         if (visibleElements.hasOwnProperty(key)) {
           const currentElement = visibleElements[ key ]
           if (currentElement.hidden) {
-            removeHiddenElements(currentElement)
+            removeHiddenElements(currentElement, true)
           }
         }
       }
