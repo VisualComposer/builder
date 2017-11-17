@@ -126,9 +126,10 @@ export default class Notifications {
   handleNotificationResize () {
     if (this.parentBottom) {
       const parentRect = this.parentBottom.getBoundingClientRect()
-      this.bottomContainer.style = {}
-      this.bottomContainer.style.left = `${parentRect.left}px`
-      this.bottomContainer.style.width = `${parentRect.width}px`
+      if (this.bottomContainer.style) {
+        this.bottomContainer.style.left = `${parentRect.left}px`
+        this.bottomContainer.style.width = `${parentRect.width}px`
+      }
     }
   }
 }

@@ -48,9 +48,8 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
 
             return ['status' => false];
         }
-        // TODO: Save hub template
-        // TODO: Return template data (content)
-        // SEE: \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates
+
+        /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
         if (!isset($response['templates']) || empty($response['templates'])) {
             $response['templates'] = [];
         }
