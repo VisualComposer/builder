@@ -59,7 +59,7 @@ class PostType implements Helper
                         $results[ $metaValue ] = [];
                     }
                     $results[ $metaValue ][] = $post;
-                } else if (!$skipEmpty) {
+                } elseif (!$skipEmpty) {
                     if (!isset($results[''])) {
                         $results[''] = [];
                     }

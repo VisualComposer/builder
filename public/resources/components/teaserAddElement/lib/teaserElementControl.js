@@ -300,8 +300,8 @@ export default class TeaserElementControl extends ElementControl {
         'vcv-ui-icon vcv-ui-icon-lock': !this.state.allowDownload && this.state.elementState === 'inactive'
       })
       let action = this.addElement
-      if(this.props.type === 'element') {
-        if(elementState !== 'success') {
+      if (this.props.type === 'element') {
+        if (elementState !== 'success') {
           action = this.downloadElement
         }
       } else {
