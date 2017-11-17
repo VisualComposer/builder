@@ -1,4 +1,4 @@
-import {add, setData, getStorage, getService, env} from 'vc-cake'
+import {add, getStorage, getService, env} from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'

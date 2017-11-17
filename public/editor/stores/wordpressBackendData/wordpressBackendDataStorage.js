@@ -1,4 +1,4 @@
-import { addStorage, getStorage, getService, setData, env } from 'vc-cake'
+import { addStorage, getStorage, getService, env } from 'vc-cake'
 import lodash from 'lodash'
 import $ from 'jquery'
 import SaveController from './lib/saveController'
