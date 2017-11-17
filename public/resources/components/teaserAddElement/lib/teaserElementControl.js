@@ -90,9 +90,8 @@ export default class TeaserElementControl extends ElementControl {
               let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
               if (jsonResponse && jsonResponse.message) {
                 errorMessage = jsonResponse.message
-              } else if (jsonResponse && jsonResponse.details && jsonResponse.details.message) {
-                errorMessage = jsonResponse.details.message
               }
+
               console.warn('failed to download element status is false', errorMessage, response)
               workspaceNotifications.set({
                 type: 'error',
@@ -199,9 +198,8 @@ export default class TeaserElementControl extends ElementControl {
               let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
               if (jsonResponse && jsonResponse.message) {
                 errorMessage = jsonResponse.message
-              } else if (jsonResponse && jsonResponse.details && jsonResponse.details.message) {
-                errorMessage = jsonResponse.details.message
               }
+
               console.warn('failed to download template status is false', errorMessage, response)
               workspaceNotifications.set({
                 type: 'error',
