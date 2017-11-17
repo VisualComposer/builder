@@ -22,7 +22,7 @@ export default class Notifications {
     }
     this.createHelpers()
     this.handleNotificationResize()
-    // Utils.addResizeListener(this.parentBottom, {}, this.handleNotificationResize)
+    Utils.addResizeListener(this.parentBottom, {}, this.handleNotificationResize)
     workspaceNotifications.onChange(this.create)
   }
 
