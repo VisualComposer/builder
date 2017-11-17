@@ -94,7 +94,7 @@ class ElementDownloadController extends Container implements Module
     /**
      * @param $response
      *
-     * @return array
+     * @return array|\WP_Error
      */
     protected function checkResponse($response)
     {

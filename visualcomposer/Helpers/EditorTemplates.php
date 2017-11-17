@@ -43,11 +43,13 @@ class EditorTemplates implements Helper
                     $type = get_post_meta($template->ID, '_' . VCV_PREFIX . 'type', true);
                     $thumbnail = get_post_meta($template->ID, '_' . VCV_PREFIX . 'thumbnail', true);
                     $preview = get_post_meta($template->ID, '_' . VCV_PREFIX . 'preview', true);
+                    $bundle = get_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', true);
 
                     $data = [
                         // @codingStandardsIgnoreLine
                         'name' => $template->post_title,
                         'data' => $templateElements,
+                        'bundle' => $bundle,
                         'id' => (string)$template->ID,
                     ];
                     if (!empty($thumbnail)) {

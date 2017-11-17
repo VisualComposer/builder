@@ -76,6 +76,7 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
                 'thumbnail' => $payload['actionData']['data']['thumbnail'],
             ]
         );
+        $template['name'] = $payload['actionData']['data']['name'];
         $templateElements = json_decode(
             str_replace(
                 '[publicPath]',
@@ -153,10 +154,12 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
         update_post_meta($templateId, '_' . VCV_PREFIX . 'thumbnail', $template['thumbnail']);
         update_post_meta($templateId, '_' . VCV_PREFIX . 'preview', $template['preview']);
         update_post_meta($templateId, '_' . VCV_PREFIX . 'id', $template['id']);
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'bundle', $payload['actionData']['action']);
         update_post_meta($templateId, 'vcvEditorTemplateElements', $templateElements);
 
         $response['templates'][] = [
             'id' => $templateId,
+            'tag' => $payload['actionData']['action'],
             'content' => $templateElements,
             'thumbnailUrl' => $template['thumbnail'],
             'previewUrl' => $template['preview'],

@@ -7,6 +7,8 @@ const hubElementsService = getService('hubElements')
 const templatesService = getService('myTemplates')
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
+const elementsStorage = getStorage('elements')
+const workspaceSettings = getStorage('workspace').state('settings')
 
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
@@ -14,11 +16,17 @@ export default class TeaserElementControl extends ElementControl {
     const elements = hubElementsService.all()
 
     let elementState
-    if(this.props.type === 'element') {
+    if (this.props.type === 'element') {
       elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
     } else {
       let hubTemplates = templatesService.hub()
-      //elem
+      elementState = 'inactive'
+      for (let i = 0; i < hubTemplates.length; i++) {
+        if (hubTemplates[ i ].bundle === this.props.element.bundle) {
+          elementState = 'success'
+          break
+        }
+      }
     }
     this.state = {
       allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD ? window.VCV_HUB_ALLOW_DOWNLOAD() : false,
@@ -27,6 +35,7 @@ export default class TeaserElementControl extends ElementControl {
     this.addElement = this.addElement.bind(this)
     this.downloadElement = this.downloadElement.bind(this)
     this.downloadTemplate = this.downloadTemplate.bind(this)
+    this.addTemplate = this.addTemplate.bind(this)
     this.ajax = null
   }
 
@@ -169,7 +178,7 @@ export default class TeaserElementControl extends ElementControl {
         this.ajax = null
         try {
           let jsonResponse = window.JSON.parse(response)
-          if (jsonResponse && jsonResponse.status && jsonResponse.elements) {
+          if (jsonResponse && jsonResponse.status) {
             workspaceNotifications.set({
               position: 'bottom',
               transparent: true,
@@ -179,7 +188,7 @@ export default class TeaserElementControl extends ElementControl {
             })
             this.buildVariables(jsonResponse.variables || [])
             // Initialize template depended elements
-            if (Array.isArray(jsonResponse.elements)) {
+            if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
               jsonResponse.elements.forEach((element) => {
                 element.tag = element.tag.replace('element/', '')
                 getStorage('hubElements').trigger('add', element, true)
@@ -254,6 +263,13 @@ export default class TeaserElementControl extends ElementControl {
     tryDownload()
   }
 
+  addTemplate (e) {
+    // TODO: data
+    let data = {}
+    elementsStorage.trigger('merge', data)
+    workspaceSettings.set(false)
+  }
+
   buildVariables (variables) {
     if (variables.length) {
       variables.forEach((item) => {
@@ -311,8 +327,10 @@ export default class TeaserElementControl extends ElementControl {
           action = this.downloadElement
         }
       } else {
-        // TODO: Check if template already exists
-        action = this.downloadTemplate
+        action = this.addTemplate
+        if (elementState !== 'success') {
+          action = this.downloadElement
+        }
       }
       overlayOutput = <span className={iconClasses} onClick={action} />
     }

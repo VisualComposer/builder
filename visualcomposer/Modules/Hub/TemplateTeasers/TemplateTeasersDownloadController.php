@@ -49,7 +49,7 @@ class TemplateTeasersDownloadController extends Container implements Module
                 'metaPreviewUrl' => $template['previewUrl'],
                 'metaDescription' => $template['description'],
                 'type' => 'template',
-                'tag' => $template['bundle'],
+                'id' => $template['id'],
             ];
             $allTemplates[] = $elementData;
         }
