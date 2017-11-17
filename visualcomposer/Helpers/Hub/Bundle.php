@@ -65,6 +65,21 @@ class Bundle implements Helper
         return $downloadUrl;
     }
 
+    public function getTemplateDownloadUrl($requestedData = [])
+    {
+        $urlHelper = vchelper('Url');
+        $downloadUrl = $urlHelper->query(
+            sprintf(
+                '%s/download/template?plugin=%s',
+                VCV_HUB_URL,
+                VCV_VERSION
+            ),
+            $requestedData
+        );
+
+        return $downloadUrl;
+    }
+
     public function unzipDownloadedBundle($bundle)
     {
         $fileHelper = vchelper('File');

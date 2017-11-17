@@ -38,7 +38,7 @@ trait Action
                 $response = $filterHelper->fire(
                     'vcv:hub:download:bundle:' . $payload['action'],
                     $response,
-                    ['archive' => $archive]
+                    ['archive' => $archive, 'actionData' => $payload]
                 );
             }
             $hubHelper->removeTempBundleFolder();

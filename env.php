@@ -104,6 +104,13 @@ if (!defined('VCV_ENV_HUB_TEASER')) {
     );
 }
 
+if (!defined('VCV_ENV_HUB_TEMPLATES_TEASER')) {
+    define(
+        'VCV_ENV_HUB_TEMPLATES_TEASER',
+        isset($_SERVER['ENV_VCV_ENV_HUB_TEMPLATES_TEASER']) ? $_SERVER['ENV_VCV_ENV_HUB_TEMPLATES_TEASER'] : true
+    );
+}
+
 if (!defined('VCV_ENV_UPGRADE')) {
     define(
         'VCV_ENV_UPGRADE',
@@ -148,6 +155,13 @@ if (!defined('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
     define(
         'VCV_HUB_DOWNLOAD_SINGLE_ELEMENT',
         isset($_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_ELEMENT']) ? $_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_ELEMENT'] : true
+    );
+}
+
+if (!defined('VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE')) {
+    define(
+        'VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE',
+        isset($_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE']) ? $_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE'] : false
     );
 }
 

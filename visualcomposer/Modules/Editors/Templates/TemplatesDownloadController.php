@@ -152,7 +152,9 @@ class TemplatesDownloadController extends Container implements Module
                         ]
                     );
                 } else {
-                    $templateId = $templates[0]->ID;
+                    $savedTemplates->the_post();
+                    $templateId = get_the_ID();
+                    wp_reset_postdata();
 
                     wp_update_post(
                         [
