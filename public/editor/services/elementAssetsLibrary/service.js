@@ -55,7 +55,6 @@ const innerApi = {
       jsBundles: []
     }
     if (vcCake.env('FEATURE_ASSETS_FILTER') && vcCake.env('ATTRIBUTE_LIBS')) {
-      console.log('assetsStorageState', assetsStorageState)
       if (assetsStorageState && assetsStorageState.elements) {
         let elementFromStorage = assetsStorageState.elements.find((element) => {
           return element.id === cookElement.get('id')
