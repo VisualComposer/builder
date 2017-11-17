@@ -21,7 +21,7 @@ class TemplateTeasersDownloadController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_HUB_TEMPLATES_TEASER')) {
             $this->addFilter('vcv:hub:process:action:hubTemplates', 'processAction');
-            $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:extraOutput', 'outputTeaserTemplates');
+            $this->addFilter('vcv:editor:variables', 'outputTeaserTemplates');
         }
     }
 
@@ -38,14 +38,7 @@ class TemplateTeasersDownloadController extends Container implements Module
 
     protected function getTeaserTemplates($teasers)
     {
-        $groupList = [
-            'All' => [
-                'id' => 'All0',
-                'index' => 0,
-                'title' => 'All',
-                'elements' => [],
-            ],
-        ];
+
         $allTemplates = [];
         $dataHelper = vchelper('Data');
         foreach ($teasers as $template) {
@@ -56,41 +49,31 @@ class TemplateTeasersDownloadController extends Container implements Module
                 'metaPreviewUrl' => $template['previewUrl'],
                 'metaDescription' => $template['description'],
                 'type' => 'template',
+                'tag' => $template['bundle'],
             ];
             $allTemplates[] = $elementData;
         }
-        $groupList['All']['elements'] = array_values($dataHelper->arrayDeepUnique($allTemplates));
+        $elements = array_values($dataHelper->arrayDeepUnique($allTemplates));
 
-        return $groupList;
+        return $elements;
     }
 
-    protected function outputTeaserTemplates($response, $payload, Options $optionsHelper)
+    protected function outputTeaserTemplates($variables, Options $optionsHelper)
     {
         $value = array_values(
             (array)$optionsHelper->get(
                 'hubTeaserTemplates',
-                [
-                    'All' => [
-                        'id' => 'All0',
-                        'index' => 0,
-                        'title' => 'All',
-                        'elements' => [],
-                    ],
-                ]
+                []
             )
         );
+        $key = 'VCV_HUB_GET_TEMPLATES_TEASER';
 
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_HUB_GET_TEMPLATES_TEASER',
-                        'value' => $value,
-                    ]
-                ),
-            ]
-        );
+        $variables[] = [
+            'key' => $key,
+            'value' => $value,
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 }

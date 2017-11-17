@@ -29,12 +29,27 @@ class Controller extends Container implements Module
         $this->addFilter('vcv:backend:extraOutput vcv:frontend:body:extraOutput', 'allMyTemplates');
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::allPredefinedTemplates */
         $this->addFilter('vcv:backend:extraOutput vcv:frontend:body:extraOutput', 'allPredefinedTemplates');
+        $this->addFilter('vcv:editor:variables', 'allTemplates');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
         $this->addFilter('vcv:ajax:editorTemplates:create:adminNonce', 'create');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::delete */
         $this->addFilter('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
+    }
+
+    protected function allTemplates($variables, EditorTemplates $editorTemplatesHelper)
+    {
+        $key = 'VCV_TEMPLATES';
+        $value = $editorTemplatesHelper->all();
+
+        $variables[] = [
+            'key' => $key,
+            'value' => $value,
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 
     protected function allMyTemplates($extraOutput, EditorTemplates $editorTemplatesHelper)
@@ -46,7 +61,7 @@ class Controller extends Container implements Module
                     'partials/constant-script',
                     [
                         'key' => 'VCV_MY_TEMPLATES',
-                        'value' => $this->getData($editorTemplatesHelper->all()),
+                        'value' => [],
                     ]
                 ),
             ]
@@ -64,7 +79,7 @@ class Controller extends Container implements Module
                     'partials/constant-script',
                     [
                         'key' => 'VCV_PREDEFINED_TEMPLATES',
-                        'value' => $editorTemplatesHelper->allPredefined(),
+                        'value' => [],
                     ]
                 ),
             ]
