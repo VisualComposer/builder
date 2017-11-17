@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
-use WP_Query;
 
 /**
  * Helper methods related to editor/templates.
@@ -26,25 +25,73 @@ class EditorTemplates implements Helper
             [
                 'posts_per_page' => '-1',
                 'post_type' => 'vcv_templates',
-                'meta_query' => [
-                    'relation' => 'OR',
-                    [
-                        'key' => '_' . VCV_PREFIX . 'type',
-                        'value' => '',
-                        'compare' => 'NOT EXISTS',
-                    ],
-                    [
-                        'key' => '_' . VCV_PREFIX . 'type',
-                        'value' => 'custom',
-                        'compare' => '=',
-                    ],
-
-                ],
             ];
 
-        $templates = vchelper('PostType')->query($args);
+        $templatesGroups = vchelper('PostType')->queryGroupByMetaKey(
+            $args,
+            '_' . VCV_PREFIX . 'type'
+        );
 
-        return $templates;
+        $outputTemplates = [];
+        foreach ($templatesGroups as $groupKey => $templates) {
+            $groupTemplates = [];
+            foreach ($templates as $key => $template) {
+                /** @var $template \WP_Post */
+                $templateElements = get_post_meta($template->ID, 'vcvEditorTemplateElements', true);
+                if (!empty($templateElements)) {
+                    $type = get_post_meta($template->ID, '_' . VCV_PREFIX . 'type', true);
+                    $thumbnail = get_post_meta($template->ID, '_' . VCV_PREFIX . 'thumbnail', true);
+                    $preview = get_post_meta($template->ID, '_' . VCV_PREFIX . 'preview', true);
+
+                    $data = [
+                        // @codingStandardsIgnoreLine
+                        'name' => $template->post_title,
+                        'data' => $templateElements,
+                        'id' => (string)$template->ID,
+                    ];
+                    if (!empty($thumbnail)) {
+                        $data['thumbnail'] = $thumbnail;
+                    }
+                    if (!empty($preview)) {
+                        $data['preview'] = $preview;
+                    }
+                    if (!empty($type)) {
+                        $data['type'] = $type;
+                    }
+                    $groupTemplates[] = $data;
+                }
+            }
+            if (!empty($groupTemplates)) {
+                $outputTemplates[ $groupKey ] = [
+                    'name' => $this->getGroupName($groupKey),
+                    'type' => $groupKey,
+                    'templates' => $groupTemplates,
+                ];
+            }
+        }
+
+        return $outputTemplates;
+    }
+
+    public function getGroupName($key)
+    {
+        $name = '';
+        switch ($key) {
+            case '': {
+                $name = __('My Templates', 'vcwb');
+                break;
+            }
+            case 'hub': {
+                $name = __('Premium Templates', 'vcwb');
+                break;
+            }
+            case 'predefined': {
+                $name = __('Templates', 'vcwb');
+                break;
+            }
+        }
+
+        return $name;
     }
 
     /**
@@ -56,6 +103,7 @@ class EditorTemplates implements Helper
      */
     public function allPredefined($data = true, $id = false)
     {
+        return []; //
         $templates = [];
         $args =
             [

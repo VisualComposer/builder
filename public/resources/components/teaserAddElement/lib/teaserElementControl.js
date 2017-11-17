@@ -18,6 +18,7 @@ export default class TeaserElementControl extends ElementControl {
     }
     this.addElement = this.addElement.bind(this)
     this.downloadElement = this.downloadElement.bind(this)
+    this.downloadTemplate = this.downloadTemplate.bind(this)
     this.ajax = null
   }
 
@@ -138,6 +139,115 @@ export default class TeaserElementControl extends ElementControl {
     tryDownload()
   }
 
+  downloadTemplate (e) {
+    if (this.ajax || !this.state.allowDownload) {
+      return
+    }
+    let bundle = this.props.element.bundle
+    let name = this.props.element.name
+    this.setState({ elementState: 'downloading' })
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+
+    let data = {
+      'vcv-action': 'hub:download:template:adminNonce',
+      'vcv-bundle': bundle,
+      'vcv-nonce': window.vcvNonce
+    }
+    let tag = bundle // for queue
+    let successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+
+    let tries = 0
+    let tryDownload = () => {
+      let successCallback = (response, cancelled) => {
+        this.ajax = null
+        try {
+          let jsonResponse = window.JSON.parse(response)
+          if (jsonResponse && jsonResponse.status && jsonResponse.elements) {
+            workspaceNotifications.set({
+              position: 'bottom',
+              transparent: true,
+              rounded: true,
+              text: successMessage.replace('{name}', name),
+              time: 3000
+            })
+            this.buildVariables(jsonResponse.variables || [])
+            // Initialize template depended elements
+            if (Array.isArray(jsonResponse.elements)) {
+              jsonResponse.elements.forEach((element) => {
+                element.tag = element.tag.replace('element/', '')
+                getStorage('hubElements').trigger('add', element, true)
+              })
+            }
+            // TODO: add template to templates list
+
+            !cancelled && this.setState({ elementState: 'success' })
+          } else {
+            tries++
+            console.warn('failed to download template status is false', jsonResponse, response)
+            if (tries < 2) {
+              tryDownload()
+            } else {
+              this.ajax = null
+              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
+              if (jsonResponse && jsonResponse.message) {
+                errorMessage = jsonResponse.message
+              } else if (jsonResponse && jsonResponse.details && jsonResponse.details.message) {
+                errorMessage = jsonResponse.details.message
+              }
+              console.warn('failed to download template status is false', errorMessage, response)
+              workspaceNotifications.set({
+                type: 'error',
+                text: errorMessage,
+                showCloseButton: 'true',
+                icon: 'vcv-ui-icon vcv-ui-icon-error',
+                time: 5000
+              })
+
+              !cancelled && this.setState({ elementState: 'failed' })
+            }
+          }
+        } catch (e) {
+          tries++
+          console.warn('failed to parse download response', e, response)
+          if (tries < 2) {
+            tryDownload()
+          } else {
+            this.ajax = null
+            workspaceNotifications.set({
+              type: 'error',
+              text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
+              showCloseButton: 'true',
+              icon: 'vcv-ui-icon vcv-ui-icon-error',
+              time: 5000
+            })
+
+            !cancelled && this.setState({ elementState: 'failed' })
+          }
+        }
+      }
+      let errorCallback = (response, cancelled) => {
+        tries++
+        console.warn('failed to download template general server error', response)
+        if (tries < 2) {
+          tryDownload()
+        } else {
+          this.ajax = null
+          workspaceNotifications.set({
+            type: 'error',
+            text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
+            showCloseButton: 'true',
+            icon: 'vcv-ui-icon vcv-ui-icon-error',
+            time: 5000
+          })
+
+          !cancelled && this.setState({ elementState: 'failed' })
+        }
+      }
+      this.ajax = this.props.startDownload(tag, data, successCallback, errorCallback)
+    }
+    tryDownload()
+  }
+
   buildVariables (variables) {
     if (variables.length) {
       variables.forEach((item) => {
@@ -189,7 +299,15 @@ export default class TeaserElementControl extends ElementControl {
         'vcv-ui-wp-spinner-light': elementState === 'downloading',
         'vcv-ui-icon vcv-ui-icon-lock': !this.state.allowDownload && this.state.elementState === 'inactive'
       })
-      let action = elementState === 'success' ? this.addElement : this.downloadElement
+      let action = this.addElement
+      if(this.props.type === 'element') {
+        if(elementState !== 'success') {
+          action = this.downloadElement
+        }
+      } else {
+        // TODO: Check if template already exists
+        action = this.downloadTemplate
+      }
       overlayOutput = <span className={iconClasses} onClick={action} />
     }
 

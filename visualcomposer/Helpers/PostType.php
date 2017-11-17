@@ -38,6 +38,40 @@ class PostType implements Helper
     }
 
     /**
+     * @param $query
+     * @param $metaKey
+     * @param bool $skipEmpty
+     *
+     * @return array
+     */
+    public function queryGroupByMetaKey($query, $metaKey, $skipEmpty = false)
+    {
+        $posts = get_posts($query);
+        $results = [];
+        foreach ($posts as $post) {
+            $currentUserAccessHelper = vchelper('AccessCurrentUser');
+            $metaValue = get_post_meta($post->ID, $metaKey, true);
+            // @codingStandardsIgnoreLine
+            if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()
+            ) {
+                if ($metaValue) {
+                    if (!isset($results[ $metaValue ])) {
+                        $results[ $metaValue ] = [];
+                    }
+                    $results[ $metaValue ][] = $post;
+                } else if (!$skipEmpty) {
+                    if (!isset($results[''])) {
+                        $results[''] = [];
+                    }
+                    $results[''][] = $post;
+                }
+            }
+        }
+
+        return $results;
+    }
+
+    /**
      * @param $id
      * @param string $postType
      *
