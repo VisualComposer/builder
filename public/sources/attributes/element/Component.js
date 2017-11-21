@@ -128,6 +128,7 @@ export default class ElementAttribute extends Attribute {
     let replacements = ''
 
     let category = this.props.options.category || '*'
+    let elementLabel = this.props.options.tabLabel.toLowerCase() || this.props.options.category || 'element'
     let categorySettings = hubCategoriesService.get(category)
     if (categorySettings && this.state.showReplacements) {
       let replacementItemsOutput = categorySettings.elements.map((tag) => {
@@ -187,7 +188,7 @@ export default class ElementAttribute extends Attribute {
           </p>
           <button className='vcv-ui-form-button vcv-ui-form-button--default'
             onClick={this.changeShowReplacements}>
-            Replace button
+            Replace {elementLabel}
           </button>
         </div>
       )
