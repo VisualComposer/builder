@@ -184,7 +184,7 @@ export default class ElementAttribute extends Attribute {
           <p
             className='vcv-ui-form-helper'
           >
-            You can change the button within this element with another button from your elements
+            You can change the {elementLabel} within this element with another {elementLabel} from your elements
           </p>
           <button className='vcv-ui-form-button vcv-ui-form-button--default'
             onClick={this.changeShowReplacements}>
