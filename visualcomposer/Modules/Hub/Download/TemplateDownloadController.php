@@ -19,7 +19,6 @@ class TemplateDownloadController extends ElementDownloadController implements Mo
     {
         if (vcvenv('VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE')) {
             $this->addFilter('vcv:ajax:hub:download:template:adminNonce', 'ajaxDownloadElement');
-            $this->addFilter('vcv:ajax:hub:download:template:dev', 'ajaxDownloadElement');
         }
     }
 
