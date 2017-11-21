@@ -131,6 +131,7 @@ export default class Url extends Attribute {
   }
 
   save = (e) => {
+    e.preventDefault()
     let valueToSave = Object.assign({}, this.state.unsavedValue)
 
     this.setFieldValue(valueToSave)
@@ -248,7 +249,7 @@ export default class Url extends Attribute {
         containerClassName='vcv-ui-modal-container'
         onClose={this.cancel}>
 
-        <div className='vcv-ui-modal'>
+        <form onSubmit={this.save} className='vcv-ui-modal'>
 
           <header className='vcv-ui-modal-header'>
             <span className='vcv-ui-modal-close' onClick={this.cancel} title={close}>
@@ -315,9 +316,10 @@ export default class Url extends Attribute {
                   <span>{save}</span>
                 </span>
               </span>
+              <input className='vcv-ui-modal-action-submit-input' type='submit' />
             </div>
           </footer>
-        </div>
+        </form>
 
       </Modal>
     )
