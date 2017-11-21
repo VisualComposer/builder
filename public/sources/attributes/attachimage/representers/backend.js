@@ -3,6 +3,28 @@ import classNames from 'classnames'
 import Representer from '../../representer'
 
 export default class Backend extends Representer {
+
+  getImageUrl (image, size) {
+    let imageUrl
+    // Move it to attribute
+    if (size && image && image[ size ]) {
+      imageUrl = image[ size ]
+    } else {
+      if (image instanceof Array) {
+        let urls = []
+        image.forEach((item) => {
+          let url = item && item.full && item.id ? item.full : (item && item.full ? this.getPublicImage(item.full) : this.getPublicImage(item))
+          urls.push(url)
+        })
+        imageUrl = urls
+      } else {
+        imageUrl = image && image.full && image.id ? image.full : (image && image.full ? this.getPublicImage(image.full) : this.getPublicImage(image))
+      }
+    }
+
+    return imageUrl
+  }
+
   getUrls (value) {
     let urls = []
     if (typeof value === 'string') {
@@ -21,7 +43,7 @@ export default class Backend extends Representer {
   getImages (urls, elementId) {
     return urls.map((url, i) => {
       let urlData = {
-        src: url && url.thumbnail ? url.thumbnail : (url && url.full ? url.full : url),
+        src: this.getImageUrl(url),
         alt: url && url.alt ? url.alt : '',
         id: url && url.id ? url.id : i
       }

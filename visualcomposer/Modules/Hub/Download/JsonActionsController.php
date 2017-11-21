@@ -153,7 +153,7 @@ class JsonActionsController extends Container implements Module
         global $wpdb;
         $wpdb->query(
             $wpdb->prepare(
-                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',
+                'UPDATE ' . $wpdb->options . ' SET option_value="0.0.1" WHERE option_name LIKE "%s"',
                 VCV_PREFIX . 'hubAction:%'
             )
         );
