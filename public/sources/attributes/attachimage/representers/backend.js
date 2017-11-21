@@ -71,7 +71,6 @@ export default class Backend extends Representer {
   render () {
     let { value } = this.state
     let urls = this.getUrls(value)
-    console.log(urls, value)
 
     let classes = classNames({
       'vcv-wpbackend-attributes-content': true,
