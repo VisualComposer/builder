@@ -53,9 +53,12 @@ class Logger implements Helper
 
     public function details()
     {
-        $dataHelper = vchelper('Data');
-        $columns = $dataHelper->arrayColumn($this->logs, 'details');
-        $unique = $dataHelper->arrayDeepUnique($columns);
+        $unique = [];
+        if (VCV_DEBUG) {
+            $dataHelper = vchelper('Data');
+            $columns = $dataHelper->arrayColumn($this->logs, 'details');
+            $unique = $dataHelper->arrayDeepUnique($columns);
+        }
 
         return $unique;
     }
