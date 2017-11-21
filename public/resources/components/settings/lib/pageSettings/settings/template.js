@@ -7,12 +7,14 @@ export default class TemplateSettings extends React.Component {
 
   constructor (props) {
     super(props)
+    let templateStorageData = settingsStorage.state('pageTemplate').get()
     let templateData = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() || {}
+    let currentTemplate = templateStorageData || templateData
     this.state = {
-      current: settingsStorage.state('pageTemplate').get() || templateData.current,
+      current: currentTemplate,
       all: templateData.all
     }
-    setData('ui:settings:pageTemplate', templateData.current)
+    setData('ui:settings:pageTemplate', currentTemplate)
     this.updateTemplate = this.updateTemplate.bind(this)
     this.getTemplateOptions = this.getTemplateOptions.bind(this)
   }
