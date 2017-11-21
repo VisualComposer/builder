@@ -128,7 +128,7 @@ export default class ElementAttribute extends Attribute {
     let replacements = ''
 
     let category = this.props.options.category || '*'
-    let elementLabel = this.props.options.tabLabel.toLowerCase() || this.props.options.category || 'element'
+    let elementLabel = this.props.options.tabLabel.toLowerCase() || this.props.options.category.toLowerCase() || 'element'
     let categorySettings = hubCategoriesService.get(category)
     if (categorySettings && this.state.showReplacements) {
       let replacementItemsOutput = categorySettings.elements.map((tag) => {
