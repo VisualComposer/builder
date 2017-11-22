@@ -37,9 +37,9 @@ class Controller extends Container implements Module
     {
         if ($frontendHelper->isPageEditable()) {
             // TODO: Check another post statuses
-            $wpQuery->query['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft'];
+            $wpQuery->query['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft', 'private'];
             // @codingStandardsIgnoreLine
-            $wpQuery->query_vars['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft'];
+            $wpQuery->query_vars['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft', 'private'];
         }
     }
 
