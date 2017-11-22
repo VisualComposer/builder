@@ -2,12 +2,10 @@ import { addStorage } from 'vc-cake'
 
 addStorage('templates', (storage) => {
   storage.on('start', () => {
-    console.log('start', window.VCV_TEMPLATES())
     storage.state('templates').set(window.VCV_TEMPLATES())
   })
 
   storage.on('add', (type, templateData) => {
-    console.log('add', type, templateData)
     let all = storage.state('templates').get()
     if (!all[ type ]) {
       all[ type ] = {
@@ -20,7 +18,6 @@ addStorage('templates', (storage) => {
     storage.state('templates').set(all)
   })
   storage.on('remove', (type, id) => {
-    console.log('remove', type, id)
     let all = storage.state('templates').get()
     if (all[ type ]) {
       let removeIndex = all[ type ].templates.findIndex((template) => {

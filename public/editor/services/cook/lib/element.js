@@ -36,7 +36,17 @@ export default class CookElement {
     } else {
       element = window.VCV_HUB_GET_ELEMENTS()[ tag ]
     }
-    if (!element) {
+    if (vcCake.env('FIX_UNREGISTERED_ELEMENT') && !element && vcCake.env('debug') === true) {
+      console.warn(`Element ${tag} is not registered in system`)
+      element = {
+        settings: {
+          metaDescription: '',
+          metaPreviewUrl: '',
+          metaThumbnailUrl: '',
+          name: '--'
+        }
+      }
+    } else if (!element) {
       throw new Error(`Element ${tag} is not registered in system`)
     }
     let metaSettings = element.settings
