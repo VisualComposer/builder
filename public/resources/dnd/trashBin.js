@@ -37,8 +37,9 @@ export default class TrashBin {
     this.elContainer.addEventListener('mouseenter', this.onMouseEnter)
     let iframe = document.getElementById('vcv-editor-iframe') || null
     let iframeParent = iframe && iframe.parentNode || null
-    this.offsetX = iframeParent && iframeParent.offsetLeft || 0
-    this.offsetY = iframeParent && iframeParent.offsetTop || 0
+    let rect = iframeParent && iframeParent.getBoundingClientRect()
+    this.offsetX = rect && rect.left || 0
+    this.offsetY = rect && rect.top || 0
   }
 
   onMouseEnter (e) {
