@@ -99,7 +99,7 @@ add('wordpressWorkspace', (api) => {
         if (visibleElements.hasOwnProperty(key)) {
           const currentElement = visibleElements[ key ]
           if (currentElement.hidden) {
-            removeHiddenElements(currentElement, true)
+            removeHiddenElements(currentElement)
           }
         }
       }

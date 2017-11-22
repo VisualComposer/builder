@@ -123,6 +123,7 @@ export default class CssBuilder {
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
     this.window.vcv.trigger('ready', 'destroy', id)
+    this.removeElementJobsFromStorage(id)
   }
 
   addElementJobsToStorage (id, status) {
@@ -140,6 +141,14 @@ export default class CssBuilder {
       }
       storageElements.push(element)
     }
+    assetsStorage.state('jobs').set({ elements: storageElements })
+  }
+
+  removeElementJobsFromStorage (id) {
+    let storageElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
+    storageElements = storageElements.filter((element) => {
+      return element.id !== id
+    })
     assetsStorage.state('jobs').set({ elements: storageElements })
   }
 
