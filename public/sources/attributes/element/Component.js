@@ -125,9 +125,10 @@ export default class ElementAttribute extends Attribute {
   }
 
   render () {
+    let { category, tabLabel, replaceView } = this.props.options
     let replacements = ''
-    let category = this.props.options.category || '*'
-    let elementLabel = this.props.options.tabLabel.toLowerCase() || this.props.options.category.toLowerCase() || 'element'
+    category = category || '*'
+    let elementLabel = tabLabel && tabLabel.toLowerCase() || category.toLowerCase() || 'element'
     let categorySettings = hubCategoriesService.get(category)
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const replaceElementText = localizations.replaceElementText.split('{elementLabel}').join(elementLabel)
@@ -199,7 +200,7 @@ export default class ElementAttribute extends Attribute {
     let replacementBlock = ''
     if (categorySettings && categorySettings.elements && categorySettings.elements.length > 1) {
       // TODO: show another wrapper
-      if (this.props.options.replaceView && this.props.options.replaceView === 'dropdown') {
+      if (replaceView && replaceView === 'dropdown') {
         let dropdownValues = categorySettings.elements.map(
           (tag) => {
             let cookElement = Cook.get({ tag: tag })

@@ -22,6 +22,9 @@ const API = {
       console.error('No element Tag provided', data)
       return null
     }
+    if (env('FIX_UNREGISTERED_ELEMENT')) {
+      return new CookElement(data)
+    }
     let elements = null
     if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
       elements = hubElementService().all()
