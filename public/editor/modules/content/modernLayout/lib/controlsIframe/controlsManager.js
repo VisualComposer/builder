@@ -100,6 +100,10 @@ export default class ControlsManager {
       }
     })
 
+    this.subscribeToCurrentIframe()
+  }
+
+  subscribeToCurrentIframe () {
     // Subscribe to main event to interact with content elements
     this.iframeDocument.body.addEventListener('mousemove', this.findElement)
     this.iframeDocument.body.addEventListener('mouseleave', this.handleFrameLeave)
@@ -200,20 +204,27 @@ export default class ControlsManager {
     return path
   }
 
+  getDOMNodes () {
+    const iframe = document.querySelector('#vcv-editor-iframe')
+    return {
+      iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
+      iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
+      iframeWrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
+      iframe: iframe,
+      documentBody: document.body,
+      iframeWindow: iframe && iframe.contentWindow,
+      iframeDocument: iframe && iframe.contentDocument
+    }
+  }
+
   /**
    * Initialize
    */
   init (options = {}) {
     let defaultOptions = {
       iframeUsed: true,
-      iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
-      iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
-      iframeWrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
-      iframe: document.querySelector('#vcv-editor-iframe'),
-      documentBody: document.body
+      ...this.getDOMNodes()
     }
-    defaultOptions.iframeWindow = defaultOptions.iframe && defaultOptions.iframe.contentWindow
-    defaultOptions.iframeDocument = defaultOptions.iframeWindow && defaultOptions.iframeWindow.document
 
     options = Object.assign({}, defaultOptions, options)
     this.setup(options)
@@ -698,8 +709,17 @@ export default class ControlsManager {
 
   updateIframeVariables () {
     console.log('upd')
-    this.iframe = document.querySelector('#vcv-editor-iframe')
-    this.iframeWindow = this.iframe.contentWindow
-    this.iframeDocument = this.iframeWindow.document
+    const DOMNodes = this.getDOMNodes()
+    this.iframeContainer = DOMNodes.iframeContainer
+    this.iframeOverlay = DOMNodes.iframeOverlay
+    this.iframeWrapper = DOMNodes.iframeWrapper
+    this.iframe = DOMNodes.iframe
+    this.iframeWindow = DOMNodes.iframeWindow
+    this.iframeDocument = DOMNodes.iframeDocument
+    this.documentBody = DOMNodes.documentBody
+    this.frames.updateIframeVariables(DOMNodes)
+    this.outline.updateIframeVariables(DOMNodes)
+    this.controls.updateIframeVariables(DOMNodes)
+    this.subscribeToCurrentIframe()
   }
 }
