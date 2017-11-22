@@ -42,6 +42,7 @@ export default class ControlsManager {
     this.handleFrameMousemoveOnce = this.handleFrameMousemoveOnce.bind(this)
     this.handleOverlayMouseLeave = this.handleOverlayMouseLeave.bind(this)
     this.handleFrameContainerLeave = this.handleFrameContainerLeave.bind(this)
+    this.updateIframeVariables = this.updateIframeVariables.bind(this)
   }
 
   /**
@@ -590,10 +591,18 @@ export default class ControlsManager {
         elementsToShow.push(documentElement.id)
       }
     })
-    elementsToShow = elementsToShow.map((id) => {
-      let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
-      return this.iframeDocument.querySelector(selector)
-    })
+    try {
+      elementsToShow = elementsToShow.map((id) => {
+        let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+        return this.iframeDocument.querySelector(selector)
+      })
+    } catch (err) {
+      this.updateIframeVariables()
+      elementsToShow = elementsToShow.map((id) => {
+        let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+        return this.iframeDocument.querySelector(selector)
+      })
+    }
     elementsToShow = elementsToShow.filter((el) => {
       return el
     })
@@ -685,5 +694,12 @@ export default class ControlsManager {
         this.showFramesOnOneElement(this.editFormId)
       }
     }
+  }
+
+  updateIframeVariables () {
+    console.log('upd')
+    this.iframe = document.querySelector('#vcv-editor-iframe')
+    this.iframeWindow = this.iframe.contentWindow
+    this.iframeDocument = this.iframeWindow.document
   }
 }
