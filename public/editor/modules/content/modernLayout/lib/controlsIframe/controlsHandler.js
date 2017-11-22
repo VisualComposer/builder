@@ -745,4 +745,13 @@ export default class ControlsHandler {
       }
     })
   }
+
+  /**
+   * Update iframe variables
+   */
+  updateIframeVariables (DOMNodes) {
+    this.iframe = DOMNodes.iframe
+    this.iframeWindow = DOMNodes.iframeWindow
+    this.iframeDocument = DOMNodes.iframeDocument
+  }
 }

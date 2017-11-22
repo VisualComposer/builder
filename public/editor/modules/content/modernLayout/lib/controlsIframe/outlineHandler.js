@@ -119,4 +119,13 @@ export default class Outline {
   getVcElement (elementId) {
     return cook.get(documentManager.get(elementId))
   }
+
+  /**
+   * Update iframe variables
+   */
+  updateIframeVariables (DOMNodes) {
+    this.iframe = DOMNodes.iframe
+    this.iframeWindow = DOMNodes.iframeWindow
+    this.iframeDocument = DOMNodes.iframeDocument
+  }
 }

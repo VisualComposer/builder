@@ -175,7 +175,8 @@ class Localizations extends Container implements Helper
             'feOopsMessageDefault' => __('It seems that something went wrong with loading content. Please make sure you are loading correct content and try again.', 'vcwb'),
             'feOopsButtonTextDefault' => __('Back to WordPress Dashboard', 'vcwb'),
             'feOopsMessagePageForPosts' => __('It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it into a static page via your WordPress admin.', 'vcwb'),
-            'feOopsButtonTextPageForPosts' => __('Back to WordPress', 'vcwb')
+            'feOopsButtonTextPageForPosts' => __('Back to WordPress', 'vcwb'),
+            'replaceElementText' => __('You can change the {elementLabel} within this element with another {elementLabel} from your elements', 'vcwb')
         ];
 
         return $locale;

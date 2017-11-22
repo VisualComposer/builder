@@ -16,80 +16,80 @@
     {
       "name": "backgroundColorGradient",
       "dependencies": [],
-      "cssBundle": "[publicPath]//dist/backgroundColorGradient.bundle.css"
+      "cssBundle": "[publicPath]/dist/backgroundColorGradient.bundle.css"
     },
     {
       "name": "backgroundSimple",
       "dependencies": [],
-      "cssBundle": "[publicPath]//dist/backgroundSimple.bundle.css"
+      "cssBundle": "[publicPath]/dist/backgroundSimple.bundle.css"
     },
     {
       "name": "backgroundSlider",
       "dependencies": [],
-      "jsBundle": "[publicPath]//dist/backgroundSlider.bundle.js",
-      "cssBundle": "[publicPath]//dist/backgroundSlider.bundle.css"
+      "jsBundle": "[publicPath]/dist/backgroundSlider.bundle.js",
+      "cssBundle": "[publicPath]/dist/backgroundSlider.bundle.css"
     },
     {
       "name": "backgroundVideoEmbed",
       "dependencies": [],
-      "jsBundle": "[publicPath]//dist/backgroundVideoEmbed.bundle.js",
-      "cssBundle": "[publicPath]//dist/backgroundVideoEmbed.bundle.css"
+      "jsBundle": "[publicPath]/dist/backgroundVideoEmbed.bundle.js",
+      "cssBundle": "[publicPath]/dist/backgroundVideoEmbed.bundle.css"
     },
     {
       "name": "backgroundVideoVimeo",
       "dependencies": [],
-      "jsBundle": "[publicPath]//dist/backgroundVideoVimeo.bundle.js",
-      "cssBundle": "[publicPath]//dist/backgroundVideoVimeo.bundle.css"
+      "jsBundle": "[publicPath]/dist/backgroundVideoVimeo.bundle.js",
+      "cssBundle": "[publicPath]/dist/backgroundVideoVimeo.bundle.css"
     },
     {
       "name": "backgroundVideoYoutube",
       "dependencies": [],
-      "jsBundle": "[publicPath]//dist/backgroundVideoYoutube.bundle.js",
-      "cssBundle": "[publicPath]//dist/backgroundVideoYoutube.bundle.css"
+      "jsBundle": "[publicPath]/dist/backgroundVideoYoutube.bundle.js",
+      "cssBundle": "[publicPath]/dist/backgroundVideoYoutube.bundle.css"
     },
     {
       "name": "backgroundZoom",
       "dependencies": [
         "waypoints"
       ],
-      "jsBundle": "[publicPath]//dist/backgroundZoom.bundle.js",
-      "cssBundle": "[publicPath]//dist/backgroundZoom.bundle.css"
+      "jsBundle": "[publicPath]/dist/backgroundZoom.bundle.js",
+      "cssBundle": "[publicPath]/dist/backgroundZoom.bundle.css"
     },
     {
       "name": "backgroundSlider",
       "dependencies": [],
-      "jsBundle": "[publicPath]//dist/backgroundSlider.bundle.js",
-      "cssBundle": "[publicPath]//dist/backgroundSlider.bundle.css"
+      "jsBundle": "[publicPath]/dist/backgroundSlider.bundle.js",
+      "cssBundle": "[publicPath]/dist/backgroundSlider.bundle.css"
     },
     {
       "name": "parallaxBackground",
       "dependencies": [
         "waypoints"
       ],
-      "jsBundle": "[publicPath]//dist/parallaxBackground.bundle.js",
-      "cssBundle": "[publicPath]//dist/parallaxBackground.bundle.css"
+      "jsBundle": "[publicPath]/dist/parallaxBackground.bundle.js",
+      "cssBundle": "[publicPath]/dist/parallaxBackground.bundle.css"
     },
     {
       "name": "parallaxFade",
       "dependencies": [
         "waypoints"
       ],
-      "jsBundle": "[publicPath]//dist/parallaxFade.bundle.js"
+      "jsBundle": "[publicPath]/dist/parallaxFade.bundle.js"
     },
     {
       "name": "iconpicker",
       "dependencies": [],
-      "cssBundle": "[publicPath]//dist/iconpicker.bundle.css"
+      "cssBundle": "[publicPath]/dist/iconpicker.bundle.css"
     },
     {
       "name": "iconpicker",
       "dependencies": [],
-      "cssBundle": "[publicPath]//dist/iconpicker.bundle.css"
+      "cssBundle": "[publicPath]/dist/iconpicker.bundle.css"
     },
     {
       "name": "divider",
       "dependencies": [],
-      "cssBundle": "[publicPath]//dist/divider.bundle.css"
+      "cssBundle": "[publicPath]/dist/divider.bundle.css"
     }
   ]
 }
