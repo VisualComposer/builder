@@ -704,7 +704,6 @@ export default class ControlsManager {
   }
 
   updateIframeVariables () {
-    console.log('upd')
     const DOMNodes = this.getDOMNodes()
     this.iframe = DOMNodes.iframe
     this.iframeWindow = DOMNodes.iframeWindow
