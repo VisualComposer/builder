@@ -55,7 +55,6 @@ export default class DndManager {
       }
       let container = this.documentDOM.querySelector('[data-vcv-module="content-layout"]')
       if (container) {
-        console.log('new dnd')
         const DndConstructor = vcCake.env('FIX_DND_FOR_TABS') ? DndDataSet : DnD
         this.items = new DndConstructor(container, {
           cancelMove: true,
@@ -70,7 +69,6 @@ export default class DndManager {
           manualScroll: true
         })
         this.items.init()
-        // this.apiDnD = DndConstructor.api(this.items)
         this.apiDnD = this.items.api
         this.apiDnD.start = this.apiDnD.start.bind(this.apiDnD)
         this.apiDnD.addNew = this.apiDnD.addNew.bind(this.apiDnD)
