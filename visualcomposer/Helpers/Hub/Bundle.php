@@ -183,7 +183,7 @@ class Bundle implements Helper
         }
         $needUpdatePost = vcvenv('VCV_TF_POSTS_RERENDER', false) ? $optionsHelper->get('hubAction:updatePosts', [])
             : [];
-        if (empty($needUpdatePost)) {
+        if (empty($needUpdatePost) || !is_array($needUpdatePost)) {
             $needUpdatePost = [];
         } else {
             $changed = false;
@@ -220,7 +220,7 @@ class Bundle implements Helper
             $data = '';
         }
         $needUpdatePost = $optionsHelper->get('hubAction:updatePosts', []);
-        if (empty($needUpdatePost)) {
+        if (empty($needUpdatePost) || !is_array($needUpdatePost)) {
             $needUpdatePost = [];
         }
         $checksum = isset($value['checksum']) ? $value['checksum'] : '';
@@ -284,7 +284,7 @@ class Bundle implements Helper
         if (isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')
         ) {
             $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
-            if (!empty($posts) && is_array($posts)) {
+            if (!empty($posts) && is_array($posts) && is_array($needUpdatePost)) {
                 $needUpdatePost = $posts + $needUpdatePost;
             }
         }

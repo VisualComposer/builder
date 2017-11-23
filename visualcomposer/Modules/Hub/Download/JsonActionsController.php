@@ -157,5 +157,12 @@ class JsonActionsController extends Container implements Module
                 VCV_PREFIX . 'hubAction:%'
             )
         );
+        $wpdb->query(
+            $wpdb->prepare(
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',
+                VCV_PREFIX . 'hubAction:download:%'
+            )
+        );
+        $optionsHelper->set('hubAction:updatePosts', []);
     }
 }
