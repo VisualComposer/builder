@@ -30,27 +30,29 @@ const getElementLibNames = (id, element, callback) => {
   return data
 }
 
+const updateStorageState = (id, data) => {
+  let stateElements = storageState.get() && storageState.get().elements ? storageState.get().elements : []
+  let stateElementIndex = stateElements.findIndex((element) => {
+    return element.id === id
+  })
+  if (stateElementIndex < 0) {
+    stateElements.push(data)
+  } else {
+    stateElements[ stateElementIndex ].id = data.id
+    stateElements[ stateElementIndex ].assetLibraries = data.assetLibraries
+  }
+  storageState.set({ elements: stateElements })
+}
+
 export default class AssetsLibraryManager {
   add (id, element) {
     let data = getElementLibNames(id, element, this.add.bind(this))
-    let stateElements = storageState.get() && storageState.get().elements ? storageState.get().elements : []
-    stateElements.push(data)
-    storageState.set({ elements: stateElements })
+    updateStorageState(id, data)
   }
 
   edit (id, element) {
     let data = getElementLibNames(id, element, this.edit.bind(this))
-    let stateElements = storageState.get() && storageState.get().elements ? storageState.get().elements : []
-    let stateElementIndex = stateElements.findIndex((element) => {
-      return element.id === id
-    })
-    if (stateElementIndex < 0) {
-      stateElements.push(data)
-    } else {
-      stateElements[ stateElementIndex ].id = data.id
-      stateElements[ stateElementIndex ].assetLibraries = data.assetLibraries
-    }
-    storageState.set({ elements: stateElements })
+    updateStorageState(id, data)
   }
 
   remove (id) {

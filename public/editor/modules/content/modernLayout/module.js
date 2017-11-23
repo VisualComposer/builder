@@ -113,7 +113,7 @@ vcCake.add('contentModernLayout', (api) => {
       </div>`
   }
 
-  const reloadLayout = ({type, template}) => {
+  const reloadLayout = ({ type, template }) => {
     if (type === 'reload') {
       createLoadingScreen()
       let iframe = window.document.getElementById('vcv-editor-iframe')
@@ -121,9 +121,10 @@ vcCake.add('contentModernLayout', (api) => {
       ReactDOM.unmountComponentAtNode(domContainer)
       let data = vcCake.getService('document').all()
       iframe.onload = () => {
-        workspaceIFrame.set({type: 'loaded'})
+        let visibleElements = vcCake.getService('utils').getVisibleElements(data)
+        workspaceIFrame.set({ type: 'loaded' })
         elementsStorage.trigger('updateAll', data)
-        assetsStorage.trigger('updateAllElements', data)
+        assetsStorage.trigger('updateAllElements', visibleElements)
         const settingsStorage = vcCake.getStorage('settings')
         const customCssState = settingsStorage.state('customCss')
         const globalCssState = settingsStorage.state('globalCss')
@@ -145,9 +146,9 @@ vcCake.add('contentModernLayout', (api) => {
         }
       }
       let url = iframe.src.split('?')
-      let params = url[1].split('&')
+      let params = url[ 1 ].split('&')
       for (let i = 0; i < params.length; i++) {
-        if (params[i].indexOf('vcv-template') >= 0) {
+        if (params[ i ].indexOf('vcv-template') >= 0) {
           params.splice(i, 1)
           break
         }
@@ -155,7 +156,7 @@ vcCake.add('contentModernLayout', (api) => {
       if (template) {
         params.push(`vcv-template=${template}`)
       }
-      url[1] = params.join('&')
+      url[ 1 ] = params.join('&')
       iframe.src = url.join('?')
     } else if (type === 'loaded') {
       renderLayout(true)
