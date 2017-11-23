@@ -150,10 +150,8 @@ export default class DnD {
         })
       }
     })
-  }
 
-  static api (dnd) {
-    return new Api(dnd)
+    this.api = new Api(this)
   }
 
   option (name, value) {

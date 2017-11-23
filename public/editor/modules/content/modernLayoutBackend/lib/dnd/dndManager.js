@@ -50,9 +50,11 @@ export default class DndManager {
         handler: '> .vce-wpbackend-element-header-container, > div > div > vcvhelper.vcv-row-control-container' + (vcCake.env('FIX_DND_FOR_TABS') ? ', > [data-vce-target]' : '')
       })
       this.items.init()
-      this.apiDnD = DndConstructor.api(this.items)
-      vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
-      vcCake.onDataChange('dropNewElement', this.apiDnD.addNew.bind(this.apiDnD))
+      this.apiDnD = this.items.api
+      this.apiDnD.start = this.apiDnD.start.bind(this.apiDnD)
+      this.apiDnD.addNew = this.apiDnD.addNew.bind(this.apiDnD)
+      vcCake.onDataChange('draggingElement', this.apiDnD.start)
+      vcCake.onDataChange('dropNewElement', this.apiDnD.addNew)
       // this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
       workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
       vcCake.onDataChange('vcv:layoutCustomMode', (value) => {

@@ -25,8 +25,14 @@ export default class Helper {
   }
 
   draw () {
+    const oldHelper = this.options.container.querySelector('#vcv-ui-drag-helper-wrapper')
+    if (oldHelper) {
+      this.options.container.removeChild(oldHelper)
+    }
+
     const helperContainer = document.createElement('div')
     helperContainer.classList.add('vcv-ui-drag-helper-wrapper')
+    helperContainer.id = 'vcv-ui-drag-helper-wrapper'
 
     let control = document.createElement('div')
     control.classList.add('vcv-drag-helper')
@@ -70,7 +76,7 @@ export default class Helper {
     this.control = null
     let controlParent = control.parentNode
     if (controlParent.classList.contains('vcv-ui-drag-helper-wrapper')) {
-      controlParent.parentNode.removeChild(controlParent)
+      controlParent.parentNode && controlParent.parentNode.removeChild(controlParent)
     } else {
       controlParent.removeChild(control)
     }
