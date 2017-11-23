@@ -1,4 +1,4 @@
-import {add, getStorage, getService, env} from 'vc-cake'
+import { add, getStorage, getService, env } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
@@ -8,7 +8,7 @@ const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
 const elementsStorage = getStorage('elements')
 const assetsStorage = getStorage('assets')
-const documentManager = getService('document')
+const utils = getService('utils')
 
 add('wordpressWorkspace', (api) => {
   // Set Templates
@@ -82,35 +82,12 @@ add('wordpressWorkspace', (api) => {
       }
     })
 
-    const getVisibleElements = (allElements) => {
-      let visibleElements = Object.assign({}, allElements)
-      const removeHiddenElements = (hiddenElement, removeOnlyChildren) => {
-        if (!removeOnlyChildren) {
-          delete visibleElements[ hiddenElement.id ]
-        }
-        const children = documentManager.children(hiddenElement.id)
-        if (children.length) {
-          children.forEach((child) => {
-            removeHiddenElements(child)
-          })
-        }
-      }
-      for (let key in visibleElements) {
-        if (visibleElements.hasOwnProperty(key)) {
-          const currentElement = visibleElements[ key ]
-          if (currentElement.hidden) {
-            removeHiddenElements(currentElement)
-          }
-        }
-      }
-      return Object.keys(visibleElements)
-    }
-
     if (env('CSS_LOADING')) {
       assetsStorage.state('jobs').onChange((data) => {
         if (documentElements) {
           let jobsIds = Object.keys(data.elements)
-          let documentIds = getVisibleElements(documentElements)
+          let visibleElements = utils.getVisibleElements(documentElements)
+          let documentIds = Object.keys(visibleElements)
           if (documentIds.length === jobsIds.length) {
             let jobsInprogress = data.elements.find(element => element.jobs)
             if (jobsInprogress) {

@@ -204,12 +204,16 @@ export default class CssBuilder {
   }
 
   addElementFiles (data, force) {
+    if (force) {
+      this.loadedCssFiles = []
+      this.loadedJsFiles = []
+    }
     let cookElement = cook.get(data)
     let elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByElement(cookElement)
     const doc = this.window.document
     elementAssetsFiles.cssBundles.forEach((file) => {
       let slug = this.slugify(file)
-      if (force || this.loadedCssFiles.indexOf(slug) === -1) {
+      if (this.loadedCssFiles.indexOf(slug) === -1) {
         this.loadedCssFiles.push(slug)
         let cssLink = doc.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
@@ -221,7 +225,7 @@ export default class CssBuilder {
     elementAssetsFiles.jsBundles.forEach(
       (file) => {
         let slug = this.slugify(file)
-        if (force || this.loadedJsFiles.indexOf(slug) === -1) {
+        if (this.loadedJsFiles.indexOf(slug) === -1) {
           this.loadedJsFiles.push(slug)
           let scriptPromise = new Promise(
             (resolve, reject) => {

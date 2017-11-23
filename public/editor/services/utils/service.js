@@ -148,6 +148,30 @@ const API = {
       return window.switchEditors.wpautop(string)
     }
     return string
+  },
+  getVisibleElements (allElements) {
+    const documentManager = vcCake.getService('document')
+    let visibleElements = Object.assign({}, allElements)
+    const removeHiddenElements = (hiddenElement, removeOnlyChildren) => {
+      if (!removeOnlyChildren) {
+        delete visibleElements[ hiddenElement.id ]
+      }
+      const children = documentManager.children(hiddenElement.id)
+      if (children.length) {
+        children.forEach((child) => {
+          removeHiddenElements(child)
+        })
+      }
+    }
+    for (let key in visibleElements) {
+      if (visibleElements.hasOwnProperty(key)) {
+        const currentElement = visibleElements[ key ]
+        if (currentElement.hidden) {
+          removeHiddenElements(currentElement)
+        }
+      }
+    }
+    return visibleElements
   }
 }
 vcCake.addService('utils', API)
