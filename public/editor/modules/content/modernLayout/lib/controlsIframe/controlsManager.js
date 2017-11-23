@@ -42,6 +42,7 @@ export default class ControlsManager {
     this.handleFrameMousemoveOnce = this.handleFrameMousemoveOnce.bind(this)
     this.handleOverlayMouseLeave = this.handleOverlayMouseLeave.bind(this)
     this.handleFrameContainerLeave = this.handleFrameContainerLeave.bind(this)
+    this.updateIframeVariables = this.updateIframeVariables.bind(this)
   }
 
   /**
@@ -99,6 +100,10 @@ export default class ControlsManager {
       }
     })
 
+    this.subscribeToCurrentIframe()
+  }
+
+  subscribeToCurrentIframe () {
     // Subscribe to main event to interact with content elements
     this.iframeDocument.body.addEventListener('mousemove', this.findElement)
     this.iframeDocument.body.addEventListener('mouseleave', this.handleFrameLeave)
@@ -199,20 +204,27 @@ export default class ControlsManager {
     return path
   }
 
+  getDOMNodes () {
+    const iframe = document.querySelector('#vcv-editor-iframe')
+    return {
+      iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
+      iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
+      iframeWrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
+      iframe: iframe,
+      documentBody: document.body,
+      iframeWindow: iframe && iframe.contentWindow,
+      iframeDocument: iframe && iframe.contentDocument
+    }
+  }
+
   /**
    * Initialize
    */
   init (options = {}) {
     let defaultOptions = {
       iframeUsed: true,
-      iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
-      iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
-      iframeWrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
-      iframe: document.querySelector('#vcv-editor-iframe'),
-      documentBody: document.body
+      ...this.getDOMNodes()
     }
-    defaultOptions.iframeWindow = defaultOptions.iframe && defaultOptions.iframe.contentWindow
-    defaultOptions.iframeDocument = defaultOptions.iframeWindow && defaultOptions.iframeWindow.document
 
     options = Object.assign({}, defaultOptions, options)
     this.setup(options)
@@ -590,10 +602,18 @@ export default class ControlsManager {
         elementsToShow.push(documentElement.id)
       }
     })
-    elementsToShow = elementsToShow.map((id) => {
-      let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
-      return this.iframeDocument.querySelector(selector)
-    })
+    try {
+      elementsToShow = elementsToShow.map((id) => {
+        let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+        return this.iframeDocument.querySelector(selector)
+      })
+    } catch (err) {
+      this.updateIframeVariables()
+      elementsToShow = elementsToShow.map((id) => {
+        let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+        return this.iframeDocument.querySelector(selector)
+      })
+    }
     elementsToShow = elementsToShow.filter((el) => {
       return el
     })
@@ -685,5 +705,21 @@ export default class ControlsManager {
         this.showFramesOnOneElement(this.editFormId)
       }
     }
+  }
+
+  updateIframeVariables () {
+    console.log('upd')
+    const DOMNodes = this.getDOMNodes()
+    this.iframeContainer = DOMNodes.iframeContainer
+    this.iframeOverlay = DOMNodes.iframeOverlay
+    this.iframeWrapper = DOMNodes.iframeWrapper
+    this.iframe = DOMNodes.iframe
+    this.iframeWindow = DOMNodes.iframeWindow
+    this.iframeDocument = DOMNodes.iframeDocument
+    this.documentBody = DOMNodes.documentBody
+    this.frames.updateIframeVariables(DOMNodes)
+    this.outline.updateIframeVariables(DOMNodes)
+    this.controls.updateIframeVariables(DOMNodes)
+    this.subscribeToCurrentIframe()
   }
 }
