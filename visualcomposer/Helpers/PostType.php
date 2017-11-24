@@ -208,12 +208,13 @@ class PostType implements Helper
         }
         $nonce = wp_create_nonce('post_preview_' . $post->ID);
         $previewUrl = get_preview_post_link($post, ['preview_id' => $post->ID, 'preview_nonce' => $nonce]);
-        // @codingStandardsIgnoreLine
-``        $viewable = is_post_type_viewable($post_type_object)
+        // @codingStandardsIgnoreStart
+        $viewable = is_post_type_viewable($post_type_object)
             || in_array(
                 $post->post_status,
                 ['publish', 'private', 'future']
             );
+        // @codingStandardsIgnoreEnd
         $data['permalink'] = $permalink;
         $data['previewUrl'] = $previewUrl;
         // @codingStandardsIgnoreLine
