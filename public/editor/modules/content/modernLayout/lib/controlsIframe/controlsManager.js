@@ -101,17 +101,21 @@ export default class ControlsManager {
     })
 
     this.subscribeToCurrentIframe()
+    this.subscribeToControlsContainer()
   }
 
   subscribeToCurrentIframe () {
     // Subscribe to main event to interact with content elements
     this.iframeDocument.body.addEventListener('mousemove', this.findElement)
     this.iframeDocument.body.addEventListener('mouseleave', this.handleFrameLeave)
+    // show frames on mouseleave, if edit form for row is opened
+    this.iframeContainer.addEventListener('mouseleave', this.handleFrameContainerLeave)
+  }
+
+  subscribeToControlsContainer () {
     // add controls interaction with content
     this.controls.getControlsContainer().addEventListener('mousemove', this.controlElementFind)
     this.controls.getControlsContainer().addEventListener('mouseleave', this.controlElementFind)
-    // show frames on mouseleave, if edit form for row is opened
-    this.iframeContainer.addEventListener('mouseleave', this.handleFrameContainerLeave)
   }
 
   /**
@@ -602,18 +606,10 @@ export default class ControlsManager {
         elementsToShow.push(documentElement.id)
       }
     })
-    try {
-      elementsToShow = elementsToShow.map((id) => {
-        let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
-        return this.iframeDocument.querySelector(selector)
-      })
-    } catch (err) {
-      this.updateIframeVariables()
-      elementsToShow = elementsToShow.map((id) => {
-        let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
-        return this.iframeDocument.querySelector(selector)
-      })
-    }
+    elementsToShow = elementsToShow.map((id) => {
+      let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+      return this.iframeDocument.querySelector(selector)
+    })
     elementsToShow = elementsToShow.filter((el) => {
       return el
     })
@@ -708,15 +704,10 @@ export default class ControlsManager {
   }
 
   updateIframeVariables () {
-    console.log('upd')
     const DOMNodes = this.getDOMNodes()
-    this.iframeContainer = DOMNodes.iframeContainer
-    this.iframeOverlay = DOMNodes.iframeOverlay
-    this.iframeWrapper = DOMNodes.iframeWrapper
     this.iframe = DOMNodes.iframe
     this.iframeWindow = DOMNodes.iframeWindow
     this.iframeDocument = DOMNodes.iframeDocument
-    this.documentBody = DOMNodes.documentBody
     this.frames.updateIframeVariables(DOMNodes)
     this.outline.updateIframeVariables(DOMNodes)
     this.controls.updateIframeVariables(DOMNodes)

@@ -19,8 +19,13 @@ const SmartLine = function (options) {
 }
 
 SmartLine.prototype.create = function () {
+  const oldSmartLine = this.options.container.querySelector('#vcv-ui-smart-line-container')
+  if (oldSmartLine) {
+    this.options.container.removeChild(oldSmartLine)
+  }
   this.elContainer = document.createElement('div')
   this.elContainer.classList.add('vcv-ui-smart-line-container')
+  this.elContainer.id = 'vcv-ui-smart-line-container'
   this.el = document.createElement('svg')
   this.el.id = 'vcv-dnd-smart-line'
   this.currentElement = null

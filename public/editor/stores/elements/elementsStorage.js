@@ -30,7 +30,7 @@ addStorage('elements', (storage) => {
         cookElement.set(attrKey, innerElementValue)
       }
     })
-    return cookElement.toJS()
+    return cookElement.toJS(true, false)
   }
   const sanitizeData = (data) => {
     const newData = Object.assign({}, data || {})

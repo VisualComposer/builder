@@ -69,9 +69,11 @@ export default class DndManager {
           manualScroll: true
         })
         this.items.init()
-        this.apiDnD = DndConstructor.api(this.items)
-        vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
-        vcCake.onDataChange('dropNewElement', this.apiDnD.addNew.bind(this.apiDnD))
+        this.apiDnD = this.items.api
+        this.apiDnD.start = this.apiDnD.start.bind(this.apiDnD)
+        this.apiDnD.addNew = this.apiDnD.addNew.bind(this.apiDnD)
+        vcCake.onDataChange('draggingElement', this.apiDnD.start)
+        vcCake.onDataChange('dropNewElement', this.apiDnD.addNew)
         workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
         vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
           if (value === 'contentEditable' || value === 'columnResizer') {
@@ -113,13 +115,16 @@ export default class DndManager {
       .on('element:didUpdate', this.update.bind(this))
   }
 
-  unSubscribe () {
-    if (vcCake.env('IFRAME_RELOAD')) {
+  unSubscribe ({ type }) {
+    if (vcCake.env('IFRAME_RELOAD') && type === 'reload') {
       workspaceIFrame.ignoreChange(this.unSubscribe.bind(this))
       this.api
         .off('element:mount', this.add.bind(this))
         .off('element:unmount', this.remove.bind(this))
         .off('element:didUpdate', this.update.bind(this))
+      vcCake.ignoreDataChange('draggingElement', this.apiDnD.start)
+      vcCake.ignoreDataChange('dropNewElement', this.apiDnD.addNew)
+      workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
     }
   }
 

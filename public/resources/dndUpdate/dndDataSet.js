@@ -148,10 +148,8 @@ export default class DndDataSet {
         })
       }
     })
-  }
 
-  static api (dnd) {
-    return new Api(dnd)
+    this.api = new Api(this)
   }
 
   option (name, value) {

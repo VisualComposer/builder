@@ -154,15 +154,21 @@ export default class CookElement {
     }
     if (this[ elData ].hidden !== undefined) {
       data.hidden = this[ elData ].hidden
+    } else {
+      data.hidden = false
     }
     if (this[ elData ].parent !== undefined) {
       data.parent = this[ elData ].parent
+    } else {
+      data.parent = false
     }
     if (this[ elData ].order !== undefined) {
       data.order = this[ elData ].order
+    } else {
+      data.order = 0
     }
     if (vcCake.env('EXISTING_ELEMENT_ATTR_FIX') && publicOnly) {
-      const publicKeys = this.getPublicKeys()
+      const publicKeys = this.getPublicKeys() // TODO: merge all data with public keys
       return lodash.pick(data, publicKeys)
     }
     return data
@@ -228,7 +234,7 @@ export default class CookElement {
   }
 
   getPublicKeys () {
-    return [ 'id', 'order', 'parent', 'tag', 'customHeaderTitle', 'metaAssetsPath' ].concat(this.filter((key, value, settings) => {
+    return [ 'id', 'order', 'parent', 'tag', 'customHeaderTitle', 'metaAssetsPath', 'hidden' ].concat(this.filter((key, value, settings) => {
       return settings.access === 'public'
     }))
   }

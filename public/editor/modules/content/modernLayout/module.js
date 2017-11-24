@@ -18,8 +18,11 @@ const assetsStorage = vcCake.getStorage('assets')
 
 vcCake.add('contentModernLayout', (api) => {
   let iframeContent = vcCake.env('IFRAME_RELOAD') && document.getElementById('vcv-layout-iframe-content')
+  let dnd = new DndManager(api)
+  let controls = new ControlsManager(api)
+  let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-iframe-overlay'), 10))
 
-  const renderLayout = () => {
+  const renderLayout = (reload = false) => {
     if (vcCake.env('IFRAME_RELOAD')) {
       workspaceIFrame.ignoreChange(reloadLayout)
       workspaceIFrame.set(false)
@@ -32,14 +35,11 @@ vcCake.add('contentModernLayout', (api) => {
         <Editor api={api} />,
         domContainer
       )
-      let dnd = new DndManager(api)
-      dnd.init()
 
-      let notifications
+      !reload && dnd.init()
 
       if (vcCake.env('UI_NOTIFICATIONS')) {
-        notifications = new Notifications(document.querySelector('.vcv-layout-iframe-overlay'), 10)
-        notifications.init()
+        !reload && notifications.init()
       }
 
       if (vcCake.env('IFRAME_RELOAD')) {
@@ -89,9 +89,7 @@ vcCake.add('contentModernLayout', (api) => {
           }
         }
       }
-
-      let controls = new ControlsManager(api)
-      controls.init()
+      reload ? controls.updateIframeVariables() : controls.init()
     } else {
       document.body.innerHTML = `<div id='vcv-oops-screen-container'></div>`
       let oopsContainer = document.getElementById('vcv-oops-screen-container')
@@ -161,7 +159,7 @@ vcCake.add('contentModernLayout', (api) => {
       url[ 1 ] = params.join('&')
       iframe.src = url.join('?')
     } else if (type === 'loaded') {
-      renderLayout()
+      renderLayout(true)
     }
   }
 
