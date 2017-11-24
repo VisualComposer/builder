@@ -4,7 +4,7 @@ import ContentControls from '../../../../../resources/components/layoutHelpers/c
 import ContentEditableComponent from '../../../../../resources/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 import MobileDetect from 'mobile-detect'
-import {isEqual} from 'lodash'
+import { isEqual } from 'lodash'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -37,27 +37,31 @@ export default class Element extends React.Component {
   }
 
   componentDidMount () {
-    this.props.api.notify('element:mount', this.state.element.id)
-    elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
-    if (vcCake.env('CSS_LOADING')) {
-      assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
+    if (!this.state.element.hidden) {
+      this.props.api.notify('element:mount', this.state.element.id)
+      elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
+      if (vcCake.env('CSS_LOADING')) {
+        assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
+      }
+      assetsStorage.trigger('addElement', this.state.element.id)
+      if (this.state.element.tag === 'column') {
+        assetsStorage.trigger('updateElement', this.state.element.parent)
+      }
+      elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
+      // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
     }
-    assetsStorage.trigger('addElement', this.state.element.id)
-    if (this.state.element.tag === 'column') {
-      assetsStorage.trigger('updateElement', this.state.element.parent)
-    }
-    elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
-    // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
 
   componentWillUnmount () {
-    this.props.api.notify('element:unmount', this.state.element.id)
-    elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
-    if (vcCake.env('CSS_LOADING')) {
-      assetsStorage.state('jobs').ignoreChange(this.cssJobsUpdate)
+    if (!this.state.element.hidden) {
+      this.props.api.notify('element:unmount', this.state.element.id)
+      elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
+      if (vcCake.env('CSS_LOADING')) {
+        assetsStorage.state('jobs').ignoreChange(this.cssJobsUpdate)
+      }
+      assetsStorage.trigger('removeElement', this.state.element.id)
+      elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
     }
-    assetsStorage.trigger('removeElement', this.state.element.id)
-    elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
   }
 
   componentDidUpdate () {
