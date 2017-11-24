@@ -151,7 +151,7 @@ class Controller extends Container implements Module
         );
         $previewPost = [];
         // @codingStandardsIgnoreLine
-        if ('publish' === $post->post_status) {
+        if (in_array($post->post_status, ['public', 'future', 'private'])) {
             $previewPost[0]['post_name'] = $post->ID . '-autosave-v1';
         } else {
             $previewPost[0]['post_name'] = $post->ID . '-revision-v1';
