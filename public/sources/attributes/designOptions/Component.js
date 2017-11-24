@@ -9,6 +9,7 @@ import AttachImage from '../attachimage/Component'
 import Color from '../color/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
+import { env } from 'vc-cake'
 
 export default class DesignOptions extends Attribute {
   /**
@@ -154,7 +155,8 @@ export default class DesignOptions extends Attribute {
     borderStyle: 'solid',
     backgroundPosition: 'center top',
     devices: {},
-    attributeMixins: {}
+    attributeMixins: {},
+    defaultStyles: null
   }
 
   constructor (props) {
@@ -169,6 +171,14 @@ export default class DesignOptions extends Attribute {
     this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
+  }
+
+  componentWillMount () {
+    if (env('FF_QUANTUM_DO')) {
+      setTimeout(() => {
+        this.getDefaultStyles('updateState')
+      }, 0)
+    }
   }
 
   /**
@@ -557,7 +567,7 @@ export default class DesignOptions extends Attribute {
     }
     let value = this.state.devices[ this.state.currentDevice ].boxModel || {}
 
-    let defaultStyles = this.getDefaultStyles()
+    let defaultStyles = (env('FF_QUANTUM_DO') && this.state.defaultStyles) || this.getDefaultStyles()
 
     return <div className='vcv-ui-form-group'>
       <BoxModel
@@ -573,7 +583,7 @@ export default class DesignOptions extends Attribute {
    * Get default element styles
    * @returns {{margin: {}, padding: {}, border: {}}}
    */
-  getDefaultStyles () {
+  getDefaultStyles (type) {
     let mainDefaultStyles = {
       margin: {},
       padding: {},
@@ -587,20 +597,23 @@ export default class DesignOptions extends Attribute {
     let styles = [ 'border', 'padding', 'margin' ]
 
     if (element) {
-      let dolly = element.cloneNode(true)
-      dolly.id = ''
-      dolly.height = '0'
-      dolly.width = '0'
-      dolly.overflow = 'hidden'
-      dolly.position = 'fixed'
-      dolly.bottom = '0'
-      dolly.right = '0'
-      element.parentNode.appendChild(dolly)
+      let dolly
+      if (!env('FF_QUANTUM_DO')) {
+        dolly = element.cloneNode(true)
+        dolly.id = ''
+        dolly.height = '0'
+        dolly.width = '0'
+        dolly.overflow = 'hidden'
+        dolly.position = 'fixed'
+        dolly.bottom = '0'
+        dolly.right = '0'
+        element.parentNode.appendChild(dolly)
+      }
 
       let elementDOAttribute = element.getAttribute(doAttribute)
 
       if (elementDOAttribute) {
-        let allDefaultStyles = this.getElementStyles(dolly)
+        let allDefaultStyles = this.getElementStyles(env('FF_QUANTUM_DO') ? element : dolly)
 
         if (elementDOAttribute.indexOf('all') >= 0) {
           mainDefaultStyles.all = allDefaultStyles
@@ -610,12 +623,12 @@ export default class DesignOptions extends Attribute {
               mainDefaultStyles[ style ] = allDefaultStyles
             } else {
               let innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
-              mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
+              mainDefaultStyles[ style ] = this.getElementStyles(env('FF_QUANTUM_DO') ? element : dolly, innerSelector)
             }
           })
         }
       } else {
-        let allStyleElement = dolly.querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
+        let allStyleElement = (env('FF_QUANTUM_DO') ? element : dolly).querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
 
         if (allStyleElement) {
           let allDefaultStyles = this.getElementStyles(allStyleElement)
@@ -623,12 +636,12 @@ export default class DesignOptions extends Attribute {
         } else {
           styles.forEach((style) => {
             let innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
-            mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
+            mainDefaultStyles[ style ] = this.getElementStyles(env('FF_QUANTUM_DO') ? element : dolly, innerSelector)
           })
         }
       }
 
-      dolly.remove()
+      !env('FF_QUANTUM_DO') && dolly.remove()
     }
 
     let parsedStyles = {}
@@ -640,7 +653,14 @@ export default class DesignOptions extends Attribute {
         }
       }
     }
-    return parsedStyles
+
+    if (env('FF_QUANTUM_DO') && type === 'updateState') {
+      this.setState({
+        defaultStyles: parsedStyles
+      })
+    } else {
+      return parsedStyles
+    }
   }
 
   /**
