@@ -15,7 +15,7 @@ const postData = {
   },
 
   isPublished: () => {
-    return window.vcvPostData.status === 'publish'
+    return window.vcvPostData.status === 'publish' || window.vcvPostData.status === 'private' || window.vcvPostData.status === 'future'
   },
 
   permalink: () => {
