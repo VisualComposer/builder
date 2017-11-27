@@ -107,8 +107,10 @@ export default class ContentEditableComponent extends React.Component {
     vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
   }
 
-  updateInlineData () {
-    const { html } = this.state
+  updateInlineData (html) {
+    if (!vcCake.env('FE_CONTENTEDITABLE_REFS')) {
+      html = this.state.html
+    }
     if (!html) {
       return
     }
@@ -337,7 +339,11 @@ export default class ContentEditableComponent extends React.Component {
 
   updateHtmlWithServer (content) {
     if (content.match(this.getShortcodesRegexp())) {
-      this.setState({ html: ContentEditableComponent.spinnerHTML })
+      if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
+        this.ref && (this.ref.innerHTML = ContentEditableComponent.spinnerHTML)
+      } else {
+        this.setState({ html: ContentEditableComponent.spinnerHTML })
+      }
       dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
         'vcv-shortcode-string': content,
@@ -353,9 +359,18 @@ export default class ContentEditableComponent extends React.Component {
               jsBundles: assetFiles.find('script')
             })
           }
-          this.setState({ html: data }, () => {
-            this.updateInlineData()
-          })
+          if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
+            this.ref && (this.ref.innerHTML = data)
+            // this.setState({
+            //   html: data
+            // }, () => {
+            this.updateInlineData(data)
+            // })
+          } else {
+            this.setState({ html: data }, () => {
+              this.updateInlineData()
+            })
+          }
         } else {
           //
           try {
@@ -366,17 +381,17 @@ export default class ContentEditableComponent extends React.Component {
               var jsonData = JSON.parse(data)
               console.log('body class', document.body.classList)
               console.log(jsonData)
-              // // Process Header (append all non-scripts and execute all script)
-              // var headerContent = jsonData.headerContent
-              // console.log(headerContent)
-              // let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
-              // headerDom.context = document
-              // console.log(headerDom)
-              // // there we need headerDom.children().each .. check is script + script is executable (src/type =javascript) then we need to execute else just append.
-              //
-              // // Process shortcode content strip all scripts (because react will not execute them)
-              //
-              // // Process footer (append all non-scripts and execute all script)
+              // Process Header (append all non-scripts and execute all script)
+              var headerContent = jsonData.headerContent
+              console.log(headerContent)
+              let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+              headerDom.context = document
+              console.log(headerDom)
+              // there we need headerDom.children().each .. check is script + script is executable (src/type =javascript) then we need to execute else just append.
+
+              // Process shortcode content strip all scripts (because react will not execute them)
+
+              // Process footer (append all non-scripts and execute all script)
             })(iframe, iframe.document))
             // this.setState({ html: data.shortcodeContent }, () => {
             //   this.updateInlineData()
@@ -387,7 +402,12 @@ export default class ContentEditableComponent extends React.Component {
         }
       })
     } else {
-      this.setState({ html: content })
+      if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
+        this.ref && (this.ref.innerHTML = content)
+        // this.setState({ html: content })
+      } else {
+        this.setState({ html: content })
+      }
     }
   }
 
@@ -438,13 +458,17 @@ export default class ContentEditableComponent extends React.Component {
       }
       this.iframeWindow.addEventListener('click', this.handleGlobalClick)
       this.layoutHeader.addEventListener('click', this.handleGlobalClick)
-      this.setState({ html: this.state.realContent })
+      if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
+        this.ref && (this.ref.innerHTML = this.state.realContent)
+        // this.setState({ html: this.state.realContent })
+      } else {
+        this.setState({ html: this.state.realContent })
+      }
     }
   }
 
   render () {
     const props = {
-      dangerouslySetInnerHTML: { __html: this.state.html },
       className: this.props.className,
       contentEditable: this.state.contentEditable,
       onMouseDown: this.handleMouseDown,
@@ -453,6 +477,12 @@ export default class ContentEditableComponent extends React.Component {
       'data-vcvs-html': this.state.realContent,
       'data-vcv-content-editable-inline-mode': this.props.options.inlineMode || 'html'
     }
+    if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
+      props.ref = (ref) => { this.ref = ref }
+    } else {
+      props.dangerouslySetInnerHTML = { __html: this.state.html }
+    }
+
     if (this.mediumSelection) {
       window.setTimeout(() => {
         this.medium && this.medium.importSelection(this.mediumSelection)
