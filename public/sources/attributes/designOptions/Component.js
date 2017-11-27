@@ -583,7 +583,7 @@ export default class DesignOptions extends Attribute {
    * Get default element styles
    * @returns {{margin: {}, padding: {}, border: {}}}
    */
-  getDefaultStyles (type) {
+  getDefaultStyles (type = false) {
     let mainDefaultStyles = {
       margin: {},
       padding: {},
