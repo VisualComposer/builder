@@ -76,18 +76,36 @@ class Controller extends Container implements Module
             remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
             remove_action('wp_head', 'wp_custom_css_cb', 101);
             remove_action('wp_head', 'wp_site_icon', 99);
-            wp_head();
-            $headContents = ob_get_clean();
-            ob_start();
-            echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
-            $shortcodeContents = ob_get_clean();
-            ob_start();
-            wp_footer();
-            $footerContents = ob_get_clean();
-            $response = '<script type="template/html" data="vcv-files">' .
-                rawurlencode($headContents . $footerContents)
-                . '</script>' .
-                $shortcodeContents;
+            if (!vcvenv('VCV_FE_SHORTCODES_SCRIPTS')) {
+                wp_head();
+                $headContents = ob_get_clean();
+                ob_start();
+                echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
+                $shortcodeContents = ob_get_clean();
+                ob_start();
+                wp_footer();
+                $footerContents = ob_get_clean();
+                $response = '<script type="template/html" data="vcv-files">' .
+                    rawurlencode($headContents . $footerContents)
+                    . '</script>' .
+                    $shortcodeContents;
+            } else {
+                wp_head();
+                echo '<script>alert("header");</script>';
+                $headContents = ob_get_clean();
+                ob_start();
+                echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
+                $shortcodeContents = ob_get_clean();
+                ob_start();
+                wp_footer();
+                echo '<script>alert("footer");</script>';
+                $footerContents = ob_get_clean();
+                $response = [
+                    'headerContent' => $headContents,
+                    'shortcodeContent' => $shortcodeContents,
+                    'footerContent' => $footerContents,
+                ];
+            }
         }
 
         return $response;

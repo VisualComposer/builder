@@ -344,17 +344,47 @@ export default class ContentEditableComponent extends React.Component {
         'vcv-nonce': window.vcvNonce,
         'vcv-source-id': window.vcvSourceID
       }).then((data) => {
-        let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
-        if (scriptDom) {
-          let assetFiles = window.jQuery('<div>' + decodeURIComponent(scriptDom.innerHTML) + '</div>')
-          shortcodesAssetsStorage.trigger('add', {
-            cssBundles: assetFiles.find('link[href], style'),
-            jsBundles: assetFiles.find('script')
+        if (!vcCake.env('FE_SHORTCODES_SCRIPTS')) {
+          let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
+          if (scriptDom) {
+            let assetFiles = window.jQuery('<div>' + decodeURIComponent(scriptDom.innerHTML) + '</div>')
+            shortcodesAssetsStorage.trigger('add', {
+              cssBundles: assetFiles.find('link[href], style'),
+              jsBundles: assetFiles.find('script')
+            })
+          }
+          this.setState({ html: data }, () => {
+            this.updateInlineData()
           })
+        } else {
+          //
+          try {
+            let iframe = vcCake.env('iframe');
+
+            ((function (window, document) {
+              // do all the inserts
+              var jsonData = JSON.parse(data)
+              console.log('body class', document.body.classList)
+              console.log(jsonData)
+              // // Process Header (append all non-scripts and execute all script)
+              // var headerContent = jsonData.headerContent
+              // console.log(headerContent)
+              // let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+              // headerDom.context = document
+              // console.log(headerDom)
+              // // there we need headerDom.children().each .. check is script + script is executable (src/type =javascript) then we need to execute else just append.
+              //
+              // // Process shortcode content strip all scripts (because react will not execute them)
+              //
+              // // Process footer (append all non-scripts and execute all script)
+            })(iframe, iframe.document))
+            // this.setState({ html: data.shortcodeContent }, () => {
+            //   this.updateInlineData()
+            // })
+          } catch (e) {
+            console.warn('failed to parse json', e)
+          }
         }
-        this.setState({ html: data }, () => {
-          this.updateInlineData()
-        })
       })
     } else {
       this.setState({ html: content })
