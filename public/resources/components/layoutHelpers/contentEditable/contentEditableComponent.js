@@ -350,6 +350,7 @@ export default class ContentEditableComponent extends React.Component {
         'vcv-nonce': window.vcvNonce,
         'vcv-source-id': window.vcvSourceID
       }).then((data) => {
+        console.log('qwe')
         if (!vcCake.env('FE_SHORTCODES_SCRIPTS')) {
           let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
           if (scriptDom) {
@@ -361,41 +362,41 @@ export default class ContentEditableComponent extends React.Component {
           }
           if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
             this.ref && (this.ref.innerHTML = data)
-            // this.setState({
-            //   html: data
-            // }, () => {
             this.updateInlineData(data)
-            // })
           } else {
             this.setState({ html: data }, () => {
               this.updateInlineData()
             })
           }
         } else {
-          //
-          try {
-            let iframe = vcCake.env('iframe');
+          let iframe = vcCake.env('iframe')
+          let _this = this
 
+          try {
             ((function (window, document) {
               // do all the inserts
-              var jsonData = JSON.parse(data)
-              console.log('body class', document.body.classList)
-              console.log(jsonData)
+              let jsonData = JSON.parse(data)
+              console.log('shortcode data')
+              let { headerContent, shortcodeContent, footerContent } = jsonData
+              _this.ref.innerHTML = ''
+
               // Process Header (append all non-scripts and execute all script)
-              var headerContent = jsonData.headerContent
-              console.log(headerContent)
               let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
               headerDom.context = document
-              console.log(headerDom)
-              // there we need headerDom.children().each .. check is script + script is executable (src/type =javascript) then we need to execute else just append.
+              window.jQuery(_this.ref).append(headerDom)
 
               // Process shortcode content strip all scripts (because react will not execute them)
+              let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+              shortcodeDom.context = document
+              window.jQuery(_this.ref).append(shortcodeDom)
 
               // Process footer (append all non-scripts and execute all script)
+              let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+              footerDom.context = document
+              window.jQuery(_this.ref).append(footerDom)
+
+              _this.updateInlineData()
             })(iframe, iframe.document))
-            // this.setState({ html: data.shortcodeContent }, () => {
-            //   this.updateInlineData()
-            // })
           } catch (e) {
             console.warn('failed to parse json', e)
           }
@@ -404,7 +405,6 @@ export default class ContentEditableComponent extends React.Component {
     } else {
       if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
         this.ref && (this.ref.innerHTML = content)
-        // this.setState({ html: content })
       } else {
         this.setState({ html: content })
       }
@@ -460,7 +460,6 @@ export default class ContentEditableComponent extends React.Component {
       this.layoutHeader.addEventListener('click', this.handleGlobalClick)
       if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
         this.ref && (this.ref.innerHTML = this.state.realContent)
-        // this.setState({ html: this.state.realContent })
       } else {
         this.setState({ html: this.state.realContent })
       }
