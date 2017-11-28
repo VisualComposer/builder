@@ -17,7 +17,7 @@ class YoastController extends Container implements Module
 {
     use WpFiltersActions;
 
-    public function __construct(Frontend $frontendHelper)
+    public function __construct()
     {
         $this->wpAddAction('plugins_loaded', 'initializeYoast', 16);
     }

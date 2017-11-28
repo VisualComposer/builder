@@ -101,4 +101,9 @@ class Request implements Helper
 
         return null;
     }
+
+    public function isAjax()
+    {
+        return $this->exists(VCV_AJAX_REQUEST);
+    }
 }
