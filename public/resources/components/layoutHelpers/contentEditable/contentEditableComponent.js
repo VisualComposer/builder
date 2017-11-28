@@ -350,7 +350,6 @@ export default class ContentEditableComponent extends React.Component {
         'vcv-nonce': window.vcvNonce,
         'vcv-source-id': window.vcvSourceID
       }).then((data) => {
-        console.log('qwe')
         if (!vcCake.env('FE_SHORTCODES_SCRIPTS')) {
           let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
           if (scriptDom) {
@@ -376,7 +375,6 @@ export default class ContentEditableComponent extends React.Component {
             ((function (window, document) {
               // do all the inserts
               let jsonData = JSON.parse(data)
-              console.log('shortcode data')
               let { headerContent, shortcodeContent, footerContent } = jsonData
               _this.ref.innerHTML = ''
 
