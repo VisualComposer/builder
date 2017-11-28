@@ -51,10 +51,23 @@ class NinjaFormsController extends Container implements Module
                 '(nf-form-errors-)(\d+)()',
                 '(form.id\s*=\s*\')(\d+)(\')',
             ];
-            $time = time() . self::$ninjaCount;
+            $time = time() . self::$ninjaCount . rand(100, 999);
             foreach ($patterns as $pattern) {
                 $response = preg_replace('/' . $pattern . '/', '${1}' . $time . '${3}', $response);
             }
+            $replaceTo = <<<JS
+if (typeof nfForms !== 'undefined') {
+  nfForms.forEach( function(item, index) {
+    if (item && item.id) {
+      if (!document.querySelector('#nf-form-' + item.id + '-cont')) {
+        nfForms.splice(index, 1)
+      }
+    }
+  })
+}
+JS;
+
+            $response = str_replace('var nfForms', $replaceTo . ';var nfForms', $response);
         }
 
         return $response;
