@@ -57,6 +57,14 @@ if (!defined('VCV_TOKEN_URL')) {
     );
 }
 
+if (!defined('VCV_API_URL')) {
+    define(
+        'VCV_API_URL',
+        isset($_SERVER['ENV_VCV_API_URL']) ? $_SERVER['ENV_VCV_API_URL']
+            : 'https://account.visualcomposer.io'
+    );
+}
+
 if (!defined('VCV_LICENSE_ACTIVATE_URL')) {
     define(
         'VCV_LICENSE_ACTIVATE_URL',
@@ -89,7 +97,6 @@ if (!defined('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
     );
 }
 
-
 if (!defined('VCV_ENV_LICENSES')) {
     define(
         'VCV_ENV_LICENSES',
@@ -117,7 +124,6 @@ if (!defined('VCV_ENV_UPGRADE')) {
         isset($_SERVER['ENV_VCV_ENV_UPGRADE']) ? $_SERVER['ENV_VCV_ENV_UPGRADE'] : true
     );
 }
-
 
 if (!defined('VCV_TF_POSTS_RERENDER')) {
     define(
@@ -161,7 +167,8 @@ if (!defined('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
 if (!defined('VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE')) {
     define(
         'VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE',
-        isset($_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE']) ? $_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE'] : true
+        isset($_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE']) ? $_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE']
+            : true
     );
 }
 

@@ -32,6 +32,7 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
     window.vcvAjaxTime = <?php echo $_SERVER['REQUEST_TIME']; ?>;
     window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
     window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
+    window.vcvErrorReportUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce']); ?>';
     window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
     <?php
     if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :

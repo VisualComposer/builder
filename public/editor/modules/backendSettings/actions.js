@@ -1,6 +1,7 @@
 import { showError } from './errors'
 import { showFirstScreen, loadLastScreen, showLoadingScreen, showOopsScreen } from './screens'
 import { default as PostUpdater } from './postUpdate'
+import {log as logError} from './logger'
 
 (($) => {
   let doneActions = (requestFailed, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation) => {
@@ -32,6 +33,12 @@ import { default as PostUpdater } from './postUpdate'
       } else {
         if (requestFailed) {
           console.warn(json)
+          logError(json, {
+            code: 'doneActions-1',
+            codeNum: '000001',
+            type: window.vcvActivationType,
+            activationFinishedUrl: window.vcvActivationFinishedUrl
+          })
           try {
             let messageJson = JSON.parse(json && json.message ? json.message : '""')
             if (window.vcvActivationType !== 'premium') {
@@ -51,6 +58,14 @@ import { default as PostUpdater } from './postUpdate'
       }
     }).fail(function (jqxhr, textStatus, error) {
       if (requestFailed) {
+        logError(jqxhr, {
+          code: 'doneActions-2',
+          codeNum: '000002',
+          type: window.vcvActivationType,
+          activationFinishedUrl: window.vcvActivationFinishedUrl,
+          textStatus: textStatus,
+          error: error
+        })
         console.warn(jqxhr.responseText, textStatus, error || activationFailedText)
         if (window.vcvActivationType !== 'premium') {
           showError($errorPopup, activationFailedText, 15000)
@@ -97,6 +112,14 @@ import { default as PostUpdater } from './postUpdate'
             await postUpdater.update(postData)
             ready = true
           } catch (e) {
+            logError(downloadingInitialExtensionsText, {
+              code: 'doAction-updatePosts-1',
+              codeNum: '000003',
+              type: window.vcvActivationType,
+              activationFinishedUrl: window.vcvActivationFinishedUrl,
+              action: action,
+              error: e
+            })
             showOopsScreen($popup, e, premiumErrorCallback)
           }
           if (ready === false) {
@@ -131,6 +154,14 @@ import { default as PostUpdater } from './postUpdate'
           }
         } else {
           if (requestFailed) {
+            logError(activationFailedText, {
+              code: 'doAction-1',
+              codeNum: '000004',
+              type: window.vcvActivationType,
+              activationFinishedUrl: window.vcvActivationFinishedUrl,
+              action: action,
+              error: json
+            })
             console.warn(json)
             try {
               let messageJson = JSON.parse(json && json.message ? json.message : '""')
@@ -152,6 +183,16 @@ import { default as PostUpdater } from './postUpdate'
         }
       }).fail(function (jqxhr, textStatus, error) {
         if (requestFailed) {
+          logError(activationFailedText, {
+            code: 'doAction-2',
+            codeNum: '000005',
+            type: window.vcvActivationType,
+            activationFinishedUrl: window.vcvActivationFinishedUrl,
+            action: action,
+            jqxhr: jqxhr,
+            textStatus: textStatus,
+            error: error
+          })
           console.warn(jqxhr.responseText, textStatus, error || activationFailedText)
           if (window.vcvActivationType !== 'premium') {
             showError($errorPopup, activationFailedText, 15000)
