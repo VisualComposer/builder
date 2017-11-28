@@ -90,9 +90,9 @@ export default class CssBuilder {
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data, force)
-    this.doJobs(data.id).then(() => {
+    this.doJobs(data).then(() => {
       if (env('CSS_LOADING')) {
-        this.addElementJobsToStorage(data.id, false)
+        this.addElementJobsToStorage(data, false)
       }
       this.window.vcv.trigger('ready', 'add', data.id)
     })
@@ -109,9 +109,9 @@ export default class CssBuilder {
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data)
-    this.doJobs(data.id).then(() => {
+    this.doJobs(data).then(() => {
       if (env('CSS_LOADING')) {
-        this.addElementJobsToStorage(data.id, false)
+        this.addElementJobsToStorage(data, false)
       }
       this.window.vcv.trigger('ready', 'update', data.id, options)
     })
@@ -126,7 +126,8 @@ export default class CssBuilder {
     this.removeElementJobsFromStorage(id)
   }
 
-  addElementJobsToStorage (id, status) {
+  addElementJobsToStorage (data, status) {
+    let { id } = data
     let storageElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
     let element
     if (storageElements.length) {
@@ -135,9 +136,11 @@ export default class CssBuilder {
     if (element) {
       element.jobs = status
     } else {
+      let cookElement = cook.get(data)
       let element = {
         jobs: status,
-        id: id
+        id: id,
+        hidden: cookElement.get('hidden')
       }
       storageElements.push(element)
     }
@@ -411,9 +414,9 @@ export default class CssBuilder {
     this.jobs.push(job)
   }
 
-  doJobs (id) {
+  doJobs (data) {
     if (env('CSS_LOADING')) {
-      this.addElementJobsToStorage(id, true)
+      this.addElementJobsToStorage(data, true)
     }
     return Promise.all(this.jobs).catch(this.resetJobs).then(this.resetJobs)
   }
