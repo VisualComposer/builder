@@ -317,6 +317,11 @@ export default class TeaserElementControl extends ElementControl {
       'vcv-ui-state--visible': previewVisible
     })
 
+    let itemOverlayClasses = classNames({
+      'vcv-ui-item-overlay': true,
+      'vcv-ui-item-downloading': elementState === 'downloading'
+    })
+
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
 
@@ -353,7 +358,7 @@ export default class TeaserElementControl extends ElementControl {
           title={name}>
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail} alt='' />
-            <span className='vcv-ui-item-overlay'>
+            <span className={itemOverlayClasses}>
               {overlayOutput}
             </span>
           </span>
