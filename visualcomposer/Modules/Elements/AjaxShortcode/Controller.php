@@ -49,6 +49,11 @@ class Controller extends Container implements Module
         $response = '';
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             $postTypeHelper->setupPost($sourceId);
+            if (vcvenv('VCV_FE_SHORTCODES_SCRIPTS')) {
+                global $post;
+                // @codingStandardsIgnoreLine
+                $post->post_content = $requestHelper->input('vcv-shortcode-string');
+            }
             $this->wpAddFilter(
                 'print_scripts_array',
                 function ($list) {
@@ -91,14 +96,12 @@ class Controller extends Container implements Module
                     $shortcodeContents;
             } else {
                 wp_head();
-                echo '<script>alert("header");</script>';
                 $headContents = ob_get_clean();
                 ob_start();
                 echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
                 $shortcodeContents = ob_get_clean();
                 ob_start();
                 wp_footer();
-                echo '<script>alert("footer");</script>';
                 $footerContents = ob_get_clean();
                 $response = [
                     'headerContent' => $headContents,
