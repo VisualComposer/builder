@@ -381,17 +381,26 @@ export default class ContentEditableComponent extends React.Component {
               // Process Header (append all non-scripts and execute all script)
               let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
               headerDom.context = document
-              window.jQuery(_this.ref).append(headerDom)
+              // window.jQuery(_this.ref).append(headerDom)
+              // let headerDom = document.createElement('div')
+              // headerDom.innerHTML = headerContent
+              shortcodesAssetsStorage.trigger('add', { type: 'header', ref: _this.ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
 
               // Process shortcode content strip all scripts (because react will not execute them)
               let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
               shortcodeDom.context = document
-              window.jQuery(_this.ref).append(shortcodeDom)
+              // window.jQuery(_this.ref).append(shortcodeDom)
+              // let shortcodeDom = document.createElement('div')
+              // shortcodeDom.innerHTML = shortcodeContent
+              shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: _this.ref, domNodes: shortcodeDom.children(), addToDocument: true })
 
               // Process footer (append all non-scripts and execute all script)
               let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
               footerDom.context = document
-              window.jQuery(_this.ref).append(footerDom)
+              // window.jQuery(_this.ref).append(footerDom)
+              // let footerDom = document.createElement('div')
+              // footerDom.innerHTML = footerContent
+              shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: _this.ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
 
               _this.updateInlineData()
             })(iframe, iframe.document))
