@@ -1,6 +1,5 @@
 import {closeError} from './errors'
 import {loadSlider} from './slider'
-import {send as sendError} from './logger'
 
 (($) => {
   let showIntroScreen = ($popup) => {
