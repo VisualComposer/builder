@@ -70,7 +70,6 @@ class VcvCoreRequirements
                 . admin_url('plugins.php') . '">Go back to dashboard</a>'
             );
             $this->deactivate(VCV_PLUGIN_FULL_PATH);
-
         }
 
         return true;
