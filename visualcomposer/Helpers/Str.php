@@ -277,9 +277,9 @@ class Str implements Helper
         return implode(' ', $output);
     }
 
-    public function slugify($str)
+    public function slugify($str, $lower = true)
     {
-        $str = strtolower($str);
+        $str = $lower ? strtolower($str) : $str;
         $str = html_entity_decode($str);
         $str = preg_replace('/[^\w\s]+/', '', $str);
         $str = preg_replace('/\s+/', '-', $str);
