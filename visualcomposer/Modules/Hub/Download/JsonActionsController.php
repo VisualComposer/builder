@@ -77,7 +77,7 @@ class JsonActionsController extends Container implements Module
                 $savedAction = $optionsHelper->get('hubAction:download:' . $action['key'], false);
             }
             if (!$savedAction) {
-                $loggerHelper->log('the update action does not exists');
+                $loggerHelper->log('The update action does not exists');
 
                 return ['status' => false];
             }

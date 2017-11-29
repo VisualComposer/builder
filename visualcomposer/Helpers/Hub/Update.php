@@ -32,7 +32,7 @@ class Update implements Helper
                     $json = $savedJson['json'];
                 } else {
                     // Logger::add error
-                    $loggerHelper->log('Failed to update required actions list');
+                    $loggerHelper->log('Failed to update required actions list #10012');
                 }
             }
         }

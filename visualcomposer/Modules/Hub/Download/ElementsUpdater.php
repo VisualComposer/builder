@@ -28,7 +28,7 @@ class ElementsUpdater extends Container implements Module
     {
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
         if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
-            $loggerHelper->log(__('Failed to update elements', 'vcwb'), [
+            $loggerHelper->log(__('Failed to update elements #10046', 'vcwb'), [
                 'response' => $response,
                 'bundleJson' => $bundleJson,
             ]);

@@ -121,7 +121,7 @@ class ElementDownloadController extends Container implements Module
                         $response['actions'][] = $actionData;
                     } else {
                         $loggerHelper->log(
-                            __('Failed to find element in hub', 'vcwb'),
+                            __('Failed to find element in hub #10042', 'vcwb'),
                             [
                                 'result' => $action,
                             ]
@@ -136,9 +136,20 @@ class ElementDownloadController extends Container implements Module
             } else {
                 $resultDetails = $response['body'];
             }
+            $messages = [];
+            $messages[] = __('Failed read remote element bundle json #10043', 'vcwb');
+            if (is_wp_error($response)) {
+                /** @var \WP_Error $response */
+                $messages[] = implode('. ', $response->get_error_messages()) . ' #10044';
+            } elseif (is_array($response) && isset($response['body'])) {
+                $json = @json_decode($response['body'], 1);
+                if (is_array($json) && isset($json['message'])) {
+                    $messages[] = $json['message'] . ' #10045';
+                }
+            }
 
             $loggerHelper->log(
-                __('Failed read remote element bundle json', 'vcwb'),
+                implode('. ', $messages),
                 [
                     'result' => $resultDetails,
                 ]

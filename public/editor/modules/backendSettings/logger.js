@@ -4,7 +4,7 @@ let logError = (message, details) => {
   errors.push({
     message: message,
     details: details,
-    stack: console.trace ? console.trace() : []
+    stack: (new Error).stack
   })
 }
 

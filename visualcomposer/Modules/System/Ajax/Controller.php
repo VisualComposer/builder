@@ -60,13 +60,13 @@ class Controller extends Container implements Module
 
     protected function disableAjaxErrors(Request $requestHelper)
     {
-//        if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
-//            if (!vcvenv('VCV_DEBUG')) {
-//                ini_set('display_errors', 'Off');
-//                ini_set('error_reporting', 0);
-//                error_reporting(0);
-//            }
-//        }
+        if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
+            if (!vcvenv('VCV_DEBUG')) {
+                ini_set('display_errors', 'Off');
+                ini_set('error_reporting', 0);
+                error_reporting(0);
+            }
+        }
     }
 
     protected function listenAjax(Request $requestHelper)
@@ -109,34 +109,43 @@ class Controller extends Container implements Module
                 header('HTTP/1.0 403 Forbidden', true, 403);
             }
             $loggerHelper = vchelper('Logger');
+            $messages = [];
             if (is_wp_error($rawResponse)) {
                 /** @var $rawResponse \WP_Error */
-                wp_die(
-                    json_encode(['status' => false, 'message' => implode('. ', $rawResponse->get_error_messages())])
-                );
+                $messages[] = implode('. ', $rawResponse->get_error_messages());
             } elseif (is_array($rawResponse)) {
-                wp_die(
-                    json_encode(
-                        [
-                            'status' => false,
-                            'message' => isset($rawResponse['body']) ? $rawResponse['body'] : $rawResponse,
-                            'details' => ['message' => $loggerHelper->all(), 'details' => $loggerHelper->details()],
-                        ]
-                    )
-                );
-            } elseif ($loggerHelper->all()) {
+                if (isset($rawResponse['body'])) {
+                    $messages[] = $rawResponse['body'];
+                }
+                if (isset($rawResponse['message'])) {
+                    $messages[] = is_array($rawResponse['message']) ? implode('. ', $rawResponse['message'])
+                        : $rawResponse['message'];
+                }
+            }
+            if ($loggerHelper->all()) {
+                $messages[] = $loggerHelper->all();
+            }
+            if (count($messages) > 0) {
                 wp_die(
                     json_encode(
                         [
                             'status' => false,
                             'response' => $rawResponse,
-                            'message' => $loggerHelper->all(),
+                            'message' => implode('. ', $messages),
                             'details' => $loggerHelper->details(),
                         ]
                     )
                 );
             } else {
-                wp_die(json_encode(['status' => false, 'response' => $rawResponse]));
+                wp_die(
+                    json_encode(
+                        [
+                            'status' => false,
+                            'response' => $rawResponse,
+                            'details' => $loggerHelper->details(),
+                        ]
+                    )
+                );
             }
         }
 
