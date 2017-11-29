@@ -124,7 +124,7 @@ class AjaxControllerTest extends WP_UnitTestCase
         $module = vc_create_module_mock('\VisualComposer\Modules\System\Ajax\Controller');
         $loggerHelper = vchelper('Logger');
         $this->assertFalse($module->call('parseRequest'));
-        $this->assertEquals('"Action doesn`t set."', $loggerHelper->all());
+        $this->assertEquals('"Action doesn`t set #10074."', $loggerHelper->all());
         $loggerHelper->reset();
         /** @var \VisualComposer\Helpers\Request $requestHelper */
         $requestHelper = vchelper('Request');
@@ -178,7 +178,7 @@ class AjaxControllerTest extends WP_UnitTestCase
                 ]
             )
         );
-        $this->assertEquals('"Nonce not validated."', $loggerHelper->all());
+        $this->assertEquals('"Nonce not validated #10075."', $loggerHelper->all());
         $loggerHelper->reset();
 
         // Reset
@@ -232,9 +232,12 @@ class AjaxControllerTest extends WP_UnitTestCase
         }
         $this->assertTrue($catched);
         $loggerHelper = vchelper('Logger');
-        $this->assertEquals('"Action doesn`t set."', $loggerHelper->all());
+        $this->assertEquals('"Action doesn`t set #10074."', $loggerHelper->all());
         $loggerHelper->reset();
-        $this->assertEquals('{"status":false,"response":false,"message":"\"Action doesn`t set.\"","details":[[]]}', $catchedMessage);
+        $this->assertEquals(
+            '{"status":false,"response":false,"message":"\"Action doesn`t set #10074.\"","details":[{"request":{"vcv-ajax":1}}]}',
+            $catchedMessage
+        );
 
         // Test some real response
         $catched = false;
@@ -287,9 +290,12 @@ class AjaxControllerTest extends WP_UnitTestCase
             $catchedMessage = $e->getMessage();
         }
         $this->assertTrue($catched);
-        $this->assertEquals('"Nonce not validated."', $loggerHelper->all());
+        $this->assertEquals('"Nonce not validated #10075."', $loggerHelper->all());
         $loggerHelper->reset();
-        $this->assertEquals('{"status":false,"response":false,"message":"\"Nonce not validated.\"","details":[[]]}', $catchedMessage);
+        $this->assertEquals(
+            '{"status":false,"response":false,"message":"\"Nonce not validated #10075.\"","details":[{"request":{"vcv-ajax":1,"vcv-action":"testListenAjax:adminNonce"}}]}',
+            $catchedMessage
+        );
 
         /** Test normal nonce */
         $catched = false;
