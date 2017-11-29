@@ -67,6 +67,7 @@ class SubscribeController extends Container implements Module
             if (is_wp_error($result)) {
                 $messages[] = implode('. ', $result->get_error_messages()) . ' #10019';
             } elseif (is_array($result) && isset($result['body'])) {
+                // @codingStandardsIgnoreLine
                 $resultDetails = @json_decode($result['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {
                     $messages[] = $resultDetails['message'] . ' #10020';

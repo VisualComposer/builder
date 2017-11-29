@@ -98,6 +98,7 @@ class ActivationController extends Container implements Module
                     /** @var \WP_Error $token */
                     $messages[] = implode('. ', $token->get_error_messages()) . ' #10014';
                 } elseif (is_array($token) && isset($token['body'])) {
+                    // @codingStandardsIgnoreLine
                     $resultDetails = @json_decode($token['body'], 1);
                     if (is_array($resultDetails) && isset($resultDetails['message'])) {
                         $messages[] = $resultDetails['message'] . ' #10015';

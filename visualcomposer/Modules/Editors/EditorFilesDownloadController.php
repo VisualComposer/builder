@@ -65,6 +65,7 @@ class EditorFilesDownloadController extends Container implements Module
                 /** @var \WP_Error $response */
                 $messages[] = implode('. ', $response->get_error_messages()) . ' #10028';
             } elseif (is_array($response) && isset($response['body'])) {
+                // @codingStandardsIgnoreLine
                 $resultDetails = @json_decode($response['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {
                     $messages[] = $resultDetails['message'] . ' #10029';
@@ -74,6 +75,7 @@ class EditorFilesDownloadController extends Container implements Module
                 /** @var \WP_Error $bundleJson */
                 $messages[] = implode('. ', $bundleJson->get_error_messages()) . ' #10030';
             } elseif (is_array($bundleJson) && isset($bundleJson['body'])) {
+                // @codingStandardsIgnoreLine
                 $resultDetails = @json_decode($bundleJson['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {
                     $messages[] = $resultDetails['message'] . ' #10031';

@@ -1,10 +1,11 @@
 let errors = []
 
 let logError = (message, details) => {
+  let error = new Error()
   errors.push({
     message: message,
     details: details,
-    stack: (new Error).stack
+    stack: error && error.stack ? error.stack : []
   })
 }
 

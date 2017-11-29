@@ -35,6 +35,7 @@ class CategoriesUpdater extends Container implements Module
                 /** @var \WP_Error $response */
                 $messages[] = implode('. ', $response->get_error_messages()) . ' #10038';
             } elseif (is_array($response) && isset($response['body'])) {
+                // @codingStandardsIgnoreLine
                 $resultDetails = @json_decode($response['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {
                     $messages[] = $resultDetails['message'] . ' #10039';
@@ -44,6 +45,7 @@ class CategoriesUpdater extends Container implements Module
                 /** @var \WP_Error $bundleJson */
                 $messages[] = implode('. ', $bundleJson->get_error_messages()) . ' #10040';
             } elseif (is_array($bundleJson) && isset($bundleJson['body'])) {
+                // @codingStandardsIgnoreLine
                 $resultDetails = @json_decode($bundleJson['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {
                     $messages[] = $resultDetails['message'] . ' #10041';

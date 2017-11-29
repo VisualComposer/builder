@@ -44,34 +44,7 @@ class SharedDownloadController extends Container implements Module
     ) {
         $bundleJson = $payload['archive'];
         if (vcIsBadResponse($response) || is_wp_error($bundleJson)) {
-            $messages = [];
-            $messages[] = __('Failed to update shared libraries #10021', 'vcwb');
-            if (is_wp_error($response)) {
-                /** @var \WP_Error $response */
-                $messages[] = implode('. ', $response->get_error_messages()) . ' #10022';
-            } elseif (is_array($response) && isset($response['body'])) {
-                $resultDetails = @json_decode($response['body'], 1);
-                if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                    $messages[] = $resultDetails['message'] . ' #10023';
-                }
-            }
-            if (is_wp_error($bundleJson)) {
-                /** @var \WP_Error $bundleJson */
-                $messages[] = implode('. ', $bundleJson->get_error_messages()) . ' #10024';
-            } elseif (is_array($bundleJson) && isset($bundleJson['body'])) {
-                $resultDetails = @json_decode($bundleJson['body'], 1);
-                if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                    $messages[] = $resultDetails['message'] . ' #10025';
-                }
-            }
-
-            $loggerHelper->log(
-                implode('. ', $messages),
-                [
-                    'response' => is_wp_error($response) ? 'wp error' : $response,
-                    'bundleJson' => is_wp_error($bundleJson) ? 'wp_error' : $bundleJson,
-                ]
-            );
+            $this->logErrors($response, $loggerHelper, $bundleJson);
 
             return ['status' => false];
         }
@@ -127,5 +100,44 @@ class SharedDownloadController extends Container implements Module
         }
 
         return $asset;
+    }
+
+    /**
+     * @param $response
+     * @param \VisualComposer\Helpers\Logger $loggerHelper
+     * @param $bundleJson
+     */
+    protected function logErrors($response, Logger $loggerHelper, $bundleJson)
+    {
+        $messages = [];
+        $messages[] = __('Failed to update shared libraries #10021', 'vcwb');
+        if (is_wp_error($response)) {
+            /** @var \WP_Error $response */
+            $messages[] = implode('. ', $response->get_error_messages()) . ' #10022';
+        } elseif (is_array($response) && isset($response['body'])) {
+            // @codingStandardsIgnoreLine
+            $resultDetails = @json_decode($response['body'], 1);
+            if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                $messages[] = $resultDetails['message'] . ' #10023';
+            }
+        }
+        if (is_wp_error($bundleJson)) {
+            /** @var \WP_Error $bundleJson */
+            $messages[] = implode('. ', $bundleJson->get_error_messages()) . ' #10024';
+        } elseif (is_array($bundleJson) && isset($bundleJson['body'])) {
+            // @codingStandardsIgnoreLine
+            $resultDetails = @json_decode($bundleJson['body'], 1);
+            if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                $messages[] = $resultDetails['message'] . ' #10025';
+            }
+        }
+
+        $loggerHelper->log(
+            implode('. ', $messages),
+            [
+                'response' => is_wp_error($response) ? 'wp error' : $response,
+                'bundleJson' => is_wp_error($bundleJson) ? 'wp_error' : $bundleJson,
+            ]
+        );
     }
 }

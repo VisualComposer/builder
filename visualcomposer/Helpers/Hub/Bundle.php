@@ -134,6 +134,7 @@ class Bundle implements Helper
                     /** @var \WP_Error $result */
                     $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
                 } elseif (is_array($response) && isset($response['body'])) {
+                    // @codingStandardsIgnoreLine
                     $resultDetails = @json_decode($result['body'], 1);
                     if (is_array($resultDetails) && isset($resultDetails['message'])) {
                         $messages[] = $resultDetails['message'] . ' #10026';

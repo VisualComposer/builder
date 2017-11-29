@@ -142,6 +142,7 @@ class ElementDownloadController extends Container implements Module
                 /** @var \WP_Error $response */
                 $messages[] = implode('. ', $response->get_error_messages()) . ' #10044';
             } elseif (is_array($response) && isset($response['body'])) {
+                // @codingStandardsIgnoreLine
                 $json = @json_decode($response['body'], 1);
                 if (is_array($json) && isset($json['message'])) {
                     $messages[] = $json['message'] . ' #10045';
