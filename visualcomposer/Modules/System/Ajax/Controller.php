@@ -156,7 +156,12 @@ class Controller extends Container implements Module
     {
         // Require an action parameter.
         if (!$requestHelper->exists('vcv-action')) {
-            $loggerHelper->log('Action doesn`t set');
+            $loggerHelper->log(
+                'Action doesn`t set #10074',
+                [
+                    'request' => $requestHelper->all(),
+                ]
+            );
 
             return false;
         }
@@ -170,7 +175,12 @@ class Controller extends Container implements Module
             /** @see \VisualComposer\Modules\System\Ajax\Controller::getResponse */
             return $this->call('getResponse', [$requestAction]);
         } else {
-            $loggerHelper->log('Nonce not validated');
+            $loggerHelper->log(
+                'Nonce not validated #10075',
+                [
+                    'request' => $requestHelper->all(),
+                ]
+            );
         }
 
         return false;

@@ -45,7 +45,7 @@ class Logger implements Helper
         );
 
         if ($message) {
-            return json_encode($message . '.');
+            return strip_tags(json_encode($message . '.'));
         }
 
         return false;

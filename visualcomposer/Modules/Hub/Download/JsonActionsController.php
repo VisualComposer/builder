@@ -44,7 +44,7 @@ class JsonActionsController extends Container implements Module
                 }
             } else {
                 $loggerHelper->log(
-                    __('Failed to process required actions', 'vcwb'),
+                    __('Failed to process required actions #10056', 'vcwb'),
                     [
                         'payload' => $payload,
                         'response' => $response,
@@ -77,7 +77,7 @@ class JsonActionsController extends Container implements Module
                 $savedAction = $optionsHelper->get('hubAction:download:' . $action['key'], false);
             }
             if (!$savedAction) {
-                $loggerHelper->log('The update action does not exists');
+                $loggerHelper->log('The update action does not exists #10057');
 
                 return ['status' => false];
             }
@@ -115,7 +115,7 @@ class JsonActionsController extends Container implements Module
         } else {
             $loggerHelper = vchelper('Logger');
             $loggerHelper->log(
-                sprintf(__('Failed to download %1$s', 'vcwb'), $name),
+                sprintf(__('Failed to download %1$s #10058', 'vcwb'), $name),
                 [
                     'version' => $version,
                     'action' => $action,

@@ -30,7 +30,7 @@ trait Action
             $archive = $hubHelper->requestBundleDownload($payload['data'], $payload['action']);
             if (is_wp_error($archive)) {
                 /** @var \WP_Error $archive */
-                $loggerHelper->log(implode('. ', $archive->get_error_messages()));
+                $loggerHelper->log(implode('. ', $archive->get_error_messages()) . ' #10061');
                 $response['status'] = false;
             } else {
                 $archive = $this->readBundleJson($archive, $payload);
@@ -57,7 +57,7 @@ trait Action
             // If zip is less than 2kb something wrong (our smallest bundle is 7.9kb - separator)
             if (filesize($archive) < 2 * 1024) {
                 $loggerHelper->log(
-                    __('Bundle size too small, expecting and error!', 'vcwb'),
+                    __('Bundle size too small, expecting and error! #10062', 'vcwb'),
                     [
                         'fileSize' => filesize($archive),
                         'contents' => htmlentities(file_get_contents($archive)),
@@ -69,14 +69,14 @@ trait Action
             $result = $hubHelper->unzipDownloadedBundle($archive);
             if (is_wp_error($result)) {
                 /** @var \WP_Error $result */
-                $loggerHelper->log(implode('. ', $result->get_error_messages()));
+                $loggerHelper->log(implode('. ', $result->get_error_messages()) . ' #10063');
 
                 return false;
             }
             if (isset($payload['checksum']) && !empty($payload['checksum'])) {
                 $mdOriginalFile = md5_file($archive);
                 if ($mdOriginalFile !== $payload['checksum']) {
-                    $loggerHelper->log(__('Bundle checksum doesn\'t match!', 'vcwb'));
+                    $loggerHelper->log(__('Bundle checksum doesn\'t match! #10064', 'vcwb'));
 
                     return false;
                 }

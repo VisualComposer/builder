@@ -41,7 +41,7 @@ class JsonDownloadController extends Container implements Module
                 $response = $filterHelper->fire('vcv:hub:download:json', $response, ['json' => $json]);
             } else {
                 $loggerHelper->log(
-                    __('Failed to download json', 'vcwb'),
+                    __('Failed to download json #10059', 'vcwb'),
                     [
                         'url' => isset($url) ? $url : 'url not set',
                     ]
@@ -50,9 +50,12 @@ class JsonDownloadController extends Container implements Module
                 return false;
             }
         } else {
-            $loggerHelper->log(__('Failed to prepare json download', 'vcwb'), [
-                'response' => $response,
-            ]);
+            $loggerHelper->log(
+                __('Failed to prepare json download #10060', 'vcwb'),
+                [
+                    'response' => is_wp_error($response) ? $response->get_error_message() : $response,
+                ]
+            );
 
             return false;
         }
