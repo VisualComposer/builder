@@ -32,27 +32,34 @@ class RevSliderController extends Container implements Module
             $this->addFilter(
                 'vcv:ajax:elements:ajaxShortcode:adminNonce',
                 'replaceIds',
-                3
+                -1
             );
         }
     }
 
     protected function replaceIds($response)
     {
-        if (!vcIsBadResponse($response)) {
-            if (is_null(self::$slidersCount)) {
-                self::$slidersCount = 1;
-            } else {
-                self::$slidersCount++;
+        add_filter(
+            'revslider_modify_slider_settings',
+            function ($settings) {
+                if (is_null(self::$slidersCount)) {
+                    self::$slidersCount = 1;
+                } else {
+                    self::$slidersCount++;
+                }
+                $time = time() . self::$slidersCount;
+                if (!is_array($settings)) {
+                    $settings = [];
+                }
+                if (isset($settings['slider_id'])) {
+                    $settings['slider_id'] = 'rev_slider-' . $settings['slider_id'] . $time;
+                } else {
+                    $settings['slider_id'] = 'rev_slider-' . $time;
+                }
+
+                return $settings;
             }
-            $patterns = [
-                'rev_slider_(\d+)_(\d+)',
-            ];
-            $time = time() . self::$slidersCount;
-            foreach ($patterns as $pattern) {
-                $response = preg_replace('/' . $pattern . '/', 'rev_slider_${1}_${2]}_' . $time, $response);
-            }
-        }
+        );
 
         return $response;
     }
