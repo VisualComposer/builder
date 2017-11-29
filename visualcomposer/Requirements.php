@@ -32,6 +32,7 @@ class VcvCoreRequirements
                 ) .
                 '</li>';
         }
+
         if (!self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'))) {
             $die = true;
             $message .= '<li>' .
@@ -41,11 +42,35 @@ class VcvCoreRequirements
                 ) .
                 '</li>';
         }
-        if ($die === true) {
+
+        if (!function_exists('curl_exec') || !function_exists('curl_init')) {
+            $die = true;
+            $message .= '<li>' .
+                'The cURL extension must be loaded' .
+                '</li>';
+        }
+
+        if (glob(VCV_PLUGIN_ASSETS_DIR_PATH . '/*/*.php') === false
+            || glob(
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/*',
+                GLOB_ONLYDIR | GLOB_NOSORT
+            ) === false) {
+            $die = true;
+            $message .= '<li>' .
+                'The php.ini open_basedir must allow to check wp-content directory!<br>' .
+                'Current value:' . ini_get('open_basedir') . '<br>' .
+                'Visual Composer Assets directory:' . VCV_PLUGIN_ASSETS_DIR_PATH . '<br>' .
+                'Failed to glob the files in assets directory' .
+                '</li>';
+        }
+
+        if ($die) {
             wp_die(
                 'To run Visual Composer Website Builder your host needs to have:<ul>' . $message . '</ul>' . '<a href="'
                 . admin_url('plugins.php') . '">Go back to dashboard</a>'
             );
+            $this->deactivate(VCV_PLUGIN_FULL_PATH);
+
         }
 
         return true;
@@ -60,8 +85,6 @@ class VcvCoreRequirements
     public function checkVersion($mustHaveVersion, $versionToCheck)
     {
         if (version_compare($mustHaveVersion, $versionToCheck, '>')) {
-            $this->deactivate(VCV_PLUGIN_FULL_PATH);
-
             return false;
         }
 
