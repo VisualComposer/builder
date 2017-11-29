@@ -48,6 +48,7 @@ class Controller extends Container implements Module
         $sourceId = (int)$requestHelper->input('vcv-source-id');
         $response = '';
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+            ! defined( 'CONCATENATE_SCRIPTS' ) && define( 'CONCATENATE_SCRIPTS', false );
             $postTypeHelper->setupPost($sourceId);
             if (vcvenv('VCV_FE_SHORTCODES_SCRIPTS')) {
                 global $post;
