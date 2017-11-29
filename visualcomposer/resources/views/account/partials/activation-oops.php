@@ -42,5 +42,10 @@ if (!defined('ABSPATH')) {
 				<?php echo __('Try Again', 'vcwb'); ?>
 			</span>
 		</a>
+		<a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+			<span>
+				<?php echo __('Send error report', 'vcwb'); ?>
+			</span>
+		</a>
 	</div>
 </div>

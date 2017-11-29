@@ -1,6 +1,7 @@
 import {processActions} from './actions'
 import {showLoadingScreen, showFirstScreen, showOopsScreen} from './screens'
 import {showError} from './errors'
+import {log as logError} from './logger'
 
 (($) => {
   let showDownloadScreen = ($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category) => {
@@ -26,6 +27,16 @@ import {showError} from './errors'
         if (json && json.status && json.actions) {
           processActions(json.actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
         } else {
+          logError(activationFailedText, {
+            code: 'showDownloadScreen-vcvActivationUrl-1',
+            codeNum: '000006',
+            type: window.vcvActivationType,
+            activationFinishedUrl: window.vcvActivationFinishedUrl,
+            email: email,
+            category: category,
+            agreement: $agreementCheckbox.val(),
+            json: json
+          })
           if (json.message) {
             try {
               let messageJson = JSON.parse(json.message)
@@ -49,6 +60,18 @@ import {showError} from './errors'
         }
       })
       .fail(function (jqxhr, textStatus, error) {
+        logError(activationFailedText, {
+          code: 'showDownloadScreen-vcvActivationUrl-2',
+          codeNum: '000007',
+          type: window.vcvActivationType,
+          activationFinishedUrl: window.vcvActivationFinishedUrl,
+          email: email,
+          category: category,
+          agreement: $agreementCheckbox.val(),
+          jqxhr: jqxhr,
+          textStatus: textStatus,
+          error: error
+        })
         if (jqxhr.responseJSON) {
           let json = jqxhr.responseJSON
           if (json.message) {
@@ -94,6 +117,13 @@ import {showError} from './errors'
         if (json && json.status && json.actions) {
           processActions(json.actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
         } else {
+          logError(activationFailedText, {
+            code: 'showDownloadWithLicenseScreen-vcvActivationUrl-1',
+            codeNum: '000008',
+            type: window.vcvActivationType,
+            activationFinishedUrl: window.vcvActivationFinishedUrl,
+            json: json
+          })
           if (json.message) {
             try {
               let messageJson = JSON.parse(json.message)
@@ -112,6 +142,15 @@ import {showError} from './errors'
         }
       })
       .fail(function (jqxhr, textStatus, error) {
+        logError(activationFailedText, {
+          code: 'showDownloadWithLicenseScreen-vcvActivationUrl-2',
+          codeNum: '000009',
+          type: window.vcvActivationType,
+          activationFinishedUrl: window.vcvActivationFinishedUrl,
+          jqxhr: jqxhr,
+          textStatus: textStatus,
+          error: error
+        })
         if (jqxhr.responseJSON) {
           let json = jqxhr.responseJSON
           if (json.message) {

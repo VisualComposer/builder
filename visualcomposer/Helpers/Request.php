@@ -50,6 +50,15 @@ class Request implements Helper
         $this->data = $data;
     }
 
+    public function all()
+    {
+        if (is_null($this->data)) {
+            $this->data = array_replace_recursive($_POST, $_GET, $_REQUEST);
+        }
+
+        return $this->data;
+    }
+
     /**
      * Retrieve an input item from the request.
      *

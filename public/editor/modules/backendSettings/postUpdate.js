@@ -1,3 +1,5 @@
+import {log as logError} from './logger'
+
 export default class {
   constructor (globalUrls, vendorUrl, updaterUrl) {
     this.globalUrls = globalUrls
@@ -17,10 +19,48 @@ export default class {
        * @param {{vcvGlobals}} data
        */
       data && data.vcvGlobals && this.buildGlobalVariables(data.vcvGlobals)
+    }).fail((jqXHR, status, error) => {
+      console.warn(jqXHR, status, error)
+      logError('Error in rebuild process get json globalUrls', {
+        code: 'postsUpdate-update-3',
+        codeNum: '000012',
+        type: window.vcvActivationType,
+        activationFinishedUrl: window.vcvActivationFinishedUrl,
+        jqXHR: jqXHR,
+        status: status,
+        error: error,
+        globalUrls: this.globalUrls
+      })
     })
 
-    await $.getScript(this.vendorUrl)
-    await $.getScript(this.updaterUrl)
+    await $.getScript(this.vendorUrl).fail((jqXHR, status, error) => {
+      console.warn(jqXHR, status, error)
+      logError('Error in rebuild process get json vendorUrl ', {
+        code: 'postsUpdate-update-4',
+        codeNum: '000013',
+        type: window.vcvActivationType,
+        activationFinishedUrl: window.vcvActivationFinishedUrl,
+        jqXHR: jqXHR,
+        status: status,
+        error: error,
+        vendorUrl: this.vendorUrl
+      })
+    })
+
+    await $.getScript(this.updaterUrl).fail((jqXHR, status, error) => {
+      console.warn(jqXHR, status, error)
+      logError('Error in rebuild process get json updaterUrl', {
+        code: 'postsUpdate-update-5',
+        codeNum: '000014',
+        type: window.vcvActivationType,
+        activationFinishedUrl: window.vcvActivationFinishedUrl,
+        jqXHR: jqXHR,
+        status: status,
+        error: error,
+        updaterUrl: this.updaterUrl
+      })
+    })
+
     await this.downloadElements()
   }
 
@@ -38,7 +78,16 @@ export default class {
         elementBundles.push($.getScript(element.bundlePath))
       })
     }
-    return Promise.all(elementBundles)
+    return Promise.all(elementBundles).catch((e) => {
+      console.warn(e)
+      logError('Error in rebuild process downloadElements', {
+        code: 'postsUpdate-downloadElements-1',
+        codeNum: '000015',
+        type: window.vcvActivationType,
+        activationFinishedUrl: window.vcvActivationFinishedUrl,
+        error: e
+      })
+    })
   }
 
   setGlobalVariable (key, data) {
@@ -64,18 +113,37 @@ export default class {
         await this.setup()
         this.ready = true
       } catch (e) {
+        console.warn(e)
         /**
          * @param {{postUpdateAjaxRequestError}} localization
          */
         const localization = window.VCV_I18N && window.VCV_I18N()
-        throw (localization.postUpdateAjaxRequestError || `Downloading file for posts updates is failed. File: {file}`)
+        let text = (localization.postUpdateAjaxRequestError || `Downloading file for posts updates is failed. File: {file}`)
           .replace(/{file}/, e.url)
+        logError(text, {
+          code: 'postsUpdate-update-1',
+          codeNum: '000010',
+          type: window.vcvActivationType,
+          activationFinishedUrl: window.vcvActivationFinishedUrl,
+          error: e,
+          data: data
+        })
+
+        throw text
       }
     }
     try {
       await window.vcvRebuildPostSave(data)
     } catch (e) {
       console.warn(e)
+      logError('Error in rebuild process', {
+        code: 'postsUpdate-update-2',
+        codeNum: '000011',
+        type: window.vcvActivationType,
+        activationFinishedUrl: window.vcvActivationFinishedUrl,
+        error: e,
+        data: data
+      })
       return new Error('Error in rebuild process')
     }
     return data
