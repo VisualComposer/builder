@@ -12,7 +12,8 @@ let getErrors = () => {
   return errors
 }
 
-let sendErrors = () => {
+let sendErrors = (e, cb) => {
+  e && e.preventDefault && e.preventDefault()
   window.jQuery.ajax(
     {
       type: 'POST',
@@ -22,7 +23,7 @@ let sendErrors = () => {
         errors: JSON.stringify(getErrors())
       }
     }
-  )
+  ).always(cb)
   // reset list of errors
   errors = []
 }

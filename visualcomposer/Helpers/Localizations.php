@@ -46,8 +46,10 @@ class Localizations extends Container implements Helper
             'close' => __('Close', 'vcwb'),
             'premiumElementsButton' => __('Premium Version - Coming Soon', 'vcwb'),
             'premiumTemplatesButton' => __('Premium Templates - Coming Soon', 'vcwb'),
-            // @codingStandardsIgnoreLine
-            'emptyTreeView' => __('There are no elements on your canvas - start by adding element or template.', 'vcwb'),
+            'emptyTreeView' => __(
+                'There are no elements on your canvas - start by adding element or template.',
+                'vcwb'
+            ),
             'customCSS' => __('Custom CSS', 'vcwb'),
             'localCSS' => __('Local CSS', 'vcwb'),
             'localCSSLabel' => __('Local CSS will be applied to this particular page only', 'vcwb'),
@@ -92,7 +94,6 @@ class Localizations extends Container implements Helper
             'remove' => __('Remove', 'vcwb'),
             'move' => __('Move', 'vcwb'),
             'searchContentElements' => __('Search content elements', 'vcwb'),
-            // @codingStandardsIgnoreLine
             'templateAlreadyExists' => __(
                 'Template with this name already exist. Please specify another name.',
                 'vcwb'
@@ -109,7 +110,11 @@ class Localizations extends Container implements Helper
             'frontendEditor' => __('Frontend Editor', 'vcwb'),
             'backendEditor' => __('Backend Editor', 'vcwb'),
             'classicEditor' => __('Classic Editor', 'vcwb'),
-            'enableBackendEditorConfirmMessage' => __('Visual Composer will overwrite your content created in WordPress Classic editor with the latest version of content created in Visual Composer Website Builder. Do you want to continue?', 'vcwb'),
+            'enableBackendEditorConfirmMessage' => __(
+            // @codingStandardsIgnoreLine
+                'Visual Composer will overwrite your content created in WordPress Classic editor with the latest version of content created in Visual Composer Website Builder. Do you want to continue?',
+                'vcwb'
+            ),
             'blankPage' => __('Blank Page', 'vcwb'),
             'searchTemplates' => __('Search templates by name and description', 'vcwb'),
             'noResultOpenHub' => __('No Results. Open Visual Composer Hub', 'vcwb'),
@@ -162,21 +167,55 @@ class Localizations extends Container implements Helper
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'vcwb'),
             'postUpdateAjaxRequestError' => __('Downloading file for posts updates is failed. File: {file}', 'vcwb'),
-            'mobileTooltipText' => __('Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.', 'vcwb'),
+            'mobileTooltipText' => __(
+            // @codingStandardsIgnoreLine
+                'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.',
+                'vcwb'
+            ),
             'template' => __('Template', 'vcwb'),
             'defaultTemplate' => __('Default template', 'vcwb'),
-            'pageTemplateDescription' => __('To apply a template you will need to save changes and reload the page.', 'vcwb'),
-            'pageTemplateReloadDescription' => __('To apply a template you will need to save changes and content will be reloaded.', '_vcwb'),
-            'pageTitleDescription' => __('To apply title changes you will need to save changes and reload the page.', 'vcwb'),
+            'pageTemplateDescription' => __(
+                'To apply a template you will need to save changes and reload the page.',
+                'vcwb'
+            ),
+            'pageTemplateReloadDescription' => __(
+                'To apply a template you will need to save changes and content will be reloaded.',
+                '_vcwb'
+            ),
+            'pageTitleDescription' => __(
+                'To apply title changes you will need to save changes and reload the page.',
+                'vcwb'
+            ),
             'pageTitleDisableDescription' => __('Disable page title', 'vcwb'),
-            'successElementDownload' => __('{name} has been successfully downloaded from the Visual Composer Hub and added to your library.', 'vcwb'),
-            'licenseErrorElementDownload' => __('Failed to download element (license is expired or request to account has timed out).', 'vcwb'),
+            'successElementDownload' => __(
+                '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.',
+                'vcwb'
+            ),
+            'licenseErrorElementDownload' => __(
+                'Failed to download element (license is expired or request to account has timed out).',
+                'vcwb'
+            ),
             'defaultErrorElementDownload' => __('Failed to download element.', 'vcwb'),
-            'feOopsMessageDefault' => __('It seems that something went wrong with loading content. Please make sure you are loading correct content and try again.', 'vcwb'),
+            'feOopsMessageDefault' => __(
+            // @codingStandardsIgnoreLine
+                'It seems that something went wrong with loading content. Please make sure you are loading correct content and try again.',
+                'vcwb'
+            ),
             'feOopsButtonTextDefault' => __('Back to WordPress Dashboard', 'vcwb'),
-            'feOopsMessagePageForPosts' => __('It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it into a static page via your WordPress admin.', 'vcwb'),
+            'feOopsMessagePageForPosts' => __(
+            // @codingStandardsIgnoreLine
+                'It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it into a static page via your WordPress admin.',
+                'vcwb'
+            ),
             'feOopsButtonTextPageForPosts' => __('Back to WordPress', 'vcwb'),
-            'replaceElementText' => __('You can change the {elementLabel} within this element with another {elementLabel} from your elements', 'vcwb')
+            'replaceElementText' => __(
+                'You can change the {elementLabel} within this element with another {elementLabel} from your elements',
+                'vcwb'
+            ),
+            'errorReportSubmitted' => __(
+                'Thanks! Error report has been sent!',
+                'vcwb'
+            ),
         ];
 
         return $locale;

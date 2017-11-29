@@ -3,11 +3,12 @@ let closeError = ($errorPopup) => {
 }
 let errorTimeout
 let showError = ($errorPopup, msg, timeout) => {
+  if (!msg) { return }
   if (errorTimeout) {
     window.clearTimeout(errorTimeout)
     errorTimeout = 0
   }
-  $errorPopup.text(msg)
+  $errorPopup.find('.vcv-error-message').text(msg)
   $errorPopup.addClass('vcv-popup-error--active')
 
   if (timeout) {

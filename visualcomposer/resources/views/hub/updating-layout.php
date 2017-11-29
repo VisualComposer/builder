@@ -17,19 +17,20 @@ if ($errorMsg) {
 ?>
 
 <div class="vcv-popup-container vcv-loading-screen--active">
-    <div class="vcv-popup-scroll-container">
-        <div class="vcv-popup">
+	<div class="vcv-popup-scroll-container">
+		<div class="vcv-popup">
             <?php echo vcview(
                 'hub/updating-content',
                 [
                     'controller' => $controller,
                 ]
             ); ?>
-            <!-- Error block -->
-            <div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active' : ''; ?>"><?php echo $errorMsg
-                    ? $errorMsg : ''; ?></div>
-        </div>
-        <div class="vcv-hidden-helper"></div>
-    </div>
+			<!-- Error block -->
+			<div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active' : ''; ?>">
+				<span class="vcv-error-message"><?php echo $errorMsg ? $errorMsg : ''; ?></span>
+			</div>
+		</div>
+		<div class="vcv-hidden-helper"></div>
+	</div>
 </div>
 <div id="vcv-posts-update-wrapper"></div>
