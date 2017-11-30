@@ -38,10 +38,6 @@ export default class EditForm extends React.Component {
     elementsStorage.state(`element:${id}`).ignoreChange(this.updateElementOnChange)
   }
 
-  componentWillReceiveProps (nextProps) {
-    console.log(nextProps)
-  }
-
   updateElementOnChange (data) {
     const element = cook.get(data)
     let content = element.getName()
@@ -77,7 +73,7 @@ export default class EditForm extends React.Component {
     // element.set('customHeaderTitle', value)
     // let elementData = element.toJS()
 
-    let elementData = elementsStorage.state(`element:${element.toJS().id}`).get()
+    let elementData = elementsStorage.state(`element:${element.get('id')}`).get()
     elementData.customHeaderTitle = value
 
     elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
