@@ -8,6 +8,9 @@ const API = {
   },
   add: (data) => {
     elements[ data.tag ] = data
+  },
+  get: (tag) => {
+    return elements && elements[tag] ? elements[tag] : null
   }
 }
 
