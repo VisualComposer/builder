@@ -34,18 +34,28 @@ export default class ElementComponent extends Component {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
   }
 
+  componentWillUnmount () {
+    if (this.ajax) {
+      this.ajax.cancelled = true
+    }
+  }
+
   updateShortcodeToHtml (content, ref) {
     if (content.match(this.getShortcodesRegexp())) {
       ref && (ref.innerHTML = this.spinnerHTML())
       if (!dataProcessor) {
         dataProcessor = vcCake.getService('dataProcessor')
       }
-      dataProcessor.appServerRequest({
+      this.ajax = dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
         'vcv-shortcode-string': content,
         'vcv-nonce': window.vcvNonce,
         'vcv-source-id': window.vcvSourceID
       }).then((data) => {
+        if (this.ajax && this.ajax.cancelled) {
+          this.ajax = null
+          return
+        }
         let iframe = vcCake.env('iframe')
         try {
           ((function (window, document) {
@@ -72,6 +82,7 @@ export default class ElementComponent extends Component {
         } catch (e) {
           console.warn('failed to parse json', e)
         }
+        this.ajax = null
       })
     } else {
       ref && (ref.innerHTML = content)
