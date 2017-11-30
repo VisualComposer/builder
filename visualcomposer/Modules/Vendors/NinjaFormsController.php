@@ -57,12 +57,11 @@ class NinjaFormsController extends Container implements Module
             }
             $replaceTo = <<<JS
 if (typeof nfForms !== 'undefined') {
-  nfForms.forEach( function(item, index) {
+  nfForms = nfForms.filter( function(item, index) {
     if (item && item.id) {
-      if (!document.querySelector('#nf-form-' + item.id + '-cont')) {
-        nfForms.splice(index, 1)
-      }
+      return document.querySelector('#nf-form-' + item.id + '-cont')
     }
+    return false
   })
 }
 JS;
