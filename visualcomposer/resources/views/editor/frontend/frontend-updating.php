@@ -65,6 +65,7 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
     window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
     window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
     window.vcvErrorReportUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce']); ?>';
+    window.vcvDashboardUrl = '<?php echo admin_url('index.php'); ?>';
     <?php
     if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
     ?>
@@ -141,6 +142,12 @@ if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
                                             'Retry Update',
                                             'vcwb'
                                         ); ?></span></button>
+
+	                            <button data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+			<span>
+				<?php echo __('Send error report', 'vcwb'); ?>
+			</span>
+	                            </button>
                             </div>
                         </div>
                         <?php if ($optionsHelper->getTransient('vcv:activation:request')) : ?>

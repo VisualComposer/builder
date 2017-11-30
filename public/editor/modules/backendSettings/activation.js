@@ -1,7 +1,15 @@
-import {showError} from './errors'
-import {showIntroScreen, showLoadingScreen, showFirstScreen, showLastScreen, showGoPremiumScreen, showLastGoPremiumScreen} from './screens'
-import {loadSlider} from './slider'
-import {showDownloadScreen, showDownloadWithLicenseScreen} from './download-screens'
+import { showError, closeError } from './errors'
+import { send as sendError } from './logger'
+import {
+  showIntroScreen,
+  showLoadingScreen,
+  showFirstScreen,
+  showLastScreen,
+  showGoPremiumScreen,
+  showLastGoPremiumScreen
+} from './screens'
+import { loadSlider } from './slider'
+import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-screens'
 
 (($) => {
   $(() => {
@@ -128,6 +136,18 @@ import {showDownloadScreen, showDownloadWithLicenseScreen} from './download-scre
         }
       }
       img.src = url
+
+      $(document).on('click', '[data-vcv-send-error-report]', (e) => {
+        e && e.preventDefault && e.preventDefault()
+        $popup.find('.vcv-loading-text').hide()
+        sendError(e, function () {
+          const localizations = window.VCV_I18N && window.VCV_I18N()
+          window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
+          window.location.href = window.vcvDashboardUrl
+        })
+        closeError($errorPopup)
+        showLoadingScreen($popup)
+      })
     }
   })
 })(window.jQuery)

@@ -1,10 +1,11 @@
 let errors = []
 
 let logError = (message, details) => {
+  let error = new Error()
   errors.push({
     message: message,
     details: details,
-    stack: console.trace ? console.trace() : []
+    stack: error && error.stack ? error.stack : []
   })
 }
 
@@ -12,7 +13,8 @@ let getErrors = () => {
   return errors
 }
 
-let sendErrors = () => {
+let sendErrors = (e, cb) => {
+  e && e.preventDefault && e.preventDefault()
   window.jQuery.ajax(
     {
       type: 'POST',
@@ -22,7 +24,7 @@ let sendErrors = () => {
         errors: JSON.stringify(getErrors())
       }
     }
-  )
+  ).always(cb)
   // reset list of errors
   errors = []
 }

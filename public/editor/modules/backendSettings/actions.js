@@ -193,11 +193,18 @@ import {log as logError} from './logger'
             textStatus: textStatus,
             error: error
           })
-          console.warn(jqxhr.responseText, textStatus, error || activationFailedText)
-          if (window.vcvActivationType !== 'premium') {
-            showError($errorPopup, activationFailedText, 15000)
-            showFirstScreen($popup)
-          } else {
+          try {
+            let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
+            let messageJson = JSON.parse(responseJson && responseJson.message ? responseJson.message : '""')
+            console.log(messageJson)
+            if (window.vcvActivationType !== 'premium') {
+              showError($errorPopup, messageJson || activationFailedText, 15000)
+              showFirstScreen($popup)
+            } else {
+              showOopsScreen($popup, messageJson || activationFailedText, premiumErrorCallback)
+            }
+          } catch (e) {
+            console.warn(e)
             showOopsScreen($popup, activationFailedText, premiumErrorCallback)
           }
         } else {

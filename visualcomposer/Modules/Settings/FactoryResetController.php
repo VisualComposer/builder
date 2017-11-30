@@ -82,12 +82,12 @@ class FactoryResetController extends Container implements Module
     protected function initiateFactoryReset(Options $optionsHelper, CurrentUser $currentUserAccess, Logger $loggerHelper, ActivationPage $activationPageModule)
     {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
-            $loggerHelper->log(__('Wrong permissions'));
+            $loggerHelper->log(__('Wrong permissions #10072'));
             wp_redirect(admin_url('admin.php?page=' . rawurlencode($this->getSlug()) . '&reset=false'));
             die;
         }
         if (!$optionsHelper->getTransient('vcv:settings:factoryReset:allow')) {
-            $loggerHelper->log(__('Session expired'));
+            $loggerHelper->log(__('Session expired #10073'));
             return false;
         }
         $optionsHelper->deleteTransient('vcv:settings:factoryReset:allow');

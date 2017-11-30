@@ -128,33 +128,41 @@ class Bundle implements Helper
             if (!vcIsBadResponse($response)) {
                 $result = json_decode($response['body'], true);
             } else {
+                $messages = [];
+                $messages[] = __('Failed read remote bundle json #10006', 'vcwb');
                 if (is_wp_error($response)) {
                     /** @var \WP_Error $result */
-                    $resultDetails = $response->get_error_message();
-                } else {
-                    $resultDetails = $response['body'];
+                    $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
+                } elseif (is_array($response) && isset($response['body'])) {
+                    // @codingStandardsIgnoreLine
+                    $resultDetails = @json_decode($result['body'], 1);
+                    if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                        $messages[] = $resultDetails['message'] . ' #10026';
+                    }
                 }
 
                 $loggerHelper->log(
-                    __('Failed read remote bundle json', 'vcwb'),
+                    implode('. ', $messages),
                     [
-                        'result' => $resultDetails,
+                        'wp_error' => is_wp_error($response),
+                        'response' => is_array($response) && isset($response['body']) ? $response['body']
+                            : 'not array or no body available',
                     ]
                 );
             }
         } else {
+            $messages = [];
+            $messages[] = __('Failed to fetch remote bundle json #10008', 'vcwb');
             if (is_wp_error($url)) {
                 /** @var \WP_Error $url */
-                $resultDetails = $url->get_error_message();
-            } else {
-                $resultDetails = $url;
+                $messages[] = implode('. ', $url->get_error_messages()) . '  #10009';
             }
 
             $loggerHelper->log(
-                __('Failed to fetch remote bundle json', 'vcwb'),
+                implode('. ', $messages),
                 [
-                    'result' => $resultDetails,
                     'wp_error' => is_wp_error($url),
+                    'url' => is_string($url) ? $url : 'not a string',
                 ]
             );
         }

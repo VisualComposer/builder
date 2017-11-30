@@ -1,5 +1,6 @@
 import './sources/less/wpupdates/init.less'
 import { default as PostUpdater } from './editor/modules/backendSettings/postUpdate'
+import { log as logError, send as sendError } from './editor/modules/backendSettings/logger'
 
 (($) => {
   $(() => {
@@ -23,11 +24,12 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
     }
     let errorTimeout
     let showError = (msg, timeout, cb) => {
+      if (!msg) { return }
       if (errorTimeout) {
         window.clearTimeout(errorTimeout)
         errorTimeout = 0
       }
-      $errorPopup.text(msg)
+      $errorPopup.find('.vcv-error-message').text(msg)
       $errorPopup.addClass('vcv-popup-error--active')
 
       if (timeout) {
@@ -82,6 +84,12 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
           redirect()
         } else {
           if (requestFailed) {
+            logError('Error in update process', {
+              code: 'bundle-update-main-1',
+              codeNum: '000016',
+              vcvUpdateFinishedUrl: window.vcvUpdateFinishedUrl,
+              json: json
+            })
             showErrorMessage(json && json.message ? json.message : bundleUpdateFailed, 15000)
             console.warn(json)
           } else {
@@ -91,6 +99,14 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
         }
       }).fail(function (jqxhr, textStatus, error) {
         if (requestFailed) {
+          logError('Error in update process', {
+            code: 'bundle-update-main-2',
+            codeNum: '000017',
+            vcvUpdateFinishedUrl: window.vcvUpdateFinishedUrl,
+            jqxhr: jqxhr,
+            textStatus: textStatus,
+            error: error
+          })
           showErrorMessage(error, 15000)
           console.warn(textStatus, error)
         } else {
@@ -117,6 +133,13 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
               await postUpdater.update(postData)
               ready = true
             } catch (e) {
+              logError('Error in update doAction post updater', {
+                code: 'bundle-update-main-3',
+                codeNum: '000018',
+                vcvUpdateFinishedUrl: window.vcvUpdateFinishedUrl,
+                error: e,
+                action: action
+              })
               showErrorMessage(e)
             }
             if (ready === false) {
@@ -151,6 +174,12 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
             }
           } else {
             if (requestFailed) {
+              logError('Error in update doAction', {
+                code: 'bundle-update-main-4',
+                codeNum: '000019',
+                vcvActionsUrl: window.vcvActionsUrl,
+                json: json
+              })
               showErrorMessage(json && json.message ? json.message : bundleUpdateFailed, 15000)
               console.warn(json)
             } else {
@@ -161,6 +190,14 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
           }
         }).fail(function (jqxhr, textStatus, error) {
           if (requestFailed) {
+            logError('Error in update doAction', {
+              code: 'bundle-update-main-5',
+              codeNum: '000020',
+              vcvActionsUrl: window.vcvActionsUrl,
+              jqxhr: jqxhr,
+              textStatus: textStatus,
+              error: error
+            })
             showErrorMessage(error, 15000)
             console.warn(textStatus, error)
           } else {
@@ -188,6 +225,19 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
     if (!$lockUpdate.length) {
       serverRequest()
       $(document).on('click', '[data-vcv-retry]', serverRequest)
+      $(document).on('click', '[data-vcv-send-error-report]', function (e) {
+        e && e.preventDefault && e.preventDefault()
+        hideRetryButton()
+        closeError()
+        enableLoader()
+        $heading.text('')
+        $heading.closest('.vcv-loading-text').hide()
+        sendError(e, function () {
+          const localizations = window.VCV_I18N && window.VCV_I18N()
+          window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
+          window.location.href = window.vcvDashboardUrl
+        })
+      })
     } else {
       disableLoader()
     }

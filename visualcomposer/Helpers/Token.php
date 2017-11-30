@@ -51,7 +51,9 @@ class Token extends Container implements Helper
             ->deleteTransient('siteAuthToken')
             ->delete('siteAuthRefreshToken')
             ->delete('vcv:activation:request')
-            ->delete('siteAuthTokenTtl');
+            ->delete('siteAuthTokenTtl')
+            ->delete('license-key')
+            ->delete('license-key-token');
 
         return true;
     }
@@ -154,6 +156,7 @@ class Token extends Container implements Helper
 
     /**
      * @param $result
+     *
      * @return array|bool
      */
     protected function getTokenResponse($result)
@@ -180,6 +183,7 @@ class Token extends Container implements Helper
                     $noticeHelper->removeNotice('license:expiration');
                     $loggerHelper->removeLogNotice('license:expiration');
                 }
+
                 return $token;
             }
 
@@ -188,11 +192,14 @@ class Token extends Container implements Helper
                 $loggerHelper->log(
                     $licenseHelper->licenseErrorCodes($body['error']['code']),
                     [
-                        'result' => $body,
+                        'result' => is_wp_error($body) ? 'wp error' : $body,
                     ]
                 );
 
-                $loggerHelper->logNotice('license:expiration', $licenseHelper->licenseErrorCodes($body['error']['code']));
+                $loggerHelper->logNotice(
+                    'license:expiration',
+                    $licenseHelper->licenseErrorCodes($body['error']['code'])
+                );
 
                 return ['status' => false, 'code' => $body['error']['code']];
             }
@@ -201,15 +208,18 @@ class Token extends Container implements Helper
             if (is_wp_error($result)) {
                 /** @var \WP_Error $result */
                 $resultDetails = $result->get_error_message();
+                $message .= '. ';
+                $message .= implode('. ', $result->get_error_messages());
                 if ("http_request_failed" === $result->get_error_code()) {
                     $message .= '. ';
-                    $message .= __('Possibly the process exceeded the timeout of 30 seconds', 'vcwb');
+                    $message .= __('Possibly the process exceeded the timeout of 30 seconds #10011', 'vcwb');
                 }
+                $message .= ' #10004';
             } else {
                 // @codingStandardsIgnoreLine
                 $resultDetails = @json_decode($result['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                    $message = $resultDetails['message'];
+                    $message = $resultDetails['message'] . ' #10005';
                 }
             }
 
@@ -222,7 +232,8 @@ class Token extends Container implements Helper
 
             if (is_array($result) && isset($result['body'])) {
                 $response = json_decode($result['body'], true);
-                if (is_array($response) && isset($response['error'], $response['error']['type'], $response['error']['code'])) {
+                if (is_array($response)
+                    && isset($response['error'], $response['error']['type'], $response['error']['code'])) {
                     $licenseHelper->setKey('');
                     $loggerHelper->log(
                         $licenseHelper->licenseErrorCodes($response['error']['code']),
@@ -230,7 +241,10 @@ class Token extends Container implements Helper
                             'result' => $response,
                         ]
                     );
-                    $loggerHelper->logNotice('license:expiration', $licenseHelper->licenseErrorCodes($response['error']['code']));
+                    $loggerHelper->logNotice(
+                        'license:expiration',
+                        $licenseHelper->licenseErrorCodes($response['error']['code'])
+                    );
 
                     return ['status' => false, 'code' => $response['error']['code']];
                 }

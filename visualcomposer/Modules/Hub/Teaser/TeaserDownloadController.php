@@ -64,7 +64,11 @@ class TeaserDownloadController extends Container implements Module
                     ];
                 }
                 $elementData = [
-                    'tag' => lcfirst($strHelper->studly($strHelper->slugify($element['name']))),
+                    'tag' => isset($element['tag']) && !empty($element['tag'])
+                        ? $element['tag']
+                        : lcfirst(
+                            $strHelper->studly($strHelper->slugify($element['name'], false))
+                        ),
                     'name' => $element['name'],
                     'metaThumbnailUrl' => $element['thumbnailUrl'],
                     'metaPreviewUrl' => $element['previewUrl'],

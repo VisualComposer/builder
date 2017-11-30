@@ -26,9 +26,6 @@ class RequirementsTest extends WP_UnitTestCase
         $requirements = $this->getMockBuilder('VcvCoreRequirements')->setMethods(
             ['deactivate']
         )->getMock();
-        $requirements->expects($this->exactly(2))->method('deactivate')->with(
-            $this->equalTo(VCV_PLUGIN_FULL_PATH)
-        )->will($this->returnValue(true));
         /** @var VcvCoreRequirements $requirements */
         $this->assertFalse($requirements->checkVersion('5.0', '4.0'));
 

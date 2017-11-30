@@ -158,16 +158,16 @@ class LicenseController extends Container implements Module
                     exit;
                 } else {
                     $loggerHelper->log(
-                        __('Failed to finish licence de-activation', 'vcwb'),
+                        __('Failed to finish licence de-activation #10070', 'vcwb'),
                         [
                             'response' => is_wp_error($result) ? $result->get_error_message()
-                                : (is_array($result) ? $result['body'] : ''),
+                                : (is_array($result) && isset($result['body']) ? $result['body'] : ''),
                         ]
                     );
                 }
             } else {
                 $loggerHelper->log(
-                    __('Invalid token', 'vcwb'),
+                    __('Invalid license deactivation token #10071', 'vcwb'),
                     [
                         'token' => $token,
                     ]

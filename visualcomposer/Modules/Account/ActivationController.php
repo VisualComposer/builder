@@ -39,7 +39,11 @@ class ActivationController extends Container implements Module
             $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
         }
         /** @see \VisualComposer\Modules\Account\ActivationController::checkActivationError */
-        $this->addFilter('vcv:ajax:account:activation:adminNonce vcv:hub:download:bundle:*', 'checkActivationError', 100);
+        $this->addFilter(
+            'vcv:ajax:account:activation:adminNonce vcv:hub:download:bundle:*',
+            'checkActivationError',
+            100
+        );
         $this->addFilter('vcv:ajax:account:activation:finished:adminNonce', 'finishActivation');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
@@ -71,7 +75,10 @@ class ActivationController extends Container implements Module
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
-            || ($tokenHelper->isSiteAuthorized() && $licenseHelper->isActivated() && !$optionsHelper->getTransient('vcv:activation:request'))
+            || ($tokenHelper->isSiteAuthorized() && $licenseHelper->isActivated()
+                && !$optionsHelper->getTransient(
+                    'vcv:activation:request'
+                ))
         ) {
             $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
 
@@ -85,8 +92,20 @@ class ActivationController extends Container implements Module
             if (!vcIsBadResponse($token)) {
                 return $filterHelper->fire('vcv:activation:token:success', ['status' => true], ['token' => $token]);
             } else {
+                $messages = [];
+                $messages[] = __('Failed to get activation token #10013', 'vcwb');
+                if (is_wp_error($token)) {
+                    /** @var \WP_Error $token */
+                    $messages[] = implode('. ', $token->get_error_messages()) . ' #10014';
+                } elseif (is_array($token) && isset($token['body'])) {
+                    // @codingStandardsIgnoreLine
+                    $resultDetails = @json_decode($token['body'], 1);
+                    if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                        $messages[] = $resultDetails['message'] . ' #10015';
+                    }
+                }
                 $loggerHelper->log(
-                    __('Failed to get activation token', 'vcwb')
+                    implode('. ', $messages)
                 );
             }
         }
@@ -96,7 +115,7 @@ class ActivationController extends Container implements Module
             $expiresAfter = $expirationTime - time();
             $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
             $loggerHelper->log(
-                sprintf(__('Activation failed! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter),
+                sprintf(__('Activation failed! Please wait %1$s seconds before you try again #10016', 'vcwb'), $expiresAfter),
                 [
                     'getTransient' => $optionsHelper->getTransient('vcv:activation:request'),
                     'expiresAfter' => $expiresAfter,

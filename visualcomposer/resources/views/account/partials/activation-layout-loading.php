@@ -19,17 +19,21 @@ $expirationTime = get_option('_transient_timeout_vcv-' . VCV_VERSION . 'vcv:acti
 $expiresAfter = $expirationTime - time();
 $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
 
-$errorMsg = sprintf(__('Activation already in process! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter);
+$errorMsg = sprintf(
+    __('Activation already in process! Please wait %1$s seconds before you try again', 'vcwb'),
+    $expiresAfter
+);
 $type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <div class="vcv-popup-container vcv-popup-container--hidden">
-    <div class="vcv-popup-scroll-container">
-        <div class="vcv-popup">
-            <button class="vcv-popup-close-button"></button>
-            <!-- Error block -->
-            <div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active' : ''; ?>"><?php echo $errorMsg
-                    ? $errorMsg : ''; ?></div>
-        </div>
-        <div class="vcv-hidden-helper"></div>
-    </div>
+	<div class="vcv-popup-scroll-container">
+		<div class="vcv-popup">
+			<button class="vcv-popup-close-button"></button>
+			<!-- Error block -->
+			<div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active' : ''; ?>">
+				<span class="vcv-error-message"><?php echo $errorMsg ? $errorMsg : ''; ?></span>
+			</div>
+		</div>
+		<div class="vcv-hidden-helper"></div>
+	</div>
 </div>

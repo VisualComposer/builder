@@ -1,6 +1,5 @@
 import {closeError} from './errors'
 import {loadSlider} from './slider'
-import {send as sendError} from './logger'
 
 (($) => {
   let showIntroScreen = ($popup) => {
@@ -42,11 +41,6 @@ import {send as sendError} from './logger'
     $tryAgain.off('click').on('click.vcv-try-again', (e) => {
       e && e.preventDefault && e.preventDefault()
       action()
-    })
-    let $sendReport = $popup.find('.vcv-oops-screen [data-vcv-send-error-report]')
-    $sendReport.off('click').on('click.vcv-send-error-report', (e) => {
-      e && e.preventDefault && e.preventDefault()
-      sendError()
     })
   }
 
