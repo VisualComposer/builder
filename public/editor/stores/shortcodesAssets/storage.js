@@ -87,25 +87,31 @@ addStorage('shortcodeAssets', (storage) => {
           Array.from(data.domNodes).forEach(domNode => {
             let slug = ''
             let position = ''
+            let type = ''
             if (domNode.href) {
               slug = utils.slugify(domNode.href)
               position = 'head'
+              type = 'css'
             } else if (domNode.src) {
               slug = utils.slugify(domNode.src)
-              position = 'body'
+              !data.ignoreCache && (position = 'body')
+              type = 'js'
+            } else if (domNode.id && domNode.type && domNode.type.indexOf('template') >= 0) {
+              slug = domNode.id
+              position = 'head'
+              type = 'template'
             } else if (data.cacheInnerHTML) {
               slug = utils.slugify(domNode.innerHTML)
             }
             let cached = slug && loadedFiles.indexOf(slug) >= 0
             if (!cached) {
-              !data.ignoreCache && slug && loadedFiles.push(slug)
+              let ignoreCache = type === 'template' ? false : data.ignoreCache
+              !ignoreCache && slug && loadedFiles.push(slug)
               if (data.addToDocument) {
                 if (position) {
-                  // document[position] && document[position].appendChild(domNode)
-                  document[position] && window.jQuery(document[position]).append(domNode)
+                  document[ position ] && window.jQuery(document[ position ]).append(domNode)
                 } else {
-                  // data.ref && data.ref.appendChild(domNode)
-                  data.ref && window.jQuery(data.ref).append(domNode)
+                  data.ref && window.jQuery(data.ref) && window.jQuery(data.ref).append(domNode)
                 }
               }
             }
