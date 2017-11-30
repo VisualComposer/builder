@@ -50,62 +50,95 @@ export default class TeaserElementControl extends ElementControl {
     if (this.ajax || !this.state.allowDownload) {
       return
     }
-    let tag = this.props.element.tag
-    let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
-    if (this.props.element.bundle) {
-      bundle = this.props.element.bundle
-    }
-    let name = this.props.element.name
-    this.setState({ elementState: 'downloading' })
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    if (env('HUB_DOWNLOAD_SPINNER')) {
+      getStorage('hubElements').trigger('downloadElement', this.props.element)
+    } else {
+      let tag = this.props.element.tag
+      let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+      if (this.props.element.bundle) {
+        bundle = this.props.element.bundle
+      }
+      let name = this.props.element.name
+      this.setState({ elementState: 'downloading' })
+      const localizations = window.VCV_I18N && window.VCV_I18N()
 
-    let data = {
-      'vcv-action': 'hub:download:element:adminNonce',
-      'vcv-bundle': bundle,
-      'vcv-nonce': window.vcvNonce
-    }
-    let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+      let data = {
+        'vcv-action': 'hub:download:element:adminNonce',
+        'vcv-bundle': bundle,
+        'vcv-nonce': window.vcvNonce
+      }
+      let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
 
-    let tries = 0
-    let tryDownload = () => {
-      let successCallback = (response, cancelled) => {
-        this.ajax = null
-        try {
-          let jsonResponse = window.JSON.parse(response)
-          if (jsonResponse && jsonResponse.status) {
-            workspaceNotifications.set({
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
-              text: successMessage.replace('{name}', name),
-              time: 3000
-            })
-            this.buildVariables(jsonResponse.variables || [])
-            if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
-              jsonResponse.elements.forEach((element) => {
-                element.tag = element.tag.replace('element/', '')
-                getStorage('hubElements').trigger('add', element, true)
+      let tries = 0
+      let tryDownload = () => {
+        let successCallback = (response, cancelled) => {
+          this.ajax = null
+          try {
+            let jsonResponse = window.JSON.parse(response)
+            if (jsonResponse && jsonResponse.status) {
+              workspaceNotifications.set({
+                position: 'bottom',
+                transparent: true,
+                rounded: true,
+                text: successMessage.replace('{name}', name),
+                time: 3000
               })
-            }
+              this.buildVariables(jsonResponse.variables || [])
+              if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
+                jsonResponse.elements.forEach((element) => {
+                  element.tag = element.tag.replace('element/', '')
+                  getStorage('hubElements').trigger('add', element, true)
+                })
+              }
 
-            !cancelled && this.setState({ elementState: 'success' })
-          } else {
+              !cancelled && this.setState({ elementState: 'success' })
+            } else {
+              if (!cancelled) {
+                tries++
+                console.warn('failed to download element status is false', jsonResponse, response)
+                if (tries < 2) {
+                  tryDownload()
+                } else {
+                  this.ajax = null
+                  let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+                  if (jsonResponse && jsonResponse.message) {
+                    errorMessage = jsonResponse.message
+                  }
+
+                  console.warn('failed to download element status is false', errorMessage, response)
+                  workspaceNotifications.set({
+                    type: 'error',
+                    text: errorMessage,
+                    showCloseButton: 'true',
+                    icon: 'vcv-ui-icon vcv-ui-icon-error',
+                    time: 5000
+                  })
+
+                  !cancelled && this.setState({ elementState: 'failed' })
+                }
+              } else {
+                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+                console.warn('failed to download element request cancelled', errorMessage, response)
+                workspaceNotifications.set({
+                  type: 'error',
+                  text: errorMessage,
+                  showCloseButton: 'true',
+                  icon: 'vcv-ui-icon vcv-ui-icon-error',
+                  time: 5000
+                })
+              }
+            }
+          } catch (e) {
             if (!cancelled) {
               tries++
-              console.warn('failed to download element status is false', jsonResponse, response)
+              console.warn('failed to parse download response', e, response)
               if (tries < 2) {
                 tryDownload()
               } else {
                 this.ajax = null
-                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
-                if (jsonResponse && jsonResponse.message) {
-                  errorMessage = jsonResponse.message
-                }
-
-                console.warn('failed to download element status is false', errorMessage, response)
                 workspaceNotifications.set({
                   type: 'error',
-                  text: errorMessage,
+                  text: localizations.defaultErrorElementDownload || 'Failed to download element.',
                   showCloseButton: 'true',
                   icon: 'vcv-ui-icon vcv-ui-icon-error',
                   time: 5000
@@ -114,21 +147,21 @@ export default class TeaserElementControl extends ElementControl {
                 !cancelled && this.setState({ elementState: 'failed' })
               }
             } else {
-              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
-              console.warn('failed to download element request cancelled', errorMessage, response)
+              console.warn('failed to parse download response request cancelled', e, response)
               workspaceNotifications.set({
                 type: 'error',
-                text: errorMessage,
+                text: localizations.defaultErrorElementDownload || 'Failed to download element.',
                 showCloseButton: 'true',
                 icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
               })
             }
           }
-        } catch (e) {
+        }
+        let errorCallback = (response, cancelled) => {
           if (!cancelled) {
             tries++
-            console.warn('failed to parse download response', e, response)
+            console.warn('failed to download element general server error', response)
             if (tries < 2) {
               tryDownload()
             } else {
@@ -144,7 +177,7 @@ export default class TeaserElementControl extends ElementControl {
               !cancelled && this.setState({ elementState: 'failed' })
             }
           } else {
-            console.warn('failed to parse download response request cancelled', e, response)
+            console.warn('failed to download element general server error request cancelled', response)
             workspaceNotifications.set({
               type: 'error',
               text: localizations.defaultErrorElementDownload || 'Failed to download element.',
@@ -154,39 +187,10 @@ export default class TeaserElementControl extends ElementControl {
             })
           }
         }
+        this.ajax = this.props.startDownload(tag, data, successCallback, errorCallback)
       }
-      let errorCallback = (response, cancelled) => {
-        if (!cancelled) {
-          tries++
-          console.warn('failed to download element general server error', response)
-          if (tries < 2) {
-            tryDownload()
-          } else {
-            this.ajax = null
-            workspaceNotifications.set({
-              type: 'error',
-              text: localizations.defaultErrorElementDownload || 'Failed to download element.',
-              showCloseButton: 'true',
-              icon: 'vcv-ui-icon vcv-ui-icon-error',
-              time: 5000
-            })
-
-            !cancelled && this.setState({ elementState: 'failed' })
-          }
-        } else {
-          console.warn('failed to download element general server error request cancelled', response)
-          workspaceNotifications.set({
-            type: 'error',
-            text: localizations.defaultErrorElementDownload || 'Failed to download element.',
-            showCloseButton: 'true',
-            icon: 'vcv-ui-icon vcv-ui-icon-error',
-            time: 5000
-          })
-        }
-      }
-      this.ajax = this.props.startDownload(tag, data, successCallback, errorCallback)
+      tryDownload()
     }
-    tryDownload()
   }
 
   downloadTemplate (e) {
