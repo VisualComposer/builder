@@ -29,12 +29,11 @@ addStorage('hubElements', (storage) => {
 
   storage.on('downloadElement', (element) => {
     const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
-    const tag = element.tag
+    const { tag, name } = element
     let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
     if (element.bundle) {
       bundle = element.bundle
     }
-    let name = element.name
     let data = {
       'vcv-action': 'hub:download:element:adminNonce',
       'vcv-bundle': bundle,
