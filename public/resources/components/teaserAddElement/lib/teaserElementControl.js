@@ -17,7 +17,17 @@ export default class TeaserElementControl extends ElementControl {
 
     let elementState
     if (this.props.type === 'element') {
-      elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
+      if (env('HUB_DOWNLOAD_SPINNER')) {
+        const downloadingElements = getStorage('hubElements').state('downloadingElements').get() || []
+        if (downloadingElements.includes(props.tag)) {
+          elementState = 'downloading'
+          getStorage('hubElements').state('downloadingElements').onChange(this.downloadingElementOnChange)
+        } else {
+          elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
+        }
+      } else {
+        elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
+      }
     } else {
       let hubTemplates = templatesService.hub()
       elementState = 'inactive'
@@ -36,6 +46,7 @@ export default class TeaserElementControl extends ElementControl {
     this.downloadElement = this.downloadElement.bind(this)
     this.downloadTemplate = this.downloadTemplate.bind(this)
     this.addTemplate = this.addTemplate.bind(this)
+    this.downloadingElementOnChange = this.downloadingElementOnChange.bind(this)
     this.ajax = null
   }
 
@@ -44,6 +55,17 @@ export default class TeaserElementControl extends ElementControl {
       this.ajax = null
       this.props.cancelDownload(this.props.element.tag)
     }
+    if (env('HUB_DOWNLOAD_SPINNER')) {
+      getStorage('hubElements').state('downloadingElements').ignoreChange(this.downloadingElementOnChange)
+    }
+  }
+
+  downloadingElementOnChange (data) {
+    const tag = this.props.tag
+    if (!data.includes(tag)) {
+      this.setState({ elementState: hubElementsService.get(tag) ? 'success' : 'failed' })
+      getStorage('hubElements').state('downloadingElements').ignoreChange(this.downloadingElementOnChange)
+    }
   }
 
   downloadElement (e) {
@@ -51,6 +73,8 @@ export default class TeaserElementControl extends ElementControl {
       return
     }
     if (env('HUB_DOWNLOAD_SPINNER')) {
+      this.setState({ elementState: 'downloading' })
+      getStorage('hubElements').state('downloadingElements').onChange(this.downloadingElementOnChange)
       getStorage('hubElements').trigger('downloadElement', this.props.element)
     } else {
       let tag = this.props.element.tag

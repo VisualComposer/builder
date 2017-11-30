@@ -49,7 +49,7 @@ addStorage('hubElements', (storage) => {
       return
     }
     downloadingElements.push(tag)
-    storage.state('downloadginElement').set(downloadingElements)
+    storage.state('downloadingElements').set(downloadingElements)
 
     let tries = 0
     const buildVariables = (variables) => {
@@ -81,7 +81,7 @@ addStorage('hubElements', (storage) => {
             if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
               jsonResponse.elements.forEach((element) => {
                 element.tag = element.tag.replace('element/', '')
-                getStorage('hubElements').trigger('add', element, true)
+                storage.trigger('add', element, true)
                 storage.trigger('removeFromDownloading', tag)
               })
             }
