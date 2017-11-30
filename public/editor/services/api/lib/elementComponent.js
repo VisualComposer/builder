@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
+import vcCake from 'vc-cake'
 import YoutubeBackground from './youtubeBackground'
 import VimeoBackground from './vimeoBackground'
 import ImageSimpleBackground from './imageSimpleBackground'
@@ -12,6 +13,9 @@ import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 
 const { Component, PropTypes } = React
+const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
+
+let dataProcessor = null
 
 export default class ElementComponent extends Component {
   static propTypes = {
@@ -19,6 +23,59 @@ export default class ElementComponent extends Component {
     api: PropTypes.object,
     atts: PropTypes.object,
     editor: PropTypes.object
+  }
+
+  spinnerHTML () {
+    return '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
+  }
+
+  // [gallery ids="318,93"]
+  getShortcodesRegexp () {
+    return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
+  }
+
+  updateShortcodeToHtml (content, ref) {
+    if (content.match(this.getShortcodesRegexp())) {
+      ref && (ref.innerHTML = this.spinnerHTML())
+      if (!dataProcessor) {
+        dataProcessor = vcCake.getService('dataProcessor')
+      }
+      dataProcessor.appServerRequest({
+        'vcv-action': 'elements:ajaxShortcode:adminNonce',
+        'vcv-shortcode-string': content,
+        'vcv-nonce': window.vcvNonce,
+        'vcv-source-id': window.vcvSourceID
+      }).then((data) => {
+        let iframe = vcCake.env('iframe')
+        try {
+          ((function (window, document) {
+            let jsonData = JSON.parse(data)
+            let { headerContent, shortcodeContent, footerContent } = jsonData
+            ref && (ref.innerHTML = '')
+
+            let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+            headerDom.context = document
+            shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
+
+            let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+            shortcodeDom.context = document
+            if (shortcodeDom.children().length) {
+              shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.children(), addToDocument: true })
+            } else if (shortcodeDom.text()) {
+              window.jQuery(ref).append(document.createTextNode(shortcodeDom.text()))
+            }
+
+            let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+            footerDom.context = document
+            shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
+          })(iframe, iframe.document))
+        } catch (e) {
+          console.warn('failed to parse json', e)
+        }
+      })
+    } else {
+      ref && (ref.innerHTML = content)
+    }
   }
 
   updateInlineHtml (elementWrapper, html = '', tagString = '') {
