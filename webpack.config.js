@@ -81,7 +81,8 @@ module.exports = {
         'stylesManager',
         'hubCategories',
         'hubGroups',
-        'hubElements'
+        'hubElements',
+        'hubTemplates'
       ]
     },
     wp: {
@@ -105,7 +106,8 @@ module.exports = {
         'wpMyTemplates',
         'hubCategories',
         'hubGroups',
-        'hubElements'
+        'hubElements',
+        'hubTemplates'
       ]
     },
     wpbackend: {
@@ -131,7 +133,8 @@ module.exports = {
         'wpMyTemplates',
         'hubCategories',
         'hubGroups',
-        'hubElements'
+        'hubElements',
+        'hubTemplates'
       ]
     },
     'wpbackend-switcher': {
