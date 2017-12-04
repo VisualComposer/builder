@@ -316,7 +316,6 @@ export default class Url extends Attribute {
                   <span>{save}</span>
                 </span>
               </span>
-              <input className='vcv-ui-modal-action-submit-input' type='submit' />
             </div>
           </footer>
         </div>
