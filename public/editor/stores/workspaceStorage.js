@@ -173,4 +173,9 @@ addStorage('workspace', (storage) => {
     resizeTop: 0,
     resizeLeft: 0
   })
+  storage.on('removeFromDownloading', (tag) => {
+    let downloadingItems = storage.state('downloadingItems').get() || []
+    downloadingItems = downloadingItems.filter(downloadingTag => downloadingTag !== tag)
+    storage.state('downloadingItems').set(downloadingItems)
+  })
 })

@@ -7,6 +7,32 @@ addStorage('hubElements', (storage) => {
   const workspaceNotifications = workspaceStorage.state('notifications')
   const hubElementsService = getService('hubElements')
 
+  const buildVariables = (variables) => {
+    if (variables.length) {
+      variables.forEach((item) => {
+        if (typeof window[ item.key ] === 'undefined') {
+          if (item.type === 'constant') {
+            window[ item.key ] = function () { return item.value }
+          } else {
+            window[ item.key ] = item.value
+          }
+        }
+      })
+    }
+  }
+
+  const startDownload = (tag, data, successCallback, errorCallback) => {
+    const req = { key: tag, data: data, successCallback: successCallback, errorCallback: errorCallback, cancelled: false }
+    dataProcessor.appAdminServerRequest(req.data).then(
+      (response) => {
+        req.successCallback && req.successCallback(response, req.cancelled)
+      },
+      (response) => {
+        req.errorCallback && req.errorCallback(response, req.cancelled)
+      }
+    )
+  }
+
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS())
   })
@@ -43,27 +69,15 @@ addStorage('hubElements', (storage) => {
     if (hubElementsService.get(tag) !== null) {
       return
     }
-    let downloadingElements = storage.state('downloadingElements').get() || []
-    if (downloadingElements.includes(tag)) {
+
+    let downloadingItems = workspaceStorage.state('downloadingItems').get() || []
+    if (downloadingItems.includes(tag)) {
       return
     }
-    downloadingElements.push(tag)
-    storage.state('downloadingElements').set(downloadingElements)
+    downloadingItems.push(tag)
+    workspaceStorage.state('downloadingItems').set(downloadingItems)
 
     let tries = 0
-    const buildVariables = (variables) => {
-      if (variables.length) {
-        variables.forEach((item) => {
-          if (typeof window[ item.key ] === 'undefined') {
-            if (item.type === 'constant') {
-              window[ item.key ] = function () { return item.value }
-            } else {
-              window[ item.key ] = item.value
-            }
-          }
-        })
-      }
-    }
     const tryDownload = () => {
       let successCallback = (response, cancelled) => {
         try {
@@ -81,7 +95,7 @@ addStorage('hubElements', (storage) => {
               jsonResponse.elements.forEach((element) => {
                 element.tag = element.tag.replace('element/', '')
                 storage.trigger('add', element, true)
-                storage.trigger('removeFromDownloading', tag)
+                workspaceStorage.trigger('removeFromDownloading', tag)
               })
             }
           } else {
@@ -145,7 +159,7 @@ addStorage('hubElements', (storage) => {
         }
       }
       let errorCallback = (response, cancelled) => {
-        storage.trigger('removeFromDownloading', tag)
+        workspaceStorage.trigger('removeFromDownloading', tag)
         if (!cancelled) {
           tries++
           console.warn('failed to download element general server error', response)
@@ -171,15 +185,7 @@ addStorage('hubElements', (storage) => {
           })
         }
       }
-      const req = { key: tag, data: data, successCallback: successCallback, errorCallback: errorCallback, cancelled: false }
-      dataProcessor.appAdminServerRequest(req.data).then(
-        (response) => {
-          req.successCallback && req.successCallback(response, req.cancelled)
-        },
-        (response) => {
-          req.errorCallback && req.errorCallback(response, req.cancelled)
-        }
-      )
+      startDownload(tag, data, successCallback, errorCallback)
     }
     tryDownload()
   })

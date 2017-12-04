@@ -8,7 +8,8 @@ const templatesService = getService('myTemplates')
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
 const elementsStorage = getStorage('elements')
-const workspaceSettings = getStorage('workspace').state('settings')
+const workspaceSettings = workspaceStorage.state('settings')
+const hubElementsStorage = getStorage('hubElements')
 
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
@@ -18,10 +19,9 @@ export default class TeaserElementControl extends ElementControl {
     let elementState
     if (this.props.type === 'element') {
       if (env('HUB_DOWNLOAD_SPINNER')) {
-        const downloadingElements = getStorage('hubElements').state('downloadingElements').get() || []
-        if (downloadingElements.includes(props.tag)) {
+        const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
+        if (downloadingItems.includes(props.tag)) {
           elementState = 'downloading'
-          getStorage('hubElements').state('downloadingElements').onChange(this.downloadingElementOnChange)
         } else {
           elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
         }
@@ -46,8 +46,14 @@ export default class TeaserElementControl extends ElementControl {
     this.downloadElement = this.downloadElement.bind(this)
     this.downloadTemplate = this.downloadTemplate.bind(this)
     this.addTemplate = this.addTemplate.bind(this)
-    this.downloadingElementOnChange = this.downloadingElementOnChange.bind(this)
+    this.downloadingItemOnChange = this.downloadingItemOnChange.bind(this)
     this.ajax = null
+  }
+
+  componentDidMount () {
+    if (env('HUB_DOWNLOAD_SPINNER') && this.state.elementState === 'downloading') {
+      workspaceStorage.state('downloadingItems').onChange(this.downloadingItemOnChange)
+    }
   }
 
   componentWillUnmount () {
@@ -56,15 +62,15 @@ export default class TeaserElementControl extends ElementControl {
       this.props.cancelDownload(this.props.element.tag)
     }
     if (env('HUB_DOWNLOAD_SPINNER')) {
-      getStorage('hubElements').state('downloadingElements').ignoreChange(this.downloadingElementOnChange)
+      workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
   }
 
-  downloadingElementOnChange (data) {
-    const tag = this.props.tag
+  downloadingItemOnChange (data) {
+    const { tag } = this.props
     if (!data.includes(tag)) {
       this.setState({ elementState: hubElementsService.get(tag) ? 'success' : 'failed' })
-      getStorage('hubElements').state('downloadingElements').ignoreChange(this.downloadingElementOnChange)
+      workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
   }
 
@@ -74,8 +80,8 @@ export default class TeaserElementControl extends ElementControl {
     }
     if (env('HUB_DOWNLOAD_SPINNER')) {
       this.setState({ elementState: 'downloading' })
-      getStorage('hubElements').state('downloadingElements').onChange(this.downloadingElementOnChange)
-      getStorage('hubElements').trigger('downloadElement', this.props.element)
+      workspaceStorage.state('downloadingItems').onChange(this.downloadingItemOnChange)
+      hubElementsStorage.trigger('downloadElement', this.props.element)
     } else {
       let tag = this.props.element.tag
       let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
