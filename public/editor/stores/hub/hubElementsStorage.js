@@ -2,36 +2,10 @@ import { addStorage, getService, getStorage } from 'vc-cake'
 import $ from 'jquery'
 
 addStorage('hubElements', (storage) => {
-  const dataProcessor = getService('dataProcessor')
   const workspaceStorage = getStorage('workspace')
   const workspaceNotifications = workspaceStorage.state('notifications')
   const hubElementsService = getService('hubElements')
-
-  const buildVariables = (variables) => {
-    if (variables.length) {
-      variables.forEach((item) => {
-        if (typeof window[ item.key ] === 'undefined') {
-          if (item.type === 'constant') {
-            window[ item.key ] = function () { return item.value }
-          } else {
-            window[ item.key ] = item.value
-          }
-        }
-      })
-    }
-  }
-
-  const startDownload = (tag, data, successCallback, errorCallback) => {
-    const req = { key: tag, data: data, successCallback: successCallback, errorCallback: errorCallback, cancelled: false }
-    dataProcessor.appAdminServerRequest(req.data).then(
-      (response) => {
-        req.successCallback && req.successCallback(response, req.cancelled)
-      },
-      (response) => {
-        req.errorCallback && req.errorCallback(response, req.cancelled)
-      }
-    )
-  }
+  const utils = getService('utils')
 
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS())
@@ -90,7 +64,7 @@ addStorage('hubElements', (storage) => {
               text: successMessage.replace('{name}', name),
               time: 3000
             })
-            buildVariables(jsonResponse.variables || [])
+            utils.buildVariables(jsonResponse.variables || [])
             if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
               jsonResponse.elements.forEach((element) => {
                 element.tag = element.tag.replace('element/', '')
@@ -185,7 +159,7 @@ addStorage('hubElements', (storage) => {
           })
         }
       }
-      startDownload(tag, data, successCallback, errorCallback)
+      utils.startDownload(tag, data, successCallback, errorCallback)
     }
     tryDownload()
   })
