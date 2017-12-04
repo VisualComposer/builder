@@ -23,8 +23,8 @@ export default class Radio extends Attribute {
       )
     }
     return (
-      <form className='vcv-ui-form-radio-buttons'>
+      <div className='vcv-ui-form-radio-buttons'>
         {optionElements}
-      </form>)
+      </div>)
   }
 }

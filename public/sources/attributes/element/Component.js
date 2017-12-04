@@ -189,7 +189,7 @@ export default class ElementAttribute extends Attribute {
             {replaceElementText}
 
           </p>
-          <button className='vcv-ui-form-button vcv-ui-form-button--default'
+          <button type='button' className='vcv-ui-form-button vcv-ui-form-button--default'
             onClick={this.changeShowReplacements}>
             Replace {elementLabel}
           </button>

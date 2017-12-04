@@ -101,9 +101,9 @@ export default class AjaxForm extends Attribute {
   render () {
     return (
       <div className='vcv-ui-ajax-form-container'>
-        <form ref='form'>
+        <div ref='form'>
           <div dangerouslySetInnerHTML={{ __html: this.state.formContent || '' }} />
-        </form>
+        </div>
       </div>
     )
   }

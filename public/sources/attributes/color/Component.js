@@ -163,7 +163,7 @@ class Color extends Attribute {
         </div>
       )
       defaultPicker = (
-        <button className='vcv-ui-form-button vcv-ui-form-button--default vcv-ui-form-colopicker--default' onClick={this.handleDefaultColor}>
+        <button type='button' className='vcv-ui-form-button vcv-ui-form-button--default vcv-ui-form-colopicker--default' onClick={this.handleDefaultColor}>
           <span>Default</span>
         </button>
       )

@@ -63,7 +63,7 @@ export default class BackendClassicSwitcher extends React.Component {
         <a className='vcv-wpbackend-switcher-option' href={window.vcvFrontendEditorLink}>
           {buttonFEText}
         </a>
-        { editor !== 'be' ? <button className='vcv-wpbackend-switcher-option'
+        { editor !== 'be' ? <button className='vcv-wpbackend-switcher-option vcv-wpbackend-switcher--type-backend'
           onClick={this.enableBackendEditor}>{buttonBEText}</button> : '' }
       </div>
       { editor !== 'classic' ? (() => {
