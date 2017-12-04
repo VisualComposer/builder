@@ -102,9 +102,9 @@ export default class EditFormSection extends React.Component {
       >
         {tabTitle}
       </div>
-      <div className='vcv-ui-edit-form-section-content'>
+      <form className='vcv-ui-edit-form-section-content'>
         {this.getSectionFormFields(tab.params)}
-      </div>
+      </form>
     </div>
   }
 }

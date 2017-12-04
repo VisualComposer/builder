@@ -249,7 +249,7 @@ export default class Url extends Attribute {
         containerClassName='vcv-ui-modal-container'
         onClose={this.cancel}>
 
-        <form onSubmit={this.save} className='vcv-ui-modal'>
+        <div className='vcv-ui-modal'>
 
           <header className='vcv-ui-modal-header'>
             <span className='vcv-ui-modal-close' onClick={this.cancel} title={close}>
@@ -319,7 +319,7 @@ export default class Url extends Attribute {
               <input className='vcv-ui-modal-action-submit-input' type='submit' />
             </div>
           </footer>
-        </form>
+        </div>
 
       </Modal>
     )
@@ -335,6 +335,7 @@ export default class Url extends Attribute {
         <button
           className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default'
           onClick={this.open}
+          type='button'
           title={addLink}
         >
           <i className='vcv-ui-icon vcv-ui-icon-link' />

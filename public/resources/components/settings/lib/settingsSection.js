@@ -52,9 +52,9 @@ export default class EditFormSection extends React.Component {
         >
           {title}
         </div>
-        <div className='vcv-ui-edit-form-section-content'>
+        <form className='vcv-ui-edit-form-section-content'>
           {children}
-        </div>
+        </form>
       </div>
     )
   }
