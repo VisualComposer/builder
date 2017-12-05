@@ -1,6 +1,9 @@
 import vcCake from 'vc-cake'
 
-let templates = window.VCV_HUB_GET_TEMPLATES_TEASER()
+let templates
+if (vcCake.env('HUB_DOWNLOAD_SPINNER')) {
+  templates = window.VCV_HUB_GET_TEMPLATES_TEASER()
+}
 
 const API = {
   all: () => {
