@@ -62,6 +62,9 @@ $(() => {
         style.innerText += '-webkit-user-select: none;'
         style.innerText += 'user-select: none;'
         style.innerText += '}'
+        style.innerText += 'a[href] {'
+        style.innerText += '-webkit-touch-callout: none !important;'
+        style.innerText += '}'
         iframeDocument.head.appendChild(style)
       }
     }
