@@ -51,15 +51,20 @@ class ErrorReportingController extends Container implements Module
             // plugins list
             $data['plugins'] = wp_get_active_and_valid_plugins();
 
-            wp_remote_post(
+            $request = wp_remote_post(
                 VCV_API_URL . '/api/report/error',
                 [
                     'timeout' => 30,
                     'body' => $data,
                 ]
             );
+            if (!vcIsBadResponse($request)) {
+                $response = ['status' => true];
+            } else {
+                $response = ['status' => false];
+            }
         }
 
-        return ['status' => true];
+        return $response;
     }
 }
