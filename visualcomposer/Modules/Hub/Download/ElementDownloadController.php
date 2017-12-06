@@ -39,23 +39,30 @@ class ElementDownloadController extends Container implements Module
             $json = $this->sendRequestJson($bundle, $token);
             if (!vcIsBadResponse($json)) {
                 // fire the download process
-                foreach ($json['actions'] as $action) {
-                    $requestHelper->setData(
-                        [
-                            'vcv-hub-action' => $action, // element/row
-                        ]
-                    );
-                    $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
-                    if (vcIsBadResponse($response)) {
-                        vchelper('Logger')->log(
-                            __('Bad response from hub:action', 'vcwb'),
-                            ['response' => $response]
+                if (isset($json['actions'])) {
+                    foreach ($json['actions'] as $action) {
+                        $requestHelper->setData(
+                            [
+                                'vcv-hub-action' => $action, // element/row
+                            ]
                         );
-                        $response = [
-                            'status' => false,
-                            'message' => __('Failed to download element', 'vcwb'),
-                        ];
+                        $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
+                        if (vcIsBadResponse($response)) {
+                            vchelper('Logger')->log(
+                                __('Bad response from hub:action', 'vcwb'),
+                                ['response' => $response]
+                            );
+                            $response = [
+                                'status' => false,
+                                'message' => __('Failed to download bundle', 'vcwb'), // TODO add error codes
+                            ];
+                        }
                     }
+                } else {
+                    $response = [
+                        'status' => false,
+                        'message' => __('Failed to download bundle', 'vcwb'), // TODO add error codes
+                    ];
                 }
                 if (isset($response['elements'])) {
                     $response['variables'] = [];
