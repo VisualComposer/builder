@@ -11,7 +11,6 @@ const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const hubElementsStorage = getStorage('hubElements')
 const hubTemplateStorage = getStorage('hubTemplates')
-const hubTemplateService = getService('hubTemplates')
 
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
@@ -86,10 +85,10 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadingItemOnChange (data) {
-    const { tag } = this.props
+    let tag = this.props.type === 'element' ? this.props.tag : this.props.element.bundle.replace('template/', '')
     if (!data.includes(tag)) {
-      let tagExists = this.props.type === 'element' ? hubElementsService.get(tag) : hubTemplateService.get(tag)
-      this.setState({ elementState: tagExists ? 'success' : 'failed' })
+      let downloaded = this.props.type === 'element' ? hubElementsService.get(tag) : templatesService.findBy('bundle', this.props.element.bundle)
+      this.setState({ elementState: downloaded ? 'success' : 'failed' })
       workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
   }
