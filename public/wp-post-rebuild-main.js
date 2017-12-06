@@ -18,7 +18,9 @@ class PostBuilder {
       '<div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>\n' +
       '</div></div>'
     this.iframe = document.getElementById('vcv-editor-iframe')
-    this.iframe.addEventListener('load', this.loadIframe.bind(this))
+    this.iframe.addEventListener('load', this.renderData.bind(this), {
+      once: true
+    })
     this.iframeReady = true
   }
 
@@ -49,7 +51,7 @@ class PostBuilder {
   /**
    * Event listener to watch when editor is loaded
    */
-  loadIframe () {
+  renderData () {
     vcCake.env('iframe', this.iframe.contentWindow)
     !this.cakeReady && this.setupCake()
     window.vcvSourceID = this.settings.id
@@ -67,7 +69,11 @@ class PostBuilder {
     return new Promise((resolve, reject) => {
       this.resolve = resolve
       this.reject = reject
-      this.iframe.setAttribute('src', this.settings.editableLink)
+      if (this.iframe.getAttribute('src')) {
+        this.renderData()
+      } else {
+        this.iframe.setAttribute('src', this.settings.editableLink)
+      }
     })
   }
 }
