@@ -31,6 +31,15 @@ $(() => {
     $(iframeDocument.body).on('click', 'a[href]', (e) => {
       e && e.preventDefault()
     })
+    if (vcCake.env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        $(iframeDocument.body).on('contextmenu', 'a[href]', (e) => {
+          e && e.preventDefault()
+          e && e.stopPropagation()
+        })
+      }
+    }
     $(iframeDocument.body).on('click', '[type="submit"]', (e) => {
       e && e.preventDefault() && e.stopPropagation()
     })
@@ -53,6 +62,9 @@ $(() => {
         style.innerText += '-webkit-user-select: none;'
         style.innerText += 'user-select: none;'
         style.innerText += '}'
+        style.innerText += 'a[href] {'
+        style.innerText += '-webkit-touch-callout: none !important;'
+        style.innerText += '}'
         iframeDocument.head.appendChild(style)
       }
     }
@@ -69,8 +81,11 @@ $(() => {
       require('./editor/stores/workspaceStorage')
       if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
         require('./editor/stores/hub/hubElementsStorage')
+        require('./editor/stores/hub/hubTemplatesStorage')
         const hubElementsStorage = vcCake.getStorage('hubElements')
         hubElementsStorage.trigger('start')
+        const hubTemplatesStorage = vcCake.getStorage('hubTemplates')
+        hubTemplatesStorage.trigger('start')
       }
       require('./editor/stores/history/historyStorage')
       require('./editor/stores/settingsStorage')

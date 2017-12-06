@@ -1,58 +1,40 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
-import $ from 'jquery'
 
-addStorage('hubElements', (storage) => {
+addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const workspaceNotifications = workspaceStorage.state('notifications')
-  const hubElementsService = getService('hubElements')
   const utils = getService('utils')
+  const templateStorage = getStorage('templates')
 
   storage.on('start', () => {
-    storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS())
+    templateStorage.trigger('start')
   })
 
-  storage.on('add', (elementData, addBundle) => {
-    let elements = storage.state('elements').get() || {}
-    elements[ elementData.tag ] = elementData
-    hubElementsService.add(elementData)
-    storage.state('elements').set(elements)
-    if (addBundle) {
-      Promise.all([ $.getScript(elementData.bundlePath) ])
-    }
-  })
-
-  storage.on('removeFromDownloading', (tag) => {
-    let downloadingElements = storage.state('downloadingElements').get() || []
-    downloadingElements = downloadingElements.filter(downloadingTag => downloadingTag !== tag)
-    storage.state('downloadingElements').set(downloadingElements)
-  })
-
-  storage.on('downloadElement', (element) => {
-    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
-    const { tag, name } = element
-    let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
-    if (element.bundle) {
-      bundle = element.bundle
-    }
+  storage.on('downloadTemplate', (template) => {
+    const { bundle, name } = template
+    const localizations = window.VCV_I18N && window.VCV_I18N()
     let data = {
-      'vcv-action': 'hub:download:element:adminNonce',
+      'vcv-action': 'hub:download:template:adminNonce',
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
-    if (hubElementsService.get(tag) !== null) {
+    let tag = bundle.replace('template/', '')
+    let successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+    const hubTemplates = window.VCV_HUB_GET_TEMPLATES_TEASER()
+    let findTemplate = hubTemplates.find(template => template.bundle === bundle)
+    if (!findTemplate) {
       return
     }
-
     let downloadingItems = workspaceStorage.state('downloadingItems').get() || []
     if (downloadingItems.includes(tag)) {
       return
     }
+
     downloadingItems.push(tag)
     workspaceStorage.state('downloadingItems').set(downloadingItems)
 
     let tries = 0
-    const tryDownload = () => {
+    let tryDownload = () => {
       let successCallback = (response, cancelled) => {
         try {
           let jsonResponse = window.JSON.parse(response)
@@ -65,26 +47,32 @@ addStorage('hubElements', (storage) => {
               time: 3000
             })
             utils.buildVariables(jsonResponse.variables || [])
+            // Initialize template depended elements
             if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
               jsonResponse.elements.forEach((element) => {
                 element.tag = element.tag.replace('element/', '')
-                storage.trigger('add', element, true)
-                workspaceStorage.trigger('removeFromDownloading', tag)
+                getStorage('hubElements').trigger('add', element, true)
               })
             }
+            if (jsonResponse.templates) {
+              let template = jsonResponse.templates[ 0 ]
+              template.id = template.id.toString()
+              templateStorage.trigger('add', 'hub', template)
+            }
+            workspaceStorage.trigger('removeFromDownloading', tag)
           } else {
             if (!cancelled) {
               tries++
-              console.warn('failed to download element status is false', jsonResponse, response)
+              console.warn('failed to download template status is false', jsonResponse, response)
               if (tries < 2) {
                 tryDownload()
               } else {
-                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
                 if (jsonResponse && jsonResponse.message) {
                   errorMessage = jsonResponse.message
                 }
 
-                console.warn('failed to download element status is false', errorMessage, response)
+                console.warn('failed to download template status is false', errorMessage, response)
                 workspaceNotifications.set({
                   type: 'error',
                   text: errorMessage,
@@ -92,10 +80,11 @@ addStorage('hubElements', (storage) => {
                   icon: 'vcv-ui-icon vcv-ui-icon-error',
                   time: 5000
                 })
+                workspaceStorage.trigger('removeFromDownloading', tag)
               }
             } else {
-              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
-              console.warn('failed to download element request cancelled', errorMessage, response)
+              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
+              console.warn('failed to download template request cancelled', errorMessage, response)
               workspaceNotifications.set({
                 type: 'error',
                 text: errorMessage,
@@ -114,17 +103,18 @@ addStorage('hubElements', (storage) => {
             } else {
               workspaceNotifications.set({
                 type: 'error',
-                text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+                text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
                 showCloseButton: 'true',
                 icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
               })
+              workspaceStorage.trigger('removeFromDownloading', tag)
             }
           } else {
-            console.warn('failed to parse download response request cancelled', e, response)
+            console.warn('failed to parse download response request is cancelled', e, response)
             workspaceNotifications.set({
               type: 'error',
-              text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+              text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
               showCloseButton: 'true',
               icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
@@ -136,30 +126,30 @@ addStorage('hubElements', (storage) => {
         workspaceStorage.trigger('removeFromDownloading', tag)
         if (!cancelled) {
           tries++
-          console.warn('failed to download element general server error', response)
+          console.warn('failed to download template general server error', response)
           if (tries < 2) {
             tryDownload()
           } else {
             workspaceNotifications.set({
               type: 'error',
-              text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+              text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
               showCloseButton: 'true',
               icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
             })
           }
         } else {
-          console.warn('failed to download element general server error request cancelled', response)
+          console.warn('failed to download template general server error request cancelled', response)
           workspaceNotifications.set({
             type: 'error',
-            text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+            text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
             showCloseButton: 'true',
             icon: 'vcv-ui-icon vcv-ui-icon-error',
             time: 5000
           })
         }
       }
-      utils.startDownload(tag, data, successCallback, errorCallback)
+      utils.startDownload(bundle, data, successCallback, errorCallback)
     }
     tryDownload()
   })

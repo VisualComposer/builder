@@ -8,7 +8,9 @@ const templatesService = getService('myTemplates')
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
 const elementsStorage = getStorage('elements')
-const workspaceSettings = getStorage('workspace').state('settings')
+const workspaceSettings = workspaceStorage.state('settings')
+const hubElementsStorage = getStorage('hubElements')
+const hubTemplateStorage = getStorage('hubTemplates')
 
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
@@ -18,10 +20,9 @@ export default class TeaserElementControl extends ElementControl {
     let elementState
     if (this.props.type === 'element') {
       if (env('HUB_DOWNLOAD_SPINNER')) {
-        const downloadingElements = getStorage('hubElements').state('downloadingElements').get() || []
-        if (downloadingElements.includes(props.tag)) {
+        const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
+        if (downloadingItems.includes(props.tag)) {
           elementState = 'downloading'
-          getStorage('hubElements').state('downloadingElements').onChange(this.downloadingElementOnChange)
         } else {
           elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
         }
@@ -29,12 +30,29 @@ export default class TeaserElementControl extends ElementControl {
         elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
       }
     } else {
-      let hubTemplates = templatesService.hub()
-      elementState = 'inactive'
-      for (let i = 0; i < hubTemplates.length; i++) {
-        if (hubTemplates[ i ].bundle === this.props.element.bundle) {
-          elementState = 'success'
-          break
+      if (env('HUB_DOWNLOAD_SPINNER')) {
+        const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
+        const tag = this.props.element.bundle.replace('template/', '')
+        if (downloadingItems.includes(tag)) {
+          elementState = 'downloading'
+        } else {
+          let hubTemplates = templatesService.hub()
+          elementState = 'inactive'
+          for (let i = 0; i < hubTemplates.length; i++) {
+            if (hubTemplates[ i ].bundle === this.props.element.bundle) {
+              elementState = 'success'
+              break
+            }
+          }
+        }
+      } else {
+        let hubTemplates = templatesService.hub()
+        elementState = 'inactive'
+        for (let i = 0; i < hubTemplates.length; i++) {
+          if (hubTemplates[ i ].bundle === this.props.element.bundle) {
+            elementState = 'success'
+            break
+          }
         }
       }
     }
@@ -46,8 +64,14 @@ export default class TeaserElementControl extends ElementControl {
     this.downloadElement = this.downloadElement.bind(this)
     this.downloadTemplate = this.downloadTemplate.bind(this)
     this.addTemplate = this.addTemplate.bind(this)
-    this.downloadingElementOnChange = this.downloadingElementOnChange.bind(this)
+    this.downloadingItemOnChange = this.downloadingItemOnChange.bind(this)
     this.ajax = null
+  }
+
+  componentDidMount () {
+    if (env('HUB_DOWNLOAD_SPINNER') && this.state.elementState === 'downloading') {
+      workspaceStorage.state('downloadingItems').onChange(this.downloadingItemOnChange)
+    }
   }
 
   componentWillUnmount () {
@@ -56,15 +80,16 @@ export default class TeaserElementControl extends ElementControl {
       this.props.cancelDownload(this.props.element.tag)
     }
     if (env('HUB_DOWNLOAD_SPINNER')) {
-      getStorage('hubElements').state('downloadingElements').ignoreChange(this.downloadingElementOnChange)
+      workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
   }
 
-  downloadingElementOnChange (data) {
-    const tag = this.props.tag
+  downloadingItemOnChange (data) {
+    let tag = this.props.type === 'element' ? this.props.tag : this.props.element.bundle.replace('template/', '')
     if (!data.includes(tag)) {
-      this.setState({ elementState: hubElementsService.get(tag) ? 'success' : 'failed' })
-      getStorage('hubElements').state('downloadingElements').ignoreChange(this.downloadingElementOnChange)
+      let downloaded = this.props.type === 'element' ? hubElementsService.get(tag) : templatesService.findBy('bundle', this.props.element.bundle)
+      this.setState({ elementState: downloaded ? 'success' : 'failed' })
+      workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
   }
 
@@ -74,8 +99,8 @@ export default class TeaserElementControl extends ElementControl {
     }
     if (env('HUB_DOWNLOAD_SPINNER')) {
       this.setState({ elementState: 'downloading' })
-      getStorage('hubElements').state('downloadingElements').onChange(this.downloadingElementOnChange)
-      getStorage('hubElements').trigger('downloadElement', this.props.element)
+      workspaceStorage.state('downloadingItems').onChange(this.downloadingItemOnChange)
+      hubElementsStorage.trigger('downloadElement', this.props.element)
     } else {
       let tag = this.props.element.tag
       let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
@@ -221,65 +246,100 @@ export default class TeaserElementControl extends ElementControl {
     if (this.ajax || !this.state.allowDownload) {
       return
     }
-    let bundle = this.props.element.bundle
-    let name = this.props.element.name
-    this.setState({ elementState: 'downloading' })
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    if (env('HUB_DOWNLOAD_SPINNER')) {
+      this.setState({ elementState: 'downloading' })
+      workspaceStorage.state('downloadingItems').onChange(this.downloadingItemOnChange)
+      hubTemplateStorage.trigger('downloadTemplate', this.props.element)
+    } else {
+      let bundle = this.props.element.bundle
+      let name = this.props.element.name
+      this.setState({ elementState: 'downloading' })
+      const localizations = window.VCV_I18N && window.VCV_I18N()
 
-    let data = {
-      'vcv-action': 'hub:download:template:adminNonce',
-      'vcv-bundle': bundle,
-      'vcv-nonce': window.vcvNonce
-    }
-    let tag = bundle // for queue
-    let successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+      let data = {
+        'vcv-action': 'hub:download:template:adminNonce',
+        'vcv-bundle': bundle,
+        'vcv-nonce': window.vcvNonce
+      }
+      let tag = bundle // for queue
+      let successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
 
-    let tries = 0
-    let tryDownload = () => {
-      let successCallback = (response, cancelled) => {
-        this.ajax = null
-        try {
-          let jsonResponse = window.JSON.parse(response)
-          if (jsonResponse && jsonResponse.status) {
-            workspaceNotifications.set({
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
-              text: successMessage.replace('{name}', name),
-              time: 3000
-            })
-            this.buildVariables(jsonResponse.variables || [])
-            // Initialize template depended elements
-            if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
-              jsonResponse.elements.forEach((element) => {
-                element.tag = element.tag.replace('element/', '')
-                getStorage('hubElements').trigger('add', element, true)
+      let tries = 0
+      let tryDownload = () => {
+        let successCallback = (response, cancelled) => {
+          this.ajax = null
+          try {
+            let jsonResponse = window.JSON.parse(response)
+            if (jsonResponse && jsonResponse.status) {
+              workspaceNotifications.set({
+                position: 'bottom',
+                transparent: true,
+                rounded: true,
+                text: successMessage.replace('{name}', name),
+                time: 3000
               })
-            }
-            if (jsonResponse.templates) {
-              let template = jsonResponse.templates[ 0 ]
-              template.id = template.id.toString()
-              getStorage('templates').trigger('add', 'hub', template)
-            }
+              this.buildVariables(jsonResponse.variables || [])
+              // Initialize template depended elements
+              if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
+                jsonResponse.elements.forEach((element) => {
+                  element.tag = element.tag.replace('element/', '')
+                  getStorage('hubElements').trigger('add', element, true)
+                })
+              }
+              if (jsonResponse.templates) {
+                let template = jsonResponse.templates[ 0 ]
+                template.id = template.id.toString()
+                getStorage('templates').trigger('add', 'hub', template)
+              }
 
-            !cancelled && this.setState({ elementState: 'success' })
-          } else {
+              !cancelled && this.setState({ elementState: 'success' })
+            } else {
+              if (!cancelled) {
+                tries++
+                console.warn('failed to download template status is false', jsonResponse, response)
+                if (tries < 2) {
+                  tryDownload()
+                } else {
+                  this.ajax = null
+                  let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
+                  if (jsonResponse && jsonResponse.message) {
+                    errorMessage = jsonResponse.message
+                  }
+
+                  console.warn('failed to download template status is false', errorMessage, response)
+                  workspaceNotifications.set({
+                    type: 'error',
+                    text: errorMessage,
+                    showCloseButton: 'true',
+                    icon: 'vcv-ui-icon vcv-ui-icon-error',
+                    time: 5000
+                  })
+
+                  !cancelled && this.setState({ elementState: 'failed' })
+                }
+              } else {
+                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
+                console.warn('failed to download template request cancelled', errorMessage, response)
+                workspaceNotifications.set({
+                  type: 'error',
+                  text: errorMessage,
+                  showCloseButton: 'true',
+                  icon: 'vcv-ui-icon vcv-ui-icon-error',
+                  time: 5000
+                })
+              }
+            }
+          } catch (e) {
             if (!cancelled) {
               tries++
-              console.warn('failed to download template status is false', jsonResponse, response)
+              console.warn('failed to parse download response', e, response)
               if (tries < 2) {
                 tryDownload()
               } else {
                 this.ajax = null
-                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
-                if (jsonResponse && jsonResponse.message) {
-                  errorMessage = jsonResponse.message
-                }
-
-                console.warn('failed to download template status is false', errorMessage, response)
                 workspaceNotifications.set({
                   type: 'error',
-                  text: errorMessage,
+                  text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
                   showCloseButton: 'true',
                   icon: 'vcv-ui-icon vcv-ui-icon-error',
                   time: 5000
@@ -288,21 +348,21 @@ export default class TeaserElementControl extends ElementControl {
                 !cancelled && this.setState({ elementState: 'failed' })
               }
             } else {
-              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
-              console.warn('failed to download template request cancelled', errorMessage, response)
+              console.warn('failed to parse download response request is cancelled', e, response)
               workspaceNotifications.set({
                 type: 'error',
-                text: errorMessage,
+                text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
                 showCloseButton: 'true',
                 icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
               })
             }
           }
-        } catch (e) {
+        }
+        let errorCallback = (response, cancelled) => {
           if (!cancelled) {
             tries++
-            console.warn('failed to parse download response', e, response)
+            console.warn('failed to download template general server error', response)
             if (tries < 2) {
               tryDownload()
             } else {
@@ -318,7 +378,7 @@ export default class TeaserElementControl extends ElementControl {
               !cancelled && this.setState({ elementState: 'failed' })
             }
           } else {
-            console.warn('failed to parse download response request is cancelled', e, response)
+            console.warn('failed to download template general server error request cancelled', response)
             workspaceNotifications.set({
               type: 'error',
               text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
@@ -328,39 +388,10 @@ export default class TeaserElementControl extends ElementControl {
             })
           }
         }
+        this.ajax = this.props.startDownload(tag, data, successCallback, errorCallback)
       }
-      let errorCallback = (response, cancelled) => {
-        if (!cancelled) {
-          tries++
-          console.warn('failed to download template general server error', response)
-          if (tries < 2) {
-            tryDownload()
-          } else {
-            this.ajax = null
-            workspaceNotifications.set({
-              type: 'error',
-              text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
-              showCloseButton: 'true',
-              icon: 'vcv-ui-icon vcv-ui-icon-error',
-              time: 5000
-            })
-
-            !cancelled && this.setState({ elementState: 'failed' })
-          }
-        } else {
-          console.warn('failed to download template general server error request cancelled', response)
-          workspaceNotifications.set({
-            type: 'error',
-            text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
-            showCloseButton: 'true',
-            icon: 'vcv-ui-icon vcv-ui-icon-error',
-            time: 5000
-          })
-        }
-      }
-      this.ajax = this.props.startDownload(tag, data, successCallback, errorCallback)
+      tryDownload()
     }
-    tryDownload()
   }
 
   addTemplate (e) {

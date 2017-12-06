@@ -76,7 +76,7 @@ class Iconpicker extends Attribute {
 
     if (search) {
       icons = icons.filter(icon => {
-        return icon.title.toLowerCase().indexOf(search) > -1
+        return icon.title.toLowerCase().indexOf(search.toLowerCase()) > -1
       })
     }
     return icons

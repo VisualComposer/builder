@@ -172,6 +172,31 @@ const API = {
       }
     }
     return visibleElements
+  },
+  buildVariables (variables) {
+    if (variables.length) {
+      variables.forEach((item) => {
+        if (typeof window[ item.key ] === 'undefined') {
+          if (item.type === 'constant') {
+            window[ item.key ] = function () { return item.value }
+          } else {
+            window[ item.key ] = item.value
+          }
+        }
+      })
+    }
+  },
+  startDownload (tag, data, successCallback, errorCallback) {
+    const dataProcessor = vcCake.getService('dataProcessor')
+    const req = { key: tag, data: data, successCallback: successCallback, errorCallback: errorCallback, cancelled: false }
+    dataProcessor.appAdminServerRequest(req.data).then(
+      (response) => {
+        req.successCallback && req.successCallback(response, req.cancelled)
+      },
+      (response) => {
+        req.errorCallback && req.errorCallback(response, req.cancelled)
+      }
+    )
   }
 }
 vcCake.addService('utils', API)
