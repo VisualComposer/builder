@@ -140,10 +140,33 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
       $(document).on('click', '[data-vcv-send-error-report]', (e) => {
         e && e.preventDefault && e.preventDefault()
         $popup.find('.vcv-loading-text').hide()
-        sendError(e, function () {
-          const localizations = window.VCV_I18N && window.VCV_I18N()
-          window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
-          window.location.href = window.vcvDashboardUrl
+
+        let ifrm = document.createElement('iframe')
+        let iframeLoadTimes = 0
+        ifrm.setAttribute('src', 'https://visualcomposer.freshdesk.com/widgets/feedback_widget/new')
+        ifrm.className = 'vcv-freshdesk-iframe'
+        ifrm.addEventListener('load', function () {
+          if (iframeLoadTimes > 0) {
+            ifrm.style.display = 'none'
+            window.location.href = window.vcvDashboardUrl
+          }
+          iframeLoadTimes++
+        })
+        document.body.appendChild(ifrm)
+
+        sendError(e, function (response) {
+          try {
+            let jsonData = JSON.parse(response)
+            if (jsonData.status) {
+              const localizations = window.VCV_I18N && window.VCV_I18N()
+              window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
+              window.location.href = window.vcvDashboardUrl
+            } else {
+              ifrm.style.display = 'block'
+            }
+          } catch (e) {
+            ifrm.style.display = 'block'
+          }
         })
         closeError($errorPopup)
         showLoadingScreen($popup)
