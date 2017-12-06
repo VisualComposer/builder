@@ -111,6 +111,24 @@
       return elements;
     }
   };
+
+  function checkYT(selector) {
+    var attempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    if (typeof YT === 'undefined' || !YT.loaded) {
+      if (attempts > 100) {
+        console.log('Too many attempts to load YouTube IFrame API');
+        return;
+      }
+      setTimeout(function () {
+        attempts++;
+        checkYT(selector, attempts);
+      }, 100);
+      return;
+    }
+    plugins.init(selector);
+  }
+
   //
-  window.vceAssetsBackgroundVideoYoutube = plugins.init;
+  window.vceAssetsBackgroundVideoYoutube = checkYT;
 })(window, document);
