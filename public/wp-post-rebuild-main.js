@@ -34,6 +34,8 @@ class PostBuilder {
         require('./editor/stores/hub/hubTemplatesStorage')
         const hubElementsStorage = vcCake.getStorage('hubElements')
         hubElementsStorage.trigger('start')
+        const hubTemplatesStorage = vcCake.getStorage('hubTemplates')
+        hubTemplatesStorage.trigger('start')
       }
       require('./editor/stores/elements/elementsStorage')
       require('./editor/stores/wordpressRebuildPostData/wordpressRebuildPostDataStorage.js')

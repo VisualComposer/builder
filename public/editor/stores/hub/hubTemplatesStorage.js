@@ -1,25 +1,13 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
-import $ from 'jquery'
 
 addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const workspaceNotifications = workspaceStorage.state('notifications')
-  const hubTemplatesService = getService('hubTemplates')
   const utils = getService('utils')
   const templateStorage = getStorage('templates')
 
   storage.on('start', () => {
-    storage.state('templates').set(window.VCV_HUB_GET_ELEMENTS())
-  })
-
-  storage.on('add', (templateData, addBundle) => {
-    let templates = storage.state('templates').get() || {}
-    templates[ templateData.tag ] = templateData
-    hubTemplatesService.add(templateData)
-    storage.state('templates').set(templates)
-    if (addBundle) {
-      Promise.all([ $.getScript(templateData.bundlePath) ])
-    }
+    templateStorage.trigger('start')
   })
 
   storage.on('downloadTemplate', (template) => {
@@ -30,10 +18,11 @@ addStorage('hubTemplates', (storage) => {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    let tag = bundle.replace('template/', '') // for queue
-    // let tag = bundle // for queue
+    let tag = bundle.replace('template/', '')
     let successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
-    if (hubTemplatesService.get(tag) !== null) {
+    const hubTemplates = window.VCV_HUB_GET_TEMPLATES_TEASER()
+    let findTemplate = hubTemplates.find(template => template.bundle === bundle)
+    if (!findTemplate) {
       return
     }
     let downloadingItems = workspaceStorage.state('downloadingItems').get() || []
@@ -59,18 +48,18 @@ addStorage('hubTemplates', (storage) => {
             })
             utils.buildVariables(jsonResponse.variables || [])
             // Initialize template depended elements
-            if (jsonResponse.templates && Array.isArray(jsonResponse.templates)) {
-              jsonResponse.templates.forEach((template) => {
-                template.tag = template.tag.replace('template/', '')
-                storage.trigger('add', template, true)
+            if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
+              jsonResponse.elements.forEach((element) => {
+                element.tag = element.tag.replace('element/', '')
+                getStorage('hubElements').trigger('add', element, true)
               })
             }
             if (jsonResponse.templates) {
               let template = jsonResponse.templates[ 0 ]
               template.id = template.id.toString()
               templateStorage.trigger('add', 'hub', template)
-              workspaceStorage.trigger('removeFromDownloading', tag)
             }
+            workspaceStorage.trigger('removeFromDownloading', tag)
           } else {
             if (!cancelled) {
               tries++
@@ -91,6 +80,7 @@ addStorage('hubTemplates', (storage) => {
                   icon: 'vcv-ui-icon vcv-ui-icon-error',
                   time: 5000
                 })
+                workspaceStorage.trigger('removeFromDownloading', tag)
               }
             } else {
               let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
@@ -118,6 +108,7 @@ addStorage('hubTemplates', (storage) => {
                 icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
               })
+              workspaceStorage.trigger('removeFromDownloading', tag)
             }
           } else {
             console.warn('failed to parse download response request is cancelled', e, response)
@@ -158,7 +149,7 @@ addStorage('hubTemplates', (storage) => {
           })
         }
       }
-      utils.startDownload(tag, data, successCallback, errorCallback)
+      utils.startDownload(bundle, data, successCallback, errorCallback)
     }
     tryDownload()
   })
