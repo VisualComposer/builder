@@ -34,7 +34,7 @@ class Frontend implements Helper
         ];
         $frontendUrl = $link . $question . http_build_query($query);
 
-        return $frontendUrl;
+        return vcfilter('vcv:frontend:url', $frontendUrl, ['sourceId' => $sourceId, 'query' => $query]);
     }
 
     /**
@@ -55,7 +55,7 @@ class Frontend implements Helper
 
         $editableUrl = $link . $question . http_build_query($query);
 
-        return $editableUrl;
+        return vcfilter('vcv:frontend:pageEditable:url', $editableUrl, ['sourceId' => $sourceId, 'query' => $query]);
     }
 
     /**
