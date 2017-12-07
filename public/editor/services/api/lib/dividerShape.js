@@ -19,18 +19,42 @@ export default class DividerShape extends Component {
     videoVimeo: PropTypes.string
   }
 
+  setAlphaForColor (color, alpha = '1') {
+    if (color.indexOf('rgba') >= 0) {
+      let values = color.match(/[\d.]+/g)
+      if (values[3] && values[3] !== '1') {
+        values[3] = alpha
+        color = `rgba(${values.join(',')})`
+      }
+    }
+    return color
+  }
+
+  getAlphaFromColor (color) {
+    let alpha = '1'
+    if (color.indexOf('rgba') >= 0) {
+      let values = color.match(/[\d.]+/g)
+      values[3] && (alpha = values[3])
+    }
+    return alpha
+  }
+
   getLinearGradient () {
     if (this.props.fillType !== 'gradient') {
       return null
     }
 
-    let startColor = this.props.gradientColorStart
-    let endColor = this.props.gradientColorEnd
+    let startColor = this.setAlphaForColor(this.props.gradientColorStart)
+    let startColorAlpha = this.getAlphaFromColor(this.props.gradientColorStart)
+    let endColor = this.setAlphaForColor(this.props.gradientColorEnd)
+    let endColorAlpha = this.getAlphaFromColor(this.props.gradientColorEnd)
     let angle = this.props.gradientAngle
 
     if (this.props.flipHorizontally) {
-      startColor = this.props.gradientColorEnd
-      endColor = this.props.gradientColorStart
+      startColor = this.setAlphaForColor(this.props.gradientColorEnd)
+      startColorAlpha = this.getAlphaFromColor(this.props.gradientColorEndAlpha)
+      endColor = this.setAlphaForColor(this.props.gradientColorStart)
+      endColorAlpha = this.getAlphaFromColor(this.props.gradientColorStartAlpha)
     }
 
     let id = `gradient-${this.props.id}-${this.props.deviceKey}`
@@ -40,8 +64,8 @@ export default class DividerShape extends Component {
 
     return (
       <linearGradient id={id} gradientUnits='objectBoundingBox' gradientTransform={`rotate(${angle} 0.5 0.5)`}>
-        <stop offset='0%' style={{ stopColor: startColor, stopOpacity: '1' }} />
-        <stop offset='100%' style={{ stopColor: endColor, stopOpacity: '1' }} />
+        <stop offset='0%' style={{ stopColor: startColor, stopOpacity: startColorAlpha }} />
+        <stop offset='100%' style={{ stopColor: endColor, stopOpacity: endColorAlpha }} />
       </linearGradient>
     )
   }

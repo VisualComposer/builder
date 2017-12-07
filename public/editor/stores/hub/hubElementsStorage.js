@@ -21,12 +21,6 @@ addStorage('hubElements', (storage) => {
     }
   })
 
-  storage.on('removeFromDownloading', (tag) => {
-    let downloadingElements = storage.state('downloadingElements').get() || []
-    downloadingElements = downloadingElements.filter(downloadingTag => downloadingTag !== tag)
-    storage.state('downloadingElements').set(downloadingElements)
-  })
-
   storage.on('downloadElement', (element) => {
     const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
     const { tag, name } = element
