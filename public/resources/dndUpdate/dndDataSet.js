@@ -384,6 +384,8 @@ export default class DndDataSet {
     window.setTimeout(() => {
       this.helper && this.helper.show()
     }, 200)
+
+    this.dragStartedAt = (new Date()).getTime()
   }
 
   createDraggingElementFromTag (tag, domNode) {
@@ -402,6 +404,9 @@ export default class DndDataSet {
   }
 
   end () {
+    let dragEndedAt = (new Date()).getTime()
+    let dragStartedAt = this.dragStartedAt
+    this.dragStartedAt = null
     // Remove helper
     this.helper && this.helper.remove()
     // Remove css class for body
@@ -427,22 +432,25 @@ export default class DndDataSet {
     }
     const isValidLayoutCustomMode = getData('vcv:layoutCustomMode') === 'dnd'
 
-    if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
-      this.position && this.options.dropCallback(
-        this.draggingElement.id,
-        this.position,
-        this.currentElement,
-        this.draggingElement
-      )
-      if (!this.position) {
-        workspaceStorage.state('drag').set({terminate: true})
+    // prevent quick multiple click
+    if (dragEndedAt - dragStartedAt > 250) {
+      if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
+        this.position && this.options.dropCallback(
+          this.draggingElement.id,
+          this.position,
+          this.currentElement,
+          this.draggingElement
+        )
+        if (!this.position) {
+          workspaceStorage.state('drag').set({ terminate: true })
+        }
+      } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
+        this.position && this.options.moveCallback(
+          this.draggingElement.id,
+          this.position,
+          this.currentElement
+        )
       }
-    } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
-      this.position && this.options.moveCallback(
-        this.draggingElement.id,
-        this.position,
-        this.currentElement
-      )
     }
     this.draggingElement = null
     this.currentElement = null
