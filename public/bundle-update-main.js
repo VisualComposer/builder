@@ -232,10 +232,34 @@ import { log as logError, send as sendError } from './editor/modules/backendSett
         enableLoader()
         $heading.text('')
         $heading.closest('.vcv-loading-text').hide()
-        sendError(e, function () {
-          const localizations = window.VCV_I18N && window.VCV_I18N()
-          window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
-          window.location.href = window.vcvDashboardUrl
+
+        const localizations = window.VCV_I18N && window.VCV_I18N()
+        let ifrm = document.createElement('iframe')
+        let iframeLoadTimes = 0
+        ifrm.setAttribute('src', 'https://visualcomposer.freshdesk.com/widgets/feedback_widget/new')
+        ifrm.className = 'vcv-freshdesk-iframe'
+        ifrm.addEventListener('load', function () {
+          if (iframeLoadTimes > 0) {
+            ifrm.style.display = 'none'
+            window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
+            window.location.href = window.vcvDashboardUrl
+          }
+          iframeLoadTimes++
+        })
+        document.body.appendChild(ifrm)
+
+        sendError(e, function (response) {
+          try {
+            let jsonData = JSON.parse(response)
+            if (jsonData.status) {
+              window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
+              window.location.href = window.vcvDashboardUrl
+            } else {
+              ifrm.style.display = 'block'
+            }
+          } catch (e) {
+            ifrm.style.display = 'block'
+          }
         })
       })
     } else {
