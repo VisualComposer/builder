@@ -31,15 +31,58 @@ class Controller extends Container implements Module
 
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::inject404Page */
         $this->wpAddAction('pre_get_posts', 'inject404Page');
+        $this->wpAddFilter('pre_handle_404', 'check404');
+    }
+
+    protected function check404($response, Frontend $frontendHelper)
+    {
+        // @codingStandardsIgnoreStart
+        global $wp_query;
+        if ($frontendHelper->isPageEditable()) {
+            $post = get_post(vchelper('Request')->input('vcv-source-id'));
+            $wp_query->posts = [
+                $post,
+            ];
+            $wp_query->post = $post;
+            $wp_query->post_count = 1;
+
+            // @codingStandardsIgnoreEnd
+            return true;
+        }
+
+        return $response;
     }
 
     protected function inject404Page($wpQuery, Frontend $frontendHelper)
     {
         if ($frontendHelper->isPageEditable()) {
-            // TODO: Check another post statuses
-            $wpQuery->query['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft', 'private', 'future'];
+            $wpQuery->query['post_status'] = [
+                'publish',
+                'unpublish',
+                'draft',
+                'pending',
+                'auto-draft',
+                'private',
+                'future',
+            ];
             // @codingStandardsIgnoreLine
-            $wpQuery->query_vars['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft', 'private', 'future'];
+            $wpQuery->query_vars['post_status'] = [
+                'publish',
+                'unpublish',
+                'draft',
+                'pending',
+                'auto-draft',
+                'private',
+                'future',
+            ];
+
+            $post = get_post(vchelper('Request')->input('vcv-source-id'));
+            $wpQuery->posts = [
+                $post,
+            ];
+            $wpQuery->post = $post;
+            // @codingStandardsIgnoreLine
+            $wpQuery->post_count = 1;
         }
     }
 
