@@ -141,6 +141,7 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
         e && e.preventDefault && e.preventDefault()
         $popup.find('.vcv-loading-text').hide()
 
+        const localizations = window.VCV_I18N && window.VCV_I18N()
         let ifrm = document.createElement('iframe')
         let iframeLoadTimes = 0
         ifrm.setAttribute('src', 'https://visualcomposer.freshdesk.com/widgets/feedback_widget/new')
@@ -148,6 +149,7 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
         ifrm.addEventListener('load', function () {
           if (iframeLoadTimes > 0) {
             ifrm.style.display = 'none'
+            window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
             window.location.href = window.vcvDashboardUrl
           }
           iframeLoadTimes++
@@ -158,7 +160,6 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
           try {
             let jsonData = JSON.parse(response)
             if (jsonData.status) {
-              const localizations = window.VCV_I18N && window.VCV_I18N()
               window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
               window.location.href = window.vcvDashboardUrl
             } else {
