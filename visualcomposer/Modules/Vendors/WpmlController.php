@@ -22,6 +22,7 @@ class WpmlController extends Container implements Module
     {
         if (defined('ICL_SITEPRESS_VERSION')) {
             $this->addFilter('vcv:frontend:pageEditable:url', 'addLangToLink');
+            $this->addFilter('vcv:backend:extraOutput', 'addTooltipStyleFixes');
             $this->addFilter('vcv:frontend:url', 'addLangToLink');
             $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
             $this->wpAddAction(
@@ -64,5 +65,12 @@ class WpmlController extends Container implements Module
         }
 
         return $trid;
+    }
+
+    protected function addTooltipStyleFixes($response, $payload)
+    {
+        $response[] = '<style>.icl_pop_info { z-index: 2222; };</style>';
+
+        return $response;
     }
 }
