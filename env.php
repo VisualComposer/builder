@@ -191,3 +191,10 @@ if (!defined('VCV_FE_SHORTCODES_SCRIPTS')) {
         isset($_SERVER['ENV_VCV_FE_SHORTCODES_SCRIPTS']) ? $_SERVER['ENV_VCV_FE_SHORTCODES_SCRIPTS'] : true
     );
 }
+
+if (!defined('VCV_FIX_CURL_JSON_DOWNLOAD')) {
+    define(
+        'VCV_FIX_CURL_JSON_DOWNLOAD',
+        isset($_SERVER['ENV_VCV_FIX_CURL_JSON_DOWNLOAD']) ? $_SERVER['ENV_VCV_FIX_CURL_JSON_DOWNLOAD'] : false
+    );
+}

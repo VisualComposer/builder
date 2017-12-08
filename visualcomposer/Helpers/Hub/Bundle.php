@@ -40,7 +40,7 @@ class Bundle implements Helper
         $urlHelper = vchelper('Url');
         $downloadUrl = $urlHelper->query(
             sprintf(
-                '%s/download/json/lite?plugin=%s',
+                '%s/download/json?plugin=%s',
                 VCV_HUB_URL,
                 VCV_VERSION
             ),
@@ -119,36 +119,66 @@ class Bundle implements Helper
         $result = false;
         $loggerHelper = vchelper('Logger');
         if ($url && !is_wp_error($url)) {
-            $response = wp_remote_get(
-                $url,
-                [
-                    'timeout' => 30,
-                ]
-            );
-            if (!vcIsBadResponse($response)) {
-                $result = json_decode($response['body'], true);
-            } else {
-                $messages = [];
-                $messages[] = __('Failed read remote bundle json #10006', 'vcwb');
-                if (is_wp_error($response)) {
-                    /** @var \WP_Error $result */
-                    $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
-                } elseif (is_array($response) && isset($response['body'])) {
-                    // @codingStandardsIgnoreLine
-                    $resultDetails = @json_decode($result['body'], 1);
-                    if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                        $messages[] = $resultDetails['message'] . ' #10026';
+            if (vcvenv('VCV_FIX_CURL_JSON_DOWNLOAD')) {
+                $response = vchelper('File')->download($url);
+                if (!vcIsBadResponse($response)) {
+                    // $file /tmp/temp.tmp
+                    $result = json_decode(file_get_contents($response), true);
+                } else {
+                    $messages = [];
+                    $messages[] = __('Failed read remote bundle json #10006', 'vcwb');
+                    if (is_wp_error($response)) {
+                        /** @var \WP_Error $result */
+                        $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
+                    } elseif (is_array($response) && isset($response['body'])) {
+                        // @codingStandardsIgnoreLine
+                        $resultDetails = @json_decode($result['body'], 1);
+                        if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                            $messages[] = $resultDetails['message'] . ' #10026';
+                        }
                     }
-                }
 
-                $loggerHelper->log(
-                    implode('. ', $messages),
+                    $loggerHelper->log(
+                        implode('. ', $messages),
+                        [
+                            'wp_error' => is_wp_error($response),
+                            'response' => is_array($response) && isset($response['body']) ? $response['body']
+                                : 'not array or no body available',
+                        ]
+                    );
+                }
+            } else {
+                $response = wp_remote_get(
+                    $url,
                     [
-                        'wp_error' => is_wp_error($response),
-                        'response' => is_array($response) && isset($response['body']) ? $response['body']
-                            : 'not array or no body available',
+                        'timeout' => 30,
                     ]
                 );
+                if (!vcIsBadResponse($response)) {
+                    $result = json_decode($response['body'], true);
+                } else {
+                    $messages = [];
+                    $messages[] = __('Failed read remote bundle json #10006', 'vcwb');
+                    if (is_wp_error($response)) {
+                        /** @var \WP_Error $result */
+                        $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
+                    } elseif (is_array($response) && isset($response['body'])) {
+                        // @codingStandardsIgnoreLine
+                        $resultDetails = @json_decode($result['body'], 1);
+                        if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                            $messages[] = $resultDetails['message'] . ' #10026';
+                        }
+                    }
+
+                    $loggerHelper->log(
+                        implode('. ', $messages),
+                        [
+                            'wp_error' => is_wp_error($response),
+                            'response' => is_array($response) && isset($response['body']) ? $response['body']
+                                : 'not array or no body available',
+                        ]
+                    );
+                }
             }
         } else {
             $messages = [];
