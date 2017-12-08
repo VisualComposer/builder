@@ -1,6 +1,6 @@
 import './sources/less/wpupdates/init.less'
 import { default as PostUpdater } from './editor/modules/backendSettings/postUpdate'
-import { log as logError, send as sendError } from './editor/modules/backendSettings/logger'
+import { log as logError, send as sendError, all as getErrors } from './editor/modules/backendSettings/logger'
 
 (($) => {
   $(() => {
@@ -234,19 +234,6 @@ import { log as logError, send as sendError } from './editor/modules/backendSett
         $heading.closest('.vcv-loading-text').hide()
 
         const localizations = window.VCV_I18N && window.VCV_I18N()
-        let ifrm = document.createElement('iframe')
-        let iframeLoadTimes = 0
-        ifrm.setAttribute('src', 'https://visualcomposer.freshdesk.com/widgets/feedback_widget/new')
-        ifrm.className = 'vcv-freshdesk-iframe'
-        ifrm.addEventListener('load', function () {
-          if (iframeLoadTimes > 0) {
-            ifrm.style.display = 'none'
-            window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
-            window.location.href = window.vcvDashboardUrl
-          }
-          iframeLoadTimes++
-        })
-        document.body.appendChild(ifrm)
 
         sendError(e, function (response) {
           try {
@@ -255,12 +242,95 @@ import { log as logError, send as sendError } from './editor/modules/backendSett
               window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
               window.location.href = window.vcvDashboardUrl
             } else {
-              ifrm.style.display = 'block'
+              let messages = jsonData && jsonData.response && jsonData.response.messages
+              showFreshDesk(messages)
             }
           } catch (e) {
-            ifrm.style.display = 'block'
+            showFreshDesk()
           }
         })
+
+        function getFreshDeskSource (messages) {
+          let jsErrors = getErrors()
+
+          if (!messages && !jsErrors.length) {
+            return 'https://visualcomposer.freshdesk.com/widgets/feedback_widget/new'
+          }
+
+          let descriptionMessage = ''
+          let urlMessage = ''
+          let themeMessage = ''
+          let envDetailsMessage = ''
+
+          function addMessage (message, key, value) {
+            let messageToAdd = ''
+            if (value instanceof Object) {
+              messageToAdd = key ? `${key}: ${JSON.stringify(value)}` : JSON.stringify(value)
+            } else {
+              messageToAdd = key ? `${key}: ${value}` : value
+            }
+            messageToAdd = message === '' ? messageToAdd : `, ${messageToAdd}`
+            return message + messageToAdd
+          }
+
+          if (jsErrors.length) {
+            jsErrors.map(function (error, index) {
+              delete error.stack
+              descriptionMessage = addMessage(descriptionMessage, `Error${index}`, error)
+            })
+          }
+
+          if (messages) {
+            for (let key in messages) {
+              if (messages.hasOwnProperty(key) && key !== 'request') {
+                switch (key) {
+                  case 'url':
+                    urlMessage = addMessage(urlMessage, null, messages[ key ])
+                    break
+                  case 'active-theme':
+                    themeMessage = addMessage(themeMessage, null, messages[ key ])
+                    break
+                  case 'version':
+                    envDetailsMessage = addMessage(envDetailsMessage, key, messages[ key ])
+                    break
+                  case 'wp-version':
+                    envDetailsMessage = addMessage(envDetailsMessage, key, messages[ key ])
+                    break
+                  default:
+                    descriptionMessage = addMessage(descriptionMessage, key, messages[ key ])
+                }
+              }
+            }
+          }
+
+          urlMessage = urlMessage.substring(0, 110)
+          themeMessage = themeMessage.substring(0, 130)
+          envDetailsMessage = envDetailsMessage.substring(0, 130)
+          descriptionMessage = descriptionMessage.substring(0, 7000)
+          descriptionMessage = `<br><br><br><br><br> ****************************** <br>${descriptionMessage}`
+
+          return `https://visualcomposer.freshdesk.com/widgets/feedback_widget/new?&screenshot=no&helpdesk_ticket[description]=${descriptionMessage}&helpdesk_ticket[custom_field][url_of_your_page_where_problem_can_be_checked_429987]=${urlMessage}&helpdesk_ticket[custom_field][theme_in_use_name_url_429987]=${themeMessage}&helpdesk_ticket[custom_field][environment_details_429987]=${envDetailsMessage}`
+        }
+
+        function showFreshDesk (messages) {
+          let ifrm = document.createElement('iframe')
+          let iframeLoadTimes = 0
+
+          ifrm.setAttribute('src', getFreshDeskSource(messages))
+          ifrm.className = 'vcv-freshdesk-iframe'
+          ifrm.addEventListener('load', function () {
+            if (iframeLoadTimes > 0) {
+              ifrm.style.display = 'none'
+              window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
+              window.location.href = window.vcvDashboardUrl
+            }
+            iframeLoadTimes++
+          })
+          ifrm.style.display = 'block'
+          document.body.appendChild(ifrm)
+
+          $('.vcv-popup-close-button').show()
+        }
       })
     } else {
       disableLoader()
