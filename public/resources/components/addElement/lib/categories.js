@@ -219,12 +219,14 @@ export default class Categories extends React.Component {
     })
 
     return allCategories[ getIndex ].elements.filter((elementData) => {
-      const element = cook.get(elementData)
       let elName = ''
       if (elementData.name) {
         elName = elementData.name.toLowerCase()
-      } else if (element.get('name')) {
-        elName = element.get('name').toLowerCase()
+      } else if (elementData.tag) {
+        const element = cook.get(elementData)
+        if (element.get('name')) {
+          elName = element.get('name').toLowerCase()
+        }
       }
 
       return elName.indexOf(inputValue.trim()) !== -1
