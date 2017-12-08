@@ -135,7 +135,7 @@ export default class ElementAttribute extends Attribute {
     if (categorySettings && this.state.showReplacements) {
       let replacementItemsOutput = categorySettings.elements.map((tag) => {
         let cookElement = Cook.get({ tag: tag })
-        if (!cookElement) {
+        if (!cookElement || !cookElement.get('name') || cookElement.get('name') === '--') {
           return null
         }
         let nameClasses = classNames({
