@@ -61,7 +61,21 @@ class ErrorReportingController extends Container implements Module
             if (!vcIsBadResponse($request)) {
                 $response = ['status' => true];
             } else {
-                $response = ['status' => false];
+                $message = [];
+                unset($data['request']);
+                unset($data['plugins']);
+                unset($data['agreement']);
+                unset($data['category']);
+                foreach ($data as $key => $msg) {
+                    $message[] = $key . ':' . is_array($msg) ? json_encode($msg) : $msg;
+                }
+                $message[] = 'report error #10076: ' . is_wp_error($request) ?
+                    implode(
+                        '. ',
+                        $request->get_error_messages()
+                    ) : 'failed to send report';
+
+                $response = ['status' => false, 'message' => implode(';<br>', $message)];
             }
         }
 
