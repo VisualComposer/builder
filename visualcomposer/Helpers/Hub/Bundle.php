@@ -38,14 +38,25 @@ class Bundle implements Helper
     public function getJsonDownloadUrl($requestedData = [])
     {
         $urlHelper = vchelper('Url');
-        $downloadUrl = $urlHelper->query(
-            sprintf(
-                '%s/download/json?plugin=%s',
-                VCV_HUB_URL,
-                VCV_VERSION
-            ),
-            $requestedData
-        );
+        if (vcvenv('VCV_FIX_CURL_JSON_DOWNLOAD')) {
+            $downloadUrl = $urlHelper->query(
+                sprintf(
+                    '%s/download/json?plugin=%s',
+                    VCV_HUB_URL,
+                    VCV_VERSION
+                ),
+                $requestedData
+            );
+        } else {
+            $downloadUrl = $urlHelper->query(
+                sprintf(
+                    '%s/download/json/lite?plugin=%s',
+                    VCV_HUB_URL,
+                    VCV_VERSION
+                ),
+                $requestedData
+            );
+        }
 
         return $downloadUrl;
     }
