@@ -263,8 +263,8 @@ class ColumnResizer extends React.Component {
   }
 
   removeTemporaryColStyles () {
-    this.resizerData.leftColumn.style = {}
-    this.resizerData.rightColumn.style = {}
+    this.resizerData.leftColumn.removeAttribute('style')
+    this.resizerData.rightColumn.removeAttribute('style')
   }
 
   createWrapBlockers () {
