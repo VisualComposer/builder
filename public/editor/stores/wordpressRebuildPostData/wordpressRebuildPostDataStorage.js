@@ -11,8 +11,8 @@ addStorage('wordpressRebuildPostData', (storage) => {
   const modernAssetsStorage = getService('modernAssetsStorage')
 
   storage.on('save', (id, options, source = '') => {
-    storage.state('status').set({status: 'saving'}, source)
-    settingsStorage.state('status').set({status: 'ready'})
+    storage.state('status').set({ status: 'saving' }, source)
+    settingsStorage.state('status').set({ status: 'ready' })
     const documentData = documentManager.all()
     // check this
     storage.trigger('wordpress:beforeSave', {
@@ -28,11 +28,15 @@ addStorage('wordpressRebuildPostData', (storage) => {
     storage.state('id').set(postId)
     postId && controller.load(postId, {}, storage.state('status'))
   })
-  storage.state('status').set({status: false})
+  storage.state('status').set({ status: false })
   storage.state('status').onChange((data) => {
-    const {status, request} = data
+    const { status, request } = data
     if (status === 'loadSuccess') {
       const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
+      const customCssState = settingsStorage.state('customCss')
+      const globalCssState = settingsStorage.state('globalCss')
+      const localJsState = settingsStorage.state('localJs')
+      const globalJsState = settingsStorage.state('globalJs')
       /**
        * @typedef {Object} responseData parsed data from JSON
        * @property {Array} globalElements list of global elements
@@ -47,6 +51,18 @@ addStorage('wordpressRebuildPostData', (storage) => {
         // Need to call save
         let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
         elementsStorage.trigger('reset', data.elements || {})
+      }
+      if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('custom')) {
+        customCssState.set(responseData.cssSettings.custom || '')
+      }
+      if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('global')) {
+        globalCssState.set(responseData.cssSettings.global || '')
+      }
+      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('local')) {
+        localJsState.set(responseData.jsSettings.local || '')
+      }
+      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('global')) {
+        globalJsState.set(responseData.jsSettings.global || '')
       }
     }
   })
