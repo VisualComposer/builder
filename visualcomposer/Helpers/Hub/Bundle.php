@@ -131,33 +131,7 @@ class Bundle implements Helper
         $loggerHelper = vchelper('Logger');
         if ($url && !is_wp_error($url)) {
             if (vcvenv('VCV_FIX_CURL_JSON_DOWNLOAD')) {
-                $response = vchelper('File')->download($url);
-                if (!vcIsBadResponse($response)) {
-                    // $file /tmp/temp.tmp
-                    $result = json_decode(file_get_contents($response), true);
-                } else {
-                    $messages = [];
-                    $messages[] = __('Failed read remote bundle json #10006', 'vcwb');
-                    if (is_wp_error($response)) {
-                        /** @var \WP_Error $result */
-                        $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
-                    } elseif (is_array($response) && isset($response['body'])) {
-                        // @codingStandardsIgnoreLine
-                        $resultDetails = @json_decode($result['body'], 1);
-                        if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                            $messages[] = $resultDetails['message'] . ' #10026';
-                        }
-                    }
-
-                    $loggerHelper->log(
-                        implode('. ', $messages),
-                        [
-                            'wp_error' => is_wp_error($response),
-                            'response' => is_array($response) && isset($response['body']) ? $response['body']
-                                : 'not array or no body available',
-                        ]
-                    );
-                }
+                $result = $this->downloadRemoteBundleJson($url, $result, $loggerHelper);
             } else {
                 $response = wp_remote_get(
                     $url,
@@ -354,5 +328,45 @@ class Bundle implements Helper
         ];
 
         return [$needUpdatePost, $requiredActions];
+    }
+
+    /**
+     * @param $url
+     * @param $result
+     * @param $loggerHelper
+     *
+     * @return array|mixed|object|\WP_Error
+     */
+    protected function downloadRemoteBundleJson($url, $result, $loggerHelper)
+    {
+        $response = vchelper('File')->download($url);
+        if (!vcIsBadResponse($response)) {
+            // $file /tmp/temp.tmp
+            $result = json_decode(file_get_contents($response), true);
+        } else {
+            $messages = [];
+            $messages[] = __('Failed read remote bundle json #10006', 'vcwb');
+            if (is_wp_error($response)) {
+                /** @var \WP_Error $result */
+                $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
+            } elseif (is_array($response) && isset($response['body'])) {
+                // @codingStandardsIgnoreLine
+                $resultDetails = @json_decode($result['body'], 1);
+                if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                    $messages[] = $resultDetails['message'] . ' #10026';
+                }
+            }
+
+            $loggerHelper->log(
+                implode('. ', $messages),
+                [
+                    'wp_error' => is_wp_error($response),
+                    'response' => is_array($response) && isset($response['body']) ? $response['body']
+                        : 'not array or no body available',
+                ]
+            );
+        }
+
+        return $result;
     }
 }

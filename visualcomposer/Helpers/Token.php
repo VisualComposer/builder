@@ -88,12 +88,12 @@ class Token extends Container implements Helper
         }
         $licenseHelper = vchelper('License');
         $requestHelper = vchelper('Request');
-        $body = [
+        $body = apply_filters('vcv:create:token:attributes', [
             'hoster_id' => 'account',
             'id' => $id,
             'domain' => get_site_url(),
             'url' => VCV_PLUGIN_URL,
-        ];
+        ]);
         if ($requestHelper->input('category') && 'account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
             $body['category'] = $requestHelper->input('category');
             vchelper('Options')->set('activation-category', $requestHelper->input('category'));

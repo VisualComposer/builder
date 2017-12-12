@@ -27,6 +27,10 @@ class YoastController extends Container implements Module
         if (isset($GLOBALS['wpseo_metabox']) && $frontendHelper->isFrontend()) {
             $this->removeFeScript();
         }
+
+        if (!isset($GLOBALS['post_ID']) && $frontendHelper->isFrontend()) {
+            $this->setGlobalPostId();
+        }
     }
 
     protected function removeFeScript()
@@ -34,5 +38,11 @@ class YoastController extends Container implements Module
         if (isset($GLOBALS['wpseo_metabox'])) {
             remove_action('admin_enqueue_scripts', [$GLOBALS['wpseo_metabox'], 'enqueue']);
         }
+    }
+
+    protected function setGlobalPostId()
+    {
+        $requestHelper = vchelper('Request');
+        $GLOBALS['post_ID'] = $requestHelper->input('vcv-source-id');
     }
 }
