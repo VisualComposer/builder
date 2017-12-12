@@ -9,6 +9,9 @@ import { log as logError, send as sendError, all as getErrors } from './editor/m
     const downloadingAssetsText = localizations ? localizations.downloadingAssets : 'Downloading assets {i} of {cnt}'
     const savingResultsText = localizations ? localizations.savingResults : 'Saving Results'
     const postUpdateText = localizations ? localizations.postUpdateText : 'Update posts {i} in {cnt}: {name}'
+    const backToWpText = localizations ? localizations.backToWpAdminText : 'Back to wordpress admin'
+    const thankYouText = localizations ? localizations.thankYouText : 'Thank You!'
+    const thankYouTextDescription = localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response.'
 
     let $loader = $('[data-vcv-loader]')
     let $errorPopup = $('.vcv-popup-error')
@@ -35,6 +38,30 @@ import { log as logError, send as sendError, all as getErrors } from './editor/m
       if (timeout) {
         errorTimeout = window.setTimeout(cb ? closeError.bind(this, cb) : closeError, timeout)
       }
+    }
+
+    let showThankYouScreen = () => {
+      disableLoader()
+      $retryButton.find('.vcv-popup-heading').text(thankYouText)
+      $retryButton.find('.vcv-popup-loading-heading').text(thankYouTextDescription)
+
+      showRetryButton()
+
+      let span = document.createElement('span')
+      span.innerHTML = backToWpText
+
+      let backBtn = document.createElement('button')
+      backBtn.className = 'vcv-popup-button'
+      $(backBtn).append(span)
+
+      $retryButton.find('.vcv-button-container').append(backBtn)
+      $retryButton.find('[data-vcv-send-error-report]').addClass('vcv-popup-button--hidden')
+      $retryButton.find('[data-vcv-retry]').addClass('vcv-popup-button--hidden')
+
+      $(backBtn).off('click').on('click.vcv-back-to-wp', (e) => {
+        e && e.preventDefault && e.preventDefault()
+        window.location.href = window.vcvDashboardUrl
+      })
     }
 
     let redirect = () => {
@@ -233,14 +260,11 @@ import { log as logError, send as sendError, all as getErrors } from './editor/m
         $heading.text('')
         $heading.closest('.vcv-loading-text').hide()
 
-        const localizations = window.VCV_I18N && window.VCV_I18N()
-
         sendError(e, function (response) {
           try {
             let jsonData = JSON.parse(response)
             if (jsonData.status) {
-              window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
-              window.location.href = window.vcvDashboardUrl
+              showThankYouScreen()
             } else {
               let messages = jsonData && jsonData.response && jsonData.response.messages
               showFreshDesk(messages)
@@ -321,8 +345,7 @@ import { log as logError, send as sendError, all as getErrors } from './editor/m
           ifrm.addEventListener('load', function () {
             if (iframeLoadTimes > 0) {
               ifrm.style.display = 'none'
-              window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
-              window.location.href = window.vcvDashboardUrl
+              showThankYouScreen()
             }
             iframeLoadTimes++
           })
