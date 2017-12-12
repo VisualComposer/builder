@@ -186,6 +186,9 @@ const API = {
       })
     }
   },
+  isRTL () {
+    return window.getComputedStyle(document.body).direction === 'rtl'
+  },
   startDownload (tag, data, successCallback, errorCallback) {
     const dataProcessor = vcCake.getService('dataProcessor')
     const req = { key: tag, data: data, successCallback: successCallback, errorCallback: errorCallback, cancelled: false }

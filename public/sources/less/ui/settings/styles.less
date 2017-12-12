@@ -42,6 +42,23 @@
   }
 }
 
+.rtl {
+  .vcv-ui-style-control,
+  .vcv-ui-script-control {
+    border-radius: 0;
+
+    &:first-child {
+      border-top-right-radius: @settings-border-radius;
+      border-bottom-right-radius: @settings-border-radius;
+    }
+    &:last-child {
+      border-top-left-radius: @settings-border-radius;
+      border-bottom-left-radius: @settings-border-radius;
+      border-right: none;
+    }
+  }
+}
+
 .vcv-ui-style-editor-container,
 .vcv-ui-script-editor-container {
   margin: @editor-container-margin;

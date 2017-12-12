@@ -256,12 +256,17 @@
   text-align: center;
 
   &:before {
-    font-style: 1.25em;
+    font-size: 1.25em;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
+}
+
+.rtl .vcv-ui-icon-edit-form-header-title {
+  margin-left: @icon-edit-form-header-title-margin-right;
+  margin-right: 0;
 }
 
 .vcv-ui-tree-view-content-accordion {
