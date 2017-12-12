@@ -6,6 +6,7 @@ import MobileDetect from 'mobile-detect'
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
 const documentManger = vcCake.getService('document')
+const utils = vcCake.getService('utils')
 
 const cook = vcCake.getService('cook')
 // const categoriesService = vcCake.getService('categories')
@@ -504,6 +505,9 @@ export default class TreeViewElement extends React.Component {
       dragHelperClasses += ' vcv-ui-tree-layout-control-drag-handler-mobile'
     }
 
+    const controlPadding = (space * this.props.level + 1) + 'rem'
+    let controlStyle = utils.isRTL() ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
+
     if (this.isMobile) {
       let controlsContent = this.state.showControls ? (
         <div ref={controlsContent => { this.controlsContent = controlsContent }}
@@ -521,7 +525,7 @@ export default class TreeViewElement extends React.Component {
         >
           <div className={controlClasses}>
             <div className='vcv-ui-tree-layout-control-content'>
-              <div className={dragHelperClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}>
+              <div className={dragHelperClasses} style={controlStyle}>
                 <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon'
                   alt='' /></i>
                 <span className='vcv-ui-tree-layout-control-label'>
@@ -552,7 +556,7 @@ export default class TreeViewElement extends React.Component {
       >
         <div
           className={controlClasses}
-          style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}
+          style={controlStyle}
           onMouseOver={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           onClick={this.handleClick}
