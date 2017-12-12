@@ -22,6 +22,10 @@ vcCake.add('contentModernLayout', (api) => {
   let controls = new ControlsManager(api)
   let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-iframe-overlay'), 10))
 
+  if (Utils.isRTL()) {
+    document.body && document.body.classList.add('rtl')
+  }
+
   const renderLayout = (reload = false) => {
     if (vcCake.env('IFRAME_RELOAD')) {
       workspaceIFrame.ignoreChange(reloadLayout)
