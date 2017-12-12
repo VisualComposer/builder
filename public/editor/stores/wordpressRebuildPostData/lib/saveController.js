@@ -7,6 +7,7 @@ const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
 const cook = vcCake.getService('cook')
 const settingsStorage = vcCake.getStorage('settings')
+const assetsStorage = vcCake.getStorage('assetsBackend')
 
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
@@ -45,12 +46,13 @@ export default class SaveController {
     }
     const elementsCss = {}
     Object.keys(data.elements).forEach((key) => {
+      assetsStorage.trigger('addElement', key)
       const cookElement = cook.get(data.elements[key])
       const tag = cookElement.get('tag')
       elementsCss[key] = {
         tag: tag
       }
-      let elementAssetsFiles = elementAssetsLibrary.getAssetsFilesByElement(cookElement)
+      let elementAssetsFiles = elementAssetsLibrary.getBackendEditorAssetsFilesByElement(cookElement, { metaPublicJs: true })
       assetsFiles.cssBundles = assetsFiles.cssBundles.concat(elementAssetsFiles.cssBundles)
       assetsFiles.jsBundles = assetsFiles.jsBundles.concat(elementAssetsFiles.jsBundles)
       const elementBaseStyleManager = stylesManager.create()
