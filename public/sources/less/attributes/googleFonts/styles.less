@@ -1,3 +1,22 @@
+.vcv-ui-google-fonts-fontfamily-container {
+  position: relative;
+
+  .vcv-ui-wp-spinner {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, .1);
+    transition: opacity .3s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.vcv-ui-google-fonts-spinner .vcv-ui-wp-spinner {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
 .vcv-ui-font-preview-text {
   font-size: 30px;
 }
