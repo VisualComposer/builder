@@ -380,6 +380,7 @@
   transition: background @vcv-transitionDuration @vcv-transitionTimingFunction, border-color @vcv-transitionDuration @vcv-transitionTimingFunction;
   margin-bottom: @vcv-buttonBottomSpacing;
   max-width: 100%;
+  border-radius: 0;
 
   > span {
     position: relative;
@@ -964,6 +965,15 @@ select.vcv-popup-form-select.vcv-select-light {
 }
 .vcv-oops-screen--active {
   .vcv-oops-screen.vcv-popup-error-description {
+    display: flex;
+  }
+}
+
+.vcv-thank-you-screen.vcv-popup-error-description {
+  display: none;
+}
+.vcv-thank-you-screen--active {
+  .vcv-thank-you-screen.vcv-popup-error-description {
     display: flex;
   }
 }
