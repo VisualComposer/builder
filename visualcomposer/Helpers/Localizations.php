@@ -213,7 +213,15 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'errorReportSubmitted' => __(
-                'Thanks! Error report has been sent!',
+                'We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response.',
+                'vcwb'
+            ),
+            'backToWpAdminText' => __(
+                'Back to wordpress admin',
+                'vcwb'
+            ),
+            'thankYouText' => __(
+                'Thank You!',
                 'vcwb'
             ),
         ];

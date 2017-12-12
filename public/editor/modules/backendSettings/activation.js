@@ -6,7 +6,8 @@ import {
   showFirstScreen,
   showLastScreen,
   showGoPremiumScreen,
-  showLastGoPremiumScreen
+  showLastGoPremiumScreen,
+  showThankYouScreen
 } from './screens'
 import { loadSlider } from './slider'
 import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-screens'
@@ -141,13 +142,15 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
         e && e.preventDefault && e.preventDefault()
         $popup.find('.vcv-loading-text').hide()
         const localizations = window.VCV_I18N && window.VCV_I18N()
+        const thankYouText = localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response.'
 
         sendError(e, function (response) {
           try {
             let jsonData = JSON.parse(response)
             if (jsonData.status) {
-              window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
-              window.location.href = window.vcvDashboardUrl
+              showThankYouScreen($popup, thankYouText, function () {
+                window.location.href = window.vcvDashboardUrl
+              })
             } else {
               let messages = jsonData && jsonData.response && jsonData.response.messages
               showFreshDesk(messages)
@@ -228,8 +231,9 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
           ifrm.addEventListener('load', function () {
             if (iframeLoadTimes > 0) {
               ifrm.style.display = 'none'
-              window.alert(localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'Thanks! Error report has been sent!')
-              window.location.href = window.vcvDashboardUrl
+              showThankYouScreen($popup, thankYouText, function () {
+                window.location.href = window.vcvDashboardUrl
+              })
             }
             iframeLoadTimes++
           })

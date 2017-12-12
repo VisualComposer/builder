@@ -44,6 +44,16 @@ import {loadSlider} from './slider'
     })
   }
 
+  let showThankYouScreen = ($popup, msg, action) => {
+    $popup.find('.vcv-thank-you-screen .vcv-popup-loading-heading').text(msg)
+    $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active vcv-intro-screen--active').addClass('vcv-thank-you-screen--active')
+    let $backToWp = $popup.find('.vcv-thank-you-screen [data-vcv-back-to-wp]')
+    $backToWp.off('click').on('click.vcv-back-to-wp', (e) => {
+      e && e.preventDefault && e.preventDefault()
+      action()
+    })
+  }
+
   let loadLastScreen = ($errorPopup, loadAnimation, $popup) => {
     closeError($errorPopup)
     loadAnimation()
@@ -89,6 +99,7 @@ import {loadSlider} from './slider'
     loadLastScreen: loadLastScreen,
     showOopsScreen: showOopsScreen,
     showGoPremiumScreen: showGoPremiumScreen,
-    showLastGoPremiumScreen: showLastGoPremiumScreen
+    showLastGoPremiumScreen: showLastGoPremiumScreen,
+    showThankYouScreen: showThankYouScreen
   }
 })(window.jQuery)
