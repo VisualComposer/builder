@@ -33,7 +33,9 @@ export default class ElementControl extends React.Component {
       previewStyle: {},
       isDragging: false,
       iframe: document.getElementById('vcv-editor-iframe'),
-      backendContentContainer: document.querySelector('.vcv-wpbackend-layout-content-container')
+      backendContentContainer: document.querySelector('.vcv-wpbackend-layout-content-container'),
+      mouseX: null,
+      mouseY: null
     }
     this.showPreview = this.showPreview.bind(this)
     this.hidePreview = this.hidePreview.bind(this)
@@ -212,7 +214,7 @@ export default class ElementControl extends React.Component {
    */
   endDrag () {
     const { iframe } = this.state
-    this.setState({ isDragging: false })
+    this.setState({ isDragging: false, mouseX: null, mouseY: null })
     document.body.removeEventListener('mousemove', this.initDrag)
     if (this.helper) {
       this.helper.remove()
@@ -286,25 +288,32 @@ export default class ElementControl extends React.Component {
   /**
    * Start dragging event, set dragging state to true, create element placeholder, update placeholder position,
    * watch for cursor position
+   * Two conditions to check if mouse has been moved - fix for Chrome on Windows
    * @param e
    */
   initDrag (e) {
-    const { element } = this.props
-    const { iframe, isDragging, backendContentContainer } = this.state
-    const newElement = document.createElement('div')
-    newElement.setAttribute('data-vcv-element', element.id)
-    const dragState = workspaceStorage.state('drag')
-    this.hidePreview()
-    if (!dragState.get() || !dragState.get().active) {
-      dragState.set({ active: true })
+    if (!this.state.mouseX && !this.state.mouseY) {
+      this.setState({ mouseX: e.pageX, mouseY: e.pageY })
+      return
     }
-    if (!isDragging) {
-      this.setState({ isDragging: true })
-    }
-    if (iframe && !backendContentContainer) {
-      this.handleDragWithIframe(e, newElement)
-    } else {
-      this.handleDragWithoutIframe(e, newElement)
+    if (e.pageX !== this.state.mouseX && e.pageY !== this.state.mouseY) {
+      const { element } = this.props
+      const { iframe, isDragging, backendContentContainer } = this.state
+      const newElement = document.createElement('div')
+      newElement.setAttribute('data-vcv-element', element.id)
+      const dragState = workspaceStorage.state('drag')
+      this.hidePreview()
+      if (!dragState.get() || !dragState.get().active) {
+        dragState.set({ active: true })
+      }
+      if (!isDragging) {
+        this.setState({ isDragging: true })
+      }
+      if (iframe && !backendContentContainer) {
+        this.handleDragWithIframe(e, newElement)
+      } else {
+        this.handleDragWithoutIframe(e, newElement)
+      }
     }
   }
 
