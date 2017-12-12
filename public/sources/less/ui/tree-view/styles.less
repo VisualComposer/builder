@@ -32,6 +32,10 @@
   flex: 1 0 auto;
 }
 
+.rtl .vcv-ui-tree-layout {
+  direction: rtl;
+}
+
 // Actions
 .vcv-ui-tree-layout-actions {
   font-size: @tree-action-icon-size;
@@ -49,6 +53,10 @@
       display: none;
     }
   }
+}
+
+.rtl .vcv-ui-tree-layout-actions {
+  direction: rtl;
 }
 
 .vcv-layout-bar-content-mobile {
@@ -283,6 +291,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+.rtl .vcv-ui-tree-layout-control-drag-handler {
+  left: auto;
+  right: 0.9rem;
 }
 
 .vcv-ui-tree-layout-controls-trigger {
