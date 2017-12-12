@@ -121,11 +121,15 @@ export default class GoogleFonts extends Attribute {
   }
 
   loadFonts (family, style, text) {
+    let iframe = window.document.getElementById('vcv-editor-iframe')
+    let iframeSettings = {}
+    iframe && iframe.contentWindow && (iframeSettings.context = iframe.contentWindow)
     let fontStyle = style.style === 'regular' ? '' : style.style
     webFontLoader.load({
       google: {
         families: [ `${family}:${style.weight + fontStyle}` ]
       },
+      ...iframeSettings,
       inactive: this.createFieldValue.bind(this, family, style, text, 'inactive'),
       active: this.createFieldValue.bind(this, family, style, text, 'active'),
       loading: this.createFieldValue.bind(this, family, style, text, 'loading')
@@ -142,20 +146,21 @@ export default class GoogleFonts extends Attribute {
       values: this.createOptionsArray('family')
     }
 
-    let fontTextProps = {}
-
-    let previewText = this.state.value.fontText
+    let fontfamilyContainerClasses = 'vcv-ui-google-fonts-fontfamily-container'
+    let spinner = ''
+    let loadedFail = ''
 
     if (this.state.value.status === 'loading') {
-      previewText = 'Loading Font...'
-    } else if (this.state.value.status === 'active') {
-      fontTextProps.style = {
-        fontFamily: this.state.value.fontFamily,
-        fontWeight: this.state.value.fontStyle.weight,
-        fontStyle: this.state.value.fontStyle.style
-      }
+      fontfamilyContainerClasses += ' vcv-ui-google-fonts-spinner'
+      spinner = (
+        <span className='vcv-ui-wp-spinner' />
+      )
     } else if (this.state.value.status === 'inactive') {
-      previewText = 'Loading google font failed.'
+      loadedFail = (
+        <div className='vcv-ui-form-group'>
+          <span>Google fonts can not be loaded.</span>
+        </div>
+      )
     }
 
     return (
@@ -166,32 +171,36 @@ export default class GoogleFonts extends Attribute {
               <span className='vcv-ui-form-group-heading'>
                 Font Family
               </span>
-              <Dropdown
-                options={fontFamilyOptions}
-                value={this.state.value.fontFamily}
-                updater={this.handleFontFamilyChange}
-                api={this.props.api}
-                fieldKey={`${this.props.fieldKey}.fontFamily`}
-              />
+              <div className={fontfamilyContainerClasses}>
+                {spinner}
+                <Dropdown
+                  options={fontFamilyOptions}
+                  value={this.state.value.fontFamily}
+                  updater={this.handleFontFamilyChange}
+                  api={this.props.api}
+                  fieldKey={`${this.props.fieldKey}.fontFamily`}
+                />
+              </div>
             </div>
+            {loadedFail}
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             <div className='vcv-ui-form-group'>
               <span className='vcv-ui-form-group-heading'>
                 Font Style
               </span>
-              <Dropdown
-                options={fontStyleOptions}
-                value={this.state.value.fontStyle.weight + this.state.value.fontStyle.style}
-                updater={this.handleFontStyleChange}
-                api={this.props.api}
-                fieldKey={`${this.props.fieldKey}.fontStyle`}
-              />
+              <div className={fontfamilyContainerClasses}>
+                {spinner}
+                <Dropdown
+                  options={fontStyleOptions}
+                  value={this.state.value.fontStyle.weight + this.state.value.fontStyle.style}
+                  updater={this.handleFontStyleChange}
+                  api={this.props.api}
+                  fieldKey={`${this.props.fieldKey}.fontStyle`}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div className='vcv-ui-form-group'>
-          <span className='vcv-ui-font-preview-text' {...fontTextProps}>{previewText}</span>
         </div>
       </div>
     )
