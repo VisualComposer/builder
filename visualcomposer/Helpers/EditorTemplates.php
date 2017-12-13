@@ -38,7 +38,16 @@ class EditorTemplates implements Helper
             $groupTemplates = [];
             foreach ($templates as $key => $template) {
                 /** @var $template \WP_Post */
-                $templateElements = get_post_meta($template->ID, 'vcvEditorTemplateElements', true);
+                $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
+                $templateElements = [];
+                if (!empty($meta)) {
+                    $decoded = json_decode(rawurldecode($meta), true);
+                    if ($decoded && isset($decoded['elements'])) {
+                        $templateElements = $decoded['elements'];
+                    }
+                } else {
+                    $templateElements = get_post_meta($template->ID, 'vcvEditorTemplateElements', true);
+                }
                 if (!empty($templateElements)) {
                     $type = get_post_meta($template->ID, '_' . VCV_PREFIX . 'type', true);
                     $thumbnail = get_post_meta($template->ID, '_' . VCV_PREFIX . 'thumbnail', true);
