@@ -110,8 +110,8 @@ vcCake.add('contentModernLayout', (api) => {
     iframeContent.innerHTML = `<div class='vcv-loading-overlay'>
         <div class='vcv-loading-overlay-inner'>
           <div class='vcv-loading-dots-container'>
-            <div class='vcv-loading-dot vcv-loading-dot-1' />
-            <div class='vcv-loading-dot vcv-loading-dot-2' />
+            <div class='vcv-loading-dot vcv-loading-dot-1'></div>
+            <div class='vcv-loading-dot vcv-loading-dot-2'></div>
           </div>
         </div>
       </div>`
