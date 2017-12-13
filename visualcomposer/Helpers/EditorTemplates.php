@@ -39,39 +39,8 @@ class EditorTemplates implements Helper
             foreach ($templates as $key => $template) {
                 /** @var $template \WP_Post */
                 $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
-                $templateElements = [];
-                if (!empty($meta)) {
-                    $decoded = json_decode(rawurldecode($meta), true);
-                    if ($decoded && isset($decoded['elements'])) {
-                        $templateElements = $decoded['elements'];
-                    }
-                } else {
-                    $templateElements = get_post_meta($template->ID, 'vcvEditorTemplateElements', true);
-                }
-                if (!empty($templateElements)) {
-                    $type = get_post_meta($template->ID, '_' . VCV_PREFIX . 'type', true);
-                    $thumbnail = get_post_meta($template->ID, '_' . VCV_PREFIX . 'thumbnail', true);
-                    $preview = get_post_meta($template->ID, '_' . VCV_PREFIX . 'preview', true);
-                    $bundle = get_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', true);
-
-                    $data = [
-                        // @codingStandardsIgnoreLine
-                        'name' => $template->post_title,
-                        'data' => $templateElements,
-                        'bundle' => $bundle,
-                        'id' => (string)$template->ID,
-                    ];
-                    if (!empty($thumbnail)) {
-                        $data['thumbnail'] = $thumbnail;
-                    }
-                    if (!empty($preview)) {
-                        $data['preview'] = $preview;
-                    }
-                    if (!empty($type)) {
-                        $data['type'] = $type;
-                    }
-                    $groupTemplates[] = $data;
-                }
+                $templateElements = $this->getTemplateElements($meta, $template);
+                $groupTemplates = $this->processTemplateElements($templateElements, $template, $groupTemplates);
             }
             if (!empty($groupTemplates)) {
                 if (empty($groupKey)) {
@@ -173,5 +142,63 @@ class EditorTemplates implements Helper
         $template = vchelper('PostType')->get($templateId, 'vcv_templates');
 
         return $template;
+    }
+
+    /**
+     * @param $templateElements
+     * @param $template
+     * @param $groupTemplates
+     *
+     * @return array
+     */
+    protected function processTemplateElements($templateElements, $template, $groupTemplates)
+    {
+        if (!empty($templateElements)) {
+            $type = get_post_meta($template->ID, '_' . VCV_PREFIX . 'type', true);
+            $thumbnail = get_post_meta($template->ID, '_' . VCV_PREFIX . 'thumbnail', true);
+            $preview = get_post_meta($template->ID, '_' . VCV_PREFIX . 'preview', true);
+            $bundle = get_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', true);
+
+            $data = [
+                // @codingStandardsIgnoreLine
+                'name' => $template->post_title,
+                'data' => $templateElements,
+                'bundle' => $bundle,
+                'id' => (string)$template->ID,
+            ];
+            if (!empty($thumbnail)) {
+                $data['thumbnail'] = $thumbnail;
+            }
+            if (!empty($preview)) {
+                $data['preview'] = $preview;
+            }
+            if (!empty($type)) {
+                $data['type'] = $type;
+            }
+            $groupTemplates[] = $data;
+        }
+
+        return $groupTemplates;
+    }
+
+    /**
+     * @param $meta
+     * @param $template
+     *
+     * @return array|mixed
+     */
+    protected function getTemplateElements($meta, $template)
+    {
+        $templateElements = [];
+        if (!empty($meta)) {
+            $decoded = json_decode(rawurldecode($meta), true);
+            if ($decoded && isset($decoded['elements'])) {
+                $templateElements = $decoded['elements'];
+            }
+        } else {
+            $templateElements = get_post_meta($template->ID, 'vcvEditorTemplateElements', true);
+        }
+
+        return $templateElements;
     }
 }
