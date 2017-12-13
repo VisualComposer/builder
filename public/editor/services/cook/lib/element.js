@@ -157,7 +157,8 @@ export default class CookElement {
     } else {
       data.hidden = false
     }
-    if (this[ elData ].parent !== undefined) {
+    // JSON.parse can return '' for false entries
+    if (this[ elData ].parent !== undefined && this[ elData ].parent !== '') {
       data.parent = this[ elData ].parent
     } else {
       data.parent = false

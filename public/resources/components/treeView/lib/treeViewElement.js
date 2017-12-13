@@ -490,6 +490,7 @@ export default class TreeViewElement extends React.Component {
 
     let publicPath = hubCategoriesService.getElementIcon(element.get('tag'))
     let space = 0.8
+    let defaultSpace = utils.isRTL() ? 2 : 1
 
     if (!content) {
       content = element.get('name')
@@ -505,7 +506,7 @@ export default class TreeViewElement extends React.Component {
       dragHelperClasses += ' vcv-ui-tree-layout-control-drag-handler-mobile'
     }
 
-    const controlPadding = (space * this.props.level + 1) + 'rem'
+    const controlPadding = (space * this.props.level + defaultSpace) + 'rem'
     let controlStyle = utils.isRTL() ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
 
     if (this.isMobile) {

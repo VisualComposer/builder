@@ -18,7 +18,7 @@ export default (value) => {
         fieldKey: 'image',
         library: 'backgroundSimple',
         value: (value) => {
-          return value && value.ids.length && value.urls.length
+          return value && value.ids && value.urls && value.ids.length && value.urls.length
         }
       }
     ]
