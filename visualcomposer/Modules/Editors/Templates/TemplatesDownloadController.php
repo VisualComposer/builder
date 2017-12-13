@@ -168,7 +168,8 @@ class TemplatesDownloadController extends Container implements Module
                 update_post_meta($templateId, '_' . VCV_PREFIX . 'thumbnail', $template['thumbnail']);
                 update_post_meta($templateId, '_' . VCV_PREFIX . 'preview', $template['preview']);
                 update_post_meta($templateId, '_' . VCV_PREFIX . 'id', $template['id']);
-                update_post_meta($templateId, 'vcvEditorTemplateElements', $templateElements);
+                $data = rawurlencode(json_encode(['elements' => $templateElements]));
+                update_post_meta($templateId, VCV_PREFIX . 'pageContent', $data);
             }
 
             // $differ = vchelper('Differ');

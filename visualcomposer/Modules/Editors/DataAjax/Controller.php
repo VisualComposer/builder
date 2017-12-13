@@ -77,6 +77,16 @@ class Controller extends Container implements Module
             if (!empty($postMeta)) {
                 $data = $postMeta;
                 /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
+            } else {
+                if (get_post_type($sourceId) === 'vcv_templates') {
+                    $data = rawurlencode(
+                        json_encode(
+                            [
+                                'elements' => get_post_meta($sourceId, 'vcvEditorTemplateElements', true),
+                            ]
+                        )
+                    );
+                }
             }
             $response['post_content'] = get_post($sourceId)->post_content;
             $responseExtra = $filterHelper->fire(
