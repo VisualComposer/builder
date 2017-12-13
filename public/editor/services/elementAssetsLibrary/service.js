@@ -343,6 +343,10 @@ const publicApi = {
     files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
     files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
 
+    // Element Attributes Css/Js
+    // Google Fonts
+    files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
+
     // Inner elements / Sub elements
     let { getBackendEditorAssetsFilesByElement } = publicApi
     let innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement, getBackendEditorAssetsFilesByElement)

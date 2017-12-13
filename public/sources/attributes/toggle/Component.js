@@ -28,8 +28,12 @@ class Toggle extends Attribute {
     )
   }
 }
+
 Toggle.propTypes = {
-  value: React.PropTypes.bool.isRequired,
+  value: React.PropTypes.oneOfType([
+    React.PropTypes.bool,
+    React.PropTypes.string
+  ]).isRequired,
   fieldKey: React.PropTypes.string.isRequired
 }
 
