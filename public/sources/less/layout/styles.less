@@ -15,6 +15,7 @@
   flex: 1 1 auto;
   display: flex;
   flex-flow: column nowrap;
+  direction: ltr;
 }
 
 .vcv-layout-header {
@@ -129,6 +130,10 @@
   &:not(.vcv-ui-state--visible) {
     display: none;
   }
+}
+
+.rtl .vcv-layout-bar-content {
+  direction: rtl;
 }
 
 .vcv-layout-bar-content-start, .vcv-layout-bar-content-all {

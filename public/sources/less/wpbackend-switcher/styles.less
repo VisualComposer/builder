@@ -22,6 +22,7 @@
   }
 }
 
+
 .vcv-wpbackend-switcher--type-classic {
   box-sizing: border-box;
   display: inline-block;
@@ -85,5 +86,26 @@
 
   &:hover {
     background-color: @vcv-wpbackend-switcher-background-hover-color;
+  }
+}
+
+.rtl {
+  .vcv-wpbackend-switcher {
+    .vcv-wpbackend-switcher-option:last-child {;
+      border-radius: 0;
+      border-top-left-radius: @vcv-wpbackend-switcher-border-radius;
+      border-bottom-left-radius: @vcv-wpbackend-switcher-border-radius;
+    }
+  }
+
+  .vcv-wpbackend-switcher--type-classic {
+    margin-left: 0;
+    margin-right: @vcv-wpbackend-switcher-spacing;
+  }
+
+  .vcv-wpbackend-switcher-logo {
+    border-radius: 0;
+    border-top-right-radius: @vcv-wpbackend-switcher-border-radius;
+    border-bottom-right-radius: @vcv-wpbackend-switcher-border-radius;
   }
 }

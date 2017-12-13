@@ -49,6 +49,15 @@
   }
 }
 
+.rtl {
+  @arrow-padding: 2em;
+  .vcv-ui-form-dropdown {
+    background: url(@vcui-dropdown-handler-img) left 1em center no-repeat @vcui-form-input-background;
+    padding: @vcui-form-input-padding;
+    padding-left: @arrow-padding;
+  }
+}
+
 //== inline style
 .vcv-ui-form-dropdown-style--inline {
   width: auto;
