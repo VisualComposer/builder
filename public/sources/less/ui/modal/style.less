@@ -73,7 +73,16 @@
   right: 0;
   transform: translateY(-50%);
 }
-
+.rtl {
+  .vcv-ui-modal-close {
+    float: left;
+    text-align: left;
+  }
+  .vcv-ui-modal-close-icon {
+    right: auto;
+    left: 0;
+  }
+}
 // Actions
 .vcv-ui-modal-actions {
   font-size: @modal-action-icon-size;
@@ -89,6 +98,11 @@
       display: none;
     }
   }
+}
+
+.rtl .vcv-ui-modal-actions .vcv-ui-modal-action-content span {
+  margin-left: 0;
+  margin-right: @modal-gold-value;
 }
 
 .vcv-ui-modal-action {

@@ -93,3 +93,20 @@
     margin-left: @vcui-form-checkbox-content-padding;
   }
 }
+
+.rtl {
+  .vcv-ui-form-checkbox {
+    padding-right: @vcui-form-checkbox-content-padding;
+    padding-left: @vcui-form-checkbox-content-padding/2;
+
+    .vcv-ui-form-checkbox-indicator {
+      left: auto;
+      right: 0;
+    }
+
+    + .vcv-ui-form-helper {
+      margin-left: 0;
+      margin-right: @vcui-form-checkbox-content-padding;
+    }
+  }
+}

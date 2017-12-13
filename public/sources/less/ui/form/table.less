@@ -57,3 +57,19 @@
     vertical-align: middle;
   }
 }
+
+.rtl {
+  .vcv-ui-form-table {
+    > tbody {
+      > tr {
+        > td {
+          text-align: right;
+
+          &:last-child {
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
