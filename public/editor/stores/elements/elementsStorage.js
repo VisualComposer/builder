@@ -247,9 +247,10 @@ addStorage('elements', (storage) => {
     async: true
   })
   storage.on('reset', (data) => {
-    documentManager.reset(sanitizeData(data))
-    historyStorage.trigger('init', data)
-    storage.state('document').set(documentManager.children(false), data)
+    let sanitizedData = sanitizeData(data)
+    documentManager.reset(sanitizedData)
+    historyStorage.trigger('init', sanitizedData)
+    storage.state('document').set(documentManager.children(false), sanitizedData)
   })
   storage.on('updateAll', (data) => {
     documentManager.reset(sanitizeData(data))
