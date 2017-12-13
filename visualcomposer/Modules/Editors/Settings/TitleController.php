@@ -94,15 +94,17 @@ class TitleController extends Container implements Module
      */
     protected function titleRemove($title, $payload, Frontend $frontendHelper, Request $requestHelper)
     {
-        $post = get_post($payload);
-        if ($post) {
-            $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
-            // Add entry title only for correct Page Editable
-            if ($frontendHelper->isPageEditable() && intval($requestHelper->input('vcv-source-id')) === $payload) {
-                $title = '<vcvtitle>' . $title . '</vcvtitle>';
-            } else {
-                if ($disableMeta) {
-                    $title = '';
+        if (!is_admin()) {
+            $post = get_post($payload);
+            if ($post) {
+                $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
+                // Add entry title only for correct Page Editable
+                if ($frontendHelper->isPageEditable() && intval($requestHelper->input('vcv-source-id')) === $payload) {
+                    $title = '<vcvtitle>' . $title . '</vcvtitle>';
+                } else {
+                    if ($disableMeta) {
+                        $title = '';
+                    }
                 }
             }
         }
