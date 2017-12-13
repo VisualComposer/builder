@@ -13,7 +13,10 @@ $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
 $postTypeHelper = vchelper('PostType');
-$beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true)
+$beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true);
+if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
+    $licenseHelper = vchelper('License');
+}
 ?>
     <script>
       document.getElementById('<?php echo $beEditor === 'classic' ? 'vcwb_visual_composer' : 'postdivrich' ?>').classList.add('vcv-hidden')
@@ -26,6 +29,9 @@ $beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true)
       window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
       window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
       window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
+      <?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) { ?>
+      window.vcvIsPremium = <?php echo $licenseHelper->isActivated() ?>;
+      <?php } ?>
     </script>
 
     <div id="vcv-editor">

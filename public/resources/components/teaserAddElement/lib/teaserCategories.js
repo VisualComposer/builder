@@ -170,7 +170,17 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     if (vcCake.env('editor') === 'backend') {
       buttonUrl = window.VCV_UTM().beHubTeaserPremiumVersion
     }
-
+    let premium = null
+    if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
+      premium = (<div className='vcv-ui-editor-no-items-container'>
+        <div className='vcv-ui-editor-no-items-content'>
+          <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
+        </div>
+        <div className='vcv-ui-editor-no-items-content'>
+          <p className='vcv-start-blank-helper'>{helperText}</p>
+        </div>
+      </div>)
+    }
     return (
       <div className='vcv-ui-tree-content'>
         {this.getSearchElement()}
@@ -181,14 +191,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
                 <div className='vcv-ui-editor-plates'>
                   <div className='vcv-ui-editor-plate vcv-ui-state--active'>
                     {this.getElementListContainer(itemsOutput)}
-                    <div className='vcv-ui-editor-no-items-container'>
-                      <div className='vcv-ui-editor-no-items-content'>
-                        <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
-                      </div>
-                      <div className='vcv-ui-editor-no-items-content'>
-                        <p className='vcv-start-blank-helper'>{helperText}</p>
-                      </div>
-                    </div>
+                    {premium}
                   </div>
                 </div>
               </div>

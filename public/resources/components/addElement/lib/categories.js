@@ -163,6 +163,17 @@ export default class Categories extends React.Component {
     //     <p className='vcv-ui-form-helper'>{notRightElementText}</p>
     //   </div>
     // </div>
+    let premium = null
+    if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
+      premium = (<div>
+        <div className='vcv-ui-editor-no-items-content'>
+          <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
+        </div>
+        <div className='vcv-ui-editor-no-items-content'>
+          <p className='vcv-start-blank-helper'>{helperText}</p>
+        </div>
+      </div>)
+    }
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
         <img
@@ -171,12 +182,7 @@ export default class Categories extends React.Component {
           alt={nothingFoundText}
         />
       </div>
-      <div className='vcv-ui-editor-no-items-content'>
-        <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
-      </div>
-      <div className='vcv-ui-editor-no-items-content'>
-        <p className='vcv-start-blank-helper'>{helperText}</p>
-      </div>
+      {premium}
     </div>
   }
 

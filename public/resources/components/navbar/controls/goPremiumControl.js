@@ -10,7 +10,7 @@ export default class GoPremiumControl extends NavbarContent {
   }
 
   render () {
-    if (typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium !== '1') {
+    if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
       const localizations = window.VCV_I18N && window.VCV_I18N()
       const goPremium = localizations ? localizations.goPremium : 'Go Premium'
       return (
