@@ -194,7 +194,7 @@ export default class TemplateControl extends React.Component {
           <img
             className='vcv-ui-item-preview-image'
             src={sharedAssetsLibraryService.getSourcePath(preview)}
-            alt='Template preview'
+            alt={name}
           />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
