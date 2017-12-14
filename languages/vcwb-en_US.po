@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-14 09:58+0200\n"
-"PO-Revision-Date: 2017-12-14 09:59+0200\n"
+"POT-Creation-Date: 2017-12-14 16:44+0200\n"
+"PO-Revision-Date: 2017-12-14 16:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
 "Language: en_US\n"
@@ -32,7 +32,7 @@ msgid "Templates"
 msgstr ""
 
 #: Helpers/Hub/Bundle.php:146 Helpers/Hub/Bundle.php:348
-msgid "Failed read remote bundle json #10006"
+msgid "Failed to read remote bundle json #10006"
 msgstr ""
 
 #: Helpers/Hub/Bundle.php:170
@@ -165,8 +165,7 @@ msgid "Close"
 msgstr ""
 
 #: Helpers/Localizations.php:51
-msgid ""
-"There are no elements on your canvas - start by adding element or template."
+msgid "There is no content on your page - start by adding element or template."
 msgstr ""
 
 #: Helpers/Localizations.php:54
@@ -226,7 +225,7 @@ msgid "Remove Template"
 msgstr ""
 
 #: Helpers/Localizations.php:68
-msgid "Template save failed."
+msgid "Template save failed"
 msgstr ""
 
 #: Helpers/Localizations.php:69
@@ -250,15 +249,15 @@ msgid "Do you want to remove this template?"
 msgstr ""
 
 #: Helpers/Localizations.php:80
-msgid "Template remove failed."
+msgid "Failed to remove template"
 msgstr ""
 
 #: Helpers/Localizations.php:81
-msgid "Select Blank Canvas"
+msgid "Select Blank Page"
 msgstr ""
 
 #: Helpers/Localizations.php:82
-msgid "or Start With a Template"
+msgid "or Start With a template"
 msgstr ""
 
 #: Helpers/Localizations.php:85 Helpers/Localizations.php:100
@@ -324,11 +323,11 @@ msgid "Template with this name already exist. Please specify another name."
 msgstr ""
 
 #: Helpers/Localizations.php:117
-msgid "Template content is empty."
+msgid "There is no content on your page - nothing to save"
 msgstr ""
 
 #: Helpers/Localizations.php:118
-msgid "Please specify template name."
+msgid "Enter template name to save your page as a template"
 msgstr ""
 
 #: Helpers/Localizations.php:119
@@ -404,8 +403,8 @@ msgstr ""
 
 #: Helpers/Localizations.php:148
 msgid ""
-"Your activation request failed due to the e-mail address format. Please "
-"check your e-mail address and try again."
+"Activation request failed. Invalid e-mail. Please check your e-mail and try "
+"again."
 msgstr ""
 
 #: Helpers/Localizations.php:152
@@ -419,200 +418,185 @@ msgid "Your activation request failed. Please try again."
 msgstr ""
 
 #: Helpers/Localizations.php:156
-msgid "Please provide correct E-Mail"
+msgid "Please provide valid e-mail address"
 msgstr ""
 
-#: Helpers/Localizations.php:157
-msgid "Nothing Found"
+#: Helpers/Localizations.php:157 Helpers/Localizations.php:168
+msgid "Nothing found"
 msgstr ""
 
 #: Helpers/Localizations.php:158
-msgid "Template thumbnail"
-msgstr ""
-
-#: Helpers/Localizations.php:159
-msgid "Template preview"
-msgstr ""
-
-#: Helpers/Localizations.php:160
 msgid "Add Image"
 msgstr ""
 
-#: Helpers/Localizations.php:161
+#: Helpers/Localizations.php:159
 msgid "Remove Image"
 msgstr ""
 
-#: Helpers/Localizations.php:162
+#: Helpers/Localizations.php:160
 msgid "Move Image"
 msgstr ""
 
-#: Helpers/Localizations.php:163
+#: Helpers/Localizations.php:161
 msgid "Edit or Replace Image"
 msgstr ""
 
-#: Helpers/Localizations.php:164
+#: Helpers/Localizations.php:162
 msgid "Add Link"
 msgstr ""
 
-#: Helpers/Localizations.php:165
+#: Helpers/Localizations.php:163
 msgid "Select URL"
 msgstr ""
 
-#: Helpers/Localizations.php:166
+#: Helpers/Localizations.php:164
 msgid "Insert or Edit Link"
 msgstr ""
 
-#: Helpers/Localizations.php:167 Helpers/Localizations.php:173
-msgid "Enter the destination URL"
+#: Helpers/Localizations.php:165 Helpers/Localizations.php:171
+msgid "Enter destination URL"
 msgstr ""
 
-#: Helpers/Localizations.php:168
+#: Helpers/Localizations.php:166
 msgid "Or link to existing content"
 msgstr ""
 
-#: Helpers/Localizations.php:169
+#: Helpers/Localizations.php:167
 msgid "Search existing content"
 msgstr ""
 
-#: Helpers/Localizations.php:170
-msgid "There is no content with such term found."
-msgstr ""
-
-#: Helpers/Localizations.php:171
+#: Helpers/Localizations.php:169
 msgid "Open link in a new tab"
 msgstr ""
 
-#: Helpers/Localizations.php:172
+#: Helpers/Localizations.php:170
 msgid "Add nofollow option to link"
 msgstr ""
 
-#: Helpers/Localizations.php:174
+#: Helpers/Localizations.php:172
 msgid "Title attribute will be displayed on link hover"
 msgstr ""
 
-#: Helpers/Localizations.php:175
+#: Helpers/Localizations.php:173
 #: Modules/Elements/Grids/DataSource/ListOfIdsController.php:73
 #: Modules/Elements/WooCommerce/AutocompleteController.php:49
 msgid "Title"
 msgstr ""
 
-#: Helpers/Localizations.php:176
-msgid "Visual Composer Cloud update failed, please try again."
+#: Helpers/Localizations.php:174
+msgid "Visual Composer Cloud update failed, please try again"
 msgstr ""
 
-#: Helpers/Localizations.php:177
+#: Helpers/Localizations.php:175
 msgid "Preview"
 msgstr ""
 
-#: Helpers/Localizations.php:178
+#: Helpers/Localizations.php:176
 msgid "Preview Changes"
 msgstr ""
 
-#: Helpers/Localizations.php:179
+#: Helpers/Localizations.php:177
 msgid "Saving Results"
 msgstr ""
 
-#: Helpers/Localizations.php:180
+#: Helpers/Localizations.php:178
 msgid "Hide: Off"
 msgstr ""
 
-#: Helpers/Localizations.php:181
+#: Helpers/Localizations.php:179
 msgid "Hide: On"
 msgstr ""
 
-#: Helpers/Localizations.php:182
+#: Helpers/Localizations.php:180
 msgid "Downloading initial extensions"
 msgstr ""
 
-#: Helpers/Localizations.php:183
+#: Helpers/Localizations.php:181
 msgid "Downloading assets {i} of {cnt}: {name}"
 msgstr ""
 
-#: Helpers/Localizations.php:184
+#: Helpers/Localizations.php:182
 msgid "Updating posts {i} in {cnt}: {name}"
 msgstr ""
 
-#: Helpers/Localizations.php:185
-msgid "Downloading file for posts updates is failed. File: {file}"
+#: Helpers/Localizations.php:183
+msgid "Failed to load: {file} #10077"
 msgstr ""
 
-#: Helpers/Localizations.php:188
+#: Helpers/Localizations.php:186
 msgid ""
-"Double click on the element to open the edit window. Hold finger to initiate "
+"Double tap on an element to open the edit window. Tap and hold to initiate "
 "drag and drop in a Tree view."
 msgstr ""
 
-#: Helpers/Localizations.php:191
+#: Helpers/Localizations.php:189
 msgid "Template"
 msgstr ""
 
-#: Helpers/Localizations.php:192
+#: Helpers/Localizations.php:190
 msgid "Default template"
 msgstr ""
 
-#: Helpers/Localizations.php:194
-msgid "To apply a template you will need to save changes and reload the page."
+#: Helpers/Localizations.php:192
+msgid "To apply a template save changes and reload the page"
 msgstr ""
 
-#: Helpers/Localizations.php:198
+#: Helpers/Localizations.php:196
 msgid ""
 "To apply a template you will need to save changes and content will be "
 "reloaded."
 msgstr ""
 
-#: Helpers/Localizations.php:202
-msgid ""
-"To apply title changes you will need to save changes and reload the page."
+#: Helpers/Localizations.php:200
+msgid "To apply title changes save changes and reload the page"
 msgstr ""
 
-#: Helpers/Localizations.php:205
+#: Helpers/Localizations.php:203
 msgid "Disable page title"
 msgstr ""
 
-#: Helpers/Localizations.php:207
+#: Helpers/Localizations.php:205
 msgid ""
 "{name} has been successfully downloaded from the Visual Composer Hub and "
-"added to your library."
+"added to your library"
 msgstr ""
 
-#: Helpers/Localizations.php:211
+#: Helpers/Localizations.php:209
 msgid ""
 "Failed to download element (license is expired or request to account has "
 "timed out)."
 msgstr ""
 
-#: Helpers/Localizations.php:214
-msgid "Failed to download element."
+#: Helpers/Localizations.php:212
+msgid "Failed to download element"
 msgstr ""
 
-#: Helpers/Localizations.php:217
+#: Helpers/Localizations.php:215
 msgid ""
 "It seems that something went wrong with loading content. Please make sure "
 "you are loading correct content and try again."
 msgstr ""
 
-#: Helpers/Localizations.php:220
-msgid "Back to WordPress Dashboard"
+#: Helpers/Localizations.php:218 Helpers/Localizations.php:224
+#: Helpers/Localizations.php:234
+#: resources/views/account/partials/activation-thank-you.php:42
+msgid "Return to WordPress dashboard"
 msgstr ""
 
-#: Helpers/Localizations.php:223
+#: Helpers/Localizations.php:221
 msgid ""
 "It seems you are trying to edit archive page which displays your post "
-"archive instead of content. Before edit, please make sure to convert it into "
-"a static page via your WordPress admin."
+"archive instead of content. Before edit, please make sure to convert it to a "
+"static page via your WordPress admin"
 msgstr ""
 
 #: Helpers/Localizations.php:226
-msgid "Back to WordPress"
-msgstr ""
-
-#: Helpers/Localizations.php:228
 msgid ""
-"You can change the {elementLabel} within this element with another "
+"You can replace the {elementLabel} within this element with another "
 "{elementLabel} from your elements"
 msgstr ""
 
-#: Helpers/Localizations.php:232
+#: Helpers/Localizations.php:230
 #: resources/views/account/partials/activation-thank-you.php:34
 msgid ""
 "We would like to acknowledge that we have received your request and a ticket "
@@ -620,12 +604,7 @@ msgid ""
 "and will send you a personal response."
 msgstr ""
 
-#: Helpers/Localizations.php:236
-#: resources/views/account/partials/activation-thank-you.php:42
-msgid "Back to wordpress admin"
-msgstr ""
-
-#: Helpers/Localizations.php:240
+#: Helpers/Localizations.php:238
 #: resources/views/account/partials/activation-thank-you.php:29
 msgid "Thank You!"
 msgstr ""
@@ -740,17 +719,17 @@ msgstr ""
 msgid "Choose Backend editor schematic view with the quick preview option."
 msgstr ""
 
-#: Helpers/Token.php:175
+#: Helpers/Token.php:178
 #, php-format
 msgid "Your Visual Composer Website Builder License will expire soon - %s"
 msgstr ""
 
-#: Helpers/Token.php:207
+#: Helpers/Token.php:210
 msgid "Token generation failed"
 msgstr ""
 
-#: Helpers/Token.php:215
-msgid "Possibly the process exceeded the timeout of 30 seconds #10011"
+#: Helpers/Token.php:218
+msgid "Request timeout of 30 seconds exceeded #10011"
 msgstr ""
 
 #: Modules/Account/ActivationController.php:96
@@ -759,12 +738,12 @@ msgstr ""
 
 #: Modules/Account/ActivationController.php:118
 #, php-format
-msgid "Activation failed! Please wait %1$s seconds before you try again #10016"
+msgid "Activation failed. Please wait %1$s seconds before you try again #10016"
 msgstr ""
 
 #: Modules/Account/AddonsActivationController.php:82
 #, php-format
-msgid "Activation failed! Please wait %1$s seconds before you try again #10017"
+msgid "Activation failed. Please wait %1$s seconds before you try again #10017"
 msgstr ""
 
 #: Modules/Account/Pages/ActivationPage.php:83
@@ -772,7 +751,7 @@ msgid "Activation"
 msgstr ""
 
 #: Modules/Account/SubscribeController.php:66
-msgid "Failed to subscribe to the free version #10018"
+msgid "Failed to activate free version #10018"
 msgstr ""
 
 #: Modules/Assets/SharedDownloadController.php:113
@@ -820,19 +799,12 @@ msgstr ""
 msgid "Slug"
 msgstr ""
 
-#: Modules/FrontEnd/PluginsInfoController.php:30
-#, php-format
-msgid ""
-"Powered by Visual Composer Website Builder %s - fast and easy to use drag "
-"and drop builder for experts and beginners."
-msgstr ""
-
 #: Modules/Hub/Download/Actions/Traits/Action.php:60
-msgid "Bundle size too small, expecting and error! #10062"
+msgid "Bundle size is too small #10062"
 msgstr ""
 
 #: Modules/Hub/Download/Actions/Traits/Action.php:79
-msgid "Bundle checksum doesn't match! #10064"
+msgid "Bundle checksum doesn't match #10064"
 msgstr ""
 
 #: Modules/Hub/Download/CategoriesUpdater.php:70
@@ -840,10 +812,13 @@ msgid "Failed to update categories #10037"
 msgstr ""
 
 #: Modules/Hub/Download/ElementDownloadController.php:52
-msgid "Bad response from hub:action"
+msgid "Bad response from hub:action #10078"
 msgstr ""
 
 #: Modules/Hub/Download/ElementDownloadController.php:57
+msgid "Failed to download bundle #10079"
+msgstr ""
+
 #: Modules/Hub/Download/ElementDownloadController.php:64
 msgid "Failed to download bundle"
 msgstr ""
@@ -853,7 +828,7 @@ msgid "Failed to find element in hub #10042"
 msgstr ""
 
 #: Modules/Hub/Download/ElementDownloadController.php:147
-msgid "Failed read remote element bundle json #10043"
+msgid "Failed to read remote element bundle json #10043"
 msgstr ""
 
 #: Modules/Hub/Download/ElementsUpdater.php:74
@@ -886,15 +861,15 @@ msgid "Failed to update templates #10065"
 msgstr ""
 
 #: Modules/License/LicenseController.php:101
-msgid "Failed to finish licence activation"
+msgid "License activation failed"
 msgstr ""
 
 #: Modules/License/LicenseController.php:106
-msgid "Failed to finish licence activation - Invalid token"
+msgid "Invalid token -> Failed licence activation - Invalid token"
 msgstr ""
 
 #: Modules/License/LicenseController.php:161
-msgid "Failed to finish licence de-activation #10070"
+msgid "Failed licence de-activation #10070"
 msgstr ""
 
 #: Modules/License/LicenseController.php:170
@@ -1027,7 +1002,7 @@ msgid ""
 msgstr ""
 
 #: resources/views/account/partials/activation-layout.php:86
-msgid "BACK"
+msgid "Back"
 msgstr ""
 
 #: resources/views/account/partials/activation-layout.php:156
