@@ -30,7 +30,7 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
       window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
       window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
       <?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) { ?>
-      window.vcvIsPremium = <?php echo $licenseHelper->isActivated() ?>;
+      window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated() ?>);
       <?php } ?>
     </script>
 
