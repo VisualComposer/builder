@@ -206,7 +206,7 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'licenseErrorElementDownload' => __(
-                'Failed to download element (license is expired or request to account has timed out).',
+                'Failed to download element (license expired or request timed out)',
                 'vcwb'
             ),
             'defaultErrorElementDownload' => __('Failed to download element', 'vcwb'),

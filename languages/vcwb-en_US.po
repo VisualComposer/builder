@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-14 16:44+0200\n"
-"PO-Revision-Date: 2017-12-14 16:45+0200\n"
+"POT-Creation-Date: 2017-12-14 16:57+0200\n"
+"PO-Revision-Date: 2017-12-14 16:57+0200\n"
 "Last-Translator: \n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
 "Language: en_US\n"
@@ -562,9 +562,7 @@ msgid ""
 msgstr ""
 
 #: Helpers/Localizations.php:209
-msgid ""
-"Failed to download element (license is expired or request to account has "
-"timed out)."
+msgid "Failed to download element (license expired or request timed out)"
 msgstr ""
 
 #: Helpers/Localizations.php:212

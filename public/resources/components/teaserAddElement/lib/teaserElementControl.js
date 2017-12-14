@@ -149,7 +149,7 @@ export default class TeaserElementControl extends ElementControl {
                   tryDownload()
                 } else {
                   this.ajax = null
-                  let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+                  let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license expired or request timed out)'
                   if (jsonResponse && jsonResponse.message) {
                     errorMessage = jsonResponse.message
                   }
@@ -166,7 +166,7 @@ export default class TeaserElementControl extends ElementControl {
                   !cancelled && this.setState({ elementState: 'failed' })
                 }
               } else {
-                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license expired or request timed out)'
                 console.warn('failed to download element request cancelled', errorMessage, response)
                 workspaceNotifications.set({
                   type: 'error',

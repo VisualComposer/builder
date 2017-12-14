@@ -73,7 +73,7 @@ addStorage('hubElements', (storage) => {
               if (tries < 2) {
                 tryDownload()
               } else {
-                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license expired or request timed out)'
                 if (jsonResponse && jsonResponse.message) {
                   errorMessage = jsonResponse.message
                 }
@@ -88,7 +88,7 @@ addStorage('hubElements', (storage) => {
                 })
               }
             } else {
-              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license is expired or request to account has timed out).'
+              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license expired or request timed out)'
               console.warn('failed to download element request cancelled', errorMessage, response)
               workspaceNotifications.set({
                 type: 'error',
