@@ -80,13 +80,44 @@
   }
 }
 
-[data-vcv-send-error-report] {
-  margin-left: 30px;
+.vcv-popup-error-with-button {
+  a, button {
+    text-transform: capitalize;
+    padding: 13px 17px;
+    margin: 0;
+  }
+  .vcv-error-message {
+    display: block;
+    margin-bottom: 20px;
+  }
 }
 
-.vcv-popup-error {
-  [data-vcv-send-error-report] {
-    float: right;
-    margin-bottom: 0;
+@media screen and (min-width: 768px) {
+  .vcv-popup-error-with-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .vcv-popup-button {
+      flex-shrink: 0;
+
+      &:hover {
+        cursor: pointer;
+        background: #fff;
+        border-color: #fff;
+        color: #FA6262;
+      }
+
+      &:hover, &:focus {
+        outline: none;
+      }
+    }
+
+    .vcv-error-message {
+      text-align: left;
+      padding-right: 30px;
+      display: inline-block;
+      margin-bottom: 0;
+    }
   }
 }

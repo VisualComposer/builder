@@ -148,7 +148,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                 ]
             ); ?>
 			<!-- Error block -->
-			<div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active'
+			<div class="vcv-popup-error vcv-popup-error-with-button<?php echo $errorMsg ? ' vcv-popup-error--active'
                 : ''; ?>">
 				<span class="vcv-error-message"><?php echo $errorMsg ? $errorMsg : ''; ?></span>
 				<a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
