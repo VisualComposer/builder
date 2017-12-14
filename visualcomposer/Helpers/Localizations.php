@@ -48,7 +48,7 @@ class Localizations extends Container implements Helper
             'premiumTemplatesButton' => __('Go Premium', 'vcwb'),
             'premiumHubButton' => __('Go Premium', 'vcwb'),
             'emptyTreeView' => __(
-                'There are no elements on your canvas - start by adding element or template.',
+                'There is no content on your page - start by adding element or template.',
                 'vcwb'
             ),
             'customCSS' => __('Custom CSS', 'vcwb'),
@@ -65,7 +65,7 @@ class Localizations extends Container implements Helper
             'templateName' => __('Template Name', 'vcwb'),
             'saveTemplate' => __('Save Template', 'vcwb'),
             'removeTemplate' => __('Remove Template', 'vcwb'),
-            'templateSaveFailed' => __('Template save failed.', 'vcwb'),
+            'templateSaveFailed' => __('Template save failed', 'vcwb'),
             'downloadMoreTemplates' => __('Download More Templates', 'vcwb'),
             'noTemplatesFound' => __(
             // @codingStandardsIgnoreLine
@@ -77,9 +77,9 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'removeTemplateWarning' => __('Do you want to remove this template?', 'vcwb'),
-            'templateRemoveFailed' => __('Template remove failed.', 'vcwb'),
-            'blankPageHeadingPart1' => __('Select Blank Canvas', 'vcwb'),
-            'blankPageHeadingPart2' => __('or Start With a Template', 'vcwb'),
+            'templateRemoveFailed' => __('Failed to remove template', 'vcwb'),
+            'blankPageHeadingPart1' => __('Select Blank Page', 'vcwb'),
+            'blankPageHeadingPart2' => __('or Start With a template', 'vcwb'),
             'blankPageHelperText' => __(
             // @codingStandardsIgnoreLine
                 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more.',
@@ -114,8 +114,8 @@ class Localizations extends Container implements Helper
                 'Template with this name already exist. Please specify another name.',
                 'vcwb'
             ),
-            'templateContentEmpty' => __('Template content is empty.', 'vcwb'),
-            'specifyTemplateName' => __('Please specify template name.', 'vcwb'),
+            'templateContentEmpty' => __('There is no content on your page - nothing to save', 'vcwb'),
+            'specifyTemplateName' => __('Enter template name to save your page as a template', 'vcwb'),
             'addOneColumn' => __('Add one column', 'vcwb'),
             'addTwoColumns' => __('Add two columns', 'vcwb'),
             'addThreeColumns' => __('Add three columns', 'vcwb'),
@@ -145,7 +145,7 @@ class Localizations extends Container implements Helper
             ),
             'incorrectEmailFormat' => __(
             // @codingStandardsIgnoreLine
-                'Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.',
+                'Activation request failed. Invalid e-mail. Please check your e-mail and try again.',
                 'vcwb'
             ),
             'mustAgreeToActivate' => __(
@@ -153,10 +153,8 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'activationFailed' => __('Your activation request failed. Please try again.', 'vcwb'),
-            'provideCorrectEmail' => __('Please provide correct E-Mail', 'vcwb'),
-            'nothingFound' => __('Nothing Found', 'vcwb'),
-            'templateThumbnail' => __('Template thumbnail', 'vcwb'),
-            'templatePreview' => __('Template preview', 'vcwb'),
+            'provideCorrectEmail' => __('Please provide valid e-mail address', 'vcwb'),
+            'nothingFound' => __('Nothing found', 'vcwb'),
             'addImage' => __('Add Image', 'vcwb'),
             'removeImage' => __('Remove Image', 'vcwb'),
             'moveImage' => __('Move Image', 'vcwb'),
@@ -164,16 +162,16 @@ class Localizations extends Container implements Helper
             'addLink' => __('Add Link', 'vcwb'),
             'selectUrl' => __('Select URL', 'vcwb'),
             'insertEditLink' => __('Insert or Edit Link', 'vcwb'),
-            'urlInputPlaceholder' => __('Enter the destination URL', 'vcwb'),
+            'urlInputPlaceholder' => __('Enter destination URL', 'vcwb'),
             'linkToExistingContent' => __('Or link to existing content', 'vcwb'),
             'searchExistingContent' => __('Search existing content', 'vcwb'),
-            'noExistingContentFound' => __('There is no content with such term found.', 'vcwb'),
+            'noExistingContentFound' => __('Nothing found', 'vcwb'),
             'openLinkInTab' => __('Open link in a new tab', 'vcwb'),
             'addNofollow' => __('Add nofollow option to link', 'vcwb'),
-            'enterDestinationUrl' => __('Enter the destination URL', 'vcwb'),
+            'enterDestinationUrl' => __('Enter destination URL', 'vcwb'),
             'titleAttributeText' => __('Title attribute will be displayed on link hover', 'vcwb'),
             'title' => __('Title', 'vcwb'),
-            'bundleUpdateFailed' => __('Visual Composer Cloud update failed, please try again.', 'vcwb'),
+            'bundleUpdateFailed' => __('Visual Composer Cloud update failed, please try again', 'vcwb'),
             'preview' => __('Preview', 'vcwb'),
             'previewChanges' => __('Preview Changes', 'vcwb'),
             'savingResults' => __('Saving Results', 'vcwb'),
@@ -182,16 +180,16 @@ class Localizations extends Container implements Helper
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'vcwb'),
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'vcwb'),
-            'postUpdateAjaxRequestError' => __('Downloading file for posts updates is failed. File: {file}', 'vcwb'),
+            'postUpdateAjaxRequestError' => __('Failed to load: {file} #10077', 'vcwb'),
             'mobileTooltipText' => __(
             // @codingStandardsIgnoreLine
-                'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.',
+                'Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view.',
                 'vcwb'
             ),
             'template' => __('Template', 'vcwb'),
             'defaultTemplate' => __('Default template', 'vcwb'),
             'pageTemplateDescription' => __(
-                'To apply a template you will need to save changes and reload the page.',
+                'To apply a template save changes and reload the page',
                 'vcwb'
             ),
             'pageTemplateReloadDescription' => __(
@@ -199,33 +197,33 @@ class Localizations extends Container implements Helper
                 '_vcwb'
             ),
             'pageTitleDescription' => __(
-                'To apply title changes you will need to save changes and reload the page.',
+                'To apply title changes save changes and reload the page',
                 'vcwb'
             ),
             'pageTitleDisableDescription' => __('Disable page title', 'vcwb'),
             'successElementDownload' => __(
-                '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.',
+                '{name} has been successfully downloaded from the Visual Composer Hub and added to your library',
                 'vcwb'
             ),
             'licenseErrorElementDownload' => __(
                 'Failed to download element (license is expired or request to account has timed out).',
                 'vcwb'
             ),
-            'defaultErrorElementDownload' => __('Failed to download element.', 'vcwb'),
+            'defaultErrorElementDownload' => __('Failed to download element', 'vcwb'),
             'feOopsMessageDefault' => __(
             // @codingStandardsIgnoreLine
                 'It seems that something went wrong with loading content. Please make sure you are loading correct content and try again.',
                 'vcwb'
             ),
-            'feOopsButtonTextDefault' => __('Back to WordPress Dashboard', 'vcwb'),
+            'feOopsButtonTextDefault' => __('Return to WordPress dashboard', 'vcwb'),
             'feOopsMessagePageForPosts' => __(
             // @codingStandardsIgnoreLine
-                'It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it into a static page via your WordPress admin.',
+                'It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it to a static page via your WordPress admin',
                 'vcwb'
             ),
-            'feOopsButtonTextPageForPosts' => __('Back to WordPress', 'vcwb'),
+            'feOopsButtonTextPageForPosts' => __('Return to WordPress dashboard', 'vcwb'),
             'replaceElementText' => __(
-                'You can change the {elementLabel} within this element with another {elementLabel} from your elements',
+                'You can replace the {elementLabel} within this element with another {elementLabel} from your elements',
                 'vcwb'
             ),
             'errorReportSubmitted' => __(
@@ -233,7 +231,7 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'backToWpAdminText' => __(
-                'Back to wordpress admin',
+                'Return to WordPress dashboard',
                 'vcwb'
             ),
             'thankYouText' => __(

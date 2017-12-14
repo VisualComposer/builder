@@ -400,7 +400,7 @@ export default class ElementControl extends React.Component {
           title={name}>
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
-              alt='' />
+              alt={name} />
             <span className='vcv-ui-item-overlay'>
               <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
             </span>
@@ -411,7 +411,7 @@ export default class ElementControl extends React.Component {
             </span>
           </span>
           <figure className={previewClasses} style={previewStyle}>
-            <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt='' />
+            <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
             <figcaption className='vcv-ui-item-preview-caption'>
               <div className='vcv-ui-item-preview-text'>
                 {cookElement.get('metaDescription')}

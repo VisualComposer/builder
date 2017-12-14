@@ -98,12 +98,12 @@ class LicenseController extends Container implements Module
                     wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
                     exit;
                 } else {
-                    $loggerHelper->logNotice('activation:failed', __('Failed to finish licence activation', 'vcwb'));
+                    $loggerHelper->logNotice('activation:failed', __('License activation failed', 'vcwb'));
                 }
             } else {
                 $loggerHelper->logNotice(
                     'activation:failed',
-                    __('Failed to finish licence activation - Invalid token', 'vcwb')
+                    __('Invalid token -> Failed licence activation - Invalid token', 'vcwb')
                 );
             }
         }
@@ -158,7 +158,7 @@ class LicenseController extends Container implements Module
                     exit;
                 } else {
                     $loggerHelper->log(
-                        __('Failed to finish licence de-activation #10070', 'vcwb'),
+                        __('Failed licence de-activation #10070', 'vcwb'),
                         [
                             'response' => is_wp_error($result) ? $result->get_error_message()
                                 : (is_array($result) && isset($result['body']) ? $result['body'] : ''),

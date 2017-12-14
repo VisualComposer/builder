@@ -208,7 +208,7 @@ export default class TemplateControl extends React.Component {
         <img
           className='vcv-ui-item-element-image'
           src={sharedAssetsLibraryService.getSourcePath(thumbnail)}
-          alt='Template thumbnail'
+          alt={name}
         />
       )
     } else {

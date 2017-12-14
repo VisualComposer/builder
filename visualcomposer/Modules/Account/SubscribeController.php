@@ -63,7 +63,7 @@ class SubscribeController extends Container implements Module
             return true;
         } else {
             $messages = [];
-            $messages[] = __('Failed to subscribe to the free version #10018', 'vcwb');
+            $messages[] = __('Failed to activate free version #10018', 'vcwb');
             if (is_wp_error($result)) {
                 $messages[] = implode('. ', $result->get_error_messages()) . ' #10019';
             } elseif (is_array($result) && isset($result['body'])) {

@@ -79,7 +79,7 @@ class AddonsActivationController extends Container implements Module
             $expiresAfter = $expirationTime - time();
             $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
             $loggerHelper->log(
-                sprintf(__('Activation failed! Please wait %1$s seconds before you try again #10017', 'vcwb'), $expiresAfter),
+                sprintf(__('Activation failed. Please wait %1$s seconds before you try again #10017', 'vcwb'), $expiresAfter),
                 [
                     'getTransient' => $optionsHelper->getTransient('vcv:activation:request'),
                     'expiresAfter' => $expiresAfter,

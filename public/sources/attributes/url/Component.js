@@ -158,7 +158,7 @@ export default class Url extends Attribute {
   }
 
   renderExistingPosts = () => {
-    const noExistingContentFound = this.localizations ? this.localizations.noExistingContentFound : 'There is no content with such term found.'
+    const noExistingContentFound = this.localizations ? this.localizations.noExistingContentFound : 'Nothing found'
     let items = []
 
     if (!pagePosts.get().length) {
@@ -235,7 +235,7 @@ export default class Url extends Attribute {
 
   drawModal () {
     const insertEditLink = this.localizations ? this.localizations.insertEditLink : 'Insert or Edit Link'
-    const enterDestinationUrl = this.localizations ? this.localizations.enterDestinationUrl : 'Enter the destination URL'
+    const enterDestinationUrl = this.localizations ? this.localizations.enterDestinationUrl : 'Enter destination URL'
     const title = this.localizations ? this.localizations.title : 'Title'
     const titleAttributeText = this.localizations ? this.localizations.titleAttributeText : 'Title attribute will be displayed on link hover'
     const openLinkInTab = this.localizations ? this.localizations.openLinkInTab : 'Open link in a new tab'

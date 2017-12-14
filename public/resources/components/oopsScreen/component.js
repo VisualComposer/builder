@@ -5,12 +5,12 @@ const localizations = window.VCV_I18N && window.VCV_I18N()
 const Errors = {
   default: {
     message: localizations.feOopsMessageDefault || 'It seems that something went wrong with loading content. Please make sure you are loading correct content and try again.',
-    buttonText: localizations.feOopsButtonTextDefault || 'Back to WordPress',
+    buttonText: localizations.feOopsButtonTextDefault || 'Return to WordPress dashboard',
     buttonLink: window.location.href.replace(/&vcv-action=frontend.*/i, '')
   },
   page_for_posts: {
-    message: localizations.feOopsMessagePageForPosts || 'It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it into a static page via your WordPress admin.',
-    buttonText: localizations.feOopsButtonTextPageForPosts || 'Back to WordPress',
+    message: localizations.feOopsMessagePageForPosts || 'It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it to a static page via your WordPress admin',
+    buttonText: localizations.feOopsButtonTextPageForPosts || 'Return to WordPress dashboard',
     buttonLink: window.location.href.replace(/&vcv-action=frontend.*/i, '')
   }
 }

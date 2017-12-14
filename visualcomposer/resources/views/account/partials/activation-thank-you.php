@@ -39,7 +39,7 @@ if (!defined('ABSPATH')) {
     <div class="vcv-button-container">
         <a href="#" data-vcv-back-to-wp class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
 			<span>
-				<?php echo __('Back to wordpress admin', 'vcwb'); ?>
+				<?php echo __('Return to WordPress dashboard', 'vcwb'); ?>
 			</span>
         </a>
     </div>

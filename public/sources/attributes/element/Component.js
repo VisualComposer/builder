@@ -156,7 +156,7 @@ export default class ElementAttribute extends Attribute {
           >
             <span className={itemContentClasses}>
               <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
-                alt='' />
+                alt={cookElement.get('name')} />
               <span className='vcv-ui-item-overlay'>
                 <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
               </span>

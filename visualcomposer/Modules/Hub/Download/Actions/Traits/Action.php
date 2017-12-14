@@ -57,7 +57,7 @@ trait Action
             // If zip is less than 2kb something wrong (our smallest bundle is 7.9kb - separator)
             if (filesize($archive) < 2 * 1024) {
                 $loggerHelper->log(
-                    __('Bundle size too small, expecting and error! #10062', 'vcwb'),
+                    __('Bundle size is too small #10062', 'vcwb'),
                     [
                         'fileSize' => filesize($archive),
                         'contents' => htmlentities(file_get_contents($archive)),
@@ -76,7 +76,7 @@ trait Action
             if (isset($payload['checksum']) && !empty($payload['checksum'])) {
                 $mdOriginalFile = md5_file($archive);
                 if ($mdOriginalFile !== $payload['checksum']) {
-                    $loggerHelper->log(__('Bundle checksum doesn\'t match! #10064', 'vcwb'));
+                    $loggerHelper->log(__('Bundle checksum doesn\'t match #10064', 'vcwb'));
 
                     return false;
                 }

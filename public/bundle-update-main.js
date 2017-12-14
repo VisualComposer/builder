@@ -9,7 +9,7 @@ import { log as logError, send as sendError, all as getErrors } from './editor/m
     const downloadingAssetsText = localizations ? localizations.downloadingAssets : 'Downloading assets {i} of {cnt}'
     const savingResultsText = localizations ? localizations.savingResults : 'Saving Results'
     const postUpdateText = localizations ? localizations.postUpdateText : 'Update posts {i} in {cnt}: {name}'
-    const backToWpText = localizations ? localizations.backToWpAdminText : 'Back to wordpress admin'
+    const backToWpText = localizations ? localizations.backToWpAdminText : 'Return to WordPress dashboard'
     const thankYouText = localizations ? localizations.thankYouText : 'Thank You!'
     const thankYouTextDescription = localizations && localizations.errorReportSubmitted ? localizations.errorReportSubmitted : 'We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response.'
 

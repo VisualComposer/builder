@@ -171,7 +171,7 @@ export default class AddTemplatePanel extends React.Component {
     // const notRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.notRightTemplatesFound : `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
     const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Go Premium'
     const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.addTemplateHelperText : 'Didn\'t find a perfect template? Get a Premium license to download it from Visual Composer Hub.'
-
+    const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
     // let source, btnText, helper, button
     let source
     if (!this.props.categories[ 0 ].templates().length && !this.state.isSearching) {
@@ -208,7 +208,7 @@ export default class AddTemplatePanel extends React.Component {
         <img
           className='vcv-ui-editor-no-items-image'
           src={source}
-          alt='Nothing Found'
+          alt={nothingFoundText}
         />
       </div>
       {premium}
@@ -270,9 +270,9 @@ export default class AddTemplatePanel extends React.Component {
   handleSaveTemplate (e) {
     e && e.preventDefault()
     const templateAlreadyExistsText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateAlreadyExists : 'Template with this name already exist. Please specify another name.'
-    const templateContentEmptyText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContentEmpty : 'Template content is empty.'
-    const templateSaveFailedText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Template save failed.'
-    const specifyTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.specifyTemplateName : 'Please specify template name.'
+    const templateContentEmptyText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContentEmpty : 'There is no content on your page - nothing to save'
+    const templateSaveFailedText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Template save failed'
+    const specifyTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.specifyTemplateName : 'Enter template name to save your page as a template'
     let { templateName } = this.state
     templateName = templateName.trim()
     if (templateName) {
@@ -306,7 +306,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   onSaveFailed () {
-    const errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Template save failed.'
+    const errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Template save failed'
     this.displayError(errorText)
   }
 
@@ -337,7 +337,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   onRemoveFailed () {
-    const templateRemoveFailed = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoveFailed : 'Template remove failed.'
+    const templateRemoveFailed = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoveFailed : 'Failed to remove template'
 
     this.displayError(templateRemoveFailed)
   }

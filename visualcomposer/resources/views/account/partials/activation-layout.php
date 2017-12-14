@@ -83,7 +83,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                 )) { ?>
 				<!-- Back button -->
 				<button class="vcv-popup-back-button">
-					<span><?php echo __('BACK'); ?></span>
+					<span><?php echo __('Back', 'vcwb'); ?></span>
 				</button>
             <?php } ?>
 			<!-- Close button -->

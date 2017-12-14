@@ -17,10 +17,10 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
     let $popup = $('.vcv-popup-container')
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const readAndAgreeTermsText = localizations ? localizations.readAndAgreeTerms : 'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer Website Builder.'
-    const incorrectEmailFormatText = localizations ? localizations.incorrectEmailFormat : 'Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.'
+    const incorrectEmailFormatText = localizations ? localizations.incorrectEmailFormat : 'Activation request failed. Invalid e-mail. Please check your e-mail and try again.'
     const mustAgreeToActivateText = localizations ? localizations.mustAgreeToActivate : 'To activate and use Visual Composer Website Builder, you must read and agree to the terms of service.'
     const activationFailedText = localizations ? localizations.activationFailed : 'Your activation request failed. Please try again.'
-    const provideCorrectEmailText = localizations ? localizations.provideCorrectEmail : 'Please provide correct E-Mail'
+    const provideCorrectEmailText = localizations ? localizations.provideCorrectEmail : 'Please provide valid e-mail address'
     const savingResultsText = localizations ? localizations.savingResults : 'Saving Results'
     const downloadingInitialExtensionsText = localizations ? localizations.downloadingInitialExtensions : 'Downloading initial extensions'
     const downloadingAssetsText = localizations ? localizations.downloadingAssets : 'Downloading assets {i} of {cnt}'

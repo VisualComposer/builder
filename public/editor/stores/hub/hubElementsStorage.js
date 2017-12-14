@@ -33,7 +33,7 @@ addStorage('hubElements', (storage) => {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+    let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
     if (hubElementsService.get(tag) !== null) {
       return
     }
@@ -108,7 +108,7 @@ addStorage('hubElements', (storage) => {
             } else {
               workspaceNotifications.set({
                 type: 'error',
-                text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+                text: localizations.defaultErrorElementDownload || 'Failed to download element',
                 showCloseButton: 'true',
                 icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
@@ -118,7 +118,7 @@ addStorage('hubElements', (storage) => {
             console.warn('failed to parse download response request cancelled', e, response)
             workspaceNotifications.set({
               type: 'error',
-              text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+              text: localizations.defaultErrorElementDownload || 'Failed to download element',
               showCloseButton: 'true',
               icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
@@ -136,7 +136,7 @@ addStorage('hubElements', (storage) => {
           } else {
             workspaceNotifications.set({
               type: 'error',
-              text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+              text: localizations.defaultErrorElementDownload || 'Failed to download element',
               showCloseButton: 'true',
               icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
@@ -146,7 +146,7 @@ addStorage('hubElements', (storage) => {
           console.warn('failed to download element general server error request cancelled', response)
           workspaceNotifications.set({
             type: 'error',
-            text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+            text: localizations.defaultErrorElementDownload || 'Failed to download element',
             showCloseButton: 'true',
             icon: 'vcv-ui-icon vcv-ui-icon-error',
             time: 5000

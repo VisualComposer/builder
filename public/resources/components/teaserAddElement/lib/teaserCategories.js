@@ -122,7 +122,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
   getNoResultsElement () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing Found'
+    const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing found'
 
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 

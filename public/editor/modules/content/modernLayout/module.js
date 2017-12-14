@@ -62,7 +62,7 @@ vcCake.add('contentModernLayout', (api) => {
               position: 'bottom',
               transparent: true,
               rounded: true,
-              text: localizations.mobileTooltipText || 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.',
+              text: localizations.mobileTooltipText || 'Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view.',
               cookie: 'vcv-mobile-tooltip',
               time: 10000
             })
@@ -73,7 +73,7 @@ vcCake.add('contentModernLayout', (api) => {
               let iframeOverlay = document.querySelector('.vcv-layout-iframe-overlay')
               let mobileTooltip = document.createElement('div')
               mobileTooltip.className = 'vcv-ui-mobile-tooltip'
-              mobileTooltip.innerText = localizations.mobileTooltipText || 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.'
+              mobileTooltip.innerText = localizations.mobileTooltipText || 'Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view.'
               mobileTooltip.addEventListener('click', () => {
                 if (!disableTooltip) {
                   mobileTooltip.className += ' disabled'

@@ -116,7 +116,7 @@ export default class TeaserElementControl extends ElementControl {
         'vcv-bundle': bundle,
         'vcv-nonce': window.vcvNonce
       }
-      let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+      let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
 
       let tries = 0
       let tryDownload = () => {
@@ -187,7 +187,7 @@ export default class TeaserElementControl extends ElementControl {
                 this.ajax = null
                 workspaceNotifications.set({
                   type: 'error',
-                  text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+                  text: localizations.defaultErrorElementDownload || 'Failed to download element',
                   showCloseButton: 'true',
                   icon: 'vcv-ui-icon vcv-ui-icon-error',
                   time: 5000
@@ -199,7 +199,7 @@ export default class TeaserElementControl extends ElementControl {
               console.warn('failed to parse download response request cancelled', e, response)
               workspaceNotifications.set({
                 type: 'error',
-                text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+                text: localizations.defaultErrorElementDownload || 'Failed to download element',
                 showCloseButton: 'true',
                 icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
@@ -217,7 +217,7 @@ export default class TeaserElementControl extends ElementControl {
               this.ajax = null
               workspaceNotifications.set({
                 type: 'error',
-                text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+                text: localizations.defaultErrorElementDownload || 'Failed to download element',
                 showCloseButton: 'true',
                 icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
@@ -229,7 +229,7 @@ export default class TeaserElementControl extends ElementControl {
             console.warn('failed to download element general server error request cancelled', response)
             workspaceNotifications.set({
               type: 'error',
-              text: localizations.defaultErrorElementDownload || 'Failed to download element.',
+              text: localizations.defaultErrorElementDownload || 'Failed to download element',
               showCloseButton: 'true',
               icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
@@ -262,7 +262,7 @@ export default class TeaserElementControl extends ElementControl {
         'vcv-nonce': window.vcvNonce
       }
       let tag = bundle // for queue
-      let successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+      let successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
 
       let tries = 0
       let tryDownload = () => {
@@ -484,7 +484,7 @@ export default class TeaserElementControl extends ElementControl {
           onMouseLeave={this.hidePreview}
           title={name}>
           <span className='vcv-ui-item-element-content'>
-            <img className='vcv-ui-item-element-image' src={publicPathThumbnail} alt='' />
+            <img className='vcv-ui-item-element-image' src={publicPathThumbnail} alt={name} />
             <span className={itemOverlayClasses}>
               {overlayOutput}
             </span>
@@ -495,7 +495,7 @@ export default class TeaserElementControl extends ElementControl {
             </span>
           </span>
           <figure className={previewClasses} style={previewStyle}>
-            <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt='' />
+            <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
             <figcaption className='vcv-ui-item-preview-caption'>
               <div className='vcv-ui-item-preview-text'>
                 {element.metaDescription}

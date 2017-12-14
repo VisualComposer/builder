@@ -143,7 +143,7 @@ class Bundle implements Helper
                     $result = json_decode($response['body'], true);
                 } else {
                     $messages = [];
-                    $messages[] = __('Failed read remote bundle json #10006', 'vcwb');
+                    $messages[] = __('Failed to read remote bundle json #10006', 'vcwb');
                     if (is_wp_error($response)) {
                         /** @var \WP_Error $result */
                         $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
@@ -345,7 +345,7 @@ class Bundle implements Helper
             $result = json_decode(file_get_contents($response), true);
         } else {
             $messages = [];
-            $messages[] = __('Failed read remote bundle json #10006', 'vcwb');
+            $messages[] = __('Failed to read remote bundle json #10006', 'vcwb');
             if (is_wp_error($response)) {
                 /** @var \WP_Error $result */
                 $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';

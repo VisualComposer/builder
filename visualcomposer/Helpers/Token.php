@@ -215,7 +215,7 @@ class Token extends Container implements Helper
                 $message .= implode('. ', $result->get_error_messages());
                 if ("http_request_failed" === $result->get_error_code()) {
                     $message .= '. ';
-                    $message .= __('Possibly the process exceeded the timeout of 30 seconds #10011', 'vcwb');
+                    $message .= __('Request timeout of 30 seconds exceeded #10011', 'vcwb');
                 }
                 $message .= ' #10004';
             } else {

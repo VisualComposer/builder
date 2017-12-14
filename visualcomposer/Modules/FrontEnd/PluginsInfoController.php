@@ -26,10 +26,7 @@ class PluginsInfoController extends Container implements Module
     {
         if (apply_filters('vcv:output:meta', true)) {
             $text = sprintf(
-                esc_attr__(
-                    'Powered by Visual Composer Website Builder %s - fast and easy to use drag and drop builder for experts and beginners.',
-                    'vcwb'
-                ),
+                'Powered by Visual Composer Website Builder %s - fast and easy to use drag and drop builder for experts and beginners.',
                 VCV_VERSION
             );
             echo sprintf(

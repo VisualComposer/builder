@@ -137,7 +137,7 @@ export default class Categories extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     // const noResultsButtonText = localizations ? localizations.noResultOpenHub : 'No Results. Open Visual Composer Hub'
     // const notRightElementText = localizations ? localizations.notRightElementsFound : 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.'
-    const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing Found'
+    const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing found'
     const buttonText = localizations ? localizations.premiumElementsButton : 'Go Premium'
     const helperText = localizations ? localizations.addElementHelperText : 'Didn\'t find an element? Get a Premium license to download the right content element in Visual Composer Hub.'
 

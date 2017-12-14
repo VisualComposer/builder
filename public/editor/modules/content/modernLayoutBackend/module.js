@@ -35,7 +35,7 @@ vcCake.add('contentModernLayoutBackend', (api) => {
               position: 'bottom',
               transparent: true,
               rounded: true,
-              text: localizations.mobileTooltipText || 'Double click on the element to open the edit window. Hold finger to initiate drag and drop in a Tree view.',
+              text: localizations.mobileTooltipText || 'Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view.',
               cookie: 'vcv-mobile-tooltip',
               time: 10000
             })
