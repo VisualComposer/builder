@@ -170,10 +170,10 @@ export default class startBlank extends React.Component {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const buttonText = localizations ? localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
+    const buttonText = localizations ? localizations.premiumTemplatesButton : 'Go Premium'
     const headingPart1 = localizations ? localizations.blankPageHeadingPart1 : 'Select Blank Canvas'
     const headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'or Start With a Template'
-    const helperText = localizations ? localizations.blankPageHelperText : 'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.'
+    const helperText = localizations ? localizations.blankPageHelperText : 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more.'
 
     let containerWidth = {}
     if (this.state && this.state.containerWidth) {

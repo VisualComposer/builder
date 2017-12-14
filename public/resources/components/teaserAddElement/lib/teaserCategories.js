@@ -163,8 +163,8 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
-    const buttonText = localizations ? localizations.premiumElementsButton : 'Premium Version - Coming Soon'
-    const helperText = localizations ? localizations.blankPageHelperText : 'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.'
+    const buttonText = localizations ? localizations.premiumHubButton : 'Go Premium'
+    const helperText = localizations ? localizations.hubHelperText : 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more'
 
     let buttonUrl = window.VCV_UTM().feHubTeaserPremiumVersion
     if (vcCake.env('editor') === 'backend') {

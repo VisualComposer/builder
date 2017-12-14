@@ -138,8 +138,8 @@ export default class Categories extends React.Component {
     // const noResultsButtonText = localizations ? localizations.noResultOpenHub : 'No Results. Open Visual Composer Hub'
     // const notRightElementText = localizations ? localizations.notRightElementsFound : 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.'
     const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing Found'
-    const buttonText = localizations ? localizations.premiumElementsButton : 'Premium Elements - Coming Soon'
-    const helperText = localizations ? localizations.blankPageHelperText : 'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.'
+    const buttonText = localizations ? localizations.premiumElementsButton : 'Go Premium'
+    const helperText = localizations ? localizations.addElementHelperText : 'Didn\'t find an element? Get a Premium license to download the right content element in Visual Composer Hub.'
 
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
@@ -265,7 +265,7 @@ export default class Categories extends React.Component {
 
   render () {
     // const localizations = window.VCV_I18N && window.VCV_I18N()
-    // const buttonText = localizations ? localizations.premiumElementsButton : 'Premium Elements - Coming Soon'
+    // const buttonText = localizations ? localizations.premiumElementsButton : 'Go Premium'
 
     let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
     let innerSectionClasses = classNames({

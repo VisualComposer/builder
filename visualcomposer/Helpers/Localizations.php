@@ -44,8 +44,9 @@ class Localizations extends Container implements Helper
             'saveDraft' => __('Save Draft', 'vcwb'),
             'goPremium' => __('Go Premium', 'vcwb'),
             'close' => __('Close', 'vcwb'),
-            'premiumElementsButton' => __('Premium Version - Coming Soon', 'vcwb'),
-            'premiumTemplatesButton' => __('Premium Templates - Coming Soon', 'vcwb'),
+            'premiumElementsButton' => __('Go Premium', 'vcwb'),
+            'premiumTemplatesButton' => __('Go Premium', 'vcwb'),
+            'premiumHubButton' => __('Go Premium', 'vcwb'),
             'emptyTreeView' => __(
                 'There are no elements on your canvas - start by adding element or template.',
                 'vcwb'
@@ -81,7 +82,22 @@ class Localizations extends Container implements Helper
             'blankPageHeadingPart2' => __('or Start With a Template', 'vcwb'),
             'blankPageHelperText' => __(
             // @codingStandardsIgnoreLine
-                'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.',
+                'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more.',
+                'vcwb'
+            ),
+            'addTemplateHelperText' => __(
+            // @codingStandardsIgnoreLine
+                'Didn\'t find a perfect template? Get a Premium license to download it from Visual Composer Hub.',
+                'vcwb'
+            ),
+            'addElementHelperText' => __(
+            // @codingStandardsIgnoreLine
+                'Didn\'t find an element? Get a Premium license to download the right content element in Visual Composer Hub.',
+                'vcwb'
+            ),
+            'hubHelperText' => __(
+            // @codingStandardsIgnoreLine
+                'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more.',
                 'vcwb'
             ),
             'add' => __('Add', 'vcwb'),

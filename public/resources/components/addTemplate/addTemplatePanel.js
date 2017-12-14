@@ -169,8 +169,8 @@ export default class AddTemplatePanel extends React.Component {
     // const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.downloadMoreTemplates : 'Download More Templates'
     // const noTemplatesText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.noTemplatesFound : `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
     // const notRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.notRightTemplatesFound : `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
-    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
-    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.blankPageHelperText : 'Visual Composer Hub will offer you unlimited downloads of premium quality templates, elements, extensions and more.'
+    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Go Premium'
+    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.addTemplateHelperText : 'Didn\'t find a perfect template? Get a Premium license to download it from Visual Composer Hub.'
 
     // let source, btnText, helper, button
     let source
@@ -343,7 +343,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   render () {
-    // const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Premium Templates - Coming Soon'
+    // const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Go Premium'
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
 
