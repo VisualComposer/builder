@@ -158,6 +158,7 @@ class EditorTemplates implements Helper
             $thumbnail = get_post_meta($template->ID, '_' . VCV_PREFIX . 'thumbnail', true);
             $preview = get_post_meta($template->ID, '_' . VCV_PREFIX . 'preview', true);
             $bundle = get_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', true);
+            $description = get_post_meta($template->ID, '_' . VCV_PREFIX . 'description', true);
 
             $data = [
                 // @codingStandardsIgnoreLine
@@ -174,6 +175,9 @@ class EditorTemplates implements Helper
             }
             if (!empty($type)) {
                 $data['type'] = $type;
+            }
+            if (!empty($description)) {
+                $data['description'] = $description;
             }
             $groupTemplates[] = $data;
         }
