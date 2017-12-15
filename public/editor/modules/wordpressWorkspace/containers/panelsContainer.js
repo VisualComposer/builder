@@ -29,7 +29,8 @@ export default class PanelsContainer extends React.Component {
       React.PropTypes.node
     ]),
     settings: React.PropTypes.object,
-    contentStartId: React.PropTypes.string
+    contentStartId: React.PropTypes.string,
+    contentId: React.PropTypes.string
   }
 
   constructor (props) {
@@ -66,9 +67,9 @@ export default class PanelsContainer extends React.Component {
   }
 
   getContent () {
-    const { content, settings } = this.props
+    const { content, settings, contentId } = this.props
     if (content === 'treeView') {
-      return <TreeViewLayout />
+      return <TreeViewLayout contentId={contentId} />
     } else if (content === 'addElement') {
       return <AddElementPanel options={settings || {}} />
     } else if (content === 'addHubElement') {
