@@ -29,9 +29,9 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
       window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
       window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
       window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
-      <?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) { ?>
+        <?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) { ?>
       window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated() ?>);
-      <?php } ?>
+        <?php } ?>
     </script>
 
     <div id="vcv-editor">
