@@ -20,7 +20,8 @@ if ($errorMsg) {
 $type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <script>
-    <?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
+  window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
+  <?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
     window.vcvActivationRequest = 1;
     <?php } ?>
     window.vcvActivationUrl = '<?php echo vchelper('Url')->adminAjax(
@@ -30,7 +31,9 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
     window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->adminAjax(
         ['vcv-action' => 'account:activation:finished:adminNonce']
     ); ?>';
-    window.vcvNonce = '<?php echo vchelper('Nonce')->admin(); ?>';
+  window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
+  window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
+  window.vcvNonce = '<?php echo vchelper('Nonce')->admin(); ?>';
     window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>';
     window.vcvActivationType = '<?php echo $type; ?>';
     window.vcvAjaxTime = <?php echo $_SERVER['REQUEST_TIME']; ?>;
