@@ -73,7 +73,15 @@
   position: relative;
   display: block;
   height: @item-element-height;
+  overflow: hidden;
   #make-vcv-ui-item > .make-chess-background(@item-chess-grid-main-color, @item-chess-grid-secondary-color, @item-chess-grid-size);
+
+  .vcv-ui-item-element-image {
+    transform: translateY(-50%);
+    top: 50%;
+    display: block;
+    position: relative;
+  }
 }
 
 .vcv-ui-item-image {
