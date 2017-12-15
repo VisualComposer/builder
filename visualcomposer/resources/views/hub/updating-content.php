@@ -41,8 +41,11 @@ $actions = $hubUpdateHelper->getRequiredActions();
 $posts = $optionsHelper->get('bundleUpdatePosts', []);
 ?>
 <script>
+  window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
   window.vcvUpdateUrl = '<?php echo $urlHelper->adminAjax(['vcv-action' => 'bundle:update:adminNonce']); ?>';
   window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
+  window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
+  window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
   window.vcvUpdateActions = <?php echo json_encode($actions); ?>;
   window.vcvUpdatePosts = <?php echo json_encode($posts); ?>;
   window.vcvActionsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce']); ?>';
