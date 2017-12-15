@@ -418,7 +418,7 @@ export default class ControlsManager {
         let elementId = el.dataset.vcvElementId
         if (event === 'treeView') {
           if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
-            workspaceContentState.set('treeView')
+            workspaceContentState.set('treeView', elementId)
             return
           }
           workspaceContentStartState.set('treeView', elementId)

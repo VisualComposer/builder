@@ -13,7 +13,8 @@ const workspaceSettings = getStorage('workspace').state('settings')
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
     scrollValue: React.PropTypes.any,
-    contentStartId: React.PropTypes.string
+    contentStartId: React.PropTypes.string,
+    contentId: React.PropTypes.string
   }
 
   layoutContainer = null
@@ -51,8 +52,11 @@ export default class TreeViewLayout extends React.Component {
       data: elementsStorage.state('document').get()
     })
     this.scrollTimeout = setTimeout(() => {
-      this.handleScrollToElement(this.props.contentStartId)
+      this.handleScrollToElement(this.props.contentStartId || this.props.contentId)
     }, 1)
+    workspaceStorage.state('content').onChange((value, id) => {
+      this.handleScrollToElement(id)
+    })
     workspaceStorage.state('contentStart').onChange((value, id) => {
       this.handleScrollToElement(id)
     })
@@ -88,7 +92,7 @@ export default class TreeViewLayout extends React.Component {
 
   scrollBarMounted (scrollbar) {
     this.scrollbar = scrollbar
-    this.handleScrollToElement(this.props.contentStartId)
+    this.handleScrollToElement(this.props.contentStartId || this.props.contentId)
   }
 
   handleScrollToElement (scrollToElement) {

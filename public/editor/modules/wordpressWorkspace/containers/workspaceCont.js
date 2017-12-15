@@ -46,16 +46,17 @@ export default class WorkspaceCont extends React.Component {
       contentStartId: id || ''
     })
   }
-  setContent (value) {
+  setContent (value, id) {
     const content = value || false
     this.setState({
       content: content,
+      contentId: id || '',
       settings: workspace.state('settings').get() || {}
     })
   }
 
   render () {
-    const {contentStart, contentEnd, content, settings, contentStartId} = this.state
+    const {contentStart, contentEnd, content, contentId, settings, contentStartId} = this.state
 
     if (env('NAVBAR_SINGLE_CONTENT')) {
       return (
@@ -64,6 +65,7 @@ export default class WorkspaceCont extends React.Component {
           <PanelsContainer
             content={content}
             settings={settings}
+            contentId={contentId}
           />
         </Workspace>
       )
