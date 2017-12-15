@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use WP_Query;
 
@@ -24,12 +25,12 @@ class PostUpdateAction extends Container implements Module
         $this->addEvent('vcv:hub:removePostUpdate:post/*', 'removePostFromUpdatesList');
     }
 
-    protected function getUpdateablePosts($posts, $payload)
+    protected function getUpdateablePosts($posts, $payload, CurrentUser $currentUserAccessHelper)
     {
         $event = $payload['action'];
         $vcvPosts = new WP_Query(
             [
-                'post_type' => 'any',
+                'post_type' => get_post_types(['public' => true], 'names'),
                 'post_status' => ['publish', 'pending', 'draft', 'auto-draft'], // TODO: future, private
                 'posts_per_page' => -1,
                 'meta_key' => VCV_PREFIX . 'pageContent',
@@ -39,7 +40,13 @@ class PostUpdateAction extends Container implements Module
         );
         while ($vcvPosts->have_posts()) {
             $vcvPosts->the_post();
-            $posts[] = get_the_ID();
+            $postId = get_the_ID();
+            if ($currentUserAccessHelper->wpAll(
+            // @codingStandardsIgnoreLine
+                [get_post_type_object($vcvPosts->post->post_type)->cap->edit_posts, $postId]
+            )->get()) {
+                $posts[] = $postId;
+            }
         }
         wp_reset_postdata();
 

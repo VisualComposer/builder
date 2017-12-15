@@ -21,7 +21,7 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <script>
   window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
-  <?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
+    <?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
     window.vcvActivationRequest = 1;
     <?php } ?>
     window.vcvActivationUrl = '<?php echo vchelper('Url')->adminAjax(
