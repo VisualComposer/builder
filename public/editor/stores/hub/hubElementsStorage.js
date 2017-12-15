@@ -86,6 +86,7 @@ addStorage('hubElements', (storage) => {
                   icon: 'vcv-ui-icon vcv-ui-icon-error',
                   time: 5000
                 })
+                workspaceStorage.trigger('removeFromDownloading', tag)
               }
             } else {
               let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license expired or request timed out)'
@@ -113,6 +114,7 @@ addStorage('hubElements', (storage) => {
                 icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
               })
+              workspaceStorage.trigger('removeFromDownloading', tag)
             }
           } else {
             console.warn('failed to parse download response request cancelled', e, response)
