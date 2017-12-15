@@ -79,10 +79,11 @@ export default class WorkspaceCont extends React.Component {
     })
   }
 
-  setContent (value) {
+  setContent (value, id) {
     const content = value || false
     this.setState({
       content: content,
+      contentId: id || '',
       settings: workspace.state('settings').get() || {}
     })
   }
@@ -212,7 +213,7 @@ export default class WorkspaceCont extends React.Component {
   }
 
   render () {
-    const { contentStart, contentEnd, content, settings, isSticky, barTopPos, barLeftPos, barWidth, contentStartId } = this.state
+    const { contentStart, contentEnd, content, contentId, settings, isSticky, barTopPos, barLeftPos, barWidth, contentStartId } = this.state
 
     let stickyBar = {}
     if (isSticky) {
@@ -234,6 +235,7 @@ export default class WorkspaceCont extends React.Component {
           <NavbarContainer />
           <PanelsContainer
             content={content}
+            contentId={contentId}
             settings={settings}
             layoutWidth={barWidth}
             ref={(panels) => { this.panels = panels }}
