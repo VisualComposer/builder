@@ -21,9 +21,6 @@ class EnqueueController extends Container implements Module
 
     public function __construct()
     {
-        // TODO: Remove this in upcoming versions
-        $this->wpAddAction('init', 'getGlobalCssFromOptions');
-
         $actionPriority = 50;
         $requestHelper = vchelper('Request');
         if ($requestHelper->input('preview', '') === 'true') {
@@ -51,11 +48,12 @@ class EnqueueController extends Container implements Module
     {
         $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
         if ($bundleUrl && !$frontendHelper->isPageEditable()) {
+            $version = $optionsHelper->get('globalElementsCssHash', VCV_VERSION);
             wp_enqueue_style(
                 'vcv:assets:global:styles:' . $strHelper->slugify($bundleUrl),
                 $bundleUrl,
                 [],
-                VCV_VERSION
+                VCV_VERSION . '.' . $version
             );
         }
     }
@@ -69,11 +67,13 @@ class EnqueueController extends Container implements Module
         $sourceId = get_the_ID();
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl && !$frontendHelper->isPageEditable()) {
+            $version = get_post_meta($sourceId, 'vcvSourceCssFileHash', true);
+
             wp_enqueue_style(
                 'vcv:assets:source:main:styles:' . $strHelper->slugify($bundleUrl),
                 $bundleUrl,
                 [],
-                VCV_VERSION
+                VCV_VERSION . '.' . $version
             );
         }
     }
@@ -191,71 +191,6 @@ class EnqueueController extends Container implements Module
     }
 
     /**
-     * Add backward compatible for global css data
-     */
-    protected function getGlobalCssFromOptions()
-    {
-        $optionsHelper = vchelper('Options');
-        $assetsHelper = vchelper('Assets');
-
-        $globalElementsCssDataUpdated = $optionsHelper->get('globalElementsCssDataUpdated');
-        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
-
-        if ('1' !== $globalElementsCssDataUpdated && $globalElementsCssData && is_array($globalElementsCssData)) {
-            $globalElementsBaseCss = [];
-            $globalElementsAttributesCss = [];
-            $globalElementsMixinsCss = [];
-            $toRemove = [];
-
-            foreach ($globalElementsCssData as $postId => $postElements) {
-                if (get_post($postId)) {
-                    if ($postElements) {
-                        foreach ($postElements as $element) {
-                            $baseCssHash = wp_hash($element['baseCss']);
-                            $mixinsCssHash = wp_hash($element['mixinsCss']);
-                            $attributesCssHash = wp_hash($element['attributesCss']);
-                            $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
-                            $globalElementsMixinsCss[ $mixinsCssHash ] = $element['mixinsCss'];
-                            $globalElementsAttributesCss[ $attributesCssHash ] = $element['attributesCss'];
-                        }
-                        update_post_meta($postId, VCV_PREFIX . 'globalElementsCssData', $postElements);
-                    }
-                } else {
-                    $toRemove[] = $postId;
-                }
-            }
-
-            $this->removeGlobalElementsCssData($toRemove);
-            $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
-            $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
-            $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
-
-            $globalCss = $optionsHelper->get('globalElementsCss', '');
-            $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
-                . $globalElementsMixinsCssContent . $globalCss;
-            // Remove previous file
-            $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
-            $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
-            $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
-            $optionsHelper->set('globalElementsCssDataUpdated', '1');
-
-            $this->removeStaleFile($previousCssFile);
-        }
-    }
-
-    protected function removeStaleFile($path)
-    {
-        if (!empty($path)) {
-            $assetsHelper = vchelper('Assets');
-            $assetsPath = $assetsHelper->getFilePath($path);
-            $fileHelper = vchelper('File');
-            if (!empty($assetsPath)) {
-                $fileHelper->getFileSystem()->delete($assetsPath);
-            }
-        }
-    }
-
-    /**
      * @param $outputGlobalCss
      * @param $sourceCss
      */
@@ -275,20 +210,5 @@ class EnqueueController extends Container implements Module
                 'value' => $sourceCss,
             ]
         );
-    }
-
-    /**
-     * @param $toRemove
-     */
-    protected function removeGlobalElementsCssData($toRemove)
-    {
-        $optionsHelper = vchelper('Options');
-        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
-        if (!empty($toRemove)) {
-            foreach ($toRemove as $postId) {
-                unset($globalElementsCssData[ $postId ]);
-            }
-            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
-        }
     }
 }
