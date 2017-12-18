@@ -39,9 +39,17 @@ class TemplateFilterController extends Container implements Module
             'viewProjectTemplate'
         );
 
-        $this->templates = [
-            'blank-template.php' => __('Blank page', 'vcwb'),
-        ];
+        if (vcvenv('VCV_BOXED_BLANK_PAGE_TEMPLATE')) {
+            $this->templates = [
+                'blank-template.php' => __('Blank page', 'vcwb'),
+                'boxed-blank-template.php' => __('Boxed blank page', 'vcwb'),
+            ];
+        } else {
+            $this->templates = [
+                'blank-template.php' => __('Blank page', 'vcwb'),
+            ];
+        }
+
         if (vcvenv('VCV_PAGE_TEMPLATES_FE')) {
             $this->addFilter('vcv:frontend:head:extraOutput', 'outputTemplates');
             $this->addFilter('vcv:dataAjax:setData', 'setPageTemplate');
