@@ -216,7 +216,6 @@ class FileController extends Container implements Module
             $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
             $optionsHelper->set('globalElementsCssDataUpdated', '1');
             $optionsHelper->set('globalElementsCssHash', md5($globalElementsCss));
-
         }
     }
 
