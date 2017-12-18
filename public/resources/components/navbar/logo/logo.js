@@ -9,9 +9,9 @@ export default class Logo extends React.Component {
   render () {
     let output = null
     let utm = window.VCV_UTM()
-    let url = utm && utm.beNavbarLinkLogo ? utm.beNavbarLinkLogo : 'https://visualcomposer.io/?utm_medium=backend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo'
+    let url = utm && utm.beNavbarLinkLogo ? utm.beNavbarLinkLogo : 'https://visualcomposer.io/premium/?utm_medium=backend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo'
     if (this.props.editor === 'frontend') {
-      url = utm && utm.feNavbarLinkLogo ? utm.feNavbarLinkLogo : 'https://visualcomposer.io/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo'
+      url = utm && utm.feNavbarLinkLogo ? utm.feNavbarLinkLogo : 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo'
     }
 
     output = (

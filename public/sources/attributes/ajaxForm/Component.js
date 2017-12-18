@@ -31,23 +31,26 @@ export default class AjaxForm extends Attribute {
 
   componentWillUnmount () {
     this.serverRequest.abort()
-
-    let elements = Array.from(this.refs.form.elements)
-    elements.forEach((node) => {
-      node.removeEventListener('change', this.handleFormChange.bind(this))
-    })
+    if (this.refs.form && this.refs.form.elements) {
+      let elements = Array.from(this.refs.form.elements)
+      elements.forEach((node) => {
+        node.removeEventListener('change', this.handleFormChange.bind(this))
+      })
+    }
   }
 
   bindFormChangeEvents () {
-    let elements = Array.from(this.refs.form.elements)
-    elements.forEach((node) => {
-      node.addEventListener('change', this.handleFormChange.bind(this))
-    })
-    let aTagElements = this.refs.form.querySelectorAll('a')
-    aTagElements = [].slice.call(aTagElements)
-    aTagElements.forEach((node) => {
-      node.setAttribute('target', '_blank')
-    })
+    if (this.refs.form && this.refs.form.elements) {
+      let elements = Array.from(this.refs.form.elements)
+      elements.forEach((node) => {
+        node.addEventListener('change', this.handleFormChange.bind(this))
+      })
+      let aTagElements = this.refs.form.querySelectorAll('a')
+      aTagElements = [].slice.call(aTagElements)
+      aTagElements.forEach((node) => {
+        node.setAttribute('target', '_blank')
+      })
+    }
     this.setState({
       formBound: true
     })
@@ -101,9 +104,9 @@ export default class AjaxForm extends Attribute {
   render () {
     return (
       <div className='vcv-ui-ajax-form-container'>
-        <div ref='form'>
+        <form ref='form'>
           <div dangerouslySetInnerHTML={{ __html: this.state.formContent || '' }} />
-        </div>
+        </form>
       </div>
     )
   }
