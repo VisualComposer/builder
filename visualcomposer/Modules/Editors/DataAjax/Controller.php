@@ -253,6 +253,8 @@ class Controller extends Container implements Module
                 'data' => $data,
             ]
         );
+        // Clearing wp cache
+        wp_cache_flush();
 
         return array_merge($response, $responseExtra);
     }
