@@ -83,7 +83,8 @@ export default class DOMElement {
     this.node.setAttribute('data-vcv-dnd-element', this.id)
     if (this.handler) {
       this.handler.setAttribute('data-vcv-dnd-element-handler', this.id)
-      this.handler.dataset[this.options.datasetKey] = this.node.className
+      this.handler.dataset[this.options.datasetKey] = this
+      // this.handler.dataset[this.options.datasetKey] = this.node.className
     } else if (!this.options.handler) {
       this.node.setAttribute('data-vcv-dnd-element-handler', this.id)
     }

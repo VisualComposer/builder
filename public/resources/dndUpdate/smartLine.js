@@ -69,7 +69,6 @@ SmartLine.prototype.getVcvIdFromElement = function (element) {
   return element.dataset.vcvDndElement || null
 }
 SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
-  console.log(settings)
   let position = false
   let $element = $(element)
   let defaultLiteSize = 2
