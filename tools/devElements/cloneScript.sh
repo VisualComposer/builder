@@ -100,6 +100,7 @@ declare -a arr=(
 'copyright'
 'logoWidget'
 'basicMenu'
+'outlinePricingTable'
 )
 
 EXECDIR=`pwd`

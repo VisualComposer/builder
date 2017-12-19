@@ -257,11 +257,16 @@ export default class DndDataSet {
   findDOMNode (point) {
     let domNode = this.options.document.elementFromPoint(point.x, point.y)
     const domNodeAttr = domNode && domNode.getAttribute('data-vcv-dnd-element')
+    const domNodeDomElementAttr = domNode && domNode.getAttribute('data-vcv-dnd-dom-element')
+    const domNodeDomElement = $(domNode).closest(`.${domNodeDomElementAttr}`).get(0)
     if (domNode && !domNodeAttr) {
       domNode = $(domNode).closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
     }
     if (domNode && domNodeAttr && domNodeAttr === 'vcv-content-root') {
       domNode = null
+    }
+    if (domNode && domNodeDomElement) {
+      domNode = domNodeDomElement
     }
     return domNode || null
   }
