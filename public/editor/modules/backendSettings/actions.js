@@ -1,10 +1,10 @@
 import { showError } from './errors'
 import { showFirstScreen, loadLastScreen, showLoadingScreen, showOopsScreen } from './screens'
 import { default as PostUpdater } from './postUpdate'
-import {log as logError} from './logger'
+import { log as logError } from './logger'
 
 (($) => {
-  let doneActions = (requestFailed, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation) => {
+  let doneActions = (requestFailed, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation, email, category, agreement) => {
     $heading.text(savingResultsText)
     let premiumErrorCallback = () => {
       // third / loading screen shows, loading starts here
@@ -24,7 +24,10 @@ import {log as logError} from './logger'
         dataType: 'json',
         data: {
           'vcv-nonce': window.vcvNonce,
-          'vcv-time': window.vcvAjaxTime
+          'vcv-time': window.vcvAjaxTime,
+          'vcv-category': category,
+          'vcv-email': email,
+          'vcv-agreement': agreement
         }
       }
     ).done(function (json) {
@@ -53,7 +56,7 @@ import {log as logError} from './logger'
           }
         } else {
           // Try again one more time.
-          doneActions(true, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup)
+          doneActions(true, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation, email, category, agreement)
         }
       }
     }).fail(function (jqxhr, textStatus, error) {
@@ -75,12 +78,12 @@ import {log as logError} from './logger'
         }
       } else {
         // Try again one more time.
-        doneActions(true, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup)
+        doneActions(true, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation, email, category, agreement)
       }
     })
   }
 
-  let processActions = (actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation) => {
+  let processActions = (actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation, email, category, agreement) => {
     let cnt = actions.length
     let i = 0
     let requestFailed = false
@@ -95,7 +98,7 @@ import {log as logError} from './logger'
       // #2.x. trigger required action loop
       // #2.x+1. if last action trigger end.
       $heading.text(downloadingInitialExtensionsText)
-      processActions(actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
+      processActions(actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation, email, category, agreement)
     }
 
     function doAction (i, finishCb) {
@@ -216,10 +219,10 @@ import {log as logError} from './logger'
     }
 
     if (!cnt) {
-      doneActions(false, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation)
+      doneActions(false, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation, email, category, agreement)
     } else {
       doAction(i,
-        doneActions.bind(this, false, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation)
+        doneActions.bind(this, false, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation, email, category, agreement)
       )
     }
   }

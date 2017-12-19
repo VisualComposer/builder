@@ -68,7 +68,7 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
             email = 'standalone'
           }
           if (email) {
-            showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category)
+            showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox.val(), downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category)
           } else {
             // error shows\
             showError($errorPopup, provideCorrectEmailText)
