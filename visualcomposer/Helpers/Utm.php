@@ -18,8 +18,8 @@ class Utm implements Helper
     public function all()
     {
         $utm = [
-            'beNavbarLinkLogo' => 'https://visualcomposer.io/?utm_medium=backend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo',
-            'feNavbarLinkLogo' => 'https://visualcomposer.io/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo',
+            'beNavbarLinkLogo' => 'https://visualcomposer.io/premium/?utm_medium=backend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo',
+            'feNavbarLinkLogo' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo',
             'updatesChangelogAuthorLink' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog-author',
             'updatesChangelogHomepageLink' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog',
             'goPremiumWpMenuSidebar' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=wp-menu&utm_campaign=gopremium',

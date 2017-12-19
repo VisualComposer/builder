@@ -42,13 +42,11 @@ class Assets extends Container implements Helper
     {
         $fileHelper = vchelper('File');
         $content = $content ? $content : '';
-        $concatenatedFilename = md5($content) . '.' . $extension;
+        $concatenatedFilename = $extension;
         $bundle = $this->getFilePath($concatenatedFilename);
         $bundleUrl = $this->getFileUrl($concatenatedFilename);
-        if (!is_file($bundle)) {
-            if (!$fileHelper->setContents($bundle, $content)) {
-                return false;
-            }
+        if (!$fileHelper->setContents($bundle, $content)) {
+            return false;
         }
 
         return $bundleUrl;
@@ -63,19 +61,31 @@ class Assets extends Container implements Helper
      */
     public function deleteAssetsBundles($extension = '')
     {
-        $assetsHelper = vchelper('Assets');
-        $destinationDir = $assetsHelper->getFilePath();
-        if ($extension) {
-            $extension = '.' . $extension;
-        }
-        /** @var Application $app */
-        $app = vcapp();
-        $files = $app->rglob($destinationDir . '/*' . $extension);
-        if (is_array($files)) {
-            foreach ($files as $file) {
-                unlink($file);
+        $files = [];
+        if (!empty($extension)) {
+            $assetsHelper = vchelper('Assets');
+            $destinationDir = $assetsHelper->getFilePath();
+
+            // BC remove stale
+            $extensionFull = $extensionFull = '.' . $extension;
+            /** @var Application $app */
+            $app = vcapp();
+            $files = $app->rglob($destinationDir . '/*' . $extensionFull);
+            if (is_array($files)) {
+                foreach ($files as $file) {
+                    unlink($file);
+                }
+                unset($file);
             }
-            unset($file);
+
+            // BC remove exact file
+            $files = $app->rglob($destinationDir . '/' . $extension);
+            if (is_array($files)) {
+                foreach ($files as $file) {
+                    unlink($file);
+                }
+                unset($file);
+            }
         }
 
         return $files;

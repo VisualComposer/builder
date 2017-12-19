@@ -1,10 +1,10 @@
-import {processActions} from './actions'
-import {showLoadingScreen, showFirstScreen, showOopsScreen} from './screens'
-import {showError} from './errors'
-import {log as logError} from './logger'
+import { processActions } from './actions'
+import { showLoadingScreen, showFirstScreen, showOopsScreen } from './screens'
+import { showError } from './errors'
+import { log as logError } from './logger'
 
 (($) => {
-  let showDownloadScreen = ($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category) => {
+  let showDownloadScreen = ($popup, $heading, downloadingInitialExtensionsText, email, agreement, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category) => {
     // third / loading screen shows, loading starts here
     showLoadingScreen($popup)
     // loading ends / loaded
@@ -19,13 +19,13 @@ import {log as logError} from './logger'
       {
         'vcv-email': email,
         'vcv-category': category,
-        'vcv-agreement': $agreementCheckbox.val(),
+        'vcv-agreement': agreement,
         'vcv-nonce': window.vcvNonce,
         'vcv-time': window.vcvAjaxTime
       })
       .done(function (json) {
         if (json && json.status && json.actions) {
-          processActions(json.actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation)
+          processActions(json.actions, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, $popup, savingResultsText, loadAnimation, email, category, agreement)
         } else {
           logError(activationFailedText, {
             code: 'showDownloadScreen-vcvActivationUrl-1',
@@ -34,7 +34,7 @@ import {log as logError} from './logger'
             activationFinishedUrl: window.vcvActivationFinishedUrl,
             email: email,
             category: category,
-            agreement: $agreementCheckbox.val(),
+            agreement: agreement,
             json: json
           })
           if (json.message) {
@@ -67,7 +67,7 @@ import {log as logError} from './logger'
           activationFinishedUrl: window.vcvActivationFinishedUrl,
           email: email,
           category: category,
-          agreement: $agreementCheckbox.val(),
+          agreement: agreement,
           jqxhr: jqxhr,
           textStatus: textStatus,
           error: error

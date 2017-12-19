@@ -40,6 +40,9 @@ class FileController extends Container implements Module
             'before_delete_post',
             'deleteSourceAssetsFile'
         );
+
+        // TODO: Remove this in upcoming versions (18-dec)
+        $this->wpAddAction('init', 'updateGlobalCssFromOptions');
     }
 
     /**
@@ -97,13 +100,18 @@ class FileController extends Container implements Module
         $globalCss = $optionsHelper->get('globalElementsCss', '');
         $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
             . $globalElementsMixinsCssContent . $globalCss;
-        // Remove previous file
+
+        // Remove previous file if possible
         $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
-        if (!empty($previousCssFile)) {
-            $this->removeStaleFile($assetsHelper->getFilePath($previousCssFile));
+        $previousCssHash = $optionsHelper->get('globalElementsCssHash', '');
+        if (!empty($previousCssFile) && empty($previousCssHash)) {
+            $assetsPath = $assetsHelper->getFilePath($previousCssFile);
+            $this->removeStaleFile($assetsPath);
         }
+
         $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
         $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
+        $optionsHelper->set('globalElementsCssHash', md5($globalElementsCss));
         $response['globalBundleCssFileUrl'] = $bundleUrl;
 
         return $response;
@@ -138,6 +146,7 @@ class FileController extends Container implements Module
         $sourceCss = get_post_meta($sourceId, 'vcvSourceCss', true);
         $bundleUrl = $assetsHelper->updateBundleFile($sourceCss, $sourceId . '.source.css');
         update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
+        update_post_meta($sourceId, 'vcvSourceCssFileHash', md5($sourceCss));
         $response['sourceBundleCssFileUrl'] = $bundleUrl;
 
         return $response;
@@ -150,5 +159,80 @@ class FileController extends Container implements Module
         vcfilter('vcv:assets:file:generate', []);
 
         return true;
+    }
+
+    /**
+     * Add backward compatible for global css data
+     * @todo remove few releases later (18-dec)
+     */
+    protected function updateGlobalCssFromOptions()
+    {
+        $optionsHelper = vchelper('Options');
+        $assetsHelper = vchelper('Assets');
+
+        $globalElementsCssDataUpdated = $optionsHelper->get('globalElementsCssDataUpdated');
+        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
+
+        if ('1' !== $globalElementsCssDataUpdated && $globalElementsCssData && is_array($globalElementsCssData)) {
+            $globalElementsBaseCss = [];
+            $globalElementsAttributesCss = [];
+            $globalElementsMixinsCss = [];
+            $toRemove = [];
+
+            foreach ($globalElementsCssData as $postId => $postElements) {
+                if (get_post($postId)) {
+                    if ($postElements) {
+                        foreach ($postElements as $element) {
+                            $baseCssHash = wp_hash($element['baseCss']);
+                            $mixinsCssHash = wp_hash($element['mixinsCss']);
+                            $attributesCssHash = wp_hash($element['attributesCss']);
+                            $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
+                            $globalElementsMixinsCss[ $mixinsCssHash ] = $element['mixinsCss'];
+                            $globalElementsAttributesCss[ $attributesCssHash ] = $element['attributesCss'];
+                        }
+                        update_post_meta($postId, VCV_PREFIX . 'globalElementsCssData', $postElements);
+                    }
+                } else {
+                    $toRemove[] = $postId;
+                }
+            }
+
+            $this->removeGlobalElementsCssData($toRemove);
+            $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
+            $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
+            $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
+
+            $globalCss = $optionsHelper->get('globalElementsCss', '');
+            $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
+                . $globalElementsMixinsCssContent . $globalCss;
+            // Remove previous file
+            $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
+            $previousCssHash = $optionsHelper->get('globalElementsCssHash', '');
+            if (!empty($previousCssFile) && empty($previousCssHash)) {
+                $assetsPath = $assetsHelper->getFilePath($previousCssFile);
+                $this->removeStaleFile($assetsPath);
+            }
+            $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
+            $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
+            $optionsHelper->set('globalElementsCssDataUpdated', '1');
+            $optionsHelper->set('globalElementsCssHash', md5($globalElementsCss));
+        }
+    }
+
+    /**
+     * @todo remove few releases later (18-dec)
+     *
+     * @param $toRemove
+     */
+    protected function removeGlobalElementsCssData($toRemove)
+    {
+        $optionsHelper = vchelper('Options');
+        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
+        if (!empty($toRemove)) {
+            foreach ($toRemove as $postId) {
+                unset($globalElementsCssData[ $postId ]);
+            }
+            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+        }
     }
 }

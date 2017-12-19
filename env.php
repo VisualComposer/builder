@@ -198,3 +198,10 @@ if (!defined('VCV_FIX_CURL_JSON_DOWNLOAD')) {
         isset($_SERVER['ENV_VCV_FIX_CURL_JSON_DOWNLOAD']) ? $_SERVER['ENV_VCV_FIX_CURL_JSON_DOWNLOAD'] : false
     );
 }
+
+if (!defined('VCV_BOXED_BLANK_PAGE_TEMPLATE')) {
+    define(
+        'VCV_BOXED_BLANK_PAGE_TEMPLATE',
+        isset($_SERVER['ENV_VCV_BOXED_BLANK_PAGE_TEMPLATE']) ? $_SERVER['ENV_VCV_BOXED_BLANK_PAGE_TEMPLATE'] : false
+    );
+}
