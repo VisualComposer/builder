@@ -2131,25 +2131,7 @@ class DevElements extends Container implements Module
                         ),
                         'metaDescription' => 'Add simple text menu with hover submenu to your site.',
                     ],
-                ],
-//                'hoverBox' => [
-//                    'bundlePath' => $urlHelper->to(
-//                        'devElements/hoverBox/public/dist/element.bundle.js'
-//                    ),
-//                    'elementPath' => $urlHelper->to('devElements/hoverBox/hoverBox/'),
-//                    'elementRealPath' => vcapp()->path('devElements/hoverBox/hoverBox/'),
-//                    'assetsPath' => $urlHelper->to('devElements/hoverBox/hoverBox/public/'),
-//                    'settings' => [
-//                        'name' => 'Hover Box',
-//                        'metaThumbnailUrl' => $urlHelper->to(
-//                            'devElements/hoverBox/hoverBox/public/hover-box-thumbnail.jpg'
-//                        ),
-//                        'metaPreviewUrl' => $urlHelper->to(
-//                            'devElements/hoverBox/hoverBox/public/hover-box-preview.jpg'
-//                        ),
-//                        'metaDescription' => 'Image hover-box with inner outline border and custom title appearance on hover.',
-//                    ],
-//                ]
+                ]
             ]
         );
     }
