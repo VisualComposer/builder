@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
+import { env } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -1707,6 +1708,12 @@ export default class DesignOptionsAdvanced extends Attribute {
           value: 'simple-fade'
         }
       ]
+    }
+    if (env('PARALLAX_MOUSEMOVE')) {
+      options.values.push({
+        label: 'Mouse move',
+        value: 'mouse-move'
+      })
     }
     let value = this.state.devices[ this.state.currentDevice ].parallax || ''
     return <div className='vcv-ui-form-group'>
