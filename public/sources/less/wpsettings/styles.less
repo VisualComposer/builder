@@ -131,13 +131,15 @@
     .vcv-popup-button {
       border: 2px solid;
       &.vcv-activate-premium {
-        border-color: @vcv-goPremiumScreenActivateButtonBorderColor;
-        color: @vcv-goPremiumScreenActivateButtonColor;
+        border-color: @vcv-goPremiumScreenPurchaseButtonBackground;
+        background: @vcv-goPremiumScreenPurchaseButtonBackground;
+        color: @vcv-goPremiumScreenPurchaseButtonHoverColor;
+        width: 100%;
+        margin: 0 0 35px;
 
         &:hover {
-          background: @vcv-goPremiumScreenActivateButtonHoverBackground;
-          color: @vcv-goPremiumScreenActivateButtonHoverColor;
-          border-color: @vcv-goPremiumScreenActivateButtonHoverBackground;
+          border-color: @vcv-goPremiumScreenPurchaseButtonHoverBackground;
+          background: @vcv-goPremiumScreenPurchaseButtonHoverBackground;
         }
 
         &:focus {
@@ -145,13 +147,15 @@
         }
       }
       &.vcv-purchase-premium {
-        border-color: @vcv-goPremiumScreenPurchaseButtonBackground;
-        background: @vcv-goPremiumScreenPurchaseButtonBackground;
-        color: @vcv-goPremiumScreenPurchaseButtonHoverColor;
+        border-color: @vcv-goPremiumScreenActivateButtonBorderColor;
+        color: @vcv-goPremiumScreenActivateButtonColor;
+        width: 100%;
+        margin: 0 0 35px;
 
         &:hover {
-          border-color: @vcv-goPremiumScreenPurchaseButtonHoverBackground;
-          background: @vcv-goPremiumScreenPurchaseButtonHoverBackground;
+          background: @vcv-goPremiumScreenActivateButtonHoverBackground;
+          color: @vcv-goPremiumScreenActivateButtonHoverColor;
+          border-color: @vcv-goPremiumScreenActivateButtonHoverBackground;
         }
 
         &:focus {
@@ -538,6 +542,15 @@ select.vcv-popup-form-select.vcv-select-light {
   }
 }
 
+#wpbody .vcv-popup-form-light-theme,
+.vcv-popup-form-light-theme {
+  select.vcv-popup-form-select {
+    background-color: #fff;
+    border: 1px solid #ebebeb;
+    color: #a6a6a6;
+  }
+}
+
 .vcv-popup-form-input::-webkit-input-placeholder {
   color: @vcv-formInputPlaceholderColor;
 }
@@ -644,6 +657,29 @@ select.vcv-popup-form-select.vcv-select-light {
     &:hover {
       border-bottom-color: transparent;
     }
+  }
+}
+
+.vcv-popup-form-light-theme {
+  .vcv-popup-form-checkbox {
+    margin-bottom: 35px;
+  }
+
+  .vcv-popup-form-checkbox-label {
+    color: #505050;
+  }
+
+  a {
+    color: #505050;
+    border-bottom-color: #505050;
+
+    &:hover {
+      border-bottom-color: transparent;
+    }
+  }
+
+  .vcv-popup-form-checkbox [type="checkbox"]:not(:checked) + label:before {
+    border: 2px solid #505050;
   }
 }
 
