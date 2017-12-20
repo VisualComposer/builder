@@ -47,7 +47,7 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
         <?php echo __('Get Premium Elements, Templates, and Support.', 'vcwb'); ?>
     </div>
 	<form class="vcv-popup-form vcv-popup-form-light-theme" id="vcv-premium-activation-form">
-		<select class="vcv-popup-form-select" name="category"  id="vcv-account-login-form-category" required="required">
+		<select class="vcv-popup-form-select" name="category" id="vcv-account-premium-form-category" required="required">
 			<option value disabled selected><?php echo __('Select Your Category', 'vcwb'); ?></option>
             <?php foreach ($loginCategories as $key => $loginCategory) { ?>
 				<option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
