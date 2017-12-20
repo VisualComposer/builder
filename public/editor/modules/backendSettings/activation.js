@@ -76,6 +76,15 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
         }
       })
 
+      $('#vcv-premium-activation-form').on('submit', (e) => {
+        e.preventDefault()
+
+        let location = $('#vcv-activate-premium-button').attr('data-href')
+        if (location) {
+          window.location.href = location
+        }
+      })
+
       if (window.vcvActivationType !== 'standalone') {
         $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button, .vcv-go-premium-screen--active .vcv-popup-back-button', () => {
           showIntroScreen($popup)
