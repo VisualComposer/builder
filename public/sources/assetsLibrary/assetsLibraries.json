@@ -77,6 +77,12 @@
       "jsBundle": "[publicPath]/dist/parallaxFade.bundle.js"
     },
     {
+      "name": "parallaxMouseMove",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/parallaxMouseMove.bundle.js",
+      "cssBundle": "[publicPath]/dist/parallaxMouseMove.bundle.css"
+    },
+    {
       "name": "iconpicker",
       "dependencies": [],
       "cssBundle": "[publicPath]/dist/iconpicker.bundle.css"
