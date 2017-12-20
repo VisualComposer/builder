@@ -37,7 +37,7 @@ class TemplatesDownloadController extends Container implements Module
         if (vcvenv('VCV_ENV_TEMPLATES_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
             $this->addFilter(
-                'vcv:hub:download:bundle vcv:hub:download:bundle:templates',
+                'vcv:hub:download:bundle vcv:hub:download:bundle:templates vcv:hub:download:bundle:predefinedTemplate/*',
                 'updateTemplates',
                 60
             );
