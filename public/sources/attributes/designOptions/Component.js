@@ -11,6 +11,10 @@ import Color from '../color/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 
+import vcCake from 'vc-cake'
+const elementsStorage = vcCake.getStorage('elements')
+const workspaceStorage = vcCake.getStorage('workspace')
+
 export default class DesignOptions extends Attribute {
   /**
    * Attribute Mixins
@@ -164,6 +168,7 @@ export default class DesignOptions extends Attribute {
 
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
+    this.elementVisibilityChangeHandler = this.elementVisibilityChangeHandler.bind(this)
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
@@ -521,7 +526,28 @@ export default class DesignOptions extends Attribute {
    */
   getDeviceVisibilityRender () {
     if (this.state.currentDevice === 'all') {
-      return null
+      if (vcCake.env('FE_TOGGLE_ELEMENT')) {
+        let id = this.props.element.get('id')
+        let element = elementsStorage.state(`element:${id}`).get() || this.props.element.toJS()
+        let checked = !element.hidden
+        return (
+          <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+            <div className='vcv-ui-form-switch-container'>
+              <label className='vcv-ui-form-switch'>
+                <input type='checkbox' onChange={this.elementVisibilityChangeHandler} id='show_element' checked={checked} />
+                <span className='vcv-ui-form-switch-indicator' />
+                <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
+                <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
+              </label>
+              <label htmlFor='show_element' className='vcv-ui-form-switch-trigger-label'>
+                Show element
+              </label>
+            </div>
+          </div>
+        )
+      } else {
+        return null
+      }
     }
 
     return (
@@ -535,6 +561,10 @@ export default class DesignOptions extends Attribute {
         />
       </div>
     )
+  }
+
+  elementVisibilityChangeHandler () {
+    workspaceStorage.trigger('hide', this.props.element.get('id'))
   }
 
   /**
