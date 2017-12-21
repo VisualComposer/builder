@@ -177,7 +177,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Pricing table' => [
                     'title' => 'Pricing Table',
-                    'elements' => ['pricingTable'],
+                    'elements' => ['pricingTable', 'outlinePricingTable'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Pricing-Table.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Pricing-Table.svg'),
                 ],
@@ -281,7 +281,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Hover Box' => [
                     'title' => 'Hover Box',
-                    'elements' => ['flipBox'],
+                    'elements' => ['flipBox', 'hoverBox'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Hover-Box.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Hover-Box.svg'),
                 ],

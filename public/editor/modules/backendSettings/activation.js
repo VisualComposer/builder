@@ -31,7 +31,9 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
       let $popupInner = $('.vcv-popup')
       let $inputEmail = $('#vcv-account-login-form-email')
       let $selectCategory = $('#vcv-account-login-form-category')
+      let $selectPremiumCategory = $('#vcv-account-premium-form-category')
       let $agreementCheckbox = $('#vcv-account-activation-agreement')
+      let $agreementPremiumCheckbox = $('#vcv-account-activation-premium-agreement')
 
       let loadAnimation = () => {
         let popupWidth = $popupInner[ 0 ].getBoundingClientRect().width
@@ -68,11 +70,28 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
             email = 'standalone'
           }
           if (email) {
-            showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category)
+            showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox.val(), downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category)
           } else {
             // error shows\
             showError($errorPopup, provideCorrectEmailText)
           }
+        }
+      })
+
+      $('#vcv-premium-activation-form').on('submit', (e) => {
+        e.preventDefault()
+        let checkboxStatus = $agreementPremiumCheckbox.is(':checked')
+        let categoryVal = $selectPremiumCategory.val()
+        let location = $('#vcv-activate-premium-button').attr('data-href')
+        let category = encodeURIComponent(categoryVal)
+
+        if (location) {
+          if (location.indexOf('?') > -1) {
+            location = `${location}&agreement=${checkboxStatus}?category=${category}`
+          } else {
+            location = `${location}?agreement=${checkboxStatus}&category=${category}`
+          }
+          window.location.href = location
         }
       })
 

@@ -133,6 +133,15 @@ class AssetsShared extends Container implements Helper
                         'public/sources/assetsLibrary/parallaxFade/dist/parallaxFade.bundle.js'
                     ),
                 ],
+                'parallaxMouseMove' => [
+                    'dependencies' => [],
+                    'jsBundle' => $urlHelper->to(
+                        'public/sources/assetsLibrary/parallaxMouseMove/dist/parallaxMouseMove.bundle.js'
+                    ),
+                    'cssBundle' => $urlHelper->to(
+                        'public/sources/assetsLibrary/parallaxMouseMove/dist/parallaxMouseMove.bundle.css'
+                    ),
+                ],
                 'iconpicker' => [
                     'dependencies' => [],
                     'cssBundle' => $urlHelper->to('public/sources/assetsLibrary/iconpicker/dist/iconpicker.bundle.css'),

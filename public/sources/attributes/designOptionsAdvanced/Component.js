@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
+import { env } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -847,12 +848,12 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (element) {
       let dolly = element.cloneNode(true)
       dolly.id = ''
-      dolly.height = '0'
-      dolly.width = '0'
-      dolly.overflow = 'hidden'
-      dolly.position = 'fixed'
-      dolly.bottom = '0'
-      dolly.right = '0'
+      dolly.style.height = '0'
+      dolly.style.width = '0'
+      dolly.style.overflow = 'hidden'
+      dolly.style.position = 'fixed'
+      dolly.style.bottom = '0'
+      dolly.style.right = '0'
       element.parentNode.appendChild(dolly)
 
       setTimeout(() => {
@@ -1707,6 +1708,12 @@ export default class DesignOptionsAdvanced extends Attribute {
           value: 'simple-fade'
         }
       ]
+    }
+    if (env('PARALLAX_MOUSEMOVE')) {
+      options.values.push({
+        label: 'Mouse move',
+        value: 'mouse-move'
+      })
     }
     let value = this.state.devices[ this.state.currentDevice ].parallax || ''
     return <div className='vcv-ui-form-group'>

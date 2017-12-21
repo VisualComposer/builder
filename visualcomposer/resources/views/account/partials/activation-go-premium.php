@@ -10,6 +10,9 @@ $getPremiumPage = vcapp('PremiumPagesGetPremium');
 $activationPage = vcapp('AccountPagesActivationPage');
 $utmHelper = vchelper('Utm');
 $requestHelper = vchelper('Request');
+$loginCategoryHelper = vchelper('LoginCategory');
+$loginCategories = $loginCategoryHelper->all();
+
 if ('nav-bar' === $requestHelper->input('vcv-ref')) {
     $utm = 'goPremiumNavBar';
 } elseif ('plugins-page' === $requestHelper->input('vcv-ref')) {
@@ -43,12 +46,30 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
     <div class="vcv-popup-heading">
         <?php echo __('Get Premium Elements, Templates, and Support.', 'vcwb'); ?>
     </div>
-	<a href="<?php echo $utmHelper->get($utm);?>" class="vcv-purchase-premium vcv-popup-button" target="_blank"><?php echo __('About Premium', 'vcwb'); ?></a>
-    <?php if (vcvenv('VCV_ENV_UPGRADE')) { ?>
-		<a href="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>" class="vcv-activate-premium vcv-popup-button">
-            <?php echo __('Activate Premium', 'vcwb'); ?>
-		</a>
-    <?php } ?>
+	<form class="vcv-popup-form vcv-popup-form-light-theme" id="vcv-premium-activation-form">
+		<select class="vcv-popup-form-select" name="category" id="vcv-account-premium-form-category" required="required">
+			<option value disabled selected><?php echo __('Select Your Category', 'vcwb'); ?></option>
+            <?php foreach ($loginCategories as $key => $loginCategory) { ?>
+				<option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
+            <?php } ?>
+		</select>
+		<div class="vcv-popup-form-checkbox">
+           <span class="vcv-popup-form-checkbox-inner">
+              <input type="checkbox" value="<?php echo time(
+              ); ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-premium-agreement" />
+                <label for="vcv-account-activation-premium-agreement"></label>
+           </span>
+			<span class="vcv-popup-form-checkbox-label"><?php printf(
+                    __('I have read and agree to the <a href="%1$s" target="_blank">Terms of Use</a> and <a href="%2$s"" target="_blank">Cloud Access Terms</a>', 'vcwb'),
+                    'https://visualcomposer.io/terms-of-use',
+                    'http://visualcomposer.io/cloud-access-terms'
+                ); ?></span>
+		</div>
+        <?php if (vcvenv('VCV_ENV_UPGRADE')) { ?>
+	        <input type="submit" value="<?php echo __('Activate Premium', 'vcwb'); ?>" class="vcv-activate-premium vcv-popup-button" data-href="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>" id="vcv-activate-premium-button">
+        <?php } ?>
+		<a href="<?php echo $utmHelper->get($utm);?>" class="vcv-purchase-premium vcv-popup-button" target="_blank"><?php echo __('About Premium', 'vcwb'); ?></a>
+	</form>
 	<span class="vcv-popup-slider-item-text"><?php echo __('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
 	<div class="vcv-popup-go-premium-container"></div>
 </div>

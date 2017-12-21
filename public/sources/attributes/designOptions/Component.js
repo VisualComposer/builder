@@ -626,12 +626,12 @@ export default class DesignOptions extends Attribute {
     if (element) {
       let dolly = element.cloneNode(true)
       dolly.id = ''
-      dolly.height = '0'
-      dolly.width = '0'
-      dolly.overflow = 'hidden'
-      dolly.position = 'fixed'
-      dolly.bottom = '0'
-      dolly.right = '0'
+      dolly.style.height = '0'
+      dolly.style.width = '0'
+      dolly.style.overflow = 'hidden'
+      dolly.style.position = 'fixed'
+      dolly.style.bottom = '0'
+      dolly.style.right = '0'
       element.parentNode.appendChild(dolly)
 
       setTimeout(() => {

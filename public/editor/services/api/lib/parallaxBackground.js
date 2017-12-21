@@ -1,4 +1,5 @@
 import React from 'react'
+import { env } from 'vc-cake'
 import classNames from 'classnames'
 const { Component, PropTypes } = React
 export default class ParallaxBackground extends Component {
@@ -9,7 +10,7 @@ export default class ParallaxBackground extends Component {
   }
 
   render () {
-    const { deviceKey, deviceData, content, divider } = this.props
+    const { deviceKey, deviceData, content, divider, atts } = this.props
     const { parallax, parallaxSpeed, parallaxReverse } = deviceData
     if (parallax) {
       let customProps = {}
@@ -17,14 +18,20 @@ export default class ParallaxBackground extends Component {
         `vce-asset-parallax-container`,
         `vce-visible-${deviceKey}-only`
       ]
-      let elementClasses = classNames([
+      let elementClasses = [
         `vce-asset-parallax`
-      ])
-      if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-parallax'
-      }
-      if (parallax === 'simple-fade' && !divider) {
-        customProps[ 'data-vce-assets-parallax-fade' ] = true
+      ]
+      if (env('PARALLAX_MOUSEMOVE') && parallax === 'mouse-move') {
+        customProps[ 'data-vce-assets-parallax-mouse-move' ] = '.vce-asset-parallax'
+        customProps[ 'data-vce-assets-parallax-mouse-move-element' ] = atts.id
+        elementClasses.push('vce-asset-parallax-mouse-move')
+      } else {
+        if (parallax) {
+          customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-parallax'
+        }
+        if (parallax === 'simple-fade' && !divider) {
+          customProps[ 'data-vce-assets-parallax-fade' ] = true
+        }
       }
       if (divider) {
         customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed ? parallaxSpeed / 2 : 15

@@ -1168,6 +1168,25 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Simple filled or outline pricing table to display prices of your products or services.',
                     ],
                 ],
+                'outlinePricingTable' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/outlinePricingTable/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/outlinePricingTable/outlinePricingTable/'),
+                    'elementRealPath' => vcapp()->path('devElements/outlinePricingTable/outlinePricingTable/'),
+                    'assetsPath' => $urlHelper->to('devElements/outlinePricingTable/outlinePricingTable/public/'),
+                    'settings' => [
+                        'name' => 'Outline Pricing Table',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/outlinePricingTable/outlinePricingTable/public/thumbnail-outline-pricing-table.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/outlinePricingTable/outlinePricingTable/public/preview-outline-pricing-table.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Outline style pricing table with optional icon element, title, price, feature description and bold transition effect on hover state.',
+                    ],
+                ],
                 'woocommerceTopRatedProducts' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/woocommerceTopRatedProducts/public/dist/element.bundle.js'
@@ -2111,6 +2130,24 @@ class DevElements extends Container implements Module
                             'devElements/basicMenu/basicMenu/public/basic-menu-preview.png'
                         ),
                         'metaDescription' => 'Add simple text menu with hover submenu to your site.',
+                    ],
+                ],
+                'hoverBox' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/hoverBox/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/hoverBox/hoverBox/'),
+                    'elementRealPath' => vcapp()->path('devElements/hoverBox/hoverBox/'),
+                    'assetsPath' => $urlHelper->to('devElements/hoverBox/hoverBox/public/'),
+                    'settings' => [
+                        'name' => 'Hover Box',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/hoverBox/hoverBox/public/hover-box-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/hoverBox/hoverBox/public/hover-box-preview.jpg'
+                        ),
+                        'metaDescription' => 'Image hover-box with inner outline border and custom title appearance on hover.',
                     ],
                 ]
             ]
