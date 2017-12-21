@@ -139,9 +139,7 @@ export default class Devices extends Attribute {
     return (
       <div className='vcv-ui-row vcv-ui-row-gap--md'>
         <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-          <div className='vcv-ui-form-group'>
-            {this.getDevicesSettings()}
-          </div>
+          {this.getDevicesSettings()}
         </div>
         {this.getCustomDevices()}
       </div>
