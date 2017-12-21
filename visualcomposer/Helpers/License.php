@@ -61,8 +61,8 @@ class License extends Container implements Helper
         $nonceHelper = vchelper('Nonce');
         $requestHelper = vchelper('Request');
 
-        $category = $requestHelper->get('vcv-account-activation-category');
-        $agreement = $requestHelper->get('vcv-account-activation-agreement');
+        $category = $requestHelper->input('vcv-account-activation-category');
+        $agreement = $requestHelper->input('vcv-account-activation-agreement');
         if (empty($category) || empty($agreement)) {
             vchelper('Logger')->log(__('The agreement and category fields are required'));
 
