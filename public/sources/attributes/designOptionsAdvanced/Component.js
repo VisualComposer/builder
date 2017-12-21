@@ -926,9 +926,12 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (clonedElement) {
       let computedStyles = ''
       if (innerSelector) {
-        computedStyles = window.getComputedStyle(clonedElement.querySelector(innerSelector))
+        let element = clonedElement.querySelector(innerSelector)
+        if (element) {
+          computedStyles = window.getComputedStyle(element)
+        }
       } else {
-        computedStyles = window.getComputedStyle(clonedElement)
+        computedStyles = clonedElement ? window.getComputedStyle(clonedElement) : ''
       }
 
       for (let style in BoxModel.defaultState) {
