@@ -1,5 +1,5 @@
 import { showError, closeError } from './errors'
-import { send as sendError, all as getErrors } from './logger'
+import { send as sendError, messages as getErrorsMessages } from './logger'
 import {
   showIntroScreen,
   showLoadingScreen,
@@ -171,16 +171,16 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
                 window.location.href = window.vcvDashboardUrl
               })
             } else {
-              let messages = jsonData && jsonData.response && jsonData.response.messages
+              let messages = jsonData && jsonData.response && jsonData.response.messages ? jsonData.response.messages : window.vcvErrorReportDetails
               showFreshDesk(messages)
             }
           } catch (e) {
-            showFreshDesk()
+            showFreshDesk(window.vcvErrorReportDetails)
           }
         })
 
         function getFreshDeskSource (messages) {
-          let jsErrors = getErrors()
+          let jsErrors = getErrorsMessages()
 
           if (!messages && !jsErrors.length) {
             return 'https://visualcomposer.freshdesk.com/widgets/feedback_widget/new'
@@ -203,10 +203,7 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
           }
 
           if (jsErrors.length) {
-            jsErrors.map(function (error, index) {
-              delete error.stack
-              descriptionMessage = addMessage(descriptionMessage, `Error${index}`, error)
-            })
+            descriptionMessage = addMessage(descriptionMessage, `jsErrors`, jsErrors)
           }
 
           if (messages) {
@@ -236,9 +233,8 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
           themeMessage = themeMessage.substring(0, 130)
           envDetailsMessage = envDetailsMessage.substring(0, 130)
           descriptionMessage = descriptionMessage.substring(0, 7000)
-          descriptionMessage = `<br><br><br><br><br> ****************************** <br>${descriptionMessage}`
 
-          return `https://visualcomposer.freshdesk.com/widgets/feedback_widget/new?&screenshot=no&helpdesk_ticket[description]=${descriptionMessage}&helpdesk_ticket[custom_field][url_of_your_page_where_problem_can_be_checked_429987]=${urlMessage}&helpdesk_ticket[custom_field][theme_in_use_name_url_429987]=${themeMessage}&helpdesk_ticket[custom_field][environment_details_429987]=${envDetailsMessage}`
+          return `https://visualcomposer.freshdesk.com/widgets/feedback_widget/new?&screenshot=no&helpdesk_ticket[custom_field][cf_stack_429987]=${descriptionMessage}&helpdesk_ticket[custom_field][url_of_your_page_where_problem_can_be_checked_429987]=${urlMessage}&helpdesk_ticket[custom_field][theme_in_use_name_url_429987]=${themeMessage}&helpdesk_ticket[custom_field][environment_details_429987]=${envDetailsMessage}`
         }
 
         function showFreshDesk (messages) {
