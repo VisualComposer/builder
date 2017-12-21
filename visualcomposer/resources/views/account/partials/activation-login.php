@@ -36,7 +36,7 @@ $loginCategories = $loginCategoryHelper->all();
             'Your E-mail',
             'vcwb'
         ); ?>" class="vcv-popup-form-input" required="required">
-	    <select class="vcv-popup-form-select vcv-select-light" name="category"  id="vcv-account-login-form-category" required="required">
+	    <select class="vcv-popup-form-select vcv-select-light" name="vcv-account-activation-category"  id="vcv-account-login-form-category" required="required">
 		    <option value disabled selected><?php echo __('Select Your Category', 'vcwb'); ?></option>
             <?php foreach ($loginCategories as $key => $loginCategory) { ?>
 			    <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
