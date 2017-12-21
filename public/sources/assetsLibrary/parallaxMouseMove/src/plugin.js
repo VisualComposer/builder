@@ -11,6 +11,7 @@
         this.resize = this.resize.bind(this);
         this.handleAttributeChange = this.handleAttributeChange.bind(this);
         this.mouseParallax = this.mouseParallax.bind(this);
+        this.update = this.update.bind(this);
         // check for data
         if (!element.getVceParallaxMouseMove) {
           element.getVceParallaxMouseMove = this;
@@ -65,12 +66,15 @@
         this.bgElement.style.top = '-' + this.speed + 'vh';
         this.bgElement.style.right = '-' + this.speed + 'vw';
         this.bgElement.style.bottom = '-' + this.speed + 'vh';
+        this.bgElement.style.transform = `translate(0px, 0px)`
       },
       addMouseMoveEvent: function addMouseMoveEvent () {
         this.elementRoot.addEventListener('mousemove', this.mouseParallax)
+        window.addEventListener('resize', this.update)
       },
       removeMouseMoveEvent: function removeMouseMoveEvent () {
         this.elementRoot.removeEventListener('mousemove', this.mouseParallax)
+        window.removeEventListener('resize', this.update)
       },
       create: function create () {
         this.addMouseMoveEvent();
@@ -109,19 +113,13 @@
       },
       update: function update () {
         this.prepareElement();
-        // this.resize();
-        // Waypoint.refreshAll();
       },
       destroy: function destroy () {
         this.removeMouseMoveEvent()
-        // this.removeScrollEvent();
         this.bgElement.style.top = null;
         this.bgElement.style.bottom = null;
         this.bgElement.style.transform = null;
         this.bgElement = null;
-        // this.waypoint.top.destroy();
-        // this.waypoint.bottom.destroy();
-        // this.waypoint = null;
         this.observer.disconnect();
         this.observer = null;
         delete this.element.getVceParallaxMouseMove;
