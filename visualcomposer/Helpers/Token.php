@@ -173,19 +173,7 @@ class Token extends Container implements Helper
                 $token = $body['data']['token'];
                 $this->setToken($token);
 
-                if (isset($body['data']['license_expires_soon']) && $body['data']['license_expires_soon']) {
-                    $message = sprintf(
-                        __('Your Visual Composer Website Builder License will expire soon - %s', 'vcwb'),
-                        date(
-                            get_option('date_format') . ' ' . get_option('time_format'),
-                            strtotime($body['data']['license_expires_at']['date'])
-                        )
-                    );
-                    $noticeHelper->addNotice('license:expiration', $message);
-                } else {
-                    $noticeHelper->removeNotice('license:expiration');
-                    $loggerHelper->removeLogNotice('license:expiration');
-                }
+                $this->checkLicenseExpiration($body, $noticeHelper, $loggerHelper);
 
                 return $token;
             }
@@ -255,5 +243,29 @@ class Token extends Container implements Helper
         }
 
         return false;
+    }
+
+    /**
+     * @param $body
+     * @param $noticeHelper
+     * @param $loggerHelper
+     */
+    protected function checkLicenseExpiration($body, $noticeHelper, $loggerHelper)
+    {
+        if (isset($body['data']['license_expires_soon']) && $body['data']['license_expires_soon']) {
+            $message = sprintf(
+                __('Your Visual Composer Website Builder License will expire soon - %s', 'vcwb'),
+                date(
+                    get_option('date_format') . ' ' . get_option('time_format'),
+                    strtotime($body['data']['license_expires_at']['date'])
+                )
+            );
+            $noticeHelper->addNotice('license:expiration', $message);
+        } else {
+            if (isset($body['data']['license_expires_at'])) {
+                $noticeHelper->removeNotice('license:expiration');
+                $loggerHelper->removeLogNotice('license:expiration');
+            }
+        }
     }
 }
