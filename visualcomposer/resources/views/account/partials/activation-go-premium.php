@@ -46,8 +46,8 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
     <div class="vcv-popup-heading">
         <?php echo __('Get Premium Elements, Templates, and Support.', 'vcwb'); ?>
     </div>
-	<form class="vcv-popup-form vcv-popup-form-light-theme" id="vcv-premium-activation-form">
-		<select class="vcv-popup-form-select" name="category" id="vcv-account-premium-form-category" required="required">
+	<form class="vcv-popup-form vcv-popup-form-light-theme" id="vcv-premium-activation-form" method="post" action="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>">
+		<select class="vcv-popup-form-select" name="vcv-account-activation-category" id="vcv-account-premium-form-category" required="required">
 			<option value disabled selected><?php echo __('Select Your Category', 'vcwb'); ?></option>
             <?php foreach ($loginCategories as $key => $loginCategory) { ?>
 				<option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
@@ -66,7 +66,7 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
                 ); ?></span>
 		</div>
         <?php if (vcvenv('VCV_ENV_UPGRADE')) { ?>
-	        <input type="submit" value="<?php echo __('Activate Premium', 'vcwb'); ?>" class="vcv-activate-premium vcv-popup-button" data-href="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>" id="vcv-activate-premium-button">
+	        <input type="submit" value="<?php echo __('Activate Premium', 'vcwb'); ?>" class="vcv-activate-premium vcv-popup-button" id="vcv-activate-premium-button">
         <?php } ?>
 		<a href="<?php echo $utmHelper->get($utm);?>" class="vcv-purchase-premium vcv-popup-button" target="_blank"><?php echo __('About Premium', 'vcwb'); ?></a>
 	</form>
