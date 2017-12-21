@@ -115,10 +115,8 @@ export default class Devices extends Attribute {
 
       returnData = (
         <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-          <div className='vcv-ui-form-group'>
-            <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--attribute vcv-ui-form-devices'>
-              {devices}
-            </div>
+          <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--attribute vcv-ui-form-devices'>
+            {devices}
           </div>
         </div>
       )
