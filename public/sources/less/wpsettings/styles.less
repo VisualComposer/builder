@@ -78,7 +78,8 @@
 .vcv-popup-form-screen,
 .vcv-popup-loading-screen,
 .vcv-popup-last-screen,
-.vcv-popup-last-go-premium-screen {
+.vcv-popup-last-go-premium-screen,
+.vcv-popup-about-screen {
   overflow: hidden;
   height: 0;
   opacity: 0;
@@ -105,6 +106,103 @@
     overflow: visible;
     opacity: 1;
     transition: 1s opacity;
+  }
+}
+
+.vcv-about-screen--active {
+  .vcv-popup-about-screen {
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+    transition: 1s opacity;
+    color: @vcv-goPremiumScreenColor;
+    &::before {
+      display: block;
+    }
+    .vcv-popup-heading {
+      margin-top: 40px;
+      margin-bottom: 40px;
+      max-width: 900px;
+    }
+    .vcv-popup-go-premium-container {
+      margin-top: 40px;
+      background: url('../../images/go-premium-background.jpg') no-repeat center 100%;
+      min-height: 430px;
+    }
+    .vcv-popup-button {
+      border: 2px solid;
+      &.vcv-activate-premium {
+        border-color: @vcv-goPremiumScreenPurchaseButtonBackground;
+        background: @vcv-goPremiumScreenPurchaseButtonBackground;
+        color: @vcv-goPremiumScreenPurchaseButtonHoverColor;
+
+        &:hover {
+          border-color: @vcv-goPremiumScreenPurchaseButtonHoverBackground;
+          background: @vcv-goPremiumScreenPurchaseButtonHoverBackground;
+        }
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+      &.vcv-purchase-premium {
+        border-color: @vcv-goPremiumScreenActivateButtonBorderColor;
+        color: @vcv-goPremiumScreenActivateButtonColor;
+
+        &:hover {
+          background: @vcv-goPremiumScreenActivateButtonHoverBackground;
+          color: @vcv-goPremiumScreenActivateButtonHoverColor;
+          border-color: @vcv-goPremiumScreenActivateButtonHoverBackground;
+        }
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  .vcv-popup {
+    padding: 70px 0 55px;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: @vcv-goPremiumScreenBackground;
+    }
+  }
+  .vcv-popup-close-button {
+    &::before,
+    &::after {
+      background: @vcv-goPremiumScreenCloseButtonColor;
+    }
+    &:hover {
+      &::before,
+      &::after {
+        background: @vcv-goPremiumScreenCloseButtonHover;
+      }
+    }
+  }
+  .vcv-popup-back-button {
+    display: flex;
+    opacity: 1;
+    color: @vcv-goPremiumScreenBackButtonColor;
+
+    &::before,
+    &::after {
+      background: @vcv-goPremiumScreenBackButtonColor;
+    }
+
+    &:hover {
+      color: @vcv-goPremiumScreenBackButtonHover;
+
+      &::before,
+      &::after {
+        background: @vcv-goPremiumScreenBackButtonHover;
+      }
+    }
   }
 }
 
@@ -187,12 +285,6 @@
         background: @vcv-goPremiumScreenCloseButtonHover;
       }
     }
-  }
-  .vcv-popup-go-premium-screen {
-    opacity: 1;
-    height: auto;
-    overflow: visible;
-    transition: 1s opacity;
   }
   .vcv-popup-back-button {
     display: flex;
