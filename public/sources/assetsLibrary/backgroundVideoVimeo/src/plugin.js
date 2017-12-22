@@ -88,12 +88,11 @@
         }
         // Detect Firefox browser
         // Firefox's API to install add-ons: InstallTrigger
-        // TODO: uncomment code below to QA
-        // var isFirefox = typeof window.InstallTrigger !== 'undefined';
-        // if (isFirefox) {
-        //   clearTimeout(this.timeoutId);
-        //   this.timeoutId = setTimeout(this.videoBackgroundEnlarge.bind(this), 50);
-        // }
+        var isFirefox = typeof window.InstallTrigger !== 'undefined';
+        if (isFirefox) {
+          clearTimeout(this.timeoutId);
+          this.timeoutId = setTimeout(this.videoBackgroundEnlarge.bind(this), 50);
+        }
       },
       videoBackgroundEnlarge: function videoBackgroundEnlarge () {
         if (!this.iframe) {
