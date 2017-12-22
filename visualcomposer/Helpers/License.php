@@ -59,14 +59,28 @@ class License extends Container implements Helper
         }
         $urlHelper = vchelper('Url');
         $nonceHelper = vchelper('Nonce');
+        $requestHelper = vchelper('Request');
+
+        $category = $requestHelper->input('vcv-account-activation-category');
+        $agreement = $requestHelper->input('vcv-account-activation-agreement');
+        if (empty($category) || empty($agreement)) {
+            vchelper('Logger')->log(__('The agreement and category fields are required'));
+
+            return false;
+        }
+
         wp_redirect(
             VCV_LICENSE_ACTIVATE_URL .
             '/?redirect=' . rawurlencode(
-                $urlHelper->adminAjax(['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()])
+                $urlHelper->adminAjax(
+                    ['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
+                )
             ) .
             '&token=' . rawurlencode($this->newKeyToken()) .
             '&url=' . VCV_PLUGIN_URL .
-            '&domain=' . get_site_url()
+            '&domain=' . get_site_url() .
+            '&agreement=' . $agreement .
+            '&category=' . rawurlencode($category)
         );
         exit;
     }

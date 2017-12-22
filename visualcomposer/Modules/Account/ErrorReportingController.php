@@ -83,7 +83,7 @@ class ErrorReportingController extends Container implements Module
         $data['multisite'] = is_multisite();
         $data['category'] = $optionsHelper->get('activation-category');
         $data['email'] = $optionsHelper->get('activation-email');
-        $data['admin_email'] = get_option('admin_email');
+        $data['admin-email'] = get_option('admin_email');
         $data['agreement'] = $optionsHelper->get('activation-agreement');
         $data['siteAuthState'] = $optionsHelper->get('siteAuthState');
         $theme = wp_get_theme();
