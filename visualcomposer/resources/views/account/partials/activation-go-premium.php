@@ -17,6 +17,10 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
     $utm = 'goPremiumNavBar';
 } elseif ('plugins-page' === $requestHelper->input('vcv-ref')) {
     $utm = 'goPremiumPluginsPage';
+} elseif ('logoFrontend' === $requestHelper->input('vcv-ref')) {
+    $utm = 'feNavbarLinkLogo';
+} elseif ('logoBackend' === $requestHelper->input('vcv-ref')) {
+    $utm = 'beNavbarLinkLogo';
 } elseif ($activationPage->getSlug() === $requestHelper->input('page')) {
     $utm = 'goPremiumDashboard';
 } elseif ($getPremiumPage->getSlug() === $requestHelper->input('page')) {
