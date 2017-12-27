@@ -65,13 +65,6 @@ export default class AttachImage extends Attribute {
       } else {
         value = { ids: [], urls: [] }
       }
-    } else {
-      if (!value.ids && !value.urls) {
-        value = {
-          ids: [ value.id ],
-          urls: [ value ]
-        }
-      }
     }
 
     return {
