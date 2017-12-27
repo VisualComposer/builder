@@ -117,6 +117,12 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                 );
                 if (!$licenseHelper->isActivated()) {
                     echo vcview(
+                        'account/partials/activation-about',
+                        [
+                            'controller' => $controller,
+                        ]
+                    );
+                    echo vcview(
                         'account/partials/activation-go-premium',
                         [
                             'controller' => $controller,

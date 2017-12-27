@@ -16,6 +16,7 @@ $postTypeHelper = vchelper('PostType');
 $beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true);
 if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
     $licenseHelper = vchelper('License');
+    $getPremiumPage = vcapp('PremiumPagesGetPremium');
 }
 ?>
     <script>
@@ -31,6 +32,7 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
       window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
         <?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) { ?>
       window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated() ?>);
+      window.vcvGoPremiumUrlLogo = '<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>';
         <?php } ?>
     </script>
 

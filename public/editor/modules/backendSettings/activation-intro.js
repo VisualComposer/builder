@@ -1,4 +1,4 @@
-import {showFirstScreen, showGoPremiumScreen} from './screens'
+import {showFirstScreen, showAboutScreen} from './screens'
 
 (($) => {
   $(() => {
@@ -12,7 +12,7 @@ import {showFirstScreen, showGoPremiumScreen} from './screens'
     }
     if ($popup.length) {
       $('.vcv-intro-button-premium').on('click', () => {
-        showGoPremiumScreen($popup)
+        showAboutScreen($popup)
         return false
       })
     }

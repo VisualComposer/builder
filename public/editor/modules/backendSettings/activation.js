@@ -6,6 +6,7 @@ import {
   showFirstScreen,
   showLastScreen,
   showGoPremiumScreen,
+  showAboutScreen,
   showLastGoPremiumScreen,
   showThankYouScreen
 } from './screens'
@@ -77,8 +78,11 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
       })
 
       if (window.vcvActivationType !== 'standalone') {
-        $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button, .vcv-go-premium-screen--active .vcv-popup-back-button', () => {
+        $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button, .vcv-about-screen--active .vcv-popup-back-button', () => {
           showIntroScreen($popup)
+        })
+        $('body').on('click', '.vcv-go-premium-screen--active .vcv-popup-back-button', () => {
+          showAboutScreen($popup)
         })
       }
       $('.vcv-popup-close-button').on('click', () => {
@@ -241,6 +245,11 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
 
         closeError($errorPopup)
         showLoadingScreen($popup)
+      })
+
+      $('.vcv-about-button-premium').on('click', () => {
+        showGoPremiumScreen($popup)
+        return false
       })
     }
   })
