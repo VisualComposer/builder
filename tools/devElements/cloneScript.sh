@@ -101,6 +101,8 @@ declare -a arr=(
 'logoWidget'
 'basicMenu'
 'outlinePricingTable'
+'classicTab'
+'classicTabs'
 )
 
 EXECDIR=`pwd`

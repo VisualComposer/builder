@@ -50,6 +50,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   }
   let lastColumns = getRowData(layout).lastColumnIndex
   let lastColumnObject = null
+  const disableStacking = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
   layout.forEach((size, i) => {
     let lastInRow = lastColumns.indexOf(i) > -1
     let firstInRow = i === 0 || lastColumns.indexOf(i - 1) > -1
@@ -58,11 +59,12 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       lastColumnObject.size = size
       lastColumnObject.lastInRow = lastInRow
       lastColumnObject.firstInRow = firstInRow
+      lastColumnObject.disableStacking = disableStacking
       documentManager.update(lastColumnObject.id, lastColumnObject)
       // api.request('data:afterUpdate', lastColumnObject.id, lastColumnObject)
       elements.push([ lastColumnObject, 'update' ])
     } else {
-      let createdElement = documentManager.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow })
+      let createdElement = documentManager.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow, disableStacking: disableStacking })
       elements.push([ createdElement, 'add' ])
     }
   })

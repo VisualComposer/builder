@@ -90,9 +90,10 @@ class Layout extends Attribute {
 
     let columnGap = data.columnGap ? parseInt(data.columnGap) : 0
     let selector = `vce-row--col-gap-${columnGap}`
+    const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
 
     Layout.devices.forEach((device) => {
-      if (device === 'md' || device === 'xs') {
+      if ((device === 'md' || device === 'xs' && (!disableStacking || !vcCake.env('DISABLE_COLUMN_STACKING'))) || (device === 'xs' && disableStacking)) {
         let reducedLayout = []
         layoutData.forEach((col) => {
           if (reducedLayout.indexOf(col) < 0) {
@@ -117,7 +118,9 @@ class Layout extends Attribute {
           }
 
           if (device === 'xs') {
-            mixinName = `${'columnStyleMixin'}:col1:xs`
+            if (!disableStacking) {
+              mixinName = `${'columnStyleMixin'}:col1:xs`
+            }
           }
           // put index in the beginning of key to sort columns
           mixinName = `${Layout.devices.indexOf(device)}:${mixinName}`
@@ -127,7 +130,9 @@ class Layout extends Attribute {
           newMixin[ mixinName ].variables.device.value = device
 
           if (device === 'xs') {
-            newMixin[ mixinName ].variables.fullColumn.value = true
+            if (!disableStacking) {
+              newMixin[ mixinName ].variables.fullColumn.value = true
+            }
           }
           let gapSpace = (columnGap * (parseFloat(fraction[ 1 ]) - 1)).toString()
           let equalSpace = (columnGap * (parseFloat(fraction[ 0 ]) - 1)).toString()
@@ -156,7 +161,7 @@ class Layout extends Attribute {
     super(props)
     this.setActiveLayout = this.setActiveLayout.bind(this)
     this.validateSize = this.validateSize.bind(this)
-    this.reverseHandler = this.reverseHandler.bind(this)
+    this.valueChangeHandler = this.valueChangeHandler.bind(this)
   }
 
   updateState (props) {
@@ -167,30 +172,32 @@ class Layout extends Attribute {
           return element.size || 'auto'
         })
     let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
+    let disableStackingState = props.value && props.value.disableStacking ? props.value.disableStacking : false
     return {
       value: {
         layoutData: layout,
-        reverseColumn: reverseColumnState
+        reverseColumn: reverseColumnState,
+        disableStacking: disableStackingState
       }
     }
   }
 
   setActiveLayout (layout) {
-    this.setFieldValue(layout)
+    let newState = lodash.defaultsDeep({}, this.state.value)
+    newState.layoutData = layout
+    this.setFieldValue(newState)
   }
 
-  setFieldValue (value, reverseColumn) {
+  setFieldValue (value) {
     let { updater, fieldKey } = this.props
-    let reverseColumnState = reverseColumn !== undefined ? reverseColumn : this.state.value.reverseColumn
+    let { layoutData, ...rest } = value
+
     updater(fieldKey, {
-      layoutData: this.sanitizeLayout(value),
-      reverseColumn: reverseColumnState
+      layoutData: this.sanitizeLayout(layoutData),
+      ...rest
     })
     this.setState({
-      value: {
-        layoutData: value,
-        reverseColumn: reverseColumnState
-      }
+      value: value
     })
   }
 
@@ -224,33 +231,60 @@ class Layout extends Attribute {
   }
 
   getReverseToggle () {
+    let data = this.state.value
+    if (data && data.disableStacking) {
+      if (vcCake.env('DISABLE_COLUMN_STACKING')) {
+        return null
+      }
+    }
+    let reverseState = data && data.hasOwnProperty('reverseColumn') ? data.reverseColumn : false
     return (
       <div className='vcv-ui-form-layout-reverse-column-toggle'>
         <Toggle
           api={this.props.api}
-          fieldKey={'reverseColumnStacking'}
-          updater={this.reverseHandler}
+          fieldKey={'reverseColumn'}
+          updater={this.valueChangeHandler}
           options={{ labelText: 'Reverse column stacking' }}
-          value={this.state.value.reverseColumn}
+          value={reverseState}
         />
       </div>
     )
   }
 
-  reverseHandler (fieldKey, value) {
-    this.setFieldValue(this.state.value.layoutData, value)
+  valueChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state.value)
+    newState[ fieldKey ] = value
+    this.setFieldValue(newState)
+  }
+
+  getStackingToggle () {
+    if (!vcCake.env('DISABLE_COLUMN_STACKING')) {
+      return null
+    }
+    let data = this.state.value
+    let disableStackingState = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
+    return (
+      <div className='vcv-ui-form-layout-disable-stacking-toggle'>
+        <Toggle
+          api={this.props.api}
+          fieldKey={'disableStacking'}
+          updater={this.valueChangeHandler}
+          options={{ labelText: 'Disable column stacking' }}
+          value={disableStackingState}
+        />
+      </div>
+    )
   }
 
   render () {
-    let value = ''
-    value = this.state.value.layoutData
+    let { layoutData } = this.state.value
     return (
       <div className='vcv-ui-form-layout'>
         <span className='vcv-ui-form-layout-description'>Specify number of columns within row by choosing preset
 or enter custom values. Extend row layout by customizing
 responsiveness options and stacking order.
         </span>
-        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(value)}
+        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(layoutData)}
           onChange={this.setActiveLayout} />
         <div className='vcv-ui-form-layout-custom-layout'>
           <span className='vcv-ui-form-group-heading'>Custom row layout</span>
@@ -261,7 +295,7 @@ responsiveness options and stacking order.
                   <div className='vcv-ui-form-layout-custom-layout-input'>
                     <TokenizationList
                       layouts={this.props.layouts}
-                      value={value.join(' + ')}
+                      value={layoutData.join(' + ')}
                       onChange={this.setActiveLayout}
                       validator={this.validateSize}
                       suggestions={this.props.suggestions}
@@ -272,7 +306,12 @@ responsiveness options and stacking order.
               </div>
             </div>
             <div className='vcv-ui-col vcv-ui-col--md-6'>
-              {this.getReverseToggle()}
+              <div className='vcv-ui-form-group'>
+                {this.getStackingToggle()}
+              </div>
+              <div className='vcv-ui-form-group'>
+                {this.getReverseToggle()}
+              </div>
             </div>
           </div>
         </div>
