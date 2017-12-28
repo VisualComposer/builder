@@ -1,4 +1,4 @@
-import {addStorage, getStorage, getService} from 'vc-cake'
+import {addStorage, getStorage, getService, env} from 'vc-cake'
 import {rebuildRawLayout, isElementOneRelation, addRowColumnBackground} from './lib/tools'
 
 addStorage('elements', (storage) => {
@@ -82,6 +82,18 @@ addStorage('elements', (storage) => {
         let tabElement1 = documentManager.create(tabData1.toJS())
         createdElements.push(tabElement.id)
         createdElements.push(tabElement1.id)
+      }
+    }
+    if (env('CLASSIC_TABS')) {
+      if (wrap && cookElement.get('tag') === 'classicTabs' && !elementData.skipInitialExtraElements) {
+        let tabData = cook.get({ tag: 'classicTab', parent: data.id })
+        let tabData1 = cook.get({ tag: 'classicTab', parent: data.id })
+        if (tabData) {
+          let tabElement = documentManager.create(tabData.toJS())
+          let tabElement1 = documentManager.create(tabData1.toJS())
+          createdElements.push(tabElement.id)
+          createdElements.push(tabElement1.id)
+        }
       }
     }
     if (wrap && cookElement.get('tag') === 'section') {

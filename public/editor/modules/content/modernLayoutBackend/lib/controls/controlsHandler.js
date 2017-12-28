@@ -366,8 +366,16 @@ export default class ControlsHandler {
     // add element action
     if (options.isContainer) {
       // tabs don't have advanced design options
-      if (options.tag !== 'tabsWithSlide' && options.tag !== 'tab') {
-        designOptionEvent = 'designOptionsAdvanced'
+      if (env('CLASSIC_TABS')) {
+        const isTabsWithSlide = options.tag !== 'tabsWithSlide' && options.tag !== 'tab'
+        const isClassicTabs = options.tag !== 'classicTabs' && options.tag !== 'classicTab'
+        if (isTabsWithSlide || isClassicTabs) {
+          designOptionEvent = 'designOptionsAdvanced'
+        }
+      } else {
+        if (options.tag !== 'tabsWithSlide' && options.tag !== 'tab') {
+          designOptionEvent = 'designOptionsAdvanced'
+        }
       }
       let label = addElementText
       let addElementTag = ''
@@ -544,10 +552,18 @@ export default class ControlsHandler {
   getElementColorIndex (vcElement) {
     let colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
-      let colContainer = vcElement.containerFor().indexOf('Column') > -1
-      let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
+      if (env('CLASSIC_TABS')) {
+        let colContainer = vcElement.containerFor().indexOf('Column') > -1
+        let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
+        let classicTabContainer = vcElement.containerFor().indexOf('Classic Tab') > -1
 
-      colorIndex = colContainer || tabContainer ? 0 : 1
+        colorIndex = colContainer || tabContainer || classicTabContainer ? 0 : 1
+      } else {
+        let colContainer = vcElement.containerFor().indexOf('Column') > -1
+        let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
+
+        colorIndex = colContainer || tabContainer ? 0 : 1
+      }
     }
     return colorIndex
   }
