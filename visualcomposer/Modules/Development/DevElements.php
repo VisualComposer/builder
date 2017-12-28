@@ -2150,6 +2150,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Image hover-box with inner outline border and custom title appearance on hover.',
                     ],
                 ],
+                'iconHoverBox' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/iconHoverBox/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/iconHoverBox/iconHoverBox/'),
+                    'elementRealPath' => vcapp()->path('devElements/iconHoverBox/iconHoverBox/'),
+                    'assetsPath' => $urlHelper->to('devElements/iconHoverBox/iconHoverBox/public/'),
+                    'settings' => [
+                        'name' => 'Icon Hover Box',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/iconHoverBox/iconHoverBox/public/icon-hover-box-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/iconHoverBox/iconHoverBox/public/icon-hover-box-preview.png'
+                        ),
+                        'metaDescription' => 'Hover box with icon and overlay display as hover effect for portfolio items and services.',
+                    ],
+                ],
                 'classicTabs' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/classicTabs/public/dist/element.bundle.js'
