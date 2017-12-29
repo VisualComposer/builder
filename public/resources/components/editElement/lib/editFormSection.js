@@ -10,7 +10,6 @@ export default class EditFormSection extends React.Component {
 
   section = null
   sectionHeader = null
-  timeout = null
 
   constructor (props) {
     super(props)
@@ -24,7 +23,9 @@ export default class EditFormSection extends React.Component {
 
   componentDidMount () {
     if (this.props.tab.index === this.props.activeTabIndex) {
-      this.checkSectionPosition()
+      window.setTimeout(() => {
+        this.checkSectionPosition()
+      }, 0)
     }
 
     this.props.setFieldMount(this.props.tab.fieldKey, {
@@ -35,7 +36,9 @@ export default class EditFormSection extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    this.checkSectionPosition(prevState)
+    window.setTimeout(() => {
+      this.checkSectionPosition(prevState)
+    }, 0)
   }
 
   componentWillUnmount () {
@@ -51,17 +54,10 @@ export default class EditFormSection extends React.Component {
       // will scroll to top
       let scrollbar = this.props.sectionContentScrollbar
       if (scrollbar) {
-        if (this.timeout) {
-          window.clearTimeout(this.timeout)
-          this.timeout = null
-        }
-        this.timeout = window.setTimeout(() => {
-          const headerRect = this.sectionHeader.getBoundingClientRect()
-          const headerOffset = this.sectionHeader.offsetTop + headerRect.height
-          const offset = headerOffset - headerRect.height
-          scrollbar.scrollTop(offset)
-          this.timeout = null
-        }, 10)
+        const headerRect = this.sectionHeader.getBoundingClientRect()
+        const headerOffset = this.sectionHeader.offsetTop + headerRect.height
+        const offset = headerOffset - headerRect.height
+        scrollbar.scrollTop(offset)
       }
     }
   }
