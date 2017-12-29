@@ -1,4 +1,4 @@
-import {addStorage, getStorage, getService} from 'vc-cake'
+import {addStorage, getStorage, getService, env} from 'vc-cake'
 import {rebuildRawLayout, isElementOneRelation, addRowColumnBackground} from './lib/tools'
 
 addStorage('elements', (storage) => {
@@ -84,6 +84,18 @@ addStorage('elements', (storage) => {
         createdElements.push(tabElement1.id)
       }
     }
+    if (env('CLASSIC_TABS')) {
+      if (wrap && cookElement.get('tag') === 'classicTabs' && !elementData.skipInitialExtraElements) {
+        let tabData = cook.get({ tag: 'classicTab', parent: data.id })
+        let tabData1 = cook.get({ tag: 'classicTab', parent: data.id })
+        if (tabData) {
+          let tabElement = documentManager.create(tabData.toJS())
+          let tabElement1 = documentManager.create(tabData1.toJS())
+          createdElements.push(tabElement.id)
+          createdElements.push(tabElement1.id)
+        }
+      }
+    }
     if (wrap && cookElement.get('tag') === 'section') {
       let rowData = cook.get({ tag: 'row', parent: data.id })
       let rowElement
@@ -102,7 +114,7 @@ addStorage('elements', (storage) => {
     }
     if (data.tag === 'column') {
       let rowElement = documentManager.get(data.parent)
-      rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size }, documentManager)
+      rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size, disableStacking: rowElement.layout.disableStacking }, documentManager)
       storage.trigger('update', rowElement.id, rowElement, '', options)
     }
     if (data.tag === 'row') {
@@ -121,7 +133,7 @@ addStorage('elements', (storage) => {
   })
   storage.on('update', (id, element, source = '', options = {}) => {
     if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
-      rebuildRawLayout(id, { layout: element.layout.layoutData }, documentManager)
+      rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking }, documentManager)
       element.layout.layoutData = undefined
     }
     documentManager.update(id, element)
@@ -152,7 +164,7 @@ addStorage('elements', (storage) => {
       parent = parent.parent ? documentManager.get(parent.parent) : false
     } else if (element.tag === 'column') {
       let rowElement = documentManager.get(parent.id)
-      rebuildRawLayout(rowElement.id, { action: 'columnRemove', size: element.size }, documentManager)
+      rebuildRawLayout(rowElement.id, { action: 'columnRemove', size: element.size, disableStacking: rowElement.layout.disableStacking }, documentManager)
       addRowColumnBackground(id, element, documentManager)
       storage.trigger('update', rowElement.id, documentManager.get(parent.id))
     }
@@ -168,7 +180,7 @@ addStorage('elements', (storage) => {
     let dolly = documentManager.clone(id)
     if (dolly.tag === 'column') {
       let rowElement = documentManager.get(dolly.parent)
-      rebuildRawLayout(rowElement.id, { action: 'columnClone' }, documentManager)
+      rebuildRawLayout(rowElement.id, { action: 'columnClone', disableStacking: rowElement.layout.disableStacking }, documentManager)
       storage.trigger('update', rowElement.id, rowElement)
     }
     if (dolly.parent) {
@@ -191,12 +203,14 @@ addStorage('elements', (storage) => {
     }
     if (element.tag === 'column') {
       // rebuild previous column
-      rebuildRawLayout(element.parent, {}, documentManager)
+      let rowElement = documentManager.get(element.parent)
+      rebuildRawLayout(element.parent, { disableStacking: rowElement.layout.disableStacking }, documentManager)
       addRowColumnBackground(element.id, element, documentManager)
       // rebuild next column
       let newElement = documentManager.get(id)
+      let newRowElement = documentManager.get(newElement.parent)
       addRowColumnBackground(newElement.id, newElement, documentManager)
-      rebuildRawLayout(newElement.parent, {}, documentManager)
+      rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout.disableStacking }, documentManager)
     }
     storage.state('document').set(documentManager.children(false))
     updateTimeMachine()

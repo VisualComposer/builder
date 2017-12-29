@@ -60,13 +60,13 @@ class HubCategories extends Container implements Module
                 ],
                 'Tabs' => [
                     'title' => 'Tabs',
-                    'elements' => ['tabsWithSlide'],
+                    'elements' => ['tabsWithSlide', 'classicTabs'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
                 ],
                 'Tab' => [
                     'title' => 'Tab',
-                    'elements' => ['tab'],
+                    'elements' => ['tab', 'classicTab'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
                 ],
@@ -281,7 +281,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Hover Box' => [
                     'title' => 'Hover Box',
-                    'elements' => ['flipBox', 'hoverBox'],
+                    'elements' => ['flipBox', 'hoverBox', 'iconHoverBox'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Hover-Box.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Hover-Box.svg'),
                 ],

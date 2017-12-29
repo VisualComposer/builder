@@ -140,10 +140,11 @@ class ColumnResizer extends React.Component {
     // row first and last column position
     let firstInRow, lastInRow
     for (let i = 0; i < resizerRow.childNodes.length; i++) {
-      if (resizerRow.childNodes[ i ].classList.contains('vce-col--md-first')) {
+      let elementClasses = resizerRow.childNodes[ i ].classList
+      if (elementClasses.contains('vce-col--all-first') || elementClasses.contains('vce-col--md-first')) {
         firstInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
       }
-      if (resizerRow.childNodes[ i ].classList.contains('vce-col--md-last')) {
+      if (elementClasses.contains('vce-col--all-last') || elementClasses.contains('vce-col--md-last')) {
         lastInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
       }
       if (firstInRow && lastInRow) {
@@ -269,7 +270,7 @@ class ColumnResizer extends React.Component {
 
   createWrapBlockers () {
     let $resizer = this.resizerData.helper
-    let firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--md-first')
+    let firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--all-first') || this.getSibling($resizer, 'prev', 'vce-col--md-first')
     let blockElement = document.createElement('div')
     blockElement.className = 'vce-column-wrap-blocker'
 

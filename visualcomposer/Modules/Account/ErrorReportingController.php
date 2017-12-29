@@ -84,6 +84,9 @@ class ErrorReportingController extends Container implements Module
         $data['category'] = $optionsHelper->get('activation-category');
         $data['email'] = $optionsHelper->get('activation-email');
         $data['admin-email'] = get_option('admin_email');
+        $currentUser = wp_get_current_user();
+        // @codingStandardsIgnoreLine
+        $data['current-email'] = $currentUser->user_email;
         $data['agreement'] = $optionsHelper->get('activation-agreement');
         $data['siteAuthState'] = $optionsHelper->get('siteAuthState');
         $theme = wp_get_theme();
