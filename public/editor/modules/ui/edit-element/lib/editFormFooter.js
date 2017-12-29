@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 import {setData} from 'vc-cake'
+import PropTypes from 'prop-types'
 
 export default class EditFormFooter extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.object.isRequired
+    api: PropTypes.object.isRequired,
+    element: PropTypes.object.isRequired
   }
   state = {
     saving: false,

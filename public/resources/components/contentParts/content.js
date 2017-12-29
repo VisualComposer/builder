@@ -3,18 +3,19 @@ import classNames from 'classnames'
 import ReactDOM from 'react-dom'
 import { getStorage, env } from 'vc-cake'
 import Resizer from '../../resizer/resizer'
+import PropTypes from 'prop-types'
 
 const workspaceSettings = getStorage('workspace').state('settings')
 
 export default class Content extends React.Component {
   static propTypes = {
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
     ]),
-    content: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.bool
+    content: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
     ]).isRequired
   }
 

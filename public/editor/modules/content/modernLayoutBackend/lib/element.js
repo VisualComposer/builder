@@ -3,6 +3,7 @@ import React from 'react'
 import DefaultElement from './defaultElement'
 import ContentControls from '../../../../../resources/components/layoutHelpers/contentControls/component'
 import {isEqual} from 'lodash'
+import PropTypes from 'prop-types'
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
@@ -11,9 +12,9 @@ const assetsStorage = vcCake.getStorage('assetsBackend')
 
 export default class Element extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired,
-    layoutWidth: React.PropTypes.number.isRequired
+    element: PropTypes.object.isRequired,
+    api: PropTypes.object.isRequired,
+    layoutWidth: PropTypes.number.isRequired
   }
 
   // element (row/column) options to prevent applying of in the backend view

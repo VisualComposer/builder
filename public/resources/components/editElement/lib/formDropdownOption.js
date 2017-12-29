@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default class FormDropdownOption extends React.Component {
   static propTypes = {
-    tab: React.PropTypes.object.isRequired,
-    setFieldMount: React.PropTypes.func.isRequired,
-    setFieldUnmount: React.PropTypes.func.isRequired
+    tab: PropTypes.object.isRequired,
+    setFieldMount: PropTypes.func.isRequired,
+    setFieldUnmount: PropTypes.func.isRequired
   }
   state = {
     dependenciesClasses: []

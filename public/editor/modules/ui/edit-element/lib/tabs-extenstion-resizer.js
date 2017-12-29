@@ -2,13 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import EditElementForm from './form'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 
 const Utils = vcCake.getService('utils')
 
 export default class EditFormResizeTabs extends React.Component {
   static propTypes = {
-    allTabs: React.PropTypes.array.isRequired,
-    updateTabs: React.PropTypes.func.isRequired
+    allTabs: PropTypes.array.isRequired,
+    updateTabs: PropTypes.func.isRequired
   }
   allTabs = this.props.allTabs
   freeSpace = null

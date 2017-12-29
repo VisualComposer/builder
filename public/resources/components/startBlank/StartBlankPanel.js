@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import BlankControl from './lib/blankControl'
+import PropTypes from 'prop-types'
 const templateManager = vcCake.getService('myTemplates')
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -9,7 +10,7 @@ const workspaceSettings = workspaceStorage.state('settings')
 
 export default class startBlank extends React.Component {
   static propTypes = {
-    unmountStartBlank: React.PropTypes.func.isRequired
+    unmountStartBlank: PropTypes.func.isRequired
   }
 
   rowContainer = null

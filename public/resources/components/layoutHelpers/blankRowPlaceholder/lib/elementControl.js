@@ -1,11 +1,12 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
-    control: React.PropTypes.object.isRequired,
-    handleClick: React.PropTypes.func.isRequired
+    control: PropTypes.object.isRequired,
+    handleClick: PropTypes.func.isRequired
   }
 
   constructor (props) {

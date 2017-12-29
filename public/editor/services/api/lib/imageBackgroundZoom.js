@@ -1,7 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOMServer from 'react-dom/server'
-const { Component, PropTypes } = React
+import PropTypes from 'prop-types'
+const { Component } = React
 export default class ImageBackgroundZoom extends Component {
   static propTypes = {
     id: PropTypes.string,

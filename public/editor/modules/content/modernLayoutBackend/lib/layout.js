@@ -2,6 +2,7 @@ import React from 'react'
 import { getStorage } from 'vc-cake'
 import Element from './element'
 import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpers/blankRowPlaceholder/component'
+import PropTypes from 'prop-types'
 
 const elementsStorage = getStorage('elements')
 const wordpressBackendDataStorage = getStorage('wordpressData')
@@ -10,7 +11,7 @@ const workspaceStorage = getStorage('workspace')
 
 export default class Layout extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired
+    api: PropTypes.object.isRequired
   }
   loaded = false
   constructor (props) {

@@ -2,11 +2,12 @@ import React from 'react'
 import ScriptControl from './control'
 import ScriptEditor from './editor'
 import { setData, getStorage } from 'vc-cake'
+import PropTypes from 'prop-types'
 const settingsStorage = getStorage('settings')
 
 export default class CustomJavascript extends React.Component {
   static propTypes = {
-    scriptData: React.PropTypes.array
+    scriptData: PropTypes.array
   }
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static defaultProps = {

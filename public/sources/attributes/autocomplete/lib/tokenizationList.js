@@ -1,5 +1,6 @@
 /* eslint react/jsx-no-bind: "off" */
 import React from 'react'
+import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import _ from 'lodash'
@@ -12,8 +13,8 @@ import Token from './token'
 export default class TokenizationList extends React.Component {
 
   static propTypes = {
-    validator: React.PropTypes.func.isRequired,
-    validation: React.PropTypes.bool.isRequired
+    validator: PropTypes.func.isRequired,
+    validation: PropTypes.bool.isRequired
   }
 
   stayEditing = false

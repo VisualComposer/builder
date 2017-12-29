@@ -2,11 +2,12 @@ import React from 'react'
 import StyleControl from './control'
 import StyleEditor from './editor'
 import {setData, getStorage} from 'vc-cake'
+import PropTypes from 'prop-types'
 const settingsStorage = getStorage('settings')
 
 export default class CustomStyles extends React.Component {
   static propTypes = {
-    styleData: React.PropTypes.array
+    styleData: PropTypes.array
   }
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static defaultProps = {

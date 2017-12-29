@@ -1,6 +1,7 @@
 import React from 'react'
 import AttachImageItem from './attachImageItem'
 import {SortableElement, SortableHandle} from 'react-sortable-hoc'
+import PropTypes from 'prop-types'
 
 const SortableHandler = SortableHandle(({ title }) => {
   return (
@@ -18,8 +19,8 @@ const SortableItem = SortableElement((props) => {
 
 export default class AttachImageList extends React.Component {
   static propTypes = {
-    value: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object, React.PropTypes.array ]).isRequired,
-    fieldKey: React.PropTypes.string.isRequired
+    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.object, PropTypes.array ]).isRequired,
+    fieldKey: PropTypes.string.isRequired
   }
 
   constructor (props) {

@@ -1,5 +1,6 @@
 import React from 'react'
-const { Component, PropTypes } = React
+import PropTypes from 'prop-types'
+const { Component } = React
 const shapes = require('./shapes-new')
 
 export default class DividerShape extends Component {

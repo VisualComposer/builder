@@ -4,6 +4,7 @@ import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import lodash from 'lodash'
+import PropTypes from 'prop-types'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
@@ -12,9 +13,9 @@ const workspaceSettings = getStorage('workspace').state('settings')
 
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
-    scrollValue: React.PropTypes.any,
-    contentStartId: React.PropTypes.string,
-    contentId: React.PropTypes.string
+    scrollValue: PropTypes.any,
+    contentStartId: PropTypes.string,
+    contentId: PropTypes.string
   }
 
   layoutContainer = null

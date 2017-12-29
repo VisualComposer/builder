@@ -15,7 +15,7 @@ class RequirementsTest extends WP_UnitTestCase
 
         $this->assertTrue(version_compare(VCV_REQUIRED_BLOG_VERSION, '4.0', '>'));
         $this->assertTrue(version_compare(VCV_REQUIRED_BLOG_VERSION, '4.0.9', '>'));
-        $this->assertFalse(version_compare(VCV_REQUIRED_BLOG_VERSION, '4.1', '>'));
+        $this->assertTrue(version_compare(VCV_REQUIRED_BLOG_VERSION, '4.1', '>'));
         $this->assertFalse(version_compare(VCV_REQUIRED_BLOG_VERSION, '4.5', '>'));
         $requirements = new VcvCoreRequirements();
         $this->assertTrue($requirements->coreChecks());

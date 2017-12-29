@@ -1,10 +1,11 @@
 import React from 'react'
 import EditForm from './editForm'
+import PropTypes from 'prop-types'
 
 export default class FormWrapper extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    activeTabId: React.PropTypes.string
+    element: PropTypes.object.isRequired,
+    activeTabId: PropTypes.string
   }
   state = {
     activeTabIndex: 0
@@ -12,9 +13,9 @@ export default class FormWrapper extends React.Component {
   allTabs = []
   componentWillMount () {
     this.allTabs = this.updateTabs(this.props)
-    this.state = {
+    this.setState({
       activeTabIndex: this.getActiveTabIndex(this.props.activeTabId)
-    }
+    })
   }
   getActiveTabIndex (activeTabKey) {
     let activeTab = this.allTabs.findIndex((tab) => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import ElementControl from './lib/elementControl'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 
 const cook = vcCake.getService('cook')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -8,8 +9,8 @@ const elementsStorage = vcCake.getStorage('elements')
 
 export default class BlankRowPlaceholder extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    controlsData: React.PropTypes.array
+    api: PropTypes.object.isRequired,
+    controlsData: PropTypes.array
   }
 
   static localizations = window.VCV_I18N && window.VCV_I18N()

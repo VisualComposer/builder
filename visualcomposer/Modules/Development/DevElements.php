@@ -2149,6 +2149,57 @@ class DevElements extends Container implements Module
                         ),
                         'metaDescription' => 'Image hover-box with inner outline border and custom title appearance on hover.',
                     ],
+                ],
+                'iconHoverBox' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/iconHoverBox/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/iconHoverBox/iconHoverBox/'),
+                    'elementRealPath' => vcapp()->path('devElements/iconHoverBox/iconHoverBox/'),
+                    'assetsPath' => $urlHelper->to('devElements/iconHoverBox/iconHoverBox/public/'),
+                    'settings' => [
+                        'name' => 'Icon Hover Box',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/iconHoverBox/iconHoverBox/public/icon-hover-box-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/iconHoverBox/iconHoverBox/public/icon-hover-box-preview.png'
+                        ),
+                        'metaDescription' => 'Hover box with icon and overlay display as hover effect for portfolio items and services.',
+                    ],
+                ],
+                'classicTabs' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/classicTabs/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/classicTabs/classicTabs/'),
+                    'elementRealPath' => vcapp()->path('devElements/classicTabs/classicTabs/'),
+                    'assetsPath' => $urlHelper->to('devElements/classicTabs/classicTabs/public/'),
+                    'settings' => [
+                        'name' => 'Classic Tabs',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/classicTabs/classicTabs/public/classic-tabs-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/classicTabs/classicTabs/public/classic-tabs-preview.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'A simple classic tabs element to divide your content into logic problems (ex. product description and technical specification).',
+                    ],
+                ],
+                'classicTab' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/classicTab/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/classicTab/classicTab/'),
+                    'elementRealPath' => vcapp()->path('devElements/classicTab/classicTab/'),
+                    'assetsPath' => $urlHelper->to('devElements/classicTab/classicTab/public/'),
+                    'settings' => [
+                        'name' => 'Tab',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
                 ]
             ]
         );

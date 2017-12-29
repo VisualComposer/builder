@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 import 'brace'
 import AceEditor from 'react-ace'
@@ -7,13 +8,13 @@ import 'brace/mode/javascript'
 import 'brace/theme/github'
 export default class ScriptEditor extends React.Component {
   static propTypes = {
-    index: React.PropTypes.number.isRequired,
-    name: React.PropTypes.string.isRequired,
-    editorLabel: React.PropTypes.string,
-    activeIndex: React.PropTypes.number,
-    aceId: React.PropTypes.string,
-    value: React.PropTypes.string,
-    updater: React.PropTypes.func
+    index: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    editorLabel: PropTypes.string,
+    activeIndex: PropTypes.number,
+    aceId: PropTypes.string,
+    value: PropTypes.string,
+    updater: PropTypes.func
   }
   constructor (props) {
     super(props)

@@ -10,27 +10,28 @@ import TreeViewLayout from '../../../../resources/components/treeView/treeViewLa
 import SettingsPanel from '../../../../resources/components/settings/settingsPanel'
 import EditElementPanel from '../../../../resources/components/editElement/editElementPanel'
 import {getService, env} from 'vc-cake'
+import PropTypes from 'prop-types'
 
 const cook = getService('cook')
 
 export default class PanelsContainer extends React.Component {
   static propTypes = {
-    start: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node
+    start: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
     ]),
-    end: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node
+    end: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
     ]),
-    content: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node
+    content: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
     ]),
-    settings: React.PropTypes.object,
-    layoutWidth: React.PropTypes.number,
-    contentStartId: React.PropTypes.string,
-    contentId: React.PropTypes.string
+    settings: PropTypes.object,
+    layoutWidth: PropTypes.number,
+    contentStartId: PropTypes.string,
+    contentId: PropTypes.string
 
   }
 

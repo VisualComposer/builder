@@ -1,9 +1,10 @@
 import React from 'react'
 import { env } from 'vc-cake'
+import PropTypes from 'prop-types'
 
 export default class Logo extends React.Component {
   static propTypes = {
-    editor: React.PropTypes.string
+    editor: PropTypes.string
   }
 
   render () {

@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import Helper from '../../../dnd/helper'
 import DOMElement from '../../../dnd/domElement'
 import MobileDetect from 'mobile-detect'
+import PropTypes from 'prop-types'
 
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -13,10 +14,10 @@ const cook = vcCake.getService('cook')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
-    tag: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    element: React.PropTypes.object.isRequired,
-    workspace: React.PropTypes.object
+    tag: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    element: PropTypes.object.isRequired,
+    workspace: PropTypes.object
   }
 
   helper = null

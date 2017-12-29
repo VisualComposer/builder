@@ -3,11 +3,12 @@ import classNames from 'classnames'
 import EditFormHeaderTabs from './form-header-tabs'
 import EditFormFooter from './editFormFooter'
 import EditFormContent from './form-content'
+import PropTypes from 'prop-types'
 
 export default class EditForm extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.object.isRequired
+    api: PropTypes.object.isRequired,
+    element: PropTypes.object.isRequired
   }
 
   render () {

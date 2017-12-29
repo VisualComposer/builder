@@ -1,7 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import DividerShape from './dividerShape'
-const { Component, PropTypes } = React
+import PropTypes from 'prop-types'
+const { Component } = React
 
 export default class Divider extends Component {
   static propTypes = {

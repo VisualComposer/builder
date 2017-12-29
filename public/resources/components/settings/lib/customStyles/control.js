@@ -1,12 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default class StyleControl extends React.Component {
   static propTypes = {
-    changeActive: React.PropTypes.func,
-    index: React.PropTypes.number.isRequired,
-    title: React.PropTypes.string,
-    active: React.PropTypes.bool
+    changeActive: PropTypes.func,
+    index: PropTypes.number.isRequired,
+    title: PropTypes.string,
+    active: PropTypes.bool
   }
 
   constructor (props) {

@@ -1,7 +1,8 @@
 import React from 'react'
 import { env } from 'vc-cake'
 import classNames from 'classnames'
-const { Component, PropTypes } = React
+import PropTypes from 'prop-types'
+const { Component } = React
 export default class ParallaxBackground extends Component {
   static propTypes = {
     id: PropTypes.string,

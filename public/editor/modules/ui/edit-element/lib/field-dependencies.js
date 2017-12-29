@@ -1,13 +1,14 @@
 import React from 'react'
 import classNames from 'classnames'
 import Field from './field'
+import PropTypes from 'prop-types'
 
 export default class FieldDependencyManager extends React.Component {
   static propTypes = {
-    fieldKey: React.PropTypes.string.isRequired,
-    updater: React.PropTypes.func.isRequired,
-    setFieldMount: React.PropTypes.func.isRequired,
-    setFieldUnmount: React.PropTypes.func.isRequired
+    fieldKey: PropTypes.string.isRequired,
+    updater: PropTypes.func.isRequired,
+    setFieldMount: PropTypes.func.isRequired,
+    setFieldUnmount: PropTypes.func.isRequired
   }
   state = {
     dependenciesClasses: []

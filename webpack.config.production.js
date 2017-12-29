@@ -2,6 +2,7 @@ let path = require('path')
 let Collector = require('./tools/webpack-collector')
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let webpack = require('webpack')
+let VirtualModulePlugin = require('virtual-module-webpack-plugin')
 const webpackConfig = require('./webpack.config')
 delete webpackConfig.devtool
 module.exports = Object.assign(webpackConfig, {
@@ -16,7 +17,9 @@ module.exports = Object.assign(webpackConfig, {
     vendor: [
       'jquery',
       'react',
+      './oldreact.js',
       'react-dom',
+      'create-react-class',
       'classnames',
       'lodash',
       'vc-cake',
@@ -52,6 +55,10 @@ module.exports = Object.assign(webpackConfig, {
     new ExtractTextPlugin('[name].bundle.css'),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/react/react.js',
+      contents: `module.exports = require('react')`
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({

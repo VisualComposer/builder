@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default class UrlDropdownInput extends React.Component {
   static propTypes = {
-    value: React.PropTypes.string,
-    updater: React.PropTypes.func.isRequired,
-    fieldKey: React.PropTypes.string.isRequired
+    value: PropTypes.string,
+    updater: PropTypes.func.isRequired,
+    fieldKey: PropTypes.string.isRequired
   }
   static VALUES = [
     'http://',

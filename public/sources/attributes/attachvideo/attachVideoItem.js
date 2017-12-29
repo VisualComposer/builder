@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 class AttachImageItem extends React.Component {
   static displayName = 'vcv-ui-form-sortable-attach-image-item-inner'
@@ -46,8 +47,8 @@ class AttachImageItem extends React.Component {
 }
 
 AttachImageItem.propTypes = {
-  childProps: React.PropTypes.object.isRequired,
-  className: React.PropTypes.string
+  childProps: PropTypes.object.isRequired,
+  className: PropTypes.string
 }
 
 export default AttachImageItem

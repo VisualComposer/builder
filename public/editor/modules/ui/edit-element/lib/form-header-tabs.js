@@ -4,16 +4,17 @@ import classNames from 'classnames'
 import lodash from 'lodash'
 import TabDependencies from './tab-dependencies'
 import FormDropdown from './form-dropdown'
+import PropTypes from 'prop-types'
 
 export default class EditFormTabsOutput extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    allTabs: React.PropTypes.array.isRequired,
-    activeTabIndex: React.PropTypes.number.isRequired,
-    onTabsMount: React.PropTypes.func.isRequired,
-    onTabsUnmount: React.PropTypes.func.isRequired,
-    setFieldMount: React.PropTypes.func.isRequired,
-    setFieldUnmount: React.PropTypes.func.isRequired
+    element: PropTypes.object.isRequired,
+    allTabs: PropTypes.array.isRequired,
+    activeTabIndex: PropTypes.number.isRequired,
+    onTabsMount: PropTypes.func.isRequired,
+    onTabsUnmount: PropTypes.func.isRequired,
+    setFieldMount: PropTypes.func.isRequired,
+    setFieldUnmount: PropTypes.func.isRequired
   }
 
   componentDidMount () {

@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import EditFormContent from './editFormContent'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 
 const hubCategories = vcCake.getService('hubCategories')
 const elementsStorage = vcCake.getStorage('elements')
@@ -9,7 +10,7 @@ const cook = vcCake.getService('cook')
 
 export default class EditForm extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired
+    element: PropTypes.object.isRequired
   }
 
   constructor (props) {

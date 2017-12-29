@@ -2,6 +2,7 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
+import PropTypes from 'prop-types'
 
 import { default as elementSettings } from './element-settings'
 import { default as elementComponent } from './element-component'
@@ -22,7 +23,7 @@ let hubElementService = () => {
 
 export default class CookElement {
   static propTypes = {
-    tag: React.PropTypes.string.isRequired
+    tag: PropTypes.string.isRequired
   }
 
   constructor (data) {

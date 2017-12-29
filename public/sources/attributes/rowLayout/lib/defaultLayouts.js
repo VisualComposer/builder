@@ -1,12 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
 
 export default class DefaultLayouts extends React.Component {
   static propTypes = {
-    layouts: React.PropTypes.array.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.array
+    layouts: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.array
   }
   findEqualDefaultProps (layout) {
     return this.props.layouts.findIndex((defaultLayout) => {

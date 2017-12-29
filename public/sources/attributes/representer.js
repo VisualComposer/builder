@@ -1,12 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class Representer extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    fieldKey: React.PropTypes.string.isRequired,
-    value: React.PropTypes.any.isRequired,
-    defaultValue: React.PropTypes.any,
-    options: React.PropTypes.any
+    api: PropTypes.object.isRequired,
+    fieldKey: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
+    defaultValue: PropTypes.any,
+    options: PropTypes.any
   }
 
   constructor (props) {

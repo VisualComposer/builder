@@ -2,21 +2,22 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 export default class TemplateControl extends React.Component {
   static propTypes = {
-    data: React.PropTypes.object,
-    id: React.PropTypes.string,
-    name: React.PropTypes.string.isRequired,
-    applyTemplate: React.PropTypes.func.isRequired,
-    removeTemplate: React.PropTypes.func.isRequired,
-    spinner: React.PropTypes.bool,
-    type: React.PropTypes.string,
-    description: React.PropTypes.string,
-    preview: React.PropTypes.string,
-    thumbnail: React.PropTypes.string
+    data: PropTypes.object,
+    id: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    applyTemplate: PropTypes.func.isRequired,
+    removeTemplate: PropTypes.func.isRequired,
+    spinner: PropTypes.bool,
+    type: PropTypes.string,
+    description: PropTypes.string,
+    preview: PropTypes.string,
+    thumbnail: PropTypes.string
   }
 
   constructor (props) {

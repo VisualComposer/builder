@@ -1,10 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
+import PropTypes from 'prop-types'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
-    tab: React.PropTypes.object.isRequired
+    tab: PropTypes.object.isRequired
   }
 
   section = null
@@ -22,7 +23,9 @@ export default class EditFormSection extends React.Component {
 
   componentDidMount () {
     if (this.props.tab.index === this.props.activeTabIndex) {
-      this.checkSectionPosition()
+      window.setTimeout(() => {
+        this.checkSectionPosition()
+      }, 0)
     }
 
     this.props.setFieldMount(this.props.tab.fieldKey, {
@@ -33,7 +36,9 @@ export default class EditFormSection extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    this.checkSectionPosition(prevState)
+    window.setTimeout(() => {
+      this.checkSectionPosition(prevState)
+    }, 0)
   }
 
   componentWillUnmount () {
@@ -45,13 +50,14 @@ export default class EditFormSection extends React.Component {
    */
   checkSectionPosition (prevState) {
     const { isActive } = this.state
-    const headerRect = this.sectionHeader.getBoundingClientRect()
-    const headerOffset = this.sectionHeader.offsetTop + headerRect.height
     if (prevState && !prevState.isActive && isActive || this.props.tab.index === this.props.activeTabIndex) {
       // will scroll to top
       let scrollbar = this.props.sectionContentScrollbar
       if (scrollbar) {
-        scrollbar.scrollTop(headerOffset - headerRect.height)
+        const headerRect = this.sectionHeader.getBoundingClientRect()
+        const headerOffset = this.sectionHeader.offsetTop + headerRect.height
+        const offset = headerOffset - headerRect.height
+        scrollbar.scrollTop(offset)
       }
     }
   }

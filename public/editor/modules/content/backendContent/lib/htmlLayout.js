@@ -1,10 +1,11 @@
 import React from 'react'
 import Element from './element'
+import PropTypes from 'prop-types'
 
 export default class HtmlLayout extends React.Component {
   static propTypes = {
-    data: React.PropTypes.array.isRequired,
-    api: React.PropTypes.object.isRequired
+    data: PropTypes.array.isRequired,
+    api: PropTypes.object.isRequired
   }
 
   render () {

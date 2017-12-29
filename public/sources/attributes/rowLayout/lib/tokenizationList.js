@@ -1,5 +1,6 @@
 /* eslint react/jsx-no-bind: "off" */
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import _ from 'lodash'
 import Textarea from 'react-textarea-autosize'
@@ -11,11 +12,11 @@ import Token from './token'
 export default class TokenizationList extends React.Component {
 
   static propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.string.isRequired,
-    validator: React.PropTypes.func.isRequired,
-    layouts: React.PropTypes.array.isRequired,
-    suggestions: React.PropTypes.array.isRequired
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
+    validator: PropTypes.func.isRequired,
+    layouts: PropTypes.array.isRequired,
+    suggestions: PropTypes.array.isRequired
   }
 
   stayEditing = false

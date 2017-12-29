@@ -1,13 +1,14 @@
 import React from 'react'
 import Representer from './representer'
+import PropTypes from 'prop-types'
 
 export default class Attribute extends Representer {
   static propTypes = {
-    updater: React.PropTypes.func.isRequired,
-    fieldKey: React.PropTypes.string.isRequired,
-    value: React.PropTypes.any.isRequired,
-    defaultValue: React.PropTypes.any,
-    options: React.PropTypes.any
+    updater: PropTypes.func.isRequired,
+    fieldKey: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
+    defaultValue: PropTypes.any,
+    options: PropTypes.any
   }
 
   constructor (props) {

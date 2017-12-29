@@ -1,14 +1,15 @@
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default class CustomContentElementControl extends React.Component {
   static propTypes = {
-    title: React.PropTypes.string.isRequired,
-    classSuffix: React.PropTypes.string.isRequired,
-    description: React.PropTypes.string.isRequired,
-    setActive: React.PropTypes.func.isRequired,
-    unsetActive: React.PropTypes.func.isRequired,
-    handleClick: React.PropTypes.func
+    title: PropTypes.string.isRequired,
+    classSuffix: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    setActive: PropTypes.func.isRequired,
+    unsetActive: PropTypes.func.isRequired,
+    handleClick: PropTypes.func
   }
 
   constructor (props) {

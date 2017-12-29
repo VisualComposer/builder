@@ -1,9 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class NavbarContent extends React.Component {
   static propTypes = {
-    visibility: React.PropTypes.string,
-    name: React.PropTypes.string
+    visibility: PropTypes.string,
+    name: PropTypes.string
   }
   render () {
     return null

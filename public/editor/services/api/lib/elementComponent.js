@@ -11,8 +11,8 @@ import EmbedVideoBackground from './embedVideoBackground'
 import ColorGradientBackground from './colorGradientBackground'
 import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
-
-const { Component, PropTypes } = React
+import PropTypes from 'prop-types'
+const { Component } = React
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
 
 let dataProcessor = null

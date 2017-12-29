@@ -5,17 +5,18 @@ import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import FieldWrapper from './field-tabs'
 import Dropdown from '../dropdown/Component'
+import PropTypes from 'prop-types'
 const Cook = vcCake.getService('cook')
 const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class ElementAttribute extends Attribute {
   static propTypes = {
-    updater: React.PropTypes.func.isRequired,
-    // api: React.PropTypes.object.isRequired,
-    fieldKey: React.PropTypes.string.isRequired,
-    value: React.PropTypes.object.isRequired,
-    element: React.PropTypes.object.isRequired,
-    options: React.PropTypes.any
+    updater: PropTypes.func.isRequired,
+    // api: PropTypes.object.isRequired,
+    fieldKey: PropTypes.string.isRequired,
+    value: PropTypes.object.isRequired,
+    element: PropTypes.object.isRequired,
+    options: PropTypes.any
   }
 
   constructor (props) {

@@ -2,15 +2,16 @@ import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 
 export default class SearchTemplate extends React.Component {
   static propTypes = {
-    inputValue: React.PropTypes.string.isRequired,
-    changeSearchState: React.PropTypes.func.isRequired,
-    changeSearchInput: React.PropTypes.func.isRequired,
-    allCategories: React.PropTypes.array.isRequired,
-    index: React.PropTypes.any.isRequired,
-    changeActiveCategory: React.PropTypes.func.isRequired
+    inputValue: PropTypes.string.isRequired,
+    changeSearchState: PropTypes.func.isRequired,
+    changeSearchInput: PropTypes.func.isRequired,
+    allCategories: PropTypes.array.isRequired,
+    index: PropTypes.any.isRequired,
+    changeActiveCategory: PropTypes.func.isRequired
   }
   inputTimeout = 0
   dropdownTimeout = 0

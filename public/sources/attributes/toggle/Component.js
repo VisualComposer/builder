@@ -1,5 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
+import PropTypes from 'prop-types'
 
 class Toggle extends Attribute {
   handleChange (event) {
@@ -30,11 +31,11 @@ class Toggle extends Attribute {
 }
 
 Toggle.propTypes = {
-  value: React.PropTypes.oneOfType([
-    React.PropTypes.bool,
-    React.PropTypes.string
+  value: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
   ]).isRequired,
-  fieldKey: React.PropTypes.string.isRequired
+  fieldKey: PropTypes.string.isRequired
 }
 
 export default Toggle
