@@ -74,8 +74,8 @@ export default class WorkspaceCont extends React.Component {
         this.panel.style.height = (window.innerHeight - this.navbar.getBoundingClientRect().height) + 'px'
         break
       default:
-        this.panel.style.width = ''
-        this.panel.style.height = ''
+        // this.panel.style.width = ''
+        // this.panel.style.height = ''
     }
     // console.log(this.navbarPosition + ' w:' + this.panel.style.width + ' h:' + this.panel.style.height)
   }
