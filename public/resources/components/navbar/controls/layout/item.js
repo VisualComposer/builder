@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default class Item extends React.Component {
   static propTypes = {
-    device: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    index: React.PropTypes.number.isRequired
+    device: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired
   }
 
   handleClick = (index, e) => {

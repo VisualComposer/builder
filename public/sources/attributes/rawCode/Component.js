@@ -1,5 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
+import PropTypes from 'prop-types'
 
 import AceEditor from 'react-ace'
 import '../../../../node_modules/brace/mode/html'
@@ -8,9 +9,9 @@ import '../../../../node_modules/brace/theme/github'
 
 export default class RawCode extends Attribute {
   static propTypes = {
-    fieldKey: React.PropTypes.string.isRequired,
-    value: React.PropTypes.string.isRequired,
-    options: React.PropTypes.object.isRequired
+    fieldKey: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    options: PropTypes.object.isRequired
   }
   static defaultEditorOptions = {
     mode: 'html',

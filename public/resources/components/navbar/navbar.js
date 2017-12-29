@@ -6,19 +6,20 @@ import lodash from 'lodash'
 import {getRealSize} from './tools'
 import {Scrollbars} from 'react-custom-scrollbars'
 import MobileDetect from 'mobile-detect'
+import PropTypes from 'prop-types'
 const Utils = vcCake.getService('utils')
 const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')
 const positionState = vcCake.getStorage('workspace').state('navbarPosition')
 const wordpressBackendDataStorage = vcCake.getStorage('wordpressData')
 export default class Navbar extends React.Component {
   static propTypes = {
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
     ]),
-    locked: React.PropTypes.bool,
-    draggable: React.PropTypes.bool,
-    editor: React.PropTypes.string
+    locked: PropTypes.bool,
+    draggable: PropTypes.bool,
+    editor: PropTypes.string
   }
   constructor (props) {
     super(props)

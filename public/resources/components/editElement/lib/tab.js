@@ -1,13 +1,14 @@
 /* eslint react/jsx-no-bind:"off" */
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default class Tab extends React.Component {
   static propTypes = {
-    changeTab: React.PropTypes.func.isRequired,
-    data: React.PropTypes.object.isRequired,
-    index: React.PropTypes.number.isRequired,
-    isActive: React.PropTypes.bool.isRequired
+    changeTab: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired,
+    isActive: PropTypes.bool.isRequired
   }
 
   render () {

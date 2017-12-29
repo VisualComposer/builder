@@ -1,16 +1,17 @@
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default class ContentElementControl extends React.Component {
   static propTypes = {
-    tag: React.PropTypes.any,
-    title: React.PropTypes.string.isRequired,
-    icon: React.PropTypes.string.isRequired,
-    description: React.PropTypes.string.isRequired,
-    setActive: React.PropTypes.func.isRequired,
-    unsetActive: React.PropTypes.func.isRequired,
-    handleClick: React.PropTypes.func,
-    data: React.PropTypes.object.isRequired
+    tag: PropTypes.any,
+    title: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    setActive: PropTypes.func.isRequired,
+    unsetActive: PropTypes.func.isRequired,
+    handleClick: PropTypes.func,
+    data: PropTypes.object.isRequired
   }
   constructor (props) {
     super(props)

@@ -4,13 +4,14 @@ import PanelsContainer from './panelsContainer'
 import NavbarContainer from './navbarContainer'
 import Workspace from '../../../../resources/components/workspace'
 import {getStorage, env} from 'vc-cake'
+import PropTypes from 'prop-types'
 
 const workspace = getStorage('workspace')
 
 export default class WorkspaceCont extends React.Component {
   static propTypes = {
-    layout: React.PropTypes.object.isRequired,
-    layoutHeader: React.PropTypes.object.isRequired
+    layout: PropTypes.object.isRequired,
+    layoutHeader: PropTypes.object.isRequired
   }
 
   layoutBar = null

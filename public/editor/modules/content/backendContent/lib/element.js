@@ -3,6 +3,7 @@ import React from 'react'
 import ContentControls from '../../../../../resources/components/layoutHelpers/contentControls/component'
 import ContentEditableComponent from '../../../../../resources/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
+import PropTypes from 'prop-types'
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
@@ -10,8 +11,8 @@ const DocumentData = vcCake.getService('document')
 
 export default class Element extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired
+    element: PropTypes.object.isRequired,
+    api: PropTypes.object.isRequired
   }
   constructor (props) {
     super(props)

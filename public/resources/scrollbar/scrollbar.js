@@ -1,10 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import {Scrollbars} from 'react-custom-scrollbars'
+import PropTypes from 'prop-types'
 
 export default class Scrollbar extends React.Component {
   static propTypes = {
-    content: React.PropTypes.number
+    content: PropTypes.number
   }
 
   constructor (props) {

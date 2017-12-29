@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import {getService, getStorage} from 'vc-cake'
+import PropTypes from 'prop-types'
 
 // const categories = getService('categories')
 const hubCategoriesService = getService('hubCategories')
@@ -9,9 +10,9 @@ const elementsStorage = getStorage('elements')
 
 export default class DefaultElement extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired,
-    layoutWidth: React.PropTypes.number.isRequired
+    element: PropTypes.object.isRequired,
+    api: PropTypes.object.isRequired,
+    layoutWidth: PropTypes.number.isRequired
   }
 
   elementContainer = null

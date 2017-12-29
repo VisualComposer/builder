@@ -1,11 +1,12 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 import HtmlLayout from './htmlLayout'
+import PropTypes from 'prop-types'
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressBackendWorkspace = vcCake.getStorage('wordpressBackendWorkspace')
 export default class LayoutEditor extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired
+    api: PropTypes.object.isRequired
   }
 
   constructor (props) {

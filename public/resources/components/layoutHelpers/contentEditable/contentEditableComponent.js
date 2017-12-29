@@ -4,6 +4,7 @@ import MediumEditor from 'medium-editor'
 import vcCake from 'vc-cake'
 import $ from 'jquery'
 import striptags from 'striptags'
+import PropTypes from 'prop-types'
 
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
@@ -16,17 +17,17 @@ export default class ContentEditableComponent extends React.Component {
   static spinnerHTML = '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
 
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    id: React.PropTypes.string.isRequired,
-    field: React.PropTypes.string.isRequired,
-    fieldType: React.PropTypes.string.isRequired,
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node,
-      React.PropTypes.string
+    api: PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired,
+    field: PropTypes.string.isRequired,
+    fieldType: PropTypes.string.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+      PropTypes.string
     ]),
-    className: React.PropTypes.string,
-    options: React.PropTypes.object
+    className: PropTypes.string,
+    options: PropTypes.object
   }
 
   constructor (props) {

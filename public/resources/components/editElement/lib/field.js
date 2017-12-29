@@ -1,14 +1,15 @@
 import React from 'react'
 import {format} from 'util'
 import {getStorage} from 'vc-cake'
+import PropTypes from 'prop-types'
 
 const elementsStorage = getStorage('elements')
 
 export default class Field extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    fieldKey: React.PropTypes.string.isRequired,
-    updater: React.PropTypes.func.isRequired
+    element: PropTypes.object.isRequired,
+    fieldKey: PropTypes.string.isRequired,
+    updater: PropTypes.func.isRequired
   }
 
   constructor (props) {

@@ -1,6 +1,7 @@
 import React from 'react'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
 const documentManger = vcCake.getService('document')
@@ -9,8 +10,8 @@ const cook = vcCake.getService('cook')
 
 export default class ActivitiesManager extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    activeState: React.PropTypes.string
+    element: PropTypes.object.isRequired,
+    activeState: PropTypes.string
   }
   mount = {}
   stack = {}

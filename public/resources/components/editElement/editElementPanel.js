@@ -2,13 +2,14 @@ import React from 'react'
 import FormWrapper from './lib/FormWrapper'
 import ActivitiesManager from './lib/activitiesManager'
 import {getStorage, getService} from 'vc-cake'
+import PropTypes from 'prop-types'
 const elementsStorage = getStorage('elements')
 const cook = getService('cook')
 import lodash from 'lodash'
 export default class EditElementPanel extends ActivitiesManager {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    activeTabId: React.PropTypes.string
+    element: PropTypes.object.isRequired,
+    activeTabId: PropTypes.string
   }
 
   constructor (props) {

@@ -4,6 +4,7 @@ import ElementControl from './elementControl'
 import Scrollbar from '../../../scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
@@ -14,7 +15,7 @@ const cook = vcCake.getService('cook')
 
 export default class Categories extends React.Component {
   static propTypes = {
-    parent: React.PropTypes.object
+    parent: PropTypes.object
   }
 
   static allElements = []

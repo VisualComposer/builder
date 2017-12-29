@@ -1,10 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
+import PropTypes from 'prop-types'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
-    tab: React.PropTypes.object.isRequired
+    tab: PropTypes.object.isRequired
   }
 
   section = null

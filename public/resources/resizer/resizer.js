@@ -1,10 +1,11 @@
 import React from 'react'
 import $ from 'jquery'
 import lodash from 'lodash'
+import PropTypes from 'prop-types'
 
 class Resizer extends React.Component {
   static propTypes = {
-    params: React.PropTypes.object.isRequired
+    params: PropTypes.object.isRequired
   }
   state = {
     resizerOptions: lodash.defaults(this.props.params, {

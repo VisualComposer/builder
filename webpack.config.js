@@ -5,6 +5,7 @@ let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let autoprefixer = require('autoprefixer')
 let webpack = require('webpack')
 let StringReplacePlugin = require('string-replace-webpack-plugin')
+let VirtualModulePlugin = require('virtual-module-webpack-plugin')
 
 module.exports = {
   devtool: 'eval',
@@ -21,7 +22,9 @@ module.exports = {
     vendor: [
       'jquery',
       'react',
+      './oldreact.js',
       'react-dom',
+      'create-react-class',
       'classnames',
       'lodash',
       'vc-cake',
@@ -57,6 +60,10 @@ module.exports = {
     new ExtractTextPlugin('[name].bundle.css'),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/react/react.js',
+      contents: `module.exports = require('react')`
     }),
     new webpack.NamedModulesPlugin()
   ],
@@ -181,7 +188,7 @@ module.exports = {
             replacement: function (match, p1, offset, string) {
               return false
             }
-          }]
+          } ]
         })
       },
       {

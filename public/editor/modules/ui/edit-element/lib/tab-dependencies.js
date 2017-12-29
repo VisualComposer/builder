@@ -3,18 +3,19 @@ import classNames from 'classnames'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import Tab from './tab'
+import PropTypes from 'prop-types'
 
 const Utils = vcCake.getService('utils')
 
 export default class TabDependencyManager extends React.Component {
   static propTypes = {
-    element: React.PropTypes.shape({
-      get: React.PropTypes.func.isRequired
+    element: PropTypes.shape({
+      get: PropTypes.func.isRequired
     }).isRequired,
-    fieldKey: React.PropTypes.string.isRequired,
-    setFieldMount: React.PropTypes.func.isRequired,
-    setFieldUnmount: React.PropTypes.func.isRequired,
-    getContainer: React.PropTypes.func.isRequired
+    fieldKey: PropTypes.string.isRequired,
+    setFieldMount: PropTypes.func.isRequired,
+    setFieldUnmount: PropTypes.func.isRequired,
+    getContainer: PropTypes.func.isRequired
   }
   state = {
     dependenciesClasses: []

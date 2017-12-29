@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import VCVLogo from './vcvLogo'
 
 const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -17,10 +18,10 @@ const Errors = {
 
 export default class OopsScreen extends React.Component {
   static propTypes = {
-    error: React.PropTypes.string,
-    message: React.PropTypes.string,
-    buttonText: React.PropTypes.string,
-    buttonLink: React.PropTypes.string
+    error: PropTypes.string,
+    message: PropTypes.string,
+    buttonText: PropTypes.string,
+    buttonLink: PropTypes.string
   }
 
   constructor (props) {

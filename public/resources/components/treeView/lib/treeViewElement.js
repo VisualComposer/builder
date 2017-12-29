@@ -2,6 +2,7 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
+import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
@@ -14,14 +15,14 @@ const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
-    showOutlineCallback: React.PropTypes.func,
-    element: React.PropTypes.object.isRequired,
-    data: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.array ]),
-    level: React.PropTypes.number,
-    iframe: React.PropTypes.any,
-    onMountCallback: React.PropTypes.func,
-    onUnmountCallback: React.PropTypes.func,
-    scrollValue: React.PropTypes.any
+    showOutlineCallback: PropTypes.func,
+    element: PropTypes.object.isRequired,
+    data: PropTypes.oneOfType([ PropTypes.object, PropTypes.array ]),
+    level: PropTypes.number,
+    iframe: PropTypes.any,
+    onMountCallback: PropTypes.func,
+    onUnmountCallback: PropTypes.func,
+    scrollValue: PropTypes.any
   }
 
   static defaultProps = {

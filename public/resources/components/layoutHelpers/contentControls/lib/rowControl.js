@@ -1,12 +1,13 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 export default class RowControl extends React.Component {
   static propTypes = {
-    hideIcon: React.PropTypes.bool.isRequired
+    hideIcon: PropTypes.bool.isRequired
   }
 
   render () {

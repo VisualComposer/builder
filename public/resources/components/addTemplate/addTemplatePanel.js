@@ -4,6 +4,7 @@ import SearchTemplate from './lib/searchTemplate'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import TemplateControl from './lib/templateControl'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const myTemplatesService = vcCake.getService('myTemplates')
@@ -12,7 +13,7 @@ const elementsStorage = vcCake.getStorage('elements')
 const workspaceSettings = vcCake.getStorage('workspace').state('settings')
 export default class AddTemplatePanel extends React.Component {
   static propTypes = {
-    categories: React.PropTypes.array
+    categories: PropTypes.array
   }
 
   static localizations = window.VCV_I18N && window.VCV_I18N()

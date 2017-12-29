@@ -5,6 +5,7 @@ import ContentEditableComponent from '../../../../../resources/components/layout
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 import MobileDetect from 'mobile-detect'
 import { isEqual } from 'lodash'
+import PropTypes from 'prop-types'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -13,8 +14,8 @@ const DocumentData = vcCake.getService('document')
 
 export default class Element extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired
+    element: PropTypes.object.isRequired,
+    api: PropTypes.object.isRequired
   }
 
   constructor (props) {

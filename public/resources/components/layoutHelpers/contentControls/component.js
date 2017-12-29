@@ -2,13 +2,14 @@ import React from 'react'
 import RowControl from './lib/rowControl'
 import vcCake from 'vc-cake'
 import MobileDetect from 'mobile-detect'
+import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class ContentControls extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    id: React.PropTypes.string.isRequired
+    api: PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired
   }
 
   container = null

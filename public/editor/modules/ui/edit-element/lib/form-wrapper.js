@@ -1,11 +1,12 @@
 import React from 'react'
 import EditElementResizeTabs from './tabs-extenstion-resizer'
+import PropTypes from 'prop-types'
 
 export default class EditFormTabs extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.object.isRequired,
-    activeTabId: React.PropTypes.string
+    api: PropTypes.object.isRequired,
+    element: PropTypes.object.isRequired,
+    activeTabId: PropTypes.string
   }
   state = {
     activeTabIndex: 0

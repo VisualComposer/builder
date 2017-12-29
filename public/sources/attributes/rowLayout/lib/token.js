@@ -1,13 +1,14 @@
 /* eslint react/jsx-no-bind: "off" */
 import React from 'react'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 export default class Token extends React.Component {
   static propTypes = {
-    index: React.PropTypes.number.isRequired,
-    title: React.PropTypes.string.isRequired,
-    removeCallback: React.PropTypes.func.isRequired,
-    valid: React.PropTypes.bool
+    index: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    removeCallback: PropTypes.func.isRequired,
+    valid: PropTypes.bool
   }
   constructor (props) {
     super(props)

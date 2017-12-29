@@ -4,6 +4,7 @@ import lodash from 'lodash'
 import Url from '../url/Component'
 import AttachImageList from './attachImageList'
 import {SortableContainer, arrayMove} from 'react-sortable-hoc'
+import PropTypes from 'prop-types'
 
 const SortableList = SortableContainer((props) => {
   return (
@@ -13,8 +14,8 @@ const SortableList = SortableContainer((props) => {
 
 export default class AttachImage extends Attribute {
   static propTypes = {
-    value: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object, React.PropTypes.array ]).isRequired,
-    fieldKey: React.PropTypes.string.isRequired
+    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.object, PropTypes.array ]).isRequired,
+    fieldKey: PropTypes.string.isRequired
   }
 
   constructor (props) {

@@ -1,11 +1,12 @@
 import React from 'react'
 import {format} from 'util'
+import PropTypes from 'prop-types'
 
 export default class EditFromField extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    fieldKey: React.PropTypes.string.isRequired,
-    updater: React.PropTypes.func.isRequired
+    element: PropTypes.object.isRequired,
+    fieldKey: PropTypes.string.isRequired,
+    updater: PropTypes.func.isRequired
   }
 
   render () {

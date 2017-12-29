@@ -2,6 +2,7 @@ import React from 'react'
 import ClassNames from 'classnames'
 import {getStorage, onDataChange, ignoreDataChange, env} from 'vc-cake'
 import MobileDetect from 'mobile-detect'
+import PropTypes from 'prop-types'
 
 import Resizer from '../../resources/resizer/resizer'
 import Combokeys from 'combokeys'
@@ -13,14 +14,14 @@ const historyStorage = getStorage('history')
 
 export default class Workspace extends React.Component {
   static propTypes = {
-    contentStart: React.PropTypes.bool,
-    contentEnd: React.PropTypes.bool,
-    content: React.PropTypes.bool,
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node
+    contentStart: PropTypes.bool,
+    contentEnd: PropTypes.bool,
+    content: PropTypes.bool,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
     ]),
-    stickyBar: React.PropTypes.object
+    stickyBar: PropTypes.object
   }
 
   constructor (props) {

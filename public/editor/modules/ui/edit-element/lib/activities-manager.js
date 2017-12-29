@@ -1,14 +1,15 @@
 import React from 'react'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 
 const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
 export default class ActivitiesManager extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired,
-    activeState: React.PropTypes.string,
-    api: React.PropTypes.object.isRequired
+    element: PropTypes.object.isRequired,
+    activeState: PropTypes.string,
+    api: PropTypes.object.isRequired
   }
   mount = {}
   stack = {}

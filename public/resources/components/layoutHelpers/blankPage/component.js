@@ -3,14 +3,15 @@ import classNames from 'classnames'
 import ContentElementControl from './lib/contentElementControl'
 import CustomContentElementControl from './lib/customContentElementControl'
 import vcCake from 'vc-cake'
+import PropTypes from 'prop-types'
 const cook = vcCake.getService('cook')
 // const categories = vcCake.getService('categories')
 const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class BlankPage extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    controlsData: React.PropTypes.object
+    api: PropTypes.object.isRequired,
+    controlsData: PropTypes.object
   }
 
   static defaultProps = {
