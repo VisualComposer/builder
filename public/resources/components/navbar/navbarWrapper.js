@@ -1,4 +1,5 @@
 import React from 'react'
+import vcCake from 'vc-cake'
 export default class NavbarWrapper extends React.Component {
   state = {
     showGuideline: false,
@@ -83,6 +84,17 @@ export default class NavbarWrapper extends React.Component {
       }
       guidelineClasses = guidelineClasses.join(' ')
       draggingContent = (<div className={guidelineClasses} />)
+    }
+
+    if (vcCake.env('HUB_REDESIGN')) {
+      return (
+        <div ref={this.props.wrapperRef} className='vcv-layout-bar-header' id='vcv-editor-header'>
+          <div id='vc-navbar-container'>
+            {draggingContent}
+            {this.props.children}
+          </div>
+        </div>
+      )
     }
 
     return (

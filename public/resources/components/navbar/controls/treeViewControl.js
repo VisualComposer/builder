@@ -50,7 +50,9 @@ export default class TreeViewControl extends NavbarContent {
       }
     }
     if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceSettings.set({})
+      if (env('HUB_REDESIGN')) {
+        workspaceSettings.set({ action: 'treeView' })
+      }
       workspaceContentState.set(!this.state.isActive ? 'treeView' : false)
       return
     }

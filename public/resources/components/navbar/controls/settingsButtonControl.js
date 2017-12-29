@@ -10,6 +10,7 @@ const settingsStorage = getStorage('settings')
 const workspaceContentStartState = getStorage('workspace').state('contentStart')
 const workspaceContentEndState = workspaceStorage.state('contentEnd')
 const workspaceContentState = getStorage('workspace').state('content')
+const workspaceSettings = getStorage('workspace').state('settings')
 
 export default class SettingsButtonControl extends NavbarContent {
   constructor (props) {
@@ -93,6 +94,9 @@ export default class SettingsButtonControl extends NavbarContent {
     }
     if (env('NAVBAR_SINGLE_CONTENT')) {
       workspaceContentState.set(!this.state.isActive ? 'settings' : false)
+      if (env('HUB_REDESIGN')) {
+        workspaceSettings.set({ action: 'settings' })
+      }
       return
     }
     workspaceContentEndState.set(!this.state.isActive ? 'settings' : false)

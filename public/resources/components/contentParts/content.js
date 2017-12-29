@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import {getStorage} from 'vc-cake'
+import { getStorage, env } from 'vc-cake'
 import Resizer from '../../resizer/resizer'
 
 const workspaceSettings = getStorage('workspace').state('settings')
@@ -108,6 +108,8 @@ export default class Content extends React.Component {
       aligned = true
     }
 
+    let currentSettings = workspaceSettings.get()
+
     let contentClasses = classNames({
       'vcv-layout-bar-content-all': true,
       'vcv-ui-state--visible': !!children,
@@ -115,7 +117,8 @@ export default class Content extends React.Component {
       'vcv-media--sm': this.state.realWidth > 400,
       'vcv-media--md': this.state.realWidth > 800,
       'vcv-media--lg': this.state.realWidth > 1200,
-      'vcv-media--xl': this.state.realWidth > 1600
+      'vcv-media--xl': this.state.realWidth > 1600,
+      'vcv-ui-hide-resizers': env('HUB_REDESIGN') && currentSettings && currentSettings.action && currentSettings.action === 'addHub'
     })
 
     let closeBtnClasses = classNames({

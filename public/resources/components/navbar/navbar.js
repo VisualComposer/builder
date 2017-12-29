@@ -10,6 +10,8 @@ const Utils = vcCake.getService('utils')
 const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')
 const positionState = vcCake.getStorage('workspace').state('navbarPosition')
 const wordpressBackendDataStorage = vcCake.getStorage('wordpressData')
+const workspaceSettings = vcCake.getStorage('workspace').state('settings')
+
 export default class Navbar extends React.Component {
   static propTypes = {
     children: React.PropTypes.oneOfType([
@@ -179,7 +181,16 @@ export default class Navbar extends React.Component {
         break
       case 'left':
       case 'right':
-        manageLock(true)
+        if (vcCake.env('HUB_REDESIGN')) {
+          let currentSettings = workspaceSettings.get()
+          if (currentSettings && currentSettings.action && currentSettings.action === 'addHub') {
+            manageLock(false)
+          } else {
+            manageLock(true)
+          }
+        } else {
+          manageLock(true)
+        }
         break
     }
     let targetStyle = document.body.querySelector('.vcv-layout-bar').style
@@ -563,6 +574,9 @@ export default class Navbar extends React.Component {
       'vcv-ui-navbar-is-detached': !isDragging
     })
     this.updateWrapper()
+    if (vcCake.env('HUB_REDESIGN')) {
+      this.props.getNavbarPosition(this.state.navbarPosition)
+    }
     return (
       <div className={navbarContainerClasses}>
         <nav className='vcv-ui-navbar vcv-ui-navbar-hide-labels'>

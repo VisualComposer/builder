@@ -41,7 +41,26 @@ export default class NavbarContainer extends React.Component {
   }
 
   render () {
-    const {locked} = this.state
+    const { locked } = this.state
+    if (env('HUB_REDESIGN')) {
+      return <NavbarWrapper wrapperRef={this.props.wrapperRef}>
+        <Navbar locked={locked} draggable getNavbarPosition={this.props.getNavbarPosition}>
+          <GoPremiumControl visibility='hidden' />
+          <Logo visibility='pinned' editor='frontend' />
+          <PlusControl visibility='pinned' />
+          <AddTemplateControl />
+          <TreeViewControl visibility='pinned' />
+          <UndoRedoControl />
+          <LayoutControl visibility='pinned' />
+          <SettingsButtonControl />
+          {env('HUB_TEASER') ? <PlusTeaserControl /> : null}
+          <NavbarSeparator visibility='pinned' />
+          <WordPressPostSaveControl visibility='pinned' />
+          <WordPressAdminControl visibility='hidden' />
+        </Navbar>
+      </NavbarWrapper>
+    }
+
     return <NavbarWrapper>
       <Navbar locked={locked} draggable>
         <GoPremiumControl visibility='hidden' />
@@ -52,7 +71,7 @@ export default class NavbarContainer extends React.Component {
         <UndoRedoControl />
         <LayoutControl visibility='pinned' />
         <SettingsButtonControl />
-        { env('HUB_TEASER') ? <PlusTeaserControl /> : null }
+        {env('HUB_TEASER') ? <PlusTeaserControl /> : null}
         <NavbarSeparator visibility='pinned' />
         <WordPressPostSaveControl visibility='pinned' />
         <WordPressAdminControl visibility='hidden' />

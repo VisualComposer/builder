@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import TeaserElementControl from './teaserElementControl'
 import AddElementCategories from '../../addElement/lib/categories'
 import Scrollbar from '../../../scrollbar/scrollbar.js'
+import SearchElement from '../../addElement/lib/searchElement'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 
@@ -155,10 +156,45 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return elements ? elements.map((tag) => { return this.getElementControl(tag) }) : []
   }
 
+  getSearchProps () {
+    return {
+      allCategories: this.getAllCategories(),
+      index: this.state.activeCategoryIndex,
+      changeActive: this.changeActiveCategory,
+      changeTerm: this.changeSearchState,
+      changeInput: this.changeInput,
+      inputPlaceholder: 'elements and templates'
+    }
+  }
+
+  getSearchElement () {
+    let searchProps = this.getSearchProps()
+    return <SearchElement {...searchProps} />
+  }
+
+  setFilterType (value) {
+    let data = this.state
+    data.filterType = value
+    this.setState(data)
+  }
+
+  activeFilterButton (value) {
+    return 'vcv-ui-hub-control' + (value === this.state.filterType ? ' vcv-ui-state--active' : '')
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
     let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
+    if (vcCake.env('HUB_REDESIGN')) {
+      itemsOutput = itemsOutput.filter((item) => {
+        if (this.state.filterType === 'all') {
+          return true
+        } else {
+          return item.props.type === this.state.filterType
+        }
+      })
+    }
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
@@ -180,6 +216,32 @@ export default class TeaserAddElementCategories extends AddElementCategories {
           <p className='vcv-start-blank-helper'>{helperText}</p>
         </div>
       </div>)
+    }
+    if (vcCake.env('HUB_REDESIGN')) {
+      return (
+        <div className='vcv-ui-tree-content'>
+          {this.getSearchElement()}
+          <div className='vcv-ui-tree-content-section'>
+            <Scrollbar>
+              <div className={innerSectionClasses}>
+                <div className='vcv-ui-hub-control-container'>
+                  <button className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all')}>All</button>
+                  <button className={this.activeFilterButton('element')} onClick={() => this.setFilterType('element')}>Elements</button>
+                  <button className={this.activeFilterButton('template')} onClick={() => this.setFilterType('template')}>Templates</button>
+                </div>
+                <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
+                  <div className='vcv-ui-editor-plates'>
+                    <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+                      {this.getElementListContainer(itemsOutput)}
+                      {premium}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Scrollbar>
+          </div>
+        </div>
+      )
     }
     return (
       <div className='vcv-ui-tree-content'>

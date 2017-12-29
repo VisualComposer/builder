@@ -4,3 +4,40 @@
     cursor: default;
   }
 }
+
+.vcv-ui-hub-control-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 20px;
+}
+
+.vcv-ui-hub-control {
+  flex: 0 1 auto;
+  padding: 14px 24px;
+  background: #fff;
+  border: 1px solid #d0d0d0;
+  color: #6f747b;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.vcv-ui-hub-control:first-of-type {
+  border-radius: 3px 0 0 3px;
+}
+
+.vcv-ui-hub-control:last-of-type {
+  border-radius: 0 3px 3px 0;
+}
+
+.vcv-ui-hub-control:not(:last-of-type) {
+  border-right: none;
+}
+
+.vcv-ui-hub-control.vcv-ui-state--active, .vcv-ui-hub-control:hover {
+  background: #ddd;
+}
+
+.vcv-layout-dock .vcv-ui-hide-resizers .vcv-ui-resizer {
+  display: none;
+}

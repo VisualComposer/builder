@@ -110,6 +110,8 @@ class Localizations extends Container implements Helper
             'remove' => __('Remove', 'vcwb'),
             'move' => __('Move', 'vcwb'),
             'searchContentElements' => __('Search content elements', 'vcwb'),
+            'searchContentElementsAndTemplates' => __('Search content elements and templates', 'vcwb'),
+            'searchContentTemplates' => __('Search content templates', 'vcwb'),
             'templateAlreadyExists' => __(
                 'Template with this name already exist. Please specify another name.',
                 'vcwb'

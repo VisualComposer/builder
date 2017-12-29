@@ -28,6 +28,7 @@ export default class SearchElement extends React.Component {
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
     this.handleCategoryClick = this.handleCategoryClick.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
+    this.getPlaceholder = this.getPlaceholder.bind(this)
 
     this.mobileDetect = vcCake.env('MOBILE_DETECT') ? new MobileDetect(window.navigator.userAgent) : null
   }
@@ -131,10 +132,30 @@ export default class SearchElement extends React.Component {
     }, 400)
   }
 
+  getPlaceholder () {
+    let result = ''
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+
+    switch (this.props.inputPlaceholder) {
+      case 'elements':
+        result = localizations ? localizations.searchContentElements : 'Search content elements'
+        break
+      case 'elements and templates':
+        result = localizations ? localizations.searchContentElementsAndTemplates : 'Search content elements and templates'
+        break
+      case 'templates':
+        result = localizations ? localizations.searchContentTemplates : 'Search content templates'
+        break
+      default:
+        result = localizations ? localizations.searchContentElements : 'Search content elements'
+    }
+
+    return result
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const searchPlaceholder = localizations ? localizations.searchContentElements : 'Search content elements'
-
     let dropdownContainerClasses = classNames({
       'vcv-ui-editor-search-dropdown-container': true,
       'vcv-ui-editor-field-highlight': this.state.dropdown
@@ -144,6 +165,34 @@ export default class SearchElement extends React.Component {
       'vcv-ui-editor-field-highlight': this.state.input
     })
     let autoFocus = vcCake.env('MOBILE_DETECT') ? !this.mobileDetect.mobile() : true
+
+    if (vcCake.env('HUB_REDESIGN')) {
+      return <div className='vcv-ui-editor-search-container'>
+        <div
+          className={dropdownContainerClasses}
+          data-content={this.state.content}
+          onClick={this.handleCategoryClick}
+        >
+          {this.getCategorySelect()}
+        </div>
+        <div className={inputContainerClasses}>
+          <label className='vcv-ui-editor-search-icon-container' htmlFor='add-element-search'>
+            <i className='vcv-ui-icon vcv-ui-icon-search' />
+          </label>
+          <input
+            className='vcv-ui-form-input vcv-ui-editor-search-field'
+            id='add-element-search'
+            onChange={this.handleSearch}
+            onFocus={this.handleInputFocus}
+            type='text'
+            value={this.state.inputValue}
+            placeholder={this.getPlaceholder()}
+            autoFocus={autoFocus}
+            onKeyPress={this.handleKeyPress}
+          />
+        </div>
+      </div>
+    }
 
     return <div className='vcv-ui-editor-search-container'>
       <div
