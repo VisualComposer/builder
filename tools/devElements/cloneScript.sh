@@ -102,7 +102,9 @@ declare -a arr=(
 'basicMenu'
 'outlinePricingTable'
 'classicTab'
-'classicTabs'
+'classicTabs',
+'hoverBox',
+'iconHoverBox'
 )
 
 EXECDIR=`pwd`
