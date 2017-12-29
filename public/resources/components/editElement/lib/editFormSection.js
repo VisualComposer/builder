@@ -10,6 +10,7 @@ export default class EditFormSection extends React.Component {
 
   section = null
   sectionHeader = null
+  timeout = null
 
   constructor (props) {
     super(props)
@@ -46,13 +47,21 @@ export default class EditFormSection extends React.Component {
    */
   checkSectionPosition (prevState) {
     const { isActive } = this.state
-    const headerRect = this.sectionHeader.getBoundingClientRect()
-    const headerOffset = this.sectionHeader.offsetTop + headerRect.height
     if (prevState && !prevState.isActive && isActive || this.props.tab.index === this.props.activeTabIndex) {
       // will scroll to top
       let scrollbar = this.props.sectionContentScrollbar
       if (scrollbar) {
-        scrollbar.scrollTop(headerOffset - headerRect.height)
+        if (this.timeout) {
+          window.clearTimeout(this.timeout)
+          this.timeout = null
+        }
+        this.timeout = window.setTimeout(() => {
+          const headerRect = this.sectionHeader.getBoundingClientRect()
+          const headerOffset = this.sectionHeader.offsetTop + headerRect.height
+          const offset = headerOffset - headerRect.height
+          scrollbar.scrollTop(offset)
+          this.timeout = null
+        }, 10)
       }
     }
   }
