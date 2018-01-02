@@ -282,7 +282,7 @@ export default class TokenizationList extends React.Component {
       if (this.props.single && index > 0) {
         return false
       }
-      token = token.trim()
+      token = token && token.trim()
 
       if (token && token.length) {
         let title = token
