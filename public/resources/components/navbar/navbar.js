@@ -576,7 +576,9 @@ export default class Navbar extends React.Component {
     })
     this.updateWrapper()
     if (vcCake.env('HUB_REDESIGN')) {
-      this.props.getNavbarPosition(this.state.navbarPosition)
+      if (this.props.editor !== 'backend') {
+        this.props.getNavbarPosition(this.state.navbarPosition)
+      }
     }
     return (
       <div className={navbarContainerClasses}>
