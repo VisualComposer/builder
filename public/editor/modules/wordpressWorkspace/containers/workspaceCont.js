@@ -78,10 +78,12 @@ export default class WorkspaceCont extends React.Component {
       case 'left':
       case 'right':
         this.panel.style.minWidth = (window.innerWidth - this.navbar.getBoundingClientRect().width) + 'px'
+        this.panel.style.minHeight = ''
         break
       case 'top':
       case 'bottom':
         this.panel.style.minHeight = (window.innerHeight - this.navbar.getBoundingClientRect().height) + 'px'
+        this.panel.style.minWidth = ''
         break
       default:
         this.resetPanelSize()
