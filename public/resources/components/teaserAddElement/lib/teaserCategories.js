@@ -225,9 +225,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
             <Scrollbar>
               <div className={innerSectionClasses}>
                 <div className='vcv-ui-hub-control-container'>
-                  <button className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all')}>All</button>
-                  <button className={this.activeFilterButton('element')} onClick={() => this.setFilterType('element')}>Elements</button>
-                  <button className={this.activeFilterButton('template')} onClick={() => this.setFilterType('template')}>Templates</button>
+                  <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all')}>All</button>
+                  <button type='button' className={this.activeFilterButton('element')} onClick={() => this.setFilterType('element')}>Elements</button>
+                  <button type='button' className={this.activeFilterButton('template')} onClick={() => this.setFilterType('template')}>Templates</button>
                 </div>
                 <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                   <div className='vcv-ui-editor-plates'>
