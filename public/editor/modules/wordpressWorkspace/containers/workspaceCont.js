@@ -21,7 +21,9 @@ export default class WorkspaceCont extends React.Component {
     this.setContentStart = this.setContentStart.bind(this)
     this.setContentEnd = this.setContentEnd.bind(this)
     this.getNavbarPosition = this.getNavbarPosition.bind(this)
-    this.setPanelWidth = this.setPanelWidth.bind(this)
+    this.setPanelSize = this.setPanelSize.bind(this)
+    this.resetPanelSize = this.resetPanelSize.bind(this)
+    this.updatePanel = this.updatePanel.bind(this)
   }
   componentDidMount () {
     if (env('NAVBAR_SINGLE_CONTENT')) {
@@ -59,39 +61,49 @@ export default class WorkspaceCont extends React.Component {
   }
 
   getNavbarPosition (position) {
+    this.positionChanged = this.navbarPosition !== position
     this.navbarPosition = position
-    this.panel && this.navbar && this.setPanelWidth()
+    this.panel && this.navbar && this.positionChanged && this.updatePanel()
   }
 
-  setPanelWidth () {
+  resetPanelSize () {
+    if (this.panel) {
+      this.panel.style.minWidth = ''
+      this.panel.style.minHeight = ''
+    }
+  }
+
+  setPanelSize () {
     switch (this.navbarPosition) {
       case 'left':
       case 'right':
-        this.panel.style.width = (window.innerWidth - this.navbar.getBoundingClientRect().width) + 'px'
+        this.panel.style.minWidth = (window.innerWidth - this.navbar.getBoundingClientRect().width) + 'px'
         break
       case 'top':
       case 'bottom':
-        this.panel.style.height = (window.innerHeight - this.navbar.getBoundingClientRect().height) + 'px'
+        this.panel.style.minHeight = (window.innerHeight - this.navbar.getBoundingClientRect().height) + 'px'
         break
       default:
-        // this.panel.style.width = ''
-        // this.panel.style.height = ''
+        this.resetPanelSize()
     }
-    // console.log(this.navbarPosition + ' w:' + this.panel.style.width + ' h:' + this.panel.style.height)
+  }
+
+  updatePanel () {
+    let currentSettings = workspaceSettings.get()
+    if (currentSettings && currentSettings.action && currentSettings.action === 'addHub') {
+      this.setPanelSize()
+      window.addEventListener('resize', this.setPanelSize)
+    } else {
+      this.resetPanelSize()
+      window.removeEventListener('resize', this.setPanelSize)
+    }
   }
 
   render () {
     const {contentStart, contentEnd, content, contentId, settings, contentStartId} = this.state
 
     if (env('HUB_REDESIGN')) {
-      let currentSettings = workspaceSettings.get()
-      if (currentSettings && currentSettings.action && currentSettings.action === 'addHub') {
-        this.setPanelWidth()
-        window.addEventListener('resize', this.setPanelWidth)
-      } else {
-        this.panel && (this.panel.style.width = '')
-        window.removeEventListener('resize', this.setPanelWidth)
-      }
+      this.updatePanel()
     }
 
     if (env('NAVBAR_SINGLE_CONTENT')) {
