@@ -281,7 +281,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Hover Box' => [
                     'title' => 'Hover Box',
-                    'elements' => ['flipBox', 'hoverBox', 'iconHoverBox'],
+                    'elements' => ['flipBox', 'hoverBox', 'iconHoverBox', 'tallHoverBox'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Hover-Box.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Hover-Box.svg'),
                 ],

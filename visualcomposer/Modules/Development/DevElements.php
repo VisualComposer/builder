@@ -2168,6 +2168,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Hover box with icon and overlay display as hover effect for portfolio items and services.',
                     ],
                 ],
+                'tallHoverBox' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/tallHoverBox/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/tallHoverBox/tallHoverBox/'),
+                    'elementRealPath' => vcapp()->path('devElements/tallHoverBox/tallHoverBox/'),
+                    'assetsPath' => $urlHelper->to('devElements/tallHoverBox/tallHoverBox/public/'),
+                    'settings' => [
+                        'name' => 'Tall Hover Box',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/tallHoverBox/tallHoverBox/public/tall-hover-box-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/tallHoverBox/tallHoverBox/public/tall-hover-box-preview.jpg'
+                        ),
+                        'metaDescription' => 'Tall hover box with title and description animation on hover to capture visitors attention.',
+                    ],
+                ],
                 'classicTabs' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/classicTabs/public/dist/element.bundle.js'
