@@ -157,6 +157,38 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   getSearchProps () {
+    if (vcCake.env('HUB_REDESIGN')) {
+      return {
+        allCategories: this.getAllCategories(),
+        index: this.state.activeCategoryIndex,
+        changeActive: this.changeActiveCategory,
+        changeTerm: this.changeSearchState,
+        changeInput: this.changeInput,
+        inputPlaceholder: 'elements and templates',
+        activeFilter: this.state.filterId,
+        selectEvent: (active) => {
+          let activeId = active && active.constructor === String && active.split('-')[0]
+          let result = this.state
+          switch (activeId) {
+            case '0':
+              result.filterType = 'all'
+              this.setState(result)
+              break
+            case '1':
+              result.filterType = 'element'
+              this.setState(result)
+              break
+            case '2':
+              result.filterType = 'template'
+              this.setState(result)
+              break
+            default:
+              console.warn('There was an issue filtering data!')
+          }
+        }
+      }
+    }
+
     return {
       allCategories: this.getAllCategories(),
       index: this.state.activeCategoryIndex,
@@ -172,9 +204,10 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return <SearchElement {...searchProps} />
   }
 
-  setFilterType (value) {
+  setFilterType (value, id) {
     let data = this.state
     data.filterType = value
+    data.activeCategoryIndex = id
     this.setState(data)
   }
 
@@ -182,18 +215,26 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return 'vcv-ui-hub-control' + (value === this.state.filterType ? ' vcv-ui-state--active' : '')
   }
 
+  filterResult () {
+    let result = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
+    result = result.filter((item) => {
+      if (this.state.filterType === 'all') {
+        return true
+      } else {
+        return item.props.type === this.state.filterType
+      }
+    })
+    return result
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
-    let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
+    let itemsOutput = null
     if (vcCake.env('HUB_REDESIGN')) {
-      itemsOutput = itemsOutput.filter((item) => {
-        if (this.state.filterType === 'all') {
-          return true
-        } else {
-          return item.props.type === this.state.filterType
-        }
-      })
+      itemsOutput = this.filterResult()
+    } else {
+      itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
     }
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
@@ -225,9 +266,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
             <Scrollbar>
               <div className={innerSectionClasses}>
                 <div className='vcv-ui-hub-control-container'>
-                  <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all')}>All</button>
-                  <button type='button' className={this.activeFilterButton('element')} onClick={() => this.setFilterType('element')}>Elements</button>
-                  <button type='button' className={this.activeFilterButton('template')} onClick={() => this.setFilterType('template')}>Templates</button>
+                  <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all', '0')}>All</button>
+                  <button type='button' className={this.activeFilterButton('element')} onClick={() => this.setFilterType('element', '1-0')}>Elements</button>
+                  <button type='button' className={this.activeFilterButton('template')} onClick={() => this.setFilterType('template', '2')}>Templates</button>
                 </div>
                 <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                   <div className='vcv-ui-editor-plates'>

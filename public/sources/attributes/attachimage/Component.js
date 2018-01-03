@@ -3,6 +3,8 @@ import Attribute from '../attribute'
 import lodash from 'lodash'
 import Url from '../url/Component'
 import AttachImageList from './attachImageList'
+import FilterList from './filterList'
+import Toggle from '../toggle/Component'
 import {SortableContainer, arrayMove} from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 
@@ -28,6 +30,8 @@ export default class AttachImage extends Attribute {
     this.openLibrary = this.openLibrary.bind(this)
     this.getUrlHtml = this.getUrlHtml.bind(this)
     this.onSortEnd = this.onSortEnd.bind(this)
+    this.handleFilterChange = this.handleFilterChange.bind(this)
+    this.toggleFilter = this.toggleFilter.bind(this)
   }
 
   componentWillMount () {
@@ -75,8 +79,10 @@ export default class AttachImage extends Attribute {
       }
     }
 
+    let filter = value.urls && value.urls[0] && value.urls[0].filter && value.urls[0].filter !== 'normal' || false
     return {
-      value: value
+      value: value,
+      filter
     }
   }
 
@@ -154,6 +160,25 @@ export default class AttachImage extends Attribute {
     this.updateFieldValue(stateValue)
   }
 
+  handleFilterChange (filterName) {
+    let stateValue = this.state.value
+    stateValue.urls = stateValue.urls.map(image => {
+      image.filter = filterName
+      return image
+    })
+    this.updateFieldValue(stateValue)
+  }
+
+  toggleFilter (fieldKey, value) {
+    this.setState({
+      filter: value
+    }, () => {
+      if (!value) {
+        this.handleFilterChange('normal')
+      }
+    })
+  }
+
   updateFieldValue (value) {
     let mergedValue = lodash.merge(this.state.value, value)
     this.setFieldValue(mergedValue)
@@ -198,14 +223,34 @@ export default class AttachImage extends Attribute {
   }
 
   render () {
+    let { value, filter = false } = this.state
     let useDragHandle = true
     let dragClass = 'vcv-ui-form-attach-image-item--dragging'
     let metaAssetsPath = this.props.element && this.props.element.data && this.props.element.data.metaAssetsPath
+    let filterControl = (
+      <div>
+        <Toggle value={filter} fieldKey='enableFilter' updater={this.toggleFilter} options={{description: 'Add Instagram like filter to image'}} />
+      </div>
+    )
+    let filterList = filter ? (
+      <FilterList
+        handleFilterChange={this.handleFilterChange}
+        images={value}
+      />
+    ) : ''
+
+    if (!this.props.options.imageFilter) {
+      filterControl = ''
+      filterList = ''
+    }
+
     return (
       <div className='vcv-ui-form-attach-image'>
         <SortableList {...this.props} metaAssetsPath={metaAssetsPath} helperClass={dragClass} useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
           axis='xy' value={this.state.value} openLibrary={this.openLibrary} handleRemove={this.handleRemove}
           getUrlHtml={this.getUrlHtml} />
+        {filterControl}
+        {filterList}
       </div>
     )
   }
