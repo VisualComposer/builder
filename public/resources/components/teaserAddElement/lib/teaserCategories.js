@@ -157,6 +157,42 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   getSearchProps () {
+    if (vcCake.env('HUB_REDESIGN')) {
+      return {
+        allCategories: this.getAllCategories(),
+        index: this.state.activeCategoryIndex,
+        changeActive: this.changeActiveCategory,
+        changeTerm: this.changeSearchState,
+        changeInput: this.changeInput,
+        inputPlaceholder: 'elements and templates',
+        activeFilter: this.state.filterId,
+        selectEvent: (active) => {
+          let activeId = active && active.constructor === String && active.split('-')[0]
+          let result = this.state
+          console.log(activeId)
+          switch (activeId) {
+            case '0':
+              result.filterType = 'all'
+              result.filterId = '0'
+              this.setState(result)
+              break
+            case '1':
+              result.filterType = 'element'
+              result.filterId = '1'
+              this.setState(result)
+              break
+            case '2':
+              result.filterType = 'template'
+              result.filterId = '2'
+              this.setState(result)
+              break
+            default:
+              console.warn('There was an issue filtering data!')
+          }
+        }
+      }
+    }
+
     return {
       allCategories: this.getAllCategories(),
       index: this.state.activeCategoryIndex,
@@ -182,18 +218,26 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return 'vcv-ui-hub-control' + (value === this.state.filterType ? ' vcv-ui-state--active' : '')
   }
 
+  filterResult () {
+    let result = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
+    result = result.filter((item) => {
+      if (this.state.filterType === 'all') {
+        return true
+      } else {
+        return item.props.type === this.state.filterType
+      }
+    })
+    return result
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
-    let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
+    let itemsOutput = null
     if (vcCake.env('HUB_REDESIGN')) {
-      itemsOutput = itemsOutput.filter((item) => {
-        if (this.state.filterType === 'all') {
-          return true
-        } else {
-          return item.props.type === this.state.filterType
-        }
-      })
+      itemsOutput = this.filterResult()
+    } else {
+      itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
     }
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,

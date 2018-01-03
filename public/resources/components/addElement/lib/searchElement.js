@@ -26,6 +26,7 @@ export default class SearchElement extends React.Component {
       input: false
     }
     this.handleSearch = this.handleSearch.bind(this)
+    this.handleCategoryChange = this.handleCategoryChange.bind(this)
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
     this.handleCategoryClick = this.handleCategoryClick.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
@@ -74,7 +75,20 @@ export default class SearchElement extends React.Component {
     return this.props.allCategories[ index ] ? this.props.allCategories[ index ].title : ''
   }
 
+  handleCategoryChange (value) {
+    this.setState({
+      inputValue: '',
+      activeIndex: value,
+      content: this.getContentTitle(value)
+    })
+    this.props.changeActive(value)
+    this.props.changeTerm('')
+  }
+
   handleCategorySelect (e) {
+    if (vcCake.env('HUB_REDESIGN')) {
+      this.props.selectEvent && this.props.selectEvent.constructor === Function && this.props.selectEvent(e.currentTarget.value)
+    }
     this.setState({
       inputValue: '',
       activeIndex: e.currentTarget.value,
