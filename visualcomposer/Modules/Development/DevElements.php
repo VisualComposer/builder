@@ -2218,7 +2218,25 @@ class DevElements extends Container implements Module
                         'metaPreviewUrl' => '',
                         'metaDescription' => '',
                     ],
-                ]
+                ],
+                'separatedButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/separatedButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/separatedButton/separatedButton/'),
+                    'elementRealPath' => vcapp()->path('devElements/separatedButton/separatedButton/'),
+                    'assetsPath' => $urlHelper->to('devElements/separatedButton/separatedButton/public/'),
+                    'settings' => [
+                        'name' => 'Separated Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/separatedButton/separatedButton/public/thumbnail-separated-button.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/separatedButton/separatedButton/public/preview-separated-button.jpg'
+                        ),
+                        'metaDescription' => 'Flat style button with a separate part for icon element from icon library and simple hover effect.',
+                    ],
+                ],
             ]
         );
     }
