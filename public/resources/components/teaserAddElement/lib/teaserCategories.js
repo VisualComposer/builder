@@ -169,7 +169,6 @@ export default class TeaserAddElementCategories extends AddElementCategories {
         selectEvent: (active) => {
           let activeId = active && active.constructor === String && active.split('-')[0]
           let result = this.state
-          console.log(activeId)
           switch (activeId) {
             case '0':
               result.filterType = 'all'
