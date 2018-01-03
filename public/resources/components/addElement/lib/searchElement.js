@@ -46,6 +46,13 @@ export default class SearchElement extends React.Component {
     }
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      activeIndex: nextProps.index,
+      content: this.getContentTitle(nextProps.index)
+    })
+  }
+
   handleKeyPress (e) {
     if (e.key === 'Enter') {
       e.preventDefault()
