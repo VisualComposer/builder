@@ -6,7 +6,7 @@ export default (value) => {
 
     if (value && value.urls && value.urls[0] && value.urls[0].filter && value.urls[0].filter !== 'normal') {
       let libData = {
-        name: 'cssgram',
+        name: 'imageFilter',
         dependencies: []
       }
 

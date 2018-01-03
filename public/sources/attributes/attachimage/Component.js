@@ -7,6 +7,7 @@ import FilterList from './filterList'
 import Toggle from '../toggle/Component'
 import {SortableContainer, arrayMove} from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
+import { env } from 'vc-cake'
 
 const SortableList = SortableContainer((props) => {
   return (
@@ -79,7 +80,7 @@ export default class AttachImage extends Attribute {
       }
     }
 
-    let filter = value.urls && value.urls[0] && value.urls[0].filter && value.urls[0].filter !== 'normal' || false
+    let filter = value.urls && value.urls[ 0 ] && value.urls[ 0 ].filter && value.urls[ 0 ].filter !== 'normal' || false
     return {
       value: value,
       filter
@@ -228,30 +229,35 @@ export default class AttachImage extends Attribute {
     let dragClass = 'vcv-ui-form-attach-image-item--dragging'
     let metaAssetsPath = this.props.element && this.props.element.data && this.props.element.data.metaAssetsPath
     let filterControl = (
-      <div>
-        <Toggle value={filter} fieldKey='enableFilter' updater={this.toggleFilter} options={{description: 'Add Instagram like filter to image'}} />
+      <div className='vcv-ui-form-attach-image-filter-toggle'>
+        <Toggle value={filter} fieldKey='enableFilter' updater={this.toggleFilter}
+          options={{ labelText: 'Enable Instagram-like filters' }} />
       </div>
     )
     let filterList = filter ? (
       <FilterList
         handleFilterChange={this.handleFilterChange}
         images={value}
+        metaAssetsPath={metaAssetsPath}
       />
     ) : ''
 
-    if (!this.props.options.imageFilter) {
+    if (!env('IMAGE_FILTERS') || !this.props.options.imageFilter || (value && value.urls && value.urls.length < 1)) {
       filterControl = ''
       filterList = ''
     }
 
     return (
-      <div className='vcv-ui-form-attach-image'>
-        <SortableList {...this.props} metaAssetsPath={metaAssetsPath} helperClass={dragClass} useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
-          axis='xy' value={this.state.value} openLibrary={this.openLibrary} handleRemove={this.handleRemove}
-          getUrlHtml={this.getUrlHtml} />
+      <React.Fragment>
+        <div className='vcv-ui-form-attach-image'>
+          <SortableList {...this.props} metaAssetsPath={metaAssetsPath} helperClass={dragClass}
+            useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
+            axis='xy' value={this.state.value} openLibrary={this.openLibrary} handleRemove={this.handleRemove}
+            getUrlHtml={this.getUrlHtml} />
+        </div>
         {filterControl}
         {filterList}
-      </div>
+      </React.Fragment>
     )
   }
 }

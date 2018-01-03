@@ -96,6 +96,11 @@
       "name": "divider",
       "dependencies": [],
       "cssBundle": "[publicPath]/dist/divider.bundle.css"
+    },
+    {
+      "name": "imageFilter",
+      "dependencies": [],
+      "cssBundle": "[publicPath]/dist/imageFilter.bundle.css"
     }
   ]
 }

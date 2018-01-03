@@ -1,3 +1,4 @@
+@import '../../../assetsLibrary/imageFilter/src/imageFilter';
 
 .vcv-ui-form-attach-image {
   margin: 0 -@vcui-attach-image-gap/2;
@@ -175,5 +176,85 @@
 
   .vcv-ui-form-link-title {
     display: none;
+  }
+}
+
+.vcv-ui-form-attach-image-filter {
+  color: #484848;
+  width: 80px;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+
+  &-toggle {
+    margin-top: 10px;
+  }
+
+  &-block {
+    border-top: 1px solid #ededed;
+    border-bottom: 1px solid #ededed;
+    padding: 0 20px 20px;
+    margin: 20px -20px 20px;
+    box-shadow: inset 0px -180px 150px -160px #fbfbfb, inset 0px 180px 150px -160px #fbfbfb;
+    position: relative;
+  }
+
+  &-container {
+    width: ~"calc(100% + 20px)";
+    overflow: hidden;
+    position: relative;
+  }
+
+  &-list {
+    list-style-type: none;
+    padding: 20px 2px 0;
+    margin: 0;
+    white-space: nowrap;
+    overflow-x: auto;
+
+    &-item {
+      display: inline-block;
+      margin: 0 7px;
+      vertical-align: top;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+  &-image {
+    max-height: 100%;
+    max-width: none;
+    width: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border: none;
+    background-color: transparent;
+  }
+
+  &-content {
+    position: relative;
+    display: block;
+    height: 80px;
+    overflow: hidden;
+    background-color: #fefefe;
+    background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    background-repeat: repeat;
+
+    &--active {
+      box-shadow: 0 0 0 2px rgba(70, 115, 189, 0.8);
+    }
+  }
+
+  &-name {
+    white-space: normal;
   }
 }
