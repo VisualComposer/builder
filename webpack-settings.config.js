@@ -12,7 +12,8 @@ module.exports = Object.assign(webpackConfig, {
     path: path.resolve(__dirname, 'visualcomposer/resources/dist/'), // Assets dist path
     publicPath: '.', // Used to generate URL's
     filename: '[name].bundle.js', // Main bundle file
-    chunkFilename: '[id].js'
+    chunkFilename: '[id].js',
+    jsonpFunction: 'vcvWebpackJsonp'
   },
   plugins: [
     // new Collector(),

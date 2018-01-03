@@ -61,12 +61,13 @@ export default class SearchElement extends React.Component {
 
   handleSearch (e) {
     let inputVal = e.currentTarget.value.toLowerCase()
+    this.props.selectEvent && this.props.selectEvent.constructor === Function && this.props.selectEvent('0')
     this.setState({
       inputValue: e.currentTarget.value,
       activeIndex: 0,
-      content: this.getContentTitle(0)
+      content: this.getContentTitle('0')
     })
-    this.props.changeActive(0)
+    this.props.changeActive('0')
     this.props.changeTerm('search')
     this.props.changeInput(inputVal)
   }
