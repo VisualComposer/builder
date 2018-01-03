@@ -106,6 +106,7 @@ declare -a arr=(
 'hoverBox',
 'iconHoverBox',
 'tallHoverBox'
+'separatedButton'
 )
 
 EXECDIR=`pwd`
