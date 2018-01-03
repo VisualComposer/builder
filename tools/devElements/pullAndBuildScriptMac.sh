@@ -103,7 +103,9 @@ declare -a arr=(
 'classicTabs',
 'hoverBox',
 'iconHoverBox',
-'tallHoverBox'
+'tallHoverBox',
+'separatedButton',
+'sandwichMenu'
 )
 
 EXECDIR=`pwd`
