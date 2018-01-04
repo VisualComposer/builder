@@ -390,6 +390,29 @@ eval(unescape('${escapedString}'))
     </div>
   }
 
+  getImageUrl (image, size) {
+    if (!image) {
+      return null
+    }
+    let imageUrl
+    // Move it to attribute
+    if (size && image && image[ size ]) {
+      imageUrl = image[ size ]
+    } else {
+      if (image instanceof Array) {
+        let urls = []
+        image.forEach((item) => {
+          let url = item && item.full && item.id ? item.full : (item && item.full ? this.getPublicImage(item.full) : this.getPublicImage(item))
+          urls.push(url)
+        })
+        imageUrl = urls
+      } else {
+        imageUrl = image && image.full && image.id ? image.full : (image && image.full ? this.getPublicImage(image.full) : this.getPublicImage(image))
+      }
+    }
+    return imageUrl
+  }
+
   render () {
     return null
   }
