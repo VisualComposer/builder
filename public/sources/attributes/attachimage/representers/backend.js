@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import Representer from '../../representer'
+import filters from '../filters'
 
 export default class Backend extends Representer {
 
@@ -78,8 +79,20 @@ export default class Backend extends Representer {
       'vcv-wpbackend-attr-representer-attach-image': true
     })
 
+    let filter = ''
+
+    if (value && value.urls && value.urls[ 0 ] && value.urls[ 0 ].filter && value.urls[ 0 ].filter !== 'normal') {
+      let filterName = filters.find(item => item.value === value.urls[ 0 ].filter)
+      filterName && (filter = (
+        <div className='vcv-wpbackend-attr-representer-attach-image--wrapper'>
+          Image filter: {filterName.label};
+        </div>
+      ))
+    }
+
     return (
       <div className={classes}>
+        {filter}
         <div className='vcv-wpbackend-attr-representer-attach-image--wrapper'>
           {this.getImages(urls, this.props.element.id)}
         </div>
