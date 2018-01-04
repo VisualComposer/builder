@@ -150,6 +150,10 @@ class AssetsShared extends Container implements Helper
                     'dependencies' => ['backgroundVideoEmbed', 'backgroundVideoYoutube', 'backgroundVideoVimeo'],
                     'cssBundle' => $urlHelper->to('public/sources/assetsLibrary/divider/dist/divider.bundle.css'),
                 ],
+                'imageFilter' => [
+                    'dependencies' => [],
+                    'cssBundle' => $urlHelper->to('public/sources/assetsLibrary/imageFilter/dist/imageFilter.bundle.css')
+                ]
             ];
         }
     }
