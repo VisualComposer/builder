@@ -52,7 +52,7 @@ export default class DOMElement {
       'isEmptyAsContainer': {
         enumerable: false,
         get: function () {
-          this.$node.find('[data-vcv-dnd-element]').length === 0
+          return this.$node.find('[data-vcv-dnd-element]').length === 0
         }
       }
     })
