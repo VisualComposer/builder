@@ -43,6 +43,7 @@ export default class Categories extends React.Component {
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.changeSearchState = this.changeSearchState.bind(this)
     this.changeInput = this.changeInput.bind(this)
+    this.handleGoToHub = this.handleGoToHub.bind(this)
     this.reset = this.reset.bind(this)
     if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
       hubElementsStorage.state('elements').onChange(this.reset)
@@ -144,13 +145,17 @@ export default class Categories extends React.Component {
     })
   }
 
+  handleGoToHub () {
+    document.querySelector('.vcv-ui-navbar-control[title="Hub"]').click()
+  }
+
   getNoResultsElement () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    // const noResultsButtonText = localizations ? localizations.noResultOpenHub : 'No Results. Open Visual Composer Hub'
-    // const notRightElementText = localizations ? localizations.notRightElementsFound : 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.'
+    const premiumButtonText = localizations ? localizations.noResultOpenHub : 'Open Visual Composer Hub'
+    const premiumHelperText = localizations ? localizations.notRightElementsFound : 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.'
     const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing found'
-    const buttonText = localizations ? localizations.premiumElementsButton : 'Go Premium'
-    const helperText = localizations ? localizations.addElementHelperText : 'Didn\'t find an element? Get a Premium license to download the right content element in Visual Composer Hub.'
+    const freeButtonText = localizations ? localizations.premiumElementsButton : 'Go Premium'
+    const freeHelperText = localizations ? localizations.addElementHelperText : 'Didn\'t find an element? Get a Premium license to download the right content element in Visual Composer Hub.'
 
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
@@ -159,31 +164,13 @@ export default class Categories extends React.Component {
       buttonUrl = window.VCV_UTM().beAddElementSearchPremiumVersion
     }
 
-    // return <div className='vcv-ui-editor-no-items-container'>
-    //   <div className='vcv-ui-editor-no-items-content'>
-    //     <img
-    //       className='vcv-ui-editor-no-items-image'
-    //       src={source}
-    //       alt={nothingFoundText}
-    //     />
-    //   </div>
-    //   <div className='vcv-ui-editor-no-items-content'>
-    //     <button className='vcv-ui-editor-no-items-action'>{noResultsButtonText}</button>
-    //   </div>
-    //   <div className='vcv-ui-editor-no-items-content'>
-    //     <p className='vcv-ui-form-helper'>{notRightElementText}</p>
-    //   </div>
-    // </div>
-    let premium = null
+    let helperText = premiumHelperText
+    let buttonText = premiumButtonText
+    let button = (<button className='vcv-start-blank-button' onClick={this.handleGoToHub}>{buttonText}</button>)
     if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
-      premium = (<div>
-        <div className='vcv-ui-editor-no-items-content'>
-          <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
-        </div>
-        <div className='vcv-ui-editor-no-items-content'>
-          <p className='vcv-start-blank-helper'>{helperText}</p>
-        </div>
-      </div>)
+      helperText = freeHelperText
+      buttonText = freeButtonText
+      button = (<a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>)
     }
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
@@ -193,7 +180,14 @@ export default class Categories extends React.Component {
           alt={nothingFoundText}
         />
       </div>
-      {premium}
+      <div>
+        <div className='vcv-ui-editor-no-items-content'>
+          {button}
+        </div>
+        <div className='vcv-ui-editor-no-items-content'>
+          <p className='vcv-start-blank-helper'>{helperText}</p>
+        </div>
+      </div>
     </div>
   }
 
@@ -275,43 +269,12 @@ export default class Categories extends React.Component {
   }
 
   render () {
-    // const localizations = window.VCV_I18N && window.VCV_I18N()
-    // const buttonText = localizations ? localizations.premiumElementsButton : 'Go Premium'
-
     let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
-    // let listCtaClasses = classNames({
-    //   'vcv-ui-editor-list-cta-wrapper': true,
-    //   'vcv-ui-state--hidden': itemsOutput && !itemsOutput.length
-    // })
-    // return <div className='vcv-ui-tree-content'>
-    //   {this.getSearchElement()}
-    //   <div className='vcv-ui-tree-content-section'>
-    //     <Scrollbar>
-    //       <div className={innerSectionClasses}>
-    //         <div className='vcv-ui-editor-plates-container'>
-    //           <div className='vcv-ui-editor-plates'>
-    //             <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-    //               {this.getElementListContainer(itemsOutput)}
-    //             </div>
-    //           </div>
-    //         </div>
-    //         <div className={listCtaClasses}>
-    //           <button
-    //             className='vcv-ui-editor-no-items-action vcv-ui-editor-button-disabled'
-    //             disabled
-    //             onClick={this.handleGoToHub}
-    //           >
-    //             {buttonText}
-    //           </button>
-    //         </div>
-    //       </div>
-    //     </Scrollbar>
-    //   </div>
-    // </div>
+
     return <div className='vcv-ui-tree-content'>
       {this.getSearchElement()}
       <div className='vcv-ui-tree-content-section'>

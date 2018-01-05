@@ -366,6 +366,11 @@ export default class TreeViewElement extends React.Component {
       'vcv-ui-tree-layout-node-hidden': hidden
     })
 
+    let treeChildProps = {}
+    if (vcCake.env('DND_FIX_TREEVIEW_CLOSED')) {
+      treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
+    }
+
     let child = this.getContent()
 
     this.state.hasChild = !!child
@@ -524,6 +529,7 @@ export default class TreeViewElement extends React.Component {
           data-vcv-element={this.props.element.id}
           type={element.get('type')}
           name={element.get('name')}
+          {...treeChildProps}
         >
           <div className={controlClasses}>
             <div className='vcv-ui-tree-layout-control-content'>
@@ -555,6 +561,7 @@ export default class TreeViewElement extends React.Component {
         data-vcv-element={this.props.element.id}
         type={element.get('type')}
         name={element.get('name')}
+        {...treeChildProps}
       >
         <div
           className={controlClasses}

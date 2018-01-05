@@ -78,6 +78,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let frame = false
   let isVerticalLine
   settings = _.defaults(settings || {}, {
+    afterLastContainerElement: false,
     allowAppend: true,
     allowBeforeAfter: true
   })
@@ -91,6 +92,8 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     position = positionX > 0 ? 'after' : 'before'
   } else if (settings.allowBeforeAfter === true) {
     position = positionY > 0 ? 'after' : 'before'
+  } else if (settings.afterLastContainerElement) {
+    position = 'after'
   }
 
   if (position === 'append') {

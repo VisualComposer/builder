@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { getService, setData, getData, getStorage, env } from 'vc-cake'
+import {getService, setData, getData, getStorage, env} from 'vc-cake'
 import SmartLine from './smartLine'
 import TrashBin from './trashBin'
 import Helper from './helper'
@@ -133,7 +133,7 @@ export default class DnD {
           document: document,
           container: document.body,
           boundariesGap: 10,
-          rootContainerFor: ['RootElements'],
+          rootContainerFor: [ 'RootElements' ],
           rootID: 'vcv-content-root',
           handler: null,
           ignoreHandling: null,
@@ -155,11 +155,11 @@ export default class DnD {
   }
 
   option (name, value) {
-    this.options[name] = value
+    this.options[ name ] = value
   }
 
   init () {
-    this.items[this.options.rootID] = new DOMElement(this.options.rootID, this.container, {
+    this.items[ this.options.rootID ] = new DOMElement(this.options.rootID, this.container, {
       containerFor: this.options.rootContainerFor
     })
     this.handleDragFunction = this.handleDrag.bind(this)
@@ -200,7 +200,7 @@ export default class DnD {
     const id = element.get('id')
     const containerFor = element.get('containerFor')
     const relatedTo = element.get('relatedTo')
-    this.items[id] = new DOMElement(id, domNode, {
+    this.items[ id ] = new DOMElement(id, domNode, {
       containerFor: containerFor ? containerFor.value : null,
       relatedTo: relatedTo ? relatedTo.value : null,
       parent: element.get('parent') || this.options.rootID,
@@ -217,8 +217,8 @@ export default class DnD {
   }
 
   updateItem (id) {
-    if (!this.items[id]) { return }
-    this.items[id]
+    if (!this.items[ id ]) { return }
+    this.items[ id ]
       .refresh()
       .off('mousedown', this.handleDragStartFunction)
       .off('touchstart', this.handleMobileDragStartFunction)
@@ -236,13 +236,13 @@ export default class DnD {
   }
 
   removeItem (id) {
-    this.items[id] && this.items[id]
+    this.items[ id ] && this.items[ id ]
       .off('mousedown', this.handleDragStartFunction)
       .off('touchstart', this.handleMobileDragStartFunction)
       .off('mousedown', this.handleDragFunction)
       .off('touchmove', this.handleMobileCancelDragFunction)
       .off('touchend', this.handleMobileCancelDragFunction)
-    delete this.items[id]
+    delete this.items[ id ]
   }
 
   removePlaceholder () {
@@ -253,7 +253,7 @@ export default class DnD {
   }
 
   findElementWithValidParent (domElement) {
-    let parentElement = domElement.parent() ? this.items[domElement.parent()] : null
+    let parentElement = domElement.parent() ? this.items[ domElement.parent() ] : null
     if (parentElement && this.draggingElement.isChild(parentElement)) {
       return domElement
     } else if (parentElement) {
@@ -273,9 +273,16 @@ export default class DnD {
       domNode = $(domNode).closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
     }
     if (domNode && domNodeAttr && domNodeAttr === 'vcv-content-root') {
-      domNode = null
+      if (env('DND_FIX_TREEVIEW_CLOSED')) {
+        const domElement = this.items[ domNodeAttr ]
+        if (!this.draggingElement.relatedTo(domElement.containerFor())) {
+          domNode = null
+        }
+      } else {
+        domNode = null
+      }
     }
-    return domNode || null
+    return domNode && domNode.ELEMENT_NODE ? this.items[ domNode.getAttribute('data-vcv-dnd-element') ] : null
   }
 
   checkTrashBin ({ x, y }) {
@@ -303,9 +310,7 @@ export default class DnD {
         }
         this.helper && this.helper.removeOverTrash && this.helper.removeOverTrash()
       }
-      let domNode = this.findDOMNode(point)
-      if (!domNode || !domNode.ELEMENT_NODE) { return }
-      let domElement = this.items[ domNode.getAttribute('data-vcv-dnd-element') ]
+      let domElement = this.findDOMNode(point)
       if (!domElement) {
         return
       }
@@ -317,11 +322,28 @@ export default class DnD {
       if (this.isDraggingElementParent(domElement)) {
         return
       }
+      let afterLastContainerElement = false
+      let allowApend = !documentManager.children(domElement.id).length
+      if (env('DND_FIX_TREEVIEW_CLOSED')) {
+        if (!allowApend && domElement.node && domElement.node.classList && domElement.node.dataset.vcvDndElementExpandStatus === 'closed') {
+          allowApend = true
+        }
+        if (domElement.id === this.options.rootID) {
+          const lastContainerElementId = domElement.$node.children('[data-vcv-dnd-element]').last().attr('data-vcv-dnd-element')
+          if (lastContainerElementId) {
+            domElement = this.items[ lastContainerElementId ]
+            domElement && (afterLastContainerElement = true)
+          } else {
+            domElement = null
+          }
+        }
+      }
       let position = this.placeholder.redraw(domElement.node, point, {
+        afterLastContainerElement,
         allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
-        allowAppend: !this.isDraggingElementParent(domElement) &&
+        allowAppend: !afterLastContainerElement && !this.isDraggingElementParent(domElement) &&
         domElement && this.draggingElement.isChild(domElement) &&
-        !documentManager.children(domElement.id).length &&
+        allowApend &&
         (env('DND_DISABLE_DROP_IN_CLOSED_TABS') ? !domElement.node.dataset.vceTab : true) &&
         ((env('DND_DISABLE_DROP_IN_CLOSED_TABS') && domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
       })
@@ -352,7 +374,7 @@ export default class DnD {
     if (id && tag) {
       this.draggingElement = this.createDraggingElementFromTag(tag, domNode)
     } else {
-      this.draggingElement = id ? this.items[id] : null
+      this.draggingElement = id ? this.items[ id ] : null
       this.options.drop = false
       if (!this.draggingElement) {
         this.draggingElement = null
@@ -393,13 +415,13 @@ export default class DnD {
   }
 
   createDraggingElementFromTag (tag, domNode) {
-    let element = cook.get({tag: tag})
+    let element = cook.get({ tag: tag })
     if (!element) { return }
     let containerFor = element.get('containerFor')
     let relatedTo = element.get('relatedTo')
     return new DOMElement('dropElement', domNode, {
       containerFor: containerFor ? containerFor.value : null,
-      relatedTo: relatedTo ? relatedTo.value.concat(['RootElements']) : null,
+      relatedTo: relatedTo ? relatedTo.value.concat([ 'RootElements' ]) : null,
       parent: this.options.rootID,
       handler: this.options.handler,
       tag: element.get('tag'),
@@ -441,7 +463,7 @@ export default class DnD {
         this.draggingElement
       )
       if (!this.position) {
-        workspaceStorage.state('drag').set({terminate: true})
+        workspaceStorage.state('drag').set({ terminate: true })
       }
     } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
       this.position && this.options.moveCallback(
@@ -524,11 +546,11 @@ export default class DnD {
       this.handleDragEnd()
       return false
     }
-    if (e.touches && e.touches[0] && this.dragStartHandled) {
+    if (e.touches && e.touches[ 0 ] && this.dragStartHandled) {
       e.preventDefault()
-      e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY})
+      e.touches[ 0 ].clientX !== undefined && e.touches[ 0 ].clientY !== undefined && this.check({ x: e.touches[ 0 ].clientX - offsetX, y: e.touches[ 0 ].clientY - offsetY })
     } else {
-      e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX - offsetX, y: e.clientY - offsetY})
+      e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX - offsetX, y: e.clientY - offsetY })
     }
   }
 
@@ -555,11 +577,11 @@ export default class DnD {
       return
     }
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[0]) {
+    if (e.touches && e.touches[ 0 ]) {
       e.preventDefault()
-      this.start(id, {x: e.touches[0].clientX, y: e.touches[0].clientY})
+      this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY })
     } else {
-      this.start(id, {x: e.clientX, y: e.clientY})
+      this.start(id, { x: e.clientX, y: e.clientY })
     }
   }
 
@@ -574,18 +596,18 @@ export default class DnD {
       return
     }
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[0]) {
+    if (e.touches && e.touches[ 0 ]) {
       this.startDragTimeout = setTimeout(() => {
         this.startDragTimeout = null
         e.preventDefault()
-        this.start(id, {x: e.touches[0].clientX, y: e.touches[0].clientY})
+        this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY })
       }, 450)
     }
   }
 
   handleDragEnd () {
     this.dragStartHandled = false
-    this.options.customScroll && this.options.scrollCallback({end: true})
+    this.options.customScroll && this.options.scrollCallback({ end: true })
     this.end()
   }
 
