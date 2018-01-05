@@ -135,10 +135,12 @@ const API = {
     }
     const urlRegex = /url\(\s*(['"]?)(.*?)\1\s*\)/g
     let encodedUrls = html.match(urlRegex)
-    let decodedUrls = encodedUrls.map(url => url.replace(/&quot;/g, "'"))
-    encodedUrls.forEach((url, i) => {
-      html = html.replace(url, decodedUrls[i])
-    })
+    if (encodedUrls && encodedUrls.length) {
+      let decodedUrls = encodedUrls.map(url => url.replace(/&quot;/g, "'"))
+      encodedUrls.forEach((url, i) => {
+        html = html.replace(url, decodedUrls[i])
+      })
+    }
 
     return html
   },
