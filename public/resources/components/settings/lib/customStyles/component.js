@@ -106,7 +106,9 @@ export default class CustomStyles extends React.Component {
     return (
       <div className='vcv-ui-custom-styles'>
         <div className='vcv-ui-style-control-container'>
-          {button}
+          <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
+            {button}
+          </div>
         </div>
         <div className='vcv-ui-style-editor-container'>
           {editor}

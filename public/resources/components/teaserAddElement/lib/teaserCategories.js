@@ -212,7 +212,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   activeFilterButton (value) {
-    return 'vcv-ui-hub-control' + (value === this.state.filterType ? ' vcv-ui-state--active' : '')
+    return 'vcv-ui-form-button' + (value === this.state.filterType ? ' vcv-ui-form-button--active' : '')
   }
 
   filterResult () {
@@ -266,9 +266,11 @@ export default class TeaserAddElementCategories extends AddElementCategories {
             <Scrollbar>
               <div className={innerSectionClasses}>
                 <div className='vcv-ui-hub-control-container'>
-                  <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all', '0')}>All</button>
-                  <button type='button' className={this.activeFilterButton('element')} onClick={() => this.setFilterType('element', '1-0')}>Elements</button>
-                  <button type='button' className={this.activeFilterButton('template')} onClick={() => this.setFilterType('template', '2')}>Templates</button>
+                  <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
+                    <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all', '0')}>All</button>
+                    <button type='button' className={this.activeFilterButton('element')} onClick={() => this.setFilterType('element', '1-0')}>Elements</button>
+                    <button type='button' className={this.activeFilterButton('template')} onClick={() => this.setFilterType('template', '2')}>Templates</button>
+                  </div>
                 </div>
                 <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                   <div className='vcv-ui-editor-plates'>

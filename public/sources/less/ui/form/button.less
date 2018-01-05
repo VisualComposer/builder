@@ -81,18 +81,13 @@
   display: inline-flex;
   flex-flow: row wrap;
   border-radius: @vcui-form-border-radius;
+  overflow: hidden;
+
   > .vcv-ui-form-button {
     flex: 1 0 auto;
     margin-left: 1px;
     margin-bottom: 1px;
-    &:not(:first-child) {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-    &:not(:last-child) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
+    border-radius: 0;
   }
 }
 .vcv-ui-form-button-group--action {
@@ -104,7 +99,7 @@
 
 .vcv-ui-form-button-group--attribute {
   border: @vcui-button-group-attribute-border;
-  direction: ltr;
+
   .vcv-ui-form-button {
     margin: 0;
     padding: 0;
@@ -130,6 +125,46 @@
 
     .vcv-ui-icon-attribute {
       font-size: @vcui-button-group-attribute-icon-font-size;
+    }
+  }
+}
+
+.vcv-ui-form-button-group--large {
+  border: @vcui-button-group-attribute-border;
+
+  .vcv-ui-form-button {
+    margin: 0;
+    flex: 0 1 auto;
+    border: none;
+    padding: @control-padding-top-bottom @control-padding-left-right;
+    background: @control-background-color;
+    border-left: @control-border;
+    color: @control-color;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background @transition-duration @transition-timing-function;
+
+    &:first-child {
+      border-left: none;
+    }
+    &.vcv-ui-form-button--active,
+    &:hover {
+      background: @vcui-button-group-attribute-background-active;
+    }
+  }
+}
+
+.rtl {
+  .vcv-ui-form-button-group--attribute,
+  .vcv-ui-form-button-group--large {
+    .vcv-ui-form-button {
+      &:first-child {
+        border-left: @control-border;
+      }
+
+      &:last-child {
+        border-left: none;
+      }
     }
   }
 }

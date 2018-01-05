@@ -20,55 +20,8 @@
 
 .vcv-ui-style-control-container,
 .vcv-ui-script-control-container {
-  display: flex;
-  justify-content: center;
+  text-align: center;
   margin: @control-container-margin;
-}
-
-.vcv-ui-style-control,
-.vcv-ui-script-control {
-  flex: 0 1 auto;
-  border: none;
-  padding: @control-padding-top-bottom @control-padding-left-right;
-  background: @control-background-color;
-  border: @control-border;
-  color: @control-color;
-  border-radius: 0;
-  cursor: pointer;
-  transition: background @transition-duration @transition-timing-function;
-
-  &:hover,
-  &.vcv-ui-state--active {
-    background: @control-background-color-active;
-  }
-
-  &:first-child {
-    border-top-left-radius: @settings-border-radius;
-    border-bottom-left-radius: @settings-border-radius;
-    border-right: none;
-  }
-
-  &:last-child {
-    border-top-right-radius: @settings-border-radius;
-    border-bottom-right-radius: @settings-border-radius;
-  }
-}
-
-.rtl {
-  .vcv-ui-style-control,
-  .vcv-ui-script-control {
-    border-radius: 0;
-
-    &:first-child {
-      border-top-right-radius: @settings-border-radius;
-      border-bottom-right-radius: @settings-border-radius;
-    }
-    &:last-child {
-      border-top-left-radius: @settings-border-radius;
-      border-bottom-left-radius: @settings-border-radius;
-      border-right: none;
-    }
-  }
 }
 
 .vcv-ui-style-editor-container,

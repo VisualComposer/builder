@@ -107,7 +107,9 @@ export default class CustomJavascript extends React.Component {
     return (
       <div className='vcv-ui-custom-scripts'>
         <div className='vcv-ui-script-control-container'>
-          {button}
+          <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
+            {button}
+          </div>
         </div>
         <div className='vcv-ui-script-editor-container'>
           {editor}
