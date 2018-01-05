@@ -107,7 +107,7 @@ const API = {
       .replace(/\s*\bdata-vcv-[^"]+"[^"]+"+/g, '')
       .replace(/<!\-\-\[vcvSourceHtml]/g, '')
       .replace(/\[\/vcvSourceHtml]\-\->/g, '')
-    // .replace(/&quot;/g, "'")
+      // .replace(/&quot;/g, "'")
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(data)
     let vcvHelper = documentFragment.querySelectorAll('vcvhelper')
@@ -133,6 +133,12 @@ const API = {
     for (let i = 0; i < elementChildren.length; i++) {
       html += elementChildren[ i ].outerHTML
     }
+    const urlRegex = /url\(\s*(['"]?)(.*?)\1\s*\)/g
+    let encodedUrls = html.match(urlRegex)
+    let decodedUrls = encodedUrls.map(url => url.replace(/&quot;/g, "'"))
+    encodedUrls.forEach((url, i) => {
+      html = html.replace(url, decodedUrls[i])
+    })
 
     return html
   },
