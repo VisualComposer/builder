@@ -173,6 +173,7 @@
   text-decoration: none;
   box-shadow: none;
   transition: all .2s ease-in-out;
+  cursor: pointer;
 
   &:hover, &:focus {
     border-color: @editor-layout-start-blank-button-border-hover-color;
@@ -183,6 +184,24 @@
   &:hover, &:focus, &:visited, &:active {
     text-decoration: none;
     box-shadow: none;
+  }
+}
+
+.vcv-ui-editor-no-items-container {
+  .vcv-start-blank-button {
+    border-color: @editor-layout-start-blank-button-border-color-light-blue;
+    color: @editor-layout-start-blank-button-color-light-blue;
+
+    &:hover, &:focus {
+      border-color: @editor-layout-start-blank-button-border-hover-color;
+      background: @editor-layout-start-blank-button-border-hover-color;
+      color: @editor-layout-start-blank-button-color-hover;
+    }
+
+    &:hover, &:focus, &:visited, &:active {
+      text-decoration: none;
+      box-shadow: none;
+    }
   }
 }
 

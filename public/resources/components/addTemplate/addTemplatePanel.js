@@ -167,11 +167,11 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getNoResultsElement () {
-    // const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.downloadMoreTemplates : 'Download More Templates'
+    const premiumButtonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.downloadMoreTemplates : 'Download More Templates'
     // const noTemplatesText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.noTemplatesFound : `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
-    // const notRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.notRightTemplatesFound : `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
-    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Go Premium'
-    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.addTemplateHelperText : 'Didn\'t find a perfect template? Get a Premium license to download it from Visual Composer Hub.'
+    const premiumNotRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.notRightTemplatesFound : `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
+    const freeButtonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Go Premium'
+    const freeNotRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.addTemplateHelperText : 'Didn\'t find a perfect template? Get a Premium license to download it from Visual Composer Hub.'
     const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
     // let source, btnText, helper, button
     let source
@@ -191,18 +191,13 @@ export default class AddTemplatePanel extends React.Component {
     if (vcCake.env('editor') === 'backend') {
       buttonUrl = window.VCV_UTM().beAddTemplateSearchPremiumTemplates
     }
-    let premium = null
+    let buttonText = premiumButtonText
+    let helperText = premiumNotRightTemplatesFoundText
+    let button = <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>{buttonText}</button>
     if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
-      premium = (
-        <div>
-          <div className='vcv-ui-editor-no-items-content'>
-            <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
-          </div>
-          <div className='vcv-ui-editor-no-items-content'>
-            <p className='vcv-start-blank-helper'>{helperText}</p>
-          </div>
-        </div>
-      )
+      buttonText = freeButtonText
+      helperText = freeNotRightTemplatesFoundText
+      button = <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
     }
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
@@ -212,23 +207,15 @@ export default class AddTemplatePanel extends React.Component {
           alt={nothingFoundText}
         />
       </div>
-      {premium}
+      <div>
+        <div className='vcv-ui-editor-no-items-content'>
+          {button}
+        </div>
+        <div className='vcv-ui-editor-no-items-content'>
+          <p className='vcv-start-blank-helper'>{helperText}</p>
+        </div>
+      </div>
     </div>
-    // return <div className='vcv-ui-editor-no-items-container'>
-    //   <div className='vcv-ui-editor-no-items-content'>
-    //     <img
-    //       className='vcv-ui-editor-no-items-image'
-    //       src={source}
-    //       alt='Nothing Found'
-    //     />
-    //   </div>
-    //   <div className='vcv-ui-editor-no-items-content'>
-    //     <p className='vcv-ui-form-helper'>{helper}</p>
-    //   </div>
-    //   <div className='vcv-ui-editor-no-items-content'>
-    //     {button}
-    //   </div>
-    // </div>
   }
 
   getTemplateControl (template) {
@@ -312,7 +299,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   handleGoToHub () {
-    console.log('link to hub...')
+    document.querySelector('.vcv-ui-navbar-control[title="Hub"]').click()
   }
 
   handleApplyTemplate (data) {
