@@ -100,11 +100,11 @@ declare -a arr=(
 'basicMenu'
 'outlinePricingTable'
 'classicTab'
-'classicTabs',
-'hoverBox',
-'iconHoverBox',
-'tallHoverBox',
-'separatedButton',
+'classicTabs'
+'hoverBox'
+'iconHoverBox'
+'tallHoverBox'
+'separatedButton'
 'sandwichMenu'
 )
 
