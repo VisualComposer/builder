@@ -100,7 +100,7 @@ class HubCategories extends Container implements Module
                         'gatsbyButton',
                         'animatedIconButton',
                         'animatedTwoColorButton',
-                        'separatedButton'
+                        'separatedButton',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
@@ -112,7 +112,7 @@ class HubCategories extends Container implements Module
                         'logoWidget',
                         'copyright',
                         'basicMenu',
-                        'sidebarMenu'
+                        'sidebarMenu',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Header-Footer.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Header-Footer.svg'),
@@ -293,7 +293,7 @@ class HubCategories extends Container implements Module
                         'shortcode',
                         'wpWidgetsCustom',
                         'wpWidgetsDefault',
-                        'widgetizedSidebar'
+                        'widgetizedSidebar',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
@@ -314,8 +314,20 @@ class HubCategories extends Container implements Module
                     'title' => 'Empty Space',
                     'elements' => ['emptySpace'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
-                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg')
-                ]
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
+                ],
+                'Accordion' => [
+                    'title' => 'Accordion',
+                    'elements' => ['classicAccordion'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
+                ],
+                'Accordion Section' => [
+                    'title' => 'Accordion Section',
+                    'elements' => ['classicAccordionSection'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
+                ],
             ]
         );
     }

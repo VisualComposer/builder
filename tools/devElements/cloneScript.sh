@@ -109,6 +109,8 @@ declare -a arr=(
 'separatedButton'
 'sandwichMenu'
 'sidebarMenu'
+'classicAccordion'
+'classicAccordionSection'
 )
 
 EXECDIR=`pwd`
