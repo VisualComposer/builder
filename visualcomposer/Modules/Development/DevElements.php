@@ -2237,6 +2237,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Flat style button with a separate part for icon element from icon library and simple hover effect.',
                     ],
                 ],
+                'sidebarMenu' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/sidebarMenu/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/sidebarMenu/sidebarMenu/'),
+                    'elementRealPath' => vcapp()->path('devElements/sidebarMenu/sidebarMenu/'),
+                    'assetsPath' => $urlHelper->to('devElements/sidebarMenu/sidebarMenu/public/'),
+                    'settings' => [
+                        'name' => 'Sidebar Menu',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/sidebarMenu/sidebarMenu/public/sidebar-menu-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/separatedButton/separatedButton/public/sidebar-menu-preview.png'
+                        ),
+                        'metaDescription' => 'Sidebar menu element with all submenu sections open by default - use as sidebar or footer menu on your website.',
+                    ],
+                ],
             ]
         );
     }

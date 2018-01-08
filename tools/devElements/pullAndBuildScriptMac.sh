@@ -106,6 +106,7 @@ declare -a arr=(
 'tallHoverBox'
 'separatedButton'
 'sandwichMenu'
+'sidebarMenu'
 )
 
 EXECDIR=`pwd`
