@@ -24,8 +24,8 @@ export default class ScriptControl extends React.Component {
     let { title, active } = this.props
 
     let controlClass = classNames({
-      'vcv-ui-script-control': true,
-      'vcv-ui-state--active': active
+      'vcv-ui-form-button': true,
+      'vcv-ui-form-button--active': active
     })
     return (
       <button className={controlClass} onClick={this.handleClick} title={title}>
