@@ -2250,7 +2250,7 @@ class DevElements extends Container implements Module
                             'devElements/sidebarMenu/sidebarMenu/public/sidebar-menu-thumbnail.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'devElements/separatedButton/separatedButton/public/sidebar-menu-preview.png'
+                            'devElements/sidebarMenu/sidebarMenu/public/sidebar-menu-preview.png'
                         ),
                         'metaDescription' => 'Sidebar menu element with all submenu sections open by default - use as sidebar or footer menu on your website.',
                     ],
