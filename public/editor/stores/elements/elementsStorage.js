@@ -96,6 +96,18 @@ addStorage('elements', (storage) => {
         }
       }
     }
+    if (env('CLASSIC_ACCORDION')) {
+      if (wrap && cookElement.get('tag') === 'classicAccordion' && !elementData.skipInitialExtraElements) {
+        let sectionData = cook.get({ tag: 'classicAccordionSection', parent: data.id })
+        let sectionData1 = cook.get({ tag: 'classicAccordionSection', parent: data.id })
+        if (sectionData) {
+          let sectionElement = documentManager.create(sectionData.toJS())
+          let sectionElement1 = documentManager.create(sectionData1.toJS())
+          createdElements.push(sectionElement.id)
+          createdElements.push(sectionElement1.id)
+        }
+      }
+    }
     if (wrap && cookElement.get('tag') === 'section') {
       let rowData = cook.get({ tag: 'row', parent: data.id })
       let rowElement
