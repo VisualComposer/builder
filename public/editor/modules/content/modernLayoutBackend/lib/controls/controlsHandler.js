@@ -216,8 +216,13 @@ export default class ControlsHandler {
     if (!container || !insertAfterElement) {
       return false
     }
+    // TODO: Refactor Simplify logic
     const containerElement = cook.get(documentManager.get(container))
-    if (!containerElement || (!containerElement.relatedTo([ 'Column' ]) && !containerElement.relatedTo([ 'Tab' ]))) {
+    const columnContainer = !containerElement.relatedTo([ 'Column' ])
+    const tabContainer = !containerElement.relatedTo([ 'Tab' ])
+    const classicTabContainer = !containerElement.relatedTo([ 'Classic Tab' ])
+    const classicAccordionSectionContainer = !containerElement.relatedTo([ 'Classic Accordion Section' ])
+    if (!containerElement || (columnContainer && tabContainer && classicTabContainer && classicAccordionSectionContainer)) {
       return false
     }
     let appendControl = document.createElement('span')
@@ -366,14 +371,18 @@ export default class ControlsHandler {
     // add element action
     if (options.isContainer) {
       // tabs don't have advanced design options
-      if (env('CLASSIC_TABS')) {
+      if (env('CLASSIC_ACCORDION')) {
+        // TODO: Refactor Simplify logic
         const isTabsWithSlide = options.tag !== 'tabsWithSlide' && options.tag !== 'tab'
         const isClassicTabs = options.tag !== 'classicTabs' && options.tag !== 'classicTab'
-        if (isTabsWithSlide || isClassicTabs) {
+        const isClassicAccordion = options.tag !== 'classicAccordion' && options.tag !== 'classicAccordionSection'
+        if (isTabsWithSlide || isClassicTabs || isClassicAccordion) {
           designOptionEvent = 'designOptionsAdvanced'
         }
       } else {
-        if (options.tag !== 'tabsWithSlide' && options.tag !== 'tab') {
+        const isTabsWithSlide = options.tag !== 'tabsWithSlide' && options.tag !== 'tab'
+        const isClassicTabs = options.tag !== 'classicTabs' && options.tag !== 'classicTab'
+        if (isTabsWithSlide || isClassicTabs) {
           designOptionEvent = 'designOptionsAdvanced'
         }
       }
@@ -456,7 +465,8 @@ export default class ControlsHandler {
     }
 
     // paste action
-    if (options.tag === 'column' || options.tag === 'tab') {
+    // TODO: Refactor Simplify condition logic
+    if (options.tag === 'column' || options.tag === 'tab' || options.tag === 'classicTab' || options.tag === 'classicAccordionSection') {
       let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
       let disabled = !copyData
       actions.push({
@@ -552,17 +562,20 @@ export default class ControlsHandler {
   getElementColorIndex (vcElement) {
     let colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
-      if (env('CLASSIC_TABS')) {
+      if (env('CLASSIC_ACCORDION')) {
+        // TODO: Refactor Simplify logic
+        let colContainer = vcElement.containerFor().indexOf('Column') > -1
+        let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
+        let classicTabContainer = vcElement.containerFor().indexOf('Classic Tab') > -1
+        let classicAccordionSectionContainer = vcElement.containerFor().indexOf('Classic Accordion Section') > -1
+
+        colorIndex = colContainer || tabContainer || classicTabContainer || classicAccordionSectionContainer ? 0 : 1
+      } else {
         let colContainer = vcElement.containerFor().indexOf('Column') > -1
         let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
         let classicTabContainer = vcElement.containerFor().indexOf('Classic Tab') > -1
 
         colorIndex = colContainer || tabContainer || classicTabContainer ? 0 : 1
-      } else {
-        let colContainer = vcElement.containerFor().indexOf('Column') > -1
-        let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
-
-        colorIndex = colContainer || tabContainer ? 0 : 1
       }
     }
     return colorIndex
