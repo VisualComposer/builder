@@ -2286,6 +2286,24 @@ class DevElements extends Container implements Module
                         'metaPreviewUrl' => '',
                         'metaDescription' => '',
                     ],
+                ],
+                'contactForm7' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/contactForm7/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/contactForm7/contactForm7/'),
+                    'elementRealPath' => vcapp()->path('devElements/contactForm7/contactForm7/'),
+                    'assetsPath' => $urlHelper->to('devElements/contactForm7/contactForm7/public/'),
+                    'settings' => [
+                        'name' => 'Contact Form 7',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/contactForm7/contactForm7/public/contact-form-7-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/contactForm7/contactForm7/public/contact-form-7-preview.png'
+                        ),
+                        'metaDescription' => 'Add Contact Form 7 form to your layout (Note: Contact Form 7 plugin must be installed on your WordPress site).',
+                    ],
                 ]
             ]
         );
