@@ -2237,24 +2237,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Flat style button with a separate part for icon element from icon library and simple hover effect.',
                     ],
                 ],
-                //'testimonial' => [
-                    //'bundlePath' => $urlHelper->to(
-                        //'devElements/testimonial/public/dist/element.bundle.js'
-                    //),
-                    //'elementPath' => $urlHelper->to('devElements/testimonial/testimonial/'),
-                    //'elementRealPath' => vcapp()->path('devElements/testimonial/testimonial/'),
-                    //'assetsPath' => $urlHelper->to('devElements/testimonial/testimonial/public/'),
-                    //'settings' => [
-                        //'name' => 'Testimonial',
-                        //'metaThumbnailUrl' => $urlHelper->to(
-                            //'devElements/testimonial/testimonial/public/thumbnail-testimonial.png'
-                        //),
-                        //'metaPreviewUrl' => $urlHelper->to(
-                            //'devElements/testimonial/testimonial/public/preview-testimonial.png'
-                        //),
-                        //'metaDescription' => 'Add testimonials to your site to share what your customers are saying about your products and services.',
-                    //],
-                //],
+                'testimonial' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/testimonial/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/testimonial/testimonial/'),
+                    'elementRealPath' => vcapp()->path('devElements/testimonial/testimonial/'),
+                    'assetsPath' => $urlHelper->to('devElements/testimonial/testimonial/public/'),
+                    'settings' => [
+                        'name' => 'Testimonial',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/testimonial/testimonial/public/thumbnail-testimonial.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/testimonial/testimonial/public/preview-testimonial.png'
+                        ),
+                        'metaDescription' => 'Add testimonials to your site to share what your customers are saying about your products and services.',
+                    ],
+                ],
                 'sidebarMenu' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/sidebarMenu/public/dist/element.bundle.js'
