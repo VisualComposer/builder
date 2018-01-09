@@ -316,8 +316,8 @@ class HubCategories extends Container implements Module
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
-                'Accordion' => [
-                    'title' => 'Accordion',
+                'Accordions' => [
+                    'title' => 'Accordions',
                     'elements' => ['classicAccordion'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
