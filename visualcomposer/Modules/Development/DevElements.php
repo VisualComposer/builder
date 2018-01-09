@@ -2255,6 +2255,74 @@ class DevElements extends Container implements Module
                         //'metaDescription' => 'Add testimonials to your site to share what your customers are saying about your products and services.',
                     //],
                 //],
+                'sidebarMenu' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/sidebarMenu/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/sidebarMenu/sidebarMenu/'),
+                    'elementRealPath' => vcapp()->path('devElements/sidebarMenu/sidebarMenu/'),
+                    'assetsPath' => $urlHelper->to('devElements/sidebarMenu/sidebarMenu/public/'),
+                    'settings' => [
+                        'name' => 'Sidebar Menu',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/sidebarMenu/sidebarMenu/public/sidebar-menu-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/sidebarMenu/sidebarMenu/public/sidebar-menu-preview.png'
+                        ),
+                        'metaDescription' => 'Sidebar menu element with all submenu sections open by default - use as sidebar or footer menu on your website.',
+                    ],
+                ],
+                'classicAccordion' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/classicAccordion/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/classicAccordion/classicAccordion/'),
+                    'elementRealPath' => vcapp()->path('devElements/classicAccordion/classicAccordion/'),
+                    'assetsPath' => $urlHelper->to('devElements/classicAccordion/classicAccordion/public/'),
+                    'settings' => [
+                        'name' => 'Classic Accordion',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/classicAccordion/classicAccordion/public/classic-accordion-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/classicAccordion/classicAccordion/public/classic-accordion-preview.png'
+                        ),
+                        'metaDescription' => 'Add simple accordion to your site to divide content into sections.',
+                    ],
+                ],
+                'classicAccordionSection' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/classicAccordionSection/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/classicAccordionSection/classicAccordionSection/'),
+                    'elementRealPath' => vcapp()->path('devElements/classicAccordionSection/classicAccordionSection/'),
+                    'assetsPath' => $urlHelper->to('devElements/classicAccordionSection/classicAccordionSection/public/'),
+                    'settings' => [
+                        'name' => 'Classic Accordion Section',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
+                'contactForm7' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/contactForm7/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/contactForm7/contactForm7/'),
+                    'elementRealPath' => vcapp()->path('devElements/contactForm7/contactForm7/'),
+                    'assetsPath' => $urlHelper->to('devElements/contactForm7/contactForm7/public/'),
+                    'settings' => [
+                        'name' => 'Contact Form 7',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/contactForm7/contactForm7/public/contact-form-7-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/contactForm7/contactForm7/public/contact-form-7-preview.png'
+                        ),
+                        'metaDescription' => 'Add Contact Form 7 form to your layout (Note: Contact Form 7 plugin must be installed on your WordPress site).',
+                    ],
+                ]
             ]
         );
     }
