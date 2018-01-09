@@ -111,6 +111,7 @@ declare -a arr=(
 'sidebarMenu'
 'classicAccordion'
 'classicAccordionSection'
+'testimonial'
 )
 
 EXECDIR=`pwd`

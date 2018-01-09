@@ -2237,6 +2237,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Flat style button with a separate part for icon element from icon library and simple hover effect.',
                     ],
                 ],
+                'testimonial' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/testimonial/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/testimonial/testimonial/'),
+                    'elementRealPath' => vcapp()->path('devElements/testimonial/testimonial/'),
+                    'assetsPath' => $urlHelper->to('devElements/testimonial/testimonial/public/'),
+                    'settings' => [
+                        'name' => 'Testimonial',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/testimonial/testimonial/public/thumbnail-testimonial.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/testimonial/testimonial/public/preview-testimonial.png'
+                        ),
+                        'metaDescription' => 'Add testimonials to your site to share what your customers are saying about your products and services.',
+                    ],
+                ],
                 'sidebarMenu' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/sidebarMenu/public/dist/element.bundle.js'
@@ -2250,7 +2268,7 @@ class DevElements extends Container implements Module
                             'devElements/sidebarMenu/sidebarMenu/public/sidebar-menu-thumbnail.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'devElements/separatedButton/separatedButton/public/sidebar-menu-preview.png'
+                            'devElements/sidebarMenu/sidebarMenu/public/sidebar-menu-preview.png'
                         ),
                         'metaDescription' => 'Sidebar menu element with all submenu sections open by default - use as sidebar or footer menu on your website.',
                     ],
@@ -2285,6 +2303,24 @@ class DevElements extends Container implements Module
                         'metaThumbnailUrl' => '',
                         'metaPreviewUrl' => '',
                         'metaDescription' => '',
+                    ],
+                ],
+                'contactForm7' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/contactForm7/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/contactForm7/contactForm7/'),
+                    'elementRealPath' => vcapp()->path('devElements/contactForm7/contactForm7/'),
+                    'assetsPath' => $urlHelper->to('devElements/contactForm7/contactForm7/public/'),
+                    'settings' => [
+                        'name' => 'Contact Form 7',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/contactForm7/contactForm7/public/contact-form-7-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/contactForm7/contactForm7/public/contact-form-7-preview.png'
+                        ),
+                        'metaDescription' => 'Add Contact Form 7 form to your layout (Note: Contact Form 7 plugin must be installed on your WordPress site).',
                     ],
                 ]
             ]
