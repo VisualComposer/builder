@@ -385,11 +385,12 @@ export default class ControlsHandler {
       if (env('CLASSIC_TABS')) {
         const isTabsWithSlide = options.tag !== 'tabsWithSlide' && options.tag !== 'tab'
         const isClassicTabs = options.tag !== 'classicTabs' && options.tag !== 'classicTab'
-        if (isTabsWithSlide || isClassicTabs) {
+        const isNotPageableContainer = options.tag !== 'pageableContainer' && options.tag !== 'pageableTab'
+        if (isTabsWithSlide || isClassicTabs || isNotPageableContainer) {
           designOptionEvent = 'designOptionsAdvanced'
         }
       } else {
-        if (options.tag !== 'tabsWithSlide' && options.tag !== 'tab') {
+        if (options.tag !== 'tabsWithSlide' && options.tag !== 'tab' && options.tag !== 'pageableContainer' && options.tag !== 'pageableTab') {
           designOptionEvent = 'designOptionsAdvanced'
         }
       }

@@ -2237,6 +2237,38 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Flat style button with a separate part for icon element from icon library and simple hover effect.',
                     ],
                 ],
+                'pageableContainer' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/pageableContainer/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/pageableContainer/pageableContainer/'),
+                    'elementRealPath' => vcapp()->path('devElements/pageableContainer/pageableContainer/'),
+                    'assetsPath' => $urlHelper->to('devElements/pageableContainer/pageableContainer/public/'),
+                    'settings' => [
+                        'name' => 'Pageable Container',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/pageableContainer/pageableContainer/public/pageable-container-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/pageableContainer/pageableContainer/public/pageable-container-preview.png'
+                        ),
+                        'metaDescription' => 'Colored slider for textual information with dot controls. Allows defining background colors per individual slide.',
+                    ],
+                ],
+                'pageableTab' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/pageableTab/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/pageableTab/tpageableTabab/'),
+                    'elementRealPath' => vcapp()->path('devElements/pageableTab/pageableTab/'),
+                    'assetsPath' => $urlHelper->to('devElements/pageableTab/pageableTab/public/'),
+                    'settings' => [
+                        'name' => 'Pageable Tab',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
             ]
         );
     }

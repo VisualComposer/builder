@@ -96,6 +96,19 @@ addStorage('elements', (storage) => {
         }
       }
     }
+    if (wrap && cookElement.get('tag') === 'pageableContainer' && !elementData.skipInitialExtraElements) {
+      let tabData = cook.get({ tag: 'pageableTab', parent: data.id, backgroundColor: '#4155a7' })
+      let tabData1 = cook.get({ tag: 'pageableTab', parent: data.id, backgroundColor: '#e39a54' })
+      let tabData2 = cook.get({ tag: 'pageableTab', parent: data.id, pointerColor: '#000' })
+      if (tabData) {
+        let tabElement = documentManager.create(tabData.toJS())
+        let tabElement1 = documentManager.create(tabData1.toJS())
+        let tabElement2 = documentManager.create(tabData2.toJS())
+        createdElements.push(tabElement.id)
+        createdElements.push(tabElement1.id)
+        createdElements.push(tabElement2.id)
+      }
+    }
     if (wrap && cookElement.get('tag') === 'section') {
       let rowData = cook.get({ tag: 'row', parent: data.id })
       let rowElement

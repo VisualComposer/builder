@@ -60,13 +60,13 @@ class HubCategories extends Container implements Module
                 ],
                 'Tabs' => [
                     'title' => 'Tabs',
-                    'elements' => ['tabsWithSlide', 'classicTabs'],
+                    'elements' => ['tabsWithSlide', 'classicTabs', 'pageableContainer'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
                 ],
                 'Tab' => [
                     'title' => 'Tab',
-                    'elements' => ['tab', 'classicTab'],
+                    'elements' => ['tab', 'classicTab', 'pageableTab'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
                 ],

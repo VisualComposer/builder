@@ -108,6 +108,8 @@ declare -a arr=(
 'tallHoverBox'
 'separatedButton'
 'sandwichMenu'
+'pageableContainer'
+'pageableTab'
 )
 
 EXECDIR=`pwd`
