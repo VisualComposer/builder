@@ -112,6 +112,8 @@ declare -a arr=(
 'classicAccordion'
 'classicAccordionSection'
 'testimonial'
+'pageableContainer'
+'pageableTab'
 )
 
 EXECDIR=`pwd`

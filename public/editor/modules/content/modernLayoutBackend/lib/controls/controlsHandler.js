@@ -376,13 +376,15 @@ export default class ControlsHandler {
         const isTabsWithSlide = options.tag !== 'tabsWithSlide' && options.tag !== 'tab'
         const isClassicTabs = options.tag !== 'classicTabs' && options.tag !== 'classicTab'
         const isClassicAccordion = options.tag !== 'classicAccordion' && options.tag !== 'classicAccordionSection'
-        if (isTabsWithSlide || isClassicTabs || isClassicAccordion) {
+        const isNotPageableContainer = options.tag !== 'pageableContainer' && options.tag !== 'pageableTab'
+        if (isTabsWithSlide || isClassicTabs || isClassicAccordion || isNotPageableContainer) {
           designOptionEvent = 'designOptionsAdvanced'
         }
       } else {
         const isTabsWithSlide = options.tag !== 'tabsWithSlide' && options.tag !== 'tab'
         const isClassicTabs = options.tag !== 'classicTabs' && options.tag !== 'classicTab'
-        if (isTabsWithSlide || isClassicTabs) {
+        const isNotPageableContainer = options.tag !== 'pageableContainer' && options.tag !== 'pageableTab'
+        if (isTabsWithSlide || isClassicTabs || isNotPageableContainer) {
           designOptionEvent = 'designOptionsAdvanced'
         }
       }
@@ -466,7 +468,7 @@ export default class ControlsHandler {
 
     // paste action
     // TODO: Refactor Simplify condition logic
-    if (options.tag === 'column' || options.tag === 'tab' || options.tag === 'classicTab' || options.tag === 'classicAccordionSection') {
+    if (options.tag === 'column' || options.tag === 'tab' || options.tag === 'classicTab' || options.tag === 'classicAccordionSection' || options.tag === 'pageableTab') {
       let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
       let disabled = !copyData
       actions.push({
@@ -568,14 +570,16 @@ export default class ControlsHandler {
         let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
         let classicTabContainer = vcElement.containerFor().indexOf('Classic Tab') > -1
         let classicAccordionSectionContainer = vcElement.containerFor().indexOf('Classic Accordion Section') > -1
+        let pageableTabContainer = vcElement.containerFor().indexOf('Pageable Tab') > -1
 
-        colorIndex = colContainer || tabContainer || classicTabContainer || classicAccordionSectionContainer ? 0 : 1
+        colorIndex = colContainer || tabContainer || classicTabContainer || classicAccordionSectionContainer || pageableTabContainer ? 0 : 1
       } else {
         let colContainer = vcElement.containerFor().indexOf('Column') > -1
         let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
         let classicTabContainer = vcElement.containerFor().indexOf('Classic Tab') > -1
+        let pageableTabContainer = vcElement.containerFor().indexOf('Pageable Tab') > -1
 
-        colorIndex = colContainer || tabContainer || classicTabContainer ? 0 : 1
+        colorIndex = colContainer || tabContainer || classicTabContainer || pageableTabContainer ? 0 : 1
       }
     }
     return colorIndex

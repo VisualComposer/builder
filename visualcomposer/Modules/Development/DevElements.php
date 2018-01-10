@@ -2322,6 +2322,38 @@ class DevElements extends Container implements Module
                         ),
                         'metaDescription' => 'Add Contact Form 7 form to your layout (Note: Contact Form 7 plugin must be installed on your WordPress site).',
                     ],
+                ],
+                'pageableContainer' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/pageableContainer/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/pageableContainer/pageableContainer/'),
+                    'elementRealPath' => vcapp()->path('devElements/pageableContainer/pageableContainer/'),
+                    'assetsPath' => $urlHelper->to('devElements/pageableContainer/pageableContainer/public/'),
+                    'settings' => [
+                        'name' => 'Pageable Container',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/pageableContainer/pageableContainer/public/pageable-container-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/pageableContainer/pageableContainer/public/pageable-container-preview.png'
+                        ),
+                        'metaDescription' => 'Colored slider for textual information with dot controls. Allows defining background colors per individual slide.',
+                    ],
+                ],
+                'pageableTab' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/pageableTab/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/pageableTab/tpageableTabab/'),
+                    'elementRealPath' => vcapp()->path('devElements/pageableTab/pageableTab/'),
+                    'assetsPath' => $urlHelper->to('devElements/pageableTab/pageableTab/public/'),
+                    'settings' => [
+                        'name' => 'Pageable Tab',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
                 ]
             ]
         );
