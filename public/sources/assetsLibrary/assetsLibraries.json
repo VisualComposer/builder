@@ -88,11 +88,6 @@
       "cssBundle": "[publicPath]/dist/iconpicker.bundle.css"
     },
     {
-      "name": "iconpicker",
-      "dependencies": [],
-      "cssBundle": "[publicPath]/dist/iconpicker.bundle.css"
-    },
-    {
       "name": "divider",
       "dependencies": [],
       "cssBundle": "[publicPath]/dist/divider.bundle.css"
