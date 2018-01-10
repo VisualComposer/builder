@@ -108,6 +108,10 @@ declare -a arr=(
 'tallHoverBox'
 'separatedButton'
 'sandwichMenu'
+'sidebarMenu'
+'classicAccordion'
+'classicAccordionSection'
+'testimonial'
 'pageableContainer'
 'pageableTab'
 )

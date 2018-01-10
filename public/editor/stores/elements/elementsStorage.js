@@ -96,6 +96,18 @@ addStorage('elements', (storage) => {
         }
       }
     }
+    if (env('CLASSIC_ACCORDION')) {
+      if (wrap && cookElement.get('tag') === 'classicAccordion' && !elementData.skipInitialExtraElements) {
+        let sectionData = cook.get({ tag: 'classicAccordionSection', parent: data.id })
+        let sectionData1 = cook.get({ tag: 'classicAccordionSection', parent: data.id })
+        if (sectionData) {
+          let sectionElement = documentManager.create(sectionData.toJS())
+          let sectionElement1 = documentManager.create(sectionData1.toJS())
+          createdElements.push(sectionElement.id)
+          createdElements.push(sectionElement1.id)
+        }
+      }
+    }
     if (wrap && cookElement.get('tag') === 'pageableContainer' && !elementData.skipInitialExtraElements) {
       let tabData = cook.get({ tag: 'pageableTab', parent: data.id, backgroundColor: '#4155a7' })
       let tabData1 = cook.get({ tag: 'pageableTab', parent: data.id, backgroundColor: '#e39a54' })
