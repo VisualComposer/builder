@@ -1,4 +1,5 @@
 import {getService, getStorage, env} from 'vc-cake'
+import { exceptionalElements } from './exceptionalElements'
 
 const documentManager = getService('document')
 const cook = getService('cook')
@@ -218,12 +219,18 @@ export default class ControlsHandler {
     }
     // TODO: Refactor Simplify logic
     const containerElement = cook.get(documentManager.get(container))
-    const columnContainer = !containerElement.relatedTo([ 'Column' ])
-    const tabContainer = !containerElement.relatedTo([ 'Tab' ])
-    const classicTabContainer = !containerElement.relatedTo([ 'Classic Tab' ])
-    const classicAccordionSectionContainer = !containerElement.relatedTo([ 'Classic Accordion Section' ])
-    if (!containerElement || (columnContainer && tabContainer && classicTabContainer && classicAccordionSectionContainer)) {
-      return false
+    if (env('ELEMENT_CONTROLS_EXCEPTIONS')) {
+      if (!containerElement || !containerElement.relatedTo([ exceptionalElements ])) {
+        return false
+      }
+    } else {
+      const columnContainer = !containerElement.relatedTo([ 'Column' ])
+      const tabContainer = !containerElement.relatedTo([ 'Tab' ])
+      const classicTabContainer = !containerElement.relatedTo([ 'Classic Tab' ])
+      const classicAccordionSectionContainer = !containerElement.relatedTo([ 'Classic Accordion Section' ])
+      if (!containerElement || (columnContainer && tabContainer && classicTabContainer && classicAccordionSectionContainer)) {
+        return false
+      }
     }
     let appendControl = document.createElement('span')
     appendControl.classList.add('vcv-ui-append-control')
@@ -287,16 +294,29 @@ export default class ControlsHandler {
       }
     ))
     // create control dropdown
-    control.appendChild(this.createControlDropdown(
-      elementId,
-      {
-        isContainer: colorIndex < 2,
-        title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
-        tag: vcElement.get('tag'),
-        relatedTo: vcElement.get('relatedTo'),
-        hidden: documentManager.get(elementId) && documentManager.get(elementId).hidden
-      }
-    ))
+    if (env('ELEMENT_CONTROLS_EXCEPTIONS')) {
+      let doType = vcElement.get('designOptions') ? 'designOptions' : 'designOptionsAdvanced'
+      control.appendChild(this.createControlDropdown(
+        elementId,
+        {
+          isContainer: colorIndex < 2,
+          title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
+          tag: vcElement.get('tag'),
+          relatedTo: vcElement.get('relatedTo'),
+          designOptions: doType
+        }
+      ))
+    } else {
+      control.appendChild(this.createControlDropdown(
+        elementId,
+        {
+          isContainer: colorIndex < 2,
+          title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
+          tag: vcElement.get('tag'),
+          relatedTo: vcElement.get('relatedTo')
+        }
+      ))
+    }
 
     return control
   }
@@ -347,7 +367,7 @@ export default class ControlsHandler {
     const editText = localizations ? localizations.edit : 'Edit'
     const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
-    let designOptionEvent = 'designOptions'
+    let designOptionEvent = env('ELEMENT_CONTROLS_EXCEPTIONS') ? options.designOptions : 'designOptions'
     let visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
     if (options && options.hidden) {
       visibilityText = localizations ? localizations.hideOn : 'Hide: On'
@@ -371,8 +391,8 @@ export default class ControlsHandler {
     // add element action
     if (options.isContainer) {
       // tabs don't have advanced design options
+      // TODO: Remove this if ... else statement after Review
       if (env('CLASSIC_ACCORDION')) {
-        // TODO: Refactor Simplify logic
         const isTabsWithSlide = options.tag !== 'tabsWithSlide' && options.tag !== 'tab'
         const isClassicTabs = options.tag !== 'classicTabs' && options.tag !== 'classicTab'
         const isClassicAccordion = options.tag !== 'classicAccordion' && options.tag !== 'classicAccordionSection'
@@ -467,18 +487,33 @@ export default class ControlsHandler {
     }
 
     // paste action
-    // TODO: Refactor Simplify condition logic
-    if (options.tag === 'column' || options.tag === 'tab' || options.tag === 'classicTab' || options.tag === 'classicAccordionSection' || options.tag === 'pageableTab') {
-      let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
-      let disabled = !copyData
-      actions.push({
-        label: pasteText,
-        disabled,
-        icon: 'vcv-ui-icon-paste-icon',
-        data: {
-          vcControlEvent: 'paste'
-        }
-      })
+    if (env('ELEMENT_CONTROLS_EXCEPTIONS')) {
+      const isPasteAvailable = exceptionalElements.includes(options.title)
+      if (isPasteAvailable) {
+        let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
+        let disabled = !copyData
+        actions.push({
+          label: pasteText,
+          disabled,
+          icon: 'vcv-ui-icon-paste-icon',
+          data: {
+            vcControlEvent: 'paste'
+          }
+        })
+      }
+    } else {
+      if (options.tag === 'column' || options.tag === 'tab' || options.tag === 'classicTab' || options.tag === 'classicAccordionSection' || options.tag === 'pageableTab') {
+        let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
+        let disabled = !copyData
+        actions.push({
+          label: pasteText,
+          disabled,
+          icon: 'vcv-ui-icon-paste-icon',
+          data: {
+            vcControlEvent: 'paste'
+          }
+        })
+      }
     }
 
     if (options.tag !== 'column') {
@@ -564,22 +599,26 @@ export default class ControlsHandler {
   getElementColorIndex (vcElement) {
     let colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
-      if (env('CLASSIC_ACCORDION')) {
-        // TODO: Refactor Simplify logic
-        let colContainer = vcElement.containerFor().indexOf('Column') > -1
-        let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
-        let classicTabContainer = vcElement.containerFor().indexOf('Classic Tab') > -1
-        let classicAccordionSectionContainer = vcElement.containerFor().indexOf('Classic Accordion Section') > -1
-        let pageableTabContainer = vcElement.containerFor().indexOf('Pageable Tab') > -1
-
-        colorIndex = colContainer || tabContainer || classicTabContainer || classicAccordionSectionContainer || pageableTabContainer ? 0 : 1
+      if (env('ELEMENT_CONTROLS_EXCEPTIONS')) {
+        const isColoredElement = exceptionalElements.find(element => vcElement.containerFor().indexOf(element) > -1)
+        colorIndex = isColoredElement ? 0 : 1
       } else {
-        let colContainer = vcElement.containerFor().indexOf('Column') > -1
-        let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
-        let classicTabContainer = vcElement.containerFor().indexOf('Classic Tab') > -1
-        let pageableTabContainer = vcElement.containerFor().indexOf('Pageable Tab') > -1
+        if (env('CLASSIC_ACCORDION')) {
+          let colContainer = vcElement.containerFor().indexOf('Column') > -1
+          let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
+          let classicTabContainer = vcElement.containerFor().indexOf('Classic Tab') > -1
+          let classicAccordionSectionContainer = vcElement.containerFor().indexOf('Classic Accordion Section') > -1
+          let pageableTabContainer = vcElement.containerFor().indexOf('Pageable Tab') > -1
 
-        colorIndex = colContainer || tabContainer || classicTabContainer || pageableTabContainer ? 0 : 1
+          colorIndex = colContainer || tabContainer || classicTabContainer || classicAccordionSectionContainer || pageableTabContainer ? 0 : 1
+        } else {
+          let colContainer = vcElement.containerFor().indexOf('Column') > -1
+          let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
+          let classicTabContainer = vcElement.containerFor().indexOf('Classic Tab') > -1
+          let pageableTabContainer = vcElement.containerFor().indexOf('Pageable Tab') > -1
+
+          colorIndex = colContainer || tabContainer || classicTabContainer || pageableTabContainer ? 0 : 1
+        }
       }
     }
     return colorIndex

@@ -1,4 +1,5 @@
-import {getService} from 'vc-cake'
+import { getService, env } from 'vc-cake'
+import { exceptionalElements } from './exceptionalElements'
 const documentManager = getService('document')
 const cook = getService('cook')
 
@@ -99,10 +100,15 @@ export default class Outline {
   getElementColorIndex (vcElement) {
     let colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
-      let colContainer = vcElement.containerFor().indexOf('Column') > -1
-      let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
+      if (env('ELEMENT_CONTROLS_EXCEPTIONS')) {
+        const isColoredElement = exceptionalElements.find(element => vcElement.containerFor().indexOf(element) > -1)
+        colorIndex = isColoredElement ? 0 : 1
+      } else {
+        let colContainer = vcElement.containerFor().indexOf('Column') > -1
+        let tabContainer = vcElement.containerFor().indexOf('Tab') > -1
 
-      colorIndex = colContainer || tabContainer ? 0 : 1
+        colorIndex = colContainer || tabContainer ? 0 : 1
+      }
     }
     return colorIndex
   }
