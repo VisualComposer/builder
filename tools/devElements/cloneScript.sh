@@ -115,6 +115,8 @@ declare -a arr=(
 'pageableContainer'
 'pageableTab'
 'contactForm7'
+'featuredImagePostGrid'
+'featuredImagePostGridItem'
 )
 
 EXECDIR=`pwd`

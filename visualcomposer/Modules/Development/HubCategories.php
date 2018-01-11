@@ -246,6 +246,7 @@ class HubCategories extends Container implements Module
                     'title' => 'Grids',
                     'elements' => [
                         'postsGrid',
+                        // 'featuredImagePostGrid'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),
@@ -265,6 +266,7 @@ class HubCategories extends Container implements Module
                     'title' => 'Post Grid Item Post Description',
                     'elements' => [
                         'postsGridItemPostDescription',
+                        // 'featuredImagePostGridItem'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),

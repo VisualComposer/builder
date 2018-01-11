@@ -2372,7 +2372,47 @@ class DevElements extends Container implements Module
                         ),
                         'metaDescription' => 'Highlight your syntax with various styles to separate it from the text or other type of content.',
                     ],
-                ]
+                ],
+                // 'featuredImagePostGrid' => [
+                //    'bundlePath' => $urlHelper->to(
+                //        'devElements/featuredImagePostGrid/public/dist/element.bundle.js'
+                //    ),
+                //    'elementPath' => $urlHelper->to('devElements/featuredImagePostGrid/featuredImagePostGrid/'),
+                //    'elementRealPath' => vcapp()->path('devElements/featuredImagePostGrid/featuredImagePostGrid/'),
+                //    'assetsPath' => $urlHelper->to(
+                //        'devElements/featuredImagePostGrid/featuredImagePostGrid/public/'
+                //    ),
+                //    'settings' => [
+                //        'name' => 'Featured Image Post Grid',
+                //        'metaThumbnailUrl' => $urlHelper->to(
+                //        // @codingStandardsIgnoreLine
+                //            'devElements/featuredImagePostGrid/featuredImagePostGrid/public/featured-image-grid-thumbnail.png'
+                //        ),
+                //        'metaPreviewUrl' => $urlHelper->to(
+                //        // @codingStandardsIgnoreLine
+                //            'devElements/featuredImagePostGrid/featuredImagePostGrid/public/featured-image-grid-preview.png'
+                //        ),
+                //        'metaDescription' => 'Display your works or articles in a beautiful grid focused on the featured image.',
+                //    ],
+                //],
+                //'featuredImagePostGridItem' => [
+                //    'bundlePath' => $urlHelper->to(
+                //        'devElements/featuredImagePostGridItem/public/dist/element.bundle.js'
+                //    ),
+                //    'elementPath' => $urlHelper->to(
+                //        'devElements/featuredImagePostGridItem/featuredImagePostGridItem/'
+                //    ),
+                //    'elementRealPath' => vcapp()->path(
+                //        'devElements/featuredImagePostGridItem/featuredImagePostGridItem/'
+                //    ),
+                //    'assetsPath' => $urlHelper->to(
+                //        'devElements/featuredImagePostGridItem/featuredImagePostGridItem/public/'
+                //    ),
+                //    'settings' => [
+                //        'name' => 'Post Description',
+                //        'metaDescription' => '',
+                //    ],
+                //]
             ]
         );
     }
