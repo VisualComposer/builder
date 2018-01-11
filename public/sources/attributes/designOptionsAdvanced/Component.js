@@ -218,6 +218,10 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.getDefaultStyles()
   }
 
+  componentDidUpdate () {
+    this.getDefaultStyles()
+  }
+
   /**
    * Prepare data for setState
    * @param props
