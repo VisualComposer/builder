@@ -244,7 +244,8 @@ export default class ControlsHandler {
       const tabContainer = !containerElement.relatedTo([ 'Tab' ])
       const classicTabContainer = !containerElement.relatedTo([ 'Classic Tab' ])
       const classicAccordionSectionContainer = !containerElement.relatedTo([ 'Classic Accordion Section' ])
-      if (!containerElement || (columnContainer && tabContainer && classicTabContainer && classicAccordionSectionContainer)) {
+      const pageableTabContainer = !containerElement.relatedTo([ 'Pageable Tab' ])
+      if (!containerElement || (columnContainer && tabContainer && classicTabContainer && classicAccordionSectionContainer && pageableTabContainer)) {
         return false
       }
     }
