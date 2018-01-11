@@ -12,10 +12,12 @@ use VisualComposer\Framework\Autoload;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Application as ApplicationVc;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class ElementsAutoload extends Autoload implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * Used in bitwise comparison.
@@ -30,10 +32,16 @@ class ElementsAutoload extends Autoload implements Module
     public function __construct(ApplicationVc $app, $init = true)
     {
         $this->app = $app;
-        if ($init) {
-            $components = $this->getComponents();
-            $this->doComponents($components);
-        }
+        $this->wpAddAction(
+            'init',
+            function () use ($init) {
+                if ($init) {
+                    $components = $this->getComponents();
+                    $this->doComponents($components);
+                }
+            },
+            11
+        );
         $this->addEvent(
             'vcv:hub:elements:autoload',
             function ($element) {
