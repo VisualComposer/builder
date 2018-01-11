@@ -114,6 +114,7 @@ declare -a arr=(
 'testimonial'
 'pageableContainer'
 'pageableTab'
+'contactForm7'
 )
 
 EXECDIR=`pwd`
