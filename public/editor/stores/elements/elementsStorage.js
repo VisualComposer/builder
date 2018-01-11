@@ -109,9 +109,9 @@ addStorage('elements', (storage) => {
       }
     }
     if (wrap && cookElement.get('tag') === 'pageableContainer' && !elementData.skipInitialExtraElements) {
-      let tabData = cook.get({ tag: 'pageableTab', parent: data.id, backgroundColor: '#4155a7' })
-      let tabData1 = cook.get({ tag: 'pageableTab', parent: data.id, backgroundColor: '#e39a54' })
-      let tabData2 = cook.get({ tag: 'pageableTab', parent: data.id, pointerColor: '#000' })
+      let tabData = cook.get({ tag: 'pageableTab', parent: data.id, pointerColor: '#fff', backgroundColor: '#4155a7' })
+      let tabData1 = cook.get({ tag: 'pageableTab', parent: data.id, pointerColor: '#fff', backgroundColor: '#e39a54' })
+      let tabData2 = cook.get({ tag: 'pageableTab', parent: data.id })
       if (tabData) {
         let tabElement = documentManager.create(tabData.toJS())
         let tabElement1 = documentManager.create(tabData1.toJS())
