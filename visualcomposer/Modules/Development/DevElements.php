@@ -2345,7 +2345,7 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/pageableTab/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('devElements/pageableTab/tpageableTabab/'),
+                    'elementPath' => $urlHelper->to('devElements/pageableTab/pageableTab/'),
                     'elementRealPath' => vcapp()->path('devElements/pageableTab/pageableTab/'),
                     'assetsPath' => $urlHelper->to('devElements/pageableTab/pageableTab/public/'),
                     'settings' => [
@@ -2353,6 +2353,24 @@ class DevElements extends Container implements Module
                         'metaThumbnailUrl' => '',
                         'metaPreviewUrl' => '',
                         'metaDescription' => '',
+                    ],
+                ],
+                'syntaxHighlighter' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/syntaxHighlighter/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/syntaxHighlighter/syntaxHighlighter/'),
+                    'elementRealPath' => vcapp()->path('devElements/syntaxHighlighter/syntaxHighlighter/'),
+                    'assetsPath' => $urlHelper->to('devElements/syntaxHighlighter/syntaxHighlighter/public/'),
+                    'settings' => [
+                        'name' => 'Syntax Highlighter',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/syntaxHighlighter/syntaxHighlighter/public/syntax-highlighter-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/syntaxHighlighter/syntaxHighlighter/public/syntax-highlighter-preview.png'
+                        ),
+                        'metaDescription' => 'Highlight your syntax with various styles to separate it from the text or other type of content.',
                     ],
                 ]
             ]
