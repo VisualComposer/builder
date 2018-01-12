@@ -35,7 +35,7 @@ addStorage('hubTemplates', (storage) => {
 
     let tries = 0
     let tryDownload = () => {
-      let successCallback = (response, cancelled) => {
+      let successCallback = (response) => {
         try {
           let jsonResponse = window.JSON.parse(response)
           if (jsonResponse && jsonResponse.status) {
@@ -61,30 +61,17 @@ addStorage('hubTemplates', (storage) => {
             }
             workspaceStorage.trigger('removeFromDownloading', tag)
           } else {
-            if (!cancelled) {
-              tries++
-              console.warn('failed to download template status is false', jsonResponse, response)
-              if (tries < 2) {
-                tryDownload()
-              } else {
-                let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
-                if (jsonResponse && jsonResponse.message) {
-                  errorMessage = jsonResponse.message
-                }
-
-                console.warn('failed to download template status is false', errorMessage, response)
-                workspaceNotifications.set({
-                  type: 'error',
-                  text: errorMessage,
-                  showCloseButton: 'true',
-                  icon: 'vcv-ui-icon vcv-ui-icon-error',
-                  time: 5000
-                })
-                workspaceStorage.trigger('removeFromDownloading', tag)
-              }
+            tries++
+            console.warn('failed to download template status is false', jsonResponse, response)
+            if (tries < 2) {
+              tryDownload()
             } else {
               let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download template (license is expired or request to account has timed out).'
-              console.warn('failed to download template request cancelled', errorMessage, response)
+              if (jsonResponse && jsonResponse.message) {
+                errorMessage = jsonResponse.message
+              }
+
+              console.warn('failed to download template status is false', errorMessage, response)
               workspaceNotifications.set({
                 type: 'error',
                 text: errorMessage,
@@ -92,41 +79,12 @@ addStorage('hubTemplates', (storage) => {
                 icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
               })
+              workspaceStorage.trigger('removeFromDownloading', tag)
             }
           }
         } catch (e) {
-          if (!cancelled) {
-            tries++
-            console.warn('failed to parse download response', e, response)
-            if (tries < 2) {
-              tryDownload()
-            } else {
-              workspaceNotifications.set({
-                type: 'error',
-                text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
-                showCloseButton: 'true',
-                icon: 'vcv-ui-icon vcv-ui-icon-error',
-                time: 5000
-              })
-              workspaceStorage.trigger('removeFromDownloading', tag)
-            }
-          } else {
-            console.warn('failed to parse download response request is cancelled', e, response)
-            workspaceNotifications.set({
-              type: 'error',
-              text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
-              showCloseButton: 'true',
-              icon: 'vcv-ui-icon vcv-ui-icon-error',
-              time: 5000
-            })
-          }
-        }
-      }
-      let errorCallback = (response, cancelled) => {
-        workspaceStorage.trigger('removeFromDownloading', tag)
-        if (!cancelled) {
           tries++
-          console.warn('failed to download template general server error', response)
+          console.warn('failed to parse download response', e, response)
           if (tries < 2) {
             tryDownload()
           } else {
@@ -137,9 +95,17 @@ addStorage('hubTemplates', (storage) => {
               icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
             })
+            workspaceStorage.trigger('removeFromDownloading', tag)
           }
+        }
+      }
+      let errorCallback = (response) => {
+        workspaceStorage.trigger('removeFromDownloading', tag)
+        tries++
+        console.warn('failed to download template general server error', response)
+        if (tries < 2) {
+          tryDownload()
         } else {
-          console.warn('failed to download template general server error request cancelled', response)
           workspaceNotifications.set({
             type: 'error',
             text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',

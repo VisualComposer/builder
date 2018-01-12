@@ -83,6 +83,15 @@ class JsonActionsController extends Container implements Module
             }
 
             $previousVersion = $optionsHelper->get('hubAction:' . $savedAction['action'], '0');
+            // FIX: For cases when hubElements wasnt updated but hubAction already exists
+            if (vchelper('Str')->contains($savedAction['action'], 'element/')) {
+                $elements = vchelper('HubElements')->getElements();
+                $elementTag = str_replace('element/', '', $savedAction['action']);
+                if (!array_key_exists($elementTag, $elements)) {
+                    $previousVersion = '0.0.1'; // In case if element still not exists then try to download again
+                }
+            }
+
             if (isset($savedAction['version']) && version_compare($savedAction['version'], $previousVersion, '>')
                 || !isset($savedAction['action'])
                 || !$savedAction['version']) {
