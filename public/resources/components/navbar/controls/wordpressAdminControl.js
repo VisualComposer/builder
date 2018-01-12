@@ -18,6 +18,7 @@ export default class WordPressAdminControl extends NavbarContent {
     this.saveDraft = this.saveDraft.bind(this)
     this.savePreview = this.savePreview.bind(this)
     this.triggerPreviewClick = this.triggerPreviewClick.bind(this)
+    this.updateButtons = this.updateButtons.bind(this)
   }
 
   componentDidMount () {
@@ -28,7 +29,14 @@ export default class WordPressAdminControl extends NavbarContent {
      this.forceUpdate()
      })
      */
+    wordpressDataStorage.state('status').onChange(this.updateButtons)
     workspaceStorage.state('shortcutPreview').onChange(this.triggerPreviewClick)
+  }
+
+  updateButtons (data) {
+    if (data && data.status === 'success') {
+      this.forceUpdate()
+    }
   }
 
   handleClick (e) {
