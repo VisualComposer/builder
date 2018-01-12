@@ -1,6 +1,8 @@
 import vcCake from 'vc-cake'
 
 const API = {
+  ajaxRequests: [],
+  ajaxCall: false,
   createKey: () => {
     let uuid = ''
 
@@ -107,7 +109,7 @@ const API = {
       .replace(/\s*\bdata-vcv-[^"]+"[^"]+"+/g, '')
       .replace(/<!\-\-\[vcvSourceHtml]/g, '')
       .replace(/\[\/vcvSourceHtml]\-\->/g, '')
-      // .replace(/&quot;/g, "'")
+    // .replace(/&quot;/g, "'")
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(data)
     let vcvHelper = documentFragment.querySelectorAll('vcvhelper')
@@ -138,7 +140,7 @@ const API = {
     if (encodedUrls && encodedUrls.length) {
       let decodedUrls = encodedUrls.map(url => url.replace(/&quot;/g, "'"))
       encodedUrls.forEach((url, i) => {
-        html = html.replace(url, decodedUrls[i])
+        html = html.replace(url, decodedUrls[ i ])
       })
     }
 
@@ -198,14 +200,31 @@ const API = {
     return window.getComputedStyle(document.body).direction === 'rtl'
   },
   startDownload (tag, data, successCallback, errorCallback) {
+    this.ajaxRequests.push({ tag: tag, data: data, successCallback: successCallback, errorCallback: errorCallback })
+    this.nextDownload()
+  },
+  nextDownload () {
+    if (this.ajaxRequests.length === 0) {
+      return
+    }
+    if (this.ajaxCall) {
+      return
+    }
+    this.ajaxCall = true
     const dataProcessor = vcCake.getService('dataProcessor')
-    const req = { key: tag, data: data, successCallback: successCallback, errorCallback: errorCallback, cancelled: false }
+    let req = this.ajaxRequests[ 0 ]
     dataProcessor.appAdminServerRequest(req.data).then(
       (response) => {
-        req.successCallback && req.successCallback(response, req.cancelled)
+        this.ajaxCall = false
+        this.ajaxRequests.splice(0, 1)
+        req.successCallback && req.successCallback(response)
+        this.nextDownload()
       },
       (response) => {
-        req.errorCallback && req.errorCallback(response, req.cancelled)
+        this.ajaxCall = false
+        this.ajaxRequests.splice(0, 1)
+        req.errorCallback && req.errorCallback(response)
+        this.nextDownload()
       }
     )
   }
