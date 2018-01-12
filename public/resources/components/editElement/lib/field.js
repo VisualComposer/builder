@@ -1,9 +1,10 @@
 import React from 'react'
 import {format} from 'util'
-import {getStorage} from 'vc-cake'
+import {getStorage, getService, env} from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const elementsStorage = getStorage('elements')
+const elementAccessPoint = getService('elementAccessPoint')
 
 export default class Field extends React.Component {
   static propTypes = {
@@ -17,6 +18,9 @@ export default class Field extends React.Component {
     this.updateElementOnExternalChange = this.updateElementOnExternalChange.bind(this)
     this.state = {
       element: props.element
+    }
+    if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
+      this.element = elementAccessPoint.get(props.element.get('id'))
     }
   }
 
@@ -41,8 +45,15 @@ export default class Field extends React.Component {
     this.setState({ element: element })
   }
 
+  updateElement (fieldKey, value) {
+    this.element[ fieldKey ] = value
+  }
+
   render () {
-    const { fieldKey, updater, tab } = this.props
+    let { fieldKey, updater, tab } = this.props
+    if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
+      updater = this.updateElement.bind(this)
+    }
     const { element } = this.state
     let { type, settings } = element.settings(fieldKey)
     let AttributeComponent = type.component

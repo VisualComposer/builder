@@ -27,6 +27,10 @@ vcCake.add('contentModernLayout', (api) => {
   }
 
   const renderLayout = (reload = false) => {
+    /* 'REFACTOR_ELEMENT_ACCESS_POINT' uncomment to enable public ElementAPI in browser console */
+    // let elementAccessPoint = vcCake.env('REFACTOR_ELEMENT_ACCESS_POINT') ? vcCake.getService('elementAccessPoint') : null
+    // elementAccessPoint && (window.elAP = elementAccessPoint)
+    /* */
     if (vcCake.env('IFRAME_RELOAD')) {
       workspaceIFrame.ignoreChange(reloadLayout)
       workspaceIFrame.set(false)
