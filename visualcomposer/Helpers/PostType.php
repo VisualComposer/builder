@@ -35,7 +35,7 @@ class PostType implements Helper
                 )->get()
             ) {
                 $results[] = $post;
-            } else {
+            } elseif (!$isUserLoggedIn) {
                 $results[] = $post;
             }
         }
