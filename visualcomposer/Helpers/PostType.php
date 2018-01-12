@@ -28,9 +28,9 @@ class PostType implements Helper
         $results = [];
         foreach ($posts as $post) {
             $currentUserAccessHelper = vchelper('AccessCurrentUser');
-            // @codingStandardsIgnoreLine
             if ($isUserLoggedIn
                 && $currentUserAccessHelper->wpAll(
+                    // @codingStandardsIgnoreLine
                     [get_post_type_object($post->post_type)->cap->read, $post->ID]
                 )->get()
             ) {
