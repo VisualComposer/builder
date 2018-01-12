@@ -175,7 +175,7 @@ export default class TemplateControl extends React.Component {
     })
 
     let spinnerClasses = classNames({
-      'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner': true,
+      'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner-light': true,
       'vcv-ui-state--hidden': !spinner
     })
 
