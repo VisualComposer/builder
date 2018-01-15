@@ -4,7 +4,11 @@ import {getStorage, getService, env} from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const elementsStorage = getStorage('elements')
-const elementAccessPoint = getService('elementAccessPoint')
+let elementAccessPoint = null
+
+if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
+  elementAccessPoint = getService('elementAccessPoint')
+}
 
 export default class Field extends React.Component {
   static propTypes = {
