@@ -20,7 +20,7 @@ vcCake.add('contentModernLayout', (api) => {
   let iframeContent = vcCake.env('IFRAME_RELOAD') && document.getElementById('vcv-layout-iframe-content')
   let dnd = new DndManager(api)
   let controls = new ControlsManager(api)
-  let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-iframe-overlay'), 10))
+  let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-overlay'), 10))
 
   if (Utils.isRTL()) {
     document.body && document.body.classList.add('rtl')

@@ -120,6 +120,7 @@ if (is_array($extraOutput)) {
             </div>
         </div>
     </div>
+	<div class="vcv-layout-overlay"></div>
 </div>
 <?php
 do_action('wp_footer');
