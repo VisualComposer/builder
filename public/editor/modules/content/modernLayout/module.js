@@ -20,13 +20,17 @@ vcCake.add('contentModernLayout', (api) => {
   let iframeContent = vcCake.env('IFRAME_RELOAD') && document.getElementById('vcv-layout-iframe-content')
   let dnd = new DndManager(api)
   let controls = new ControlsManager(api)
-  let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-iframe-overlay'), 10))
+  let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-overlay'), 10))
 
   if (Utils.isRTL()) {
     document.body && document.body.classList.add('rtl')
   }
 
   const renderLayout = (reload = false) => {
+    /* 'REFACTOR_ELEMENT_ACCESS_POINT' uncomment to enable public ElementAPI in browser console */
+    // let elementAccessPoint = vcCake.env('REFACTOR_ELEMENT_ACCESS_POINT') ? vcCake.getService('elementAccessPoint') : null
+    // elementAccessPoint && (window.elAP = elementAccessPoint)
+    /* */
     if (vcCake.env('IFRAME_RELOAD')) {
       workspaceIFrame.ignoreChange(reloadLayout)
       workspaceIFrame.set(false)
