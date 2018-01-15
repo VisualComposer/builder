@@ -118,6 +118,7 @@ declare -a arr=(
 'featuredImagePostGrid'
 'featuredImagePostGridItem'
 'syntaxHighlight'
+'multipleImageCollage'
 )
 
 EXECDIR=`pwd`

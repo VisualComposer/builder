@@ -161,7 +161,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Image gallery' => [
                     'title' => 'Image Gallery',
-                    'elements' => ['imageMasonryGallery', 'imageGallery'],
+                    'elements' => ['imageMasonryGallery', 'imageGallery', 'multipleImageCollage'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Image-Gallery.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Image-Gallery.svg'),
                 ],

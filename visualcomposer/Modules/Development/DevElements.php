@@ -2373,6 +2373,24 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Highlight your syntax with various styles to separate it from the text or other type of content.',
                     ],
                 ],
+                'multipleImageCollage' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/multipleImageCollage/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/multipleImageCollage/multipleImageCollage/'),
+                    'elementRealPath' => vcapp()->path('devElements/multipleImageCollage/multipleImageCollage/'),
+                    'assetsPath' => $urlHelper->to('devElements/multipleImageCollage/multipleImageCollage/public/'),
+                    'settings' => [
+                        'name' => 'Multiple Image Collage',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/multipleImageCollage/multipleImageCollage/public/multiple-image-collage-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/multipleImageCollage/multipleImageCollage/public/multiple-image-collage-preview.png'
+                        ),
+                        'metaDescription' => 'A simple multiple image collage with CSS transition for every image to create eye-catching effect for your product features.',
+                    ],
+                ],
                 // 'featuredImagePostGrid' => [
                 //    'bundlePath' => $urlHelper->to(
                 //        'devElements/featuredImagePostGrid/public/dist/element.bundle.js'
