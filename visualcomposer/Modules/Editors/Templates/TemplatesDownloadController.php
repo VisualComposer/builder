@@ -243,9 +243,13 @@ class TemplatesDownloadController extends Container implements Module
             }
         } else {
             // File located locally
-            $url = str_replace('[publicPath]', '', $url);
+            if (strpos($url, '[publicPath]') !== false) {
+                $url = str_replace('[publicPath]', '', $url);
 
-            return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $url);
+                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $url);
+            } else {
+                return $url; // it is local file url (default file)
+            }
         }
 
         return false;
