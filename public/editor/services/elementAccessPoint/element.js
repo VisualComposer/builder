@@ -37,6 +37,14 @@ class Element {
   onAttributeChange (fieldKey, callback) {
     this.storages.elements.state(`element:${this.id}:attribute:${fieldKey}`).onChange(callback)
   }
+
+  ignoreChange (callback) {
+    this.storages.elements.state(`element:${this.id}`).ignoreChange(callback)
+  }
+
+  ignoreAttributeChange (fieldKey, callback) {
+    this.storages.elements.state(`element:${this.id}:attribute:${fieldKey}`).ignoreChange(callback)
+  }
 }
 
 export default Element
