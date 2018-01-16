@@ -34,8 +34,8 @@ export default class Attribute extends Representer {
   }
 
   setFieldValue (value) {
-    let { updater, fieldKey } = this.props
-    updater(fieldKey, value)
+    let { updater, fieldKey, fieldType } = this.props
+    updater(fieldKey, value, null, fieldType)
     this.setState({ value: value })
   }
 

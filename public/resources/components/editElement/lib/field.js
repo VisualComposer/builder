@@ -54,7 +54,7 @@ export default class Field extends React.Component {
   }
 
   render () {
-    let { fieldKey, updater, tab } = this.props
+    let { fieldKey, updater, tab, fieldType } = this.props
     if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
       updater = this.updateElement.bind(this)
     }
@@ -99,6 +99,7 @@ export default class Field extends React.Component {
           fieldKey={fieldKey}
           updater={updater}
           element={element}
+          fieldType={fieldType}
           ref='domComponent'
         />
         {description}
