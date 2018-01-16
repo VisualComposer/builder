@@ -65,6 +65,7 @@ class UpdatesController extends Container implements Module
             $currentPlugin = $transient->response[ VCV_PLUGIN_BASE_NAME ];
             // @codingStandardsIgnoreLine
             if (is_object($currentPlugin) && isset($currentPlugin->new_version)
+                // @codingStandardsIgnoreLine
                 && VCV_VERSION !== $currentPlugin->new_version) {
                 return $transient;
             } else {
