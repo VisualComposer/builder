@@ -1,6 +1,6 @@
 class Element {
   constructor (data, services, storages) {
-    this.data = data
+    this.id = data.id
     this.services = services
     this.storages = storages
     const cooked = this.cook()
@@ -10,7 +10,7 @@ class Element {
     publicSettings.forEach(key => {
       Object.defineProperty(this, key, {
         set: (value) => {
-          storages.elements.trigger('update', data.id, {
+          storages.elements.trigger('update', this.id, {
             ...this.get(),
             [key]: value
           })
@@ -27,7 +27,15 @@ class Element {
   }
 
   get () {
-    return this.services.document.get(this.data.id)
+    return this.services.document.get(this.id)
+  }
+
+  onChange (callback) {
+    this.storages.elements.state(`element:${this.id}`).onChange(callback)
+  }
+
+  onAttributeChange (fieldKey, callback) {
+    this.storages.elements.state(`element:${this.id}:attribute:${fieldKey}`).onChange(callback)
   }
 }
 
