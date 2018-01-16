@@ -30,16 +30,24 @@ export default class Field extends React.Component {
 
   componentDidMount () {
     const { element, fieldKey } = this.props
-    elementsStorage.state(`element:${element.get('id')}:attribute:${fieldKey}`)
-      .onChange(this.updateElementOnExternalChange)
+    if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
+      this.element.onAttributeChange(fieldKey, this.updateElementOnExternalChange)
+    } else {
+      elementsStorage.state(`element:${element.get('id')}:attribute:${fieldKey}`)
+        .onChange(this.updateElementOnExternalChange)
+    }
   }
 
   componentWillUnmount () {
     const { element, fieldKey } = this.props
     const id = element.get('id')
-    elementsStorage.state(`element:${id}:attribute:${fieldKey}`)
-      .ignoreChange(this.updateElementOnExternalChange)
-    elementsStorage.state(`element:${id}:attribute:${fieldKey}`).delete()
+    if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
+      // this.element.onAttributeChange(fieldKey, this.updateElementOnExternalChange)
+    } else {
+      elementsStorage.state(`element:${id}:attribute:${fieldKey}`)
+        .ignoreChange(this.updateElementOnExternalChange)
+      elementsStorage.state(`element:${id}:attribute:${fieldKey}`).delete()
+    }
   }
 
   updateElementOnExternalChange (value) {
