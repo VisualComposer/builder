@@ -42,7 +42,7 @@ export default class Field extends React.Component {
     const { element, fieldKey } = this.props
     const id = element.get('id')
     if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
-      // this.element.onAttributeChange(fieldKey, this.updateElementOnExternalChange)
+      this.element.ignoreAttributeChange(fieldKey, this.updateElementOnExternalChange)
     } else {
       elementsStorage.state(`element:${id}:attribute:${fieldKey}`)
         .ignoreChange(this.updateElementOnExternalChange)
