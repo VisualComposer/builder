@@ -202,13 +202,11 @@ HTML;
         $key = 'VCV_PLUGIN_UPDATE';
         $value = $optionsHelper->getTransient('pluginUpdateAvailable');
 
-        if (!empty($value)) {
-            $variables[] = [
-                'key' => $key,
-                'value' => $value,
-                'type' => 'constant',
-            ];
-        }
+        $variables[] = [
+            'key' => $key,
+            'value' => !!$value,
+            'type' => 'constant',
+        ];
 
         return $variables;
     }
