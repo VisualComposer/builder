@@ -35,8 +35,6 @@ class EnqueueController extends Container implements Module
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
 
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
-
-        $this->wpAddFilter('language_attributes', 'addNoJs', $actionPriority);
     }
 
     /**
@@ -181,13 +179,6 @@ class EnqueueController extends Container implements Module
             }
             unset($asset);
         }
-    }
-
-    protected function addNoJs($output)
-    {
-        $output .= ' data-vcv-no-js="true" ';
-
-        return $output;
     }
 
     /**
