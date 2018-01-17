@@ -89,7 +89,8 @@ module.exports = {
         'stylesManager',
         'hubCategories',
         'hubGroups',
-        'hubElements'
+        'hubElements',
+        'elementAccessPoint'
       ]
     },
     wp: {
@@ -113,7 +114,8 @@ module.exports = {
         'wpMyTemplates',
         'hubCategories',
         'hubGroups',
-        'hubElements'
+        'hubElements',
+        'elementAccessPoint'
       ]
     },
     wpbackend: {

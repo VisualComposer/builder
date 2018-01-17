@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\Options;
 
 class Localizations extends Container implements Helper
 {
@@ -20,6 +21,7 @@ class Localizations extends Container implements Helper
      */
     public function getLocalizations()
     {
+        $optionsHelper = new Options();
         $locale = [
             'addElement' => __('Add Element', 'vcwb'),
             'addPremiumElement' => __('Hub', 'vcwb'),
@@ -240,6 +242,10 @@ class Localizations extends Container implements Helper
                 'Thank You!',
                 'vcwb'
             ),
+            'newPluginVersionIsAvailable' => sprintf(__(
+                'There is a new version of Visual Composer Website Builder available. <a href="%s">Update now</a> to version %s.',
+                'vcwb'
+            ), self_admin_url('plugins.php'), $optionsHelper->getTransient('pluginUpdateAvailable')),
         ];
 
         return $locale;

@@ -7,6 +7,8 @@ import tinycolor from 'react-color/modules/tinycolor2'
 import classNames from 'classnames'
 import _ from 'lodash'
 
+import {env} from 'vc-cake'
+
 class Color extends Attribute {
 
   static getEmptyColor () {
@@ -96,6 +98,9 @@ class Color extends Attribute {
     this.setState({
       displayColorPicker: !this.state.displayColorPicker
     })
+    if (env('COLORPICKER_LAST_USED')) {
+      this.state.value && this.updateUsedStack()
+    }
   }
 
   handleChange (sketchValue) {
@@ -109,9 +114,16 @@ class Color extends Attribute {
       value = color.toString(format || 'rgb')
     }
 
-    this.setState({
-      value: value
-    })
+    if (env('COLORPICKER_LAST_USED')) {
+      this.setState({
+        value: value,
+        valueChanged: true
+      })
+    } else {
+      this.setState({
+        value: value
+      })
+    }
     updater(fieldKey, value)
   }
 
@@ -124,8 +136,24 @@ class Color extends Attribute {
     this.handleChange({ rgb: defaultColor.toRgb() })
   }
 
+  checkColorInLists (color) {
+    return Color.defaultProps.usedStack.indexOf(color) > -1
+  }
+
+  updateUsedStack () {
+    let colorRgb = this.state.value
+    let colorHex = tinycolor(this.state.value).toString('hex')
+    if (!this.checkColorInLists(colorRgb) && !this.checkColorInLists(colorHex) && this.state.valueChanged) {
+      let usedStack = Color.defaultProps.usedStack
+      usedStack.pop()
+      usedStack.unshift(this.state.value)
+      window.localStorage.setItem('vcv-colorpicker-last-used-stack', JSON.stringify(usedStack))
+    }
+  }
+
   render () {
     let { presetColors, options } = this.props
+    let usedStack = Color.defaultProps.usedStack
     let disableAlpha = this.props.options.hasOwnProperty('disableAlpha') ? this.props.options.disableAlpha : false
     let { value, displayColorPicker } = this.state
     let color = tinycolor(value)
@@ -158,7 +186,7 @@ class Color extends Attribute {
       colorPicker = (
         <div className='vcv-ui-sketch-picker-container'>
           <div className='vcv-ui-sketch-picker'>
-            <VcSketchPicker color={color} presetColors={presetColors} onChange={this.handleChange} disableAlpha={disableAlpha} />
+            <VcSketchPicker color={color} presetColors={presetColors} onChange={this.handleChange} disableAlpha={disableAlpha} usedStack={usedStack} />
           </div>
         </div>
       )
@@ -182,6 +210,7 @@ class Color extends Attribute {
   }
 }
 Color.defaultProps = {
+  usedStack: window.localStorage && window.localStorage.getItem('vcv-colorpicker-last-used-stack') && JSON.parse(window.localStorage.getItem('vcv-colorpicker-last-used-stack')) || ['rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)'],
   presetColors: [ Color.getEmptyColor(), '#ffffff', '#ededed', '#dadada', '#c6c6c6', '#555555', '#3e3d3d', '#2f2f2f', '#212121', '#ff827b', '#ff3f3b', '#e11612', '#b82e24', '#f88749', '#f96c31', '#ec5418', '#bc4826', '#ffcd58', '#e7b460', '#cc8b4a', '#a78461', '#fff7a2', '#ffed47', '#ffde00', '#ffc000', '#c8db39', '#a8d228', '#8ac60a', '#579202', '#40c651', '#119944', '#0a8136', '#056a39', '#4dd1ab', '#16b095', '#0c9c86', '#088382', '#4dc5cc', '#1da0c5', '#0b6e8f', '#0b556e', '#4d8fcc', '#1d64c5', '#0b4c8f', '#103c6a', '#6567df', '#484bc7', '#4530c2', '#263382', '#9461d3', '#9d41d1', '#841fbe', '#6c258a', '#d85bd3', '#cf33af', '#a12c87', '#811e6c', '#d46094', '#d6456e', '#c11a4a', '#911e37' ],
   options: {
     format: 'rgb'

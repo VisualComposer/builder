@@ -1615,8 +1615,12 @@ class DevElements extends Container implements Module
                         'devElements/transparentOutlineButton/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/'),
-                    'elementRealPath' => vcapp()->path('devElements/transparentOutlineButton/transparentOutlineButton/'),
-                    'assetsPath' => $urlHelper->to('devElements/transparentOutlineButton/transparentOutlineButton/public/'),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/transparentOutlineButton/transparentOutlineButton/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/transparentOutlineButton/transparentOutlineButton/public/'
+                    ),
                     'settings' => [
                         'name' => 'Transparent Outline Button',
                         'metaThumbnailUrl' => $urlHelper->to(
@@ -1740,9 +1744,15 @@ class DevElements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'devElements/strikethroughOutlineButton/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('devElements/strikethroughOutlineButton/strikethroughOutlineButton/'),
-                    'elementRealPath' => vcapp()->path('devElements/strikethroughOutlineButton/strikethroughOutlineButton/'),
-                    'assetsPath' => $urlHelper->to('devElements/strikethroughOutlineButton/strikethroughOutlineButton/public/'),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/strikethroughOutlineButton/strikethroughOutlineButton/'
+                    ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/strikethroughOutlineButton/strikethroughOutlineButton/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/strikethroughOutlineButton/strikethroughOutlineButton/public/'
+                    ),
                     'settings' => [
                         'name' => 'Strikethrough Outline Button',
                         'metaThumbnailUrl' => $urlHelper->to(
@@ -2297,7 +2307,9 @@ class DevElements extends Container implements Module
                     ),
                     'elementPath' => $urlHelper->to('devElements/classicAccordionSection/classicAccordionSection/'),
                     'elementRealPath' => vcapp()->path('devElements/classicAccordionSection/classicAccordionSection/'),
-                    'assetsPath' => $urlHelper->to('devElements/classicAccordionSection/classicAccordionSection/public/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/classicAccordionSection/classicAccordionSection/public/'
+                    ),
                     'settings' => [
                         'name' => 'Classic Accordion Section',
                         'metaThumbnailUrl' => '',
@@ -2391,46 +2403,46 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'A simple multiple image collage with CSS transition for every image to create eye-catching effect for your product features.',
                     ],
                 ],
-                // 'featuredImagePostGrid' => [
-                //    'bundlePath' => $urlHelper->to(
-                //        'devElements/featuredImagePostGrid/public/dist/element.bundle.js'
-                //    ),
-                //    'elementPath' => $urlHelper->to('devElements/featuredImagePostGrid/featuredImagePostGrid/'),
-                //    'elementRealPath' => vcapp()->path('devElements/featuredImagePostGrid/featuredImagePostGrid/'),
-                //    'assetsPath' => $urlHelper->to(
-                //        'devElements/featuredImagePostGrid/featuredImagePostGrid/public/'
-                //    ),
-                //    'settings' => [
-                //        'name' => 'Featured Image Post Grid',
-                //        'metaThumbnailUrl' => $urlHelper->to(
-                //        // @codingStandardsIgnoreLine
-                //            'devElements/featuredImagePostGrid/featuredImagePostGrid/public/featured-image-grid-thumbnail.png'
-                //        ),
-                //        'metaPreviewUrl' => $urlHelper->to(
-                //        // @codingStandardsIgnoreLine
-                //            'devElements/featuredImagePostGrid/featuredImagePostGrid/public/featured-image-grid-preview.png'
-                //        ),
-                //        'metaDescription' => 'Display your works or articles in a beautiful grid focused on the featured image.',
-                //    ],
-                //],
-                //'featuredImagePostGridItem' => [
-                //    'bundlePath' => $urlHelper->to(
-                //        'devElements/featuredImagePostGridItem/public/dist/element.bundle.js'
-                //    ),
-                //    'elementPath' => $urlHelper->to(
-                //        'devElements/featuredImagePostGridItem/featuredImagePostGridItem/'
-                //    ),
-                //    'elementRealPath' => vcapp()->path(
-                //        'devElements/featuredImagePostGridItem/featuredImagePostGridItem/'
-                //    ),
-                //    'assetsPath' => $urlHelper->to(
-                //        'devElements/featuredImagePostGridItem/featuredImagePostGridItem/public/'
-                //    ),
-                //    'settings' => [
-                //        'name' => 'Post Description',
-                //        'metaDescription' => '',
-                //    ],
-                //]
+                'featuredImagePostGrid' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/featuredImagePostGrid/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/featuredImagePostGrid/featuredImagePostGrid/'),
+                    'elementRealPath' => vcapp()->path('devElements/featuredImagePostGrid/featuredImagePostGrid/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/featuredImagePostGrid/featuredImagePostGrid/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Featured Image Post Grid',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/featuredImagePostGrid/featuredImagePostGrid/public/featured-image-grid-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/featuredImagePostGrid/featuredImagePostGrid/public/featured-image-grid-preview.png'
+                        ),
+                        'metaDescription' => 'Display your works or articles in a beautiful grid focused on the featured image.',
+                    ],
+                ],
+                'featuredImagePostGridItem' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/featuredImagePostGridItem/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/featuredImagePostGridItem/featuredImagePostGridItem/'
+                    ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/featuredImagePostGridItem/featuredImagePostGridItem/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/featuredImagePostGridItem/featuredImagePostGridItem/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Post Description',
+                        'metaDescription' => '',
+                    ],
+                ],
             ]
         );
     }

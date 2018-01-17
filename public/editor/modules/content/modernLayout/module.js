@@ -1,3 +1,4 @@
+/* global VCV_PLUGIN_UPDATE */
 import vcCake from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -20,8 +21,8 @@ vcCake.add('contentModernLayout', (api) => {
   let iframeContent = vcCake.env('IFRAME_RELOAD') && document.getElementById('vcv-layout-iframe-content')
   let dnd = new DndManager(api)
   let controls = new ControlsManager(api)
-  let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-iframe-overlay'), 10))
-
+  let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-overlay'), 10))
+  const localizations = window.VCV_I18N && window.VCV_I18N()
   if (Utils.isRTL()) {
     document.body && document.body.classList.add('rtl')
   }
@@ -49,18 +50,28 @@ vcCake.add('contentModernLayout', (api) => {
       if (vcCake.env('UI_NOTIFICATIONS')) {
         !reload && notifications.init()
       }
-
       if (vcCake.env('IFRAME_RELOAD')) {
         workspaceIFrame.onChange(reloadLayout)
+      }
+      if (vcCake.env('TF_SHOW_PLUGIN_UPDATE')) {
+        const pluginUpdate = VCV_PLUGIN_UPDATE()
+        pluginUpdate && workspaceNotifications.set({
+          position: 'top',
+          transparent: false,
+          showCloseButton: true,
+          rounded: false,
+          type: 'warning',
+          text: localizations.newPluginVersionIsAvailable || `There is a new version of Visual Composer Website Builder available`,
+          html: true,
+          time: 10000
+        })
       }
 
       if (vcCake.env('MOBILE_DETECT')) {
         const mobileDetect = new MobileDetect(window.navigator.userAgent)
         if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-          const localizations = window.VCV_I18N && window.VCV_I18N()
           let mobileControls = new MobileControlsManager(api)
           mobileControls.init()
-
           if (vcCake.env('UI_NOTIFICATIONS')) {
             workspaceNotifications.set({
               position: 'bottom',

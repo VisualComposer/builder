@@ -28,7 +28,7 @@ class UpdatesController extends Container implements Module
      */
     protected $updateVersionUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/index.html';
 
-    protected $updateChangelogUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.json';
+    protected $updateChangelogUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.json?v=2';
 
     // @codingStandardsIgnoreLine
     protected $updatePackageUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/visualcomposer.zip';
@@ -44,6 +44,10 @@ class UpdatesController extends Container implements Module
         $this->wpAddFilter('plugins_api', 'changelog');
 
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+
+        if (vcvenv('VCV_ENV_PLUGIN_UPDATE_NOTICE')) {
+            $this->addFilter('vcv:editor:variables', 'addPluginUpdateNoticeVariable');
+        }
     }
 
     /**
@@ -60,7 +64,9 @@ class UpdatesController extends Container implements Module
         if (isset($transient->response[ VCV_PLUGIN_BASE_NAME ])) {
             $currentPlugin = $transient->response[ VCV_PLUGIN_BASE_NAME ];
             // @codingStandardsIgnoreLine
-            if (is_object($currentPlugin) && isset($currentPlugin->new_version) && VCV_VERSION !== $currentPlugin->new_version) {
+            if (is_object($currentPlugin) && isset($currentPlugin->new_version)
+                // @codingStandardsIgnoreLine
+                && VCV_VERSION !== $currentPlugin->new_version) {
                 return $transient;
             } else {
                 unset($transient->response[ VCV_PLUGIN_BASE_NAME ]);
@@ -84,6 +90,7 @@ class UpdatesController extends Container implements Module
             $plugin->package = $this->updatePackageUrl;
             $plugin->tested = $info['testedVersion'];
             $transient->response[ VCV_PLUGIN_BASE_NAME ] = $plugin;
+            $optionsHelper->setTransient('pluginUpdateAvailable', $info['version'], 3600);
         }
 
         return $transient;
@@ -126,12 +133,18 @@ class UpdatesController extends Container implements Module
         $utmHelper = vchelper('Utm');
         $information = [];
         $information['name'] = 'Visual Composer Website Builder';
-        $information['author'] = '<a target="_blank" href="' . $utmHelper->get('updatesChangelogAuthorLink') . '">The Visual Composer Team</a>';
+        $information['author'] = '<a target="_blank" href="' . $utmHelper->get('updatesChangelogAuthorLink')
+            . '">The Visual Composer Team</a>';
         $information['slug'] = VCV_PLUGIN_DIRNAME;
-        $information['banners'] = ['high' => vchelper('Url')->assetUrl('images/logo/visualcomposer-changelog-cover.jpg')];
+        $information['banners'] = [
+            'high' => vchelper('Url')->assetUrl(
+                'images/logo/visualcomposer-changelog-cover.jpg'
+            ),
+        ];
         $information['homepage'] = $utmHelper->get('updatesChangelogHomepageLink');
         $information['sections'] = [];
-        $information['sections']['description'] = __('
+        $information['sections']['description'] = __(
+            '
 <p>Visual Composer Website Builder is a perfect solution to create your WordPress site via drag and drop interface. Use content elements or predefined layouts to create any layout fast and easy.</p>
 <ul>
 <li>Use Frontend, Backend or Tree View to create structure</li>
@@ -143,7 +156,9 @@ class UpdatesController extends Container implements Module
 <li>Apply predefined pro quality templates</li>
 <li>Control look of elements via multiple parameters and rich design options</li>
 <li>Receive high-quality code optimized for SEO</li>
-</ul>', 'vcwb');
+</ul>',
+            'vcwb'
+        );
         $information['sections']['Installation &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/installation/">Installation</a>';
         $information['sections']['FAQ &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/faq/">FAQ</a>';
 
@@ -175,11 +190,26 @@ HTML;
         wp_enqueue_script('vcv:settings:script');
     }
 
-
     protected function unsetOptions(Options $optionsHelper)
     {
         $optionsHelper
             ->deleteTransient('vcv:update:remoteVersion');
         delete_site_transient('update_plugins');
+    }
+
+    protected function addPluginUpdateNoticeVariable($variables, Options $optionsHelper)
+    {
+        $key = 'VCV_PLUGIN_UPDATE';
+        $value = $optionsHelper->getTransient('pluginUpdateAvailable');
+
+        if (!empty($value)) {
+            $variables[] = [
+                'key' => $key,
+                'value' => $value,
+                'type' => 'constant',
+            ];
+        }
+
+        return $variables;
     }
 }
