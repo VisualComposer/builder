@@ -2443,6 +2443,46 @@ class DevElements extends Container implements Module
                         'metaDescription' => '',
                     ],
                 ],
+                'centeredPostGrid' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/centeredPostGrid/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/centeredPostGrid/centeredPostGrid/'),
+                    'elementRealPath' => vcapp()->path('devElements/centeredPostGrid/centeredPostGrid/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/centeredPostGrid/centeredPostGrid/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Centered Post Grid',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/centeredPostGrid/centeredPostGrid/public/centered-post-grid-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/centeredPostGrid/centeredPostGrid/public/centered-post-grid-preview.png'
+                        ),
+                        'metaDescription' => 'Clean post grid with centred content and separator line.',
+                    ],
+                ],
+                'centeredPostGridItem' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/centeredPostGridItem/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/centeredPostGridItem/centeredPostGridItem/'
+                    ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/centeredPostGridItem/centeredPostGridItem/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/centeredPostGridItem/centeredPostGridItem/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Post Description',
+                        'metaDescription' => '',
+                    ],
+                ],
             ]
         );
     }
