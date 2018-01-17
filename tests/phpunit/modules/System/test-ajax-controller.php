@@ -225,10 +225,11 @@ class AjaxControllerTest extends WP_UnitTestCase
         $catched = false;
         $catchedMessage = '';
         try {
+            ob_start();
             $method->invokeArgs($controller, [$requestHelper]);
-        } catch (WPDieException $e) {
+        } catch (Exception $e) {
             $catched = true;
-            $catchedMessage = $e->getMessage();
+            $catchedMessage = ob_get_clean();
         }
         $this->assertTrue($catched);
         $loggerHelper = vchelper('Logger');
@@ -259,10 +260,11 @@ class AjaxControllerTest extends WP_UnitTestCase
             ]
         );
         try {
+            ob_start();
             $method->invokeArgs($controller, [$requestHelper]);
-        } catch (WPDieException $e) {
+        } catch (Exception $e) {
             $catched = true;
-            $catchedMessage = $e->getMessage();
+            $catchedMessage = ob_get_clean();
         }
         $this->assertTrue($catched);
         $this->assertEquals('{"testListenAjax":true}', $catchedMessage);
@@ -284,10 +286,11 @@ class AjaxControllerTest extends WP_UnitTestCase
             ]
         );
         try {
+            ob_start();
             $method->invokeArgs($controller, [$requestHelper]);
-        } catch (WPDieException $e) {
+        } catch (Exception $e) {
             $catched = true;
-            $catchedMessage = $e->getMessage();
+            $catchedMessage = ob_get_clean();
         }
         $this->assertTrue($catched);
         $this->assertEquals('"Nonce not validated #10075."', $loggerHelper->all());
@@ -310,10 +313,11 @@ class AjaxControllerTest extends WP_UnitTestCase
             ]
         );
         try {
+            ob_start();
             $method->invokeArgs($controller, [$requestHelper]);
-        } catch (WPDieException $e) {
+        } catch (Exception $e) {
             $catched = true;
-            $catchedMessage = $e->getMessage();
+            $catchedMessage = ob_get_clean();
         }
         $this->assertTrue($catched);
         $message = $loggerHelper->all();
