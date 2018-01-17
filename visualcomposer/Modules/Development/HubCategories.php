@@ -246,7 +246,7 @@ class HubCategories extends Container implements Module
                     'title' => 'Grids',
                     'elements' => [
                         'postsGrid',
-                        // 'featuredImagePostGrid'
+                        'featuredImagePostGrid',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),
@@ -266,7 +266,7 @@ class HubCategories extends Container implements Module
                     'title' => 'Post Grid Item Post Description',
                     'elements' => [
                         'postsGridItemPostDescription',
-                        // 'featuredImagePostGridItem'
+                        'featuredImagePostGridItem',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),
@@ -296,7 +296,7 @@ class HubCategories extends Container implements Module
                         'wpWidgetsCustom',
                         'wpWidgetsDefault',
                         'widgetizedSidebar',
-                        'contactForm7'
+                        'contactForm7',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
@@ -317,13 +317,13 @@ class HubCategories extends Container implements Module
                     'title' => 'Empty Space',
                     'elements' => ['emptySpace'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
-                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg')
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
                 'Testimonial' => [
                     'title' => 'Testimonial',
                     'elements' => ['testimonial'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Testimonial.svg'),
-                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Testimonial.svg')
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Testimonial.svg'),
                 ],
                 'Accordions' => [
                     'title' => 'Accordions',
