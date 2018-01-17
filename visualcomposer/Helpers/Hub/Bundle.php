@@ -320,7 +320,7 @@ class Bundle implements Helper
             'version' => $version,
         ];
         $optionNameKey = $action . $actionData['version'];
-        $optionsHelper->set('hubAction:download:' . $optionNameKey, $actionData);
+        $optionsHelper->set('hubA:d:' . md5($optionNameKey), $actionData);
         $requiredActions[] = [
             'key' => $optionNameKey,
             'name' => $actionData['name'],

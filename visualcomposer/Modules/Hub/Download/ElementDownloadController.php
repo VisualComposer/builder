@@ -115,7 +115,7 @@ class ElementDownloadController extends Container implements Module
                 foreach ($actions['actions'] as $action) {
                     if (!empty($action)) {
                         $optionNameKey = $action['action'] . $action['version'];
-                        $optionsHelper->set('hubAction:download:' . $optionNameKey, $action);
+                        $optionsHelper->set('hubA:d:' . md5($optionNameKey), $action);
                         $actionData = [
                             'action' => $action['action'],
                             'key' => $optionNameKey,

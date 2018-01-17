@@ -74,7 +74,7 @@ class JsonActionsController extends Container implements Module
             if (!isset($action['key']) && isset($action['data'])) {
                 $savedAction = $action;
             } else {
-                $savedAction = $optionsHelper->get('hubAction:download:' . $action['key'], false);
+                $savedAction = $optionsHelper->get('hubA:d:' . md5($action['key']), false);
             }
             if (!$savedAction) {
                 $loggerHelper->log('The update action does not exists #10057');
@@ -166,6 +166,13 @@ class JsonActionsController extends Container implements Module
                 VCV_PREFIX . 'hubAction:%'
             )
         );
+        $wpdb->query(
+            $wpdb->prepare(
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',
+                VCV_PREFIX . 'hubA:d:%'
+            )
+        );
+        // Remove before 1.13 keys
         $wpdb->query(
             $wpdb->prepare(
                 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',

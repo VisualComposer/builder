@@ -152,3 +152,13 @@ function vcIsBadResponse($response)
         (is_array($response) && isset($response['body'], $response['response']) && wp_remote_retrieve_response_code($response) !== 200) ||
         $bad;
 }
+
+function vcvdie($message = '')
+{
+    echo is_string($message) ? $message : json_encode($message);
+    if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
+        throw new \Exception($message);
+    } else {
+        die;
+    }
+}
