@@ -24,7 +24,7 @@ window.vcv.on('ready', (action, id, options) => {
             });
           }
         } else {
-          let innerSelector = '[data-vce-animate][data-vcv-animate-fieldkey="' + innerKey + '"]'
+          let innerSelector = `[data-vce-animate][data-vcv-animate-fieldkey="${innerKey}"]`
           let innerElement = element.querySelector(innerSelector)
           if (innerElement) {
             animateElement(innerElement)
