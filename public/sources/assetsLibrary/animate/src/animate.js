@@ -1,5 +1,4 @@
 window.vcv.on('ready', (action, id, options) => {
-  // window.Waypoint.destroyAll()
   let enableAnimate = (id, action, innerKey) => {
     let selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'
     let elements = document.querySelectorAll(selector)
@@ -15,17 +14,17 @@ window.vcv.on('ready', (action, id, options) => {
 
           if (containerElement) {
             animateElement(containerElement)
+          }
 
-            if (action === 'add') {
-              let innerElements = containerElement.querySelectorAll('[data-vcv-animate-fieldkey]')
-              innerElements = [].slice.call(innerElements)
-              innerElements.forEach((innerElement) => {
-                animateElement(innerElement)
-              })
-            }
+          if (action === 'add') {
+            let innerElements = element.querySelectorAll('[data-vcv-animate-fieldkey]')
+            innerElements = [].slice.call(innerElements)
+            innerElements.forEach(function (innerElement) {
+              animateElement(innerElement)
+            });
           }
         } else {
-          let innerSelector = `[data-vce-animate][data-vcv-animate-fieldkey="${innerKey}"]`
+          let innerSelector = '[data-vce-animate][data-vcv-animate-fieldkey="' + innerKey + '"]'
           let innerElement = element.querySelector(innerSelector)
           if (innerElement) {
             animateElement(innerElement)
