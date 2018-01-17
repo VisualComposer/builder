@@ -190,15 +190,26 @@ class TemplatesDownloadController extends Container implements Module
     protected function processTemplateMetaImages($template)
     {
         $wpMediaHelper = vchelper('WpMedia');
+        $urlHelper = vchelper('Url');
         if ($wpMediaHelper->checkIsImage($template['preview'])) {
-            $preview = $this->processSimple($template['preview'], $template);
+            $url = $template['preview'];
+            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
+                $url = '[publicPath]' . $url;
+            }
+
+            $preview = $this->processSimple($url, $template);
             if (!is_wp_error($preview) && $preview) {
                 $template['preview'] = $preview;
             }
         }
 
         if ($wpMediaHelper->checkIsImage($template['thumbnail'])) {
-            $thumbnail = $this->processSimple($template['thumbnail'], $template);
+            $url = $template['thumbnail'];
+            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
+                $url = '[publicPath]' . $url;
+            }
+
+            $thumbnail = $this->processSimple($url, $template);
             if (!is_wp_error($thumbnail) && $thumbnail) {
                 $template['thumbnail'] = $thumbnail;
             }
@@ -246,6 +257,8 @@ class TemplatesDownloadController extends Container implements Module
             if (strpos($url, '[publicPath]') !== false) {
                 $url = str_replace('[publicPath]', '', $url);
 
+                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $url);
+            } elseif (strpos($url, 'assets/elements/') !== false) {
                 return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $url);
             } else {
                 return $url; // it is local file url (default file)
