@@ -137,7 +137,7 @@ class Color extends Attribute {
   }
 
   checkColorInLists (color) {
-    return Color.defaultProps.usedStack.indexOf(color) > -1 || Color.defaultProps.presetColors.indexOf(color) > -1
+    return Color.defaultProps.usedStack.indexOf(color) > -1
   }
 
   updateUsedStack () {

@@ -59,7 +59,11 @@ export default class Notifications {
 
     const text = document.createElement('div')
     text.setAttribute('class', 'vcv-layout-notifications-text')
-    text.innerText = data.text
+    if (vcCake.env('TF_SHOW_PLUGIN_UPDATE') && data.html) {
+      text.innerHTML = data.text
+    } else {
+      text.innerText = data.text
+    }
 
     let timeout = setTimeout(() => {
       clearTimeout(timeout)
