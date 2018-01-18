@@ -242,10 +242,22 @@ class Localizations extends Container implements Helper
                 'Thank You!',
                 'vcwb'
             ),
-            'newPluginVersionIsAvailable' => sprintf(__(
-                'There is a new version of Visual Composer Website Builder available. <a href="%s">Update now</a> to version %s.',
+            'newPluginVersionIsAvailable' => sprintf(
+                __(
+                    'There is a new version of Visual Composer Website Builder available. <a href="%s">Update now</a> to version %s.',
+                    'vcwb'
+                ),
+                self_admin_url('plugins.php'),
+                $optionsHelper->getTransient('pluginUpdateAvailable')
+            ),
+            'elementDownloadRequiresUpdate' => __(
+                'To download this element you need to update the plugin to newest version',
                 'vcwb'
-            ), self_admin_url('plugins.php'), $optionsHelper->getTransient('pluginUpdateAvailable')),
+            ),
+            'templateDownloadRequiresUpdate' => __(
+                'To download this template you need to update the plugin to newest version',
+                'vcwb'
+            ),
         ];
 
         return $locale;
