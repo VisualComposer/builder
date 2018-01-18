@@ -9,7 +9,6 @@ import lodash from 'lodash'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
-const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class TeaserAddElementCategories extends AddElementCategories {
   allCategories = null
