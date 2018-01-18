@@ -251,11 +251,11 @@ class Localizations extends Container implements Helper
                 $optionsHelper->getTransient('pluginUpdateAvailable')
             ),
             'elementDownloadRequiresUpdate' => __(
-                'To download this element you need to update the plugin to newest version',
+                'Update Visual Composer plugin to the most recent version to download this content element.',
                 'vcwb'
             ),
             'templateDownloadRequiresUpdate' => __(
-                'To download this template you need to update the plugin to newest version',
+                'Update Visual Composer plugin to the most recent version to download this template.',
                 'vcwb'
             ),
         ];

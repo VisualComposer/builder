@@ -79,7 +79,7 @@ export default class TeaserElementControl extends ElementControl {
     }
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
-      let errorMessage = localizations.elementDownloadRequiresUpdate || 'To download this element you need to update the plugin to newest version.'
+      let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
       workspaceNotifications.set({
         type: 'error',
         text: errorMessage,
@@ -101,7 +101,7 @@ export default class TeaserElementControl extends ElementControl {
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
     if (this.props.element.update) {
-      let errorMessage = localizations.templateDownloadRequiresUpdate || 'To download this template you need to update the plugin to newest version.'
+      let errorMessage = localizations.templateDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this template.'
       workspaceNotifications.set({
         type: 'error',
         text: errorMessage,
