@@ -48,13 +48,13 @@ class HubCategories extends Container implements Module
             [
                 'Row' => [
                     'title' => 'Row/Column',
-                    'elements' => ['row'],
+                    'elements' => ['row', 'grid'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Row.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Row.svg'),
                 ],
                 'Column' => [
                     'title' => 'Column',
-                    'elements' => ['column'],
+                    'elements' => ['column', 'gridItem'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Column.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Column.svg'),
                 ],
