@@ -2483,6 +2483,35 @@ class DevElements extends Container implements Module
                         'metaDescription' => '',
                     ],
                 ],
+                'grid' => [
+                    'bundlePath' => $urlHelper->to('devElements/grid/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('devElements/grid/grid/'),
+                    'elementRealPath' => vcapp()->path('devElements/grid/grid/'),
+                    'assetsPath' => $urlHelper->to('devElements/grid/grid/public/'),
+                    'settings' => [
+                        'name' => 'Grid',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/grid/grid/public/grid-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/grid/grid/public/grid-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'CSS Grid Layout excels at dividing a page into major regions, or defining the relationship in terms of size, position, and layer, between parts of a control built from HTML primitives. Like tables, grid layout enables an author to align elements into columns and rows.',
+                    ],
+                ],
+                'gridItem' => [
+                    'bundlePath' => $urlHelper->to('devElements/gridItem/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('devElements/gridItem/gridItem/'),
+                    'elementRealPath' => vcapp()->path('devElements/gridItem/gridItem/'),
+                    'assetsPath' => $urlHelper->to('devElements/gridItem/gridItem/public/'),
+                    'settings' => [
+                        'name' => 'Grid Item',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
             ]
         );
     }
