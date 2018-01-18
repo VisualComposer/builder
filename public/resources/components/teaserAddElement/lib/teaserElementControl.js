@@ -72,8 +72,6 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadElement (e) {
-    console.log('element', this.props.element)
-
     if (!this.state.allowDownload) {
       return
     }
