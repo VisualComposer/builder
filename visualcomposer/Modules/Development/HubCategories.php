@@ -246,7 +246,7 @@ class HubCategories extends Container implements Module
                     'title' => 'Grids',
                     'elements' => [
                         'postsGrid',
-                        'featuredImagePostGrid',
+                        // 'featuredImagePostGrid'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),
@@ -266,7 +266,7 @@ class HubCategories extends Container implements Module
                     'title' => 'Post Grid Item Post Description',
                     'elements' => [
                         'postsGridItemPostDescription',
-                        'featuredImagePostGridItem',
+                        // 'featuredImagePostGridItem'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),
@@ -296,7 +296,7 @@ class HubCategories extends Container implements Module
                         'wpWidgetsCustom',
                         'wpWidgetsDefault',
                         'widgetizedSidebar',
-                        'contactForm7',
+                        'contactForm7'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
@@ -336,6 +336,12 @@ class HubCategories extends Container implements Module
                     'elements' => ['classicAccordionSection'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
+                ],
+                'Typewriter Heading' => [
+                    'title' => 'Typewriter Heading',
+                    'elements' => ['typewriterHeading'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
             ]
         );

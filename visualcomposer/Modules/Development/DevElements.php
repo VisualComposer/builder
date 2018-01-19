@@ -2443,6 +2443,28 @@ class DevElements extends Container implements Module
                         'metaDescription' => '',
                     ],
                 ],
+                'typewriterHeading' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/typewriterHeading/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/typewriterHeading/typewriterHeading/'),
+                    'elementRealPath' => vcapp()->path('devElements/typewriterHeading/typewriterHeading/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/typewriterHeading/typewriterHeading/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Typewriter Heading',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/typewriterHeading/typewriterHeading/public/typewriter-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/typewriterHeading/typewriterHeading/public/typewriter-preview.png'
+                        ),
+                        'metaDescription' => 'Add interactive heading with typewriter animation to drag your customer attention to specific title or keyword.',
+                    ],
+                ],
             ]
         );
     }
