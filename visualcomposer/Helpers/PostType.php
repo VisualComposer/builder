@@ -26,6 +26,7 @@ class PostType implements Helper
         $posts = get_posts($query);
         $results = [];
         foreach ($posts as $post) {
+            // @codingStandardsIgnoreLine
             if (is_post_type_viewable($post->post_type)) {
                 $results[] = $post;
             }
