@@ -9,12 +9,9 @@ import lodash from 'lodash'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
-const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class TeaserAddElementCategories extends AddElementCategories {
   allCategories = null
-  ajaxRequests = []
-  ajaxCall = false
 
   getAllCategories () {
     if (!this.allCategories) {
@@ -64,60 +61,17 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return { elements: elements, id: 'Templates2', index: 2, title: 'Templates' }
   }
 
-  startDownload (key, data, successCallback, errorCallback) {
-    this.ajaxRequests.push({ key: key, data: data, successCallback: successCallback, errorCallback: errorCallback, cancelled: false })
-    this.nextDownload()
-
-    return true
-  }
-
-  cancelDownload (key) {
-    this.ajaxRequests = this.ajaxRequests.map((i) => {
-      if (i.key === key) {
-        i.cancelled = true
-      }
-      return i
-    })
-  }
-
-  nextDownload () {
-    if (this.ajaxRequests.length === 0) {
-      return
-    }
-    if (this.ajaxCall) {
-      return
-    }
-
-    let req = this.ajaxRequests[ 0 ]
-    this.ajaxCall = true
-    dataProcessor.appAdminServerRequest(req.data).then(
-      (response) => {
-        req.successCallback && req.successCallback(response, req.cancelled)
-        this.ajaxCall = false
-        this.ajaxRequests.splice(0, 1)
-        this.nextDownload()
-      },
-      (response) => {
-        req.errorCallback && req.errorCallback(response, req.cancelled)
-        this.ajaxCall = false
-        this.ajaxRequests.splice(0, 1)
-        this.nextDownload()
-      }
-    )
-  }
-
   getElementControl (elementData) {
-    // TODO: Finish element control actions custom and without COOK!
     let tag = elementData.tag ? elementData.tag : elementData.name
     tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+
     return <TeaserElementControl
       key={'vcv-element-control-' + tag}
       element={elementData}
       tag={tag}
       workspace={workspaceStorage.state('settings').get() || {}}
-      startDownload={this.startDownload.bind(this)}
-      cancelDownload={this.cancelDownload.bind(this)}
       type={elementData.type ? elementData.type : 'element'}
+      update={elementData.update ? elementData.update : false}
       name={elementData.name} />
   }
 
@@ -167,7 +121,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
         inputPlaceholder: 'elements and templates',
         activeFilter: this.state.filterId,
         selectEvent: (active) => {
-          let activeId = active && active.constructor === String && active.split('-')[0]
+          let activeId = active && active.constructor === String && active.split('-')[ 0 ]
           let result = this.state
           switch (activeId) {
             case '0':

@@ -73,6 +73,7 @@ class TeaserDownloadController extends Container implements Module
                     'metaThumbnailUrl' => $element['thumbnailUrl'],
                     'metaPreviewUrl' => $element['previewUrl'],
                     'metaDescription' => $element['description'],
+                    'update' => isset($element['update']) ? $element['update'] : false,
                 ];
                 $groupList[ $group ]['elements'][] = $elementData;
                 $groupList[ $group ]['elements'] = array_values(

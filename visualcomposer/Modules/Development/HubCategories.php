@@ -48,13 +48,13 @@ class HubCategories extends Container implements Module
             [
                 'Row' => [
                     'title' => 'Row/Column',
-                    'elements' => ['row'],
+                    'elements' => ['row', 'grid'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Row.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Row.svg'),
                 ],
                 'Column' => [
                     'title' => 'Column',
-                    'elements' => ['column'],
+                    'elements' => ['column', 'gridItem'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Column.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Column.svg'),
                 ],
@@ -246,7 +246,8 @@ class HubCategories extends Container implements Module
                     'title' => 'Grids',
                     'elements' => [
                         'postsGrid',
-                        // 'featuredImagePostGrid'
+                        'featuredImagePostGrid',
+                        'centeredPostGrid',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),
@@ -266,7 +267,8 @@ class HubCategories extends Container implements Module
                     'title' => 'Post Grid Item Post Description',
                     'elements' => [
                         'postsGridItemPostDescription',
-                        // 'featuredImagePostGridItem'
+                        'featuredImagePostGridItem',
+                        'centeredPostGridItem',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Post-Grid.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Post-Grid.svg'),

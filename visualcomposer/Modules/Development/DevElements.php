@@ -2465,6 +2465,75 @@ class DevElements extends Container implements Module
                         'metaDescription' => 'Add interactive heading with typewriter animation to drag your customer attention to specific title or keyword.',
                     ],
                 ],
+                'centeredPostGrid' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/centeredPostGrid/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/centeredPostGrid/centeredPostGrid/'),
+                    'elementRealPath' => vcapp()->path('devElements/centeredPostGrid/centeredPostGrid/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/centeredPostGrid/centeredPostGrid/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Centered Post Grid',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/centeredPostGrid/centeredPostGrid/public/centered-post-grid-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/centeredPostGrid/centeredPostGrid/public/centered-post-grid-preview.png'
+                        ),
+                        'metaDescription' => 'Clean post grid with centred content and separator line.',
+                    ],
+                ],
+                'centeredPostGridItem' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/centeredPostGridItem/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'devElements/centeredPostGridItem/centeredPostGridItem/'
+                    ),
+                    'elementRealPath' => vcapp()->path(
+                        'devElements/centeredPostGridItem/centeredPostGridItem/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/centeredPostGridItem/centeredPostGridItem/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Post Description',
+                        'metaDescription' => '',
+                    ],
+                ],
+                'grid' => [
+                    'bundlePath' => $urlHelper->to('devElements/grid/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('devElements/grid/grid/'),
+                    'elementRealPath' => vcapp()->path('devElements/grid/grid/'),
+                    'assetsPath' => $urlHelper->to('devElements/grid/grid/public/'),
+                    'settings' => [
+                        'name' => 'Grid',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/grid/grid/public/grid-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/grid/grid/public/grid-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'CSS Grid Layout excels at dividing a page into major regions, or defining the relationship in terms of size, position, and layer, between parts of a control built from HTML primitives. Like tables, grid layout enables an author to align elements into columns and rows.',
+                    ],
+                ],
+                'gridItem' => [
+                    'bundlePath' => $urlHelper->to('devElements/gridItem/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('devElements/gridItem/gridItem/'),
+                    'elementRealPath' => vcapp()->path('devElements/gridItem/gridItem/'),
+                    'assetsPath' => $urlHelper->to('devElements/gridItem/gridItem/public/'),
+                    'settings' => [
+                        'name' => 'Grid Item',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
             ]
         );
     }

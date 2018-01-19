@@ -121,6 +121,13 @@ addStorage('elements', (storage) => {
         createdElements.push(tabElement2.id)
       }
     }
+    if (wrap && cookElement.get('tag') === 'grid' && !elementData.skipInitialExtraElements) {
+      let gridData = cook.get({ tag: 'gridItem', parent: data.id })
+      if (gridData) {
+        let gridElement = documentManager.create(gridData.toJS())
+        createdElements.push(gridElement.id)
+      }
+    }
     if (wrap && cookElement.get('tag') === 'section') {
       let rowData = cook.get({ tag: 'row', parent: data.id })
       let rowElement
