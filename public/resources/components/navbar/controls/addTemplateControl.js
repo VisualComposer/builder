@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getStorage, env} from 'vc-cake'
+import { getStorage, env } from 'vc-cake'
 import NavbarContent from '../navbarContent'
 import MobileDetect from 'mobile-detect'
 
@@ -14,7 +14,7 @@ export default class AddTemplateControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.state = {
-      isActive: false
+      isActive: workspaceContentState.get() === 'addTemplate'
     }
     this.toggleAddTemplate = this.toggleAddTemplate.bind(this)
     this.setActiveState = this.setActiveState.bind(this)

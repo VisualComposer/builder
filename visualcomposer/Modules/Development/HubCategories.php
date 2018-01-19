@@ -48,13 +48,13 @@ class HubCategories extends Container implements Module
             [
                 'Row' => [
                     'title' => 'Row/Column',
-                    'elements' => ['row'],
+                    'elements' => ['row', 'grid'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Row.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Row.svg'),
                 ],
                 'Column' => [
                     'title' => 'Column',
-                    'elements' => ['column'],
+                    'elements' => ['column', 'gridItem'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Column.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Column.svg'),
                 ],
@@ -298,7 +298,7 @@ class HubCategories extends Container implements Module
                         'wpWidgetsCustom',
                         'wpWidgetsDefault',
                         'widgetizedSidebar',
-                        'contactForm7',
+                        'contactForm7'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
@@ -338,6 +338,12 @@ class HubCategories extends Container implements Module
                     'elements' => ['classicAccordionSection'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
+                ],
+                'Typewriter Heading' => [
+                    'title' => 'Typewriter Heading',
+                    'elements' => ['typewriterHeading'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
             ]
         );

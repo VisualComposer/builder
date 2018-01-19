@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import {getStorage, env} from 'vc-cake'
+import { getStorage, env } from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 
 const workspaceSettings = getStorage('workspace').state('settings')
@@ -15,7 +15,7 @@ export default class PlusControl extends NavbarContent {
     this.toggleAddElement = this.toggleAddElement.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
     this.state = {
-      isActive: false
+      isActive: workspaceContentState.get() === 'addElement'
     }
   }
 
