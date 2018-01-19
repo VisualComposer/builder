@@ -198,7 +198,7 @@ class Localizations extends Container implements Helper
             ),
             'pageTemplateReloadDescription' => __(
                 'To apply a template you will need to save changes and content will be reloaded.',
-                '_vcwb'
+                'vcwb'
             ),
             'pageTitleDescription' => __(
                 'To apply title changes save changes and reload the page',
