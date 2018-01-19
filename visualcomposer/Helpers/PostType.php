@@ -23,19 +23,11 @@ class PostType implements Helper
      */
     public function query($query)
     {
-        $isUserLoggedIn = is_user_logged_in();
         $posts = get_posts($query);
         $results = [];
         foreach ($posts as $post) {
-            $currentUserAccessHelper = vchelper('AccessCurrentUser');
-            if ($isUserLoggedIn
-                && $currentUserAccessHelper->wpAll(
-                    // @codingStandardsIgnoreLine
-                    [get_post_type_object($post->post_type)->cap->read, $post->ID]
-                )->get()
-            ) {
-                $results[] = $post;
-            } elseif (!$isUserLoggedIn) {
+            // @codingStandardsIgnoreLine
+            if (is_post_type_viewable($post->post_type)) {
                 $results[] = $post;
             }
         }

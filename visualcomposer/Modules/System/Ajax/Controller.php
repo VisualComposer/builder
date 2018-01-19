@@ -104,10 +104,6 @@ class Controller extends Container implements Module
     protected function output($response, $rawResponse)
     {
         if (vcIsBadResponse($rawResponse)) {
-            if (!headers_sent()) {
-                header('Status: 403', true, 403);
-                header('HTTP/1.0 403 Forbidden', true, 403);
-            }
             $loggerHelper = vchelper('Logger');
             $messages = [];
             if (is_wp_error($rawResponse)) {
@@ -126,30 +122,28 @@ class Controller extends Container implements Module
                 $messages[] = $loggerHelper->all();
             }
             if (count($messages) > 0) {
-                wp_die(
-                    json_encode(
-                        [
-                            'status' => false,
-                            'response' => $rawResponse,
-                            'message' => implode('. ', $messages),
-                            'details' => $loggerHelper->details(),
-                        ]
-                    )
+                echo json_encode(
+                    [
+                        'status' => false,
+                        'response' => $rawResponse,
+                        'message' => implode('. ', $messages),
+                        'details' => $loggerHelper->details(),
+                    ]
                 );
+                vcvdie(); // DO NOT USE WP_DIE because it can be overwritten by 3rd and cause plugin issues.
             } else {
-                wp_die(
-                    json_encode(
-                        [
-                            'status' => false,
-                            'response' => $rawResponse,
-                            'details' => $loggerHelper->details(),
-                        ]
-                    )
+                echo json_encode(
+                    [
+                        'status' => false,
+                        'response' => $rawResponse,
+                        'details' => $loggerHelper->details(),
+                    ]
                 );
+                vcvdie(); // DO NOT USE WP_DIE because it can be overwritten by 3rd and cause plugin issues.
             }
         }
 
-        wp_die($response);
+        vcvdie($response); // DO NOT USE WP_DIE because it can be overwritten by 3rd and cause plugin issues.
     }
 
     protected function parseRequest(Request $requestHelper, Logger $loggerHelper)

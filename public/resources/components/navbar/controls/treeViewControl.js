@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 import MobileDetect from 'mobile-detect'
-import {getStorage, env} from 'vc-cake'
+import { getStorage, env } from 'vc-cake'
 
 const workspaceContentStartState = getStorage('workspace').state('contentStart')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
@@ -12,13 +12,12 @@ const workspaceSettings = getStorage('workspace').state('settings')
 export default class TreeViewControl extends NavbarContent {
   constructor (props) {
     super(props)
+    this.state = {
+      isActive: workspaceContentState.get() === 'treeView',
+      data: []
+    }
     this.toggleTreeView = this.toggleTreeView.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
-  }
-
-  state = {
-    isActive: false,
-    data: []
   }
 
   setActiveState (state) {

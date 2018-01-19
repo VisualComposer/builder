@@ -117,8 +117,11 @@ declare -a arr=(
 'contactForm7'
 'featuredImagePostGrid'
 'featuredImagePostGridItem'
-'syntaxHighlight'
+'syntaxHighlighter'
 'multipleImageCollage'
+'typewriterHeading'
+'centeredPostGrid'
+'centeredPostGridItem'
 )
 
 EXECDIR=`pwd`

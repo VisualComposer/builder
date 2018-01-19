@@ -28,7 +28,9 @@ class UpdatesController extends Container implements Module
      */
     protected $updateVersionUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/index.html';
 
-    protected $updateChangelogUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.json?v=2';
+    protected $updateChangelogUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.json';
+
+    protected $logoUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/vc-logo.svg';
 
     // @codingStandardsIgnoreLine
     protected $updatePackageUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/visualcomposer.zip';
@@ -89,6 +91,9 @@ class UpdatesController extends Container implements Module
             $plugin->url = $this->updateChangelogUrl;
             $plugin->package = $this->updatePackageUrl;
             $plugin->tested = $info['testedVersion'];
+            $plugin->icons = [
+                'svg' => $this->logoUrl,
+            ];
             $transient->response[ VCV_PLUGIN_BASE_NAME ] = $plugin;
             $optionsHelper->setTransient('pluginUpdateAvailable', $info['version'], 3600);
         }
@@ -202,13 +207,11 @@ HTML;
         $key = 'VCV_PLUGIN_UPDATE';
         $value = $optionsHelper->getTransient('pluginUpdateAvailable');
 
-        if (!empty($value)) {
-            $variables[] = [
-                'key' => $key,
-                'value' => $value,
-                'type' => 'constant',
-            ];
-        }
+        $variables[] = [
+            'key' => $key,
+            'value' => !!$value,
+            'type' => 'constant',
+        ];
 
         return $variables;
     }

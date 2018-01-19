@@ -21,7 +21,6 @@ class TemplateTeasersDownloadController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_HUB_TEMPLATES_TEASER')) {
             $this->addFilter('vcv:hub:process:action:hubTemplates', 'processAction');
-            $this->addFilter('vcv:editor:variables', 'outputTeaserTemplates');
         }
     }
 
@@ -50,30 +49,12 @@ class TemplateTeasersDownloadController extends Container implements Module
                 'metaDescription' => $template['description'],
                 'type' => 'template',
                 'id' => $template['id'],
+                'update' => isset($template['update']) ? $template['update'] : false,
             ];
             $allTemplates[] = $elementData;
         }
         $elements = array_values($dataHelper->arrayDeepUnique($allTemplates));
 
         return $elements;
-    }
-
-    protected function outputTeaserTemplates($variables, Options $optionsHelper)
-    {
-        $value = array_values(
-            (array)$optionsHelper->get(
-                'hubTeaserTemplates',
-                []
-            )
-        );
-        $key = 'VCV_HUB_GET_TEMPLATES_TEASER';
-
-        $variables[] = [
-            'key' => $key,
-            'value' => $value,
-            'type' => 'constant',
-        ];
-
-        return $variables;
     }
 }

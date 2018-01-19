@@ -76,11 +76,13 @@ export default class EditFormSection extends React.Component {
    */
   getSectionFormFields (tabParams) {
     return tabParams.map((param) => {
+      const fieldType = param.data && param.data.type ? param.data.type.name : ''
       return <FieldDependencyManager
         {...this.props}
         key={`edit-form-field-${param.key}`}
         fieldKey={param.key}
         updater={this.props.onElementChange}
+        fieldType={fieldType}
         // updateDependencies={this.updateDependencyClasses}
       />
     })

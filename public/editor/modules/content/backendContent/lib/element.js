@@ -64,7 +64,7 @@ export default class Element extends React.Component {
 
   visualizeAttributes (element) {
     let layoutAtts = {}
-    let atts = element.getAll()
+    let atts = element.getAll(false)
     Object.keys(atts).forEach((key) => {
       let attrSettings = element.settings(key)
       if (attrSettings.settings.options && attrSettings.settings.options.inline === true) {
