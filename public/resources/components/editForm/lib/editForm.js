@@ -5,8 +5,6 @@ import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const hubCategories = vcCake.getService('hubCategories')
-const elementsStorage = vcCake.getStorage('elements')
-const cook = vcCake.getService('cook')
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -16,7 +14,7 @@ export default class EditForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      content: props.element.getName(),
+      content: props.element.cook().getName(),
       editable: false
     }
 
@@ -29,19 +27,17 @@ export default class EditForm extends React.Component {
 
   componentDidMount () {
     const { element } = this.props
-    const id = element.get('id')
-    elementsStorage.state(`element:${id}`).onChange(this.updateElementOnChange)
+    element.onChange(this.updateElementOnChange)
   }
 
   componentWillUnmount () {
     const { element } = this.props
-    const id = element.get('id')
-    elementsStorage.state(`element:${id}`).ignoreChange(this.updateElementOnChange)
+    element.ignoreChange(this.updateElementOnChange)
   }
 
-  updateElementOnChange (data) {
-    const element = cook.get(data)
-    let content = element.getName()
+  updateElementOnChange () {
+    const { element } = this.props
+    let content = element.cook().getName()
     if (this.state.content !== content) {
       this.setState({
         content
@@ -70,19 +66,13 @@ export default class EditForm extends React.Component {
 
   updateContent (value) {
     const { element } = this.props
-
-    // element.set('customHeaderTitle', value)
-    // let elementData = element.toJS()
-    let elementData = elementsStorage.state(`element:${element.get('id')}`).get() || element.toJS()
-    elementData.customHeaderTitle = value
-
-    elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
     this.setState({
       editable: false
     })
     if (!value) {
       this.span.innerText = element.get('name')
     }
+    element.customHeaderTitle = value
   }
 
   validateContent () {
@@ -116,7 +106,7 @@ export default class EditForm extends React.Component {
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
         <div className='vcv-ui-edit-form-header'>
-          <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.get('name')} />
+          <img src={hubCategories.getElementIcon(element.tag)} title={content} />
           <span className={headerTitleClasses}
             ref={span => { this.span = span }}
             contentEditable={editable}

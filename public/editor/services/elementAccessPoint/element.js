@@ -20,6 +20,17 @@ class Element {
       })
       return false
     })
+    Object.defineProperty(this, 'customHeaderTitle', {
+      set: (val) => {
+        storages.elements.trigger('update', this.id, {
+          ...this.get(),
+          customHeaderTitle: val
+        })
+      },
+      get: () => {
+        return this.get().customHeaderTitle
+      }
+    })
   }
 
   cook () {

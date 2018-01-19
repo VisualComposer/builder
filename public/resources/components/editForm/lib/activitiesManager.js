@@ -187,12 +187,12 @@ export default class ActivitiesManager extends React.Component {
               [type]: current[ type ],
               value: current.value,
               key: current.key
-            }, this.props.element)
+            }, this.state.element.cook())
           })
         })
       }
     }
-    RulesManager.check(this.props.element.toJS(), this.getRules(this.state.element.cook().settings(listener.key)), (status) => {
+    RulesManager.check(this.props.element, this.getRules(this.state.element.cook().settings(listener.key)), (status) => {
       actionsCallback(status, listener)
     })
 

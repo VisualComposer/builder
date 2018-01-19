@@ -1,5 +1,5 @@
 import React from 'react'
-// import EditForm from './editForm'
+import EditForm from './editForm'
 import PropTypes from 'prop-types'
 
 export default class FormWrapper extends React.Component {
@@ -76,7 +76,7 @@ export default class FormWrapper extends React.Component {
 
   editFormTabParams (props, tab) {
     if (tab.data.settings.type === 'group' && tab.value && tab.value.length) {
-      return tab.value.map(item => (this.editFormTabsIterator(props)))
+      return tab.value.map(item => (this.editFormTabsIterator(props, item)))
     }
     // In case if tab is single param holder
     return [ tab ]
@@ -95,18 +95,13 @@ export default class FormWrapper extends React.Component {
   render () {
     const { activeTabIndex } = this.state
     return (
-      <div>
-        form wrapper {activeTabIndex}
-      </div>
+      <EditForm
+        {...this.props}
+        allTabs={this.allTabs}
+        activeTabIndex={activeTabIndex}
+        activeTab={this.allTabs[ activeTabIndex ]}
+        updateTabs={this.setTabs}
+      />
     )
-    // return (
-    //   <EditForm
-    //     {...this.props}
-    //     allTabs={this.allTabs}
-    //     activeTabIndex={activeTabIndex}
-    //     activeTab={this.allTabs[ activeTabIndex ]}
-    //     updateTabs={this.setTabs}
-    //   />
-    // )
   }
 }
