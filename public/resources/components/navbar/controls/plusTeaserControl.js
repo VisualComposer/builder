@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import {getStorage, getService, env} from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 
 const dataProcessor = getService('dataProcessor')
@@ -16,13 +16,13 @@ export default class PlusTeaserControl extends NavbarContent {
     this.toggleAddElement = this.toggleAddElement.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
     this.state = {
-      isActive: false,
+      isActive: workspaceContentState.get() === 'addHubElement',
       showBadge: window.vcvHubTeaserShowBadge
     }
   }
 
   setActiveState (state) {
-    this.setState({isActive: state === 'addHubElement'})
+    this.setState({ isActive: state === 'addHubElement' })
   }
 
   componentDidMount () {
@@ -62,7 +62,7 @@ export default class PlusTeaserControl extends NavbarContent {
       })
       dataProcessor.appAllDone().then(() => {
         window.vcvHubTeaserShowBadge = false
-        this.setState({showBadge: false})
+        this.setState({ showBadge: false })
       })
     }
   }
