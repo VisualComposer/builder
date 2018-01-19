@@ -9,6 +9,7 @@ import AddTemplatePanel from '../../../../resources/components/addTemplate/addTe
 import TreeViewLayout from '../../../../resources/components/treeView/treeViewLayout'
 import SettingsPanel from '../../../../resources/components/settings/settingsPanel'
 import EditElementPanel from '../../../../resources/components/editElement/editElementPanel'
+import EditFormPanel from '../../../../resources/components/editForm/editFormPanel'
 import {getService, env} from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
@@ -86,8 +87,12 @@ export default class PanelsContainer extends React.Component {
     } else if (content === 'editElement') {
       if (settings && settings.element) {
         const activeTabId = settings.tag || ''
-        const cookElement = cook.get(settings.element)
-        return <EditElementPanel key={`panels-container-edit-element-${cookElement.get('id')}`} element={cookElement} activeTabId={activeTabId} />
+        if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
+          return <EditFormPanel key={`panels-container-edit-element-${settings.element.id}`} element={settings.element} activeTabId={activeTabId} />
+        } else {
+          const cookElement = cook.get(settings.element)
+          return <EditElementPanel key={`panels-container-edit-element-${cookElement.get('id')}`} element={cookElement} activeTabId={activeTabId} />
+        }
       }
     }
   }

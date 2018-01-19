@@ -4,21 +4,21 @@ class Element {
     this.services = services
     this.storages = storages
     const cooked = this.cook()
-    const publicSettings = cooked.filter((key, value, settings) => {
-      return settings.access === 'public'
-    })
-    publicSettings.forEach(key => {
+    cooked.filter((key, value, settings) => {
       Object.defineProperty(this, key, {
-        set: (value) => {
+        set: settings.access === 'public' ? (val) => {
           storages.elements.trigger('update', this.id, {
             ...this.get(),
-            [key]: value
+            [key]: val
           })
+        } : () => {
+          console.warn('protected key')
         },
         get: () => {
           return this.get()[ key ]
         }
       })
+      return false
     })
   }
 

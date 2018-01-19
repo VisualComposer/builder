@@ -2443,6 +2443,28 @@ class DevElements extends Container implements Module
                         'metaDescription' => '',
                     ],
                 ],
+                'typewriterHeading' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/typewriterHeading/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/typewriterHeading/typewriterHeading/'),
+                    'elementRealPath' => vcapp()->path('devElements/typewriterHeading/typewriterHeading/'),
+                    'assetsPath' => $urlHelper->to(
+                        'devElements/typewriterHeading/typewriterHeading/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Typewriter Heading',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/typewriterHeading/typewriterHeading/public/typewriter-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'devElements/typewriterHeading/typewriterHeading/public/typewriter-preview.png'
+                        ),
+                        'metaDescription' => 'Add interactive heading with typewriter animation to drag your customer attention to specific title or keyword.',
+                    ],
+                ],
                 'centeredPostGrid' => [
                     'bundlePath' => $urlHelper->to(
                         'devElements/centeredPostGrid/public/dist/element.bundle.js'
@@ -2480,6 +2502,35 @@ class DevElements extends Container implements Module
                     ),
                     'settings' => [
                         'name' => 'Post Description',
+                        'metaDescription' => '',
+                    ],
+                ],
+                'grid' => [
+                    'bundlePath' => $urlHelper->to('devElements/grid/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('devElements/grid/grid/'),
+                    'elementRealPath' => vcapp()->path('devElements/grid/grid/'),
+                    'assetsPath' => $urlHelper->to('devElements/grid/grid/public/'),
+                    'settings' => [
+                        'name' => 'Grid',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/grid/grid/public/grid-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/grid/grid/public/grid-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'CSS Grid Layout excels at dividing a page into major regions, or defining the relationship in terms of size, position, and layer, between parts of a control built from HTML primitives. Like tables, grid layout enables an author to align elements into columns and rows.',
+                    ],
+                ],
+                'gridItem' => [
+                    'bundlePath' => $urlHelper->to('devElements/gridItem/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('devElements/gridItem/gridItem/'),
+                    'elementRealPath' => vcapp()->path('devElements/gridItem/gridItem/'),
+                    'assetsPath' => $urlHelper->to('devElements/gridItem/gridItem/public/'),
+                    'settings' => [
+                        'name' => 'Grid Item',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
                         'metaDescription' => '',
                     ],
                 ],

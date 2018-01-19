@@ -198,7 +198,7 @@ class Localizations extends Container implements Helper
             ),
             'pageTemplateReloadDescription' => __(
                 'To apply a template you will need to save changes and content will be reloaded.',
-                '_vcwb'
+                'vcwb'
             ),
             'pageTitleDescription' => __(
                 'To apply title changes save changes and reload the page',
@@ -242,10 +242,22 @@ class Localizations extends Container implements Helper
                 'Thank You!',
                 'vcwb'
             ),
-            'newPluginVersionIsAvailable' => sprintf(__(
-                'There is a new version of Visual Composer Website Builder available. <a href="%s">Update now</a> to version %s.',
+            'newPluginVersionIsAvailable' => sprintf(
+                __(
+                    'There is a new version of Visual Composer Website Builder available. <a href="%s">Update now</a> to version %s.',
+                    'vcwb'
+                ),
+                self_admin_url('plugins.php'),
+                $optionsHelper->getTransient('pluginUpdateAvailable')
+            ),
+            'elementDownloadRequiresUpdate' => __(
+                'Update Visual Composer plugin to the most recent version to download this content element.',
                 'vcwb'
-            ), self_admin_url('plugins.php'), $optionsHelper->getTransient('pluginUpdateAvailable')),
+            ),
+            'templateDownloadRequiresUpdate' => __(
+                'Update Visual Composer plugin to the most recent version to download this template.',
+                'vcwb'
+            ),
         ];
 
         return $locale;

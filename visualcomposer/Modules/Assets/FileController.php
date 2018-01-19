@@ -72,6 +72,7 @@ class FileController extends Container implements Module
                 'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
                 'posts_per_page' => -1,
                 'meta_key' => VCV_PREFIX . 'globalElementsCssData',
+                'suppress_filters' => true,
             ]
         );
 

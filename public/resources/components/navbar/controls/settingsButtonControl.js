@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 import MobileDetect from 'mobile-detect'
-import {getStorage, env} from 'vc-cake'
+import { getStorage, env } from 'vc-cake'
 
 // const assetsStorage = getService('assetsStorage')
 const workspaceStorage = getStorage('workspace')
@@ -16,7 +16,7 @@ export default class SettingsButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.state = {
-      isActive: false,
+      isActive: workspaceContentState.get() === 'settings',
       showWarning: false // !!assetsStorage.getCustomCss()
     }
     this.toggleSettings = this.toggleSettings.bind(this)
