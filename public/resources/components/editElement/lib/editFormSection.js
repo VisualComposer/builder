@@ -49,6 +49,9 @@ export default class EditFormSection extends React.Component {
    * Set workspace storage state to scroll edit form if section content is below the fold
    */
   checkSectionPosition (prevState) {
+    if (!this.sectionHeader) {
+      return
+    }
     const { isActive } = this.state
     if (prevState && !prevState.isActive && isActive || this.props.tab.index === this.props.activeTabIndex) {
       // will scroll to top
