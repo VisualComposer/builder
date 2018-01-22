@@ -69,9 +69,16 @@ class BundleUpdateController extends Container implements Module
 
     protected function setUpdateDone($response, $payload, Request $requestHelper, Options $optionsHelper)
     {
-        // Reset bundles from activation
-        $optionsHelper->deleteTransient('vcv:activation:request');
-        $optionsHelper->deleteTransient('vcv:hub:update:request');
+        $currentTransient = $optionsHelper->getTransient('vcv:hub:update:request');
+        if ($currentTransient) {
+            if ($currentTransient !== $requestHelper->input('vcv-time')) {
+                return ['status' => false];
+            } else {
+                // Reset bundles from activation
+                $optionsHelper->deleteTransient('vcv:activation:request');
+                $optionsHelper->deleteTransient('vcv:hub:update:request');
+            }
+        }
         $optionsHelper->set('bundleUpdateRequired', false);
 
         return [
