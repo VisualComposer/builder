@@ -1528,8 +1528,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         updater={this.sliderTimeoutChangeHandler}
         placeholder={defaultValue}
         options={{
-          min: 1,
-          max: false
+          min: 1
         }}
         value={value}
       />
@@ -1788,8 +1787,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         updater={this.parallaxSpeedChangeHandler}
         placeholder='30'
         options={{
-          min: 1,
-          max: false
+          min: 1
         }}
         value={value}
       />
