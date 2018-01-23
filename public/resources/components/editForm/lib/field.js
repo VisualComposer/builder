@@ -5,20 +5,37 @@ import PropTypes from 'prop-types'
 export default class Field extends React.Component {
   static propTypes = {
     element: PropTypes.object.isRequired,
-    fieldKey: PropTypes.string.isRequired
+    fieldKey: PropTypes.string.isRequired,
+    onAttributeChange: PropTypes.func.isRequired
   }
 
   constructor (props) {
     super(props)
+    this.state = {
+      value: props.element[ props.fieldKey ]
+    }
     this.updateElement = this.updateElement.bind(this)
+    this.updateValue = this.updateValue.bind(this)
+  }
+
+  componentDidMount () {
+    // this.props.element.onAttributeChange(this.props.fieldKey, this.updateValue)
+    // this.props.element.onChange(this.updateValue)
+    // elementsStorage.state(`element:${this.props.element.id}:attribute:${this.props.fieldKey}`).onChange(this.updateValue)
+  }
+
+  updateValue (value) {
+    //
   }
 
   updateElement (fieldKey, value) {
     this.props.element[ fieldKey ] = value
+    this.props.onAttributeChange(fieldKey)
   }
 
   render () {
     let { fieldKey, tab, fieldType, element } = this.props
+    let { value } = this.state
     let { type, settings } = element.cook().settings(fieldKey)
     let AttributeComponent = type.component
     if (!AttributeComponent) {
@@ -53,7 +70,7 @@ export default class Field extends React.Component {
         <AttributeComponent
           key={'attribute-' + fieldKey + element.id}
           options={options}
-          value={element[ fieldKey ]}
+          value={value}
           defaultValue={defaultValue}
           fieldKey={fieldKey}
           updater={this.updateElement}

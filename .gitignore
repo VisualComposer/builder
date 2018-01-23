@@ -66,6 +66,8 @@ devElements/*
 !devElements/.gitkeep
 devCategories/*
 !devCategories/.gitkeep
+devAddons/*
+!devAddons/.gitkeep
 !visualcomposer/resources/dist/.gitkeep
 
 .phpstorm.meta.php

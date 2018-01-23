@@ -7,7 +7,8 @@ export default class FieldDependencyManager extends React.Component {
   static propTypes = {
     fieldKey: PropTypes.string.isRequired,
     setFieldMount: PropTypes.func.isRequired,
-    setFieldUnmount: PropTypes.func.isRequired
+    setFieldUnmount: PropTypes.func.isRequired,
+    onAttributeChange: PropTypes.func.isRequired
   }
 
   constructor (props) {

@@ -5,7 +5,8 @@ import FieldDependencyManager from './fieldDependencyManager'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
-    tab: PropTypes.object.isRequired
+    tab: PropTypes.object.isRequired,
+    onAttributeChange: PropTypes.func.isRequired
   }
 
   constructor (props) {
