@@ -1,126 +1,136 @@
 import React from 'react'
+import EditFormHeader from './editFormHeader'
 import classNames from 'classnames'
-import EditFormContent from './editFormContent'
-import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
-
-const hubCategories = vcCake.getService('hubCategories')
+import EditFormSection from './editFormSection'
+import Scrollbar from '../../../scrollbar/scrollbar.js'
 
 export default class EditForm extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired
+    element: PropTypes.object.isRequired,
+    activeTabId: PropTypes.string
   }
 
   constructor (props) {
     super(props)
+    this.allTabs = this.updateTabs(this.props)
     this.state = {
-      content: props.element.cook().getName(),
-      editable: false
+      activeTabIndex: this.getActiveTabIndex(this.props.activeTabId),
+      scrollbar: null
     }
-
-    this.enableEditable = this.enableEditable.bind(this)
-    this.validateContent = this.validateContent.bind(this)
-    this.editTitle = this.editTitle.bind(this)
-    this.preventNewLine = this.preventNewLine.bind(this)
-    this.updateElementOnChange = this.updateElementOnChange.bind(this)
+    this.scrollBarMounted = this.scrollBarMounted.bind(this)
   }
 
-  componentDidMount () {
-    const { element } = this.props
-    element.onChange(this.updateElementOnChange)
+  scrollBarMounted (scrollbar) {
+    this.setState({ scrollbar: scrollbar })
   }
 
-  componentWillUnmount () {
-    const { element } = this.props
-    element.ignoreChange(this.updateElementOnChange)
+  getActiveTabIndex (activeTabKey) {
+    let activeTab = this.allTabs && this.allTabs.findIndex((tab) => {
+      return tab.fieldKey === activeTabKey
+    })
+    return activeTab > -1 ? activeTab : 0
   }
 
-  updateElementOnChange () {
-    const { element } = this.props
-    let content = element.cook().getName()
-    if (this.state.content !== content) {
-      this.setState({
-        content
-      }, () => {
-        this.span.innerText = content
-      })
-    }
-  }
-
-  enableEditable () {
+  componentWillReceiveProps (nextProps) {
+    this.allTabs = this.updateTabs(nextProps)
     this.setState({
-      editable: true
-    }, () => {
-      this.span.focus()
+      activeTabIndex: this.getActiveTabIndex(nextProps.activeTabId)
     })
   }
 
-  editTitle () {
-    this.enableEditable()
-    let range = document.createRange()
-    let selection = window.getSelection()
-    range.selectNodeContents(this.span)
-    selection.removeAllRanges()
-    selection.addRange(range)
-  }
-
-  updateContent (value) {
-    const { element } = this.props
-    this.setState({
-      editable: false
+  updateTabs (props) {
+    return this.editFormTabs(props).map((tab, index) => {
+      return {
+        fieldKey: tab.key,
+        index: index,
+        data: tab.data,
+        isVisible: true,
+        pinned: tab.data.settings.options && tab.data.settings.options.pinned || false,
+        params: this.editFormTabParams(props, tab),
+        key: `edit-form-tab-${props.element.id}-${index}-${tab.key}`,
+        changeTab: this.onChangeActiveTab.bind(this, index),
+        ref: (ref) => {
+          if (this.allTabs[ index ]) {
+            this.allTabs[ index ].realRef = ref
+          }
+        }
+      }
     })
-    if (!value) {
-      this.span.innerText = element.get('name')
-    }
-    element.customHeaderTitle = value
   }
 
-  validateContent () {
-    let value = this.span.innerText.trim()
-    this.updateContent(value)
+  editFormTabs (props) {
+    const group = props.element.metaEditFormTabs
+    if (group && group.length) {
+      return group.map(item => (this.editFormTabsIterator(props, item)))
+    }
+    return []
   }
 
-  preventNewLine (event) {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      event.nativeEvent.stopImmediatePropagation()
-      event.stopPropagation()
-      this.span.blur()
-      this.validateContent()
+  editFormTabsIterator (props, item) {
+    return {
+      key: item,
+      value: props.element[ item ],
+      data: props.element.cook().settings(item)
     }
+  }
+
+  editFormTabParams (props, tab) {
+    if (tab.data.settings.type === 'group' && tab.value && tab.value.length) {
+      return tab.value.map(item => (this.editFormTabsIterator(props, item)))
+    }
+    // In case if tab is single param holder
+    return [ tab ]
+  }
+
+  onChangeActiveTab (tabIndex) {
+    this.setState({
+      activeTabIndex: tabIndex
+    })
+  }
+
+  getAccordionSections () {
+    const { activeTabIndex, scrollbar } = this.state
+    return this.allTabs.map(tab => {
+      return (
+        <EditFormSection
+          {...this.props}
+          activeTabIndex={activeTabIndex}
+          sectionContentScrollbar={scrollbar}
+          key={tab.key}
+          tab={tab}
+        />
+      )
+    })
   }
 
   render () {
-    const { element } = this.props
-    let treeContentClasses = classNames({
-      'vcv-ui-tree-content': true
-    })
-
-    let { content, editable } = this.state
-
-    let headerTitleClasses = classNames({
-      'vcv-ui-edit-form-header-title': true,
-      'active': this.state.editable
-    })
+    const { activeTabIndex } = this.state
+    let activeTab = this.allTabs[ activeTabIndex ]
+    let plateClass = classNames({
+      'vcv-ui-editor-plate': true,
+      'vcv-ui-state--active': true
+    }, `vcv-ui-editor-plate-${activeTab.key}`)
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
-        <div className='vcv-ui-edit-form-header'>
-          <img src={hubCategories.getElementIcon(element.tag)} title={content} />
-          <span className={headerTitleClasses}
-            ref={span => { this.span = span }}
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onClick={this.enableEditable}
-            onKeyDown={this.preventNewLine}
-            onBlur={this.validateContent}>
-            {content}
-          </span>
-          <i className='vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title'
-            onClick={this.editTitle} />
-        </div>
-        <div className={treeContentClasses}>
-          <EditFormContent {...this.props} />
+        <EditFormHeader element={this.props.element} />
+        <div className='vcv-ui-tree-content'>
+          <div className='vcv-ui-tree-content-section'>
+            <Scrollbar ref={this.scrollBarMounted}>
+              <div className='vcv-ui-tree-content-section-inner'>
+                <div className='vcv-ui-editor-plates-container'>
+                  <div className='vcv-ui-editor-plates'>
+                    <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+                      <div className={plateClass}>
+                        {this.getAccordionSections()}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Scrollbar>
+          </div>
         </div>
       </div>
     )

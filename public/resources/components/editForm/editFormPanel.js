@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import lodash from 'lodash'
 import ActivitiesManager from './lib/activitiesManager'
-import FormWrapper from './lib/FormWrapper'
+import EditForm from './lib/editForm'
 
 export default class EditFormPanel extends ActivitiesManager {
   static propTypes = {
@@ -30,11 +30,12 @@ export default class EditFormPanel extends ActivitiesManager {
     const { activeTabId } = this.props
     const { element } = this.state
     return (
-      <FormWrapper
+      <EditForm
         activeTabId={activeTabId}
         element={element}
         setFieldMount={this.setFieldMount}
         setFieldUnmount={this.setFieldUnmount}
+        onAttributeChange={this.onAttributeChange}
         callFieldActivities={this.callFieldActivities}
         ref={ref => { this.formWrapper = ref }}
       />

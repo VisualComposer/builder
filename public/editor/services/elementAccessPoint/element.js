@@ -10,6 +10,8 @@ class Element {
           storages.elements.trigger('update', this.id, {
             ...this.get(),
             [key]: val
+          }, 'editForm', {
+            changedAttribute: key
           })
         } : () => {
           console.warn('protected key')
