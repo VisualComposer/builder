@@ -62,7 +62,7 @@ class DevElements extends Container implements Module
             if (!isset($manifest['elements'], $manifest['elements'][ $tag ])) {
                 throw new \Exception('Element manifest must SET "TAG":' . $manifestPath);
             }
-            $element = $manifest['element'][ $tag ];
+            $element = $manifest['elements'][ $tag ];
             if (isset($manifest['phpFiles'])) {
                 $files = $manifest['phpFiles'];
                 foreach ($files as $index => $filePath) {
