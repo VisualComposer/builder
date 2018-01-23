@@ -13,7 +13,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Helpers\Url;
 
 class DevAddons extends Container implements Module
 {
@@ -31,9 +30,9 @@ class DevAddons extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Options $optionHelper
-     * @param \VisualComposer\Helpers\Url $urlHelper
+     * @param \VisualComposer\Application $app
      */
-    protected function dummySetAddons(Options $optionHelper, Url $urlHelper, Application $app)
+    protected function dummySetAddons(Options $optionHelper, Application $app)
     {
         $manifests = $app->rglob($app->path('devAddons/*/manifest.json'));
         $addons = $this->readManifests($manifests);
