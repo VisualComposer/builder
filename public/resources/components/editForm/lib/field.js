@@ -19,13 +19,18 @@ export default class Field extends React.Component {
   }
 
   componentDidMount () {
+    // TODO find issue why attribute onChange doesn't trigger
     // this.props.element.onAttributeChange(this.props.fieldKey, this.updateValue)
-    // this.props.element.onChange(this.updateValue)
-    // elementsStorage.state(`element:${this.props.element.id}:attribute:${this.props.fieldKey}`).onChange(this.updateValue)
+    this.props.element.onChange(this.updateValue)
   }
 
-  updateValue (value) {
-    //
+  updateValue (data) {
+    // TODO find issue why attribute onChange doesn't trigger
+    if (data[ this.props.fieldKey ] && this.state.value !== data[ this.props.fieldKey ]) {
+      this.setState({
+        value: data[ this.props.fieldKey ]
+      })
+    }
   }
 
   updateElement (fieldKey, value) {

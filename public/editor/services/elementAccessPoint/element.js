@@ -11,13 +11,21 @@ class Element {
             ...this.get(),
             [key]: val
           }, 'editForm', {
-            changedAttribute: key
+            changedAttribute: key,
+            changedAttributeType: settings.type
           })
         } : () => {
           console.warn('protected key')
         },
         get: () => {
-          return this.get()[ key ]
+          let value = this.get()[ key ]
+          if (!value) {
+            let cookKey = this.cook().get(key)
+            if (cookKey) {
+              value = cookKey.value
+            }
+          }
+          return value
         }
       })
       return false
