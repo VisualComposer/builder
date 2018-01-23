@@ -172,8 +172,6 @@ class ActivationController extends Container implements Module
         if ($currentTransient && $requestHelper->input('vcv-time')) {
             if ($currentTransient !== $requestHelper->input('vcv-time')) {
                 return false;
-            } else {
-                $optionsHelper->deleteTransient('vcv:activation:request');
             }
         }
 
@@ -184,7 +182,6 @@ class ActivationController extends Container implements Module
     {
         $optionsHelper
             ->deleteTransient('_vcv_activation_page_redirect')
-            ->deleteTransient('vcv:activation:request')
             ->deleteTransient('vcv:activation:subscribe')
             ->delete('activation-email')
             ->delete('activation-agreement');

@@ -118,7 +118,7 @@ export default class Component extends Attribute {
     if (vcCake.env('platform') === 'wordpress') {
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
-      window.tinyMCE && window.tinyMCE.editors[ id ].destroy()
+      window.tinyMCE && window.tinyMCE.editors && window.tinyMCE.editors[ id ] && window.tinyMCE.editors[ id ].destroy()
       if (window.QTags && window.QTags.instances[ id ]) {
         window.QTags.instances[ id ].canvas.removeEventListener('keyup', this.handleChangeQtagsEditor)
         delete window.QTags.instances[ id ]

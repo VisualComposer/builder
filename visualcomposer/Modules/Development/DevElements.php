@@ -2534,6 +2534,25 @@ class DevElements extends Container implements Module
                         'metaDescription' => '',
                     ],
                 ],
+                'videoPlayer' => [
+                    'bundlePath' => $urlHelper->to(
+                        'devElements/videoPlayer/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('devElements/videoPlayer/videoPlayer/'),
+                    'elementRealPath' => vcapp()->path('devElements/videoPlayer/videoPlayer/'),
+                    'assetsPath' => $urlHelper->to('devElements/videoPlayer/videoPlayer/public/'),
+                    'settings' => [
+                        'name' => 'Video Player',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'devElements/videoPlayer/videoPlayer/public/video-player-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'devElements/videoPlayer/videoPlayer/public/video-player-preview.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add self-hosted video from Media Library to your website and control \'Play\' icon design.',
+                    ],
+                ],
             ]
         );
     }

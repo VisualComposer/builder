@@ -167,7 +167,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Text block' => [
                     'title' => 'Text Block',
-                    'elements' => ['textBlock', 'googleFontsHeading'],
+                    'elements' => ['textBlock', 'googleFontsHeading', 'typewriterHeading'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Text-Block.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Text-Block.svg'),
                 ],
@@ -202,7 +202,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Videos' => [
                     'title' => 'Videos',
-                    'elements' => ['youtubePlayer', 'vimeoPlayer'],
+                    'elements' => ['youtubePlayer', 'vimeoPlayer', 'videoPlayer'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Video.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Video.svg'),
                 ],
@@ -338,12 +338,6 @@ class HubCategories extends Container implements Module
                     'elements' => ['classicAccordionSection'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
-                ],
-                'Typewriter Heading' => [
-                    'title' => 'Typewriter Heading',
-                    'elements' => ['typewriterHeading'],
-                    'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
-                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
             ]
         );

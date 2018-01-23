@@ -22,6 +22,9 @@ export default class EditFormSection extends React.Component {
   }
 
   checkSectionPosition (prevState) {
+    if (!this.sectionHeader) {
+      return
+    }
     const { isActive } = this.state
     const headerRect = this.sectionHeader.getBoundingClientRect()
     const headerOffset = this.sectionHeader.offsetTop + headerRect.height

@@ -1,22 +1,19 @@
 import React from 'react'
 import classNames from 'classnames'
-import FieldDependencyManager from './fieldDependencyManager'
 import PropTypes from 'prop-types'
+import FieldDependencyManager from './fieldDependencyManager'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
-    tab: PropTypes.object.isRequired
+    tab: PropTypes.object.isRequired,
+    onAttributeChange: PropTypes.func.isRequired
   }
-
-  section = null
-  sectionHeader = null
 
   constructor (props) {
     super(props)
     this.state = {
       isActive: true,
-      sectionDependenciesClasses: [],
-      contentEnd: document.getElementById('vcv-editor-end')
+      sectionDependenciesClasses: []
     }
     this.toggleSection = this.toggleSection.bind(this)
   }
@@ -29,9 +26,9 @@ export default class EditFormSection extends React.Component {
     }
 
     this.props.setFieldMount(this.props.tab.fieldKey, {
-      ref: this.refs[ 'section' ],
+      ref: this.section,
       refComponent: this,
-      refDomComponent: this.refs[ 'section' ]
+      refDomComponent: this.section
     }, 'section')
   }
 
@@ -80,14 +77,14 @@ export default class EditFormSection extends React.Component {
   getSectionFormFields (tabParams) {
     return tabParams.map((param) => {
       const fieldType = param.data && param.data.type ? param.data.type.name : ''
-      return <FieldDependencyManager
-        {...this.props}
-        key={`edit-form-field-${param.key}`}
-        fieldKey={param.key}
-        updater={this.props.onElementChange}
-        fieldType={fieldType}
-        // updateDependencies={this.updateDependencyClasses}
-      />
+      return (
+        <FieldDependencyManager
+          {...this.props}
+          key={`edit-form-field-${param.key}`}
+          fieldKey={param.key}
+          fieldType={fieldType}
+        />
+      )
     })
   }
 
@@ -101,21 +98,16 @@ export default class EditFormSection extends React.Component {
     }, sectionDependenciesClasses)
     let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
 
-    return <div
-      className={sectionClasses}
-      key={tab.key}
-      ref='section'
-    >
-      <div
-        className='vcv-ui-edit-form-section-header'
-        onClick={this.toggleSection}
-        ref={(header) => { this.sectionHeader = header }}
-      >
-        {tabTitle}
+    return (
+      <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
+        <div className='vcv-ui-edit-form-section-header' onClick={this.toggleSection}
+          ref={header => { this.sectionHeader = header }}>
+          {tabTitle}
+        </div>
+        <form className='vcv-ui-edit-form-section-content'>
+          {this.getSectionFormFields(tab.params)}
+        </form>
       </div>
-      <form className='vcv-ui-edit-form-section-content'>
-        {this.getSectionFormFields(tab.params)}
-      </form>
-    </div>
+    )
   }
 }

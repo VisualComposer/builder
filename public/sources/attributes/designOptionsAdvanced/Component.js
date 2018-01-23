@@ -1263,8 +1263,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     let options = {
-      min: 1,
-      max: false
+      min: 1
     }
     let value = this.state.devices[ this.state.currentDevice ].backgroundZoomSpeed || DesignOptionsAdvanced.deviceDefaults.backgroundZoomSpeed
     return <div className='vcv-ui-form-group'>
@@ -1529,8 +1528,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         updater={this.sliderTimeoutChangeHandler}
         placeholder={defaultValue}
         options={{
-          min: 1,
-          max: false
+          min: 1
         }}
         value={value}
       />
@@ -1789,8 +1787,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         updater={this.parallaxSpeedChangeHandler}
         placeholder='30'
         options={{
-          min: 1,
-          max: false
+          min: 1
         }}
         value={value}
       />

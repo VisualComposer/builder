@@ -38,20 +38,18 @@ export default class ActivitiesManager extends React.Component {
 
   initListeners (elementCook) {
     let listeners = []
-
-    lodash.forEach(elementCook.getAll(), (value, key) => {
+    Object.keys(elementCook.getAll()).forEach(key => {
       let onChange = this.getRules(elementCook.settings(key))
       if (onChange) {
-        lodash.forEach(onChange, (valueOnChange, keyOnChange) => {
+        Object.keys(onChange).forEach(keyOnChange => {
           if (!listeners[ keyOnChange ]) {
             listeners[ keyOnChange ] = []
           }
-          listeners[ keyOnChange ].push({ key: key })
+          listeners[ keyOnChange ].push({ key })
           this.addInitialStack(key, keyOnChange)
         })
       }
     })
-
     return listeners
   }
 
@@ -88,8 +86,7 @@ export default class ActivitiesManager extends React.Component {
     this.callMountStack(field)
   }
 
-  onElementChange = (key, value, innerKey) => {
-    this.state.element[ key ] = value
+  onAttributeChange (key) {
     this.callFieldActivities(null, key)
   }
 
@@ -187,12 +184,12 @@ export default class ActivitiesManager extends React.Component {
               [type]: current[ type ],
               value: current.value,
               key: current.key
-            }, this.props.element)
+            }, this.state.element.cook())
           })
         })
       }
     }
-    RulesManager.check(this.props.element.toJS(), this.getRules(this.state.element.cook().settings(listener.key)), (status) => {
+    RulesManager.check(this.state.element.get(), this.getRules(this.state.element.cook().settings(listener.key)), (status) => {
       actionsCallback(status, listener)
     })
 

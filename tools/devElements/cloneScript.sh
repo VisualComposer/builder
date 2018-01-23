@@ -122,6 +122,7 @@ declare -a arr=(
 'typewriterHeading'
 'centeredPostGrid'
 'centeredPostGridItem'
+'videoPlayer'
 )
 
 EXECDIR=`pwd`

@@ -128,6 +128,9 @@ $(() => {
       }
     }
   }
+  if (vcCake.env('TF_HEARTBEAT_HAS_CLASS_ERROR') && window.wp.heartbeat) {
+    window.wp.heartbeat.interval(120)
+  }
 })
 
 if (vcCake.env('debug') === true) {

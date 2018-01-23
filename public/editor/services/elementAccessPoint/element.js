@@ -10,6 +10,8 @@ class Element {
           storages.elements.trigger('update', this.id, {
             ...this.get(),
             [key]: val
+          }, 'editForm', {
+            changedAttribute: key
           })
         } : () => {
           console.warn('protected key')
@@ -19,6 +21,17 @@ class Element {
         }
       })
       return false
+    })
+    Object.defineProperty(this, 'customHeaderTitle', {
+      set: (val) => {
+        storages.elements.trigger('update', this.id, {
+          ...this.get(),
+          customHeaderTitle: val
+        })
+      },
+      get: () => {
+        return this.get().customHeaderTitle
+      }
     })
   }
 
