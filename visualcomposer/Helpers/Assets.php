@@ -70,7 +70,7 @@ class Assets extends Container implements Helper
             $extensionFull = $extensionFull = '.' . $extension;
             /** @var Application $app */
             $app = vcapp();
-            $files = $app->rglob($destinationDir . '/*' . $extensionFull);
+            $files = $app->glob($destinationDir . '/*' . $extensionFull);
             if (is_array($files)) {
                 foreach ($files as $file) {
                     unlink($file);
@@ -79,7 +79,7 @@ class Assets extends Container implements Helper
             }
 
             // BC remove exact file
-            $files = $app->rglob($destinationDir . '/' . $extension);
+            $files = $app->glob($destinationDir . '/' . $extension);
             if (is_array($files)) {
                 foreach ($files as $file) {
                     unlink($file);

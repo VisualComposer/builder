@@ -29,7 +29,7 @@ class Autoload
     /**
      * @param $all
      */
-    private static function saveComponents($all)
+    protected static function saveComponents($all)
     {
         $filename = self::$app->path('cache/autoload.php');
         $autoloadFilesExport = var_export($all, true);
@@ -42,12 +42,24 @@ DATA;
         file_put_contents($filename, $fileData);
     }
 
+    protected static function rglob($pattern, $flags = 0)
+    {
+        $files = glob($pattern, $flags);
+
+        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
+            $files = array_merge($files, self::rglob($dir . '/' . basename($pattern), $flags));
+        }
+
+        return $files === false ? [] : (array)$files;
+
+    }
+
     /**
      * @return array
      */
     public static function getComponents()
     {
-        $components = self::$app->rglob(self::$app->path('visualcomposer/*/*.php'));
+        $components = self::rglob(self::$app->path('visualcomposer/*/*.php'));
         $all = [
             'helpers' => [],
             'modules' => [],

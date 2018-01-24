@@ -34,7 +34,7 @@ class DevAddons extends Container implements Module
      */
     protected function dummySetAddons(Options $optionHelper, Application $app)
     {
-        $manifests = $app->rglob($app->path('devAddons/*/manifest.json'));
+        $manifests = $app->glob($app->path('devAddons/*/manifest.json'));
         $addons = $this->readManifests($manifests);
         $optionHelper->set(
             'hubAddons',
