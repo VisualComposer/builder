@@ -25,7 +25,7 @@ class PostType implements Helper
     {
         if (is_array($query) && !array_key_exists('suppress_filters', $query)) {
             $query['suppress_filters'] = false;
-        } else if (is_string($query) && strpos($query, 'suppress_filters') === false) {
+        } elseif (is_string($query) && strpos($query, 'suppress_filters') === false) {
             $query .= '&suppress_filters=0';
         }
         $posts = get_posts($query);
