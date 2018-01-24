@@ -38,7 +38,7 @@ class DevElements extends Container implements Module
     protected function dummySetElements(Options $optionHelper, Application $app)
     {
         if (!$optionHelper->getTransient('devElementsCache')) {
-            $manifests = glob($app->path('devElements/*/manifest.json'));
+            $manifests = $app->glob($app->path('devElements/*/manifest.json'));
             $elements = $this->readManifests($manifests);
             $optionHelper->setTransient('devElementsCache', true, 60);
             $optionHelper->set(
@@ -58,6 +58,7 @@ class DevElements extends Container implements Module
     {
         $addons = [];
         $urlHelper = vchelper('Url');
+        $vcapp = vcapp();
         foreach ($manifests as $manifestPath) {
             $manifest = json_decode(file_get_contents($manifestPath), true);
             $dirname = dirname($manifestPath);
@@ -78,7 +79,7 @@ class DevElements extends Container implements Module
                 'devElements/' . $tag . '/public/dist/element.bundle.js'
             );
             $element['elementPath'] = $urlHelper->to('devElements/' . $tag . '/' . $tag . '/');
-            $element['elementRealPath'] = vcapp()->path('devElements/' . $tag . '/' . $tag . '/');
+            $element['elementRealPath'] = $vcapp->path('devElements/' . $tag . '/' . $tag . '/');
             $element['assetsPath'] = $urlHelper->to('devElements/' . $tag . '/' . $tag . '/public/');
             $element = json_decode(
                 str_replace(

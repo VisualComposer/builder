@@ -36,6 +36,7 @@ class PostUpdateAction extends Container implements Module
                 'meta_key' => VCV_PREFIX . 'pageContent',
                 'meta_value' => rawurlencode('"tag":"' . str_replace('element/', '', $event) . '"'),
                 'meta_compare' => 'LIKE',
+                'suppress_filters' => true,
             ]
         );
         while ($vcvPosts->have_posts()) {

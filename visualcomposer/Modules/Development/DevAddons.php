@@ -34,7 +34,7 @@ class DevAddons extends Container implements Module
      */
     protected function dummySetAddons(Options $optionHelper, Application $app)
     {
-        $manifests = $app->rglob($app->path('devAddons/*/manifest.json'));
+        $manifests = $app->glob($app->path('devAddons/*/manifest.json'));
         $addons = $this->readManifests($manifests);
         $optionHelper->set(
             'hubAddons',
@@ -45,6 +45,7 @@ class DevAddons extends Container implements Module
     protected function readManifests(array $manifests)
     {
         $addons = [];
+        $vcapp = vcapp();
         foreach ($manifests as $manifestPath) {
             $manifest = json_decode(file_get_contents($manifestPath), true);
             $dirname = dirname($manifestPath);
@@ -56,6 +57,7 @@ class DevAddons extends Container implements Module
                 }
                 unset($index, $filePath);
             }
+            $manifest['addonRealPath'] = $vcapp->path('devAddons/' . $tag . '/' . $tag . '/');
             $addons[ $tag ] = $manifest;
         }
         unset($manifest, $manifestPath, $tag, $dirname);

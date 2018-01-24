@@ -49,6 +49,15 @@ class VcvCoreRequirements
                 'The cURL extension must be loaded' .
                 '</li>';
         }
+        if (!function_exists('base64_decode')
+            || !function_exists('base64_encode')
+            || !function_exists('json_decode')
+            || !function_exists('json_encode')) {
+            $die = true;
+            $message .= '<li>' .
+                'The base64/json functions must be loaded' .
+                '</li>';
+        }
 
         if (glob(VCV_PLUGIN_ASSETS_DIR_PATH . '/*/*.php') === false
             || glob(
