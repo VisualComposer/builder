@@ -149,7 +149,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Image Slider' => [
                     'title' => 'Image Slider',
-                    'elements' => ['simpleImageSlider'],
+                    'elements' => ['simpleImageSlider', 'logoSlider'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Image-Slider.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Image-Slider.svg'),
                 ],
