@@ -50,15 +50,18 @@ class DevAddons extends Container implements Module
             $manifest = json_decode(file_get_contents($manifestPath), true);
             $dirname = dirname($manifestPath);
             $tag = basename($dirname);
-            if (isset($manifest['phpFiles'])) {
-                $files = $manifest['phpFiles'];
+            $manifest['addons'][ $tag ]['addonRealPath'] = $vcapp->path('devAddons/' . $tag . '/' . $tag . '/');
+            if (isset($manifest['addons'], $manifest['addons'][ $tag ], $manifest['addons'][ $tag ]['phpFiles'])) {
+                $files = $manifest['addons'][ $tag ]['phpFiles'];
                 foreach ($files as $index => $filePath) {
-                    $manifest['phpFiles'][ $index ] = rtrim($dirname, '\\/') . '/' . $filePath;
+                    $manifest['addons'][ $tag ]['phpFiles'][ $index ] = rtrim(
+                        $manifest['addons'][ $tag ]['addonRealPath'],
+                        '\\/'
+                    ) . '/' . $filePath;
                 }
                 unset($index, $filePath);
             }
-            $manifest['addonRealPath'] = $vcapp->path('devAddons/' . $tag . '/' . $tag . '/');
-            $addons[ $tag ] = $manifest;
+            $addons[ $tag ] = $manifest['addons'][ $tag ];
         }
         unset($manifest, $manifestPath, $tag, $dirname);
 

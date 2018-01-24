@@ -67,14 +67,6 @@ class DevElements extends Container implements Module
                 throw new \Exception('Element manifest must SET "TAG":' . $manifestPath);
             }
             $element = $manifest['elements'][ $tag ];
-            if (isset($manifest['phpFiles'])) {
-                $files = $manifest['phpFiles'];
-                foreach ($files as $index => $filePath) {
-                    $files[ $index ] = rtrim($dirname, '\\/') . '/' . $filePath;
-                }
-                unset($index, $filePath);
-                $element['phpFiles'] = $files;
-            }
             $element['bundlePath'] = $urlHelper->to(
                 'devElements/' . $tag . '/public/dist/element.bundle.js'
             );

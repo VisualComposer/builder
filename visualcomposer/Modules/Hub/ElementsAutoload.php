@@ -101,6 +101,9 @@ class ElementsAutoload extends Autoload implements Module
             'modules' => [],
         ];
         foreach ($components as $componentPath) {
+            if (!file_exists($componentPath)) {
+                continue;
+            }
             $tokens = token_get_all(file_get_contents($componentPath));
             $data = self::checkTokens($tokens);
             if (!empty($data['namespace']) && !empty($data['class']) && !empty($data['implements'])) {
