@@ -153,7 +153,7 @@ export default {
         break
     }
     return CodeMirror(element, {
-      value: value,
+      value: value || '',
       mode: mode,
       tabSize: 2,
       lineNumbers: true,
