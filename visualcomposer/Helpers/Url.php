@@ -51,6 +51,9 @@ class Url implements Helper
     {
         $ajax = [VCV_AJAX_REQUEST => 1];
         $query = $ajax + $query;
+        if (isset($_REQUEST['lang'])) {
+            $query['lang'] = strip_tags(esc_html($_REQUEST['lang']));
+        }
         $url = get_site_url();
 
         return $this->query($url, $query);
@@ -68,6 +71,9 @@ class Url implements Helper
         $ajax = [VCV_ADMIN_AJAX_REQUEST => 1];
         $query = $ajax + $query;
         $query['action'] = 'vcv:admin:ajax';
+        if (isset($_REQUEST['lang'])) {
+            $query['lang'] = strip_tags(esc_html($_REQUEST['lang']));
+        }
         $url = admin_url('admin-ajax.php') . '?';
 
         return $this->query($url, $query);
