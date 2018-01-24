@@ -38,7 +38,7 @@ class DevElements extends Container implements Module
     protected function dummySetElements(Options $optionHelper, Application $app)
     {
         if (!$optionHelper->getTransient('devElementsCache')) {
-            $manifests = glob($app->path('devElements/*/manifest.json'));
+            $manifests = $app->glob($app->path('devElements/*/manifest.json'));
             $elements = $this->readManifests($manifests);
             $optionHelper->setTransient('devElementsCache', true, 60);
             $optionHelper->set(

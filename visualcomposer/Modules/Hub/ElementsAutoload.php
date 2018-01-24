@@ -89,7 +89,7 @@ class ElementsAutoload extends Autoload implements Module
 
     protected function getSingleComponent($element)
     {
-        $components = $this->app->rglob(rtrim($element['elementRealPath'], '\//') . '/*.php');
+        $components = $this->app->glob(rtrim($element['elementRealPath'], '\//') . '/*.php');
 
         return $this->checkElementController($components);
     }
