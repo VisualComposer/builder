@@ -1,37 +1,18 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { env } from 'vc-cake'
 
 import 'brace'
 import AceEditor from 'react-ace'
 import 'brace/mode/css'
 import 'brace/theme/github'
 
-import CodeMirror from 'codemirror'
-import csslint from 'csslint'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/mode/css/css'
-import 'codemirror/addon/fold/foldgutter.css'
-import 'codemirror/addon/fold/foldgutter'
-import 'codemirror/addon/fold/brace-fold'
-import 'codemirror/addon/comment/comment'
-import 'codemirror/addon/comment/continuecomment'
-import 'codemirror/addon/hint/show-hint.css'
-import 'codemirror/addon/hint/show-hint'
-import 'codemirror/addon/hint/javascript-hint'
-import 'codemirror/addon/selection/active-line'
-import 'codemirror/addon/edit/closebrackets'
-import 'codemirror/addon/edit/matchbrackets'
-import 'codemirror/addon/lint/lint.css'
-import 'codemirror/addon/lint/lint'
-import 'codemirror/addon/lint/css-lint'
-import 'codemirror/addon/scroll/simplescrollbars.css'
-import 'codemirror/addon/scroll/simplescrollbars'
+import { env } from 'vc-cake'
+import CodeEditor from '../../../../codeEditor/codeEditor'
 
 export default class StyleEditor extends React.Component {
-  editor = null
-  codemirror = null
+  editorWrapper = null
+  codeEditor = null
 
   static propTypes = {
     index: PropTypes.number.isRequired,
@@ -50,42 +31,15 @@ export default class StyleEditor extends React.Component {
 
   componentDidMount () {
     if (env('CODEMIRROR')) {
-      window.CSSLint = csslint.CSSLint
-      /* eslint-disable */
-      this.codemirror = CodeMirror(this.editor, {
-        value: this.props.value,
-        mode: 'css',
-        tabSize: 2,
-        lineNumbers: true,
-        extraKeys: {
-          'Ctrl-Space': 'autocomplete',
-          'Ctrl-\/': 'toggleComment',
-          'Cmd-\/': 'toggleComment'
-        },
-        foldGutter: true,
-        gutters: [
-          'CodeMirror-linenumbers',
-          'CodeMirror-foldgutter',
-          'CodeMirror-lint-markers'
-        ],
-        nonEmpty: true,
-        scrollbarStyle: 'overlay',
-        styleActiveLine: true,
-        continueComments: true,
-        autoCloseBrackets: true,
-        matchBrackets: true,
-        lint: true,
-        lintOnChange: true
-      })
-      /* eslint-enable */
-      this.codemirror.setSize('100%', '50vh')
-      this.codemirror.on('change', this.handleChange)
+      this.codeEditor = CodeEditor.getEditor(this.editorWrapper, 'css', this.props.value)
+      this.codeEditor.setSize('100%', '50vh')
+      this.codeEditor.on('change', this.handleChange)
     }
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (env('CODEMIRROR')) {
-      this.codemirror.refresh()
+      this.codeEditor.refresh()
     }
   }
 
@@ -101,7 +55,7 @@ export default class StyleEditor extends React.Component {
     })
     if (env('CODEMIRROR')) {
       return <div className={controlClass}>
-        <div className='vcv-ui-style-ace-container' ref={editor => (this.editor = editor)} />
+        <div className='vcv-ui-style-ace-container' ref={editor => (this.editorWrapper = editor)} />
         <p className='vcv-ui-form-helper'>{this.props.editorLabel}</p>
       </div>
     }

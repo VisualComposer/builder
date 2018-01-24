@@ -8,39 +8,18 @@ import 'brace/mode/javascript'
 import 'brace/theme/github'
 
 import { env } from 'vc-cake'
-import CodeMirror from 'codemirror'
-import jshint from 'jshint'
-import htmlhint from 'htmlhint'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/mode/javascript/javascript'
-import 'codemirror/mode/htmlmixed/htmlmixed'
-import 'codemirror/addon/fold/foldgutter.css'
-import 'codemirror/addon/fold/foldgutter'
-import 'codemirror/addon/fold/brace-fold'
-import 'codemirror/addon/fold/markdown-fold'
-import 'codemirror/addon/fold/xml-fold'
-import 'codemirror/addon/fold/comment-fold'
-import 'codemirror/addon/comment/comment'
-import 'codemirror/addon/comment/continuecomment'
-import 'codemirror/addon/hint/show-hint.css'
-import 'codemirror/addon/hint/show-hint'
-import 'codemirror/addon/hint/javascript-hint'
-import 'codemirror/addon/hint/html-hint'
-import 'codemirror/addon/selection/active-line'
-import 'codemirror/addon/edit/closebrackets'
-import 'codemirror/addon/edit/matchbrackets'
-import 'codemirror/addon/lint/lint.css'
-import 'codemirror/addon/lint/lint'
-import 'codemirror/addon/lint/javascript-lint'
-import 'codemirror/addon/lint/html-lint'
+import CodeEditor from '../../../resources/codeEditor/codeEditor'
 
 export default class RawCode extends Attribute {
-  editor = null
+  editorWrapper = null
+  codeEditor = null
+
   static propTypes = {
     fieldKey: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     options: PropTypes.object.isRequired
   }
+
   static defaultEditorOptions = {
     mode: 'html',
     width: '100%',
@@ -58,49 +37,21 @@ export default class RawCode extends Attribute {
 
   componentDidMount () {
     if (env('CODEMIRROR')) {
-      let mode
+      const { value } = this.props
       if (this.props.options.mode === 'html') {
-        window.HTMLHint = htmlhint.HTMLHint
-        mode = 'htmlmixed'
+        // TODO: change rawHTML element options.mode setting to htmlmixed
+        this.codeEditor = CodeEditor.getEditor(this.editorWrapper, 'htmlmixed', value)
       } else if (this.props.options.mode === 'javascript') {
-        window.JSHINT = jshint.JSHINT
-        mode = this.props.options.mode
+        this.codeEditor = CodeEditor.getEditor(this.editorWrapper, 'javascript', value)
       }
-      /* eslint-disable */
-      this.codemirror = CodeMirror(this.editor, {
-        value: this.props.value,
-        mode: mode,
-        tabSize: 2,
-        lineNumbers: true,
-        extraKeys: {
-          'Ctrl-Space': 'autocomplete',
-          'Ctrl-\/': 'toggleComment',
-          'Cmd-\/': 'toggleComment'
-        },
-        foldGutter: true,
-        gutters: [
-          'CodeMirror-linenumbers',
-          'CodeMirror-foldgutter',
-          'CodeMirror-lint-markers'
-        ],
-        nonEmpty: true,
-        scrollbarStyle: 'overlay',
-        styleActiveLine: true,
-        continueComments: true,
-        autoCloseBrackets: true,
-        matchBrackets: true,
-        lint: true,
-        lintOnChange: true
-      })
-      /* eslint-enable */
-      this.codemirror.setSize('100%', '50vh')
-      this.codemirror.on('change', this.setValue)
+      this.codeEditor.setSize('100%', '50vh')
+      this.codeEditor.on('change', this.setValue)
     }
   }
 
   componentDidUpdate () {
     if (env('CODEMIRROR')) {
-      this.codemirror.refresh()
+      this.codeEditor.refresh()
     } else {
       // Make the resize in case if dependency hidden
       if (this.refs.ace && this.refs.ace.editor) {
@@ -115,7 +66,7 @@ export default class RawCode extends Attribute {
 
   render () {
     if (env('CODEMIRROR')) {
-      return <div className='vcv-row-html-editor-container' ref={editor => (this.editor = editor)} />
+      return <div className='vcv-row-html-editor-container' ref={editor => (this.editorWrapper = editor)} />
     }
     return (
       <div className='vcv-row-html-editor-container'>
