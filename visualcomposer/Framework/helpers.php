@@ -91,6 +91,18 @@ function vcelementview($path, $args = [])
     return vchelper('ElementViews')->render($path, $args);
 }
 
+/**
+ * @param $path
+ * @param array $args
+ *
+ * @return mixed|string
+ */
+function vcaddonview($path, $args = [])
+{
+    /** @see \VisualComposer\Helpers\AddonViews::render */
+    return vchelper('AddonViews')->render($path, $args);
+}
+
 if (!function_exists('vcvenv')) {
     /**
      * Gets the value of an environment variable. Supports boolean, empty and null.

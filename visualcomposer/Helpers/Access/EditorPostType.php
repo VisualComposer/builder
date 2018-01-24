@@ -21,7 +21,8 @@ class EditorPostType implements Helper
     public function getEnabledPostTypes()
     {
         $optionsHelper = vchelper('Options');
+        $postTypes = $optionsHelper->get('post-types', ['post', 'page']);
 
-        return (array)$optionsHelper->get('post-types', ['post', 'page']);
+        return (array)vcfilter('vcv:helpers:access:editorPostType', $postTypes);
     }
 }
