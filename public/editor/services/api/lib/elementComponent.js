@@ -413,6 +413,15 @@ eval(unescape('${escapedString}'))
     return imageUrl
   }
 
+  getPublicImage (filename) {
+    let {metaAssetsPath} = this.props.atts
+    if (!filename) {
+      return ''
+    }
+
+    return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
+  }
+
   render () {
     return null
   }
