@@ -28,47 +28,51 @@ class BundleController extends Container implements Module
 
     protected function addHeadBundleStyle($response, $payload, Url $urlHelper)
     {
-        // Add CSS
-        $response = array_merge(
-            (array)$response,
-            [
-                sprintf(
-                    '<link id="vcv-style-fe-bundle" 
+        if (vcfilter('vcv:frontend:enqueue:bundle', true)) {
+            // Add CSS
+            $response = array_merge(
+                (array)$response,
+                [
+                    sprintf(
+                        '<link id="vcv-style-fe-bundle" 
 rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
-                    vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                        ?
-                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wp.bundle.css?v=' . VCV_VERSION
-                        // TODO: Check latest downloaded version
-                        :
-                        $urlHelper->to(
-                            'public/dist/wp.bundle.css?v=' . VCV_VERSION
-                        )
-                ),
-            ]
-        );
+                        vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
+                            ?
+                            content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wp.bundle.css?v=' . VCV_VERSION
+                            // TODO: Check latest downloaded version
+                            :
+                            $urlHelper->to(
+                                'public/dist/wp.bundle.css?v=' . VCV_VERSION
+                            )
+                    ),
+                ]
+            );
+        }
 
         return $response;
     }
 
     protected function addFooterBundleScript($response, $payload, Url $urlHelper)
     {
-        // Add JS
-        $response = array_merge(
-            (array)$response,
-            [
-                sprintf(
-                    '<script id="vcv-script-fe-bundle" type="text/javascript" src="%s"></script>',
-                    vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                        ?
-                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wp.bundle.js?v=' . VCV_VERSION
-                        // TODO Check latest download version
-                        :
-                        $urlHelper->to(
-                            'public/dist/wp.bundle.js?v=' . VCV_VERSION
-                        )
-                ),
-            ]
-        );
+        if (vcfilter('vcv:frontend:enqueue:bundle', true)) {
+            // Add JS
+            $response = array_merge(
+                (array)$response,
+                [
+                    sprintf(
+                        '<script id="vcv-script-fe-bundle" type="text/javascript" src="%s"></script>',
+                        vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
+                            ?
+                            content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wp.bundle.js?v=' . VCV_VERSION
+                            // TODO Check latest download version
+                            :
+                            $urlHelper->to(
+                                'public/dist/wp.bundle.js?v=' . VCV_VERSION
+                            )
+                    ),
+                ]
+            );
+        }
 
         return $response;
     }
