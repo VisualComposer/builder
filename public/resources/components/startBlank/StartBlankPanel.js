@@ -104,6 +104,33 @@ export default class startBlank extends React.Component {
     return controls
   }
 
+  getLayoutControls () {
+    let layouts = []
+    let definedLayout = ['header/footer', 'header/sidebarLeft/footer', 'header/sidebarRight/footer']
+    definedLayout.forEach((layout) => {
+      layouts.push(
+        <li className='vcv-ui-item-list-item' key={`layout-${layout}`}>
+          <span className='vcv-ui-item-element'
+            title={`${layout}`}
+            onClick={this.handleLayoutClick.bind(this)}
+          >
+            <span>
+              Layout image
+            </span>
+            <span className='vcv-ui-item-element-name'>
+              {layout}
+            </span>
+          </span>
+        </li>
+      )
+    })
+    return layouts
+  }
+
+  handleLayoutClick () {
+    console.log('send ajax request -- layout')
+  }
+
   /**
    * Add element resize listener
    * @param element
@@ -194,6 +221,19 @@ export default class startBlank extends React.Component {
         </div>
       )
     }
+    let layoutContainer = ''
+    if (vcCake.env('THEME_EDITOR')) {
+      layoutContainer = (
+        <div className='vcv-start-blank-item-list-container'>
+          <ul
+            className='vcv-ui-item-list vcv-start-blank-item-list'
+            style={containerWidth}
+          >
+            {this.getLayoutControls()}
+          </ul>
+        </div>
+      )
+    }
     return (
       <div className='vcv-start-blank-container' onMouseUp={this.handleMouseUp}>
         <div className='vcv-start-blank-scroll-container'>
@@ -203,6 +243,7 @@ export default class startBlank extends React.Component {
               <div className='vcv-start-blank-page-heading'>{headingPart2}</div>
             </div>
             <div className='vcv-start-blank-controls'>
+              {layoutContainer}
               <div
                 className='vcv-start-blank-item-list-container'
                 ref={(container) => { this.rowContainer = container }}
