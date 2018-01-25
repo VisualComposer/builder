@@ -212,3 +212,10 @@ if (!defined('VCV_ENV_PLUGIN_UPDATE_NOTICE')) {
         isset($_SERVER['ENV_VCV_ENV_PLUGIN_UPDATE_NOTICE']) ? $_SERVER['ENV_VCV_ENV_PLUGIN_UPDATE_NOTICE'] : true
     );
 }
+
+if (!defined('VCV_ENV_DEV_ADDONS')) {
+    define(
+        'VCV_ENV_DEV_ADDONS',
+        isset($_SERVER['ENV_VCV_ENV_DEV_ADDONS']) ? $_SERVER['ENV_VCV_ENV_DEV_ADDONS'] : false
+    );
+}

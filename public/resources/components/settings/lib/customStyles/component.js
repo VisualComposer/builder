@@ -89,7 +89,6 @@ export default class CustomStyles extends React.Component {
             editorLabel={styleData[i].editorLabel}
             index={styleData[i].index}
             activeIndex={this.state.isActiveIndex}
-            aceId={styleData[i].name + 'Editor'}
             value={this.state[styleData[i].name]}
             name={styleData[i].name}
             updater={this.updateSettings}

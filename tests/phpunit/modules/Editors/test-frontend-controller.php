@@ -25,7 +25,7 @@ class FrontendControllerTest extends WP_UnitTestCase
         $patterns = [
             '<!DOCTYPE html>',
             'window\.vcvSourceID = ' . $postId . ';',
-            'window\.vcvAjaxUrl = \'.+\?vcv-ajax=1\';',
+            'window\.vcvAjaxUrl = \'.+[\?|\&]vcv-ajax=1\';',
             'window\.vcvNonce = \'.+\';',
             '<iframe class="vcv-layout-iframe"',
             'src=".+vcv-editable=1&vcv-source-id=' . $postId . '&vcv-nonce=.+" id="vcv-editor-iframe"',

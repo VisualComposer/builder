@@ -90,7 +90,6 @@ export default class CustomJavascript extends React.Component {
             editorLabel={scriptData[ i ].editorLabel}
             index={scriptData[ i ].index}
             activeIndex={this.state.isActiveIndex}
-            aceId={scriptData[ i ].name + 'JsEditor'}
             value={this.state[ scriptData[ i ].name ]}
             name={scriptData[ i ].name}
             updater={this.updateSettings}
