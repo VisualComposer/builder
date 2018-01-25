@@ -16,6 +16,7 @@ module.exports = {
     front: './public/front-main',
     wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
+    themeEditorHeader: './public/addons/header-main',
     // wpsettings: './public/wp-settings-main',
     // wpupdate: './public/bundle-update-main',
     app: [],
@@ -148,6 +149,31 @@ module.exports = {
       services: [],
       modules: [
         'content/backendSwitcher'
+      ]
+    },
+    themeEditorHeader: {
+      modules: [
+        'content/modernLayout',
+        'wordpressHeaderWorkspace'
+      ],
+      services: [
+        'utils',
+        'document',
+        'wordpress-post-data',
+        'cook',
+        'sharedAssetsLibrary',
+        'elementAssetsLibrary',
+        'actions-manager',
+        'rules-manager',
+        'api',
+        'dataProcessor',
+        'modernAssetsStorage',
+        'stylesManager',
+        'wpMyTemplates',
+        'hubCategories',
+        'hubGroups',
+        'hubElements',
+        'elementAccessPoint'
       ]
     }
   },
