@@ -107,6 +107,21 @@ declare -a arr=(
 'separatedButton'
 'sandwichMenu'
 'sidebarMenu'
+'classicAccordion'
+'classicAccordionSection'
+'testimonial'
+'pageableContainer'
+'pageableTab'
+'contactForm7'
+'featuredImagePostGrid'
+'featuredImagePostGridItem'
+'syntaxHighlighter'
+'multipleImageCollage'
+'typewriterHeading'
+'centeredPostGrid'
+'centeredPostGridItem'
+'videoPlayer'
+'logoSlider'
 )
 
 EXECDIR=`pwd`
