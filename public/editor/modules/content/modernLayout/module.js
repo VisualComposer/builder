@@ -122,6 +122,7 @@ vcCake.add('contentModernLayout', (api) => {
   }
 
   const createLoadingScreen = () => {
+    ReactDOM.unmountComponentAtNode(iframeContent)
     iframeContent.innerHTML = `<div class='vcv-loading-overlay'>
         <div class='vcv-loading-overlay-inner'>
           <div class='vcv-loading-dots-container'>
