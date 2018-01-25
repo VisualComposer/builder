@@ -18,17 +18,29 @@ class WpmlController extends Container implements Module
         $this->wpAddAction('plugins_loaded', 'initialize', 16);
     }
 
-    protected function initialize()
+    protected function initialize(Request $requestHelper)
     {
         if (defined('ICL_SITEPRESS_VERSION')) {
             $this->addFilter('vcv:frontend:pageEditable:url', 'addLangToLink');
             $this->addFilter('vcv:backend:extraOutput', 'addTooltipStyleFixes');
             $this->addFilter('vcv:frontend:url', 'addLangToLink');
             $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
+            $this->addFilter('vcv:about:postNewUrl', 'addLangToLink');
             $this->wpAddAction(
                 'save_post',
                 'insertTrid'
             );
+
+            if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
+                global $sitepress;
+                remove_action(
+                    'wp_loaded',
+                    [
+                        $sitepress,
+                        'maybe_set_this_lang',
+                    ]
+                );
+            }
         }
     }
 
