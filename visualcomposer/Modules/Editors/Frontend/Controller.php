@@ -73,7 +73,7 @@ class Controller extends Container implements Module
                 if ($pagenow === 'post-new.php') {
                     $postType = 'post';
                     $allowedHiddenPosts = ['vcv_headers', 'vcv_footers', 'vcv_sidebars'];
-                    if (in_array($requestHelper->input('post_type'),$allowedHiddenPosts) || in_array($requestHelper->input('post_type'), get_post_types(['show_ui' => true]), true)) {
+                    if (in_array($requestHelper->input('post_type'), $allowedHiddenPosts) || in_array($requestHelper->input('post_type'), get_post_types(['show_ui' => true]), true)) {
                         $postType = $requestHelper->input('post_type');
                     }
                     $post = \get_default_post_to_edit($postType, true);
