@@ -2,10 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 import PropTypes from 'prop-types'
 
-import AceEditor from 'react-ace'
-import 'brace/mode/html'
-import 'brace/mode/javascript'
-import 'brace/theme/github'
+// import AceEditor from 'react-ace'
+// import 'brace/mode/html'
+// import 'brace/mode/javascript'
+// import 'brace/theme/github'
 
 import { env } from 'vc-cake'
 import CodeEditor from '../../../resources/codeEditor/codeEditor'
@@ -38,7 +38,7 @@ export default class RawCode extends Attribute {
   componentDidMount () {
     if (env('CODEMIRROR')) {
       const { value } = this.props
-      if (this.props.options.mode === 'html') {
+      if (!this.props.options.mode || this.props.options.mode === 'html') {
         // TODO: change rawHTML, wpWidgetsCustom, wpWidgetsDefault element options.mode setting to htmlmixed
         this.codeEditor = CodeEditor.getEditor(this.editorWrapper, 'htmlmixed', value)
       } else if (this.props.options.mode === 'javascript') {
