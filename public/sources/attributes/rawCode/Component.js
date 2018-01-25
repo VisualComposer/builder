@@ -39,12 +39,12 @@ export default class RawCode extends Attribute {
     if (env('CODEMIRROR')) {
       const { value } = this.props
       if (this.props.options.mode === 'html') {
-        // TODO: change rawHTML element options.mode setting to htmlmixed
+        // TODO: change rawHTML, wpWidgetsCustom, wpWidgetsDefault element options.mode setting to htmlmixed
         this.codeEditor = CodeEditor.getEditor(this.editorWrapper, 'htmlmixed', value)
       } else if (this.props.options.mode === 'javascript') {
         this.codeEditor = CodeEditor.getEditor(this.editorWrapper, 'javascript', value)
       }
-      this.codeEditor.setSize('100%', '50vh')
+      this.codeEditor.setSize('100%', this.props.options.height || '50vh')
       this.codeEditor.on('change', this.setValue)
     }
   }
