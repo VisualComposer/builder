@@ -19,9 +19,10 @@ if (!defined('ABSPATH')) {
 </head>
 <body <?php body_class(); ?>>
 <?php
+ob_start();
 while (have_posts()) :
-	the_post();
-?>
+    the_post();
+    ?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<div class="entry-content">
             <?php the_content(); ?>
@@ -29,7 +30,12 @@ while (have_posts()) :
 	</article>
 <?php
 endwhile;
-wp_footer();
+$content = ob_get_contents();
+ob_end_clean();
+
+echo vcfilter('vcv:views:editor:template', $content);
 ?>
+
+<?php wp_footer(); ?>
 </body>
 </html>
