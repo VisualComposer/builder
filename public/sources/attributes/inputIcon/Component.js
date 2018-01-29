@@ -5,6 +5,7 @@ class InputIcon extends Attribute {
   render () {
     let { value } = this.state
     let { placeholder, options } = this.props
+    let { min, max } = options
     let iconClasses = 'vcv-ui-form-dropdown vcv-ui-form-icon ' + options.iconClasses
 
     return (
@@ -14,6 +15,8 @@ class InputIcon extends Attribute {
           <input
             className='vcv-ui-form-input'
             type={options.inputType}
+            min={min}
+            max={max}
             onChange={this.handleChange}
             placeholder={placeholder}
             value={value}
