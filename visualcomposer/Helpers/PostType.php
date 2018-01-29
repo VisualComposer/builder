@@ -80,7 +80,7 @@ class PostType implements Helper
      *
      * @return array|bool|null|\WP_Post
      */
-    public function get($id, $postType = '')
+    public function get($id = null, $postType = '')
     {
         $post = get_post($id);
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
