@@ -11,12 +11,19 @@ export default class LayoutSettings extends React.Component {
     this.state = {
       currentLayout: templateStorageData
     }
+    this.setCurrentLayout = this.setCurrentLayout.bind(this)
   }
 
   componentDidMount () {
-    settingsStorage.state('pageTemplate').onChange((data) => {
-      this.setState({ currentLayout: data })
-    })
+    settingsStorage.state('pageTemplate').onChange(this.setCurrentLayout)
+  }
+
+  componentWillUnmount () {
+    settingsStorage.state('pageTemplate').ignoreChange(this.setCurrentLayout)
+  }
+
+  setCurrentLayout (data) {
+    this.setState({ currentLayout: data })
   }
 
   render () {
