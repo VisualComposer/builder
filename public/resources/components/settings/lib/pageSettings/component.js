@@ -5,10 +5,8 @@ import TemplateSettings from './settings/template'
 import LayoutSettings from './settings/layout'
 
 export default class PageSettings extends React.Component {
-
-  constructor (props) {
-    super(props)
-    let content = []
+  render () {
+    const content = []
     if (env('PAGE_TITLE_FE')) {
       content.push(<TitleSettings key={content.length} />)
     }
@@ -18,15 +16,9 @@ export default class PageSettings extends React.Component {
     if (env('THEME_EDITOR')) {
       content.push(<LayoutSettings key={content.length} />)
     }
-    this.state = {
-      content
-    }
-  }
-
-  render () {
     return (
       <div>
-        {this.state.content}
+        {content}
       </div>
     )
   }
