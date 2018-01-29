@@ -22,21 +22,13 @@ export default class LayoutSettings extends React.Component {
   render () {
     const layoutDropdowns = []
 
+    // header is just hardcoded for now
     if (typeof this.state.currentLayout !== 'string' || this.state.currentLayout === 'vcv-header-footer-layout.php') {
+      const headerData = window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES()
       const layoutSettings = [
         {
-          layoutName: 'Header (add localization)',
-          data: {
-            'Header 1': 3007,
-            'Header 2': 3041
-          }
-        },
-        {
-          layoutName: 'Footer (add localization)',
-          data: {
-            'Footer 1': 3007,
-            'Footer 2': 3041
-          }
+          layoutName: 'Header',
+          data: headerData.all
         }
       ]
 
