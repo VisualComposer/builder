@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getData, getStorage, env} from 'vc-cake'
+import { getData, getStorage, env } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
@@ -23,11 +23,13 @@ export default class SettingsFooter extends React.Component {
     if (env('IFRAME_RELOAD')) {
       let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
       let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+      // TODO: Add header:  header: settingsStorage.state('headerLayout')
       if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
         window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
-        workspaceIFrame.set({type: 'reload', template: lastSavedPageTemplate})
+        workspaceIFrame.set({ type: 'reload', template: lastSavedPageTemplate })
       }
     }
+    workspaceIFrame.set({ type: 'reload' })
     this.effect()
   }
 

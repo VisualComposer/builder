@@ -59,9 +59,11 @@ class AddonViews implements Helper
     }
 
     /**
-     * @return string|false
+     * @param $addon
+     *
+     * @return false|string
      */
-    protected function addonRealPath($addon)
+    public function addonRealPath($addon)
     {
         $hubHelper = vchelper('HubAddons');
         $hubAddons = $hubHelper->getAddons();

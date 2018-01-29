@@ -36,6 +36,13 @@ export default class SettingsPanel extends React.Component {
         })
       }
 
+      if (env('THEME_EDITOR')) {
+        actions.push({
+          state: 'headerLayout',
+          getData: 'ui:settings:headerLayout'
+        })
+      }
+
       if (env('PAGE_TITLE_FE')) {
         actions.push({
           state: 'pageTitle',

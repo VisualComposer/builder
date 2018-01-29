@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import BlankControl from './lib/blankControl'
 import PropTypes from 'prop-types'
+
 const templateManager = vcCake.getService('myTemplates')
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceSettings = workspaceStorage.state('settings')
+const settingsStorage = vcCake.getStorage('settings')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class startBlank extends React.Component {
   static propTypes = {
@@ -106,13 +109,13 @@ export default class startBlank extends React.Component {
 
   getLayoutControls () {
     let layouts = []
-    let definedLayout = ['header/footer', 'header/sidebarLeft/footer', 'header/sidebarRight/footer']
+    let definedLayout = [ 'vcv-header-footer-layout.php' ]
     definedLayout.forEach((layout) => {
       layouts.push(
         <li className='vcv-ui-item-list-item' key={`layout-${layout}`}>
           <span className='vcv-ui-item-element'
             title={`${layout}`}
-            onClick={this.handleLayoutClick.bind(this)}
+            onClick={this.handleLayoutClick.bind(this, layout)}
           >
             <span>
               Layout image
@@ -127,8 +130,14 @@ export default class startBlank extends React.Component {
     return layouts
   }
 
-  handleLayoutClick () {
-    console.log('send ajax request -- layout')
+  handleLayoutClick (layoutType) {
+    settingsStorage.state('pageTemplate').set(layoutType)
+    let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
+    let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+    if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
+      window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+      workspaceIFrame.set({ type: 'reload', template: layoutType })
+    }
   }
 
   /**
@@ -234,6 +243,7 @@ export default class startBlank extends React.Component {
         </div>
       )
     }
+
     return (
       <div className='vcv-start-blank-container' onMouseUp={this.handleMouseUp}>
         <div className='vcv-start-blank-scroll-container'>

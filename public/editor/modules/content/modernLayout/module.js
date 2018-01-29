@@ -133,7 +133,7 @@ vcCake.add('contentModernLayout', (api) => {
       </div>`
   }
 
-  const reloadLayout = ({ type, template }) => {
+  const reloadLayout = ({ type, template, header }) => {
     if (type === 'reload') {
       createLoadingScreen()
       let iframe = window.document.getElementById('vcv-editor-iframe')
@@ -172,9 +172,20 @@ vcCake.add('contentModernLayout', (api) => {
           params.splice(i, 1)
           break
         }
+        if (vcCake.env('THEME_EDITOR')) {
+          if (params[ i ].indexOf('vcv-header') >= 0) {
+            params.splice(i, 1)
+            break
+          }
+        }
       }
       if (template) {
         params.push(`vcv-template=${template}`)
+      }
+      if (vcCake.env('THEME_EDITOR')) {
+        if (header) {
+          params.push(`vcv-header=${header}`)
+        }
       }
       url[ 1 ] = params.join('&')
       iframe.src = url.join('?')

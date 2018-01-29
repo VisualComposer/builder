@@ -2,7 +2,6 @@ import { add, getStorage, getService, env } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
-import StartBlankPanel from '../../../resources/components/startBlank/StartBlankPanel'
 
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -63,51 +62,37 @@ add('wordpressWorkspace', (api) => {
   let iframeContent = document.getElementById('vcv-layout-iframe-content')
 
   if (iframeContent) {
-    const removeStartBlank = () => {
-      ReactDOM.unmountComponentAtNode(iframeContent)
-    }
-    const addStartBlank = () => {
-      ReactDOM.render(
-        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
-        iframeContent
-      )
-    }
     let documentElements
     let isBlank = true
 
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        addStartBlank()
+        iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
         isBlank = true
       } else if (data.length && isBlank) {
         let visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
           iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
         }
-        if (!env('CSS_LOADING')) {
-          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
-        }
-        removeStartBlank()
+        iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
         isBlank = false
       }
     })
 
-    if (env('CSS_LOADING')) {
-      assetsStorage.state('jobs').onChange((data) => {
-        if (documentElements) {
-          let visibleJobs = data.elements.filter(element => !element.hidden)
-          let visibleElements = utils.getVisibleElements(documentElements)
-          let documentIds = Object.keys(visibleElements)
-          if (documentIds.length === visibleJobs.length) {
-            let jobsInprogress = data.elements.find(element => element.jobs)
-            if (jobsInprogress) {
-              return
-            }
-            iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+    assetsStorage.state('jobs').onChange((data) => {
+      if (documentElements) {
+        let visibleJobs = data.elements.filter(element => !element.hidden)
+        let visibleElements = utils.getVisibleElements(documentElements)
+        let documentIds = Object.keys(visibleElements)
+        if (documentIds.length === visibleJobs.length) {
+          let jobsInprogress = data.elements.find(element => element.jobs)
+          if (jobsInprogress) {
+            return
           }
+          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
         }
-      })
-    }
+      }
+    })
   }
 })
