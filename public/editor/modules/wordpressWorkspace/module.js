@@ -83,8 +83,12 @@ add('wordpressWorkspace', (api) => {
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        addStartBlank()
-        isBlank = true
+        if (!settingsStorage.state('skipBlank').get()) {
+          addStartBlank()
+          isBlank = true
+        } else {
+          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+        }
       } else if (data.length && isBlank) {
         let visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
@@ -96,6 +100,7 @@ add('wordpressWorkspace', (api) => {
         removeStartBlank()
         isBlank = false
       }
+      settingsStorage.state('skipBlank').set(false)
     })
 
     if (env('CSS_LOADING')) {
