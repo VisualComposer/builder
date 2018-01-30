@@ -41,6 +41,14 @@ export default class SettingsPanel extends React.Component {
           state: 'headerTemplate',
           getData: 'ui:settings:headerTemplate'
         })
+        actions.push({
+          state: 'footerTemplate',
+          getData: 'ui:settings:footerTemplate'
+        })
+        actions.push({
+          state: 'sidebarTemplate',
+          getData: 'ui:settings:sidebarTemplate'
+        })
       }
 
       if (env('PAGE_TITLE_FE')) {
