@@ -34,7 +34,7 @@ export default class LayoutSettings extends React.Component {
       const headerData = window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES()
       const layoutSettings = [
         {
-          layoutName: 'Header',
+          layoutName: 'header',
           data: headerData.all
         }
       ]

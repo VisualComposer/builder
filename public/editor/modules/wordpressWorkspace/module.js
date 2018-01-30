@@ -8,6 +8,7 @@ const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
 const elementsStorage = getStorage('elements')
 const assetsStorage = getStorage('assets')
+const settingsStorage = getStorage('settings')
 const utils = getService('utils')
 
 add('wordpressWorkspace', (api) => {
@@ -47,6 +48,14 @@ add('wordpressWorkspace', (api) => {
       workspaceStorage.state('contentEnd').set('addTemplate')
     }
   })
+
+  settingsStorage.state('headerTemplate').onChange((value) => {
+    console.log('settingsStorage, headerTemplate onChange', value)
+    // Add Header template ID to extra save args
+    let args = settingsStorage.state('saveExtraArgs').get() || {}
+    settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-header-id': value }))
+  })
+
   let layoutHeader = document.getElementById('vcv-layout-header')
   if (layoutHeader) {
     ReactDOM.render(

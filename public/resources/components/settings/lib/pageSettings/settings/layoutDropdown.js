@@ -13,13 +13,13 @@ export default class LayoutDropdown extends React.Component {
   constructor (props) {
     super(props)
     const layoutName = props.layoutName.toLowerCase()
-    const currentLayout = settingsStorage.state(`${layoutName}Layout`).get() || 3007
+    const currentLayout = settingsStorage.state(`${layoutName}Template`).get()
 
     this.state = {
       current: currentLayout
     }
 
-    setData(`ui:settings:${layoutName}Layout`, currentLayout)
+    setData(`ui:settings:${layoutName}Template`, currentLayout)
 
     this.updateLayout = this.updateLayout.bind(this)
     this.getTemplateOptions = this.getTemplateOptions.bind(this)
@@ -27,7 +27,7 @@ export default class LayoutDropdown extends React.Component {
 
   updateLayout (event) {
     const layoutName = this.props.layoutName.toLowerCase()
-    setData(`ui:settings:${layoutName}Layout`, event.target.value)
+    setData(`ui:settings:${layoutName}Template`, event.target.value)
     this.setState({
       current: event.target.value
     })

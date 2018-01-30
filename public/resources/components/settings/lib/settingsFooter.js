@@ -23,14 +23,23 @@ export default class SettingsFooter extends React.Component {
     if (env('IFRAME_RELOAD')) {
       let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
       let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
-      // TODO: Add header:  header: settingsStorage.state('headerLayout')
+
+      let lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current
+      let lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+      // TODO: Add header:  header: settingsStorage.state('headerTemplate')
       if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
-        window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
-        workspaceIFrame.set({ type: 'reload', template: lastSavedPageTemplate })
+        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate)
+      } else if (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) {
+        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate)
       }
     }
-    workspaceIFrame.set({ type: 'reload' })
     this.effect()
+  }
+
+  reloadIframe (lastSavedPageTemplate, lastSavedHeaderTemplate) {
+    window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+    window.lastLoadedHeaderTemplate = lastSavedHeaderTemplate
+    workspaceIFrame.set({ type: 'reload', template: lastSavedPageTemplate, header: settingsStorage.state('headerTemplate').get() })
   }
 
   componentDidMount () {

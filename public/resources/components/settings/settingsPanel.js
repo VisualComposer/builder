@@ -38,8 +38,8 @@ export default class SettingsPanel extends React.Component {
 
       if (env('THEME_EDITOR')) {
         actions.push({
-          state: 'headerLayout',
-          getData: 'ui:settings:headerLayout'
+          state: 'headerTemplate',
+          getData: 'ui:settings:headerTemplate'
         })
       }
 
