@@ -11,6 +11,11 @@ const workspaceSettings = workspaceStorage.state('settings')
 const settingsStorage = vcCake.getStorage('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
+let pageTemplates = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES()
+if (pageTemplates) {
+  settingsStorage.state('pageTemplate').set(pageTemplates.current)
+}
+
 export default class startBlank extends React.Component {
   static propTypes = {
     unmountStartBlank: PropTypes.func.isRequired
@@ -24,6 +29,7 @@ export default class startBlank extends React.Component {
     super(props)
     this.state = {
       startBlankVisible: true,
+      layout: settingsStorage.state('pageTemplate').get() || 'default',
       templates: templateManager.predefined()
     }
     this.handleCloseClick = this.handleCloseClick.bind(this)
@@ -63,6 +69,16 @@ export default class startBlank extends React.Component {
       elementsStorage.trigger('merge', data)
     }
     this.handleCloseClick(blank)
+
+    if (vcCake.env('THEME_EDITOR')) {
+      settingsStorage.state('skipBlank').set(true)
+      let { layout } = this.state
+      let activeLayout = settingsStorage.state('pageTemplate').get()
+      if (layout && layout !== activeLayout) {
+        settingsStorage.state('pageTemplate').set(layout)
+        workspaceIFrame.set({ type: 'reload', template: layout })
+      }
+    }
   }
 
   handleCloseClick (blank) {
@@ -108,21 +124,35 @@ export default class startBlank extends React.Component {
   }
 
   getLayoutControls () {
+    let activeLayout = this.state.layout
     let layouts = []
-    let definedLayout = [ 'vcv-header-footer-layout.php' ]
-    definedLayout.forEach((layout) => {
+    let defaultClasses = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
+    if (activeLayout === 'default') {
+      defaultClasses += ' vcv-ui-start-layout-list-item-active'
+    }
+    layouts.push(
+      <li className={defaultClasses} key={`layout-default`} onClick={this.handleLayoutClick.bind(this, 'default')}>
+        <span className='vcv-ui-item-element' title='default'>
+          <span className='vcv-ui-item-element-name'>Default</span>
+        </span>
+      </li>
+    )
+    let definedLayouts = {}
+    Object.keys(pageTemplates.all).forEach(key => {
+      if (key.toLowerCase().includes('vcv')) {
+        definedLayouts[ key ] = pageTemplates.all[ key ]
+      }
+    })
+    Object.keys(definedLayouts).forEach((key, index) => {
+      let classes = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
+      if (activeLayout === definedLayouts[ key ]) {
+        classes += ' vcv-ui-start-layout-list-item-active'
+      }
       layouts.push(
-        <li className='vcv-ui-item-list-item' key={`layout-${layout}`}>
-          <span className='vcv-ui-item-element'
-            title={`${layout}`}
-            onClick={this.handleLayoutClick.bind(this, layout)}
-          >
-            <span>
-              Layout image
-            </span>
-            <span className='vcv-ui-item-element-name'>
-              {layout}
-            </span>
+        <li className={classes} key={`layout-${index}`}
+          onClick={this.handleLayoutClick.bind(this, definedLayouts[ key ])}>
+          <span className='vcv-ui-item-element' title={`${key}`}>
+            <span className='vcv-ui-item-element-name'>{key}</span>
           </span>
         </li>
       )
@@ -131,13 +161,9 @@ export default class startBlank extends React.Component {
   }
 
   handleLayoutClick (layoutType) {
-    settingsStorage.state('pageTemplate').set(layoutType)
-    let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
-    let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
-    if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
-      window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
-      workspaceIFrame.set({ type: 'reload', template: layoutType })
-    }
+    this.setState({
+      layout: layoutType
+    })
   }
 
   /**
@@ -233,13 +259,12 @@ export default class startBlank extends React.Component {
     let layoutContainer = ''
     if (vcCake.env('THEME_EDITOR')) {
       layoutContainer = (
-        <div className='vcv-start-blank-item-list-container'>
-          <ul
-            className='vcv-ui-item-list vcv-start-blank-item-list'
-            style={containerWidth}
-          >
-            {this.getLayoutControls()}
-          </ul>
+        <div className='vcv-start-layout-controls'>
+          <div className='vcv-start-layout-item-list-container'>
+            <ul className='vcv-ui-item-list vcv-start-layout-item-list' style={containerWidth}>
+              {this.getLayoutControls()}
+            </ul>
+          </div>
         </div>
       )
     }
@@ -252,8 +277,8 @@ export default class startBlank extends React.Component {
               <div className='vcv-start-blank-page-heading'>{headingPart1}</div>
               <div className='vcv-start-blank-page-heading'>{headingPart2}</div>
             </div>
+            {layoutContainer}
             <div className='vcv-start-blank-controls'>
-              {layoutContainer}
               <div
                 className='vcv-start-blank-item-list-container'
                 ref={(container) => { this.rowContainer = container }}

@@ -8,6 +8,7 @@ const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
 const elementsStorage = getStorage('elements')
 const assetsStorage = getStorage('assets')
+const settingsStorage = getStorage('settings')
 const utils = getService('utils')
 
 add('wordpressWorkspace', (api) => {
@@ -74,8 +75,12 @@ add('wordpressWorkspace', (api) => {
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        addStartBlank()
-        isBlank = true
+        if (!settingsStorage.state('skipBlank').get()) {
+          addStartBlank()
+          isBlank = true
+        } else {
+          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+        }
       } else if (data.length && isBlank) {
         let visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
@@ -87,6 +92,7 @@ add('wordpressWorkspace', (api) => {
         removeStartBlank()
         isBlank = false
       }
+      settingsStorage.state('skipBlank').set(false)
     })
 
     if (env('CSS_LOADING')) {
