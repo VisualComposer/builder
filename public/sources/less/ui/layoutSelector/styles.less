@@ -4,4 +4,36 @@
   &-active {
     border-color: tomato;
   }
+
+  &-icon {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #adadad;
+    border-radius: 5px;
+    margin: 10px auto;
+    position: relative;
+
+    &.vcv-ui-start-layout-list-item-icon-vcv-header-footer {
+
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        height: 2px;
+        background: #adadad;
+      }
+
+      &::before {
+        top: 25%;
+      }
+
+      &::after {
+        bottom: 25%;
+      }
+    }
+  }
 }

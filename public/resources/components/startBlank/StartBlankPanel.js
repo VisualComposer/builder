@@ -12,6 +12,7 @@ const settingsStorage = vcCake.getStorage('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
 let pageTemplates = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES()
+let pageLayouts = window.VCV_LAYOUTS_DATA && window.VCV_LAYOUTS_DATA() || []
 if (pageTemplates) {
   settingsStorage.state('pageTemplate').set(pageTemplates.current)
 }
@@ -133,26 +134,24 @@ export default class startBlank extends React.Component {
     layouts.push(
       <li className={defaultClasses} key={`layout-default`} onClick={this.handleLayoutClick.bind(this, 'default')}>
         <span className='vcv-ui-item-element' title='default'>
+          <span className='vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-default' />
           <span className='vcv-ui-item-element-name'>Default</span>
         </span>
       </li>
     )
-    let definedLayouts = {}
-    Object.keys(pageTemplates.all).forEach(key => {
-      if (key.toLowerCase().includes('vcv')) {
-        definedLayouts[ key ] = pageTemplates.all[ key ]
-      }
-    })
-    Object.keys(definedLayouts).forEach((key, index) => {
+    Object.keys(pageLayouts).forEach((key, index) => {
       let classes = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
-      if (activeLayout === definedLayouts[ key ]) {
+      if (activeLayout === key) {
         classes += ' vcv-ui-start-layout-list-item-active'
       }
       layouts.push(
         <li className={classes} key={`layout-${index}`}
-          onClick={this.handleLayoutClick.bind(this, definedLayouts[ key ])}>
-          <span className='vcv-ui-item-element' title={`${key}`}>
-            <span className='vcv-ui-item-element-name'>{key}</span>
+          onClick={this.handleLayoutClick.bind(this, key)}>
+          <span className='vcv-ui-item-element' title={`${pageLayouts[ key ].title}`}>
+            <span className={`vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-${pageLayouts[key].title.toLowerCase().split(' ').join('-')}`}>
+              <span className='vcv-ui-start-layout-list-item-icon-helper' />
+            </span>
+            <span className='vcv-ui-item-element-name'>{pageLayouts[ key ].title}</span>
           </span>
         </li>
       )
