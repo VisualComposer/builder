@@ -1,8 +1,6 @@
 import React from 'react'
-import {setData, getStorage} from 'vc-cake'
+import {setData, getData} from 'vc-cake'
 import PropTypes from 'prop-types'
-
-const settingsStorage = getStorage('settings')
 
 export default class LayoutDropdown extends React.Component {
   static propTypes = {
@@ -13,7 +11,7 @@ export default class LayoutDropdown extends React.Component {
   constructor (props) {
     super(props)
     const layoutName = props.layoutName.toLowerCase()
-    const currentLayout = settingsStorage.state(`${layoutName}Template`).get() || parseInt(props.data.current)
+    const currentLayout = getData(`ui:settings:${layoutName}Template`) || props.data.current
 
     this.state = {
       current: currentLayout
