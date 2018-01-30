@@ -163,6 +163,7 @@ export default class startBlank extends React.Component {
     this.setState({
       layout: layoutType
     })
+    this.props.updateSelectedLayoutInBlank(layoutType)
   }
 
   /**

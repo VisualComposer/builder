@@ -15,7 +15,6 @@
     position: relative;
 
     &.vcv-ui-start-layout-list-item-icon-vcv-header-footer {
-
       &::before,
       &::after {
         content: '';
@@ -33,6 +32,35 @@
 
       &::after {
         bottom: 25%;
+      }
+    }
+
+    &.vcv-ui-start-layout-list-item-icon-vcv-header-footer-sidebar {
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        height: 2px;
+        background: #adadad;
+      }
+
+      &::before {
+        top: 25%;
+      }
+
+      &::after {
+        bottom: 25%;
+      }
+      .vcv-ui-start-layout-list-item-icon-helper {
+        position: absolute;
+        width: 2px;
+        height: 50%;
+        background: #adadad;
+        right: 25%;
+        top: 25%;
       }
     }
   }
