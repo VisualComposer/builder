@@ -133,7 +133,7 @@ vcCake.add('contentModernLayout', (api) => {
       </div>`
   }
 
-  const reloadLayout = ({ type, template, header }) => {
+  const reloadLayout = ({ type, template, header, sidebar, footer }) => {
     if (type === 'reload') {
       createLoadingScreen()
       let iframe = window.document.getElementById('vcv-editor-iframe')
@@ -177,6 +177,14 @@ vcCake.add('contentModernLayout', (api) => {
             params.splice(i, 1)
             break
           }
+          if (params[ i ].indexOf('vcv-sidebar') >= 0) {
+            params.splice(i, 1)
+            break
+          }
+          if (params[ i ].indexOf('vcv-footer') >= 0) {
+            params.splice(i, 1)
+            break
+          }
         }
       }
       if (template) {
@@ -185,6 +193,12 @@ vcCake.add('contentModernLayout', (api) => {
       if (vcCake.env('THEME_EDITOR')) {
         if (header) {
           params.push(`vcv-header=${header}`)
+        }
+        if (sidebar) {
+          params.push(`vcv-sidebar=${sidebar}`)
+        }
+        if (footer) {
+          params.push(`vcv-footer=${footer}`)
         }
       }
       url[ 1 ] = params.join('&')
