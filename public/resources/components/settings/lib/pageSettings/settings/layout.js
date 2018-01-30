@@ -32,6 +32,16 @@ export default class LayoutSettings extends React.Component {
     // header is just hardcoded for now
     if (typeof this.state.currentLayout !== 'string' || this.state.currentLayout === 'vcv-header-footer-layout.php') {
       const headerData = window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES()
+      if (!headerData) {
+        return null
+      }
+
+      if (!headerData.all.length && headerData.all.constructor === Array) {
+        headerData.all = {
+          'You have no header created': null
+        }
+      }
+
       const layoutSettings = [
         {
           layoutName: 'Header',
