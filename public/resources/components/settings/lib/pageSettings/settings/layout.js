@@ -45,7 +45,7 @@ export default class LayoutSettings extends React.Component {
       const layoutSettings = [
         {
           layoutName: 'header',
-          data: headerData.all
+          data: headerData
         }
       ]
 

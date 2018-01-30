@@ -93,7 +93,8 @@ class TemplateFilterController extends Container implements Module
                         'key' => 'VCV_PAGE_TEMPLATES',
                         'value' => [
                             // @codingStandardsIgnoreLine
-                            'current' => $post && isset($post->page_template) && $post->page_template ? $post->page_template : 'default',
+                            'current' => $post && isset($post->page_template) && $post->page_template
+                                ? $post->page_template : 'default',
                             // @codingStandardsIgnoreLine
                             'all' => $post ? get_page_templates($post, $post->post_type) : [],
                         ],
@@ -105,7 +106,14 @@ class TemplateFilterController extends Container implements Module
 
     protected function addNewTemplate($postsTemplates)
     {
-        $postsTemplates = array_merge($postsTemplates, $this->templates);
+        $templates = $this->templates;
+        $templates = array_map(
+            function ($item) {
+                return is_array($item) && isset($item['title']) ? $item['title'] : $item;
+            },
+            $templates
+        );
+        $postsTemplates = array_merge($postsTemplates, $templates);
 
         return $postsTemplates;
     }
@@ -120,7 +128,15 @@ class TemplateFilterController extends Container implements Module
         }
 
         wp_cache_delete($cacheKey, 'themes');
-        $templates = array_merge($templates, $this->templates);
+
+        $vcTemplates = $this->templates;
+        $vcTemplates = array_map(
+            function ($item) {
+                return is_array($item) && isset($item['title']) ? $item['title'] : $item;
+            },
+            $vcTemplates
+        );
+        $templates = array_merge($templates, $vcTemplates);
 
         wp_cache_add($cacheKey, $templates, 'themes', 1800);
 
@@ -169,6 +185,7 @@ class TemplateFilterController extends Container implements Module
                 return get_page_template();
             }
         }
+
         return $originalTemplate;
     }
 

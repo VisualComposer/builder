@@ -13,7 +13,7 @@ export default class LayoutDropdown extends React.Component {
   constructor (props) {
     super(props)
     const layoutName = props.layoutName.toLowerCase()
-    const currentLayout = settingsStorage.state(`${layoutName}Template`).get()
+    const currentLayout = settingsStorage.state(`${layoutName}Template`).get() || parseInt(props.data.current)
 
     this.state = {
       current: currentLayout
@@ -35,8 +35,8 @@ export default class LayoutDropdown extends React.Component {
 
   getTemplateOptions () {
     const { data } = this.props
-    return Object.keys(data).map((key, index) => (
-      <option key={index} value={data[ key ]}>{key}</option>
+    return Object.keys(data.all).map((key, index) => (
+      <option key={index} value={data.all[ key ]}>{key}</option>
     ))
   }
 
