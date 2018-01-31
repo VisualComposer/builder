@@ -45,7 +45,7 @@ export default class LayoutDropdown extends React.Component {
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>{this.props.layoutName}</span>
         <select className='vcv-ui-form-dropdown' value={this.state.current} onChange={this.updateLayout}>
-          <option value='default'>Choose {this.props.layoutName}</option>
+          <option value='default'>Default {this.props.layoutName}</option>
           {this.getTemplateOptions()}
         </select>
       </div>

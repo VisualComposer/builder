@@ -69,7 +69,15 @@ export default class WordPressPostSaveControl extends NavbarContent {
       status: 'saving'
     })
     window.setTimeout(() => {
-      window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)
+      let url = window.location.href
+      let captureType = /vcv-editor-type=([^&]+)/.exec(url)[1]
+      let editorType = captureType || false
+
+      if (editorType) {
+        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}&vcv-editor-type=${editorType}`)
+      } else {
+        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)
+      }
       // Check Save option from other modules
       !noStorageRequest && wordpressDataStorage.trigger('save', {
         options: e ? e.options : {}
