@@ -196,6 +196,7 @@ class HubCategories extends Container implements Module
                         'googlePlusButton',
                         'pinterestPinit',
                         'facebookLike',
+                        'facebookShare'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Social.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Social.svg'),
