@@ -22,19 +22,15 @@ export default class SettingsPanel extends React.Component {
     const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 
     if (env('editor') === 'frontend') {
-      if (env('PAGE_TEMPLATES_FE') || env('PAGE_TITLE_FE')) {
-        sections.push({
-          title: settingsText,
-          content: PageSettings
-        })
-      }
+      sections.push({
+        title: settingsText,
+        content: PageSettings
+      })
 
-      if (env('PAGE_TEMPLATES_FE')) {
-        actions.push({
-          state: 'pageTemplate',
-          getData: 'ui:settings:pageTemplate'
-        })
-      }
+      actions.push({
+        state: 'pageTemplate',
+        getData: 'ui:settings:pageTemplate'
+      })
 
       if (env('THEME_EDITOR')) {
         actions.push({
@@ -51,28 +47,24 @@ export default class SettingsPanel extends React.Component {
         })
       }
 
-      if (env('PAGE_TITLE_FE')) {
-        actions.push({
-          state: 'pageTitle',
-          getData: 'ui:settings:pageTitle'
-        })
-        actions.push({
-          state: 'pageTitleDisabled',
-          getData: 'ui:settings:pageTitleDisabled'
-        })
-      }
+      actions.push({
+        state: 'pageTitle',
+        getData: 'ui:settings:pageTitle'
+      })
+      actions.push({
+        state: 'pageTitleDisabled',
+        getData: 'ui:settings:pageTitleDisabled'
+      })
     }
 
     sections.push({
       title: customCSSText,
       content: CustomStyles
     })
-    if (env('CUSTOM_JS')) {
-      sections.push({
-        title: customJSText,
-        content: CustomScripts
-      })
-    }
+    sections.push({
+      title: customJSText,
+      content: CustomScripts
+    })
 
     actions.push({
       state: 'globalCss',
@@ -82,16 +74,14 @@ export default class SettingsPanel extends React.Component {
       state: 'customCss',
       getData: 'ui:settings:customStyles:local'
     })
-    if (env('CUSTOM_JS')) {
-      actions.push({
-        state: 'globalJs',
-        getData: 'ui:settings:customJavascript:global'
-      })
-      actions.push({
-        state: 'localJs',
-        getData: 'ui:settings:customJavascript:local'
-      })
-    }
+    actions.push({
+      state: 'globalJs',
+      getData: 'ui:settings:customJavascript:global'
+    })
+    actions.push({
+      state: 'localJs',
+      getData: 'ui:settings:customJavascript:local'
+    })
 
     this.state = {
       sections,

@@ -196,6 +196,7 @@ class HubCategories extends Container implements Module
                         'googlePlusButton',
                         'pinterestPinit',
                         'facebookLike',
+                        'facebookShare',
                         'facebookSave',
                         'facebookComments',
                     ],

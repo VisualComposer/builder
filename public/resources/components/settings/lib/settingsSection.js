@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getStorage} from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
 const workspaceStorage = getStorage('workspaceStorage')
 
@@ -15,6 +15,7 @@ export default class EditFormSection extends React.Component {
       sectionDependenciesClasses: []
     }
     this.toggleSection = this.toggleSection.bind(this)
+    this.setHeaderRef = this.setHeaderRef.bind(this)
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -31,6 +32,10 @@ export default class EditFormSection extends React.Component {
     if (prevState && !prevState.isActive && isActive) {
       workspaceStorage.state('scrollbarSettings').set({ scroll: headerOffset - headerRect.height })
     }
+  }
+
+  setHeaderRef (header) {
+    this.sectionHeader = header
   }
 
   toggleSection () {
@@ -51,7 +56,7 @@ export default class EditFormSection extends React.Component {
         <div
           className='vcv-ui-edit-form-section-header'
           onClick={this.toggleSection}
-          ref={(header) => { this.sectionHeader = header }}
+          ref={this.setHeaderRef}
         >
           {title}
         </div>

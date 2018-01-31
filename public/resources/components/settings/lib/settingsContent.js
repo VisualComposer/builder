@@ -8,7 +8,7 @@ export default class SettingsContent extends React.Component {
     return this.props.sections.map((section, key) => {
       let Component = section.content
       return (
-        <SettingsSection title={section.title} key={key}>
+        <SettingsSection title={section.title} key={`vcv-settings-section-content-${key}`}>
           <Component />
         </SettingsSection>
       )
