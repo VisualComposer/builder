@@ -21,6 +21,17 @@ export default class SettingsFooter extends React.Component {
     this.onSave = this.onSave.bind(this)
   }
 
+  componentWillUnmount () {
+    if (this.startEffectTimeout) {
+      window.clearTimeout(this.startEffectTimeout)
+      this.startEffectTimeout = null
+    }
+    if (this.stopEffectTimeout) {
+      window.clearTimeout(this.stopEffectTimeout)
+      this.stopEffectTimeout = null
+    }
+  }
+
   onSave () {
     let { actions } = this.props
     actions.forEach(action => {
