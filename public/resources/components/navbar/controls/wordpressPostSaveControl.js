@@ -2,7 +2,6 @@ import { getService, getStorage } from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import vcCake from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
