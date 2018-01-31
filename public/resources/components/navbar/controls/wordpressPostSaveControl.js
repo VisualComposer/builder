@@ -70,11 +70,9 @@ export default class WordPressPostSaveControl extends NavbarContent {
     })
     window.setTimeout(() => {
       let url = window.location.href
-      let captureType = /vcv-editor-type=([^&]+)/.exec(url)[1]
-      let editorType = captureType || false
-
-      if (editorType) {
-        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}&vcv-editor-type=${editorType}`)
+      let captureType = /vcv-editor-type=([^&]+)/.exec(url)
+      if (typeof captureType !== 'undefined' && captureType[ 1 ]) {
+        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}&vcv-editor-type=${captureType[ 1 ]}`)
       } else {
         window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)
       }
