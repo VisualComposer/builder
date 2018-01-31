@@ -126,6 +126,7 @@ declare -a arr=(
 'logoSlider'
 'facebookShare'
 'facebookSave'
+'facebookComments'
 )
 
 EXECDIR=`pwd`
