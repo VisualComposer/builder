@@ -89,8 +89,10 @@ export default class Content extends React.Component {
   }
 
   removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+    if (element.__resizeTrigger__.contentDocument) {
+      element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+      element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+    }
   }
 
   closeContent (e) {

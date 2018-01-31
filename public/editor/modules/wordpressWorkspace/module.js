@@ -8,7 +8,9 @@ const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
 const elementsStorage = getStorage('elements')
 const assetsStorage = getStorage('assets')
+const settingsStorage = getStorage('settings')
 const utils = getService('utils')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 add('wordpressWorkspace', (api) => {
   // Set Templates
@@ -47,6 +49,28 @@ add('wordpressWorkspace', (api) => {
       workspaceStorage.state('contentEnd').set('addTemplate')
     }
   })
+
+  settingsStorage.state('headerTemplate').onChange((value) => {
+    console.log('settingsStorage, headerTemplate onChange', value)
+    // Add Header template ID to extra save args
+    let args = settingsStorage.state('saveExtraArgs').get() || {}
+    settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-header-id': value }))
+  })
+
+  settingsStorage.state('sidebarTemplate').onChange((value) => {
+    console.log('settingsStorage, sidebarTemplate onChange', value)
+    // Add Sidebar template ID to extra save args
+    let args = settingsStorage.state('saveExtraArgs').get() || {}
+    settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-sidebar-id': value }))
+  })
+
+  settingsStorage.state('footerTemplate').onChange((value) => {
+    console.log('settingsStorage, footerTemplate onChange', value)
+    // Add Footer template ID to extra save args
+    let args = settingsStorage.state('saveExtraArgs').get() || {}
+    settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-footer-id': value }))
+  })
+
   let layoutHeader = document.getElementById('vcv-layout-header')
   if (layoutHeader) {
     ReactDOM.render(
@@ -59,12 +83,16 @@ add('wordpressWorkspace', (api) => {
   let iframeContent = document.getElementById('vcv-layout-iframe-content')
 
   if (iframeContent) {
+    let selectedLayoutInBlank = 'default'
+    const updateSelectedLayoutInBlank = (layout) => {
+      selectedLayoutInBlank = layout
+    }
     const removeStartBlank = () => {
       ReactDOM.unmountComponentAtNode(iframeContent)
     }
     const addStartBlank = () => {
       ReactDOM.render(
-        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
+        <StartBlankPanel unmountStartBlank={removeStartBlank} updateSelectedLayoutInBlank={updateSelectedLayoutInBlank} />,
         iframeContent
       )
     }
@@ -74,8 +102,12 @@ add('wordpressWorkspace', (api) => {
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        addStartBlank()
-        isBlank = true
+        if (!settingsStorage.state('skipBlank').get()) {
+          addStartBlank()
+          isBlank = true
+        } else {
+          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+        }
       } else if (data.length && isBlank) {
         let visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
@@ -86,7 +118,13 @@ add('wordpressWorkspace', (api) => {
         }
         removeStartBlank()
         isBlank = false
+        let activeLayout = settingsStorage.state('pageTemplate').get()
+        if (selectedLayoutInBlank !== activeLayout) {
+          settingsStorage.state('pageTemplate').set(selectedLayoutInBlank)
+          workspaceIFrame.set({ type: 'reload', template: selectedLayoutInBlank })
+        }
       }
+      settingsStorage.state('skipBlank').set(false)
     })
 
     if (env('CSS_LOADING')) {

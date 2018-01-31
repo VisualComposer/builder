@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getData, getStorage, env } from 'vc-cake'
+import {getData, getStorage, env} from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
@@ -23,14 +23,44 @@ export default class SettingsFooter extends React.Component {
     if (env('IFRAME_RELOAD')) {
       let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
       let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
-      // TODO: Add header:  header: settingsStorage.state('headerLayout')
+
+      let lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current
+      let lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+
+      let lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current
+      let lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
+
+      let lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current
+      let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
+
+      // TODO: Add header:  header: settingsStorage.state('headerTemplate')
       if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
-        window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
-        workspaceIFrame.set({ type: 'reload', template: lastSavedPageTemplate })
+        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate)
+      } else if (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) {
+        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate)
+      } else if (lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate) {
+        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate)
+      } else if (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate) {
+        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate)
       }
     }
-    workspaceIFrame.set({ type: 'reload' })
     this.effect()
+  }
+
+  reloadIframe (lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate) {
+    window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+    window.vcvLastLoadedHeaderTemplate = lastSavedHeaderTemplate
+    window.vcvLastLoadedSidebarTemplate = lastSavedSidebarTemplate
+    window.vcvLastLoadedFooterTemplate = lastSavedFooterTemplate
+
+    workspaceIFrame.set({
+      type: 'reload',
+      template: lastSavedPageTemplate,
+      header: settingsStorage.state('headerTemplate').get(),
+      sidebar: settingsStorage.state('sidebarTemplate').get(),
+      footer: settingsStorage.state('footerTemplate').get()
+    })
+    settingsStorage.state('skipBlank').set(true)
   }
 
   componentDidMount () {

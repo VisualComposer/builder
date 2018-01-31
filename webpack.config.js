@@ -91,8 +91,7 @@ module.exports = {
         'hubCategories',
         'hubGroups',
         'hubElements',
-        'elementAccessPoint',
-        'vcThemeLayouts'
+        'elementAccessPoint'
       ]
     },
     wp: {
@@ -117,8 +116,7 @@ module.exports = {
         'hubCategories',
         'hubGroups',
         'hubElements',
-        'elementAccessPoint',
-        'vcThemeLayouts'
+        'elementAccessPoint'
       ]
     },
     wpbackend: {

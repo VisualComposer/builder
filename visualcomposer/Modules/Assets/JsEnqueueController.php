@@ -64,8 +64,8 @@ class JsEnqueueController extends Container implements Module
      */
     protected function printJs($globalJs, $localJs, $prefix = '')
     {
-        $requestHelper = vchelper('Request');
-        if (!$requestHelper->exists('vcv-editable')) {
+        $frontendHelper = vchelper('Frontend');
+        if (!$frontendHelper->isPageEditable()) {
             if (!empty($globalJs)) {
                 echo vcview(
                     'partials/script',

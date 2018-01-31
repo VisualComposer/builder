@@ -25,10 +25,11 @@ export default class LayoutEditor extends React.Component {
   }
 
   updateState (data) {
-    this.setState({ data })
+    this.mounted && this.setState({ data })
   }
 
   componentDidMount () {
+    this.mounted = true
     if (vcCake.env('IFRAME_RELOAD')) {
       elementsStorage.state('document').onChange(this.updateState)
     } else {
@@ -117,6 +118,7 @@ export default class LayoutEditor extends React.Component {
   }
 
   componentWillUnmount () {
+    this.mounted = false
     if (vcCake.env('IFRAME_RELOAD')) {
       elementsStorage.state('document').ignoreChange(this.updateState)
     }

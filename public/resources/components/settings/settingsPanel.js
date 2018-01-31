@@ -38,8 +38,16 @@ export default class SettingsPanel extends React.Component {
 
       if (env('THEME_EDITOR')) {
         actions.push({
-          state: 'headerLayout',
-          getData: 'ui:settings:headerLayout'
+          state: 'headerTemplate',
+          getData: 'ui:settings:headerTemplate'
+        })
+        actions.push({
+          state: 'footerTemplate',
+          getData: 'ui:settings:footerTemplate'
+        })
+        actions.push({
+          state: 'sidebarTemplate',
+          getData: 'ui:settings:sidebarTemplate'
         })
       }
 

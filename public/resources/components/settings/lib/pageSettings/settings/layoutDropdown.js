@@ -13,13 +13,13 @@ export default class LayoutDropdown extends React.Component {
   constructor (props) {
     super(props)
     const layoutName = props.layoutName.toLowerCase()
-    const currentLayout = settingsStorage.state(`${layoutName}Layout`).get() || 3007
+    const currentLayout = settingsStorage.state(`${layoutName}Template`).get() || props.data.current || 'default'
 
     this.state = {
       current: currentLayout
     }
 
-    setData(`ui:settings:${layoutName}Layout`, currentLayout)
+    setData(`ui:settings:${layoutName}Template`, currentLayout)
 
     this.updateLayout = this.updateLayout.bind(this)
     this.getTemplateOptions = this.getTemplateOptions.bind(this)
@@ -27,7 +27,7 @@ export default class LayoutDropdown extends React.Component {
 
   updateLayout (event) {
     const layoutName = this.props.layoutName.toLowerCase()
-    setData(`ui:settings:${layoutName}Layout`, event.target.value)
+    setData(`ui:settings:${layoutName}Template`, event.target.value)
     this.setState({
       current: event.target.value
     })
@@ -35,8 +35,8 @@ export default class LayoutDropdown extends React.Component {
 
   getTemplateOptions () {
     const { data } = this.props
-    return Object.keys(data).map((key, index) => (
-      <option key={index} value={data[ key ]}>{key}</option>
+    return Object.keys(data.all).map((key, index) => (
+      <option key={index} value={data.all[ key ]}>{key}</option>
     ))
   }
 
@@ -45,6 +45,7 @@ export default class LayoutDropdown extends React.Component {
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>{this.props.layoutName}</span>
         <select className='vcv-ui-form-dropdown' value={this.state.current} onChange={this.updateLayout}>
+          <option value='default'>Choose {this.props.layoutName}</option>
           {this.getTemplateOptions()}
         </select>
       </div>

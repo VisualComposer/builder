@@ -2,7 +2,7 @@
 import React from 'react'
 import NavbarContent from '../navbarContent'
 
-import {setData, getService, getStorage} from 'vc-cake'
+import { setData, getService, getStorage } from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -206,7 +206,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const { saveDraft, wordPressDashboard, preview, previewChanges } = localizations
+    const { saveDraft, wordPressDashboard } = localizations
 
     let saveDraftButton = ''
     if (PostData.isDraft()) {
@@ -222,35 +222,6 @@ export default class WordPressAdminControl extends NavbarContent {
       )
     }
 
-    let viewButton = ''
-    if (PostData.isViewable() && PostData.isPublished()) {
-      viewButton = (
-        <span
-          className='vcv-ui-navbar-control'
-          title={PostData.viewText()}
-          onClick={this.handleClick}
-          data-href={PostData.permalink()}
-          data-target='_blank'
-        >
-          <span className='vcv-ui-navbar-control-content'>{PostData.viewText()}</span>
-        </span>
-      )
-    }
-
-    let previewText = PostData.isPublished() ? previewChanges : preview
-    let previewButton = (
-      <span
-        className='vcv-ui-navbar-control'
-        title={previewText}
-        onClick={this.savePreview}
-        data-href={PostData.previewUrl()}
-        data-target='_blank'
-        ref={(previewBtn) => { this.previewBtn = previewBtn }}
-      >
-        <span className='vcv-ui-navbar-control-content'>{previewText}</span>
-      </span>
-    )
-
     let wordpressDashboardButton = (
       <span
         className='vcv-ui-navbar-control'
@@ -264,9 +235,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
     return (
       <div className='vcv-ui-navbar-controls-set'>
-        {previewButton}
         {saveDraftButton}
-        {viewButton}
         {wordpressDashboardButton}
       </div>
     )
