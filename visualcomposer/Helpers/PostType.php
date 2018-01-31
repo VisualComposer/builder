@@ -228,6 +228,7 @@ class PostType implements Helper
         )->get();
         $data['backendEditorUrl'] = get_edit_post_link($post->ID, 'url');
         $data['adminDashboardUrl'] = self_admin_url('index.php');
+        $data['adminDashboardPostTypeListUrl'] = self_admin_url('edit.php?post_type=' . get_post_type());
         // @codingStandardsIgnoreLine
         $data['viewText'] = sprintf(__('View %s', 'vcwb'), $post_type_object->labels->singular_name);
 
