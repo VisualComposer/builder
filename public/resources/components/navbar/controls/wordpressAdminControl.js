@@ -2,7 +2,7 @@
 import React from 'react'
 import NavbarContent from '../navbarContent'
 
-import {setData, getService, getStorage} from 'vc-cake'
+import { setData, getService, getStorage, env } from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -275,13 +275,20 @@ export default class WordPressAdminControl extends NavbarContent {
     )
 
     return (
-      <div className='vcv-ui-navbar-controls-set'>
-        {previewButton}
-        {saveDraftButton}
-        {viewButton}
-        {backendEditorButton}
-        {wordpressDashboardButton}
-      </div>
+      env('THEME_EDITOR') ? (
+        <div className='vcv-ui-navbar-controls-set'>
+          {saveDraftButton}
+          {wordpressDashboardButton}
+        </div>
+      ) : (
+        <div className='vcv-ui-navbar-controls-set'>
+          {previewButton}
+          {saveDraftButton}
+          {viewButton}
+          {backendEditorButton}
+          {wordpressDashboardButton}
+        </div>
+      )
     )
   }
 }

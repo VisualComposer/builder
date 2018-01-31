@@ -21,7 +21,7 @@ export default class SettingsPanel extends React.Component {
     const settingsText = localizations ? localizations.settings : 'Settings'
     const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 
-    if (env('editor') === 'frontend') {
+    if (!env('THEME_EDITOR')) {
       sections.push({
         title: settingsText,
         content: PageSettings
@@ -32,7 +32,7 @@ export default class SettingsPanel extends React.Component {
         getData: 'ui:settings:pageTemplate'
       })
 
-      if (env('THEME_EDITOR')) {
+      if (env('THEME_LAYOUTS')) {
         actions.push({
           state: 'headerTemplate',
           getData: 'ui:settings:headerTemplate'

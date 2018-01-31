@@ -1,4 +1,4 @@
-import vcCake from 'vc-cake'
+import vcCake, { env } from 'vc-cake'
 
 vcCake.env('FEATURE_WEBPACK', false)
 vcCake.env('debug', false) // Set false on real production deploy
@@ -45,5 +45,8 @@ vcCake.env('COLORPICKER_LAST_USED', true)
 vcCake.env('TF_SHOW_PLUGIN_UPDATE', true)
 vcCake.env('TF_HEARTBEAT_HAS_CLASS_ERROR', false)
 vcCake.env('CSS_GRID', false)
-vcCake.env('THEME_EDITOR', false)
 vcCake.env('SAVE_API', false)
+// DO NOT MODIFY THIS!!!
+vcCake.env('THEME_LAYOUTS', false) // SEE the devAddons/themeEditor/themeEditor/src/*.js files
+vcCake.env('THEME_EDITOR', false)
+// END OF DO NOT MODIFY

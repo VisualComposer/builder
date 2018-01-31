@@ -50,26 +50,28 @@ add('wordpressWorkspace', (api) => {
     }
   })
 
-  settingsStorage.state('headerTemplate').onChange((value) => {
-    console.log('settingsStorage, headerTemplate onChange', value)
-    // Add Header template ID to extra save args
-    let args = settingsStorage.state('saveExtraArgs').get() || {}
-    settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-header-id': value }))
-  })
+  if (env('THEME_LAYOUTS')) {
+    settingsStorage.state('headerTemplate').onChange((value) => {
+      console.log('settingsStorage, headerTemplate onChange', value)
+      // Add Header template ID to extra save args
+      let args = settingsStorage.state('saveExtraArgs').get() || {}
+      settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-header-id': value }))
+    })
 
-  settingsStorage.state('sidebarTemplate').onChange((value) => {
-    console.log('settingsStorage, sidebarTemplate onChange', value)
-    // Add Sidebar template ID to extra save args
-    let args = settingsStorage.state('saveExtraArgs').get() || {}
-    settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-sidebar-id': value }))
-  })
+    settingsStorage.state('sidebarTemplate').onChange((value) => {
+      console.log('settingsStorage, sidebarTemplate onChange', value)
+      // Add Sidebar template ID to extra save args
+      let args = settingsStorage.state('saveExtraArgs').get() || {}
+      settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-sidebar-id': value }))
+    })
 
-  settingsStorage.state('footerTemplate').onChange((value) => {
-    console.log('settingsStorage, footerTemplate onChange', value)
-    // Add Footer template ID to extra save args
-    let args = settingsStorage.state('saveExtraArgs').get() || {}
-    settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-footer-id': value }))
-  })
+    settingsStorage.state('footerTemplate').onChange((value) => {
+      console.log('settingsStorage, footerTemplate onChange', value)
+      // Add Footer template ID to extra save args
+      let args = settingsStorage.state('saveExtraArgs').get() || {}
+      settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-footer-id': value }))
+    })
+  }
 
   let layoutHeader = document.getElementById('vcv-layout-header')
   if (layoutHeader) {

@@ -172,7 +172,7 @@ vcCake.add('contentModernLayout', (api) => {
           params.splice(i, 1)
           break
         }
-        if (vcCake.env('THEME_EDITOR')) {
+        if (vcCake.env('THEME_LAYOUTS')) {
           if (params[ i ].indexOf('vcv-header') >= 0) {
             params.splice(i, 1)
             break
@@ -190,7 +190,7 @@ vcCake.add('contentModernLayout', (api) => {
       if (template) {
         params.push(`vcv-template=${template}`)
       }
-      if (vcCake.env('THEME_EDITOR')) {
+      if (vcCake.env('THEME_LAYOUTS')) {
         if (header) {
           params.push(`vcv-header=${header}`)
         }

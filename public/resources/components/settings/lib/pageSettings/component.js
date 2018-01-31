@@ -13,7 +13,7 @@ export default class PageSettings extends React.Component {
     if (env('PAGE_TEMPLATES_FE')) {
       content.push(<TemplateSettings key={content.length} />)
     }
-    if (env('THEME_EDITOR')) {
+    if (env('THEME_LAYOUTS')) {
       content.push(<LayoutSettings key={content.length} />)
     }
     return (

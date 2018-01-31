@@ -71,7 +71,7 @@ export default class startBlank extends React.Component {
     }
     this.handleCloseClick(blank)
 
-    if (vcCake.env('THEME_EDITOR')) {
+    if (vcCake.env('THEME_LAYOUTS')) {
       settingsStorage.state('skipBlank').set(true)
       let { layout } = this.state
       let activeLayout = settingsStorage.state('pageTemplate').get()
@@ -257,7 +257,7 @@ export default class startBlank extends React.Component {
       )
     }
     let layoutContainer = ''
-    if (vcCake.env('THEME_EDITOR')) {
+    if (vcCake.env('THEME_LAYOUTS')) {
       layoutContainer = (
         <div className='vcv-start-layout-controls'>
           <div className='vcv-start-layout-item-list-container'>
