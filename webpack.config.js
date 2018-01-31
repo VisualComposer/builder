@@ -149,31 +149,6 @@ module.exports = {
       modules: [
         'content/backendSwitcher'
       ]
-    },
-    themeEditorHeader: {
-      modules: [
-        'content/modernLayout',
-        'wordpressHeaderWorkspace'
-      ],
-      services: [
-        'utils',
-        'document',
-        'wordpress-post-data',
-        'cook',
-        'sharedAssetsLibrary',
-        'elementAssetsLibrary',
-        'actions-manager',
-        'rules-manager',
-        'api',
-        'dataProcessor',
-        'modernAssetsStorage',
-        'stylesManager',
-        'wpMyTemplates',
-        'hubCategories',
-        'hubGroups',
-        'hubElements',
-        'elementAccessPoint'
-      ]
     }
   },
   module: {
