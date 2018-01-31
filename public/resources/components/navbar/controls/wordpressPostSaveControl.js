@@ -2,6 +2,7 @@ import { getService, getStorage } from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
+import vcCake from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -71,7 +72,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     window.setTimeout(() => {
       let url = window.location.href
       let captureType = /vcv-editor-type=([^&]+)/.exec(url)
-      if (typeof captureType !== 'undefined' && captureType[ 1 ]) {
+      if (vcCake.env('THEME_EDITOR') && captureType && captureType[ 1 ]) {
         window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}&vcv-editor-type=${captureType[ 1 ]}`)
       } else {
         window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)
