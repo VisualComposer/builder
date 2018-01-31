@@ -4,7 +4,6 @@ import HtmlLayout from './htmlLayout'
 import Combokeys from 'combokeys'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
-import debounce from 'lodash/debounce'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
@@ -26,9 +25,7 @@ export default class LayoutEditor extends React.Component {
   }
 
   updateState (data) {
-    debounce(() => {
-      this.setState({ data })
-    }, 50)
+    this.setState({ data })
   }
 
   componentDidMount () {
