@@ -1,11 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getData, getStorage, env} from 'vc-cake'
+import { getData, getStorage, env } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 export default class SettingsFooter extends React.Component {
+  startEffectTimeout = null
+  stopEffectTimeout = null
 
   constructor (props) {
     super(props)
@@ -13,14 +15,18 @@ export default class SettingsFooter extends React.Component {
       saving: false,
       saved: false
     }
+
+    this.startEffect = this.startEffect.bind(this)
+    this.stopEffect = this.stopEffect.bind(this)
+    this.onSave = this.onSave.bind(this)
   }
 
-  onSave = () => {
+  onSave () {
     let { actions } = this.props
     actions.forEach(action => {
       settingsStorage.state(action.state).set(getData(action.getData))
     })
-    if (env('IFRAME_RELOAD')) {
+    if (env('IFRAME_RELOAD') && env('editor') !== 'header') {
       let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
       let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
 
@@ -33,7 +39,6 @@ export default class SettingsFooter extends React.Component {
       let lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current
       let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
-      // TODO: Add header:  header: settingsStorage.state('headerTemplate')
       if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
         this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate)
       } else if (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) {
@@ -63,23 +68,28 @@ export default class SettingsFooter extends React.Component {
     settingsStorage.state('skipBlank').set(true)
   }
 
-  componentDidMount () {
-    this.canceled = false
-  }
-
-  componentWillUnmount () {
-    this.canceled = true
-  }
-
   effect () {
     this.setState({ 'saving': true })
-    setTimeout(() => {
-      this.setState({ 'saving': false })
-      this.setState({ 'saved': true })
-      setTimeout(() => {
-        !this.canceled && this.setState({ 'saved': false })
-      }, 1000)
-    }, 500)
+    if (this.startEffectTimeout) {
+      window.clearTimeout(this.startEffectTimeout)
+      this.startEffectTimeout = null
+    }
+    this.startEffectTimeout = setTimeout(this.startEffect, 500)
+  }
+
+  startEffect () {
+    this.setState({ 'saving': false })
+    this.setState({ 'saved': true })
+
+    if (this.stopEffectTimeout) {
+      window.clearTimeout(this.stopEffectTimeout)
+      this.stopEffectTimeout = null
+    }
+    this.stopEffectTimeout = setTimeout(this.stopEffect, 1000)
+  }
+
+  stopEffect () {
+    this.setState({ 'saved': false })
   }
 
   render () {
