@@ -32,7 +32,6 @@ export default class LayoutEditor extends React.Component {
   }
 
   componentDidMount () {
-    this.mounted = true
     if (vcCake.env('IFRAME_RELOAD')) {
       elementsStorage.state('document').onChange(this.updateState)
     } else {
