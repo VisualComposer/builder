@@ -135,7 +135,7 @@ export default class startBlank extends React.Component {
       <li className={defaultClasses} key={`layout-default`} onClick={this.handleLayoutClick.bind(this, 'default')}>
         <span className='vcv-ui-item-element' title='default'>
           <span className='vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-default' />
-          <span className='vcv-ui-item-element-name'>Default</span>
+          <span className='vcv-ui-start-layout-list-item-element-name'>T</span>
         </span>
       </li>
     )
@@ -151,7 +151,6 @@ export default class startBlank extends React.Component {
             <span className={`vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-${pageLayouts[key].title.toLowerCase().split(' ').join('-')}`}>
               <span className='vcv-ui-start-layout-list-item-icon-helper' />
             </span>
-            <span className='vcv-ui-item-element-name'>{pageLayouts[ key ].title}</span>
           </span>
         </li>
       )

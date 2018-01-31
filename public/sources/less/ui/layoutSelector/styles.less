@@ -4,19 +4,34 @@
 }
 
 .vcv-ui-start-layout-list-item {
-  border: 2px solid #adadad;
+  border: 2px solid #dedede;
+  width: 60px;
+  height: 60px;
 
   &-active {
     border-color: #5b9dd9;
   }
 
+  &-element-name {
+    position: absolute;
+    line-height: 100px;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    margin: 0;
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #adadad;
+  }
+
   &-icon {
     display: block;
-    width: 50px;
-    height: 50px;
-    border: 2px solid #dedede;
-    border-radius: 5px;
-    margin: 10px auto;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     position: relative;
 
     &.vcv-ui-start-layout-list-item-icon-vcv-header-footer {
@@ -66,6 +81,56 @@
         background: #dedede;
         right: 25%;
         top: 25%;
+      }
+    }
+
+    &.vcv-ui-start-layout-list-item-icon-vcv-header-footer-left-sidebar {
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        height: 2px;
+        background: #dedede;
+      }
+
+      &::before {
+        top: 25%;
+      }
+
+      &::after {
+        bottom: 25%;
+      }
+      .vcv-ui-start-layout-list-item-icon-helper {
+        position: absolute;
+        width: 2px;
+        height: 50%;
+        background: #dedede;
+        left: 25%;
+        top: 25%;
+      }
+    }
+
+    &.vcv-ui-start-layout-list-item-icon-boxed-blank-page {
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        top: 0;
+        height: 100%;
+        border: 1px dashed #dedede;
+      }
+
+      &::before {
+        left: 20%;
+      }
+
+      &::after {
+        right: 20%;
       }
     }
   }
