@@ -69,6 +69,8 @@ export default class SettingsFooter extends React.Component {
     window.vcvLastLoadedSidebarTemplate = lastSavedSidebarTemplate
     window.vcvLastLoadedFooterTemplate = lastSavedFooterTemplate
 
+    settingsStorage.state('selectedLayoutInBlank').set(lastSavedPageTemplate)
+
     workspaceIFrame.set({
       type: 'reload',
       template: lastSavedPageTemplate,

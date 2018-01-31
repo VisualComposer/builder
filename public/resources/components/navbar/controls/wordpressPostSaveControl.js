@@ -1,10 +1,10 @@
-import { getService, getStorage } from 'vc-cake'
+import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 
-const PostData = getService('wordpress-post-data')
-const wordpressDataStorage = getStorage('wordpressData')
+const PostData = vcCake.getService('wordpress-post-data')
+const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
 
 export default class WordPressPostSaveControl extends NavbarContent {
@@ -69,7 +69,13 @@ export default class WordPressPostSaveControl extends NavbarContent {
       status: 'saving'
     })
     window.setTimeout(() => {
-      window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)
+      let url = window.location.href
+      let captureType = /vcv-editor-type=([^&]+)/.exec(url)
+      if (vcCake.env('THEME_EDITOR') && captureType && captureType[ 1 ]) {
+        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}&vcv-editor-type=${captureType[ 1 ]}`)
+      } else {
+        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)
+      }
       // Check Save option from other modules
       !noStorageRequest && wordpressDataStorage.trigger('save', {
         options: e ? e.options : {}
