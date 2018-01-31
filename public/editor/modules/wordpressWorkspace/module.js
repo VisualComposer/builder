@@ -83,10 +83,11 @@ add('wordpressWorkspace', (api) => {
   let iframeContent = document.getElementById('vcv-layout-iframe-content')
 
   if (iframeContent) {
-    let selectedLayoutInBlank = 'default'
+    let selectedLayoutInBlank = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current || 'default'
     const updateSelectedLayoutInBlank = (layout) => {
       selectedLayoutInBlank = layout
     }
+    settingsStorage.state('selectedLayoutInBlank').onChange(updateSelectedLayoutInBlank)
     const removeStartBlank = () => {
       ReactDOM.unmountComponentAtNode(iframeContent)
     }
