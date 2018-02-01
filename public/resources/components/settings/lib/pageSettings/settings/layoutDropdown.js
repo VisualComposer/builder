@@ -36,7 +36,7 @@ export default class LayoutDropdown extends React.Component {
   getTemplateOptions () {
     const { data } = this.props
     return Object.keys(data.all).map((key, index) => (
-      <option key={index} value={data.all[ key ]}>{key}</option>
+      <option key={index} value={key}>{data.all[ key ]}</option>
     ))
   }
 
