@@ -199,6 +199,7 @@ class HubCategories extends Container implements Module
                         'facebookShare',
                         'facebookSave',
                         'facebookComments',
+                        'facebookQuote'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Social.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Social.svg'),
