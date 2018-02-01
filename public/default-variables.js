@@ -1,4 +1,4 @@
-import vcCake, { env } from 'vc-cake'
+import vcCake from 'vc-cake'
 
 vcCake.env('FEATURE_WEBPACK', false)
 vcCake.env('debug', false) // Set false on real production deploy
