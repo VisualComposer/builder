@@ -127,6 +127,7 @@ declare -a arr=(
 'facebookShare'
 'facebookSave'
 'facebookComments'
+'facebookQuote'
 )
 
 EXECDIR=`pwd`
