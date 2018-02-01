@@ -13,6 +13,7 @@ import OopsScreen from '../../../../resources/components/oopsScreen/component'
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
+const workspaceSettings = workspaceStorage.state('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -109,6 +110,20 @@ vcCake.add('contentModernLayout', (api) => {
         }
       }
       reload ? controls.updateIframeVariables() : controls.init()
+      if (vcCake.env('THEME_LAYOUTS')) {
+        iframeWindow.document.querySelectorAll('[data-vcv-layout-zone]').forEach((zone) => {
+          zone.addEventListener('click', () => {
+            if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
+              workspaceStorage.state('content').set('settings')
+              if (vcCake.env('HUB_REDESIGN')) {
+                workspaceSettings.set({ action: 'settings' })
+              }
+              return
+            }
+            workspaceStorage.state('contentEnd').set('settings')
+          })
+        })
+      }
     } else {
       document.body.innerHTML = `<div id='vcv-oops-screen-container'></div>`
       let oopsContainer = document.getElementById('vcv-oops-screen-container')
