@@ -64,6 +64,10 @@ vcCake.add('contentModernLayout', (api) => {
           type: 'warning',
           text: localizations.newPluginVersionIsAvailable || `There is a new version of Visual Composer Website Builder available`,
           html: true,
+          cookie: {
+            name: 'vcv-update-notice',
+            expireInDays: 1
+          },
           time: 10000
         })
       }
