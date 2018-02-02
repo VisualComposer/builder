@@ -55,7 +55,7 @@ vcCake.add('contentModernLayout', (api) => {
         workspaceIFrame.onChange(reloadLayout)
       }
       if (vcCake.env('TF_SHOW_PLUGIN_UPDATE')) {
-        const pluginUpdate = VCV_PLUGIN_UPDATE() || true
+        const pluginUpdate = VCV_PLUGIN_UPDATE()
         pluginUpdate && workspaceNotifications.set({
           position: 'top',
           transparent: false,
