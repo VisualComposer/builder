@@ -21,12 +21,11 @@ export default class SettingsPanel extends React.Component {
     const settingsText = localizations ? localizations.settings : 'Settings'
     const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 
+    sections.push({
+      title: settingsText,
+      content: PageSettings
+    })
     if (!env('THEME_EDITOR')) {
-      sections.push({
-        title: settingsText,
-        content: PageSettings
-      })
-
       actions.push({
         state: 'pageTemplate',
         getData: 'ui:settings:pageTemplate'
@@ -46,17 +45,15 @@ export default class SettingsPanel extends React.Component {
           getData: 'ui:settings:sidebarTemplate'
         })
       }
-
-      actions.push({
-        state: 'pageTitle',
-        getData: 'ui:settings:pageTitle'
-      })
       actions.push({
         state: 'pageTitleDisabled',
         getData: 'ui:settings:pageTitleDisabled'
       })
     }
-
+    actions.push({
+      state: 'pageTitle',
+      getData: 'ui:settings:pageTitle'
+    })
     sections.push({
       title: customCSSText,
       content: CustomStyles
