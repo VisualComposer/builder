@@ -106,7 +106,11 @@ export default class Notifications {
       clearTimeout(timeout)
     }
     if (cookie) {
-      Utils.setCookie(cookie, true)
+      if (cookie.constructor === Object) {
+        Utils.setCookie(cookie.name, true, cookie.expireInDays)
+      } else if (cookie.constructor === String) {
+        Utils.setCookie(cookie, true)
+      }
     }
     for (let i = 0; i < this[ pos ].length; i++) {
       if (this[ pos ][ i ].item === item) {

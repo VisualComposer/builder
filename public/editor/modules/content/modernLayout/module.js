@@ -55,7 +55,7 @@ vcCake.add('contentModernLayout', (api) => {
         workspaceIFrame.onChange(reloadLayout)
       }
       if (vcCake.env('TF_SHOW_PLUGIN_UPDATE')) {
-        const pluginUpdate = VCV_PLUGIN_UPDATE()
+        const pluginUpdate = VCV_PLUGIN_UPDATE() || true
         pluginUpdate && workspaceNotifications.set({
           position: 'top',
           transparent: false,
@@ -64,6 +64,10 @@ vcCake.add('contentModernLayout', (api) => {
           type: 'warning',
           text: localizations.newPluginVersionIsAvailable || `There is a new version of Visual Composer Website Builder available`,
           html: true,
+          cookie: {
+            name: 'vcv-update-notice',
+            expireInDays: 1
+          },
           time: 10000
         })
       }
