@@ -1,5 +1,5 @@
 import React from 'react'
-import {setData, getStorage} from 'vc-cake'
+import {setData, getStorage, env} from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
@@ -93,7 +93,18 @@ export default class TitleSettings extends React.Component {
 
     let reloadNotification = this.title ? '' : (<p className='vcv-ui-form-helper'>{pageTitleDescription}</p>)
     let checked = (this.state.disabled) ? 'checked' : ''
-
+    const disableTitleToggleControl = !env('THEME_EDITOR') ? <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+      <div className='vcv-ui-form-switch-container'>
+        <label className='vcv-ui-form-switch'>
+          <input type='checkbox' onChange={this.updateTitleToggle} id='vcv-page-title-disable' checked={checked} />
+          <span className='vcv-ui-form-switch-indicator' />
+          <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
+          <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
+        </label>
+        <label htmlFor='vcv-page-title-disable'
+          className='vcv-ui-form-switch-trigger-label'>{pageTitleDisableDescription}</label>
+      </div>
+    </div> : ''
     return (
       <div>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -101,18 +112,7 @@ export default class TitleSettings extends React.Component {
           <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.updateTitle} />
           {reloadNotification}
         </div>
-        <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-          <div className='vcv-ui-form-switch-container'>
-            <label className='vcv-ui-form-switch'>
-              <input type='checkbox' onChange={this.updateTitleToggle} id='vcv-page-title-disable' checked={checked} />
-              <span className='vcv-ui-form-switch-indicator' />
-              <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
-              <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
-            </label>
-            <label htmlFor='vcv-page-title-disable'
-              className='vcv-ui-form-switch-trigger-label'>{pageTitleDisableDescription}</label>
-          </div>
-        </div>
+        {disableTitleToggleControl}
       </div>
     )
   }

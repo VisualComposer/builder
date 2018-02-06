@@ -38,8 +38,16 @@ export default class Notifications {
     if (!data || !data.text) {
       return
     }
-    if (data.cookie && Utils.getCookie(data.cookie)) {
-      return
+    if (data.cookie) {
+      let cookieName = ''
+      if (data.cookie.constructor === Object && data.cookie.name) {
+        cookieName = data.cookie.name
+      } else if (data.cookie.constructor === String) {
+        cookieName = data.cookie
+      }
+      if (Utils.getCookie(cookieName)) {
+        return
+      }
     }
     const pos = data.position && [ 'top', 'bottom' ].indexOf(data.position) >= 0 ? data.position : 'top'
     if (this[ pos ].length >= this.limit) {
@@ -103,7 +111,11 @@ export default class Notifications {
       clearTimeout(timeout)
     }
     if (cookie) {
-      Utils.setCookie(cookie, true)
+      if (cookie.constructor === Object) {
+        Utils.setCookie(cookie.name, true, cookie.expireInDays)
+      } else if (cookie.constructor === String) {
+        Utils.setCookie(cookie, true)
+      }
     }
     for (let i = 0; i < this[ pos ].length; i++) {
       if (this[ pos ][ i ].item === item) {
