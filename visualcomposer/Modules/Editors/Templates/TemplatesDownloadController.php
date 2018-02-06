@@ -93,15 +93,8 @@ class TemplatesDownloadController extends Container implements Module
                 }
 
                 $template = $this->processTemplateMetaImages($template);
-                $templateElements = json_decode(
-                    str_replace(
-                        '[publicPath]',
-                        $hubTemplatesHelper->getTemplatesUrl($template['id']),
-                        json_encode($template['data'])
-                    ),
-                    true
-                );
-                $elementsImages = $this->getTemplateElementImages($template['data']);
+                $templateElements = $template['data'];
+                $elementsImages = $this->getTemplateElementImages($templateElements);
                 foreach ($elementsImages as $element) {
                     foreach ($element['images'] as $image) {
                         if (isset($image['complex']) && $image['complex']) {
@@ -125,6 +118,14 @@ class TemplatesDownloadController extends Container implements Module
                     }
                 }
                 $templateElements = $this->processDesignOptions($templateElements, $template);
+                $templateElements = json_decode(
+                    str_replace(
+                        '[publicPath]',
+                        $hubTemplatesHelper->getTemplatesUrl($template['id']),
+                        json_encode($templateElements)
+                    ),
+                    true
+                );
                 unset($template['data']);
 
                 $savedTemplates = new WP_Query(
@@ -257,9 +258,9 @@ class TemplatesDownloadController extends Container implements Module
             if (strpos($url, '[publicPath]') !== false) {
                 $url = str_replace('[publicPath]', '', $url);
 
-                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $url);
+                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
             } elseif (strpos($url, 'assets/elements/') !== false) {
-                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . $url);
+                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
             } else {
                 return $url; // it is local file url (default file)
             }
@@ -287,7 +288,7 @@ class TemplatesDownloadController extends Container implements Module
             } else {
                 $newUrl = $this->processSimple($image['full'], $template, $prefix . $key . '-');
             }
-            if ($newUrl) {
+            if ($newUrl && !is_wp_error($newUrl)) {
                 $newImages[] = $newUrl;
             }
         }

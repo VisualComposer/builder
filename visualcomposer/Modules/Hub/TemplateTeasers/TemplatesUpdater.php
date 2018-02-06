@@ -71,15 +71,8 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
             ]
         );
         $template['name'] = $payload['actionData']['data']['name'];
-        $templateElements = json_decode(
-            str_replace(
-                '[publicPath]',
-                $hubTemplatesHelper->getTemplatesUrl($template['id']),
-                json_encode($template['data'])
-            ),
-            true
-        );
-        $elementsImages = $this->getTemplateElementImages($template['data']);
+        $templateElements = $template['data'];
+        $elementsImages = $this->getTemplateElementImages($templateElements);
         foreach ($elementsImages as $element) {
             foreach ($element['images'] as $image) {
                 if (isset($image['complex']) && $image['complex']) {
@@ -96,13 +89,20 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
                         $element['elementId'] . '-' . $image['key'] . '-'
                     );
                 }
-
                 if (!is_wp_error($imageData) && $imageData) {
                     $templateElements[ $element['elementId'] ][ $image['key'] ] = $imageData;
                 }
             }
         }
         $templateElements = $this->processDesignOptions($templateElements, $template);
+        $templateElements = json_decode(
+            str_replace(
+                '[publicPath]',
+                $hubTemplatesHelper->getTemplatesUrl($template['id']),
+                json_encode($templateElements)
+            ),
+            true
+        );
         unset($template['data']);
 
         $savedTemplates = new WP_Query(
