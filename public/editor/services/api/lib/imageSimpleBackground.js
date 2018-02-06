@@ -11,7 +11,7 @@ export default class ImageSimpleBackground extends Component {
 
   getPublicImage (filename) {
     let { metaAssetsPath } = this.props.atts
-    return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
+    return filename && filename.match && filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
   }
 
   render () {
