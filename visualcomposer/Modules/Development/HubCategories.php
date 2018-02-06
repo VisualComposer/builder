@@ -201,7 +201,8 @@ class HubCategories extends Container implements Module
                         'facebookComments',
                         'facebookQuote',
                         'facebookPage',
-                        'facebookEmbeddedVideo'
+                        'facebookEmbeddedVideo',
+                        'facebookEmbeddedComments'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Social.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Social.svg'),
