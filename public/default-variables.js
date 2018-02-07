@@ -50,4 +50,4 @@ vcCake.env('SAVE_API', true)
 vcCake.env('THEME_LAYOUTS', false) // SEE the devAddons/themeEditor/themeEditor/src/*.js files
 vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
-vcCake.env('EXCLUDE_ATTRIBUTE', false)
+vcCake.env('EXCLUDE_ATTRIBUTE', true)
