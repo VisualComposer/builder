@@ -3,16 +3,24 @@ import ActivitiesManager from './../../../editor/modules/ui/edit-element/lib/act
 import EditFormFieldDependencies from './../../../editor/modules/ui/edit-element/lib/field-dependencies'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import vcCake from 'vc-cake'
 
 export default class AttributeElementFieldWrapper extends ActivitiesManager {
   static propTypes = {
-    element: PropTypes.object.isRequired
+    element: PropTypes.object.isRequired,
+    exclude: PropTypes.array
   }
 
   field = (field) => {
     if (field.key === 'designOptions' || field.key === 'metaCustomId') {
       return
     }
+    if (vcCake.env('EXCLUDE_ATTRIBUTE')) {
+      if (this.props.exclude && this.props.exclude.length && field.key.indexOf(this.props.exclude) >= 0) {
+        return
+      }
+    }
+
     return (
       <EditFormFieldDependencies
         {...this.props}
