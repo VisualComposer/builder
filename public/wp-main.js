@@ -12,18 +12,13 @@ const $ = require('expose?$!jquery')
 $(() => {
   let $iframeContainer = $('.vcv-layout-iframe-container')
   let $iframe = $iframeContainer.find('#vcv-editor-iframe')
-  // Get a handle to the iframe element
-  let iframe = $iframe.get(0)
-  let iframeDoc = iframe.contentDocument || iframe.contentWindow.document
   let isIframeLoaded = false
 
   let iframeLoadEvent = () => {
-    if (!vcCake.env('IFRAME_RELOAD')) {
-      if (!isIframeLoaded) {
-        isIframeLoaded = true
-      } else {
-        return
-      }
+    if (!isIframeLoaded) {
+      isIframeLoaded = true
+    } else {
+      return
     }
     let iframe = $iframe.get(0).contentWindow
     let iframeDocument = iframe.document
@@ -99,35 +94,51 @@ $(() => {
         let lastSavedPageTemplate = vcCake.getStorage('settings').state('pageTemplate').get() || lastLoadedPageTemplate
         window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
         vcCake.getStorage('workspace').state('iframe').set({ type: 'reload', template: lastSavedPageTemplate })
+        isIframeLoaded = false
       }
     }
   }
 
   $iframe.on('load', iframeLoadEvent)
-  // Check if loading is complete
-  const isContentLoaded = $iframe.get(0).contentWindow.document.body &&
-    $iframe.get(0).contentWindow.document.body.getAttribute('class') &&
-    $iframe.get(0).contentWindow.document.body.childNodes.length
 
-  if (iframeDoc && iframeDoc.readyState === 'complete' && isContentLoaded) {
-    iframeLoadEvent()
-  }
+  let checkForLoad = () => {
+    if (!isIframeLoaded) {
+      // Get a handle to the iframe element
+      let iframe = $iframe.get(0)
+      let iframeDoc = iframe.contentDocument || iframe.contentWindow.document
+      // Check if loading is complete
+      const isContentLoaded = $iframe.get(0).contentWindow.document.body &&
+        $iframe.get(0).contentWindow.document.body.querySelector('#vcv-editor')
 
-  if (vcCake.env('MOBILE_DETECT')) {
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
+      if (iframeDoc && iframeDoc.readyState === 'complete' && isContentLoaded) {
+        iframeLoadEvent()
+      }
 
-      const $layoutContainer = $('.vcv-layout-container')
-      if ($layoutContainer) {
-        $layoutContainer.height(window.innerHeight)
-        window.addEventListener('resize', () => {
-          let height = window.innerHeight
-          $layoutContainer.height(height)
-        })
+      if (vcCake.env('MOBILE_DETECT')) {
+        const mobileDetect = new MobileDetect(window.navigator.userAgent)
+        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+          $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
+
+          const $layoutContainer = $('.vcv-layout-container')
+          if ($layoutContainer) {
+            $layoutContainer.height(window.innerHeight)
+            window.addEventListener('resize', () => {
+              let height = window.innerHeight
+              $layoutContainer.height(height)
+            })
+          }
+        }
       }
     }
+    window.setTimeout(() => {
+      checkForLoad()
+    }, 1000)
   }
+
+  window.setTimeout(() => {
+    checkForLoad()
+  }, 100)
+
   if (vcCake.env('TF_HEARTBEAT_HAS_CLASS_ERROR') && window.wp.heartbeat) {
     window.wp.heartbeat.interval(120)
   }
