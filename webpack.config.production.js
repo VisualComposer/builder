@@ -23,6 +23,8 @@ module.exports = Object.assign(webpackConfig, {
       'classnames',
       'lodash',
       'vc-cake',
+      'pako',
+      'base-64',
       'babel-runtime/core-js.js',
       'babel-runtime/helpers/createClass.js',
       'babel-runtime/helpers/inherits.js',

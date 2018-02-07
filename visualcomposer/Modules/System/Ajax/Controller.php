@@ -148,6 +148,16 @@ class Controller extends Container implements Module
 
     protected function parseRequest(Request $requestHelper, Logger $loggerHelper)
     {
+        if ($requestHelper->exists('vcv-zip')) {
+            $zip = $requestHelper->input('vcv-zip');
+            $base64decoded = base64_decode($zip);
+            $newAllJson = zlib_decode($base64decoded);
+            $newArgs = json_decode($newAllJson, true);
+            $all = $requestHelper->all();
+            $new = array_merge($all, $newArgs);
+            $requestHelper->setData($new);
+        }
+
         // Require an action parameter.
         if (!$requestHelper->exists('vcv-action')) {
             $loggerHelper->log(

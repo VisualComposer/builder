@@ -1,5 +1,8 @@
-import vcCake from 'vc-cake'
+import { addService, env } from 'vc-cake'
 import $ from 'jquery'
+import pako from 'pako'
+import base64 from 'base-64'
+
 let processes = []
 const Service = {
   http (url) {
@@ -61,6 +64,15 @@ const Service = {
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, args)
+
+    if (env('SAVE_ZIP')) {
+      let binaryString = pako.deflate(JSON.stringify(args), { to: 'string' })
+      let encodedString = base64.encode(binaryString)
+      args = {
+        'vcv-zip': encodedString
+      }
+    }
+
     return this.http(url).post(args)
   },
   appAdminServerRequest (args) {
@@ -69,6 +81,15 @@ const Service = {
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, args)
+
+    if (env('SAVE_ZIP')) {
+      let binaryString = pako.deflate(JSON.stringify(args), { to: 'string' })
+      let encodedString = base64.encode(binaryString)
+      args = {
+        'vcv-zip': encodedString
+      }
+    }
+
     return this.http(url).post(args)
   },
   loadScript (url, documentBody) {
@@ -88,4 +109,4 @@ const Service = {
     })
   }
 }
-vcCake.addService('dataProcessor', Service)
+addService('dataProcessor', Service)

@@ -1,4 +1,6 @@
-import vcCake from 'vc-cake'
+import { getService, addService, env } from 'vc-cake'
+import pako from 'pako'
+import base64 from 'base-64'
 
 const API = {
   ajaxRequests: [],
@@ -84,7 +86,7 @@ const API = {
   ajax: (data, successCallback, failureCallback) => {
     let request
     request = new window.XMLHttpRequest()
-    request.open('POST', window.vcvAjaxUrl, true)
+    request.open('POST', window.vcvAdminAjaxUrl, true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     request.onload = (response) => {
       if (request.status >= 200 && request.status < 400) {
@@ -98,6 +100,13 @@ const API = {
     request.onerror = (response) => {
       if (typeof failureCallback === 'function') {
         failureCallback(request)
+      }
+    }
+    if (env('SAVE_ZIP')) {
+      let binaryString = pako.deflate(JSON.stringify(data), { to: 'string' })
+      let encodedString = base64.encode(binaryString)
+      data = {
+        'vcv-zip': encodedString
       }
     }
     request.send(window.jQuery.param(data))
@@ -160,7 +169,7 @@ const API = {
     return string
   },
   getVisibleElements (allElements) {
-    const documentManager = vcCake.getService('document')
+    const documentManager = getService('document')
     let visibleElements = Object.assign({}, allElements)
     const removeHiddenElements = (hiddenElement, removeOnlyChildren) => {
       if (!removeOnlyChildren) {
@@ -211,7 +220,7 @@ const API = {
       return
     }
     this.ajaxCall = true
-    const dataProcessor = vcCake.getService('dataProcessor')
+    const dataProcessor = getService('dataProcessor')
     let req = this.ajaxRequests[ 0 ]
     dataProcessor.appAdminServerRequest(req.data).then(
       (response) => {
@@ -229,4 +238,4 @@ const API = {
     )
   }
 }
-vcCake.addService('utils', API)
+addService('utils', API)
