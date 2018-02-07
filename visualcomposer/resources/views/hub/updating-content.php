@@ -27,9 +27,6 @@ $nonceHelper = vchelper('Nonce');
 $optionsHelper = vchelper('Options');
 $hubUpdateHelper = vchelper('HubUpdate');
 $time = $_SERVER['REQUEST_TIME'];
-if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
-    $optionsHelper->setTransient('vcv:hub:update:request', $time, 60);
-}
 $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {

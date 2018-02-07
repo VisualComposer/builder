@@ -24,9 +24,6 @@ $urlHelper = vchelper('Url');
 $nonceHelper = vchelper('Nonce');
 $optionsHelper = vchelper('Options');
 $time = $_SERVER['REQUEST_TIME'];
-if (!$optionsHelper->getTransient('vcv:hub:update:request')) {
-    $optionsHelper->setTransient('vcv:hub:update:request', $time, 60);
-}
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>

@@ -126,7 +126,7 @@ export default class ElementAttribute extends Attribute {
   }
 
   render () {
-    let { category, tabLabel, replaceView } = this.props.options
+    let { category, tabLabel, replaceView, exclude } = this.props.options
     let replacements = ''
     category = category || '*'
     let elementLabel = tabLabel && tabLabel.toLowerCase() || category.toLowerCase() || 'element'
@@ -241,6 +241,7 @@ export default class ElementAttribute extends Attribute {
         onChange={this.onChange}
         element={this.state.element}
         allTabs={this.state.allTabs}
+        exclude={exclude}
       />
     </div>
   }

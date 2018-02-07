@@ -172,6 +172,8 @@ class ActivationController extends Container implements Module
         if ($currentTransient && $requestHelper->input('vcv-time')) {
             if ($currentTransient !== $requestHelper->input('vcv-time')) {
                 return false;
+            } elseif (vcIsBadResponse($response)) {
+                $optionsHelper->deleteTransient('vcv:activation:request');
             }
         }
 
