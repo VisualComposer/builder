@@ -4,6 +4,7 @@ import pako from 'pako'
 import base64 from 'base-64'
 
 let processes = []
+let id = 1
 const Service = {
   http (url) {
     // A small example of object
@@ -17,8 +18,11 @@ const Service = {
           let request = new window.XMLHttpRequest()
           request.open(method, url)
           contentType && request.setRequestHeader('Content-type', contentType)
-          request.send(args ? $.param(args) : '')
-
+          try {
+            request.send(args ? $.param(args) : '')
+          } catch (e) {
+            reject(this.statusText)
+          }
           request.onload = function () {
             if (this.status >= 200 && this.status < 300) {
               // Performs the function "resolve" when this.status is equal to 2xx
@@ -32,9 +36,16 @@ const Service = {
             reject(this.statusText)
           }
         })
+        let key = id
+        promise.key = key
+        id++
         processes.push(promise)
         // Return the promise
-        return promise
+        return promise.catch((rejected) => {
+          console.warn('Ajax Request rejected', rejected)
+          processes = processes.filter((pr) => { return pr.key !== key }) // Remove self from list
+          throw rejected
+        })
       }
     }
 

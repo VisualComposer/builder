@@ -41,6 +41,21 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
+    } else if (status === 'failed') {
+      this.setState({
+        status: 'error'
+      })
+      this.clearTimer()
+      // Show error at least for 3 secs
+      this.timer = setTimeout(
+        () => {
+          this.setState({
+            saving: false,
+            status: ''
+          })
+        },
+        SAVED_TIMEOUT
+      )
     }
   }
 
