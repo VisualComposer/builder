@@ -1,4 +1,4 @@
-import {addStorage, getStorage, getService, env} from 'vc-cake'
+import { addStorage, getStorage, getService, env } from 'vc-cake'
 import SaveController from './lib/saveController'
 
 addStorage('wordpressData', (storage) => {
@@ -69,7 +69,14 @@ addStorage('wordpressData', (storage) => {
         elementsStorage.trigger('reset', {})
         wrapExistingContent(initialContent)
       } else if (responseData.data) {
-        let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
+        let data = { elements: {} }
+        try {
+          data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
+        } catch (e) {
+          console.warn('Failed to parse page elements', e)
+          data = { elements: {} }
+          // TODO: Maybe attempt to repair truncated js (like loose but not all?)
+        }
         elementsStorage.trigger('reset', data.elements || {})
       } else {
         elementsStorage.trigger('reset', {})
