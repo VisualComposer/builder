@@ -26,7 +26,7 @@ class BundleUpdateController extends Container implements Module
             /** @see \VisualComposer\Modules\Hub\Download\BundleUpdateController::checkVersion */
             $this->addFilter('vcv:hub:update:checkVersion', 'checkVersion');
             $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);
-            $this->addFilter('vcv:ajax:bundle:update:finished:adminNonce', 'setUpdateDone');
+            $this->addFilter('vcv:ajax:bundle:update:finished:adminNonce', 'finishUpdate');
         }
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
@@ -67,16 +67,15 @@ class BundleUpdateController extends Container implements Module
         return ['status' => false];
     }
 
-    protected function setUpdateDone($response, $payload, Request $requestHelper, Options $optionsHelper)
+    protected function finishUpdate($response, $payload, Request $requestHelper, Options $optionsHelper)
     {
-        $currentTransient = $optionsHelper->getTransient('vcv:hub:update:request');
+        $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
         if ($currentTransient) {
             if ($currentTransient !== $requestHelper->input('vcv-time')) {
                 return ['status' => false];
             } else {
                 // Reset bundles from activation
                 $optionsHelper->deleteTransient('vcv:activation:request');
-                $optionsHelper->deleteTransient('vcv:hub:update:request');
             }
         }
         $optionsHelper->set('bundleUpdateRequired', false);
@@ -116,7 +115,6 @@ class BundleUpdateController extends Container implements Module
             ->deleteTransient('bundleUpdateJson')
             ->deleteTransient('lastBundleUpdate')
             ->deleteTransient('_vcv_update_page_redirect')
-            ->deleteTransient('_vcv_update_page_redirect_url')
-            ->deleteTransient('vcv:hub:update:request');
+            ->deleteTransient('_vcv_update_page_redirect_url');
     }
 }
