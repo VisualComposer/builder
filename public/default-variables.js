@@ -52,3 +52,4 @@ vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
 vcCake.env('EXCLUDE_ATTRIBUTE', true)
 vcCake.env('SAVE_ZIP', true)
+vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR', false)
