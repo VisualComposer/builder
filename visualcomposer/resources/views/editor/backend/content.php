@@ -23,8 +23,8 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
   document.getElementById('<?php echo $beEditor === 'classic' ? 'vcwb_visual_composer' : 'postdivrich' ?>').classList.add('vcv-hidden')
   window.ajaxurl = '<?php echo esc_url(admin_url('admin-ajax.php', 'relative')); ?>';
   window.vcvSourceID = <?php echo get_the_ID(); ?>;
-  window.vcvAjaxUrl = '<?php echo esc_url($urlHelper->ajax()); ?>';
-  window.vcvAdminAjaxUrl = '<?php echo esc_url($urlHelper->adminAjax()); ?>';
+  window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
+  window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
   window.vcvNonce = '<?php echo esc_attr($nonceHelper->admin()); ?>';
   window.vcvPluginUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>';
   window.vcvPluginSourceUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>' + 'public/sources/';
@@ -44,7 +44,10 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
                     <iframe
                             class="vcv-layout-iframe"
                             id="vcv-editor-iframe"
-                            src="<?php echo esc_url($editableLink); ?>"
+                            src="<?php
+                            // @codingStandardsIgnoreLine
+                            echo $editableLink;
+                            ?>"
                             frameborder="0" scrolling="auto"></iframe>
                     <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
                 </div>

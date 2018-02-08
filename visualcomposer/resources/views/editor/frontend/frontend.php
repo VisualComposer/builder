@@ -71,8 +71,8 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
 <script>
   window.ajaxurl = '<?php echo esc_url(admin_url('admin-ajax.php', 'relative')); ?>';
   window.vcvSourceID = <?php echo get_the_ID(); ?>;
-  window.vcvAjaxUrl = '<?php echo esc_url($urlHelper->ajax()); ?>';
-  window.vcvAdminAjaxUrl = '<?php echo esc_url($urlHelper->adminAjax()); ?>';
+  window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
+  window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
   window.vcvNonce = '<?php echo esc_attr($nonceHelper->admin()); ?>';
   window.vcvPluginUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>';
   window.vcvPluginSourceUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>' + 'public/sources/';
@@ -105,7 +105,10 @@ if (is_array($extraOutput)) {
             <div class="vcv-layout-iframe-container">
                 <div class="vcv-layout-iframe-wrapper">
                     <iframe class="vcv-layout-iframe"
-                            src="<?php echo esc_url($editableLink); ?>" id="vcv-editor-iframe"
+                            src="<?php
+                            // @codingStandardsIgnoreLine
+                            echo $editableLink;
+                            ?>" id="vcv-editor-iframe"
                             frameborder="0" scrolling="auto"></iframe>
                 </div>
                 <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
