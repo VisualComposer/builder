@@ -8,7 +8,8 @@ export default class FieldDependencyManager extends React.Component {
     fieldKey: PropTypes.string.isRequired,
     updater: PropTypes.func.isRequired,
     setFieldMount: PropTypes.func.isRequired,
-    setFieldUnmount: PropTypes.func.isRequired
+    setFieldUnmount: PropTypes.func.isRequired,
+    removeDependencies: PropTypes.bool
   }
 
   constructor (props) {
@@ -33,7 +34,7 @@ export default class FieldDependencyManager extends React.Component {
   render () {
     let classes = classNames({
       'vcv-ui-form-dependency': true
-    }, this.state.dependenciesClasses)
+    }, this.props.removeDependencies ? [] : this.state.dependenciesClasses)
 
     return (
       <div ref='field' className={classes}>

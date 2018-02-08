@@ -81,10 +81,11 @@ export default class EditFormSection extends React.Component {
   getSectionFormFields (tabParams) {
     return tabParams.map((param) => {
       const fieldType = param.data && param.data.type ? param.data.type.name : ''
-      const hide = vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR') ? this.checkContainerDependency(param) : false
-      if (hide) {
+      const fieldOptions = vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR') ? this.checkContainerDependency(param) : null
+      if (fieldOptions && fieldOptions.hide) {
         return null
       }
+      const removeDependencies = vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR') && fieldOptions && fieldOptions.removeDependencies
 
       return <FieldDependencyManager
         {...this.props}
@@ -92,6 +93,7 @@ export default class EditFormSection extends React.Component {
         fieldKey={param.key}
         updater={this.props.onElementChange}
         fieldType={fieldType}
+        removeDependencies={removeDependencies}
         // updateDependencies={this.updateDependencyClasses}
       />
     })
@@ -100,22 +102,20 @@ export default class EditFormSection extends React.Component {
   checkContainerDependency (param) {
     const options = param.data && param.data.settings && param.data.settings.options
     const containerDependency = options && options.containerDependency
+    let opts = {}
 
     if (containerDependency) {
-      let hide = false
       const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
-      Object.keys(options.containerDependency).forEach((key) => {
-        const action = options.containerDependency[ key ]
+      Object.keys(containerDependency).forEach((key) => {
+        const action = containerDependency[ key ]
         if (editorType === key) {
-          if (action === 'hide') {
-            hide = true
-          }
+          opts[ action ] = true
         }
       })
-
-      return hide
     }
+
+    return opts
   }
 
   render () {
