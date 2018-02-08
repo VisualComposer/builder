@@ -39,8 +39,7 @@ $loginCategories = $loginCategoryHelper->all();
 	    </select>
         <div class="vcv-popup-form-checkbox">
            <span class="vcv-popup-form-checkbox-inner">
-              <input type="checkbox" value="<?php echo time(
-              ); ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-agreement" />
+              <input type="checkbox" value="<?php echo time(); ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-agreement" />
                 <label for="vcv-account-activation-agreement"></label>
            </span>
             <span class="vcv-popup-form-checkbox-label"><?php printf(
