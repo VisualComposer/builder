@@ -53,6 +53,7 @@ class Request implements Helper
     public function all()
     {
         if (is_null($this->data)) {
+            // @codingStandardsIgnoreLine
             $this->data = array_replace_recursive($_POST, $_GET, $_REQUEST);
         }
 
@@ -70,6 +71,7 @@ class Request implements Helper
     public function input($key = null, $default = null)
     {
         if (is_null($this->data)) {
+            // @codingStandardsIgnoreLine
             $this->data = array_replace_recursive($_POST, $_GET, $_REQUEST);
         }
         if (is_null($key)) {
