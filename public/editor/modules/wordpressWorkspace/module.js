@@ -10,7 +10,6 @@ const elementsStorage = getStorage('elements')
 const assetsStorage = getStorage('assets')
 const settingsStorage = getStorage('settings')
 const utils = getService('utils')
-const workspaceIFrame = workspaceStorage.state('iframe')
 
 add('wordpressWorkspace', (api) => {
   // Set Templates
@@ -85,17 +84,12 @@ add('wordpressWorkspace', (api) => {
   let iframeContent = document.getElementById('vcv-layout-iframe-content')
 
   if (iframeContent) {
-    let selectedLayoutInBlank = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current || 'default'
-    const updateSelectedLayoutInBlank = (layout) => {
-      selectedLayoutInBlank = layout
-    }
-    settingsStorage.state('selectedLayoutInBlank').onChange(updateSelectedLayoutInBlank)
     const removeStartBlank = () => {
       ReactDOM.unmountComponentAtNode(iframeContent)
     }
     const addStartBlank = () => {
       ReactDOM.render(
-        <StartBlankPanel unmountStartBlank={removeStartBlank} updateSelectedLayoutInBlank={updateSelectedLayoutInBlank} />,
+        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
         iframeContent
       )
     }
@@ -121,11 +115,6 @@ add('wordpressWorkspace', (api) => {
         }
         removeStartBlank()
         isBlank = false
-        let activeLayout = settingsStorage.state('pageTemplate').get()
-        if (selectedLayoutInBlank !== activeLayout) {
-          settingsStorage.state('pageTemplate').set(selectedLayoutInBlank)
-          workspaceIFrame.set({ type: 'reload', template: selectedLayoutInBlank })
-        }
       }
       settingsStorage.state('skipBlank').set(false)
     })
