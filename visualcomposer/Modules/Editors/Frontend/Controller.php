@@ -89,7 +89,7 @@ class Controller extends Container implements Module
             }
             $post = $postTypeHelper->setupPost($sourceId);
             // @codingStandardsIgnoreLine
-            if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
+            if (isset($post->post_type) && $editorPostTypeHelper->isEditorEnabled($post->post_type)) {
                 $content = vcfilter('vcv:editors:frontend:render', '');
 
                 /** @noinspection PhpInconsistentReturnPointsInspection */
