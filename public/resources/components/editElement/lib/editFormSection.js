@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
 import PropTypes from 'prop-types'
+import vcCake from 'vc-cake'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
@@ -80,6 +81,11 @@ export default class EditFormSection extends React.Component {
   getSectionFormFields (tabParams) {
     return tabParams.map((param) => {
       const fieldType = param.data && param.data.type ? param.data.type.name : ''
+      const hide = vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR') ? this.checkContainerDependency(param) : false
+      if (hide) {
+        return null
+      }
+
       return <FieldDependencyManager
         {...this.props}
         key={`edit-form-field-${param.key}`}
@@ -89,6 +95,27 @@ export default class EditFormSection extends React.Component {
         // updateDependencies={this.updateDependencyClasses}
       />
     })
+  }
+
+  checkContainerDependency (param) {
+    const options = param.data && param.data.settings && param.data.settings.options
+    const containerDependency = options && options.containerDependency
+
+    if (containerDependency) {
+      let hide = false
+      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+
+      Object.keys(options.containerDependency).forEach((key) => {
+        const action = options.containerDependency[ key ]
+        if (editorType === key) {
+          if (action === 'hide') {
+            hide = true
+          }
+        }
+      })
+
+      return hide
+    }
   }
 
   render () {
