@@ -52,29 +52,31 @@ $time = $_SERVER['REQUEST_TIME'];
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
 <script>
+    <?php // @codingStandardsIgnoreStart ?>
   window.ajaxurl = '<?php echo esc_url(admin_url('admin-ajax.php', 'relative')); ?>';
-  window.vcvAjaxUrl = '<?php echo esc_url(vchelper('Url')->ajax()); ?>';
+  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
   window.vcvAjaxTime = <?php echo esc_attr($time); ?>;
-  window.vcvAdminAjaxUrl = '<?php echo esc_url(vchelper('Url')->adminAjax()); ?>';
+  window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
   window.vcvNonce = '<?php echo esc_attr($nonceHelper->admin()); ?>';
   window.vcvPluginUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>';
   window.vcvPluginSourceUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>' + 'public/sources/';
-  window.vcvUpdateUrl = '<?php echo esc_url($urlHelper->adminAjax(['vcv-action' => 'bundle:update:adminNonce'])); ?>';
+  window.vcvUpdateUrl = '<?php echo $urlHelper->adminAjax(['vcv-action' => 'bundle:update:adminNonce']); ?>';
   window.vcvUpdateActions = <?php echo json_encode($actions); ?>;
   window.vcvUpdatePosts = <?php echo json_encode($posts); ?>;
-  window.vcvActionsUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce'])); ?>';
-  window.vcvUpdateFinishedUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'bundle:update:finished:adminNonce'])); ?>';
-  window.vcvElementsGlobalsUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'elements:globalVariables:adminNonce'])); ?>';
-  window.vcvErrorReportUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce'])); ?>';
+  window.vcvActionsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce']); ?>';
+  window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
+  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
+  window.vcvErrorReportUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce']); ?>';
   window.vcvDashboardUrl = '<?php echo esc_url(admin_url('index.php')); ?>';
     <?php if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) : ?>
   window.vcvUpdaterUrl = '<?php echo esc_url(content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'); ?>';
   window.vcvVendorUrl = '<?php echo esc_url(content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'); ?>';
     <?php else : ?>
-  window.vcvUpdaterUrl = '<?php echo esc_url(vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js')); ?>';
-  window.vcvVendorUrl = '<?php echo esc_url(vchelper('Url')->to('public/dist/vendor.bundle.js')); ?>';
+  window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
+  window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
     <?php endif; ?>
 </script>
+<?php // @codingStandardsIgnoreEnd ?>
 <div id="vcv-posts-update-wrapper"></div>
 <div class="vcv-layout-container vcv-is-disabled-outline">
     <div class="vcv-layout" id="vcv-layout">
