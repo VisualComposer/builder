@@ -130,10 +130,8 @@ $(() => {
         }
       }
       if (vcCake.env('THEME_EDITOR') && vcCake.env('THEME_EDITOR_SIDEBARS')) {
-        let editorType = window.location.search.replace('?', '').split('&').find((item) => {
-          return item.includes('vcv-editor-type')
-        })
-        if (editorType && editorType.split('=')[ 1 ].replace('vcv_', '') === 'sidebars') {
+        const editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
+        if (editorType === 'sidebar') {
           $iframeContainer.addClass('vcv-layout-iframe-container-editor--sidebars')
         }
       }
