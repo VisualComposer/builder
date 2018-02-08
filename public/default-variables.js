@@ -51,5 +51,5 @@ vcCake.env('THEME_LAYOUTS', false) // SEE the devAddons/themeEditor/themeEditor/
 vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
 vcCake.env('EXCLUDE_ATTRIBUTE', true)
-vcCake.env('SAVE_ZIP', true)
+vcCake.env('SAVE_ZIP', false)
 vcCake.env('THEME_EDITOR_SIDEBARS', false)
