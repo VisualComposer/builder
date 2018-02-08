@@ -7,6 +7,9 @@ if (!defined('ABSPATH')) {
 /** @var string $value */
 /** @var string $key */
 ?>
-<style id="vcv-<?php echo vchelper('Str')->slugify($key); ?>">
-    <?php echo $value; ?>
+<style id="vcv-style-<?php echo esc_attr(vchelper('Str')->slugify($key)); ?>">
+    <?php
+    // @codingStandardsIgnoreLine
+    echo $value;
+    ?>
 </style>

@@ -143,8 +143,6 @@ class TemplateFilterController extends Container implements Module
 
         if (file_exists($file)) {
             return $file;
-        } else {
-            echo $file;
         }
 
         return $template;
@@ -169,6 +167,7 @@ class TemplateFilterController extends Container implements Module
                 return get_page_template();
             }
         }
+
         return $originalTemplate;
     }
 

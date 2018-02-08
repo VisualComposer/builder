@@ -86,6 +86,7 @@ function vcview($path, $args = [])
  */
 function evcview($path, $args = [])
 {
+    // @codingStandardsIgnoreLine
     echo vcview($path, $args);
 }
 /**
@@ -176,6 +177,7 @@ function vcIsBadResponse($response)
 
 function vcvdie($message = '')
 {
+    // @codingStandardsIgnoreLine
     echo is_string($message) ? $message : json_encode($message);
     if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
         throw new \Exception($message);

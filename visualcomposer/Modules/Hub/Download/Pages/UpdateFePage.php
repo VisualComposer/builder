@@ -33,18 +33,19 @@ class UpdateFePage extends Container implements Module
         if ($optionsHelper->get('bundleUpdateRequired')) {
             $requiredActions = $updateHelper->getRequiredActions();
 
-            die(vcview(
-                'editor/frontend/frontend-updating.php',
-                [
-                    'actions' => $requiredActions,
-                    'posts' => $optionsHelper->get('bundleUpdatePosts', []),
-                ]
-            ));
+            vcvdie(
+                vcview(
+                    'editor/frontend/frontend-updating.php',
+                    [
+                        'actions' => $requiredActions,
+                        'posts' => $optionsHelper->get('bundleUpdatePosts', []),
+                    ]
+                )
+            );
         }
 
         return $response;
     }
-
 
     protected function addUpdateAssets($response, $payload, Url $urlHelper)
     {

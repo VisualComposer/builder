@@ -7,7 +7,8 @@ if (!defined('ABSPATH')) {
 /** @var array $values */
 /** @var string $key */
 ?>
-<script id="vcv-variable-<?php echo vchelper('Str')->slugify($key); ?>">
+<script id="vcv-variable-<?php echo esc_attr(vchelper('Str')->slugify($key)); ?>">
   // Write-able data
-  window.<?php echo $key; ?> = <?php echo json_encode($value); ?>;
+  // @codingStandardsIgnoreLine
+  window.<?php echo esc_attr($key); ?> = <?php echo json_encode($value); ?>;
 </script>
