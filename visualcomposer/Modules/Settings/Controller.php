@@ -153,6 +153,7 @@ class Controller extends Container implements Module
                     $page['slug'],
                     function () use ($page, $pages) {
                         /** @see \VisualComposer\Modules\Settings\Controller::renderPage */
+                        // @codingStandardsIgnoreLine
                         echo $this->call('renderPage', ['page' => $page, 'pages' => $pages]);
                     }
                 );

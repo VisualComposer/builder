@@ -56,6 +56,7 @@ class MetaboxController extends Container implements Module
             )
         );
 
+        // @codingStandardsIgnoreLine
         echo $content;
     }
 

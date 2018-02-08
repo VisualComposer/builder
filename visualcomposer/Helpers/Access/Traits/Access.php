@@ -116,7 +116,7 @@ trait Access
             if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
                 throw new \Exception($message);
             } else {
-                die($message);
+                die(esc_html($message));
             }
         }
 

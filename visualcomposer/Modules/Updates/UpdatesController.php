@@ -185,6 +185,7 @@ class UpdatesController extends Container implements Module
 
     protected function changelogAssets()
     {
+        // @codingStandardsIgnoreStart
         echo <<<HTML
         <style>
         #plugin-information-title h2 {
@@ -192,6 +193,8 @@ class UpdatesController extends Container implements Module
         }
         </style>
 HTML;
+        // @codingStandardsIgnoreEnd
+
         wp_enqueue_script('vcv:settings:script');
     }
 

@@ -24,11 +24,11 @@ class PostTypes extends Container implements Module
     use WpFiltersActions;
     use EventsFilters;
 
-
     public function getSlug()
     {
         /** @var Settings $settings */
         $settings = vcapp('SettingsPagesSettings');
+
         return $settings->getSlug();
     }
 
@@ -61,7 +61,7 @@ class PostTypes extends Container implements Module
         $sectionCallback = function () {
             echo sprintf(
                 '<p class="description">%s</p>',
-                __('Specify post types where you want to use Visual Composer Website Builder.', 'vcwb')
+                esc_html__('Specify post types where you want to use Visual Composer Website Builder.', 'vcwb')
             );
         };
         $this->addSection(
@@ -76,6 +76,7 @@ class PostTypes extends Container implements Module
         foreach ($availablePostTypes as $postType) {
             $fieldCallback = function ($data) use ($postType) {
                 /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::renderPostTypes */
+                // @codingStandardsIgnoreLine
                 echo $this->call('renderPostTypes', ['data' => $data, 'postType' => $postType]);
             };
 
@@ -104,7 +105,6 @@ class PostTypes extends Container implements Module
 
     protected function unsetOptions(Options $optionsHelper)
     {
-        $optionsHelper
-            ->delete('post-types');
+        $optionsHelper->delete('post-types');
     }
 }

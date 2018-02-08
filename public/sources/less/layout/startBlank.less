@@ -81,6 +81,10 @@
 .vcv-start-blank-controls {
   margin: @editor-layout-start-blank-controls-spacing-xs auto;
   max-width: @editor-layout-start-blank-controls-max-width;
+
+  &-layout {
+    max-width: @editor-layout-start-blank-controls-layout-max-width;
+  }
 }
 
 .vcv-start-blank-item-list-container {
@@ -216,6 +220,37 @@
 
 .vcv-layout-start-blank--active > .vcv-wpbackend-layout-content-container {
   min-height: 1090px;
+}
+
+.vcv-hfs-start-blank-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0 0;
+}
+
+.vcv-hfs-start-blank-name-input {
+  width: 50%;
+  border: 1px solid #E1E1E1;
+  box-shadow: none;
+  color: #D1D1D1;
+  font-size: 14px;
+  padding: 14px;
+  letter-spacing: 2px;
+  margin: 0 0 14px;
+}
+
+.vcv-hfs-start-blank-start-button {
+  width: 50%;
+  padding: 14px;
+  background: #2A4A82;
+  color: #fff;
+  border: none;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 1px;
+  font-size: 12px;
 }
 
 @media screen and (min-width: @vcv-grid-breakpoint-sm-min) {

@@ -51,9 +51,11 @@ class Url implements Helper
     {
         $ajax = [VCV_AJAX_REQUEST => 1];
         $query = $ajax + $query;
+        // @codingStandardsIgnoreStart
         if (isset($_REQUEST['lang'])) {
-            $query['lang'] = strip_tags(esc_html($_REQUEST['lang']));
+            $query['lang'] = strip_tags(esc_attr($_REQUEST['lang']));
         }
+        // // @codingStandardsIgnoreEnd
         $url = get_permalink();
 
         return $this->query($url, $query);
@@ -71,9 +73,11 @@ class Url implements Helper
         $ajax = [VCV_ADMIN_AJAX_REQUEST => 1];
         $query = $ajax + $query;
         $query['action'] = 'vcv:admin:ajax';
+        // @codingStandardsIgnoreStart
         if (isset($_REQUEST['lang'])) {
-            $query['lang'] = strip_tags(esc_html($_REQUEST['lang']));
+            $query['lang'] = strip_tags(esc_attr($_REQUEST['lang']));
         }
+        // @codingStandardsIgnoreEnd
         $url = admin_url('admin-ajax.php') . '?';
 
         return $this->query($url, $query);
@@ -136,7 +140,7 @@ class Url implements Helper
      */
     public function terminate($message = '')
     {
-        die($message);
+        vcvdie(esc_html($message));
     }
 
     public function getContentAssetUrl($key = '')

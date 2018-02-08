@@ -26,20 +26,20 @@ if (!defined('ABSPATH')) {
     </div>
 
     <div class="vcv-popup-heading">
-        <?php echo __('Thank You!', 'vcwb'); ?>
+        <?php echo esc_html__('Thank You!', 'vcwb'); ?>
     </div>
     <span class="vcv-popup-loading-heading">
 		<?php
-        echo __(
+        echo esc_html__(
             'We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response.',
             'vcwb'
         );
         ?>
 	</span>
     <div class="vcv-button-container">
-        <a href="#" data-vcv-back-to-wp class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+        <a href="javascript:;" data-vcv-back-to-wp class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
 			<span>
-				<?php echo __('Return to WordPress dashboard', 'vcwb'); ?>
+				<?php echo esc_html__('Return to WordPress dashboard', 'vcwb'); ?>
 			</span>
         </a>
     </div>

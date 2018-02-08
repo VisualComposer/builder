@@ -8,5 +8,8 @@ if (!defined('ABSPATH')) {
 evcview('settings/partials/admin-nonce');
 ?>
 <div class="wrap vcv-settings">
-    <?php echo $content ?>
+    <?php
+    // @codingStandardsIgnoreLine
+    echo $content;
+    ?>
 </div>

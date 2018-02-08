@@ -9,5 +9,5 @@ if (!defined('ABSPATH')) {
 $nonceHelper = vchelper('Nonce');
 ?>
 <script>
-    window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
+  window.vcvNonce = '<?php echo esc_attr($nonceHelper->admin()); ?>';
 </script>

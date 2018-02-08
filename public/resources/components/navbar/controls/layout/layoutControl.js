@@ -76,6 +76,10 @@ export default class LayoutButtonControl extends React.Component {
       }
     }
 
+    if (env('THEME_EDITOR') && env('THEME_EDITOR_SIDEBARS')) {
+      this.editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
+    }
+
     this.setDefautlDevice = this.setDefautlDevice.bind(this)
     this.setSelectedLayout = this.setSelectedLayout.bind(this)
   }
@@ -139,7 +143,7 @@ export default class LayoutButtonControl extends React.Component {
       )
     })
 
-    if (this.isMobile) {
+    if (this.isMobile || (env('THEME_EDITOR') && env('THEME_EDITOR_SIDEBARS') && this.editorType === 'sidebar')) {
       return null
     }
 
