@@ -67,7 +67,7 @@ class JsEnqueueController extends Container implements Module
         $frontendHelper = vchelper('Frontend');
         if (!$frontendHelper->isPageEditable()) {
             if (!empty($globalJs)) {
-                echo vcview(
+                evcview(
                     'partials/script',
                     [
                         'key' => $prefix . 'global-js',
@@ -76,7 +76,7 @@ class JsEnqueueController extends Container implements Module
                 );
             }
             if (!empty($localJs)) {
-                echo vcview(
+                evcview(
                     'partials/script',
                     [
                         'key' => $prefix . 'local-js',

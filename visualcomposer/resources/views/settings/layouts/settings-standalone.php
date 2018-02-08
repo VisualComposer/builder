@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-echo vcview('settings/partials/admin-nonce');
+evcview('settings/partials/admin-nonce');
 ?>
 <div class="wrap vcv-settings">
     <h2><?php echo __('Settings', 'vcwb') ?></h2>

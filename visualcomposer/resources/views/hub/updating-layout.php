@@ -19,7 +19,7 @@ if ($errorMsg) {
 <div class="vcv-popup-container vcv-loading-screen--active">
 	<div class="vcv-popup-scroll-container">
 		<div class="vcv-popup">
-            <?php echo vcview(
+            <?php evcview(
                 'hub/updating-content',
                 [
                     'controller' => $controller,

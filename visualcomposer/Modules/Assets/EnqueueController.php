@@ -187,14 +187,14 @@ class EnqueueController extends Container implements Module
      */
     protected function printPreviewCss($outputGlobalCss, $sourceCss)
     {
-        echo vcview(
+        evcview(
             'partials/style',
             [
                 'key' => 'preview-global-css',
                 'value' => $outputGlobalCss,
             ]
         );
-        echo vcview(
+        evcview(
             'partials/style',
             [
                 'key' => 'preview-source-css',
