@@ -6,5 +6,5 @@ if (!defined('ABSPATH')) {
 }
 ?>
 <script>
-    window.vcvPluginName = '<?php echo VCV_PLUGIN_BASE_NAME; ?>';
+  window.vcvPluginName = '<?php echo esc_attr(VCV_PLUGIN_BASE_NAME); ?>';
 </script>

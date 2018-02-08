@@ -11,13 +11,15 @@ if (!defined('ABSPATH')) {
 
 <div class="vcv-ui-form-switch-container">
     <label class="vcv-ui-form-switch">
-        <input type="checkbox" value="<?php echo $postType['value']; ?>" name="vcv-post-types[]" <?php echo in_array(
+        <input type="checkbox" value="<?php echo esc_attr(
+            $postType['value']
+        ); ?>" name="vcv-post-types[]" <?php echo in_array(
             $postType['value'],
             $enabledPostTypes,
             true
         ) ? 'checked="checked"' : ''; ?> />
         <span class="vcv-ui-form-switch-indicator"></span>
-        <span class="vcv-ui-form-switch-label" data-vc-switch-on="<?php echo __('on', 'vcwb'); ?>"></span>
-        <span class="vcv-ui-form-switch-label" data-vc-switch-off="<?php echo __('off', 'vcwb'); ?>"></span>
+        <span class="vcv-ui-form-switch-label" data-vc-switch-on="<?php echo esc_attr__('on', 'vcwb'); ?>"></span>
+        <span class="vcv-ui-form-switch-label" data-vc-switch-off="<?php echo esc_attr__('off', 'vcwb'); ?>"></span>
     </label>
 </div>

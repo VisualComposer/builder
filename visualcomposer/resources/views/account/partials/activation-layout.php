@@ -13,10 +13,6 @@ $optionsHelper = vchelper('Options');
 $licenseHelper = vchelper('License');
 $tokenHelper = vchelper('Token');
 
-$errorMsg = $optionsHelper->getTransient('account:activation:error');
-if ($errorMsg) {
-    $optionsHelper->deleteTransient('account:activation:error');
-}
 $type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <script>
@@ -157,9 +153,8 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                 ]
             ); ?>
 			<!-- Error block -->
-			<div class="vcv-popup-error vcv-popup-error-with-button<?php echo $errorMsg ? ' vcv-popup-error--active'
-                : ''; ?>">
-				<span class="vcv-error-message"><?php echo $errorMsg ? $errorMsg : ''; ?></span>
+			<div class="vcv-popup-error vcv-popup-error-with-button">
+				<span class="vcv-error-message"></span>
 				<a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
 					<span>
 						<?php echo __('Send error report', 'vcwb'); ?>

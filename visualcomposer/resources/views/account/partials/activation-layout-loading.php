@@ -9,12 +9,6 @@ if (!defined('ABSPATH')) {
  * @var \VisualComposer\Modules\Account\Pages\ActivationPage $controller
  * @var array $page
  */
-$optionsHelper = vchelper('Options');
-
-$errorMsg = $optionsHelper->getTransient('account:activation:error');
-if ($errorMsg) {
-    $optionsHelper->deleteTransient('account:activation:error');
-}
 $expirationTime = get_option('_transient_timeout_vcv-' . VCV_VERSION . 'vcv:activation:request');
 $expiresAfter = $expirationTime - time();
 $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;

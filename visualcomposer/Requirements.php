@@ -58,6 +58,12 @@ class VcvCoreRequirements
                 'The base64/json functions must be loaded' .
                 '</li>';
         }
+        if (!function_exists('zlib_decode')) {
+            $die = true;
+            $message .= '<li>' .
+                'The zip extension must be loaded zlib_decode() is not defined' .
+                '</li>';
+        }
 
         if (glob(VCV_PLUGIN_ASSETS_DIR_PATH . '/*/*.php') === false
             || glob(
@@ -75,8 +81,9 @@ class VcvCoreRequirements
 
         if ($die) {
             wp_die(
+            // @codingStandardsIgnoreLine
                 'To run Visual Composer Website Builder your host needs to have:<ul>' . $message . '</ul>' . '<a href="'
-                . admin_url('plugins.php') . '">Go back to dashboard</a>'
+                . esc_url(admin_url('plugins.php')) . '">Go back to dashboard</a>'
             );
             $this->deactivate(VCV_PLUGIN_FULL_PATH);
         }
