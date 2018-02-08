@@ -32,11 +32,11 @@ class Notice extends Container implements Module
 
     protected function renderPluginsNameVariable()
     {
-        echo vcview('settings/pages/plugins/variable.php');
+        evcview('settings/pages/plugins/variable.php');
     }
 
     protected function renderPluginNoticeTemplate()
     {
-        echo vcview('settings/pages/plugins/notice.php');
+        evcview('settings/pages/plugins/notice.php');
     }
 }

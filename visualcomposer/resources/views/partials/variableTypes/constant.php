@@ -11,9 +11,7 @@ if (!defined('ABSPATH')) {
   // Read-Only data
   Object.defineProperty(window, '<?php echo $key; ?>', {
     value: function () {
-      return <?php echo json_encode(
-        $value
-    ); ?> },
+      return <?php echo json_encode($value); ?> },
     writable: false
   });
 </script>

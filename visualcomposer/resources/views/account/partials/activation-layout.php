@@ -66,7 +66,7 @@ if (is_array($extraOutput)) {
 }
 
 if ($optionsHelper->getTransient('vcv:activation:request')) {
-    echo vcview(
+    evcview(
         'account/partials/activation-layout-loading',
         [
             'controller' => $controller,
@@ -92,7 +92,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
 			<!-- Close button -->
 			<button class="vcv-popup-close-button"></button>
             <?php
-            echo vcview(
+            evcview(
                 'account/partials/activation-oops',
                 [
                     'controller' => $controller,
@@ -100,7 +100,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             );
             ?>
             <?php
-            echo vcview(
+            evcview(
                 'account/partials/activation-thank-you',
                 [
                     'controller' => $controller,
@@ -109,20 +109,20 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             ?>
             <?php
             if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
-                echo vcview(
+                evcview(
                     'account/partials/activation-intro',
                     [
                         'controller' => $controller,
                     ]
                 );
                 if (!$licenseHelper->isActivated()) {
-                    echo vcview(
+                    evcview(
                         'account/partials/activation-about',
                         [
                             'controller' => $controller,
                         ]
                     );
-                    echo vcview(
+                    evcview(
                         'account/partials/activation-go-premium',
                         [
                             'controller' => $controller,
@@ -131,26 +131,26 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                 }
             }
             ?>
-            <?php echo vcview(
+            <?php evcview(
                 $type !== 'standalone' ? 'account/partials/activation-login'
                     : 'account/partials/activation-login-standalone',
                 [
                     'controller' => $controller,
                 ]
             ); ?>
-            <?php echo vcview(
+            <?php evcview(
                 'account/partials/activation-loading',
                 [
                     'controller' => $controller,
                 ]
             ); ?>
-            <?php echo vcview(
+            <?php evcview(
                 'account/partials/activation-slider',
                 [
                     'controller' => $controller,
                 ]
             ); ?>
-            <?php echo vcview(
+            <?php evcview(
                 'account/partials/activation-slider-go-premium',
                 [
                     'controller' => $controller,
