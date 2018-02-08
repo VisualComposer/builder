@@ -71,8 +71,14 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
 <script>
   window.ajaxurl = '<?php echo esc_url(admin_url('admin-ajax.php', 'relative')); ?>';
   window.vcvSourceID = <?php echo get_the_ID(); ?>;
-  window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
-  window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
+  window.vcvAjaxUrl = '<?php
+      // @codingStandardsIgnoreLine
+      echo $urlHelper->ajax();
+        ?>';
+  window.vcvAdminAjaxUrl = '<?php
+      // @codingStandardsIgnoreLine
+      echo $urlHelper->adminAjax();
+        ?>';
   window.vcvNonce = '<?php echo esc_attr($nonceHelper->admin()); ?>';
   window.vcvPluginUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>';
   window.vcvPluginSourceUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>' + 'public/sources/';
