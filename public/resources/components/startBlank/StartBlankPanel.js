@@ -30,7 +30,6 @@ export default class startBlank extends React.Component {
     super(props)
     this.state = {
       startBlankVisible: true,
-      layout: settingsStorage.state('pageTemplate').get() || 'default',
       templates: templateManager.predefined()
     }
     this.handleCloseClick = this.handleCloseClick.bind(this)
@@ -70,16 +69,6 @@ export default class startBlank extends React.Component {
       elementsStorage.trigger('merge', data)
     }
     this.handleCloseClick(blank)
-
-    if (vcCake.env('THEME_LAYOUTS')) {
-      settingsStorage.state('skipBlank').set(true)
-      let { layout } = this.state
-      let activeLayout = settingsStorage.state('pageTemplate').get()
-      if (layout && layout !== activeLayout) {
-        settingsStorage.state('pageTemplate').set(layout)
-        workspaceIFrame.set({ type: 'reload', template: layout })
-      }
-    }
   }
 
   handleCloseClick (blank) {
@@ -117,52 +106,75 @@ export default class startBlank extends React.Component {
 
   getBlankControls () {
     let controls = []
-    controls.push(<BlankControl {...this.getTemplateControlProps('blank')} />)
-    this.state.templates.forEach((template) => {
-      controls.push(<BlankControl {...this.getTemplateControlProps(template)} />)
-    })
+    if (vcCake.env('THEME_LAYOUTS') && typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
+      controls = this.getLayoutControls()
+    } else {
+      controls.push(<BlankControl {...this.getTemplateControlProps('blank')} />)
+      this.state.templates.forEach((template) => {
+        controls.push(<BlankControl {...this.getTemplateControlProps(template)} />)
+      })
+    }
     return controls
   }
 
   getLayoutControls () {
-    let activeLayout = this.state.layout
+    let activeLayout = settingsStorage.state('pageTemplate').get() || 'default'
     let layouts = []
     let defaultClasses = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
     if (activeLayout === 'default') {
       defaultClasses += ' vcv-ui-start-layout-list-item-active'
     }
-    layouts.push(
-      <li className={defaultClasses} key={`layout-default`} onClick={this.handleLayoutClick.bind(this, 'default')}>
-        <span className='vcv-ui-item-element' title='default'>
-          <span className='vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-default' />
-          <span className='vcv-ui-start-layout-list-item-element-name'>T</span>
-        </span>
-      </li>
-    )
     Object.keys(pageLayouts).forEach((key, index) => {
       let classes = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
       if (activeLayout === key) {
         classes += ' vcv-ui-start-layout-list-item-active'
       }
+
       layouts.push(
         <li className={classes} key={`layout-${index}`}
           onClick={this.handleLayoutClick.bind(this, key)}>
           <span className='vcv-ui-item-element' title={`${pageLayouts[ key ].title}`}>
-            <span className={`vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-${pageLayouts[key].title.toLowerCase().split(' ').join('-')}`}>
-              <span className='vcv-ui-start-layout-list-item-icon-helper' />
+            <span className='vcv-ui-item-element-content-layout'>
+              <span
+                className={`vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-${pageLayouts[ key ].title.toLowerCase().split(' ').join('-')}`}>
+                <span className='vcv-ui-start-layout-list-item-icon-helper' />
+              </span>
+            </span>
+            <span className='vcv-ui-item-element-name'>
+              {pageLayouts[ key ].title.replace(/vcv /gi, '')}
             </span>
           </span>
         </li>
       )
     })
+
+    layouts.push(
+      <li className={defaultClasses} key={`layout-theme-defined`}
+        onClick={this.handleLayoutClick.bind(this, 'default')}>
+        <span className='vcv-ui-item-element' title='Theme defined'>
+          <span className='vcv-ui-item-element-content-layout'>
+            <span
+              className={`vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-default`}>
+              <span className='vcv-ui-start-layout-list-item-icon-helper' />
+            </span>
+            <span className='vcv-ui-start-layout-list-item-icon-name'>T</span>
+          </span>
+          <span className='vcv-ui-item-element-name'>
+            Theme Defined
+          </span>
+        </span>
+      </li>
+    )
     return layouts
   }
 
   handleLayoutClick (layoutType) {
-    this.setState({
-      layout: layoutType
-    })
-    this.props.updateSelectedLayoutInBlank(layoutType)
+    settingsStorage.state('skipBlank').set(true)
+    let activeLayout = settingsStorage.state('pageTemplate').get()
+    if (layoutType && layoutType !== activeLayout) {
+      settingsStorage.state('pageTemplate').set(layoutType)
+      workspaceIFrame.set({ type: 'reload', template: layoutType })
+    }
   }
 
   /**
@@ -255,17 +267,9 @@ export default class startBlank extends React.Component {
         </div>
       )
     }
-    let layoutContainer = ''
-    if (vcCake.env('THEME_LAYOUTS')) {
-      layoutContainer = (
-        <div className='vcv-start-layout-controls'>
-          <div className='vcv-start-layout-item-list-container'>
-            <ul className='vcv-ui-item-list vcv-start-layout-item-list' style={containerWidth}>
-              {this.getLayoutControls()}
-            </ul>
-          </div>
-        </div>
-      )
+    let startBlankControlsClasses = 'vcv-start-blank-controls'
+    if (vcCake.env('THEME_LAYOUTS') && typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
+      startBlankControlsClasses += ' vcv-start-blank-controls-layout'
     }
 
     return (
@@ -276,8 +280,7 @@ export default class startBlank extends React.Component {
               <div className='vcv-start-blank-page-heading'>{headingPart1}</div>
               <div className='vcv-start-blank-page-heading'>{headingPart2}</div>
             </div>
-            {layoutContainer}
-            <div className='vcv-start-blank-controls'>
+            <div className={startBlankControlsClasses}>
               <div
                 className='vcv-start-blank-item-list-container'
                 ref={(container) => { this.rowContainer = container }}

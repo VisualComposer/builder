@@ -129,6 +129,14 @@ $(() => {
           }
         }
       }
+      if (vcCake.env('THEME_EDITOR') && vcCake.env('THEME_EDITOR_SIDEBARS')) {
+        let editorType = window.location.search.replace('?', '').split('&').find((item) => {
+          return item.includes('vcv-editor-type')
+        })
+        if (editorType && editorType.split('=')[ 1 ].replace('vcv_', '') === 'sidebars') {
+          $iframeContainer.addClass('vcv-layout-iframe-container-editor--sidebars')
+        }
+      }
     }
     window.setTimeout(() => {
       checkForLoad()
