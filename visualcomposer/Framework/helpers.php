@@ -78,7 +78,16 @@ function vcview($path, $args = [])
     /** @see \VisualComposer\Helpers\Views::render */
     return vchelper('Views')->render($path, $args);
 }
-
+/**
+ * @param $path
+ * @param array $args
+ *
+ * @return mixed|string
+ */
+function evcview($path, $args = [])
+{
+    echo vcview($path, $args);
+}
 /**
  * @param $path
  * @param array $args

@@ -123,7 +123,7 @@ class GetPremium extends Container implements Module
      */
     protected function addJs()
     {
-        echo vcview('premium/partials/get-premium-js');
+        evcview('premium/partials/get-premium-js');
     }
 
     /**
@@ -131,7 +131,7 @@ class GetPremium extends Container implements Module
      */
     protected function addCss()
     {
-        echo vcview('premium/partials/get-premium-css');
+        evcview('premium/partials/get-premium-css');
     }
 
     public function getActivePage()

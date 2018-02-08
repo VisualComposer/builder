@@ -37,7 +37,7 @@ $currentUserHelper = vchelper('AccessCurrentUser');
         <div class="vcv-popup-slider-container">
             <div class="vcv-popup-slider">
                 <?php foreach ($slides->getSlides() as $slide) : ?>
-                    <?php echo vcview('account/partials/activation-slide', $slide); ?>
+                    <?php evcview('account/partials/activation-slide', $slide); ?>
                 <?php endforeach; ?>
             </div>
         </div>

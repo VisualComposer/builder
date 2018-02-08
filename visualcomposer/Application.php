@@ -7,7 +7,6 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
-
 use VisualComposer\Framework\Application as ApplicationFactory;
 use VisualComposer\Framework\Autoload;
 use VisualComposer\Framework\Illuminate\Filters\Dispatcher as FiltersDispatcher;

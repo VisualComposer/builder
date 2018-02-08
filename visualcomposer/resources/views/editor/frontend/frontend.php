@@ -59,7 +59,7 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
         foreach ($variables as $variable) {
             if (is_array($variable) && isset($variable['key'], $variable['value'])) {
                 $type = isset($variable['type']) ? $variable['type'] : 'variable';
-                echo vcview('partials/variableTypes/' . $type, $variable);
+                evcview('partials/variableTypes/' . $type, $variable);
             }
         }
         unset($variable);
