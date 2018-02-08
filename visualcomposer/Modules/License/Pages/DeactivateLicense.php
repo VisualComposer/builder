@@ -60,18 +60,28 @@ class DeactivateLicense extends Container /*implements Module*/
             return;
         }
         $sectionCallback = function () use ($urlHelper, $nonceHelper) {
-            $deactivatePremiumUrl = $urlHelper->adminAjax(['vcv-action' => 'settings:license:deactivate', 'vcv-nonce' => $nonceHelper->admin()]);
+            $deactivatePremiumUrl = $urlHelper->adminAjax(
+                ['vcv-action' => 'settings:license:deactivate', 'vcv-nonce' => $nonceHelper->admin()]
+            );
             $deactivatePremiumTitle = __('Visual Composer account', 'vcwb');
-            $deactivatePremium = sprintf('<a href="%s">%s</a>', $deactivatePremiumUrl, $deactivatePremiumTitle);
+            $deactivatePremium = sprintf(
+                '<a href="%s">%s</a>',
+                esc_url($deactivatePremiumUrl),
+                esc_html($deactivatePremiumTitle)
+            );
 
-            $sectionDescription = __(
-                'You can deactivate your premium license on this site via your %s. You will not be able to receive new premium updates, elements and templates.',
-                'vcwb'
+            $sectionDescription = sprintf(
+                __(
+                    'You can deactivate your premium license on this site via your %s. You will not be able to receive new premium updates, elements and templates.',
+                    'vcwb'
+                ),
+                $deactivatePremium
             );
 
             echo sprintf(
                 '<p class="description">%s</p>',
-                sprintf($sectionDescription, $deactivatePremium)
+                // @codingStandardsIgnoreLine
+                $sectionDescription
             );
         };
         $this->addSection(

@@ -31,7 +31,7 @@ class PluginsInfoController extends Container implements Module
             );
             echo sprintf(
                 '<meta name="generator" content="%s"/>',
-                $text
+                esc_attr($text)
             );
         }
     }

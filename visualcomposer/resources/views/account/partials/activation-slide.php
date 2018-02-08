@@ -10,7 +10,10 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="vcv-popup-slider-item">
     <div class="vcv-popup-slider-item-inner">
-        <img class="vcv-popup-slider-img" src="<?php echo $url; ?>" alt="" />
-        <span class="vcv-popup-slider-item-text"><?php echo $title; ?></span>
+        <img class="vcv-popup-slider-img" src="<?php echo esc_url($url); ?>" />
+        <span class="vcv-popup-slider-item-text"><?php
+            // @codingStandardsIgnoreLine
+            echo $title;
+            ?></span>
     </div>
 </div>

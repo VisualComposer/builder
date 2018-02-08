@@ -21,9 +21,7 @@ trait ShortcodesTrait
 {
     /**
      * @param $response
-     * @param $payload
      * @param \VisualComposer\Helpers\Request $request
-     * @param \VisualComposer\Helpers\Str $strHelper
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
@@ -62,6 +60,7 @@ trait ShortcodesTrait
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
         $shortcodeString = $this->call('renderEditorShortcode');
         do_action('wp_loaded'); // Fix for WooCommerce
+        // @codingStandardsIgnoreLine
         echo apply_filters(
             'the_content',
             $shortcodeString

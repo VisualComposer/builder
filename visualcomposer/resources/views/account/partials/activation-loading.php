@@ -18,10 +18,10 @@ if (!defined('ABSPATH')) {
     <?php if ($controller->getActivePage() !== 'last') : ?>
 		<div class="vcv-loading-text">
 	        <span class="vcv-popup-loading-heading"><?php
-	            echo __('Activating your copy ... Please wait.', 'vcwb');
+	            echo esc_html__('Activating your copy ... Please wait.', 'vcwb');
 	            ?></span>
 	        <span class="vcv-popup-helper"><?php
-	            echo __('Don’t close this window while activation is in the process.', 'vcwb');
+	            echo esc_html__('Don’t close this window while activation is in the process.', 'vcwb');
 	            ?></span>
 		</div>
     <?php endif; ?>

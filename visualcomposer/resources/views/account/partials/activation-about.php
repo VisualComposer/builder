@@ -49,10 +49,10 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
         </svg>
     </div>
     <div class="vcv-popup-heading">
-        <?php echo __('Get Premium Elements, Templates, and Support.', 'vcwb'); ?>
+        <?php echo esc_html__('Get Premium Elements, Templates, and Support.', 'vcwb'); ?>
     </div>
-	<a href="<?php echo $utmHelper->get($utm);?>" class="vcv-purchase-premium vcv-popup-button" target="_blank"><?php echo __('About Premium', 'vcwb'); ?></a>
-	<a href="#" class="vcv-activate-premium vcv-popup-button vcv-about-button-premium"><?php echo __('Activate Premium', 'vcwb'); ?></a>
-    <span class="vcv-popup-slider-item-text"><?php echo __('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
+	<a href="<?php echo esc_url($utmHelper->get($utm));?>" class="vcv-purchase-premium vcv-popup-button" target="_blank"><?php echo esc_html__('About Premium', 'vcwb'); ?></a>
+	<a href="#" class="vcv-activate-premium vcv-popup-button vcv-about-button-premium"><?php echo esc_html__('Activate Premium', 'vcwb'); ?></a>
+    <span class="vcv-popup-slider-item-text"><?php echo esc_html__('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
     <div class="vcv-popup-go-premium-container"></div>
 </div>
