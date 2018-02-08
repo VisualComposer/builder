@@ -93,7 +93,8 @@ class TemplateFilterController extends Container implements Module
                         'key' => 'VCV_PAGE_TEMPLATES',
                         'value' => [
                             // @codingStandardsIgnoreLine
-                            'current' => $post && isset($post->page_template) && $post->page_template ? $post->page_template : 'default',
+                            'current' => $post && isset($post->page_template) && $post->page_template
+                                ? $post->page_template : 'default',
                             // @codingStandardsIgnoreLine
                             'all' => $post ? get_page_templates($post, $post->post_type) : [],
                         ],
@@ -143,8 +144,6 @@ class TemplateFilterController extends Container implements Module
 
         if (file_exists($file)) {
             return $file;
-        } else {
-            echo $file;
         }
 
         return $template;
@@ -169,6 +168,7 @@ class TemplateFilterController extends Container implements Module
                 return get_page_template();
             }
         }
+
         return $originalTemplate;
     }
 

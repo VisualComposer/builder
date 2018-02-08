@@ -28,14 +28,13 @@ class FactoryResetController extends Container implements Module
     use EventsFilters;
     use Fields;
 
-
     public function getSlug()
     {
         /** @var Settings $settings */
         $settings = vcapp('SettingsPagesSettings');
+
         return $settings->getSlug();
     }
-
 
     public function __construct()
     {
@@ -51,24 +50,41 @@ class FactoryResetController extends Container implements Module
         $this->addFilter('vcv:ajax:vcv:settings:factoryReset:adminNonce', 'initiateFactoryReset');
     }
 
-    protected function buildPage(Options $optionsHelper, Request $requestHelper, CurrentUser $currentUserAccess, Url $urlHelper, Nonce $nonceHelper)
-    {
+    protected function buildPage(
+        Options $optionsHelper,
+        Request $requestHelper,
+        CurrentUser $currentUserAccess,
+        Url $urlHelper,
+        Nonce $nonceHelper
+    ) {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             return;
         }
         // Allow to make factory reset for 1h
         $sectionCallback = function () use ($urlHelper, $nonceHelper, $requestHelper, $optionsHelper) {
             $optionsHelper->setTransient('vcv:settings:factoryReset:allow', 1, 3600);
-            $url = $urlHelper->adminAjax(['vcv-action' => 'vcv:settings:factoryReset:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]);
+            $url = $urlHelper->adminAjax(
+                ['vcv-action' => 'vcv:settings:factoryReset:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
+            );
             $confirm = __('Proceed with a factory reset?', 'vcwb');
             $linkTitle = __('initiate factory reset', 'vcwb');
-            $link = sprintf('<a href="%s" onclick="return confirm(\'%s\')">%s</a>', $url, $confirm, $linkTitle);
+            $link = sprintf(
+                '<a href="%s" onclick="return confirm(\'%s\')">%s</a>',
+                esc_url($url),
+                esc_attr($confirm),
+                esc_attr($linkTitle)
+            );
 
-            $sectionDescription = __('Overwrite your existing extensions and assets with the latest versions from Visual Composer Cloud service - %s.', 'vcwb');
+            $sectionDescription = __(
+                'Overwrite your existing extensions and assets with the latest versions from Visual Composer Cloud service - %s.',
+                'vcwb'
+            );
+            // @codingStandardsIgnoreStart
             echo sprintf(
                 '<p class="description">%s</p>',
                 sprintf($sectionDescription, $link)
             );
+            // @codingStandardsIgnoreEnd
         };
         $this->addSection(
             [
@@ -79,8 +95,12 @@ class FactoryResetController extends Container implements Module
         );
     }
 
-    protected function initiateFactoryReset(Options $optionsHelper, CurrentUser $currentUserAccess, Logger $loggerHelper, ActivationPage $activationPageModule)
-    {
+    protected function initiateFactoryReset(
+        Options $optionsHelper,
+        CurrentUser $currentUserAccess,
+        Logger $loggerHelper,
+        ActivationPage $activationPageModule
+    ) {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             $loggerHelper->log(__('Wrong permissions #10072'));
             wp_redirect(admin_url('admin.php?page=' . rawurlencode($this->getSlug()) . '&reset=false'));
@@ -88,6 +108,7 @@ class FactoryResetController extends Container implements Module
         }
         if (!$optionsHelper->getTransient('vcv:settings:factoryReset:allow')) {
             $loggerHelper->log(__('Session expired #10073'));
+
             return false;
         }
         $optionsHelper->deleteTransient('vcv:settings:factoryReset:allow');
@@ -95,6 +116,6 @@ class FactoryResetController extends Container implements Module
         vcevent('vcv:system:factory:reset');
         wp_cache_flush();
         wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
-        die();
+        die;
     }
 }

@@ -65,18 +65,20 @@ class NoticeController extends Container implements Module
                         '<div class="%1$s"><p>%2$s</p><p><a href="%3$s">%4$s</a></p></div>',
                         esc_attr($class),
                         esc_html($notice['message']),
-                        $urlHelper->adminAjax(
-                            [
-                                'vcv-action' => 'notice:dismiss:adminNonce',
-                                'vcv-notice-name' => $notice['name'],
-                                'vcv-nonce' => $nonceHelper->admin(),
-                            ]
+                        esc_url(
+                            $urlHelper->adminAjax(
+                                [
+                                    'vcv-action' => 'notice:dismiss:adminNonce',
+                                    'vcv-notice-name' => $notice['name'],
+                                    'vcv-nonce' => $nonceHelper->admin(),
+                                ]
+                            )
                         ),
-                        esc__('Dismiss', 'vcwb')
+                        esc_html__('Dismiss', 'vcwb')
                     );
                 } else {
                     printf(
-                        '<div class="%1$s"><p>%2$s</p><p></p></div>',
+                        '<div class="%1$s"><p>%2$s</p></div>',
                         esc_attr($class),
                         esc_html($notice['message'])
                     );
