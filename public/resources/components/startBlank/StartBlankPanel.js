@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import BlankControl from './lib/blankControl'
+import HfsPanelContent from './lib/hsfPanelContent'
 import PropTypes from 'prop-types'
 
 const templateManager = vcCake.getService('myTemplates')
@@ -39,13 +40,16 @@ export default class startBlank extends React.Component {
   }
 
   componentDidMount () {
+    ReactDOM.findDOMNode(this).classList.add('vcv-ui-state--visible')
+    if (vcCake.env('HFS_START_PAGE') && window.VCV_EDITOR_TYPE) {
+      return
+    }
     this.setControlData()
     // set timeout to get new state data from setControlData()
     this.initialSetControlsLayoutTimeout = setTimeout(() => {
       this.setControlsLayout()
     }, 1)
     this.addResizeListener(this.rowContainer, this.setControlsLayout)
-    ReactDOM.findDOMNode(this).classList.add('vcv-ui-state--visible')
   }
 
   componentWillUnmount () {
@@ -245,9 +249,9 @@ export default class startBlank extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const buttonText = localizations ? localizations.premiumTemplatesButton : 'Go Premium'
-    const headingPart1 = localizations ? localizations.blankPageHeadingPart1 : 'Select Blank Page'
-    const headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'or Start With a template'
     const helperText = localizations ? localizations.blankPageHelperText : 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more.'
+    let headingPart1
+    let headingPart2
 
     let containerWidth = {}
     if (this.state && this.state.containerWidth) {
@@ -271,6 +275,31 @@ export default class startBlank extends React.Component {
     if (vcCake.env('THEME_LAYOUTS') && typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
       startBlankControlsClasses += ' vcv-start-blank-controls-layout'
     }
+    let startBlankContent
+    if (vcCake.env('HFS_START_PAGE') && window.VCV_EDITOR_TYPE) {
+      headingPart1 = 'Name Your Header'
+      headingPart2 = 'and Proceed to the Builder'
+      startBlankContent = () => { return <HfsPanelContent /> }
+    } else {
+      headingPart1 = localizations ? localizations.blankPageHeadingPart1 : 'Select Blank Page'
+      headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'or Start With a template'
+      startBlankContent = () => {
+        return <div className={startBlankControlsClasses}>
+          <div
+            className='vcv-start-blank-item-list-container'
+            ref={(container) => { this.rowContainer = container }}
+          >
+            <ul
+              className='vcv-ui-item-list vcv-start-blank-item-list'
+              style={containerWidth}
+              ref={(container) => { this.elementsContainer = container }}
+            >
+              {this.getBlankControls()}
+            </ul>
+          </div>
+        </div>
+      }
+    }
 
     return (
       <div className='vcv-start-blank-container' onMouseUp={this.handleMouseUp}>
@@ -280,20 +309,7 @@ export default class startBlank extends React.Component {
               <div className='vcv-start-blank-page-heading'>{headingPart1}</div>
               <div className='vcv-start-blank-page-heading'>{headingPart2}</div>
             </div>
-            <div className={startBlankControlsClasses}>
-              <div
-                className='vcv-start-blank-item-list-container'
-                ref={(container) => { this.rowContainer = container }}
-              >
-                <ul
-                  className='vcv-ui-item-list vcv-start-blank-item-list'
-                  style={containerWidth}
-                  ref={(container) => { this.elementsContainer = container }}
-                >
-                  {this.getBlankControls()}
-                </ul>
-              </div>
-            </div>
+            {startBlankContent()}
             {premium}
           </div>
         </div>
