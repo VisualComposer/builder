@@ -16,47 +16,37 @@ $tokenHelper = vchelper('Token');
 $type = isset($page, $page['type']) ? $page['type'] : 'default';
 ?>
 <script>
-  window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
-    <?php if ($optionsHelper->getTransient('vcv:activation:request')) { ?>
-    window.vcvActivationRequest = 1;
-    <?php } ?>
-    window.vcvActivationUrl = '<?php echo vchelper('Url')->adminAjax(
-        ['vcv-action' => 'account:activation:adminNonce']
-    ); ?>';
-    window.vcvActionsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce']); ?>';
-    window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->adminAjax(
-        ['vcv-action' => 'account:activation:finished:adminNonce']
-    ); ?>';
-  window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
-  window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
-  window.vcvNonce = '<?php echo vchelper('Nonce')->admin(); ?>';
-    window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>';
-    window.vcvActivationType = '<?php echo $type; ?>';
-    window.vcvAjaxTime = <?php echo $_SERVER['REQUEST_TIME']; ?>;
-    window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
-    window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
-    window.vcvDashboardUrl = '<?php echo admin_url('index.php'); ?>';
-    window.vcvErrorReportUrl = '<?php echo vchelper('Url')->adminAjax(
-        ['vcv-action' => 'account:error:report:adminNonce']
-    ); ?>';
-    window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->adminAjax(
-        ['vcv-action' => 'elements:globalVariables:adminNonce']
-    ); ?>';
-    <?php
-    if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
-    ?>
-    window.vcvUpdaterUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME
-        . '/editor/wpPostRebuild.bundle.js'; ?>';
-    window.vcvVendorUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'; ?>';
+  window.ajaxurl = '<?php echo esc_url(admin_url('admin-ajax.php', 'relative')); ?>';
+    <?php if ($optionsHelper->getTransient('vcv:activation:request')) : ?>
+  window.vcvActivationRequest = 1;
+    <?php endif; ?>
+  window.vcvActivationUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'account:activation:adminNonce'])); ?>';
+  window.vcvActionsUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce'])); ?>';
+  window.vcvActivationFinishedUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'account:activation:finished:adminNonce'])); ?>';
+  window.vcvPluginUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>';
+  window.vcvPluginSourceUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>' + 'public/sources/';
+  window.vcvNonce = '<?php echo esc_attr(vchelper('Nonce')->admin()); ?>';
+  window.vcvActivationActivePage = '<?php echo esc_attr($controller->getActivePage()); ?>';
+  window.vcvActivationType = '<?php echo esc_attr($type); ?>';
+  window.vcvAjaxTime = <?php echo esc_attr($_SERVER['REQUEST_TIME']); ?>;
+  window.vcvAjaxUrl = '<?php echo esc_url(vchelper('Url')->ajax()); ?>';
+  window.vcvAdminAjaxUrl = '<?php echo esc_url(vchelper('Url')->adminAjax()); ?>';
+  window.vcvDashboardUrl = '<?php echo esc_url(admin_url('index.php')); ?>';
+  window.vcvErrorReportUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce'])); ?>';
+  window.vcvElementsGlobalsUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'elements:globalVariables:adminNonce'])); ?>';
+    <?php if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) : ?>
+  window.vcvUpdaterUrl = '<?php echo esc_url(content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'); ?>';
+  window.vcvVendorUrl = '<?php echo esc_url(content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'); ?>';
     <?php else : ?>
-    window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
-    window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
+  window.vcvUpdaterUrl = '<?php echo esc_url(vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js')); ?>';
+  window.vcvVendorUrl = '<?php echo esc_url(vchelper('Url')->to('public/dist/vendor.bundle.js')); ?>';
     <?php endif; ?>
 </script>
 <?php
 $extraOutput = vcfilter('vcv:backend:settings:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
+        // @codingStandardsIgnoreLine
         echo $output;
     }
 }
@@ -74,19 +64,19 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
 ?>
 <div id="vcv-posts-update-wrapper"></div>
 <div class="vcv-popup-container vcv-popup-container--hidden" style="opacity: 0;visibility: hidden">
-	<div class="vcv-popup-scroll-container">
-		<div class="vcv-popup">
+    <div class="vcv-popup-scroll-container">
+        <div class="vcv-popup">
             <?php if (!$tokenHelper->isSiteAuthorized() && 'account' === vcvenv('VCV_ENV_ADDONS_ID')
                 && vcvenv(
                     'VCV_ENV_LICENSES'
                 )) { ?>
-				<!-- Back button -->
-				<button class="vcv-popup-back-button">
-					<span><?php echo __('Back', 'vcwb'); ?></span>
-				</button>
+                <!-- Back button -->
+                <button class="vcv-popup-back-button">
+                    <span><?php echo esc_html__('Back', 'vcwb'); ?></span>
+                </button>
             <?php } ?>
-			<!-- Close button -->
-			<button class="vcv-popup-close-button"></button>
+            <!-- Close button -->
+            <button class="vcv-popup-close-button"></button>
             <?php
             evcview(
                 'account/partials/activation-oops',
@@ -152,16 +142,16 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                     'controller' => $controller,
                 ]
             ); ?>
-			<!-- Error block -->
-			<div class="vcv-popup-error vcv-popup-error-with-button">
-				<span class="vcv-error-message"></span>
-				<a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+            <!-- Error block -->
+            <div class="vcv-popup-error vcv-popup-error-with-button">
+                <span class="vcv-error-message"></span>
+                <a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
 					<span>
-						<?php echo __('Send error report', 'vcwb'); ?>
+						<?php echo esc_html__('Send error report', 'vcwb'); ?>
 					</span>
-				</a>
-			</div>
-		</div>
-		<div class="vcv-hidden-helper"></div>
-	</div>
+                </a>
+            </div>
+        </div>
+        <div class="vcv-hidden-helper"></div>
+    </div>
 </div>

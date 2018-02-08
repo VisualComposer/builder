@@ -30,6 +30,7 @@ $time = $_SERVER['REQUEST_TIME'];
 $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
+        // @codingStandardsIgnoreLine
         echo $output;
     }
     unset($output);
@@ -38,30 +39,28 @@ $actions = $hubUpdateHelper->getRequiredActions();
 $posts = $optionsHelper->get('bundleUpdatePosts', []);
 ?>
 <script>
-  window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
-  window.vcvUpdateUrl = '<?php echo $urlHelper->adminAjax(['vcv-action' => 'bundle:update:adminNonce']); ?>';
-  window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
-  window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
-  window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
+  window.ajaxurl = '<?php echo esc_url(admin_url('admin-ajax.php', 'relative')); ?>';
+  window.vcvUpdateUrl = '<?php echo esc_url($urlHelper->adminAjax(['vcv-action' => 'bundle:update:adminNonce'])); ?>';
+  window.vcvNonce = '<?php echo esc_attr($nonceHelper->admin()); ?>';
+  window.vcvPluginUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>';
+  window.vcvPluginSourceUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>' + 'public/sources/';
   window.vcvUpdateActions = <?php echo json_encode($actions); ?>;
   window.vcvUpdatePosts = <?php echo json_encode($posts); ?>;
-  window.vcvActionsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce']); ?>';
-  window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
-  window.vcvAjaxTime = <?php echo $time; ?>;
-  window.vcvPageBack = '<?php echo $optionsHelper->getTransient('_vcv_update_page_redirect_url'); ?>';
-  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
-  window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
-  window.vcvErrorReportUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce']); ?>';
-  window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
-  window.vcvDashboardUrl = '<?php echo admin_url('index.php'); ?>';
-    <?php
-    if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) :
-    ?>
-  window.vcvUpdaterUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'; ?>';
-  window.vcvVendorUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'; ?>';
+  window.vcvActionsUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce'])); ?>';
+  window.vcvUpdateFinishedUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'bundle:update:finished:adminNonce'])); ?>';
+  window.vcvAjaxTime = <?php echo esc_attr($time); ?>;
+  window.vcvPageBack = '<?php echo esc_url($optionsHelper->getTransient('_vcv_update_page_redirect_url')); ?>';
+  window.vcvAjaxUrl = '<?php echo esc_url(vchelper('Url')->ajax()); ?>';
+  window.vcvAdminAjaxUrl = '<?php echo esc_url(vchelper('Url')->adminAjax()); ?>';
+  window.vcvErrorReportUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce'])); ?>';
+  window.vcvElementsGlobalsUrl = '<?php echo esc_url(vchelper('Url')->adminAjax(['vcv-action' => 'elements:globalVariables:adminNonce'])); ?>';
+  window.vcvDashboardUrl = '<?php echo esc_url(admin_url('index.php')); ?>';
+    <?php if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) : ?>
+  window.vcvUpdaterUrl = '<?php echo esc_url(content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'); ?>';
+  window.vcvVendorUrl = '<?php echo esc_url(content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'); ?>';
     <?php else : ?>
-  window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
-  window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
+  window.vcvUpdaterUrl = '<?php echo esc_url(vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js')); ?>';
+  window.vcvVendorUrl = '<?php echo esc_url(vchelper('Url')->to('public/dist/vendor.bundle.js')); ?>';
     <?php endif; ?>
 </script>
 
@@ -72,16 +71,16 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
         <div class="vcv-loading-dot vcv-loading-dot-1"></div>
         <div class="vcv-loading-dot vcv-loading-dot-2"></div>
     </div>
-	<div class="vcv-loading-text">
-	    <span class="vcv-popup-loading-heading"><?php
-	        echo __('We are updating assets from the Visual Composer Cloud ... Please wait.', 'vcwb');
-	        ?></span>
+    <div class="vcv-loading-text">
+    <span class="vcv-popup-loading-heading"><?php
+        echo esc_html__('We are updating assets from the Visual Composer Cloud ... Please wait.', 'vcwb');
+        ?></span>
 
-	    <p class="vcv-loading-text-main"></p>
-	    <span class="vcv-popup-helper"><?php
-	        echo __('Don’t close this window while update is in process.', 'vcwb');
-	        ?></span>
-	</div>
+        <p class="vcv-loading-text-main"></p>
+        <span class="vcv-popup-helper"><?php
+            echo esc_html__('Don’t close this window while update is in process.', 'vcwb');
+            ?></span>
+    </div>
     <!-- Loading big white circle -->
     <div class="vcv-popup-loading-zoom"></div>
 </div>
@@ -103,63 +102,66 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
         </svg>
     </div>
     <div class="vcv-popup-heading">
-        <?php echo __('Oops!', 'vcwb'); ?>
+        <?php echo esc_html__('Oops!', 'vcwb'); ?>
     </div>
     <span class="vcv-popup-loading-heading"><?php
-        echo __(
+        echo esc_html__(
             'It seems that something went wrong with assets update from the Visual Composer Cloud. Please make sure to check your internet connection and try again.',
             'vcwb'
         );
         ?></span>
     <div class="vcv-button-container">
-        <button data-vcv-retry class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update"><span><?php echo __(
+        <button data-vcv-retry class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update"><span><?php echo esc_html__(
                     'Retry Update',
                     'vcwb'
                 ); ?></span></button>
-	    <button data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
-			<span>
-				<?php echo __('Send error report', 'vcwb'); ?>
-			</span>
-	    </button>
+        <button data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+        <span>
+            <?php echo esc_html__('Send error report', 'vcwb'); ?>
+        </span>
+        </button>
     </div>
 </div>
 <?php if ($optionsHelper->getTransient('vcv:activation:request')) : ?>
     <div data-vcv-error-lock
-         class="vcv-popup-content vcv-popup-error-description">
+            class="vcv-popup-content vcv-popup-error-description">
         <div class="vcv-logo">
             <svg width="36px" height="37px" viewBox="0 0 36 37" version="1.1"
-                 xmlns="http://www.w3.org/2000/svg">
+                    xmlns="http://www.w3.org/2000/svg">
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <g id="01-Intro-Free" transform="translate(-683.000000, -185.000000)">
                         <g id="VC-Logo" transform="translate(683.000000, 185.000000)">
                             <polygon id="Fill-1" fill="#257CA0"
-                                     points="17.982 21.662 17.989 37 8.999 31.837 8.999 21.499"></polygon>
+                                    points="17.982 21.662 17.989 37 8.999 31.837 8.999 21.499"></polygon>
                             <polyline id="Fill-5" fill="#74953D"
-                                      points="17.71 5.977 26.694 6.139 26.708 21.494 17.71 21.315 17.71 5.977"></polyline>
+                                    points="17.71 5.977 26.694 6.139 26.708 21.494 17.71 21.315 17.71 5.977"></polyline>
                             <polyline id="Fill-4" fill="#2CA2CF"
-                                      points="26.708 21.494 17.982 26.656 8.999 21.498 17.72 16.315 26.708 21.494"></polyline>
+                                    points="26.708 21.494 17.982 26.656 8.999 21.498 17.72 16.315 26.708 21.494"></polyline>
                             <polyline id="Fill-6" fill="#9AC753"
-                                      points="35.42 5.972 26.694 11.135 17.71 5.977 26.432 0.793 35.42 5.972"></polyline>
+                                    points="35.42 5.972 26.694 11.135 17.71 5.977 26.432 0.793 35.42 5.972"></polyline>
                             <polygon id="Fill-8" fill="#A77E2D"
-                                     points="8.984 6.145 8.998 21.499 0 16.32 0 5.98"></polygon>
+                                    points="8.984 6.145 8.998 21.499 0 16.32 0 5.98"></polygon>
                             <polyline id="Fill-9" fill="#F2AE3B"
-                                      points="17.71 5.977 8.984 11.139 0 5.98 8.722 0.799 17.71 5.977"></polyline>
+                                    points="17.71 5.977 8.984 11.139 0 5.98 8.722 0.799 17.71 5.977"></polyline>
                         </g>
                     </g>
                 </g>
             </svg>
         </div>
         <div class="vcv-popup-heading">
-            <?php echo __('Oops!', 'vcwb'); ?>
+            <?php echo esc_html__('Oops!', 'vcwb'); ?>
         </div>
         <span class="vcv-popup-loading-heading">
         <?php
-        $expirationTime = get_option('_transient_timeout_vcv-' . VCV_VERSION . 'vcv:activation:request');
+        $expirationTime = get_option('_transient_timeout_vcv-' . esc_attr(VCV_VERSION) . 'vcv:activation:request');
         $expiresAfter = $expirationTime - time();
         $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
 
-        $errorMsg = sprintf(__('The update process was already started! Please wait %1$s seconds before you try again', 'vcwb'), $expiresAfter);
-
+        $errorMsg = sprintf(
+            __('The update process was already started! Please wait %1$s seconds before you try again', 'vcwb'),
+            esc_attr($expiresAfter)
+        );
+        // @codingStandardsIgnoreLine
         echo $errorMsg;
         ?>
         </span>

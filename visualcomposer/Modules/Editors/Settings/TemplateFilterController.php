@@ -93,8 +93,7 @@ class TemplateFilterController extends Container implements Module
                         'key' => 'VCV_PAGE_TEMPLATES',
                         'value' => [
                             // @codingStandardsIgnoreLine
-                            'current' => $post && isset($post->page_template) && $post->page_template
-                                ? $post->page_template : 'default',
+                            'current' => $post && isset($post->page_template) && $post->page_template ? $post->page_template : 'default',
                             // @codingStandardsIgnoreLine
                             'all' => $post ? get_page_templates($post, $post->post_type) : [],
                         ],

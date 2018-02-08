@@ -140,7 +140,7 @@ class Url implements Helper
      */
     public function terminate($message = '')
     {
-        die($message);
+        vcvdie(esc_html($message));
     }
 
     public function getContentAssetUrl($key = '')

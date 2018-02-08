@@ -25,7 +25,7 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
 			<button class="vcv-popup-close-button"></button>
 			<!-- Error block -->
 			<div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active' : ''; ?>">
-				<span class="vcv-error-message"><?php echo $errorMsg ? $errorMsg : ''; ?></span>
+				<span class="vcv-error-message"><?php echo $errorMsg ? esc_html($errorMsg) : ''; ?></span>
 			</div>
 		</div>
 		<div class="vcv-hidden-helper"></div>

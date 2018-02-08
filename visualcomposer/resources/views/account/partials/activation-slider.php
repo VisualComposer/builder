@@ -30,7 +30,7 @@ $currentUserHelper = vchelper('AccessCurrentUser');
             </svg>
         </div>
         <div class="vcv-popup-heading vcv-popup-heading-last-screen">
-            <?php echo __('Any Layout. Fast and Easy.', 'vcwb'); ?>
+            <?php echo esc_html__('Any Layout. Fast and Easy.', 'vcwb'); ?>
         </div>
 
         <!-- GIF Slider -->
@@ -44,21 +44,21 @@ $currentUserHelper = vchelper('AccessCurrentUser');
         <div class="vcv-button-container">
             <?php if ($currentUserHelper->wpAll('edit_pages')->get()
                 && $editorPostTypeHelper->isEditorEnabled('page')) : ?>
-		        <a href="<?php echo vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend'); ?>" class="vcv-popup-button vcv-popup-last-screen-button">
-			        <span><?php echo __('Create a blank page', 'vcwb'); ?></span>
+		        <a href="<?php echo esc_url(vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend')); ?>" class="vcv-popup-button vcv-popup-last-screen-button">
+			        <span><?php echo esc_html__('Create a blank page', 'vcwb'); ?></span>
 		        </a>
             <?php elseif ($currentUserHelper->wpAll('edit_posts')->get()
                 && $editorPostTypeHelper->isEditorEnabled('post')) : ?>
-		        <a href="<?php echo vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend'); ?>" class="vcv-popup-button vcv-popup-last-screen-button">
-			        <span><?php echo __('Create a blank post', 'vcwb'); ?></span>
+		        <a href="<?php echo esc_url(vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend')); ?>" class="vcv-popup-button vcv-popup-last-screen-button">
+			        <span><?php echo esc_html__('Create a blank post', 'vcwb'); ?></span>
 		        </a>
             <?php endif; ?>
         </div>
-        <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo __(
+        <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo esc_html__(
                 'Want to work with existing pages, posts or custom post types? Access your content and select `Edit with Visual Composer`.',
                 'vcwb'
             ); ?></p>
-        <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo __(
+        <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo esc_html__(
                 'Don\'t forget to tweet about Visual Composer Website Builder. Thanks!',
                 'vcwb'
             ); ?>

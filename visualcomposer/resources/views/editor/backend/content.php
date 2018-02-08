@@ -19,74 +19,73 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
     $getPremiumPage = vcapp('PremiumPagesGetPremium');
 }
 ?>
-    <script>
-      document.getElementById('<?php echo $beEditor === 'classic' ? 'vcwb_visual_composer' : 'postdivrich' ?>').classList.add('vcv-hidden')
-      window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
-      window.vcvSourceID = <?php echo get_the_ID(); ?>;
-      window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
-      window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
-      window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
-      window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
-      window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
-      window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
-      window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
-        <?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) { ?>
-      window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated() ?>);
-      window.vcvGoPremiumUrlLogo = '<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>';
-        <?php } ?>
-    </script>
-
-    <div id="vcv-editor">
-        <div class="vcv-wpbackend-layout-container">
-            <div class="vcv-layout" id="vcv-layout">
-                <div class="vcv-layout-header" id="vcv-wpbackend-layout-header"></div>
-                <div class="vcv-layout-content">
-                    <div class="vcv-layout-iframe-container">
-                        <iframe
+<script>
+  document.getElementById('<?php echo $beEditor === 'classic' ? 'vcwb_visual_composer' : 'postdivrich' ?>').classList.add('vcv-hidden')
+  window.ajaxurl = '<?php echo esc_url(admin_url('admin-ajax.php', 'relative')); ?>';
+  window.vcvSourceID = <?php echo get_the_ID(); ?>;
+  window.vcvAjaxUrl = '<?php echo esc_url($urlHelper->ajax()); ?>';
+  window.vcvAdminAjaxUrl = '<?php echo esc_url($urlHelper->adminAjax()); ?>';
+  window.vcvNonce = '<?php echo esc_attr($nonceHelper->admin()); ?>';
+  window.vcvPluginUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>';
+  window.vcvPluginSourceUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>' + 'public/sources/';
+  window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
+  window.vcvPostPermanentLink = '<?php echo esc_url(get_permalink(get_the_ID())); ?>';
+    <?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) : ?>
+  window.vcvIsPremium = Boolean(<?php echo esc_attr($licenseHelper->isActivated()); ?>);
+  window.vcvGoPremiumUrlLogo = '<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>';
+    <?php endif; ?>
+</script>
+<div id="vcv-editor">
+    <div class="vcv-wpbackend-layout-container">
+        <div class="vcv-layout" id="vcv-layout">
+            <div class="vcv-layout-header" id="vcv-wpbackend-layout-header"></div>
+            <div class="vcv-layout-content">
+                <div class="vcv-layout-iframe-container">
+                    <iframe
                             class="vcv-layout-iframe"
                             id="vcv-editor-iframe"
-                            src="<?php echo $editableLink; ?>"
+                            src="<?php echo esc_url($editableLink); ?>"
                             frameborder="0" scrolling="auto"></iframe>
-                        <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
-                    </div>
+                    <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
                 </div>
-                <div class="vcv-wpbackend-layout-content-container">
-                    <div id="vcv-wpbackend-layout-content" class="vcv-wpbackend-layout-content"></div>
-                    <div class="vcv-wpbackend-layout-content-overlay" id="vcv-wpbackend-layout-content-overlay"></div>
-                    <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
-                        <div class="vcv-loading-overlay">
-                            <div class="vcv-loading-overlay-inner">
-                                <div class="vcv-loading-dots-container">
-                                    <div class="vcv-loading-dot vcv-loading-dot-1"></div>
-                                    <div class="vcv-loading-dot vcv-loading-dot-2"></div>
-                                </div>
+            </div>
+            <div class="vcv-wpbackend-layout-content-container">
+                <div id="vcv-wpbackend-layout-content" class="vcv-wpbackend-layout-content"></div>
+                <div class="vcv-wpbackend-layout-content-overlay" id="vcv-wpbackend-layout-content-overlay"></div>
+                <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
+                    <div class="vcv-loading-overlay">
+                        <div class="vcv-loading-overlay-inner">
+                            <div class="vcv-loading-dots-container">
+                                <div class="vcv-loading-dot vcv-loading-dot-1"></div>
+                                <div class="vcv-loading-dot vcv-loading-dot-2"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <input type="hidden" value="0" name="vcv-backend" id="vcv-backend">
-        <input type="hidden" name="vcv-action" id="vcv-action">
-        <input type="hidden" name="vcv-data" id="vcv-data">
-        <input type="hidden" name="vcv-global-elements-css" id="vcv-global-elements-css">
-        <input type="hidden" name="vcv-global-elements" id="vcv-global-elements">
-        <input type="hidden" name="vcv-global-elements-data" id="vcv-global-elements">
-        <input type="hidden" name="vcv-source-assets-files" id="vcv-source-assets-files">
-        <input type="hidden" name="vcv-source-css" id="vcv-source-css">
-        <input type="hidden" name="vcv-settings-source-custom-css" id="vcv-settings-source-custom-css">
-        <input type="hidden" name="vcv-settings-global-css" id="vcv-settings-global-css">
-        <input type="hidden" name="vcv-elements-css-data" id="vcv-elements-css-data">
-        <input type="hidden" name="vcv-settings-source-local-js" id="vcv-settings-source-local-js">
-        <input type="hidden" name="vcv-settings-global-js" id="vcv-settings-global-js">
-        <input type="hidden" name="vcv-tf" id="vcv-tf">
-        <input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="<?php echo esc_attr($beEditor) ?>">
     </div>
-
+    <input type="hidden" value="0" name="vcv-backend" id="vcv-backend">
+    <input type="hidden" name="vcv-action" id="vcv-action">
+    <input type="hidden" name="vcv-data" id="vcv-data">
+    <input type="hidden" name="vcv-global-elements-css" id="vcv-global-elements-css">
+    <input type="hidden" name="vcv-global-elements" id="vcv-global-elements">
+    <input type="hidden" name="vcv-global-elements-data" id="vcv-global-elements">
+    <input type="hidden" name="vcv-source-assets-files" id="vcv-source-assets-files">
+    <input type="hidden" name="vcv-source-css" id="vcv-source-css">
+    <input type="hidden" name="vcv-settings-source-custom-css" id="vcv-settings-source-custom-css">
+    <input type="hidden" name="vcv-settings-global-css" id="vcv-settings-global-css">
+    <input type="hidden" name="vcv-elements-css-data" id="vcv-elements-css-data">
+    <input type="hidden" name="vcv-settings-source-local-js" id="vcv-settings-source-local-js">
+    <input type="hidden" name="vcv-settings-global-js" id="vcv-settings-global-js">
+    <input type="hidden" name="vcv-tf" id="vcv-tf">
+    <input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="<?php echo esc_attr($beEditor) ?>">
+</div>
 <?php
 $extraOutput = vcfilter('vcv:backend:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
+        // @codingStandardsIgnoreLine
         echo $output;
     }
 }
