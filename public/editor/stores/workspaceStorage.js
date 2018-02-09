@@ -167,7 +167,7 @@ addStorage('workspace', (storage) => {
 
     let newElement = element
     newElement.hidden = !element.hidden
-    elementsStorage.trigger('update', id, newElement)
+    elementsStorage.trigger('update', id, newElement, '', { hidden: element.hidden })
   })
   storage.state('navbarBoundingRect').set({
     resizeTop: 0,
