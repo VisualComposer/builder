@@ -53,6 +53,9 @@ export default class startBlank extends React.Component {
   }
 
   componentWillUnmount () {
+    if (vcCake.env('HFS_START_PAGE') && window.VCV_EDITOR_TYPE) {
+      return
+    }
     this.removeResizeListener(this.rowContainer, this.setControlsLayout)
     if (this.initialSetControlsLayoutTimeout) {
       window.clearTimeout(this.initialSetControlsLayoutTimeout)
@@ -69,7 +72,9 @@ export default class startBlank extends React.Component {
 
   handleControlClick (props) {
     const { blank, data } = props
-    if (!blank) {
+    if (vcCake.env('HFS_START_PAGE') && this.props.type) {
+      console.log(this.props)
+    } else if (!blank) {
       elementsStorage.trigger('merge', data)
     }
     this.handleCloseClick(blank)
@@ -110,7 +115,8 @@ export default class startBlank extends React.Component {
 
   getBlankControls () {
     let controls = []
-    if (vcCake.env('THEME_LAYOUTS') && typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
+    // if (vcCake.env('THEME_LAYOUTS') && typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
+    if (vcCake.env('THEME_LAYOUTS') && true) {
       controls = this.getLayoutControls()
     } else {
       controls.push(<BlankControl {...this.getTemplateControlProps('blank')} />)
@@ -179,6 +185,7 @@ export default class startBlank extends React.Component {
       settingsStorage.state('pageTemplate').set(layoutType)
       workspaceIFrame.set({ type: 'reload', template: layoutType })
     }
+    this.props.unmountStartBlank()
   }
 
   /**
@@ -277,9 +284,11 @@ export default class startBlank extends React.Component {
     }
     let startBlankContent
     if (vcCake.env('HFS_START_PAGE') && window.VCV_EDITOR_TYPE) {
-      headingPart1 = 'Name Your Header'
+      let type = window.VCV_EDITOR_TYPE()
+      type = type.charAt(0).toUpperCase() + type.slice(1)
+      headingPart1 = `Name Your ${type}`
       headingPart2 = 'and Proceed to the Builder'
-      startBlankContent = () => { return <HfsPanelContent /> }
+      startBlankContent = () => { return <HfsPanelContent type={type} addClick={this.handleControlClick} /> }
     } else {
       headingPart1 = localizations ? localizations.blankPageHeadingPart1 : 'Select Blank Page'
       headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'or Start With a template'

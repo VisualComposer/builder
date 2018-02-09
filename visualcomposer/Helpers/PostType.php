@@ -178,7 +178,7 @@ class PostType implements Helper
 
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
-        if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()) {
+        if (isset($post->post_type) && post_type_exists($post->post_type) &&  $currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()) {
             setup_postdata($post);
             $post_type = $post->post_type;
             $post_type_object = get_post_type_object($post_type);
