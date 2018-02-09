@@ -12,7 +12,7 @@ export default class TemplateSettings extends React.Component {
     let currentTemplate = templateStorageData || templateData.current || 'default'
     this.state = {
       current: currentTemplate,
-      all: templateData.all
+      all: templateData.all || []
     }
     setData('ui:settings:pageTemplate', currentTemplate)
     this.updateTemplate = this.updateTemplate.bind(this)
