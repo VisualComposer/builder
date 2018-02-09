@@ -59,7 +59,10 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
 		</select>
 		<div class="vcv-popup-form-checkbox">
            <span class="vcv-popup-form-checkbox-inner">
-              <input type="checkbox" value="<?php echo esc_attr(time()); ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-premium-agreement" />
+              <input type="checkbox" value="<?php
+              // @codingStandardsIgnoreLine
+              echo time();
+                ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-premium-agreement" />
                 <label for="vcv-account-activation-premium-agreement"></label>
            </span>
 			<span class="vcv-popup-form-checkbox-label"><?php printf(

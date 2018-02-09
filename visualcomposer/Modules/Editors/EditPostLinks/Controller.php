@@ -86,7 +86,8 @@ class Controller extends Container implements Module
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $link .= sprintf(
                 ' <a href="%s">%s</a>',
-                esc_url($url),
+                // @codingStandardsIgnoreLine
+                $url,
                 __('Edit with Visual Composer', 'vcwb')
             ); // TODO: Change text https://app.asana.com/0/214854674604991/236487795091134
         }

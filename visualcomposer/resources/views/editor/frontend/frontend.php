@@ -68,32 +68,28 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
     ?>
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
+<?php // @codingStandardsIgnoreStart ?>
 <script>
-  window.ajaxurl = '<?php echo esc_url(admin_url('admin-ajax.php', 'relative')); ?>';
+  window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
   window.vcvSourceID = <?php echo get_the_ID(); ?>;
-  window.vcvAjaxUrl = '<?php
-      // @codingStandardsIgnoreLine
-      echo $urlHelper->ajax();
-        ?>';
-  window.vcvAdminAjaxUrl = '<?php
-      // @codingStandardsIgnoreLine
-      echo $urlHelper->adminAjax();
-        ?>';
-  window.vcvNonce = '<?php echo esc_attr($nonceHelper->admin()); ?>';
-  window.vcvPluginUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>';
-  window.vcvPluginSourceUrl = '<?php echo esc_url(VCV_PLUGIN_URL); ?>' + 'public/sources/';
+  window.vcvAjaxUrl = '<?php echo $urlHelper->ajax() ?>';
+  window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
+  window.vcvNonce = '<?php echo esc_js($nonceHelper->admin()); ?>';
+  window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
+  window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
   window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
-  window.vcvPostPermanentLink = '<?php echo esc_url(get_permalink(get_the_ID())); ?>';
+  window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()); ?>';
     <?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) : ?>
-  window.vcvIsPremium = Boolean(<?php echo esc_attr($licenseHelper->isActivated()); ?>);
-  window.vcvGoPremiumUrl = '<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>&vcv-ref=nav-bar';
-  window.vcvGoPremiumUrlLogo = '<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>';
+  window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
+  window.vcvGoPremiumUrl = '<?php echo admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug())); ?>&vcv-ref=nav-bar';
+  window.vcvGoPremiumUrlLogo = '<?php echo admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug())); ?>';
     <?php endif; ?>
     <?php if (isset($feError) && $feError) : ?>
-  window.vcvFeError = '<?php echo esc_attr($feError); ?>'
+  window.vcvFeError = '<?php echo $feError; ?>'
     <?php endif; ?>
 </script>
 <?php
+// @codingStandardsIgnoreEnd
 $extraOutput = vcfilter('vcv:frontend:body:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {

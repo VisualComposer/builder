@@ -27,8 +27,8 @@ global $status, $page, $s, $totals;
                     <a href="<?php
                     // @codingStandardsIgnoreLine
                     echo wp_nonce_url(
-                        'plugins.php?action=deactivate&amp;plugin=' . VCV_PLUGIN_BASE_NAME . '&amp;plugin_status='
-                        . esc_attr($status) . '&amp;paged=' . esc_attr($page) . '&amp;s=' . esc_attr($s),
+                        'plugins.php?action=deactivate&plugin=' . VCV_PLUGIN_BASE_NAME . '&plugin_status='
+                        . esc_attr($status) . '&paged=' . esc_attr($page) . '&s=' . esc_attr($s),
                         'deactivate-plugin_' . esc_attr(VCV_PLUGIN_BASE_NAME)
                     );
                     ?>" class="vcv-deactivation-submit-button button button-primary"><?php echo esc_html__(

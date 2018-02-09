@@ -36,15 +36,18 @@ $loginCategories = $loginCategoryHelper->all();
             'Your E-mail',
             'vcwb'
         ); ?>" class="vcv-popup-form-input" required="required">
-	    <select class="vcv-popup-form-select vcv-select-light" name="vcv-account-activation-category"  id="vcv-account-login-form-category" required="required">
-		    <option value disabled selected><?php echo esc_html__('Select Your Category', 'vcwb'); ?></option>
+        <select class="vcv-popup-form-select vcv-select-light" name="vcv-account-activation-category" id="vcv-account-login-form-category" required="required">
+            <option value disabled selected><?php echo esc_html__('Select Your Category', 'vcwb'); ?></option>
             <?php foreach ($loginCategories as $key => $loginCategory) { ?>
-			    <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
+                <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
             <?php } ?>
-	    </select>
+        </select>
         <div class="vcv-popup-form-checkbox">
            <span class="vcv-popup-form-checkbox-inner">
-              <input type="checkbox" value="<?php echo esc_attr(time()); ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-agreement" />
+              <input type="checkbox" value="<?php
+              // @codingStandardsIgnoreLine
+              echo time();
+                ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-agreement" />
                 <label for="vcv-account-activation-agreement"></label>
            </span>
             <span class="vcv-popup-form-checkbox-label"><?php printf(
@@ -54,7 +57,7 @@ $loginCategories = $loginCategoryHelper->all();
                     'http://visualcomposer.io/cloud-access-terms'
                 ); ?></span>
         </div>
-        <input type="submit" value="<?php echo esc_html__(
+        <input type="submit" value="<?php echo esc_attr__(
             'Activate Now',
             'vcwb'
         ); ?>" class="vcv-popup-form-submit vcv-popup-button">

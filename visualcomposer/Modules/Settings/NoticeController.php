@@ -61,19 +61,19 @@ class NoticeController extends Container implements Module
                 $class = 'notice notice-' . $notice['type'];
 
                 if ($notice['dismissible']) {
+                    $dismissUrl = $urlHelper->adminAjax(
+                        [
+                            'vcv-action' => 'notice:dismiss:adminNonce',
+                            'vcv-notice-name' => $notice['name'],
+                            'vcv-nonce' => $nonceHelper->admin(),
+                        ]
+                    );
                     printf(
                         '<div class="%1$s"><p>%2$s</p><p><a href="%3$s">%4$s</a></p></div>',
                         esc_attr($class),
                         esc_html($notice['message']),
-                        esc_url(
-                            $urlHelper->adminAjax(
-                                [
-                                    'vcv-action' => 'notice:dismiss:adminNonce',
-                                    'vcv-notice-name' => $notice['name'],
-                                    'vcv-nonce' => $nonceHelper->admin(),
-                                ]
-                            )
-                        ),
+                        // @codingStandardsIgnoreLine
+                        $dismissUrl,
                         esc_html__('Dismiss', 'vcwb')
                     );
                 } else {

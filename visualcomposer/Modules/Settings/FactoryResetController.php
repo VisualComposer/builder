@@ -70,9 +70,10 @@ class FactoryResetController extends Container implements Module
             $linkTitle = __('initiate factory reset', 'vcwb');
             $link = sprintf(
                 '<a href="%s" onclick="return confirm(\'%s\')">%s</a>',
-                esc_url($url),
+                // @codingStandardsIgnoreLine
+                $url,
                 esc_attr($confirm),
-                esc_attr($linkTitle)
+                esc_html($linkTitle)
             );
 
             $sectionDescription = __(

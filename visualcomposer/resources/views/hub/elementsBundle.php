@@ -10,7 +10,8 @@ $time = time();
 foreach ($elements as $key => $element) :
     if (vcfilter('vcv:hub:output:elementBundle', true, ['element' => $key])) : ?>
         <script id="vcv-hub-element-<?php echo esc_attr($key); ?>" src="<?php
-        echo esc_url(set_url_scheme($element['bundlePath']));
+        // @codingStandardsIgnoreLine
+        echo set_url_scheme($element['bundlePath']);
         ?>?v=<?php
         echo VCV_DEBUG ? esc_attr($time) : esc_attr($optionsHelper->get('hubAction:element/' . $key));
         ?>"></script>
