@@ -63,6 +63,17 @@ $(() => {
         iframeDocument.head.appendChild(style)
       }
     }
+    if (vcCake.env('THEME_EDITOR') && vcCake.env('THEME_EDITOR_SIDEBARS')) {
+      const editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
+      if (editorType === 'sidebar') {
+        let style = iframeDocument.createElement('style')
+        style.setAttribute('type', 'text/css')
+        style.innerText = 'body {'
+        style.innerText += 'padding: 0 20px;'
+        style.innerText += '}'
+        iframeDocument.head.appendChild(style)
+      }
+    }
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
     vcCake.env('platform', 'wordpress').start(() => {
       vcCake.env('editor', 'frontend')
