@@ -21,7 +21,7 @@ window.vcv.on('ready', (action, id, options) => {
             innerElements = [].slice.call(innerElements)
             innerElements.forEach(function (innerElement) {
               animateElement(innerElement)
-            });
+            })
           }
         } else {
           let innerSelector = `[data-vce-animate][data-vcv-animate-fieldkey="${innerKey}"]`
@@ -53,7 +53,8 @@ window.vcv.on('ready', (action, id, options) => {
     element.vcvWaypoints = waypointObj
   }
 
-  if (action === 'add' || action === undefined || (action === 'update' && options && (options.changedAttribute === 'animation' || options.changedAttributeType === 'animateDropdown'))) {
+  // TODO refactor if statement, simplify logic
+  if (action === 'add' || action === undefined || (action === 'update' && options && (options.changedAttribute === 'animation' || options.changedAttributeType === 'animateDropdown' || !options.hidden))) {
     let innerKey = ''
     if (action && options && options.changedAttributeType === 'animateDropdown' && options.changedAttribute !== 'animation') {
       innerKey = options.changedAttribute
