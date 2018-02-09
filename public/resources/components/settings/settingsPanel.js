@@ -26,6 +26,7 @@ export default class SettingsPanel extends React.Component {
       content: PageSettings
     })
     if (!env('THEME_EDITOR')) {
+      console.log('theme editor')
       actions.push({
         state: 'pageTemplate',
         getData: 'ui:settings:pageTemplate'
@@ -48,6 +49,20 @@ export default class SettingsPanel extends React.Component {
       actions.push({
         state: 'pageTitleDisabled',
         getData: 'ui:settings:pageTitleDisabled'
+      })
+    }
+    if (env('HFS_TOGGLE_DEFAULT')) {
+      actions.push({
+        state: 'headerDefault',
+        getData: 'ui:settings:headerDefault'
+      })
+      actions.push({
+        state: 'sidebarDefault',
+        getData: 'ui:settings:sidebarDefault'
+      })
+      actions.push({
+        state: 'footerDefault',
+        getData: 'ui:settings:footerDefault'
       })
     }
     actions.push({
