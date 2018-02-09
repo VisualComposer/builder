@@ -176,7 +176,7 @@
   display: inline-block;
   text-decoration: none;
   box-shadow: none;
-  transition: all .2s ease-in-out;
+  transition: all @transition-duration @transition-timing-function;
   cursor: pointer;
 
   &:hover, &:focus {
@@ -228,29 +228,35 @@
   justify-content: center;
   align-items: center;
   margin: 50px 0 0;
-}
 
-.vcv-hfs-start-blank-name-input {
-  width: 50%;
-  border: 1px solid #E1E1E1;
-  box-shadow: none;
-  color: #D1D1D1;
-  font-size: 14px;
-  padding: 14px;
-  letter-spacing: 2px;
-  margin: 0 0 14px;
-}
+  .vcv-hfs-start-blank-name-input {
+    width: 90%;
+    border: 1px solid #E1E1E1;
+    box-shadow: none;
+    color: #D1D1D1;
+    font-size: 14px;
+    padding: 14px;
+    letter-spacing: 2px;
+    margin: 0 0 14px;
+  }
 
-.vcv-hfs-start-blank-start-button {
-  width: 50%;
-  padding: 14px;
-  background: #2A4A82;
-  color: #fff;
-  border: none;
-  text-transform: uppercase;
-  font-weight: 500;
-  letter-spacing: 1px;
-  font-size: 12px;
+  .vcv-hfs-start-blank-start-button {
+    width: 90%;
+    padding: 14px;
+    background: #2A4A82;
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background @transition-duration @transition-timing-function;
+
+    &:hover {
+      background: darken(#2A4A82, 15%);
+    }
+  }
 }
 
 @media screen and (min-width: @vcv-grid-breakpoint-sm-min) {
@@ -264,5 +270,21 @@
 
   .vcv-start-blank-inner {
     padding: @editor-layout-start-blank-spacing-sm;
+  }
+
+  .vcv-hfs-start-blank-container {
+    .vcv-hfs-start-blank-name-input,
+    .vcv-hfs-start-blank-start-button {
+      width: 390px;
+    }
+  }
+}
+
+@media screen and (min-width: @vcv-grid-breakpoint-md-min) {
+  .vcv-hfs-start-blank-container {
+    .vcv-hfs-start-blank-name-input,
+    .vcv-hfs-start-blank-start-button {
+      width: 430px;
+    }
   }
 }
