@@ -115,7 +115,8 @@ export default class startBlank extends React.Component {
 
   getBlankControls () {
     let controls = []
-    if (vcCake.env('THEME_LAYOUTS') && typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
+    // if (vcCake.env('THEME_LAYOUTS') && typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
+    if (vcCake.env('THEME_LAYOUTS') && true) {
       controls = this.getLayoutControls()
     } else {
       controls.push(<BlankControl {...this.getTemplateControlProps('blank')} />)
@@ -184,6 +185,7 @@ export default class startBlank extends React.Component {
       settingsStorage.state('pageTemplate').set(layoutType)
       workspaceIFrame.set({ type: 'reload', template: layoutType })
     }
+    this.props.unmountStartBlank()
   }
 
   /**
