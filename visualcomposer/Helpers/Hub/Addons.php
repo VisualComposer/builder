@@ -65,4 +65,10 @@ class Addons implements Helper
     {
         return VCV_PLUGIN_ASSETS_DIR_PATH . '/addons/' . ltrim($key, '\\/');
     }
+
+    public function getAddonUrl($key = '')
+    {
+        return VCV_ENV_DEV_ADDONS ? VCV_PLUGIN_URL . 'devAddons/' . ltrim($key, '\\/') . '/' . ltrim($key, '\\/')
+            : content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/addons/' . ltrim($key, '\\/');
+    }
 }
