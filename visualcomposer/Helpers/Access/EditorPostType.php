@@ -23,6 +23,6 @@ class EditorPostType implements Helper
         $optionsHelper = vchelper('Options');
         $postTypes = $optionsHelper->get('post-types', ['post', 'page']);
 
-        return (array)vcfilter('vcv:helpers:access:editorPostType', $postTypes);
+        return (array)vcfilter('vcv:helpers:access:editorPostType', empty($postTypes) ? [] : (array)$postTypes);
     }
 }

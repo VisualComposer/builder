@@ -207,7 +207,6 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'pageTitleDisableDescription' => __('Disable page title', 'vcwb'),
-            'setDefault' => __('Set default', 'vcwb'),
             'successElementDownload' => __(
                 '{name} has been successfully downloaded from the Visual Composer Hub and added to your library',
                 'vcwb'

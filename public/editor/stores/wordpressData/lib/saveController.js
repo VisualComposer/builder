@@ -100,10 +100,6 @@ export default class SaveController {
         let extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
         requestData[ 'vcv-extra' ] = extraRequestData
       }
-      if (vcCake.env('THEME_EDITOR') && vcCake.env('HFS_TOGGLE_DEFAULT')) {
-        let hfsType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : null
-        hfsType && (requestData[ 'vcv-page-hfs-default' ] = settingsStorage.state(`${hfsType}Default`).get())
-      }
       this.ajax(
         requestData,
         this.saveSuccess.bind(this, status),
