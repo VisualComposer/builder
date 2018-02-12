@@ -10,7 +10,7 @@ export default class HfsPanelContent extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputValue: ''
+      inputValue: props.value || ''
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -18,11 +18,7 @@ export default class HfsPanelContent extends React.Component {
 
   handleClick (e) {
     e && e.preventDefault()
-    let data = {
-      type: this.props.type,
-      value: this.state.inputValue
-    }
-    this.props.addClick(data)
+    this.props.addClick(this.state.inputValue)
   }
 
   handleChange (e) {
@@ -31,7 +27,8 @@ export default class HfsPanelContent extends React.Component {
   }
 
   render () {
-    const placeholder = `Your ${this.props.type} Name Goes Here`
+    const { inputValue } = this.state
+    const placeholder = `${this.props.type} Name`
 
     return <div className='vcv-hfs-start-blank-container'>
       <input
@@ -39,6 +36,7 @@ export default class HfsPanelContent extends React.Component {
         type='text'
         placeholder={placeholder}
         onChange={this.handleChange}
+        value={inputValue || ''}
       />
       <button
         className='vcv-hfs-start-blank-start-button'
