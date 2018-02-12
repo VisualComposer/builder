@@ -122,8 +122,7 @@ export default class startBlank extends React.Component {
 
   getBlankControls () {
     let controls = []
-    // if (vcCake.env('THEME_LAYOUTS') && typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
-    if (vcCake.env('THEME_LAYOUTS') && true) {
+    if (vcCake.env('THEME_LAYOUTS') && typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
       controls = this.getLayoutControls()
     } else {
       controls.push(<BlankControl {...this.getTemplateControlProps('blank')} />)
