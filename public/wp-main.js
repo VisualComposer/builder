@@ -113,9 +113,9 @@ $(() => {
       require('./config/wp-modules')
     })
     vcCake.env('iframe', iframe)
-    if (vcCake.env('IFRAME_RELOAD')) {
+    if (vcCake.env('IFRAME_RELOAD') && $iframe && $iframe.get(0).contentWindow) {
       const settingsStorage = vcCake.getStorage('settings')
-      $iframe.get(0).contentWindow.onunload = function (e) {
+      $iframe.get(0).contentWindow.onunload = function () {
         let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
         if (!vcCake.env('THEME_EDITOR') && vcCake.env('THEME_LAYOUTS')) {
           let lastSavedPageTemplate = window.vcvLastLoadedPageTemplate = settingsStorage.state('pageTemplate').get()
