@@ -116,7 +116,8 @@ vcCake.add('contentModernLayout', (api) => {
       reload ? controls.updateIframeVariables() : controls.init()
       if (vcCake.env('THEME_LAYOUTS')) {
         iframeWindow.document.querySelectorAll('[data-vcv-layout-zone]').forEach((zone) => {
-          zone.addEventListener('click', () => {
+          let zoneButton = zone.querySelector('.vcv-zone-button')
+          zoneButton && zoneButton.addEventListener('click', () => {
             if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
               workspaceStorage.state('content').set('settings')
               if (vcCake.env('HUB_REDESIGN')) {

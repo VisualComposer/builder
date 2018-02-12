@@ -1,22 +1,47 @@
 [data-vcv-layout-zone] {
-  cursor: pointer;
   position: relative;
-  &:after {
-    content: "Click to change";
-    display: none;
-    font-size: 1em;
-    text-align: center;
+  min-height: 40px;
+
+  .vcv-zone-overlay {
     position: absolute;
-    padding: 10px;
     top: 0;
+    left: 0;
     right: 0;
     bottom: 0;
-    left: 0;
-    color: #FFF;
-    background-color: rgba(0,0,0,0.1);
-    text-shadow: 0px 0px 2px #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background .2s;
+
+    &:hover {
+      background: @zone-overlay-background;
+
+      .vcv-zone-button {
+        opacity: 1;
+      }
+    }
   }
-  &:hover:after {
-    display: block;
+
+  .vcv-zone-button {
+    opacity: 0;
+    background: @zone-button-background;
+    color: @zone-button-color;
+    transition: opacity .2s, background .2s;
+    font-size: @zone-button-font-size;
+    border: 0;
+    border-radius: @zone-button-border-radius;
+    padding: 8px 20px;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      background-color: @zone-button-hover-background;
+    }
+
+    .vcv-ui-icon {
+      margin-right: 14px;
+    }
   }
 }
