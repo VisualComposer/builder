@@ -49,27 +49,41 @@ $(() => {
       if (mobileDetect.mobile() && mobileDetect.os() === 'iOS') {
         let style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
-        style.innerText = 'html, body {'
-        style.innerText += 'height: 100%;'
-        style.innerText += 'width: 100vw;'
-        style.innerText += 'overflow: auto;'
-        style.innerText += '-webkit-overflow-scrolling: touch;'
-        style.innerText += '-webkit-user-select: none;'
-        style.innerText += 'user-select: none;'
-        style.innerText += '}'
-        style.innerText += 'a[href] {'
-        style.innerText += '-webkit-touch-callout: none !important;'
-        style.innerText += '}'
+        style.innerText = `
+        html, body {
+          height: 100%;
+          width: 100vw;
+          overflow: auto;
+          -webkit-overflow-scrolling: touch;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+        a[href] {
+          -webkit-touch-callout: none !important;
+        }`
         iframeDocument.head.appendChild(style)
       }
     }
-    if (vcCake.env('THEME_EDITOR') && vcCake.env('THEME_EDITOR_SIDEBARS')) {
+    if (vcCake.env('THEME_EDITOR')) {
       const editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
-      if (editorType === 'sidebar') {
+      if (editorType === 'sidebar' && vcCake.env('THEME_EDITOR_SIDEBARS')) {
         let style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
         style.innerText = 'body {'
         style.innerText += 'padding: 0 20px;'
+        style.innerText += '}'
+        iframeDocument.head.appendChild(style)
+      }
+      if ((editorType === 'header' || editorType === 'footer') && vcCake.env('THEME_EDITOR_HF')) {
+        let style = iframeDocument.createElement('style')
+        style.setAttribute('type', 'text/css')
+        style.innerText = 'html {'
+        style.innerText += 'display: flex;'
+        style.innerText += 'min-height: 100%;'
+        style.innerText += 'flex-direction: column;'
+        style.innerText += 'justify-content: center;'
+        style.innerText += 'background: #292929;'
+        style.innerText += 'overflow-x: hidden;'
         style.innerText += '}'
         iframeDocument.head.appendChild(style)
       }

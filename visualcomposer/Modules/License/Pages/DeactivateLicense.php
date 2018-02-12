@@ -66,7 +66,8 @@ class DeactivateLicense extends Container /*implements Module*/
             $deactivatePremiumTitle = __('Visual Composer account', 'vcwb');
             $deactivatePremium = sprintf(
                 '<a href="%s">%s</a>',
-                esc_url($deactivatePremiumUrl),
+                // @codingStandardsIgnoreStart
+                $deactivatePremiumUrl,
                 esc_html($deactivatePremiumTitle)
             );
 

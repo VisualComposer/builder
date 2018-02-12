@@ -66,6 +66,7 @@ declare -a arr=(
 'woocommerceCart'
 'woocommerceBestSellingProducts'
 'woocommerceAddToCart'
+'woocommerceProducts32'
 'tab'
 'tabsWithSlide'
 'simpleImageSlider'

@@ -10,5 +10,5 @@ if (!defined('ABSPATH')) {
 <script id="vcv-<?php echo esc_attr(vchelper('Str')->slugify($key)); ?>">
   // Write-able data
   // @codingStandardsIgnoreLine
-  window.<?php echo esc_attr($key); ?> = <?php echo json_encode($value); ?>;
+  window.<?php echo esc_js($key); ?> = <?php echo json_encode($value); ?>;
 </script>

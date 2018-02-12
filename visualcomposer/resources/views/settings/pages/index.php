@@ -23,7 +23,6 @@ if (!defined('ABSPATH')) {
     <?php do_settings_sections($slug) ?>
 
     <?php
-
     $submitButtonAttributes = [];
     $submitButtonAttributes = apply_filters(
         'vcv:template:settings:settings-tab-submit-button-attributes',
@@ -35,7 +34,6 @@ if (!defined('ABSPATH')) {
         $submitButtonAttributes,
         $slug
     );
-
     ?>
 
     <?php submit_button(__('Save Changes', 'vcwb'), 'primary', 'submit_btn', true, $submitButtonAttributes) ?>

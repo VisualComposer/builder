@@ -44,12 +44,18 @@ $currentUserHelper = vchelper('AccessCurrentUser');
         <div class="vcv-button-container">
             <?php if ($currentUserHelper->wpAll('edit_pages')->get()
                 && $editorPostTypeHelper->isEditorEnabled('page')) : ?>
-		        <a href="<?php echo esc_url(vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend')); ?>" class="vcv-popup-button vcv-popup-last-screen-button">
+		        <a href="<?php
+                // @codingStandardsIgnoreLine
+                echo vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend');
+                ?>" class="vcv-popup-button vcv-popup-last-screen-button">
 			        <span><?php echo esc_html__('Create a blank page', 'vcwb'); ?></span>
 		        </a>
             <?php elseif ($currentUserHelper->wpAll('edit_posts')->get()
                 && $editorPostTypeHelper->isEditorEnabled('post')) : ?>
-		        <a href="<?php echo esc_url(vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend')); ?>" class="vcv-popup-button vcv-popup-last-screen-button">
+		        <a href="<?php
+                // @codingStandardsIgnoreLine
+                echo vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend');
+                ?>" class="vcv-popup-button vcv-popup-last-screen-button">
 			        <span><?php echo esc_html__('Create a blank post', 'vcwb'); ?></span>
 		        </a>
             <?php endif; ?>
@@ -70,7 +76,7 @@ $currentUserHelper = vchelper('AccessCurrentUser');
                     'Visual Composer Website Builder - now I can build any #WordPress site fast and easy!',
                     'vcwb'
                 ); ?>"
-                data-url="http://visualcomposer.io"
+                data-url="https://visualcomposer.io"
                 data-size="large">Tweet</a>
             <script>!function (d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[ 0 ], p = /^http:/.test(d.location) ? 'http' : 'https';

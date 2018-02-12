@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 ?>
 <script id="vcv-<?php echo esc_attr(vchelper('Str')->slugify($key)); ?>">
   // Read-Only data
-  Object.defineProperty(window, '<?php echo esc_attr($key); ?>', {
+  Object.defineProperty(window, '<?php echo esc_js($key); ?>', {
     value: function () {
       // @codingStandardsIgnoreLine
       return <?php echo json_encode($value); ?> },
