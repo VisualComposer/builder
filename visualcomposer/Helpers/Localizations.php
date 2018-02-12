@@ -82,6 +82,8 @@ class Localizations extends Container implements Helper
             'templateRemoveFailed' => __('Failed to remove template', 'vcwb'),
             'blankPageHeadingPart1' => __('Select Blank Page', 'vcwb'),
             'blankPageHeadingPart2' => __('or Start With a template', 'vcwb'),
+            'blankPageTitleHeadingPart1' => __('Name Your ', 'vcwb'),
+            'blankPageTitleHeadingPart2' => __('and Start Building', 'vcwb'),
             'blankPageHelperText' => __(
             // @codingStandardsIgnoreLine
                 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more.',
@@ -205,7 +207,6 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'pageTitleDisableDescription' => __('Disable page title', 'vcwb'),
-            'setDefault' => __('Set default', 'vcwb'),
             'successElementDownload' => __(
                 '{name} has been successfully downloaded from the Visual Composer Hub and added to your library',
                 'vcwb'

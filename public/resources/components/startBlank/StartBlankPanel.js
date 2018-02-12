@@ -37,6 +37,7 @@ export default class startBlank extends React.Component {
     this.setControlsLayout = this.setControlsLayout.bind(this)
     this.handleControlClick = this.handleControlClick.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
+    this.handlePageNameClick = this.handlePageNameClick.bind(this)
   }
 
   componentDidMount () {
@@ -72,12 +73,18 @@ export default class startBlank extends React.Component {
 
   handleControlClick (props) {
     const { blank, data } = props
-    if (vcCake.env('HFS_START_PAGE') && this.props.type) {
-      console.log(this.props)
-    } else if (!blank) {
+    if (!blank) {
       elementsStorage.trigger('merge', data)
     }
     this.handleCloseClick(blank)
+  }
+
+  handlePageNameClick (value) {
+    if (vcCake.env('HFS_START_PAGE') && value) {
+      console.log(value)
+      settingsStorage.state('pageTitle').set(value)
+    }
+    this.handleCloseClick(true)
   }
 
   handleCloseClick (blank) {
@@ -284,16 +291,23 @@ export default class startBlank extends React.Component {
     }
     let startBlankContent
     if (vcCake.env('HFS_START_PAGE') && window.VCV_EDITOR_TYPE) {
+      premium = null
       let type = window.VCV_EDITOR_TYPE()
       type = type.charAt(0).toUpperCase() + type.slice(1)
-      headingPart1 = `Name Your ${type}`
-      headingPart2 = 'and Proceed to the Builder'
-      startBlankContent = () => { return <HfsPanelContent type={type} addClick={this.handleControlClick} /> }
+      headingPart1 = `${localizations ? localizations.blankPageTitleHeadingPart1 : 'Name Your '} ${type}`
+      headingPart2 = localizations ? localizations.blankPageTitleHeadingPart2 : 'and Start Building'
+      startBlankContent = (
+        <HfsPanelContent
+          type={type}
+          addClick={this.handlePageNameClick}
+          value={settingsStorage.state('pageTitle').get()}
+        />
+      )
     } else {
       headingPart1 = localizations ? localizations.blankPageHeadingPart1 : 'Select Blank Page'
       headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'or Start With a template'
-      startBlankContent = () => {
-        return <div className={startBlankControlsClasses}>
+      startBlankContent = (
+        <div className={startBlankControlsClasses}>
           <div
             className='vcv-start-blank-item-list-container'
             ref={(container) => { this.rowContainer = container }}
@@ -307,7 +321,7 @@ export default class startBlank extends React.Component {
             </ul>
           </div>
         </div>
-      }
+      )
     }
 
     return (
@@ -318,7 +332,7 @@ export default class startBlank extends React.Component {
               <div className='vcv-start-blank-page-heading'>{headingPart1}</div>
               <div className='vcv-start-blank-page-heading'>{headingPart2}</div>
             </div>
-            {startBlankContent()}
+            {startBlankContent}
             {premium}
           </div>
         </div>

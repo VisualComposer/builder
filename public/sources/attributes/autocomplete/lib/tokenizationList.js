@@ -267,7 +267,7 @@ export default class TokenizationList extends React.Component {
       if (valueCopy.length > 0) {
         this.props.onChange(valueCopy[ valueCopy.length - 1 ].trim())
       } else {
-        this.props.onChange([])
+        this.props.onChange('')
       }
     } else {
       this.props.onChange(valueCopy)
