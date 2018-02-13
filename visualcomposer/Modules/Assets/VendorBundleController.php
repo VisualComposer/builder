@@ -68,6 +68,18 @@ class VendorBundleController extends Container implements Module
             VCV_VERSION,
             true
         );
+        wp_register_style(
+            'vcv:assets:front:style',
+            vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
+                ?
+                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/front.bundle.css'
+                :
+                $urlHelper->to(
+                    'public/dist/front.bundle.css'
+                ),
+            [],
+            VCV_VERSION
+        );
     }
 
     protected function addVendorScript($response, $payload, Url $urlHelper)
@@ -94,6 +106,7 @@ class VendorBundleController extends Container implements Module
 
     protected function enqueueVendorFrontScripts()
     {
+        wp_enqueue_style('vcv:assets:front:style');
         wp_enqueue_script('jquery'); // Required for 3-rd elements libraries
         wp_enqueue_script('vcv:assets:vendor:script');
         wp_enqueue_script('vcv:assets:front:script');
