@@ -1,5 +1,6 @@
 <?php
 
+
 namespace VisualComposer\Helpers;
 
 if (!defined('ABSPATH')) {
@@ -281,6 +282,7 @@ class Str implements Helper
     {
         $str = $lower ? strtolower($str) : $str;
         $str = html_entity_decode($str);
+        $str = preg_replace('/[\-]+/', ' ', $str);
         $str = preg_replace('/[^\w\s]+/', '', $str);
         $str = preg_replace('/\s+/', '-', $str);
 

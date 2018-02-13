@@ -17,17 +17,19 @@ class JsEnqueueController extends Container implements Module
 {
     use WpFiltersActions;
 
+    protected $globalJSAdded = false;
+
     public function __construct()
     {
         if (vcvenv('VCV_TF_JS_SETTINGS')) {
             $actionPriority = 60;
             $requestHelper = vchelper('Request');
             if ($requestHelper->input('preview', '') === 'true') {
-                $this->wpAddAction('wp_footer', 'enqueuePreviewJs', $actionPriority);
+                $this->wpAddAction('wp_print_footer_scripts', 'enqueuePreviewJs', $actionPriority);
 
                 return;
             }
-            $this->wpAddAction('wp_footer', 'enqueueJs', $actionPriority);
+            $this->wpAddAction('wp_print_footer_scripts', 'enqueueJs', $actionPriority);
         }
     }
 
@@ -40,7 +42,7 @@ class JsEnqueueController extends Container implements Module
         $globalJs = get_post_meta($sourceId, 'vcv-preview-settingsGlobalJs', true);
         $localJs = get_post_meta($sourceId, 'vcv-preview-settingsLocalJs', true);
 
-        $this->printJs($globalJs, $localJs, 'preview');
+        $this->printJs($globalJs, $localJs, 'preview' . $sourceId);
     }
 
     /**
@@ -54,7 +56,7 @@ class JsEnqueueController extends Container implements Module
         $globalJs = $optionsHelper->get('settingsGlobalJs');
         $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJs', true);
 
-        $this->printJs($globalJs, $localJs);
+        $this->printJs($globalJs, $localJs, $sourceId);
     }
 
     /**
@@ -66,11 +68,12 @@ class JsEnqueueController extends Container implements Module
     {
         $frontendHelper = vchelper('Frontend');
         if (!$frontendHelper->isPageEditable()) {
-            if (!empty($globalJs)) {
+            if (!empty($globalJs) && !$this->globalJSAdded) {
+                $this->globalJSAdded = true;
                 evcview(
                     'partials/script',
                     [
-                        'key' => $prefix . 'global-js',
+                        'key' => $prefix . '-global-js',
                         'value' => $globalJs,
                     ]
                 );
@@ -79,7 +82,7 @@ class JsEnqueueController extends Container implements Module
                 evcview(
                     'partials/script',
                     [
-                        'key' => $prefix . 'local-js',
+                        'key' => $prefix . '-local-js',
                         'value' => $localJs,
                     ]
                 );
