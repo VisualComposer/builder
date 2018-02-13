@@ -113,15 +113,22 @@ const API = {
 
     return request
   },
-  normalizeHtml (data) {
-    data = data
-      .replace(/\s*\bdata-vcv-[^"]+"[^"]+"+/g, '')
-      .replace(/<!\-\-\[vcvSourceHtml]/g, '')
-      .replace(/\[\/vcvSourceHtml]\-\->/g, '')
+  normalizeHtml (data, recursive) {
+    if (!recursive) {
+      data = data
+        .replace(/\s*\bdata-vcv-[^"]+"[^"]+"+/g, '')
+        .replace(/<!\-\-\[vcvSourceHtml]/g, '')
+        .replace(/\[\/vcvSourceHtml]\-\->/g, '')
+    }
     // .replace(/&quot;/g, "'")
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(data)
-    let vcvHelper = documentFragment.querySelectorAll('vcvhelper')
+    let vcvHelper
+    if (recursive) {
+      vcvHelper = documentFragment.querySelectorAll('vcvhelper')
+    } else {
+      vcvHelper = documentFragment.querySelectorAll('.vcvhelper')
+    }
     vcvHelper = [].slice.call(vcvHelper)
     vcvHelper.forEach((node) => {
       let parentNode = node.parentNode
@@ -153,7 +160,11 @@ const API = {
       })
     }
 
-    return html
+    if (recursive) {
+      return html
+    } else {
+      return this.normalizeHtml(html, true)
+    }
   },
   slugify (str) {
     return str.toString().toLowerCase()
