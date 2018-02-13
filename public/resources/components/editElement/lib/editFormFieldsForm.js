@@ -2,7 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
 import EditFormSection from './editFormSection'
+import EditFormReplaceElement from './editFormReplaceElement'
 import PropTypes from 'prop-types'
+import { env } from 'vc-cake'
 
 export default class EditFormFieldsForm extends React.Component {
   static propTypes = {
@@ -45,7 +47,16 @@ export default class EditFormFieldsForm extends React.Component {
       'vcv-ui-state--active': true
     }, `vcv-ui-editor-plate-${activeTab.key}`)
 
+    let replaceElement = null
+
+    if (env('REPLACE_ELEMENTS')) {
+      replaceElement = (
+        <EditFormReplaceElement {...this.props} />
+      )
+    }
+
     return <div className={plateClass}>
+      {replaceElement}
       {this.getAccordionSections()}
     </div>
   }
