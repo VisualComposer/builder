@@ -12,7 +12,7 @@ export default class EditFormReplaceElement extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isActive: false,
+      isActive: true,
       sectionDependenciesClasses: []
     }
     this.toggleSection = this.toggleSection.bind(this)
@@ -68,7 +68,7 @@ export default class EditFormReplaceElement extends React.Component {
     let category = hubCategoriesService.getElementCategoryName(tag) || ''
     let options = {
       category: category || '*',
-      elementLabel: category.toLowerCase() || 'element'
+      elementLabel: element.getName() || category.toLowerCase() || 'element'
     }
 
     let categorySettings = hubCategoriesService.get(category)

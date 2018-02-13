@@ -79,8 +79,8 @@ export default class ElementAttribute extends React.Component {
     const { showReplacements } = this.state
     let replacements = ''
     let categorySettings = hubCategoriesService.get(category)
-    // const localizations = window.VCV_I18N && window.VCV_I18N()
-    const replaceElementText = 'Replace current element with different element from the same category'
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const replaceElementText = localizations && localizations.replaceElementEditForm || 'Replace current element with different element from the same category'
 
     if (categorySettings && showReplacements) {
       let replacementItemsOutput = this.getReplacements(categorySettings)

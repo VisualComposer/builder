@@ -56,8 +56,8 @@ export default class EditFormFieldsForm extends React.Component {
     }
 
     return <div className={plateClass}>
-      {replaceElement}
       {this.getAccordionSections()}
+      {replaceElement}
     </div>
   }
 }
