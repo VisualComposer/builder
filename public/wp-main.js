@@ -113,12 +113,31 @@ $(() => {
       require('./config/wp-modules')
     })
     vcCake.env('iframe', iframe)
-    if (vcCake.env('IFRAME_RELOAD')) {
-      $iframe.get(0).contentWindow.onunload = function (e) {
+    if (vcCake.env('IFRAME_RELOAD') && $iframe && $iframe.get(0).contentWindow) {
+      const settingsStorage = vcCake.getStorage('settings')
+      $iframe.get(0).contentWindow.onunload = function () {
         let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
-        let lastSavedPageTemplate = vcCake.getStorage('settings').state('pageTemplate').get() || lastLoadedPageTemplate
-        window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
-        vcCake.getStorage('workspace').state('iframe').set({ type: 'reload', template: lastSavedPageTemplate })
+        if (!vcCake.env('THEME_EDITOR') && vcCake.env('THEME_LAYOUTS')) {
+          let lastSavedPageTemplate = window.vcvLastLoadedPageTemplate = settingsStorage.state('pageTemplate').get()
+          let lastSavedHeaderTemplate = window.vcvLastLoadedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+          let lastSavedSidebarTemplate = window.vcvLastLoadedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
+          let lastSavedFooterTemplate = window.vcvLastLoadedFooterTemplate = settingsStorage.state('footerTemplate').get()
+          vcCake.getStorage('workspace').state('iframe').set({
+            type: 'reload',
+            template: lastSavedPageTemplate,
+            header: lastSavedHeaderTemplate,
+            sidebar: lastSavedSidebarTemplate,
+            footer: lastSavedFooterTemplate
+          })
+        } else {
+          let lastSavedPageTemplate = vcCake.getStorage('settings').state('pageTemplate').get() || lastLoadedPageTemplate
+          window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+          vcCake.getStorage('workspace').state('iframe').set({
+            type: 'reload',
+            template: lastSavedPageTemplate
+          })
+        }
+        settingsStorage.state('skipBlank').set(true)
         isIframeLoaded = false
       }
     }

@@ -52,6 +52,12 @@ const API = {
     }
 
     return category && category.icon ? category.icon : ''
+  },
+  getElementCategoryName: (tag) => {
+    return Object.keys(window.VCV_HUB_GET_CATEGORIES()).find((cat) => {
+      let category = window.VCV_HUB_GET_CATEGORIES()[ cat ]
+      return category.elements && category.elements.includes(tag)
+    })
   }
 }
 
