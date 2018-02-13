@@ -31,6 +31,7 @@ export default class PagePanelContent extends React.Component {
       templates: templateManager.predefined()
     }
     this.handleControlClick = this.handleControlClick.bind(this)
+    this.setControlsLayout = this.setControlsLayout.bind(this)
   }
 
   componentDidMount () {

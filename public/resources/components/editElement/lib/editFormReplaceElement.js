@@ -25,7 +25,7 @@ export default class EditFormReplaceElement extends React.Component {
   }
 
   handleReplaceElement (tag) {
-    const id = this.props.element.get('id')
+    const id = this.previousElementId = this.props.element.get('id')
     let editFormTabSettings = this.props.element.settings('editFormTab1')
     let currentElementAttributes = [
       ...(editFormTabSettings && editFormTabSettings.settings && editFormTabSettings.settings.value),
@@ -37,21 +37,22 @@ export default class EditFormReplaceElement extends React.Component {
     currentElementAttributes.forEach(key => {
       replaceElementMergeData[ key ] = this.props.element.get(key)
     })
-    elementsStorage.trigger('remove', id)
-    elementsStorage.state('elementAdd').onChange(this.openEditFormOnReplace)
-    elementsStorage.trigger('add', replaceElementMergeData, true, { insertAfter: false })
+    elementsStorage.state('elementReplace').onChange(this.openEditFormOnReplace)
+    elementsStorage.trigger('replace', id, replaceElementMergeData)
   }
 
-  openEditFormOnReplace (data) {
-    elementsStorage.state('elementAdd').ignoreChange(this.openEditFormOnReplace)
-    if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.set(false)
+  openEditFormOnReplace ({ id, data }) {
+    if (id === this.previousElementId) {
+      elementsStorage.state('elementReplace').ignoreChange(this.openEditFormOnReplace)
+      if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
+        workspaceContentState.set(false)
+      }
+      let settings = workspaceStorage.state('settings').get()
+      if (settings && settings.action === 'edit') {
+        workspaceStorage.state('settings').set(false)
+      }
+      workspaceStorage.trigger('edit', data.id, data.tag, { insertAfter: false })
     }
-    let settings = workspaceStorage.state('settings').get()
-    if (settings && settings.action === 'edit') {
-      workspaceStorage.state('settings').set(false)
-    }
-    workspaceStorage.trigger('edit', data.id, data.tag, { insertAfter: false })
   }
 
   render () {
