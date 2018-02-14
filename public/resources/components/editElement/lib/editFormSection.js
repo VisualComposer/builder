@@ -131,7 +131,7 @@ export default class EditFormSection extends React.Component {
 
     let replaceElement = null
 
-    if (vcCake.env('REPLACE_ELEMENTS')) {
+    if (vcCake.env('REPLACE_ELEMENTS') && tab.fieldKey === 'editFormTab1') {
       replaceElement = (
         <EditFormReplaceElement {...this.props} />
       )
