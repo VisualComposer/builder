@@ -24,6 +24,10 @@
   }
 
   .vcv-zone-button {
+    position: -webkit-sticky;
+    position: sticky;
+    top: @zone-sticky-button-offset;
+    bottom: @zone-sticky-button-offset;
     opacity: 0;
     background: @zone-button-background;
     color: @zone-button-color;
@@ -32,6 +36,8 @@
     border: 0;
     border-radius: @zone-button-border-radius;
     padding: 8px 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
 
     &:focus {
       outline: none;
