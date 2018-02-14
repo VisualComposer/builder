@@ -32,14 +32,16 @@ export default class Categories extends React.Component {
         inputValue: '',
         isSearching: '',
         centered: false,
-        filterType: 'all'
+        filterType: 'all',
+        focusedElement: null
       }
     } else {
       this.state = {
         activeCategoryIndex: 0,
         inputValue: '',
         isSearching: '',
-        centered: false
+        centered: false,
+        focusedElement: null
       }
     }
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
@@ -49,6 +51,7 @@ export default class Categories extends React.Component {
     this.applyFirstElement = this.applyFirstElement.bind(this)
     this.addElement = this.addElement.bind(this)
     this.openEditForm = this.openEditForm.bind(this)
+    this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
     if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
       hubElementsStorage.state('elements').onChange(this.reset)
@@ -206,6 +209,9 @@ export default class Categories extends React.Component {
       workspace={workspaceStorage.state('settings').get() || {}}
       name={element.get('name')}
       addElement={this.addElement}
+      setFocusedElement={this.setFocusedElement}
+      applyFirstElement={this.applyFirstElement}
+
     />
   }
 
@@ -281,9 +287,10 @@ export default class Categories extends React.Component {
   }
 
   applyFirstElement () {
-    const { searchResults } = this.state
-    if (this.isSearching() && searchResults && searchResults.length) {
-      this.addElement(searchResults[0].tag)
+    const { searchResults, focusedElement } = this.state
+    if ((searchResults && searchResults.length) || focusedElement) {
+      let tag = focusedElement || searchResults[0].tag
+      this.addElement(tag)
     }
   }
 
@@ -306,6 +313,10 @@ export default class Categories extends React.Component {
       workspaceStorage.trigger('edit', this.addedId, '')
       this.iframeWindow.vcv.off('ready', this.openEditForm)
     }
+  }
+
+  setFocusedElement (tag) {
+    this.setState({ focusedElement: tag })
   }
 
   render () {
