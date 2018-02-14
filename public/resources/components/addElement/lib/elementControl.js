@@ -16,7 +16,9 @@ export default class ElementControl extends React.Component {
     tag: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     element: PropTypes.object.isRequired,
-    addElement: PropTypes.func.isRequired
+    addElement: PropTypes.func.isRequired,
+    setFocusedElement: PropTypes.func.isRequired,
+    applyFirstElement: PropTypes.func.isRequired
   }
 
   helper = null
@@ -43,6 +45,8 @@ export default class ElementControl extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.initDrag = this.initDrag.bind(this)
     this.handleDragStateChange = this.handleDragStateChange.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
   }
 
   componentDidMount () {
@@ -337,6 +341,18 @@ export default class ElementControl extends React.Component {
     }
   }
 
+  handleFocus (e) {
+    e && e.preventDefault()
+    this.props.setFocusedElement(this.props.tag)
+  }
+
+  handleKeyPress (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      this.props.applyFirstElement()
+    }
+  }
+
   render () {
     let { name, element } = this.props
     let { previewVisible, previewStyle } = this.state
@@ -374,7 +390,11 @@ export default class ElementControl extends React.Component {
           onMouseLeave={this.hidePreview}
           onMouseDown={this.handleMouseDown}
           onMouseUp={this.handleMouseUp}
-          title={name}>
+          onFocus={this.handleFocus}
+          onKeyPress={this.handleKeyPress}
+          title={name}
+          tabIndex={0}
+        >
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
               alt={name} />
