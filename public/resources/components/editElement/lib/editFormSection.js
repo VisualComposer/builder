@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
 import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
+import EditFormReplaceElement from './editFormReplaceElement'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
@@ -128,6 +129,14 @@ export default class EditFormSection extends React.Component {
     }, sectionDependenciesClasses)
     let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
 
+    let replaceElement = null
+
+    if (vcCake.env('REPLACE_ELEMENTS')) {
+      replaceElement = (
+        <EditFormReplaceElement {...this.props} />
+      )
+    }
+
     return <div
       className={sectionClasses}
       key={tab.key}
@@ -141,6 +150,7 @@ export default class EditFormSection extends React.Component {
         {tabTitle}
       </div>
       <form className='vcv-ui-edit-form-section-content'>
+        {replaceElement}
         {this.getSectionFormFields(tab.params)}
       </form>
     </div>
