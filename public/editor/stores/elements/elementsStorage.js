@@ -39,7 +39,7 @@ addStorage('elements', (storage) => {
       if (!cookElement) {
         delete newData[ key ]
       } else {
-        newData[key] = recursiveElementsRebuild(cookElement)
+        newData[ key ] = recursiveElementsRebuild(cookElement)
       }
     })
     return newData
@@ -301,5 +301,55 @@ addStorage('elements', (storage) => {
   storage.on('updateAll', (data) => {
     documentManager.reset(sanitizeData(data))
     storage.state('document').set(documentManager.children(false), data)
+  })
+  storage.on('replace', (id, elementData, options = {}) => {
+    let element = documentManager.get(id)
+    if (!element) {
+      return
+    }
+    let createdElements = []
+    let cookElement = cook.get(elementData)
+    if (!cookElement) {
+      return
+    }
+
+    elementData = recursiveElementsRebuild(cookElement)
+    let data = documentManager.create(elementData, {
+      insertAfter: false
+    })
+    createdElements.push(data.id)
+
+    let containerTags = [ 'tabsWithSlide', 'classicTabs', 'classicAccordion', 'pageableContainer' ]
+    let children = documentManager.children(id)
+    if (cookElement.containerFor() && containerTags.includes(cookElement.get('tag'))) {
+      let childTag = cookElement.settings('containerFor').settings && cookElement.settings('containerFor').settings.options && cookElement.settings('containerFor').settings.options.elementDependencies && cookElement.settings('containerFor').settings.options.elementDependencies.tag
+      if (children && childTag) {
+        children.forEach(child => {
+          let childId = child.id
+          let editFormTabSettings = child.editFormTab1 || []
+          let replaceElementMergeData = {
+            tag: childTag,
+            parent: cookElement.get('id')
+          }
+          editFormTabSettings.forEach(key => {
+            replaceElementMergeData[ key ] = child[ key ]
+          })
+          storage.trigger('replace', childId, replaceElementMergeData)
+        })
+      }
+    } else if (children) {
+      children.forEach(child => {
+        documentManager.appendTo(child.id, cookElement.get('id'))
+      })
+    }
+
+    documentManager.delete(id)
+    storage.state(`element:${id}`).delete()
+
+    if (!options.silent) {
+      storage.state('elementReplace').set({ id, data })
+      storage.state('document').set(documentManager.children(false))
+      updateTimeMachine()
+    }
   })
 })

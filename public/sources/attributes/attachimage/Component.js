@@ -63,11 +63,17 @@ export default class AttachImage extends Attribute {
       value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
     } else if (lodash.isArray(value)) {
       if (value.length > 0) {
+        let ids = []
         let urls = []
         value.forEach((url) => {
-          urls.push({ full: url })
+          ids.push(url.id)
+          if (url.full) {
+            urls.push(url)
+          } else {
+            urls.push({ full: url })
+          }
         })
-        value = { ids: [ null ], urls: urls }
+        value = { ids: ids, urls: urls }
       } else {
         value = { ids: [], urls: [] }
       }

@@ -232,6 +232,10 @@ class Localizations extends Container implements Helper
                 'You can replace the {elementLabel} within this element with another {elementLabel} from your elements',
                 'vcwb'
             ),
+            'replaceElementEditForm' => __(
+                'Replace current element with different element from the same category',
+                'vcwb'
+            ),
             'errorReportSubmitted' => __(
                 'We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response.',
                 'vcwb'

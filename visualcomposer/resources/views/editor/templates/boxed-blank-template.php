@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 while (have_posts()) :
 	the_post();
 ?>
-	<div class="container">
+	<div class="vcv-container">
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<div class="entry-content">
                 <?php the_content(); ?>
