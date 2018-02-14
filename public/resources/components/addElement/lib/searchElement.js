@@ -10,7 +10,8 @@ export default class SearchElement extends React.Component {
     index: PropTypes.any.isRequired,
     changeActive: PropTypes.func.isRequired,
     changeTerm: PropTypes.func.isRequired,
-    changeInput: PropTypes.func.isRequired
+    changeInput: PropTypes.func.isRequired,
+    applyFirstElement: PropTypes.func.isRequired
   }
   inputTimeout = 0
   dropdownTimeout = 0
@@ -31,6 +32,7 @@ export default class SearchElement extends React.Component {
     this.handleCategoryClick = this.handleCategoryClick.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
     this.getPlaceholder = this.getPlaceholder.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
 
     this.mobileDetect = vcCake.env('MOBILE_DETECT') ? new MobileDetect(window.navigator.userAgent) : null
   }
@@ -56,6 +58,7 @@ export default class SearchElement extends React.Component {
   handleKeyPress (e) {
     if (e.key === 'Enter') {
       e.preventDefault()
+      this.props.applyFirstElement()
     }
   }
 

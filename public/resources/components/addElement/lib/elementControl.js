@@ -7,7 +7,6 @@ import DOMElement from '../../../dnd/domElement'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
-const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubCategories = vcCake.getService('hubCategories')
 const cook = vcCake.getService('cook')
@@ -17,7 +16,7 @@ export default class ElementControl extends React.Component {
     tag: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     element: PropTypes.object.isRequired,
-    workspace: PropTypes.object
+    addElement: PropTypes.func.isRequired
   }
 
   helper = null
@@ -43,7 +42,6 @@ export default class ElementControl extends React.Component {
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.initDrag = this.initDrag.bind(this)
-    this.openEditForm = this.openEditForm.bind(this)
     this.handleDragStateChange = this.handleDragStateChange.bind(this)
   }
 
@@ -63,28 +61,6 @@ export default class ElementControl extends React.Component {
       this.endDragGlobal()
     } else if (data && data.hasOwnProperty('terminate') && data.terminate && this.state.isDragging) {
       this.endDrag()
-    }
-  }
-
-  addElement (e) {
-    e && e.preventDefault()
-    const { workspace } = this.props
-    const parentElementId = workspace.element ? workspace.element.id : false
-    const data = cook.get({ tag: this.props.tag, parent: parentElementId })
-    elementsStorage.trigger('add', data.toJS(), true, {
-      insertAfter: workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
-    })
-    this.addedId = data.toJS().id
-
-    let iframe = document.getElementById('vcv-editor-iframe')
-    this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
-    this.iframeWindow.vcv.on('ready', this.openEditForm)
-  }
-
-  openEditForm (action, id) {
-    if (action === 'add' && id === this.addedId) {
-      workspaceStorage.trigger('edit', this.addedId, '')
-      this.iframeWindow.vcv.off('ready', this.openEditForm)
     }
   }
 
@@ -354,7 +330,7 @@ export default class ElementControl extends React.Component {
     const dragState = workspaceStorage.state('drag').get()
     const activeDragging = dragState && dragState.active
     if (!activeDragging) {
-      this.addElement()
+      this.props.addElement(this.props.tag)
       this.endDrag()
     } else {
       this.endDragGlobal()

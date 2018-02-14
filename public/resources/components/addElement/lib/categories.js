@@ -12,6 +12,7 @@ const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const cook = vcCake.getService('cook')
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class Categories extends React.Component {
   static propTypes = {
@@ -21,6 +22,7 @@ export default class Categories extends React.Component {
   static allElements = []
   static allCategories = []
   static allElementsTags = []
+  static addedId = null
 
   constructor (props) {
     super(props)
@@ -44,6 +46,9 @@ export default class Categories extends React.Component {
     this.changeSearchState = this.changeSearchState.bind(this)
     this.changeInput = this.changeInput.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
+    this.applyFirstElement = this.applyFirstElement.bind(this)
+    this.addElement = this.addElement.bind(this)
+    this.openEditForm = this.openEditForm.bind(this)
     this.reset = this.reset.bind(this)
     if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
       hubElementsStorage.state('elements').onChange(this.reset)
@@ -141,7 +146,8 @@ export default class Categories extends React.Component {
 
   changeInput (value) {
     this.setState({
-      inputValue: value
+      inputValue: value,
+      searchResults: this.getSearchResults(value)
     })
   }
 
@@ -198,7 +204,9 @@ export default class Categories extends React.Component {
       element={elementData}
       tag={element.get('tag')}
       workspace={workspaceStorage.state('settings').get() || {}}
-      name={element.get('name')} />
+      name={element.get('name')}
+      addElement={this.addElement}
+    />
   }
 
   changeSearchState (state) {
@@ -213,7 +221,8 @@ export default class Categories extends React.Component {
       index: this.state.activeCategoryIndex,
       changeActive: this.changeActiveCategory,
       changeTerm: this.changeSearchState,
-      changeInput: this.changeInput
+      changeInput: this.changeInput,
+      applyFirstElement: this.applyFirstElement
     }
   }
 
@@ -222,8 +231,13 @@ export default class Categories extends React.Component {
     return <SearchElement {...searchProps} />
   }
 
-  getSearchResults () {
-    let { inputValue } = this.state
+  getFoundElements () {
+    return this.state.searchResults.map((elementData) => {
+      return this.getElementControl(elementData)
+    })
+  }
+
+  getSearchResults (value) {
     let allCategories = this.getAllCategories()
     let getIndex = allCategories.findIndex((val) => {
       return val.title === 'All' || val.title === 'All Elements'
@@ -240,9 +254,7 @@ export default class Categories extends React.Component {
         }
       }
 
-      return elName.indexOf(inputValue.trim()) !== -1
-    }).map((elementData) => {
-      return this.getElementControl(elementData)
+      return elName.indexOf(value.trim()) !== -1
     })
   }
 
@@ -268,8 +280,36 @@ export default class Categories extends React.Component {
     return isSearching && inputValue.trim()
   }
 
+  applyFirstElement () {
+    const { searchResults } = this.state
+    if (this.isSearching() && searchResults && searchResults.length) {
+      this.addElement(searchResults[0].tag)
+    }
+  }
+
+  addElement (tag) {
+    const workspace = workspaceStorage.state('settings').get() || {}
+    const parentElementId = workspace.element ? workspace.element.id : false
+    const data = cook.get({ tag: tag, parent: parentElementId })
+    elementsStorage.trigger('add', data.toJS(), true, {
+      insertAfter: workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
+    })
+    this.addedId = data.toJS().id
+
+    let iframe = document.getElementById('vcv-editor-iframe')
+    this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
+    this.iframeWindow.vcv.on('ready', this.openEditForm)
+  }
+
+  openEditForm (action, id) {
+    if (action === 'add' && id === this.addedId) {
+      workspaceStorage.trigger('edit', this.addedId, '')
+      this.iframeWindow.vcv.off('ready', this.openEditForm)
+    }
+  }
+
   render () {
-    let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
+    let itemsOutput = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
