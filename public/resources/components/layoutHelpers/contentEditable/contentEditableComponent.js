@@ -461,7 +461,7 @@ export default class ContentEditableComponent extends React.Component {
 
   render () {
     const props = {
-      className: this.props.className,
+      className: this.props.className ? this.props.className + ' vcvhelper' : 'vcvhelper',
       contentEditable: this.state.contentEditable,
       onMouseDown: this.handleMouseDown,
       onMouseMove: this.handleMouseMove,
@@ -481,6 +481,6 @@ export default class ContentEditableComponent extends React.Component {
         this.mediumSelection = undefined
       }, 0)
     }
-    return React.createElement('vcvhelper', props)
+    return React.createElement('div', props)
   }
 }

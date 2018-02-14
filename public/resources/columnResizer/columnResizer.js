@@ -408,11 +408,11 @@ class ColumnResizer extends React.Component {
     }
 
     return (
-      <vcvhelper className='vce-column-resizer'>
+      <div className='vcvhelper vce-column-resizer'>
         <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown} ref='resizerHandler'>
           {resizerLabels}
         </div>
-      </vcvhelper>
+      </div>
     )
   }
 }

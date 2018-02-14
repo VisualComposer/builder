@@ -79,7 +79,7 @@ export default class ImageSlideshowBackground extends Component {
         </div>)
 
       return <div className={classNames(containerClasses)}>
-        <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+        <div className='vcvhelper' data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
       </div>
     }
     return null

@@ -53,12 +53,12 @@ export default class ContentControls extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
-    let classes = 'vcv-row-control-container vcv-row-control-container-hide-labels vcv-is-disabled-outline'
+    let classes = 'vcvhelper vcv-row-control-container vcv-row-control-container-hide-labels vcv-is-disabled-outline'
     if (this.isMobile) {
       classes += ' vcv-row-control-container-mobile-add'
     }
 
-    return <vcvhelper
+    return <div
       className={classes}
       title={addElementText}
       onClick={this.handleClick}
@@ -69,6 +69,6 @@ export default class ContentControls extends React.Component {
         ref={(icon) => { this.icon = icon }}
         hideIcon={this.state.hideIcon}
       />
-    </vcvhelper>
+    </div>
   }
 }

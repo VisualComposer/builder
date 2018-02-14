@@ -100,12 +100,13 @@ export default class ElementComponent extends Component {
     // elementWrapper.appendChild(comment)
     // elementWrapper.appendChild(helper)
 
-    const helper = document.createElement('vcvhelper')
+    const helper = document.createElement('div')
     elementWrapper.innerHTML = ''
     if (!tagString) {
       tagString = html
     }
     helper.setAttribute('data-vcvs-html', `${tagString}`)
+    helper.classList.add('vcvhelper')
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(html)
     helper.appendChild(documentFragment)
@@ -113,16 +114,17 @@ export default class ElementComponent extends Component {
   }
 
   updateInlineScript (elementWrapper, tagString = '') {
-    const helper = document.createElement('vcvhelper')
+    const helper = document.createElement('div')
     elementWrapper.innerHTML = ''
     let scriptHtml = `<script type="text/javascript">${tagString}</script>`
+    helper.classList.add('vcvhelper')
     helper.setAttribute('data-vcvs-html', `${scriptHtml}`)
     let script = document.createElement('script')
     script.type = 'text/javascript'
     let escapedString = escape(tagString)
     script.text = `try{ 
-eval(unescape('${escapedString}'))
-} catch(e) {}`
+      eval(unescape('${escapedString}'))
+    } catch(e) {}`
     // TODO: add catched error message to console..
     helper.appendChild(script)
     elementWrapper.appendChild(helper)
