@@ -1,5 +1,5 @@
-import { addService, getService, getStorage } from 'vc-cake'
-import vcCake from 'vc-cake'
+import vcCake, { addService, getService, getStorage } from 'vc-cake'
+
 // import { predefinedTemplates } from './lib/predefinedTemplates'
 
 const utils = getService('utils')
