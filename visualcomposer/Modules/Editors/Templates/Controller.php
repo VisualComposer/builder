@@ -125,6 +125,15 @@ class Controller extends Container implements Module
             $templateId = $postTypeHelper->create($data);
             update_post_meta($templateId, '_' . VCV_PREFIX . 'id', uniqid());
 
+            if (vcvenv('VCV_ENV_DEV_ADDONS')) {
+                if (!$requestHelper->exists('vcv-template-type')
+                    || $requestHelper->input('vcv-template-type') === 'default') {
+                    update_post_meta($templateId, '_' . VCV_PREFIX . 'type', 'custom');
+                }
+
+                vcevent('vcv:editor:template:create', ['templateId' => $templateId]);
+            }
+
             return [
                 'status' => $templateId,
             ];

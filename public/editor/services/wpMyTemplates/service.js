@@ -1,4 +1,5 @@
-import { addService, getService, getStorage } from 'vc-cake'
+import vcCake, { addService, getService, getStorage } from 'vc-cake'
+
 // import { predefinedTemplates } from './lib/predefinedTemplates'
 
 const utils = getService('utils')
@@ -11,6 +12,7 @@ let handleSaveRequest = (action, key, data, successCallback, errorCallback) => {
   return ajax({
     'vcv-action': `editorTemplates:${action}:adminNonce`,
     'vcv-nonce': window.vcvNonce,
+    'vcv-template-type': window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default',
     [key]: data
   }, (result) => {
     let response = JSON.parse(result.response)
@@ -71,7 +73,17 @@ addService('myTemplates', {
   },
   all (filter = null, sort = null) {
     let custom = getStorage('templates').state('templates').get().custom
-    let myTemplates = custom && custom.templates ? custom.templates : []
+    let myTemplates
+    if (vcCake.env('THEME_EDITOR')) {
+      let customTemplates = custom && custom.templates ? custom.templates : []
+      let customHeaderTemplates = this.customHeader() && this.customHeader().templates ? this.customHeader().templates : []
+      let customFooterTemplates = this.customFooter() && this.customFooter().templates ? this.customFooter().templates : []
+      let customSidebarTemplates = this.customSidebar() && this.customSidebar().templates ? this.customSidebar().templates : []
+
+      myTemplates = customTemplates.concat(customHeaderTemplates, customFooterTemplates, customSidebarTemplates)
+    } else {
+      myTemplates = custom && custom.templates ? custom.templates : []
+    }
     if (filter && getType.call(filter) === '[object Function]') {
       myTemplates = myTemplates.filter(filter)
     }
@@ -91,6 +103,34 @@ addService('myTemplates', {
   hub () {
     let hubTemplates = getStorage('templates').state('templates').get().hub
     return hubTemplates && hubTemplates.templates ? hubTemplates.templates : []
+  },
+  hubAndPredefined () {
+    let hubAndPredefined = this.hub().concat(this.predefined())
+    return hubAndPredefined || []
+  },
+  hubHeader () {
+    let hubHeaderTemplates = getStorage('templates').state('templates').get().hubHeader
+    return hubHeaderTemplates && hubHeaderTemplates.templates ? hubHeaderTemplates.templates : []
+  },
+  hubFooter () {
+    let hubFooterTemplates = getStorage('templates').state('templates').get().hubFooter
+    return hubFooterTemplates && hubFooterTemplates.templates ? hubFooterTemplates.templates : []
+  },
+  hubSidebar () {
+    let hubSidebarTemplates = getStorage('templates').state('templates').get().hubSidebar
+    return hubSidebarTemplates && hubSidebarTemplates.templates ? hubSidebarTemplates.templates : []
+  },
+  customHeader () {
+    let customHeaderTemplates = getStorage('templates').state('templates').get().customHeaders
+    return customHeaderTemplates && customHeaderTemplates.templates ? customHeaderTemplates.templates : []
+  },
+  customFooter () {
+    let customFooterTemplates = getStorage('templates').state('templates').get().customFooter
+    return customFooterTemplates && customFooterTemplates.templates ? customFooterTemplates.templates : []
+  },
+  customSidebar () {
+    let customSidebaremplates = getStorage('templates').state('templates').get().customSidebar
+    return customSidebaremplates && customSidebaremplates.templates ? customSidebaremplates.templates : []
   },
   getAllTemplates (filter = null, sort = null) {
     let allTemplatesGroups = getStorage('templates').state('templates').get() || []

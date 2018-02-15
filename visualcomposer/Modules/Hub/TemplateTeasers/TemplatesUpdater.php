@@ -142,9 +142,15 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
         $template['description'] = $payload['actionData']['data']['description'];
         $template['thumbnail'] = $templateMeta['thumbnail'];
         $template['preview'] = $templateMeta['preview'];
-        $template['type'] = 'hub';
+
+        if (vcvenv('VCV_ENV_DEV_ADDONS') && isset($payload['actionData']['data']['type'])) {
+            $type = $payload['actionData']['data']['type'];
+        } else {
+            $type = 'hub';
+        }
+
         update_post_meta($templateId, '_' . VCV_PREFIX . 'description', $template['description']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'type', $template['type']);
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'type', $type);
         update_post_meta($templateId, '_' . VCV_PREFIX . 'thumbnail', $template['thumbnail']);
         update_post_meta($templateId, '_' . VCV_PREFIX . 'preview', $template['preview']);
         update_post_meta($templateId, '_' . VCV_PREFIX . 'id', $template['id']);
@@ -160,7 +166,7 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
             'data' => $templateElements,
             'thumbnail' => $template['thumbnail'],
             'preview' => $template['preview'],
-            'type' => 'hub',
+            'type' => $type,
         ];
 
         return $response;
