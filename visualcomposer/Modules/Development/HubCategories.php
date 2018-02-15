@@ -210,7 +210,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Videos' => [
                     'title' => 'Videos',
-                    'elements' => ['youtubePlayer', 'vimeoPlayer', 'videoPlayer'],
+                    'elements' => ['youtubePlayer', 'vimeoPlayer', 'videoPlayer', 'videoPopup'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Video.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Video.svg'),
                 ],
