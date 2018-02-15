@@ -69,8 +69,15 @@ $(() => {
       if (editorType === 'sidebar' && vcCake.env('THEME_EDITOR_SIDEBARS')) {
         let style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
-        style.innerText = 'body {'
+        style.innerText = `html {
+        background: #292929;
+        display: flex;
+        justify-content: center;
+        min-height: 100%;
+        } `
+        style.innerText += 'body {'
         style.innerText += 'padding: 0 20px;'
+        style.innerText += 'width: 480px;'
         style.innerText += '}'
         iframeDocument.head.appendChild(style)
       }
@@ -171,12 +178,6 @@ $(() => {
               $layoutContainer.height(height)
             })
           }
-        }
-      }
-      if (vcCake.env('THEME_EDITOR') && vcCake.env('THEME_EDITOR_SIDEBARS')) {
-        const editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
-        if (editorType === 'sidebar') {
-          $iframeContainer.addClass('vcv-layout-iframe-container-editor--sidebars')
         }
       }
     }
