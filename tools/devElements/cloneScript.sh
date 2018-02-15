@@ -133,6 +133,7 @@ declare -a arr=(
 'facebookEmbeddedVideo'
 'facebookEmbeddedComments'
 'facebookEmbeddedPosts'
+'videoPopup'
 )
 
 EXECDIR=`pwd`
