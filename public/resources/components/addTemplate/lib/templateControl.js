@@ -199,7 +199,7 @@ export default class TemplateControl extends React.Component {
       'vcv-ui-state--visible': previewVisible
     })
 
-    if (type && (type === 'predefined' || type === 'hub')) {
+    if (type && (type === 'predefined' || type === 'hub' || type === 'hubHeader' || type === 'hubFooter' || type === 'hubSidebar')) {
       return (
         <li className='vcv-ui-item-list-item'>
           <span className='vcv-ui-item-element'

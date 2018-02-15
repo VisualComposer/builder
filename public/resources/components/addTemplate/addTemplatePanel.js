@@ -18,7 +18,7 @@ export default class AddTemplatePanel extends React.Component {
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
-  static defaultProps = {
+  static defaultProps = !vcCake.env('THEME_EDITOR') ? {
     categories: [
       {
         title: 'All',
@@ -56,7 +56,60 @@ export default class AddTemplatePanel extends React.Component {
         templates: null
       }
     ]
+  } : {
+    categories: [
+      {
+        title: 'All',
+        index: 0,
+        id: 'all',
+        visible () { return true },
+        templates () { return myTemplatesService.getAllTemplates() } // TODO: Merge from all categories
+      },
+      {
+        title: 'My Templates',
+        index: 1,
+        id: 'myTemplates',
+        visible () { return this.templates().length },
+        templates () { return myTemplatesService.all() }
+      },
+      {
+        title: 'Content Templates',
+        index: 2,
+        id: 'hubAndPredefined',
+        visible () { return this.templates().length },
+        templates () { return myTemplatesService.hubAndPredefined() }
+      },
+      {
+        title: 'Header Templates',
+        index: 3,
+        id: 'hubHeader',
+        visible () { return this.templates().length },
+        templates () { return myTemplatesService.hubHeader() }
+      },
+      {
+        title: 'Footer Templates',
+        index: 4,
+        id: 'hubFooter',
+        visible () { return this.templates().length },
+        templates () { return myTemplatesService.hubFooter() }
+      },
+      {
+        title: 'Sidebar Templates',
+        index: 5,
+        id: 'hubSidebar',
+        visible () { return this.templates().length },
+        templates () { return myTemplatesService.hubSidebar() }
+      },
+      {
+        title: 'Download More Templates',
+        index: 6,
+        id: 'downloadMoreTemplates',
+        visible () { return false },
+        templates: null
+      }
+    ]
   }
+
   errorTimeout = 0
 
   constructor (props) {

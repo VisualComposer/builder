@@ -69,9 +69,11 @@ class EditorTemplates implements Helper
                 $name = __('Premium Templates', 'vcwb');
                 break;
             case 'predefined':
-                $name = __('Templates', 'vcwb');
+                $name = __('Content Templates', 'vcwb');
                 break;
         }
+
+        $name = vcfilter('vcv:template:groupName', $name, ['key' => $key]);
 
         return $name;
     }
