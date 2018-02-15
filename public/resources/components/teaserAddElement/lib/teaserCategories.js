@@ -72,7 +72,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       workspace={workspaceStorage.state('settings').get() || {}}
       type={elementData.type ? elementData.type : 'element'}
       update={elementData.update ? elementData.update : false}
-      name={elementData.name} />
+      name={elementData.name}
+      addElement={this.addElement}
+    />
   }
 
   getNoResultsElement () {
@@ -170,7 +172,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   filterResult () {
-    let result = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
+    let result = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
     result = result.filter((item) => {
       if (this.state.filterType === 'all') {
         return true
@@ -188,7 +190,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     if (vcCake.env('HUB_REDESIGN')) {
       itemsOutput = this.filterResult()
     } else {
-      itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
+      itemsOutput = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
     }
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,

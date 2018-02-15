@@ -16,9 +16,9 @@ export default class ElementControl extends React.Component {
     tag: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     element: PropTypes.object.isRequired,
-    addElement: PropTypes.func.isRequired,
-    setFocusedElement: PropTypes.func.isRequired,
-    applyFirstElement: PropTypes.func.isRequired
+    addElement: PropTypes.func,
+    setFocusedElement: PropTypes.func,
+    applyFirstElement: PropTypes.func
   }
 
   helper = null
