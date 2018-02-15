@@ -106,14 +106,14 @@ export default class TitleSettings extends React.Component {
       </div>
     </div> : ''
     return (
-      <div>
+      <React.Fragment>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <span className='vcv-ui-form-group-heading'>{settingName}</span>
           <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.updateTitle} />
           {reloadNotification}
         </div>
         {disableTitleToggleControl}
-      </div>
+      </React.Fragment>
     )
   }
 }

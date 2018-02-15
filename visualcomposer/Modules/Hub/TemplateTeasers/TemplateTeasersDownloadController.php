@@ -48,6 +48,7 @@ class TemplateTeasersDownloadController extends Container implements Module
                 'metaPreviewUrl' => $template['previewUrl'],
                 'metaDescription' => $template['description'],
                 'type' => 'template',
+                'templateType' => $template['type'],
                 'id' => $template['id'],
                 'update' => isset($template['update']) ? $template['update'] : false,
             ];

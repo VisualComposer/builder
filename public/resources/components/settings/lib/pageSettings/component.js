@@ -17,9 +17,9 @@ export default class PageSettings extends React.Component {
       content.push(<LayoutSettings key={content.length} />)
     }
     return (
-      <div>
+      <React.Fragment>
         {content}
-      </div>
+      </React.Fragment>
     )
   }
 }

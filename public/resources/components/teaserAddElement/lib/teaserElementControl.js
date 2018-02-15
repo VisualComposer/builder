@@ -141,6 +141,10 @@ export default class TeaserElementControl extends ElementControl {
     }
   }
 
+  addElement () {
+    this.props.addElement(this.props.tag)
+  }
+
   render () {
     let { name, element } = this.props
     let { previewVisible, previewStyle, elementState } = this.state

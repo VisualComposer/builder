@@ -11,7 +11,7 @@ export default class SearchElement extends React.Component {
     changeActive: PropTypes.func.isRequired,
     changeTerm: PropTypes.func.isRequired,
     changeInput: PropTypes.func.isRequired,
-    applyFirstElement: PropTypes.func.isRequired
+    applyFirstElement: PropTypes.func
   }
   inputTimeout = 0
   dropdownTimeout = 0
@@ -56,7 +56,7 @@ export default class SearchElement extends React.Component {
   }
 
   handleKeyPress (e) {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && this.props.applyFirstElement) {
       e.preventDefault()
       this.props.applyFirstElement()
     }
