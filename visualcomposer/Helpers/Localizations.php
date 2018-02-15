@@ -256,6 +256,19 @@ class Localizations extends Container implements Helper
                 self_admin_url('plugins.php'),
                 $optionsHelper->getTransient('pluginUpdateAvailable')
             ),
+            'chooseHFS' => sprintf(
+                __(
+                    'Choose %s template from the list or %screate new%s.',
+                    'vcwb'
+                ),
+                '{name}',
+                '<a href="{link}" target="_blank">',
+                '</a>'
+            ),
+            'selectHFS' => __(
+                'Select {name} template',
+                'vcwb'
+            ),
             'elementDownloadRequiresUpdate' => __(
                 'Update Visual Composer plugin to the most recent version to download this content element.',
                 'vcwb'

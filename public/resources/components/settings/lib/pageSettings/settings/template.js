@@ -38,11 +38,11 @@ export default class TemplateSettings extends React.Component {
     const defaultTemplate = localizations ? localizations.defaultTemplate : 'Default template'
     let pageTemplateDescription = localizations ? localizations.pageTemplateDescription : 'To apply a template save changes and reload the page'
     if (env('IFRAME_RELOAD')) {
-      pageTemplateDescription = localizations ? localizations.pageTemplateReloadDescription : 'To apply a template you will need to save changes and content will reload itself.'
+      pageTemplateDescription = localizations ? localizations.pageTemplateReloadDescription : 'To apply a template you will need to save changes and content will be reloaded.'
     }
 
     return (
-      <div>
+      <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>{settingName}</span>
         <select className='vcv-ui-form-dropdown' value={this.state.current} onChange={this.updateTemplate}>
           <option key='default' value='default'>{defaultTemplate}</option>
