@@ -284,16 +284,18 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     }
 
     let controls = (
-      <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
-        <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all', '0')}>
-          All
-        </button>
-        <button type='button' className={this.activeFilterButton('element')}
-          onClick={() => this.setFilterType('element', '1-0')}>Elements
-        </button>
-        <button type='button' className={this.activeFilterButton('template')}
-          onClick={() => this.setFilterType('template', '2')}>Templates
-        </button>
+      <div className='vcv-ui-hub-control-container'>
+        <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
+          <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all', '0')}>
+            All
+          </button>
+          <button type='button' className={this.activeFilterButton('element')}
+            onClick={() => this.setFilterType('element', '1-0')}>Elements
+          </button>
+          <button type='button' className={this.activeFilterButton('template')}
+            onClick={() => this.setFilterType('template', '2')}>Templates
+          </button>
+        </div>
       </div>
     )
 
