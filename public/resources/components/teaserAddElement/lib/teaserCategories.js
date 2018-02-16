@@ -11,6 +11,42 @@ import lodash from 'lodash'
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
 
+const categories = {
+  all: {
+    index: 0,
+    type: 'all',
+    name: 'All'
+  },
+  element: {
+    index: 1,
+    type: 'element',
+    name: 'Elements'
+  },
+  template: {
+    index: 2,
+    type: 'template',
+    name: 'Templates'
+  },
+  header: {
+    index: 3,
+    type: 'header',
+    name: 'Header',
+    templateType: true
+  },
+  footer: {
+    index: 4,
+    type: 'footer',
+    name: 'Footer',
+    templateType: true
+  },
+  sidebar: {
+    index: 5,
+    type: 'sidebar',
+    name: 'Sidebar',
+    templateType: true
+  }
+}
+
 export default class TeaserAddElementCategories extends AddElementCategories {
   allCategories = null
 
@@ -24,7 +60,14 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       const elementGroup = this.getElementGroup()
       const templateGroup = this.getTemplateGroup()
       const allGroup = this.getAllGroup([ elementGroup, templateGroup ])
-      this.allCategories = [ allGroup, elementGroup, templateGroup ]
+      const headerGroup = this.getHFSGroup('header')
+      const footerGroup = this.getHFSGroup('footer')
+      const sidebarGroup = this.getHFSGroup('sidebar')
+      if (vcCake.env('HUB_CONTROLS')) {
+        this.allCategories = [ allGroup, elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ]
+      } else {
+        this.allCategories = [ allGroup, elementGroup, templateGroup ]
+      }
     }
     return this.allCategories
   }
@@ -60,6 +103,26 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     // TODO get and sort template elements from backend
     let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()
     return { elements: elements, id: 'Templates2', index: 2, title: 'Templates' }
+  }
+
+  getHFSGroup (type) {
+    let index
+    if (type === 'header') {
+      index = 3
+    } else if (type === 'footer') {
+      index = 4
+    } else if (type === 'sidebar') {
+      index = 5
+    }
+    if (index) {
+      let title = type.charAt(0).toUpperCase() + type.slice(1)
+      let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()
+      elements = elements.filter(element => {
+        return element.templateType === `hub${title}`
+      })
+      return { elements, id: `${title}${index}`, index, title }
+    }
+    return {}
   }
 
   getElementControl (elementData) {
@@ -100,25 +163,14 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     let allCategories = this.getAllCategories()
     let elements = []
 
-    if (vcCake.env('HUB_CONTROLS')) {
-      if (allCategories && allCategories[ activeCategoryIndex ]) {
-        if (allCategories[ activeCategoryIndex ].elements) {
-          elements = allCategories[ activeCategoryIndex ].elements
-        }
-        if (allCategories[ activeCategoryIndex ].categories) {
-          elements = allCategories[ activeCategoryIndex ].categories[0].elements
-        }
-      }
-    } else {
-      if (activeCategoryIndex.indexOf && activeCategoryIndex.indexOf('-') > -1) {
-        const index = activeCategoryIndex.split('-')
-        const group = allCategories[ index[ 0 ] ]
-        const category = group && group.categories && group.categories[ index[ 1 ] ]
+    if (activeCategoryIndex.indexOf && activeCategoryIndex.indexOf('-') > -1) {
+      const index = activeCategoryIndex.split('-')
+      const group = allCategories[ index[ 0 ] ]
+      const category = group && group.categories && group.categories[ index[ 1 ] ]
 
-        elements = category ? category.elements : []
-      } else {
-        elements = allCategories && allCategories[ activeCategoryIndex ] && allCategories[ activeCategoryIndex ].elements
-      }
+      elements = category ? category.elements : []
+    } else {
+      elements = allCategories && allCategories[ activeCategoryIndex ] && allCategories[ activeCategoryIndex ].elements
     }
 
     return elements ? elements.map((tag) => { return this.getElementControl(tag) }) : []
@@ -136,21 +188,27 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       selectEvent: (active) => {
         let activeId = active && active.constructor === String && active.split('-')[ 0 ]
         let result = this.state
-        switch (activeId) {
-          case '0':
-            result.filterType = 'all'
-            this.setState(result)
-            break
-          case '1':
-            result.filterType = 'element'
-            this.setState(result)
-            break
-          case '2':
-            result.filterType = 'template'
-            this.setState(result)
-            break
-          default:
-            console.warn('There was an issue filtering data!')
+        if (vcCake.env('HUB_CONTROLS')) {
+          let foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
+          result.filterType = foundCategory.type
+          this.setState(result)
+        } else {
+          switch (activeId) {
+            case '0':
+              result.filterType = 'all'
+              this.setState(result)
+              break
+            case '1':
+              result.filterType = 'element'
+              this.setState(result)
+              break
+            case '2':
+              result.filterType = 'template'
+              this.setState(result)
+              break
+            default:
+              console.warn('There was an issue filtering data!')
+          }
         }
       }
     }
@@ -178,6 +236,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       if (this.state.filterType === 'all') {
         return true
       } else {
+        if (vcCake.env('HUB_CONTROLS') && categories[ this.state.filterType ].templateType) {
+          return item.props.type === 'template' && item.props.element.templateType === `hub${categories[ this.state.filterType ].name}`
+        }
         return item.props.type === this.state.filterType
       }
     })
@@ -224,9 +285,15 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
     let controls = (
       <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
-        <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all', '0')}>All</button>
-        <button type='button' className={this.activeFilterButton('element')} onClick={() => this.setFilterType('element', '1-0')}>Elements</button>
-        <button type='button' className={this.activeFilterButton('template')} onClick={() => this.setFilterType('template', '2')}>Templates</button>
+        <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all', '0')}>
+          All
+        </button>
+        <button type='button' className={this.activeFilterButton('element')}
+          onClick={() => this.setFilterType('element', '1-0')}>Elements
+        </button>
+        <button type='button' className={this.activeFilterButton('template')}
+          onClick={() => this.setFilterType('template', '2')}>Templates
+        </button>
       </div>
     )
 
