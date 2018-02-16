@@ -49,11 +49,23 @@ class RevisionController extends Container implements Module
                 $vcvdata = $data['wp_autosave']['vcv-data'];
             }
 
+            if (!$vcvdata && $requestHelper->exists('revision')) {
+                $sourceId = $requestHelper->input('revision');
+                $vcvdata = get_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', true);
+            }
+
             // @codingStandardsIgnoreLine
             if (wp_is_post_revision($revisionId) === intval($sourceId)) {
                 if (false !== $vcvdata) {
                     // @codingStandardsIgnoreLine
                     update_metadata('post', $revisionId, VCV_PREFIX . 'pageContent', $vcvdata);
+                }
+            }
+            if ($requestHelper->exists('revision') && wp_is_post_revision($revisionId)) {
+                if (false !== $vcvdata) {
+                    $latestRevision = wp_get_post_revisions(wp_is_post_revision($revisionId));
+                    $latestRevisionId = array_values($latestRevision)[0]->ID;
+                    update_metadata('post', $latestRevisionId, VCV_PREFIX . 'pageContent', $vcvdata);
                 }
             }
         } else {
@@ -85,8 +97,6 @@ class RevisionController extends Container implements Module
 
         if (false !== $pageContent) {
             update_post_meta($postId, VCV_PREFIX . 'pageContent', $pageContent);
-        } else {
-            delete_post_meta($postId, VCV_PREFIX . 'pageContent');
         }
         // @codingStandardsIgnoreEnd
     }
