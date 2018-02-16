@@ -51,4 +51,32 @@
       margin-right: 14px;
     }
   }
+
+  .vcv-zone-empty {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background .2s;
+    z-index: 1;
+
+    .vcv-zone-empty-text {
+      position: -webkit-sticky;
+      position: sticky;
+      top: @zone-sticky-button-offset;
+      bottom: @zone-sticky-button-offset;
+      display: inline-block;
+      padding: 6px 0;
+      font-size: 0.9em;
+      font-style: italic;
+      font-family: 'Roboto', sans-serif;
+      color: #9a9a9a;
+      font-weight: 400;
+    }
+  }
 }
+
