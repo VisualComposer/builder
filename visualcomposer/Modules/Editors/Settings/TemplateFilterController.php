@@ -105,9 +105,12 @@ class TemplateFilterController extends Container implements Module
 
     protected function addNewTemplate($postsTemplates)
     {
-        $postsTemplates = array_merge($postsTemplates, $this->templates);
-
-        return $postsTemplates;
+        $frontendHelper = vchelper('Frontend');
+        if ($frontendHelper->isFrontend()) {
+            return $this->templates;
+        } else {
+            return $postsTemplates;
+        }
     }
 
     protected function registerProjectTemplates($atts)
