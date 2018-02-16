@@ -31,6 +31,7 @@ const controls = [
 ]
 
 export default class TeaserTypeControl extends React.Component {
+  buttonsGroup = null
   static propTypes = {
     filterType: PropTypes.string.isRequired,
     setFilterType: PropTypes.func.isRequired
@@ -48,38 +49,51 @@ export default class TeaserTypeControl extends React.Component {
   componentDidMount () {
     this.setState({ totalControlWidth: this.getControlsTotalWidth() })
     this.handleResize()
-    const contentEndObject = document.querySelector('#vcv-editor-end object')
-    contentEndObject.contentDocument.defaultView.addEventListener('resize', this.handleResize)
+    this.addResizeListener(ReactDOM.findDOMNode(this), this.handleResize)
   }
 
   componentWillUnmount () {
-    const contentEndObject = document.querySelector('#vcv-editor-end object')
-    contentEndObject.contentDocument.defaultView.removeEventListener('resize', this.handleResize)
+    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleResize)
+  }
+
+  addResizeListener (element, fn) {
+    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    if (window.getComputedStyle(element).position === 'static') {
+      element.style.position = 'relative'
+    }
+    let obj = element.__resizeTrigger__ = document.createElement('iframe')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
+    obj.__resizeElement__ = element
+    obj.onload = function () {
+      this.contentDocument.defaultView.addEventListener('resize', fn)
+    }
+    obj.type = 'text/html'
+    if (isIE) {
+      element.appendChild(obj)
+    }
+    obj.data = 'about:blank'
+    if (!isIE) {
+      element.appendChild(obj)
+    }
+  }
+
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
   getControlsTotalWidth () {
-    const controls = Array.from(ReactDOM.findDOMNode(this).children)
-    let totalWidth = 0
-    controls.forEach((control) => {
-      totalWidth += control.getBoundingClientRect().width
-    })
-    return totalWidth
+    return this.buttonsGroup.getBoundingClientRect().width
   }
 
   handleResize () {
-    const wrapperWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width
+    let wrapperWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width
     const { isControlsHidden, totalControlWidth } = this.state
     let controlsWidth = totalControlWidth || this.getControlsTotalWidth()
-    // console.log('controlsWidth', controlsWidth)
-    // console.log('totalControlWidth', totalControlWidth)
-    // console.log('wrapperWidth', wrapperWidth)
-    console.log('isControlsHidden', isControlsHidden)
     if (wrapperWidth >= controlsWidth && isControlsHidden) {
       this.setState({ isControlsHidden: false })
-      console.log('Showcontrols')
     } else if (wrapperWidth < controlsWidth && !isControlsHidden) {
       this.setState({ isControlsHidden: true })
-      console.log('HideControls')
     }
   }
 
@@ -106,14 +120,15 @@ export default class TeaserTypeControl extends React.Component {
   }
 
   render () {
-    console.log('render this.state.isControlsHidden', this.state.isControlsHidden)
     let controlWrapperClasses = classNames({
       'vcv-ui-form-buttons-group': true,
       'vcv-ui-form-button-group--large': true,
       'vcv-is-hidden': this.state.isControlsHidden
     })
-    return <div className={controlWrapperClasses}>
-      {this.getControls()}
+    return <div className='vcv-ui-hub-control-container'>
+      <div className={controlWrapperClasses} ref={buttonsGroup => { this.buttonsGroup = buttonsGroup }}>
+        {this.getControls()}
+      </div>
     </div>
   }
 }

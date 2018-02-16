@@ -306,9 +306,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
             <div className={innerSectionClasses}>
-              <div className='vcv-ui-hub-control-container'>
-                {controls}
-              </div>
+              {controls}
               <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                 <div className='vcv-ui-editor-plates'>
                   <div className='vcv-ui-editor-plate vcv-ui-state--active'>
