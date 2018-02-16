@@ -193,7 +193,7 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'template' => __('Template', 'vcwb'),
-            'defaultTemplate' => __('Default template', 'vcwb'),
+            'defaultTemplate' => __('Theme Default', 'vcwb'),
             'pageTemplateDescription' => __(
                 'To apply a template save changes and reload the page',
                 'vcwb'
