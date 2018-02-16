@@ -52,7 +52,7 @@ vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
 vcCake.env('EXCLUDE_ATTRIBUTE', true)
 vcCake.env('SAVE_ZIP', true)
-vcCake.env('HFS_START_PAGE', false)
+vcCake.env('HFS_START_PAGE', true)
 vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR', true)
 vcCake.env('THEME_EDITOR_SIDEBARS', true)
 vcCake.env('THEME_EDITOR_HF', true)
