@@ -120,13 +120,12 @@ export default class TeaserTypeControl extends React.Component {
   }
 
   render () {
-    let controlWrapperClasses = classNames({
-      'vcv-ui-form-buttons-group': true,
-      'vcv-ui-form-button-group--large': true,
+    let controlContainerClasses = classNames({
+      'vcv-ui-hub-control-container': true,
       'vcv-is-hidden': this.state.isControlsHidden
     })
-    return <div className='vcv-ui-hub-control-container'>
-      <div className={controlWrapperClasses} ref={buttonsGroup => { this.buttonsGroup = buttonsGroup }}>
+    return <div className={controlContainerClasses}>
+      <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large' ref={buttonsGroup => { this.buttonsGroup = buttonsGroup }}>
         {this.getControls()}
       </div>
     </div>
