@@ -117,13 +117,16 @@ class TemplateFilterController extends Container implements Module
     {
         $cacheKey = 'page_templates-' . md5(get_theme_root() . '/' . get_stylesheet());
         $templates = wp_get_theme()->get_page_templates();
+        $frontendHelper = vchelper('Frontend');
 
         if (empty($templates)) {
             $templates = [];
         }
 
         wp_cache_delete($cacheKey, 'themes');
-        $templates = array_merge($templates, $this->templates);
+        if ($frontendHelper->isFrontend()) {
+            $templates  = $this->templates;
+        }
 
         wp_cache_add($cacheKey, $templates, 'themes', 1800);
 
