@@ -50,8 +50,13 @@ class RevisionController extends Container implements Module
             }
 
             if (!$vcvdata && $requestHelper->exists('revision')) {
-                $sourceId = $requestHelper->input('revision');
-                $vcvdata = get_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', true);
+                $sourceId = $requestHelper->input('revision')
+                if (intval($sourceId)) {
+                    $vcvdata = get_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', true);
+                } else {
+                    $vcvdata = false;
+                }
+
             }
 
             // @codingStandardsIgnoreLine
