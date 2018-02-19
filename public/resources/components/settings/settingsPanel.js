@@ -72,16 +72,15 @@ export default class SettingsPanel extends React.Component {
         state: 'customCss',
         getData: 'ui:settings:customStyles:local'
       })
+      actions.push({
+        state: 'globalJs',
+        getData: 'ui:settings:customJavascript:global'
+      })
+      actions.push({
+        state: 'localJs',
+        getData: 'ui:settings:customJavascript:local'
+      })
     }
-
-    actions.push({
-      state: 'globalJs',
-      getData: 'ui:settings:customJavascript:global'
-    })
-    actions.push({
-      state: 'localJs',
-      getData: 'ui:settings:customJavascript:local'
-    })
 
     this.state = {
       sections,
