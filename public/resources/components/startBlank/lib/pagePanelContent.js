@@ -175,9 +175,9 @@ export default class PagePanelContent extends React.Component {
     })
 
     layouts.push(
-      <li className={defaultClasses} key={`layout-theme-defined`}
+      <li className={defaultClasses} key={`layout-theme-default`}
         onClick={this.handleLayoutClick.bind(this, 'default')}>
-        <span className='vcv-ui-item-element' title='Theme defined'>
+        <span className='vcv-ui-item-element' title='Theme default'>
           <span className='vcv-ui-item-element-content-layout'>
             <span
               className={`vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-default`}>
@@ -186,7 +186,7 @@ export default class PagePanelContent extends React.Component {
             <span className='vcv-ui-start-layout-list-item-icon-name'>T</span>
           </span>
           <span className='vcv-ui-item-element-name'>
-            Theme Defined
+            Theme Default
           </span>
         </span>
       </li>
