@@ -50,10 +50,14 @@ export default class SettingsPanel extends React.Component {
         getData: 'ui:settings:pageTitleDisabled'
       })
     }
-    actions.push({
-      state: 'pageTitle',
-      getData: 'ui:settings:pageTitle'
-    })
+
+    if (!env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      actions.push({
+        state: 'pageTitle',
+        getData: 'ui:settings:pageTitle'
+      })
+    }
+
     sections.push({
       title: customCSSText,
       content: CustomStyles
