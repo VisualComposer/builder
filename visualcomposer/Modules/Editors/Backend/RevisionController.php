@@ -38,53 +38,38 @@ class RevisionController extends Container implements Module
      */
     protected function saveRevisionMeta($revisionId)
     {
-        if (vcvenv('VCV_REVISIONS_SAVE_FIX')) {
-            $requestHelper = vchelper('Request');
-            $sourceId = $requestHelper->input('post_ID');
-            $vcvdata = $requestHelper->input('vcv-data');
-            $data = $requestHelper->input('data');
+        $requestHelper = vchelper('Request');
+        $sourceId = $requestHelper->input('post_ID');
+        $vcvdata = $requestHelper->input('vcv-data');
+        $data = $requestHelper->input('data');
 
-            if (!$vcvdata && $data && $data['wp_autosave']) {
-                $sourceId = $data['wp_autosave']['post_id'];
-                $vcvdata = $data['wp_autosave']['vcv-data'];
+        if (!$vcvdata && $data && $data['wp_autosave']) {
+            $sourceId = $data['wp_autosave']['post_id'];
+            $vcvdata = $data['wp_autosave']['vcv-data'];
+        }
+
+        if (!$vcvdata && $requestHelper->exists('revision')) {
+            $sourceId = $requestHelper->input('revision');
+            if (intval($sourceId)) {
+                $vcvdata = get_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', true);
+            } else {
+                $vcvdata = false;
             }
 
-            if (!$vcvdata && $requestHelper->exists('revision')) {
-                $sourceId = $requestHelper->input('revision')
-                if (intval($sourceId)) {
-                    $vcvdata = get_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', true);
-                } else {
-                    $vcvdata = false;
-                }
+        }
 
+        // @codingStandardsIgnoreLine
+        if (wp_is_post_revision($revisionId) === intval($sourceId)) {
+            if (false !== $vcvdata) {
+                // @codingStandardsIgnoreLine
+                update_metadata('post', $revisionId, VCV_PREFIX . 'pageContent', $vcvdata);
             }
-
-            // @codingStandardsIgnoreLine
-            if (wp_is_post_revision($revisionId) === intval($sourceId)) {
-                if (false !== $vcvdata) {
-                    // @codingStandardsIgnoreLine
-                    update_metadata('post', $revisionId, VCV_PREFIX . 'pageContent', $vcvdata);
-                }
-            }
-            if ($requestHelper->exists('revision') && wp_is_post_revision($revisionId)) {
-                if (false !== $vcvdata) {
-                    $latestRevision = wp_get_post_revisions(wp_is_post_revision($revisionId));
-                    $latestRevisionId = array_values($latestRevision)[0]->ID;
-                    update_metadata('post', $latestRevisionId, VCV_PREFIX . 'pageContent', $vcvdata);
-                }
-            }
-        } else {
-            $requestHelper = vchelper('Request');
-            $sourceId = $requestHelper->input('post_ID');
-            $data = $requestHelper->input('data');
-
-            $vcvData = $data['wp_autosave']['vcv-data'];
-            // @codingStandardsIgnoreLine
-            if (wp_is_post_revision($sourceId)) {
-                if (false !== $vcvData) {
-                    // @codingStandardsIgnoreLine
-                    update_metadata('post', $sourceId, VCV_PREFIX . 'pageContent', $vcvData);
-                }
+        }
+        if ($requestHelper->exists('revision') && wp_is_post_revision($revisionId)) {
+            if (false !== $vcvdata) {
+                $latestRevision = wp_get_post_revisions(wp_is_post_revision($revisionId));
+                $latestRevisionId = array_values($latestRevision)[0]->ID;
+                update_metadata('post', $latestRevisionId, VCV_PREFIX . 'pageContent', $vcvdata);
             }
         }
     }
@@ -116,17 +101,9 @@ class RevisionController extends Container implements Module
         $response = [];
         $sourceId = $requestHelper->input('vcv-source-id');
 
-        if (vcvenv('VCV_REVISIONS_SAVE_FIX')) {
-            // get last auto save
-            $postAutoSave = wp_get_post_autosave($sourceId);
-            $pageContent = get_post_meta($postAutoSave->ID, 'vcv-pageContent', true);
-        } else {
-            //get all post revisions
-            $postRevisions = wp_get_post_revisions($sourceId);
-            //take the latest one
-            $latestRevision = array_shift($postRevisions);
-            $pageContent = get_post_meta($latestRevision->ID, 'vcv-pageContent', true);
-        }
+        // get last auto save
+        $postAutoSave = wp_get_post_autosave($sourceId);
+        $pageContent = get_post_meta($postAutoSave->ID, 'vcv-pageContent', true);
 
         $response['pageContent'] = $pageContent;
 

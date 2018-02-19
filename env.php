@@ -179,12 +179,6 @@ if (!defined('VCV_IFRAME_RELOAD')) {
     );
 }
 
-if (!defined('VCV_REVISIONS_SAVE_FIX')) {
-    define(
-        'VCV_REVISIONS_SAVE_FIX',
-        isset($_SERVER['ENV_VCV_REVISIONS_SAVE_FIX']) ? $_SERVER['ENV_VCV_REVISIONS_SAVE_FIX'] : true
-    );
-}
 if (!defined('VCV_FE_SHORTCODES_SCRIPTS')) {
     define(
         'VCV_FE_SHORTCODES_SCRIPTS',
