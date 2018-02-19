@@ -2,6 +2,8 @@ import React from 'react'
 import {setData, getStorage, env} from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
+const workspaceStorage = getStorage('workspace')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class TemplateSettings extends React.Component {
 
@@ -20,10 +22,32 @@ export default class TemplateSettings extends React.Component {
   }
 
   updateTemplate (event) {
-    setData('ui:settings:pageTemplate', event.target.value)
+    const value = event.target.value
+    setData('ui:settings:pageTemplate', value)
     this.setState({
-      current: event.target.value
+      current: value
     })
+
+    if (!env('THEME_EDITOR') && env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      settingsStorage.state('pageTemplate').set(value)
+
+      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
+      const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+
+      if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
+        this.reloadIframe(lastSavedPageTemplate)
+      }
+    }
+  }
+
+  reloadIframe (lastSavedPageTemplate) {
+    window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+
+    workspaceIFrame.set({
+      type: 'reload',
+      template: lastSavedPageTemplate
+    })
+    settingsStorage.state('skipBlank').set(true)
   }
 
   getTemplateOptions () {
@@ -32,14 +56,24 @@ export default class TemplateSettings extends React.Component {
     ))
   }
 
-  render () {
+  getDescription () {
+    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      return null
+    }
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const settingName = localizations ? localizations.template : 'Template'
-    const defaultTemplate = localizations ? localizations.defaultTemplate : 'Theme Default'
+
     let pageTemplateDescription = localizations ? localizations.pageTemplateDescription : 'To apply a template save changes and reload the page'
     if (env('IFRAME_RELOAD')) {
       pageTemplateDescription = localizations ? localizations.pageTemplateReloadDescription : 'To apply a template you will need to save changes and content will be reloaded.'
     }
+
+    return <p className='vcv-ui-form-helper'>{pageTemplateDescription}</p>
+  }
+
+  render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const settingName = localizations ? localizations.template : 'Template'
+    const defaultTemplate = localizations ? localizations.defaultTemplate : 'Theme Default'
 
     return (
       <div className='vcv-ui-form-group'>
@@ -48,7 +82,7 @@ export default class TemplateSettings extends React.Component {
           <option key='default' value='default'>{defaultTemplate}</option>
           {this.getTemplateOptions()}
         </select>
-        <p className='vcv-ui-form-helper'>{pageTemplateDescription}</p>
+        {this.getDescription()}
       </div>
     )
   }

@@ -26,12 +26,14 @@ export default class SettingsPanel extends React.Component {
       content: PageSettings
     })
     if (!env('THEME_EDITOR')) {
-      actions.push({
-        state: 'pageTemplate',
-        getData: 'ui:settings:pageTemplate'
-      })
+      if (!env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+        actions.push({
+          state: 'pageTemplate',
+          getData: 'ui:settings:pageTemplate'
+        })
+      }
 
-      if (env('THEME_LAYOUTS')) {
+      if (env('THEME_LAYOUTS') && !env('REMOVE_SETTINGS_SAVE_BUTTON')) {
         actions.push({
           state: 'headerTemplate',
           getData: 'ui:settings:headerTemplate'
@@ -100,6 +102,12 @@ export default class SettingsPanel extends React.Component {
     const settingsText = localizations ? localizations.settings : 'Settings'
     const { sections, actions } = this.state
 
+    let settingsFooter = <SettingsFooter actions={actions} />
+
+    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      settingsFooter = null
+    }
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-element-content'>
         <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
@@ -112,7 +120,7 @@ export default class SettingsPanel extends React.Component {
           <div className='vcv-ui-tree-content'>
             <SettingsContent sections={sections} />
           </div>
-          <SettingsFooter actions={actions} />
+          {settingsFooter}
         </div>
       </div>
     )
