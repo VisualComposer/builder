@@ -83,6 +83,10 @@ export default class TitleSettings extends React.Component {
     this.setState({
       disabled: event.target.checked
     })
+
+    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      settingsStorage.state('pageTitleDisabled').set(getData('ui:settings:pageTitleDisabled'))
+    }
   }
 
   handleBlur () {

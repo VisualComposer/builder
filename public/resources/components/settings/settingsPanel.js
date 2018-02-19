@@ -45,10 +45,13 @@ export default class SettingsPanel extends React.Component {
           getData: 'ui:settings:sidebarTemplate'
         })
       }
-      actions.push({
-        state: 'pageTitleDisabled',
-        getData: 'ui:settings:pageTitleDisabled'
-      })
+
+      if (!env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+        actions.push({
+          state: 'pageTitleDisabled',
+          getData: 'ui:settings:pageTitleDisabled'
+        })
+      }
     }
 
     if (!env('REMOVE_SETTINGS_SAVE_BUTTON')) {
