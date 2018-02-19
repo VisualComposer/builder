@@ -106,7 +106,9 @@ class TemplateFilterController extends Container implements Module
     protected function addNewTemplate($postsTemplates)
     {
         $frontendHelper = vchelper('Frontend');
-        if ($frontendHelper->isFrontend()) {
+        $requestHelper = vchelper('Request');
+        if ($frontendHelper->isFrontend() || $frontendHelper->isPageEditable() || $requestHelper->exists('wp-preview')
+            || $requestHelper->exists('preview')) {
             return $this->templates;
         } else {
             return $postsTemplates;
@@ -118,14 +120,16 @@ class TemplateFilterController extends Container implements Module
         $cacheKey = 'page_templates-' . md5(get_theme_root() . '/' . get_stylesheet());
         $templates = wp_get_theme()->get_page_templates();
         $frontendHelper = vchelper('Frontend');
+        $requestHelper = vchelper('Request');
 
         if (empty($templates)) {
             $templates = [];
         }
 
         wp_cache_delete($cacheKey, 'themes');
-        if ($frontendHelper->isFrontend()) {
-            $templates  = $this->templates;
+        if ($frontendHelper->isFrontend() || $frontendHelper->isPageEditable() || $requestHelper->exists('wp-preview')
+            || $requestHelper->exists('preview')) {
+            $templates = $this->templates;
         }
 
         wp_cache_add($cacheKey, $templates, 'themes', 1800);
