@@ -247,6 +247,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
   getTypeControlProps () {
     return {
+      categories: categories,
       filterType: this.state.filterType,
       setFilterType: this.setFilterType
     }

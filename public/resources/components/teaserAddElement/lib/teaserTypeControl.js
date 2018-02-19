@@ -3,36 +3,10 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-const controls = [
-  {
-    type: 'all',
-    name: 'All'
-  },
-  {
-    type: 'element',
-    name: 'Elements'
-  },
-  {
-    type: 'template',
-    name: 'Templates'
-  },
-  {
-    type: 'header',
-    name: 'Header'
-  },
-  {
-    type: 'footer',
-    name: 'Footer'
-  },
-  {
-    type: 'sidebar',
-    name: 'Sidebar'
-  }
-]
-
 export default class TeaserTypeControl extends React.Component {
   buttonsGroup = null
   static propTypes = {
+    categories: PropTypes.object.isRequired,
     filterType: PropTypes.string.isRequired,
     setFilterType: PropTypes.func.isRequired
   }
@@ -102,6 +76,7 @@ export default class TeaserTypeControl extends React.Component {
   }
 
   getControls () {
+    let controls = Object.values(this.props.categories)
     return controls.map((control, i) => {
       const { type, name } = control
       let controlClasses = classNames({
