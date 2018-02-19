@@ -63,14 +63,17 @@ export default class SettingsPanel extends React.Component {
       content: CustomScripts
     })
 
-    actions.push({
-      state: 'globalCss',
-      getData: 'ui:settings:customStyles:global'
-    })
-    actions.push({
-      state: 'customCss',
-      getData: 'ui:settings:customStyles:local'
-    })
+    if (!env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      actions.push({
+        state: 'globalCss',
+        getData: 'ui:settings:customStyles:global'
+      })
+      actions.push({
+        state: 'customCss',
+        getData: 'ui:settings:customStyles:local'
+      })
+    }
+
     actions.push({
       state: 'globalJs',
       getData: 'ui:settings:customJavascript:global'
