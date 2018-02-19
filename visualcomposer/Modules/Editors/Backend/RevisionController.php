@@ -55,7 +55,6 @@ class RevisionController extends Container implements Module
             } else {
                 $vcvdata = false;
             }
-
         }
 
         // @codingStandardsIgnoreLine
