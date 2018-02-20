@@ -138,6 +138,7 @@ declare -a arr=(
 'ninjaForms'
 'layerSlider'
 'sliderRevolution'
+'essentialGrid'
 )
 
 EXECDIR=`pwd`
