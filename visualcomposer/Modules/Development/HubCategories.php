@@ -308,6 +308,7 @@ class HubCategories extends Container implements Module
                         'wpWidgetsDefault',
                         'widgetizedSidebar',
                         'contactForm7',
+                        'gravityForms',
                         'ninjaForms',
                         'sliderRevolution',
                     ],
