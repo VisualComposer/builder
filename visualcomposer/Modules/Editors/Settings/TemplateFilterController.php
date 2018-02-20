@@ -14,7 +14,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-class TemplateFilterController extends Container implements Module
+class TemplateFilterController extends Container/* implements Module*/
 {
     protected $templates;
 
