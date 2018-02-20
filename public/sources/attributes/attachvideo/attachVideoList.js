@@ -25,7 +25,31 @@ export default class AttachVideoList extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = {
+      ...props,
+      value: {
+        icons: [],
+        ...props.value
+      }
+    }
     this.handleOpenLibrary = this.handleOpenLibrary.bind(this)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      ...nextProps
+    })
+  }
+
+  handleAttachmentData (index, data) {
+    let icons = this.state.value.icons || []
+    icons[index] = data && data.icon
+    this.setState({
+      value: {
+        ...this.state.value,
+        icons
+      }
+    })
   }
 
   handleOpenLibrary () {
@@ -37,7 +61,7 @@ export default class AttachVideoList extends React.Component {
     const addImage = localizations ? localizations.addImage : 'Add Image'
     const editReplaceImage = localizations ? localizations.editReplaceImage : 'Edit or Replace Image'
     const moveImage = localizations ? localizations.moveImage : 'Move Image'
-    let { fieldKey, value } = this.props
+    let { fieldKey, value } = this.state
     let images = []
 
     let oneMoreControl = ''
@@ -55,11 +79,19 @@ export default class AttachVideoList extends React.Component {
     }
 
     value && value.urls && value.urls.forEach((url, index) => {
+      let id = value.ids[ index ]
+      if ((!value.icons || (value.icons && !value.icons[ index ])) && !this[ `attachment-${id}` ]) {
+        let attachment = id && window.wp.media.attachment(id)
+        let request = this[ `attachment-${id}` ] = attachment.sync('read')
+        request.then((data) => {
+          this.handleAttachmentData(index, data)
+        })
+      }
       let childProps = {
         key: index,
         fieldKey: fieldKey,
         url: url,
-        icon: value.icons[ index ],
+        icon: value.icons && value.icons[ index ],
         oneMoreControl: oneMoreControl,
         handleRemove: this.props.handleRemove,
         getUrlHtml: this.props.getUrlHtml
