@@ -5,6 +5,28 @@
 
 .vcv-ui-start-layout-list-item {
 
+  .vcv-ui-start-layout-list-item-icon {
+    &-stroke {
+      transition: stroke 0.2s ease;
+      stroke: #d1d1d1;
+    }
+
+    &-fill {
+      transition: stroke 0.2s ease;
+      fill: #d1d1d1;
+    }
+  }
+
+  &-active .vcv-ui-start-layout-list-item-icon, &:hover .vcv-ui-start-layout-list-item-icon {
+    &-stroke {
+      stroke: #294A82;
+    }
+
+    &-fill {
+      fill: #294A82;
+    }
+  }
+
   .vcv-ui-item-element-content-layout {
     border: 2px solid #D1D1D1;
     width: 100px;

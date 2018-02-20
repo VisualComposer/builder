@@ -137,6 +137,7 @@ declare -a arr=(
 'doubleOutlineButton'
 'ninjaForms'
 'layerSlider'
+'sliderRevolution'
 )
 
 EXECDIR=`pwd`

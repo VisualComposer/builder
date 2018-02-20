@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
 import BlankControl from './blankControl'
+import LayoutIcons from './layoutIcons'
 
 const templateManager = vcCake.getService('myTemplates')
 const settingsStorage = vcCake.getStorage('settings')
@@ -150,22 +151,30 @@ export default class PagePanelContent extends React.Component {
     if (activeLayout === 'default') {
       defaultClasses += ' vcv-ui-start-layout-list-item-active'
     }
+    let emptyIcon = (
+      <span className='vcv-ui-item-element-content-layout'>
+        <span
+          className={`vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-default`}>
+          <span className='vcv-ui-start-layout-list-item-icon-helper' />
+        </span>
+      </span>
+    )
     Object.keys(pageLayouts).forEach((key, index) => {
       let classes = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
       if (activeLayout === key) {
         classes += ' vcv-ui-start-layout-list-item-active'
+      }
+      let iconName = pageLayouts[ key ].title.toLowerCase().split(' ').join('-')
+      let Icon = LayoutIcons[ iconName ] && LayoutIcons[ iconName ].default
+      let iconProps = {
+        classes: 'vcv-ui-start-layout-list-item-icon'
       }
 
       layouts.push(
         <li className={classes} key={`layout-${index}`}
           onClick={this.handleLayoutClick.bind(this, key)}>
           <span className='vcv-ui-item-element' title={`${pageLayouts[ key ].title}`}>
-            <span className='vcv-ui-item-element-content-layout'>
-              <span
-                className={`vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-${pageLayouts[ key ].title.toLowerCase().split(' ').join('-')}`}>
-                <span className='vcv-ui-start-layout-list-item-icon-helper' />
-              </span>
-            </span>
+            {Icon ? <Icon {...iconProps} /> : emptyIcon}
             <span className='vcv-ui-item-element-name'>
               {pageLayouts[ key ].title.replace(/vcv /gi, '')}
             </span>
@@ -174,17 +183,15 @@ export default class PagePanelContent extends React.Component {
       )
     })
 
+    let Icon = LayoutIcons[ 'theme-default' ] && LayoutIcons[ 'theme-default' ].default
+    let iconProps = {
+      classes: 'vcv-ui-start-layout-list-item-icon'
+    }
     layouts.push(
       <li className={defaultClasses} key={`layout-theme-default`}
         onClick={this.handleLayoutClick.bind(this, 'default')}>
         <span className='vcv-ui-item-element' title='Theme default'>
-          <span className='vcv-ui-item-element-content-layout'>
-            <span
-              className={`vcv-ui-start-layout-list-item-icon vcv-ui-start-layout-list-item-icon-default`}>
-              <span className='vcv-ui-start-layout-list-item-icon-helper' />
-            </span>
-            <span className='vcv-ui-start-layout-list-item-icon-name'>T</span>
-          </span>
+          {Icon ? <Icon {...iconProps} /> : emptyIcon}
           <span className='vcv-ui-item-element-name'>
             Theme Default
           </span>
