@@ -28,20 +28,22 @@ export default class HfsPanelContent extends React.Component {
 
   render () {
     const { inputValue } = this.state
-    const placeholder = `${this.props.type} Name`
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const btnText = localizations ? localizations.startBuildingHFSButton : 'Start Building'
+    const placeholder = localizations ? localizations.startPageHFSInputPlaceholder : '{name} Name'
 
     return <div className='vcv-hfs-start-blank-container'>
       <form className='vcv-hfs-start-blank-form' onSubmit={this.handleSubmit}>
         <input
           className='vcv-hfs-start-blank-name-input'
           type='text'
-          placeholder={placeholder}
+          placeholder={placeholder.replace('{name}', this.props.type)}
           onChange={this.handleChange}
           value={inputValue || ''}
           autoFocus
         />
         <button className='vcv-hfs-start-blank-start-button' type='submit'>
-          Start Building
+          {btnText}
         </button>
       </form>
     </div>

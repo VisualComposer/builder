@@ -277,6 +277,14 @@ class Localizations extends Container implements Helper
                 'Update Visual Composer plugin to the most recent version to download this template.',
                 'vcwb'
             ),
+            'startBuildingHFSButton' => __('Start Building', 'vcwb'),
+            'startPageHFSInputPlaceholder' => sprintf(
+                __(
+                    '%s Name',
+                    'vcwb'
+                ),
+                '{name}'
+            ),
         ];
 
         return $locale;
