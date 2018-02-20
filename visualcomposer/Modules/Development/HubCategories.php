@@ -308,7 +308,8 @@ class HubCategories extends Container implements Module
                         'wpWidgetsDefault',
                         'widgetizedSidebar',
                         'contactForm7',
-                        'ninjaForms'
+                        'ninjaForms',
+                        'sliderRevolution',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
