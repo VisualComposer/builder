@@ -1,5 +1,5 @@
 import React from 'react'
-import {setData, getStorage, env} from 'vc-cake'
+import {setData, getData, getStorage, env} from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
@@ -83,6 +83,16 @@ export default class TitleSettings extends React.Component {
     this.setState({
       disabled: event.target.checked
     })
+
+    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      settingsStorage.state('pageTitleDisabled').set(getData('ui:settings:pageTitleDisabled'))
+    }
+  }
+
+  handleBlur () {
+    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      settingsStorage.state('pageTitle').set(getData('ui:settings:pageTitle'))
+    }
   }
 
   render () {
@@ -109,7 +119,7 @@ export default class TitleSettings extends React.Component {
       <React.Fragment>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <span className='vcv-ui-form-group-heading'>{settingName}</span>
-          <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.updateTitle} />
+          <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.updateTitle} onBlur={this.handleBlur} />
           {reloadNotification}
         </div>
         {disableTitleToggleControl}
