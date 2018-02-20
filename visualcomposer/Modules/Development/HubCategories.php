@@ -307,7 +307,8 @@ class HubCategories extends Container implements Module
                         'wpWidgetsCustom',
                         'wpWidgetsDefault',
                         'widgetizedSidebar',
-                        'contactForm7'
+                        'contactForm7',
+                        'gravityForms'
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
