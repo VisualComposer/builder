@@ -26,6 +26,11 @@ class PageTemplatesController extends Container implements Module
             $this->addFilter('vcv:editor:variables', 'outputTemplatesLayouts');
             $this->addFilter('vcv:editor:variables', 'outputThemeTemplates');
             $this->addFilter('vcv:editor:settings:pageTemplatesLayouts:current', 'getCurrentTemplateLayout');
+
+            $this->wpAddFilter(
+                'template_include',
+                'viewPageTemplate'
+            );
         }
     }
 
@@ -50,6 +55,24 @@ class PageTemplatesController extends Container implements Module
         }
 
         return $output;
+    }
+
+    protected function viewPageTemplate($originalTemplate)
+    {
+        $current = $this->call(
+            'getCurrentTemplateLayout',
+            [
+                'output' => [
+                    'type' => 'theme',
+                    'value' => $originalTemplate,
+                ],
+            ]
+        );
+        if (!empty($current) && $current['type'] !== 'theme') {
+            return vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
+        }
+
+        return $originalTemplate;
     }
 
     protected function outputCurrentTemplatesLayouts($variables, $payload)
