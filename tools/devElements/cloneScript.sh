@@ -144,6 +144,7 @@ declare -a arr=(
 'eventOnCalendar'
 'enviraGallery'
 'advancedCustomFields'
+'mailChimpForWordPress'
 )
 
 EXECDIR=`pwd`
