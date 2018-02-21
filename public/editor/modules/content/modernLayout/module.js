@@ -187,28 +187,31 @@ vcCake.add('contentModernLayout', (api) => {
       }
       let url = iframe.src.split('?')
       let params = url[ 1 ].split('&')
-      for (let i = 0; i < params.length; i++) {
-        if (params[ i ].indexOf('vcv-template') >= 0) {
-          params.splice(i, 1)
-          break
+      params = params.reduce((arr, item) => {
+        let write = true
+        if (item.indexOf('vcv-template') >= 0) {
+          write = false
         }
         if (vcCake.env('THEME_LAYOUTS')) {
-          if (params[ i ].indexOf('vcv-header') >= 0) {
-            params.splice(i, 1)
-            break
-          }
-          if (params[ i ].indexOf('vcv-sidebar') >= 0) {
-            params.splice(i, 1)
-            break
-          }
-          if (params[ i ].indexOf('vcv-footer') >= 0) {
-            params.splice(i, 1)
-            break
+          if (
+            item.indexOf('vcv-header') >= 0 ||
+            item.indexOf('vcv-sidebar') >= 0 ||
+            item.indexOf('vcv-footer') >= 0
+          ) {
+            write = false
           }
         }
-      }
+        write && arr.push(item)
+        return arr
+      }, [])
+
       if (template) {
-        params.push(`vcv-template=${template}`)
+        if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
+          params.push(`vcv-template=${template.value}`)
+          params.push(`vcv-template-type=${template.type}`)
+        } else {
+          params.push(`vcv-template=${template}`)
+        }
       }
       if (vcCake.env('THEME_LAYOUTS')) {
         if (header) {

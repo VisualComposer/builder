@@ -1,8 +1,8 @@
 export default {
-  'blank-page': require('./blank-page'),
-  'boxed-blank': require('./boxed-blank'),
-  'header-and-footer': require('./header-and-footer'),
-  'left-sidebar': require('./left-sidebar'),
-  'right-sidebar': require('./right-sidebar'),
+  'vc__blank': require('./vc__blank'),
+  'vc__boxed': require('./vc__boxed'),
+  'vc-theme__header-footer-layout': require('./vc-theme__header-footer-layout'),
+  'vc-theme__header-footer-sidebar-left-layout': require('./vc-theme__header-footer-sidebar-left-layout'),
+  'vc-theme__header-footer-sidebar-layout': require('./vc-theme__header-footer-sidebar-layout'),
   'theme-default': require('./theme-default')
 }

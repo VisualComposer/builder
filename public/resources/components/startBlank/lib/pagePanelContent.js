@@ -10,10 +10,21 @@ const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
-let pageTemplates = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES()
-let pageLayouts = window.VCV_LAYOUTS_DATA && window.VCV_LAYOUTS_DATA() || []
-if (pageTemplates) {
-  settingsStorage.state('pageTemplate').set(pageTemplates.current)
+let pageLayouts
+let pageTemplates
+
+if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
+  pageLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
+  let currentTemplate = window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
+  if (currentTemplate && currentTemplate.type && currentTemplate.value) {
+    settingsStorage.state('pageTemplate').set(currentTemplate)
+  }
+} else {
+  pageTemplates = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES()
+  pageLayouts = window.VCV_LAYOUTS_DATA && window.VCV_LAYOUTS_DATA() || []
+  if (pageTemplates) {
+    settingsStorage.state('pageTemplate').set(pageTemplates.current)
+  }
 }
 
 export default class PagePanelContent extends React.Component {
@@ -145,11 +156,17 @@ export default class PagePanelContent extends React.Component {
   }
 
   getLayoutControls () {
-    let activeLayout = settingsStorage.state('pageTemplate').get() || 'default'
+    let activeLayout = settingsStorage.state('pageTemplate').get() || vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? {type: 'theme', value: 'default'} : 'default'
     let layouts = []
     let defaultClasses = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
-    if (activeLayout === 'default') {
-      defaultClasses += ' vcv-ui-start-layout-list-item-active'
+    if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
+      if (activeLayout.type === 'theme' && activeLayout.value === 'default') {
+        defaultClasses += ' vcv-ui-start-layout-list-item-active'
+      }
+    } else {
+      if (activeLayout === 'default') {
+        defaultClasses += ' vcv-ui-start-layout-list-item-active'
+      }
     }
     let emptyIcon = (
       <span className='vcv-ui-item-element-content-layout'>
@@ -159,29 +176,61 @@ export default class PagePanelContent extends React.Component {
         </span>
       </span>
     )
-    Object.keys(pageLayouts).forEach((key, index) => {
-      let classes = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
-      if (activeLayout === key) {
-        classes += ' vcv-ui-start-layout-list-item-active'
+    if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
+      if (pageLayouts) {
+        let allowedTypes = [ 'vc', 'vc-theme' ]
+        pageLayouts.forEach((templatesList, key) => {
+          if (allowedTypes.indexOf(templatesList.type) >= 0) {
+            templatesList.values.forEach((template, index) => {
+              let templateName = `${templatesList.type}__${template.value}`
+              let classes = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
+              if (activeLayout.type === templatesList.type && activeLayout.value === template.value) {
+                classes += ' vcv-ui-start-layout-list-item-active'
+              }
+              let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].default
+              let iconProps = {
+                classes: 'vcv-ui-start-layout-list-item-icon'
+              }
+              layouts.push(
+                <li className={classes} key={`layout-${key}-${index}`}
+                  onClick={this.handleLayoutClick.bind(this, templatesList.type, template.value)}>
+                  <span className='vcv-ui-item-element' title={`${template.label}`}>
+                    {Icon ? <Icon {...iconProps} /> : emptyIcon}
+                    <span className='vcv-ui-item-element-name'>
+                      {template.label}
+                    </span>
+                  </span>
+                </li>
+              )
+            })
+          }
+        })
       }
-      let iconName = pageLayouts[ key ].title.toLowerCase().split(' ').join('-')
-      let Icon = LayoutIcons[ iconName ] && LayoutIcons[ iconName ].default
-      let iconProps = {
-        classes: 'vcv-ui-start-layout-list-item-icon'
-      }
+    } else {
+      Object.keys(pageLayouts).forEach((key, index) => {
+        let classes = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
+        if (activeLayout === key) {
+          classes += ' vcv-ui-start-layout-list-item-active'
+        }
+        let iconName = pageLayouts[ key ].title.toLowerCase().split(' ').join('-')
+        let Icon = LayoutIcons[ iconName ] && LayoutIcons[ iconName ].default
+        let iconProps = {
+          classes: 'vcv-ui-start-layout-list-item-icon'
+        }
 
-      layouts.push(
-        <li className={classes} key={`layout-${index}`}
-          onClick={this.handleLayoutClick.bind(this, key)}>
-          <span className='vcv-ui-item-element' title={`${pageLayouts[ key ].title}`}>
-            {Icon ? <Icon {...iconProps} /> : emptyIcon}
-            <span className='vcv-ui-item-element-name'>
-              {pageLayouts[ key ].title.replace(/vcv /gi, '')}
+        layouts.push(
+          <li className={classes} key={`layout-${index}`}
+            onClick={this.handleLayoutClick.bind(this, key)}>
+            <span className='vcv-ui-item-element' title={`${pageLayouts[ key ].title}`}>
+              {Icon ? <Icon {...iconProps} /> : emptyIcon}
+              <span className='vcv-ui-item-element-name'>
+                {pageLayouts[ key ].title.replace(/vcv /gi, '')}
+              </span>
             </span>
-          </span>
-        </li>
-      )
-    })
+          </li>
+        )
+      })
+    }
 
     let Icon = LayoutIcons[ 'theme-default' ] && LayoutIcons[ 'theme-default' ].default
     let iconProps = {
@@ -189,7 +238,7 @@ export default class PagePanelContent extends React.Component {
     }
     layouts.push(
       <li className={defaultClasses} key={`layout-theme-default`}
-        onClick={this.handleLayoutClick.bind(this, 'default')}>
+        onClick={vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? this.handleLayoutClick.bind(this, 'theme', 'default') : this.handleLayoutClick.bind(this, 'default')}>
         <span className='vcv-ui-item-element' title='Theme default'>
           {Icon ? <Icon {...iconProps} /> : emptyIcon}
           <span className='vcv-ui-item-element-name'>
@@ -201,12 +250,26 @@ export default class PagePanelContent extends React.Component {
     return layouts
   }
 
-  handleLayoutClick (layoutType) {
-    settingsStorage.state('skipBlank').set(true)
-    let activeLayout = settingsStorage.state('pageTemplate').get()
-    if (layoutType && layoutType !== activeLayout) {
-      settingsStorage.state('pageTemplate').set(layoutType)
-      workspaceIFrame.set({ type: 'reload', template: layoutType })
+  handleLayoutClick (layoutType, layoutValue) {
+    console.log(layoutType, layoutValue)
+    if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
+      settingsStorage.state('skipBlank').set(true)
+      let activeLayout = settingsStorage.state('pageTemplate').get()
+      let newLayout = {
+        type: layoutType,
+        value: layoutValue
+      }
+      if (activeLayout.value !== newLayout.value) {
+        settingsStorage.state('pageTemplate').set(newLayout)
+        workspaceIFrame.set({ type: 'reload', template: newLayout })
+      }
+    } else {
+      settingsStorage.state('skipBlank').set(true)
+      let activeLayout = settingsStorage.state('pageTemplate').get()
+      if (layoutType && layoutType !== activeLayout) {
+        settingsStorage.state('pageTemplate').set(layoutType)
+        workspaceIFrame.set({ type: 'reload', template: layoutType })
+      }
     }
     this.props.unmountStartBlank()
   }
