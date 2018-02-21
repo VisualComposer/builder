@@ -139,6 +139,7 @@ declare -a arr=(
 'layerSlider'
 'sliderRevolution'
 'essentialGrid'
+'nextGenGallery'
 )
 
 EXECDIR=`pwd`

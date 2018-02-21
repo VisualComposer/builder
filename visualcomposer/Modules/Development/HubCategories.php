@@ -313,6 +313,7 @@ class HubCategories extends Container implements Module
                         'sliderRevolution',
                         'layerSlider',
                         'essentialGrid',
+                        'nextGenGallery',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
