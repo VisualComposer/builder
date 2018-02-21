@@ -76,7 +76,6 @@ $(() => {
         min-height: 100%;
         } `
         style.innerText += 'body {'
-        style.innerText += 'padding: 0 20px;'
         style.innerText += 'width: 480px;'
         style.innerText += '}'
         iframeDocument.head.appendChild(style)
