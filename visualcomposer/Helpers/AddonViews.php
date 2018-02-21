@@ -43,9 +43,10 @@ class AddonViews implements Helper
 
         /** @var Filters $filterHelper */
         $filterHelper = vchelper('Filters');
+        $addonsHelper = vchelper('HubAddons');
         $_path = $filterHelper->fire(
             'vcv:helpers:addonviews:render:path',
-            rtrim($this->addonRealPath($addon), '/\\') . '/views/' . ltrim($_path, '/\\'),
+            rtrim($addonsHelper->getAddonRealPath($addon), '/\\') . '/views/' . ltrim($_path, '/\\'),
             [
                 'path' => $_path,
                 'args' => $_args,
@@ -56,22 +57,5 @@ class AddonViews implements Helper
         $content = ob_get_clean();
 
         return $content;
-    }
-
-    /**
-     * @param $addon
-     *
-     * @return false|string
-     */
-    public function addonRealPath($addon)
-    {
-        $hubHelper = vchelper('HubAddons');
-        $hubAddons = $hubHelper->getAddons();
-
-        if ($hubAddons[ $addon ]) {
-            return $hubAddons[ $addon ]['addonRealPath'];
-        }
-
-        return false;
     }
 }

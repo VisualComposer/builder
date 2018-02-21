@@ -73,4 +73,20 @@ class Addons implements Helper
             : content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/addons/' . ltrim($key, '\\/') . '/'
             . ltrim($key, '\\/');
     }
+
+    /**
+     * @param $addon
+     *
+     * @return false|string
+     */
+    public function getAddonRealPath($addon)
+    {
+        $hubAddons = $this->getAddons();
+
+        if ($hubAddons[ $addon ]) {
+            return $hubAddons[ $addon ]['addonRealPath'];
+        }
+
+        return false;
+    }
 }

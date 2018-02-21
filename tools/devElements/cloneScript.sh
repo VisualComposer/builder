@@ -139,6 +139,9 @@ declare -a arr=(
 'layerSlider'
 'sliderRevolution'
 'essentialGrid'
+'nextGenGallery'
+'wpForms'
+'eventOnCalendar'
 )
 
 EXECDIR=`pwd`
