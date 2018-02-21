@@ -38,6 +38,7 @@ class PageTemplatesController extends Container implements Module
     {
         $post = $postTypeHelper->get();
         if ($post) {
+            // @codingStandardsIgnoreLine
             $currentPostTemplate = $post->page_template;
             $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
             $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
