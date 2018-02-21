@@ -140,6 +140,7 @@ declare -a arr=(
 'sliderRevolution'
 'essentialGrid'
 'nextGenGallery'
+'wpForms'
 )
 
 EXECDIR=`pwd`
