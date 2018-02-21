@@ -1,5 +1,5 @@
 import React from 'react'
-import {setData, getStorage} from 'vc-cake'
+import { setData, getStorage } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const vcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
@@ -14,13 +14,10 @@ export default class TemplateLayout extends React.Component {
       type: 'theme', value: 'default'
     }
     let currentTemplate = templateStorageData || templateData
-    let showTheme = false
-    if (currentTemplate.type === 'theme' || (currentTemplate.type === 'vc' && currentTemplate.value === 'default')) {
-      showTheme = true
-    }
+    let showTheme = currentTemplate.type === 'theme'
     this.state = {
       current: currentTemplate,
-      showTheme
+      showTheme: showTheme
     }
     setData('ui:settings:pageTemplate', currentTemplate)
     this.allowedTypes = [ 'vc', 'vc-theme', 'theme' ]
@@ -28,21 +25,17 @@ export default class TemplateLayout extends React.Component {
   }
 
   updateTemplate (event) {
-    let showTheme = false
     let layoutData = event.target && event.target.value && event.target.value.split('__')
     let data = {
       type: layoutData[ 0 ],
       value: layoutData[ 1 ]
     }
-
-    if (data.type === 'theme' || (data.type === 'vc' && data.value === 'default')) {
-      showTheme = true
-    }
+    let showTheme = data.type === 'theme'
 
     setData('ui:settings:pageTemplate', data)
     this.setState({
       current: data,
-      showTheme
+      showTheme: showTheme
     })
   }
 
@@ -79,10 +72,20 @@ export default class TemplateLayout extends React.Component {
     )
   }
 
-  getThemeTemplateDropdown () {
-    if (!this.state.showTheme || !themeTemplates) {
-      return ''
+  getLayoutsDropdown () {
+    let value = `${this.state.current.type}__${this.state.current.value}`
+    if (this.state.current.type === 'theme') {
+      value = 'theme__default'
     }
+
+    return (
+      <select className='vcv-ui-form-dropdown' value={value} onChange={this.updateTemplate}>
+        {this.getTemplateOptions()}
+      </select>
+    )
+  }
+
+  getThemeTemplateOptions () {
     let options = []
     if (themeTemplates) {
       themeTemplates.forEach((templateList, index) => {
@@ -92,7 +95,7 @@ export default class TemplateLayout extends React.Component {
         templateList.values.forEach((template, tIndex) => {
           options.push(
             <option value={`${templateList.type}__${template.value}`}
-              key={`template-opt-group-theme-${index}-opt-${tIndex}`}>
+              key={`template-opt-group-theme-${templateList.type}-${index}-opt-${tIndex}`}>
               {template.label}
             </option>
           )
@@ -101,9 +104,21 @@ export default class TemplateLayout extends React.Component {
     }
 
     return (
+      <React.Fragment>
+        {options}
+      </React.Fragment>
+    )
+  }
+
+  getThemeTemplateDropdown () {
+    if (!this.state.showTheme || !themeTemplates) {
+      return ''
+    }
+
+    return (
       <div className='vcv-ui-form-group'>
         <select className='vcv-ui-form-dropdown' value={`${this.state.current.type}__${this.state.current.value}`} onChange={this.updateTemplate}>
-          {options}
+          {this.getThemeTemplateOptions()}
         </select>
       </div>
     )
@@ -113,9 +128,7 @@ export default class TemplateLayout extends React.Component {
     return (
       <React.Fragment>
         <div className='vcv-ui-form-group'>
-          <select className='vcv-ui-form-dropdown' value={`${this.state.current.type}__${this.state.current.value}`} onChange={this.updateTemplate}>
-            {this.getTemplateOptions()}
-          </select>
+          {this.getLayoutsDropdown()}
         </div>
         {this.getThemeTemplateDropdown()}
       </React.Fragment>
