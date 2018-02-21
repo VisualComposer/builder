@@ -141,6 +141,7 @@ declare -a arr=(
 'essentialGrid'
 'nextGenGallery'
 'wpForms'
+'eventOnCalendar'
 )
 
 EXECDIR=`pwd`
