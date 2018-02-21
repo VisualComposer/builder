@@ -135,6 +135,10 @@ declare -a arr=(
 'facebookEmbeddedPosts'
 'videoPopup'
 'doubleOutlineButton'
+'ninjaForms'
+'layerSlider'
+'sliderRevolution'
+'essentialGrid'
 )
 
 EXECDIR=`pwd`

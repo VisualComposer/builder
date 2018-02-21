@@ -12,13 +12,13 @@ export default class HfsPanelContent extends React.Component {
     this.state = {
       inputValue: props.value || ''
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleClick (e) {
+  handleSubmit (e) {
     e && e.preventDefault()
-    this.props.addClick(this.state.inputValue)
+    this.props.addClick(this.state.inputValue.trim())
   }
 
   handleChange (e) {
@@ -28,22 +28,24 @@ export default class HfsPanelContent extends React.Component {
 
   render () {
     const { inputValue } = this.state
-    const placeholder = `${this.props.type} Name`
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const btnText = localizations ? localizations.startBuildingHFSButton : 'Start Building'
+    const placeholder = localizations ? localizations.startPageHFSInputPlaceholder : '{name} Name'
 
     return <div className='vcv-hfs-start-blank-container'>
-      <input
-        className='vcv-hfs-start-blank-name-input'
-        type='text'
-        placeholder={placeholder}
-        onChange={this.handleChange}
-        value={inputValue || ''}
-      />
-      <button
-        className='vcv-hfs-start-blank-start-button'
-        onClick={this.handleClick}
-      >
-        Start Building
-      </button>
+      <form className='vcv-hfs-start-blank-form' onSubmit={this.handleSubmit}>
+        <input
+          className='vcv-hfs-start-blank-name-input'
+          type='text'
+          placeholder={placeholder.replace('{name}', this.props.type)}
+          onChange={this.handleChange}
+          value={inputValue || ''}
+          autoFocus
+        />
+        <button className='vcv-hfs-start-blank-start-button' type='submit'>
+          {btnText}
+        </button>
+      </form>
     </div>
   }
 }

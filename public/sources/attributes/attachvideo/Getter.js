@@ -7,13 +7,19 @@ module.exports = (data, key, settings) => {
     returnValue = [ value ]
   } else if (lodash.isArray(value) && !isMultiple) {
     returnValue = value[ 0 ]
-  } else if (lodash.isObject(value)) {
-    if (isMultiple) {
-      returnValue = value.urls
+  } else if (lodash.isObject(value) && !lodash.isArray(value)) {
+    // Note: isObject(['test']) returns true!
+    if (!value.ids && !value.urls && value.id) {
+      returnValue = value
     } else {
-      returnValue = value.urls[ 0 ]
+      if (isMultiple) {
+        returnValue = value.urls
+      } else {
+        returnValue = value.urls[ 0 ]
+      }
     }
   }
+
   if (lodash.isEmpty(returnValue) && settings.options && settings.options.defaultValue) {
     returnValue = settings.options.defaultValue
   }

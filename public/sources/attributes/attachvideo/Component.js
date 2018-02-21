@@ -51,6 +51,29 @@ class AttachVideo extends Attribute {
     let value = props.value
     if (!lodash.isObject(value)) {
       value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
+    } else if (lodash.isArray(value)) {
+      if (value.length > 0) {
+        let ids = []
+        let urls = []
+        value.forEach((url) => {
+          ids.push(url.id)
+          if (url.full) {
+            urls.push(url)
+          } else {
+            urls.push({ full: url })
+          }
+        })
+        value = { ids: ids, urls: urls }
+      } else {
+        value = { ids: [], urls: [] }
+      }
+    } else {
+      if (!value.ids && !value.urls && value.id) {
+        value = {
+          ids: [ value.id ],
+          urls: [ value ]
+        }
+      }
     }
 
     return {
@@ -179,7 +202,7 @@ class AttachVideo extends Attribute {
       <div className='vcv-ui-form-attach-image'>
         <SortableList {...this.props} helperClass={dragClass} useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
           axis='xy' value={this.state.value} openLibrary={this.openLibrary} handleRemove={this.handleRemove}
-          getUrlHtml={this.getUrlHtml} />
+          getUrlHtml={this.getUrlHtml} mediaLibrary={this.mediaUploader} />
       </div>
     )
   }

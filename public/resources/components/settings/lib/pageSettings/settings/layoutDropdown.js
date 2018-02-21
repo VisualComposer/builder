@@ -1,6 +1,8 @@
 import React from 'react'
-import {setData, getStorage} from 'vc-cake'
+import {env, setData, getStorage} from 'vc-cake'
 import PropTypes from 'prop-types'
+const workspaceStorage = getStorage('workspace')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 const settingsStorage = getStorage('settings')
 
@@ -27,10 +29,25 @@ export default class LayoutDropdown extends React.Component {
 
   updateLayout (event) {
     const layoutName = this.props.layoutName.toLowerCase()
-    setData(`ui:settings:${layoutName}Template`, event.target.value)
+    const layoutNameUppercase = this.props.layoutName.toUpperCase()
+    const value = event.target.value
+    setData(`ui:settings:${layoutName}Template`, value)
     this.setState({
-      current: event.target.value
+      current: value
     })
+
+    if (!env('THEME_EDITOR') && env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      if (env('THEME_LAYOUTS')) {
+        settingsStorage.state(`${layoutName}Template`).set(value)
+      }
+      const globalLayoutName = `VCV_${layoutNameUppercase}_TEMPLATES`
+      const lastLoadedTemplate = window[`vcvLastLoaded${this.props.layoutName}Template`] || window[globalLayoutName] && window[globalLayoutName]() && window[globalLayoutName]().current
+      const lastSavedTemplate = settingsStorage.state(`${layoutName}Template`).get()
+
+      if (lastLoadedTemplate && lastLoadedTemplate !== lastSavedTemplate) {
+        this.reloadIframe(lastSavedTemplate)
+      }
+    }
   }
 
   getTemplateOptions () {
@@ -38,6 +55,17 @@ export default class LayoutDropdown extends React.Component {
     return Object.keys(data.all).map((key, index) => (
       <option key={index} value={key}>{data.all[ key ]}</option>
     ))
+  }
+
+  reloadIframe (lastSavedTemplate) {
+    const layoutName = this.props.layoutName.toLowerCase()
+    window[`vcvLastLoaded${this.props.layoutName}Template`] = lastSavedTemplate
+
+    workspaceIFrame.set({
+      type: 'reload',
+      [layoutName]: settingsStorage.state(`${layoutName}Template`).get()
+    })
+    settingsStorage.state('skipBlank').set(true)
   }
 
   render () {
