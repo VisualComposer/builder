@@ -102,4 +102,11 @@ class Frontend implements Helper
 
         return false;
     }
+
+    public function isPreview()
+    {
+        $requestHelper = vchelper('Request');
+
+        return $requestHelper->exists('wp-preview') || $requestHelper->exists('preview');
+    }
 }
