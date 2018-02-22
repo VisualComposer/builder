@@ -41,29 +41,31 @@ class PageTemplatesSaveController extends Container implements Module
      */
     protected function setPageTemplate($response, $payload, Request $requestHelper, Frontend $frontendHelper)
     {
-        // TODO: Preview
         if ($requestHelper->exists('vcv-page-template')) {
+            $sourceId = $payload['sourceId'];
+            $post = get_post($sourceId);
             if ($frontendHelper->isPreview()) {
-
-            } else {
-                $sourceId = $payload['sourceId'];
-                $pageTemplateData = $requestHelper->input('vcv-page-template');
-                $value = $pageTemplateData['value'];
-                $type = $pageTemplateData['type'];
-                $post = get_post($sourceId);
-                if ($post && $type && $value) {
-                    update_post_meta($post->ID, '_vcv-page-template', $value);
-                    update_post_meta($post->ID, '_vcv-page-template-type', $type);
-                    if ($type === 'theme') {
-                        $post->page_template = $value === 'default' ? '' : $value;
-                        //temporarily disable (can break preview page and content if not removed)
-                        remove_filter('content_save_pre', 'wp_filter_post_kses');
-                        remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
-                        wp_update_post($post);
-                        //bring it back once you're done posting
-                        add_filter('content_save_pre', 'wp_filter_post_kses');
-                        add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
-                    }
+                $preview = wp_get_post_autosave($sourceId);
+                if (is_object($preview)) {
+                    $post = $preview;
+                }
+            }
+            $pageTemplateData = $requestHelper->input('vcv-page-template');
+            $value = $pageTemplateData['value'];
+            $type = $pageTemplateData['type'];
+            if ($post && $type && $value) {
+                update_metadata('post', $post->ID, '_vcv-page-template', $value);
+                update_metadata('post', $post->ID, '_vcv-page-template-type', $type);
+                if ($type === 'theme') {
+                    $post->page_template = $value === 'default' ? '' : $value;
+                    update_metadata('post', $post->ID, '_wp_page_template', $value === 'default' ? '' : $value);
+                    //temporarily disable (can break preview page and content if not removed)
+                    remove_filter('content_save_pre', 'wp_filter_post_kses');
+                    remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+                    wp_update_post($post);
+                    //bring it back once you're done posting
+                    add_filter('content_save_pre', 'wp_filter_post_kses');
+                    add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
                 }
             }
         }

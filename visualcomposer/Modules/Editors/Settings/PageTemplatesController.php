@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -32,10 +33,16 @@ class PageTemplatesController extends Container implements Module
         }
     }
 
-    protected function getCurrentTemplateLayout($output, PostType $postTypeHelper)
+    protected function getCurrentTemplateLayout($output, PostType $postTypeHelper, Frontend $frontendHelper)
     {
         $post = $postTypeHelper->get();
         if ($post) {
+            if ($frontendHelper->isPreview()) {
+                $preview = wp_get_post_autosave($post->ID);
+                if (is_object($preview)) {
+                    $post = $preview;
+                }
+            }
             // @codingStandardsIgnoreLine
             $currentPostTemplate = $post->page_template;
             $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
@@ -68,8 +75,13 @@ class PageTemplatesController extends Container implements Module
                 ],
             ]
         );
-        if (!empty($current) && $current['type'] !== 'theme') {
-            $result = vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
+        if (!empty($current)) {
+            $result = $originalTemplate;
+            if ($current['type'] !== 'theme') {
+                $result = vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
+            } else if ($current['value'] && $current['value'] !== 'default') {
+                $result = locate_template($current['value']);
+            }
 
             return $result;
         }
