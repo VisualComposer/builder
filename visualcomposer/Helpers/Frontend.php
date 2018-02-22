@@ -107,6 +107,6 @@ class Frontend implements Helper
     {
         $requestHelper = vchelper('Request');
 
-        return $requestHelper->exists('wp-preview') || $requestHelper->exists('preview');
+        return $requestHelper->exists('wp-preview') && $requestHelper->input('wp-preview') === 'dopreview';
     }
 }

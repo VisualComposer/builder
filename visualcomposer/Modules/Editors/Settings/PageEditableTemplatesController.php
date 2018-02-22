@@ -30,6 +30,8 @@ class PageEditableTemplatesController extends Container implements Module
 
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewThemeTemplate');
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewVcTemplate');
+        $this->addFilter('vcv:editor:settings:viewPageTemplate', 'viewThemeTemplate');
+        $this->addFilter('vcv:editor:settings:viewPageTemplate', 'viewVcTemplate');
     }
 
     protected function viewPePageTemplate($originalTemplate, Frontend $frontendHelper, Request $requestHelper)
@@ -56,7 +58,7 @@ class PageEditableTemplatesController extends Container implements Module
         if ($data && $data['type'] === 'theme') {
             $templateList = wp_get_theme()->get_page_templates();
             if (isset($templateList[ $data['value'] ])) {
-                return $data['value'];
+                return locate_template($data['value']);
             } elseif ($data['value'] === 'default') {
                 return get_page_template();
             }

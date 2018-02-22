@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -53,9 +54,8 @@ class JsDataController extends Container implements Module
         return $response;
     }
 
-    protected function setData($response, $payload, CurrentUser $currentUserAccessHelper)
+    protected function setData($response, $payload, CurrentUser $currentUserAccessHelper, Frontend $frontendHelper)
     {
-        $requestHelper = vchelper('Request');
         $sourceId = $payload['sourceId'];
         // @codingStandardsIgnoreLine
         global $post_type_object;
@@ -66,7 +66,7 @@ class JsDataController extends Container implements Module
                 [$post_type_object->cap->edit_post, $sourceId]
             )->get()
         ) {
-            if ($requestHelper->input('wp-preview', '') === 'dopreview') {
+            if ($frontendHelper->isPreview()) {
                 $this->setPreviewLocalJs($sourceId);
                 $this->setPreviewGlobalJs($sourceId);
             } else {
