@@ -30,6 +30,8 @@ class PageEditableTemplatesController extends Container implements Module
 
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewThemeTemplate');
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewVcTemplate');
+        $this->addFilter('vcv:editor:settings:viewPageTemplate', 'viewThemeTemplate');
+        $this->addFilter('vcv:editor:settings:viewPageTemplate', 'viewVcTemplate');
     }
 
     protected function viewPePageTemplate($originalTemplate, Frontend $frontendHelper, Request $requestHelper)
