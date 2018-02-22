@@ -191,6 +191,12 @@ class Controller extends Container implements Module
                 }
         }
 
+        $tokenLabels = vcfilter(
+            'vcv:editor:autocomplete:checkAction',
+            $tokenLabels,
+            ['action' => $action, 'token' => $token, 'returnValue' => $returnValue]
+        );
+
         return $tokenLabels;
     }
 }

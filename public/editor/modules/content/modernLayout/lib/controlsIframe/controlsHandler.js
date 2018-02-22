@@ -76,6 +76,8 @@ export default class ControlsHandler {
    * @param data
    */
   show (data) {
+    this.elementInlineEdit = data.elementInlineEdit
+    this.element = data.element
     this.createControls(data)
     this.autoUpdateContainerPosition(data)
     this.createAppendControl(data)
@@ -163,6 +165,7 @@ export default class ControlsHandler {
       control.addEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control))
       control.addEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control))
     })
+    this.elementInlineEdit && this.element.addEventListener('mouseup', this.hide)
   }
 
   controlDropdownMouseEnter (control) {
@@ -578,6 +581,7 @@ export default class ControlsHandler {
         control.removeEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control))
         control.removeEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control))
       })
+      this.elementInlineEdit && this.element.removeEventListener('mouseup', this.hide)
     }
     while (this.controlsContainer && this.controlsContainer.firstChild) {
       this.controlsContainer.removeChild(this.controlsContainer.firstChild)
