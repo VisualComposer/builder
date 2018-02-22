@@ -58,7 +58,7 @@ class PageEditableTemplatesController extends Container implements Module
         if ($data && $data['type'] === 'theme') {
             $templateList = wp_get_theme()->get_page_templates();
             if (isset($templateList[ $data['value'] ])) {
-                return $data['value'];
+                return locate_template($data['value']);
             } elseif ($data['value'] === 'default') {
                 return get_page_template();
             }
