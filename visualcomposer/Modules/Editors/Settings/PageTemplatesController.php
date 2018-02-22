@@ -22,14 +22,12 @@ class PageTemplatesController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_PAGE_TEMPLATES_LAYOUTS')) {
-            $this->addFilter('vcv:editor:variables', 'outputCurrentTemplatesLayouts');
-            $this->addFilter('vcv:editor:variables', 'outputTemplatesLayouts');
-            $this->addFilter('vcv:editor:variables', 'outputThemeTemplates');
             $this->addFilter('vcv:editor:settings:pageTemplatesLayouts:current', 'getCurrentTemplateLayout');
 
             $this->wpAddFilter(
                 'template_include',
-                'viewPageTemplate'
+                'viewPageTemplate',
+                8
             );
         }
     }
@@ -60,6 +58,7 @@ class PageTemplatesController extends Container implements Module
 
     protected function viewPageTemplate($originalTemplate)
     {
+        /** @see \VisualComposer\Modules\Editors\Settings\PageTemplatesController::getCurrentTemplateLayout */
         $current = $this->call(
             'getCurrentTemplateLayout',
             [
@@ -70,91 +69,11 @@ class PageTemplatesController extends Container implements Module
             ]
         );
         if (!empty($current) && $current['type'] !== 'theme') {
-            return vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
+            $result = vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
+
+            return $result;
         }
 
         return $originalTemplate;
-    }
-
-    protected function outputCurrentTemplatesLayouts($variables, $payload)
-    {
-        $variables[] = [
-            'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT',
-            'value' => vcfilter(
-                'vcv:editor:settings:pageTemplatesLayouts:current',
-                [
-                    'type' => 'theme',
-                    'value' => 'default',
-                ]
-            ),
-            'type' => 'constant',
-        ];
-
-        return $variables;
-    }
-
-    protected function outputTemplatesLayouts($variables, $payload)
-    {
-        $variables[] = [
-            'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS',
-            'value' => vcfilter(
-                'vcv:editor:settings:pageTemplatesLayouts',
-                [
-                    [
-                        'type' => 'vc',
-                        'title' => __('Visual Composer', 'vcwb'),
-                        'values' => [
-                            [
-                                'label' => __('Boxed Template', 'vcwb'),
-                                'value' => 'boxed',
-                            ],
-                            [
-                                'label' => __('Blank Template', 'vcwb'),
-                                'value' => 'blank',
-                            ],
-                        ],
-                    ],
-                ]
-            ),
-            'type' => 'constant',
-        ];
-
-        return $variables;
-    }
-
-    protected function outputThemeTemplates($variables, $payload)
-    {
-        $pageTemplates = get_page_templates();
-        $pageTemplatesList = [
-            [
-                'label' => __('Default', 'vcwb'),
-                'value' => 'default',
-            ],
-        ];
-        if (!empty($pageTemplates)) {
-            foreach ($pageTemplates as $key => $template) {
-                $pageTemplatesList[] = [
-                    'label' => $key,
-                    'value' => $template,
-                ];
-            }
-        }
-
-        $variables[] = [
-            'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS_THEME',
-            'value' => vcfilter(
-                'vcv:editor:settings:pageTemplatesLayouts:theme',
-                [
-                    [
-                        'type' => 'theme',
-                        'title' => __('Theme Templates', 'vcwb'),
-                        'values' => $pageTemplatesList,
-                    ],
-                ]
-            ),
-            'type' => 'constant',
-        ];
-
-        return $variables;
     }
 }

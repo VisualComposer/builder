@@ -176,14 +176,29 @@ export default class DesignOptions extends Attribute {
     this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
+    this.handleElementChange = this.handleElementChange.bind(this)
   }
 
   componentDidMount () {
     this.getDefaultStyles()
+
+    const id = this.props.element.get('id')
+    elementsStorage.state('element:' + id).onChange(this.handleElementChange)
+  }
+
+  componentWillUnmount () {
+    const id = this.props.element.get('id')
+    elementsStorage.state('element:' + id).ignoreChange(this.handleElementChange)
   }
 
   componentDidUpdate () {
     this.getDefaultStyles()
+  }
+
+  handleElementChange () {
+    setTimeout(() => {
+      this.getDefaultStyles()
+    }, 200)
   }
 
   /**
