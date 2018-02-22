@@ -19,22 +19,14 @@ class EnqueueController extends Container implements Module
 {
     use WpFiltersActions;
 
-    public function __construct()
+    public function __construct(Frontend $frontendHelper)
     {
-        $actionPriority = 50;
-        $requestHelper = vchelper('Request');
-        if ($requestHelper->input('preview', '') === 'true') {
-            $this->wpAddAction('wp_head', 'enqueuePreviewGlobalCss', $actionPriority);
-            $this->wpAddAction('wp_head', 'enqueuePreviewAssets', $actionPriority);
-
-            return;
+        if (!$frontendHelper->isPreview()) {
+            $actionPriority = 50;
+            $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
+            $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
+            $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
         }
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
-
-        /** @see \VisualComposer\Modules\Assets\EnqueueController::enqueueAssets */
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
-
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
     }
 
     /**
@@ -111,95 +103,5 @@ class EnqueueController extends Container implements Module
             }
             unset($asset);
         }
-    }
-
-    /**
-     * Build Css for post preview.
-     */
-    protected function enqueuePreviewGlobalCss()
-    {
-        $sourceId = get_the_ID();
-        $elementsCssData = get_post_meta($sourceId, 'elementsCssData', true);
-        $previewElementsBaseCss = [];
-        $previewElementsAttributesCss = [];
-        $previewElementsMixinsCss = [];
-        if ($elementsCssData) {
-            foreach ($elementsCssData as $element) {
-                if (isset($element['baseCss'])) {
-                    $baseCssHash = wp_hash($element['baseCss']);
-                    $previewElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
-                }
-                if (isset($element['mixinsCss'])) {
-                    $previewElementsMixinsCss[] = $element['mixinsCss'];
-                }
-                if (isset($element['attributesCss'])) {
-                    $previewElementsAttributesCss[] = $element['attributesCss'];
-                }
-            }
-        }
-        $globalCss = get_post_meta($sourceId, 'globalElementsCss', true);
-        $previewElementsBaseCssContent = join('', array_values($previewElementsBaseCss));
-        $previewElementsMixinsCssContent = join('', $previewElementsMixinsCss);
-        $previewElementsAttributesCssContent = join('', $previewElementsAttributesCss);
-
-        $outputGlobalCss = $previewElementsBaseCssContent . $previewElementsAttributesCssContent
-            . $previewElementsMixinsCssContent . $globalCss;
-        $sourceCss = get_post_meta($sourceId, 'vcvPreviewSourceCss', true);
-        $this->printPreviewCss($outputGlobalCss, $sourceCss);
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Str $strHelper
-     */
-    protected function enqueuePreviewAssets(Str $strHelper)
-    {
-        $sourceId = get_the_ID();
-        $assetsFiles = get_post_meta($sourceId, 'vcvPreviewSourceAssetsFiles', true);
-
-        if (!is_array($assetsFiles)) {
-            return;
-        }
-
-        if (isset($assetsFiles['cssBundles']) && is_array($assetsFiles['cssBundles'])) {
-            foreach ($assetsFiles['cssBundles'] as $asset) {
-                wp_enqueue_style('vcv:assets:source:styles:' . $strHelper->slugify($asset), $asset, [], VCV_VERSION);
-            }
-            unset($asset);
-        }
-
-        if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
-            foreach ($assetsFiles['jsBundles'] as $asset) {
-                wp_enqueue_script(
-                    'vcv:assets:source:scripts:' . $strHelper->slugify($asset),
-                    $asset,
-                    [],
-                    VCV_VERSION,
-                    true
-                );
-            }
-            unset($asset);
-        }
-    }
-
-    /**
-     * @param $outputGlobalCss
-     * @param $sourceCss
-     */
-    protected function printPreviewCss($outputGlobalCss, $sourceCss)
-    {
-        evcview(
-            'partials/style',
-            [
-                'key' => 'preview-global-css',
-                'value' => $outputGlobalCss,
-            ]
-        );
-        evcview(
-            'partials/style',
-            [
-                'key' => 'preview-source-css',
-                'value' => $sourceCss,
-            ]
-        );
     }
 }

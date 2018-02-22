@@ -19,13 +19,13 @@ class JsDataController extends Container implements Module
 {
     use EventsFilters;
 
-    public function __construct()
+    public function __construct(Frontend $frontendHelper)
     {
-        if (vcvenv('VCV_TF_JS_SETTINGS')) {
-            $this->addFilter(
-                'vcv:dataAjax:getData',
-                'getData'
-            );
+        $this->addFilter(
+            'vcv:dataAjax:getData',
+            'getData'
+        );
+        if (!$frontendHelper->isPreview()) {
             $this->addFilter(
                 'vcv:dataAjax:setData',
                 'setData'
@@ -33,71 +33,32 @@ class JsDataController extends Container implements Module
         }
     }
 
-    protected function getData($response, $payload, CurrentUser $currentUserAccessHelper, Options $optionsHelper)
+    protected function getData($response, $payload, Options $optionsHelper)
     {
-        // @codingStandardsIgnoreLine
-        global $post_type_object;
         $sourceId = $payload['sourceId'];
-        if (is_numeric($sourceId)
-            // @codingStandardsIgnoreLine
-            && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()
-        ) {
-            $sourceLocalJs = get_post_meta($sourceId, 'vcv-settingsLocalJs', true);
-            $response['jsSettings'] = [
-                'local' => $sourceLocalJs ? $sourceLocalJs : '',
-                'global' => $optionsHelper->get('settingsGlobalJs', ''),
-            ];
-
-            return $response;
-        }
+        $sourceLocalJs = get_post_meta($sourceId, VCV_PREFIX . 'settingsLocalJs', true);
+        $response['jsSettings'] = [
+            'local' => $sourceLocalJs ? $sourceLocalJs : '',
+            'global' => $optionsHelper->get('settingsGlobalJs', ''),
+        ];
 
         return $response;
     }
 
-    protected function setData($response, $payload, CurrentUser $currentUserAccessHelper, Frontend $frontendHelper)
+    protected function setData($response, $payload)
     {
         $sourceId = $payload['sourceId'];
-        // @codingStandardsIgnoreLine
-        global $post_type_object;
-        // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId)
-            && $currentUserAccessHelper->wpAll(
-            // @codingStandardsIgnoreLine
-                [$post_type_object->cap->edit_post, $sourceId]
-            )->get()
-        ) {
-            if ($frontendHelper->isPreview()) {
-                $this->setPreviewLocalJs($sourceId);
-                $this->setPreviewGlobalJs($sourceId);
-            } else {
-                $this->setSourceJs($sourceId);
-                $this->setGlobalJs();
-            }
-        }
+        $this->setSourceJs($sourceId);
+        $this->setGlobalJs();
 
         return $response;
-    }
-
-    protected function setPreviewLocalJs($sourceId)
-    {
-        $requestHelper = vchelper('Request');
-        $localJsInput = $requestHelper->input('vcv-settings-source-local-js', '');
-        update_post_meta($sourceId, 'vcv-preview-settingsLocalJs', $localJsInput);
-    }
-
-    protected function setPreviewGlobalJs($sourceId)
-    {
-        $requestHelper = vchelper('Request');
-        $globalJsInput = $requestHelper->input('vcv-settings-global-js', '');
-        update_post_meta($sourceId, 'vcv-preview-settingsGlobalJs', $globalJsInput);
     }
 
     protected function setSourceJs($sourceId)
     {
-        // save source meta
         $requestHelper = vchelper('Request');
         $jsInput = $requestHelper->input('vcv-settings-source-local-js', '');
-        update_post_meta($sourceId, 'vcv-settingsLocalJs', $jsInput);
+        update_post_meta($sourceId, VCV_PREFIX . 'settingsLocalJs', $jsInput);
     }
 
     protected function setGlobalJs()

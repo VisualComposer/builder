@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -19,30 +20,11 @@ class JsEnqueueController extends Container implements Module
 
     protected $globalJSAdded = false;
 
-    public function __construct()
+    public function __construct(Frontend $frontendHelper)
     {
-        if (vcvenv('VCV_TF_JS_SETTINGS')) {
-            $actionPriority = 60;
-            $requestHelper = vchelper('Request');
-            if ($requestHelper->input('preview', '') === 'true') {
-                $this->wpAddAction('wp_print_footer_scripts', 'enqueuePreviewJs', $actionPriority);
-
-                return;
-            }
-            $this->wpAddAction('wp_print_footer_scripts', 'enqueueJs', $actionPriority);
+        if (!$frontendHelper->isPreview()) {
+            $this->wpAddAction('wp_print_footer_scripts', 'enqueueJs', 60);
         }
-    }
-
-    /**
-     * Enqueue JS for post preview.
-     */
-    protected function enqueuePreviewJs()
-    {
-        $sourceId = get_the_ID();
-        $globalJs = get_post_meta($sourceId, 'vcv-preview-settingsGlobalJs', true);
-        $localJs = get_post_meta($sourceId, 'vcv-preview-settingsLocalJs', true);
-
-        $this->printJs($globalJs, $localJs, 'preview' . $sourceId);
     }
 
     /**

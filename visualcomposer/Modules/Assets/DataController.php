@@ -58,10 +58,7 @@ class DataController extends Container implements Module
     protected function setData($response, $payload, Frontend $frontendHelper)
     {
         $sourceId = $payload['sourceId'];
-        if ($frontendHelper->isPreview()) {
-            $this->updatePreviewLocalAssets($sourceId);
-            $this->updatePreviewGlobalAssets($sourceId);
-        } else {
+        if (!$frontendHelper->isPreview()) {
             $this->updateSourceAssets($sourceId);
             $this->updateGlobalAssets($sourceId);
         }
@@ -111,53 +108,6 @@ class DataController extends Container implements Module
             // Other data
             $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
             $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
-        }
-    }
-
-    protected function updatePreviewLocalAssets($sourceId)
-    {
-        $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        // @codingStandardsIgnoreLine
-        global $post_type_object;
-        if (is_numeric($sourceId)
-            && $currentUserAccessHelper->wpAll(
-            // @codingStandardsIgnoreLine
-                [$post_type_object->cap->edit_post, $sourceId]
-            )->get()
-        ) {
-            $requestHelper = vchelper('Request');
-            update_post_meta(
-                $sourceId,
-                'vcvPreviewSourceAssetsFiles',
-                $requestHelper->inputJson('vcv-source-assets-files')
-            );
-            update_post_meta($sourceId, 'vcvPreviewSourceCss', $requestHelper->input('vcv-source-css'));
-            update_post_meta(
-                $sourceId,
-                'vcvPreviewSettingsSourceCustomCss',
-                $requestHelper->input('vcv-settings-source-custom-css')
-            );
-        }
-    }
-
-    protected function updatePreviewGlobalAssets($sourceId)
-    {
-        $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        // @codingStandardsIgnoreLine
-        global $post_type_object;
-        // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId)
-            && $currentUserAccessHelper->wpAll(
-            // @codingStandardsIgnoreLine
-                [$post_type_object->cap->edit_post, $sourceId]
-            )->get()
-        ) {
-            $requestHelper = vchelper('Request');
-            // Base css
-            update_post_meta($sourceId, 'elementsCssData', $requestHelper->inputJson('vcv-elements-css-data', ''));
-            // Other data
-            update_post_meta($sourceId, 'globalElementsCss', $requestHelper->input('vcv-global-elements-css', ''));
-            update_post_meta($sourceId, 'settingsGlobalCss', $requestHelper->input('vcv-settings-global-css', ''));
         }
     }
 }
