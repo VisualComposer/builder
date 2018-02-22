@@ -60,7 +60,6 @@ class PageEditableTemplatesController extends Container implements Module
             } elseif ($data['value'] === 'default') {
                 return get_page_template();
             }
-
         }
 
         return $originalTemplate;
