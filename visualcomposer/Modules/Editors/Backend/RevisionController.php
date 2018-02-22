@@ -40,6 +40,9 @@ class RevisionController extends Container implements Module
     {
         $requestHelper = vchelper('Request');
         $sourceId = $requestHelper->input('post_ID');
+        if (empty($sourceId)) {
+            $sourceId = $requestHelper->input('vcv-source-id');
+        }
         $vcvdata = $requestHelper->input('vcv-data');
         $data = $requestHelper->input('data');
 
@@ -51,21 +54,20 @@ class RevisionController extends Container implements Module
         if (!$vcvdata && $requestHelper->exists('revision')) {
             $sourceId = $requestHelper->input('revision');
             if (intval($sourceId)) {
-                $vcvdata = get_metadata('post', intval($sourceId), VCV_PREFIX . 'pageContent', true);
+                $intSourceId = intval($sourceId);
+                $vcvdata = get_metadata('post', $intSourceId, VCV_PREFIX . 'pageContent', true);
             } else {
                 $vcvdata = false;
             }
         }
 
-        // @codingStandardsIgnoreLine
-        if (wp_is_post_revision($revisionId) === intval($sourceId)) {
+        if ($sourceId && wp_is_post_revision($revisionId) === intval($sourceId)) {
             if (false !== $vcvdata) {
-                // @codingStandardsIgnoreLine
                 update_metadata('post', $revisionId, VCV_PREFIX . 'pageContent', $vcvdata);
             }
         }
         if ($requestHelper->exists('revision') && wp_is_post_revision($revisionId)) {
-            if (false !== $vcvdata) {
+            if (!empty($vcvdata)) {
                 $latestRevision = wp_get_post_revisions(wp_is_post_revision($revisionId));
                 $latestRevisionId = array_values($latestRevision)[0]->ID;
                 update_metadata('post', $latestRevisionId, VCV_PREFIX . 'pageContent', $vcvdata);
@@ -79,15 +81,13 @@ class RevisionController extends Container implements Module
      */
     protected function restoreRevision($postId, $revisionId)
     {
-        // @codingStandardsIgnoreStart
         // $post = get_post($postId);
         $revision = get_post($revisionId);
         $pageContent = get_metadata('post', $revision->ID, VCV_PREFIX . 'pageContent', true);
 
-        if (false !== $pageContent) {
+        if (!empty($pageContent)) {
             update_post_meta($postId, VCV_PREFIX . 'pageContent', $pageContent);
         }
-        // @codingStandardsIgnoreEnd
     }
 
     /**
