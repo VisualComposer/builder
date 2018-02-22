@@ -73,7 +73,7 @@ addStorage('shortcodeAssets', (storage) => {
     // new shortcode logic
     ((window, document) => {
       let loadedFiles = []
-
+      let appendDomElements = []
       let collectLoadFiles = () => {
         let data = {
           domNodes: document.querySelectorAll('style, link[href], script'),
@@ -103,6 +103,13 @@ addStorage('shortcodeAssets', (storage) => {
             } else if (data.cacheInnerHTML) {
               slug = utils.slugify(domNode.innerHTML)
             }
+            if (env('TF_FIX_ASSETS_JS_ORDER')) {
+              if (!data.appending && domNode.innerHTML.match(/\.ready\(/)) {
+                appendDomElements.push(domNode)
+                return
+              }
+            }
+
             let cached = slug && loadedFiles.indexOf(slug) >= 0
             if (!cached) {
               let ignoreCache = type === 'template' ? false : data.ignoreCache
@@ -116,6 +123,14 @@ addStorage('shortcodeAssets', (storage) => {
               }
             }
           })
+        }
+        if (env('TF_FIX_ASSETS_JS_ORDER')) {
+          if (!data.appending && appendDomElements.length) {
+            data.appending = true
+            data.domNodes = appendDomElements
+            window.setTimeout(() => loadFiles(data), 0)
+            appendDomElements = []
+          }
         }
       }
 

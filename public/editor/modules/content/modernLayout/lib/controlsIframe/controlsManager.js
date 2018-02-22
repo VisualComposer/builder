@@ -8,6 +8,8 @@ const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceContentStartState = workspaceStorage.state('contentStart')
 const workspaceContentState = workspaceStorage.state('content')
 const elementsStorage = vcCake.getStorage('elements')
+const documentManager = vcCake.getService('document')
+const cook = vcCake.getService('cook')
 
 export default class ControlsManager {
   constructor (api) {
@@ -333,6 +335,15 @@ export default class ControlsManager {
           }
         }
         if (this.state.showControls) {
+          let element = documentManager.get(data.vcElementId)
+          let cookElement = cook.get(element)
+          let attribute = cookElement.filter(a => cookElement.settings(a).settings && cookElement.settings(a).settings.type === 'htmleditor')
+          if (attribute) {
+            let options = cookElement.settings(attribute).settings && cookElement.settings(attribute).settings.options
+            if (options && options.inline) {
+              data.elementInlineEdit = true
+            }
+          }
           this.controls.show(data)
         }
         if (this.state.showFrames) {
