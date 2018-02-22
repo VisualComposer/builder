@@ -492,7 +492,7 @@ export default class DndDataSet {
       this.handleDragEnd()
       return
     }
-    if (getData('vcv:layoutCustomMode') !== 'dnd') {
+    if (this.draggingElement && getData('vcv:layoutCustomMode') !== 'dnd') {
       setData('vcv:layoutCustomMode', 'dnd')
     }
     this.options.manualScroll && this.scrollManually(point)
