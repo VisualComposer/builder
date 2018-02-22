@@ -4,6 +4,9 @@ import vcCake from 'vc-cake'
 import serialize from 'form-serialize'
 
 export default class AjaxForm extends Attribute {
+  fieldContainer = null
+  fields = null
+  pseudoForm = document.createElement('form')
 
   updateState (props) {
     return {
@@ -24,29 +27,28 @@ export default class AjaxForm extends Attribute {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.state.formStatus && this.refs.form && !this.state.formBound) {
+    if (this.state.formStatus && this.fieldContainer && !this.state.formBound) {
+      this.fields = Array.from(this.fieldContainer.querySelectorAll('input, select, textarea, datalist'))
       this.bindFormChangeEvents()
     }
   }
 
   componentWillUnmount () {
     this.serverRequest.abort()
-    if (this.refs.form && this.refs.form.elements) {
-      let elements = Array.from(this.refs.form.elements)
-      elements.forEach((node) => {
-        node.removeEventListener('change', this.handleFormChange.bind(this))
+    if (this.fieldContainer && this.fields) {
+      this.fields.forEach((field) => {
+        field.removeEventListener('change', this.handleFormChange.bind(this))
       })
     }
   }
 
   bindFormChangeEvents () {
-    if (this.refs.form && this.refs.form.elements) {
-      let elements = Array.from(this.refs.form.elements)
-      elements.forEach((node) => {
-        node.addEventListener('change', this.handleFormChange.bind(this))
+    if (this.fieldContainer && this.fields) {
+      this.fields.forEach((field) => {
+        field.addEventListener('change', this.handleFormChange.bind(this))
       })
-      let aTagElements = this.refs.form.querySelectorAll('a')
-      aTagElements = [].slice.call(aTagElements)
+      let aTagElements = this.fieldContainer.querySelectorAll('a')
+      aTagElements = Array.from(aTagElements)
       aTagElements.forEach((node) => {
         node.setAttribute('target', '_blank')
       })
@@ -56,8 +58,11 @@ export default class AjaxForm extends Attribute {
     })
   }
 
-  handleFormChange (e) {
-    let value = serialize(this.refs.form, { hash: true })
+  handleFormChange () {
+    this.fields.forEach((field) => {
+      this.pseudoForm.appendChild(field.cloneNode(true))
+    })
+    let value = serialize(this.pseudoForm, { hash: true })
     this.setFieldValue(value)
   }
 
@@ -104,9 +109,9 @@ export default class AjaxForm extends Attribute {
   render () {
     return (
       <div className='vcv-ui-ajax-form-container'>
-        <form ref='form'>
+        <div ref={ref => { this.fieldContainer = ref }}>
           <div dangerouslySetInnerHTML={{ __html: this.state.formContent || '' }} />
-        </form>
+        </div>
       </div>
     )
   }
