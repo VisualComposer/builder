@@ -212,10 +212,25 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
     this.parallaxSpeedChangeHandler = this.parallaxSpeedChangeHandler.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
+    this.handleElementChange = this.handleElementChange.bind(this)
   }
 
   componentDidMount () {
     this.getDefaultStyles()
+
+    const id = this.props.element.get('id')
+    elementsStorage.state('element:' + id).onChange(this.handleElementChange)
+  }
+
+  componentWillUnmount () {
+    const id = this.props.element.get('id')
+    elementsStorage.state('element:' + id).ignoreChange(this.handleElementChange)
+  }
+
+  handleElementChange () {
+    setTimeout(() => {
+      this.getDefaultStyles()
+    }, 200)
   }
 
   componentDidUpdate () {
