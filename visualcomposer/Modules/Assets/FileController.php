@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -54,12 +55,18 @@ class FileController extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Assets $assetsHelper
      *
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     *
      * @return bool|string URL to generated bundle.
      */
-    protected function generateGlobalElementsCssFile($response, $payload, Options $optionsHelper, Assets $assetsHelper)
-    {
-        $requestHelper = vchelper('Request');
-        if ($requestHelper->input('wp-preview', '') === 'dopreview') {
+    protected function generateGlobalElementsCssFile(
+        $response,
+        $payload,
+        Options $optionsHelper,
+        Assets $assetsHelper,
+        Frontend $frontendHelper
+    ) {
+        if ($frontendHelper->isPreview()) {
             return $response;
         }
 
@@ -137,10 +144,9 @@ class FileController extends Container implements Module
      * @return bool|string URL to generated bundle.
      *
      */
-    protected function generateSourceCssFile($response, $payload, Assets $assetsHelper)
+    protected function generateSourceCssFile($response, $payload, Assets $assetsHelper, Frontend $frontendHelper)
     {
-        $requestHelper = vchelper('Request');
-        if ($requestHelper->input('wp-preview', '') === 'dopreview') {
+        if ($frontendHelper->isPreview()) {
             return $response;
         }
         $sourceId = $payload['sourceId'];

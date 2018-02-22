@@ -26,7 +26,8 @@ class PageTemplatesController extends Container implements Module
 
             $this->wpAddFilter(
                 'template_include',
-                'viewPageTemplate'
+                'viewPageTemplate',
+                8
             );
         }
     }

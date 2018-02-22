@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -54,11 +55,10 @@ class DataController extends Container implements Module
         return $response;
     }
 
-    protected function setData($response, $payload)
+    protected function setData($response, $payload, Frontend $frontendHelper)
     {
-        $requestHelper = vchelper('Request');
         $sourceId = $payload['sourceId'];
-        if ($requestHelper->input('wp-preview', '') === 'dopreview') {
+        if ($frontendHelper->isPreview()) {
             $this->updatePreviewLocalAssets($sourceId);
             $this->updatePreviewGlobalAssets($sourceId);
         } else {
