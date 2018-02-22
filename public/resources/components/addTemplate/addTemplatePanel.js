@@ -18,7 +18,7 @@ export default class AddTemplatePanel extends React.Component {
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
-  static defaultProps = !vcCake.env('THEME_EDITOR') ? {
+  static defaultProps = !vcCake.env('ADD_TEMPLATE_DROPDOWN') ? {
     categories: [
       {
         title: 'All',
