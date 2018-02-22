@@ -40,7 +40,7 @@ export default class ElementComponent extends Component {
     }
   }
 
-  updateShortcodeToHtml (content, ref) {
+  updateShortcodeToHtml (content, ref, cb) {
     if (content.match(this.getShortcodesRegexp())) {
       ref && (ref.innerHTML = this.spinnerHTML())
       if (!dataProcessor) {
@@ -83,6 +83,7 @@ export default class ElementComponent extends Component {
           console.warn('failed to parse json', e)
         }
         this.ajax = null
+        cb && cb.constructor === Function && cb()
       })
     } else {
       ref && (ref.innerHTML = content)
