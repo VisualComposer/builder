@@ -48,10 +48,10 @@ class SaveDataAjaxController extends Container implements Module
     protected function setData(
         Request $requestHelper
     ) {
-        $this->setEditor($requestHelper);
         if ($requestHelper->input('vcv-backend') !== '1') {
             return null;
         }
+        $this->setEditor($requestHelper);
         $sourceId = $requestHelper->input('post_ID');
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);
