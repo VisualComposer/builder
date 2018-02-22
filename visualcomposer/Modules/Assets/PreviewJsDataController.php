@@ -46,13 +46,13 @@ class PreviewJsDataController extends Container implements Module
     {
         $requestHelper = vchelper('Request');
         $localJsInput = $requestHelper->input('vcv-settings-source-local-js', '');
-        update_post_meta($previewId, '_' . VCV_PREFIX . 'preview-settingsLocalJs', $localJsInput);
+        update_metadata('post', $previewId, '_' . VCV_PREFIX . 'preview-settingsLocalJs', $localJsInput);
     }
 
     protected function setPreviewGlobalJs($previewId)
     {
         $requestHelper = vchelper('Request');
         $globalJsInput = $requestHelper->input('vcv-settings-global-js', '');
-        update_post_meta($previewId, '_' . VCV_PREFIX . 'preview-settingsGlobalJs', $globalJsInput);
+        update_metadata('post', $previewId, '_' . VCV_PREFIX . 'preview-settingsGlobalJs', $globalJsInput);
     }
 }

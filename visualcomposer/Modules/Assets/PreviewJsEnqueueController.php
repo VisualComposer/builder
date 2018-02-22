@@ -32,6 +32,10 @@ class PreviewJsEnqueueController extends JsEnqueueController implements Module
     protected function enqueuePreviewJs()
     {
         $sourceId = get_the_ID();
+        $preview = wp_get_post_autosave($sourceId);
+        if (is_object($preview)) {
+            $sourceId = $preview->ID;
+        }
         $globalJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsGlobalJs', true);
         $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJs', true);
 

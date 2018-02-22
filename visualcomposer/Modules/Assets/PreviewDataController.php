@@ -44,40 +44,45 @@ class PreviewDataController extends Container implements Module
     protected function updatePreviewLocalAssets($previewId)
     {
         $requestHelper = vchelper('Request');
-        update_post_meta(
+        update_metadata(
+            'post',
             $previewId,
             '_' . VCV_PREFIX . 'previewSourceAssetsFiles',
             $requestHelper->inputJson('vcv-source-assets-files')
         );
-        update_post_meta(
+        update_metadata(
+            'post',
             $previewId,
             '_' . VCV_PREFIX . 'previewSourceCss',
             $requestHelper->input('vcv-source-css')
         );
-        update_post_meta(
+        update_metadata(
+            'post',
             $previewId,
             '_' . VCV_PREFIX . 'previewSettingsSourceCustomCss',
             $requestHelper->input('vcv-settings-source-custom-css')
         );
     }
 
-    protected function updatePreviewGlobalAssets($previewId)
+    protected function updatePreviewGlobalAssets($sourceId)
     {
         $requestHelper = vchelper('Request');
         // Base css
-        update_post_meta(
-            $previewId,
+        update_metadata(
+            'post',
+            $sourceId,
             '_' . VCV_PREFIX . 'previewElementsCssData',
             $requestHelper->inputJson('vcv-elements-css-data', '')
         );
-        // Other data
-        update_post_meta(
-            $previewId,
+        update_metadata(
+            'post',
+            $sourceId,
             '_' . VCV_PREFIX . 'previewGlobalElementsCss',
             $requestHelper->input('vcv-global-elements-css', '')
         );
-        update_post_meta(
-            $previewId,
+        update_metadata(
+            'post',
+            $sourceId,
             '_' . VCV_PREFIX . 'previewSettingsGlobalCss',
             $requestHelper->input('vcv-settings-global-css', '')
         );

@@ -33,6 +33,11 @@ class PreviewEnqueueController extends Container implements Module
     protected function enqueuePreviewGlobalCss()
     {
         $sourceId = get_the_ID();
+        $preview = wp_get_post_autosave($sourceId);
+        if (is_object($preview)) {
+            $sourceId = $preview->ID;
+        }
+
         $elementsCssData = get_post_meta($sourceId, '_' . VCV_PREFIX . 'previewElementsCssData', true);
         $previewElementsBaseCss = [];
         $previewElementsAttributesCss = [];
@@ -68,6 +73,10 @@ class PreviewEnqueueController extends Container implements Module
     protected function enqueuePreviewAssets(Str $strHelper)
     {
         $sourceId = get_the_ID();
+        $preview = wp_get_post_autosave($sourceId);
+        if (is_object($preview)) {
+            $sourceId = $preview->ID;
+        }
         $assetsFiles = get_post_meta($sourceId, '_' . VCV_PREFIX . 'previewSourceAssetsFiles', true);
 
         if (!is_array($assetsFiles)) {
