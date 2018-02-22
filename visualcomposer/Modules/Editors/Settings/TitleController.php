@@ -36,26 +36,35 @@ class TitleController extends Container implements Module
         }
     }
 
-    protected function setPageTitle($response, $payload, Request $requestHelper)
+    protected function setPageTitle($response, $payload, Request $requestHelper, Frontend $frontendHelper)
     {
         $sourceId = $payload['sourceId'];
-        $pageTitle = $requestHelper->input('vcv-page-title');
-        $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled', false);
         $post = get_post($sourceId);
-        if ($requestHelper->exists('vcv-page-title') && !$pageTitle) {
-            $pageTitleDisabled = true;
-        }
-        if ($post && $requestHelper->exists('vcv-page-title')) {
-            // @codingStandardsIgnoreLine
-            $post->post_title = $pageTitle;
-            update_post_meta($sourceId, '_' . VCV_PREFIX . 'pageTitleDisabled', $pageTitleDisabled);
-            //temporarily disable (can break preview page and content if not removed)
-            remove_filter('content_save_pre', 'wp_filter_post_kses');
-            remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
-            wp_update_post($post);
-            //bring it back once you're done posting
-            add_filter('content_save_pre', 'wp_filter_post_kses');
-            add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+        if (is_object($post)) {
+            if ($frontendHelper->isPreview()) {
+                $preview = wp_get_post_autosave($sourceId);
+                if (is_object($preview)) {
+                    $sourceId = $preview->ID;
+                    $post = $preview;
+                }
+            }
+            $pageTitle = $requestHelper->input('vcv-page-title');
+            $pageTitleDisabled = $requestHelper->input('vcv-page-title-disabled', false);
+            if ($requestHelper->exists('vcv-page-title') && !$pageTitle) {
+                $pageTitleDisabled = true;
+            }
+            if ($post && $requestHelper->exists('vcv-page-title')) {
+                // @codingStandardsIgnoreLine
+                $post->post_title = $pageTitle;
+                update_post_meta($sourceId, '_' . VCV_PREFIX . 'pageTitleDisabled', $pageTitleDisabled);
+                //temporarily disable (can break preview page and content if not removed)
+                remove_filter('content_save_pre', 'wp_filter_post_kses');
+                remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+                wp_update_post($post);
+                //bring it back once you're done posting
+                add_filter('content_save_pre', 'wp_filter_post_kses');
+                add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+            }
         }
 
         return $response;
