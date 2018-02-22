@@ -18,7 +18,7 @@ export default class AddTemplatePanel extends React.Component {
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
-  static defaultProps = !vcCake.env('THEME_EDITOR') ? {
+  static defaultProps = !vcCake.env('ADD_TEMPLATE_DROPDOWN') ? {
     categories: [
       {
         title: 'All',
@@ -101,8 +101,15 @@ export default class AddTemplatePanel extends React.Component {
         templates () { return myTemplatesService.hubSidebar() }
       },
       {
-        title: 'Download More Templates',
+        title: 'Downloaded Templates',
         index: 6,
+        id: 'downloadedTemplates',
+        visible () { return this.templates().length },
+        templates () { return myTemplatesService.hub() }
+      },
+      {
+        title: 'Download More Templates',
+        index: 7,
         id: 'downloadMoreTemplates',
         visible () { return false },
         templates: null

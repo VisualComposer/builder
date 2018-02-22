@@ -1,8 +1,4 @@
 <?php
-/*
-Template Name: Blank page
-Template Post Type: post, page
-*/
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');

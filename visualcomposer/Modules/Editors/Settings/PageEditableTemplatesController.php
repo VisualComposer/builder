@@ -29,11 +29,13 @@ class PageEditableTemplatesController extends Container implements Module
         );
 
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewThemeTemplate');
+        $this->addFilter('vcv:editor:settings:peTemplate', 'viewVcTemplate');
     }
 
     protected function viewPePageTemplate($originalTemplate, Frontend $frontendHelper, Request $requestHelper)
     {
-        if ($frontendHelper->isPageEditable()) {
+        // TODO: Preview
+        if ($frontendHelper->isPageEditable()/*|| $frontendHelper->isPreview()*/) {
             if ($requestHelper->exists('vcv-template') && $requestHelper->exists('vcv-template-type')) {
                 return vcfilter(
                     'vcv:editor:settings:peTemplate',
@@ -58,7 +60,19 @@ class PageEditableTemplatesController extends Container implements Module
             } elseif ($data['value'] === 'default') {
                 return get_page_template();
             }
+        }
 
+        return $originalTemplate;
+    }
+
+    protected function viewVcTemplate($originalTemplate, $data)
+    {
+        if ($data && $data['type'] === 'vc') {
+            if (in_array($data['value'], ['blank', 'boxed'])) {
+                $template = $data['value'] . '-template.php';
+
+                return vcapp()->path('visualcomposer/resources/views/editor/templates/') . $template;
+            }
         }
 
         return $originalTemplate;
