@@ -210,7 +210,7 @@ if (!defined('VCV_ENV_PLUGIN_UPDATE_NOTICE')) {
 if (!defined('VCV_ENV_DEV_ADDONS')) {
     define(
         'VCV_ENV_DEV_ADDONS',
-        isset($_SERVER['ENV_VCV_ENV_DEV_ADDONS']) ? $_SERVER['ENV_VCV_ENV_DEV_ADDONS'] : true
+        isset($_SERVER['ENV_VCV_ENV_DEV_ADDONS']) ? $_SERVER['ENV_VCV_ENV_DEV_ADDONS'] : false
     );
 }
 if (!defined('VCV_PAGE_TEMPLATES_LAYOUTS')) {
