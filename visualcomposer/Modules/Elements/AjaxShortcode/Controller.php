@@ -62,10 +62,6 @@ class Controller extends Container implements Module
                 }
             );
             ob_start();
-            echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
-            $shortcodeContents = ob_get_clean();
-
-            ob_start();
             do_action('template_redirect'); // This fixes visual composer shortcodes
             remove_action('wp_head', '_wp_render_title_tag', 1);
             //            remove_action( 'wp_head',             'wp_enqueue_scripts',              1     );
@@ -90,6 +86,9 @@ class Controller extends Container implements Module
                 wp_head();
                 $headContents = ob_get_clean();
                 ob_start();
+                echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
+                $shortcodeContents = ob_get_clean();
+                ob_start();
                 wp_footer();
                 $footerContents = ob_get_clean();
                 $response = '<script type="template/html" data="vcv-files">' .
@@ -99,6 +98,9 @@ class Controller extends Container implements Module
             } else {
                 wp_head();
                 $headContents = ob_get_clean();
+                ob_start();
+                echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
+                $shortcodeContents = ob_get_clean();
                 ob_start();
                 wp_footer();
                 $footerContents = ob_get_clean();
