@@ -8,12 +8,11 @@ if (!defined('ABSPATH')) {
 <script>
   jQuery.fn.ready = function (param) {
     try {
-      let args = arguments
       window.setTimeout(function () {
           <?php if (VCV_DEBUG) : ?>
         console.log('calling fn.ready', param)
           <?php endif; ?>
-        param.call(this, args)
+        param.call(this, jQuery)
       }, 300)
     } catch (e) {
         <?php if (VCV_DEBUG) : ?>
