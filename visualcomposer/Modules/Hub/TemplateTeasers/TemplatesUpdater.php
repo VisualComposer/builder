@@ -143,7 +143,7 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
         $template['thumbnail'] = $templateMeta['thumbnail'];
         $template['preview'] = $templateMeta['preview'];
 
-        if (vcvenv('VCV_ENV_DEV_ADDONS') && isset($payload['actionData']['data']['type'])) {
+        if (isset($payload['actionData']['data']['type'])) {
             $type = $payload['actionData']['data']['type'];
         } else {
             $type = 'hub';
