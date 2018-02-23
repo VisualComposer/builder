@@ -213,14 +213,26 @@ vcCake.add('contentModernLayout', (api) => {
           params.push(`vcv-template=${template}`)
         }
       }
+      let hasHeader = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
+      let hasSidebar = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
+      let hasFooter = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
+      let currentLayoutType = vcCake.env('PAGE_TEMPLATE_LAYOUTS') && window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().filter(item => item.type === template.type)
+      if (currentLayoutType && currentLayoutType.values) {
+        let currentTemplate = currentLayoutType.values.filter(item => item.value === template.value)
+        if (currentTemplate) {
+          hasHeader = currentTemplate.header
+          hasSidebar = currentTemplate.sidebar
+          hasFooter = currentTemplate.footer
+        }
+      }
       if (vcCake.env('THEME_LAYOUTS')) {
-        if (header) {
+        if (hasHeader && header) {
           params.push(`vcv-header=${header}`)
         }
-        if (sidebar) {
+        if (hasSidebar && sidebar) {
           params.push(`vcv-sidebar=${sidebar}`)
         }
-        if (footer) {
+        if (hasFooter && footer) {
           params.push(`vcv-footer=${footer}`)
         }
       }
