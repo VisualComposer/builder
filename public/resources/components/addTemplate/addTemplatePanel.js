@@ -101,15 +101,8 @@ export default class AddTemplatePanel extends React.Component {
         templates () { return myTemplatesService.hubSidebar() }
       },
       {
-        title: 'Downloaded Templates',
-        index: 6,
-        id: 'downloadedTemplates',
-        visible () { return this.templates().length },
-        templates () { return myTemplatesService.hub() }
-      },
-      {
         title: 'Download More Templates',
-        index: 7,
+        index: 6,
         id: 'downloadMoreTemplates',
         visible () { return false },
         templates: null
