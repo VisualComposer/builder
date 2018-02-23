@@ -15,10 +15,6 @@ let pageTemplates
 
 if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
   pageLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
-  let currentTemplate = window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
-  if (currentTemplate && currentTemplate.type && currentTemplate.value) {
-    settingsStorage.state('pageTemplate').set(currentTemplate)
-  }
 } else {
   pageTemplates = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES()
   pageLayouts = window.VCV_LAYOUTS_DATA && window.VCV_LAYOUTS_DATA() || []
@@ -42,6 +38,14 @@ export default class PagePanelContent extends React.Component {
     this.state = {
       templates: templateManager.predefined()
     }
+
+    let currentTemplate = settingsStorage.state('pageTemplate').get() || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
+    if (currentTemplate && currentTemplate.type && currentTemplate.value) {
+      settingsStorage.state('pageTemplate').set(currentTemplate)
+    }
+
+    this.currentLayout = currentTemplate || (vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? {type: 'theme', value: 'default'} : 'default')
+
     this.handleControlClick = this.handleControlClick.bind(this)
     this.setControlsLayout = this.setControlsLayout.bind(this)
   }
@@ -156,7 +160,7 @@ export default class PagePanelContent extends React.Component {
   }
 
   getLayoutControls () {
-    let activeLayout = settingsStorage.state('pageTemplate').get() || vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? {type: 'theme', value: 'default'} : 'default'
+    let activeLayout = this.currentLayout
     let layouts = []
     let defaultClasses = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
     if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
