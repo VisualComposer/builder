@@ -57,6 +57,7 @@ class PageTemplatesSaveController extends Container implements Module
                 update_metadata('post', $post->ID, '_vcv-page-template', $value);
                 update_metadata('post', $post->ID, '_vcv-page-template-type', $type);
                 if ($type === 'theme') {
+                    // @codingStandardsIgnoreLine
                     $post->page_template = $value === 'default' ? '' : $value;
                     update_metadata('post', $post->ID, '_wp_page_template', $value === 'default' ? '' : $value);
                     //temporarily disable (can break preview page and content if not removed)
