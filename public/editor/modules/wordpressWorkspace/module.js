@@ -96,17 +96,17 @@ add('wordpressWorkspace', (api) => {
     let documentElements
     let isBlank = true
 
-    if (env('PAGE_TEMPLATE_LAYOUTS')) {
-      let currentTemplate = window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
-      if (currentTemplate && currentTemplate.type !== 'theme' && currentTemplate.value !== 'default') {
-        settingsStorage.state('skipBlank').set('true')
-      }
-    }
-
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        if (!settingsStorage.state('skipBlank').get()) {
+        let showBlank = true
+        if (env('PAGE_TEMPLATE_LAYOUTS')) {
+          let currentTemplate = settingsStorage.state('pageTemplate').get() || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
+          if (currentTemplate && currentTemplate.type !== 'theme' && currentTemplate.value !== 'default') {
+            showBlank = false
+          }
+        }
+        if (showBlank && !settingsStorage.state('skipBlank').get()) {
           addStartBlank()
           isBlank = true
         } else {
