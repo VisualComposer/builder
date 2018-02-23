@@ -213,3 +213,9 @@ if (!defined('VCV_ENV_DEV_ADDONS')) {
         isset($_SERVER['ENV_VCV_ENV_DEV_ADDONS']) ? $_SERVER['ENV_VCV_ENV_DEV_ADDONS'] : false
     );
 }
+if (!defined('VCV_PAGE_TEMPLATES_LAYOUTS')) {
+    define(
+        'VCV_PAGE_TEMPLATES_LAYOUTS',
+        isset($_SERVER['ENV_VCV_PAGE_TEMPLATES_LAYOUTS']) ? $_SERVER['ENV_VCV_PAGE_TEMPLATES_LAYOUTS'] : true
+    );
+}
