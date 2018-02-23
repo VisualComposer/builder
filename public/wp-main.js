@@ -115,6 +115,8 @@ $(() => {
       }
       require('./editor/stores/history/historyStorage')
       require('./editor/stores/settingsStorage')
+      const settingsStorage = vcCake.getStorage('settings')
+      settingsStorage.trigger('start')
       require('./editor/stores/wordpressData/wordpressDataStorage')
       require('./config/wp-modules')
     })
