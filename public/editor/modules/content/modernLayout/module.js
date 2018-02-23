@@ -130,6 +130,7 @@ vcCake.add('contentModernLayout', (api) => {
         })
       }
     } else {
+      // alert('failed to render')
       document.body.innerHTML = `<div id='vcv-oops-screen-container'></div>`
       let oopsContainer = document.getElementById('vcv-oops-screen-container')
       if (oopsContainer) {
@@ -205,6 +206,7 @@ vcCake.add('contentModernLayout', (api) => {
         return arr
       }, [])
 
+      console.log('template', template)
       if (template) {
         if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
           params.push(`vcv-template=${template.value}`)
@@ -212,28 +214,29 @@ vcCake.add('contentModernLayout', (api) => {
         } else {
           params.push(`vcv-template=${template}`)
         }
-      }
-      let hasHeader = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
-      let hasSidebar = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
-      let hasFooter = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
-      let currentLayoutType = vcCake.env('PAGE_TEMPLATE_LAYOUTS') && window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().find(item => item.type === template.type)
-      if (currentLayoutType && currentLayoutType.values) {
-        let currentTemplate = currentLayoutType.values.find(item => item.value === template.value)
-        if (currentTemplate) {
-          hasHeader = currentTemplate.header
-          hasSidebar = currentTemplate.sidebar
-          hasFooter = currentTemplate.footer
+
+        let hasHeader = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
+        let hasSidebar = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
+        let hasFooter = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
+        let currentLayoutType = vcCake.env('PAGE_TEMPLATE_LAYOUTS') && window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().find(item => item.type === template.type)
+        if (currentLayoutType && currentLayoutType.values) {
+          let currentTemplate = currentLayoutType.values.find(item => item.value === template.value)
+          if (currentTemplate) {
+            hasHeader = currentTemplate.header
+            hasSidebar = currentTemplate.sidebar
+            hasFooter = currentTemplate.footer
+          }
         }
-      }
-      if (vcCake.env('THEME_LAYOUTS')) {
-        if (hasHeader && header) {
-          params.push(`vcv-header=${header}`)
-        }
-        if (hasSidebar && sidebar) {
-          params.push(`vcv-sidebar=${sidebar}`)
-        }
-        if (hasFooter && footer) {
-          params.push(`vcv-footer=${footer}`)
+        if (vcCake.env('THEME_LAYOUTS')) {
+          if (hasHeader && header) {
+            params.push(`vcv-header=${header}`)
+          }
+          if (hasSidebar && sidebar) {
+            params.push(`vcv-sidebar=${sidebar}`)
+          }
+          if (hasFooter && footer) {
+            params.push(`vcv-footer=${footer}`)
+          }
         }
       }
       url[ 1 ] = params.join('&')

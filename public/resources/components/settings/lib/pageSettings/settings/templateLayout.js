@@ -1,9 +1,11 @@
 import React from 'react'
-import { setData, getStorage } from 'vc-cake'
+import { setData, getStorage, env } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const vcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
 const themeTemplates = window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME && window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME()
+const workspaceStorage = getStorage('workspace')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class TemplateLayout extends React.Component {
 
@@ -37,6 +39,26 @@ export default class TemplateLayout extends React.Component {
       current: data,
       showTheme: showTheme
     })
+    if (!env('THEME_EDITOR') && env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+      settingsStorage.state('pageTemplate').set(data)
+
+      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
+      const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+
+      if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
+        this.reloadIframe(lastSavedPageTemplate)
+      }
+    }
+  }
+
+  reloadIframe (lastSavedPageTemplate) {
+    window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+
+    workspaceIFrame.set({
+      type: 'reload',
+      template: lastSavedPageTemplate
+    })
+    settingsStorage.state('skipBlank').set(true)
   }
 
   getTemplateOptions () {
