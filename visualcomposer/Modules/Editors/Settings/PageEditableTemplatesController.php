@@ -60,7 +60,7 @@ class PageEditableTemplatesController extends Container implements Module
             if (isset($templateList[ $data['value'] ])) {
                 return locate_template($data['value']);
             } elseif ($data['value'] === 'default') {
-                return get_page_template();
+                return $this->getDefaultTheme();
             }
         }
 
@@ -78,5 +78,38 @@ class PageEditableTemplatesController extends Container implements Module
         }
 
         return $originalTemplate;
+    }
+
+    /**
+     * This function is simplified for PageEditable function without current saved
+     * @see \get_page_template()
+     */
+    protected function getDefaultTheme()
+    {
+        $id = get_queried_object_id();
+        $pagename = get_query_var('pagename');
+
+        if (!$pagename && $id) {
+            // If a static page is set as the front page, $pagename will not be set. Retrieve it from the queried object
+            $post = get_queried_object();
+            if ($post) {
+                // @codingStandardsIgnoreLine
+                $pagename = $post->post_name;
+            }
+        }
+
+        if ($pagename) {
+            $pagenameDecoded = urldecode($pagename);
+            if ($pagenameDecoded !== $pagename) {
+                $templates[] = "page-{$pagenameDecoded}.php";
+            }
+            $templates[] = "page-{$pagename}.php";
+        }
+        if ($id) {
+            $templates[] = "page-{$id}.php";
+        }
+        $templates[] = 'page.php';
+
+        return get_query_template('page', $templates);
     }
 }
