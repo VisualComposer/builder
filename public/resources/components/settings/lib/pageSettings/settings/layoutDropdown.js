@@ -44,8 +44,32 @@ export default class LayoutDropdown extends React.Component {
       const lastLoadedTemplate = window[`vcvLastLoaded${this.props.layoutName}Template`] || window[globalLayoutName] && window[globalLayoutName]() && window[globalLayoutName]().current
       const lastSavedTemplate = settingsStorage.state(`${layoutName}Template`).get()
 
-      if (lastLoadedTemplate && lastLoadedTemplate !== lastSavedTemplate) {
-        this.reloadIframe(lastSavedTemplate)
+      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
+      let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+
+      let lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current
+      let lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+
+      let lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current
+      let lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
+
+      let lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current
+      let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
+
+      if (
+        lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type) ||
+        lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate ||
+        lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate ||
+        lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate ||
+        lastLoadedTemplate && lastLoadedTemplate !== lastSavedTemplate
+      ) {
+        this.reloadIframe(
+          lastSavedPageTemplate,
+          lastSavedHeaderTemplate,
+          lastSavedSidebarTemplate,
+          lastSavedFooterTemplate,
+          lastSavedTemplate
+        )
       }
     }
   }
@@ -57,13 +81,21 @@ export default class LayoutDropdown extends React.Component {
     ))
   }
 
-  reloadIframe (lastSavedTemplate) {
+  reloadIframe (lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate, lastSavedTemplate) {
+    window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+    window.vcvLastLoadedHeaderTemplate = lastSavedHeaderTemplate
+    window.vcvLastLoadedSidebarTemplate = lastSavedSidebarTemplate
+    window.vcvLastLoadedFooterTemplate = lastSavedFooterTemplate
     const layoutName = this.props.layoutName.toLowerCase()
-    window[`vcvLastLoaded${this.props.layoutName}Template`] = lastSavedTemplate
+    window[`vcvLastLoaded${layoutName}Template`] = lastSavedTemplate
 
     workspaceIFrame.set({
       type: 'reload',
-      [layoutName]: settingsStorage.state(`${layoutName}Template`).get()
+      template: lastSavedPageTemplate,
+      header: lastSavedHeaderTemplate,
+      sidebar: lastSavedSidebarTemplate,
+      footer: lastSavedFooterTemplate,
+      [layoutName]: lastSavedTemplate
     })
     settingsStorage.state('skipBlank').set(true)
   }

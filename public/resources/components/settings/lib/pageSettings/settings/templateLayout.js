@@ -1,5 +1,5 @@
 import React from 'react'
-import { setData, getStorage, env } from 'vc-cake'
+import {setData, getStorage, env} from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const vcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
@@ -42,21 +42,46 @@ export default class TemplateLayout extends React.Component {
     if (!env('THEME_EDITOR') && env('REMOVE_SETTINGS_SAVE_BUTTON')) {
       settingsStorage.state('pageTemplate').set(data)
 
-      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
-      const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
+      let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
 
-      if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
-        this.reloadIframe(lastSavedPageTemplate)
+      let lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current
+      let lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+
+      let lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current
+      let lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
+
+      let lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current
+      let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
+
+      if (
+        lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type) ||
+        lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate ||
+        lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate ||
+        lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate
+      ) {
+        this.reloadIframe(
+          lastSavedPageTemplate,
+          lastSavedHeaderTemplate,
+          lastSavedSidebarTemplate,
+          lastSavedFooterTemplate
+        )
       }
     }
   }
 
-  reloadIframe (lastSavedPageTemplate) {
+  reloadIframe (lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate) {
     window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
+    window.vcvLastLoadedHeaderTemplate = lastSavedHeaderTemplate
+    window.vcvLastLoadedSidebarTemplate = lastSavedSidebarTemplate
+    window.vcvLastLoadedFooterTemplate = lastSavedFooterTemplate
 
     workspaceIFrame.set({
       type: 'reload',
-      template: lastSavedPageTemplate
+      template: lastSavedPageTemplate,
+      header: lastSavedHeaderTemplate,
+      sidebar: lastSavedSidebarTemplate,
+      footer: lastSavedFooterTemplate
     })
     settingsStorage.state('skipBlank').set(true)
   }
@@ -139,7 +164,8 @@ export default class TemplateLayout extends React.Component {
 
     return (
       <div className='vcv-ui-form-group'>
-        <select className='vcv-ui-form-dropdown' value={`${this.state.current.type}__${this.state.current.value}`} onChange={this.updateTemplate}>
+        <select className='vcv-ui-form-dropdown' value={`${this.state.current.type}__${this.state.current.value}`}
+          onChange={this.updateTemplate}>
           {this.getThemeTemplateOptions()}
         </select>
       </div>
