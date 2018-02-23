@@ -18,52 +18,14 @@ export default class AddTemplatePanel extends React.Component {
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
-  static defaultProps = !vcCake.env('ADD_TEMPLATE_DROPDOWN') ? {
+  static defaultProps = {
     categories: [
       {
         title: 'All',
         index: 0,
         id: 'all',
         visible () { return true },
-        templates () { return myTemplatesService.getAllTemplates() } // TODO: Merge from all categories
-      },
-      {
-        title: 'My Templates',
-        index: 1,
-        id: 'myTemplates',
-        visible () { return this.templates().length },
-        templates () { return myTemplatesService.all() }
-      },
-      {
-        title: 'Templates',
-        index: 2,
-        id: 'hubTemplates',
-        visible () { return this.templates().length },
-        templates () { return myTemplatesService.predefined() }
-      },
-      {
-        title: 'Downloaded Templates',
-        index: 3,
-        id: 'downloadedTemplates',
-        visible () { return this.templates().length },
-        templates () { return myTemplatesService.hub() }
-      },
-      {
-        title: 'Download More Templates',
-        index: 4,
-        id: 'downloadMoreTemplates',
-        visible () { return false },
-        templates: null
-      }
-    ]
-  } : {
-    categories: [
-      {
-        title: 'All',
-        index: 0,
-        id: 'all',
-        visible () { return true },
-        templates () { return myTemplatesService.getAllTemplates() } // TODO: Merge from all categories
+        templates () { return myTemplatesService.getAllTemplates() }
       },
       {
         title: 'My Templates',
