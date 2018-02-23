@@ -1,6 +1,6 @@
 import React from 'react'
 import SettingsContent from './lib/settingsContent'
-import SettingsFooter from './lib/settingsFooter'
+import SettingsFooter from './lib/deprecated/settingsFooter'
 import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'
