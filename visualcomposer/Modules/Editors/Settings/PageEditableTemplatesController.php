@@ -36,8 +36,7 @@ class PageEditableTemplatesController extends Container implements Module
 
     protected function viewPePageTemplate($originalTemplate, Frontend $frontendHelper, Request $requestHelper)
     {
-        // TODO: Preview
-        if ($frontendHelper->isPageEditable()/*|| $frontendHelper->isPreview()*/) {
+        if ($frontendHelper->isPageEditable()) {
             if ($requestHelper->exists('vcv-template') && $requestHelper->exists('vcv-template-type')) {
                 return vcfilter(
                     'vcv:editor:settings:peTemplate',
