@@ -5,4 +5,21 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
+<script>
+  jQuery.fn.ready = function (param) {
+    try {
+      let args = arguments
+      window.setTimeout(function () {
+          <?php if (VCV_DEBUG) : ?>
+        console.log('calling fn.ready', param)
+          <?php endif; ?>
+        param.call(this, args)
+      }, 300)
+    } catch (e) {
+        <?php if (VCV_DEBUG) : ?>
+      console.warn('jquery ready failed', e)
+        <?php endif; ?>
+    }
+  }
+</script>
 <div id="vcv-editor"><?php echo esc_html__('Loading...', 'vcwb'); ?></div>
