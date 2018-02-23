@@ -90,7 +90,7 @@ export default class SaveController {
         'wp-preview': vcCake.getData('wp-preview')
       }
       if (vcCake.env('PAGE_TEMPLATES_FE')) {
-        requestData[ 'vcv-page-template' ] = settingsStorage.state('pageTemplate').get() || 'default'
+        requestData[ 'vcv-page-template' ] = settingsStorage.state('pageTemplate').get() || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
       }
       if (vcCake.env('PAGE_TITLE_FE')) {
         requestData[ 'vcv-page-title' ] = settingsStorage.state('pageTitle').get() || ''
@@ -109,14 +109,19 @@ export default class SaveController {
   }
 
   saveSuccess (status, responseText) {
-    let data = JSON.parse(responseText || '{}')
-    if (data && data.postData) {
-      window.vcvPostData = data.postData
+    try {
+      let data = JSON.parse(responseText || '{}')
+      if (data && data.postData) {
+        window.vcvPostData = data.postData
+      }
+      status.set({
+        status: 'success',
+        request: responseText
+      })
+    } catch (e) {
+      console.warn('save failed', e)
+      this.saveFailed(status, responseText)
     }
-    status.set({
-      status: 'success',
-      request: responseText
-    })
     // this.props.api.request('wordpress:data:saved', {
     //   status: 'success',
     //   request: responseText
