@@ -21,7 +21,7 @@ export default class TemplateLayout extends React.Component {
       current: currentTemplate,
       showTheme: showTheme
     }
-    setData('ui:settings:pageTemplate', currentTemplate)
+    settingsStorage.state('pageTemplate').set(currentTemplate)
     this.allowedTypes = [ 'vc', 'vc-theme', 'theme' ]
     this.updateTemplate = this.updateTemplate.bind(this)
     this.updateState = this.updateState.bind(this)

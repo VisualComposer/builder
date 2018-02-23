@@ -21,7 +21,7 @@ export default class LayoutDropdown extends React.Component {
       current: currentLayout
     }
 
-    setData(`ui:settings:${layoutName}Template`, currentLayout)
+    settingsStorage.state(`${layoutName}Template`).set(currentLayout)
 
     this.updateLayout = this.updateLayout.bind(this)
     this.getTemplateOptions = this.getTemplateOptions.bind(this)
