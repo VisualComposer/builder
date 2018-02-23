@@ -21,7 +21,7 @@ export default class LayoutDropdown extends React.Component {
       current: currentLayout
     }
 
-    setData(`ui:settings:${layoutName}Template`, currentLayout)
+    settingsStorage.state(`${layoutName}Template`).set(currentLayout)
 
     this.updateLayout = this.updateLayout.bind(this)
     this.getTemplateOptions = this.getTemplateOptions.bind(this)
@@ -57,7 +57,7 @@ export default class LayoutDropdown extends React.Component {
       let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
       if (
-        lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type) ||
+        lastLoadedPageTemplate && (!lastSavedPageTemplate || lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type) ||
         lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate ||
         lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate ||
         lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate ||

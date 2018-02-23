@@ -57,9 +57,14 @@ export default class ElementComponent extends Component {
           return
         }
         let iframe = vcCake.env('iframe')
+        let jsonData
+        try {
+          jsonData = JSON.parse(data)
+        } catch (e) {
+          console.warn('failed to parse json data', e, data)
+        }
         try {
           ((function (window, document) {
-            let jsonData = JSON.parse(data)
             let { headerContent, shortcodeContent, footerContent } = jsonData
             ref && (ref.innerHTML = '')
 
@@ -80,7 +85,7 @@ export default class ElementComponent extends Component {
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
           })(iframe, iframe.document))
         } catch (e) {
-          console.warn('failed to parse json', e)
+          console.warn('failed to parse json', e, jsonData)
         }
         this.ajax = null
         cb && cb.constructor === Function && cb()

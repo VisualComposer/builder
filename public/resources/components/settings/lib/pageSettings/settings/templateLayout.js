@@ -21,9 +21,28 @@ export default class TemplateLayout extends React.Component {
       current: currentTemplate,
       showTheme: showTheme
     }
-    setData('ui:settings:pageTemplate', currentTemplate)
+    settingsStorage.state('pageTemplate').set(currentTemplate)
     this.allowedTypes = [ 'vc', 'vc-theme', 'theme' ]
     this.updateTemplate = this.updateTemplate.bind(this)
+    this.updateState = this.updateState.bind(this)
+  }
+
+  componentDidMount () {
+    settingsStorage.state('pageTemplate').onChange(this.updateState)
+  }
+
+  componentWillUnmount () {
+    settingsStorage.state('pageTemplate').ignoreChange(this.updateState)
+  }
+
+  updateState (data) {
+    if (data) {
+      let showTheme = data.type === 'theme'
+      this.setState({
+        current: data,
+        showTheme: showTheme
+      })
+    }
   }
 
   updateTemplate (event) {
