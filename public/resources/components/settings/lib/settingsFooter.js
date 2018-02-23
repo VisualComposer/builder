@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getData, getStorage, env } from 'vc-cake'
+import {getData, getStorage, env} from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
@@ -38,7 +38,7 @@ export default class SettingsFooter extends React.Component {
       settingsStorage.state(action.state).set(getData(action.getData))
     })
     if (!env('THEME_EDITOR')) {
-      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
+      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
       let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
 
       let lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current
@@ -50,14 +50,18 @@ export default class SettingsFooter extends React.Component {
       let lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current
       let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
-      if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {
-        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate)
-      } else if (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) {
-        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate)
-      } else if (lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate) {
-        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate)
-      } else if (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate) {
-        this.reloadIframe(lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate)
+      if (
+        lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type) ||
+        lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate ||
+        lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate ||
+        lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate
+      ) {
+        this.reloadIframe(
+          lastSavedPageTemplate,
+          lastSavedHeaderTemplate,
+          lastSavedSidebarTemplate,
+          lastSavedFooterTemplate
+        )
       }
     }
     this.effect()
@@ -72,9 +76,9 @@ export default class SettingsFooter extends React.Component {
     workspaceIFrame.set({
       type: 'reload',
       template: lastSavedPageTemplate,
-      header: settingsStorage.state('headerTemplate').get(),
-      sidebar: settingsStorage.state('sidebarTemplate').get(),
-      footer: settingsStorage.state('footerTemplate').get()
+      header: lastSavedHeaderTemplate,
+      sidebar: lastSavedSidebarTemplate,
+      footer: lastSavedFooterTemplate
     })
     settingsStorage.state('skipBlank').set(true)
   }
