@@ -253,7 +253,7 @@ export default class PagePanelContent extends React.Component {
   handleLayoutClick (layoutType, layoutValue) {
     if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
       settingsStorage.state('skipBlank').set(true)
-      let activeLayout = settingsStorage.state('pageTemplate').get()
+      let activeLayout = settingsStorage.state('pageTemplate').get() || vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? {type: 'theme', value: 'default'} : 'default'
       let newLayout = {
         type: layoutType,
         value: layoutValue
