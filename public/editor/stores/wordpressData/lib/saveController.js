@@ -90,7 +90,10 @@ export default class SaveController {
         'wp-preview': vcCake.getData('wp-preview')
       }
       if (vcCake.env('PAGE_TEMPLATES_FE')) {
-        requestData[ 'vcv-page-template' ] = settingsStorage.state('pageTemplate').get() || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
+        let pageTemplateData = settingsStorage.state('pageTemplate').get()
+        if (pageTemplateData) {
+          requestData[ 'vcv-page-template' ] = pageTemplateData
+        }
       }
       if (vcCake.env('PAGE_TITLE_FE')) {
         requestData[ 'vcv-page-title' ] = settingsStorage.state('pageTitle').get() || ''
