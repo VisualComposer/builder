@@ -216,9 +216,9 @@ vcCake.add('contentModernLayout', (api) => {
       let hasHeader = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
       let hasSidebar = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
       let hasFooter = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
-      let currentLayoutType = vcCake.env('PAGE_TEMPLATE_LAYOUTS') && window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().filter(item => item.type === template.type)
+      let currentLayoutType = vcCake.env('PAGE_TEMPLATE_LAYOUTS') && window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().find(item => item.type === template.type)
       if (currentLayoutType && currentLayoutType.values) {
-        let currentTemplate = currentLayoutType.values.filter(item => item.value === template.value)
+        let currentTemplate = currentLayoutType.values.find(item => item.value === template.value)
         if (currentTemplate) {
           hasHeader = currentTemplate.header
           hasSidebar = currentTemplate.sidebar
