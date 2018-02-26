@@ -12,6 +12,8 @@ class MenuController extends Container implements Module
 {
     use WpFiltersActions;
 
+    protected $bufferStarted = false;
+
     public function __construct()
     {
         /** WordPress admin_menu */
@@ -34,7 +36,8 @@ class MenuController extends Container implements Module
         // @codingStandardsIgnoreLine
         global $parent_file;
         // @codingStandardsIgnoreLine
-        if (isset($parent_file) && preg_match('/edit.php(.*)?/', $parent_file)) {
+        if (isset($parent_file) && preg_match('/(?:edit|post).php(.*)?/', $parent_file)) {
+            $this->bufferStarted = true;
             ob_start(); // Starting buffer to overwrite page-title-action link "Add New"
         }
     }
@@ -42,11 +45,17 @@ class MenuController extends Container implements Module
     protected function endBuffer(EditorPostType $editorPostTypeHelper)
     {
         // @codingStandardsIgnoreLine
-        global $parent_file;
+        global $parent_file, $post_type;
         // @codingStandardsIgnoreLine
-        if (isset($parent_file) && preg_match('/edit.php(?:\?post_type=)?(.*)?/', $parent_file, $matches)) {
+        if (!$this->bufferStarted) {
+            return;
+        }
+        // @codingStandardsIgnoreLine
+        if (isset($parent_file) && preg_match('/(?:edit|post).php(?:\?post_type=)?(.*)?/', $parent_file, $matches)) {
             $content = ob_get_clean();
-            $postType = !empty($matches[1]) ? $matches[1] : 'post';
+            $this->bufferStarted = false;
+            // @codingStandardsIgnoreLine
+            $postType = !empty($matches[1]) ? $matches[1] : $post_type;
             if ($editorPostTypeHelper->isEditorEnabled($postType)
                 && !in_array(
                     $postType,
@@ -58,7 +67,7 @@ class MenuController extends Container implements Module
                 )
             ) {
                 $content = preg_replace_callback(
-                    '/\<\a href=\"(.[^\"]+)" class="page-title-action"\>(.[^\<\/a\>]+)\<\/a\>/',
+                    '/\<[a] href="(.[^\"]+)" class="page-title-action"\>(.[^\<\/a\>]+)\<\/a\>/',
                     function ($data) {
                         $urlHelper = vchelper('Url');
                         $newUrl = $urlHelper->query($data[1], ['vcv-action' => 'frontend']);
