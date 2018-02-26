@@ -69,15 +69,15 @@ class MenuController extends Container implements Module
                     while (isset($submenu[ $key ][ $newIndex ])) {
                         $newIndex++;
                     }
-                    $link3 = isset($link[3]) ? $link[3] : null;
-                    $link4 = isset($link[4]) ? $link[4] : null;
-                    $link4 .= ' vcv-dashboard-admin-menu--add';
+                    $linkInfo = isset($link[3]) ? $link[3] : null;
+                    $linkClass = isset($link[4]) ? $link[4] : null;
+                    $linkClass .= ' vcv-dashboard-admin-menu--add';
                     $submenu[ $key ][ $newIndex ] = [
                         __('Add New with Visual&nbsp;Composer', 'vcwb'),
                         $link[1],
                         $urlHelper->query($link[2], ['vcv-action' => 'frontend']),
-                        $link3,
-                        $link4,
+                        $linkInfo,
+                        $linkClass,
                     ];
                 }
             }
