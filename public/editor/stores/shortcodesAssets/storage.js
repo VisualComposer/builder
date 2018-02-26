@@ -1,146 +1,95 @@
-import {addStorage, getService, env} from 'vc-cake'
+import { addStorage, getService, getStorage, env } from 'vc-cake'
 
 addStorage('shortcodeAssets', (storage) => {
   const utils = getService('utils')
-  const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
 
-  if (!env('FE_SHORTCODES_SCRIPTS')) {
-    let loadedCssFiles = []
-    let loadedJsFiles = []
+  // new shortcode logic
+  let loadedFiles = []
+  let appendDomElements = []
+  let collectLoadFiles = () => {
+    loadedFiles = []
+    appendDomElements = []
+    const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
 
-    let collectLoadFiles = () => {
-      let data = {
-        cssBundles: assetsWindow.jQuery('style, link[href]'),
-        jsBundles: assetsWindow.jQuery('script')
-      }
-      loadFiles(data, false)
+    let data = {
+      domNodes: assetsWindow.document.querySelectorAll('style, link[href], script'),
+      cacheInnerHTML: true
     }
-    let loadFiles = (data, addToDocument) => {
-      if (data.cssBundles && data.cssBundles.length) {
-        // it is jquery
-        data.cssBundles.each((i, cssNode) => {
-          let $el = assetsWindow.jQuery(cssNode)
-          let slug = ''
-          if ($el.is('style')) {
-            // inline
-            slug = utils.slugify(cssNode.innerHTML)
-          } else if ($el.is('link[href]')) {
-            // load href
-            slug = utils.slugify($el.attr('href'))
-          }
+    loadFiles(data)
+  }
 
-          // let slug = utils.slugify(file)
-          if (loadedCssFiles.indexOf(slug) === -1) {
-            loadedCssFiles.push(slug)
-            if (addToDocument) {
-              assetsWindow.document.head.appendChild(cssNode)
-            }
-          }
-        })
-      }
-      if (data.jsBundles && data.jsBundles.length) {
-        // use each, it is jquery
-        data.jsBundles.each(
-          (i, jsNode) => {
-            let $el = assetsWindow.jQuery(jsNode)
-            let slug = ''
-            if ($el.is('script[src]')) {
-              // inline
-              slug = utils.slugify($el.attr('src'))
-            } else {
-              // load href
-              slug = utils.slugify(jsNode.innerHTML)
-            }
-            if (loadedJsFiles.indexOf(slug) === -1) {
-              loadedJsFiles.push(slug)
-              if (addToDocument) {
-                $el.insertAfter(assetsWindow.document.head)
-              }
-            }
-          }
-        )
-      }
-    }
-
-    // Collecting
-    collectLoadFiles()
-
-    // Event listen
-    storage.on('add', (data) => {
-      loadFiles(data, true)
-    })
-  } else {
-    // new shortcode logic
-    ((window, document) => {
-      let loadedFiles = []
-      let appendDomElements = []
-      let collectLoadFiles = () => {
-        let data = {
-          domNodes: document.querySelectorAll('style, link[href], script'),
-          cacheInnerHTML: true
-        }
-        loadFiles(data)
-      }
-
-      let loadFiles = (data) => {
-        if (data.domNodes && data.domNodes.length) {
-          Array.from(data.domNodes).forEach(domNode => {
-            let slug = ''
-            let position = ''
-            let type = ''
-            if (domNode.href) {
-              slug = utils.slugify(domNode.href)
-              position = 'head'
-              type = 'css'
-            } else if (domNode.src) {
-              slug = utils.slugify(domNode.src)
-              !data.ignoreCache && (position = 'body')
-              type = 'js'
-            } else if (domNode.id && domNode.type && domNode.type.indexOf('template') >= 0) {
-              slug = domNode.id
-              position = 'head'
-              type = 'template'
-            } else if (data.cacheInnerHTML) {
-              slug = utils.slugify(domNode.innerHTML)
-            }
-            if (env('TF_FIX_ASSETS_JS_ORDER')) {
-              if (!data.appending && domNode.innerHTML.match(/\.ready\(/)) {
-                appendDomElements.push(domNode)
-                return
-              }
-            }
-
-            let cached = slug && loadedFiles.indexOf(slug) >= 0
-            if (!cached) {
-              let ignoreCache = type === 'template' ? false : data.ignoreCache
-              !ignoreCache && slug && loadedFiles.push(slug)
-              if (data.addToDocument) {
-                if (position) {
-                  document[ position ] && window.jQuery(document[ position ]).append(domNode)
-                } else {
-                  data.ref && window.jQuery(data.ref) && window.jQuery(data.ref).append(domNode)
-                }
-              }
-            }
-          })
+  let loadFiles = (data) => {
+    const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
+    if (data.domNodes && data.domNodes.length) {
+      Array.from(data.domNodes).forEach(domNode => {
+        let slug = ''
+        let position = ''
+        let type = ''
+        if (domNode.href) {
+          slug = utils.slugify(domNode.href)
+          position = 'head'
+          type = 'css'
+        } else if (domNode.src) {
+          slug = utils.slugify(domNode.src)
+          !data.ignoreCache && (position = 'body')
+          type = 'js'
+        } else if (domNode.id && domNode.type && domNode.type.indexOf('template') >= 0) {
+          slug = domNode.id
+          position = 'head'
+          type = 'template'
+        } else if (data.cacheInnerHTML) {
+          slug = utils.slugify(domNode.innerHTML)
         }
         if (env('TF_FIX_ASSETS_JS_ORDER')) {
-          if (!data.appending && appendDomElements.length) {
-            data.appending = true
-            data.domNodes = appendDomElements
-            window.setTimeout(() => loadFiles(data), 0)
-            appendDomElements = []
+          if (!data.appending && domNode.innerHTML.match(/\.ready\(/)) {
+            appendDomElements.push(domNode)
+            return
           }
         }
-      }
 
-      // Collecting
-      collectLoadFiles()
-
-      // Event listen
-      storage.on('add', (data) => {
-        loadFiles(data)
+        let cached = slug && loadedFiles.indexOf(slug) >= 0
+        if (!cached) {
+          let ignoreCache = type === 'template' ? false : data.ignoreCache
+          !ignoreCache && slug && loadedFiles.push(slug)
+          if (data.addToDocument) {
+            if (position) {
+              assetsWindow.document[ position ] && assetsWindow.jQuery(assetsWindow.document[ position ]).append(domNode)
+            } else {
+              data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
+            }
+          }
+        }
       })
-    })(assetsWindow, assetsWindow.document)
+    }
+    if (env('TF_FIX_ASSETS_JS_ORDER')) {
+      const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
+      if (!data.appending && appendDomElements.length) {
+        data.appending = true
+        data.domNodes = appendDomElements
+        assetsWindow.setTimeout(() => loadFiles(data), 0)
+        appendDomElements = []
+      }
+    }
   }
+
+  // Collecting
+  collectLoadFiles()
+
+  // Event listen
+  storage.on('add', (data) => {
+    loadFiles(data)
+  })
+
+  let timer = null
+  getStorage('workspace').state('iframe').onChange((data) => {
+    if (data && data.type === 'reload') {
+      if (timer) {
+        window.clearTimeout(timer)
+        timer = null
+      }
+      timer = window.setTimeout(() => {
+        collectLoadFiles()
+      }, 100)
+    }
+  })
 })
