@@ -19,6 +19,7 @@ const categories = {
   },
   element: {
     index: 1,
+    subIndex: 0,
     type: 'element',
     name: 'Elements'
   },
