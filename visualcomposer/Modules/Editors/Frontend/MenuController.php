@@ -14,7 +14,7 @@ class MenuController extends Container implements Module
 
     public function __construct()
     {
-        $this->wpAddAction('admin_menu', 'addStyleFixes');
+        $this->wpAddAction('admin_footer', 'addStyleFixes');
         $this->wpAddAction('admin_menu', 'updateAddNewMenus');
     }
 
