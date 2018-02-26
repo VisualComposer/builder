@@ -19,6 +19,8 @@ if (!defined('ABSPATH')) {
       console.warn('jquery ready failed', e)
         <?php endif; ?>
     }
+
+    return this
   }
 </script>
 <div id="vcv-editor"><?php echo esc_html__('Loading...', 'vcwb'); ?></div>
