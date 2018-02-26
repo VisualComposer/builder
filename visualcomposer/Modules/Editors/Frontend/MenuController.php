@@ -14,8 +14,67 @@ class MenuController extends Container implements Module
 
     public function __construct()
     {
+        /** WordPress admin_menu */
         $this->wpAddAction('admin_footer', 'addStyleFixes');
         $this->wpAddAction('admin_menu', 'updateAddNewMenus');
+
+        /** WordPress edit.php page */
+        $this->wpAddAction(
+            'in_admin_header',
+            'startBuffer'
+        );
+        $this->wpAddAction(
+            'admin_footer',
+            'endBuffer'
+        );
+    }
+
+    protected function startBuffer()
+    {
+        // @codingStandardsIgnoreLine
+        global $parent_file;
+        // @codingStandardsIgnoreLine
+        if (isset($parent_file) && preg_match('/edit.php(.*)?/', $parent_file)) {
+            ob_start(); // Starting buffer to overwrite page-title-action link "Add New"
+        }
+    }
+
+    protected function endBuffer(EditorPostType $editorPostTypeHelper)
+    {
+        // @codingStandardsIgnoreLine
+        global $parent_file;
+        // @codingStandardsIgnoreLine
+        if (isset($parent_file) && preg_match('/edit.php(?:\?post_type=)?(.*)?/', $parent_file, $matches)) {
+            $content = ob_get_clean();
+            $postType = !empty($matches[1]) ? $matches[1] : 'post';
+            if ($editorPostTypeHelper->isEditorEnabled($postType)
+                && !in_array(
+                    $postType,
+                    [
+                        'vcv_headers',
+                        'vcv_footers',
+                        'vcv_sidebars',
+                    ]
+                )
+            ) {
+                $content = preg_replace_callback(
+                    '/\<\a href=\"(.[^\"]+)" class="page-title-action"\>(.[^\<\/a\>]+)\<\/a\>/',
+                    function ($data) {
+                        $urlHelper = vchelper('Url');
+                        $newUrl = $urlHelper->query($data[1], ['vcv-action' => 'frontend']);
+                        $newLink = '<a href="' . $newUrl . '" class="page-title-action">' .
+                            __(
+                                'Add New with Visual Composer',
+                                'vcwb'
+                            ) . '</a>';
+
+                        return $data[0] . $newLink;
+                    },
+                    $content
+                );
+            }
+            echo $content;
+        }
     }
 
     protected function addStyleFixes()
