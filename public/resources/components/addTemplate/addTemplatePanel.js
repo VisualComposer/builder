@@ -4,73 +4,67 @@ import SearchTemplate from './lib/searchTemplate'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import TemplateControl from './lib/templateControl'
 import vcCake from 'vc-cake'
-import PropTypes from 'prop-types'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const myTemplatesService = vcCake.getService('myTemplates')
 const documentManager = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceSettings = vcCake.getStorage('workspace').state('settings')
+
+const templatesCategories = [
+  {
+    title: 'All',
+    index: 0,
+    id: 'all',
+    visible () { return true },
+    templates () { return myTemplatesService.getAllTemplates() }
+  },
+  {
+    title: 'My Templates',
+    index: 1,
+    id: 'myTemplates',
+    visible () { return this.templates().length },
+    templates () { return myTemplatesService.all() }
+  },
+  {
+    title: 'Content Templates',
+    index: 2,
+    id: 'hubAndPredefined',
+    visible () { return this.templates().length },
+    templates () { return myTemplatesService.hubAndPredefined() }
+  },
+  {
+    title: 'Header Templates',
+    index: 3,
+    id: 'hubHeader',
+    visible () { return this.templates().length },
+    templates () { return myTemplatesService.hubHeader() }
+  },
+  {
+    title: 'Footer Templates',
+    index: 4,
+    id: 'hubFooter',
+    visible () { return this.templates().length },
+    templates () { return myTemplatesService.hubFooter() }
+  },
+  {
+    title: 'Sidebar Templates',
+    index: 5,
+    id: 'hubSidebar',
+    visible () { return this.templates().length },
+    templates () { return myTemplatesService.hubSidebar() }
+  },
+  {
+    title: 'Download More Templates',
+    index: 6,
+    id: 'downloadMoreTemplates',
+    visible () { return false },
+    templates: null
+  }
+]
+
 export default class AddTemplatePanel extends React.Component {
-  static propTypes = {
-    categories: PropTypes.array
-  }
-
   static localizations = window.VCV_I18N && window.VCV_I18N()
-
-  static defaultProps = {
-    categories: [
-      {
-        title: 'All',
-        index: 0,
-        id: 'all',
-        visible () { return true },
-        templates () { return myTemplatesService.getAllTemplates() }
-      },
-      {
-        title: 'My Templates',
-        index: 1,
-        id: 'myTemplates',
-        visible () { return this.templates().length },
-        templates () { return myTemplatesService.all() }
-      },
-      {
-        title: 'Content Templates',
-        index: 2,
-        id: 'hubAndPredefined',
-        visible () { return this.templates().length },
-        templates () { return myTemplatesService.hubAndPredefined() }
-      },
-      {
-        title: 'Header Templates',
-        index: 3,
-        id: 'hubHeader',
-        visible () { return this.templates().length },
-        templates () { return myTemplatesService.hubHeader() }
-      },
-      {
-        title: 'Footer Templates',
-        index: 4,
-        id: 'hubFooter',
-        visible () { return this.templates().length },
-        templates () { return myTemplatesService.hubFooter() }
-      },
-      {
-        title: 'Sidebar Templates',
-        index: 5,
-        id: 'hubSidebar',
-        visible () { return this.templates().length },
-        templates () { return myTemplatesService.hubSidebar() }
-      },
-      {
-        title: 'Download More Templates',
-        index: 6,
-        id: 'downloadMoreTemplates',
-        visible () { return false },
-        templates: null
-      }
-    ]
-  }
 
   errorTimeout = 0
 
@@ -84,7 +78,8 @@ export default class AddTemplatePanel extends React.Component {
       isSearching: false,
       error: false,
       errorName: '',
-      showSpinner: false
+      showSpinner: false,
+      categories: templatesCategories
     }
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.changeTemplateName = this.changeTemplateName.bind(this)
@@ -99,6 +94,11 @@ export default class AddTemplatePanel extends React.Component {
     this.onSaveFailed = this.onSaveFailed.bind(this)
     this.onRemoveSuccess = this.onRemoveSuccess.bind(this)
     this.onRemoveFailed = this.onRemoveFailed.bind(this)
+    this.handleTemplateStorageStateChange = this.handleTemplateStorageStateChange.bind(this)
+  }
+
+  componentDidMount () {
+    vcCake.getStorage('templates').state('templates').onChange(this.handleTemplateStorageStateChange)
   }
 
   componentWillUnmount () {
@@ -106,6 +106,11 @@ export default class AddTemplatePanel extends React.Component {
       window.clearTimeout(this.errorTimeout)
       this.errorTimeout = 0
     }
+    vcCake.getStorage('templates').state('templates').ignoreChange(this.handleTemplateStorageStateChange)
+  }
+
+  handleTemplateStorageStateChange () {
+    this.setState({ categories: templatesCategories })
   }
 
   // Check state
@@ -126,7 +131,7 @@ export default class AddTemplatePanel extends React.Component {
   changeActiveCategory (index) {
     this.setState({
       activeCategoryIndex: index,
-      categoryTitle: this.props.categories[ index ].title
+      categoryTitle: this.state.categories[ index ].title
     })
   }
 
@@ -160,14 +165,13 @@ export default class AddTemplatePanel extends React.Component {
       changeSearchState: this.changeSearchState,
       changeSearchInput: this.changeSearchInput,
       index: this.state.activeCategoryIndex,
-      allCategories: this.props.categories,
+      allCategories: this.state.categories,
       changeActiveCategory: this.changeActiveCategory
     }
   }
 
   getTemplateControlProps (template) {
     return {
-      // api: this.props.api,
       key: 'vcv-element-control-' + template.id,
       applyTemplate: this.handleApplyTemplate,
       removeTemplate: this.handleRemoveTemplate,
@@ -190,7 +194,7 @@ export default class AddTemplatePanel extends React.Component {
     const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
     // let source, btnText, helper, button
     let source
-    if (!this.props.categories[ 0 ].templates().length && !this.state.isSearching) {
+    if (!this.state.categories[ 0 ].templates().length && !this.state.isSearching) {
       // btnText = buttonText
       // helper = noTemplatesText
       // button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
@@ -239,7 +243,7 @@ export default class AddTemplatePanel extends React.Component {
 
   getSearchResults () {
     let { inputValue } = this.state
-    return this.props.categories[ 0 ].templates().filter((template) => {
+    return this.state.categories[ 0 ].templates().filter((template) => {
       let name = template.name.toLowerCase()
       return template.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
     }).map((template) => {
@@ -250,11 +254,11 @@ export default class AddTemplatePanel extends React.Component {
   getTemplatesByCategory () {
     let { activeCategoryIndex } = this.state
 
-    if (this.props.categories[ activeCategoryIndex ].id === 'downloadMoreTemplates') {
+    if (this.state.categories[ activeCategoryIndex ].id === 'downloadMoreTemplates') {
       this.handleGoToHub()
       return []
     }
-    let templates = this.props.categories[ activeCategoryIndex ].templates()
+    let templates = this.state.categories[ activeCategoryIndex ].templates()
     return templates.map((template) => {
       return this.getTemplateControl(template)
     })
@@ -286,9 +290,7 @@ export default class AddTemplatePanel extends React.Component {
       } else {
         this.setState({ showSpinner: templateName })
         let templateAddResult = myTemplatesService.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
-        if (templateAddResult) {
-          // this.props.api.request('templates:save', templateName)
-        } else {
+        if (!templateAddResult) {
           this.displayError(templateSaveFailedText)
         }
       }
@@ -297,11 +299,10 @@ export default class AddTemplatePanel extends React.Component {
     }
   }
 
-  onSaveSuccess (id) {
-    // this.props.api.request('templates:save', id)
+  onSaveSuccess () {
     this.setState({
       templateName: '',
-      categoryTitle: this.props.categories[ 1 ].title,
+      categoryTitle: this.state.categories[ 1 ].title,
       isSearching: false,
       inputValue: '',
       showSpinner: false
@@ -329,10 +330,8 @@ export default class AddTemplatePanel extends React.Component {
     }
   }
 
-  onRemoveSuccess (id) {
-    // this.props.api.request('templates:remove', id)
-
-    if (!this.props.categories[ this.state.activeCategoryIndex ].templates().length) {
+  onRemoveSuccess () {
+    if (!this.state.categories[ this.state.activeCategoryIndex ].templates().length) {
       this.setState({ activeCategoryIndex: 0 })
     } else {
       this.setState({ activeCategoryIndex: this.state.activeCategoryIndex })
