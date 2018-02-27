@@ -1,4 +1,4 @@
-import { addStorage, getService, getStorage, env } from 'vc-cake'
+import { addStorage, getService, getStorage } from 'vc-cake'
 
 addStorage('shortcodeAssets', (storage) => {
   const utils = getService('utils')

@@ -9,9 +9,9 @@ if (!defined('ABSPATH')) {
   jQuery.fn.ready = function (param) {
     try {
       window.setTimeout(function () {
-          <?php if (VCV_DEBUG) : ?>
+            <?php if (VCV_DEBUG) : ?>
         console.log('calling fn.ready', param)
-          <?php endif; ?>
+            <?php endif; ?>
         param.call(this, jQuery)
       }, 300)
     } catch (e) {
@@ -19,6 +19,8 @@ if (!defined('ABSPATH')) {
       console.warn('jquery ready failed', e)
         <?php endif; ?>
     }
+
+    return this
   }
 </script>
 <div id="vcv-editor"><?php echo esc_html__('Loading...', 'vcwb'); ?></div>
