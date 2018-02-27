@@ -73,10 +73,9 @@ $(() => {
         background: #292929;
         display: flex;
         justify-content: center;
-        min-height: 100%;
         } `
         style.innerText += 'body {'
-        style.innerText += 'width: 480px;'
+        style.innerText += 'width: 320px;'
         style.innerText += '}'
         iframeDocument.head.appendChild(style)
       }
