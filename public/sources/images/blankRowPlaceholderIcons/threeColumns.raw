@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="60px" height="40px" viewBox="0 0 61 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="path-three-columns-1" x="0" y="0" width="19" height="40"></rect>
+        <mask id="mask-three-columns-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="19" height="40" fill="white">
+            <use xlink:href="#path-three-columns-1"></use>
+        </mask>
+        <rect id="path-three-columns-3" x="21" y="0" width="18" height="40"></rect>
+        <mask id="mask-three-columns-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="18" height="40" fill="white">
+            <use xlink:href="#path-three-columns-3"></use>
+        </mask>
+        <rect id="path-three-columns-5" x="41" y="0" width="19" height="40"></rect>
+        <mask id="mask-three-columns-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="19" height="40" fill="white">
+            <use xlink:href="#path-three-columns-5"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3" stroke="#000000" stroke-width="4">
+            <use id="Rectangle" mask="url(#mask-three-columns-2)" xlink:href="#path-three-columns-1"></use>
+            <use id="Rectangle" mask="url(#mask-three-columns-4)" xlink:href="#path-three-columns-3"></use>
+            <use id="Rectangle" mask="url(#mask-three-columns-6)" xlink:href="#path-three-columns-5"></use>
+        </g>
+    </g>
+</svg>
