@@ -1,17 +1,16 @@
 import React from 'react'
-import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-
-const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+import addElementIcon from 'public/sources/images/blankRowPlaceholderIcons/addElement.raw'
 
 export default class RowControl extends React.Component {
   static propTypes = {
     hideIcon: PropTypes.bool.isRequired
   }
+  static localizations = window.VCV_I18N && window.VCV_I18N()
 
   render () {
-    let imageClasses = classNames({
+    let svgClasses = classNames({
       'vcv-ui-blank-row-element-control-icon': true,
       'vcv-is-hidden': this.props.hideIcon
     })
@@ -19,10 +18,10 @@ export default class RowControl extends React.Component {
     return <span
       className='vcv-ui-blank-row-element-control'
      >
-      <img
-        className={imageClasses}
-        src={sharedAssetsLibraryService.getSourcePath('images/blankRowPlaceholderIcons/addElement.svg')}
-        alt='Add Element'
+      <span
+        className={svgClasses}
+        dangerouslySetInnerHTML={{__html: addElementIcon}}
+        alt={RowControl.localizations ? RowControl.localizations.addElement : 'Add Element'}
       />
       <span className='vcv-ui-blank-row-element-control-label'>Add Element</span>
     </span>
