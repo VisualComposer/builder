@@ -106,6 +106,7 @@ addService('myTemplates', {
   },
   findTemplateByBundle (bundle) {
     const allTemplates = getStorage('templates').state('templates').get() || []
+    delete allTemplates.custom
     const result = Object.keys(allTemplates).find((type) => {
       const hubTemplates = allTemplates[ type ] || []
       if (!hubTemplates.templates) {
