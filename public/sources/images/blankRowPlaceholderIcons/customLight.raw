@@ -1,0 +1,16 @@
+<svg width="60px" height="40px" viewBox="0 0 61 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="path-custom" x="0" y="0" width="60" height="40"></rect>
+        <mask id="mask-custom" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="60" height="40" fill="white">
+            <use xlink:href="#path-custom"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Custom">
+            <use id="Rectangle" stroke="#ffffff" mask="url(#mask-custom)" stroke-width="4" xlink:href="#path-custom"></use>
+            <rect id="Rectangle-2" fill="#ffffff" x="24" y="19" width="3" height="3"></rect>
+            <rect id="Rectangle-2" fill="#ffffff" x="29" y="19" width="3" height="3"></rect>
+            <rect id="Rectangle-2" fill="#ffffff" x="34" y="19" width="3" height="3"></rect>
+        </g>
+    </g>
+</svg>
