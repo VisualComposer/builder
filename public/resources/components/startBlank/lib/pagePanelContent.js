@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
 import BlankControl from './blankControl'
+import TemplatePreview from './templatePreview'
 import LayoutIcons from './layoutIcons'
 
 const templateManager = vcCake.getService('myTemplates')
@@ -44,9 +45,10 @@ export default class PagePanelContent extends React.Component {
       settingsStorage.state('pageTemplate').set(currentTemplate)
     }
 
-    this.currentLayout = currentTemplate || (vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? {type: 'theme', value: 'default'} : 'default')
+    this.currentLayout = currentTemplate || (vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? { type: 'theme', value: 'default' } : 'default')
 
     this.handleControlClick = this.handleControlClick.bind(this)
+    this.handleLayoutClick = this.handleLayoutClick.bind(this)
     this.setControlsLayout = this.setControlsLayout.bind(this)
   }
 
@@ -195,17 +197,30 @@ export default class PagePanelContent extends React.Component {
               let iconProps = {
                 classes: 'vcv-ui-start-layout-list-item-icon'
               }
-              layouts.push(
-                <li className={classes} key={`layout-${key}-${index}`}
-                  onClick={this.handleLayoutClick.bind(this, templatesList.type, template.value)}>
-                  <span className='vcv-ui-item-element' title={`${template.label}`}>
-                    {Icon ? <Icon {...iconProps} /> : emptyIcon}
-                    <span className='vcv-ui-item-element-name'>
-                      {template.label}
+              if (vcCake.env('PAGE_TEMPLATE_PREVIEW')) {
+                layouts.push(
+                  <TemplatePreview key={`layout-${key}-${index}`}
+                    click={this.handleLayoutClick}
+                    templatesList={templatesList}
+                    templateValue={template.value}
+                    templateName={templateName}
+                    icon={Icon}
+                    name={template.label}
+                  />
+                )
+              } else {
+                layouts.push(
+                  <li className={classes} key={`layout-${key}-${index}`}
+                    onClick={this.handleLayoutClick.bind(this, templatesList.type, template.value)}>
+                    <span className='vcv-ui-item-element' title={`${template.label}`}>
+                      {Icon ? <Icon {...iconProps} /> : emptyIcon}
+                      <span className='vcv-ui-item-element-name'>
+                        {template.label}
+                      </span>
                     </span>
-                  </span>
-                </li>
-              )
+                  </li>
+                )
+              }
             })
           }
         })
@@ -224,7 +239,7 @@ export default class PagePanelContent extends React.Component {
 
         layouts.push(
           <li className={classes} key={`layout-${index}`}
-            onClick={this.handleLayoutClick.bind(this, key)}>
+            onClick={this.handleLayoutClick(key)}>
             <span className='vcv-ui-item-element' title={`${pageLayouts[ key ].title}`}>
               {Icon ? <Icon {...iconProps} /> : emptyIcon}
               <span className='vcv-ui-item-element-name'>
@@ -240,24 +255,36 @@ export default class PagePanelContent extends React.Component {
     let iconProps = {
       classes: 'vcv-ui-start-layout-list-item-icon'
     }
-    layouts.push(
-      <li className={defaultClasses} key={`layout-theme-default`}
-        onClick={vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? this.handleLayoutClick.bind(this, 'theme', 'default') : this.handleLayoutClick.bind(this, 'default')}>
-        <span className='vcv-ui-item-element' title='Theme default'>
-          {Icon ? <Icon {...iconProps} /> : emptyIcon}
-          <span className='vcv-ui-item-element-name'>
-            Theme Default
+    if (vcCake.env('PAGE_TEMPLATE_PREVIEW')) {
+      layouts.push(
+        <TemplatePreview key={`layout-theme-default`}
+          click={this.handleLayoutClick}
+          icon={Icon}
+          blank
+          name={'Theme default'}
+          templateName={'theme-default'}
+        />
+      )
+    } else {
+      layouts.push(
+        <li className={defaultClasses} key={`layout-theme-default`}
+          onClick={vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? this.handleLayoutClick.bind(this, 'theme', 'default') : this.handleLayoutClick.bind(this, 'default')}>
+          <span className='vcv-ui-item-element' title='Theme default'>
+            {Icon ? <Icon {...iconProps} /> : emptyIcon}
+            <span className='vcv-ui-item-element-name'>
+              Theme Default
+            </span>
           </span>
-        </span>
-      </li>
-    )
+        </li>
+      )
+    }
     return layouts
   }
 
   handleLayoutClick (layoutType, layoutValue) {
     if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
       settingsStorage.state('skipBlank').set(true)
-      let activeLayout = settingsStorage.state('pageTemplate').get() || vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? {type: 'theme', value: 'default'} : 'default'
+      let activeLayout = settingsStorage.state('pageTemplate').get() || vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? { type: 'theme', value: 'default' } : 'default'
       let newLayout = {
         type: layoutType,
         value: layoutValue
@@ -314,6 +341,8 @@ export default class PagePanelContent extends React.Component {
           {this.getBlankControls()}
         </ul>
       </div>
+      {vcCake.env('PAGE_TEMPLATE_PREVIEW') ? (
+        <div className='vcv-start-blank-description'>You can change layout of your page later on at any time via Visual Composer Settings</div>) : null}
     </div>
   }
 }

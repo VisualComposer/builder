@@ -145,6 +145,8 @@ declare -a arr=(
 'enviraGallery'
 'advancedCustomFields'
 'mailChimpForWordPress'
+'gravityForms'
+'addToAnyShareButtons'
 )
 
 EXECDIR=`pwd`
