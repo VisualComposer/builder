@@ -31,13 +31,9 @@ export default class TeaserElementControl extends ElementControl {
       if (downloadingItems.includes(tag)) {
         elementState = 'downloading'
       } else {
-        let hubTemplates = templatesService.hub()
         elementState = 'inactive'
-        for (let i = 0; i < hubTemplates.length; i++) {
-          if (hubTemplates[ i ].bundle === this.props.element.bundle) {
-            elementState = 'success'
-            break
-          }
+        if (templatesService.findTemplateByBundle(this.props.element.bundle)) {
+          elementState = 'success'
         }
       }
     }
