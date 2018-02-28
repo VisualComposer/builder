@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
-import {indexOf, get} from 'lodash'
+import { indexOf, get, isEqual } from 'lodash'
+
 const Rules = {
   true: () => {
     return true
@@ -71,7 +72,8 @@ const Rules = {
     if (options.key) {
       checkValue = get(value, options.key)
     }
-    return checkValue.localeCompare(options.value) === 0
+
+    return isEqual(checkValue, options.value)
   },
   valueIn: (value, options) => {
     let checkValue = value
@@ -89,14 +91,14 @@ const Rules = {
   }
 }
 
-function createPromise (ruleData, value) {
+function createPromise (ruleData, value, fieldKey) {
   return new Promise((resolve, reject) => {
     if (!ruleData.rule) {
       ruleData.rule = 'true'
     }
     let ruleName = ruleData.rule.replace('!', '')
     let reversed = ruleData.rule[ 0 ] === '!'
-    let result = Rules[ ruleName ](value, ruleData.options || {})
+    let result = Rules[ ruleName ](value, ruleData.options || {}, fieldKey)
     if (reversed) {
       result = !result
     }
@@ -107,6 +109,7 @@ function createPromise (ruleData, value) {
     }
   })
 }
+
 function createSync (ruleData, value) {
   return () => {
     if (!ruleData.rule) {
@@ -122,12 +125,13 @@ function createSync (ruleData, value) {
     return result
   }
 }
+
 const RulesManagerAPI = {
   check: (values, rules, resultCallback) => {
     let keys = Object.keys(rules)
     let checks = []
     keys.forEach((key) => {
-      let rulePromise = createPromise(rules[ key ], values[ key ])
+      let rulePromise = createPromise(rules[ key ], values[ key ], key)
       checks.push(rulePromise)
     })
     Promise.all(checks)
