@@ -88,6 +88,9 @@ class PageTemplatesController extends Container implements Module
                 $result = vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
             } elseif ($current['value'] && $current['value'] !== 'default') {
                 $result = locate_template($current['value']);
+                if (empty($result)) {
+                    $result = $originalTemplate;
+                }
             }
 
             return $result;
