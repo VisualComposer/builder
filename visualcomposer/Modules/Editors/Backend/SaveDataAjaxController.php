@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -24,14 +23,11 @@ class SaveDataAjaxController extends Container implements Module
     use EventsFilters;
     use WpFiltersActions;
 
-    /**
-     * @var \VisualComposer\Helpers\Options
-     */
-    protected $options;
-
-    public function __construct(Options $optionsHelper)
+    public function __construct()
     {
-        $this->options = $optionsHelper;
+        if (vcvenv('VCV_TF_DISABLE_BE')) {
+            return;
+        }
 
         add_filter('wp_insert_post_empty_content', '__return_false');
         /** @see \VisualComposer\Modules\Editors\Backend\SaveDataAjaxController::setData */
@@ -45,13 +41,11 @@ class SaveDataAjaxController extends Container implements Module
      *
      * @return array|null
      */
-    protected function setData(
-        Request $requestHelper
-    ) {
+    protected function setData(Request $requestHelper)
+    {
         if ($requestHelper->input('vcv-backend') !== '1') {
             return null;
         }
-        $this->setEditor($requestHelper);
         $sourceId = $requestHelper->input('post_ID');
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);
@@ -93,13 +87,5 @@ class SaveDataAjaxController extends Container implements Module
         );
 
         return $responseExtra;
-    }
-
-    protected function setEditor(Request $requestHelper)
-    {
-        $post = get_post();
-        if ($post && $requestHelper->input('vcv-be-editor')) {
-            update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $requestHelper->input('vcv-be-editor'));
-        }
     }
 }

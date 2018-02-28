@@ -2,6 +2,7 @@ import vcCake from 'vc-cake'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import BackendClassicSwitcher from './lib/helpers/backendSwitcher/backendClassicSwitcher'
+import FrontendClassicSwitcher from './lib/helpers/frontendSwitcher/frontendClassicSwitcher'
 
 vcCake.add('backendSwitcher', (api) => {
   let titleDiv = document.querySelector('div#titlediv')
@@ -22,11 +23,17 @@ vcCake.add('backendSwitcher', (api) => {
       render = true
     }
   }
-
   if (render) {
-    ReactDOM.render(
-      <BackendClassicSwitcher />,
-      switcherContainer
-    )
+    if (vcCake.env('TF_DISABLE_BACKEND')) {
+      ReactDOM.render(
+        <FrontendClassicSwitcher />,
+        switcherContainer
+      )
+    } else {
+      ReactDOM.render(
+        <BackendClassicSwitcher />,
+        switcherContainer
+      )
+    }
   }
 })

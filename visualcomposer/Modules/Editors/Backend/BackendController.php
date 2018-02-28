@@ -18,6 +18,9 @@ class BackendController extends Container implements Module
 
     public function __construct()
     {
+        if (vcvenv('VCV_TF_DISABLE_BE')) {
+            return;
+        }
         /** @see \VisualComposer\Modules\Editors\Backend\BackendController::checkPostType */
         $this->addFilter('vcv:editors:backend:addMetabox', 'checkPostType');
         /** @see \VisualComposer\Modules\Editors\Backend\BackendController::checkToggleFeature */
@@ -26,7 +29,11 @@ class BackendController extends Container implements Module
 
     protected function checkPostType($status, $payload)
     {
-        return intval(get_option('page_for_posts')) !== get_the_ID() && $status && post_type_supports($payload['postType'], 'editor');
+        return intval(get_option('page_for_posts')) !== get_the_ID() && $status
+            && post_type_supports(
+                $payload['postType'],
+                'editor'
+            );
     }
 
     protected function checkToggleFeature($status, $payload)

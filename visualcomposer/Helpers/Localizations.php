@@ -40,6 +40,7 @@ class Localizations extends Container implements Helper
             'menu' => __('Menu', 'vcwb'),
             'viewPage' => __('View Page', 'vcwb'),
             'editInBackendEditor' => __('Edit in Backend Editor', 'vcwb'),
+            'editInClassicEditor' => __('Edit in Classic Editor', 'vcwb'),
             'wordPressDashboard' => __('WordPress Dashboard', 'vcwb'),
             'publish' => __('Publish', 'vcwb'),
             'submitForReview' => __('Submit for Review', 'vcwb'),
@@ -129,12 +130,17 @@ class Localizations extends Container implements Helper
             'addFiveColumns' => __('Add five columns', 'vcwb'),
             'addCustomRowLayout' => __('Add custom row layout', 'vcwb'),
             'addTextBlock' => __('Add Text block', 'vcwb'),
-            'frontendEditor' => __('Frontend Editor', 'vcwb'),
+            'frontendEditor' => __('Edit with Visual Composer Website Builder', 'vcwb'),
             'backendEditor' => __('Backend Editor', 'vcwb'),
             'classicEditor' => __('Classic Editor', 'vcwb'),
             'enableBackendEditorConfirmMessage' => __(
             // @codingStandardsIgnoreLine
                 'Visual Composer will overwrite your content created in WordPress Classic editor with the latest version of content created in Visual Composer Website Builder. Do you want to continue?',
+                'vcwb'
+            ),
+            'enableClassicEditorConfirmMessage' => __(
+            // @codingStandardsIgnoreLine
+                'WARNING! The previously created content via Visual Composer Website Builder will be removed. Do you want to continue?',
                 'vcwb'
             ),
             'blankPage' => __('Blank Page', 'vcwb'),
