@@ -47,6 +47,13 @@ class PageTemplatesController extends Container implements Module
             $currentPostTemplate = $post->page_template;
             $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
             $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
+            // BC: For TemplateFilterController.php
+            if (in_array($currentPostTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
+                $customTemplateType = 'vc';
+                $currentPostTemplate = str_replace('-template.php', '', $currentPostTemplate);
+                $customTemplate = str_replace('boxed-blank', 'boxed', $currentPostTemplate);
+            }
+
             if (!empty($customTemplateType) && !empty($customTemplate)) {
                 $output = [
                     'type' => $customTemplateType,
