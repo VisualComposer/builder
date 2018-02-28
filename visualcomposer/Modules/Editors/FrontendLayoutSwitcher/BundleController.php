@@ -33,6 +33,9 @@ class BundleController extends Container implements Module
     {
         if ($editorPostTypeHelper->isEditorEnabled($postType)) {
             $beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true);
+            if (empty($beEditor)) {
+                $beEditor = 'classic';
+            }
             echo '<input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="' . esc_attr($beEditor) . '">';
         }
     }
