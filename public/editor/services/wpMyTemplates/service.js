@@ -104,6 +104,21 @@ addService('myTemplates', {
     let hubTemplates = getStorage('templates').state('templates').get().hub
     return hubTemplates && hubTemplates.templates ? hubTemplates.templates : []
   },
+  findTemplateByBundle (bundle) {
+    const allTemplates = getStorage('templates').state('templates').get() || []
+    delete allTemplates.custom
+    const result = Object.keys(allTemplates).find((type) => {
+      const hubTemplates = allTemplates[ type ] || []
+      if (!hubTemplates.templates) {
+        return false
+      }
+      const template = hubTemplates.templates.find((hubTemplate) => {
+        return hubTemplate.bundle === bundle ? hubTemplate : false
+      })
+      return template
+    })
+    return result
+  },
   hubAndPredefined () {
     let hubAndPredefined = this.hub().concat(this.predefined())
     return hubAndPredefined || []
@@ -136,7 +151,7 @@ addService('myTemplates', {
     let allTemplatesGroups = getStorage('templates').state('templates').get() || []
     let allTemplates = []
     for (let key in allTemplatesGroups) {
-      allTemplates = allTemplates.concat(allTemplatesGroups[key].templates)
+      allTemplates = allTemplates.concat(allTemplatesGroups[ key ].templates)
     }
     if (filter && getType.call(filter) === '[object Function]') {
       allTemplates = allTemplates.filter(filter)

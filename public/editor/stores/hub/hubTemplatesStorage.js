@@ -57,7 +57,6 @@ addStorage('hubTemplates', (storage) => {
             if (jsonResponse.templates) {
               let template = jsonResponse.templates[ 0 ]
               template.id = template.id.toString()
-              console.log(template.type)
               templateStorage.trigger('add', template.type, template)
             }
             workspaceStorage.trigger('removeFromDownloading', tag)
