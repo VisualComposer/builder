@@ -9,14 +9,11 @@ if (!defined('ABSPATH')) {
   jQuery.fn.ready = function (param) {
     try {
       window.setTimeout(function () {
-            <?php if (VCV_DEBUG) : ?>
-        console.log('calling fn.ready', param)
-            <?php endif; ?>
         param.call(this, jQuery)
       }, 300)
     } catch (e) {
         <?php if (VCV_DEBUG) : ?>
-      console.warn('jquery ready failed', e)
+      console.warn('jquery ready failed', e, param)
         <?php endif; ?>
     }
 

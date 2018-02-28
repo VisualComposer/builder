@@ -27,7 +27,7 @@ export default class ElementControl extends React.Component {
     >
       <span
         className='vcv-ui-blank-row-element-control-icon'
-        dangerouslySetInnerHTML={{__html: options.icon}}
+        dangerouslySetInnerHTML={{ __html: options.icon }}
         alt={options.title}
       />
       <span className='vcv-ui-blank-row-element-control-label'>{options.title}</span>
