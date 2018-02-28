@@ -1,7 +1,5 @@
 import React from 'react'
-import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
-const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -27,9 +25,9 @@ export default class ElementControl extends React.Component {
       title={options.title}
       onClick={this.handleClick}
     >
-      <img
+      <span
         className='vcv-ui-blank-row-element-control-icon'
-        src={sharedAssetsLibraryService.getSourcePath(`images/blankRowPlaceholderIcons/${options.icon}`)}
+        dangerouslySetInnerHTML={{__html: options.icon}}
         alt={options.title}
       />
       <span className='vcv-ui-blank-row-element-control-label'>{options.title}</span>

@@ -66,28 +66,31 @@ $(() => {
     }
     if (vcCake.env('THEME_EDITOR')) {
       const editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
-      if (editorType === 'sidebar' && vcCake.env('THEME_EDITOR_SIDEBARS')) {
+      if (editorType === 'sidebar') {
         let style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
         style.innerText = `html {
         background: #292929;
         display: flex;
         justify-content: center;
-        min-height: 100%;
         } `
         style.innerText += 'body {'
-        style.innerText += 'width: 480px;'
+        style.innerText += 'width: 320px;'
         style.innerText += '}'
         iframeDocument.head.appendChild(style)
       }
-      if ((editorType === 'header' || editorType === 'footer') && vcCake.env('THEME_EDITOR_HF')) {
+      if ((editorType === 'header' || editorType === 'footer')) {
         let style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
         style.innerText = 'html {'
         style.innerText += 'display: flex;'
         style.innerText += 'min-height: 100%;'
         style.innerText += 'flex-direction: column;'
-        style.innerText += 'justify-content: center;'
+        if (editorType === 'header') {
+          style.innerText += 'justify-content: flex-start;'
+        } else {
+          style.innerText += 'justify-content: flex-end;'
+        }
         style.innerText += 'background: #292929;'
         style.innerText += 'overflow-x: hidden;'
         style.innerText += '}'

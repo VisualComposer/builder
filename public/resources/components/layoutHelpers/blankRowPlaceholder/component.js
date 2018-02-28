@@ -3,6 +3,24 @@ import ElementControl from './lib/elementControl'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 
+import oneColumnIcon from 'public/sources/images/blankRowPlaceholderIcons/oneColumn.raw'
+import twoColumnsIcon from 'public/sources/images/blankRowPlaceholderIcons/twoColumns.raw'
+import threeColumnsIcon from 'public/sources/images/blankRowPlaceholderIcons/threeColumns.raw'
+import fourColumnsIcon from 'public/sources/images/blankRowPlaceholderIcons/fourColumns.raw'
+import fiveColumnsIcon from 'public/sources/images/blankRowPlaceholderIcons/fiveColumns.raw'
+import customIcon from 'public/sources/images/blankRowPlaceholderIcons/custom.raw'
+import textBlockIcon from 'public/sources/images/blankRowPlaceholderIcons/textBlock.raw'
+import addElementIcon from 'public/sources/images/blankRowPlaceholderIcons/addElement.raw'
+
+import oneColumnIconLight from 'public/sources/images/blankRowPlaceholderIcons/oneColumnLight.raw'
+import twoColumnsIconLight from 'public/sources/images/blankRowPlaceholderIcons/twoColumnsLight.raw'
+import threeColumnsIconLight from 'public/sources/images/blankRowPlaceholderIcons/threeColumnsLight.raw'
+import fourColumnsIconLight from 'public/sources/images/blankRowPlaceholderIcons/fourColumnsLight.raw'
+import fiveColumnsIconLight from 'public/sources/images/blankRowPlaceholderIcons/fiveColumnsLight.raw'
+import customIconLight from 'public/sources/images/blankRowPlaceholderIcons/customLight.raw'
+import textBlockIconLight from 'public/sources/images/blankRowPlaceholderIcons/textBlockLight.raw'
+import addElementIconLight from 'public/sources/images/blankRowPlaceholderIcons/addElementLight.raw'
+
 const cook = vcCake.getService('cook')
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
@@ -14,6 +32,7 @@ export default class BlankRowPlaceholder extends React.Component {
   }
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
+  static editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
 
   static defaultProps = {
     controlsData: [
@@ -21,7 +40,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: [ 'auto' ],
-          icon: 'oneColumn.svg',
+          icon: BlankRowPlaceholder.editorType === 'default' ? oneColumnIcon : oneColumnIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addOneColumn : 'Add one column'
         }
       },
@@ -29,7 +48,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: [ '50%', '50%' ],
-          icon: 'twoColumns.svg',
+          icon: BlankRowPlaceholder.editorType === 'default' ? twoColumnsIcon : twoColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTwoColumns : 'Add two columns'
         }
       },
@@ -37,7 +56,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: [ '33.33%', '33.33%', '33.33%' ],
-          icon: 'threeColumns.svg',
+          icon: BlankRowPlaceholder.editorType === 'default' ? threeColumnsIcon : threeColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addThreeColumns : 'Add three columns'
         }
       },
@@ -45,7 +64,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: [ '25%', '25%', '25%', '25%' ],
-          icon: 'fourColumns.svg',
+          icon: BlankRowPlaceholder.editorType === 'default' ? fourColumnsIcon : fourColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFourColumns : 'Add four columns'
         }
       },
@@ -53,7 +72,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: [ '20%', '20%', '20%', '20%', '20%' ],
-          icon: 'fiveColumns.svg',
+          icon: BlankRowPlaceholder.editorType === 'default' ? fiveColumnsIcon : fiveColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFiveColumns : 'Add five columns'
         }
       },
@@ -61,7 +80,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: [ '66.66%', '33.34%' ],
-          icon: 'custom.svg',
+          icon: BlankRowPlaceholder.editorType === 'default' ? customIcon : customIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addCustomRowLayout : 'Add custom row layout',
           type: 'custom'
         }
@@ -69,14 +88,14 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'textBlock',
         options: {
-          icon: 'textBlock.svg',
+          icon: BlankRowPlaceholder.editorType === 'default' ? textBlockIcon : textBlockIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTextBlock : 'Add Text block'
         }
       },
       {
         tag: 'addElement',
         options: {
-          icon: 'addElement.svg',
+          icon: BlankRowPlaceholder.editorType === 'default' ? addElementIcon : addElementIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addElement : 'Add Element'
         }
       }

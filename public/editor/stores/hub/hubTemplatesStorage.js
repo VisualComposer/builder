@@ -1,4 +1,4 @@
-import vcCake, { addStorage, getService, getStorage } from 'vc-cake'
+import { addStorage, getService, getStorage } from 'vc-cake'
 
 addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
@@ -57,11 +57,7 @@ addStorage('hubTemplates', (storage) => {
             if (jsonResponse.templates) {
               let template = jsonResponse.templates[ 0 ]
               template.id = template.id.toString()
-              if (vcCake.env('THEME_EDITOR')) {
-                templateStorage.trigger('add', template.type, template)
-              } else {
-                templateStorage.trigger('add', 'hub', template)
-              }
+              templateStorage.trigger('add', template.type, template)
             }
             workspaceStorage.trigger('removeFromDownloading', tag)
           } else {
