@@ -121,16 +121,21 @@ export default class TeaserElementControl extends ElementControl {
     hubTemplateStorage.trigger('downloadTemplate', this.props.element)
   }
 
-  addTemplate (e) {
-    let hubTemplates = templatesService.hub()
-    let data = {}
-    for (let i = 0; i < hubTemplates.length; i++) {
-      if (hubTemplates[ i ].bundle === this.props.element.bundle) {
-        data = hubTemplates[ i ].data
-        break
+  addTemplate () {
+    if (env('TF_TEMPLATES_DROPDOWN_UPDATE')) {
+      const template = templatesService.findTemplateByBundle(this.props.element.bundle)
+      elementsStorage.trigger('merge', template.data)
+    } else {
+      let data = {}
+      let hubTemplates = templatesService.hub()
+      for (let i = 0; i < hubTemplates.length; i++) {
+        if (hubTemplates[ i ].bundle === this.props.element.bundle) {
+          data = hubTemplates[ i ].data
+          break
+        }
       }
+      elementsStorage.trigger('merge', data)
     }
-    elementsStorage.trigger('merge', data)
     workspaceSettings.set(false)
   }
 
