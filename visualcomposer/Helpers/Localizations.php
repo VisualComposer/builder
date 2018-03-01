@@ -141,12 +141,12 @@ class Localizations extends Container implements Helper
             ),
             'openFrontendEditorFromClassic' => __(
             // @codingStandardsIgnoreLine
-                'Visual Composer will overwrite your content created in WordPress Classic editor with the latest version of content created in Visual Composer Website Builder. Do you want to continue?',
+                'You are switching to Visual Composer editor. Visual Composer will load the latest version of content created with the builder.',
                 'vcwb'
             ),
             'enableClassicEditorConfirmMessage' => __(
             // @codingStandardsIgnoreLine
-                'WARNING! The previously created content via Visual Composer Website Builder will be removed. Do you want to continue?',
+                'You are switching to Classic editor. The content created with Visual Composer will be copied to Classic editor (style changes may apply.) Any changes made in the Classic editor will not be synced with Visual Composer layout. Do you want to proceed?',
                 'vcwb'
             ),
             'blankPage' => __('Blank Page', 'vcwb'),
