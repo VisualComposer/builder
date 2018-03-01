@@ -56,7 +56,7 @@ class HelpersWpWidgetsTest extends WP_UnitTestCase
     public function testGetWidgetsUrl()
     {
         wp_set_current_user(1);
-        $url = '/?vcv-ajax=1&vcv-action=' .
+        $url = '?vcv-ajax=1&vcv-action=' .
             rawurlencode('elements:widget:script:adminNonce') .
             '&vcv-nonce=' .
             vchelper('Nonce')->admin();
