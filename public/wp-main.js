@@ -23,7 +23,7 @@ $(() => {
     let iframe = $iframe.get(0).contentWindow
     let iframeDocument = iframe.document
     // Disable iframe clicks
-    $(iframeDocument.body).on('click', 'a[href]', (e) => {
+    $(iframeDocument.body).on('click', 'a[href]:not([data-vcv-link])', (e) => {
       e && e.preventDefault()
     })
     if (vcCake.env('MOBILE_DETECT')) {

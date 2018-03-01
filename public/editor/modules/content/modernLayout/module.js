@@ -116,7 +116,7 @@ vcCake.add('contentModernLayout', (api) => {
       reload ? controls.updateIframeVariables() : controls.init()
       if (vcCake.env('THEME_LAYOUTS')) {
         iframeWindow.document.querySelectorAll('[data-vcv-layout-zone]').forEach((zone) => {
-          let zoneButton = zone.querySelector('.vcv-zone-button')
+          let zoneButton = zone.querySelector('[data-vcv-action="settings"]')
           zoneButton && zoneButton.addEventListener('click', () => {
             if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
               workspaceStorage.state('content').set('settings')
