@@ -23,18 +23,19 @@ class BundleController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_TF_DISABLE_BE')) {
-            $this->wpAddAction('add_meta_boxes', 'addCurrentEditorField');
+            $this->wpAddAction('edit_form_top', 'addCurrentEditorField');
             $this->wpAddAction('add_meta_boxes', 'addBundleStyle');
             $this->wpAddAction('add_meta_boxes', 'addBundleScript');
         }
     }
 
-    protected function addCurrentEditorField($postType, EditorPostType $editorPostTypeHelper)
+    protected function addCurrentEditorField($post, EditorPostType $editorPostTypeHelper)
     {
-        if ($editorPostTypeHelper->isEditorEnabled($postType)) {
+        // @codingStandardsIgnoreLine
+        if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
             $beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true);
             if (empty($beEditor)) {
-                $beEditor = 'classic';
+                $beEditor = 'be';
             }
             echo '<input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="' . esc_attr($beEditor) . '">';
         }

@@ -13,7 +13,6 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use WP_Post;
 
 /**
  * Class Controller.
@@ -35,6 +34,7 @@ class SaveSetEditorController extends Container implements Module
 
     protected function setEditor(Request $requestHelper)
     {
+        /** @var \WP_Post $post */
         $post = get_post();
         if ($post && $requestHelper->input('vcv-be-editor')) {
             update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $requestHelper->input('vcv-be-editor'));
