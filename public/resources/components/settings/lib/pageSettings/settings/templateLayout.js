@@ -1,6 +1,6 @@
 import React from 'react'
 import { setData, getStorage, env } from 'vc-cake'
-import LayoutIcons from '../../../../startBlank/lib/layoutIcons'
+import LayoutIcons from 'public/resources/components/startBlank/lib/layoutIcons'
 
 const settingsStorage = getStorage('settings')
 const vcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
