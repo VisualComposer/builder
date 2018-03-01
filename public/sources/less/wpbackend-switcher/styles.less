@@ -109,3 +109,13 @@
     border-bottom-right-radius: @vcv-wpbackend-switcher-border-radius;
   }
 }
+
+#postdivrich {
+  &.vcv-hidden {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+    max-height: 1px;
+    overflow: hidden;
+  }
+}

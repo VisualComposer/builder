@@ -19,6 +19,9 @@ class BundleController extends Container implements Module
 
     public function __construct()
     {
+        if (vcvenv('VCV_TF_DISABLE_BE')) {
+            return;
+        }
         /** @see \VisualComposer\Modules\Editors\Backend\BundleController::addHeadBundleStyle */
         $this->addFilter('vcv:backend:extraOutput', 'addHeadBundleStyle');
 
@@ -37,7 +40,8 @@ class BundleController extends Container implements Module
 rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
                     vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                         ?
-                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackend.bundle.css?v=' . VCV_VERSION
+                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackend.bundle.css?v='
+                        . VCV_VERSION
                         // TODO: Check latest downloaded version
                         :
                         $urlHelper->to(

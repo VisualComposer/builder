@@ -28,11 +28,9 @@ class VendorBundleController extends Container implements Module
             'addVendorScript',
             1
         );
-
-        if ($tokenHelper->isSiteAuthorized()) {
-            $this->wpAddAction('init', 'registerVendorScripts');
-            $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorFrontScripts', 1);
-        }
+        $this->wpAddAction('init', 'registerVendorScripts');
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorScripts', 1);
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueFrontScripts', 2);
         $this->wpAddAction('admin_enqueue_scripts', 'enqueueJquery');
     }
 
@@ -104,11 +102,15 @@ class VendorBundleController extends Container implements Module
         return $response;
     }
 
-    protected function enqueueVendorFrontScripts()
+    protected function enqueueVendorScripts()
     {
-        wp_enqueue_style('vcv:assets:front:style');
         wp_enqueue_script('jquery'); // Required for 3-rd elements libraries
         wp_enqueue_script('vcv:assets:vendor:script');
+    }
+
+    protected function enqueueFrontScripts()
+    {
+        wp_enqueue_style('vcv:assets:front:style');
         wp_enqueue_script('vcv:assets:front:script');
     }
 

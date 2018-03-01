@@ -31,6 +31,9 @@ class MetaboxController extends Container implements Module
 
     public function __construct(Request $request, Url $url)
     {
+        if (vcvenv('VCV_TF_DISABLE_BE')) {
+            return;
+        }
         $this->request = $request;
         $this->url = $url;
 

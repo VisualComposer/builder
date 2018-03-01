@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Backend;
+namespace VisualComposer\Modules\Editors\DataAjax;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');

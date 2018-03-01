@@ -20,6 +20,9 @@ class BundleController extends Container implements Module
 
     public function __construct()
     {
+        if (vcvenv('VCV_TF_DISABLE_BE')) {
+            return;
+        }
         /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher\BundleController::addHeadBundleStyle */
         $this->addFilter('vcv:backend:extraOutput', 'addHeadBundleStyle');
 
