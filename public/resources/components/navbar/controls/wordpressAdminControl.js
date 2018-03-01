@@ -286,7 +286,7 @@ export default class WordPressAdminControl extends NavbarContent {
         <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
       </span>
     )
-    if (env('TF_DISABLE_BACKEND')) {
+    if (env('TF_DISABLE_BACKEND') && !env('THEME_EDITOR')) {
       wordpressDashboardButton = null
     }
 
