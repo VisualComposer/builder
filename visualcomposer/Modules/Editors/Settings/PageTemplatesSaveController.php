@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class PageTemplatesSaveController
@@ -21,6 +22,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 class PageTemplatesSaveController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * PageTemplatesSaveController constructor.
@@ -29,6 +31,10 @@ class PageTemplatesSaveController extends Container implements Module
     {
         if (vcvenv('VCV_PAGE_TEMPLATES_LAYOUTS')) {
             $this->addFilter('vcv:dataAjax:setData', 'setPageTemplate');
+        }
+
+        if (vcvenv('VCV_TF_DISABLE_BE')) {
+            $this->wpAddAction('save_post', 'setLayout');
         }
     }
 
@@ -74,5 +80,19 @@ class PageTemplatesSaveController extends Container implements Module
         }
 
         return $response;
+    }
+
+    protected function setLayout(Request $requestHelper)
+    {
+        /** @var \WP_Post $post */
+        $post = get_post();
+        if ($post && $requestHelper->exists('vcv-be-editor')) {
+            $editor = $requestHelper->input('vcv-be-editor');
+            if ($editor === 'classic') {
+                // We are in classic mode so we need to remove all meta
+                delete_metadata('post', $post->ID, '_vcv-page-template');
+                delete_metadata('post', $post->ID, '_vcv-page-template-type');
+            }
+        }
     }
 }
