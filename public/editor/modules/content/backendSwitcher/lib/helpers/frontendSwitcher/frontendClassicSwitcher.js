@@ -5,10 +5,11 @@ export default class FrontendClassicSwitcher extends React.Component {
     super(props)
     let editor = 'classic'
     this.enableClassicEditor = this.enableClassicEditor.bind(this)
+    this.openFrontendEditor = this.openFrontendEditor.bind(this)
 
     const beEditorInput = document.getElementById('vcv-be-editor')
     if (beEditorInput && beEditorInput.value !== 'classic') {
-      editor = 'be-disabled'
+      editor = 'be'
       this.hideClassicEditor()
     }
 
@@ -25,6 +26,15 @@ export default class FrontendClassicSwitcher extends React.Component {
     if (window.confirm(confirmMessage)) {
       this.setState({ editor: editor })
       this.showClassicEditor()
+    }
+  }
+
+  openFrontendEditor (e) {
+    e.preventDefault()
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const confirmMessage = localizations && localizations.openFrontendEditorFromClassic ? localizations.openFrontendEditorFromClassic : 'Visual Composer will overwrite your content created in WordPress Classic editor with the latest version of content created in Visual Composer Website Builder. Do you want to continue?'
+    if (this.state.editor === 'be' || window.confirm(confirmMessage)) {
+      window.location.href = e.currentTarget.dataset.href
     }
   }
 
@@ -53,9 +63,9 @@ export default class FrontendClassicSwitcher extends React.Component {
     let output = <div className='vcv-wpbackend-switcher-wrapper'>
       <div className='vcv-wpbackend-switcher'>
         <span className='vcv-wpbackend-switcher-logo' />
-        <a className='vcv-wpbackend-switcher-option' href={window.vcvFrontendEditorLink}>
+        <button className='vcv-wpbackend-switcher-option' data-href={window.vcvFrontendEditorLink} onClick={this.openFrontendEditor}>
           {buttonFEText}
-        </a>
+        </button>
       </div>
       {editor !== 'classic' ? (() => {
         return <div className='vcv-wpbackend-switcher--type-classic'>
