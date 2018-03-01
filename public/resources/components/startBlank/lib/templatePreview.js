@@ -184,7 +184,7 @@ export default class TemplatePreview extends React.Component {
       <figure className={previewClasses} style={previewStyle}>
         <img
           className='vcv-ui-item-preview-image'
-          src={sharedAssetsLibraryService.getSourcePath(`images/TemplatePreview/${preview}`)}
+          src={sharedAssetsLibraryService.getSourcePath(`images/templatePreview/${preview}`)}
           alt={name}
         />
         <figcaption className='vcv-ui-item-preview-caption'>
