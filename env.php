@@ -222,6 +222,6 @@ if (!defined('VCV_PAGE_TEMPLATES_LAYOUTS')) {
 if (!defined('VCV_TF_DISABLE_BE')) {
     define(
         'VCV_TF_DISABLE_BE',
-        isset($_SERVER['ENV_VCV_TF_DISABLE_BE']) ? $_SERVER['ENV_VCV_TF_DISABLE_BE'] : false
+        isset($_SERVER['ENV_VCV_TF_DISABLE_BE']) ? $_SERVER['ENV_VCV_TF_DISABLE_BE'] : true
     );
 }
