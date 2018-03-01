@@ -51,10 +51,10 @@ class HelpersUrlTest extends WP_UnitTestCase
 
         $this->assertTrue(method_exists($helper, 'ajax'), 'method ajax() should exist');
 
-        $this->assertEquals('/?vcv-ajax=1', $helper->ajax(), 'ajax should return url');
+        $this->assertEquals('?vcv-ajax=1', $helper->ajax(), 'ajax should return url');
 
         $this->assertEquals(
-            '/?vcv-ajax=1&test=1',
+            '?vcv-ajax=1&test=1',
             $helper->ajax(['test' => 1]),
             'ajax should return url'
         );
@@ -72,7 +72,7 @@ class HelpersUrlTest extends WP_UnitTestCase
         add_filter('site_url', $filter);
 
         $this->assertEquals(
-            '/?vcv-ajax=1&test2=2',
+            '?vcv-ajax=1&test2=2',
             $helper->ajax(['test2' => 2]),
             'ajax should return url with amp not question'
         );
