@@ -238,6 +238,7 @@ export default class TemplateLayout extends React.Component {
 
     return (
       <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>Template</span>
         <select className='vcv-ui-form-dropdown' value={`${this.state.current.type}__${this.state.current.value}`}
           onChange={this.updateTemplate}>
           {this.getThemeTemplateOptions()}
