@@ -141,7 +141,7 @@ class Localizations extends Container implements Helper
             ),
             'openFrontendEditorFromClassic' => __(
             // @codingStandardsIgnoreLine
-                'You are switching to Visual Composer. Visual Composer will load the latest version of content created with the builder.',
+                'You are switching to Visual Composer editor. Visual Composer will load the latest version of content created with the builder.',
                 'vcwb'
             ),
             'enableClassicEditorConfirmMessage' => __(
