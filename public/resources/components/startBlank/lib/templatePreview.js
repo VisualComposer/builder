@@ -199,10 +199,12 @@ export default class TemplatePreview extends React.Component {
     let iconProps = {
       classes: 'vcv-ui-start-layout-list-item-icon'
     }
+    let itemClasses = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
+    this.props.active && (itemClasses += ' vcv-ui-start-layout-list-item-active')
     icon = Icon ? (<Icon {...iconProps} />) : null
 
     return (
-      <li className='vcv-ui-item-list-item vcv-ui-start-layout-list-item'>
+      <li className={itemClasses}>
         <span className='vcv-ui-item-element'
           title={`${addText} ${name}`}
           onClick={this.handleClick}
