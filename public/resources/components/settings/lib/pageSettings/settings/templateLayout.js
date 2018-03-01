@@ -232,13 +232,15 @@ export default class TemplateLayout extends React.Component {
   }
 
   getThemeTemplateDropdown () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
     if (!this.state.showTheme || !themeTemplates) {
       return ''
     }
+    let templateTxt = localizations ? localizations.template : 'Template'
 
     return (
       <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>Template</span>
+        <span className='vcv-ui-form-group-heading'>{templateTxt}</span>
         <select className='vcv-ui-form-dropdown' value={`${this.state.current.type}__${this.state.current.value}`}
           onChange={this.updateTemplate}>
           {this.getThemeTemplateOptions()}
