@@ -24,12 +24,7 @@ class SaveSetEditorController extends Container implements Module
 
     public function __construct()
     {
-        $this->wpAddAction('save_post', 'setData');
-    }
-
-    protected function setData(Request $requestHelper)
-    {
-        $this->setEditor($requestHelper);
+        $this->wpAddAction('save_post', 'setEditor');
     }
 
     protected function setEditor(Request $requestHelper)

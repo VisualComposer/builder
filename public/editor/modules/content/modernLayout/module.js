@@ -206,7 +206,6 @@ vcCake.add('contentModernLayout', (api) => {
         return arr
       }, [])
 
-      console.log('template', template)
       if (template) {
         if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
           params.push(`vcv-template=${template.value}`)

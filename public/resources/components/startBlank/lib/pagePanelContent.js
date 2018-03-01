@@ -190,10 +190,8 @@ export default class PagePanelContent extends React.Component {
             templatesList.values.forEach((template, index) => {
               let templateName = `${templatesList.type}__${template.value}`
               let classes = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
-              let active = false
               if (activeLayout.type === templatesList.type && activeLayout.value === template.value) {
                 classes += ' vcv-ui-start-layout-list-item-active'
-                active = true
               }
               let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].default
               let iconProps = {
@@ -206,7 +204,6 @@ export default class PagePanelContent extends React.Component {
                     templatesList={templatesList}
                     templateValue={template.value}
                     templateName={templateName}
-                    active={active}
                     icon={Icon}
                     name={template.label}
                   />
@@ -258,17 +255,12 @@ export default class PagePanelContent extends React.Component {
     let iconProps = {
       classes: 'vcv-ui-start-layout-list-item-icon'
     }
-    let active = false
-    if (activeLayout.type === 'theme' && activeLayout.value === 'default') {
-      active = true
-    }
     if (vcCake.env('PAGE_TEMPLATE_PREVIEW')) {
       layouts.push(
         <TemplatePreview key={`layout-theme-default`}
           click={this.handleLayoutClick}
           icon={Icon}
           blank
-          active={active}
           name={'Theme default'}
           templateName={'theme-default'}
         />
