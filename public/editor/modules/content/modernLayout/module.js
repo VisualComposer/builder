@@ -116,7 +116,7 @@ vcCake.add('contentModernLayout', (api) => {
       reload ? controls.updateIframeVariables() : controls.init()
       if (vcCake.env('THEME_LAYOUTS')) {
         iframeWindow.document.querySelectorAll('[data-vcv-layout-zone]').forEach((zone) => {
-          let zoneButton = zone.querySelector('.vcv-zone-button')
+          let zoneButton = zone.querySelector('[data-vcv-action="settings"]')
           zoneButton && zoneButton.addEventListener('click', () => {
             if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
               workspaceStorage.state('content').set('settings')
@@ -159,7 +159,9 @@ vcCake.add('contentModernLayout', (api) => {
       createLoadingScreen()
       let iframe = window.document.getElementById('vcv-editor-iframe')
       let domContainer = iframe.contentDocument.getElementById('vcv-editor')
-      ReactDOM.unmountComponentAtNode(domContainer)
+      if (domContainer) {
+        ReactDOM.unmountComponentAtNode(domContainer)
+      }
       let data = vcCake.getService('document').all()
       iframe.onload = () => {
         let visibleElements = vcCake.getService('utils').getVisibleElements(data)

@@ -12,7 +12,7 @@
     justify-content: center;
     align-items: center;
     transition: background .2s;
-    z-index: 1;
+    z-index: 9999;
 
     &:hover {
       background: @zone-overlay-background;
@@ -38,13 +38,24 @@
     padding: 8px 20px;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
+    margin: 0 5px;
+    line-height: unset;
+    text-decoration: none;
+    box-shadow: none;
 
     &:focus {
       outline: none;
+      text-decoration: none;
+      box-shadow: none;
+      border: 0;
     }
 
     &:hover {
       background-color: @zone-button-hover-background;
+      text-decoration: none;
+      box-shadow: none;
+      border: 0;
+      cursor: pointer;
     }
 
     .vcv-ui-icon {
@@ -62,7 +73,7 @@
     justify-content: center;
     align-items: center;
     transition: background .2s;
-    z-index: 1;
+    z-index: 9998;
 
     .vcv-zone-empty-text {
       position: -webkit-sticky;
@@ -78,5 +89,31 @@
       font-weight: 400;
     }
   }
+
+  .vcv-zone-button-container {
+    position: sticky;
+    display: flex;
+    top: @zone-sticky-button-offset;
+    bottom: @zone-sticky-button-offset;
+
+    .vcv-zone-button {
+      position: relative;
+      top: auto;
+      bottom: auto;
+    }
+  }
 }
 
+[data-vcv-layout-zone="sidebar"] {
+  .vcv-zone-overlay {
+    flex-direction: column;
+  }
+
+  .vcv-zone-button {
+    margin: @zone-button-spacing 0;
+  }
+
+  .vcv-zone-button-container {
+    flex-direction: column;
+  }
+}
