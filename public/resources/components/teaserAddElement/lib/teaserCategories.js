@@ -60,10 +60,10 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     if (!this.allCategories) {
       const elementGroup = this.getElementGroup()
       const templateGroup = this.getTemplateGroup()
-      const allGroup = this.getAllGroup([ elementGroup, templateGroup ])
       const headerGroup = this.getHFSGroup('header')
       const footerGroup = this.getHFSGroup('footer')
       const sidebarGroup = this.getHFSGroup('sidebar')
+      const allGroup = this.getAllGroup([ elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ])
       if (vcCake.env('HUB_CONTROLS')) {
         this.allCategories = [ allGroup, elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ]
       } else {
