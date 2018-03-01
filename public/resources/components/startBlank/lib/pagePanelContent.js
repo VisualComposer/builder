@@ -162,6 +162,7 @@ export default class PagePanelContent extends React.Component {
   }
 
   getLayoutControls () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
     let activeLayout = this.currentLayout
     let layouts = []
     let defaultClasses = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
@@ -266,13 +267,14 @@ export default class PagePanelContent extends React.Component {
         />
       )
     } else {
+      let themeDefaultText = localizations ? localizations.defaultTemplate : 'Theme Default'
       layouts.push(
         <li className={defaultClasses} key={`layout-theme-default`}
           onClick={vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? this.handleLayoutClick.bind(this, 'theme', 'default') : this.handleLayoutClick.bind(this, 'default')}>
           <span className='vcv-ui-item-element' title='Theme default'>
             {Icon ? <Icon {...iconProps} /> : emptyIcon}
             <span className='vcv-ui-item-element-name'>
-              Theme Default
+              {themeDefaultText}
             </span>
           </span>
         </li>
