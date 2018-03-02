@@ -1,15 +1,7 @@
-<svg width="60px" height="40px" viewBox="0 0 61 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <defs>
-        <rect id="path-add-element" x="0" y="0" width="60" height="40"></rect>
-        <mask id="mask-add-element" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="60" height="40" fill="white">
-            <use xlink:href="#path-add-element"></use>
-        </mask>
-    </defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Add-Element">
-            <use id="Rectangle" stroke="#ffffff" mask="url(#mask-add-element)" stroke-width="4" xlink:href="#path-add-element"></use>
-            <polygon id="Rectangle-4" fill="#ffffff" points="29 14 31 14 31 26 29 26"></polygon>
-            <polygon id="Rectangle-5" fill="#ffffff" points="24 19 36 19 36 21 24 21"></polygon>
-        </g>
+<svg width="60px" height="40px" viewBox="0 0 60 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" stroke="#FFFFFF" stroke-width="2" x="1" y="1" width="58" height="38"></rect>
+        <polygon id="Rectangle-4" fill="#FFFFFF" points="29 14 31 14 31 26 29 26"></polygon>
+        <polygon id="Rectangle-5" fill="#FFFFFF" points="24 19 36 19 36 21 24 21"></polygon>
     </g>
 </svg>

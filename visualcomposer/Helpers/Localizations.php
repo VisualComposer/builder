@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
-use VisualComposer\Helpers\Options;
 
 class Localizations extends Container implements Helper
 {
@@ -21,7 +20,7 @@ class Localizations extends Container implements Helper
      */
     public function getLocalizations()
     {
-        $optionsHelper = new Options();
+        $optionsHelper = vchelper('Options');
         $locale = [
             'addElement' => __('Add Element', 'vcwb'),
             'addPremiumElement' => __('Hub', 'vcwb'),
@@ -131,7 +130,7 @@ class Localizations extends Container implements Helper
             'addFiveColumns' => __('Add five columns', 'vcwb'),
             'addCustomRowLayout' => __('Add custom row layout', 'vcwb'),
             'addTextBlock' => __('Add Text block', 'vcwb'),
-            'frontendEditor' => __('Edit with Visual Composer Website Builder', 'vcwb'),
+            'frontendEditor' => __('Edit with Visual Composer', 'vcwb'),
             'backendEditor' => __('Backend Editor', 'vcwb'),
             'classicEditor' => __('Classic Editor', 'vcwb'),
             'enableBackendEditorConfirmMessage' => __(
@@ -141,7 +140,7 @@ class Localizations extends Container implements Helper
             ),
             'openFrontendEditorFromClassic' => __(
             // @codingStandardsIgnoreLine
-                'You are switching to Visual Composer editor. Visual Composer will load the latest version of content created with the builder.',
+                'You are switching to Visual Composer. Visual Composer will load the latest version of content created with the builder.',
                 'vcwb'
             ),
             'enableClassicEditorConfirmMessage' => __(
@@ -270,7 +269,7 @@ class Localizations extends Container implements Helper
             ),
             'chooseHFS' => sprintf(
                 __(
-                    'Choose %s template from the list or %screate new%s.',
+                    'Choose %s or %screate new%s.',
                     'vcwb'
                 ),
                 '{name}',

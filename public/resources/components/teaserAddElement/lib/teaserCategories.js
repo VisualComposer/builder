@@ -28,21 +28,21 @@ const categories = {
     type: 'template',
     name: 'Templates'
   },
-  header: {
+  hubHeader: {
     index: 3,
-    type: 'header',
+    type: 'hubHeader',
     name: 'Headers',
     templateType: true
   },
-  footer: {
+  hubFooter: {
     index: 4,
-    type: 'footer',
+    type: 'hubFooter',
     name: 'Footers',
     templateType: true
   },
-  sidebar: {
+  hubSidebar: {
     index: 5,
-    type: 'sidebar',
+    type: 'hubSidebar',
     name: 'Sidebars',
     templateType: true
   }
@@ -60,9 +60,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     if (!this.allCategories) {
       const elementGroup = this.getElementGroup()
       const templateGroup = this.getTemplateGroup()
-      const headerGroup = this.getHFSGroup('header')
-      const footerGroup = this.getHFSGroup('footer')
-      const sidebarGroup = this.getHFSGroup('sidebar')
+      const headerGroup = this.getHFSGroup(categories.hubHeader)
+      const footerGroup = this.getHFSGroup(categories.hubFooter)
+      const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
       const allGroup = this.getAllGroup([ elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ])
       if (vcCake.env('HUB_CONTROLS')) {
         this.allCategories = [ allGroup, elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ]
@@ -105,22 +105,22 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return { elements: elements, id: 'Templates2', index: 2, title: 'Templates' }
   }
 
-  getHFSGroup (type) {
+  getHFSGroup (category) {
+    const { type, name } = category
     let index
-    if (type === 'header') {
+    if (type === 'hubHeader') {
       index = 3
-    } else if (type === 'footer') {
+    } else if (type === 'hubFooter') {
       index = 4
-    } else if (type === 'sidebar') {
+    } else if (type === 'hubSidebar') {
       index = 5
     }
     if (index) {
-      let title = type.charAt(0).toUpperCase() + type.slice(1)
       let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()
       elements = elements.filter(element => {
-        return element.templateType === `hub${title}`
+        return element.templateType === type
       })
-      return { elements, id: `${title}${index}`, index, title }
+      return { elements, id: `${name}${index}`, index, title: name }
     }
     return {}
   }
@@ -237,7 +237,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
         return true
       } else {
         if (vcCake.env('HUB_CONTROLS') && categories[ this.state.filterType ].templateType) {
-          return item.props.type === 'template' && item.props.element.templateType === `hub${categories[ this.state.filterType ].name}`
+          return item.props.type === 'template' && item.props.element.templateType === this.state.filterType
         }
         return item.props.type === this.state.filterType
       }
