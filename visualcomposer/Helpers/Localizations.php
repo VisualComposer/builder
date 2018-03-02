@@ -131,7 +131,7 @@ class Localizations extends Container implements Helper
             'addFiveColumns' => __('Add five columns', 'vcwb'),
             'addCustomRowLayout' => __('Add custom row layout', 'vcwb'),
             'addTextBlock' => __('Add Text block', 'vcwb'),
-            'frontendEditor' => __('Edit with Visual Composer Website Builder', 'vcwb'),
+            'frontendEditor' => __('Edit with Visual Composer', 'vcwb'),
             'backendEditor' => __('Backend Editor', 'vcwb'),
             'classicEditor' => __('Classic Editor', 'vcwb'),
             'enableBackendEditorConfirmMessage' => __(
@@ -141,7 +141,7 @@ class Localizations extends Container implements Helper
             ),
             'openFrontendEditorFromClassic' => __(
             // @codingStandardsIgnoreLine
-                'You are switching to Visual Composer editor. Visual Composer will load the latest version of content created with the builder.',
+                'You are switching to Visual Composer. Visual Composer will load the latest version of content created with the builder.',
                 'vcwb'
             ),
             'enableClassicEditorConfirmMessage' => __(
