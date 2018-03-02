@@ -31,19 +31,19 @@ const categories = {
   header: {
     index: 3,
     type: 'header',
-    name: 'Header',
+    name: 'Headers',
     templateType: true
   },
   footer: {
     index: 4,
     type: 'footer',
-    name: 'Footer',
+    name: 'Footers',
     templateType: true
   },
   sidebar: {
     index: 5,
     type: 'sidebar',
-    name: 'Sidebar',
+    name: 'Sidebars',
     templateType: true
   }
 }
