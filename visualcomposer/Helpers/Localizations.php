@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
-use VisualComposer\Helpers\Options;
 
 class Localizations extends Container implements Helper
 {
@@ -21,7 +20,7 @@ class Localizations extends Container implements Helper
      */
     public function getLocalizations()
     {
-        $optionsHelper = new Options();
+        $optionsHelper = vchelper('Options');
         $locale = [
             'addElement' => __('Add Element', 'vcwb'),
             'addPremiumElement' => __('Hub', 'vcwb'),
@@ -270,7 +269,7 @@ class Localizations extends Container implements Helper
             ),
             'chooseHFS' => sprintf(
                 __(
-                    'Choose %s template from the list or %screate new%s.',
+                    'Choose %s or %screate new%s.',
                     'vcwb'
                 ),
                 '{name}',
