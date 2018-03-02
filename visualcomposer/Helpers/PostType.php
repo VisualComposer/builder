@@ -83,14 +83,8 @@ class PostType implements Helper
     public function get($id = null, $postType = '')
     {
         $post = get_post($id);
-        $currentUserAccessHelper = vchelper('AccessCurrentUser');
         // @codingStandardsIgnoreLine
-        if (!$post || ($postType && $post->post_type !== $postType)
-            || !$currentUserAccessHelper->wpAll(
-            // @codingStandardsIgnoreLine
-                [get_post_type_object($post->post_type)->cap->read, $post->ID]
-            )->get()
-        ) {
+        if (!$post || ($postType && $post->post_type !== $postType)) {
             $post = false;
         }
 
