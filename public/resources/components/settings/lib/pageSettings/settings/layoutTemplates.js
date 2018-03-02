@@ -52,22 +52,22 @@ export default class LayoutSettings extends React.Component {
             }
           }
 
-          if (currentLayoutData.footer) {
-            const footerData = window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES()
-            if (footerData) {
-              layoutSettings.push({
-                layoutName: 'Footer',
-                data: footerData
-              })
-            }
-          }
-
           if (currentLayoutData.sidebar) {
             const sidebarData = window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES()
             if (sidebarData) {
               layoutSettings.push({
                 layoutName: 'Sidebar',
                 data: sidebarData
+              })
+            }
+          }
+
+          if (currentLayoutData.footer) {
+            const footerData = window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES()
+            if (footerData) {
+              layoutSettings.push({
+                layoutName: 'Footer',
+                data: footerData
               })
             }
           }

@@ -107,17 +107,21 @@ addService('myTemplates', {
   findTemplateByBundle (bundle) {
     const allTemplates = getStorage('templates').state('templates').get() || []
     delete allTemplates.custom
-    const result = Object.keys(allTemplates).find((type) => {
+    let template = false
+    const templatesTypes = Object.keys(allTemplates)
+    for (let i = 0; i < templatesTypes.length; i++) {
+      const type = templatesTypes[ i ]
       const hubTemplates = allTemplates[ type ] || []
-      if (!hubTemplates.templates) {
-        return false
+      if (hubTemplates.templates) {
+        template = hubTemplates.templates.find((hubTemplate) => {
+          return hubTemplate.bundle === bundle ? hubTemplate : false
+        })
+        if (template) {
+          break
+        }
       }
-      const template = hubTemplates.templates.find((hubTemplate) => {
-        return hubTemplate.bundle === bundle ? hubTemplate : false
-      })
-      return template
-    })
-    return result
+    }
+    return template
   },
   hubAndPredefined () {
     let hubAndPredefined = this.hub().concat(this.predefined())

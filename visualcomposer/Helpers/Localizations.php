@@ -36,7 +36,7 @@ class Localizations extends Container implements Helper
             'mobileLandscape' => __('Mobile Landscape', 'vcwb'),
             'mobilePortrait' => __('Mobile Portrait', 'vcwb'),
             'settings' => __('Settings', 'vcwb'),
-            'layouts' => __('Layouts', 'vcwb'),
+            'layout' => __('Layout', 'vcwb'),
             'update' => __('Update', 'vcwb'),
             'menu' => __('Menu', 'vcwb'),
             'viewPage' => __('View Page', 'vcwb'),
