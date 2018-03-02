@@ -180,7 +180,7 @@ const options = {
       label: 'Romanian New Leu'
     },
     {
-      value: '₽',
+      value: '₽_',
       label: 'Russian Ruble'
     },
     {
