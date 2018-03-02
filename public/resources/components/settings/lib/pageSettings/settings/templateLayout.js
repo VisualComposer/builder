@@ -252,7 +252,7 @@ export default class TemplateLayout extends React.Component {
   render () {
     return (
       <React.Fragment>
-        <div className='vcv-ui-form-group'>
+        <div className='vcv-ui-form-group vcv-ui-template-group-wrapper'>
           {env('TF_SETTINGS_THEME_ICONS') ? this.getTemplateLayoutIcons() : this.getLayoutsDropdown()}
         </div>
         {this.getThemeTemplateDropdown()}
