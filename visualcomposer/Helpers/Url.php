@@ -109,9 +109,9 @@ class Url implements Helper
         }
 
         $result = $url . $q . http_build_query($query);
-        $result = str_replace('?&', '?', $result);
         // FIX for custom PHP versions which encodes the ampersand
         $result = str_replace('&amp;', '&', $result);
+        $result = str_replace('?&', '?', $result);
 
         return $result;
     }
