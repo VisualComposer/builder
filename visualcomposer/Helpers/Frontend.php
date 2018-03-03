@@ -26,7 +26,7 @@ class Frontend implements Helper
             return '';
         }
 
-        $link = get_edit_post_link($post);
+        $link = get_edit_post_link($post, 'url');
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
             'vcv-action' => 'frontend',
