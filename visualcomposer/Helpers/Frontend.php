@@ -32,7 +32,8 @@ class Frontend implements Helper
             'vcv-action' => 'frontend',
             'vcv-source-id' => $post->ID,
         ];
-        $frontendUrl = $link . $question . http_build_query($query);
+        $frontendUrl = $link . $question . http_build_query($query, '', '&');
+        $frontendUrl = str_replace('?&', '?', $frontendUrl);
 
         return vcfilter('vcv:frontend:url', $frontendUrl, ['sourceId' => $sourceId, 'query' => $query]);
     }
@@ -53,7 +54,8 @@ class Frontend implements Helper
             'vcv-nonce' => vchelper('Nonce')->admin(),
         ];
 
-        $editableUrl = $link . $question . http_build_query($query);
+        $editableUrl = $link . $question . http_build_query($query, '', '&');
+        $editableUrl = str_replace('?&', '?', $editableUrl);
 
         return vcfilter('vcv:frontend:pageEditable:url', $editableUrl, ['sourceId' => $sourceId, 'query' => $query]);
     }
