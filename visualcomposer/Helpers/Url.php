@@ -108,7 +108,12 @@ class Url implements Helper
             $url = rtrim($url, '/\\');
         }
 
-        return $url . $q . http_build_query($query);
+        $result = $url . $q . http_build_query($query);
+        $result = str_replace('?&', '?', $result);
+        // FIX for custom PHP versions which encodes the ampersand
+        $result = str_replace('&amp;', '&', $result);
+
+        return $result;
     }
 
     /**
