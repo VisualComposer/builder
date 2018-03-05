@@ -481,6 +481,6 @@ export default class ContentEditableComponent extends React.Component {
         this.mediumSelection = undefined
       }, 0)
     }
-    return React.createElement('div', props)
+    return React.createElement('span', props)
   }
 }
