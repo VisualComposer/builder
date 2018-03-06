@@ -23,6 +23,7 @@ $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
 $optionsHelper = vchelper('Options');
+$assetsHelper = vchelper('Assets');
 $time = intval($_SERVER['REQUEST_TIME']);
 ?>
 <!DOCTYPE html>
@@ -69,8 +70,8 @@ $time = intval($_SERVER['REQUEST_TIME']);
   window.vcvErrorReportUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce']); ?>';
   window.vcvDashboardUrl = '<?php echo admin_url('index.php'); ?>';
     <?php if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) : ?>
-  window.vcvUpdaterUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpPostRebuild.bundle.js'; ?>';
-  window.vcvVendorUrl = '<?php echo content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'; ?>';
+  window.vcvUpdaterUrl = '<?php echo $assetsHelper->getAssetUrl('/editor/wpPostRebuild.bundle.js'); ?>';
+  window.vcvVendorUrl = '<?php echo $assetsHelper->getAssetUrl('/editor/vendor.bundle.js'); ?>';
     <?php else : ?>
   window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wpPostRebuild.bundle.js'); ?>';
   window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';

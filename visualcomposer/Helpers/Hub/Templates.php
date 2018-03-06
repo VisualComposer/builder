@@ -24,7 +24,9 @@ class Templates implements Helper
 
     public function getTemplatesUrl($path = '')
     {
-        $bundleFolder = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/templates';
+        $assetsHelper = vchelper('Assets');
+
+        $bundleFolder = $assetsHelper->getAssetUrl('/templates');
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
         }

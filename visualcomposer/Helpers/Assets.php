@@ -25,7 +25,17 @@ class Assets extends Container implements Helper
 
     public function getFileUrl($filename = '')
     {
-        $url = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles/' . ltrim($filename, '/\\');
+        return $this->getAssetUrl('/assets-bundles/' . ltrim($filename, '/\\'));
+    }
+
+    public function getAssetUrl($filePath = '')
+    {
+        if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
+            $uploadDir = wp_upload_dir();
+            $url = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim($filePath, '/\\');
+        } else {
+            $url = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim($filePath, '/\\');
+        }
 
         return $url;
     }

@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Data;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -199,19 +200,19 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Url $urlHelper
      */
-    protected function initAdmin(Url $urlHelper)
+    protected function initAdmin(Url $urlHelper, Assets $assetsHelper)
     {
         // TODO: Set versions for assets
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD___!!!!')) {
             wp_register_script(
                 'vcv:settings:script',
-                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.js',
+                $assetsHelper->getAssetUrl('/editor/wpsettings.bundle.js'),
                 [],
                 VCV_VERSION
             );
             wp_register_style(
                 'vcv:settings:style',
-                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpsettings.bundle.css',
+                $assetsHelper->getAssetUrl('/editor/wpsettings.bundle.css'),
                 [],
                 VCV_VERSION
             );

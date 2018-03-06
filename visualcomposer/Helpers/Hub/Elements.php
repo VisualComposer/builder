@@ -84,6 +84,8 @@ class Elements implements Helper
 
     public function getElementUrl($key = '')
     {
-        return content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/' . ltrim($key, '\\/');
+        $assetsHelper = vchelper('Assets');
+
+        return $assetsHelper->getAssetUrl('/elements/' . ltrim($key, '\\/'));
     }
 }

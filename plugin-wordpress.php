@@ -65,7 +65,8 @@ define('VCV_PLUGIN_FULL_PATH', __FILE__);
  */
 define('VCV_PLUGIN_DIRNAME', basename(dirname(VCV_PLUGIN_BASE_NAME)));
 define('VCV_PLUGIN_ASSETS_DIRNAME', VCV_PLUGIN_DIRNAME . '-assets');
-define('VCV_PLUGIN_ASSETS_DIR_PATH', WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
+$uploadDir = wp_upload_dir();
+define('VCV_PLUGIN_ASSETS_DIR_PATH', $uploadDir['basedir'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
 /**
  * Plugin core prefix for options/meta and etc.
  */
