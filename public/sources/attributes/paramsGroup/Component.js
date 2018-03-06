@@ -16,9 +16,15 @@ export default class ParamsGroupAttribute extends Attribute {
     this.clickEdit = this.clickEdit.bind(this)
   }
 
-  clickEdit () {
+  clickEdit (e) {
+    const groupName = e.currentTarget.getAttribute('data-group-name')
     const element = this.props.element.toJS()
-    const options = { descendant: true }
+    const options = {
+      descendant: true,
+      attributes: this.props.options.parameters,
+      activeParamGroup: groupName,
+      paramFieldKey: this.props.fieldKey
+    }
     workspaceStorage.trigger('edit', element.id, element.tag, options)
   }
 
@@ -70,7 +76,7 @@ export default class ParamsGroupAttribute extends Attribute {
                   {group}
                 </span>
               </span>
-              {this.getChildContols(index)}
+              {this.getChildContols(group)}
             </div>
           </div>
         )
@@ -82,7 +88,7 @@ export default class ParamsGroupAttribute extends Attribute {
     return result
   }
 
-  getChildContols (index) {
+  getChildContols (groupName) {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const cloneText = localizations ? localizations.clone : 'Clone'
     const removeText = localizations ? localizations.remove : 'Remove'
@@ -97,7 +103,7 @@ export default class ParamsGroupAttribute extends Attribute {
             <i className='vcv-ui-icon vcv-ui-icon-trash' />
           </span>
         </span>
-        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit}>
+        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit} data-group-name={groupName}>
           <i className='vcv-ui-icon vcv-ui-icon-arrow-right' />
         </span>
       </div>

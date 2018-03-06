@@ -79,9 +79,9 @@ export default class Field extends React.Component {
       throw new Error(format('Wrong attribute type %s', fieldKey))
     }
     const { options } = settings
-    const tabTypeName = tab.data.type.name
+    const tabTypeName = tab.data.type && tab.data.type.name
     let label = ''
-    if (options && typeof options.label === 'string' && tabTypeName === 'group') {
+    if (options && typeof options.label === 'string' && (tabTypeName === 'group' || tabTypeName === 'paramsGroup')) {
       label = (<span className='vcv-ui-form-group-heading'>{options.label}</span>)
     }
     let description = ''

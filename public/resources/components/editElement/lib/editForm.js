@@ -4,6 +4,7 @@ import EditFormContent from './editFormContent'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 
+const workspaceStorage = vcCake.getStorage('workspace')
 const hubCategories = vcCake.getService('hubCategories')
 const elementsStorage = vcCake.getStorage('elements')
 const cook = vcCake.getService('cook')
@@ -11,7 +12,7 @@ const cook = vcCake.getService('cook')
 export default class EditForm extends React.Component {
   static propTypes = {
     element: PropTypes.object.isRequired,
-    descendant: PropTypes.bool
+    options: PropTypes.object
   }
 
   constructor (props) {
@@ -102,11 +103,13 @@ export default class EditForm extends React.Component {
   }
 
   goBack () {
-    console.log('go back')
+    const { element } = this.props
+    const el = element.toJS()
+    workspaceStorage.trigger('edit', el.id, el.tag)
   }
 
   render () {
-    const { element } = this.props
+    const { element, options } = this.props
     let treeContentClasses = classNames({
       'vcv-ui-tree-content': true
     })
@@ -118,8 +121,12 @@ export default class EditForm extends React.Component {
       'active': this.state.editable
     })
 
-    const backButton = this.props.descendant ? (<i className='vcv-ui-icon vcv-ui-icon-arrow-left'
+    const backButton = options && options.descendant ? (<i className='vcv-ui-icon vcv-ui-icon-arrow-left'
       onClick={this.goBack.bind(this)} />) : null
+
+    if (options && options.descendant && options.activeParamGroup) {
+      content = options.activeParamGroup
+    }
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
