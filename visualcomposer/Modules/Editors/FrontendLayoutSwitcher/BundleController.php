@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Frontend;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
@@ -26,6 +27,28 @@ class BundleController extends Container implements Module
             $this->wpAddAction('edit_form_top', 'addCurrentEditorField');
             $this->wpAddAction('add_meta_boxes', 'addBundleStyle');
             $this->wpAddAction('add_meta_boxes', 'addBundleScript');
+
+            /** @see \VisualComposer\Modules\Editors\FrontendLayoutSwitcher\BundleController::disableTinyMceContentRender */
+            $this->wpAddAction('edit_form_top', 'disableTinyMceContentRender');
+        }
+    }
+
+    /**
+     * Prevent p tag removal on WordPress "BE" editor
+     *
+     * @param $post
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
+     */
+    protected function disableTinyMceContentRender($post, Request $requestHelper, EditorPostType $editorPostTypeHelper)
+    {
+        // @codingStandardsIgnoreLine
+        if ($editorPostTypeHelper->isEditorEnabled($post->post_type)
+            && in_array(
+                get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true),
+                ['fe', 'be']
+            )) {
+            remove_filter('the_editor_content', 'format_for_editor');
         }
     }
 
@@ -34,7 +57,7 @@ class BundleController extends Container implements Module
         // @codingStandardsIgnoreLine
         if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
             $beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true);
-            if (empty($beEditor)) {
+            if ($beEditor !== 'classic') {
                 $beEditor = 'be';
             }
             echo '<input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="' . esc_attr($beEditor) . '">';
