@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 export default class FormWrapper extends React.Component {
   static propTypes = {
     element: PropTypes.object.isRequired,
-    activeTabId: PropTypes.string
+    activeTabId: PropTypes.string,
+    descendant: PropTypes.bool
   }
   state = {
     activeTabIndex: 0
@@ -97,6 +98,7 @@ export default class FormWrapper extends React.Component {
         activeTabIndex={this.state.activeTabIndex}
         activeTab={this.allTabs[ this.state.activeTabIndex ]}
         updateTabs={this.setTabs}
+        descendant={this.props.descendant}
       />
     )
   }

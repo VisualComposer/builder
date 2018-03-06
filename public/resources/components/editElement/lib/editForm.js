@@ -10,7 +10,8 @@ const cook = vcCake.getService('cook')
 
 export default class EditForm extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired
+    element: PropTypes.object.isRequired,
+    descendant: PropTypes.bool
   }
 
   constructor (props) {
@@ -100,6 +101,10 @@ export default class EditForm extends React.Component {
     }
   }
 
+  goBack () {
+    console.log('go back')
+  }
+
   render () {
     const { element } = this.props
     let treeContentClasses = classNames({
@@ -113,9 +118,13 @@ export default class EditForm extends React.Component {
       'active': this.state.editable
     })
 
+    const backButton = this.props.descendant ? (<i className='vcv-ui-icon vcv-ui-icon-arrow-left'
+      onClick={this.goBack.bind(this)} />) : null
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
         <div className='vcv-ui-edit-form-header'>
+          {backButton}
           <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.get('name')} />
           <span className={headerTitleClasses}
             ref={span => { this.span = span }}

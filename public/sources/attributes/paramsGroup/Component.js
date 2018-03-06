@@ -1,5 +1,8 @@
 import React from 'react'
 import Attribute from '../attribute'
+import { getStorage } from 'vc-cake'
+
+const workspaceStorage = getStorage('workspace')
 
 export default class ParamsGroupAttribute extends Attribute {
   constructor (props) {
@@ -10,7 +13,9 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   clickEdit () {
-
+    const element = this.props.element.toJS()
+    const options = { descendant: true }
+    workspaceStorage.trigger('edit', element.id, element.tag, options)
   }
 
   clickClone () {
@@ -28,11 +33,11 @@ export default class ParamsGroupAttribute extends Attribute {
     if (editable) {
       controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
     }
-    let result = []
+    let result
 
     if (this.props.options.groups.length) {
-      this.props.options.groups.forEach((group, index) => {
-        result.push(
+      result = this.props.options.groups.map((group, index) => {
+        return (
           <div className='vcv-ui-form-params-group-item vcv-ui-tree-layout-control' key={`param-group-${group}-${index}`}>
             <div className={dragHelperClasses}>
               <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
@@ -62,17 +67,21 @@ export default class ParamsGroupAttribute extends Attribute {
     const cloneText = localizations ? localizations.clone : 'Clone'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
-    return (<span className='vcv-ui-tree-layout-control-actions'>
-      <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.clickClone}>
-        <i className='vcv-ui-icon vcv-ui-icon-copy' />
-      </span>
-      <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.clickDelete}>
-        <i className='vcv-ui-icon vcv-ui-icon-trash' />
-      </span>
-      <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit}>
-        <i className='vcv-ui-icon vcv-ui-icon-arrow-right' />
-      </span>
-    </span>)
+    return (
+      <div className='vcv-ui-tree-layout-control-actions-container'>
+        <span className='vcv-ui-tree-layout-control-actions'>
+          <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.clickClone}>
+            <i className='vcv-ui-icon vcv-ui-icon-copy' />
+          </span>
+          <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.clickDelete}>
+            <i className='vcv-ui-icon vcv-ui-icon-trash' />
+          </span>
+        </span>
+        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit}>
+          <i className='vcv-ui-icon vcv-ui-icon-arrow-right' />
+        </span>
+      </div>
+    )
   }
 
   render () {
