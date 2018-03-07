@@ -1,6 +1,7 @@
 import React from 'react'
 import Attribute from '../attribute'
 import { getStorage } from 'vc-cake'
+import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 
 const workspaceStorage = getStorage('workspace')
 
@@ -14,6 +15,10 @@ export default class ParamsGroupAttribute extends Attribute {
     this.clickClone = this.clickClone.bind(this)
     this.clickDelete = this.clickDelete.bind(this)
     this.clickEdit = this.clickEdit.bind(this)
+
+    this.getSortableHandle = this.getSortableHandle.bind(this)
+    this.getSortableList = this.getSortableList.bind(this)
+    this.getSortableItems = this.getSortableItems.bind(this)
   }
 
   clickEdit () {
@@ -46,40 +51,82 @@ export default class ParamsGroupAttribute extends Attribute {
     })
   }
 
-  getGroupList () {
-    let editable = false
-    let dragHelperClasses = 'vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'
-    let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
-    if (editable) {
-      controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
-    }
-    let result
+  getSortableItems () {
+    const SortableItem = SortableElement(({ value, groupIndex }) => {
+      let editable = false
+      let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
+      if (editable) {
+        controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
+      }
 
-    if (this.props.options.groups.length) {
-      result = this.props.options.groups.map((group, index) => {
-        return (
-          <div className='vcv-ui-form-params-group-item vcv-ui-tree-layout-control' key={`param-group-${group}-${index}`}>
-            <div className={dragHelperClasses}>
-              <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
-            </div >
-            <div className='vcv-ui-tree-layout-control-content'>
-              <span className={controlLabelClasses}>
-                <span ref={span => { this.span = span }}
-                  contentEditable={editable}
-                  suppressContentEditableWarning>
-                  {group}
-                </span>
+      return (
+        <div className='vcv-ui-form-params-group-item vcv-ui-tree-layout-control'>
+          {this.getSortableHandle()}
+          <div className='vcv-ui-tree-layout-control-content'>
+            <span className={controlLabelClasses}>
+              <span ref={span => { this.span = span }}
+                contentEditable={editable}
+                suppressContentEditableWarning>
+                {value}
               </span>
-              {this.getChildContols(index)}
-            </div>
+            </span>
+            {this.getChildContols(groupIndex)}
           </div>
-        )
-      })
-    } else {
-      result = null
-    }
+        </div>
+      )
+    })
+
+    let result = []
+
+    this.state.groups.forEach((group, index) => {
+      result.push(
+        <SortableItem key={`sortable-item-paramgroup-${index}`}
+          index={index}
+          value={group}
+          groupIndex={index} />
+      )
+    })
 
     return result
+  }
+
+  getSortableList () {
+    const SortableList = SortableContainer(({ items }) => {
+      return (
+        <div>
+          {this.getSortableItems()}
+        </div>
+      )
+    })
+
+    const onSortEnd = ({ oldIndex, newIndex }) => {
+      this.setState({
+        groups: arrayMove(this.state.groups, oldIndex, newIndex)
+      })
+    }
+
+    let useDragHandle = true
+
+    return (
+      <SortableList lockAxis={'y'}
+        useDragHandle={useDragHandle}
+        helperClass={'vcv-ui-form-params-group-item--dragging'}
+        onSortEnd={onSortEnd}
+        items={this.state.groups} />
+    )
+  }
+
+  getSortableHandle () {
+    const SortableHandler = SortableHandle(() => {
+      let dragHelperClasses = 'vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'
+      return (
+        <div className={dragHelperClasses}>
+          <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+        </div>
+      )
+    })
+
+    return (<SortableHandler />)
   }
 
   getChildContols (index) {
@@ -90,14 +137,14 @@ export default class ParamsGroupAttribute extends Attribute {
     return (
       <div className='vcv-ui-tree-layout-control-actions-container'>
         <span className='vcv-ui-tree-layout-control-actions'>
-          <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.clickClone}>
+          <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={() => { this.clickClone(index) }}>
             <i className='vcv-ui-icon vcv-ui-icon-copy' />
           </span>
-          <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.clickDelete}>
+          <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={() => { this.clickDelete(index) }}>
             <i className='vcv-ui-icon vcv-ui-icon-trash' />
           </span>
         </span>
-        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit}>
+        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={() => { this.clickEdit(index) }}>
           <i className='vcv-ui-icon vcv-ui-icon-arrow-right' />
         </span>
       </div>
@@ -111,7 +158,7 @@ export default class ParamsGroupAttribute extends Attribute {
           <div className='vcv-ui-form-group-heading'>{this.props.options.title}</div>
         )}
         <div className='vcv-ui-form-params-group'>
-          {this.getGroupList()}
+          {this.getSortableList()}
           <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.clickAdd} />
         </div>
       </React.Fragment>
