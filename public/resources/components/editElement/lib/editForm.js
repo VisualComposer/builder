@@ -125,7 +125,7 @@ export default class EditForm extends React.Component {
       onClick={this.goBack.bind(this)} />) : null
 
     if (options && options.descendant && options.activeParamGroup) {
-      content = options.activeParamGroup
+      content = options.activeParamGroup.title
     }
 
     return (

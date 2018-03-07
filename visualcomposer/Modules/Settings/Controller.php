@@ -85,11 +85,11 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
      * @param \VisualComposer\Modules\Settings\Pages\PostTypes $postTypes
-     *
      * @param \VisualComposer\Modules\Account\Pages\ActivationPage $activationPage
      * @param \VisualComposer\Helpers\Token $tokenHelper
      *
      * @return string
+     * @throws \Exception
      */
     public function getMainPageSlug(
         CurrentUser $currentUserAccess,
@@ -98,9 +98,7 @@ class Controller extends Container implements Module
         ActivationPage $activationPage,
         Token $tokenHelper
     ) {
-        $hasAccess = !$currentUserAccess->wpAll('manage_options')->part('settings')->can($postTypes->getSlug())->get()
-            || (is_multisite()
-                && !is_main_site());
+        $hasAccess = !$currentUserAccess->wpAll('manage_options')->part('settings')->can($postTypes->getSlug())->get();
 
         if ($hasAccess) {
             return $aboutPage->getSlug();

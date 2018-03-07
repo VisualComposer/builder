@@ -29,13 +29,22 @@ class Elements implements Helper
                     'assetsPath' => $this->getElementUrl($element['assetsPath']),
                 ]
             );
-            $data['settings'] = array_merge(
-                $data['settings'],
-                [
-                    'metaThumbnailUrl' => $this->getElementUrl($element['settings']['metaThumbnailUrl']),
-                    'metaPreviewUrl' => $this->getElementUrl($element['settings']['metaPreviewUrl']),
-                ]
-            );
+
+            $metaData = [];
+            if (isset($element['settings']['metaThumbnailUrl'])) {
+                $metaData['metaThumbnailUrl'] = $this->getElementUrl($element['settings']['metaThumbnailUrl']);
+            }
+            if (isset($element['settings']['metaPreviewUrl'])) {
+                $metaData['metaPreviewUrl'] = $this->getElementUrl($element['settings']['metaPreviewUrl']);
+            }
+
+            if (!empty($metaData)) {
+                $data['settings'] = array_merge(
+                    $data['settings'],
+                    $metaData
+                );
+            }
+
             $outputElements[ $tag ] = $data;
         }
 

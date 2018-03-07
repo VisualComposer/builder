@@ -81,7 +81,10 @@ export default class Field extends React.Component {
     const { options } = settings
     const tabTypeName = tab.data.type && tab.data.type.name
     let label = ''
-    if (options && typeof options.label === 'string' && (tabTypeName === 'group') && fieldType !== 'paramsGroup') {
+    const isOptionsLabel = options && typeof options.label === 'string'
+    const isRegularAttributeField = tabTypeName === 'group' && fieldType !== 'paramsGroup'
+    const isParamsGroupAttributeField = tabTypeName === 'paramsGroup'
+    if (isOptionsLabel && (isRegularAttributeField || isParamsGroupAttributeField)) {
       label = (<span className='vcv-ui-form-group-heading'>{options.label}</span>)
     }
     let description = ''
