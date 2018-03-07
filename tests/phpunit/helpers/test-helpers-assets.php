@@ -27,19 +27,4 @@ class HelpersAssetsTest extends WP_UnitTestCase
         $this->assertTrue(strpos($path, $uploadDir['basedir']) !== false);
         $this->assertEquals($destinationDir . $filepath, $path);
     }
-
-    public function testGetUrl()
-    {
-        $helper = vchelper('Assets');
-        $path = $helper->getFileUrl();
-        $uploadDir = wp_upload_dir();
-        $destinationDir = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles/';
-        $this->assertTrue(strpos($path, $uploadDir['baseurl']) !== false);
-        $this->assertEquals($destinationDir, $path);
-
-        $filepath = 'test.css';
-        $path = $helper->getFileUrl($filepath);
-        $this->assertTrue(strpos($path, $uploadDir['baseurl']) !== false);
-        $this->assertEquals($destinationDir . $filepath, $path);
-    }
 }

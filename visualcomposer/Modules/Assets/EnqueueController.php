@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Str;
@@ -33,10 +34,16 @@ class EnqueueController extends Container implements Module
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Str $strHelper
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
      */
-    protected function enqueueGlobalAssets(Options $optionsHelper, Str $strHelper, Frontend $frontendHelper)
-    {
+    protected function enqueueGlobalAssets(
+        Options $optionsHelper,
+        Str $strHelper,
+        Frontend $frontendHelper,
+        Assets $assetsHelper
+    ) {
         $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
+        $bundleUrl = $assetsHelper->getAssetUrl('/assets-bundles/' . $bundleUrl);
         if ($bundleUrl && !$frontendHelper->isPageEditable()) {
             $version = $optionsHelper->get('globalElementsCssHash', VCV_VERSION);
             wp_enqueue_style(

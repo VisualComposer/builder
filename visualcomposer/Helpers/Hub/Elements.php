@@ -118,9 +118,6 @@ class Elements implements Helper
 
     public function getElementUrl($path = '')
     {
-        if (preg_match('/^http/', $path)) {
-            return $path;
-        }
         $assetsHelper = vchelper('Assets');
 
         return $assetsHelper->getAssetUrl('/elements/' . ltrim($path, '\\/'));

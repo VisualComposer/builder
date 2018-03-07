@@ -23,16 +23,17 @@ class Assets extends Container implements Helper
         return $path;
     }
 
-    public function getFileUrl($filename = '')
-    {
-        return $this->getAssetUrl('/assets-bundles/' . ltrim($filename, '/\\'));
-    }
-
     public function getAssetUrl($filePath = '')
     {
+        if (preg_match('/^http/', $filePath)) {
+            return set_url_scheme($filePath);
+        }
         if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
             $uploadDir = wp_upload_dir();
-            $url = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim($filePath, '/\\');
+            $url = set_url_scheme($uploadDir['baseurl']) . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim(
+                    $filePath,
+                    '/\\'
+                );
         } else {
             $url = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim($filePath, '/\\');
         }
@@ -54,7 +55,7 @@ class Assets extends Container implements Helper
         $content = $content ? $content : '';
         $concatenatedFilename = $extension;
         $bundle = $this->getFilePath($concatenatedFilename);
-        $bundleUrl = $this->getFileUrl($concatenatedFilename);
+        $bundleUrl = $concatenatedFilename;
         if (!$fileHelper->setContents($bundle, $content)) {
             return false;
         }
