@@ -231,6 +231,7 @@ class TemplatesDownloadController extends Container implements Module
         $fileHelper = vchelper('File');
         $hubTemplatesHelper = vchelper('HubTemplates');
         $urlHelper = vchelper('Url');
+        $assetsHelper = vchelper('Assets');
 
         if ($urlHelper->isUrl($url)) {
             $imageFile = $fileHelper->download($url);
@@ -246,7 +247,7 @@ class TemplatesDownloadController extends Container implements Module
                         $localImagePath
                     )
                 )) {
-                    return $urlHelper->getContentAssetUrl(
+                    return $assetsHelper->getAssetUrl(
                         'templates/' . $localImagePath
                     );
                 }

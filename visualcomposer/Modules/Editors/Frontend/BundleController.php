@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
 
@@ -26,7 +27,7 @@ class BundleController extends Container implements Module
         $this->addFilter('vcv:frontend:footer:extraOutput', 'addFooterBundleScript');
     }
 
-    protected function addHeadBundleStyle($response, $payload, Url $urlHelper)
+    protected function addHeadBundleStyle($response, $payload, Url $urlHelper, Assets $assetsHelper)
     {
         if (vcfilter('vcv:frontend:enqueue:bundle', true)) {
             // Add CSS
@@ -38,12 +39,10 @@ class BundleController extends Container implements Module
 rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
                         vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                             ?
-                            content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wp.bundle.css?v=' . VCV_VERSION
+                            $assetsHelper->getAssetUrl('/editor/wp.bundle.css?v=' . VCV_VERSION)
                             // TODO: Check latest downloaded version
                             :
-                            $urlHelper->to(
-                                'public/dist/wp.bundle.css?v=' . VCV_VERSION
-                            )
+                            $urlHelper->to('public/dist/wp.bundle.css?v=' . VCV_VERSION)
                     ),
                 ]
             );
@@ -52,7 +51,7 @@ rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
         return $response;
     }
 
-    protected function addFooterBundleScript($response, $payload, Url $urlHelper)
+    protected function addFooterBundleScript($response, $payload, Url $urlHelper, Assets $assetsHelper)
     {
         if (vcfilter('vcv:frontend:enqueue:bundle', true)) {
             // Add JS
@@ -63,12 +62,10 @@ rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
                         '<script id="vcv-script-fe-bundle" type="text/javascript" src="%s"></script>',
                         vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                             ?
-                            content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wp.bundle.js?v=' . VCV_VERSION
+                            $assetsHelper->getAssetUrl('/editor/wp.bundle.js?v=' . VCV_VERSION)
                             // TODO Check latest download version
                             :
-                            $urlHelper->to(
-                                'public/dist/wp.bundle.js?v=' . VCV_VERSION
-                            )
+                            $urlHelper->to('public/dist/wp.bundle.js?v=' . VCV_VERSION)
                     ),
                 ]
             );

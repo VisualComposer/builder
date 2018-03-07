@@ -225,3 +225,10 @@ if (!defined('VCV_TF_DISABLE_BE')) {
         isset($_SERVER['ENV_VCV_TF_DISABLE_BE']) ? $_SERVER['ENV_VCV_TF_DISABLE_BE'] : true
     );
 }
+
+if (!defined('VCV_TF_ASSETS_IN_UPLOADS')) {
+    define(
+        'VCV_TF_ASSETS_IN_UPLOADS',
+        isset($_SERVER['ENV_VCV_TF_ASSETS_IN_UPLOADS']) ? $_SERVER['ENV_VCV_TF_ASSETS_IN_UPLOADS'] : true
+    );
+}

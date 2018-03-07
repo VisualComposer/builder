@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
@@ -34,17 +35,15 @@ class VendorBundleController extends Container implements Module
         $this->wpAddAction('admin_enqueue_scripts', 'enqueueJquery');
     }
 
-    protected function registerVendorScripts(Url $urlHelper)
+    protected function registerVendorScripts(Url $urlHelper, Assets $assetsHelper)
     {
         wp_register_script(
             'vcv:assets:vendor:script',
             vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                 ?
-                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js'
+                $assetsHelper->getAssetUrl('/editor/vendor.bundle.js')
                 :
-                $urlHelper->to(
-                    'public/dist/vendor.bundle.js'
-                ),
+                $urlHelper->to('public/dist/vendor.bundle.js'),
             [
                 'jquery',
             ],
@@ -55,11 +54,9 @@ class VendorBundleController extends Container implements Module
             'vcv:assets:front:script',
             vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                 ?
-                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/front.bundle.js'
+                $assetsHelper->getAssetUrl('/editor/front.bundle.js')
                 :
-                $urlHelper->to(
-                    'public/dist/front.bundle.js'
-                ),
+                $urlHelper->to('public/dist/front.bundle.js'),
             [
                 'vcv:assets:vendor:script',
             ],
@@ -70,17 +67,15 @@ class VendorBundleController extends Container implements Module
             'vcv:assets:front:style',
             vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                 ?
-                content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/front.bundle.css'
+                $assetsHelper->getAssetUrl('/editor/front.bundle.css')
                 :
-                $urlHelper->to(
-                    'public/dist/front.bundle.css'
-                ),
+                $urlHelper->to('public/dist/front.bundle.css'),
             [],
             VCV_VERSION
         );
     }
 
-    protected function addVendorScript($response, $payload, Url $urlHelper)
+    protected function addVendorScript($response, $payload, Url $urlHelper, Assets $assetsHelper)
     {
         // Add Vendor JS
         $response = array_merge(
@@ -90,11 +85,9 @@ class VendorBundleController extends Container implements Module
                     '<script id="vcv-script-vendor-bundle" type="text/javascript" src="%s"></script>',
                     vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                         ?
-                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js?v=' . VCV_VERSION
+                        $assetsHelper->getAssetUrl('/editor/vendor.bundle.js?v=' . VCV_VERSION)
                         :
-                        $urlHelper->to(
-                            'public/dist/vendor.bundle.js?v=' . VCV_VERSION
-                        )
+                        $urlHelper->to('public/dist/vendor.bundle.js?v=' . VCV_VERSION)
                 ),
             ]
         );

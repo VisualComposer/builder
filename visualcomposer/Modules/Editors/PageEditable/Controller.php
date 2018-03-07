@@ -9,6 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Framework\Container;
@@ -95,7 +96,7 @@ class Controller extends Container implements Module
         }
     }
 
-    protected function buildPageEditable(Url $urlHelper)
+    protected function buildPageEditable(Url $urlHelper, Assets $assetsHelper)
     {
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::addTheContentFilteringForPost */
         $this->wpAddAction(
@@ -104,14 +105,14 @@ class Controller extends Container implements Module
             9999 // Do with high weight - when all other actions is done
         );
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
-            $bundleJsUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.js';
-            $bundleCssUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/pe.bundle.css';
+            $bundleJsUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.js');
+            $bundleCssUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.css');
         } else {
             $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js');
             $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css');
         }
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
-            $vendorBundleJsUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/vendor.bundle.js';
+            $vendorBundleJsUrl = $assetsHelper->getAssetUrl('/editor/vendor.bundle.js');
         } else {
             $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js');
         }

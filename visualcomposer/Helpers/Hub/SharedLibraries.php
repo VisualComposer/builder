@@ -24,7 +24,9 @@ class SharedLibraries implements Helper
 
     public function getLibraryUrl($path = '')
     {
-        $bundleFolder = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/sharedLibraries';
+        $assetsHelper = vchelper('Assets');
+
+        $bundleFolder = $assetsHelper->getAssetUrl('/sharedLibraries');
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
         }
