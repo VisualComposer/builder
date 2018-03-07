@@ -48,7 +48,7 @@ class Elements implements Helper
             $outputElements[ $tag ] = $data;
         }
 
-//        dd($outputElements);
+        //        dd($outputElements);
 
         return $outputElements;
     }
@@ -127,6 +127,9 @@ class Elements implements Helper
 
     public function getElementUrl($path = '')
     {
+        if (preg_match('/^http/', $path)) {
+            return $path;
+        }
         $assetsHelper = vchelper('Assets');
 
         return $assetsHelper->getAssetUrl('/elements/' . ltrim($path, '\\/'));
