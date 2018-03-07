@@ -4,13 +4,15 @@ import EditFormContent from './editFormContent'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 
+const workspaceStorage = vcCake.getStorage('workspace')
 const hubCategories = vcCake.getService('hubCategories')
 const elementsStorage = vcCake.getStorage('elements')
 const cook = vcCake.getService('cook')
 
 export default class EditForm extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired
+    element: PropTypes.object.isRequired,
+    options: PropTypes.object
   }
 
   constructor (props) {
@@ -100,8 +102,14 @@ export default class EditForm extends React.Component {
     }
   }
 
-  render () {
+  goBack () {
     const { element } = this.props
+    const el = element.toJS()
+    workspaceStorage.trigger('edit', el.id, el.tag)
+  }
+
+  render () {
+    const { element, options } = this.props
     let treeContentClasses = classNames({
       'vcv-ui-tree-content': true
     })
@@ -113,9 +121,17 @@ export default class EditForm extends React.Component {
       'active': this.state.editable
     })
 
+    const backButton = options && options.descendant ? (<i className='vcv-ui-icon vcv-ui-icon-arrow-left'
+      onClick={this.goBack.bind(this)} />) : null
+
+    if (options && options.descendant && options.activeParamGroup) {
+      content = options.activeParamGroup
+    }
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
         <div className='vcv-ui-edit-form-header'>
+          {backButton}
           <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.get('name')} />
           <span className={headerTitleClasses}
             ref={span => { this.span = span }}

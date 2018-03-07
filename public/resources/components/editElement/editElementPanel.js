@@ -9,7 +9,8 @@ import lodash from 'lodash'
 export default class EditElementPanel extends ActivitiesManager {
   static propTypes = {
     element: PropTypes.object.isRequired,
-    activeTabId: PropTypes.string
+    activeTabId: PropTypes.string,
+    options: PropTypes.object
   }
 
   constructor (props) {
@@ -61,7 +62,7 @@ export default class EditElementPanel extends ActivitiesManager {
   }
 
   render () {
-    const { element, activeTabId } = this.props
+    const { element, activeTabId, options } = this.props
     return (
       <FormWrapper
         activeTabId={activeTabId}
@@ -71,6 +72,7 @@ export default class EditElementPanel extends ActivitiesManager {
         callFieldActivities={this.callFieldActivities}
         onElementChange={this.onElementChange}
         ref='formWrapper'
+        options={options}
       />
     )
   }

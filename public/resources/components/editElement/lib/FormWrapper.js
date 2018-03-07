@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 export default class FormWrapper extends React.Component {
   static propTypes = {
     element: PropTypes.object.isRequired,
-    activeTabId: PropTypes.string
+    activeTabId: PropTypes.string,
+    options: PropTypes.object
   }
   state = {
     activeTabIndex: 0
@@ -30,7 +31,7 @@ export default class FormWrapper extends React.Component {
     })
   }
   updateTabs (props) {
-    return FormWrapper.editFormTabs(props).map((tab, index) => {
+    let tabs = FormWrapper.editFormTabs(props).map((tab, index) => {
       return {
         fieldKey: tab.key,
         index: index,
@@ -47,6 +48,28 @@ export default class FormWrapper extends React.Component {
         }
       }
     }, FormWrapper)
+
+    if (props.options.descendant) {
+      tabs = FormWrapper.paramsGroupTabs(props).map((tab, index) => {
+        return {
+          fieldKey: tab.key,
+          index: index,
+          data: tab.data,
+          isVisible: true,
+          pinned: tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
+          params: FormWrapper.paramsGroupTabParams(props, tab.key),
+          key: `edit-form-tab-${props.element.data.id}-${index}-${tab.key}`,
+          changeTab: this.onChangeActiveTab.bind(this, index),
+          ref: (ref) => {
+            if (this.allTabs[ index ]) {
+              this.allTabs[ index ].realRef = ref
+            }
+          }
+        }
+      }, FormWrapper)
+    }
+
+    return tabs
   }
 
   static editFormTabs (props) {
@@ -79,6 +102,24 @@ export default class FormWrapper extends React.Component {
     } ]
   }
 
+  static paramsGroupTabs (props) {
+    return [
+      {
+        key: props.options.paramFieldKey,
+        data: props.element.settings(props.options.paramFieldKey)
+      }
+    ]
+  }
+
+  static paramsGroupTabParams (props) {
+    return props.options.attributes.map((param) => {
+      return {
+        key: param,
+        data: props.element.settings(param)
+      }
+    })
+  }
+
   onChangeActiveTab (tabIndex) {
     this.setState({
       activeTabIndex: tabIndex
@@ -97,6 +138,7 @@ export default class FormWrapper extends React.Component {
         activeTabIndex={this.state.activeTabIndex}
         activeTab={this.allTabs[ this.state.activeTabIndex ]}
         updateTabs={this.setTabs}
+        options={this.props.options}
       />
     )
   }

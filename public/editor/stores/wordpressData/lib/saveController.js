@@ -87,7 +87,7 @@ export default class SaveController {
         'vcv-settings-source-local-js': (vcCake.env('CUSTOM_JS') && settingsStorage.state('localJs').get()) || '',
         'vcv-settings-global-js': (vcCake.env('CUSTOM_JS') && settingsStorage.state('globalJs').get()) || '',
         'vcv-tf': 'noGlobalCss',
-        'vcv-be-editor': 'be',
+        'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview')
       }
       if (vcCake.env('PAGE_TEMPLATES_FE')) {
