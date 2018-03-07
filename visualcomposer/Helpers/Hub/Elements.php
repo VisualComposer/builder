@@ -16,7 +16,32 @@ class Elements implements Helper
     {
         $optionHelper = vchelper('Options');
 
-        return $optionHelper->get('hubElements', []);
+        $elements = $optionHelper->get('hubElements', []);
+        $outputElements = [];
+        foreach ($elements as $tag => $element) {
+            $data = $element;
+            $data = array_merge(
+                $data,
+                [
+                    'bundlePath' => $this->getElementUrl($element['bundlePath']),
+                    'elementPath' => $this->getElementUrl($element['elementPath']),
+                    'elementRealPath' => $this->getElementPath($element['elementRealPath']),
+                    'assetsPath' => $this->getElementUrl($element['assetsPath']),
+                ]
+            );
+            $data['settings'] = array_merge(
+                $data['settings'],
+                [
+                    'metaThumbnailUrl' => $this->getElementUrl($element['settings']['metaThumbnailUrl']),
+                    'metaPreviewUrl' => $this->getElementUrl($element['settings']['metaPreviewUrl']),
+                ]
+            );
+            $outputElements[ $tag ] = $data;
+        }
+
+//        dd($outputElements);
+
+        return $outputElements;
     }
 
     public function setElements($elements = [])
@@ -43,9 +68,13 @@ class Elements implements Helper
 
     protected function updateElementData($key, $merged)
     {
-        $merged['bundlePath'] = $this->getElementUrl($key . '/public/dist/element.bundle.js');
-        $merged['elementPath'] = $this->getElementUrl($key . '/' . $key . '/');
-        $merged['elementRealPath'] = $this->getElementPath($key . '/' . $key . '/');
+        $merged['key'] = $key;
+        // $this->getElementUrl($key . '/public/dist/element.bundle.js');
+        $merged['bundlePath'] = $key . '/public/dist/element.bundle.js';
+        // $this->getElementUrl($key . '/' . $key . '/');
+        $merged['elementPath'] = $key . '/' . $key . '/';
+        // $this->getElementPath($key . '/' . $key . '/');
+        $merged['elementRealPath'] = $key . '/' . $key . '/';
         $merged['assetsPath'] = $merged['elementPath'] . 'public/';
         if (isset($merged['settings'])) {
             if (isset($merged['settings']['metaThumbnailUrl'])) {
@@ -77,15 +106,23 @@ class Elements implements Helper
         $value = preg_replace('/([^:])(\/{2,})/', '$1/', $value);
     }
 
-    public function getElementPath($key = '')
+    public function getElementPath($path = '')
     {
-        return VCV_PLUGIN_ASSETS_DIR_PATH . '/elements/' . ltrim($key, '\\/');
+        $pattern = '/' . VCV_PLUGIN_ASSETS_DIRNAME . '\//';
+        if (preg_match($pattern, $path)) {
+            return $path;
+        }
+
+        return VCV_PLUGIN_ASSETS_DIR_PATH . '/elements/' . ltrim($path, '\\/');
     }
 
-    public function getElementUrl($key = '')
+    public function getElementUrl($path = '')
     {
+        if (preg_match('/^http/', $path)) {
+            return $path;
+        }
         $assetsHelper = vchelper('Assets');
 
-        return $assetsHelper->getAssetUrl('/elements/' . ltrim($key, '\\/'));
+        return $assetsHelper->getAssetUrl('/elements/' . ltrim($path, '\\/'));
     }
 }
