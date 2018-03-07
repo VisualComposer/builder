@@ -21,9 +21,15 @@ export default class ParamsGroupAttribute extends Attribute {
     this.getSortableItems = this.getSortableItems.bind(this)
   }
 
-  clickEdit () {
+  clickEdit (e) {
+    const groupName = e.currentTarget.getAttribute('data-group-name')
     const element = this.props.element.toJS()
-    const options = { descendant: true }
+    const options = {
+      descendant: true,
+      attributes: this.props.options.parameters,
+      activeParamGroup: groupName,
+      paramFieldKey: this.props.fieldKey
+    }
     workspaceStorage.trigger('edit', element.id, element.tag, options)
   }
 
@@ -70,7 +76,7 @@ export default class ParamsGroupAttribute extends Attribute {
                 {value}
               </span>
             </span>
-            {this.getChildContols(groupIndex)}
+            {this.getChildControls(groupIndex)}
           </div>
         </div>
       )
@@ -91,7 +97,7 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   getSortableList () {
-    const SortableList = SortableContainer(({ items }) => {
+    const SortableList = SortableContainer(() => {
       return (
         <div>
           {this.getSortableItems()}
@@ -129,7 +135,7 @@ export default class ParamsGroupAttribute extends Attribute {
     return (<SortableHandler />)
   }
 
-  getChildContols (index) {
+  getChildControls (index) {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const cloneText = localizations ? localizations.clone : 'Clone'
     const removeText = localizations ? localizations.remove : 'Remove'
@@ -152,6 +158,8 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addText = localizations ? localizations.add : 'Add'
     return (
       <React.Fragment>
         {this.state.groups.length ? null : (
@@ -159,7 +167,7 @@ export default class ParamsGroupAttribute extends Attribute {
         )}
         <div className='vcv-ui-form-params-group'>
           {this.getSortableList()}
-          <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.clickAdd} />
+          <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.clickAdd} title={addText} />
         </div>
       </React.Fragment>
     )

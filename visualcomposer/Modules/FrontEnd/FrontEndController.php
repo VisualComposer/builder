@@ -31,26 +31,30 @@ class FrontEndController extends Container implements Module
 
     protected function encode($content)
     {
-        $content = preg_replace_callback(
-            '/((<!--vcv no format-->)(.*?)(<!--vcv no format-->))/si',
-            function ($matches) {
-                return '<p>' . $matches[2] . base64_encode(do_shortcode($matches[3])) . $matches[4] . '</p>';
-            },
-            $content
-        );
+        if (in_array(get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true), ['fe', 'be'])) {
+            $content = preg_replace_callback(
+                '/((<!--vcv no format-->)(.*?)(<!--vcv no format-->))/si',
+                function ($matches) {
+                    return '<p>' . $matches[2] . base64_encode(do_shortcode($matches[3])) . $matches[4] . '</p>';
+                },
+                $content
+            );
+        }
 
         return $content;
     }
 
     protected function decode($content)
     {
-        $content = preg_replace_callback(
-            '/(\<p\>(<!--vcv no format-->)(.*?)(<!--vcv no format-->)<\/p>)/si',
-            function ($matches) {
-                return base64_decode($matches[3]);
-            },
-            $content
-        );
+        if (in_array(get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true), ['fe', 'be'])) {
+            $content = preg_replace_callback(
+                '/(\<p\>(<!--vcv no format-->)(.*?)(<!--vcv no format-->)<\/p>)/si',
+                function ($matches) {
+                    return base64_decode($matches[3]);
+                },
+                $content
+            );
+        }
 
         return $content;
     }

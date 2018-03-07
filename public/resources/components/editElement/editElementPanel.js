@@ -10,7 +10,7 @@ export default class EditElementPanel extends ActivitiesManager {
   static propTypes = {
     element: PropTypes.object.isRequired,
     activeTabId: PropTypes.string,
-    descendant: PropTypes.bool
+    options: PropTypes.object
   }
 
   constructor (props) {
@@ -62,7 +62,7 @@ export default class EditElementPanel extends ActivitiesManager {
   }
 
   render () {
-    const { element, activeTabId, descendant } = this.props
+    const { element, activeTabId, options } = this.props
     return (
       <FormWrapper
         activeTabId={activeTabId}
@@ -72,7 +72,7 @@ export default class EditElementPanel extends ActivitiesManager {
         callFieldActivities={this.callFieldActivities}
         onElementChange={this.onElementChange}
         ref='formWrapper'
-        descendant={descendant}
+        options={options}
       />
     )
   }
