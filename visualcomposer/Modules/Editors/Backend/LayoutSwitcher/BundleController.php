@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
@@ -30,7 +31,7 @@ class BundleController extends Container implements Module
         $this->addFilter('vcv:backend:extraOutput', 'addFooterBundleScript', 4);
     }
 
-    protected function addHeadBundleStyle(array $response, $payload, Url $urlHelper)
+    protected function addHeadBundleStyle(array $response, $payload, Url $urlHelper, Assets $assetsHelper)
     {
         // Add CSS
         $response = array_merge(
@@ -41,13 +42,10 @@ class BundleController extends Container implements Module
 rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
                     vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                         ?
-                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackendswitch.bundle.css?v='
-                        . VCV_VERSION
+                        $assetsHelper->getAssetUrl('/editor/wpbackendswitch.bundle.css?v=' . VCV_VERSION)
                         // TODO: Check latest downloaded version
                         :
-                        $urlHelper->to(
-                            'public/dist/wpbackendswitch.bundle.css?v=' . VCV_VERSION
-                        )
+                        $urlHelper->to('public/dist/wpbackendswitch.bundle.css?v=' . VCV_VERSION)
                 ),
             ]
         );
@@ -55,8 +53,13 @@ rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
         return $response;
     }
 
-    protected function addFooterBundleScript(array $response, $payload, Url $urlHelper, Frontend $frontendHelper)
-    {
+    protected function addFooterBundleScript(
+        array $response,
+        $payload,
+        Url $urlHelper,
+        Frontend $frontendHelper,
+        Assets $assetsHelper
+    ) {
         // Add JS
         $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s";', $frontendHelper->getFrontendUrl());
         $response = array_merge(
@@ -75,13 +78,10 @@ rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
                     '<script id="vcv-script-be-switch-bundle" type="text/javascript" src="%s"></script>',
                     vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                         ?
-                        content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackendswitch.bundle.js?v='
-                        . VCV_VERSION
+                        $assetsHelper->getAssetUrl('/editor/wpbackendswitch.bundle.js?v=' . VCV_VERSION)
                         // TODO: Check latest downloaded version
                         :
-                        $urlHelper->to(
-                            'public/dist/wpbackendswitch.bundle.js?v=' . VCV_VERSION
-                        )
+                        $urlHelper->to('public/dist/wpbackendswitch.bundle.js?v=' . VCV_VERSION)
                 ),
             ]
         );

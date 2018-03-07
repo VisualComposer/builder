@@ -50,6 +50,8 @@ class Categories implements Helper
 
     public function getCategoriesUrl($key = '')
     {
-        return content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/categories/' . ltrim($key, '\\/');
+        $assetsHelper = vchelper('Assets');
+
+        return $assetsHelper->getAssetUrl('/categories/' . ltrim($key, '\\/'));
     }
 }

@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -64,19 +65,21 @@ class BundleController extends Container implements Module
         }
     }
 
-    protected function addBundleStyle($postType, Url $urlHelper, EditorPostType $editorPostTypeHelper)
-    {
+    protected function addBundleStyle(
+        $postType,
+        Url $urlHelper,
+        EditorPostType $editorPostTypeHelper,
+        Assets $assetsHelper
+    ) {
         if ($editorPostTypeHelper->isEditorEnabled($postType)) {
             // Add CSS
             wp_enqueue_style(
                 'vcv:editors:backendswitcher:style',
                 vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                     ?
-                    content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackendswitch.bundle.css'
+                    $assetsHelper->getAssetUrl('/editor/wpbackendswitch.bundle.css')
                     :
-                    $urlHelper->to(
-                        'public/dist/wpbackendswitch.bundle.css'
-                    ),
+                    $urlHelper->to('public/dist/wpbackendswitch.bundle.css'),
                 [],
                 VCV_VERSION
             );
@@ -87,7 +90,8 @@ class BundleController extends Container implements Module
         $postType,
         Url $urlHelper,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper
+        EditorPostType $editorPostTypeHelper,
+        Assets $assetsHelper
     ) {
         if ($editorPostTypeHelper->isEditorEnabled($postType)) {
             // Add JS
@@ -100,11 +104,9 @@ class BundleController extends Container implements Module
                 'vcv:editors:backendswitcher:script',
                 vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
                     ?
-                    content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/editor/wpbackendswitch.bundle.js'
+                    $assetsHelper->getAssetUrl('/editor/wpbackendswitch.bundle.js')
                     :
-                    $urlHelper->to(
-                        'public/dist/wpbackendswitch.bundle.js'
-                    ),
+                    $urlHelper->to('public/dist/wpbackendswitch.bundle.js'),
                 ['vcv:assets:vendor:script'],
                 VCV_VERSION
             );

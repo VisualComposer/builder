@@ -146,11 +146,6 @@ class Url implements Helper
         vcvdie(esc_html($message));
     }
 
-    public function getContentAssetUrl($key = '')
-    {
-        return content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim($key, '\\/');
-    }
-
     public function isUrl($str = '')
     {
         return (bool)preg_match('/^(https?:)?\\/\\/?/', $str);
