@@ -111,6 +111,8 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addText = localizations ? localizations.add : 'Add'
     return (
       <React.Fragment>
         {this.state.groups.length ? null : (
@@ -118,7 +120,7 @@ export default class ParamsGroupAttribute extends Attribute {
         )}
         <div className='vcv-ui-form-params-group'>
           {this.getGroupList()}
-          <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.clickAdd} />
+          <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.clickAdd} title={addText} />
         </div>
       </React.Fragment>
     )
