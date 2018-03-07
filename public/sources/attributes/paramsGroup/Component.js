@@ -5,11 +5,24 @@ import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'r
 
 const workspaceStorage = getStorage('workspace')
 
+const setAttributeValue = (groups, parameters) => {
+  let result = []
+
+  groups.forEach((group, index) => {
+    result.push({
+      title: group,
+      settings: parameters
+    })
+  })
+
+  return result
+}
+
 export default class ParamsGroupAttribute extends Attribute {
   constructor (props) {
     super(props)
     this.state = {
-      groups: this.props.options.groups
+      groups: setAttributeValue(this.props.options.groups, this.props.options.parameters)
     }
     this.clickAdd = this.clickAdd.bind(this)
     this.clickClone = this.clickClone.bind(this)
@@ -21,8 +34,7 @@ export default class ParamsGroupAttribute extends Attribute {
     this.getSortableItems = this.getSortableItems.bind(this)
   }
 
-  clickEdit (e) {
-    const groupName = e.currentTarget.getAttribute('data-group-name')
+  clickEdit (index, groupName) {
     const element = this.props.element.toJS()
     const options = {
       descendant: true,
@@ -30,12 +42,16 @@ export default class ParamsGroupAttribute extends Attribute {
       activeParamGroup: groupName,
       paramFieldKey: this.props.fieldKey
     }
+    console.log(options)
     workspaceStorage.trigger('edit', element.id, element.tag, options)
   }
 
   clickAdd () {
     let result = this.state.groups
-    result.push('Group title')
+    result.push({
+      title: 'Group title',
+      settings: this.props.options.parameters
+    })
     this.setState({
       groups: result
     })
@@ -73,7 +89,7 @@ export default class ParamsGroupAttribute extends Attribute {
               <span ref={span => { this.span = span }}
                 contentEditable={editable}
                 suppressContentEditableWarning>
-                {value}
+                {value.title}
               </span>
             </span>
             {this.getChildControls(groupIndex)}
@@ -150,7 +166,7 @@ export default class ParamsGroupAttribute extends Attribute {
             <i className='vcv-ui-icon vcv-ui-icon-trash' />
           </span>
         </span>
-        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={() => { this.clickEdit(index) }}>
+        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={() => { this.clickEdit(index, this.state.groups[index]) }} >
           <i className='vcv-ui-icon vcv-ui-icon-arrow-right' />
         </span>
       </div>
