@@ -84,6 +84,8 @@ class Controller extends Container implements Module
             $wpQuery->post = $post;
             // @codingStandardsIgnoreLine
             $wpQuery->post_count = 1;
+            $wpQuery->queried_object = $post;
+            $wpQuery->queried_object_id = $post->ID;
         }
     }
 
@@ -98,12 +100,18 @@ class Controller extends Container implements Module
 
     protected function buildPageEditable(Url $urlHelper, Assets $assetsHelper)
     {
-        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::addTheContentFilteringForPost */
-        $this->wpAddAction(
-            'the_post',
-            'addTheContentFilteringForPost',
-            9999 // Do with high weight - when all other actions is done
-        );
+        global $post;
+        if (vcvenv('VCV_TF_EDITOR_IN_CONTENT')) {
+            $post->post_content = vcview('editor/pageEditable/pageEditable.php');
+            wp_cache_add($post->ID, $post, 'posts');
+        } else {
+            /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::addTheContentFilteringForPost */
+            $this->wpAddAction(
+                'the_post',
+                'addTheContentFilteringForPost',
+                9999 // Do with high weight - when all other actions is done
+            );
+        }
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             $bundleJsUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.js');
             $bundleCssUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.css');

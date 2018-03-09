@@ -167,13 +167,16 @@ class PostType implements Helper
     public function setupPost($sourceId)
     {
         // @codingStandardsIgnoreStart
-        global $post_type, $post_type_object, $post;
+        global $post_type, $post_type_object, $post, $wp_query;
         $post = get_post($sourceId);
 
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
         if (isset($post->post_type) && post_type_exists($post->post_type) &&  $currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()) {
             setup_postdata($post);
+            /** @var \WP_Query $wp_query */
+            $wp_query->queried_object = $post;
+            $wp_query->queried_object_id = $post->ID;
             $post_type = $post->post_type;
             $post_type_object = get_post_type_object($post_type);
 
