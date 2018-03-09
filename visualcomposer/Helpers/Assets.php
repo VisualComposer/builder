@@ -54,7 +54,11 @@ class Assets extends Container implements Helper
         $content = $content ? $content : '';
         $concatenatedFilename = $extension;
         $bundle = $this->getFilePath($concatenatedFilename);
-        $bundleUrl = $concatenatedFilename;
+        if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
+            $bundleUrl = $concatenatedFilename;
+        } else {
+            $bundleUrl = $this->getAssetUrl('/assets-bundles/' . $concatenatedFilename);
+        }
         if (!$fileHelper->setContents($bundle, $content)) {
             return false;
         }
