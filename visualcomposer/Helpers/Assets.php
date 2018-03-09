@@ -30,10 +30,9 @@ class Assets extends Container implements Helper
         }
         if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
             $uploadDir = wp_upload_dir();
-            $url = set_url_scheme($uploadDir['baseurl']) . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim(
-                    $filePath,
-                    '/\\'
-                );
+            $url = set_url_scheme(
+                $uploadDir['baseurl'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim($filePath, '/\\')
+            );
         } else {
             $url = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/' . ltrim($filePath, '/\\');
         }

@@ -1,8 +1,7 @@
 import React from 'react'
 import Attribute from '../attribute'
-import { env, getStorage, getService } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
-import MobileDetect from 'mobile-detect/mobile-detect'
 
 const workspaceStorage = getStorage('workspace')
 const cook = getService('cook')
