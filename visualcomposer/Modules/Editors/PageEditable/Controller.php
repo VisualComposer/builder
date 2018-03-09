@@ -82,10 +82,11 @@ class Controller extends Container implements Module
                 $post,
             ];
             $wpQuery->post = $post;
-            // @codingStandardsIgnoreLine
+            // @codingStandardsIgnoreStart
             $wpQuery->post_count = 1;
             $wpQuery->queried_object = $post;
             $wpQuery->queried_object_id = $post->ID;
+            // @codingStandardsIgnoreEnd
         }
     }
 
@@ -102,6 +103,7 @@ class Controller extends Container implements Module
     {
         global $post;
         if (vcvenv('VCV_TF_EDITOR_IN_CONTENT')) {
+            // @codingStandardsIgnoreLine
             $post->post_content = vcview('editor/pageEditable/pageEditable.php');
             wp_cache_add($post->ID, $post, 'posts');
         } else {
