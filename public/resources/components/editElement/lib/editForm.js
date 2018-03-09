@@ -27,6 +27,7 @@ export default class EditForm extends React.Component {
     this.editTitle = this.editTitle.bind(this)
     this.preventNewLine = this.preventNewLine.bind(this)
     this.updateElementOnChange = this.updateElementOnChange.bind(this)
+    this.goBack = this.goBack.bind(this)
   }
 
   componentDidMount () {
@@ -103,15 +104,10 @@ export default class EditForm extends React.Component {
   }
 
   goBack () {
-    const { descendantElement, descendantElementOptions } = this.props.options
-    let element = cook.get(descendantElement)
-    workspaceStorage.trigger('edit', element.get('id'), element.get('tag'))
-    workspaceStorage.state('settings').set({
-      action: 'edit',
-      element: descendantElement,
-      tag: element.get('tag'),
-      options: descendantElementOptions
-    })
+    let { parentElement, parentElementOptions } = this.props.options
+    let element = cook.get(parentElement)
+    parentElementOptions.element = parentElement
+    workspaceStorage.trigger('edit', element.get('id'), element.get('tag'), parentElementOptions)
   }
 
   render () {
@@ -127,10 +123,10 @@ export default class EditForm extends React.Component {
       'active': this.state.editable
     })
 
-    const backButton = options && options.descendant ? (<i className='vcv-ui-icon vcv-ui-icon-arrow-left'
-      onClick={this.goBack.bind(this)} />) : null
+    const backButton = options && options.child ? (<i className='vcv-ui-icon vcv-ui-icon-arrow-left'
+      onClick={this.goBack} />) : null
 
-    if (options && options.descendant && options.activeParamGroup) {
+    if (options && options.child && options.activeParamGroup) {
       content = options.activeParamGroup.title
     }
 

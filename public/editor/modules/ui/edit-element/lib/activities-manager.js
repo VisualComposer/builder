@@ -87,7 +87,6 @@ export default class ActivitiesManager extends React.Component {
   }
 
   onElementChange = (key, value) => {
-    debugger
     this.props.element.set(key, value)
     const { element, api } = this.props
     const elementData = element.toJS()

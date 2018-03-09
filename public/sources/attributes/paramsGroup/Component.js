@@ -32,10 +32,10 @@ export default class ParamsGroupAttribute extends Attribute {
     this.getSortableHandle = this.getSortableHandle.bind(this)
     this.getSortableList = this.getSortableList.bind(this)
     this.getSortableItems = this.getSortableItems.bind(this)
-    this.onParamChange = this.onParamChange.bind(this)
   }
 
-  onParamChange (index, paramFieldKey, newValue) {
+  onParamChange (index, element, paramFieldKey, newValue) {
+    element.set(paramFieldKey, newValue)
     let value = this.state.value
     value[ index ][ paramFieldKey ] = newValue
     let { updater, fieldKey, fieldType } = this.props
@@ -45,15 +45,6 @@ export default class ParamsGroupAttribute extends Attribute {
   clickEdit (index) {
     let groupName = this.state.groups[ index ]
     // const element = this.props.element.toJS()
-    const options = {
-      descendant: true,
-      descendantElement: this.props.element,
-      descendantElementOptions: this.props.options,
-      // attributes: this.props.options.settings,
-      activeParamGroup: groupName,
-      // paramFieldKey: this.props.fieldKey
-      customUpdater: this.onParamChange.bind(this, index)
-    }
     let tag = `${this.props.element.get('tag')}-${this.props.element.get('id')}-${this.props.fieldKey}`
     hubElementsService.add({ settings: {}, tag: tag })
     let settings = this.props.options.settings
@@ -63,25 +54,19 @@ export default class ParamsGroupAttribute extends Attribute {
     let value = this.state.value[ index ]
     value.tag = tag
     value.name = 'test'
-    debugger
     let element = cook.get(value).toJS()
-    debugger
-    console.log('clickEdit', options)
-    // workspaceStorage.trigger('edit', element.id, element.tag, options)
 
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        storage.state('contentStart').set(false)
-      }
+    let options = {
+      child: true,
+      parentElement: this.props.element,
+      parentElementOptions: this.props.elementOptions,
+      element: element, // Current
+      // attributes: this.props.options.settings,
+      activeParamGroup: groupName,
+      // paramFieldKey: this.props.fieldKey
+      customUpdater: this.onParamChange.bind(this, index)
     }
-    debugger
-    workspaceStorage.state('settings').set({
-      action: 'edit',
-      element: element,
-      tag: tag,
-      options: options
-    })
+    workspaceStorage.trigger('edit', element.id, element.tag, options)
   }
 
   clickAdd () {

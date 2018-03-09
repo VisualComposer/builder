@@ -1,5 +1,5 @@
 import MobileDetect from 'mobile-detect'
-import {addStorage, getService, getStorage, env} from 'vc-cake'
+import { addStorage, getService, getStorage, env } from 'vc-cake'
 
 const createKey = getService('utils').createKey
 
@@ -45,9 +45,13 @@ addStorage('workspace', (storage) => {
     if (!id) {
       return
     }
-    const element = documentManager.get(id)
+    let element = documentManager.get(id)
     if (!element) {
-      return
+      if (options && options.element) {
+        element = options.element
+      } else {
+        return
+      }
     }
     if (env('MOBILE_DETECT')) {
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
@@ -55,7 +59,7 @@ addStorage('workspace', (storage) => {
         storage.state('contentStart').set(false)
       }
     }
-    debugger
+
     storage.state('settings').set({
       action: 'edit',
       element: element,
@@ -87,7 +91,7 @@ addStorage('workspace', (storage) => {
   const markLastChild = (data) => {
     if (data.children.length) {
       let lastChildIndex = data.children.length - 1
-      data.children[lastChildIndex] = markLastChild(data.children[lastChildIndex])
+      data.children[ lastChildIndex ] = markLastChild(data.children[ lastChildIndex ])
     } else {
       data.lastItem = true
     }

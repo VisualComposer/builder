@@ -65,11 +65,14 @@ export default class EditElementPanel extends ActivitiesManager {
 
   render () {
     const { element, activeTabId, options } = this.props
-    debugger
+
     let updater = this.onElementChange
     if (options && typeof options.customUpdater !== 'undefined') {
-      updater = options.customUpdater
+      updater = (key, value) => {
+        options.customUpdater(this.props.element, key, value)
+      }
     }
+
     return (
       <FormWrapper
         activeTabId={activeTabId}

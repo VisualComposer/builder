@@ -105,6 +105,7 @@ export default class Field extends React.Component {
         <AttributeComponent
           key={'attribute-' + fieldKey + element.get('id')}
           options={options}
+          elementOptions={this.props.options}
           value={rawValue}
           defaultValue={defaultValue}
           fieldKey={fieldKey}

@@ -199,7 +199,6 @@ import { log as logError } from './logger'
           try {
             let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
             let messageJson = JSON.parse(responseJson && responseJson.message ? responseJson.message : '""')
-            console.log(messageJson)
             if (window.vcvActivationType !== 'premium') {
               showError($errorPopup, messageJson || activationFailedText, 15000)
               showFirstScreen($popup)
