@@ -1,11 +1,13 @@
 import React from 'react'
 import FormWrapper from './lib/FormWrapper'
 import ActivitiesManager from './lib/activitiesManager'
-import {getStorage, getService} from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import PropTypes from 'prop-types'
+
 const elementsStorage = getStorage('elements')
 const cook = getService('cook')
 import lodash from 'lodash'
+
 export default class EditElementPanel extends ActivitiesManager {
   static propTypes = {
     element: PropTypes.object.isRequired,
@@ -63,6 +65,11 @@ export default class EditElementPanel extends ActivitiesManager {
 
   render () {
     const { element, activeTabId, options } = this.props
+    debugger
+    let updater = this.onElementChange
+    if (options && typeof options.customUpdater !== 'undefined') {
+      updater = options.customUpdater
+    }
     return (
       <FormWrapper
         activeTabId={activeTabId}
@@ -70,7 +77,7 @@ export default class EditElementPanel extends ActivitiesManager {
         setFieldMount={this.setFieldMount}
         setFieldUnmount={this.setFieldUnmount}
         callFieldActivities={this.callFieldActivities}
-        onElementChange={this.onElementChange}
+        onElementChange={updater}
         ref='formWrapper'
         options={options}
       />

@@ -103,9 +103,15 @@ export default class EditForm extends React.Component {
   }
 
   goBack () {
-    const { element } = this.props
-    const el = element.toJS()
-    workspaceStorage.trigger('edit', el.id, el.tag)
+    const { descendantElement, descendantElementOptions } = this.props.options
+    let element = cook.get(descendantElement)
+    workspaceStorage.trigger('edit', element.get('id'), element.get('tag'))
+    workspaceStorage.state('settings').set({
+      action: 'edit',
+      element: descendantElement,
+      tag: element.get('tag'),
+      options: descendantElementOptions
+    })
   }
 
   render () {

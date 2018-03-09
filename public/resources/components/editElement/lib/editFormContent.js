@@ -3,7 +3,6 @@ import EditFormFieldsForm from './editFormFieldsForm'
 import Scrollbar from '../../../scrollbar/scrollbar.js'
 
 export default class EditFormContent extends React.Component {
-
   scrollbar = null
 
   constructor (props) {

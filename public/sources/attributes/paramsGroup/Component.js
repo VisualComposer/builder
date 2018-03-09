@@ -1,10 +1,12 @@
 import React from 'react'
 import Attribute from '../attribute'
-import { getStorage } from 'vc-cake'
+import { env, getStorage, getService } from 'vc-cake'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
+import MobileDetect from 'mobile-detect/mobile-detect'
 
 const workspaceStorage = getStorage('workspace')
-
+const cook = getService('cook')
+const hubElementsService = getService('hubElements')
 const setAttributeValue = (groups, parameters) => {
   let result = []
 
@@ -21,9 +23,7 @@ const setAttributeValue = (groups, parameters) => {
 export default class ParamsGroupAttribute extends Attribute {
   constructor (props) {
     super(props)
-    this.state = {
-      groups: setAttributeValue(this.props.options.groups, this.props.options.parameters)
-    }
+    this.state.groups = setAttributeValue(this.props.options.groups, this.props.options.settings)
     this.clickAdd = this.clickAdd.bind(this)
     this.clickClone = this.clickClone.bind(this)
     this.clickDelete = this.clickDelete.bind(this)
@@ -32,18 +32,56 @@ export default class ParamsGroupAttribute extends Attribute {
     this.getSortableHandle = this.getSortableHandle.bind(this)
     this.getSortableList = this.getSortableList.bind(this)
     this.getSortableItems = this.getSortableItems.bind(this)
+    this.onParamChange = this.onParamChange.bind(this)
   }
 
-  clickEdit (index, groupName) {
-    const element = this.props.element.toJS()
+  onParamChange (index, paramFieldKey, newValue) {
+    let value = this.state.value
+    value[ index ][ paramFieldKey ] = newValue
+    let { updater, fieldKey, fieldType } = this.props
+    updater(fieldKey, value, null, fieldType)
+  }
+
+  clickEdit (index) {
+    let groupName = this.state.groups[ index ]
+    // const element = this.props.element.toJS()
     const options = {
       descendant: true,
-      attributes: this.props.options.parameters,
+      descendantElement: this.props.element,
+      descendantElementOptions: this.props.options,
+      // attributes: this.props.options.settings,
       activeParamGroup: groupName,
-      paramFieldKey: this.props.fieldKey
+      // paramFieldKey: this.props.fieldKey
+      customUpdater: this.onParamChange.bind(this, index)
     }
-    console.log(options)
-    workspaceStorage.trigger('edit', element.id, element.tag, options)
+    let tag = `${this.props.element.get('tag')}-${this.props.element.get('id')}-${this.props.fieldKey}`
+    hubElementsService.add({ settings: {}, tag: tag })
+    let settings = this.props.options.settings
+    settings.name = { type: 'string', value: 'test', 'access': 'public' }
+    settings.tag = { type: 'string', value: tag, 'access': 'public' }
+    cook.add(settings)
+    let value = this.state.value[ index ]
+    value.tag = tag
+    value.name = 'test'
+    debugger
+    let element = cook.get(value).toJS()
+    debugger
+    console.log('clickEdit', options)
+    // workspaceStorage.trigger('edit', element.id, element.tag, options)
+
+    if (env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        storage.state('contentStart').set(false)
+      }
+    }
+    debugger
+    workspaceStorage.state('settings').set({
+      action: 'edit',
+      element: element,
+      tag: tag,
+      options: options
+    })
   }
 
   clickAdd () {
@@ -166,7 +204,7 @@ export default class ParamsGroupAttribute extends Attribute {
             <i className='vcv-ui-icon vcv-ui-icon-trash' />
           </span>
         </span>
-        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={() => { this.clickEdit(index, this.state.groups[index]) }} >
+        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={() => { this.clickEdit(index) }}>
           <i className='vcv-ui-icon vcv-ui-icon-arrow-right' />
         </span>
       </div>

@@ -80,7 +80,9 @@ export default class EditFormSection extends React.Component {
    * @return Array
    */
   getSectionFormFields (tabParams) {
+    debugger
     return tabParams.map((param) => {
+      debugger
       const fieldType = param.data && param.data.type ? param.data.type.name : ''
       const fieldOptions = vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR') ? this.checkContainerDependency(param) : null
       if (fieldOptions && fieldOptions.hide) {

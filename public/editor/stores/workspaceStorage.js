@@ -55,6 +55,7 @@ addStorage('workspace', (storage) => {
         storage.state('contentStart').set(false)
       }
     }
+    debugger
     storage.state('settings').set({
       action: 'edit',
       element: element,

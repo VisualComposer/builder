@@ -92,11 +92,13 @@ export default class ActivitiesManager extends React.Component {
   onElementChange = (key, value, innerKey, type) => {
     this.props.element.set(key, value)
     let element = documentManger.get(this.props.element.get('id'))
-    let changedAttribute = innerKey || key
-    element = cook.get(element)
-    element.set(key, value)
-    const elementData = element.toJS()
-    elementsStorage.trigger('update', elementData.id, elementData, 'editForm', { changedAttribute: changedAttribute, changedAttributeType: type })
+    if (element) {
+      let changedAttribute = innerKey || key
+      element = cook.get(element)
+      element.set(key, value)
+      const elementData = element.toJS()
+      elementsStorage.trigger('update', elementData.id, elementData, 'editForm', { changedAttribute: changedAttribute, changedAttributeType: type })
+    }
     this.callFieldActivities(null, key)
   }
 

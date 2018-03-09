@@ -12,24 +12,28 @@ export default class FormWrapper extends React.Component {
     activeTabIndex: 0
   }
   allTabs = []
+
   componentWillMount () {
     this.allTabs = this.updateTabs(this.props)
     this.setState({
       activeTabIndex: this.getActiveTabIndex(this.props.activeTabId)
     })
   }
+
   getActiveTabIndex (activeTabKey) {
     let activeTab = this.allTabs.findIndex((tab) => {
       return tab.fieldKey === activeTabKey
     })
     return activeTab > -1 ? activeTab : 0
   }
+
   componentWillReceiveProps (nextProps) {
     this.allTabs = this.updateTabs(nextProps)
     this.setState({
       activeTabIndex: this.getActiveTabIndex(nextProps.activeTabId)
     })
   }
+
   updateTabs (props) {
     let tabs = FormWrapper.editFormTabs(props).map((tab, index) => {
       return {
@@ -48,26 +52,6 @@ export default class FormWrapper extends React.Component {
         }
       }
     }, FormWrapper)
-
-    if (props.options.descendant) {
-      tabs = FormWrapper.paramsGroupTabs(props).map((tab, index) => {
-        return {
-          fieldKey: tab.key,
-          index: index,
-          data: tab.data,
-          isVisible: true,
-          pinned: tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
-          params: FormWrapper.paramsGroupTabParams(props, tab.key),
-          key: `edit-form-tab-${props.element.data.id}-${index}-${tab.key}`,
-          changeTab: this.onChangeActiveTab.bind(this, index),
-          ref: (ref) => {
-            if (this.allTabs[ index ]) {
-              this.allTabs[ index ].realRef = ref
-            }
-          }
-        }
-      }, FormWrapper)
-    }
 
     return tabs
   }
