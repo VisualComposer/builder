@@ -47,7 +47,7 @@ export default class TemplateLayout extends React.Component {
   }
 
   updateTemplate (selectedTemplate) {
-    let layoutData = env('TF_SETTINGS_THEME_ICONS') ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
+    let layoutData = env('TF_SETTINGS_THEME_ICONS') && selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
     let data = {
       type: layoutData[ 0 ],
       value: layoutData[ 1 ]
