@@ -1,28 +1,16 @@
 import React from 'react'
 import Attribute from '../attribute'
+import lodash from 'lodash'
 import { getStorage, getService } from 'vc-cake'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 
 const workspaceStorage = getStorage('workspace')
 const cook = getService('cook')
 const hubElementsService = getService('hubElements')
-const setAttributeValue = (groups, parameters) => {
-  let result = []
-
-  groups.forEach((group, index) => {
-    result.push({
-      title: group,
-      settings: parameters
-    })
-  })
-
-  return result
-}
 
 export default class ParamsGroupAttribute extends Attribute {
   constructor (props) {
     super(props)
-    this.state.groups = setAttributeValue(this.props.options.groups, this.props.options.settings)
     this.clickAdd = this.clickAdd.bind(this)
     this.clickClone = this.clickClone.bind(this)
     this.clickDelete = this.clickDelete.bind(this)
@@ -36,21 +24,42 @@ export default class ParamsGroupAttribute extends Attribute {
   onParamChange (index, element, paramFieldKey, newValue) {
     element.set(paramFieldKey, newValue)
     let value = this.state.value
-    value[ index ][ paramFieldKey ] = newValue
+    value.value[ index ][ paramFieldKey ] = newValue
     let { updater, fieldKey, fieldType } = this.props
     updater(fieldKey, value, null, fieldType)
   }
 
+  updateState (props) {
+    if (props.value.groups && props.value.value) {
+      return { value: props.value }
+    } else {
+      let value = {}
+      value.value = props.value
+      value.groups = props.options.groups.map((group) => {
+        return {
+          title: group,
+          settings: props.options.settings
+        }
+      })
+      return { value: value }
+    }
+  }
+
+  setFieldValue (value) {
+    let { updater, fieldKey, fieldType } = this.props
+    updater(fieldKey, value, null, fieldType)
+    this.setState({ value: value })
+  }
+
   clickEdit (index) {
-    let groupName = this.state.groups[ index ]
-    // const element = this.props.element.toJS()
+    let groupName = this.state.value.groups[ index ]
     let tag = `${this.props.element.get('tag')}-${this.props.element.get('id')}-${this.props.fieldKey}`
     hubElementsService.add({ settings: {}, tag: tag })
     let settings = this.props.options.settings
     settings.name = { type: 'string', value: 'test', 'access': 'public' }
     settings.tag = { type: 'string', value: tag, 'access': 'public' }
     cook.add(settings)
-    let value = this.state.value[ index ]
+    let value = this.state.value.value[ index ]
     value.tag = tag
     value.name = 'test'
     let element = cook.get(value).toJS()
@@ -60,39 +69,51 @@ export default class ParamsGroupAttribute extends Attribute {
       parentElement: this.props.element,
       parentElementOptions: this.props.elementOptions,
       element: element, // Current
-      // attributes: this.props.options.settings,
       activeParamGroup: groupName,
-      // paramFieldKey: this.props.fieldKey
       customUpdater: this.onParamChange.bind(this, index)
     }
     workspaceStorage.trigger('edit', element.id, element.tag, options)
   }
 
   clickAdd () {
-    let result = this.state.groups
-    result.push({
+    let { groups, value } = this.state.value
+    let { settings } = this.props.options
+    let newValue = {}
+    groups.push({
       title: 'Group title',
-      settings: this.props.options.parameters
+      settings: settings
     })
-    this.setState({
-      groups: result
+    Object.keys(settings).forEach((setting) => {
+      newValue[ setting ] = settings[ setting ].value
     })
+    value.push(lodash.defaultsDeep({}, newValue))
+    let newState = {
+      groups: groups,
+      value: value
+    }
+    this.setFieldValue(newState)
   }
 
   clickClone (index) {
-    let result = this.state.groups
-    result.push(this.state.groups[ index ])
-    this.setState({
-      groups: result
-    })
+    let { groups, value } = this.state.value
+    groups.push(lodash.defaultsDeep({}, groups[ index ]))
+    value.push(lodash.defaultsDeep({}, value[ index ]))
+    let newState = {
+      groups: groups,
+      value: value
+    }
+    this.setFieldValue(newState)
   }
 
   clickDelete (index) {
-    let result = this.state.groups
-    result.splice(index, 1)
-    this.setState({
-      groups: result
-    })
+    let { groups, value } = this.state.value
+    groups.splice(index, 1)
+    value.splice(index, 1)
+    let newState = {
+      groups: groups,
+      value: value
+    }
+    this.setFieldValue(newState)
   }
 
   getSortableItems () {
@@ -120,18 +141,14 @@ export default class ParamsGroupAttribute extends Attribute {
       )
     })
 
-    let result = []
-
-    this.state.groups.forEach((group, index) => {
-      result.push(
+    return this.state.value.groups.map((group, index) => {
+      return (
         <SortableItem key={`sortable-item-paramgroup-${index}`}
           index={index}
           value={group}
           groupIndex={index} />
       )
     })
-
-    return result
   }
 
   getSortableList () {
@@ -144,9 +161,10 @@ export default class ParamsGroupAttribute extends Attribute {
     })
 
     const onSortEnd = ({ oldIndex, newIndex }) => {
-      this.setState({
-        groups: arrayMove(this.state.groups, oldIndex, newIndex)
-      })
+      let newState = this.state.value
+      newState.groups = arrayMove(this.state.value.groups, oldIndex, newIndex)
+      newState.value = arrayMove(this.state.value.value, oldIndex, newIndex)
+      this.setFieldValue(newState)
     }
 
     let useDragHandle = true
@@ -156,7 +174,7 @@ export default class ParamsGroupAttribute extends Attribute {
         useDragHandle={useDragHandle}
         helperClass={'vcv-ui-form-params-group-item--dragging'}
         onSortEnd={onSortEnd}
-        items={this.state.groups} />
+        items={this.state.value.groups} />
     )
   }
 
@@ -200,7 +218,7 @@ export default class ParamsGroupAttribute extends Attribute {
     const addText = localizations ? localizations.add : 'Add'
     return (
       <React.Fragment>
-        {this.state.groups.length ? null : (
+        {this.state.value.groups && this.state.value.groups.length ? null : (
           <div className='vcv-ui-form-group-heading'>{this.props.options.title}</div>
         )}
         <div className='vcv-ui-form-params-group'>
