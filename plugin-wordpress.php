@@ -1,17 +1,13 @@
 <?php
 /**
  * Plugin Name: Visual Composer Website Builder
- * Plugin URI: https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=plugin-link
- * Description: Create your WordPress website with the fast and easy-to-use drag-and-drop builder for experts and beginners.
- * Version: dev
- * Author: The Visual Composer Team
- * Author URI: https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=author-link
- * Copyright: (c) 2017 TechMill Ltd.
- * License: GNU General Public License v2.0
- * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * Requires at least: 4.5
- * Tested up to: 4.8.3
- * Text Domain: vcwb
+ * Plugin URI:
+ * https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=plugin-link
+ * Description: Create your WordPress website with the fast and easy-to-use drag-and-drop builder for experts and
+ * beginners. Version: dev Author: The Visual Composer Team Author URI:
+ * https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=author-link
+ * Copyright: (c) 2017 TechMill Ltd. License: GNU General Public License v2.0 License URI:
+ * http://www.gnu.org/licenses/gpl-2.0.html Requires at least: 4.5 Tested up to: 4.8.3 Text Domain: vcwb
  */
 
 /**
@@ -36,7 +32,9 @@ if (defined('WP_INSTALLING') && WP_INSTALLING) {
  * Check for plugin conflict.
  */
 if (defined('VCV_VERSION')) {
-    wp_die('It seems that another version of Visual Composer Website Builder is active. Please deactivate it before use this version.');
+    wp_die(
+        'It seems that another version of Visual Composer Website Builder is active. Please deactivate it before use this version.'
+    );
 }
 
 /**
@@ -65,8 +63,6 @@ define('VCV_PLUGIN_FULL_PATH', __FILE__);
  */
 define('VCV_PLUGIN_DIRNAME', basename(dirname(VCV_PLUGIN_BASE_NAME)));
 define('VCV_PLUGIN_ASSETS_DIRNAME', VCV_PLUGIN_DIRNAME . '-assets');
-$uploadDir = wp_upload_dir();
-define('VCV_PLUGIN_ASSETS_DIR_PATH', $uploadDir['basedir'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
 /**
  * Plugin core prefix for options/meta and etc.
  */
@@ -95,20 +91,28 @@ if (!defined('VCV_LAZY_LOAD')) {
  * Check WordPress version.
  * PHP 5.1 parse-able (no parse error).
  */
-require_once __DIR__ . '/visualcomposer/Requirements.php';
+$dir = dirname(__FILE__);
+require_once $dir . '/visualcomposer/Requirements.php';
 
 if (!defined('DOING_AJAX') || !DOING_AJAX) {
     $requirements = new VcvCoreRequirements();
     $requirements->coreChecks();
 }
 
-if (file_exists(__DIR__ . '/env-dev.php')) {
-    require_once __DIR__ . '/env-dev.php';
+if (file_exists($dir . '/env-dev.php')) {
+    require_once $dir . '/env-dev.php';
 } else {
-    require_once __DIR__ . '/env.php';
+    require_once $dir . '/env.php';
 }
 
+if (VCV_TF_ASSETS_IN_UPLOADS) {
+    $uploadDir = wp_upload_dir();
+
+    define('VCV_PLUGIN_ASSETS_DIR_PATH', $uploadDir['basedir'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
+} else {
+    define('VCV_PLUGIN_ASSETS_DIR_PATH', WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
+}
 // !! PHP 5.4 Required under this line (parse error otherwise).
 
 // Bootstrap the system.
-require __DIR__ . '/bootstrap/autoload.php';
+require $dir . '/bootstrap/autoload.php';

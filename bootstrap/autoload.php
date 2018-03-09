@@ -14,8 +14,9 @@ if (!defined('ABSPATH')) {
  * loading of any our classes "manually".
  *
  **/
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
+$dir = dirname(__FILE__);
+require_once $dir . '/../vendor/autoload.php';
+require_once $dir . '/../visualcomposer/Framework/helpers.php';
 
 if (VCV_LAZY_LOAD) {
     add_action('vcv:bootstrap:lazyload', 'vcvboot');

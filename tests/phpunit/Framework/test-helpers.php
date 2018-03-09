@@ -37,7 +37,7 @@ class FrameworkHelpersTest extends WP_UnitTestCase
     public function testVcView()
     {
         $callback = function () {
-            $path = rtrim(__DIR__, '/\\') . '/template-for-test.php';
+            $path = rtrim(dirname(__FILE__), '/\\') . '/template-for-test.php';
             $realpath = realpath($path);
 
             return $realpath;

@@ -5,13 +5,14 @@ if (empty($minCoverage)) {
 }
 define('CI_MIN_COVERAGE', $minCoverage);
 $exit = 0;
-$filePath = __DIR__ . '/../test-coverage.xml';
+$dir = dirname(__FILE__);
+$filePath = $dir . '/../test-coverage.xml';
 if (file_exists($filePath)) {
     $xml = simplexml_load_file($filePath);
     $projects = [];
     $packages = [];
     $files = [];
-    $microPath = realpath(__DIR__ . '/../');
+    $microPath = realpath($dir . '/../');
     echo PHP_EOL;
     foreach ($xml->project as $project) {
         /** @var $projects SimpleXMLElement */
