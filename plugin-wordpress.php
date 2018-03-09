@@ -92,12 +92,7 @@ if (!defined('VCV_LAZY_LOAD')) {
  * PHP 5.1 parse-able (no parse error).
  */
 $dir = dirname(__FILE__);
-require_once $dir . '/visualcomposer/Requirements.php';
 
-if (!defined('DOING_AJAX') || !DOING_AJAX) {
-    $requirements = new VcvCoreRequirements();
-    $requirements->coreChecks();
-}
 
 if (file_exists($dir . '/env-dev.php')) {
     require_once $dir . '/env-dev.php';
@@ -111,6 +106,13 @@ if (VCV_TF_ASSETS_IN_UPLOADS) {
     define('VCV_PLUGIN_ASSETS_DIR_PATH', $uploadDir['basedir'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
 } else {
     define('VCV_PLUGIN_ASSETS_DIR_PATH', WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
+}
+
+require_once $dir . '/visualcomposer/Requirements.php';
+
+if (!defined('DOING_AJAX') || !DOING_AJAX) {
+    $requirements = new VcvCoreRequirements();
+    $requirements->coreChecks();
 }
 // !! PHP 5.4 Required under this line (parse error otherwise).
 
