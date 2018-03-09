@@ -141,7 +141,7 @@ export default class TemplateLayout extends React.Component {
     let iconProps = {
       classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
     }
-    if (this.state.current.type === 'theme' && this.state.current.value === 'default') {
+    if (this.state.current.type === 'theme') {
       classes += ' vcv-ui-start-layout-list-item-active'
     }
     icons.push(
