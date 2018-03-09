@@ -160,10 +160,10 @@ $(() => {
     if (!isIframeLoaded) {
       // Get a handle to the iframe element
       let iframe = $iframe.get(0)
-      let iframeDoc = iframe.contentDocument || iframe.contentWindow.document
+      let iframeDoc = iframe.contentDocument && iframe.contentWindow.document
       // Check if loading is complete
-      const isContentLoaded = $iframe.get(0).contentWindow.document.body &&
-        $iframe.get(0).contentWindow.document.body.querySelector('#vcv-editor')
+      const isContentLoaded = iframeDoc ? iframeDoc.body &&
+        iframeDoc.body.querySelector('#vcv-editor') : false
 
       if (iframeDoc && iframeDoc.readyState === 'complete' && isContentLoaded) {
         iframeLoadEvent()
