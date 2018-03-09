@@ -70,6 +70,7 @@ export default class EditElementPanel extends ActivitiesManager {
     if (options && typeof options.customUpdater !== 'undefined') {
       updater = (key, value) => {
         options.customUpdater(this.props.element, key, value)
+        this.callFieldActivities(null, key)
       }
     }
 
