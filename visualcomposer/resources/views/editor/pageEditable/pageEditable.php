@@ -5,19 +5,21 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
-<script>
-  jQuery.fn.ready = function (param) {
-    try {
-      window.setTimeout(function () {
-        param.call(this, jQuery)
-      }, 300)
-    } catch (e) {
-        <?php if (VCV_DEBUG) : ?>
-      console.warn('jquery ready failed', e, param)
-        <?php endif; ?>
-    }
+<?php if (!vcvenv('VCV_TF_EDITOR_IN_CONTENT')) : ?>
+	<script>
+      jQuery.fn.ready = function (param) {
+        try {
+          window.setTimeout(function () {
+            param.call(this, jQuery)
+          }, 300)
+        } catch (e) {
+            <?php if (VCV_DEBUG) : ?>
+          console.warn('jquery ready failed', e, param)
+            <?php endif; ?>
+        }
 
-    return this
-  }
-</script>
+        return this
+      }
+	</script>
+<?php endif; ?>
 <div id="vcv-editor"><?php echo esc_html__('Loading...', 'vcwb'); ?></div>

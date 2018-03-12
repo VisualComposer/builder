@@ -22,6 +22,8 @@ class Controller extends Container implements Module
 {
     use WpFiltersActions;
 
+    var $jQueryDefined = false;
+
     /**
      * Controller constructor.
      */
@@ -33,6 +35,12 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::inject404Page */
         $this->wpAddAction('pre_get_posts', 'inject404Page');
         $this->wpAddFilter('pre_handle_404', 'check404');
+
+        if (vcvenv('VCV_TF_EDITOR_IN_CONTENT')) {
+            /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::jQueryReady */
+            $this->wpAddAction('wp_enqueue_scripts', 'jQueryReady');
+        }
+
     }
 
     protected function check404($response, Frontend $frontendHelper)
@@ -162,6 +170,30 @@ class Controller extends Container implements Module
             //                },
             //                9999
             //            );
+        }
+    }
+
+    protected function jQueryReady()
+    {
+        if (!$this->jQueryDefined) {
+            $warn = VCV_DEBUG ? 'console.warn(\'jquery ready failed\', e, param)' : '';
+
+            $script = 'jQuery.fn.ready = function (param) {
+                try {
+                  window.setTimeout(function () {
+                    param.call(this, jQuery)
+                  }, 300)
+                } catch (e) {
+                   ' . $warn . '
+                }
+            
+                return this
+               }
+              ';
+
+            wp_add_inline_script('vcv:assets:front:script', $script);
+
+            $this->jQueryDefined = true;
         }
     }
 }
