@@ -33,7 +33,7 @@ class PostType extends Container implements Module
                 'label' => 'VCWB Templates',
                 'public' => false,
                 'publicly_queryable' => false,
-                'exclude_from_search' => false,
+                'exclude_from_search' => true,
                 'show_ui' => false,
                 'show_in_menu' => false,
                 'menu_position' => 10,
