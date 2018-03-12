@@ -37,9 +37,10 @@ class Controller extends Container implements Module
         $this->wpAddFilter('pre_handle_404', 'check404');
 
         if (vcvenv('VCV_TF_EDITOR_IN_CONTENT')) {
-            /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::jQueryReady */
-            $this->wpAddAction('wp_enqueue_scripts', 'jQueryReady');
+            /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::pejQueryReady */
+            $this->wpAddAction('wp_enqueue_scripts', 'pejQueryReady');
         }
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets');
     }
 
     protected function check404($response, Frontend $frontendHelper)
@@ -106,7 +107,7 @@ class Controller extends Container implements Module
         }
     }
 
-    protected function buildPageEditable(Url $urlHelper, Assets $assetsHelper)
+    protected function buildPageEditable()
     {
         global $post;
         if (vcvenv('VCV_TF_EDITOR_IN_CONTENT')) {
@@ -121,21 +122,8 @@ class Controller extends Container implements Module
                 9999 // Do with high weight - when all other actions is done
             );
         }
-        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
-            $bundleJsUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.js');
-            $bundleCssUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.css');
-        } else {
-            $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js');
-            $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css');
-        }
-        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
-            $vendorBundleJsUrl = $assetsHelper->getAssetUrl('/editor/vendor.bundle.js');
-        } else {
-            $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js');
-        }
-        wp_enqueue_script('vcv:assets:vendor:script', $vendorBundleJsUrl, ['jquery'], VCV_VERSION, true);
-        wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl, ['vcv:assets:vendor:script'], VCV_VERSION, true);
-        wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl, [], VCV_VERSION);
+        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::registerAssets */
+        $this->call('registerAssets');
     }
 
     protected function addTheContentFilteringForPost()
@@ -161,20 +149,12 @@ class Controller extends Container implements Module
                 },
                 9999
             );
-            // In case if the_content wasn't triggered
-            //            $this->wpAddFilter(
-            //                'the_excerpt',
-            //                function () {
-            //                    return vcview('editor/pageEditable/pageEditable.php');
-            //                },
-            //                9999
-            //            );
         }
     }
 
-    protected function jQueryReady()
+    protected function pejQueryReady(Frontend $frontendHelper)
     {
-        if (!$this->jQueryDefined) {
+        if (!$this->jQueryDefined && $frontendHelper->isPageEditable()) {
             $warn = VCV_DEBUG ? 'console.warn(\'jquery ready failed\', e, param)' : '';
 
             $script = 'jQuery.fn.ready = function (param) {
@@ -190,9 +170,42 @@ class Controller extends Container implements Module
                }
               ';
 
-            wp_add_inline_script('vcv:assets:front:script', $script);
+            wp_add_inline_script('jquery-core', $script);
 
             $this->jQueryDefined = true;
+        }
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
+     */
+    protected function registerAssets(Url $urlHelper, Assets $assetsHelper)
+    {
+        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
+            $bundleJsUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.js');
+            $bundleCssUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.css');
+        } else {
+            $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js');
+            $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css');
+        }
+        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
+            $vendorBundleJsUrl = $assetsHelper->getAssetUrl('/editor/vendor.bundle.js');
+        } else {
+            $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js');
+        }
+        wp_register_script('vcv:assets:vendor:script', $vendorBundleJsUrl, ['jquery'], VCV_VERSION, true);
+        wp_register_script('vcv:pageEditable:bundle', $bundleJsUrl, ['vcv:assets:vendor:script'], VCV_VERSION, true);
+        wp_register_style('vcv:pageEditable:css', $bundleCssUrl, [], VCV_VERSION);
+    }
+
+    protected function enqueueAssets(Frontend $frontendHelper)
+    {
+        if ($frontendHelper->isPageEditable()) {
+            wp_enqueue_script('jquery');
+            wp_enqueue_script('vcv:assets:vendor:script');
+            wp_enqueue_script('vcv:pageEditable:bundle');
+            wp_enqueue_style('vcv:pageEditable:css');
         }
     }
 }
