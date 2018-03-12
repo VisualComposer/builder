@@ -22,7 +22,7 @@ class Controller extends Container implements Module
 {
     use WpFiltersActions;
 
-    var $jQueryDefined = false;
+    protected $jQueryDefined = false;
 
     /**
      * Controller constructor.
@@ -40,7 +40,6 @@ class Controller extends Container implements Module
             /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::jQueryReady */
             $this->wpAddAction('wp_enqueue_scripts', 'jQueryReady');
         }
-
     }
 
     protected function check404($response, Frontend $frontendHelper)
