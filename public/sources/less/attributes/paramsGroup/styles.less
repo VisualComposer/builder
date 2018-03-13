@@ -44,7 +44,13 @@
   align-items: center;
   margin: 15px 20px;
   height: 46px;
-  border: 1px dashed #D2D0D0;
-  color: #D2D0D0;
+  border: 1px dashed #000;
+  color: #000;
   cursor: pointer;
+  opacity: 0.15;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.3;
+  }
 }
