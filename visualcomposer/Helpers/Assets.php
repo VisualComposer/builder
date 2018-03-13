@@ -104,4 +104,28 @@ class Assets extends Container implements Helper
 
         return $files;
     }
+
+    /**
+     * Get relative path from absolute url
+     *
+     * @param $path
+     *
+     * @return mixed
+     */
+    public function relative($path)
+    {
+        $bundleUrl = $path;
+
+        if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
+            if (preg_match('/' . VCV_PLUGIN_ASSETS_DIRNAME . '/', $path)) {
+                $url = $this->getAssetUrl();
+                $url = str_replace(['http://', 'https://'], '', $url);
+                $path = str_replace(['http://', 'https://'], '', $path);
+                $path = str_replace($url, '', $path);
+                $bundleUrl = $path;
+            }
+        }
+
+        return $bundleUrl;
+    }
 }

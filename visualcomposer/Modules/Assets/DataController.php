@@ -60,7 +60,18 @@ class DataController extends Container implements Module
     protected function updateSourceAssets($sourceId)
     {
         $requestHelper = vchelper('Request');
-        update_post_meta($sourceId, 'vcvSourceAssetsFiles', $requestHelper->inputJson('vcv-source-assets-files'));
+        $assetsHelper = vchelper('Assets');
+        $assetsFiles = $requestHelper->inputJson('vcv-source-assets-files');
+        if (!empty($assetsFiles) && is_array($assetsFiles)) {
+            if (!empty($assetsFiles['jsBundles'])) {
+                $assetsFiles['jsBundles'] = array_map([$assetsHelper, 'relative'], $assetsFiles['jsBundles']);
+            }
+            if (!empty($assetsFiles['cssBundles'])) {
+                $assetsFiles['cssBundles'] = array_map([$assetsHelper, 'relative'], $assetsFiles['cssBundles']);
+
+            }
+        }
+        update_post_meta($sourceId, 'vcvSourceAssetsFiles', $assetsFiles);
         update_post_meta($sourceId, 'vcvSourceCss', $requestHelper->input('vcv-source-css'));
         update_post_meta(
             $sourceId,

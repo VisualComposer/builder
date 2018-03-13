@@ -43,12 +43,12 @@ class EnqueueController extends Container implements Module
         Assets $assetsHelper
     ) {
         $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
-        $bundleUrl = $assetsHelper->getAssetUrl('/assets-bundles/' . $bundleUrl);
         if ($bundleUrl && !$frontendHelper->isPageEditable()) {
             $version = $optionsHelper->get('globalElementsCssHash', VCV_VERSION);
+
             wp_enqueue_style(
                 'vcv:assets:global:styles:' . $strHelper->slugify($bundleUrl),
-                $bundleUrl,
+                $assetsHelper->getAssetUrl('/assets-bundles/' . $bundleUrl),
                 [],
                 VCV_VERSION . '.' . $version
             );
@@ -58,8 +58,9 @@ class EnqueueController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Str $strHelper
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
      */
-    protected function enqueueSourceAssets(Str $strHelper, Frontend $frontendHelper)
+    protected function enqueueSourceAssets(Str $strHelper, Frontend $frontendHelper, Assets $assetsHelper)
     {
         $sourceId = get_the_ID();
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
@@ -68,7 +69,7 @@ class EnqueueController extends Container implements Module
 
             wp_enqueue_style(
                 'vcv:assets:source:main:styles:' . $strHelper->slugify($bundleUrl),
-                $bundleUrl,
+                $assetsHelper->getAssetUrl($bundleUrl),
                 [],
                 VCV_VERSION . '.' . $version
             );
@@ -78,8 +79,9 @@ class EnqueueController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Str $strHelper
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
      */
-    protected function enqueueAssets(Str $strHelper, Frontend $frontendHelper)
+    protected function enqueueAssets(Str $strHelper, Frontend $frontendHelper, Assets $assetsHelper)
     {
         if ($frontendHelper->isPageEditable()) {
             return;
@@ -93,7 +95,12 @@ class EnqueueController extends Container implements Module
 
         if (isset($assetsFiles['cssBundles']) && is_array($assetsFiles['cssBundles'])) {
             foreach ($assetsFiles['cssBundles'] as $asset) {
-                wp_enqueue_style('vcv:assets:source:styles:' . $strHelper->slugify($asset), $asset, [], VCV_VERSION);
+                wp_enqueue_style(
+                    'vcv:assets:source:styles:' . $strHelper->slugify($asset),
+                    $assetsHelper->getAssetUrl($asset),
+                    [],
+                    VCV_VERSION
+                );
             }
             unset($asset);
         }
@@ -102,7 +109,7 @@ class EnqueueController extends Container implements Module
             foreach ($assetsFiles['jsBundles'] as $asset) {
                 wp_enqueue_script(
                     'vcv:assets:source:scripts:' . $strHelper->slugify($asset),
-                    $asset,
+                    $assetsHelper->getAssetUrl($asset),
                     [],
                     VCV_VERSION,
                     true
