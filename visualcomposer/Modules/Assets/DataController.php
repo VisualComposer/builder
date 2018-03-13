@@ -68,7 +68,6 @@ class DataController extends Container implements Module
             }
             if (!empty($assetsFiles['cssBundles'])) {
                 $assetsFiles['cssBundles'] = array_map([$assetsHelper, 'relative'], $assetsFiles['cssBundles']);
-
             }
         }
         update_post_meta($sourceId, 'vcvSourceAssetsFiles', $assetsFiles);
