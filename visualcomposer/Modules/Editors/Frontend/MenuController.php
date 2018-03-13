@@ -67,7 +67,7 @@ class MenuController extends Container implements Module
                 )
             ) {
                 $content = preg_replace_callback(
-                    '/\<[a] href="(.[^\"]+)" class="page-title-action"\>(.[^\<\/a\>]+)\<\/a\>/',
+                    '/\<[a] href="(.[^\"]+)" class="page-title-action"\>(.[^\<\/]+)\<\/a\>/',
                     function ($data) {
                         $urlHelper = vchelper('Url');
                         $newUrl = $urlHelper->query($data[1], ['vcv-action' => 'frontend']);
