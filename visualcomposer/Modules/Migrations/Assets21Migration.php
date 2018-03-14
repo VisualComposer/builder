@@ -28,16 +28,18 @@ class Assets21Migration extends MigrationsController implements Module
     {
         // check if folder doesnt exists in wp-content/uploads/visualcomposer-assets
         // check if folder exists in wp-content/visualcomposer-assets
-        $fileSystem = $fileHelper->getFileSystem();
-        if (!$fileSystem->is_dir(VCV_PLUGIN_ASSETS_DIR_PATH)
-            && $fileSystem->is_dir(
-                WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME
-            )) {
-            $fileHelper->copyDirectory(
-                WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME,
-                VCV_PLUGIN_ASSETS_DIR_PATH,
-                false
-            );
+        if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
+            $fileSystem = $fileHelper->getFileSystem();
+            if (!$fileSystem->is_dir(VCV_PLUGIN_ASSETS_DIR_PATH)
+                && $fileSystem->is_dir(
+                    WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME
+                )) {
+                $fileHelper->copyDirectory(
+                    WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME,
+                    VCV_PLUGIN_ASSETS_DIR_PATH,
+                    false
+                );
+            }
         }
     }
 }
