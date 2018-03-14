@@ -22,9 +22,9 @@ class EnqueueController extends Container implements Module
 
     public function __construct(Frontend $frontendHelper)
     {
+        $actionPriority = 50;
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
         if (!$frontendHelper->isPreview()) {
-            $actionPriority = 50;
-            $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
             $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
             $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
         }
@@ -39,11 +39,10 @@ class EnqueueController extends Container implements Module
     protected function enqueueGlobalAssets(
         Options $optionsHelper,
         Str $strHelper,
-        Frontend $frontendHelper,
         Assets $assetsHelper
     ) {
         $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
-        if ($bundleUrl && !$frontendHelper->isPageEditable()) {
+        if ($bundleUrl) {
             $version = $optionsHelper->get('globalElementsCssHash', VCV_VERSION);
 
             wp_enqueue_style(
