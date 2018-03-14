@@ -95,16 +95,16 @@ class TitleController extends Container implements Module
 
     /**
      * @param $title
-     * @param $payload integer - id of the page/post
+     * @param $postId integer - id of the page/post
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return string
      */
-    protected function titleRemove($title, $payload, Frontend $frontendHelper, Request $requestHelper)
+    protected function titleRemove($title, $postId, Frontend $frontendHelper, Request $requestHelper)
     {
-        if (!is_admin()) {
-            $post = get_post($payload);
+        if (!(is_admin() || !in_the_loop() && is_singular())) {
+            $post = get_post($postId);
             if ($frontendHelper->isPreview()) {
                 $preview = wp_get_post_autosave($post->ID);
                 if (is_object($preview)) {
@@ -114,7 +114,7 @@ class TitleController extends Container implements Module
             if ($post) {
                 $disableMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
                 // Add entry title only for correct Page Editable
-                if ($frontendHelper->isPageEditable() && intval($requestHelper->input('vcv-source-id')) === $payload) {
+                if ($frontendHelper->isPageEditable() && intval($requestHelper->input('vcv-source-id')) === $postId) {
                     $title = '<vcvtitle>' . $title . '</vcvtitle>';
                 } else {
                     if ($disableMeta) {

@@ -30,14 +30,14 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   updateState (props) {
-    if (props.value.groups && props.value.value) {
+    if (props.value.value) {
       return { value: props.value }
     } else {
       let value = {}
       value.value = props.value
-      value.groups = props.options.groups.map((group) => {
+      value.groups = props.value.map((group) => {
         return {
-          title: group,
+          title: group.title,
           settings: props.options.settings
         }
       })
@@ -52,7 +52,7 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   clickEdit (index) {
-    let groupName = this.state.value.groups[ index ]
+    let groupName = this.state.value.value[ index ]
     let tag = `${this.props.element.get('tag')}-${this.props.element.get('id')}-${this.props.fieldKey}`
     hubElementsService.add({ settings: {}, tag: tag })
     let settings = this.props.options.settings
@@ -141,7 +141,7 @@ export default class ParamsGroupAttribute extends Attribute {
       )
     })
 
-    return this.state.value.groups.map((group, index) => {
+    return this.state.value.value.map((group, index) => {
       return (
         <SortableItem key={`sortable-item-paramgroup-${index}`}
           index={index}
@@ -174,7 +174,7 @@ export default class ParamsGroupAttribute extends Attribute {
         useDragHandle={useDragHandle}
         helperClass={'vcv-ui-form-params-group-item--dragging'}
         onSortEnd={onSortEnd}
-        items={this.state.value.groups} />
+        items={this.state.value.value} />
     )
   }
 
