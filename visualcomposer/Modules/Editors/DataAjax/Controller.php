@@ -190,12 +190,37 @@ class Controller extends Container implements Module
         $postTypeHelper = vchelper('PostType');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $requestHelper = vchelper('Request');
+        $assetsHelper = vchelper('Assets');
 
         $data = $requestHelper->input('vcv-data');
         $dataDecoded = $requestHelper->inputJson('vcv-data');
         $content = $requestHelper->input('vcv-content');
 
         // @codingStandardsIgnoreStart
+        // ['vcvPublicUploadUrl'] == 'httpx://domaim/wp-content/uploads/visualcomposer-assets/*
+        // ['vcvUploadUrl'] == 'httpx://domaim/wp-content/uploads/*
+        $assetUrl = $assetsHelper->getAssetUrl();
+        $assetUrl = str_replace(['http://', 'https://'], '', $assetUrl);
+        $content = str_replace(
+            [
+                'https://' . $assetUrl,
+                'http://' . $assetUrl,
+            ],
+            '[vcvAssetsUploadUrl]',
+            $content
+        );
+
+        $uploadDir = wp_upload_dir();
+        $uploadUrl = $uploadDir['baseurl'];
+        $uploadUrl = str_replace(['http://', 'https://'], '', $uploadUrl);
+        $content = str_replace(
+            [
+                'https://' . $uploadUrl,
+                'http://' . $uploadUrl,
+            ],
+            '[vcvUploadUrl]',
+            $content
+        );
         $post->post_content = $content;
         if (isset($dataDecoded['draft']) && $post->post_status !== 'publish') {
             $post->post_status = 'draft';

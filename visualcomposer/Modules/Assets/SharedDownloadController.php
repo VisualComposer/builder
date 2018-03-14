@@ -89,7 +89,11 @@ class SharedDownloadController extends Container implements Module
             $assetPath
         );
 
-        $assetUrl = $hubSharedLibrariesHelper->getLibraryUrl($asset['name']);
+        if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
+            $assetUrl = 'sharedLibraries/' . $asset['name'];
+        } else {
+            $assetUrl = $hubSharedLibrariesHelper->getLibraryUrl($asset['name']);
+        }
         if (!is_wp_error($result)) {
             if (isset($asset['jsBundle'])) {
                 $asset['jsBundle'] = str_replace('[publicPath]', $assetUrl, $asset['jsBundle']);

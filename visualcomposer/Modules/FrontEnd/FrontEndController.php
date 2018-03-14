@@ -35,7 +35,15 @@ class FrontEndController extends Container implements Module
             $content = preg_replace_callback(
                 '/((<!--vcv no format-->)(.*?)(<!--vcv no format-->))/si',
                 function ($matches) {
-                    return '<p>' . $matches[2] . base64_encode(do_shortcode($matches[3])) . $matches[4] . '</p>';
+                    return '<p>' . $matches[2] .
+                        base64_encode(
+                            vcfilter(
+                                'vcv:frontend:content:encode',
+                                do_shortcode($matches[3])
+                            )
+                        ) .
+                        $matches[4]
+                        . '</p>';
                 },
                 $content
             );

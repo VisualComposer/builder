@@ -22,8 +22,20 @@ class AssetsShared extends Container implements Helper
     {
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             $optionsHelper = vchelper('Options');
+            $assets = $optionsHelper->get('assetsLibrary', []);
+            $assetsHelper = vchelper('Assets');
+            foreach ($assets as $key => $value) {
+                if (isset($value['jsBundle'])) {
+                    $value['jsBundle'] = $assetsHelper->getAssetUrl($value['jsBundle']);
+                    $assets[ $key ] = $value;
+                }
+                if (isset($value['cssBundle'])) {
+                    $value['cssBundle'] = $assetsHelper->getAssetUrl($value['cssBundle']);
+                    $assets[ $key ] = $value;
+                }
+            }
 
-            return $optionsHelper->get('assetsLibrary', []);
+            return $assets;
         } else {
             $urlHelper = vchelper('Url');
             if (vcvenv('VCV_TF_ASSETS_LIBRARY_JSON_FILE')) {
@@ -152,8 +164,10 @@ class AssetsShared extends Container implements Helper
                 ],
                 'imageFilter' => [
                     'dependencies' => [],
-                    'cssBundle' => $urlHelper->to('public/sources/assetsLibrary/imageFilter/dist/imageFilter.bundle.css')
-                ]
+                    'cssBundle' => $urlHelper->to(
+                        'public/sources/assetsLibrary/imageFilter/dist/imageFilter.bundle.css'
+                    ),
+                ],
             ];
         }
     }
