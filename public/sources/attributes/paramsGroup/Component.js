@@ -35,12 +35,6 @@ export default class ParamsGroupAttribute extends Attribute {
     } else {
       let value = {}
       value.value = props.value
-      value.groups = props.value.map((group) => {
-        return {
-          title: group.title,
-          settings: props.options.settings
-        }
-      })
       return { value: value }
     }
   }
@@ -76,41 +70,33 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   clickAdd () {
-    let { groups, value } = this.state.value
+    let { value } = this.state.value
     let { settings } = this.props.options
     let newValue = {}
-    groups.push({
-      title: 'Group title',
-      settings: settings
-    })
     Object.keys(settings).forEach((setting) => {
       newValue[ setting ] = settings[ setting ].value
     })
+    newValue.title = 'Group title'
     value.push(lodash.defaultsDeep({}, newValue))
     let newState = {
-      groups: groups,
       value: value
     }
     this.setFieldValue(newState)
   }
 
   clickClone (index) {
-    let { groups, value } = this.state.value
-    groups.push(lodash.defaultsDeep({}, groups[ index ]))
+    let { value } = this.state.value
     value.push(lodash.defaultsDeep({}, value[ index ]))
     let newState = {
-      groups: groups,
       value: value
     }
     this.setFieldValue(newState)
   }
 
   clickDelete (index) {
-    let { groups, value } = this.state.value
-    groups.splice(index, 1)
+    let { value } = this.state.value
     value.splice(index, 1)
     let newState = {
-      groups: groups,
       value: value
     }
     this.setFieldValue(newState)
@@ -162,7 +148,6 @@ export default class ParamsGroupAttribute extends Attribute {
 
     const onSortEnd = ({ oldIndex, newIndex }) => {
       let newState = this.state.value
-      newState.groups = arrayMove(this.state.value.groups, oldIndex, newIndex)
       newState.value = arrayMove(this.state.value.value, oldIndex, newIndex)
       this.setFieldValue(newState)
     }
@@ -218,7 +203,7 @@ export default class ParamsGroupAttribute extends Attribute {
     const addText = localizations ? localizations.add : 'Add'
     return (
       <React.Fragment>
-        {this.state.value.groups && this.state.value.groups.length ? null : (
+        {this.state.value.value && this.state.value.value.length ? null : (
           <div className='vcv-ui-form-group-heading'>{this.props.options.title}</div>
         )}
         <div className='vcv-ui-form-params-group'>
