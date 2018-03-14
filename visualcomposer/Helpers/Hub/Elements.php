@@ -12,7 +12,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Elements implements Helper
 {
-    public function getElements()
+    public function getElements($raw = false)
     {
         $optionHelper = vchelper('Options');
 
@@ -23,19 +23,31 @@ class Elements implements Helper
             $data = array_merge(
                 $data,
                 [
-                    'bundlePath' => $this->getElementUrl($element['bundlePath']),
-                    'elementPath' => $this->getElementUrl($element['elementPath']),
-                    'elementRealPath' => $this->getElementPath($element['elementRealPath']),
-                    'assetsPath' => $this->getElementUrl($element['assetsPath']),
+                    'bundlePath' => $raw ? $element['bundlePath'] : $this->getElementUrl($element['bundlePath']),
+                    'elementPath' => $raw ? $element['elementPath'] : $this->getElementUrl($element['elementPath']),
+                    'elementRealPath' => $raw
+                        ? $element['elementRealPath']
+                        : $this->getElementPath(
+                            $element['elementRealPath']
+                        ),
+                    'assetsPath' => $raw ? $element['assetsPath'] : $this->getElementUrl($element['assetsPath']),
                 ]
             );
 
             $metaData = [];
             if (isset($element['settings']['metaThumbnailUrl'])) {
-                $metaData['metaThumbnailUrl'] = $this->getElementUrl($element['settings']['metaThumbnailUrl']);
+                $metaData['metaThumbnailUrl'] = $raw
+                    ? $element['settings']['metaThumbnailUrl']
+                    : $this->getElementUrl(
+                        $element['settings']['metaThumbnailUrl']
+                    );
             }
             if (isset($element['settings']['metaPreviewUrl'])) {
-                $metaData['metaPreviewUrl'] = $this->getElementUrl($element['settings']['metaPreviewUrl']);
+                $metaData['metaPreviewUrl'] = $raw
+                    ? $element['settings']['metaPreviewUrl']
+                    : $this->getElementUrl(
+                        $element['settings']['metaPreviewUrl']
+                    );
             }
 
             if (!empty($metaData)) {

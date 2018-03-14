@@ -34,7 +34,7 @@ class ElementsUpdater extends Container implements Module
         }
         $hubHelper = vchelper('HubElements');
         /** @var Differ $elementsDiffer */
-        $hubElements = $hubHelper->getElements();
+        $hubElements = $hubHelper->getElements(true);
 
         $elementsDiffer = vchelper('Differ');
         if (!empty($hubElements)) {
