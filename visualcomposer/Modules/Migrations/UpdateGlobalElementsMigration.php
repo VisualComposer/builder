@@ -21,7 +21,7 @@ class UpdateGlobalElementsMigration extends MigrationsController implements Modu
 {
     protected $migrationId = 'updateGlobalElements115Migration';
 
-    protected $migrationPriority = 1;
+    protected $migrationPriority = 3;
 
     /**
      * Add backward compatible for global css data
