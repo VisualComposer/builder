@@ -106,7 +106,6 @@ class BundleController extends Container implements Module
             // Add JS
             $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s";', $frontendHelper->getFrontendUrl());
             wp_add_inline_script('vcv:editors:backendswitcher:script', $scriptBody, 'before');
-
         }
     }
 }
