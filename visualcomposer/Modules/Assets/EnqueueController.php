@@ -33,7 +33,6 @@ class EnqueueController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Str $strHelper
-     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Assets $assetsHelper
      */
     protected function enqueueGlobalAssets(
@@ -44,10 +43,12 @@ class EnqueueController extends Container implements Module
         $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
         if ($bundleUrl) {
             $version = $optionsHelper->get('globalElementsCssHash', VCV_VERSION);
-
+            if (!preg_match('/^http/', $bundleUrl)) {
+                $bundleUrl = '/assets-bundles/' . $bundleUrl;
+            }
             wp_enqueue_style(
                 'vcv:assets:global:styles:' . $strHelper->slugify($bundleUrl),
-                $assetsHelper->getAssetUrl('/assets-bundles/' . $bundleUrl),
+                $assetsHelper->getAssetUrl($bundleUrl),
                 [],
                 VCV_VERSION . '.' . $version
             );
