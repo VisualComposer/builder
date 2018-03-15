@@ -330,8 +330,9 @@ class TemplatesDownloadController extends Container implements Module
                 continue;
             }
             // first level
-            if (is_string($propValue) || $propKey === "image") {
-                if ($propKey === "image" && is_array($propValue) && $wpMediaHelper->checkIsImage($propValue[0])) {
+            if (!isset($propValue['urls']) && (is_string($propValue) || $propKey === "image")) {
+                if (isset($propValue[0]) && $propKey === "image" && is_array($propValue)
+                    && $wpMediaHelper->checkIsImage($propValue[0])) {
                     $propValue = $propValue[0];
                 }
                 if ($wpMediaHelper->checkIsImage($propValue)) {
