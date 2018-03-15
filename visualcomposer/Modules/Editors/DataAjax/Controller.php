@@ -224,7 +224,7 @@ class Controller extends Container implements Module
         $post->post_content = $content;
         if (isset($dataDecoded['draft']) && $post->post_status !== 'publish') {
             $post->post_status = 'draft';
-        } else if (isset($dataDecoded['inherit'])) {
+        } elseif (isset($dataDecoded['inherit'])) {
             $previewPost = $this->createPreviewPost($post, $sourceId);
         } else {
             if ($currentUserAccessHelper->wpAll(

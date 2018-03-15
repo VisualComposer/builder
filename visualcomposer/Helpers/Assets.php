@@ -126,7 +126,7 @@ class Assets extends Container implements Helper
 
                 if (strpos($path, $url) !== false) {
                     $bundleUrl = str_replace($url, '', $path);
-                } else if (strpos($path, $contentUrl) !== false) {
+                } elseif (strpos($path, $contentUrl) !== false) {
                     $bundleUrl = str_replace($contentUrl, '', $path);
                 }
             }
