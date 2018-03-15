@@ -29,15 +29,8 @@ class PostType implements Helper
             $query .= '&suppress_filters=0';
         }
         $posts = get_posts($query);
-        $results = [];
-        foreach ($posts as $post) {
-            // @codingStandardsIgnoreLine
-            if (is_post_type_viewable($post->post_type)) {
-                $results[] = $post;
-            }
-        }
 
-        return $results;
+        return $posts;
     }
 
     /**

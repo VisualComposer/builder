@@ -66,8 +66,8 @@ class FactoryResetController extends Container implements Module
             $url = $urlHelper->adminAjax(
                 ['vcv-action' => 'vcv:settings:factoryReset:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
             );
-            $confirm = __('Proceed with a factory reset?', 'vcwb');
-            $linkTitle = __('initiate factory reset', 'vcwb');
+            $confirm = __('Proceed with a reset?', 'vcwb');
+            $linkTitle = __('initiate reset', 'vcwb');
             $link = sprintf(
                 '<a href="%s" onclick="return confirm(\'%s\')">%s</a>',
                 // @codingStandardsIgnoreLine
@@ -77,7 +77,7 @@ class FactoryResetController extends Container implements Module
             );
 
             $sectionDescription = __(
-                'Overwrite your existing extensions and assets with the latest versions from Visual Composer Cloud service - %s.',
+                'Restore default plugin state to re-download all installed bundles and auto-configure path after migration (don’t worry, the content of the site will not be affected) - %s.',
                 'vcwb'
             );
             // @codingStandardsIgnoreStart
@@ -89,7 +89,7 @@ class FactoryResetController extends Container implements Module
         };
         $this->addSection(
             [
-                'title' => __('Factory Reset', 'vcwb'),
+                'title' => __('Reset', 'vcwb'),
                 'page' => $this->getSlug(),
                 'callback' => $sectionCallback,
             ]

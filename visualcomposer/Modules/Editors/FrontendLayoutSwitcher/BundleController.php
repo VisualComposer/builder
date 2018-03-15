@@ -26,8 +26,8 @@ class BundleController extends Container implements Module
     {
         if (vcvenv('VCV_TF_DISABLE_BE')) {
             $this->wpAddAction('edit_form_top', 'addCurrentEditorField');
-            $this->wpAddAction('add_meta_boxes', 'addBundleStyle');
-            $this->wpAddAction('add_meta_boxes', 'addBundleScript');
+            $this->wpAddAction('admin_enqueue_scripts', 'addBundleStyle');
+            $this->wpAddAction('admin_enqueue_scripts', 'addBundleScript');
 
             /** @see \VisualComposer\Modules\Editors\FrontendLayoutSwitcher\BundleController::disableTinyMceContentRender */
             $this->wpAddAction('edit_form_top', 'disableTinyMceContentRender');
@@ -66,12 +66,12 @@ class BundleController extends Container implements Module
     }
 
     protected function addBundleStyle(
-        $postType,
         Url $urlHelper,
+        Frontend $frontendHelper,
         EditorPostType $editorPostTypeHelper,
         Assets $assetsHelper
     ) {
-        if ($editorPostTypeHelper->isEditorEnabled($postType)) {
+        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()) {
             // Add CSS
             wp_enqueue_style(
                 'vcv:editors:backendswitcher:style',
@@ -87,19 +87,12 @@ class BundleController extends Container implements Module
     }
 
     protected function addBundleScript(
-        $postType,
         Url $urlHelper,
         Frontend $frontendHelper,
         EditorPostType $editorPostTypeHelper,
         Assets $assetsHelper
     ) {
-        if ($editorPostTypeHelper->isEditorEnabled($postType)) {
-            // Add JS
-            $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s";', $frontendHelper->getFrontendUrl());
-            echo sprintf(
-                '<script type="text/javascript">%s</script>',
-                $scriptBody
-            );
+        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()) {
             wp_enqueue_script(
                 'vcv:editors:backendswitcher:script',
                 vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
@@ -110,6 +103,10 @@ class BundleController extends Container implements Module
                 ['vcv:assets:vendor:script'],
                 VCV_VERSION
             );
+
+            // Add JS
+            $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s";', $frontendHelper->getFrontendUrl());
+            wp_add_inline_script('vcv:editors:backendswitcher:script', $scriptBody, 'before');
         }
     }
 }

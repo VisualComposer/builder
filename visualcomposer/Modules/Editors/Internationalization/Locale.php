@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Localizations;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -29,7 +30,7 @@ class Locale extends Container implements Module
         );
 
         if (vcvenv('VCV_TF_DISABLE_BE')) {
-            $this->wpAddAction('add_meta_boxes', 'printLocalizations');
+            $this->wpAddAction('admin_print_scripts', 'printLocalizations');
         }
     }
 
@@ -52,11 +53,11 @@ class Locale extends Container implements Module
     }
 
     protected function printLocalizations(
-        $postType,
         Localizations $localizationsHelper,
-        EditorPostType $editorPostTypeHelper
+        EditorPostType $editorPostTypeHelper,
+        Frontend $frontendHelper
     ) {
-        if ($editorPostTypeHelper->isEditorEnabled($postType)) {
+        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()) {
             evcview(
                 'partials/constant-script',
                 [
