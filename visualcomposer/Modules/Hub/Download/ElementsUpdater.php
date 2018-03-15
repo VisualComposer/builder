@@ -62,6 +62,17 @@ class ElementsUpdater extends Container implements Module
             $elementData['bundlePath'] = $elementsHelper->getElementUrl($elementData['bundlePath']);
             $elementData['elementPath'] = $elementsHelper->getElementUrl($elementData['elementPath']);
 
+            if (isset($elementData['settings']['metaThumbnailUrl'])) {
+                $elementData['settings']['metaThumbnailUrl'] = $elementsHelper->getElementUrl(
+                    $elementData['settings']['metaThumbnailUrl']
+                );
+            }
+            if (isset($elementData['settings']['metaPreviewUrl'])) {
+                $elementData['settings']['metaPreviewUrl'] = $elementsHelper->getElementUrl(
+                    $elementData['settings']['metaPreviewUrl']
+                );
+            }
+
             $response['elements'][] = $elementData;
         }
 
