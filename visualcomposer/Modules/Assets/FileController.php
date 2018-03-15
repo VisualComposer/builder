@@ -68,16 +68,16 @@ class FileController extends Container implements Module
         $globalElementsBaseCss = [];
         $globalElementsAttributesCss = [];
         $globalElementsMixinsCss = [];
+        $additionalPostTypes = vcfilter('vcv:assets:postTypes', ['vcv_templates']);
         $vcvPosts = new WP_Query(
             [
-                'post_type' => 'any',
+                'post_type' => get_post_types(['exclude_from_search' => false]) + $additionalPostTypes,
                 'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
                 'posts_per_page' => -1,
                 'meta_key' => VCV_PREFIX . 'globalElementsCssData',
                 'suppress_filters' => true,
             ]
         );
-
         while ($vcvPosts->have_posts()) {
             $vcvPosts->the_post();
             $globalElementsCssData = get_post_meta(get_the_ID(), VCV_PREFIX . 'globalElementsCssData', true);
