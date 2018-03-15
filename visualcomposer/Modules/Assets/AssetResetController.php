@@ -13,7 +13,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\File;
-use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use WP_Query;
 
@@ -27,19 +26,19 @@ class AssetResetController extends Container implements Module
 
     protected $fileHelper = false;
 
-    public function __construct(Frontend $frontendHelper, File $fileHelper)
+    public function __construct()
     {
-        $this->fileHelper = $fileHelper;
         if (vcvenv('VCV_TF_ASSETS_URLS_FACTORY_RESET')) {
-            $this->call('updateCssFiles');
-            if ($this->changed) {
-                $this->addEvent(
-                    'vcv:inited',
-                    function () {
+            $this->addEvent(
+                'vcv:system:factory:reset',
+                function (File $fileHelper) {
+                    $this->fileHelper = $fileHelper;
+                    $this->call('updateCssFiles');
+                    if ($this->changed) {
                         $this->call('updatePosts');
                     }
-                );
-            }
+                }
+            );
         }
     }
 
