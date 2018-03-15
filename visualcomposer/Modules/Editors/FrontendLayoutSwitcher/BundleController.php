@@ -67,10 +67,11 @@ class BundleController extends Container implements Module
 
     protected function addBundleStyle(
         Url $urlHelper,
+        Frontend $frontendHelper,
         EditorPostType $editorPostTypeHelper,
         Assets $assetsHelper
     ) {
-        if ($editorPostTypeHelper->isEditorEnabled(get_post_type())) {
+        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()) {
             // Add CSS
             wp_enqueue_style(
                 'vcv:editors:backendswitcher:style',
@@ -91,7 +92,7 @@ class BundleController extends Container implements Module
         EditorPostType $editorPostTypeHelper,
         Assets $assetsHelper
     ) {
-        if ($editorPostTypeHelper->isEditorEnabled(get_post_type())) {
+        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()) {
             wp_enqueue_script(
                 'vcv:editors:backendswitcher:script',
                 vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
