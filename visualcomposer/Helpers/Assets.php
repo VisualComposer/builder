@@ -120,9 +120,15 @@ class Assets extends Container implements Helper
             if (preg_match('/' . VCV_PLUGIN_ASSETS_DIRNAME . '/', $path)) {
                 $url = $this->getAssetUrl();
                 $url = str_replace(['http://', 'https://'], '', $url);
+                $contentUrl = content_url() . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/';
+                $contentUrl = str_replace(['http://', 'https://'], '', $contentUrl);
                 $path = str_replace(['http://', 'https://'], '', $path);
-                $path = str_replace($url, '', $path);
-                $bundleUrl = $path;
+
+                if (strpos($path, $url) !== false) {
+                    $bundleUrl = str_replace($url, '', $path);
+                } else if (strpos($path, $contentUrl) !== false) {
+                    $bundleUrl = str_replace($contentUrl, '', $path);
+                }
             }
         }
 

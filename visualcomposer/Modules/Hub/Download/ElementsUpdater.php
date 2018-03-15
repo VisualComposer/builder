@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Differ;
+use VisualComposer\Helpers\Hub\Elements;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -24,7 +25,7 @@ class ElementsUpdater extends Container implements Module
         $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:element/*', 'updateElements');
     }
 
-    protected function updateElements($response, $payload, Logger $loggerHelper)
+    protected function updateElements($response, $payload, Logger $loggerHelper, Elements $elementsHelper)
     {
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
         if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
@@ -57,6 +58,10 @@ class ElementsUpdater extends Container implements Module
         foreach ($elementKeys as $element) {
             $elementData = $elements[ $element ];
             $elementData['tag'] = $element;
+            $elementData['assetsPath'] = $elementsHelper->getElementUrl($elementData['assetsPath']);
+            $elementData['bundlePath'] = $elementsHelper->getElementUrl($elementData['bundlePath']);
+            $elementData['elementPath'] = $elementsHelper->getElementUrl($elementData['elementPath']);
+
             $response['elements'][] = $elementData;
         }
 
