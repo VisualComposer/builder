@@ -236,6 +236,6 @@ if (!defined('VCV_TF_ASSETS_IN_UPLOADS')) {
 if (!defined('VCV_TF_EDITOR_IN_CONTENT')) {
     define(
         'VCV_TF_EDITOR_IN_CONTENT',
-        isset($_SERVER['ENV_VCV_TF_EDITOR_IN_CONTENT']) ? $_SERVER['ENV_VCV_TF_EDITOR_IN_CONTENT'] : false
+        isset($_SERVER['ENV_VCV_TF_EDITOR_IN_CONTENT']) ? $_SERVER['ENV_VCV_TF_EDITOR_IN_CONTENT'] : true
     );
 }

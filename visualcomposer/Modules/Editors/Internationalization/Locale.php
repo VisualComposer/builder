@@ -29,7 +29,7 @@ class Locale extends Container implements Module
         );
 
         if (vcvenv('VCV_TF_DISABLE_BE')) {
-            $this->wpAddAction('add_meta_boxes', 'printLocalizations');
+            $this->wpAddAction('admin_print_scripts', 'printLocalizations');
         }
     }
 
@@ -52,11 +52,10 @@ class Locale extends Container implements Module
     }
 
     protected function printLocalizations(
-        $postType,
         Localizations $localizationsHelper,
         EditorPostType $editorPostTypeHelper
     ) {
-        if ($editorPostTypeHelper->isEditorEnabled($postType)) {
+        if ($editorPostTypeHelper->isEditorEnabled(get_post_type())) {
             evcview(
                 'partials/constant-script',
                 [

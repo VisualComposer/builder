@@ -6,7 +6,7 @@ import serialize from 'form-serialize'
 export default class AjaxForm extends Attribute {
   fieldContainer = null
   fields = null
-  pseudoForm = document.createElement('form')
+  pseudoForm = null
 
   updateState (props) {
     return {
@@ -59,11 +59,15 @@ export default class AjaxForm extends Attribute {
   }
 
   handleFormChange () {
+    this.pseudoForm = document.createElement('form')
     this.fields.forEach((field) => {
-      this.pseudoForm.appendChild(field.cloneNode(true))
+      let clone = field.cloneNode(true)
+      clone.value = field.value
+      this.pseudoForm.appendChild(clone)
     })
     let value = serialize(this.pseudoForm, { hash: true })
     this.setFieldValue(value)
+    this.pseudoForm = null
   }
 
   requestToServer () {
