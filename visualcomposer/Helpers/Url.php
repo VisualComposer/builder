@@ -72,7 +72,7 @@ class Url implements Helper
     {
         $ajax = [VCV_ADMIN_AJAX_REQUEST => 1];
         $query = $ajax + $query;
-        $query['action'] = 'vcv:admin:ajax';
+        $query['action'] = 'vcv-admin-ajax';
         // @codingStandardsIgnoreStart
         if (isset($_REQUEST['lang'])) {
             $query['lang'] = strip_tags(esc_attr($_REQUEST['lang']));

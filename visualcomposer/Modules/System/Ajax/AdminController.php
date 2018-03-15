@@ -28,6 +28,10 @@ class AdminController extends Controller implements Module
             'wp_ajax_vcv:admin:ajax',
             'listenAjax',
             100
+        );$this->wpAddAction(
+            'wp_ajax_vcv-admin-ajax',
+            'listenAjax',
+            100
         );
         /** @see \VisualComposer\Modules\System\Ajax\Controller::listenAjax */
         $this->wpAddAction(
