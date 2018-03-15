@@ -76,6 +76,16 @@ export default class ActivitiesManager extends React.Component {
     )
   }
 
+  getOptions (data) {
+    return (
+      data &&
+      data.settings &&
+      data.settings.options &&
+      data.settings.options.onChange &&
+      data.settings.options.onChange.options ? data.settings.options.onChange.options : false
+    )
+  }
+
   setFieldMount = (field, data, type) => {
     if (!this.mount[ field ]) {
       this.mount[ field ] = {}
@@ -201,7 +211,17 @@ export default class ActivitiesManager extends React.Component {
         })
       }
     }
-    RulesManager.check(this.props.element.toJS(), this.getRules(this.props.element.settings(listener.key)), (status) => {
+
+    const fieldSettings = this.props.element.settings(listener.key)
+    const options = this.getOptions(fieldSettings)
+    const rules = this.getRules(fieldSettings)
+    const isChild = this.props.options && this.props.options.child
+    let values = this.props.element.toJS()
+    if (isChild && options && options.parent) {
+      values = this.props.options.parentElement
+    }
+
+    RulesManager.check(values, rules, (status) => {
       actionsCallback(status, listener)
     })
 

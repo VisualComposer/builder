@@ -44,7 +44,7 @@ class Controller extends Container implements Module
             $search = $request->input('vcv-search');
 
             $args = [
-                'posts_per_page' => 20,
+                'posts_per_page' => $search ? -1 : 20,
                 'post_type' => get_post_types(['public' => true], 'names'),
                 's' => $search,
             ];

@@ -155,7 +155,7 @@ class Controller extends Container implements Module
     protected function pejQueryReady(Frontend $frontendHelper)
     {
         if (!$this->jQueryDefined && $frontendHelper->isPageEditable()) {
-            $warn = VCV_DEBUG ? 'console.warn(\'jquery ready failed\', e, param)' : '';
+            $warn = vcvenv('VCV_DEBUG') ? 'console.warn(\'jquery ready failed\', e, param)' : '';
 
             $script = 'jQuery.fn.ready = function (param) {
                 try {

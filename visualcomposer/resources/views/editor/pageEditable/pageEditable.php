@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
             param.call(this, jQuery)
           }, 300)
         } catch (e) {
-            <?php if (VCV_DEBUG) : ?>
+            <?php if (vcvenv('VCV_DEBUG')) : ?>
           console.warn('jquery ready failed', e, param)
             <?php endif; ?>
         }

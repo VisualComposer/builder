@@ -49,10 +49,6 @@ class About implements Helper
                 'title' => __('Resize columns with easy to use resize tool.', 'vcwb'),
                 'url' => $urlHelper->assetUrl('images/account/007.gif'),
             ],
-            [
-                'title' => __('Choose Backend editor schematic view with the quick preview option.', 'vcwb'),
-                'url' => $urlHelper->assetUrl('images/account/008.gif'),
-            ],
         ];
     }
 }
