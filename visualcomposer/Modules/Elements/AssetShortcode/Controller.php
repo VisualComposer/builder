@@ -27,4 +27,12 @@ class Controller extends Container implements Module
     {
         return $assetsHelper->getAssetUrl();
     }
+
+    protected function renderUploadUrl()
+    {
+        $uploadDir = wp_upload_dir();
+        $url = set_url_scheme($uploadDir['baseurl']);
+
+        return $url . '/';
+    }
 }
