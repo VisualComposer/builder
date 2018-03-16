@@ -12,14 +12,17 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class AssetUrlReplaceController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     public function __construct()
     {
-        $this->addFilter('vcv:frontend:content:encode', 'replaceUrls');
+        $this->addFilter('vcv:frontend:content vcv:frontend:content:encode', 'replaceUrls');
+        $this->wpAddFilter('the_content', 'replaceUrls', 100);
     }
 
     protected function replaceUrls($content)
