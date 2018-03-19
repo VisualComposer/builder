@@ -184,15 +184,15 @@ export default class ParamsGroupAttribute extends Attribute {
     return (
       <div className='vcv-ui-tree-layout-control-actions-container'>
         <span className='vcv-ui-tree-layout-control-actions'>
+          <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={() => { this.clickEdit(index) }}>
+            <i className='vcv-ui-icon vcv-ui-icon-edit' />
+          </span>
           <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={() => { this.clickClone(index) }}>
             <i className='vcv-ui-icon vcv-ui-icon-copy' />
           </span>
           <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={() => { this.clickDelete(index) }}>
             <i className='vcv-ui-icon vcv-ui-icon-trash' />
           </span>
-        </span>
-        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={() => { this.clickEdit(index) }}>
-          <i className='vcv-ui-icon vcv-ui-icon-arrow-right' />
         </span>
       </div>
     )

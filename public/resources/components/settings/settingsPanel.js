@@ -18,7 +18,7 @@ export default class SettingsPanel extends React.Component {
      */
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
-    const settingsText = localizations ? env('TF_SETTINGS_THEME_ICONS') ? (localizations.layout : 'Layout') : localizations.settings : 'Settings'
+    const settingsText = localizations ? (env('TF_SETTINGS_THEME_ICONS') ? (localizations.layout || 'Layout') : localizations.settings) : 'Settings'
     const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 
     sections.push({

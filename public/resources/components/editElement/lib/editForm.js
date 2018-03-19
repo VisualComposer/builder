@@ -126,18 +126,23 @@ export default class EditForm extends React.Component {
       'active': this.state.editable
     })
 
-    const backButton = options && options.child ? (<i className='vcv-ui-icon vcv-ui-icon-arrow-left'
-      onClick={this.goBack} />) : null
+    const backButton = options && options.child ? (
+      <span className='vcv-ui-edit-form-back-button' onClick={this.goBack}>
+        <i className='vcv-ui-icon vcv-ui-icon-chevron-left' /></span>) : null
 
     if (options && options.child && options.activeParamGroup) {
       content = options.activeParamGroup.title
     }
 
+    const sectionImageSrc = hubCategories.getElementIcon(element.get('tag'))
+    const sectionImage = sectionImageSrc ? (
+      <img src={sectionImageSrc} title={element.get('name')} />) : null
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
         <div className='vcv-ui-edit-form-header'>
           {backButton}
-          <img src={hubCategories.getElementIcon(element.get('tag'))} title={element.get('name')} />
+          {sectionImage}
           <span className={headerTitleClasses}
             ref={span => { this.span = span }}
             contentEditable={editable}
