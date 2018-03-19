@@ -42,7 +42,10 @@ export default class EditForm extends React.Component {
     elementsStorage.state(`element:${id}`).ignoreChange(this.updateElementOnChange)
   }
 
-  updateElementOnChange (data) {
+  updateElementOnChange (data, source) {
+    if (vcCake.env('TF_RENDER_PERFORMANCE') && source === 'editForm') {
+      return
+    }
     const element = cook.get(data)
     let content = element.getName()
     if (this.state.content !== content) {

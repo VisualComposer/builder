@@ -25,6 +25,7 @@ export default class LayoutEditor extends React.Component {
   }
 
   updateState (data) {
+    console.log('full update')
     this.setState({ data })
   }
 
