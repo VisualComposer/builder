@@ -16,6 +16,7 @@ use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Url;
 
 /**
  * Class Controller.
@@ -100,12 +101,14 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
      * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
      */
     protected function adminBarEditLink(
         $wpAdminBar,
         Frontend $frontendHelper,
         EditorPostType $editorPostTypeHelper,
-        UserCapabilities $userCapabilitiesHelper
+        UserCapabilities $userCapabilitiesHelper,
+        Url $urlHelper
     ) {
         if (!is_object($wpAdminBar)) {
             // @codingStandardsIgnoreStart
@@ -126,6 +129,30 @@ class Controller extends Container implements Module
                 ]
             );
         }
+
+        $cpts = (array)get_post_types(['show_in_admin_bar' => true], 'objects');
+        // Add any additional custom post types.
+        $actions = [];
+        foreach ($cpts as $cpt) {
+            if (!current_user_can($cpt->cap->create_posts) || !$editorPostTypeHelper->isEditorEnabled($cpt->name)) {
+                continue;
+            }
+            if (in_array($cpt->name, ['vcv_templates', 'vcv_headers', 'vcv_footers', 'vcv_sidebars'])) {
+                continue;
+            }
+            $key = 'post-new.php?post_type=' . $cpt->name;
+            $actions[ $key ] = ['id' => 'new-' . $cpt->name];
+        }
+        foreach ($actions as $key => $data) {
+            $wpAdminBar->add_menu(
+                [
+                    'parent' => $data['id'],
+                    'id' => 'add-new-' . $key . '-vc',
+                    'title' => 'Add New with Visual Composer',
+                    'href' => $urlHelper->query(admin_url($key), ['vcv-action' => 'frontend']),
+                ]
+            );
+        }
     }
 
     /**
@@ -142,7 +169,11 @@ class Controller extends Container implements Module
         EditorPostType $editorPostTypeHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
-        if (intval(get_option('page_for_posts')) !== get_the_ID() && $editorPostTypeHelper->isEditorEnabled(get_post_type()) && $userCapabilitiesHelper->canEdit(get_the_ID())) {
+        if (intval(get_option('page_for_posts')) !== get_the_ID()
+            && $editorPostTypeHelper->isEditorEnabled(
+                get_post_type()
+            )
+            && $userCapabilitiesHelper->canEdit(get_the_ID())) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vcwb'));
         }
