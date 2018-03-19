@@ -233,6 +233,14 @@ if (!defined('VCV_TF_ASSETS_IN_UPLOADS')) {
     );
 }
 
+if (!defined('VCV_TF_ASSETS_URLS_FACTORY_RESET')) {
+    define(
+        'VCV_TF_ASSETS_URLS_FACTORY_RESET',
+        isset($_SERVER['ENV_VCV_TF_ASSETS_URLS_FACTORY_RESET']) ? $_SERVER['ENV_VCV_TF_ASSETS_URLS_FACTORY_RESET']
+            : false
+    );
+}
+
 if (!defined('VCV_TF_EDITOR_IN_CONTENT')) {
     define(
         'VCV_TF_EDITOR_IN_CONTENT',
