@@ -167,7 +167,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Text block' => [
                     'title' => 'Text Block',
-                    'elements' => ['textBlock', 'googleFontsHeading', 'typewriterHeading'],
+                    'elements' => ['textBlock', 'googleFontsHeading', 'typewriterHeading', 'marqueeElement'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Text-Block.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Text-Block.svg'),
                 ],
