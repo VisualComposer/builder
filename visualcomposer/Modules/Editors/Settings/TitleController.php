@@ -24,16 +24,48 @@ class TitleController extends Container implements Module
     use EventsFilters;
     use WpFiltersActions;
 
+    protected $titleRemoveClosure = null;
+
     public function __construct()
     {
         if (vcvenv('VCV_PAGE_TITLE_FE')) {
-            $this->wpAddFilter(
+            $this->titleRemoveClosure = $this->wpAddFilter(
                 'the_title',
                 'titleRemove'
+            );
+
+            //remove the filer before menu title render
+            $this->wpAddFilter(
+                'wp_get_nav_menu_object',
+                'removeTitleFilter'
+            );
+
+            //add the filter back after the menu title is rendered
+            $this->wpAddFilter(
+                'wp_setup_nav_menu_item',
+                'addTitleFilter'
             );
             $this->addFilter('vcv:frontend:head:extraOutput', 'outputTitle');
             $this->addFilter('vcv:dataAjax:setData', 'setPageTitle');
         }
+    }
+
+    protected function removeTitleFilter($menuObj)
+    {
+        $this->wpRemoveFilter('the_title', $this->titleRemoveClosure);
+
+        return $menuObj;
+    }
+
+    protected function addTitleFilter($post)
+    {
+        // callback must be same as defined in constructor in wpAddFilter
+        add_filter(
+            'the_title',
+            $this->titleRemoveClosure
+        );
+
+        return $post;
     }
 
     protected function setPageTitle($response, $payload, Request $requestHelper, Frontend $frontendHelper)
@@ -96,13 +128,13 @@ class TitleController extends Container implements Module
     /**
      * @param $title
      * @param $postId integer - id of the page/post
-     * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return string
      */
-    protected function titleRemove($title, $postId, Frontend $frontendHelper, Request $requestHelper)
+    protected function titleRemove($title, $postId)
     {
+        $frontendHelper = vchelper('Frontend');
+        $requestHelper = vchelper('Request');
         if (!(is_admin() || !in_the_loop() && is_singular())) {
             $post = get_post($postId);
             if ($frontendHelper->isPreview()) {
