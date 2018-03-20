@@ -1,5 +1,5 @@
-import {addStorage, getStorage, getService, env} from 'vc-cake'
-import {rebuildRawLayout, isElementOneRelation, addRowColumnBackground} from './lib/tools'
+import { addStorage, getStorage, getService, env } from 'vc-cake'
+import { rebuildRawLayout, isElementOneRelation, addRowColumnBackground } from './lib/tools'
 
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
@@ -180,7 +180,11 @@ addStorage('elements', (storage) => {
       storage.trigger('update', tabParent.id, tabParent)
     }
     if (!options.silent) {
-      storage.state('document').set(documentManager.children(false))
+      if (env('TF_RENDER_PERFORMANCE')) {
+        storage.state('element:' + id).set(element, source)
+      } else {
+        storage.state('document').set(documentManager.children(false))
+      }
       updateTimeMachine(source || 'elements')
     }
   })

@@ -233,9 +233,24 @@ if (!defined('VCV_TF_ASSETS_IN_UPLOADS')) {
     );
 }
 
+if (!defined('VCV_TF_ASSETS_URLS_FACTORY_RESET')) {
+    define(
+        'VCV_TF_ASSETS_URLS_FACTORY_RESET',
+        isset($_SERVER['ENV_VCV_TF_ASSETS_URLS_FACTORY_RESET']) ? $_SERVER['ENV_VCV_TF_ASSETS_URLS_FACTORY_RESET']
+            : false
+    );
+}
+
 if (!defined('VCV_TF_EDITOR_IN_CONTENT')) {
     define(
         'VCV_TF_EDITOR_IN_CONTENT',
         isset($_SERVER['ENV_VCV_TF_EDITOR_IN_CONTENT']) ? $_SERVER['ENV_VCV_TF_EDITOR_IN_CONTENT'] : true
+    );
+}
+
+if (!defined('VCV_TF_ADD_NEW_VC_IN_NAVBAR')) {
+    define(
+        'VCV_TF_ADD_NEW_VC_IN_NAVBAR',
+        isset($_SERVER['ENV_VCV_TF_ADD_NEW_VC_IN_NAVBAR']) ? $_SERVER['ENV_VCV_TF_ADD_NEW_VC_IN_NAVBAR'] : false
     );
 }
