@@ -148,7 +148,7 @@ class Controller extends Container implements Module
                 [
                     'parent' => $data['id'],
                     'id' => 'add-new-' . $key . '-vc',
-                    'title' => 'Add New with Visual Composer',
+                    'title' => __('Add New with Visual Composer', 'vcwb'),
                     'href' => $urlHelper->query(admin_url($key), ['vcv-action' => 'frontend']),
                 ]
             );
