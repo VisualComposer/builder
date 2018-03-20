@@ -38,5 +38,7 @@ class Templates114Migration extends MigrationsController implements Module
                 VCV_PREFIX . 'hubAction:template/%'
             )
         );
+
+        return true;
     }
 }

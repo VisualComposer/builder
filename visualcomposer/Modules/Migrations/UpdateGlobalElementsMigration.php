@@ -82,6 +82,8 @@ class UpdateGlobalElementsMigration extends MigrationsController implements Modu
             $optionsHelper->set('globalElementsCssDataUpdated', '1');
             $optionsHelper->set('globalElementsCssHash', md5($globalElementsCss));
         }
+
+        return true;
     }
 
     /**

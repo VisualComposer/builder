@@ -18,9 +18,9 @@ use VisualComposer\Helpers\File;
  *
  * @package VisualComposer\Modules\Migrations
  */
-class Assets21Migration extends MigrationsController implements Module
+class Assets22Migration extends MigrationsController implements Module
 {
-    protected $migrationId = 'assets21Migration';
+    protected $migrationId = 'assets22Migration';
 
     protected $migrationPriority = 1;
 
@@ -34,12 +34,24 @@ class Assets21Migration extends MigrationsController implements Module
                 && $fileSystem->is_dir(
                     WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME
                 )) {
-                $fileHelper->copyDirectory(
+                $result = $fileHelper->copyDirectory(
                     WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME,
-                    VCV_PLUGIN_ASSETS_DIR_PATH,
-                    false
+                    VCV_PLUGIN_ASSETS_DIR_PATH . '-temp',
+                    true
                 );
+                if (!is_wp_error($result) && $result) {
+                    $resultMove = $fileHelper->getFileSystem()->move(
+                        VCV_PLUGIN_ASSETS_DIR_PATH . '-temp',
+                        VCV_PLUGIN_ASSETS_DIR_PATH
+                    );
+
+                    return !is_wp_error($resultMove) && $result;
+                } else {
+                    return false;
+                }
             }
         }
+
+        return vcvenv('VCV_TF_ASSETS_IN_UPLOADS');
     }
 }
