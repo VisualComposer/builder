@@ -1,6 +1,6 @@
 import React from 'react'
-import {format} from 'util'
-import {getStorage, getService, env} from 'vc-cake'
+import { format } from 'util'
+import { getStorage, getService, env } from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const elementsStorage = getStorage('elements')
@@ -33,8 +33,11 @@ export default class Field extends React.Component {
     if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
       this.element.onAttributeChange(fieldKey, this.updateElementOnExternalChange)
     } else {
-      elementsStorage.state(`element:${element.get('id')}:attribute:${fieldKey}`)
-        .onChange(this.updateElementOnExternalChange)
+      if (env('TF_RENDER_PERFORMANCE')) {
+        elementsStorage.on(`element:${element.get('id')}:attribute:${fieldKey}`, this.updateElementOnExternalChange)
+      } else {
+        elementsStorage.state(`element:${element.get('id')}:attribute:${fieldKey}`).onChange(this.updateElementOnExternalChange)
+      }
     }
   }
 
@@ -44,9 +47,13 @@ export default class Field extends React.Component {
     if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
       this.element.ignoreAttributeChange(fieldKey, this.updateElementOnExternalChange)
     } else {
-      elementsStorage.state(`element:${id}:attribute:${fieldKey}`)
-        .ignoreChange(this.updateElementOnExternalChange)
-      elementsStorage.state(`element:${id}:attribute:${fieldKey}`).delete()
+      if (env('TF_RENDER_PERFORMANCE')) {
+        elementsStorage.off(`element:${id}:attribute:${fieldKey}`, this.updateElementOnExternalChange)
+      } else {
+        elementsStorage.state(`element:${id}:attribute:${fieldKey}`)
+          .ignoreChange(this.updateElementOnExternalChange)
+        elementsStorage.state(`element:${id}:attribute:${fieldKey}`).delete()
+      }
     }
   }
 

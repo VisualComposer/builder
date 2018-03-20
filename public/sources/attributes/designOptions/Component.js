@@ -12,6 +12,7 @@ import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 
 import vcCake from 'vc-cake'
+
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
 
@@ -183,12 +184,20 @@ export default class DesignOptions extends Attribute {
     this.getDefaultStyles()
 
     const id = this.props.element.get('id')
-    elementsStorage.state('element:' + id).onChange(this.handleElementChange)
+    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.on(`element:${id}`, this.handleElementChange)
+    } else {
+      elementsStorage.state('element:' + id).onChange(this.handleElementChange)
+    }
   }
 
   componentWillUnmount () {
     const id = this.props.element.get('id')
-    elementsStorage.state('element:' + id).ignoreChange(this.handleElementChange)
+    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.off(`element:${id}`, this.handleElementChange)
+    } else {
+      elementsStorage.state('element:' + id).ignoreChange(this.handleElementChange)
+    }
   }
 
   componentDidUpdate () {
@@ -733,9 +742,9 @@ export default class DesignOptions extends Attribute {
 
       for (let style in BoxModel.defaultState) {
         if (computedStyles && computedStyles.getPropertyValue) {
-          let styleValue = computedStyles.getPropertyValue(style.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)) // Transform camelCase to hyphen-case
+          let styleValue = computedStyles.getPropertyValue(style.replace(/([A-Z])/g, (g) => `-${g[ 0 ].toLowerCase()}`)) // Transform camelCase to hyphen-case
           if (styleValue && styleValue !== '0px' && styleValue.split(' ').length === 1) {
-            styles[style] = styleValue
+            styles[ style ] = styleValue
           }
         }
       }

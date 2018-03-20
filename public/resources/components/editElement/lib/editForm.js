@@ -33,13 +33,21 @@ export default class EditForm extends React.Component {
   componentDidMount () {
     const { element } = this.props
     const id = element.get('id')
-    elementsStorage.state(`element:${id}`).onChange(this.updateElementOnChange)
+    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.on(`element:${id}`, this.updateElementOnChange)
+    } else {
+      elementsStorage.state(`element:${id}`).onChange(this.updateElementOnChange)
+    }
   }
 
   componentWillUnmount () {
     const { element } = this.props
     const id = element.get('id')
-    elementsStorage.state(`element:${id}`).ignoreChange(this.updateElementOnChange)
+    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.off(`element:${id}`, this.updateElementOnChange)
+    } else {
+      elementsStorage.state(`element:${id}`).ignoreChange(this.updateElementOnChange)
+    }
   }
 
   updateElementOnChange (data, source) {

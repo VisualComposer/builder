@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getService, getStorage} from 'vc-cake'
+import {env, getService, getStorage} from 'vc-cake'
 import PropTypes from 'prop-types'
 
 // const categories = getService('categories')
@@ -49,7 +49,11 @@ export default class DefaultElement extends React.Component {
     if (!cookElement.get('metaBackendLabels')) {
       this.setState({ hasAttributes: false })
     }
-    // elementsStorage.state('element:' + this.props.element.id).onChange(this.dataUpdate)
+    if (env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
+    } else {
+      elementsStorage.state('element:' + this.props.element.id).onChange(this.dataUpdate)
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -65,7 +69,11 @@ export default class DefaultElement extends React.Component {
     if (this.receivePropsTimeout) {
       this.receivePropsTimeout = 0
     }
-    // elementsStorage.state('element:' + this.props.element.id).ignoreChange(this.dataUpdate)
+    if (env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
+    } else {
+      elementsStorage.state('element:' + this.props.element.id).ignoreChange(this.dataUpdate)
+    }
   }
 
   dataUpdate (data) {
