@@ -36,5 +36,7 @@ class Free19Migration extends MigrationsController implements Module
         ) {
             $tokenHelper->reset();
         }
+
+        return true;
     }
 }

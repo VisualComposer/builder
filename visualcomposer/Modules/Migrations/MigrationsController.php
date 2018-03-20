@@ -30,8 +30,10 @@ class MigrationsController extends Container
     protected function init(Options $optionsHelper)
     {
         if (!$optionsHelper->get('system:migration:' . $this->migrationId) && method_exists($this, 'run')) {
-            $this->call('run');
-            $optionsHelper->set('system:migration:' . $this->migrationId, true);
+            $status = $this->call('run');
+            if ($status) {
+                $optionsHelper->set('system:migration:' . $this->migrationId, true);
+            }
         }
 
         return true;

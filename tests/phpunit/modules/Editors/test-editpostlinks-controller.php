@@ -25,13 +25,22 @@ class EditPostLinksControllerTest extends WP_UnitTestCase
                 $innerLoop = true;
 
                 $wpAdminBar = $this->getMockBuilder('WP_Admin_Bar')->setMethods(['add_menu'])->getMock();
-                $wpAdminBar->expects($this->once())->method('add_menu')->will($this->returnValue(true));
-                $wpAdminBar->expects($this->once())->method('add_menu')->with(
+                $wpAdminBar->expects($this->atLeastOnce())->method('add_menu')->will($this->returnValue(true));
+                $wpAdminBar->expects($this->atLeastOnce())->method('add_menu')->with(
                     $this->callback(
                         function ($page) use (&$argsCallbackCalled) {
                             $this->assertTrue(is_array($page));
-                            $this->assertEquals('Edit with Visual Composer', $page['title']);
-                            $this->assertTrue(strpos($page['href'], 'vcv-action=frontend&vcv-source-id=') !== false);
+                            if (strpos($page['id'], 'Edit') !== false) {
+                                $this->assertEquals('Edit with Visual Composer', $page['title']);
+                                $this->assertTrue(
+                                    strpos($page['href'], 'vcv-action=frontend&vcv-source-id=') !== false
+                                );
+                            } else {
+                                $this->assertEquals('Add New with Visual Composer', $page['title']);
+                                $this->assertTrue(
+                                    strpos($page['href'], 'vcv-action=frontend') !== false
+                                );
+                            }
                             $argsCallbackCalled = true;
 
                             return true;
