@@ -155,7 +155,11 @@ export default class ControlsHandler {
       }
     }
     if (env('ELEMENT_CONTROLS_DELAY')) {
-      this.addControlDropdownInteractionEvents(controlsList)
+      if (env('CACHE_HOVER_CONTROLS')) {
+        this.elementInlineEdit && this.element.addEventListener('mouseup', this.hide)
+      } else {
+        this.addControlDropdownInteractionEvents(controlsList)
+      }
     }
   }
 
@@ -299,6 +303,10 @@ export default class ControlsHandler {
     let control = document.createElement('div')
     control.classList.add('vcv-ui-outline-control-dropdown', `vcv-ui-outline-control-type-index-${colorIndex}`)
     control.dataset.vcvElementControls = elementId
+    if (env('CACHE_HOVER_CONTROLS')) {
+      control.addEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control))
+      control.addEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control))
+    }
     // create control trigger
     control.appendChild(this.createControlTrigger(
       elementId,
