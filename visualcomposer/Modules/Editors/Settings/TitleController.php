@@ -36,13 +36,13 @@ class TitleController extends Container implements Module
 
             //remove the filer before menu title render
             $this->wpAddFilter(
-                'wp_get_nav_menu_object',
+                'wp_nav_menu_args',
                 'removeTitleFilter'
             );
 
             //add the filter back after the menu title is rendered
             $this->wpAddFilter(
-                'wp_setup_nav_menu_item',
+                'wp_nav_menu_items',
                 'addTitleFilter'
             );
             $this->addFilter('vcv:frontend:head:extraOutput', 'outputTitle');
@@ -50,14 +50,14 @@ class TitleController extends Container implements Module
         }
     }
 
-    protected function removeTitleFilter($menuObj)
+    protected function removeTitleFilter($args)
     {
         $this->wpRemoveFilter('the_title', $this->titleRemoveClosure);
 
-        return $menuObj;
+        return $args;
     }
 
-    protected function addTitleFilter($post)
+    protected function addTitleFilter($item)
     {
         // callback must be same as defined in constructor in wpAddFilter
         add_filter(
@@ -67,7 +67,7 @@ class TitleController extends Container implements Module
             2
         );
 
-        return $post;
+        return $item;
     }
 
     protected function setPageTitle($response, $payload, Request $requestHelper, Frontend $frontendHelper)

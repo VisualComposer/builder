@@ -35,6 +35,11 @@ class PageTemplatesController extends Container implements Module
 
     protected function getCurrentTemplateLayout($output, PostType $postTypeHelper, Frontend $frontendHelper)
     {
+        //always return default template for search and archive page
+        if (is_search() || is_archive()) {
+            return $output;
+        }
+
         $post = $postTypeHelper->get();
         if ($post) {
             if ($frontendHelper->isPreview()) {
