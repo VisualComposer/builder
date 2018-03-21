@@ -169,7 +169,11 @@ addStorage('elements', (storage) => {
       element.layout.layoutData = undefined
     }
     documentManager.update(id, element)
-    storage.state(`element:${id}`).set(element, source, options)
+    if (env('TF_RENDER_PERFORMANCE')) {
+      storage.trigger(`element:${id}`, element, source, options)
+    } else {
+      storage.state(`element:${id}`).set(element, source, options)
+    }
     if (element.tag === 'column') {
       addRowColumnBackground(id, element, documentManager)
       let rowElement = documentManager.get(element.parent)
@@ -180,9 +184,7 @@ addStorage('elements', (storage) => {
       storage.trigger('update', tabParent.id, tabParent)
     }
     if (!options.silent) {
-      if (env('TF_RENDER_PERFORMANCE')) {
-        storage.state('element:' + id).set(element, source)
-      } else {
+      if (!env('TF_RENDER_PERFORMANCE')) {
         storage.state('document').set(documentManager.children(false))
       }
       updateTimeMachine(source || 'elements')
@@ -206,7 +208,11 @@ addStorage('elements', (storage) => {
     }
     storage.state(`element:${id}`).delete()
     if (parent && element.tag !== 'column') {
-      storage.state(`element:${parent.id}`).set(parent)
+      if (env('TF_RENDER_PERFORMANCE')) {
+        storage.trigger(`element:${parent.id}`, parent)
+      } else {
+        storage.state(`element:${parent.id}`).set(parent)
+      }
     } else {
       storage.state('document').set(documentManager.children(false))
     }
@@ -220,7 +226,11 @@ addStorage('elements', (storage) => {
       storage.trigger('update', rowElement.id, rowElement)
     }
     if (dolly.parent) {
-      storage.state('element:' + dolly.parent).set(documentManager.get(dolly.parent))
+      if (env('TF_RENDER_PERFORMANCE')) {
+        storage.trigger(`element:${dolly.parent}`, documentManager.get(dolly.parent))
+      } else {
+        storage.state('element:' + dolly.parent).set(documentManager.get(dolly.parent))
+      }
     } else {
       storage.state('document').set(documentManager.children(false))
     }

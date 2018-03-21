@@ -4,6 +4,7 @@ import ContentControls from '../../../../../resources/components/layoutHelpers/c
 import ContentEditableComponent from '../../../../../resources/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 import PropTypes from 'prop-types'
+
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
@@ -14,6 +15,7 @@ export default class Element extends React.Component {
     element: PropTypes.object.isRequired,
     api: PropTypes.object.isRequired
   }
+
   constructor (props) {
     super(props)
     this.dataUpdate = this.dataUpdate.bind(this)
@@ -21,23 +23,35 @@ export default class Element extends React.Component {
       element: props.element
     }
   }
+
   componentWillReceiveProps (nextProps) {
     assetsStorage.trigger('updateElement', this.state.element.id)
-    this.setState({element: nextProps.element})
+    this.setState({ element: nextProps.element })
   }
+
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
-    elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
+    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
+    } else {
+      elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
+    }
     assetsStorage.trigger('addElement', this.state.element.id)
     // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
+
   dataUpdate (data, source, options) {
-    this.setState({element: data || this.props.element})
+    this.setState({ element: data || this.props.element })
     assetsStorage.trigger('updateElement', this.state.element.id, options)
   }
+
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
-    elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
+    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
+    } else {
+      elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
+    }
     assetsStorage.trigger('removeElement', this.state.element.id)
   }
 
@@ -45,7 +59,7 @@ export default class Element extends React.Component {
     let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-      let elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
+      let elements = [ <Element element={childElement} key={childElement.id} api={this.props.api} /> ]
       if (childElement.tag === 'column') {
         elements.push(
           <ColumnResizer key={`columnResizer-${childElement.id}`} linkedElement={childElement.id} api={this.props.api} />
@@ -68,9 +82,10 @@ export default class Element extends React.Component {
     Object.keys(atts).forEach((key) => {
       let attrSettings = element.settings(key)
       if (attrSettings.settings.options && attrSettings.settings.options.inline === true) {
-        layoutAtts[ key ] = <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
-          {atts[ key ] || ''}
-        </ContentEditableComponent>
+        layoutAtts[ key ] =
+          <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
+            {atts[ key ] || ''}
+          </ContentEditableComponent>
       } else {
         layoutAtts[ key ] = atts[ key ]
       }
@@ -95,7 +110,7 @@ export default class Element extends React.Component {
       'data-vcv-element': id
     }
     if (el.get('metaDisableInteractionInEditor')) {
-      editor['data-vcv-element-disable-interaction'] = true
+      editor[ 'data-vcv-element-disable-interaction' ] = true
     }
     return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
       api={this.props.api}

@@ -219,12 +219,20 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.getDefaultStyles()
 
     const id = this.props.element.get('id')
-    elementsStorage.state('element:' + id).onChange(this.handleElementChange)
+    if (env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.on(`element:${id}`, this.handleElementChange)
+    } else {
+      elementsStorage.state('element:' + id).onChange(this.handleElementChange)
+    }
   }
 
   componentWillUnmount () {
     const id = this.props.element.get('id')
-    elementsStorage.state('element:' + id).ignoreChange(this.handleElementChange)
+    if (env('TF_RENDER_PERFORMANCE')) {
+      elementsStorage.off(`element:${id}`, this.handleElementChange)
+    } else {
+      elementsStorage.state('element:' + id).ignoreChange(this.handleElementChange)
+    }
   }
 
   handleElementChange () {
