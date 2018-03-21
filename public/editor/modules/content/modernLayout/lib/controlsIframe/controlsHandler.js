@@ -3,6 +3,7 @@ import { exceptionalElements } from './exceptionalElements'
 
 const documentManager = getService('document')
 const workspaceStorage = getStorage('workspace')
+const cacheStorage = getStorage('cache')
 const cook = getService('cook')
 const hubCategoriesService = getService('hubCategories')
 
@@ -290,6 +291,10 @@ export default class ControlsHandler {
   createControlForElement (elementId) {
     let vcElement = this.getVcElement(elementId)
     let colorIndex = this.getElementColorIndex(vcElement)
+    let cachedControls = cacheStorage.state('controls').get()
+    if (env('CACHE_HOVER_CONTROLS') && cachedControls[elementId]) {
+      return cachedControls[elementId]
+    }
 
     let control = document.createElement('div')
     control.classList.add('vcv-ui-outline-control-dropdown', `vcv-ui-outline-control-type-index-${colorIndex}`)
@@ -315,6 +320,7 @@ export default class ControlsHandler {
       }
     ))
 
+    env('CACHE_HOVER_CONTROLS') && cacheStorage.trigger('set', 'controls', elementId, control)
     return control
   }
 
