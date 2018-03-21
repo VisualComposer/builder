@@ -200,8 +200,7 @@ HTML;
 
     protected function unsetOptions(Options $optionsHelper)
     {
-        $optionsHelper
-            ->deleteTransient('vcv:update:remoteVersion');
+        $optionsHelper->deleteTransient('vcv:update:remoteVersion');
         delete_site_transient('update_plugins');
     }
 

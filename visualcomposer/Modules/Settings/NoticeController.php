@@ -38,6 +38,7 @@ class NoticeController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param Notice $noticeHelper
+     * @param \VisualComposer\Helpers\Nonce $nonceHelper
      * @param Url $urlHelper
      */
     protected function createNotice(

@@ -197,8 +197,8 @@ class Controller extends Container implements Module
         $content = $requestHelper->input('vcv-content');
 
         // @codingStandardsIgnoreStart
-        // ['vcvPublicUploadUrl'] == 'httpx://domaim/wp-content/uploads/visualcomposer-assets/*
-        // ['vcvUploadUrl'] == 'httpx://domaim/wp-content/uploads/*
+        // ['vcvPublicUploadUrl'] == 'httpx://domain/wp-content/uploads/visualcomposer-assets/*
+        // ['vcvUploadUrl'] == 'httpx://domain/wp-content/uploads/*
         $assetUrl = $assetsHelper->getAssetUrl();
         $assetUrl = str_replace(['http://', 'https://'], '', $assetUrl);
         $content = str_replace(

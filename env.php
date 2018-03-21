@@ -229,7 +229,7 @@ if (!defined('VCV_TF_DISABLE_BE')) {
 if (!defined('VCV_TF_ASSETS_IN_UPLOADS')) {
     define(
         'VCV_TF_ASSETS_IN_UPLOADS',
-        isset($_SERVER['ENV_VCV_TF_ASSETS_IN_UPLOADS']) ? $_SERVER['ENV_VCV_TF_ASSETS_IN_UPLOADS'] : false
+        isset($_SERVER['ENV_VCV_TF_ASSETS_IN_UPLOADS']) ? $_SERVER['ENV_VCV_TF_ASSETS_IN_UPLOADS'] : true
     );
 }
 
@@ -237,7 +237,7 @@ if (!defined('VCV_TF_ASSETS_URLS_FACTORY_RESET')) {
     define(
         'VCV_TF_ASSETS_URLS_FACTORY_RESET',
         isset($_SERVER['ENV_VCV_TF_ASSETS_URLS_FACTORY_RESET']) ? $_SERVER['ENV_VCV_TF_ASSETS_URLS_FACTORY_RESET']
-            : false
+            : true
     );
 }
 
