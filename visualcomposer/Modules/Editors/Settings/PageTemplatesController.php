@@ -67,6 +67,14 @@ class PageTemplatesController extends Container implements Module
             }
         }
 
+        //always return default template for search and archive page
+        if (is_search() || is_archive()) {
+            $output = [
+                'type' => 'theme',
+                'value' => 'default',
+            ];
+        }
+
         return $output;
     }
 
