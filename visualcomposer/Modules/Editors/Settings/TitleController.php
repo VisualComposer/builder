@@ -62,7 +62,9 @@ class TitleController extends Container implements Module
         // callback must be same as defined in constructor in wpAddFilter
         add_filter(
             'the_title',
-            $this->titleRemoveClosure
+            $this->titleRemoveClosure,
+            10,
+            2
         );
 
         return $post;
@@ -133,9 +135,9 @@ class TitleController extends Container implements Module
      */
     protected function titleRemove($title, $postId)
     {
-        $frontendHelper = vchelper('Frontend');
-        $requestHelper = vchelper('Request');
-        if (!(is_admin() || !in_the_loop() && is_singular())) {
+        if (!is_admin()) {
+            $frontendHelper = vchelper('Frontend');
+            $requestHelper = vchelper('Request');
             $post = get_post($postId);
             if ($frontendHelper->isPreview()) {
                 $preview = wp_get_post_autosave($post->ID);
