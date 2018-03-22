@@ -101,11 +101,9 @@ class ErrorReportingController extends Container implements Module
         $data['active-theme']['version'] = $theme->get('Version');
         $data['active-theme']['uri'] = $theme->get('ThemeURI');
         $data['wp-version'] = get_bloginfo('version');
-        $data['platform'] = php_uname();
+        $data['platform'] = (defined('PHP_OS') ? PHP_OS : '') . ' php-' . PHP_VERSION;
         $data['browser'] = $_SERVER['HTTP_USER_AGENT'];
         $data['host'] = $_SERVER['HTTP_HOST'];
-        // plugins list
-        $data['plugins'] = wp_get_active_and_valid_plugins();
 
         return $data;
     }
