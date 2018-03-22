@@ -48,9 +48,16 @@ export default class TeaserElementControl extends ElementControl {
         }
       }
     }
-    this.state = {
-      allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD ? window.VCV_HUB_ALLOW_DOWNLOAD() : false,
-      elementState: elementState
+    debugger
+    if (env('TF_FREE_VERSION_DOWNLOAD')) {
+      this.state = {
+        elementState: elementState
+      }
+    } else {
+      this.state = {
+        allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD ? window.VCV_HUB_ALLOW_DOWNLOAD() : false,
+        elementState: elementState
+      }
     }
     this.addElement = this.addElement.bind(this)
     this.downloadElement = this.downloadElement.bind(this)
@@ -79,8 +86,14 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadElement (e) {
-    if (!this.state.allowDownload) {
-      return
+    if (env('TF_FREE_VERSION_DOWNLOAD')) {
+      if (!this.props.element.allowDownload) {
+        return
+      }
+    } else {
+      if (!this.state.allowDownload) {
+        return
+      }
     }
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
@@ -100,8 +113,14 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadTemplate (e) {
-    if (!this.state.allowDownload) {
-      return
+    if (env('TF_FREE_VERSION_DOWNLOAD')) {
+      if (!this.props.element.allowDownload) {
+        return
+      }
+    } else {
+      if (!this.state.allowDownload) {
+        return
+      }
     }
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
@@ -190,6 +209,10 @@ export default class TeaserElementControl extends ElementControl {
 
     let overlayOutput = <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
     if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
+      let lockIcon = !this.state.allowDownload && this.state.elementState === 'inactive'
+      if (env('TF_FREE_VERSION_DOWNLOAD')) {
+        lockIcon = !this.props.element.allowDownload && this.state.elementState === 'inactive'
+      }
       let iconClasses = classNames({
         'vcv-ui-item-add': true,
         'vcv-ui-item-add-hub': true,
@@ -197,7 +220,7 @@ export default class TeaserElementControl extends ElementControl {
         'vcv-ui-icon-download': elementState === 'inactive' || elementState === 'failed',
         'vcv-ui-icon-add': elementState === 'success',
         'vcv-ui-wp-spinner-light': elementState === 'downloading',
-        'vcv-ui-icon vcv-ui-icon-lock': !this.state.allowDownload && this.state.elementState === 'inactive'
+        'vcv-ui-icon vcv-ui-icon-lock': lockIcon
       })
       let action = this.addElement
       if (this.props.type === 'element') {
