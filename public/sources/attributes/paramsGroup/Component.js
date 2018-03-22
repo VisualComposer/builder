@@ -15,6 +15,10 @@ export default class ParamsGroupAttribute extends Attribute {
     this.clickClone = this.clickClone.bind(this)
     this.clickDelete = this.clickDelete.bind(this)
     this.clickEdit = this.clickEdit.bind(this)
+    this.clickEditTitle = this.clickEditTitle.bind(this)
+    this.enableEditable = this.enableEditable.bind(this)
+    this.validateContent = this.validateContent.bind(this)
+    this.preventNewLine = this.preventNewLine.bind(this)
 
     this.getSortableHandle = this.getSortableHandle.bind(this)
     this.getSortableList = this.getSortableList.bind(this)
@@ -102,9 +106,19 @@ export default class ParamsGroupAttribute extends Attribute {
     this.setFieldValue(newState)
   }
 
+  clickEditTitle (e) {
+    const groupIndex = e.currentTarget.getAttribute('data-index')
+    this.enableEditable(e)
+    let range = document.createRange()
+    let selection = window.getSelection()
+    range.selectNodeContents(this[`title${groupIndex}`])
+    selection.removeAllRanges()
+    selection.addRange(range)
+  }
+
   getSortableItems () {
     const SortableItem = SortableElement(({ value, groupIndex }) => {
-      let editable = false
+      let editable = this.state.editable
       let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
       if (editable) {
         controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
@@ -115,11 +129,19 @@ export default class ParamsGroupAttribute extends Attribute {
           {this.getSortableHandle()}
           <div className='vcv-ui-tree-layout-control-content'>
             <span className={controlLabelClasses}>
-              <span ref={span => { this.span = span }}
+              <span ref={span => { this[`title${groupIndex}`] = span }}
                 contentEditable={editable}
-                suppressContentEditableWarning>
+                suppressContentEditableWarning
+                onClick={this.enableEditable}
+                onKeyDown={this.preventNewLine}
+                onBlur={this.validateContent}
+                data-index={groupIndex}
+              >
                 {value.title}
               </span>
+              <i className='vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title'
+                data-index={groupIndex}
+                onClick={this.clickEditTitle} />
             </span>
             {this.getChildControls(groupIndex)}
           </div>
@@ -135,6 +157,47 @@ export default class ParamsGroupAttribute extends Attribute {
           groupIndex={index} />
       )
     })
+  }
+
+  enableEditable (e) {
+    const groupIndex = e.currentTarget.getAttribute('data-index')
+    if (!this.state.editable) {
+      this.setState({
+        editable: true
+      }, () => {
+        this[`title${groupIndex}`].focus()
+      })
+    }
+  }
+
+  validateContent (event) {
+    const groupIndex = event.currentTarget.getAttribute('data-index')
+    const value = this[`title${groupIndex}`].innerText.trim()
+    this.updateContent(value, groupIndex)
+  }
+
+  preventNewLine (event) {
+    const groupIndex = event.currentTarget.getAttribute('data-index')
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      event.nativeEvent.stopImmediatePropagation()
+      event.stopPropagation()
+      this[`title${groupIndex}`].blur()
+      this.validateContent(event)
+    }
+  }
+
+  updateContent (value, groupIndex) {
+    const { element } = this.props
+
+    this.onParamChange(groupIndex, element, 'title', value)
+
+    this.setState({
+      editable: false
+    })
+    // if (!value) {
+    //   this.span.innerText = element.get('name')
+    // }
   }
 
   getSortableList () {
