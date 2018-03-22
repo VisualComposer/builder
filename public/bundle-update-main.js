@@ -3,7 +3,9 @@ import { default as PostUpdater } from './editor/modules/backendSettings/postUpd
 import { log as logError, send as sendError, messages as getErrorsMessages } from './editor/modules/backendSettings/logger'
 
 (($) => {
-  $(() => {
+  let called = false
+  let readyCallback = () => {
+    called = true
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const bundleUpdateFailed = localizations ? localizations.bundleUpdateFailed : 'Bundle update failed... Please try again.'
     const downloadingAssetsText = localizations ? localizations.downloadingAssets : 'Downloading assets {i} of {cnt}'
@@ -354,5 +356,13 @@ import { log as logError, send as sendError, messages as getErrorsMessages } fro
     } else {
       disableLoader()
     }
-  })
+  }
+  $(readyCallback)
+
+  // In case if jQuery-ready doesn't work
+  window.setTimeout(() => {
+    if (!called) {
+      readyCallback()
+    }
+  }, 1000)
 })(window.jQuery)
