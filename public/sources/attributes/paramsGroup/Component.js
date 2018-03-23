@@ -122,7 +122,9 @@ export default class ParamsGroupAttribute extends Attribute {
           {this.getSortableHandle()}
           <div className='vcv-ui-tree-layout-control-content'>
             <span className={controlLabelClasses}>
-              <span ref={span => { this[ `title${groupIndex}` ] = span }}
+              <span
+                className='vcv-ui-forms-params-group-content-editable'
+                ref={span => { this[ `title${groupIndex}` ] = span }}
                 contentEditable
                 suppressContentEditableWarning
                 onKeyDown={this.preventNewLine}
