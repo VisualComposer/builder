@@ -48,7 +48,7 @@ export default class TeaserElementControl extends ElementControl {
         }
       }
     }
-    debugger
+
     if (env('TF_FREE_VERSION_DOWNLOAD')) {
       this.state = {
         elementState: elementState
