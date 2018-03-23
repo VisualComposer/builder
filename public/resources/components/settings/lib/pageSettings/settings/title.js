@@ -46,11 +46,11 @@ export default class TitleSettings extends React.Component {
   }
 
   getShowToggle () {
-    return window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type === 'theme'
+    return window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type === 'theme' || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type === 'theme'
   }
 
   getThemeType () {
-    return window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type
+    return window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type
   }
 
   updateShowToggle (themeType) {
