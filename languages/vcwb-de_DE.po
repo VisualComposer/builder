@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-02 12:54+0200\n"
-"PO-Revision-Date: 2018-03-02 12:56+0200\n"
+"POT-Creation-Date: 2018-03-23 15:28+0200\n"
+"PO-Revision-Date: 2018-03-23 15:29+0200\n"
 "Last-Translator: \n"
 "Language-Team: DieWerbekiste.de <info@diewerbekiste.de>\n"
 "Language: de_DE\n"
@@ -19,31 +19,35 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: node_modules\n"
 "X-Poedit-SearchPathExcluded-1: ci\n"
 
-#: Helpers/EditorTemplates.php:66
+#: Helpers/EditorTemplates.php:72
 #, fuzzy
 #| msgid "Add Template"
 msgid "My Templates"
 msgstr "Template hinzufügen"
 
-#: Helpers/EditorTemplates.php:69
+#: Helpers/EditorTemplates.php:75
 #, fuzzy
 #| msgid "Premium Templates - Coming Soon"
 msgid "Premium Templates"
 msgstr "Premium Templates kommen bald"
 
-#: Helpers/EditorTemplates.php:72
+#: Helpers/EditorTemplates.php:78
 #, fuzzy
 #| msgid "Add Template"
 msgid "Content Templates"
 msgstr "Template hinzufügen"
 
 #: Helpers/Hub/Bundle.php:146 Helpers/Hub/Bundle.php:348
-msgid "Failed to read remote bundle json #10006"
-msgstr ""
+#, fuzzy
+#| msgid "Do you want to remove this template?"
+msgid "Failed to read remote bundle json"
+msgstr "Dieses Template wirklich entfernen?"
 
 #: Helpers/Hub/Bundle.php:170
-msgid "Failed to fetch remote bundle json #10008"
-msgstr ""
+#, fuzzy
+#| msgid "Do you want to remove this template?"
+msgid "Failed to fetch remote bundle json"
+msgstr "Dieses Template wirklich entfernen?"
 
 #: Helpers/Hub/Download.php:27
 msgid "Editor bundle"
@@ -444,10 +448,10 @@ msgid "Add Text block"
 msgstr "Textblock hinzufügen"
 
 #: Helpers/Localizations.php:133
-#: Modules/Editors/EditPostLinks/Controller.php:91
-#: Modules/Editors/EditPostLinks/Controller.php:123
-#: Modules/Editors/EditPostLinks/Controller.php:124
-#: Modules/Editors/EditPostLinks/Controller.php:147
+#: Modules/Editors/EditPostLinks/Controller.php:92
+#: Modules/Editors/EditPostLinks/Controller.php:126
+#: Modules/Editors/EditPostLinks/Controller.php:127
+#: Modules/Editors/EditPostLinks/Controller.php:178
 msgid "Edit with Visual Composer"
 msgstr "Bearbeite mit Visual Composer"
 
@@ -647,7 +651,7 @@ msgid "Updating posts {i} in {cnt}: {name}"
 msgstr ""
 
 #: Helpers/Localizations.php:200
-msgid "Failed to load: {file} #10077"
+msgid "Failed to load: {file}"
 msgstr ""
 
 #: Helpers/Localizations.php:203
@@ -862,7 +866,7 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: Helpers/PostType.php:233
+#: Helpers/PostType.php:229
 #, php-format
 msgid "View %s"
 msgstr "Zeige %s"
@@ -908,17 +912,12 @@ msgid "Resize columns with easy to use resize tool."
 msgstr ""
 "Vergrößere die Spalten mit einfach zu bedienenden Größenänderungswerkzeugen."
 
-#: Helpers/Settings/Pages/About.php:53
-msgid "Choose Backend editor schematic view with the quick preview option."
-msgstr ""
-"Wähle den Backend-Editor, Schemenansicht mit der schnellen Vorschau-Option."
-
 #: Helpers/Token.php:198
 msgid "Token generation failed"
 msgstr ""
 
 #: Helpers/Token.php:206
-msgid "Request timeout of 30 seconds exceeded #10011"
+msgid "Request timeout of 30 seconds exceeded"
 msgstr ""
 
 #: Helpers/Token.php:257
@@ -928,44 +927,46 @@ msgid "Your Visual Composer Website Builder License will expire soon - %s"
 msgstr "Visual Composer Website Builder"
 
 #: Modules/Account/ActivationController.php:96
-msgid "Failed to get activation token #10013"
+msgid "Failed to get activation token"
 msgstr ""
 
 #: Modules/Account/ActivationController.php:118
-#, php-format
-msgid "Activation failed. Please wait %1$s seconds before you try again #10016"
-msgstr ""
-
 #: Modules/Account/AddonsActivationController.php:82
-#, php-format
-msgid "Activation failed. Please wait %1$s seconds before you try again #10017"
-msgstr ""
+#, fuzzy, php-format
+#| msgid "Your activation request failed. Please try again."
+msgid "Activation failed. Please wait %1$s seconds before you try again"
+msgstr "Aktivierungsanforderung ist fehlgeschlagen. Bitte versuche es erneut."
 
 #: Modules/Account/Pages/ActivationPage.php:83
 msgid "Activation"
 msgstr "Aktivierung"
 
 #: Modules/Account/SubscribeController.php:66
-msgid "Failed to activate free version #10018"
+msgid "Failed to activate free version"
 msgstr ""
 
-#: Modules/Assets/SharedDownloadController.php:113
-msgid "Failed to update shared libraries #10021"
+#: Modules/Assets/SharedDownloadController.php:117
+msgid "Failed to update shared libraries"
 msgstr ""
 
 #: Modules/Editors/Backend/MetaboxController.php:77
 msgid "Visual Composer Website Builder"
 msgstr "Visual Composer Website Builder"
 
-#: Modules/Editors/EditorFilesDownloadController.php:63
-msgid "Failed to update editor #10027"
-msgstr ""
-
+#: Modules/Editors/EditPostLinks/Controller.php:151
 #: Modules/Editors/Frontend/MenuController.php:76
 #, fuzzy
 #| msgid "Edit with Visual Composer"
 msgid "Add New with Visual Composer"
 msgstr "Bearbeite mit Visual Composer"
+
+#: Modules/Editors/EditorFilesDownloadController.php:63
+msgid "Failed to update editor"
+msgstr ""
+
+#: Modules/Editors/Frontend/Controller.php:96
+msgid "Sorry, you are not allowed to create posts as this user."
+msgstr ""
 
 #: Modules/Editors/Frontend/MenuController.php:144
 #, fuzzy
@@ -1016,73 +1017,73 @@ msgstr "Leere Seite"
 msgid "Boxed blank page"
 msgstr "Leere Seite"
 
-#: Modules/Editors/Templates/TemplatesDownloadController.php:399
-msgid "Failed to update templates #10032"
-msgstr ""
+#: Modules/Editors/Templates/TemplatesDownloadController.php:404
+#: Modules/Hub/TemplateTeasers/TemplatesUpdater.php:183
+#, fuzzy
+#| msgid "Do you want to remove this template?"
+msgid "Failed to update templates"
+msgstr "Dieses Template wirklich entfernen?"
 
 #: Modules/Hub/Download/Actions/Traits/Action.php:60
-msgid "Bundle size is too small #10062"
+msgid "Bundle size is too small"
 msgstr ""
 
 #: Modules/Hub/Download/Actions/Traits/Action.php:79
-msgid "Bundle checksum doesn't match #10064"
+msgid "Bundle checksum doesn't match"
 msgstr ""
 
 #: Modules/Hub/Download/AddonsUpdater.php:64
-msgid "Failed to update addons #10080"
+msgid "Failed to update addons"
 msgstr ""
 
 #: Modules/Hub/Download/CategoriesUpdater.php:70
-msgid "Failed to update categories #10037"
+msgid "Failed to update categories"
 msgstr ""
 
 #: Modules/Hub/Download/ElementDownloadController.php:52
-msgid "Bad response from hub:action #10078"
+msgid "Bad response from hub:action"
 msgstr ""
 
 #: Modules/Hub/Download/ElementDownloadController.php:57
-msgid "Failed to download bundle #10079"
-msgstr ""
-
 #: Modules/Hub/Download/ElementDownloadController.php:64
 msgid "Failed to download bundle"
 msgstr ""
 
 #: Modules/Hub/Download/ElementDownloadController.php:132
-msgid "Failed to find element in hub #10042"
+msgid "Failed to find element in hub"
 msgstr ""
 
 #: Modules/Hub/Download/ElementDownloadController.php:148
-msgid "Failed to read remote element bundle json #10043"
-msgstr ""
+#, fuzzy
+#| msgid "Do you want to remove this template?"
+msgid "Failed to read remote element bundle json"
+msgstr "Dieses Template wirklich entfernen?"
 
-#: Modules/Hub/Download/ElementsUpdater.php:74
-msgid "Failed to update elements #10046"
-msgstr ""
+#: Modules/Hub/Download/ElementsUpdater.php:90
+#, fuzzy
+#| msgid "Do you want to remove this template?"
+msgid "Failed to update elements"
+msgstr "Dieses Template wirklich entfernen?"
 
 #: Modules/Hub/Download/GroupsUpdater.php:62
-msgid "Failed to update groups #10051"
+msgid "Failed to update groups"
 msgstr ""
 
 #: Modules/Hub/Download/JsonActionsController.php:47
-msgid "Failed to process required actions #10056"
+msgid "Failed to process required actions"
 msgstr ""
 
 #: Modules/Hub/Download/JsonActionsController.php:127
 #, php-format
-msgid "Failed to download %1$s #10058"
+msgid "Failed to download %1$s"
 msgstr ""
 
 #: Modules/Hub/Download/JsonDownloadController.php:44
-msgid "Failed to download json #10059"
+msgid "Failed to download json"
 msgstr ""
 
 #: Modules/Hub/Download/JsonDownloadController.php:54
-msgid "Failed to prepare json download #10060"
-msgstr ""
-
-#: Modules/Hub/TemplateTeasers/TemplatesUpdater.php:183
-msgid "Failed to update templates #10065"
+msgid "Failed to prepare json download"
 msgstr ""
 
 #: Modules/License/LicenseController.php:101
@@ -1094,11 +1095,11 @@ msgid "Invalid token -> Failed licence activation - Invalid token"
 msgstr ""
 
 #: Modules/License/LicenseController.php:161
-msgid "Failed licence de-activation #10070"
+msgid "Failed licence de-activation"
 msgstr ""
 
 #: Modules/License/LicenseController.php:170
-msgid "Invalid license deactivation token #10071"
+msgid "Invalid license deactivation token"
 msgstr ""
 
 #: Modules/License/Pages/DeactivateLicense.php:66
@@ -1120,38 +1121,39 @@ msgstr ""
 msgid "Deactivate Premium"
 msgstr "Deaktiviere Visual Composer Webbuilder"
 
-#: Modules/Settings/Controller.php:119
+#: Modules/Settings/Controller.php:118
 msgid "Visual Composer "
 msgstr "Visual Composer"
 
 #: Modules/Settings/FactoryResetController.php:69
-msgid "Proceed with a factory reset?"
+msgid "Proceed with a reset?"
 msgstr ""
 
 #: Modules/Settings/FactoryResetController.php:70
-msgid "initiate factory reset"
+msgid "initiate reset"
 msgstr ""
 
 #: Modules/Settings/FactoryResetController.php:80
 #, php-format
 msgid ""
-"Overwrite your existing extensions and assets with the latest versions from "
-"Visual Composer Cloud service - %s."
+"Restore default plugin state to re-download all installed bundles and auto-"
+"configure path after migration (don’t worry, the content of the site will "
+"not be affected) - %s."
 msgstr ""
 
 #: Modules/Settings/FactoryResetController.php:92
-msgid "Factory Reset"
+msgid "Reset"
 msgstr ""
 
 #: Modules/Settings/FactoryResetController.php:106
-msgid "Wrong permissions #10072"
+msgid "Wrong permissions"
 msgstr ""
 
 #: Modules/Settings/FactoryResetController.php:111
-msgid "Session expired #10073"
+msgid "Session expired"
 msgstr ""
 
-#: Modules/Settings/NoticeController.php:77
+#: Modules/Settings/NoticeController.php:78
 msgid "Dismiss"
 msgstr ""
 
@@ -1257,14 +1259,14 @@ msgid ""
 "Activation already in process! Please wait %1$s seconds before you try again"
 msgstr ""
 
-#: resources/views/account/partials/activation-layout.php:77
+#: resources/views/account/partials/activation-layout.php:78
 msgid "Back"
 msgstr ""
 
-#: resources/views/account/partials/activation-layout.php:152
+#: resources/views/account/partials/activation-layout.php:153
 #: resources/views/account/partials/activation-oops.php:47
-#: resources/views/editor/frontend/frontend-updating.php:152
-#: resources/views/hub/updating-content.php:121
+#: resources/views/editor/frontend/frontend-updating.php:153
+#: resources/views/hub/updating-content.php:122
 msgid "Send error report"
 msgstr ""
 
@@ -1286,10 +1288,10 @@ msgid "Your E-mail"
 msgstr "Deine E-mail"
 
 #: resources/views/account/partials/activation-oops.php:29
-#: resources/views/editor/frontend/frontend-updating.php:135
-#: resources/views/editor/frontend/frontend-updating.php:184
-#: resources/views/hub/updating-content.php:106
-#: resources/views/hub/updating-content.php:153
+#: resources/views/editor/frontend/frontend-updating.php:136
+#: resources/views/editor/frontend/frontend-updating.php:185
+#: resources/views/hub/updating-content.php:107
+#: resources/views/hub/updating-content.php:154
 msgid "Oops!"
 msgstr "Oops!!"
 
@@ -1351,27 +1353,27 @@ msgstr ""
 "Visual Composer Website Builder - jetzt kannst Du jede #WordPress Website "
 "schnell und einfach erstellen!"
 
-#: resources/views/editor/frontend/frontend-updating.php:34
+#: resources/views/editor/frontend/frontend-updating.php:35
 #: resources/views/editor/frontend/frontend.php:39
 #, php-format
 msgid "Frontend editor: %s"
 msgstr "Frontend Editor: %s"
 
-#: resources/views/editor/frontend/frontend-updating.php:98
-#: resources/views/hub/updating-content.php:77
+#: resources/views/editor/frontend/frontend-updating.php:99
+#: resources/views/hub/updating-content.php:78
 msgid "We are updating assets from the Visual Composer Cloud ... Please wait."
 msgstr ""
 "Wir aktualisieren gerade die Inhalte aus der Visual Composer Cloud ... Bitte "
 "warten!"
 
-#: resources/views/editor/frontend/frontend-updating.php:104
-#: resources/views/hub/updating-content.php:82
+#: resources/views/editor/frontend/frontend-updating.php:105
+#: resources/views/hub/updating-content.php:83
 msgid "Don’t close this window while update is in process."
 msgstr ""
 "Bitte das Fenster nicht schließen während das Update in Bearbeitung ist."
 
-#: resources/views/editor/frontend/frontend-updating.php:139
-#: resources/views/hub/updating-content.php:110
+#: resources/views/editor/frontend/frontend-updating.php:140
+#: resources/views/hub/updating-content.php:111
 msgid ""
 "It seems that something went wrong with assets update from the Visual "
 "Composer Cloud. Please make sure to check your internet connection and try "
@@ -1381,20 +1383,20 @@ msgstr ""
 "Visual Composer Cloud. Bitte überprüfe Deine Internetverbindung und versuche "
 "es erneut."
 
-#: resources/views/editor/frontend/frontend-updating.php:146
-#: resources/views/hub/updating-content.php:116
+#: resources/views/editor/frontend/frontend-updating.php:147
+#: resources/views/hub/updating-content.php:117
 msgid "Retry Update"
 msgstr "Update wiederholen"
 
-#: resources/views/editor/frontend/frontend-updating.php:196
-#: resources/views/hub/updating-content.php:162
+#: resources/views/editor/frontend/frontend-updating.php:197
+#: resources/views/hub/updating-content.php:163
 #, php-format
 msgid ""
 "The update process was already started! Please wait %1$s seconds before you "
 "try again"
 msgstr ""
 
-#: resources/views/editor/pageEditable/pageEditable.php:23
+#: resources/views/editor/pageEditable/pageEditable.php:25
 msgid "Loading..."
 msgstr "Lade..."
 
@@ -1438,6 +1440,11 @@ msgstr "An"
 #: resources/views/settings/pages/post-types/post-types-toggle.php:23
 msgid "off"
 msgstr "Aus"
+
+#~ msgid "Choose Backend editor schematic view with the quick preview option."
+#~ msgstr ""
+#~ "Wähle den Backend-Editor, Schemenansicht mit der schnellen Vorschau-"
+#~ "Option."
 
 #, fuzzy
 #~| msgid "Visual Composer Website Builder"
