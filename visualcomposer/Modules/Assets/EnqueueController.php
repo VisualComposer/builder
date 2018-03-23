@@ -44,7 +44,9 @@ class EnqueueController extends Container implements Module
         if ($bundleUrl) {
             $version = $optionsHelper->get('globalElementsCssHash', VCV_VERSION);
             if (!preg_match('/^http/', $bundleUrl)) {
-                $bundleUrl = '/assets-bundles/' . $bundleUrl;
+                if (!preg_match('/assets-bundles/', $bundleUrl)) {
+                    $bundleUrl = '/assets-bundles/' . $bundleUrl;
+                }
             }
             wp_enqueue_style(
                 'vcv:assets:global:styles:' . $strHelper->slugify($bundleUrl),
@@ -66,6 +68,11 @@ class EnqueueController extends Container implements Module
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl && !$frontendHelper->isPageEditable()) {
             $version = get_post_meta($sourceId, 'vcvSourceCssFileHash', true);
+            if (!preg_match('/^http/', $bundleUrl)) {
+                if (!preg_match('/assets-bundles/', $bundleUrl)) {
+                    $bundleUrl = '/assets-bundles/' . $bundleUrl;
+                }
+            }
 
             wp_enqueue_style(
                 'vcv:assets:source:main:styles:' . $strHelper->slugify($bundleUrl),
