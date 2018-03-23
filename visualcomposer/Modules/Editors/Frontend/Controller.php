@@ -92,6 +92,10 @@ class Controller extends Container implements Module
             if (isset($post->post_type) && $editorPostTypeHelper->isEditorEnabled($post->post_type)) {
                 $content = vcfilter('vcv:editors:frontend:render', '');
 
+                if (empty($content)) {
+                    $content = __('Sorry, you are not allowed to create posts as this user.', 'vcwb');
+                }
+
                 /** @noinspection PhpInconsistentReturnPointsInspection */
                 return $this->terminate($content);
             }
