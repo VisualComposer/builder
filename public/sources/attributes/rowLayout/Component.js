@@ -149,7 +149,7 @@ class Layout extends Attribute {
           }
           newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
           newMixin[ mixinName ].variables.gapSpace.value = gapSpace
-          newMixin[ mixinName ].variables.spaceForColumn.value = Math.round(spaceForColumn)
+          newMixin[ mixinName ].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
           newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
         })
       }
