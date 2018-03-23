@@ -61,7 +61,7 @@ class AddonsUpdater extends Container implements Module
     protected function logErrors($response, Logger $loggerHelper, $bundleJson)
     {
         $messages = [];
-        $messages[] = __('Failed to update addons #10080', 'vcwb');
+        $messages[] = __('Failed to update addons', 'vcwb') . ' #10080';
 
         if (is_wp_error($response)) {
             /** @var \WP_Error $response */
