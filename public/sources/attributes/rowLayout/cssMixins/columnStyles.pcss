@@ -11,7 +11,7 @@
       @if $autoColumn != false {
 
       } @else {
-        $width: calc((100% - $(gapSpace)px) * $(percentage) + $(equalSpace)px);
+        $width: calc($(numerator)% - $(spaceForColumn)px);
 
         @if $percentageSelector != false {
           > .vce-col--$(device)-$(percentageSelector)p {
