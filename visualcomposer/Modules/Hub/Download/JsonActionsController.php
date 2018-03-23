@@ -44,7 +44,7 @@ class JsonActionsController extends Container implements Module
                 }
             } else {
                 $loggerHelper->log(
-                    __('Failed to process required actions #10056', 'vcwb'),
+                    __('Failed to process required actions', 'vcwb') . ' #10056',
                     [
                         'payload' => $payload,
                         'response' => $response,
@@ -124,7 +124,7 @@ class JsonActionsController extends Container implements Module
         } else {
             $loggerHelper = vchelper('Logger');
             $loggerHelper->log(
-                sprintf(__('Failed to download %1$s #10058', 'vcwb'), $name),
+                sprintf(__('Failed to download %1$s', 'vcwb') . ' #10058', $name),
                 [
                     'version' => $version,
                     'action' => $action,

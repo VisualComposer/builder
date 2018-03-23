@@ -49,12 +49,12 @@ class ElementDownloadController extends Container implements Module
                         $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
                         if (vcIsBadResponse($response)) {
                             vchelper('Logger')->log(
-                                __('Bad response from hub:action #10078', 'vcwb'),
+                                __('Bad response from hub:action', 'vcwb') . ' #10078',
                                 ['response' => $response]
                             );
                             $response = [
                                 'status' => false,
-                                'message' => __('Failed to download bundle #10079', 'vcwb'),
+                                'message' => __('Failed to download bundle', 'vcwb') . ' #10079',
                             ];
                         }
                     }
@@ -129,7 +129,7 @@ class ElementDownloadController extends Container implements Module
                         $response['actions'][] = $actionData;
                     } else {
                         $loggerHelper->log(
-                            __('Failed to find element in hub #10042', 'vcwb'),
+                            __('Failed to find element in hub', 'vcwb') . ' #10042',
                             [
                                 'result' => $action,
                             ]
@@ -145,7 +145,7 @@ class ElementDownloadController extends Container implements Module
                 $resultDetails = $response['body'];
             }
             $messages = [];
-            $messages[] = __('Failed to read remote element bundle json #10043', 'vcwb');
+            $messages[] = __('Failed to read remote element bundle json', 'vcwb') . ' #10043';
             if (is_wp_error($response)) {
                 /** @var \WP_Error $response */
                 $messages[] = implode('. ', $response->get_error_messages()) . ' #10044';
