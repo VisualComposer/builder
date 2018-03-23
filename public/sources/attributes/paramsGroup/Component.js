@@ -15,7 +15,6 @@ export default class ParamsGroupAttribute extends Attribute {
     this.clickClone = this.clickClone.bind(this)
     this.clickDelete = this.clickDelete.bind(this)
     this.clickEdit = this.clickEdit.bind(this)
-    this.clickEditTitle = this.clickEditTitle.bind(this)
     this.enableEditable = this.enableEditable.bind(this)
     this.validateContent = this.validateContent.bind(this)
     this.preventNewLine = this.preventNewLine.bind(this)
@@ -35,11 +34,17 @@ export default class ParamsGroupAttribute extends Attribute {
 
   updateState (props) {
     if (props.value.value) {
-      return { value: props.value }
+      return {
+        value: props.value,
+        editable: {}
+      }
     } else {
       let value = {}
       value.value = props.value
-      return { value: value }
+      return {
+        value: value,
+        editable: {}
+      }
     }
   }
 
@@ -52,14 +57,16 @@ export default class ParamsGroupAttribute extends Attribute {
   clickEdit (index) {
     let groupName = this.state.value.value[ index ]
     let tag = `${this.props.element.get('tag')}-${this.props.element.get('id')}-${this.props.fieldKey}`
-    hubElementsService.add({ settings: {}, tag: tag })
     let settings = this.props.options.settings
-    settings.name = { type: 'string', value: 'test', 'access': 'public' }
+    settings.name = { type: 'string', value: this.props.options.title, 'access': 'public' }
     settings.tag = { type: 'string', value: tag, 'access': 'public' }
-    cook.add(settings)
     let value = this.state.value.value[ index ]
     value.tag = tag
-    value.name = 'test'
+    value.name = value.title || this.props.options.title
+
+    hubElementsService.add({ settings: value, tag: tag })
+    cook.add(settings)
+
     let element = cook.get(value).toJS()
 
     let options = {
@@ -106,42 +113,25 @@ export default class ParamsGroupAttribute extends Attribute {
     this.setFieldValue(newState)
   }
 
-  clickEditTitle (e) {
-    const groupIndex = e.currentTarget.getAttribute('data-index')
-    this.enableEditable(e)
-    let range = document.createRange()
-    let selection = window.getSelection()
-    range.selectNodeContents(this[`title${groupIndex}`])
-    selection.removeAllRanges()
-    selection.addRange(range)
-  }
-
   getSortableItems () {
     const SortableItem = SortableElement(({ value, groupIndex }) => {
-      let editable = this.state.editable
       let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
-      if (editable) {
-        controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
-      }
 
       return (
         <div className='vcv-ui-form-params-group-item vcv-ui-tree-layout-control'>
           {this.getSortableHandle()}
           <div className='vcv-ui-tree-layout-control-content'>
             <span className={controlLabelClasses}>
-              <span ref={span => { this[`title${groupIndex}`] = span }}
-                contentEditable={editable}
+              <span ref={span => { this[ `title${groupIndex}` ] = span }}
+                contentEditable
                 suppressContentEditableWarning
-                onClick={this.enableEditable}
                 onKeyDown={this.preventNewLine}
+                onClick={this.enableEditable}
                 onBlur={this.validateContent}
                 data-index={groupIndex}
               >
                 {value.title}
               </span>
-              <i className='vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title'
-                data-index={groupIndex}
-                onClick={this.clickEditTitle} />
             </span>
             {this.getChildControls(groupIndex)}
           </div>
@@ -160,19 +150,12 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   enableEditable (e) {
-    const groupIndex = e.currentTarget.getAttribute('data-index')
-    if (!this.state.editable) {
-      this.setState({
-        editable: true
-      }, () => {
-        this[`title${groupIndex}`].focus()
-      })
-    }
+    e.currentTarget.closest('.vcv-ui-tree-layout-control-label').classList.add('vcv-ui-tree-layout-control-label-editable')
   }
 
   validateContent (event) {
     const groupIndex = event.currentTarget.getAttribute('data-index')
-    const value = this[`title${groupIndex}`].innerText.trim()
+    const value = event.currentTarget.innerText.trim()
     this.updateContent(value, groupIndex)
   }
 
@@ -182,22 +165,23 @@ export default class ParamsGroupAttribute extends Attribute {
       event.preventDefault()
       event.nativeEvent.stopImmediatePropagation()
       event.stopPropagation()
-      this[`title${groupIndex}`].blur()
+      this[ `title${groupIndex}` ].blur()
       this.validateContent(event)
     }
   }
 
   updateContent (value, groupIndex) {
     const { element } = this.props
+    if (!value) {
+      value = this.props.options.title
+      this[ `title${groupIndex}` ].innerText = value
+    }
 
     this.onParamChange(groupIndex, element, 'title', value)
 
     this.setState({
-      editable: false
+      editable: {}
     })
-    // if (!value) {
-    //   this.span.innerText = element.get('name')
-    // }
   }
 
   getSortableList () {

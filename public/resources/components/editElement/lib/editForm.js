@@ -87,6 +87,11 @@ export default class EditForm extends React.Component {
 
     // element.set('customHeaderTitle', value)
     // let elementData = element.toJS()
+    if (!value) {
+      value = element.get('name')
+      this.span.innerText = value
+    }
+
     if (this.props.options && this.props.options.child) {
       this.props.options.customUpdater(element, 'title', value)
     } else {
@@ -97,9 +102,6 @@ export default class EditForm extends React.Component {
     this.setState({
       editable: false
     })
-    if (!value) {
-      this.span.innerText = element.get('name')
-    }
   }
 
   validateContent () {
