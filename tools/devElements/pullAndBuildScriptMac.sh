@@ -122,6 +122,7 @@ declare -a arr=(
 'centeredPostGridItem'
 'videoPlayer'
 'logoSlider'
+'gutenberg'
 )
 
 EXECDIR=`pwd`
