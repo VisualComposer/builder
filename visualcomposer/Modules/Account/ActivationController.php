@@ -93,7 +93,7 @@ class ActivationController extends Container implements Module
                 return $filterHelper->fire('vcv:activation:token:success', ['status' => true], ['token' => $token]);
             } else {
                 $messages = [];
-                $messages[] = __('Failed to get activation token #10013', 'vcwb');
+                $messages[] = __('Failed to get activation token', 'vcwb') . ' #10013';
                 if (is_wp_error($token)) {
                     /** @var \WP_Error $token */
                     $messages[] = implode('. ', $token->get_error_messages()) . ' #10014';
@@ -115,7 +115,7 @@ class ActivationController extends Container implements Module
             $expiresAfter = $expirationTime - time();
             $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
             $loggerHelper->log(
-                sprintf(__('Activation failed. Please wait %1$s seconds before you try again #10016', 'vcwb'), $expiresAfter),
+                sprintf(__('Activation failed. Please wait %1$s seconds before you try again', 'vcwb') . ' #10016', $expiresAfter),
                 [
                     'getTransient' => $optionsHelper->getTransient('vcv:activation:request'),
                     'expiresAfter' => $expiresAfter,

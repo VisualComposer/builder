@@ -15,6 +15,9 @@ export default class ParamsGroupAttribute extends Attribute {
     this.clickClone = this.clickClone.bind(this)
     this.clickDelete = this.clickDelete.bind(this)
     this.clickEdit = this.clickEdit.bind(this)
+    this.enableEditable = this.enableEditable.bind(this)
+    this.validateContent = this.validateContent.bind(this)
+    this.preventNewLine = this.preventNewLine.bind(this)
 
     this.getSortableHandle = this.getSortableHandle.bind(this)
     this.getSortableList = this.getSortableList.bind(this)
@@ -31,11 +34,17 @@ export default class ParamsGroupAttribute extends Attribute {
 
   updateState (props) {
     if (props.value.value) {
-      return { value: props.value }
+      return {
+        value: props.value,
+        editable: {}
+      }
     } else {
       let value = {}
       value.value = props.value
-      return { value: value }
+      return {
+        value: value,
+        editable: {}
+      }
     }
   }
 
@@ -48,14 +57,16 @@ export default class ParamsGroupAttribute extends Attribute {
   clickEdit (index) {
     let groupName = this.state.value.value[ index ]
     let tag = `${this.props.element.get('tag')}-${this.props.element.get('id')}-${this.props.fieldKey}`
-    hubElementsService.add({ settings: {}, tag: tag })
     let settings = this.props.options.settings
-    settings.name = { type: 'string', value: 'test', 'access': 'public' }
+    settings.name = { type: 'string', value: this.props.options.title, 'access': 'public' }
     settings.tag = { type: 'string', value: tag, 'access': 'public' }
-    cook.add(settings)
     let value = this.state.value.value[ index ]
     value.tag = tag
-    value.name = 'test'
+    value.name = value.title || this.props.options.title
+
+    hubElementsService.add({ settings: value, tag: tag })
+    cook.add(settings)
+
     let element = cook.get(value).toJS()
 
     let options = {
@@ -104,20 +115,23 @@ export default class ParamsGroupAttribute extends Attribute {
 
   getSortableItems () {
     const SortableItem = SortableElement(({ value, groupIndex }) => {
-      let editable = false
       let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
-      if (editable) {
-        controlLabelClasses += ' vcv-ui-tree-layout-control-label-editable'
-      }
 
       return (
         <div className='vcv-ui-form-params-group-item vcv-ui-tree-layout-control'>
           {this.getSortableHandle()}
           <div className='vcv-ui-tree-layout-control-content'>
             <span className={controlLabelClasses}>
-              <span ref={span => { this.span = span }}
-                contentEditable={editable}
-                suppressContentEditableWarning>
+              <span
+                className='vcv-ui-forms-params-group-content-editable'
+                ref={span => { this[ `title${groupIndex}` ] = span }}
+                contentEditable
+                suppressContentEditableWarning
+                onKeyDown={this.preventNewLine}
+                onClick={this.enableEditable}
+                onBlur={this.validateContent}
+                data-index={groupIndex}
+              >
                 {value.title}
               </span>
             </span>
@@ -134,6 +148,41 @@ export default class ParamsGroupAttribute extends Attribute {
           value={group}
           groupIndex={index} />
       )
+    })
+  }
+
+  enableEditable (e) {
+    e.currentTarget.closest('.vcv-ui-tree-layout-control-label').classList.add('vcv-ui-tree-layout-control-label-editable')
+  }
+
+  validateContent (event) {
+    const groupIndex = event.currentTarget.getAttribute('data-index')
+    const value = event.currentTarget.innerText.trim()
+    this.updateContent(value, groupIndex)
+  }
+
+  preventNewLine (event) {
+    const groupIndex = event.currentTarget.getAttribute('data-index')
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      event.nativeEvent.stopImmediatePropagation()
+      event.stopPropagation()
+      this[ `title${groupIndex}` ].blur()
+      this.validateContent(event)
+    }
+  }
+
+  updateContent (value, groupIndex) {
+    const { element } = this.props
+    if (!value) {
+      value = this.props.options.title
+      this[ `title${groupIndex}` ].innerText = value
+    }
+
+    this.onParamChange(groupIndex, element, 'title', value)
+
+    this.setState({
+      editable: {}
     })
   }
 

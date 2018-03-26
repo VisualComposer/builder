@@ -180,7 +180,7 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
     protected function logErrors($response, Logger $loggerHelper, $bundleJson)
     {
         $messages = [];
-        $messages[] = __('Failed to update templates #10065', 'vcwb');
+        $messages[] = __('Failed to update templates', 'vcwb') . ' #10065';
         if (is_wp_error($response)) {
             /** @var \WP_Error $response */
             $messages[] = implode('. ', $response->get_error_messages()) . ' #10066';
