@@ -111,22 +111,19 @@ class AssetResetController extends Container implements Module
         if (array_key_exists($link[0], $this->cache)) {
             return $this->cache[ $link[0] ];
         }
-        $uploadsDir = wp_upload_dir();
-        if (!preg_match('/' . $link[1] . ':\/\/' . $link[2] . '/', get_site_url())) {
-            $uploadPattern = str_replace(
-                '/',
-                '\\/',
-                str_replace(ABSPATH, '', $uploadsDir['basedir'])
-            );
-            $relative = preg_replace('/^(.*)?\/' . $uploadPattern . '\//', '', $link[3] . $link[4]);
-            $path = rtrim($uploadsDir['basedir'], '/\\') . '/' . $relative;
-            if ($this->fileHelper->isFile($path)) {
-                $this->changed = true;
-                $updatedLink = set_url_scheme($uploadsDir['baseurl'] . '/' . $relative);
-                $this->cache[ $link[0] ] = $updatedLink;
+        $contentDirPattern = str_replace(
+            '/',
+            '\\/',
+            str_replace(ABSPATH, '', WP_CONTENT_DIR)
+        );
+        $relative = preg_replace('/^(.*)?\/' . $contentDirPattern . '\//', '', $link[3] . $link[4]);
+        $path = rtrim(WP_CONTENT_DIR, '/\\') . '/' . ltrim($relative, '/\\');
+        if ($this->fileHelper->isFile($path)) {
+            $this->changed = true;
+            $updatedLink = set_url_scheme(WP_CONTENT_DIR . '/' . $relative);
+            $this->cache[ $link[0] ] = $updatedLink;
 
-                return $updatedLink;
-            }
+            return $updatedLink;
         }
         $this->cache[ $link[0] ] = $link[0];
 
