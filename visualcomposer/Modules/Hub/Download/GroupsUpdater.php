@@ -59,7 +59,7 @@ class GroupsUpdater extends Container implements Module
     protected function logErrors($response, Logger $loggerHelper, $bundleJson)
     {
         $messages = [];
-        $messages[] = __('Failed to update groups #10051', 'vcwb');
+        $messages[] = __('Failed to update groups', 'vcwb') . ' #10051';
 
         if (is_wp_error($response)) {
             /** @var \WP_Error $response */

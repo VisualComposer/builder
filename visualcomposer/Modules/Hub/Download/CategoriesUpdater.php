@@ -67,7 +67,7 @@ class CategoriesUpdater extends Container implements Module
     protected function logErrors($response, Logger $loggerHelper, $bundleJson)
     {
         $messages = [];
-        $messages[] = __('Failed to update categories #10037', 'vcwb');
+        $messages[] = __('Failed to update categories', 'vcwb') . ' #10037';
 
         if (is_wp_error($response)) {
             /** @var \WP_Error $response */

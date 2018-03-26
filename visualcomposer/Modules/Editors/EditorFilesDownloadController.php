@@ -60,7 +60,7 @@ class EditorFilesDownloadController extends Container implements Module
         $bundleJson = $payload['archive'];
         if (vcIsBadResponse($response) || is_wp_error($bundleJson)) {
             $messages = [];
-            $messages[] = __('Failed to update editor #10027', 'vcwb');
+            $messages[] = __('Failed to update editor', 'vcwb') . ' #10027';
             if (is_wp_error($response)) {
                 /** @var \WP_Error $response */
                 $messages[] = implode('. ', $response->get_error_messages()) . ' #10028';

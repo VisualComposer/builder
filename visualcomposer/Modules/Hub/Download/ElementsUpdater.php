@@ -87,7 +87,7 @@ class ElementsUpdater extends Container implements Module
     protected function logErrors($response, Logger $loggerHelper, $bundleJson)
     {
         $messages = [];
-        $messages[] = __('Failed to update elements #10046', 'vcwb');
+        $messages[] = __('Failed to update elements', 'vcwb') . ' #10046';
 
         if (is_wp_error($response)) {
             /** @var \WP_Error $response */
