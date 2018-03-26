@@ -147,6 +147,7 @@ declare -a arr=(
 'mailChimpForWordPress'
 'gravityForms'
 'addToAnyShareButtons'
+'gutenberg'
 )
 
 EXECDIR=`pwd`
