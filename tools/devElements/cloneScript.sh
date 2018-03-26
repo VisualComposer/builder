@@ -149,6 +149,7 @@ declare -a arr=(
 'addToAnyShareButtons'
 'marqueeElement'
 'progressBars'
+'gutenberg'
 )
 
 EXECDIR=`pwd`

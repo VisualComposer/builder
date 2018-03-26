@@ -120,7 +120,7 @@ class AssetResetController extends Container implements Module
         $path = rtrim(WP_CONTENT_DIR, '/\\') . '/' . ltrim($relative, '/\\');
         if ($this->fileHelper->isFile($path)) {
             $this->changed = true;
-            $updatedLink = set_url_scheme(WP_CONTENT_DIR . '/' . $relative);
+            $updatedLink = set_url_scheme(WP_CONTENT_URL . '/' . $relative);
             $this->cache[ $link[0] ] = $updatedLink;
 
             return $updatedLink;
