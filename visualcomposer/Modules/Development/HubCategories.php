@@ -362,7 +362,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Charts' => [
                     'title' => 'Charts',
-                    'elements' => ['progressBars'],
+                    'elements' => ['progressBars', 'progressBar'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Chart.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Chart.svg'),
                 ],
