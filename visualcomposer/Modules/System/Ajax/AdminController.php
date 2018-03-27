@@ -18,7 +18,7 @@ class AdminController extends Controller implements Module
     use EventsFilters;
     use WpFiltersActions;
 
-    protected $scope = 'ajax'; // TODO: change to adminAjax. for this needed to update all the filters.
+    protected $scope = 'ajax';
 
     /** @noinspection PhpMissingParentCallCommonInspection */
     public function __construct()
@@ -28,7 +28,8 @@ class AdminController extends Controller implements Module
             'wp_ajax_vcv:admin:ajax',
             'listenAjax',
             100
-        );$this->wpAddAction(
+        );
+        $this->wpAddAction(
             'wp_ajax_vcv-admin-ajax',
             'listenAjax',
             100

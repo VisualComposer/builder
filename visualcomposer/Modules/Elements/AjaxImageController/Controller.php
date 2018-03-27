@@ -40,7 +40,7 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\WpMedia $mediaHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
-     * @return string
+     * @return array
      */
     protected function customSize(
         $response,
