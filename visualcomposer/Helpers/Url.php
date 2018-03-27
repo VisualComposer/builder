@@ -56,7 +56,7 @@ class Url implements Helper
             $query['lang'] = strip_tags(esc_attr($_REQUEST['lang']));
         }
         // // @codingStandardsIgnoreEnd
-        $url = get_permalink();
+        $url = set_url_scheme(get_permalink());
 
         return $this->query($url, $query);
     }
@@ -78,7 +78,7 @@ class Url implements Helper
             $query['lang'] = strip_tags(esc_attr($_REQUEST['lang']));
         }
         // @codingStandardsIgnoreEnd
-        $url = admin_url('admin-ajax.php') . '?';
+        $url = set_url_scheme(admin_url('admin-ajax.php')) . '?';
 
         return $this->query($url, $query);
     }
