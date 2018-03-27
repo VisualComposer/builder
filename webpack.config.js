@@ -10,15 +10,15 @@ let VirtualModulePlugin = require('virtual-module-webpack-plugin')
 module.exports = {
   devtool: 'eval',
   entry: {
-    node: './public/node-main',
+    // node: './public/node-main',
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    wpbackend: './public/wpbackend-main',
+    // wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
     // wpsettings: './public/wp-settings-main',
     // wpupdate: './public/bundle-update-main',
-    app: [],
+    // app: [],
     vendor: [
       'jquery',
       'react',
