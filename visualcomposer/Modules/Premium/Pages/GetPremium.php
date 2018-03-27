@@ -70,8 +70,7 @@ class GetPremium extends Container implements Module
             );
 
             if (!$tokenHelper->isSiteAuthorized()
-                || ($tokenHelper->isSiteAuthorized()
-                    && !$licenseHelper->isActivated())
+                || ($tokenHelper->isSiteAuthorized() && !$licenseHelper->isActivated())
             ) {
                 $this->wpAddFilter(
                     'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
@@ -116,7 +115,6 @@ class GetPremium extends Container implements Module
             __('Go Premium', 'vcwb')
         );
     }
-
 
     /**
      * Add target _blank to external "Go Premium" link in sidebar

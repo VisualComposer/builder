@@ -203,7 +203,7 @@ class HubCategories extends Container implements Module
                         'facebookPage',
                         'facebookEmbeddedVideo',
                         'facebookEmbeddedComments',
-                        'facebookEmbeddedPosts'
+                        'facebookEmbeddedPosts',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Social.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Social.svg'),
@@ -360,6 +360,12 @@ class HubCategories extends Container implements Module
                     'elements' => ['classicAccordionSection'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Container.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Container.svg'),
+                ],
+                'Charts' => [
+                    'title' => 'Charts',
+                    'elements' => ['progressBars'],
+                    'icon' => $urlHelper->to('devCategories/categories/icons/Chart.svg'),
+                    'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Chart.svg'),
                 ],
             ]
         );
