@@ -70,16 +70,16 @@ class Controller extends Container implements Module
             remove_action('wp_head', 'feed_links_extra', 3);
             remove_action('wp_head', 'rsd_link');
             remove_action('wp_head', 'wlwmanifest_link');
-            remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
+            remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10);
             remove_action('wp_head', 'locale_stylesheet');
-            remove_action('publish_future_post', 'check_and_publish_future_post', 10, 1);
+            remove_action('publish_future_post', 'check_and_publish_future_post', 10);
             remove_action('wp_head', 'noindex', 1);
             remove_action('wp_head', 'print_emoji_detection_script', 7);
             //            remove_action('wp_head', 'wp_print_styles', 8);
             //            remove_action('wp_head', 'wp_print_head_scripts', 9);
             remove_action('wp_head', 'wp_generator');
             remove_action('wp_head', 'rel_canonical');
-            remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
+            remove_action('wp_head', 'wp_shortlink_wp_head', 10);
             remove_action('wp_head', 'wp_custom_css_cb', 101);
             remove_action('wp_head', 'wp_site_icon', 99);
             if (!vcvenv('VCV_FE_SHORTCODES_SCRIPTS')) {

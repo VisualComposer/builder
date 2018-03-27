@@ -30,7 +30,8 @@ class Controller extends Container implements Module
         $this->wpAddAction(
             'activate_' . $file,
             'activationHook'
-        );$this->wpAddAction(
+        );
+        $this->wpAddAction(
             'deactivate_' . $file,
             'deactivationHook'
         );
