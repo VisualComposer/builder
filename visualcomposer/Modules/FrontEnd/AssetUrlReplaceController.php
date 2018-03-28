@@ -49,7 +49,7 @@ class AssetUrlReplaceController extends Container implements Module
 
     protected function renderAssetsUploadUrl(Assets $assetsHelper)
     {
-        return $assetsHelper->getAssetUrl() . '/';
+        return $assetsHelper->getAssetUrl();
     }
 
     protected function renderUploadUrl()
@@ -57,6 +57,6 @@ class AssetUrlReplaceController extends Container implements Module
         $uploadDir = wp_upload_dir();
         $url = set_url_scheme($uploadDir['baseurl']);
 
-        return $url . '/';
+        return $url;
     }
 }
