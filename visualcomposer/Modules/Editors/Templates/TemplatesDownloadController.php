@@ -29,24 +29,23 @@ class TemplatesDownloadController extends Container implements Module
 
     /**
      * TemplatesDownloadController constructor.
-     *
+     * @deprecated 2.3
      * @param \VisualComposer\Helpers\Options $optionsHelper
      */
     public function __construct(Options $optionsHelper)
     {
-        if (vcvenv('VCV_ENV_TEMPLATES_DOWNLOAD')) {
+        if (vcvenv('VCV_ENV_TEMPLATES_DOWNLOAD') && !vcvenv('VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
             /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
-            if (!vcvenv('VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
-                $this->addFilter(
-                    'vcv:hub:download:bundle vcv:hub:download:bundle:templates vcv:hub:download:bundle:predefinedTemplate/*',
-                    'updateTemplates',
-                    60
-                );
-            }
+            $this->addFilter(
+                'vcv:hub:download:bundle vcv:hub:download:bundle:templates vcv:hub:download:bundle:predefinedTemplate/*',
+                'updateTemplates',
+                60
+            );
         }
     }
 
     /**
+     * @deprecated 2.3
      * @param $response
      * @param $payload
      * @param \VisualComposer\Helpers\Options $optionsHelper

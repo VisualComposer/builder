@@ -19,4 +19,11 @@ class PredefinedTemplateDownloadAction extends Container implements Module
     protected $actionName = 'predefinedTemplate/*';
 
     use Action;
+
+    public function __construct()
+    {
+        if (vcvenv('VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
+            $this->helperName = 'HubActionsHubTemplatesBundle';
+        }
+    }
 }
