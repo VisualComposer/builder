@@ -16,6 +16,8 @@ import vcCake from 'vc-cake'
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
 
+const documentManager = vcCake.getService('document')
+
 export default class DesignOptions extends Attribute {
   /**
    * Attribute Mixins
@@ -556,7 +558,12 @@ export default class DesignOptions extends Attribute {
     if (this.state.currentDevice === 'all') {
       if (vcCake.env('FE_TOGGLE_ELEMENT')) {
         let id = this.props.element.get('id')
-        let element = elementsStorage.state(`element:${id}`).get() || this.props.element.toJS()
+        let element = ''
+        if (vcCake.env('TF_RENDER_PERFORMANCE')) {
+          element = documentManager.get(id)
+        } else {
+          element = elementsStorage.state(`element:${id}`).get() || this.props.element.toJS()
+        }
         let checked = !element.hidden
         return (
           <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>

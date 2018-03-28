@@ -1,4 +1,4 @@
-import {getStorage} from 'vc-cake'
+import {getStorage, getService, env} from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'
@@ -10,6 +10,8 @@ const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')
 const workspaceSettings = getStorage('workspace').state('settings')
+
+const documentManager = getService('document')
 
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
@@ -48,9 +50,15 @@ export default class TreeViewLayout extends React.Component {
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
+    let data = ''
+    if (env('TF_RENDER_PERFORMANCE')) {
+      data = documentManager.children(false)
+    } else {
+      data = elementsStorage.state('document').get()
+    }
     this.setState({
       header: document.querySelector('.vcv-ui-navbar-container'),
-      data: elementsStorage.state('document').get()
+      data: data
     })
     this.scrollTimeout = setTimeout(() => {
       this.handleScrollToElement(this.props.contentStartId || this.props.contentId)
