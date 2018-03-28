@@ -37,9 +37,9 @@ class GutenbergAttributeController extends Container implements Module
 
     protected function getGutenberg($response)
     {
-        add_action( 'admin_enqueue_scripts', 'gutenberg_editor_scripts_and_styles' );
-        add_filter( 'screen_options_show_screen', '__return_false' );
-        add_filter( 'admin_body_class', 'gutenberg_add_admin_body_class' );
+        add_action('admin_enqueue_scripts', 'gutenberg_editor_scripts_and_styles');
+        add_filter('screen_options_show_screen', '__return_false');
+        add_filter('admin_body_class', 'gutenberg_add_admin_body_class');
         ob_start();
         wp_head();
         $headContents = ob_get_clean();
