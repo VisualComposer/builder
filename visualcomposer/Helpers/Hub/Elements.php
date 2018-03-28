@@ -130,7 +130,11 @@ class Elements implements Helper
     public function getElementPath($path = '')
     {
         if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
-            return $path;
+            if (preg_match('/devElements\//', $path)) {
+                return $path;
+            }
+
+            return vcapp()->path() . 'devElements/' . $path;
         }
 
         $pattern = '/' . VCV_PLUGIN_ASSETS_DIRNAME . '\//';
