@@ -15,6 +15,7 @@ class TemplatesBundle extends ActionBundle implements Helper
     /** @noinspection PhpMissingParentConstructorInspection */
     /**
      * ElementsBundle constructor.
+     * @deprecated 2.3
      */
     public function __construct()
     {
