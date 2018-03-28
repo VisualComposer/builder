@@ -36,11 +36,13 @@ class TemplatesDownloadController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_TEMPLATES_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
-            $this->addFilter(
-                'vcv:hub:download:bundle vcv:hub:download:bundle:templates vcv:hub:download:bundle:predefinedTemplate/*',
-                'updateTemplates',
-                60
-            );
+            if (!vcvenv('VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
+                $this->addFilter(
+                    'vcv:hub:download:bundle vcv:hub:download:bundle:templates vcv:hub:download:bundle:predefinedTemplate/*',
+                    'updateTemplates',
+                    60
+                );
+            }
         }
     }
 
@@ -235,7 +237,7 @@ class TemplatesDownloadController extends Container implements Module
 
         if ($urlHelper->isUrl($url)) {
             $imageFile = $fileHelper->download($url);
-            $localImagePath = strtolower($template['id'] . '/' . $prefix . '' . basename($url));
+            $localImagePath = $template['id'] . '/' . strtolower($prefix . '' . basename($url));
             if (!is_wp_error($imageFile)) {
                 $fileHelper->createDirectory(
                     $hubTemplatesHelper->getTemplatesPath($template['id'])
