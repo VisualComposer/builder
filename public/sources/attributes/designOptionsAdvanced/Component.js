@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import { env, getStorage } from 'vc-cake'
+import { env, getStorage, getService } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -18,6 +18,8 @@ import Range from '../range/Component'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
+
+const documentManager = getService('document')
 
 export default class DesignOptionsAdvanced extends Attribute {
   /**
@@ -745,7 +747,12 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (this.state.currentDevice === 'all') {
       if (env('FE_TOGGLE_ELEMENT')) {
         let id = this.props.element.get('id')
-        let element = elementsStorage.state(`element:${id}`).get() || this.props.element.toJS()
+        let element = ''
+        if (env('TF_RENDER_PERFORMANCE')) {
+          element = documentManager.get(id)
+        } else {
+          element = elementsStorage.state(`element:${id}`).get() || this.props.element.toJS()
+        }
         if (element.tag === 'column') {
           return null
         } else {
