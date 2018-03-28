@@ -244,6 +244,7 @@ addStorage('elements', (storage) => {
   })
   storage.on('move', (id, data) => {
     let element = documentManager.get(id)
+    const oldParent = element.parent
     if (data.action === 'after') {
       documentManager.moveAfter(id, data.related)
     } else if (data.action === 'append') {
@@ -262,7 +263,15 @@ addStorage('elements', (storage) => {
       addRowColumnBackground(newElement.id, newElement, documentManager)
       rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout.disableStacking }, documentManager)
     }
-    storage.state('document').set(documentManager.children(false))
+    const updatedElement = documentManager.get(id)
+    if (env('TF_RENDER_PERFORMANCE') && oldParent && updatedElement.parent) {
+      storage.trigger(`element:${oldParent}`, documentManager.get(oldParent))
+      if (oldParent !== updatedElement.parent) {
+        storage.trigger(`element:${updatedElement.parent}`, documentManager.get(updatedElement.parent))
+      }
+    } else {
+      storage.state('document').set(documentManager.children(false))
+    }
     updateTimeMachine()
   })
   const mergeChildrenLayout = (data, parent) => {
