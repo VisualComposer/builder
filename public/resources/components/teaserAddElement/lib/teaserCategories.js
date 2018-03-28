@@ -101,7 +101,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   getTemplateGroup () {
-    let elements = window.VCV_HUB_GET_TEMPLATES_TEASER().filter(element => element.templateType === 'hub')
+    let elements = window.VCV_HUB_GET_TEMPLATES_TEASER().filter((element) => {
+      return element.templateType === 'hub' || element.templateType === 'predefined'
+    })
     return { elements: elements, id: 'Templates2', index: 2, title: 'Templates' }
   }
 

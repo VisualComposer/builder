@@ -159,7 +159,11 @@ addStorage('elements', (storage) => {
     }
     if (!options.silent) {
       storage.state('elementAdd').set(data)
-      storage.state('document').set(documentManager.children(false))
+      if (env('TF_ELEMENT_CRUD_PERFORMANCE') && !wrap && data.parent) {
+        storage.trigger(`element:${data.parent}`, documentManager.get(data.parent), 'storage', options)
+      } else {
+        storage.state('document').set(documentManager.children(false))
+      }
       updateTimeMachine()
     }
   })

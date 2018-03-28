@@ -146,6 +146,11 @@ class Elements implements Helper
         if (preg_match('/^http/', $path)) {
             return $path;
         }
+
+        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+            return VCV_PLUGIN_URL . 'devElements/' . $path;
+        }
+
         $assetsHelper = vchelper('Assets');
 
         return $assetsHelper->getAssetUrl('/elements/' . ltrim($path, '\\/'));
