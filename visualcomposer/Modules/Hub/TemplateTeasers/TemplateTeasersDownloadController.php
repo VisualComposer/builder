@@ -51,6 +51,7 @@ class TemplateTeasersDownloadController extends Container implements Module
                 'templateType' => $template['type'],
                 'id' => $template['id'],
                 'update' => isset($template['update']) ? $template['update'] : false,
+                'allowDownload' => isset($template['allowDownload']) ? $template['allowDownload'] : false,
             ];
             $allTemplates[] = $elementData;
         }
