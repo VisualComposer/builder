@@ -124,6 +124,7 @@
     "postcss-custom-properties": "5.0.1",
     "postcss-each": "0.10.0",
     "postcss-loader": "1.0.0",
+    "postcss-math": "0.0.10",
     "postcss-nested": "1.0.0",
     "postcss-prefix-url": "git://github.com/say2me/postcss-prefix-url.git",
     "prop-types": "15.6.0",

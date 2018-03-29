@@ -10,6 +10,7 @@ import postcssMedia from 'postcss-custom-media'
 import postcssEach from 'postcss-each'
 import colorBlend from 'color-blend'
 import functions from 'postcss-functions'
+import postcssMath from 'postcss-math'
 
 class StylesManager {
   constructor (styles = []) {
@@ -109,6 +110,7 @@ class StylesManager {
           }))
         }
         use.push(colorBlend())
+        use.push(postcssMath())
         use.push(functions({
           functions: {
             rawUrl: (path) => {
