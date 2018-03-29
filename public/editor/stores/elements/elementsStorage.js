@@ -175,6 +175,11 @@ addStorage('elements', (storage) => {
     documentManager.update(id, element)
     if (env('TF_RENDER_PERFORMANCE')) {
       storage.trigger(`element:${id}`, element, source, options)
+      if (options && options.action === 'hide' && element.parent) {
+        storage.trigger(`element:${element.parent}`, documentManager.get(element.parent), source, options)
+      } else {
+        storage.trigger(`element:${id}`, element, source, options)
+      }
     } else {
       storage.state(`element:${id}`).set(element, source, options)
     }
