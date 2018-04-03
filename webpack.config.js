@@ -1,5 +1,6 @@
 let path = require('path')
 let Collector = require('./tools/webpack-collector')
+// let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let autoprefixer = require('autoprefixer')
 let webpack = require('webpack')
@@ -12,8 +13,8 @@ module.exports = {
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    // wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
+    // app: [],
     vendor: [
       'jquery',
       'react',
@@ -89,6 +90,32 @@ module.exports = {
         'hubGroups',
         'hubElements',
         'elementAccessPoint'
+      ]
+    },
+    wpbackend: {
+      modules: [
+        'content/backendContent',
+        'content/modernLayoutBackend',
+        'wordpressBackendWorkspace'
+      ],
+      services: [
+        'utils',
+        'document',
+        'wordpress-post-data',
+        'cook',
+        'sharedAssetsLibrary',
+        'elementAssetsLibrary',
+        'time-machine',
+        'actions-manager',
+        'rules-manager',
+        'api',
+        'dataProcessor',
+        'modernAssetsStorage',
+        'stylesManager',
+        'wpMyTemplates',
+        'hubCategories',
+        'hubGroups',
+        'hubElements'
       ]
     },
     'wpbackend-switcher': {
