@@ -192,7 +192,7 @@ export default class {
     return tags
   }
 
-  getCssMixinsByElementWithSettings(element, settings, cssSettings, mixins) {
+  getCssMixinsByElementWithSettings (element, settings, cssSettings, mixins) {
     let foundMixins = {}
     for (let key in settings) {
       // If found element then get actual data form element
