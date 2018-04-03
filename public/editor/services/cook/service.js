@@ -39,6 +39,9 @@ const API = {
 
     return new CookElement(data)
   },
+  getSettings (tag) {
+    return elementSettings.get(tag)
+  },
   getById (id) {
     let data = DocumentData.get(id)
     return data !== null ? this.get(data) : null
