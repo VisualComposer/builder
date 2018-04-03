@@ -1,5 +1,6 @@
 let path = require('path')
 let Collector = require('./tools/webpack-collector')
+// let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let autoprefixer = require('autoprefixer')
 let webpack = require('webpack')
@@ -14,6 +15,9 @@ module.exports = {
     front: './public/front-main',
     // wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
+    // wpsettings: './public/wp-settings-main',
+    // wpupdate: './public/bundle-update-main',
+    // app: [],
     vendor: [
       'jquery',
       'react',
@@ -91,6 +95,32 @@ module.exports = {
         'elementAccessPoint'
       ]
     },
+    wpbackend: {
+      modules: [
+        'content/backendContent',
+        'content/modernLayoutBackend',
+        'wordpressBackendWorkspace'
+      ],
+      services: [
+        'utils',
+        'document',
+        'wordpress-post-data',
+        'cook',
+        'sharedAssetsLibrary',
+        'elementAssetsLibrary',
+        'time-machine',
+        'actions-manager',
+        'rules-manager',
+        'api',
+        'dataProcessor',
+        'modernAssetsStorage',
+        'stylesManager',
+        'wpMyTemplates',
+        'hubCategories',
+        'hubGroups',
+        'hubElements'
+      ]
+    },
     'wpbackend-switcher': {
       services: [],
       modules: [
@@ -135,7 +165,7 @@ module.exports = {
         loader: StringReplacePlugin.replace({ // from the 'string-replace-webpack-plugin'
           replacements: [ {
             pattern: /define\.amd/ig,
-            replacement: function () {
+            replacement: function (match, p1, offset, string) {
               return false
             }
           } ]
@@ -166,6 +196,8 @@ module.exports = {
       { test: /\.(ttf|eot|svg)(\?.+)?$/, loader: 'file-loader?name=/fonts/[name].[ext]?[hash]' },
       { test: /\.raw(\?v=\d+\.\d+\.\d+)?$/, loader: 'raw-loader' },
       { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' }
+      // { test: require.resolve("react"), loader: "expose?React" },
+      // { test: require.resolve("jquery"), loader: "expose?$!expose?jQuery" } // TODO: Remove on production.
     ]
   },
   postcss: () => {
