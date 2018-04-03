@@ -2,12 +2,11 @@ import lodash from 'lodash'
 
 let items = {}
 export default {
-  add (settings, componentCallback, cssSettings, javascriptCallback) {
+  add (settings, componentCallback, cssSettings) {
     items[ settings.tag.value ] = {
       settings: lodash.defaults(settings, { tag: null }),
       component: componentCallback,
-      cssSettings: cssSettings,
-      javascript: javascriptCallback
+      cssSettings: cssSettings
     }
   },
   remove (tag) {
