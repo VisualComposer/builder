@@ -72,7 +72,6 @@ export default class CookElement {
         hidden: hidden,
         settings: elSettings && elSettings.settings ? elSettings.settings : {},
         cssSettings: elSettings && elSettings.cssSettings ? elSettings.cssSettings : {},
-        jsSettings: elSettings && elSettings.javascript ? elSettings.javascript : {},
         getAttributeType: function (k) {
           return getAttributeType(k, this.settings)
         }
