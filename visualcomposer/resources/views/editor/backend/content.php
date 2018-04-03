@@ -30,10 +30,10 @@ if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
   window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
   window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
   window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
-  window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()); ?>';
+  window.vcvPostPermanentLink = '<?php echo set_url_scheme(get_permalink(get_the_ID())); ?>';
     <?php if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) : ?>
   window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
-  window.vcvGoPremiumUrlLogo = '<?php echo admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug())); ?>';
+  window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>';
     <?php endif; ?>
 <?php // @codingStandardsIgnoreEnd ?>
 </script>
