@@ -173,9 +173,24 @@ const innerApi = {
         if (!cookElement) {
           return
         }
-        let elementPublicAssetsFiles = getAssetsFilesByElement(cookElement, options)
+        let elementPublicAssetsFiles = getAssetsFilesByElement(cookElement, getAssetsFilesByElement, options)
         files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
         files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
+      } else if (settings.type === 'paramsGroup') {
+        let paramsGroupValue = value
+        if (paramsGroupValue && paramsGroupValue.value && paramsGroupValue.value.length) {
+          let paramGroupSettings = settings.options && settings.options.settings ? settings.options.settings : null
+          if (paramGroupSettings) {
+            paramsGroupValue.value.forEach((itemValue, i) => {
+              // let tag = `${element['tag']}-${element['id']}-${key}`
+              // value.tag = tag
+              cookElement = cook.get(itemValue)
+              let elementPublicAssetsFiles = getAssetsFilesByElement(cookElement, getAssetsFilesByElement, options)
+              files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
+              files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
+            })
+          }
+        }
       }
     })
     files.cssBundles = [ ...new Set(files.cssBundles) ]

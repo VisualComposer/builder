@@ -26,6 +26,7 @@ const getElementLibNames = (id, element, callback) => {
       let innerElementValue = innerElement.toJS()
       callback(innerElementValue.id, innerElementValue)
     }
+    // TODO params group
   })
   return data
 }

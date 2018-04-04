@@ -169,20 +169,26 @@ export default class {
    * @returns {*}
    */
   getElementTagsByTagName (tag, tags, data = {}) { // @SM
-    let element = this.cook().get({ tag: tag })
-    if (!element) {
+    let elementSettings = this.cook().getSettings(tag)
+    if (!elementSettings) {
       return tags
     }
-    let settings = element.get('settings')
-    for (let key in settings) {
+    for (let key in elementSettings.settings) {
       // If found element than get actual tags form element
-      if (settings[ key ].type === 'element') {
+      if (elementSettings.settings[ key ].type === 'element') {
         if (lodash.isEmpty(data)) {
           // get tag from default value
-          tags = this.getElementTagsByTagName(settings[ key ].value.tag, tags)
+          tags = this.getElementTagsByTagName(elementSettings.settings[ key ].value.tag, tags)
         } else {
           // get tad from data
           tags = this.getElementTagsByTagName(data[ key ].tag, tags, data[ key ])
+        }
+      } else if (elementSettings.settings[ key ].type === 'paramsGroup') {
+        let paramsGroupValue = data[ key ]
+        if (paramsGroupValue && paramsGroupValue.value && paramsGroupValue.value.length) {
+          paramsGroupValue.value.forEach((value, i) => {
+            tags = this.getElementTagsByTagName(value.tag, tags, value)
+          })
         }
       }
     }
