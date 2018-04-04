@@ -71,7 +71,8 @@ class Controller extends Container implements Module
             $response = [];
         }
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()) {
+        if (is_numeric($sourceId)
+            && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()) {
             // @codingStandardsIgnoreLine
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
             if (!empty($postMeta)) {
@@ -240,8 +241,8 @@ class Controller extends Container implements Module
         }
         // @codingStandardsIgnoreEnd
         //temporarily disable
-        remove_filter('content_save_pre', 'wp_filter_post_kses');
-        remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+        kses_remove_filters();
+        remove_filter('content_save_pre', 'balanceTags', 50);
 
         if (isset($dataDecoded['inherit'])) {
             // @codingStandardsIgnoreLine
@@ -264,8 +265,6 @@ class Controller extends Container implements Module
         }
 
         //bring it back once you're done posting
-        add_filter('content_save_pre', 'wp_filter_post_kses');
-        add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
         $postTypeHelper->setupPost($sourceId);
         $responseExtra = $filterHelper->fire(
             'vcv:dataAjax:setData',
