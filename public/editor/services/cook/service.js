@@ -39,12 +39,18 @@ const API = {
 
     return new CookElement(data)
   },
+  getSettings (tag) {
+    return elementSettings.get(tag)
+  },
   getById (id) {
     let data = DocumentData.get(id)
     return data !== null ? this.get(data) : null
   },
-  add (settings, componentCallback, cssSettings, javascriptCallback) {
-    elementSettings.add(settings, componentCallback, cssSettings, javascriptCallback)
+  add (settings, componentCallback, cssSettings, __deprecated) {
+    if (typeof __deprecated !== 'undefined' && env('DEBUG')) {
+      console.warn('// javascript callback is deprecated for element registration')
+    }
+    elementSettings.add(settings, componentCallback, cssSettings)
   },
   getTagByName (name) {
     return elementSettings.findTagByName(name)

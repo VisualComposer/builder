@@ -10,14 +10,10 @@ let VirtualModulePlugin = require('virtual-module-webpack-plugin')
 module.exports = {
   devtool: 'eval',
   entry: {
-    // node: './public/node-main',
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    // wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
-    // wpsettings: './public/wp-settings-main',
-    // wpupdate: './public/bundle-update-main',
     // app: [],
     vendor: [
       'jquery',
@@ -71,30 +67,6 @@ module.exports = {
     new webpack.NamedModulesPlugin()
   ],
   vc: {
-    node: {
-      modules: [
-        'content/modernLayout',
-        'workspace'
-      ],
-      services: [
-        'utils',
-        'document',
-        'localStorage',
-        'cook',
-        'sharedAssetsLibrary',
-        'elementAssetsLibrary',
-        'actions-manager',
-        'rules-manager',
-        'api',
-        'dataProcessor',
-        'modernAssetsStorage',
-        'stylesManager',
-        'hubCategories',
-        'hubGroups',
-        'hubElements',
-        'elementAccessPoint'
-      ]
-    },
     wp: {
       modules: [
         'content/modernLayout',
@@ -190,7 +162,7 @@ module.exports = {
         loader: StringReplacePlugin.replace({ // from the 'string-replace-webpack-plugin'
           replacements: [ {
             pattern: /define\.amd/ig,
-            replacement: function (match, p1, offset, string) {
+            replacement: function () {
               return false
             }
           } ]
@@ -221,8 +193,6 @@ module.exports = {
       { test: /\.(ttf|eot|svg)(\?.+)?$/, loader: 'file-loader?name=/fonts/[name].[ext]?[hash]' },
       { test: /\.raw(\?v=\d+\.\d+\.\d+)?$/, loader: 'raw-loader' },
       { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' }
-      // { test: require.resolve("react"), loader: "expose?React" },
-      // { test: require.resolve("jquery"), loader: "expose?$!expose?jQuery" } // TODO: Remove on production.
     ]
   },
   postcss: () => {
