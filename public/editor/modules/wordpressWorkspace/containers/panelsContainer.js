@@ -10,7 +10,7 @@ import TreeViewLayout from '../../../../resources/components/treeView/treeViewLa
 import SettingsPanel from '../../../../resources/components/settings/settingsPanel'
 import EditElementPanel from '../../../../resources/components/editElement/editElementPanel'
 import EditFormPanel from '../../../../resources/components/editForm/editFormPanel'
-import {getService, env} from 'vc-cake'
+import { getService, env } from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
@@ -88,7 +88,7 @@ export default class PanelsContainer extends React.Component {
       if (settings && settings.element) {
         const activeTabId = settings.tag || ''
         if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
-          return <EditFormPanel key={`panels-container-edit-element-${settings.element.id}`} element={settings.element} activeTabId={activeTabId} />
+          return <EditFormPanel key={`panels-container-edit-element-${settings.element.id}`} element={settings.element} activeTabId={activeTabId} options={settings.options || {}} />
         } else {
           const cookElement = cook.get(settings.element)
           return <EditElementPanel key={`panels-container-edit-element-${cookElement.get('id')}`} element={cookElement} activeTabId={activeTabId} options={settings.options || {}} />
@@ -164,7 +164,7 @@ export default class PanelsContainer extends React.Component {
         <ContentStart>
           {this.getStartContent()}
         </ContentStart>
-        <ContentEnd content={end} >
+        <ContentEnd content={end}>
           {this.getEndContent()}
         </ContentEnd>
       </div>

@@ -4,10 +4,13 @@ import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const hubCategories = vcCake.getService('hubCategories')
+const workspaceStorage = vcCake.getStorage('workspace')
+const cook = vcCake.getService('cook')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired
+    element: PropTypes.object.isRequired,
+    options: PropTypes.object
   }
 
   constructor (props) {
@@ -22,6 +25,7 @@ export default class EditFormHeader extends React.Component {
     this.editTitle = this.editTitle.bind(this)
     this.preventNewLine = this.preventNewLine.bind(this)
     this.updateElementOnChange = this.updateElementOnChange.bind(this)
+    this.goBack = this.goBack.bind(this)
   }
 
   componentDidMount () {
@@ -64,14 +68,22 @@ export default class EditFormHeader extends React.Component {
   }
 
   updateContent (value) {
-    const { element } = this.props
-    this.setState({
-      editable: false
-    })
+    const { element, options } = this.props
     if (!value) {
       this.span.innerText = element.get('name')
     }
-    element.customHeaderTitle = value
+
+    if (options && options.child) {
+      options.customUpdater(element, 'title', value)
+    } else {
+      element.customHeaderTitle = value
+      // let elementData = elementsStorage.state(`element:${element.get('id')}`).get() || element.toJS()
+      // elementData.customHeaderTitle = value
+      // elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
+    }
+    this.setState({
+      editable: false
+    })
   }
 
   validateContent () {
@@ -89,16 +101,35 @@ export default class EditFormHeader extends React.Component {
     }
   }
 
+  goBack () {
+    let { parentElement, parentElementOptions } = this.props.options
+    let element = cook.get(parentElement)
+    parentElementOptions.element = parentElement
+    workspaceStorage.trigger('edit', element.get('id'), element.get('tag'), parentElementOptions)
+  }
+
   render () {
-    const { element } = this.props
-    const { content, editable } = this.state
+    const { element, options } = this.props
+    let { content, editable } = this.state
     let headerTitleClasses = classNames({
       'vcv-ui-edit-form-header-title': true,
-      'active': this.state.editable
+      'active': editable
     })
+    const backButton = options && options.child ? (
+      <span className='vcv-ui-edit-form-back-button' onClick={this.goBack}>
+        <i className='vcv-ui-icon vcv-ui-icon-chevron-left' /></span>) : null
+
+    if (options && options.child && options.activeParamGroup) {
+      content = options.activeParamGroup.title
+    }
+
+    const sectionImageSrc = hubCategories.getElementIcon(element.tag)
+    const sectionImage = sectionImageSrc ? (
+      <img src={sectionImageSrc} title={content} />) : null
     return (
       <div className='vcv-ui-edit-form-header'>
-        <img src={hubCategories.getElementIcon(element.tag)} title={content} />
+        {backButton}
+        {sectionImage}
         <span className={headerTitleClasses}
           ref={span => { this.span = span }}
           contentEditable={editable}

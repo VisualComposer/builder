@@ -75,7 +75,7 @@ export default class ElementAttribute extends React.Component {
 
   render () {
     const { options } = this.props
-    const { category } = options
+    const { category, elementLabel } = options
     const { showReplacements } = this.state
     let replacements = ''
     let categorySettings = hubCategoriesService.get(category)
@@ -102,7 +102,7 @@ export default class ElementAttribute extends React.Component {
           </p>
           <button type='button' className='vcv-ui-form-button vcv-ui-form-button--default'
             onClick={this.toggleReplace}>
-            Replace Element
+            Replace {elementLabel}
           </button>
         </div>
       )
