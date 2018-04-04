@@ -8,7 +8,8 @@ import Scrollbar from '../../../scrollbar/scrollbar.js'
 export default class EditForm extends React.Component {
   static propTypes = {
     element: PropTypes.object.isRequired,
-    activeTabId: PropTypes.string
+    activeTabId: PropTypes.string,
+    options: PropTypes.object
   }
 
   constructor (props) {
@@ -114,7 +115,7 @@ export default class EditForm extends React.Component {
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
-        <EditFormHeader element={this.props.element} />
+        <EditFormHeader element={this.props.element} options={this.props.options} />
         <div className='vcv-ui-tree-content'>
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar ref={this.scrollBarMounted}>

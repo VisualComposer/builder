@@ -7,7 +7,8 @@ import EditForm from './lib/editForm'
 export default class EditFormPanel extends ActivitiesManager {
   static propTypes = {
     element: PropTypes.object.isRequired,
-    activeTabId: PropTypes.string
+    activeTabId: PropTypes.string,
+    options: PropTypes.object
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -27,7 +28,7 @@ export default class EditFormPanel extends ActivitiesManager {
   }
 
   render () {
-    const { activeTabId } = this.props
+    const { activeTabId, options } = this.props
     const { element } = this.state
     return (
       <EditForm
@@ -38,6 +39,7 @@ export default class EditFormPanel extends ActivitiesManager {
         onAttributeChange={this.onAttributeChange}
         callFieldActivities={this.callFieldActivities}
         ref={ref => { this.formWrapper = ref }}
+        options={options}
       />
     )
   }

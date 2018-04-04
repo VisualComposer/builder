@@ -2,6 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import FieldDependencyManager from './fieldDependencyManager'
+import vcCake from 'vc-cake'
+import EditFormReplaceElement from './editFormReplaceElement'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
@@ -77,15 +79,41 @@ export default class EditFormSection extends React.Component {
   getSectionFormFields (tabParams) {
     return tabParams.map((param) => {
       const fieldType = param.data && param.data.type ? param.data.type.name : ''
+      const fieldOptions = vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR') ? this.checkContainerDependency(param) : null
+      if (fieldOptions && fieldOptions.hide) {
+        return null
+      }
+      const removeDependencies = vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR') && fieldOptions && fieldOptions.removeDependencies
+
       return (
         <FieldDependencyManager
           {...this.props}
           key={`edit-form-field-${param.key}`}
           fieldKey={param.key}
           fieldType={fieldType}
+          removeDependencies={removeDependencies}
         />
       )
     })
+  }
+
+  checkContainerDependency (param) {
+    const options = param.data && param.data.settings && param.data.settings.options
+    const containerDependency = options && options.containerDependency
+    let opts = {}
+
+    if (containerDependency) {
+      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+
+      Object.keys(containerDependency).forEach((key) => {
+        const action = containerDependency[ key ]
+        if (editorType === key) {
+          opts[ action ] = true
+        }
+      })
+    }
+
+    return opts
   }
 
   render () {
@@ -97,7 +125,13 @@ export default class EditFormSection extends React.Component {
       'vcv-ui-edit-form-section--closed': !isActive
     }, sectionDependenciesClasses)
     let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
+    let replaceElement = null
 
+    if (vcCake.env('REPLACE_ELEMENTS') && tab.fieldKey === 'editFormTab1') {
+      replaceElement = (
+        <EditFormReplaceElement {...this.props} />
+      )
+    }
     return (
       <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
         <div className='vcv-ui-edit-form-section-header' onClick={this.toggleSection}
@@ -105,6 +139,7 @@ export default class EditFormSection extends React.Component {
           {tabTitle}
         </div>
         <form className='vcv-ui-edit-form-section-content'>
+          {replaceElement}
           {this.getSectionFormFields(tab.params)}
         </form>
       </div>

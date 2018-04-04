@@ -1,5 +1,5 @@
 import React from 'react'
-import {format} from 'util'
+import { format } from 'util'
 import PropTypes from 'prop-types'
 
 export default class Field extends React.Component {
@@ -19,13 +19,13 @@ export default class Field extends React.Component {
   }
 
   componentDidMount () {
-    // TODO find issue why attribute onChange doesn't trigger
-    // this.props.element.onAttributeChange(this.props.fieldKey, this.updateValue)
-    this.props.element.onChange(this.updateValue)
+    // TODO find issue why attribute onChange doesn't trigger ?
+    this.props.element.onAttributeChange(this.props.fieldKey, this.updateValue)
+    // this.props.element.onChange(this.updateValue)
   }
 
   updateValue (data) {
-    // TODO find issue why attribute onChange doesn't trigger
+    // TODO find issue why attribute onChange doesn't trigger ?
     if (data[ this.props.fieldKey ] && this.state.value !== data[ this.props.fieldKey ]) {
       this.setState({
         value: data[ this.props.fieldKey ]

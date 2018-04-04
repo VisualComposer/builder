@@ -8,7 +8,8 @@ export default class FieldDependencyManager extends React.Component {
     fieldKey: PropTypes.string.isRequired,
     setFieldMount: PropTypes.func.isRequired,
     setFieldUnmount: PropTypes.func.isRequired,
-    onAttributeChange: PropTypes.func.isRequired
+    onAttributeChange: PropTypes.func.isRequired,
+    removeDependencies: PropTypes.bool
   }
 
   constructor (props) {
