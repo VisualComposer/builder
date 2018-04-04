@@ -71,8 +71,7 @@ class Controller extends Container implements Module
             $response = [];
         }
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId)
-            && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()) {
+        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()) {
             // @codingStandardsIgnoreLine
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
             if (!empty($postMeta)) {
