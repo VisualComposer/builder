@@ -77,9 +77,6 @@ export default class EditFormHeader extends React.Component {
       options.customUpdater(element, 'title', value)
     } else {
       element.customHeaderTitle = value
-      // let elementData = elementsStorage.state(`element:${element.get('id')}`).get() || element.toJS()
-      // elementData.customHeaderTitle = value
-      // elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
     }
     this.setState({
       editable: false
