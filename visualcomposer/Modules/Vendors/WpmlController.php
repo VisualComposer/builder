@@ -54,7 +54,7 @@ class WpmlController extends Container implements Module
     {
         global $sitepress;
         if (is_object($sitepress) && strpos($url, 'lang') === false) {
-            return add_query_arg(['lang' => $sitepress->get_current_language()], $url);
+            return apply_filters('wpml_permalink', $url, $sitepress->get_current_language());
         }
 
         return $url;
