@@ -1,3 +1,4 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 /* eslint react/jsx-no-bind: "off" */
 
 import React from 'react'
@@ -78,9 +79,9 @@ class Layout extends Attribute {
 
   static buildMixins (data) {
     let layoutData = vcCake.getService('document').children(data.id)
-        .map((element) => {
-          return element.size || 'auto'
-        })
+      .map((element) => {
+        return element.size || 'auto'
+      })
 
     if (!layoutData) {
       return null
@@ -93,7 +94,8 @@ class Layout extends Attribute {
     const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
 
     Layout.devices.forEach((device) => {
-      if ((device === 'md' || device === 'xs' && (!disableStacking || !vcCake.env('DISABLE_COLUMN_STACKING'))) || (device === 'xs' && disableStacking)) {
+      // TODO: Simplify IF
+      if ((device === 'md' || (device === 'xs' && (!disableStacking || !vcCake.env('DISABLE_COLUMN_STACKING')))) || (device === 'xs' && disableStacking)) {
         let reducedLayout = []
         layoutData.forEach((col) => {
           if (reducedLayout.indexOf(col) < 0) {

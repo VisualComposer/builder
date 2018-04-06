@@ -1,3 +1,4 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import './polyfills'
 import 'medium-editor/dist/css/medium-editor.css'
 import './sources/less/states/comon.less'

@@ -34,7 +34,7 @@ export default class Token extends React.Component {
       className={tagClasses}
       data-vcv-tag-list-label={roundedTitle}
       data-vcv-tag-list-label-hover={title}
-      >
+    >
       <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove' onClick={this.handleClick}>
         <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
       </button>

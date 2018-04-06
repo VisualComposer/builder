@@ -131,7 +131,7 @@ export default class ElementAttribute extends Attribute {
     let { category, tabLabel, replaceView, exclude } = this.props.options
     let replacements = ''
     category = category || '*'
-    let elementLabel = tabLabel && tabLabel.toLowerCase() || category.toLowerCase() || 'element'
+    let elementLabel = (tabLabel && tabLabel.toLowerCase()) || category.toLowerCase() || 'element'
     let categorySettings = hubCategoriesService.get(category)
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const replaceElementText = localizations.replaceElementText.split('{elementLabel}').join(elementLabel)

@@ -94,4 +94,3 @@ if (vcCake.env('debug') === true) {
 }
 
 window.vcv = publicAPI
-

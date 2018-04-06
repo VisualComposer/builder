@@ -22,4 +22,3 @@ export default class Backend extends Representer {
     </div>
   }
 }
-

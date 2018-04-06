@@ -1,3 +1,4 @@
+/* eslint import/no-webpack-loader-syntax: off */
 import vcCake from 'vc-cake'
 import './polyfills'
 import './sources/less/bootstrapBackend/init.less'
@@ -7,7 +8,7 @@ import './config/wpbackend-services'
 import './config/wpbackend-attributes'
 import publicAPI from './resources/api/publicAPI'
 
-const $ = require('expose?$!jquery')
+const $ = require('expose-loader?$!jquery')
 $(() => {
   let $iframe = $('#vcv-editor-iframe')
   // Get a handle to the iframe element

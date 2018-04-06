@@ -10,7 +10,6 @@ import 'jquery.caret'
 import Token from './token'
 
 export default class TokenizationList extends React.Component {
-
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
@@ -175,10 +174,10 @@ export default class TokenizationList extends React.Component {
 
   getLayout (layout) {
     layout = layout.match(/\+$/) ? layout.replace(/\s+\+$/, '') : layout
-    if (layout.match(/^[\s+\+]/)) {
-      layout = layout.replace(/^[\s+\+]+/, '')
+    if (layout.match(/^[\s++]/)) {
+      layout = layout.replace(/^[\s++]+/, '')
     }
-    let columns = layout.split(/[\s\+;]+/)
+    let columns = layout.split(/[\s+;]+/)
     return _.flatten(columns.map((column, index) => {
       if (index < columns.length - 1) {
         let size = column.match(/^\d+$/) ? parseInt(column) : 0
