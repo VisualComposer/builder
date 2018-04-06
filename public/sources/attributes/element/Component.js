@@ -6,6 +6,7 @@ import vcCake from 'vc-cake'
 import FieldWrapper from './field-tabs'
 import Dropdown from '../dropdown/Component'
 import PropTypes from 'prop-types'
+
 const Cook = vcCake.getService('cook')
 const hubCategoriesService = vcCake.getService('hubCategories')
 
@@ -46,6 +47,7 @@ export default class ElementAttribute extends Attribute {
         if (allValues[ key ] !== undefined) {
           // Merge, Type, Key
           let findKey = this.props.options.merge.attributes.findIndex((item) => {
+            // eslint-disable-next-line valid-typeof
             return item.key === key && item.type === typeof allValues[ key ]
           })
           if (findKey > -1) {

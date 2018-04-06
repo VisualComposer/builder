@@ -11,7 +11,6 @@ import $ from 'jquery'
 import Token from './token'
 
 export default class TokenizationList extends React.Component {
-
   static propTypes = {
     validator: PropTypes.func.isRequired,
     validation: PropTypes.bool.isRequired
