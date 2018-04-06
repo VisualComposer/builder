@@ -703,7 +703,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getDevicesRender () {
-    return <div className='vcv-ui-form-group marginless'>
+    return <div className='vcv-ui-form-group vcv-ui-marginless'>
       <span className='vcv-ui-form-group-heading'>
         Device type
       </span>
