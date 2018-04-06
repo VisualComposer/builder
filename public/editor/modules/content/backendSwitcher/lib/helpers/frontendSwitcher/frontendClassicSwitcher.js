@@ -78,4 +78,3 @@ export default class FrontendClassicSwitcher extends React.Component {
     return output
   }
 }
-

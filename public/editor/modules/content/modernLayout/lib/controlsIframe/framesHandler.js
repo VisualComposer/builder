@@ -45,8 +45,8 @@ export default class Frames {
       top -= iframePos.top
       left -= iframePos.left
     }
-    let scrollTop = this.iframeWrapper && this.iframeWrapper.scrollTop || 0
-    let scrollLeft = this.iframeWrapper && this.iframeWrapper.scrollLeft || 0
+    let scrollTop = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
+    let scrollLeft = this.iframeWrapper && this.iframeWrapper.scrollLeft ? this.iframeWrapper.scrollLeft : 0
     frame.style.top = top - scrollTop + 'px'
     frame.style.left = left - scrollLeft + 'px'
     frame.style.width = width + 'px'

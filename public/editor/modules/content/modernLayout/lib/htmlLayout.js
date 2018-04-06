@@ -10,7 +10,7 @@ export default class HtmlLayout extends React.Component {
   }
 
   render () {
-    const editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
+    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     const layoutsContent = []
     let elementsList
     if (this.props.data) {

@@ -483,7 +483,7 @@ export default class ControlsHandler {
     // paste action
     const isPasteAvailable = exceptionalElements.includes(options.title)
     if (isPasteAvailable) {
-      let copyData = window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
+      let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
       let disabled = !copyData
       actions.push({
         label: pasteText,

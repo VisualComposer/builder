@@ -77,4 +77,3 @@ export default class BackendClassicSwitcher extends React.Component {
     return output
   }
 }
-
