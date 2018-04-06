@@ -6,11 +6,10 @@ const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class TemplateSettings extends React.Component {
-
   constructor (props) {
     super(props)
     let templateStorageData = settingsStorage.state('pageTemplate').get()
-    let templateData = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() || {}
+    let templateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : {}
     let currentTemplate = templateStorageData || templateData.current || 'default'
     this.state = {
       current: currentTemplate,
@@ -31,7 +30,7 @@ export default class TemplateSettings extends React.Component {
     if (!env('THEME_EDITOR') && env('REMOVE_SETTINGS_SAVE_BUTTON')) {
       settingsStorage.state('pageTemplate').set(value)
 
-      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
+      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current)
       const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
 
       if (lastLoadedPageTemplate && lastLoadedPageTemplate !== lastSavedPageTemplate) {

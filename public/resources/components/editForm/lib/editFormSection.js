@@ -52,7 +52,7 @@ export default class EditFormSection extends React.Component {
       return
     }
     const { isActive } = this.state
-    if (prevState && !prevState.isActive && isActive || this.props.tab.index === this.props.activeTabIndex) {
+    if ((prevState && !prevState.isActive && isActive) || this.props.tab.index === this.props.activeTabIndex) {
       // will scroll to top
       let scrollbar = this.props.sectionContentScrollbar
       if (scrollbar) {
