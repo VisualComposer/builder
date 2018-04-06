@@ -12,7 +12,7 @@ let handleSaveRequest = (action, key, data, successCallback, errorCallback) => {
   return ajax({
     'vcv-action': `editorTemplates:${action}:adminNonce`,
     'vcv-nonce': window.vcvNonce,
-    'vcv-template-type': window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default',
+    'vcv-template-type': (window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE()) || 'default',
     [key]: data
   }, (result) => {
     let response = JSON.parse(result.response)

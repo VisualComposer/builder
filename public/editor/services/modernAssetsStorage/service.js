@@ -158,7 +158,7 @@ class PublicApi {
   getPageCssDataNG () {
     let styles = []
     styles = styles.concat(
-      storage.getCustomCssData(),
+      storage.getCustomCssData()
     )
     return styles
   }

@@ -292,7 +292,7 @@ export default class DividerShape extends Component {
     }
 
     if (fillType === 'videoYoutube') {
-      let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
+      let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
       if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
         let youtubeVideoId = `video-el-${id}-${deviceKey}-${position}`
         let html = svgUnitContent
@@ -351,7 +351,7 @@ export default class DividerShape extends Component {
     }
 
     if (fillType === 'videoVimeo') {
-      let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
+      let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
       if (videoVimeo && videoVimeo.search(vrx) !== -1) {
         let vimeoVideoId = `video-el-${id}-${deviceKey}-${position}`
         let html = svgUnitContent

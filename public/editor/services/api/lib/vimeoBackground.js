@@ -13,7 +13,7 @@ export default class VimeoBackground extends Component {
     const { deviceKey, deviceData } = this.props
     const { videoVimeo } = deviceData
 
-    let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
+    let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
     if (videoVimeo && videoVimeo.search(vrx) !== -1) {
       let videoData = videoVimeo.trim().match(vrx)
       let videoId = videoData[ 3 ]

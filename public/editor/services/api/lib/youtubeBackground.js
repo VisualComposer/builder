@@ -13,7 +13,7 @@ export default class YoutubeBackground extends Component {
     const { deviceKey, deviceData } = this.props
     const { videoYoutube } = deviceData
 
-    let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
+    let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
     if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
       let videoData = videoYoutube.trim().match(ytrx)
       let videoId = videoData[ 7 ]
