@@ -3,10 +3,10 @@ import FormWrapper from './lib/FormWrapper'
 import ActivitiesManager from './lib/activitiesManager'
 import { env, getStorage, getService } from 'vc-cake'
 import PropTypes from 'prop-types'
+import lodash from 'lodash'
 
 const elementsStorage = getStorage('elements')
 const cook = getService('cook')
-import lodash from 'lodash'
 
 export default class EditElementPanel extends ActivitiesManager {
   static propTypes = {

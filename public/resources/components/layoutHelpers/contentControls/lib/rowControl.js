@@ -15,9 +15,7 @@ export default class RowControl extends React.Component {
       'vcv-is-hidden': this.props.hideIcon
     })
 
-    return <span
-      className='vcv-ui-blank-row-element-control'
-     >
+    return <span className='vcv-ui-blank-row-element-control'>
       <span
         className={svgClasses}
         dangerouslySetInnerHTML={{__html: addElementIcon}}

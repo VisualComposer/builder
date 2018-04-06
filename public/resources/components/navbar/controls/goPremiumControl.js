@@ -2,7 +2,6 @@ import React from 'react'
 import NavbarContent from '../navbarContent'
 
 export default class GoPremiumControl extends NavbarContent {
-
   goPremium (e) {
     e && e.preventDefault && e.preventDefault()
     const target = e.currentTarget

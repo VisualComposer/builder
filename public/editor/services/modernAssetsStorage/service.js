@@ -202,7 +202,7 @@ class PublicApi {
     let styles = []
     styles = styles.concat(
       storage.getElementsCssData(editor),
-      storage.getMixinsCssData(),
+      storage.getMixinsCssData()
     )
     return styles
   }

@@ -77,7 +77,7 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     if (env('THEME_EDITOR')) {
-      this.editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
+      this.editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     }
 
     this.setDefautlDevice = this.setDefautlDevice.bind(this)

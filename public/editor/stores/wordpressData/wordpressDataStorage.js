@@ -39,10 +39,10 @@ addStorage('wordpressData', (storage) => {
     let pageTitleData = ''
     let pageTemplateData = ''
     if (env('PAGE_TITLE_FE')) {
-      pageTitleData = window.VCV_PAGE_TITLE && window.VCV_PAGE_TITLE() || ''
+      pageTitleData = window.VCV_PAGE_TITLE ? window.VCV_PAGE_TITLE() : ''
     }
     if (env('PAGE_TEMPLATES_FE')) {
-      pageTemplateData = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() || ''
+      pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
     }
     if (status === 'loadSuccess') {
       // setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
