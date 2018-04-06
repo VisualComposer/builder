@@ -8,7 +8,7 @@ import './config/variables'
 import './config/wp-services'
 import './config/wp-attributes'
 
-const $ = require('expose?$!jquery')
+const $ = require('expose-loader?$!jquery')
 $(() => {
   let $iframeContainer = $('.vcv-layout-iframe-container')
   let $iframe = $iframeContainer.find('#vcv-editor-iframe')

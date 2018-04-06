@@ -3,7 +3,7 @@
 import VcSketchPicker from './lib/sketch/Sketch'
 import React from 'react'
 import Attribute from '../attribute'
-import tinycolor from 'react-color/modules/tinycolor2'
+import tinycolor from 'tinycolor2'
 import classNames from 'classnames'
 import _ from 'lodash'
 

@@ -34,8 +34,49 @@ class Elements extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Elements::outputElements */
+        $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:extraOutput', 'outputWebpackBc');
         $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:extraOutput', 'outputElements');
         $this->addFilter('vcv:frontend:footer:extraOutput vcv:backend:extraOutput', 'outputElementsBundle', 3);
+    }
+
+    /**
+     * @param $response
+     * @param $payload
+     *
+     * @return array
+     */
+    protected function outputWebpackBc($response, $payload)
+    {
+        // BC for Webpack v1
+        $response = array_merge(
+            $response,
+            [
+                <<<SCRIPT
+    <script>
+    (function() {
+        var index = 0 // Just to be unique
+        window["vcvWebpackJsonp"] = function vcvWebpackJsonp(chunkIds, moreModules) {
+            var keys = Object.keys(moreModules)
+            index++
+            moreModules[keys[1] + '-' + index] = moreModules[0]
+            moreModules[0] = undefined
+            delete moreModules[0] // To avoid overriding for modules[key]
+            var data = [
+                [keys[1] + '-' + index], /** chunkId **/
+                moreModules, /** moreModules **/
+                [[keys[1] + '-' + index]] /** execute module **/
+            ]
+
+            return window.vcvWebpackJsonp4x.push(data)
+        };
+    })()
+   </script>
+SCRIPT
+                ,
+            ]
+        );
+
+        return $response;
     }
 
     /**

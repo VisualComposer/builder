@@ -8,7 +8,7 @@ addStorage('hubElements', (storage) => {
   const utils = getService('utils')
 
   storage.on('start', () => {
-    storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS())
+    storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
   })
 
   storage.on('add', (elementData, addBundle) => {
