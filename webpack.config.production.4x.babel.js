@@ -59,7 +59,65 @@ module.exports = Object.assign({}, config, {
     ]
   },
   plugins: [
-    new Collector(),
+    new Collector({
+      wp: {
+        modules: [
+          'content/modernLayout',
+          'wordpressWorkspace'
+        ],
+        services: [
+          'utils',
+          'document',
+          'wordpress-post-data',
+          'cook',
+          'sharedAssetsLibrary',
+          'elementAssetsLibrary',
+          'actions-manager',
+          'rules-manager',
+          'api',
+          'dataProcessor',
+          'modernAssetsStorage',
+          'stylesManager',
+          'wpMyTemplates',
+          'hubCategories',
+          'hubGroups',
+          'hubElements',
+          'elementAccessPoint'
+        ]
+      },
+      wpbackend: {
+        modules: [
+          'content/backendContent',
+          'content/modernLayoutBackend',
+          'wordpressBackendWorkspace'
+        ],
+        services: [
+          'utils',
+          'document',
+          'wordpress-post-data',
+          'cook',
+          'sharedAssetsLibrary',
+          'elementAssetsLibrary',
+          'time-machine',
+          'actions-manager',
+          'rules-manager',
+          'api',
+          'dataProcessor',
+          'modernAssetsStorage',
+          'stylesManager',
+          'wpMyTemplates',
+          'hubCategories',
+          'hubGroups',
+          'hubElements'
+        ]
+      },
+      'wpbackend-switcher': {
+        services: [],
+        modules: [
+          'content/backendSwitcher'
+        ]
+      }
+    }),
     new ExtractTextPlugin('[name].bundle.css'),
     new VirtualModulePlugin({
       moduleName: 'node_modules/react/react.js',
