@@ -153,10 +153,29 @@ declare -a arr=(
 )
 
 EXECDIR=`pwd`
+TOTAL=0
+CNT=0
+PARALLELS_COUNT=7
+for i in "${arr[@]}";
+do {
+  TOTAL=$(($TOTAL+1))
+  CNT=$(($CNT+1))
+  if cd $EXECDIR/devElements/$i; then cd $EXECDIR/devElements/$i && git pull & pid=$1; else git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/devElements/$i & pid=$1; fi
 
-for i in "${arr[@]}"
-do
-   if cd $EXECDIR/devElements/$i; then cd $EXECDIR/devElements/$i && git pull; else git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/devElements/$i; fi
-done
+  PID_LIST+=" $pid";
+  if [ "$CNT" -gt "$PARALLELS_COUNT" ]; then
+    wait $PID_LIST
+    PID_LIST=""
+    echo "..."
+    CNT=0
+  fi
+} done
+
+trap "kill $PID_LIST" SIGINT
+
+wait $PID_LIST
+
+echo
+echo "All processes have completed: $TOTAL";
 
 echo "Done!"
