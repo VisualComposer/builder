@@ -18,7 +18,7 @@ if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
   pageLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
 } else {
   pageTemplates = window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES()
-  pageLayouts = window.VCV_LAYOUTS_DATA && window.VCV_LAYOUTS_DATA() || []
+  pageLayouts = window.VCV_LAYOUTS_DATA ? window.VCV_LAYOUTS_DATA() : []
   if (pageTemplates) {
     settingsStorage.state('pageTemplate').set(pageTemplates.current)
   }
@@ -40,7 +40,7 @@ export default class PagePanelContent extends React.Component {
       templates: templateManager.predefined()
     }
 
-    let currentTemplate = settingsStorage.state('pageTemplate').get() || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
+    let currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
     if (currentTemplate && currentTemplate.type && currentTemplate.value) {
       settingsStorage.state('pageTemplate').set(currentTemplate)
     }

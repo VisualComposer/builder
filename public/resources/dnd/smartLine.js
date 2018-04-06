@@ -109,7 +109,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     let nextRect = nextElement ? nextElement.getBoundingClientRect() : null
     // show vertical line in layout only
     if (!$element.closest('.vcv-ui-tree-layout').get(0)) {
-      isVerticalLine = prevRect && prevRect.left !== rect.left || nextRect && nextRect.left !== rect.left
+      isVerticalLine = (prevRect && prevRect.left !== rect.left) || (nextRect && nextRect.left !== rect.left)
     }
     // set default line position
     linePoint.x = rect.left
