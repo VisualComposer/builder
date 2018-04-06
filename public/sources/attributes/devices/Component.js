@@ -136,7 +136,7 @@ export default class Devices extends Attribute {
   render () {
     return (
       <div className='vcv-ui-row vcv-ui-row-gap--md'>
-        <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+        <div className='vcv-ui-col vcv-ui-col--fixed-width margin'>
           {this.getDevicesSettings()}
         </div>
         {this.getCustomDevices()}

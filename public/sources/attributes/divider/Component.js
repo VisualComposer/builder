@@ -433,7 +433,7 @@ export default class Divider extends Attribute {
    * @returns {XML}
    */
   getDevicesRender () {
-    return <div className='vcv-ui-form-group'>
+    return <div className='vcv-ui-form-group marginless'>
       <span className='vcv-ui-form-group-heading'>
         Device type
       </span>
