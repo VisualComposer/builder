@@ -12,7 +12,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Elements implements Helper
 {
-    public function getElements($raw = false)
+    public function getElements($raw = false, $elementRealPath = true)
     {
         $optionHelper = vchelper('Options');
 
@@ -33,6 +33,10 @@ class Elements implements Helper
                     'assetsPath' => $raw ? $element['assetsPath'] : $this->getElementUrl($element['assetsPath']),
                 ]
             );
+
+            if (!$elementRealPath) {
+                unset($data['elementRealPath']);
+            }
 
             $metaData = [];
             if (isset($element['settings']['metaThumbnailUrl'])) {

@@ -95,7 +95,7 @@ SCRIPT
                     'partials/constant-script',
                     [
                         'key' => 'VCV_HUB_GET_ELEMENTS',
-                        'value' => $hubHelper->getElements(),
+                        'value' => $hubHelper->getElements(false, false),
                     ]
                 ),
             ]
