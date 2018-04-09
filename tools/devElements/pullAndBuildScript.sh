@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Clone script is running."
+echo "### Build Script v2.0 6.04.2018 ### $(date)"
 
 EXECDIR=`pwd`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -8,13 +8,15 @@ declare -a arr=($(cat "$DIR/elements.list"))
 
 TOTAL=0
 CNT=0
-PARALLELS_COUNT=7
+PARALLELS_COUNT=5
 for i in "${arr[@]}";
 do {
   TOTAL=$(($TOTAL+1))
-  echo $EXECDIR/devElements/$i
   CNT=$(($CNT+1))
-  if cd $EXECDIR/devElements/$i; then cd $EXECDIR/devElements/$i && git pull & pid=$1; else git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/devElements/$i & pid=$1; fi
+  if cd $EXECDIR/devElements/$i; then
+    cd $EXECDIR/devElements/$i
+    git pull && ../../node_modules/.bin/webpack --config webpack.config.4x.babel.js --progress --colors & pid=$1
+  fi
 
   PID_LIST+=" $pid";
   if [ "$CNT" -gt "$PARALLELS_COUNT" ]; then
