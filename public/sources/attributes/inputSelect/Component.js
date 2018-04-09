@@ -60,7 +60,7 @@ export default class InputSelect extends Attribute {
     if (type === 'large') {
       let displayValue = value.replace('_', '')
       let itemClasses = 'vcv-ui-form-input-select-item'
-      let activeValue = this.state && this.state.select || this.props.value.select
+      let activeValue = (this.state && this.state.select) || this.props.value.select
       if (activeValue === value) {
         itemClasses += ' vcv-ui-form-input-select-item-active'
       }
@@ -161,7 +161,7 @@ export default class InputSelect extends Attribute {
     }
     if (props.options && (props.options.type === 'currency' || props.options.large)) {
       let displayValue = this.state.select.replace('_', '')
-      let classNames = 'vcv-ui-form-dropdown'
+      let classNames = 'vcv-ui-form-dropdown vcv-ui-form-input-select'
       if (this.state.openedSelect) {
         classNames += ' vcv-ui-form-state--focus'
       }

@@ -7,7 +7,7 @@ const settingsStorage = getStorage('settings')
 export default class LayoutSettings extends React.Component {
   constructor (props) {
     super(props)
-    let templateStorageData = settingsStorage.state('pageTemplate').get() || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT() || {
+    let templateStorageData = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()) || {
       type: 'theme', value: 'default'
     }
     this.state = {

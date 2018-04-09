@@ -86,7 +86,7 @@ export default class AttachImage extends Attribute {
       }
     }
 
-    let filter = value.urls && value.urls[ 0 ] && value.urls[ 0 ].filter && value.urls[ 0 ].filter !== 'normal' || false
+    let filter = (value.urls && value.urls[ 0 ] && value.urls[ 0 ].filter && value.urls[ 0 ].filter !== 'normal') || false
     return {
       value: value,
       filter

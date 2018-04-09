@@ -42,4 +42,3 @@ export default class RawCode extends Attribute {
     return <div className='vcv-row-html-editor-container' ref={editor => (this.editorWrapper = editor)} />
   }
 }
-

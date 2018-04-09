@@ -17,7 +17,12 @@ export default class LayoutEditor extends React.Component {
 
   constructor (props) {
     super(props)
-    const data = vcCake.env('IFRAME_RELOAD') && elementsStorage.state('document').get() || []
+    let data
+    if (vcCake.env('IFRAME_RELOAD')) {
+      data = elementsStorage.state('document').get() || []
+    } else {
+      data = []
+    }
     this.state = {
       data
     }

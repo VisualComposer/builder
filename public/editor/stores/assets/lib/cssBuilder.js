@@ -238,7 +238,7 @@ export default class CssBuilder {
                 }
               ).fail(
                 () => {
-                  reject(false)
+                  reject(new Error())
                 }
               )
             }

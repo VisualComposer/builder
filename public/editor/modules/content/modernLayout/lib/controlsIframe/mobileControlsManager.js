@@ -53,7 +53,7 @@ export default class ControlsManager {
     this.iframeScrollable = this.iframeWindow
     if (mobileDetect.os() === 'iOS') {
       this.isIOS = true
-      this.iframeScrollable = this.iframeDocument && this.iframeDocument.body || this.iframeWrapper
+      this.iframeScrollable = (this.iframeDocument && this.iframeDocument.body) || this.iframeWrapper
     }
     // this.iframeScrollable = mobileDetect.os() === 'iOS' ? this.iframeWrapper : this.iframeWindow
     this.isPhone = mobileDetect.mobile() && mobileDetect.phone()
@@ -281,8 +281,8 @@ export default class ControlsManager {
       this.state.hoverPath = elPath
       this.state.hoverRoot = elPath[ elPath.length - 1 ]
       this.showFrames(element, elPath)
-      let scrollX = this.iframeWrapper && this.iframeWrapper.scrollLeft || 0
-      let scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop || 0
+      let scrollX = this.iframeWrapper && this.iframeWrapper.scrollLeft ? this.iframeWrapper.scrollLeft : 0
+      let scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
       vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY, left: scrollX, top: scrollY } })
     }
   }
@@ -303,7 +303,7 @@ export default class ControlsManager {
         this.iframeWindow.getSelection().removeAllRanges()
       }
 
-      let { clientX, clientY } = e.touches && e.touches[ 0 ] || {}
+      let { clientX, clientY } = e.touches && e.touches[ 0 ] ? e.touches[ 0 ] : {}
       let element = this.iframeDocument.elementFromPoint(clientX, clientY)
       let { elPath } = this.findElement({ target: element })
       let elRoot = elPath[ elPath.length - 1 ]
@@ -315,7 +315,7 @@ export default class ControlsManager {
         this.showFrames(element, elPath)
       }
 
-      let scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop || 0
+      let scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
       let screenY = clientY - scrollY
       this.state.scroll = false
       let stepY = 0

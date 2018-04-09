@@ -56,7 +56,7 @@ export default class SettingsButtonControl extends NavbarContent {
   }
 
   checkPageTitle () {
-    let titleData = window.VCV_PAGE_TITLE && window.VCV_PAGE_TITLE() || {}
+    let titleData = window.VCV_PAGE_TITLE ? window.VCV_PAGE_TITLE() : {}
     let pageTitle = settingsStorage.state('pageTitle').get()
     let pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
     let data = {

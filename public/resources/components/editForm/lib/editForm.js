@@ -47,7 +47,7 @@ export default class EditForm extends React.Component {
         index: index,
         data: tab.data,
         isVisible: true,
-        pinned: tab.data.settings.options && tab.data.settings.options.pinned || false,
+        pinned: tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
         params: this.editFormTabParams(props, tab),
         key: `edit-form-tab-${props.element.id}-${index}-${tab.key}`,
         changeTab: this.onChangeActiveTab.bind(this, index),

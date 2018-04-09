@@ -6,11 +6,10 @@ const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class TitleSettings extends React.Component {
-
   constructor (props) {
     super(props)
     this.title = null
-    let titleData = window.VCV_PAGE_TITLE && window.VCV_PAGE_TITLE() || {}
+    let titleData = window.VCV_PAGE_TITLE ? window.VCV_PAGE_TITLE() : {}
     let pageTitle = settingsStorage.state('pageTitle').get()
     let pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
     this.state = {
@@ -46,11 +45,11 @@ export default class TitleSettings extends React.Component {
   }
 
   getShowToggle () {
-    return window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type === 'theme' || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type === 'theme'
+    return (window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type === 'theme') || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type === 'theme')
   }
 
   getThemeType () {
-    return window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type
+    return (window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type) || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type)
   }
 
   updateShowToggle (themeType) {

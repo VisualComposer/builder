@@ -6,7 +6,6 @@ import classNames from 'classnames'
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 export default class TemplatePreview extends React.Component {
-
   constructor (props) {
     super(props)
     this.state = {

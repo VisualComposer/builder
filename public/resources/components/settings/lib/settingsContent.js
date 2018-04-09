@@ -3,7 +3,6 @@ import SettingsSection from './settingsSection'
 import Scrollbar from '../../../../resources/scrollbar/scrollbar.js'
 
 export default class SettingsContent extends React.Component {
-
   getSections () {
     return this.props.sections.map((section, key) => {
       let Component = section.content
@@ -33,4 +32,3 @@ export default class SettingsContent extends React.Component {
     )
   }
 }
-

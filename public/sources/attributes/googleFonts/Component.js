@@ -110,7 +110,9 @@ export default class GoogleFonts extends Attribute {
       status: status
     }
 
-    text || text === '' ? value.fontText = text : ''
+    if (text || text === '') {
+      value.fontText = text
+    }
 
     this.updateFieldValue(value)
   }

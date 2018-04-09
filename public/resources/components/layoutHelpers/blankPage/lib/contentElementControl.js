@@ -43,4 +43,3 @@ export default class ContentElementControl extends React.Component {
     </button>
   }
 }
-

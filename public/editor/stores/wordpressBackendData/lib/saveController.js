@@ -21,7 +21,7 @@ export default class SaveController {
    * @param status
    * @private
    */
-  save (data, status, callback, action = '') {
+  save (data, status, callbackFunc, action = '') {
     const iframe = document.getElementById('vcv-editor-iframe')
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
     let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
@@ -91,8 +91,8 @@ export default class SaveController {
         document.getElementById('vcv-settings-source-local-js').value = (vcCake.env('CUSTOM_JS') && settingsStorage.state('localJs').get()) || ''
         document.getElementById('vcv-settings-global-js').value = (vcCake.env('CUSTOM_JS') && settingsStorage.state('globalJs').get()) || ''
       }
-      if (typeof callback === 'function') {
-        callback('success')
+      if (typeof callbackFunc === 'function') {
+        callbackFunc('success')
       }
       status.set({
         status: 'success'

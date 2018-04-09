@@ -144,7 +144,7 @@ export default class DndDataSet {
           manualScroll: false,
           drop: false,
           allowMultiNodes: false,
-          isIframe: options && options.container && options.container.id === 'vcv-editor-iframe-overlay' || false
+          isIframe: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false
         })
       }
     })
@@ -228,7 +228,7 @@ export default class DndDataSet {
   }
 
   getDomElement (domNode) {
-    if (!domNode || !domNode.ELEMENT_NODE && elementID) {
+    if (!domNode || !domNode.ELEMENT_NODE) {
       return null
     }
     const elementID = domNode.dataset.vcvDndElement || domNode.dataset.vcvDndElementHandler
@@ -272,7 +272,7 @@ export default class DndDataSet {
   }
 
   checkTrashBin ({ x, y, left = 0, top = 0 }) {
-    let iframeParent = this.options && this.options.container && this.options.container.parentNode || null
+    let iframeParent = this.options && this.options.container && this.options.container.parentNode ? this.options.container.parentNode : null
     if (iframeParent) {
       x += iframeParent.offsetLeft
       y += iframeParent.offsetTop
@@ -529,8 +529,8 @@ export default class DndDataSet {
       this.handleDragEnd()
       return false
     }
-    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft || 0
-    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop || 0
+    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
+    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     if (e.touches && e.touches[0]) {
       e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY, left: scrollX, top: scrollY})
     } else {
@@ -551,8 +551,8 @@ export default class DndDataSet {
     if (e.which > 1) {
       return
     }
-    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft || 0
-    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop || 0
+    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
+    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
     if (e.touches && e.touches[0]) {
       e.preventDefault()

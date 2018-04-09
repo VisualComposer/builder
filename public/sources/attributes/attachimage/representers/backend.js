@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import Representer from '../../representer'
 
 export default class Backend extends Representer {
-
   getImageUrl (image, size) {
     let imageUrl
     // Move it to attribute

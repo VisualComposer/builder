@@ -32,7 +32,7 @@ export default class BlankRowPlaceholder extends React.Component {
   }
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
-  static editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
+  static editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
   static defaultProps = {
     controlsData: [

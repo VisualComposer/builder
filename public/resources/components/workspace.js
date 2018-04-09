@@ -3,9 +3,9 @@ import ClassNames from 'classnames'
 import {getStorage, onDataChange, ignoreDataChange, env} from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import Combokeys from 'combokeys'
 
 import Resizer from '../../resources/resizer/resizer'
-import Combokeys from 'combokeys'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceStorageNavbarBoundingRectState = workspaceStorage.state('navbarBoundingRect')
@@ -106,7 +106,7 @@ export default class Workspace extends React.Component {
     })
     this.document.onkeyup = function (e) {
       e = e || window.event
-      if (e && e.key && e.key === 'Esc' || e.keyCode === 27) {
+      if (e && (e.key === 'Esc' || e.keyCode === 27)) {
         e.preventDefault()
         workspaceStorage.state('contentStart').set(false)
         workspaceStorage.state('settings').set({})

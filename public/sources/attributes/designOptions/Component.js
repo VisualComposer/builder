@@ -1,3 +1,4 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'

@@ -41,27 +41,27 @@ export default class LayoutDropdown extends React.Component {
         settingsStorage.state(`${layoutName}Template`).set(value)
       }
       const globalLayoutName = `VCV_${layoutNameUppercase}_TEMPLATES`
-      const lastLoadedTemplate = window[`vcvLastLoaded${this.props.layoutName}Template`] || window[globalLayoutName] && window[globalLayoutName]() && window[globalLayoutName]().current
+      const lastLoadedTemplate = window[`vcvLastLoaded${this.props.layoutName}Template`] || (window[globalLayoutName] && window[globalLayoutName]() && window[globalLayoutName]().current)
       const lastSavedTemplate = settingsStorage.state(`${layoutName}Template`).get()
 
-      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()
+      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
       let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
 
-      let lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current
+      let lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current)
       let lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
 
-      let lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current
+      let lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current)
       let lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
 
-      let lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current
+      let lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current)
       let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
       if (
-        lastLoadedPageTemplate && (!lastSavedPageTemplate || lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type) ||
-        lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate ||
-        lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate ||
-        lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate ||
-        lastLoadedTemplate && lastLoadedTemplate !== lastSavedTemplate
+        (lastLoadedPageTemplate && (!lastSavedPageTemplate || lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type)) ||
+        (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) ||
+        (lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate) ||
+        (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate) ||
+        (lastLoadedTemplate && lastLoadedTemplate !== lastSavedTemplate)
       ) {
         this.reloadIframe(
           lastSavedPageTemplate,

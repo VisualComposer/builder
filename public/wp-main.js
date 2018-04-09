@@ -1,3 +1,4 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import vcCake from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 // import React from 'react'
@@ -65,7 +66,7 @@ $(() => {
       }
     }
     if (vcCake.env('THEME_EDITOR')) {
-      const editorType = window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() || 'default'
+      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
       if (editorType === 'sidebar') {
         let style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
@@ -73,7 +74,7 @@ $(() => {
         background: #292929;
         display: flex;
         justify-content: center;
-        } `
+        }`
         style.innerText += 'body {'
         style.innerText += 'width: 320px;'
         style.innerText += '}'
@@ -128,7 +129,7 @@ $(() => {
     if (vcCake.env('IFRAME_RELOAD') && $iframe && $iframe.get(0).contentWindow) {
       const settingsStorage = vcCake.getStorage('settings')
       $iframe.get(0).contentWindow.onunload = function () {
-        let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current
+        let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current)
         if (!vcCake.env('THEME_EDITOR') && vcCake.env('THEME_LAYOUTS')) {
           let lastSavedPageTemplate = window.vcvLastLoadedPageTemplate = settingsStorage.state('pageTemplate').get()
           let lastSavedHeaderTemplate = window.vcvLastLoadedHeaderTemplate = settingsStorage.state('headerTemplate').get()

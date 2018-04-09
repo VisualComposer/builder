@@ -43,7 +43,7 @@ export default class TreeViewElement extends React.Component {
       element: props.element,
       content: props.element.customHeaderTitle || props.element.name,
       editable: false,
-      copyData: window.localStorage && window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get()
+      copyData: window.localStorage && (window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get())
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -345,7 +345,7 @@ export default class TreeViewElement extends React.Component {
 
   render () {
     const hidden = this.state.element.hidden
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = window.VCV_I18N ? window.VCV_I18N() : false
     const addText = localizations ? localizations.add : 'Add'
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const cloneText = localizations ? localizations.clone : 'Clone'

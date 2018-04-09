@@ -34,4 +34,3 @@ export default class ElementControl extends React.Component {
     </span>
   }
 }
-

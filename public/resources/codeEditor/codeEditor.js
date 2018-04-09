@@ -83,7 +83,7 @@ const privateAPI = {
       }
       return found
     }
-    let messages = htmlhint.HTMLHint.verify(text, options && options.rules || defaultRules)
+    let messages = htmlhint.HTMLHint.verify(text, options && options.rules ? options.rules : defaultRules)
     messages.forEach((message) => {
       let startLine = message.line - 1
       let endLine = message.line - 1

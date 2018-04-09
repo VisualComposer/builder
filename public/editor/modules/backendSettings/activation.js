@@ -98,9 +98,7 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
       $(document.body).on('click', function (e) {
         if (ready) {
           var $el = $(e.target)
-          if ($el.closest('.vcv-loading-screen--active').length || $el.is('.vcv-loading-screen--active') || $el.closest('.vcv-popup').length || $el.is('.vcv-popup')) {
-            return
-          } else {
+          if (!($el.closest('.vcv-loading-screen--active').length || $el.is('.vcv-loading-screen--active') || $el.closest('.vcv-popup').length || $el.is('.vcv-popup'))) {
             window.location.href = 'index.php'
           }
         }

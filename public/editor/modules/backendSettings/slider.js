@@ -1,3 +1,4 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import 'imports-loader?exports=>undefined!slick-carousel'
 
 (($) => {

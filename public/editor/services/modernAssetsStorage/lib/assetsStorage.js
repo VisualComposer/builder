@@ -253,7 +253,7 @@ export default class {
               }
               for (let deviceMixin in DO.attributeMixins) {
                 if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
-                  let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value || 'all'
+                  let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value ? DO.attributeMixins[ deviceMixin ].variables.device.value : 'all'
                   let properties = {
                     [device]: {
                       value: true
@@ -399,7 +399,7 @@ export default class {
               }
               for (let deviceMixin in DO.attributeMixins) {
                 if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
-                  let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value || 'all'
+                  let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value ? DO.attributeMixins[ deviceMixin ].variables.device.value : 'all'
                   let properties = {
                     [device]: {
                       value: true

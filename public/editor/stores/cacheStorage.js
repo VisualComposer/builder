@@ -9,4 +9,3 @@ addStorage('cache', (storage) => {
     storage.state(type).set(cache)
   })
 })
-

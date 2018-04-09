@@ -65,7 +65,7 @@ export default class AttachImageList extends React.Component {
     value && value.urls && value.urls.forEach((url, index) => {
       let imgUrl = ''
       if (value.ids[ index ]) {
-        imgUrl = url && url.thumbnail || url.full
+        imgUrl = url && url.thumbnail ? url.thumbnail : url.full
       } else {
         imgUrl = this.getPublicImage(url.full)
       }
