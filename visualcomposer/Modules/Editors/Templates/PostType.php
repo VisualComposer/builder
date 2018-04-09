@@ -19,7 +19,7 @@ class PostType extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Templates\PostType::registerTemplatesPostType */
-        $this->addEvent('vcv:inited', 'registerTemplatesPostType');
+        $this->addEvent('vcv:inited', 'registerTemplatesPostType', 10);
     }
 
     /**
@@ -30,7 +30,7 @@ class PostType extends Container implements Module
         register_post_type(
             'vcv_templates',
             [
-                'label' => 'VCWB Templates',
+                'label' => __('Global Templates', 'vcwb'),
                 'public' => false,
                 'publicly_queryable' => false,
                 'exclude_from_search' => true,
