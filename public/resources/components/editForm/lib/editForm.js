@@ -122,10 +122,8 @@ export default class EditForm extends React.Component {
               <div className='vcv-ui-tree-content-section-inner'>
                 <div className='vcv-ui-editor-plates-container'>
                   <div className='vcv-ui-editor-plates'>
-                    <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                      <div className={plateClass}>
-                        {this.getAccordionSections()}
-                      </div>
+                    <div className={plateClass}>
+                      {this.getAccordionSections()}
                     </div>
                   </div>
                 </div>

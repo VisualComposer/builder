@@ -13,6 +13,7 @@
     "--build": "webpack --progress --colors",
     "build": "webpack --config webpack.config.4x.babel.js --progress --colors",
     "build-production": "webpack --config webpack.config.production.4x.babel.js --progress --colors -p",
+    "build-production-silent": "webpack --config webpack.config.production.4x.babel.js -p --silent",
     "--watch": "webpack --progress --colors --watch",
     "watch": "webpack --config webpack.config.4x.babel.js --progress --colors --watch",
     "watch-assets-and-elements": "vc watch-elements-and-assets",
