@@ -11,10 +11,15 @@ CNT=0
 PARALLELS_COUNT=7
 for i in "${arr[@]}";
 do {
+  i=${i//[$'\t\r\n']}
   TOTAL=$(($TOTAL+1))
   echo $EXECDIR/devElements/$i
   CNT=$(($CNT+1))
-  if cd $EXECDIR/devElements/$i; then cd $EXECDIR/devElements/$i && git pull & pid=$1; else git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/devElements/$i & pid=$1; fi
+  if cd $EXECDIR/devElements/$i; then
+    cd $EXECDIR/devElements/$i && git pull & pid=$1;
+  else
+    git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/devElements/$i & pid=$1;
+  fi
 
   PID_LIST+=" $pid";
   if [ "$CNT" -gt "$PARALLELS_COUNT" ]; then
