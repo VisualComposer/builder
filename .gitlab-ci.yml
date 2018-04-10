@@ -95,6 +95,20 @@ test:php:modules:
   tags:
     - docker
 
+test:js:build:
+  stage: test
+  image: node:9.11
+  script:
+    - npm install
+    - npm run build
+    - cat public/dist/front.bundle.js | grep "Cannot find module" && exit 1
+    - cat public/dist/vendor.bundle.js | grep "Cannot find module" && exit 1
+    - cat public/dist/pe.bundle.js | grep "Cannot find module" && exit 1
+    - cat public/dist/wp.bundle.js | grep "Cannot find module" && exit 1
+    - cat public/dist/wpPostRebuild.bundle.js | grep "Cannot find module" && exit 1
+  tags:
+    - docker
+
 deployEditorsBundle:
   image: node:8.6.0
   stage: deploy
@@ -110,41 +124,3 @@ deployAssetsBundle:
     - bash ci/deploy-assets-bundle.sh
   tags:
     - docker
-
-deploying:
-  image: wpbakery/ci-wordpress-npm
-  stage:  deploy
-  script:
-   - mkdir dist/
-   - npm install
-   - mkdir -p ~/.ssh
-   - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
-   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-   - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
-   - chmod 700 ~/.ssh/id_rsa
-   - echo "$SSH_PRIVATE_KEY" >> id_rsa
-   - chmod 700 id_rsa
-   - node tools/vcwb-builder/builder.js plugin -p dist/
-   - unzip dist/visualcomposer.zip -d dist/
-   - echo "$CI_PROJECT_URL/builds/$CI_BUILD_ID/artifacts/raw/dist/visualcomposer.zip" > $CI_PROJECT_DIR/build.log
-   - rsync -rav --delete -e 'ssh -i id_rsa' dist/visualcomposer webuser@test.alpha.visualcomposer.io:/var/www/test.alpha.visualcomposer.io/wordpress/wp-content/plugins
-  artifacts:
-   name: "${CI_BUILD_NAME}_${CI_BUILD_REF_NAME}"
-   expire_in: 7d
-   paths:
-    - dist/visualcomposer.zip
-    - build.log
-  tags:
-   - docker
-  only:
-   - tags
-   - triggers
-
-pushSlack:
-  image: wpbakery/ci-wordpress-npm
-  stage: push
-  script: "curl -X POST -H 'Content-type: application/json' --data \"{'text':'New build created for *$CI_PROJECT_PATH* ($CI_BUILD_REF_NAME) <$(cat build.log)|visualcomposer.zip>.'}\" $CI_SLACK_URL"
-  tags:
-    - docker
-  dependencies:
-    - deploying
