@@ -5,6 +5,7 @@ import vcCake from 'vc-cake'
 import $ from 'jquery'
 import striptags from 'striptags'
 import PropTypes from 'prop-types'
+import lodash from 'lodash'
 
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
@@ -51,6 +52,9 @@ export default class ContentEditableComponent extends React.Component {
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
+    if (vcCake.env('FIX_SHORTCODE_BLOCKS_TEXT_BLOCK_EDIT')) {
+      this.debouncedUpdateHtmlWithServer = lodash.debounce(this.updateHtmlWithServer, 500)
+    }
   }
 
   componentDidMount () {
@@ -104,7 +108,11 @@ export default class ContentEditableComponent extends React.Component {
 
     this.medium = new MediumEditor(dom, editorSettings)
     this.medium.destroy()
-    this.updateHtmlWithServer(this.props.children)
+    if (vcCake.env('FIX_SHORTCODE_BLOCKS_TEXT_BLOCK_EDIT')) {
+      this.debouncedUpdateHtmlWithServer(this.props.children)
+    } else {
+      this.updateHtmlWithServer(this.props.children)
+    }
     vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
   }
 
@@ -136,7 +144,11 @@ export default class ContentEditableComponent extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (this.state.contentEditable !== true && nextProps.children !== this.state.realContent) {
       this.setState({ realContent: nextProps.children })
-      this.updateHtmlWithServer(nextProps.children)
+      if (vcCake.env('FIX_SHORTCODE_BLOCKS_TEXT_BLOCK_EDIT')) {
+        this.debouncedUpdateHtmlWithServer(nextProps.children)
+      } else {
+        this.updateHtmlWithServer(nextProps.children)
+      }
     }
   }
 
@@ -147,7 +159,11 @@ export default class ContentEditableComponent extends React.Component {
   handleLayoutCustomModeChange (data) {
     if (this.state.contentEditable && data !== 'contentEditable') {
       this.handleLayoutModeChange(null)
-      this.updateHtmlWithServer(this.state.realContent)
+      if (vcCake.env('FIX_SHORTCODE_BLOCKS_TEXT_BLOCK_EDIT')) {
+        this.debouncedUpdateHtmlWithServer(this.state.realContent)
+      } else {
+        this.updateHtmlWithServer(this.state.realContent)
+      }
     }
   }
 
@@ -425,7 +441,11 @@ export default class ContentEditableComponent extends React.Component {
           this.handleLayoutModeChange(null)
         }, 0)
       }
-      this.updateHtmlWithServer(this.state.realContent)
+      if (vcCake.env('FIX_SHORTCODE_BLOCKS_TEXT_BLOCK_EDIT')) {
+        this.debouncedUpdateHtmlWithServer(this.state.realContent)
+      } else {
+        this.updateHtmlWithServer(this.state.realContent)
+      }
     }
   }
 
