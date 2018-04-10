@@ -132,9 +132,9 @@ export default class GoogleFonts extends Attribute {
         families: [ `${family}:${style.weight + fontStyle}` ]
       },
       ...iframeSettings,
-      inactive: this.createFieldValue.bind(this, family, style, text, 'inactive'),
-      active: this.createFieldValue.bind(this, family, style, text, 'active'),
-      loading: this.createFieldValue.bind(this, family, style, text, 'loading')
+      fontinactive: this.createFieldValue.bind(this, family, style, text, 'inactive'),
+      fontactive: this.createFieldValue.bind(this, family, style, text, 'active'),
+      fontloading: this.createFieldValue.bind(this, family, style, text, 'loading')
     })
   }
 
