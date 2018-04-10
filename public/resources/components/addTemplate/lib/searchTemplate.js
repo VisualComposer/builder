@@ -13,22 +13,17 @@ export default class SearchTemplate extends React.Component {
     index: PropTypes.any.isRequired,
     changeActiveCategory: PropTypes.func.isRequired
   }
-  inputTimeout = 0
-  dropdownTimeout = 0
   mobileDetect = null
 
   constructor (props) {
     super(props)
     this.state = {
-      input: false,
       activeIndex: this.props.index,
       dropdown: false,
       content: this.props.allCategories[this.props.index].title
     }
     this.handleSearch = this.handleSearch.bind(this)
-    this.handleInputFocus = this.handleInputFocus.bind(this)
     this.getCategorySelect = this.getCategorySelect.bind(this)
-    this.handleCategoryClick = this.handleCategoryClick.bind(this)
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
 
     this.mobileDetect = vcCake.env('MOBILE_DETECT') ? new MobileDetect(window.navigator.userAgent) : null
@@ -43,23 +38,12 @@ export default class SearchTemplate extends React.Component {
     }
   }
 
-  componentWillUnmount () {
-    if (this.inputTimeout) {
-      window.clearTimeout(this.inputTimeout)
-      this.inputTimeout = 0
-    }
-    if (this.dropdownTimeout) {
-      window.clearTimeout(this.dropdownTimeout)
-      this.dropdownTimeout = 0
-    }
-  }
-
   // Get HTML elements
 
   getCategorySelect () {
     let options = []
     this.props.allCategories.forEach((item) => {
-      if (item.visible()) {
+      if (vcCake.env('TEMPLATE_PANEL_PERF') ? item.visible : item.visible()) {
         options.push(<option key={item.id} value={item.index}>{item.title}</option>)
       }
     })
@@ -83,13 +67,6 @@ export default class SearchTemplate extends React.Component {
     this.props.changeActiveCategory(0)
   }
 
-  handleInputFocus () {
-    this.setState({ input: true })
-    this.inputTimeout = setTimeout(() => {
-      this.setState({ input: false })
-    }, 400)
-  }
-
   handleCategorySelect (e) {
     this.setState({
       content: this.props.allCategories[e.currentTarget.value].title
@@ -99,24 +76,15 @@ export default class SearchTemplate extends React.Component {
     this.props.changeSearchInput('')
   }
 
-  handleCategoryClick () {
-    this.setState({ dropdown: true })
-    this.dropdownTimeout = setTimeout(() => {
-      this.setState({ dropdown: false })
-    }, 400)
-  }
-
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const searchPlaceholder = localizations ? localizations.searchTemplates : 'Search templates by name and description'
 
     let inputContainerClasses = classNames({
-      'vcv-ui-editor-search-field-container': true,
-      'vcv-ui-editor-field-highlight': this.state.input
+      'vcv-ui-editor-search-field-container': true
     })
     let dropdownContainerClasses = classNames({
-      'vcv-ui-editor-search-dropdown-container': true,
-      'vcv-ui-editor-field-highlight': this.state.dropdown
+      'vcv-ui-editor-search-dropdown-container': true
     })
 
     let autofocus = vcCake.env('MOBILE_DETECT') ? !this.mobileDetect.mobile() : true
@@ -124,7 +92,6 @@ export default class SearchTemplate extends React.Component {
       <div
         className={dropdownContainerClasses}
         data-content={this.state.content}
-        onClick={this.handleCategoryClick}
       >
         {this.getCategorySelect()}
       </div>
@@ -136,7 +103,6 @@ export default class SearchTemplate extends React.Component {
           className='vcv-ui-form-input vcv-ui-editor-search-field'
           id='add-template-search'
           onChange={this.handleSearch}
-          onFocus={this.handleInputFocus}
           type='text'
           value={this.props.inputValue}
           placeholder={searchPlaceholder}
