@@ -1,162 +1,40 @@
 #!/bin/bash
 
-echo "My script is running."
-
-declare -a arr=(
-'row'
-'column'
-'textBlock'
-'singleImage'
-'basicButton'
-'basicButtonIcon'
-'featureSection'
-'flickrImage'
-'flipBox'
-'messageBox'
-'googleFontsHeading'
-'googleMaps'
-'googlePlusButton'
-'heroSection'
-'icon'
-'imageGallery'
-'imageMasonryGallery'
-'instagramImage'
-'outlineButton'
-'outlineButtonIcon'
-'pinterestPinit'
-'rawHtml'
-'facebookLike'
-'feature'
-'rawJs'
-'separator'
-'doubleSeparator'
-'separatorIcon'
-'separatorTitle'
-'shortcode'
-'section'
-'twitterButton'
-'twitterGrid'
-'twitterTimeline'
-'twitterTweet'
-'vimeoPlayer'
-'wpWidgetsCustom'
-'wpWidgetsDefault'
-'youtubePlayer'
-'faqToggle'
-'postsGridItemPostDescription'
-'postsGridDataSourcePost'
-'postsGridDataSourcePage'
-'postsGridDataSourceCustomPostType'
-'postsGridDataSourceListOfIds'
-'postsGrid'
-'woocommerceTopRatedProducts'
-'woocommerceSaleProducts'
-'woocommerceRelatedProducts'
-'woocommerceRecentProducts'
-'woocommerceProducts'
-'woocommerceProductPage'
-'woocommerceProductCategory'
-'woocommerceProductCategories'
-'woocommerceProductAttribute'
-'woocommerceProduct'
-'woocommerceOrderTracking'
-'woocommerceMyAccount'
-'woocommerceFeaturedProducts'
-'woocommerceCheckout'
-'woocommerceCart'
-'woocommerceBestSellingProducts'
-'woocommerceAddToCart'
-'woocommerceProducts32'
-'tab'
-'tabsWithSlide'
-'simpleImageSlider'
-'featureDescription'
-'pricingTable'
-'transparentOutlineButton'
-'outlineShadowButton'
-'underlineButton'
-'parallelogramButton'
-'resizeButton'
-'borderHoverButton'
-'3dButton'
-'strikethroughOutlineButton'
-'simpleGradientButton'
-'quoteButton'
-'strikethroughButton'
-'filledShadowButton'
-'animatedShadowButton'
-'symmetricButton'
-'zigZagButton'
-'smoothShadowButton'
-'halfOutlineButton'
-'gatsbyButton'
-'animatedOutlineButton'
-'animatedIconButton'
-'animatedTwoColorButton'
-'callToAction'
-'emptySpace'
-'outlineMessageBox'
-'widgetizedSidebar'
-'flickrWidget'
-'copyright'
-'logoWidget'
-'basicMenu'
-'outlinePricingTable'
-'classicTab'
-'classicTabs'
-'hoverBox'
-'iconHoverBox'
-'tallHoverBox'
-'separatedButton'
-'sandwichMenu'
-'sidebarMenu'
-'classicAccordion'
-'classicAccordionSection'
-'testimonial'
-'pageableContainer'
-'pageableTab'
-'contactForm7'
-'featuredImagePostGrid'
-'featuredImagePostGridItem'
-'syntaxHighlighter'
-'multipleImageCollage'
-'typewriterHeading'
-'centeredPostGrid'
-'centeredPostGridItem'
-'videoPlayer'
-'logoSlider'
-'facebookShare'
-'facebookSave'
-'facebookComments'
-'facebookQuote'
-'facebookPage'
-'facebookEmbeddedVideo'
-'facebookEmbeddedComments'
-'facebookEmbeddedPosts'
-'videoPopup'
-'doubleOutlineButton'
-'ninjaForms'
-'layerSlider'
-'sliderRevolution'
-'essentialGrid'
-'nextGenGallery'
-'wpForms'
-'eventOnCalendar'
-'enviraGallery'
-'advancedCustomFields'
-'mailChimpForWordPress'
-'gravityForms'
-'addToAnyShareButtons'
-'marqueeElement'
-'progressBars'
-'gutenberg'
-)
+echo "Clone script is running."
 
 EXECDIR=`pwd`
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+declare -a arr=($(cat "$DIR/elements.list"))
 
-for i in "${arr[@]}"
-do
-   if cd $EXECDIR/devElements/$i; then cd $EXECDIR/devElements/$i && git pull; else git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/devElements/$i; fi
-done
+TOTAL=0
+CNT=0
+PARALLELS_COUNT=7
+for i in "${arr[@]}";
+do {
+  i=${i//[$'\t\r\n']}
+  TOTAL=$(($TOTAL+1))
+  echo $EXECDIR/devElements/$i
+  CNT=$(($CNT+1))
+  if cd $EXECDIR/devElements/$i; then
+    cd $EXECDIR/devElements/$i && git pull & pid=$1;
+  else
+    git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/devElements/$i & pid=$1;
+  fi
+
+  PID_LIST+=" $pid";
+  if [ "$CNT" -gt "$PARALLELS_COUNT" ]; then
+    wait $PID_LIST
+    PID_LIST=""
+    echo "..."
+    CNT=0
+  fi
+} done
+
+trap "kill $PID_LIST" SIGINT
+
+wait $PID_LIST
+
+echo
+echo "All processes have completed: $TOTAL";
 
 echo "Done!"
