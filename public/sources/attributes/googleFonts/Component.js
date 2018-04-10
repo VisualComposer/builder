@@ -187,7 +187,7 @@ export default class GoogleFonts extends Attribute {
             {loadedFail}
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            <div className='vcv-ui-form-group'>
+            <div className='vcv-ui-form-group vcv-ui-marginless'>
               <span className='vcv-ui-form-group-heading'>
                 Font Style
               </span>
