@@ -11,6 +11,7 @@ CNT=0
 PARALLELS_COUNT=10
 for i in "${arr[@]}";
 do {
+  i=${i//[$'\t\r\n']}
   TOTAL=$(($TOTAL+1))
   CNT=$(($CNT+1))
   if cd $EXECDIR/devElements/$i; then
