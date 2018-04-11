@@ -76,6 +76,21 @@ class Bundle implements Helper
         return $downloadUrl;
     }
 
+    public function getAddonDownloadUrl($requestedData = [])
+    {
+        $urlHelper = vchelper('Url');
+        $downloadUrl = $urlHelper->query(
+            sprintf(
+                '%s/download/addon?plugin=%s',
+                VCV_HUB_URL,
+                VCV_VERSION
+            ),
+            $requestedData
+        );
+
+        return $downloadUrl;
+    }
+
     public function getTemplateDownloadUrl($requestedData = [])
     {
         $urlHelper = vchelper('Url');
