@@ -26,9 +26,9 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::allMyTemplates */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:body:extraOutput', 'allMyTemplates');
+        $this->addFilter('vcv:backend-disabled:extraOutput vcv:frontend:body:extraOutput', 'allMyTemplates');
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::allPredefinedTemplates */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:body:extraOutput', 'allPredefinedTemplates');
+        $this->addFilter('vcv:backend-disabled:extraOutput vcv:frontend:body:extraOutput', 'allPredefinedTemplates');
         $this->addFilter('vcv:editor:variables', 'allTemplates');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */

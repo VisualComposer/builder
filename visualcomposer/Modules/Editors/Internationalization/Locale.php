@@ -25,13 +25,11 @@ class Locale extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Internationalization\Locale::outputLocalizations */
         $this->addFilter(
-            'vcv:backend:extraOutput vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput vcv:backend:settings:extraOutput',
+            'vcv:backend-disabled:extraOutput vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput vcv:backend:settings:extraOutput',
             'outputLocalizations'
         );
 
-        if (vcvenv('VCV_TF_DISABLE_BE')) {
-            $this->wpAddAction('admin_print_scripts', 'printLocalizations');
-        }
+        $this->wpAddAction('admin_print_scripts', 'printLocalizations');
     }
 
     protected function outputLocalizations($response, $payload, Localizations $localizationsHelper)

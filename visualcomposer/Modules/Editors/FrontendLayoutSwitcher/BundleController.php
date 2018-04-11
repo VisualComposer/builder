@@ -24,14 +24,12 @@ class BundleController extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_TF_DISABLE_BE')) {
-            $this->wpAddAction('edit_form_top', 'addCurrentEditorField');
-            $this->wpAddAction('admin_enqueue_scripts', 'addBundleStyle');
-            $this->wpAddAction('admin_enqueue_scripts', 'addBundleScript');
+        $this->wpAddAction('edit_form_top', 'addCurrentEditorField');
+        $this->wpAddAction('admin_enqueue_scripts', 'addBundleStyle');
+        $this->wpAddAction('admin_enqueue_scripts', 'addBundleScript');
 
-            /** @see \VisualComposer\Modules\Editors\FrontendLayoutSwitcher\BundleController::disableTinyMceContentRender */
-            $this->wpAddAction('edit_form_top', 'disableTinyMceContentRender');
-        }
+        /** @see \VisualComposer\Modules\Editors\FrontendLayoutSwitcher\BundleController::disableTinyMceContentRender */
+        $this->wpAddAction('edit_form_top', 'disableTinyMceContentRender');
     }
 
     /**
