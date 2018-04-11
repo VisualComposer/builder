@@ -19,7 +19,7 @@ class WpEditor extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Attributes\WpEditor::addWpEditorScripts */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'addWpEditorScripts');
+        $this->addFilter('vcv:backend-disabled:extraOutput vcv:frontend:head:extraOutput', 'addWpEditorScripts');
     }
 
     protected function addWpEditorScripts($output)
