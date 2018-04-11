@@ -28,9 +28,9 @@ const categories = {
     type: 'template',
     name: 'Templates'
   },
-  addons: {
+  addon: {
     index: 3,
-    type: 'addons',
+    type: 'addon',
     name: 'Addons'
   },
   hubHeader: {
