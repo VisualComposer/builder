@@ -20,7 +20,7 @@ class MediaSizesController extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\MediaSizesController::addImageSizes */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'addImageSizes');
+        $this->addFilter('vcv:backend-disabled:extraOutput vcv:frontend:head:extraOutput', 'addImageSizes');
     }
 
     protected function addImageSizes($scripts, WpMedia $mediaHelper)

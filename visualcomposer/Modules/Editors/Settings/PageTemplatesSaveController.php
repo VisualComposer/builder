@@ -33,9 +33,7 @@ class PageTemplatesSaveController extends Container implements Module
             $this->addFilter('vcv:dataAjax:setData', 'setPageTemplate');
         }
 
-        if (vcvenv('VCV_TF_DISABLE_BE')) {
-            $this->wpAddAction('save_post', 'setLayout');
-        }
+        $this->wpAddAction('save_post', 'setLayout');
     }
 
     /**

@@ -20,7 +20,7 @@ class Utm extends Container implements Module
     public function __construct()
     {
         $this->addFilter(
-            'vcv:backend:extraOutput vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput vcv:backend:settings:extraOutput',
+            'vcv:backend-disabled:extraOutput vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput vcv:backend:settings:extraOutput',
             'outputUtm'
         );
     }
