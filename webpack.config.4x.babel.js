@@ -148,6 +148,7 @@ module.exports = {
   ],
   module: {
     rules: [
+      { parser: { amd: false } },
       {
         test: /\.mjs$/,
         include: /node_modules/,

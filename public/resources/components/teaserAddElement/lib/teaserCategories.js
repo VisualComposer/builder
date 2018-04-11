@@ -28,20 +28,25 @@ const categories = {
     type: 'template',
     name: 'Templates'
   },
-  hubHeader: {
+  addon: {
     index: 3,
+    type: 'addon',
+    name: 'Addons'
+  },
+  hubHeader: {
+    index: 4,
     type: 'hubHeader',
     name: 'Headers',
     templateType: true
   },
   hubFooter: {
-    index: 4,
+    index: 5,
     type: 'hubFooter',
     name: 'Footers',
     templateType: true
   },
   hubSidebar: {
-    index: 5,
+    index: 6,
     type: 'hubSidebar',
     name: 'Sidebars',
     templateType: true
@@ -60,14 +65,15 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     if (!this.allCategories) {
       const elementGroup = this.getElementGroup()
       const templateGroup = this.getTemplateGroup()
+      const addonsGroup = this.getAddonsGroup()
       const headerGroup = this.getHFSGroup(categories.hubHeader)
       const footerGroup = this.getHFSGroup(categories.hubFooter)
       const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
-      const allGroup = this.getAllGroup([ elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ])
+      const allGroup = this.getAllGroup([ elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ])
       if (vcCake.env('HUB_CONTROLS')) {
-        this.allCategories = [ allGroup, elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ]
+        this.allCategories = [ allGroup, elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ]
       } else {
-        this.allCategories = [ allGroup, elementGroup, templateGroup ]
+        this.allCategories = [ allGroup, elementGroup, templateGroup, addonsGroup ]
       }
     }
     return this.allCategories
@@ -83,6 +89,11 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       }
     })
     return { elements: elements, id: 'All0', index: 0, title: 'All' }
+  }
+
+  getAddonsGroup () {
+    let addonsCategories = window.VCV_HUB_GET_ADDON_TEASER()
+    return { elements: addonsCategories, id: 'Addons3', index: 3, title: 'Addons' }
   }
 
   getElementGroup () {
@@ -111,11 +122,11 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     const { type, name } = category
     let index
     if (type === 'hubHeader') {
-      index = 3
-    } else if (type === 'hubFooter') {
       index = 4
-    } else if (type === 'hubSidebar') {
+    } else if (type === 'hubFooter') {
       index = 5
+    } else if (type === 'hubSidebar') {
+      index = 6
     }
     if (index) {
       let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()
