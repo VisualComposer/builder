@@ -6,5 +6,5 @@ import './sources/less/front/init.less'
 window.vcv = publicAPI
 
 jQuery(document).ready(() => {
-  publicAPI.trigger('ready')
+  window.vcv.trigger('ready')
 }, false)
