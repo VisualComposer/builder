@@ -12,7 +12,7 @@
     "standard": "standard",
     "--build": "webpack --progress --colors",
     "build": "webpack --config webpack.config.4x.babel.js --progress --colors",
-    "build-production": "webpack --config webpack.config.production.4x.babel.js --progress --colors -p",
+    "build-production": "webpack --config webpack.config.production.4x.babel.js -p --silent",
     "build-production-silent": "webpack --config webpack.config.production.4x.babel.js -p --silent",
     "--watch": "webpack --progress --colors --watch",
     "watch": "webpack --config webpack.config.4x.babel.js --progress --colors --watch",
@@ -21,7 +21,7 @@
     "--build-element": "babel-node ./tools/element-builder/index",
     "--build-production": "webpack --config webpack.config.production.js --progress --colors -p",
     "build-settings": "webpack --config webpack-settings.config.4x.babel.js --progress --colors",
-    "build-settings-production": "webpack --config webpack-settings.config.production.4x.babel.js --progress --colors -p",
+    "build-settings-production": "webpack --config webpack-settings.config.production.4x.babel.js -p --silent",
     "watch-settings": "webpack --config webpack-settings.config.4x.babel.js --progress --colors --watch"
   },
   "author": "@wpb",
