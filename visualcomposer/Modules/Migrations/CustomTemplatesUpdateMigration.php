@@ -40,7 +40,21 @@ class CustomTemplatesUpdateMigration extends MigrationsController implements Mod
                         'value' => 'custom',
                         'compare' => '=',
                     ],
-
+                    [
+                        'key' => '_' . VCV_PREFIX . 'type',
+                        'value' => 'customHeader',
+                        'compare' => '=',
+                    ],
+                    [
+                        'key' => '_' . VCV_PREFIX . 'type',
+                        'value' => 'customFooter',
+                        'compare' => '=',
+                    ],
+                    [
+                        'key' => '_' . VCV_PREFIX . 'type',
+                        'value' => 'customSidebar',
+                        'compare' => '=',
+                    ],
                     [
                         'key' => '_' . VCV_PREFIX . 'type',
                         'value' => '',
