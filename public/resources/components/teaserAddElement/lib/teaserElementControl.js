@@ -28,7 +28,8 @@ export default class TeaserElementControl extends ElementControl {
       }
     } else {
       const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
-      const tag = this.props.element.bundle.replace('template/', '')
+      let tag = this.props.element.bundle.replace('template/', '')
+      tag = tag.replace(/^addon\//, '')
       if (downloadingItems.includes(tag)) {
         elementState = 'downloading'
       } else {
@@ -36,6 +37,8 @@ export default class TeaserElementControl extends ElementControl {
           elementState = 'inactive'
           if (templatesService.findTemplateByBundle(this.props.element.bundle)) {
             elementState = 'success'
+          } else if (hubAddonsStorage.state('addons').get()[tag]) {
+            elementState = 'success-info'
           }
         } else {
           let hubTemplates = templatesService.hub()
@@ -79,9 +82,23 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadingItemOnChange (data) {
-    let tag = this.props.type === 'element' ? this.props.tag : this.props.element.bundle.replace('template/', '')
+    let tag = this.props.type === 'element' ? this.props.tag : this.props.element.bundle.replace('template/', '').replace('addon/', '')
     if (!data.includes(tag)) {
-      let downloaded = this.props.type === 'element' ? hubElementsService.get(tag) : templatesService.findBy('bundle', this.props.element.bundle)
+      let downloaded
+      switch (this.props.type) {
+        case 'element':
+          downloaded = this.props.tag
+          break
+        case 'template':
+          downloaded = this.props.element.bundle.replace('template/', '')
+          break
+        case 'addon':
+          downloaded = this.props.tag
+          break
+        default:
+          console.warn('Invalid hub element type received')
+      }
+      // let downloaded = this.props.type === 'element' ? hubElementsService.get(tag) : templatesService.findBy('bundle', this.props.element.bundle)
       this.setState({ elementState: downloaded ? 'success' : 'failed' })
       workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
