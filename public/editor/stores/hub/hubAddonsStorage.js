@@ -26,7 +26,7 @@ addStorage('hubAddons', (storage) => {
     const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
     const { tag, name } = addon
     let bundle = 'addon/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
-    let downloadedAddons = window.VCV_HUB_GET_ADDONS && window.VCV_HUB_GET_ADDONS()
+    let downloadedAddons = storage.state('addons').get()
     if (addon.bundle) {
       bundle = addon.bundle
     }
@@ -46,7 +46,6 @@ addStorage('hubAddons', (storage) => {
     }
     downloadingItems.push(tag)
     workspaceStorage.state('downloadingItems').set(downloadingItems)
-
     let tries = 0
     const tryDownload = () => {
       let successCallback = (response) => {
