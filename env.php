@@ -267,3 +267,10 @@ if (!defined('VCV_ENV_HUB_ADDON_TEASER')) {
         isset($_SERVER['ENV_VCV_ENV_HUB_ADDON_TEASER']) ? $_SERVER['ENV_VCV_ENV_HUB_ADDON_TEASER'] : false
     );
 }
+
+if (!defined('VCV_ENV_TEMPLATES_FULL_SAVE')) {
+    define(
+        'VCV_ENV_TEMPLATES_FULL_SAVE',
+        isset($_SERVER['ENV_VCV_ENV_TEMPLATES_FULL_SAVE']) ? $_SERVER['ENV_VCV_ENV_TEMPLATES_FULL_SAVE'] : false
+    );
+}

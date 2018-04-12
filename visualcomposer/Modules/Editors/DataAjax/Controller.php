@@ -124,6 +124,10 @@ class Controller extends Container implements Module
         }
         $sourceId = $requestHelper->input('vcv-source-id');
 
+        if (!is_numeric($sourceId) && !empty($sourceId)) {
+            $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $sourceId);
+        }
+
         if (!is_array($response)) {
             $response = [];
         }
