@@ -42,6 +42,7 @@ class AddonTeasersDownloadController extends Container implements Module
         foreach ($teasers as $addon) {
             $elementData = [
                 'bundle' => $addon['bundle'],
+                'tag' => $addon['tag'],
                 'name' => $addon['name'],
                 'metaThumbnailUrl' => $addon['thumbnailUrl'],
                 'metaPreviewUrl' => $addon['previewUrl'],

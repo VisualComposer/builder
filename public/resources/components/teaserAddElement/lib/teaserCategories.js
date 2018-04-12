@@ -65,15 +65,15 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     if (!this.allCategories) {
       const elementGroup = this.getElementGroup()
       const templateGroup = this.getTemplateGroup()
-      const addonsGroup = this.getAddonsGroup()
+      const addonsGroup = vcCake.env('VCV_HUB_ADDON_TEASER') && this.getAddonsGroup()
       const headerGroup = this.getHFSGroup(categories.hubHeader)
       const footerGroup = this.getHFSGroup(categories.hubFooter)
       const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
-      const allGroup = this.getAllGroup([ elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ])
+      const allGroup = vcCake.env('VCV_HUB_ADDON_TEASER') ? this.getAllGroup([ elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ]) : this.getAllGroup([ elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ])
       if (vcCake.env('HUB_CONTROLS')) {
-        this.allCategories = [ allGroup, elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ]
+        this.allCategories = vcCake.env('VCV_HUB_ADDON_TEASER') ? [ allGroup, elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ] : [ allGroup, elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ]
       } else {
-        this.allCategories = [ allGroup, elementGroup, templateGroup, addonsGroup ]
+        this.allCategories = vcCake.env('VCV_HUB_ADDON_TEASER') ? [ allGroup, elementGroup, templateGroup, addonsGroup ] : [ allGroup, elementGroup, templateGroup ]
       }
     }
     return this.allCategories

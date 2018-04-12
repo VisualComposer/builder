@@ -8,7 +8,8 @@ addStorage('hubAddons', (storage) => {
   const utils = getService('utils')
 
   storage.on('start', () => {
-    storage.state('addons').set(window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {})
+    storage.state('addonsTeasers').set(window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {})
+    storage.state('addons').set(window.VCV_HUB_GET_ADDONS ? window.VCV_HUB_GET_ADDONS() : {})
   })
 
   storage.on('add', (addonsData, addBundle) => {
@@ -25,6 +26,7 @@ addStorage('hubAddons', (storage) => {
     const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
     const { tag, name } = addon
     let bundle = 'addon/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+    let downloadedAddons = window.VCV_HUB_GET_ADDONS && window.VCV_HUB_GET_ADDONS()
     if (addon.bundle) {
       bundle = addon.bundle
     }
@@ -34,7 +36,7 @@ addStorage('hubAddons', (storage) => {
       'vcv-nonce': window.vcvNonce
     }
     let successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
-    if (hubAddonsService.get(tag) !== null) {
+    if (downloadedAddons[tag]) {
       return
     }
 

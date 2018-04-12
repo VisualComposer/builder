@@ -256,10 +256,14 @@ export default class TeaserElementControl extends ElementControl {
         if (elementState !== 'success') {
           action = this.downloadElement
         }
-      } else {
+      } else if (this.props.type === 'template') {
         action = this.addTemplate
         if (elementState !== 'success') {
           action = this.downloadTemplate
+        }
+      } else if (this.props.type === 'addon') {
+        if (elementState !== 'success') {
+          action = this.downloadAddon
         }
       }
       overlayOutput = <span className={iconClasses} onClick={action} />
