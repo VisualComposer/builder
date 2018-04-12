@@ -34,28 +34,30 @@ class EditorTemplates implements Helper
         );
         $dataHelper = vchelper('Data');
         $outputTemplates = [];
-        foreach ($templatesGroups as $groupKey => $templates) {
-            $groupTemplates = [];
-            foreach ($templates as $key => $template) {
-                /** @var $template \WP_Post */
-                $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
-                $templateElements = $this->getTemplateElements($meta, $template);
-                $groupTemplates = $this->processTemplateElements($templateElements, $template, $groupTemplates);
-            }
-            if (!empty($groupTemplates)) {
-                if (empty($groupKey)) {
-                    $groupKey = 'custom';
+        if (!empty($templatesGroups)) {
+            foreach ($templatesGroups as $groupKey => $templates) {
+                $groupTemplates = [];
+                foreach ($templates as $key => $template) {
+                    /** @var $template \WP_Post */
+                    $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
+                    $templateElements = $this->getTemplateElements($meta, $template);
+                    $groupTemplates = $this->processTemplateElements($templateElements, $template, $groupTemplates);
                 }
-                if (isset($outputTemplates[ $groupKey ])) {
-                    $outputTemplates[ $groupKey ]['templates'] = $dataHelper->arrayDeepUnique(
-                        array_merge($outputTemplates[ $groupKey ]['templates'], $groupTemplates)
-                    );
-                } else {
-                    $outputTemplates[ $groupKey ] = [
-                        'name' => $this->getGroupName($groupKey),
-                        'type' => $groupKey,
-                        'templates' => $groupTemplates,
-                    ];
+                if (!empty($groupTemplates)) {
+                    if (empty($groupKey)) {
+                        $groupKey = 'custom';
+                    }
+                    if (isset($outputTemplates[ $groupKey ])) {
+                        $outputTemplates[ $groupKey ]['templates'] = $dataHelper->arrayDeepUnique(
+                            array_merge($outputTemplates[ $groupKey ]['templates'], $groupTemplates)
+                        );
+                    } else {
+                        $outputTemplates[ $groupKey ] = [
+                            'name' => $this->getGroupName($groupKey),
+                            'type' => $groupKey,
+                            'templates' => $groupTemplates,
+                        ];
+                    }
                 }
             }
         }
