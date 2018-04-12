@@ -89,7 +89,8 @@ module.exports = {
         'hubCategories',
         'hubGroups',
         'hubElements',
-        'elementAccessPoint'
+        'elementAccessPoint',
+        'hubAddons'
       ]
     },
     wpbackend: {

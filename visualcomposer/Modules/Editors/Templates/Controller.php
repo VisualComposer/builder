@@ -12,6 +12,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\EditorTemplates;
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -108,19 +109,20 @@ class Controller extends Container implements Module
     }
 
     /**
-     * @CRUD
-     *
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      *
      * @return array
      */
-    protected function create(Request $requestHelper, PostType $postTypeHelper, CurrentUser $currentUserAccessHelper)
+    protected function create(Request $requestHelper, PostType $postTypeHelper, CurrentUser $currentUserAccessHelper, Filters $filterHelper)
     {
         if ($currentUserAccessHelper->wpAll('publish_posts')->get()) {
             $data = $requestHelper->inputJson('vcv-template-data');
             $data['post_type'] = 'vcv_templates';
             $data['post_status'] = 'publish';
+            $data['post_content'] = $filterHelper->fire('vcv:templates:create:content', $data['post_content']);
 
             $templateId = $postTypeHelper->create($data);
             update_post_meta($templateId, '_' . VCV_PREFIX . 'id', uniqid());

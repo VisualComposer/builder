@@ -82,7 +82,8 @@ module.exports = Object.assign({}, config, {
           'hubCategories',
           'hubGroups',
           'hubElements',
-          'elementAccessPoint'
+          'elementAccessPoint',
+          'hubAddons'
         ]
       },
       wpbackend: {
