@@ -26,10 +26,19 @@ export default class TeaserElementControl extends ElementControl {
       } else {
         elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
       }
+    } else if (this.props.type === 'addon') {
+      const tag = this.props.element.tag
+      const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
+      if (downloadingItems.includes(tag)) {
+        elementState = 'downloading'
+      } else if (hubAddonsStorage.state('addons').get()[tag]) {
+        elementState = 'success-info'
+      } else {
+        elementState = 'inactive'
+      }
     } else {
       const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
       let tag = this.props.element.bundle.replace('template/', '')
-      tag = tag.replace(/^addon\//, '')
       if (downloadingItems.includes(tag)) {
         elementState = 'downloading'
       } else {
@@ -37,8 +46,6 @@ export default class TeaserElementControl extends ElementControl {
           elementState = 'inactive'
           if (templatesService.findTemplateByBundle(this.props.element.bundle)) {
             elementState = 'success'
-          } else if (hubAddonsStorage.state('addons').get()[tag]) {
-            elementState = 'success-info'
           }
         } else {
           let hubTemplates = templatesService.hub()
