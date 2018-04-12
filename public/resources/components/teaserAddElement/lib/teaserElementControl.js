@@ -11,6 +11,7 @@ const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const hubElementsStorage = getStorage('hubElements')
 const hubTemplateStorage = getStorage('hubTemplates')
+const hubAddonsStorage = getStorage('hubAddons')
 
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
@@ -62,6 +63,7 @@ export default class TeaserElementControl extends ElementControl {
     this.addElement = this.addElement.bind(this)
     this.downloadElement = this.downloadElement.bind(this)
     this.downloadTemplate = this.downloadTemplate.bind(this)
+    this.downloadAddon = this.downloadAddon.bind(this)
     this.addTemplate = this.addTemplate.bind(this)
     this.downloadingItemOnChange = this.downloadingItemOnChange.bind(this)
   }
@@ -83,6 +85,33 @@ export default class TeaserElementControl extends ElementControl {
       this.setState({ elementState: downloaded ? 'success' : 'failed' })
       workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
+  }
+
+  downloadAddon (e) {
+    if (env('TF_FREE_VERSION_DOWNLOAD')) {
+      if (!this.props.element.allowDownload) {
+        return
+      }
+    } else {
+      if (!this.state.allowDownload) {
+        return
+      }
+    }
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    if (this.props.element.update) {
+      let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
+      workspaceNotifications.set({
+        type: 'error',
+        text: errorMessage,
+        showCloseButton: 'true',
+        icon: 'vcv-ui-icon vcv-ui-icon-error',
+        time: 5000
+      })
+      return
+    }
+    this.setState({ elementState: 'downloading' })
+    workspaceStorage.state('downloadingItems').onChange(this.downloadingItemOnChange)
+    hubAddonsStorage.trigger('downloadAddon', this.props.element)
   }
 
   downloadElement (e) {

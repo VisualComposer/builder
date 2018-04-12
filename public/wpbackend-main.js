@@ -30,6 +30,7 @@ $(() => {
       require('./editor/stores/workspaceStorage')
       if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
         require('./editor/stores/hub/hubElementsStorage')
+        require('./editor/stores/hub/hubAddonsStorage')
         require('./editor/stores/hub/hubTemplatesStorage')
         const hubElementsStorage = vcCake.getStorage('hubElements')
         hubElementsStorage.trigger('start')
