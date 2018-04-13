@@ -71,9 +71,9 @@ addStorage('hubAddons', (storage) => {
               jsonResponse.addons.forEach((addon) => {
                 addon.tag = addon.tag.replace('addon/', '')
                 storage.trigger('add', addon, true)
-                workspaceStorage.trigger('removeFromDownloading', tag)
               })
             }
+            workspaceStorage.trigger('removeFromDownloading', tag)
           } else {
             tries++
             console.warn('failed to download addon status is false', jsonResponse, response)
