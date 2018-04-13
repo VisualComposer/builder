@@ -13,19 +13,21 @@ addStorage('wordpressData', (storage) => {
   const cook = getService('cook')
   storage.on('start', () => {
     // Here we call data load
-    controller.load({}, storage.state('status'))
+    controller.load(window.vcvSourceID, {}, storage.state('status'))
   })
-  storage.on('save', (options, source = '') => {
-    storage.state('status').set({ status: 'saving' }, source)
+  storage.on('save', (data, source = '', options = {}) => {
+    let status = options && typeof options.status !== 'undefined' ? options.status : storage.state('status')
+    status && status.set({ status: 'saving' }, source)
     settingsStorage.state('status').set({ status: 'ready' })
     const documentData = documentManager.all()
     storage.trigger('wordpress:beforeSave', {
       pageElements: documentData
     })
-    options = Object.assign({}, {
+    data = Object.assign({}, {
       elements: documentData
-    }, options)
-    controller.save(options, storage.state('status'))
+    }, data)
+    let id = options && options.id ? options.id : window.vcvSourceID
+    controller.save(id, data, status, options)
   })
   const wrapExistingContent = (content) => {
     let textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(content, '__VCVID__') })

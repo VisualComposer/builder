@@ -1,4 +1,4 @@
-import vcCake, { addService, getService, getStorage } from 'vc-cake'
+import vcCake, { addService, getService, getStorage, env } from 'vc-cake'
 
 // import { predefinedTemplates } from './lib/predefinedTemplates'
 
@@ -13,7 +13,7 @@ let handleSaveRequest = (action, key, data, successCallback, errorCallback) => {
     'vcv-action': `editorTemplates:${action}:adminNonce`,
     'vcv-nonce': window.vcvNonce,
     'vcv-template-type': (window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE()) || 'default',
-    [key]: data
+    [ key ]: data
   }, (result) => {
     let response = JSON.parse(result.response)
     if (response && response.status) {
@@ -29,18 +29,46 @@ addService('myTemplates', {
     if (this.findBy('name', name)) {
       return false
     }
-    handleSaveRequest('create', 'vcv-template-data', encodeURIComponent(JSON.stringify({
-      post_title: name,
-      post_content: html,
-      meta_input: {
-        vcvEditorTemplateElements: data
-      }
-    })), (response) => {
-      let id = response.status
-      let templateData = { id: id.toString(), name: name, data: data, html: html }
-      getStorage('templates').trigger('add', 'custom', templateData)
-      successCallback && typeof successCallback === 'function' && successCallback()
-    }, errorCallback)
+    if (!env('TEMPLATE_SAVE_FULL_DATA')) {
+      handleSaveRequest('create', 'vcv-template-data', encodeURIComponent(JSON.stringify({
+        post_title: name,
+        post_content: html,
+        meta_input: {
+          vcvEditorTemplateElements: data
+        }
+      })), (response) => {
+        let id = response.status
+        let templateData = { id: id.toString(), name: name, data: data, html: html }
+        getStorage('templates').trigger('add', 'custom', templateData)
+        successCallback && typeof successCallback === 'function' && successCallback()
+      }, errorCallback)
+    } else {
+      getStorage('wordpressData').trigger('save', {}, '', {
+        id: 'template',
+        title: name,
+        status: false,
+        successCallback: (responseText) => {
+          try {
+            let response = JSON.parse(responseText)
+            if (!response.status || !response.postData || !response.postData.id) {
+              console.log('Failed to save template, no ID', responseText)
+              errorCallback && typeof errorCallback === 'function' && errorCallback()
+            } else {
+              let id = response.postData.id
+              let templateData = { id: id.toString(), name: name, data: data, html: html }
+              getStorage('templates').trigger('add', 'custom', templateData)
+              successCallback && typeof successCallback === 'function' && successCallback()
+            }
+          } catch (e) {
+            console.log('Failed to save template', e, responseText)
+            errorCallback && typeof errorCallback === 'function' && errorCallback()
+          }
+        },
+        errorCallback: () => {
+          errorCallback && typeof errorCallback === 'function' && errorCallback()
+        }
+      })
+    }
 
     return true
   },

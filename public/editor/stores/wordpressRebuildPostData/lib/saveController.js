@@ -18,6 +18,7 @@ export default class SaveController {
 
   /**
    * Send data to server
+   * @param id
    * @param data
    * @param status
    * @private
@@ -47,9 +48,9 @@ export default class SaveController {
     const elementsCss = {}
     Object.keys(data.elements).forEach((key) => {
       assetsStorage.trigger('addElement', key)
-      const cookElement = cook.get(data.elements[key])
+      const cookElement = cook.get(data.elements[ key ])
       const tag = cookElement.get('tag')
-      elementsCss[key] = {
+      elementsCss[ key ] = {
         tag: tag
       }
       let elementAssetsFiles = elementAssetsLibrary.getBackendEditorAssetsFilesByElement(cookElement, { metaPublicJs: true })
@@ -58,23 +59,23 @@ export default class SaveController {
       const elementBaseStyleManager = stylesManager.create()
       const elementAttributesStyleManager = stylesManager.create()
       const elementMixinsStyleManager = stylesManager.create()
-      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], {attributeMixins: false, cssMixins: false})
-      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], {tags: false, cssMixins: false})
-      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], {tags: false, attributeMixins: false})
+      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { attributeMixins: false, cssMixins: false })
+      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { tags: false, cssMixins: false })
+      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { tags: false, attributeMixins: false })
       promises.push(elementBaseStyleManager.add(baseCss).compile().then((result) => {
-        elementsCss[key].baseCss = result
+        elementsCss[ key ].baseCss = result
       }))
       promises.push(elementAttributesStyleManager.add(attributesCss).compile().then((result) => {
-        elementsCss[key].attributesCss = result
+        elementsCss[ key ].attributesCss = result
       }))
       promises.push(elementMixinsStyleManager.add(mixinsCss).compile().then((result) => {
-        elementsCss[key].mixinsCss = result
+        elementsCss[ key ].mixinsCss = result
       }))
     })
-    assetsFiles.cssBundles = [...new Set(assetsFiles.cssBundles)]
-    assetsFiles.jsBundles = [...new Set(assetsFiles.jsBundles)]
+    assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
+    assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     Promise.all(promises).then(() => {
-      const requestData = {
+      let requestData = {
         'vcv-action': 'setData:adminNonce',
         'vcv-source-id': id,
         'vcv-ready': '1', // Used for backend editor when post being saved
@@ -89,7 +90,22 @@ export default class SaveController {
         'vcv-settings-source-local-js': (vcCake.env('CUSTOM_JS') && settingsStorage.state('localJs').get()) || '',
         'vcv-settings-global-js': (vcCake.env('CUSTOM_JS') && settingsStorage.state('globalJs').get()) || '',
         'vcv-tf': 'noGlobalCss',
+        'vcv-be-editor': 'fe',
         'vcv-updatePost': '1'
+      }
+      if (vcCake.env('PAGE_TEMPLATES_FE')) {
+        let pageTemplateData = settingsStorage.state('pageTemplate').get()
+        if (pageTemplateData) {
+          requestData[ 'vcv-page-template' ] = pageTemplateData
+        }
+      }
+      if (vcCake.env('PAGE_TITLE_FE')) {
+        requestData[ 'vcv-page-title' ] = settingsStorage.state('pageTitle').get() || ''
+        requestData[ 'vcv-page-title-disabled' ] = settingsStorage.state('pageTitleDisabled').get() || ''
+      }
+      if (vcCake.env('SAVE_API')) {
+        let extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
+        requestData[ 'vcv-extra' ] = extraRequestData
       }
       this.ajax(
         requestData,
@@ -100,14 +116,19 @@ export default class SaveController {
   }
 
   saveSuccess (status, responseText) {
-    let data = JSON.parse(responseText || '{}')
-    if (data && data.postData) {
-      window.vcvPostData = data.postData
+    try {
+      let data = JSON.parse(responseText || '{}')
+      if (data && data.postData) {
+        window.vcvPostData = data.postData
+      }
+      status.set({
+        status: 'success',
+        request: responseText
+      })
+    } catch (e) {
+      console.warn('save failed', e)
+      this.saveFailed(status, responseText)
     }
-    status.set({
-      status: 'success',
-      request: responseText
-    })
     // this.props.api.request('wordpress:data:saved', {
     //   status: 'success',
     //   request: responseText

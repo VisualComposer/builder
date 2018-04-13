@@ -32,11 +32,17 @@ class Controller extends Container implements Module
         $this->addFilter('vcv:backend-disabled:extraOutput vcv:frontend:body:extraOutput', 'allPredefinedTemplates');
         $this->addFilter('vcv:editor:variables', 'allTemplates');
 
-        /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
-        $this->addFilter('vcv:ajax:editorTemplates:create:adminNonce', 'create');
+        if (!vcvenv('VCV_ENV_TEMPLATES_FULL_SAVE')) {
+            /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
+            $this->addFilter('vcv:ajax:editorTemplates:create:adminNonce', 'create');
+        }
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::delete */
         $this->addFilter('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
+
+        if (vcvenv('VCV_ENV_TEMPLATES_FULL_SAVE')) {
+            $this->addFilter('vcv:dataAjax:setData:sourceId', 'saveTemplateId');
+        }
     }
 
     protected function allTemplates($variables, EditorTemplates $editorTemplatesHelper)
@@ -116,20 +122,33 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    protected function create(Request $requestHelper, PostType $postTypeHelper, CurrentUser $currentUserAccessHelper, Filters $filterHelper)
-    {
+    protected function create(
+        Request $requestHelper,
+        PostType $postTypeHelper,
+        CurrentUser $currentUserAccessHelper,
+        Filters $filterHelper
+    ) {
         if ($currentUserAccessHelper->wpAll('publish_posts')->get()) {
-            $data = $requestHelper->inputJson('vcv-template-data');
-            $data['post_type'] = 'vcv_templates';
-            $data['post_status'] = 'publish';
-            $data['post_content'] = $filterHelper->fire('vcv:templates:create:content', $data['post_content']);
-
+            if (!vcvenv('VCV_ENV_TEMPLATES_FULL_SAVE')) {
+                $data = $requestHelper->inputJson('vcv-template-data');
+                $data['post_type'] = 'vcv_templates';
+                $data['post_status'] = 'publish';
+                $data['post_content'] = $filterHelper->fire('vcv:templates:create:content', $data['post_content']);
+            } else {
+                $data = [
+                    'post_type' => 'vcv_templates',
+                    'post_status' => 'vcv_templates',
+                ];
+            }
             $templateId = $postTypeHelper->create($data);
             update_post_meta($templateId, '_' . VCV_PREFIX . 'id', uniqid());
 
-
-            if (!$requestHelper->exists('vcv-template-type')
-                || $requestHelper->input('vcv-template-type') === 'default') {
+            if (!vcvenv('VCV_ENV_TEMPLATES_FULL_SAVE')) {
+                if (!$requestHelper->exists('vcv-template-type')
+                    || $requestHelper->input('vcv-template-type') === 'default') {
+                    update_post_meta($templateId, '_' . VCV_PREFIX . 'type', 'custom');
+                }
+            } else {
                 update_post_meta($templateId, '_' . VCV_PREFIX . 'type', 'custom');
             }
 
@@ -162,5 +181,17 @@ class Controller extends Container implements Module
         }
 
         return ['status' => false];
+    }
+
+    protected function saveTemplateId($sourceId)
+    {
+        if ($sourceId === 'template') {
+            $response = $this->call('create');
+            if (!vcIsBadResponse($response)) {
+                return $response['status']; // templateId
+            }
+        }
+
+        return $sourceId;
     }
 }

@@ -17,11 +17,12 @@ export default class SaveController {
 
   /**
    * Send data to server
+   * @param id
    * @param data
    * @param status
    * @private
    */
-  save (data, status, id) {
+  save (id, data, status, options) {
     const iframe = document.getElementById('vcv-editor-iframe')
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
     let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
@@ -74,7 +75,7 @@ export default class SaveController {
     Promise.all(promises).then(() => {
       let requestData = {
         'vcv-action': 'setData:adminNonce',
-        'vcv-source-id': id || window.vcvSourceID,
+        'vcv-source-id': id,
         'vcv-ready': '1', // Used for backend editor when post being saved
         'vcv-content': '<!--vcv no format-->' + content + '<!--vcv no format-->',
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
@@ -97,7 +98,8 @@ export default class SaveController {
         }
       }
       if (vcCake.env('PAGE_TITLE_FE')) {
-        requestData[ 'vcv-page-title' ] = settingsStorage.state('pageTitle').get() || ''
+        let title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
+        requestData[ 'vcv-page-title' ] = title
         requestData[ 'vcv-page-title-disabled' ] = settingsStorage.state('pageTitleDisabled').get() || ''
       }
       if (vcCake.env('SAVE_API')) {
@@ -106,8 +108,8 @@ export default class SaveController {
       }
       this.ajax(
         requestData,
-        this.saveSuccess.bind(this, status),
-        this.saveFailed.bind(this, status)
+        options && options.successCallback ? options.successCallback : this.saveSuccess.bind(this, status),
+        options && options.errorCallback ? options.errorCallback : this.saveFailed.bind(this, status)
       )
     })
   }
@@ -115,13 +117,18 @@ export default class SaveController {
   saveSuccess (status, responseText) {
     try {
       let data = JSON.parse(responseText || '{}')
-      if (data && data.postData) {
-        window.vcvPostData = data.postData
+      if (!data || !data.status) {
+        console.warn('save failed, no status')
+        this.saveFailed(status, responseText)
+      } else {
+        if (data && data.postData) {
+          window.vcvPostData = data.postData
+        }
+        status && status.set({
+          status: 'success',
+          request: responseText
+        })
       }
-      status.set({
-        status: 'success',
-        request: responseText
-      })
     } catch (e) {
       console.warn('save failed', e)
       this.saveFailed(status, responseText)
@@ -133,7 +140,7 @@ export default class SaveController {
   }
 
   saveFailed (status, request) {
-    status.set({
+    status && status.set({
       status: 'failed',
       request: request
     })
@@ -143,11 +150,11 @@ export default class SaveController {
     // })
   }
 
-  load = (data, status) => {
+  load = (id, data, status) => {
     this.ajax(
       {
         'vcv-action': 'getData:adminNonce',
-        'vcv-source-id': window.vcvSourceID,
+        'vcv-source-id': id,
         'vcv-data': encodeURIComponent(JSON.stringify(data))
       },
       this.loadSuccess.bind(this, status),
