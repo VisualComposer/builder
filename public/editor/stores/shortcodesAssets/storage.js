@@ -53,7 +53,7 @@ addStorage('shortcodeAssets', (storage) => {
         }
       })
     }
-    assetsWindow.window.vcv.trigger('ready')
+    assetsWindow.window.vcv && assetsWindow.window.vcv.trigger('ready')
   }
 
   // Collecting
