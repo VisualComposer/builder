@@ -28,6 +28,9 @@ class CustomTemplatesUpdateMigration extends MigrationsController implements Mod
     protected function run(Options $optionsHelper, CurrentUser $currentUserAccessHelper)
     {
         $needUpdatePost = $optionsHelper->get('hubAction:updatePosts', []);
+        if (!is_array($needUpdatePost)) {
+            $needUpdatePost = [];
+        }
 
         $args =
             [
