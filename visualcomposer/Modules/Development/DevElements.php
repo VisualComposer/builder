@@ -77,10 +77,7 @@ class DevElements extends Container implements Module
             if (isset($manifest['elements'], $manifest['elements'][ $tag ], $manifest['elements'][ $tag ]['phpFiles'])) {
                 $files = $manifest['elements'][ $tag ]['phpFiles'];
                 foreach ($files as $index => $filePath) {
-                    $manifest['elements'][ $tag ]['phpFiles'][ $index ] = rtrim(
-                            $element['elementRealPath'],
-                            '\\/'
-                        ) . '/' . $filePath;
+                    $manifest['elements'][ $tag ]['phpFiles'][ $index ] = rtrim($element['elementRealPath'], '\\/') . '/' . $filePath;
                 }
                 unset($index, $filePath);
                 $element['phpFiles'] = $manifest['elements'][ $tag ]['phpFiles'];
