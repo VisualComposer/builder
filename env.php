@@ -274,3 +274,10 @@ if (!defined('VCV_ENV_TEMPLATES_FULL_SAVE')) {
         isset($_SERVER['ENV_VCV_ENV_TEMPLATES_FULL_SAVE']) ? $_SERVER['ENV_VCV_ENV_TEMPLATES_FULL_SAVE'] : false
     );
 }
+
+if (!defined('VCV_ENV_ELEMENTS_FILES_NOGLOB')) {
+    define(
+        'VCV_ENV_ELEMENTS_FILES_NOGLOB',
+        isset($_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB']) ? $_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB'] : false
+    );
+}

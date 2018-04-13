@@ -36,6 +36,7 @@ class Elements implements Helper
 
             if (!$elementRealPath) {
                 unset($data['elementRealPath']);
+                unset($data['phpFiles']);
             }
 
             $metaData = [];
@@ -85,13 +86,13 @@ class Elements implements Helper
             $this->getElementPath($key)
         );
         if (!is_wp_error($result)) {
-            $merged = $this->updateElementData($key, $merged);
+            $merged = $this->updateElementData($key, $merged, $prev, $new);
         }
 
         return $merged;
     }
 
-    protected function updateElementData($key, $merged)
+    protected function updateElementData($key, $merged, $prev, $new)
     {
         $merged['key'] = $key;
         // $this->getElementUrl($key . '/public/dist/element.bundle.js');
@@ -119,6 +120,16 @@ class Elements implements Helper
                 );
             } else {
                 $merged['settings']['metaPreviewUrl'] = '';
+            }
+        }
+        if (vcvenv('VCV_ENV_ELEMENTS_FILES_NOGLOB')) {
+            if (isset($merged['phpFiles'])) {
+                $files = isset($new['phpFiles']) ? $new['phpFiles'] : [];
+                $merged['phpFiles'] = [];
+                foreach ($files as $index => $filePath) {
+                    $merged['phpFiles'][ $index ] = rtrim($merged['elementRealPath'], '\\/') . '/' . $filePath;
+                }
+                unset($index, $filePath);
             }
         }
         array_walk_recursive($merged, [$this, 'fixDoubleSlash']);

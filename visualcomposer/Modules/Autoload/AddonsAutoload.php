@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub;
+namespace VisualComposer\Modules\Autoload;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
