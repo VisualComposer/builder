@@ -90,21 +90,23 @@ export default class TeaserElementControl extends ElementControl {
 
   downloadingItemOnChange (data) {
     let tag = this.props.type === 'element' ? this.props.tag : this.props.element.bundle.replace('template/', '').replace('addon/', '')
+    let elementState = 'failed'
     if (!data.includes(tag)) {
-      let downloaded
       switch (this.props.type) {
         case 'element':
+          elementState = this.props.tag && 'success'
+          break
         case 'addon':
-          downloaded = this.props.tag
+          elementState = this.props.tag && 'success-info'
           break
         case 'template':
-          downloaded = this.props.element.bundle.replace('template/', '')
+          elementState = this.props.element.bundle.replace('template/', '') && 'success'
           break
         default:
           console.warn('Invalid hub element type received')
       }
       // let downloaded = this.props.type === 'element' ? hubElementsService.get(tag) : templatesService.findBy('bundle', this.props.element.bundle)
-      this.setState({ elementState: downloaded ? 'success' : 'failed' })
+      this.setState({ elementState })
       workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
   }
