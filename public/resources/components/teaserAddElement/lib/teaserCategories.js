@@ -11,47 +11,88 @@ import lodash from 'lodash'
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
 
-const categories = {
-  all: {
-    index: 0,
-    type: 'all',
-    name: 'All'
-  },
-  element: {
-    index: 1,
-    subIndex: 0,
-    type: 'element',
-    name: 'Elements'
-  },
-  template: {
-    index: 2,
-    type: 'template',
-    name: 'Templates'
-  },
-  addon: {
-    index: 3,
-    type: 'addon',
-    name: 'Addons'
-  },
-  hubHeader: {
-    index: 4,
-    type: 'hubHeader',
-    name: 'Headers',
-    templateType: true
-  },
-  hubFooter: {
-    index: 5,
-    type: 'hubFooter',
-    name: 'Footers',
-    templateType: true
-  },
-  hubSidebar: {
-    index: 6,
-    type: 'hubSidebar',
-    name: 'Sidebars',
-    templateType: true
+const categories = (() => {
+  if (vcCake.env('VCV_HUB_ADDON_TEASER')) {
+    return {
+      all: {
+        index: 0,
+        type: 'all',
+        name: 'All'
+      },
+      element: {
+        index: 1,
+        subIndex: 0,
+        type: 'element',
+        name: 'Elements'
+      },
+      template: {
+        index: 2,
+        type: 'template',
+        name: 'Templates'
+      },
+      addon: {
+        index: 3,
+        type: 'addon',
+        name: 'Addons'
+      },
+      hubHeader: {
+        index: 4,
+        type: 'hubHeader',
+        name: 'Headers',
+        templateType: true
+      },
+      hubFooter: {
+        index: 5,
+        type: 'hubFooter',
+        name: 'Footers',
+        templateType: true
+      },
+      hubSidebar: {
+        index: 6,
+        type: 'hubSidebar',
+        name: 'Sidebars',
+        templateType: true
+      }
+    }
+  } else {
+    return {
+      all: {
+        index: 0,
+        type: 'all',
+        name: 'All'
+      },
+      element: {
+        index: 1,
+        subIndex: 0,
+        type: 'element',
+        name: 'Elements'
+      },
+      template: {
+        index: 2,
+        type: 'template',
+        name: 'Templates'
+      },
+      hubHeader: {
+        index: 3,
+        type: 'hubHeader',
+        name: 'Headers',
+        templateType: true
+      },
+      hubFooter: {
+        index: 4,
+        type: 'hubFooter',
+        name: 'Footers',
+        templateType: true
+      },
+      hubSidebar: {
+        index: 5,
+        type: 'hubSidebar',
+        name: 'Sidebars',
+        templateType: true
+      }
+    }
   }
-}
+})()
 
 export default class TeaserAddElementCategories extends AddElementCategories {
   allCategories = null
@@ -121,12 +162,22 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   getHFSGroup (category) {
     const { type, name } = category
     let index
-    if (type === 'hubHeader') {
-      index = 4
-    } else if (type === 'hubFooter') {
-      index = 5
-    } else if (type === 'hubSidebar') {
-      index = 6
+    if (vcCake.env('VCV_HUB_ADDON_TEASER')) {
+      if (type === 'hubHeader') {
+        index = 4
+      } else if (type === 'hubFooter') {
+        index = 5
+      } else if (type === 'hubSidebar') {
+        index = 6
+      }
+    } else {
+      if (type === 'hubHeader') {
+        index = 3
+      } else if (type === 'hubFooter') {
+        index = 4
+      } else if (type === 'hubSidebar') {
+        index = 5
+      }
     }
     if (index) {
       let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()

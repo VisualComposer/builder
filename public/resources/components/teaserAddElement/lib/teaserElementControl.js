@@ -94,13 +94,11 @@ export default class TeaserElementControl extends ElementControl {
       let downloaded
       switch (this.props.type) {
         case 'element':
+        case 'addon':
           downloaded = this.props.tag
           break
         case 'template':
           downloaded = this.props.element.bundle.replace('template/', '')
-          break
-        case 'addon':
-          downloaded = this.props.tag
           break
         default:
           console.warn('Invalid hub element type received')

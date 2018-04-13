@@ -60,6 +60,13 @@ addStorage('hubAddons', (storage) => {
               time: 3000
             })
             utils.buildVariables(jsonResponse.variables || [])
+            // Initialize addon depended elements
+            if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
+              jsonResponse.elements.forEach((element) => {
+                element.tag = element.tag.replace('element/', '')
+                getStorage('hubElements').trigger('add', element, true)
+              })
+            }
             if (jsonResponse.addons && Array.isArray(jsonResponse.addons)) {
               jsonResponse.addons.forEach((addon) => {
                 addon.tag = addon.tag.replace('addon/', '')
