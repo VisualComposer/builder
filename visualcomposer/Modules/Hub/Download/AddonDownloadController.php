@@ -14,7 +14,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class AddonDownloadController extends Container implements Module
+class AddonDownloadController extends ElementDownloadController implements Module
 {
     use EventsFilters;
 
@@ -64,16 +64,7 @@ class AddonDownloadController extends Container implements Module
                         'message' => __('Failed to download bundle', 'vcwb'), // TODO add error codes
                     ];
                 }
-                if (isset($response['addons'])) {
-                    $response['variables'] = [];
-                    foreach ($response['addons'] as $addon) {
-                        vcevent('vcv:hub:addons:autoload', ['addon' => $addon]);
-                        $response['variables'] = vcfilter(
-                            'vcv:editor:variables/' . $addon['tag'],
-                            $response['variables']
-                        );
-                    }
-                }
+                $response = $this->initializeElementsAndAddons($response);
             } else {
                 return $json;
             }
@@ -162,6 +153,38 @@ class AddonDownloadController extends Container implements Module
                     'result' => $resultDetails,
                 ]
             );
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $response
+     *
+     * @return mixed
+     */
+    protected function initializeElementsAndAddons($response)
+    {
+        if (isset($response['elements'])) {
+            $response['variables'] = [];
+            foreach ($response['elements'] as $element) {
+                // Try to initialize PHP in element via autoloader
+                vcevent('vcv:hub:elements:autoload', ['element' => $element]);
+                $response['variables'] = vcfilter(
+                    'vcv:editor:variables/' . $element['tag'],
+                    $response['variables']
+                );
+            }
+        }
+        if (isset($response['addons'])) {
+            $response['variables'] = [];
+            foreach ($response['addons'] as $addon) {
+                vcevent('vcv:hub:addons:autoload', ['addon' => $addon]);
+                $response['variables'] = vcfilter(
+                    'vcv:editor:variables/' . $addon['tag'],
+                    $response['variables']
+                );
+            }
         }
 
         return $response;

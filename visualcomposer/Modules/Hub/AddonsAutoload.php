@@ -32,6 +32,14 @@ class AddonsAutoload extends ElementsAutoload implements Module
             },
             11
         );
+
+        $this->addEvent(
+            'vcv:hub:addons:autoload',
+            function ($element) {
+                $components = $this->getSingleComponent($element);
+                $this->doComponents($components);
+            }
+        );
     }
 
     /**
