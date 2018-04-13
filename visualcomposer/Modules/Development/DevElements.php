@@ -40,7 +40,7 @@ class DevElements extends Container implements Module
         if (!$optionHelper->getTransient('devElementsCache')) {
             $manifests = $app->glob($app->path('devElements/*/manifest.json'));
             $elements = $this->readManifests($manifests);
-            $optionHelper->setTransient('devElementsCache', true, 60);
+            $optionHelper->setTransient('devElementsCache', true, 30);
             $optionHelper->set(
                 'hubElements',
                 $elements
@@ -56,7 +56,7 @@ class DevElements extends Container implements Module
      */
     protected function readManifests(array $manifests)
     {
-        $addons = [];
+        $elements = [];
         $urlHelper = vchelper('Url');
         $vcapp = vcapp();
         foreach ($manifests as $manifestPath) {
@@ -73,6 +73,18 @@ class DevElements extends Container implements Module
             $element['elementPath'] = $urlHelper->to('devElements/' . $tag . '/' . $tag . '/');
             $element['elementRealPath'] = $vcapp->path('devElements/' . $tag . '/' . $tag . '/');
             $element['assetsPath'] = $urlHelper->to('devElements/' . $tag . '/' . $tag . '/public/');
+            $element['phpFiles'] = [];
+            if (isset($manifest['elements'], $manifest['elements'][ $tag ], $manifest['elements'][ $tag ]['phpFiles'])) {
+                $files = $manifest['elements'][ $tag ]['phpFiles'];
+                foreach ($files as $index => $filePath) {
+                    $manifest['elements'][ $tag ]['phpFiles'][ $index ] = rtrim(
+                            $element['elementRealPath'],
+                            '\\/'
+                        ) . '/' . $filePath;
+                }
+                unset($index, $filePath);
+                $element['phpFiles'] = $manifest['elements'][ $tag ]['phpFiles'];
+            }
             $element = json_decode(
                 str_replace(
                     '[publicPath]',
@@ -82,10 +94,10 @@ class DevElements extends Container implements Module
                 true
             );
 
-            $addons[ $tag ] = $element;
+            $elements[ $tag ] = $element;
         }
         unset($manifest, $manifestPath, $tag, $dirname);
 
-        return $addons;
+        return $elements;
     }
 }

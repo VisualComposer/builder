@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub;
+namespace VisualComposer\Modules\Autoload;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -31,6 +31,14 @@ class AddonsAutoload extends ElementsAutoload implements Module
                 }
             },
             11
+        );
+
+        $this->addEvent(
+            'vcv:hub:addons:autoload',
+            function ($element) {
+                $components = $this->getSingleComponent($element);
+                $this->doComponents($components);
+            }
         );
     }
 

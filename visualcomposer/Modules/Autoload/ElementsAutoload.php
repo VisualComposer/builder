@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub;
+namespace VisualComposer\Modules\Autoload;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -89,7 +89,11 @@ class ElementsAutoload extends Autoload implements Module
 
     protected function getSingleComponent($element)
     {
-        $components = $this->app->glob(rtrim($element['elementRealPath'], '\//') . '/*.php');
+        if (vcvenv('VCV_ENV_ELEMENTS_FILES_NOGLOB')) {
+            $components = isset($element['phpFiles']) ? $element['phpFiles'] : [];
+        } else {
+            $components = $this->app->glob(rtrim($element['elementRealPath'], '\//') . '/*.php');
+        }
 
         return $this->checkElementController($components);
     }
@@ -140,15 +144,15 @@ class ElementsAutoload extends Autoload implements Module
     protected static function isHelper($implements)
     {
         return count(
-            array_intersect(
-                (array)$implements,
-                [
-                    'Helper',
-                    '\VisualComposer\Framework\Illuminate\Support\Helper',
-                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
-                ]
-            )
-        ) > 0;
+                array_intersect(
+                    (array)$implements,
+                    [
+                        'Helper',
+                        '\VisualComposer\Framework\Illuminate\Support\Helper',
+                        '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
+                    ]
+                )
+            ) > 0;
     }
 
     /**
@@ -159,15 +163,15 @@ class ElementsAutoload extends Autoload implements Module
     protected static function isImmutable($implements)
     {
         return count(
-            array_intersect(
-                (array)$implements,
-                [
-                    'Immutable',
-                    '\VisualComposer\Framework\Illuminate\Support\Immutable',
-                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Immutable',
-                ]
-            )
-        ) > 0;
+                array_intersect(
+                    (array)$implements,
+                    [
+                        'Immutable',
+                        '\VisualComposer\Framework\Illuminate\Support\Immutable',
+                        '\\VisualComposer\\Framework\\Illuminate\\Support\\Immutable',
+                    ]
+                )
+            ) > 0;
     }
 
     /**
@@ -178,15 +182,15 @@ class ElementsAutoload extends Autoload implements Module
     protected function isModule($implements)
     {
         return count(
-            array_intersect(
-                (array)$implements,
-                [
-                    'Module',
-                    '\VisualComposer\Framework\Illuminate\Support\Module',
-                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
-                ]
-            )
-        ) > 0;
+                array_intersect(
+                    (array)$implements,
+                    [
+                        'Module',
+                        '\VisualComposer\Framework\Illuminate\Support\Module',
+                        '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
+                    ]
+                )
+            ) > 0;
     }
 
     /**

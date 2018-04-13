@@ -35,17 +35,18 @@ class Addons implements Helper
             $this->getAddonPath($key)
         );
         if (!is_wp_error($result)) {
-            $merged = $this->updateAddonData($key, $merged);
+            $merged = $this->updateAddonData($key, $merged, $prev, $new);
         }
 
         return $merged;
     }
 
-    protected function updateAddonData($key, $merged)
+    protected function updateAddonData($key, $merged, $prev, $new)
     {
         $merged['addonRealPath'] = $this->getAddonPath($key . '/' . $key . '/');
         if (isset($merged['phpFiles'])) {
-            $files = $merged['phpFiles'];
+            $files = isset($new['phpFiles']) ? $new['phpFiles'] : [];
+            $merged['phpFiles'] = [];
             foreach ($files as $index => $filePath) {
                 $merged['phpFiles'][ $index ] = rtrim($merged['addonRealPath'], '\\/') . '/' . $filePath;
             }
