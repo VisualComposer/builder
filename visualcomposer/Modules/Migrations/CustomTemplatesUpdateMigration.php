@@ -13,7 +13,7 @@ use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Options;
 
 /**
- * Class Templates114Migration
+ * Class CustomTemplatesUpdateMigration
  *
  * This migration fixes the template downloaded images
  *
