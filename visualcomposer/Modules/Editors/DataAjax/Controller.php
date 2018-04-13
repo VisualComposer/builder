@@ -190,6 +190,7 @@ class Controller extends Container implements Module
 
     protected function updatePostData($post, $sourceId, $response)
     {
+        ob_start();
         $filterHelper = vchelper('Filters');
         $postTypeHelper = vchelper('PostType');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
@@ -283,7 +284,7 @@ class Controller extends Container implements Module
         );
         // Clearing wp cache
         wp_cache_flush();
-
+        ob_get_clean();
         return array_merge($response, $responseExtra);
     }
 }
