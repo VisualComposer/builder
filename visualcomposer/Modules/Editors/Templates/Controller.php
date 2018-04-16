@@ -13,9 +13,11 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\Filters;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class Controller.
@@ -23,6 +25,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 class Controller extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     public function __construct()
     {
@@ -43,6 +46,35 @@ class Controller extends Container implements Module
         if (vcvenv('VCV_ENV_TEMPLATES_FULL_SAVE')) {
             $this->addFilter('vcv:dataAjax:setData:sourceId', 'saveTemplateId');
         }
+
+        $this->wpAddFilter('template_include', 'templatesEditorBlankTemplate', 30);
+    }
+
+    /**
+     * The Template editors should have always "blank" behaviour
+     *
+     * @param $originalTemplate
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     *
+     * @return string
+     */
+    protected function templatesEditorBlankTemplate(
+        $originalTemplate,
+        PostType $postTypeHelper,
+        Frontend $frontendHelper
+    ) {
+        if ($frontendHelper->isPageEditable()
+            && in_array(
+                $postTypeHelper->get()->post_type,
+                ['vcv_templates']
+            )) {
+            $template = 'blank-template.php';
+
+            return vcapp()->path('visualcomposer/resources/views/editor/templates/') . $template;
+        }
+
+        return $originalTemplate;
     }
 
     protected function allTemplates($variables, EditorTemplates $editorTemplatesHelper)
