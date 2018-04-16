@@ -92,7 +92,16 @@ class ElementsAutoload extends Autoload implements Module
         if (vcvenv('VCV_ENV_ELEMENTS_FILES_NOGLOB')) {
             $components = isset($element['phpFiles']) ? $element['phpFiles'] : [];
         } else {
-            $components = $this->app->glob(rtrim($element['elementRealPath'], '\//') . '/*.php');
+            $hubHelper = vchelper('HubElements');
+
+            $components = $this->app->glob(
+                rtrim(
+                    $hubHelper->getElementPath(
+                        $element['elementRealPath']
+                    ),
+                    '\//'
+                ) . '/*.php'
+            );
         }
 
         return $this->checkElementController($components);
