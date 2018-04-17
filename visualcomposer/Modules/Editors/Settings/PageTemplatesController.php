@@ -22,15 +22,13 @@ class PageTemplatesController extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_PAGE_TEMPLATES_LAYOUTS')) {
-            $this->addFilter('vcv:editor:settings:pageTemplatesLayouts:current', 'getCurrentTemplateLayout');
+        $this->addFilter('vcv:editor:settings:pageTemplatesLayouts:current', 'getCurrentTemplateLayout');
 
-            $this->wpAddFilter(
-                'template_include',
-                'viewPageTemplate',
-                8
-            );
-        }
+        $this->wpAddFilter(
+            'template_include',
+            'viewPageTemplate',
+            8
+        );
     }
 
     protected function getCurrentTemplateLayout($output, PostType $postTypeHelper, Frontend $frontendHelper)

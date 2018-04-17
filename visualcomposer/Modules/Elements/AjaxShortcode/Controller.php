@@ -50,11 +50,9 @@ class Controller extends Container implements Module
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             !defined('CONCATENATE_SCRIPTS') && define('CONCATENATE_SCRIPTS', false);
             $postTypeHelper->setupPost($sourceId);
-            if (vcvenv('VCV_FE_SHORTCODES_SCRIPTS')) {
-                global $post;
-                // @codingStandardsIgnoreLine
-                $post->post_content = $requestHelper->input('vcv-shortcode-string');
-            }
+            global $post;
+            // @codingStandardsIgnoreLine
+            $post->post_content = $requestHelper->input('vcv-shortcode-string');
             $this->wpAddFilter(
                 'print_scripts_array',
                 function ($list) {
@@ -82,34 +80,20 @@ class Controller extends Container implements Module
             remove_action('wp_head', 'wp_shortlink_wp_head', 10);
             remove_action('wp_head', 'wp_custom_css_cb', 101);
             remove_action('wp_head', 'wp_site_icon', 99);
-            if (!vcvenv('VCV_FE_SHORTCODES_SCRIPTS')) {
-                wp_head();
-                $headContents = ob_get_clean();
-                ob_start();
-                echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
-                $shortcodeContents = ob_get_clean();
-                ob_start();
-                wp_footer();
-                $footerContents = ob_get_clean();
-                $response = '<script type="template/html" data="vcv-files">' .
-                    rawurlencode($headContents . $footerContents)
-                    . '</script>' .
-                    $shortcodeContents;
-            } else {
-                wp_head();
-                $headContents = ob_get_clean();
-                ob_start();
-                echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
-                $shortcodeContents = ob_get_clean();
-                ob_start();
-                wp_footer();
-                $footerContents = ob_get_clean();
-                $response = [
-                    'headerContent' => $headContents,
-                    'shortcodeContent' => $shortcodeContents,
-                    'footerContent' => $footerContents,
-                ];
-            }
+
+            wp_head();
+            $headContents = ob_get_clean();
+            ob_start();
+            echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
+            $shortcodeContents = ob_get_clean();
+            ob_start();
+            wp_footer();
+            $footerContents = ob_get_clean();
+            $response = [
+                'headerContent' => $headContents,
+                'shortcodeContent' => $shortcodeContents,
+                'footerContent' => $footerContents,
+            ];
         }
 
         return $response;

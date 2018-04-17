@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\Actions\TemplatesBundle;
 use VisualComposer\Helpers\Hub\Templates;
@@ -34,7 +33,7 @@ class TemplatesDownloadController extends Container implements Module
      */
     public function __construct(Options $optionsHelper)
     {
-        if (vcvenv('VCV_ENV_TEMPLATES_DOWNLOAD') && !vcvenv('VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
+        if (vcvenv('VCV_ENV_TEMPLATES_DOWNLOAD') && !vcvenv('VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
             /** @see \VisualComposer\Modules\Editors\Templates\TemplatesDownloadController::updateTemplates */
             $this->addFilter(
                 'vcv:hub:download:bundle vcv:hub:download:bundle:templates vcv:hub:download:bundle:predefinedTemplate/*',
@@ -46,10 +45,9 @@ class TemplatesDownloadController extends Container implements Module
 
     /**
      * @deprecated 2.3
+     *
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
      * @param \VisualComposer\Helpers\Hub\Actions\TemplatesBundle $hubBundleHelper
      * @param \VisualComposer\Helpers\File $fileHelper
      * @param \VisualComposer\Helpers\Hub\Templates $hubTemplatesHelper
@@ -60,8 +58,6 @@ class TemplatesDownloadController extends Container implements Module
     protected function updateTemplates(
         $response,
         $payload,
-        Options $optionsHelper,
-        EditorTemplates $editorTemplatesHelper,
         TemplatesBundle $hubBundleHelper,
         File $fileHelper,
         Templates $hubTemplatesHelper,
@@ -75,7 +71,6 @@ class TemplatesDownloadController extends Container implements Module
         }
         if (isset($bundleJson['templates'])) {
             $templates = $bundleJson['templates'];
-            $toSaveTemplates = [];
 
             $fileHelper->createDirectory(
                 $hubTemplatesHelper->getTemplatesPath()

@@ -29,9 +29,7 @@ class PageTemplatesSaveController extends Container implements Module
      */
     public function __construct()
     {
-        if (vcvenv('VCV_PAGE_TEMPLATES_LAYOUTS')) {
-            $this->addFilter('vcv:dataAjax:setData', 'setPageTemplate');
-        }
+        $this->addFilter('vcv:dataAjax:setData', 'setPageTemplate');
 
         $this->wpAddAction('save_post', 'setLayout');
     }
@@ -40,6 +38,7 @@ class PageTemplatesSaveController extends Container implements Module
      * @param $response
      * @param $payload
      * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      *
      * @return mixed
      */
@@ -66,12 +65,9 @@ class PageTemplatesSaveController extends Container implements Module
                         $post->page_template = $value === 'default' ? '' : $value;
                         update_metadata('post', $post->ID, '_wp_page_template', $value === 'default' ? '' : $value);
                         //temporarily disable (can break preview page and content if not removed)
-                        remove_filter('content_save_pre', 'wp_filter_post_kses');
-                        remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+                        kses_remove_filters();
+                        remove_filter('content_save_pre', 'balanceTags', 50);
                         wp_update_post($post);
-                        //bring it back once you're done posting
-                        add_filter('content_save_pre', 'wp_filter_post_kses');
-                        add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
                     }
                 }
             }

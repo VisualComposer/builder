@@ -22,7 +22,7 @@ class PredefinedTemplateDownloadAction extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
+        if (vcvenv('VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
             $this->helperName = 'HubActionsHubTemplatesBundle';
         }
         $this->addFilter('vcv:hub:process:action:' . $this->actionName, 'processAction');

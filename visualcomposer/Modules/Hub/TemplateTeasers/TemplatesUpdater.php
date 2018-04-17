@@ -21,10 +21,11 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
 {
     use EventsFilters;
 
+    /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct()
     {
         if (vcvenv('VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE')) {
-            if (vcvenv('VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
+            if (vcvenv('VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
                 $this->addFilter(
                     'vcv:hub:download:bundle vcv:hub:download:bundle:template/* vcv:hub:download:bundle:predefinedTemplate/*',
                     'updateTemplate'

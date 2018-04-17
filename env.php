@@ -143,20 +143,6 @@ if (!defined('VCV_TF_JS_SETTINGS')) {
     );
 }
 
-if (!defined('VCV_PAGE_TEMPLATES_FE')) {
-    define(
-        'VCV_PAGE_TEMPLATES_FE',
-        isset($_SERVER['ENV_VCV_PAGE_TEMPLATES_FE']) ? $_SERVER['ENV_VCV_PAGE_TEMPLATES_FE'] : true
-    );
-}
-
-if (!defined('VCV_PAGE_TITLE_FE')) {
-    define(
-        'VCV_PAGE_TITLE_FE',
-        isset($_SERVER['ENV_VCV_PAGE_TITLE_FE']) ? $_SERVER['ENV_VCV_PAGE_TITLE_FE'] : true
-    );
-}
-
 if (!defined('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
     define(
         'VCV_HUB_DOWNLOAD_SINGLE_ELEMENT',
@@ -172,20 +158,6 @@ if (!defined('VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE')) {
     );
 }
 
-if (!defined('VCV_IFRAME_RELOAD')) {
-    define(
-        'VCV_IFRAME_RELOAD',
-        isset($_SERVER['ENV_VCV_IFRAME_RELOAD']) ? $_SERVER['ENV_VCV_IFRAME_RELOAD'] : true
-    );
-}
-
-if (!defined('VCV_FE_SHORTCODES_SCRIPTS')) {
-    define(
-        'VCV_FE_SHORTCODES_SCRIPTS',
-        isset($_SERVER['ENV_VCV_FE_SHORTCODES_SCRIPTS']) ? $_SERVER['ENV_VCV_FE_SHORTCODES_SCRIPTS'] : true
-    );
-}
-
 if (!defined('VCV_FIX_CURL_JSON_DOWNLOAD')) {
     define(
         'VCV_FIX_CURL_JSON_DOWNLOAD',
@@ -193,36 +165,10 @@ if (!defined('VCV_FIX_CURL_JSON_DOWNLOAD')) {
     );
 }
 
-if (!defined('VCV_BOXED_BLANK_PAGE_TEMPLATE')) {
-    define(
-        'VCV_BOXED_BLANK_PAGE_TEMPLATE',
-        isset($_SERVER['ENV_VCV_BOXED_BLANK_PAGE_TEMPLATE']) ? $_SERVER['ENV_VCV_BOXED_BLANK_PAGE_TEMPLATE'] : true
-    );
-}
-
 if (!defined('VCV_ENV_PLUGIN_UPDATE_NOTICE')) {
     define(
         'VCV_ENV_PLUGIN_UPDATE_NOTICE',
         isset($_SERVER['ENV_VCV_ENV_PLUGIN_UPDATE_NOTICE']) ? $_SERVER['ENV_VCV_ENV_PLUGIN_UPDATE_NOTICE'] : true
-    );
-}
-
-if (!defined('VCV_ENV_DEV_ADDONS')) {
-    define(
-        'VCV_ENV_DEV_ADDONS',
-        isset($_SERVER['ENV_VCV_ENV_DEV_ADDONS']) ? $_SERVER['ENV_VCV_ENV_DEV_ADDONS'] : false
-    );
-}
-if (!defined('VCV_PAGE_TEMPLATES_LAYOUTS')) {
-    define(
-        'VCV_PAGE_TEMPLATES_LAYOUTS',
-        isset($_SERVER['ENV_VCV_PAGE_TEMPLATES_LAYOUTS']) ? $_SERVER['ENV_VCV_PAGE_TEMPLATES_LAYOUTS'] : true
-    );
-}
-if (!defined('VCV_TF_DISABLE_BE')) {
-    define(
-        'VCV_TF_DISABLE_BE',
-        isset($_SERVER['ENV_VCV_TF_DISABLE_BE']) ? $_SERVER['ENV_VCV_TF_DISABLE_BE'] : true
     );
 }
 
@@ -255,10 +201,11 @@ if (!defined('VCV_TF_ADD_NEW_VC_IN_NAVBAR')) {
     );
 }
 
-if (!defined('VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
+if (!defined('VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
     define(
-        'VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE',
-        isset($_SERVER['ENV_VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE']) ? $_SERVER['ENV_VCV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE'] : false
+        'VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE',
+        isset($_SERVER['ENV_VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE'])
+            ? $_SERVER['ENV_VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE'] : false
     );
 }
 if (!defined('VCV_ENV_HUB_ADDON_TEASER')) {

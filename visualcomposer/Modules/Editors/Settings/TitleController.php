@@ -28,26 +28,24 @@ class TitleController extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_PAGE_TITLE_FE')) {
-            $this->titleRemoveClosure = $this->wpAddFilter(
-                'the_title',
-                'titleRemove'
-            );
+        $this->titleRemoveClosure = $this->wpAddFilter(
+            'the_title',
+            'titleRemove'
+        );
 
-            //remove the filer before menu title render
-            $this->wpAddFilter(
-                'wp_nav_menu_args',
-                'removeTitleFilter'
-            );
+        //remove the filer before menu title render
+        $this->wpAddFilter(
+            'wp_nav_menu_args',
+            'removeTitleFilter'
+        );
 
-            //add the filter back after the menu title is rendered
-            $this->wpAddFilter(
-                'wp_nav_menu_items',
-                'addTitleFilter'
-            );
-            $this->addFilter('vcv:frontend:head:extraOutput', 'outputTitle');
-            $this->addFilter('vcv:dataAjax:setData', 'setPageTitle');
-        }
+        //add the filter back after the menu title is rendered
+        $this->wpAddFilter(
+            'wp_nav_menu_items',
+            'addTitleFilter'
+        );
+        $this->addFilter('vcv:frontend:head:extraOutput', 'outputTitle');
+        $this->addFilter('vcv:dataAjax:setData', 'setPageTitle');
     }
 
     protected function removeTitleFilter($args)
@@ -92,12 +90,9 @@ class TitleController extends Container implements Module
                 $post->post_title = $pageTitle;
                 update_metadata('post', $sourceId, '_' . VCV_PREFIX . 'pageTitleDisabled', $pageTitleDisabled);
                 //temporarily disable (can break preview page and content if not removed)
-                remove_filter('content_save_pre', 'wp_filter_post_kses');
-                remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+                kses_remove_filters();
+                remove_filter('content_save_pre', 'balanceTags', 50);
                 wp_update_post($post);
-                //bring it back once you're done posting
-                add_filter('content_save_pre', 'wp_filter_post_kses');
-                add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
             }
         }
 

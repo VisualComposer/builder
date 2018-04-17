@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -21,11 +20,9 @@ class PageTemplatesVariablesController extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_PAGE_TEMPLATES_LAYOUTS')) {
-            $this->addFilter('vcv:editor:variables', 'outputCurrentTemplatesLayouts');
-            $this->addFilter('vcv:editor:variables', 'outputTemplatesLayouts');
-            $this->addFilter('vcv:editor:variables', 'outputThemeTemplates');
-        }
+        $this->addFilter('vcv:editor:variables', 'outputCurrentTemplatesLayouts');
+        $this->addFilter('vcv:editor:variables', 'outputTemplatesLayouts');
+        $this->addFilter('vcv:editor:variables', 'outputThemeTemplates');
     }
 
     protected function outputCurrentTemplatesLayouts($variables, $payload)
