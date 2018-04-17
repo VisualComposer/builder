@@ -50,6 +50,17 @@ class AddonsUpdater extends Container implements Module
         $addons = $addonsDiffer->get();
         $hubHelper->setAddons($addons);
 
+        if (!isset($response['addons']) || !is_array($response['addons'])) {
+            $response['addons'] = [];
+        }
+
+        $addonsKeys = array_keys($bundleJson['addons']);
+        foreach ($addonsKeys as $addonsKey) {
+            $addonsData = $addons[ $addonsKey ];
+            $addonsData['tag'] = $addonsKey;
+            $response['addons'][] = $addonsData;
+        }
+
         return $response;
     }
 

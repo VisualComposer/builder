@@ -12,6 +12,7 @@ const workspaceSettings = workspaceStorage.state('settings')
 const hubElementsStorage = getStorage('hubElements')
 const hubTemplateStorage = getStorage('hubTemplates')
 const hubAddonsStorage = getStorage('hubAddons')
+const eventsStorage = getStorage('events')
 
 export default class TeaserElementControl extends ElementControl {
   constructor (props) {
@@ -32,7 +33,7 @@ export default class TeaserElementControl extends ElementControl {
       if (downloadingItems.includes(tag)) {
         elementState = 'downloading'
       } else if (hubAddonsStorage.state('addons').get()[tag]) {
-        elementState = 'success-info'
+        elementState = 'success'
       } else {
         elementState = 'inactive'
       }
@@ -76,6 +77,7 @@ export default class TeaserElementControl extends ElementControl {
     this.downloadAddon = this.downloadAddon.bind(this)
     this.addTemplate = this.addTemplate.bind(this)
     this.downloadingItemOnChange = this.downloadingItemOnChange.bind(this)
+    this.handleAddonClick = this.handleAddonClick.bind(this)
   }
 
   componentDidMount () {
@@ -97,7 +99,7 @@ export default class TeaserElementControl extends ElementControl {
           elementState = this.props.tag && 'success'
           break
         case 'addon':
-          elementState = this.props.tag && 'success-info'
+          elementState = this.props.tag && 'success'
           break
         case 'template':
           elementState = this.props.element.bundle.replace('template/', '') && 'success'
@@ -229,6 +231,13 @@ export default class TeaserElementControl extends ElementControl {
     this.props.addElement(this.props.tag)
   }
 
+  handleAddonClick () {
+    const options = {
+      element: this.props.element
+    }
+    eventsStorage.trigger('hub:addon:clickAdd', options)
+  }
+
   render () {
     let { name, element } = this.props
     let { previewVisible, previewStyle, elementState } = this.state
@@ -288,6 +297,8 @@ export default class TeaserElementControl extends ElementControl {
       } else if (this.props.type === 'addon') {
         if (elementState !== 'success') {
           action = this.downloadAddon
+        } else {
+          action = this.handleAddonClick
         }
       }
       overlayOutput = <span className={iconClasses} onClick={action} />

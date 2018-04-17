@@ -162,8 +162,9 @@ class JsonActionsController extends Container implements Module
         global $wpdb;
         $wpdb->query(
             $wpdb->prepare(
-                'UPDATE ' . $wpdb->options . ' SET option_value="0.0.1" WHERE option_name LIKE "%s"',
-                VCV_PREFIX . 'hubAction:%'
+                'UPDATE ' . $wpdb->options . ' SET option_value="0.0.1" WHERE option_name LIKE "%s" AND NOT option_name = "%s"',
+                VCV_PREFIX . 'hubAction:%',
+                VCV_PREFIX . 'hubAction:updatePosts'
             )
         );
         $wpdb->query(
@@ -179,6 +180,5 @@ class JsonActionsController extends Container implements Module
                 VCV_PREFIX . 'hubAction:download:%'
             )
         );
-        $optionsHelper->set('hubAction:updatePosts', []);
     }
 }

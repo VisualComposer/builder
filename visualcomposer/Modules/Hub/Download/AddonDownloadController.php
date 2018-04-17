@@ -165,6 +165,16 @@ class AddonDownloadController extends ElementDownloadController implements Modul
      */
     protected function initializeElementsAndAddons($response)
     {
+        if (isset($response['addons'])) {
+            $response['variables'] = [];
+            foreach ($response['addons'] as $addon) {
+                vcevent('vcv:hub:addons:autoload', ['addon' => $addon]);
+                $response['variables'] = vcfilter(
+                    'vcv:editor:variables/' . $addon['tag'],
+                    $response['variables']
+                );
+            }
+        }
         if (isset($response['elements'])) {
             $response['variables'] = [];
             foreach ($response['elements'] as $element) {
@@ -172,16 +182,6 @@ class AddonDownloadController extends ElementDownloadController implements Modul
                 vcevent('vcv:hub:elements:autoload', ['element' => $element]);
                 $response['variables'] = vcfilter(
                     'vcv:editor:variables/' . $element['tag'],
-                    $response['variables']
-                );
-            }
-        }
-        if (isset($response['addons'])) {
-            $response['variables'] = [];
-            foreach ($response['addons'] as $addon) {
-                vcevent('vcv:hub:addons:autoload', ['addon' => $addon]);
-                $response['variables'] = vcfilter(
-                    'vcv:editor:variables/' . $addon['tag'],
                     $response['variables']
                 );
             }
