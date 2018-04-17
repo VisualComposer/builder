@@ -60,7 +60,7 @@ class AddonsUpdater extends Container implements Module
             $addonsData['tag'] = $addonsKey;
             if (isset($addonsData['bundlePath'])) {
                 if (!$hubHelper->checkAbsUrl($addonsData['bundlePath'])) {
-                    $addonsData['bundlePath'] = $hubHelper->getAddonRootUrl(
+                    $addonsData['bundlePath'] = $hubHelper->getAddonUrl(
                         $addonsKey . '/' . $addonsData['bundlePath']
                     );
                 }
