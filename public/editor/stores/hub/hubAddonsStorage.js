@@ -17,7 +17,7 @@ addStorage('hubAddons', (storage) => {
     addons[ addonsData.tag ] = addonsData
     hubAddonsService.add(addonsData)
     storage.state('addons').set(addons)
-    if (addBundle) {
+    if (addBundle && addonsData && addonsData.bundlePath) {
       Promise.all([ $.getScript(addonsData.bundlePath) ])
     }
   })
