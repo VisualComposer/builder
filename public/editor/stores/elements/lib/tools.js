@@ -64,7 +64,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       // api.request('data:afterUpdate', lastColumnObject.id, lastColumnObject)
       elements.push([ lastColumnObject, 'update' ])
     } else {
-      let createdElement = documentManager.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow, disableStacking: disableStacking })
+      let createdElement = documentManager.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow, disableStacking: disableStacking, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {} })
       elements.push([ createdElement, 'add' ])
     }
   })
