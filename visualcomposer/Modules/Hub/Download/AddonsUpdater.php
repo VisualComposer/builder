@@ -58,6 +58,13 @@ class AddonsUpdater extends Container implements Module
         foreach ($addonsKeys as $addonsKey) {
             $addonsData = $addons[ $addonsKey ];
             $addonsData['tag'] = $addonsKey;
+            if (isset($addonsData['bundlePath'])) {
+                if (!$hubHelper->checkAbsUrl($addonsData['bundlePath'])) {
+                    $addonsData['bundlePath'] = $hubHelper->getAddonRootUrl(
+                        $addonsKey . '/' . $addonsData['bundlePath']
+                    );
+                }
+            }
             $response['addons'][] = $addonsData;
         }
 

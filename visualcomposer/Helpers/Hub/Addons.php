@@ -67,16 +67,40 @@ class Addons implements Helper
         return VCV_PLUGIN_ASSETS_DIR_PATH . '/addons/' . ltrim($key, '\\/');
     }
 
-    public function getAddonUrl($key = '')
+    public function checkAbsUrl($url)
     {
+        if (preg_match('/^http/', $url)) {
+            return true;
+        }
+
+        $pattern = '/' . VCV_PLUGIN_ASSETS_DIRNAME . '\//';
+        if (preg_match($pattern, $url)) {
+            return true;
+        }
+
+        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
+            if (preg_match('/devAddons\//', $url)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    public function getAddonUrl($urlPart = '')
+    {
+        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
+            if ($this->checkAbsUrl($urlPart)) {
+                return $urlPart;
+            }
+
+            return VCV_PLUGIN_URL . 'devAddons/' . $urlPart;
+        }
         $assetsHelper = vchelper('Assets');
 
-        return VCV_ENV_DEV_ADDONS
-            ? VCV_PLUGIN_URL . 'devAddons/' . ltrim($key, '\\/') . '/' . ltrim($key, '\\/')
-            : $assetsHelper->getAssetUrl(
-                '/addons/' . ltrim($key, '\\/') . '/'
-                . ltrim($key, '\\/')
-            );
+        return $assetsHelper->getAssetUrl('/addons/' . ltrim($urlPart, '\\/'));
     }
 
     /**
