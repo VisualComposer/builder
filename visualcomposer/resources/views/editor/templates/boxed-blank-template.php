@@ -9,22 +9,22 @@ if (!defined('ABSPATH')) {
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<meta charset="<?php bloginfo('charset'); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
 <?php
 while (have_posts()) :
-	the_post();
-?>
-	<div class="vcv-container">
-		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			<div class="entry-content">
+    the_post();
+    ?>
+    <div class="vcv-container">
+        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+            <div class="entry-content">
                 <?php the_content(); ?>
-			</div>
-		</article>
-	</div>
+            </div>
+        </article>
+    </div>
 <?php
 endwhile;
 wp_footer();
