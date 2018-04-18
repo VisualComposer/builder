@@ -69,7 +69,7 @@ class Controller extends Container implements Module
                 $postTypeHelper->get()->post_type,
                 ['vcv_templates']
             )) {
-            $template = 'blank-template.php';
+            $template = 'boxed-blank-template.php';
 
             return vcapp()->path('visualcomposer/resources/views/editor/templates/') . $template;
         }
