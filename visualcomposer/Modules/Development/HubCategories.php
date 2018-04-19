@@ -101,6 +101,7 @@ class HubCategories extends Container implements Module
                         'animatedIconButton',
                         'animatedTwoColorButton',
                         'separatedButton',
+                        'zigZagSeparator',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Button.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Button.svg'),
@@ -161,7 +162,14 @@ class HubCategories extends Container implements Module
                 ],
                 'Image gallery' => [
                     'title' => 'Image Gallery',
-                    'elements' => ['imageMasonryGallery', 'imageGallery', 'multipleImageCollage'],
+                    'elements' => [
+                        'imageMasonryGallery',
+                        'imageGallery',
+                        'multipleImageCollage',
+                        'imageGalleryWithScaleUp',
+                        'imageGalleryWithIcon',
+                        'imageGalleryWithZoom',
+                    ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Image-Gallery.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Image-Gallery.svg'),
                 ],
@@ -290,7 +298,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Message Box' => [
                     'title' => 'Message Box',
-                    'elements' => ['messageBox', 'outlineMessageBox'],
+                    'elements' => ['messageBox', 'outlineMessageBox', 'simpleMessageBox', 'semiFilledMessageBox'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Message-Box.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Message-Box.svg'),
                 ],
@@ -333,7 +341,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Call To Action' => [
                     'title' => 'Call To Action',
-                    'elements' => ['callToAction'],
+                    'elements' => ['callToAction', 'simpleCallToAction', 'outlineCallToAction'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Call-To-Action.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Call-To-Action.svg'),
                 ],
