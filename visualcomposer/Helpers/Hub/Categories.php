@@ -29,16 +29,20 @@ class Categories implements Helper
     public function updateCategory($key, $prev, $new, $merged)
     {
         $categoryUrl = rtrim($this->getCategoriesUrl(), '\\/');
-        $merged['icon'] = str_replace(
-            '[publicPath]',
-            $categoryUrl,
-            $merged['icon']
-        );
-        $merged['iconDark'] = str_replace(
-            '[publicPath]',
-            $categoryUrl,
-            $merged['iconDark']
-        );
+        if (isset($merged['icon'])) {
+            $merged['icon'] = str_replace(
+                '[publicPath]',
+                $categoryUrl,
+                $merged['icon']
+            );
+        }
+        if (isset($merged['icon'])) {
+            $merged['iconDark'] = str_replace(
+                '[publicPath]',
+                $categoryUrl,
+                $merged['iconDark']
+            );
+        }
 
         return $merged;
     }
