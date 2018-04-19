@@ -38,21 +38,11 @@ addStorage('wordpressData', (storage) => {
   storage.state('status').set('init')
   storage.state('status').onChange((data) => {
     const { status, request } = data
-    let pageTitleData = ''
-    let pageTemplateData = ''
-    if (env('PAGE_TITLE_FE')) {
-      pageTitleData = window.VCV_PAGE_TITLE ? window.VCV_PAGE_TITLE() : ''
-    }
-    if (env('PAGE_TEMPLATES_FE')) {
-      pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
-    }
     if (status === 'loadSuccess') {
       // setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
       const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
       const customCssState = settingsStorage.state('customCss')
       const globalCssState = settingsStorage.state('globalCss')
-      const pageTitle = settingsStorage.state('pageTitle')
-      const pageTitleDisabled = settingsStorage.state('pageTitleDisabled')
       const pageTemplate = settingsStorage.state('pageTemplate')
       const localJsState = settingsStorage.state('localJs')
       const globalJsState = settingsStorage.state('globalJs')
@@ -62,6 +52,8 @@ addStorage('wordpressData', (storage) => {
        * @property {string} data saved data
        */
       let responseData = JSON.parse(request || '{}')
+      const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
+      const pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
         globalElements && globalAssetsStorage.setElements(globalElements)
@@ -89,31 +81,21 @@ addStorage('wordpressData', (storage) => {
       if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('global')) {
         globalCssState.set(responseData.cssSettings.global || '')
       }
-      if (env('CUSTOM_JS')) {
-        if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('local')) {
-          localJsState.set(responseData.jsSettings.local || '')
-        }
-        if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('global')) {
-          globalJsState.set(responseData.jsSettings.global || '')
-        }
+      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('local')) {
+        localJsState.set(responseData.jsSettings.local || '')
       }
-      if (env('PAGE_TITLE_FE')) {
-        if (pageTitleData.current) {
-          pageTitle.set(pageTitleData.current)
-        }
-        if (pageTitleData.hasOwnProperty('disabled')) {
-          pageTitleDisabled.set(pageTitleData.disabled)
-        }
+      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('global')) {
+        globalJsState.set(responseData.jsSettings.global || '')
       }
-      if (env('PAGE_TEMPLATES_FE')) {
-        if (pageTemplateData.current) {
-          pageTemplate.set(pageTemplateData.current)
-        }
+      if (pageTitleData.hasOwnProperty('current')) {
+        settingsStorage.state('pageTitle').set(pageTitleData.current)
       }
-      // if (responseData.myTemplates) {
-      //   let templates = JSON.parse(responseData.myTemplates || '{}')
-      //   setData('myTemplates', templates)
-      // }
+      if (pageTitleData.hasOwnProperty('disabled')) {
+        settingsStorage.state('pageTitleDisabled').set(pageTitleData.disabled)
+      }
+      if (pageTemplateData.current) {
+        pageTemplate.set(pageTemplateData.current)
+      }
       storage.state('status').set({ status: 'loaded' })
       settingsStorage.state('status').set({ status: 'ready' })
       workspaceStorage.state('app').set('started')

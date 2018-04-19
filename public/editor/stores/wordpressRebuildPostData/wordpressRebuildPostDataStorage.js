@@ -35,6 +35,7 @@ addStorage('wordpressRebuildPostData', (storage) => {
       const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
       const customCssState = settingsStorage.state('customCss')
       const globalCssState = settingsStorage.state('globalCss')
+      const pageTemplate = settingsStorage.state('pageTemplate')
       const localJsState = settingsStorage.state('localJs')
       const globalJsState = settingsStorage.state('globalJs')
       /**
@@ -43,14 +44,25 @@ addStorage('wordpressRebuildPostData', (storage) => {
        * @property {string} data saved data
        */
       let responseData = JSON.parse(request || '{}')
+      const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
+      const pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
         globalElements && globalAssetsStorage.setElements(globalElements)
       }
       if (responseData.data) {
         // Need to call save
-        let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
+        let data = { elements: {} }
+        try {
+          data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
+        } catch (e) {
+          console.warn('Failed to parse page elements', e)
+          data = { elements: {} }
+          // TODO: Maybe attempt to repair truncated js (like loose but not all?)
+        }
         elementsStorage.trigger('reset', data.elements || {})
+      } else {
+        elementsStorage.trigger('reset', {})
       }
       if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('custom')) {
         customCssState.set(responseData.cssSettings.custom || '')
@@ -63,6 +75,15 @@ addStorage('wordpressRebuildPostData', (storage) => {
       }
       if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('global')) {
         globalJsState.set(responseData.jsSettings.global || '')
+      }
+      if (pageTitleData.hasOwnProperty('current')) {
+        settingsStorage.state('pageTitle').set(pageTitleData.current)
+      }
+      if (pageTitleData.hasOwnProperty('disabled')) {
+        settingsStorage.state('pageTitleDisabled').set(pageTitleData.disabled)
+      }
+      if (pageTemplateData.current) {
+        pageTemplate.set(pageTemplateData.current)
       }
     }
   })

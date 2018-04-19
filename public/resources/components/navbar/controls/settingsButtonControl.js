@@ -56,12 +56,11 @@ export default class SettingsButtonControl extends NavbarContent {
   }
 
   checkPageTitle () {
-    let titleData = window.VCV_PAGE_TITLE ? window.VCV_PAGE_TITLE() : {}
     let pageTitle = settingsStorage.state('pageTitle').get()
     let pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
     let data = {
-      current: pageTitle !== undefined ? pageTitle : titleData.current,
-      disabled: pageTitleDisabled !== undefined ? pageTitleDisabled : titleData.disabled
+      current: pageTitle,
+      disabled: pageTitleDisabled
     }
     let iframe = document.getElementById('vcv-editor-iframe')
     if (iframe) {

@@ -44,7 +44,7 @@ class TitleController extends Container implements Module
             'wp_nav_menu_items',
             'addTitleFilter'
         );
-        $this->addFilter('vcv:frontend:head:extraOutput', 'outputTitle');
+        $this->addFilter('vcv:dataAjax:getData', 'outputTitle');
         $this->addFilter('vcv:dataAjax:setData', 'setPageTitle');
     }
 
@@ -102,24 +102,15 @@ class TitleController extends Container implements Module
     protected function outputTitle($response, $payload)
     {
         global $post;
-        $postMeta = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
+        $pageTitleDisabled = get_post_meta($post->ID, '_' . VCV_PREFIX . 'pageTitleDisabled', true);
 
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_PAGE_TITLE',
-                        'value' => [
-                            // @codingStandardsIgnoreLine
-                            'current' => $post ? $post->post_title : '',
-                            'disabled' => $postMeta || false,
-                        ],
-                    ]
-                ),
-            ]
-        );
+        $response['pageTitle'] = [
+            // @codingStandardsIgnoreLine
+            'current' => $post ? $post->post_title : '',
+            'disabled' => $pageTitleDisabled || false,
+        ];
+
+        return $response;
     }
 
     /**
