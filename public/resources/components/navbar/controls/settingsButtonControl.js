@@ -22,9 +22,6 @@ export default class SettingsButtonControl extends NavbarContent {
     this.toggleSettings = this.toggleSettings.bind(this)
     this.checkSettings = this.checkSettings.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
-    if (env('editor') === 'frontend' && env('PAGE_TITLE_FE')) {
-      this.checkPageTitle()
-    }
   }
 
   componentWillReceiveProps () {
@@ -53,28 +50,6 @@ export default class SettingsButtonControl extends NavbarContent {
     }
     settingsStorage.state('customCss').ignoreChange(this.checkSettings)
     settingsStorage.state('globalCss').ignoreChange(this.checkSettings)
-  }
-
-  checkPageTitle () {
-    let pageTitle = settingsStorage.state('pageTitle').get()
-    let pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
-    let data = {
-      current: pageTitle,
-      disabled: pageTitleDisabled
-    }
-    let iframe = document.getElementById('vcv-editor-iframe')
-    if (iframe) {
-      let titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
-      if (titles) {
-        titles.forEach(title => {
-          title.innerText = data.current
-          title.style.display = data.disabled ? 'none' : ''
-          title.onclick = () => {
-            workspaceContentState.set('settings')
-          }
-        })
-      }
-    }
   }
 
   checkSettings () {

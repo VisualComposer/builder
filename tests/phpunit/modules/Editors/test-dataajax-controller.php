@@ -39,6 +39,7 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
         $postId = $factory->create(['post_title' => 'Test post', 'meta_input' => $metaInput]);
         /** @var \VisualComposer\Helpers\Request $requestHelper */
         $requestHelper = vchelper('Request');
+        $postHelper = vchelper('PostType')->setupPost($postId);
         $requestHelper->setData(
             [
                 'vcv-source-id' => $postId,
