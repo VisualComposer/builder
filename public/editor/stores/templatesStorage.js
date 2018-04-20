@@ -2,7 +2,7 @@ import { addStorage } from 'vc-cake'
 
 addStorage('templates', (storage) => {
   storage.on('start', () => {
-    let vcvtemplates = window.VCV_TEMPLATES()
+    let vcvtemplates = storage.state('templates').get() || window.VCV_TEMPLATES()
     if (!vcvtemplates || Array.isArray(vcvtemplates)) {
       vcvtemplates = {}
     }
