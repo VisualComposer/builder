@@ -55,22 +55,20 @@ class Elements extends Container implements Module
     <script>
     (function() {
         var index = 0 // Just to be unique
-        if (typeof window.vcvWebpackJsonp4x !== 'undefined') {
-            window["vcvWebpackJsonp"] = function vcvWebpackJsonp(chunkIds, moreModules) {
-                var keys = Object.keys(moreModules)
-                index++
-                moreModules[keys[1] + '-' + index] = moreModules[0]
-                moreModules[0] = undefined
-                delete moreModules[0] // To avoid overriding for modules[key]
-                var data = [
-                    [keys[1] + '-' + index], /** chunkId **/
-                    moreModules, /** moreModules **/
-                    [[keys[1] + '-' + index]] /** execute module **/
-                ]
-    
-                return window.vcvWebpackJsonp4x.push(data)
-            };
-        }
+        window["vcvWebpackJsonp"] = function vcvWebpackJsonp(chunkIds, moreModules) {
+            var keys = Object.keys(moreModules)
+            index++
+            moreModules[keys[1] + '-' + index] = moreModules[0]
+            moreModules[0] = undefined
+            delete moreModules[0] // To avoid overriding for modules[key]
+            var data = [
+                [keys[1] + '-' + index], /** chunkId **/
+                moreModules, /** moreModules **/
+                [[keys[1] + '-' + index]] /** execute module **/
+            ]
+
+            return (window["vcvWebpackJsonp4x"] = window["vcvWebpackJsonp4x"] || []).push(data)
+        };
     })()
    </script>
 SCRIPT
