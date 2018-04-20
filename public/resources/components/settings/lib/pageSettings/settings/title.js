@@ -1,5 +1,5 @@
 import React from 'react'
-import {setData, getData, getStorage, env} from 'vc-cake'
+import { getStorage, env } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
@@ -8,7 +8,6 @@ const workspaceIFrame = workspaceStorage.state('iframe')
 export default class TitleSettings extends React.Component {
   constructor (props) {
     super(props)
-    this.title = null
     let pageTitle = settingsStorage.state('pageTitle').get()
     let pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
     this.state = {
@@ -16,8 +15,6 @@ export default class TitleSettings extends React.Component {
       disabled: pageTitleDisabled,
       showToggle: this.getShowToggle()
     }
-    setData('ui:settings:pageTitle', this.state.current)
-    setData('ui:settings:pageTitleDisabled', this.state.disabled)
     this.updateTitle = this.updateTitle.bind(this)
     this.updateTitleToggle = this.updateTitleToggle.bind(this)
     this.onIframeChange = this.onIframeChange.bind(this)
@@ -25,18 +22,11 @@ export default class TitleSettings extends React.Component {
     this.getThemeType = this.getThemeType.bind(this)
     this.checkShowToggle = this.checkShowToggle.bind(this)
     this.updateShowToggle = this.updateShowToggle.bind(this)
-    this.onIframeChange()
-
     workspaceIFrame.onChange(this.onIframeChange)
-  }
-
-  componentDidUpdate () {
-    this.setTitle()
   }
 
   componentWillUnmount () {
     workspaceIFrame.ignoreChange(this.onIframeChange)
-    this.onIframeChange({}, 'storage')
   }
 
   checkShowToggle (themeType) {
@@ -60,75 +50,49 @@ export default class TitleSettings extends React.Component {
     }
   }
 
-  onIframeChange (data = {}, from = '') {
+  onIframeChange (data = {}) {
     let { type = 'loaded' } = data
-    if (type === 'loaded') {
-      let iframe = document.getElementById('vcv-editor-iframe')
-      if (iframe) {
-        this.title = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
-        this.setTitle(from)
-      }
-    }
     if (type === 'reload' && env('TF_SETTINGS_THEME_ICONS')) {
       data && data.template && data.template.type && this.updateShowToggle(data.template.type)
     }
   }
 
-  setTitle (from) {
-    if (!this.title) {
-      return
-    }
-    let { current, disabled } = this.state
-    if (from === 'storage') {
-      current = settingsStorage.state('pageTitle').get()
-    }
-    this.title.forEach(title => {
-      title.innerText = current
-      title.style.display = disabled ? 'none' : ''
-    })
-  }
-
   updateTitle (event) {
-    setData('ui:settings:pageTitle', event.target.value)
     let { disabled } = this.state
-    if (event.target.value) {
+    let newDisabled = false
+    const newValue = event.target.value
+    if (newValue) {
       if (!this.state.current) {
-        disabled = false
+        newDisabled = false
       }
     } else {
-      disabled = true
+      newDisabled = true
     }
 
-    this.setState({
-      current: event.target.value,
-      disabled
-    })
+    let newVar = {
+      current: newValue
+    }
+    if (disabled !== newDisabled) {
+      newVar[ 'disabled' ] = newDisabled
+      settingsStorage.state('pageTitleDisabled').set(newDisabled)
+    }
+    this.setState(newVar)
+    settingsStorage.state('pageTitle').set(newValue)
   }
 
   updateTitleToggle (event) {
-    setData('ui:settings:pageTitleDisabled', event.target.checked)
+    const checked = event.target.checked
     this.setState({
-      disabled: event.target.checked
+      disabled: checked
     })
 
-    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
-      settingsStorage.state('pageTitleDisabled').set(getData('ui:settings:pageTitleDisabled'))
-    }
-  }
-
-  handleBlur () {
-    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
-      settingsStorage.state('pageTitle').set(getData('ui:settings:pageTitle'))
-    }
+    settingsStorage.state('pageTitleDisabled').set(checked)
   }
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const settingName = localizations ? localizations.title : 'Title'
-    const pageTitleDescription = localizations ? localizations.pageTitleDescription : 'To apply title changes you will need to save changes and reload the page.'
     const pageTitleDisableDescription = localizations ? localizations.pageTitleDisableDescription : 'Disable page title'
-
-    let reloadNotification = this.title ? '' : (<p className='vcv-ui-form-helper'>{pageTitleDescription}</p>)
     let checked = (this.state.disabled) ? 'checked' : ''
 
     let toggleHTML = null
@@ -155,7 +119,6 @@ export default class TitleSettings extends React.Component {
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <span className='vcv-ui-form-group-heading'>{settingName}</span>
           <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.updateTitle} onBlur={this.handleBlur} />
-          {reloadNotification}
         </div>
         {disableTitleToggleControl}
       </React.Fragment>

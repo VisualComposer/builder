@@ -114,4 +114,43 @@ addStorage('wordpressData', (storage) => {
       throw new Error('Failed to load loaded')
     }
   })
+
+  const workspaceIFrame = workspaceStorage.state('iframe')
+  const workspaceContentState = workspaceStorage.state('content')
+  storage.state('status').onChange((data) => {
+    const { status } = data
+    if (status === 'loadSuccess') {
+      onIframeChange()
+    }
+  })
+  settingsStorage.state('pageTitle').onChange(setTitle)
+  settingsStorage.state('pageTitleDisabled').onChange(setTitle)
+  workspaceIFrame.onChange(onIframeChange)
+  let titles = []
+
+  function onIframeChange (data = {}) {
+    let { type = 'loaded' } = data
+    if (type === 'loaded') {
+      let iframe = document.getElementById('vcv-editor-iframe')
+      if (iframe) {
+        titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
+        setTitle()
+      }
+    }
+  }
+
+  function setTitle () {
+    if (!titles) {
+      return
+    }
+    const current = settingsStorage.state('pageTitle').get()
+    const disabled = settingsStorage.state('pageTitleDisabled').get()
+    titles.forEach(title => {
+      title.innerText = current
+      title.style.display = disabled ? 'none' : ''
+      title.onclick = () => {
+        workspaceContentState.set('settings')
+      }
+    })
+  }
 })
