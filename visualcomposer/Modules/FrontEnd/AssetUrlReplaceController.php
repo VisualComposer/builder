@@ -23,6 +23,7 @@ class AssetUrlReplaceController extends Container implements Module
     {
         $this->addFilter('vcv:frontend:content vcv:frontend:content:encode', 'replaceUrls');
         $this->wpAddFilter('the_content', 'replaceUrls', 100);
+        $this->wpAddFilter('the_editor_content', 'replaceUrls', 100);
     }
 
     protected function replaceUrls($content)
