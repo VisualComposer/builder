@@ -292,7 +292,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Toggle' => [
                     'title' => 'Toggle',
-                    'elements' => ['faqToggle'],
+                    'elements' => ['faqToggle', 'outlineFaqToggle'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Toggle.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Toggle.svg'),
                 ],
