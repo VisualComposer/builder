@@ -32,6 +32,7 @@ export default class DividerShape extends Component {
   }
 
   getAlphaFromColor (color) {
+    console.log(color)
     let alpha = '1'
     if (color.indexOf('rgba') >= 0) {
       let values = color.match(/[\d.]+/g)
@@ -53,9 +54,9 @@ export default class DividerShape extends Component {
 
     if (this.props.flipHorizontally) {
       startColor = this.setAlphaForColor(this.props.gradientColorEnd)
-      startColorAlpha = this.getAlphaFromColor(this.props.gradientColorEndAlpha)
+      startColorAlpha = this.getAlphaFromColor(this.props.gradientColorEnd)
       endColor = this.setAlphaForColor(this.props.gradientColorStart)
-      endColorAlpha = this.getAlphaFromColor(this.props.gradientColorStartAlpha)
+      endColorAlpha = this.getAlphaFromColor(this.props.gradientColorStart)
     }
 
     let id = `gradient-${this.props.id}-${this.props.deviceKey}`
