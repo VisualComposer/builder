@@ -92,7 +92,8 @@ module.exports = {
           'hubGroups',
           'hubElements',
           'elementAccessPoint',
-          'hubAddons'
+          'hubAddons',
+          'renderProcessor'
         ]
       },
       wpbackend: {
