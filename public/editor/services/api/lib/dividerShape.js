@@ -32,7 +32,6 @@ export default class DividerShape extends Component {
   }
 
   getAlphaFromColor (color) {
-    console.log(color)
     let alpha = '1'
     if (color.indexOf('rgba') >= 0) {
       let values = color.match(/[\d.]+/g)
