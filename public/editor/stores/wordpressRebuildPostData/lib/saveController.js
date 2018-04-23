@@ -25,9 +25,6 @@ export default class SaveController {
    * @private
    */
   save (id, data, status) {
-    const iframe = document.getElementById('vcv-editor-iframe')
-    const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
-    let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
     let globalStyles = ''
     let pageStyles = ''
     let promises = []
@@ -79,6 +76,9 @@ export default class SaveController {
     assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
     assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     Promise.all(promises).then(() => {
+      const iframe = document.getElementById('vcv-editor-iframe')
+      const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
+      let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
       let requestData = {
         'vcv-action': 'setData:adminNonce',
         'vcv-source-id': id,
