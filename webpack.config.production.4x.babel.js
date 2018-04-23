@@ -83,7 +83,8 @@ module.exports = Object.assign({}, config, {
           'hubGroups',
           'hubElements',
           'elementAccessPoint',
-          'hubAddons'
+          'hubAddons',
+          'renderProcessor'
         ]
       },
       wpbackend: {
