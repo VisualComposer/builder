@@ -7,6 +7,7 @@ const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
 const settingsStorage = vcCake.getStorage('settings')
 const cook = vcCake.getService('cook')
+const renderProcessor = vcCake.getService('renderProcessor')
 
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
@@ -70,6 +71,9 @@ export default class SaveController {
         elementsCss[ key ].mixinsCss = result
       }))
     })
+    if (vcCake.env('FT_WAIT_FOR_FINAL_RENDER')) {
+      promises.push(renderProcessor.appAllDone())
+    }
     assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
     assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     Promise.all(promises).then(() => {
