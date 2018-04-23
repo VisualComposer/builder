@@ -6,8 +6,11 @@ const Service = {
   },
   appAllDone () {
     return Promise.all(processes).then(() => {
-      processes = []
+      this.purge()
     })
+  },
+  purge () {
+    processes = []
   }
 }
 addService('renderProcessor', Service)
