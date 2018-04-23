@@ -110,7 +110,8 @@ module.exports = Object.assign({}, config, {
           'wpMyTemplates',
           'hubCategories',
           'hubGroups',
-          'hubElements'
+          'hubElements',
+          'renderProcessor'
         ]
       },
       'wpbackend-switcher': {

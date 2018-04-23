@@ -119,7 +119,8 @@ module.exports = {
           'wpMyTemplates',
           'hubCategories',
           'hubGroups',
-          'hubElements'
+          'hubElements',
+          'renderProcessor'
         ]
       },
       'wpbackend-switcher': {
