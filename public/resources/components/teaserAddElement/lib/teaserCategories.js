@@ -333,9 +333,6 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     const helperText = localizations ? localizations.hubHelperText : 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more'
 
     let buttonUrl = window.VCV_UTM().feHubTeaserPremiumVersion
-    if (vcCake.env('editor') === 'backend') {
-      buttonUrl = window.VCV_UTM().beHubTeaserPremiumVersion
-    }
     let premium = null
     if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
       premium = (<div className='vcv-ui-editor-no-items-container'>

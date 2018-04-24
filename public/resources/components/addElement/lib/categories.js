@@ -169,9 +169,6 @@ export default class Categories extends React.Component {
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
     let buttonUrl = window.VCV_UTM().feAddElementSearchPremiumVersion
-    if (vcCake.env('editor') === 'backend') {
-      buttonUrl = window.VCV_UTM().beAddElementSearchPremiumVersion
-    }
 
     let helperText = premiumHelperText
     let buttonText = premiumButtonText

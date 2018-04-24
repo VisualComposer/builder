@@ -386,18 +386,12 @@ class VcAccessRolesTest extends WP_UnitTestCase
             vcapp('VisualComposer\Helpers\Access\Role')->part('frontend_editor', true)->getState()
         );
         $this->assertNull(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('backend_editor', true)->getState()
-        );
-        $this->assertNull(
             vcapp('VisualComposer\Helpers\Access\Role')->part('shortcodes', true)->getState()
         );
 
         // check can
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\Role')->part('frontend_editor', true)->can()->get(true)
-        );
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('backend_editor')->can()->get(true)
         );
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\Role')->part('shortcodes')->can()->get(true)

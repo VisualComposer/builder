@@ -30,11 +30,11 @@ class ActivationRedirectController extends Container implements Module
         $this->wpAddAction('admin_init', 'doRedirect');
 
         $this->addFilter(
-            'vcv:editors:backend:addMetabox vcv:editors:frontend:render',
+            'vcv:editors:frontend:render',
             'setRedirectNotActivated',
             100
         );
-        $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'doRedirect', 110);
+        $this->addFilter('vcv:editors:frontend:render', 'doRedirect', 110);
     }
 
     /**

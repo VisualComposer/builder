@@ -407,18 +407,12 @@ class VcAccessUsersTest extends WP_UnitTestCase
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('frontend_editor')->getState()
         );
         $this->assertNull(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('backend_editor')->getState()
-        );
-        $this->assertNull(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('shortcodes')->getState()
         );
 
         // check can
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('frontend_editor')->can()->get()
-        );
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('backend_editor')->can()->get()
         );
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('shortcodes')->can()->get()

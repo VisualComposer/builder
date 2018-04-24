@@ -18,7 +18,6 @@ class Utm implements Helper
     public function all()
     {
         $utm = [
-            'beNavbarLinkLogo' => 'https://visualcomposer.io/premium/?utm_medium=backend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo',
             'feNavbarLinkLogo' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo',
             'updatesChangelogAuthorLink' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog-author',
             'updatesChangelogHomepageLink' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog',
@@ -31,10 +30,6 @@ class Utm implements Helper
             'feAddTemplateSearchPremiumTemplates' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=add-template&utm_campaign=gopremium&utm_content=search',
             'feAddElementSearchPremiumVersion' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=add-element&utm_campaign=gopremium&utm_content=search',
             'feHubTeaserPremiumVersion' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium',
-            'beBlankPagePremiumTemplates' => 'https://visualcomposer.io/premium/?utm_medium=backend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
-            'beAddTemplateSearchPremiumTemplates' => 'https://visualcomposer.io/premium/?utm_medium=backend-editor&utm_source=add-template&utm_campaign=gopremium&utm_content=search',
-            'beAddElementSearchPremiumVersion' => 'https://visualcomposer.io/premium/?utm_medium=backend-editor&utm_source=add-element&utm_campaign=gopremium&utm_content=search',
-            'beHubTeaserPremiumVersion' => 'https://visualcomposer.io/premium/?utm_medium=backend-editor&utm_source=hub&utm_campaign=gopremium',
         ];
 
         return $utm;

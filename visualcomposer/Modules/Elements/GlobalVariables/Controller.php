@@ -62,8 +62,7 @@ class Controller extends Container implements Module
                 'VCV_HUB_GET_ELEMENTS' => $hubElements->getElements(),
                 'VCV_HUB_GET_CATEGORIES' => $hubCategories->getCategories(),
                 'VCV_HUB_GET_GROUPS' => $hubGroups->getGroups(),
-                'VCV_GET_SHARED_ASSETS' => $assetsSharedHelper->getSharedAssets(),
-                'VCV_PREDEFINED_TEMPLATES' => []
+                'VCV_GET_SHARED_ASSETS' => $assetsSharedHelper->getSharedAssets()
             ];
         }
 

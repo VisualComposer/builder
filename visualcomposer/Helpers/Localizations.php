@@ -131,7 +131,6 @@ class Localizations extends Container implements Helper
             'addCustomRowLayout' => __('Add custom row layout', 'vcwb'),
             'addTextBlock' => __('Add Text block', 'vcwb'),
             'frontendEditor' => __('Edit with Visual Composer', 'vcwb'),
-            'backendEditor' => __('Backend Editor', 'vcwb'),
             'classicEditor' => __('Classic Editor', 'vcwb'),
             'enableBackendEditorConfirmMessage' => __(
             // @codingStandardsIgnoreLine

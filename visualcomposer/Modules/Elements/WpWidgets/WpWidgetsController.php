@@ -29,7 +29,6 @@ class WpWidgetsController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:frontend:head:extraOutput', 'addGlobalVariables');
-        $this->addFilter('vcv:backend-disabled:extraOutput', 'addGlobalVariables');
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::render */
         $this->addFilter('vcv:ajax:elements:widget:adminNonce', 'renderEditor');
 

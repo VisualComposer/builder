@@ -284,9 +284,6 @@ export default class AddTemplatePanel extends React.Component {
     }
 
     let buttonUrl = window.VCV_UTM().feAddTemplateSearchPremiumTemplates
-    if (vcCake.env('editor') === 'backend') {
-      buttonUrl = window.VCV_UTM().beAddTemplateSearchPremiumTemplates
-    }
     let buttonText = premiumButtonText
     let helperText = premiumNotRightTemplatesFoundText
     let button = <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>{buttonText}</button>

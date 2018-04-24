@@ -113,8 +113,6 @@ class BundleUpdateController extends Container implements Module
             ->delete('bundleUpdateActions')
             ->delete('bundleUpdateJson')
             ->deleteTransient('bundleUpdateJson')
-            ->deleteTransient('lastBundleUpdate')
-            ->deleteTransient('_vcv_update_page_redirect')
-            ->deleteTransient('_vcv_update_page_redirect_url');
+            ->deleteTransient('lastBundleUpdate');
     }
 }
