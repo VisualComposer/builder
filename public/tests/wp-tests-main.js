@@ -26,7 +26,7 @@ $(() => {
       vcCake.env('platform', 'wordpress').start(() => {
         vcCake.env('editor', 'backend')
         require('./editor/stores/elements/elementsStorage')
-        require('./editor/stores/assetsBackend/assetsStorage')
+        require('./editor/stores/assetsUpdate/assetsStorage')
         require('./editor/stores/templatesStorage')
         const templatesStorage = vcCake.getStorage('templates')
         templatesStorage.trigger('start')

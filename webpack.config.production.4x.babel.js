@@ -87,11 +87,10 @@ module.exports = Object.assign({}, config, {
           'renderProcessor'
         ]
       },
-      wpbackend: {
+      wpupdate: {
         modules: [
-          'content/backendContent',
-          'content/modernLayoutBackend',
-          'wordpressBackendWorkspace'
+          'content/updateContent',
+          'wordpressUpdateWorkspace'
         ],
         services: [
           'utils',

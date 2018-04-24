@@ -7,7 +7,7 @@ const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
 const cook = vcCake.getService('cook')
 const settingsStorage = vcCake.getStorage('settings')
-const assetsStorage = vcCake.getStorage('assetsBackend')
+const assetsStorage = vcCake.getStorage('assetsUpdate')
 const renderProcessor = vcCake.getService('renderProcessor')
 
 export default class SaveController {
