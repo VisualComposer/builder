@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import Attribute from '../attribute'
 import GutenbergModal from './gutenbergModal'
-
+import lodash from 'lodash'
 /* Working prototype */
 export default class Component extends Attribute {
   constructor (props) {
@@ -23,12 +23,16 @@ export default class Component extends Attribute {
 
   iframeLoaded () {
     const { value } = this.state
-    const window = document.getElementById('vcv-gutenberg-attribute-modal-iframe').contentWindow
+    const window = this.iframe.contentWindow
     const wpData = window.wp.data
     // Subscribe to data change
-    wpData.subscribe(this.updateValueFromIframe.bind(this))
+    const debounce = lodash.debounce(this.updateValueFromIframe.bind(this), 500)
+    if (!window._wpGutenbergPost) {
+      return
+    }
+    wpData.subscribe(debounce)
     // Set current content
-    // Editor settings can be set via editor
+    // Editor settings
     const editorSettings = {
       alignWide: false,
       availableTemplates: [],
@@ -46,7 +50,7 @@ export default class Component extends Attribute {
   }
 
   updateValueFromIframe () {
-    const wpData = document.getElementById('vcv-gutenberg-attribute-modal-iframe').contentWindow.wp.data
+    const wpData = this.iframe.contentWindow.wp.data
     const value = wpData.select('core/editor').getEditedPostContent()
     this.setFieldValue(value)
   }
@@ -60,11 +64,11 @@ export default class Component extends Attribute {
           'vcv-ui-icon': true,
           'vcv-ui-icon-close-thin': true
         })
-        const iframeURL = '/wp-admin/post-new.php?post_type=page' // change with vcv action
+        const iframeURL = '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
         return (
           <GutenbergModal>
             <i onClick={this.closeEditor.bind(this)} className={closeClasses} style={{ color: '#000', position: 'fixed', top: '12px', right: '12px' }} />
-            <iframe id='vcv-gutenberg-attribute-modal-iframe' src={iframeURL} style={{ width: '100%', height: '100%' }} onLoad={this.iframeLoaded} />
+            <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} style={{ width: '100%', height: '100%' }} onLoad={this.iframeLoaded} />
           </GutenbergModal>
         )
       }
