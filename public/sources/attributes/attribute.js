@@ -1,8 +1,7 @@
 import React from 'react'
-import Representer from './representer'
 import PropTypes from 'prop-types'
 
-export default class Attribute extends Representer {
+export default class Attribute extends React.Component {
   static propTypes = {
     updater: PropTypes.func.isRequired,
     fieldKey: PropTypes.string.isRequired,

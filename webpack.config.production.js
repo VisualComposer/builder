@@ -10,7 +10,6 @@ module.exports = Object.assign(webpackConfig, {
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
     // wpsettings: './public/wp-settings-main',
     // wpupdate: './public/bundle-update-main',

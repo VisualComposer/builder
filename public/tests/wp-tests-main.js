@@ -3,8 +3,6 @@ import '../polyfills'
 import '../sources/less/bootstrapBackend/init.less'
 import '../sources/css/wordpress.less'
 import '../config/variables'
-import '../config/wpbackend-services'
-import '../config/wpbackend-attributes'
 import publicAPI from './resources/api/publicAPI'
 
 const $ = require('expose?$!jquery')
@@ -42,7 +40,6 @@ $(() => {
         require('./editor/stores/settingsStorage')
         require('./editor/stores/wordpressBackendData/wordpressBackendDataStorage')
         require('./resources/components/backendEditorContent/content.js')
-        require('./config/wpbackend-modules')
       })
       vcCake.env('iframe', iframe.contentWindow)
     }
