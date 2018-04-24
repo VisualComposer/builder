@@ -324,7 +324,8 @@ export default class ControlsHandler {
         title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
         tag: vcElement.get('tag'),
         relatedTo: vcElement.get('relatedTo'),
-        designOptions: doType
+        designOptions: doType,
+        containerFor: vcElement.get('containerFor')
       }
     ))
 
@@ -467,8 +468,8 @@ export default class ControlsHandler {
     if (
       options.relatedTo &&
       options.relatedTo.value &&
-      options.relatedTo.value.includes('General') &&
-      !options.relatedTo.value.includes('RootElements')
+      ((options.relatedTo.value.includes('General') && !options.relatedTo.value.includes('RootElements')) ||
+      (env('FT_COPY_PASTE_FOR_COLUMN') && options.relatedTo.value.includes('Column')))
     ) {
       actions.push({
         label: copyText,
@@ -481,10 +482,37 @@ export default class ControlsHandler {
     }
 
     // paste action
-    const isPasteAvailable = exceptionalElements.includes(options.title)
+    const isPasteAvailable = exceptionalElements.includes(options.tag)
     if (isPasteAvailable) {
       let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
       let disabled = !copyData
+
+      if (env('FT_COPY_PASTE_FOR_COLUMN') && copyData && copyData.constructor === String) {
+        try {
+          copyData = JSON.parse(copyData)
+        } catch (err) {
+          console.error(err)
+          copyData = null
+        }
+
+        const elementRelatedTo = copyData && copyData.element && copyData.element.element && copyData.element.element.relatedTo
+        const elementContainerFor = options.containerFor && options.containerFor.value
+
+        if (
+          elementRelatedTo.length &&
+          elementContainerFor.length &&
+          (elementContainerFor.indexOf('General') < 0 || elementRelatedTo.indexOf('General') < 0)
+        ) {
+          disabled = true
+
+          elementContainerFor.forEach((item) => {
+            if (elementRelatedTo.indexOf(item) >= 0) {
+              disabled = false
+            }
+          })
+        }
+      }
+
       actions.push({
         label: pasteText,
         disabled,

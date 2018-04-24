@@ -3,6 +3,7 @@ import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import { exceptionalElements } from 'public/editor/modules/content/modernLayout/lib/controlsIframe/exceptionalElements'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
@@ -152,7 +153,7 @@ export default class TreeViewElement extends React.Component {
   checkPaste (data) {
     if (data && data.element) {
       this.setState({
-        copyData: true
+        copyData: data
       })
     }
   }
@@ -385,7 +386,8 @@ export default class TreeViewElement extends React.Component {
 
     let addChildControl = false
     let editRowLayoutControl = false
-    if (element.containerFor().length) {
+    const elementContainerFor = element.containerFor()
+    if (elementContainerFor.length) {
       let title = addElementText
       let addElementTag = ''
       let children = cook.getChildren(element.get('tag'))
@@ -440,13 +442,14 @@ export default class TreeViewElement extends React.Component {
 
     let copyControl = false
     let pasteControl = false
-    let relatedTo = element.get('relatedTo')
+    const relatedTo = element.get('relatedTo')
+
     // copy action
     if (
       relatedTo &&
       relatedTo.value &&
-      relatedTo.value.includes('General') &&
-      !relatedTo.value.includes('RootElements')
+      ((relatedTo.value.includes('General') && !relatedTo.value.includes('RootElements')) ||
+      (vcCake.env('FT_COPY_PASTE_FOR_COLUMN') && relatedTo.value.includes('Column')))
     ) {
       copyControl = (
         <span
@@ -459,11 +462,39 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
+    const isPasteAvailable = exceptionalElements.includes(element.get('tag'))
     // paste action
-    if (element.get('tag') === 'column' || element.get('tag') === 'tab') {
+    if (isPasteAvailable) {
       let attrs = {}
       if (!copyData) {
         attrs.disabled = true
+      }
+
+      if (vcCake.env('FT_COPY_PASTE_FOR_COLUMN') && copyData) {
+        if (copyData.constructor === String) {
+          try {
+            copyData = JSON.parse(copyData)
+          } catch (err) {
+            console.error(err)
+            copyData = null
+          }
+        }
+
+        const elementRelatedTo = copyData && copyData.element && copyData.element.element && copyData.element.element.relatedTo
+
+        if (
+          elementRelatedTo.length &&
+          elementContainerFor.length &&
+          (elementContainerFor.indexOf('General') < 0 || elementRelatedTo.indexOf('General') < 0)
+        ) {
+          attrs.disabled = true
+
+          elementContainerFor.forEach((item) => {
+            if (elementRelatedTo.indexOf(item) >= 0) {
+              delete attrs.disabled
+            }
+          })
+        }
       }
 
       pasteControl = (
