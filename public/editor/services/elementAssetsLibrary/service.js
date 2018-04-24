@@ -48,7 +48,7 @@ const innerApi = {
     const assetsLibrary = cookElement.get('assetsLibrary')
     /** @see public/editor/services/sharedAssetsLibrary/service.js */
     const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
-    const assetsStorage = vcCake.getStorage('assetsBackend')
+    const assetsStorage = vcCake.getStorage('assetsUpdate')
     const assetsStorageState = assetsStorage.state('jsLibs').get()
     let files = {
       cssBundles: [],

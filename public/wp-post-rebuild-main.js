@@ -1,6 +1,8 @@
 import vcCake from 'vc-cake'
 import './polyfills'
 import './config/variables'
+import './config/wpupdate-services'
+import './config/wpupdate-attributes'
 import publicAPI from './resources/api/publicAPI'
 
 class PostBuilder {
@@ -38,7 +40,9 @@ class PostBuilder {
       }
       require('./editor/stores/settingsStorage')
       require('./editor/stores/elements/elementsStorage')
+      require('./editor/stores/assetsUpdate/assetsStorage')
       require('./editor/stores/wordpressRebuildPostData/wordpressRebuildPostDataStorage.js')
+      require('./editor/modules/content/updateContent/module.js')
       vcCake.getStorage('wordpressRebuildPostData').state('status').onChange((state) => {
         if (state && state.status === 'success') {
           this.resolve && this.resolve(this.settings)

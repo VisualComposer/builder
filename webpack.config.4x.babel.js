@@ -96,6 +96,32 @@ module.exports = {
           'renderProcessor'
         ]
       },
+      wpupdate: {
+        modules: [
+          'content/updateContent',
+          'wordpressUpdateWorkspace'
+        ],
+        services: [
+          'utils',
+          'document',
+          'wordpress-post-data',
+          'cook',
+          'sharedAssetsLibrary',
+          'elementAssetsLibrary',
+          'time-machine',
+          'actions-manager',
+          'rules-manager',
+          'api',
+          'dataProcessor',
+          'modernAssetsStorage',
+          'stylesManager',
+          'wpMyTemplates',
+          'hubCategories',
+          'hubGroups',
+          'hubElements',
+          'renderProcessor'
+        ]
+      },
       'wpbackend-switcher': {
         services: [],
         modules: [
