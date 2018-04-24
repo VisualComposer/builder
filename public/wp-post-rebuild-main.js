@@ -39,7 +39,6 @@ class PostBuilder {
       require('./editor/stores/settingsStorage')
       require('./editor/stores/elements/elementsStorage')
       require('./editor/stores/wordpressRebuildPostData/wordpressRebuildPostDataStorage.js')
-      require('./editor/modules/content/backendContent/module.js')
       vcCake.getStorage('wordpressRebuildPostData').state('status').onChange((state) => {
         if (state && state.status === 'success') {
           this.resolve && this.resolve(this.settings)
