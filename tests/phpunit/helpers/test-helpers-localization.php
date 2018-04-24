@@ -28,7 +28,6 @@ class HelpersLocalizationTest extends WP_UnitTestCase
             'update',
             'menu',
             'viewPage',
-            'backendEditor',
             'editInBackendEditor',
             'wordPressDashboard',
             'publish',

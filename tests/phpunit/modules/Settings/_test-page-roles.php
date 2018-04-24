@@ -20,7 +20,6 @@ class SettingsRolesPageTest extends WP_UnitTestCase
     {
         $parts = [
             'post_types',
-            'backend_editor',
             'frontend_editor',
             'post_settings',
             'settings',

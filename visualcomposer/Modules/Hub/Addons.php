@@ -28,7 +28,7 @@ class Addons extends Container implements Module
      */
     public function __construct()
     {
-        $this->addFilter('vcv:frontend:head:extraOutput vcv:backend-disabled:extraOutput', 'outputAddons');
+        $this->addFilter('vcv:frontend:head:extraOutput', 'outputAddons');
     }
 
     /**

@@ -51,7 +51,6 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
   window.vcvActionsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'hub:action:adminNonce']); ?>';
   window.vcvUpdateFinishedUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'bundle:update:finished:adminNonce']); ?>';
   window.vcvAjaxTime = <?php echo esc_attr($time); ?>;
-  window.vcvPageBack = '<?php echo $optionsHelper->getTransient('_vcv_update_page_redirect_url'); ?>';
   window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
   window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
   window.vcvErrorReportUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce']); ?>';

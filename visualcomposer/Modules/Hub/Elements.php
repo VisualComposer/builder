@@ -34,9 +34,9 @@ class Elements extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Elements::outputElements */
-        $this->addFilter('vcv:frontend:head:extraOutput vcv:backend-disabled:extraOutput vcv:backend:settings:extraOutput vcv:frontend:update:head:extraOutput', 'outputWebpackBc');
-        $this->addFilter('vcv:frontend:head:extraOutput vcv:backend-disabled:extraOutput', 'outputElements');
-        $this->addFilter('vcv:frontend:footer:extraOutput vcv:backend-disabled:extraOutput', 'outputElementsBundle', 3);
+        $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:settings:extraOutput vcv:frontend:update:head:extraOutput', 'outputWebpackBc');
+        $this->addFilter('vcv:frontend:head:extraOutput', 'outputElements');
+        $this->addFilter('vcv:frontend:footer:extraOutput', 'outputElementsBundle', 3);
     }
 
     /**

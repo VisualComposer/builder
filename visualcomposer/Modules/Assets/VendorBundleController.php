@@ -25,7 +25,7 @@ class VendorBundleController extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Assets\VendorBundleController::addVendorScript */
         $this->addFilter(
-            'vcv:backend-disabled:extraOutput vcv:frontend:head:extraOutput',
+            'vcv:frontend:head:extraOutput',
             'addVendorScript',
             1
         );

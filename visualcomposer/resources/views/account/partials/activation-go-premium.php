@@ -6,28 +6,8 @@ if (!defined('ABSPATH')) {
 }
 
 $premiumPage = vcapp('PremiumPagesPremium');
-$getPremiumPage = vcapp('PremiumPagesGetPremium');
-$activationPage = vcapp('AccountPagesActivationPage');
-$utmHelper = vchelper('Utm');
-$requestHelper = vchelper('Request');
 $loginCategoryHelper = vchelper('LoginCategory');
 $loginCategories = $loginCategoryHelper->all();
-
-if ('nav-bar' === $requestHelper->input('vcv-ref')) {
-    $utm = 'goPremiumNavBar';
-} elseif ('plugins-page' === $requestHelper->input('vcv-ref')) {
-    $utm = 'goPremiumPluginsPage';
-} elseif ('logoFrontend' === $requestHelper->input('vcv-ref')) {
-    $utm = 'feNavbarLinkLogo';
-} elseif ('logoBackend' === $requestHelper->input('vcv-ref')) {
-    $utm = 'beNavbarLinkLogo';
-} elseif ($activationPage->getSlug() === $requestHelper->input('page')) {
-    $utm = 'goPremiumDashboard';
-} elseif ($getPremiumPage->getSlug() === $requestHelper->input('page')) {
-    $utm = 'goPremiumWpMenuSidebar';
-} else {
-    $utm = 'goPremiumLostRef';
-}
 ?>
 <!-- First screen -->
 <div class="vcv-popup-content vcv-popup-go-premium-screen">

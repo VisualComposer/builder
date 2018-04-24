@@ -21,12 +21,12 @@ class TeaserController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_ENV_HUB_TEASER')) {
-            $this->addFilter('vcv:frontend:head:extraOutput vcv:backend-disabled:extraOutput', 'outputTeaserElements');
-            $this->addFilter('vcv:frontend:head:extraOutput vcv:backend-disabled:extraOutput', 'outputTeaserBadge');
+            $this->addFilter('vcv:frontend:head:extraOutput', 'outputTeaserElements');
+            $this->addFilter('vcv:frontend:head:extraOutput', 'outputTeaserBadge');
             $this->addFilter('vcv:ajax:vcv:hub:teaser:visit:adminNonce', 'ajaxSetTeaserBadge');
 
             if (vcvenv('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
-                $this->addFilter('vcv:frontend:head:extraOutput vcv:backend-disabled:extraOutput', 'outputTeaserDownload');
+                $this->addFilter('vcv:frontend:head:extraOutput', 'outputTeaserDownload');
             }
         }
     }

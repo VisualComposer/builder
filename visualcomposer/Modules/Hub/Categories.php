@@ -29,7 +29,7 @@ class Categories extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Categories::outputCategories */
-        $this->addFilter('vcv:frontend:body:extraOutput vcv:backend-disabled:extraOutput', 'outputCategories');
+        $this->addFilter('vcv:frontend:body:extraOutput', 'outputCategories');
     }
 
     /**

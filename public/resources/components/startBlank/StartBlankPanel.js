@@ -60,9 +60,6 @@ export default class startBlank extends React.Component {
     let headingPart2
 
     let buttonUrl = window.VCV_UTM().feBlankPagePremiumTemplates
-    if (vcCake.env('editor') === 'backend') {
-      buttonUrl = window.VCV_UTM().beBlankPagePremiumTemplates
-    }
     let premium = null
     if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
       premium = (

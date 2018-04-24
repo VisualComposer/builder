@@ -29,10 +29,6 @@ class Controller extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\Templates\Controller::allMyTemplates */
-        $this->addFilter('vcv:backend-disabled:extraOutput vcv:frontend:body:extraOutput', 'allMyTemplates');
-        /** @see \VisualComposer\Modules\Editors\Templates\Controller::allPredefinedTemplates */
-        $this->addFilter('vcv:backend-disabled:extraOutput vcv:frontend:body:extraOutput', 'allPredefinedTemplates');
         $this->addFilter('vcv:editor:variables', 'allTemplates');
 
         if (!vcvenv('VCV_ENV_TEMPLATES_FULL_SAVE')) {
@@ -89,42 +85,6 @@ class Controller extends Container implements Module
         ];
 
         return $variables;
-    }
-
-    protected function allMyTemplates($extraOutput, EditorTemplates $editorTemplatesHelper)
-    {
-        $extraOutput = array_merge(
-            $extraOutput,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_MY_TEMPLATES',
-                        'value' => [],
-                    ]
-                ),
-            ]
-        );
-
-        return $extraOutput;
-    }
-
-    protected function allPredefinedTemplates($extraOutput, EditorTemplates $editorTemplatesHelper)
-    {
-        $extraOutput = array_merge(
-            $extraOutput,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_PREDEFINED_TEMPLATES',
-                        'value' => [],
-                    ]
-                ),
-            ]
-        );
-
-        return $extraOutput;
     }
 
     protected function getData(array $templates)
