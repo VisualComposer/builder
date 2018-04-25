@@ -106,6 +106,8 @@ class Controller extends Container implements Module
 
     /**
      * @param $content
+     *
+     * @throws \Exception
      */
     protected function terminate($content)
     {

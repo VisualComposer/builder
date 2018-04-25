@@ -21,12 +21,12 @@ class RevisionController extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\Backend\RevisionController::saveRevisionMeta */
+        /** @see \VisualComposer\Modules\Editors\DataAjax\RevisionController::saveRevisionMeta */
         $this->wpAddAction('save_post', 'saveRevisionMeta');
-        /** @see \VisualComposer\Modules\Editors\Backend\RevisionController::restoreRevision */
+        /** @see \VisualComposer\Modules\Editors\DataAjax\RevisionController::restoreRevision */
         $this->wpAddAction('wp_restore_post_revision', 'restoreRevision');
 
-        /** @see \VisualComposer\Modules\Editors\Backend\RevisionController::getRevisionData */
+        /** @see \VisualComposer\Modules\Editors\DataAjax\RevisionController::getRevisionData */
         $this->addFilter(
             'vcv:ajax:getRevisionData:adminNonce',
             'getRevisionData'
@@ -35,6 +35,8 @@ class RevisionController extends Container implements Module
 
     /**
      * Save meta for revision.
+     *
+     * @param $revisionId
      */
     protected function saveRevisionMeta($revisionId)
     {

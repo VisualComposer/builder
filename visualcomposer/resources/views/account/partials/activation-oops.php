@@ -25,27 +25,27 @@ if (!defined('ABSPATH')) {
         </svg>
     </div>
 
-	<div class="vcv-popup-heading">
+    <div class="vcv-popup-heading">
         <?php echo esc_html__('Oops!', 'vcwb'); ?>
-	</div>
-	<span class="vcv-popup-loading-heading">
-		<?php
+    </div>
+    <span class="vcv-popup-loading-heading">
+        <?php
         echo esc_html__(
             'It seems that something went wrong with licence activation. Please make sure to check your internet connection and try again.',
             'vcwb'
         );
         ?>
-	</span>
-	<div class="vcv-button-container">
-		<a href="#" data-vcv-retry class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
-			<span>
-				<?php echo esc_html__('Try Again', 'vcwb'); ?>
-			</span>
-		</a>
-		<a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
-			<span>
-				<?php echo esc_html__('Send error report', 'vcwb'); ?>
-			</span>
-		</a>
-	</div>
+    </span>
+    <div class="vcv-button-container">
+        <a href="#" data-vcv-retry class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+            <span>
+                <?php echo esc_html__('Try Again', 'vcwb'); ?>
+            </span>
+        </a>
+        <a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+            <span>
+                <?php echo esc_html__('Send error report', 'vcwb'); ?>
+            </span>
+        </a>
+    </div>
 </div>

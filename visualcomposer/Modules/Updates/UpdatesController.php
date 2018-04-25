@@ -152,7 +152,7 @@ class UpdatesController extends Container implements Module
             '
 <p>Visual Composer Website Builder is a perfect solution to create your WordPress site via drag and drop interface. Use content elements or predefined layouts to create any layout fast and easy.</p>
 <ul>
-<li>Use Frontend, Backend or Tree View to create structure</li>
+<li>Use Frontend or Tree View to create structure</li>
 <li>Create responsive websites automatically</li>
 <li>Use with any WordPress theme</li>
 <li>Work with pages, posts and custom post types</li>

@@ -149,9 +149,9 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             <div class="vcv-popup-error vcv-popup-error-with-button">
                 <span class="vcv-error-message"></span>
                 <a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
-					<span>
-						<?php echo esc_html__('Send error report', 'vcwb'); ?>
-					</span>
+                    <span>
+                        <?php echo esc_html__('Send error report', 'vcwb'); ?>
+                    </span>
                 </a>
             </div>
         </div>

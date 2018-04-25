@@ -50,6 +50,7 @@ class JsonDownloadController extends Container implements Module
                 return false;
             }
         } else {
+            /** @var $response \WP_Error */
             $loggerHelper->log(
                 __('Failed to prepare json download', 'vcwb') . ' #10060',
                 [

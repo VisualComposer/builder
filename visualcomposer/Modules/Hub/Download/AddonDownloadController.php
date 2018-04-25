@@ -8,7 +8,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;

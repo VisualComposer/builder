@@ -58,7 +58,7 @@ class WpWidgetsController extends Container implements Module
      * @param \VisualComposer\Helpers\WpWidgets $widgets
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
-     * @return string
+     * @return array
      */
     protected function renderEditor(
         $response,

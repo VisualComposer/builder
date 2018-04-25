@@ -203,7 +203,7 @@ class Token extends Container implements Helper
                 $message .= implode('. ', $result->get_error_messages());
                 if ("http_request_failed" === $result->get_error_code()) {
                     $message .= '. ';
-                    $message .= __('Request timeout of 30 seconds exceeded', 'vcwb'). ' #10011';
+                    $message .= __('Request timeout of 30 seconds exceeded', 'vcwb') . ' #10011';
                 }
                 $message .= ' #10004';
             } else {
@@ -247,8 +247,8 @@ class Token extends Container implements Helper
 
     /**
      * @param $body
-     * @param $noticeHelper
-     * @param $loggerHelper
+     * @param \VisualComposer\Helpers\Notice $noticeHelper
+     * @param \VisualComposer\Helpers\Logger $loggerHelper
      */
     protected function checkLicenseExpiration($body, $noticeHelper, $loggerHelper)
     {

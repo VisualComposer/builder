@@ -175,6 +175,12 @@ class Controller extends Container implements Module
         return ['status' => false];
     }
 
+    /**
+     * @param $sourceId
+     *
+     * @return mixed
+     * @throws \ReflectionException
+     */
     protected function saveTemplateId($sourceId)
     {
         if ($sourceId === 'template') {

@@ -574,6 +574,7 @@ export default class ControlsHandler {
     actionContent.title = options.title || options.label
     if (options.disabled) {
       actionContent.setAttribute('disabled', true)
+      action.dataset[ 'vcControlEventDisabled' ] = true
     }
     action.appendChild(actionContent)
 

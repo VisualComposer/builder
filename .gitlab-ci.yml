@@ -101,11 +101,11 @@ test:js:build:
   script:
     - npm install
     - npm run build
-    - cat public/dist/front.bundle.js | grep "Cannot find module" && exit 1
-    - cat public/dist/vendor.bundle.js | grep "Cannot find module" && exit 1
-    - cat public/dist/pe.bundle.js | grep "Cannot find module" && exit 1
-    - cat public/dist/wp.bundle.js | grep "Cannot find module" && exit 1
-    - cat public/dist/wpPostRebuild.bundle.js | grep "Cannot find module" && exit 1
+    - cat public/dist/front.bundle.js | grep "webpackMissingModule" && exit 1
+    - cat public/dist/vendor.bundle.js | grep "webpackMissingModule" && exit 1
+    - cat public/dist/pe.bundle.js | grep "webpackMissingModule" && exit 1
+    - cat public/dist/wp.bundle.js | grep "webpackMissingModule" && exit 1
+    - cat public/dist/wpPostRebuild.bundle.js | grep "webpackMissingModule" && exit 1
     - if [ $? -eq 0 ]; then echo "good"; exit 0; else echo "fail"; exit 1; fi
   tags:
     - docker

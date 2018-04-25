@@ -47,7 +47,7 @@ class Addons extends Container implements Module
                     'partials/constant-script',
                     [
                         'key' => 'VCV_HUB_GET_ADDONS',
-                        'value' => $hubHelper->getAddons(false, false),
+                        'value' => $hubHelper->getAddons(),
                     ]
                 ),
             ]

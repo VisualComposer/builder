@@ -25,6 +25,7 @@ class Meta
         }
 
         ob_start();
+        /** @var array $methods */
         $methods = [
             '\VisualComposer\Framework\Illuminate\Contracts\Container\Container::make(\'\')',
             '\VisualComposer\Framework\Application::make(\'\')',
@@ -32,6 +33,7 @@ class Meta
             '\VisualComposer\Framework\Illuminate\Container\Container::make(\'\')',
             '\vcapp(\'\')',
         ];
+        /** @uses $methods */
         include __DIR__ . '/../views/meta.php';
         $contents = ob_get_clean();
         file_put_contents(__DIR__ . '/../../..' . '/.phpstorm.meta.php', $contents);

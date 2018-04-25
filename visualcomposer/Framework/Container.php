@@ -27,6 +27,7 @@ abstract class Container
      * @param  array $parameters
      *
      * @return mixed
+     * @throws \ReflectionException
      */
     protected function call($method, array $parameters = [])
     {

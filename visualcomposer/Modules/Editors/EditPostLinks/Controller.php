@@ -68,6 +68,7 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
      *
      * @return string
+     * @throws \Exception
      */
     protected function addEditPostLink(
         $link,

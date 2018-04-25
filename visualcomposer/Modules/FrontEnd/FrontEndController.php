@@ -37,7 +37,7 @@ class FrontEndController extends Container implements Module
                 function ($matches) {
                     return '<p>' . $matches[2] .
                         base64_encode(
-                            vcfilter(
+                            (string)vcfilter(
                                 'vcv:frontend:content:encode',
                                 do_shortcode($matches[3])
                             )

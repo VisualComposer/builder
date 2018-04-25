@@ -168,12 +168,6 @@ class TemplatesDownloadController extends Container implements Module
                 $data = rawurlencode(json_encode(['elements' => $templateElements]));
                 update_post_meta($templateId, VCV_PREFIX . 'pageContent', $data);
             }
-
-            // $differ = vchelper('Differ');
-            // Set old
-            // $differ->set($editorTemplatesHelper->allPredefined(false, true));
-            // Merge new
-            // $differ->set($toSaveTemplates);
         }
 
         return $response;

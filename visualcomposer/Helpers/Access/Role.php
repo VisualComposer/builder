@@ -121,6 +121,7 @@ class Role implements Helper
      * Get state of the Vc access rules part.
      *
      * @return mixed;
+     * @throws \Exception
      */
     public function getState()
     {
@@ -142,11 +143,12 @@ class Role implements Helper
      * string|'custom' - custom settings. It means that need to check exact capability.
      *
      * @param bool $value
+     *
+     * @throws \Exception
      */
     public function setState($value = true)
     {
-        $this->getRole()
-        && $this->getRole()->add_cap($this->getStateKey(), $value);
+        $this->getRole() && $this->getRole()->add_cap($this->getStateKey(), $value);
     }
 
     /**
@@ -236,6 +238,7 @@ class Role implements Helper
      * @param $rule
      *
      * @return bool
+     * @throws \Exception
      */
     public function getCapRule($rule)
     {
@@ -251,6 +254,7 @@ class Role implements Helper
      * @param bool $value
      *
      * @return $this
+     * @throws \Exception
      */
     public function setCapRule($rule, $value = true)
     {
@@ -262,6 +266,7 @@ class Role implements Helper
 
     /**
      * Get all capability for this part.
+     * @throws \Exception
      */
     public function getAllCaps()
     {

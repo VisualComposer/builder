@@ -151,6 +151,7 @@ class License extends Container implements Helper
      * Generate and set new license key token.
      *
      * @return string
+     * @throws \ReflectionException
      */
     public function newKeyToken()
     {
