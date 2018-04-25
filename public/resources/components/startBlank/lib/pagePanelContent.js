@@ -150,14 +150,7 @@ export default class PagePanelContent extends React.Component {
 
   getBlankControls () {
     let controls = []
-    if (vcCake.env('THEME_LAYOUTS')) {
-      controls = this.getLayoutControls()
-    } else {
-      controls.push(<BlankControl {...this.getTemplateControlProps('blank')} />)
-      this.state.templates.forEach((template) => {
-        controls.push(<BlankControl {...this.getTemplateControlProps(template)} />)
-      })
-    }
+    controls = this.getLayoutControls()
     return controls
   }
 
@@ -326,9 +319,7 @@ export default class PagePanelContent extends React.Component {
       containerWidth.width = `${this.state.containerWidth}px`
     }
     let startBlankControlsClasses = 'vcv-start-blank-controls'
-    if (vcCake.env('THEME_LAYOUTS')) {
-      startBlankControlsClasses += ' vcv-start-blank-controls-layout'
-    }
+    startBlankControlsClasses += ' vcv-start-blank-controls-layout'
 
     return <div className={startBlankControlsClasses}>
       <div
