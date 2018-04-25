@@ -423,6 +423,9 @@ export default class ControlsManager {
       if (el) {
         let event = el.dataset.vcControlEvent
         let tag = el.dataset.vcControlEventOptions || false
+        if (el.dataset.vcControlEventDisabled) {
+          return
+        }
         let options = {
           insertAfter: el.dataset.vcControlEventOptionInsertAfter || false
         }
