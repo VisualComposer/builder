@@ -480,28 +480,34 @@ export default class TreeViewElement extends React.Component {
           }
         }
 
-        const elementRelatedTo = copyData && copyData.element && copyData.element.element && copyData.element.element.relatedTo
+        const elData = copyData && copyData.element && copyData.element.element
+        const elementRelatedTo = cook.get(elData).get('relatedTo')
 
         if (
-          elementRelatedTo.length &&
+          elementRelatedTo &&
+          elementRelatedTo.value &&
+          elementRelatedTo.value.length &&
           elementContainerFor.length &&
-          (elementContainerFor.indexOf('General') < 0 || elementRelatedTo.indexOf('General') < 0)
+          (elementContainerFor.indexOf('General') < 0 || elementRelatedTo.value.indexOf('General') < 0)
         ) {
           attrs.disabled = true
 
           elementContainerFor.forEach((item) => {
-            if (elementRelatedTo.indexOf(item) >= 0) {
+            if (elementRelatedTo.value.indexOf(item) >= 0) {
               delete attrs.disabled
             }
           })
         }
       }
 
+      if (!attrs.disabled) {
+        attrs.onClick = this.clickPaste.bind(this)
+      }
+
       pasteControl = (
         <span
           className='vcv-ui-tree-layout-control-action'
           title={pasteText}
-          onClick={this.clickPaste.bind(this)}
           {...attrs}
         >
           <i className='vcv-ui-icon vcv-ui-icon-paste-icon' />
