@@ -469,7 +469,8 @@ export default class ControlsHandler {
       options.relatedTo &&
       options.relatedTo.value &&
       ((options.relatedTo.value.includes('General') && !options.relatedTo.value.includes('RootElements')) ||
-      (env('FT_COPY_PASTE_FOR_COLUMN') && options.relatedTo.value.includes('Column')))
+      (env('FT_COPY_PASTE_FOR_COLUMN') && options.relatedTo.value.includes('Column')) ||
+      (env('FT_COPY_PASTE_FOR_ROW') && options.relatedTo.value.includes('Row')))
     ) {
       actions.push({
         label: copyText,
@@ -482,7 +483,7 @@ export default class ControlsHandler {
     }
 
     // paste action
-    const isPasteAvailable = exceptionalElements.includes(options.tag)
+    const isPasteAvailable = exceptionalElements.includes(options.title)
     if (isPasteAvailable) {
       let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
       let disabled = !copyData

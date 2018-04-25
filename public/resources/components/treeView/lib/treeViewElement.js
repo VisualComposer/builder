@@ -462,7 +462,7 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
-    const isPasteAvailable = exceptionalElements.includes(element.get('tag'))
+    const isPasteAvailable = exceptionalElements.includes(this.state.element.name)
     // paste action
     if (isPasteAvailable) {
       let attrs = {}

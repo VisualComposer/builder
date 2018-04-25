@@ -7,13 +7,13 @@ import { env } from 'vc-cake'
  */
 
 export const exceptionalElements = [
-  'column',
-  'tab',
-  'classicTab',
-  'classicAccordionSection',
-  'pageableTab'
+  'Column',
+  'Tab',
+  'Classic Tab',
+  'Classic Accordion Section',
+  'Pageable Tab'
 ]
 
 if (env('FT_COPY_PASTE_FOR_COLUMN')) {
-  exceptionalElements.push('row')
+  exceptionalElements.push('Row')
 }
