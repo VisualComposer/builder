@@ -496,18 +496,21 @@ export default class ControlsHandler {
           copyData = null
         }
 
-        const elementRelatedTo = copyData && copyData.element && copyData.element.element && copyData.element.element.relatedTo
+        const elData = copyData && copyData.element && copyData.element.element
         const elementContainerFor = options.containerFor && options.containerFor.value
+        const elementRelatedTo = cook.get(elData).get('relatedTo')
 
         if (
-          elementRelatedTo.length &&
+          elementRelatedTo &&
+          elementRelatedTo.value &&
+          elementRelatedTo.value.length &&
           elementContainerFor.length &&
-          (elementContainerFor.indexOf('General') < 0 || elementRelatedTo.indexOf('General') < 0)
+          (elementContainerFor.indexOf('General') < 0 || elementRelatedTo.value.indexOf('General') < 0)
         ) {
           disabled = true
 
           elementContainerFor.forEach((item) => {
-            if (elementRelatedTo.indexOf(item) >= 0) {
+            if (elementRelatedTo.value.indexOf(item) >= 0) {
               disabled = false
             }
           })
