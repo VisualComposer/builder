@@ -110,4 +110,4 @@ const ActionsManager = {
   }
 }
 
-vcCake.addService('actions-manager', ActionsManager)
+vcCake.addService('actionsManager', ActionsManager)
