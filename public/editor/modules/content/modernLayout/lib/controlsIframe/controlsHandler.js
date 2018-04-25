@@ -322,6 +322,7 @@ export default class ControlsHandler {
       {
         isContainer: colorIndex < 2,
         title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
+        name: vcElement.get('name'),
         tag: vcElement.get('tag'),
         relatedTo: vcElement.get('relatedTo'),
         designOptions: doType,
@@ -483,7 +484,7 @@ export default class ControlsHandler {
     }
 
     // paste action
-    const isPasteAvailable = exceptionalElements.includes(options.title)
+    const isPasteAvailable = exceptionalElements.includes(options.name)
     if (isPasteAvailable) {
       let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
       let disabled = !copyData
