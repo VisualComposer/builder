@@ -14,7 +14,6 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 class UpdateBePage extends Container implements Module

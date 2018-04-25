@@ -54,6 +54,7 @@ trait Container
      * @param  callable|string $callback
      *
      * @return \ReflectionFunctionAbstract
+     * @throws \ReflectionException
      */
     protected function getCallReflector($callback)
     {

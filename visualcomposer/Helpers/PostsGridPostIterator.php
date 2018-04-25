@@ -42,7 +42,6 @@ class PostsGridPostIterator extends Container implements Helper
         $output = '';
         if (is_array($posts)) {
             foreach ($posts as $queryPost) {
-                /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::renderPost */
                 $post = $queryPost;
                 setup_postdata($post);
                 $compiledTemplate = $this->renderPost($template, $queryPost);
@@ -53,6 +52,7 @@ class PostsGridPostIterator extends Container implements Helper
         $post = $backup;
         // @codingStandardsIgnoreStart
         $shortcode_tags = $backupTags;
+
         // @codingStandardsIgnoreEnd
         return strip_shortcodes($output);
     }

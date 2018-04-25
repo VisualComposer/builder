@@ -13,8 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Frontend;
-use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 
@@ -36,10 +34,9 @@ class BundleController extends Container implements Module
      * Prevent p tag removal on WordPress "BE" editor
      *
      * @param $post
-     * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
      */
-    protected function disableTinyMceContentRender($post, Request $requestHelper, EditorPostType $editorPostTypeHelper)
+    protected function disableTinyMceContentRender($post, EditorPostType $editorPostTypeHelper)
     {
         // @codingStandardsIgnoreLine
         if ($editorPostTypeHelper->isEditorEnabled($post->post_type)

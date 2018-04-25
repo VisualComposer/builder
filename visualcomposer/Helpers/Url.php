@@ -126,6 +126,7 @@ class Url implements Helper
 
     /**
      * @return bool|void
+     * @throws \Exception
      */
     public function redirectIfUnauthorized()
     {
@@ -140,6 +141,8 @@ class Url implements Helper
 
     /**
      * @param string $message
+     *
+     * @throws \Exception
      */
     public function terminate($message = '')
     {

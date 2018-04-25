@@ -241,6 +241,7 @@ class Container implements ContainerContract
      * @param  array $parameters
      *
      * @return mixed
+     * @throws \ReflectionException
      */
     public function call($callback, array $parameters = [])
     {
@@ -256,6 +257,7 @@ class Container implements ContainerContract
      * @param  array $parameters
      *
      * @return mixed
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     public function make($abstract, $parameters = [])
     {
@@ -337,6 +339,7 @@ class Container implements ContainerContract
      * @return mixed
      *
      * @throws BindingResolutionException
+     * @throws \ReflectionException
      */
     public function build($concrete, $parameters = [])
     {

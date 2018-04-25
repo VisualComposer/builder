@@ -34,28 +34,28 @@ $loginCategories = $loginCategoryHelper->all();
 		<select class="vcv-popup-form-select" name="vcv-account-activation-category" id="vcv-account-premium-form-category" required="required">
 			<option value disabled selected><?php echo esc_html__('Select Your Category', 'vcwb'); ?></option>
             <?php foreach ($loginCategories as $key => $loginCategory) { ?>
-				<option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
+                <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
             <?php } ?>
-		</select>
-		<div class="vcv-popup-form-checkbox">
-           <span class="vcv-popup-form-checkbox-inner">
+        </select>
+        <div class="vcv-popup-form-checkbox">
+            <span class="vcv-popup-form-checkbox-inner">
               <input type="checkbox" value="<?php
               // @codingStandardsIgnoreLine
               echo time();
                 ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-premium-agreement" />
                 <label for="vcv-account-activation-premium-agreement"></label>
-           </span>
-			<span class="vcv-popup-form-checkbox-label"><?php printf(
+            </span>
+            <span class="vcv-popup-form-checkbox-label"><?php printf(
                 // @codingStandardsIgnoreLine
                     __('I have read and agree to the <a href="%1$s" target="_blank">Terms of Use</a> and <a href="%2$s"" target="_blank">Cloud Access Terms</a>', 'vcwb'),
                     'https://visualcomposer.io/terms-of-use',
                     'http://visualcomposer.io/cloud-access-terms'
                 ); ?></span>
-		</div>
+        </div>
         <?php if (vcvenv('VCV_ENV_UPGRADE')) { ?>
-	        <input type="submit" value="<?php echo esc_html__('Activate Premium', 'vcwb'); ?>" class="vcv-activate-premium vcv-popup-button" id="vcv-activate-premium-button">
+            <input type="submit" value="<?php echo esc_html__('Activate Premium', 'vcwb'); ?>" class="vcv-activate-premium vcv-popup-button" id="vcv-activate-premium-button">
         <?php } ?>
-	</form>
-	<span class="vcv-popup-slider-item-text"><?php echo esc_html__('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
-	<div class="vcv-popup-go-premium-container"></div>
+    </form>
+    <span class="vcv-popup-slider-item-text"><?php echo esc_html__('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
+    <div class="vcv-popup-go-premium-container"></div>
 </div>

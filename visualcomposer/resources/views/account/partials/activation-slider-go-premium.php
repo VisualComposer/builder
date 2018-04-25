@@ -44,20 +44,20 @@ $currentUserHelper = vchelper('AccessCurrentUser');
         <div class="vcv-button-container">
             <?php if ($currentUserHelper->wpAll('edit_pages')->get()
                 && $editorPostTypeHelper->isEditorEnabled('page')) : ?>
-		        <a href="<?php
+                <a href="<?php
                 // @codingStandardsIgnoreLine
                 echo vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend');
                 ?>" class="vcv-popup-button vcv-popup-last-screen-button">
-			        <span><?php echo esc_html__('Create a blank page', 'vcwb'); ?></span>
-		        </a>
+                    <span><?php echo esc_html__('Create a blank page', 'vcwb'); ?></span>
+                </a>
             <?php elseif ($currentUserHelper->wpAll('edit_posts')->get()
                 && $editorPostTypeHelper->isEditorEnabled('post')) : ?>
-		        <a href="<?php
+                <a href="<?php
                 // @codingStandardsIgnoreLine
                 echo vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend');
                 ?>" class="vcv-popup-button vcv-popup-last-screen-button">
-			        <span><?php echo esc_html__('Create a blank post', 'vcwb'); ?></span>
-		        </a>
+                    <span><?php echo esc_html__('Create a blank post', 'vcwb'); ?></span>
+                </a>
             <?php endif; ?>
         </div>
         <p class="vcv-popup-helper vcv-popup-last-screen-helper"><?php echo esc_html__(

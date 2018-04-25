@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 }
 ?>
 <?php if (!vcvenv('VCV_TF_EDITOR_IN_CONTENT')) : ?>
-	<script>
+    <script>
       jQuery.fn.ready = function (param) {
         try {
           window.setTimeout(function () {
@@ -20,6 +20,6 @@ if (!defined('ABSPATH')) {
 
         return this
       }
-	</script>
+    </script>
 <?php endif; ?>
 <div id="vcv-editor"><?php echo esc_html__('Loading...', 'vcwb'); ?></div>

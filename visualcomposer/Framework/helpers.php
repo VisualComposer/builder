@@ -15,6 +15,7 @@ if (!defined('ABSPATH')) {
  * @param  array $parameters
  *
  * @return mixed
+ * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
  */
 function vcapp($make = null, $parameters = [])
 {
@@ -78,17 +79,17 @@ function vcview($path, $args = [])
     /** @see \VisualComposer\Helpers\Views::render */
     return vchelper('Views')->render($path, $args);
 }
+
 /**
  * @param $path
  * @param array $args
- *
- * @return mixed|string
  */
 function evcview($path, $args = [])
 {
     // @codingStandardsIgnoreLine
     echo vcview($path, $args);
 }
+
 /**
  * @param $path
  * @param array $args
@@ -175,6 +176,11 @@ function vcIsBadResponse($response)
         $bad;
 }
 
+/**
+ * @param string $message
+ *
+ * @throws \Exception
+ */
 function vcvdie($message = '')
 {
     // @codingStandardsIgnoreLine

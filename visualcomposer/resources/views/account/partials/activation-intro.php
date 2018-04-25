@@ -29,6 +29,6 @@ if (!defined('ABSPATH')) {
     </div>
     <a href="#" class="vcv-intro-button-lite vcv-popup-button"><?php echo esc_html__('Free Version', 'vcwb'); ?></a>
     <a href="#" class="vcv-intro-button-premium vcv-popup-button">
-		<?php echo esc_html__('Premium Version', 'vcwb'); ?>
-	</a>
+        <?php echo esc_html__('Premium Version', 'vcwb'); ?>
+    </a>
 </div>

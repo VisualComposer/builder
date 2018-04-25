@@ -29,18 +29,18 @@ if (!defined('ABSPATH')) {
         <?php echo esc_html__('Thank You!', 'vcwb'); ?>
     </div>
     <span class="vcv-popup-loading-heading">
-		<?php
+        <?php
         echo esc_html__(
             'We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response.',
             'vcwb'
         );
         ?>
-	</span>
+    </span>
     <div class="vcv-button-container">
         <a href="javascript:;" data-vcv-back-to-wp class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
-			<span>
-				<?php echo esc_html__('Return to WordPress dashboard', 'vcwb'); ?>
-			</span>
+            <span>
+                <?php echo esc_html__('Return to WordPress dashboard', 'vcwb'); ?>
+            </span>
         </a>
     </div>
 </div>

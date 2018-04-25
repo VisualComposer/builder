@@ -34,12 +34,17 @@ class Elements extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Elements::outputElements */
-        $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:settings:extraOutput vcv:frontend:update:head:extraOutput', 'outputWebpackBc');
+        $this->addFilter(
+            'vcv:frontend:head:extraOutput vcv:backend:settings:extraOutput vcv:frontend:update:head:extraOutput',
+            'outputWebpackBc'
+        );
         $this->addFilter('vcv:frontend:head:extraOutput', 'outputElements');
         $this->addFilter('vcv:frontend:footer:extraOutput', 'outputElementsBundle', 3);
     }
 
     /**
+     * Backward compatibility for webpack 1v
+     *
      * @param $response
      * @param $payload
      *

@@ -1,5 +1,9 @@
-<?= '<?php' ?>
-
+<?php echo '<?php'; ?>
+<?php
+/** @var $methods array */
+/** @var $bindings array */
+/** @var $components array */
+?>
 namespace PHPSTORM_META {
 
     // this is legacy format for 2016.1 and EARLIER
@@ -8,15 +12,15 @@ namespace PHPSTORM_META {
 
     $STATIC_METHOD_TYPES = [
 <?php foreach($methods as $method): ?>
-        <?= $method ?> => [
+        <?php echo $method; ?> => [
             'App' instanceof \VisualComposer\Application,
 <?php foreach($bindings as $abstract => $class): ?>
-            '<?= $abstract ?>' instanceof \<?= $class ?>,
-<?php endforeach ?>        ],
-<?php endforeach ?>
-        <?= '\\vchelper(\'\')' ?> => [
+            '<?php echo $abstract; ?>' instanceof \<?php echo $class; ?>,
+<?php endforeach; ?>        ],
+<?php endforeach; ?>
+        <?php echo '\\vchelper(\'\')'; ?> => [
 <?php foreach($components['helpers'] as $abstract => $class): ?>
-            '<?= str_replace('Helper', '', $abstract) ?>' instanceof \<?= $class['abstract'] ?>,
-<?php endforeach ?>        ],
+            '<?php echo str_replace('Helper', '', $abstract); ?>' instanceof \<?php echo $class['abstract']; ?>,
+<?php endforeach; ?>        ],
     ];
 }

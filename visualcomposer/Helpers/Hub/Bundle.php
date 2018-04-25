@@ -348,7 +348,7 @@ class Bundle implements Helper
     /**
      * @param $url
      * @param $result
-     * @param $loggerHelper
+     * @param \VisualComposer\Helpers\Logger $loggerHelper
      *
      * @return array|mixed|object|\WP_Error
      */

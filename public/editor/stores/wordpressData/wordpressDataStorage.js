@@ -27,7 +27,10 @@ addStorage('wordpressData', (storage) => {
       elements: documentData
     }, data)
     let id = options && options.id ? options.id : window.vcvSourceID
-    controller.save(id, data, status, options)
+    console.time()
+    controller.save(id, data, status, options).then(() => {
+      console.timeEnd()
+    })
   })
   const wrapExistingContent = (content) => {
     let textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(content, '__VCVID__') })

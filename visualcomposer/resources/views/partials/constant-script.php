@@ -6,6 +6,7 @@ if (!defined('ABSPATH')) {
 }
 /** @var array $values */
 /** @var string $key */
+/** @var mixed $value */
 ?>
 <script id="vcv-<?php echo esc_attr(vchelper('Str')->slugify($key)); ?>">
   // Read-Only data

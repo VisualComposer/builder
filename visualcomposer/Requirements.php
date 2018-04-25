@@ -106,6 +106,9 @@ class VcvCoreRequirements
         return true;
     }
 
+    /**
+     * @param $path
+     */
     public function deactivate($path)
     {
         require_once ABSPATH . '/wp-admin/includes/plugin.php';
