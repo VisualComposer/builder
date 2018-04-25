@@ -11,6 +11,23 @@ import postcssEach from 'postcss-each'
 import colorBlend from 'color-blend'
 import functions from 'postcss-functions'
 import postcssMath from 'postcss-math'
+import objectHash from 'object-hash'
+
+let cssHashes = {}
+let mainPlugins = []
+mainPlugins.push(postcssEach)
+mainPlugins.push(colorBlend())
+mainPlugins.push(postcssMath())
+mainPlugins.push(functions({
+  functions: {
+    rawUrl: (path) => {
+      return `url(${path})`
+    }
+  }
+}))
+mainPlugins.push(postcssColor)
+mainPlugins.push(postcssNested)
+mainPlugins.push(postcssClean)
 
 class StylesManager {
   constructor (styles = []) {
@@ -82,55 +99,46 @@ class StylesManager {
   compile (join = true) {
     let iterations = []
     this.get().forEach((style) => {
-      let stylePromise = new Promise((resolve, reject) => {
-        let use = []
-        use.push(postcssEach)
-        if (style.hasOwnProperty('variables')) {
-          use.push(postcssAdvancedVars({
-            variables: style.variables
-          }))
-          use.push(postcssCustomProps(style.variables))
-        } else {
-          use.push(postcssAdvancedVars())
-          use.push(postcssCustomProps())
+      let hash = objectHash(style)
+      if (vcCake.env('FT_CSS_CACHE')) {
+        if (typeof cssHashes[ hash ] !== 'undefined' && typeof cssHashes[ hash ].result !== 'undefined') {
+          return iterations.push(cssHashes[ hash ].result)
         }
-
-        let viewports = this.getViewports()
-        if (style.hasOwnProperty('viewports')) {
-          viewports = style.viewports
-        }
-        use.push(postcssMedia({
-          extensions: viewports
+      }
+      let use = []
+      if (style.hasOwnProperty('variables')) {
+        use.push(postcssAdvancedVars({
+          variables: style.variables
         }))
+        use.push(postcssCustomProps(style.variables))
+      } else {
+        use.push(postcssAdvancedVars())
+        use.push(postcssCustomProps())
+      }
+      cssHashes[ hash ] = {}
 
-        if (style.path) {
-          use.push(postcssPrefixUrl({
-            useUrl: true,
-            prefix: style.path
-          }))
-        }
-        use.push(colorBlend())
-        use.push(postcssMath())
-        use.push(functions({
-          functions: {
-            rawUrl: (path) => {
-              return `url(${path})`
-            }
-          }
+      let viewports = this.getViewports()
+      if (style.hasOwnProperty('viewports')) {
+        viewports = style.viewports
+      }
+      use.push(postcssMedia({
+        extensions: viewports
+      }))
+
+      if (style.path) {
+        use.push(postcssPrefixUrl({
+          useUrl: true,
+          prefix: style.path
         }))
-        use.push(postcssColor)
-        use.push(postcssNested)
-        use.push(postcssClean)
-        postcss(use).process(style.src)
-          .then((result) => {
-            resolve(result.css)
-          })
-          .catch((result) => {
-            window.console && window.console.warn && window.console.warn('Failed to compile css', style, result)
-            resolve('')
-          })
-      })
-      iterations.push(stylePromise)
+      }
+      use = use.concat(mainPlugins)
+      return iterations.push(postcss(use).process(style.src).then((result) => {
+        let resultCss = result && result.css ? result.css : ''
+        cssHashes[ hash ].result = resultCss
+        return resultCss
+      }).catch((result) => {
+        window.console && window.console.warn && window.console.warn('Failed to compile css', style, result)
+      }))
     })
 
     if (join) {
@@ -141,6 +149,7 @@ class StylesManager {
     return Promise.all(iterations)
   }
 }
+
 const service = {
   create (data) {
     return new StylesManager(data)
