@@ -101,7 +101,8 @@ addStorage('workspace', (storage) => {
     let elementId = createKey()
     options = {
       ...options,
-      silent: !data.lastItem
+      silent: !data.lastItem,
+      skipInitialExtraElements: true
     }
     let element = cook.get({
       ...data.element,
@@ -109,7 +110,6 @@ addStorage('workspace', (storage) => {
       parent: parentId
     })
     let elementData = element.toJS()
-    elementData.skipInitialExtraElements = true
     elementsStorage.trigger('add', elementData, true, options)
     data.children.forEach(child => {
       pasteElementAndChildren(child, elementId)

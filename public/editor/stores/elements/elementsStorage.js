@@ -67,14 +67,14 @@ addStorage('elements', (storage) => {
     })
     createdElements.push(data.id)
 
-    if (wrap && cookElement.get('tag') === 'row' && !elementData.skipInitialExtraElements) {
+    if (wrap && cookElement.get('tag') === 'row' && !options.skipInitialExtraElements) {
       let columnData = cook.get({ tag: 'column', parent: data.id })
       if (columnData) {
         let columnElement = documentManager.create(columnData.toJS())
         createdElements.push(columnElement.id)
       }
     }
-    if (wrap && cookElement.get('tag') === 'tabsWithSlide' && !elementData.skipInitialExtraElements) {
+    if (wrap && cookElement.get('tag') === 'tabsWithSlide' && !options.skipInitialExtraElements) {
       let tabData = cook.get({ tag: 'tab', parent: data.id })
       let tabData1 = cook.get({ tag: 'tab', parent: data.id })
       if (tabData) {
@@ -85,7 +85,7 @@ addStorage('elements', (storage) => {
       }
     }
     if (env('CLASSIC_TABS')) {
-      if (wrap && cookElement.get('tag') === 'classicTabs' && !elementData.skipInitialExtraElements) {
+      if (wrap && cookElement.get('tag') === 'classicTabs' && !options.skipInitialExtraElements) {
         let tabData = cook.get({ tag: 'classicTab', parent: data.id })
         let tabData1 = cook.get({ tag: 'classicTab', parent: data.id })
         if (tabData) {
@@ -97,7 +97,7 @@ addStorage('elements', (storage) => {
       }
     }
     if (env('CLASSIC_ACCORDION')) {
-      if (wrap && cookElement.get('tag') === 'classicAccordion' && !elementData.skipInitialExtraElements) {
+      if (wrap && cookElement.get('tag') === 'classicAccordion' && !options.skipInitialExtraElements) {
         let sectionData = cook.get({ tag: 'classicAccordionSection', parent: data.id })
         let sectionData1 = cook.get({ tag: 'classicAccordionSection', parent: data.id })
         if (sectionData) {
@@ -108,7 +108,7 @@ addStorage('elements', (storage) => {
         }
       }
     }
-    if (wrap && cookElement.get('tag') === 'pageableContainer' && !elementData.skipInitialExtraElements) {
+    if (wrap && cookElement.get('tag') === 'pageableContainer' && !options.skipInitialExtraElements) {
       let tabData = cook.get({ tag: 'pageableTab', parent: data.id, pointerColor: '#fff', backgroundColor: '#4155a7' })
       let tabData1 = cook.get({ tag: 'pageableTab', parent: data.id, pointerColor: '#fff', backgroundColor: '#e39a54' })
       let tabData2 = cook.get({ tag: 'pageableTab', parent: data.id })
@@ -121,7 +121,7 @@ addStorage('elements', (storage) => {
         createdElements.push(tabElement2.id)
       }
     }
-    if (wrap && cookElement.get('tag') === 'grid' && !elementData.skipInitialExtraElements) {
+    if (wrap && cookElement.get('tag') === 'grid' && !options.skipInitialExtraElements) {
       let gridData = cook.get({ tag: 'gridItem', parent: data.id })
       if (gridData) {
         let gridElement = documentManager.create(gridData.toJS())
