@@ -216,6 +216,7 @@ class Controller extends Container implements Module
             $content
         );
 
+        $previewPost = [];
         $uploadDir = wp_upload_dir();
         $uploadUrl = $uploadDir['baseurl'];
         $uploadUrl = str_replace(['http://', 'https://'], '', $uploadUrl);
@@ -248,7 +249,7 @@ class Controller extends Container implements Module
         kses_remove_filters();
         remove_filter('content_save_pre', 'balanceTags', 50);
 
-        if (isset($dataDecoded['inherit'])) {
+        if (isset($dataDecoded['inherit']) && !empty($previewPost)) {
             // @codingStandardsIgnoreLine
             if ('draft' === $post->post_status || 'auto-draft' === $post->post_status) {
                 // @codingStandardsIgnoreLine
