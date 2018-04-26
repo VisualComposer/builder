@@ -206,7 +206,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const { backToWordpress, saveDraft, backendEditor, wordPressDashboard, editInBackendEditor, preview, previewChanges } = localizations
+    const { backToWordpress, saveDraft, wordPressDashboard, preview, previewChanges } = localizations
 
     let saveDraftButton = ''
     if (PostData.isDraft()) {

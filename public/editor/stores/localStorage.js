@@ -1,4 +1,4 @@
-import { addStorage, getService, getStorage, setData, env } from 'vc-cake'
+import { addStorage, getService, getStorage, setData } from 'vc-cake'
 
 addStorage('localStorage', (storage) => {
   const documentManager = getService('document')
