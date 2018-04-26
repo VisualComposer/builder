@@ -115,6 +115,45 @@ addStorage('workspace', (storage) => {
       pasteElementAndChildren(child, elementId)
     })
   }
+  const pasteAfter = (data, parentId, options = {}) => {
+    let elementId = createKey()
+    let parentEl = cook.getById(parentId).toJS()
+    options = {
+      ...options,
+      insertAfter: parentId,
+      silent: !data.lastItem,
+      skipInitialExtraElements: true
+    }
+    let element = cook.get({
+      ...data.element,
+      id: elementId,
+      parent: parentEl.parent
+    })
+    let elementData = element.toJS()
+    elementsStorage.trigger('add', elementData, true, options)
+    data.children.forEach(child => {
+      pasteElementAndChildren(child, elementId)
+    })
+  }
+  const pasteEnd = (data, parentId, options = {}) => {
+    let elementId = createKey()
+    options = {
+      ...options,
+      insertAfter: parentId,
+      silent: !data.lastItem,
+      skipInitialExtraElements: true
+    }
+    let element = cook.get({
+      ...data.element,
+      id: elementId,
+      parent: false
+    })
+    let elementData = element.toJS()
+    elementsStorage.trigger('add', elementData, true, options)
+    data.children.forEach(child => {
+      pasteElementAndChildren(child, elementId)
+    })
+  }
   storage.on('paste', (id) => {
     let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || storage.state('copyData').get()
     if (!copyData) {
@@ -128,6 +167,34 @@ addStorage('workspace', (storage) => {
     }
     copyData.element = markLastChild(copyData.element)
     pasteElementAndChildren(copyData.element, id, copyData.options)
+  })
+  storage.on('pasteAfter', (id) => {
+    let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || storage.state('copyData').get()
+    if (!copyData) {
+      return
+    } else if (copyData.constructor === String) {
+      try {
+        copyData = JSON.parse(copyData)
+      } catch (err) {
+        return
+      }
+    }
+    copyData.element = markLastChild(copyData.element)
+    pasteAfter(copyData.element, id, copyData.options)
+  })
+  storage.on('pasteEnd', (id) => {
+    let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || storage.state('copyData').get()
+    if (!copyData) {
+      return
+    } else if (copyData.constructor === String) {
+      try {
+        copyData = JSON.parse(copyData)
+      } catch (err) {
+        return
+      }
+    }
+    copyData.element = markLastChild(copyData.element)
+    pasteEnd(copyData.element, id, copyData.options)
   })
   storage.on('move', (id, settings) => {
     elementsStorage.trigger('move', id, settings)
