@@ -160,7 +160,11 @@ export default class BlankRowPlaceholder extends React.Component {
         }
       }
     ]
-    if (vcCake.env('FT_COPY_PASTE_FOR_ROW') && (this.state.copyData && this.pasteElements.indexOf(this.state.copyData.element.element.name) > -1)) {
+
+    const cookElement = this.state.copyData && cook.get(this.state.copyData.element.element)
+    const cookElementName = cookElement && cookElement.get('name')
+
+    if (vcCake.env('FT_COPY_PASTE_FOR_ROW') && (cookElementName && this.pasteElements.indexOf(cookElementName) > -1)) {
       result.push({
         tag: 'paste',
         options: {
