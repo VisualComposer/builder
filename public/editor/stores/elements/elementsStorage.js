@@ -128,7 +128,7 @@ addStorage('elements', (storage) => {
         createdElements.push(gridElement.id)
       }
     }
-    if (wrap && cookElement.get('tag') === 'section') {
+    if (wrap && cookElement.get('tag') === 'section' && !options.skipInitialExtraElements) {
       let rowData = cook.get({ tag: 'row', parent: data.id })
       let rowElement
       if (rowData) {
