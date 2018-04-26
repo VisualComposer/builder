@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
-import DnD from '../../../../../resources/dnd/dnd'
-import DndDataSet from '../../../../../resources/dndUpdate/dndDataSet'
+import DnD from 'public/resources/dnd/dnd'
+import DndDataSet from 'public/resources/dndUpdate/dndDataSet'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
@@ -84,9 +84,7 @@ export default class DndManager {
             this.items.option('manualScroll', true)
           }
         })
-        if (vcCake.env('IFRAME_RELOAD')) {
-          workspaceIFrame.onChange(this.unSubscribe.bind(this))
-        }
+        workspaceIFrame.onChange(this.unSubscribe.bind(this))
       }
     }
   }
@@ -116,7 +114,7 @@ export default class DndManager {
   }
 
   unSubscribe ({ type }) {
-    if (vcCake.env('IFRAME_RELOAD') && type === 'reload') {
+    if (type === 'reload') {
       workspaceIFrame.ignoreChange(this.unSubscribe.bind(this))
       this.api
         .off('element:mount', this.add.bind(this))

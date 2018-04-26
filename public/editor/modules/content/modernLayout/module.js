@@ -8,7 +8,7 @@ import ControlsManager from './lib/controlsIframe/controlsManager'
 import MobileControlsManager from './lib/controlsIframe/mobileControlsManager'
 import Notifications from './lib/notifications'
 import MobileDetect from 'mobile-detect'
-import OopsScreen from '../../../../resources/components/oopsScreen/component'
+import OopsScreen from 'public/resources/components/oopsScreen/component'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -19,7 +19,7 @@ const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 
 vcCake.add('contentModernLayout', (api) => {
-  let iframeContent = vcCake.env('IFRAME_RELOAD') && document.getElementById('vcv-layout-iframe-content')
+  let iframeContent = document.getElementById('vcv-layout-iframe-content')
   let dnd = new DndManager(api)
   let controls = new ControlsManager(api)
   let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-overlay'), 10))
@@ -33,10 +33,8 @@ vcCake.add('contentModernLayout', (api) => {
     // let elementAccessPoint = vcCake.env('REFACTOR_ELEMENT_ACCESS_POINT') ? vcCake.getService('elementAccessPoint') : null
     // elementAccessPoint && (window.elAP = elementAccessPoint)
     /* */
-    if (vcCake.env('IFRAME_RELOAD')) {
-      workspaceIFrame.ignoreChange(reloadLayout)
-      workspaceIFrame.set(false)
-    }
+    workspaceIFrame.ignoreChange(reloadLayout)
+    workspaceIFrame.set(false)
     let iframe = document.getElementById('vcv-editor-iframe')
     let iframeWindow = iframe ? iframe.contentWindow : null
     let domContainer = iframeWindow ? iframeWindow.document.getElementById('vcv-editor') : null
@@ -51,9 +49,7 @@ vcCake.add('contentModernLayout', (api) => {
       if (vcCake.env('UI_NOTIFICATIONS')) {
         !reload && notifications.init()
       }
-      if (vcCake.env('IFRAME_RELOAD')) {
-        workspaceIFrame.onChange(reloadLayout)
-      }
+      workspaceIFrame.onChange(reloadLayout)
       if (vcCake.env('TF_SHOW_PLUGIN_UPDATE')) {
         const pluginUpdate = VCV_PLUGIN_UPDATE()
         pluginUpdate && workspaceNotifications.set({
@@ -179,13 +175,11 @@ vcCake.add('contentModernLayout', (api) => {
         if (globalCssState.get()) {
           globalCssState.set(globalCssState.get())
         }
-        if (vcCake.env('CUSTOM_JS')) {
-          if (localJsState.get()) {
-            localJsState.set(localJsState.get())
-          }
-          if (globalJsState.get()) {
-            globalJsState.set(globalJsState.get())
-          }
+        if (localJsState.get()) {
+          localJsState.set(localJsState.get())
+        }
+        if (globalJsState.get()) {
+          globalJsState.set(globalJsState.get())
         }
       }
       let url = iframe.src.split('?')

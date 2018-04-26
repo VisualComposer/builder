@@ -206,7 +206,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const { backToWordpress, saveDraft, backendEditor, wordPressDashboard, editInBackendEditor, preview, previewChanges } = localizations
+    const { backToWordpress, saveDraft, wordPressDashboard, preview, previewChanges } = localizations
 
     let saveDraftButton = ''
     if (PostData.isDraft()) {
@@ -255,26 +255,13 @@ export default class WordPressAdminControl extends NavbarContent {
       <span
         className='vcv-ui-navbar-control'
         onClick={this.handleClick}
-        title={editInBackendEditor}
+        title={backToWordpress}
         data-href={PostData.backendEditorUrl()}
         data-backend-editor='backendEditor'
       >
-        <span className='vcv-ui-navbar-control-content'>{backendEditor}</span>
+        <span className='vcv-ui-navbar-control-content'>{backToWordpress}</span>
       </span>
     )
-    if (env('TF_DISABLE_BACKEND')) {
-      backendEditorButton = (
-        <span
-          className='vcv-ui-navbar-control'
-          onClick={this.handleClick}
-          title={backToWordpress}
-          data-href={PostData.backendEditorUrl()}
-          data-backend-editor='backendEditor'
-        >
-          <span className='vcv-ui-navbar-control-content'>{backToWordpress}</span>
-        </span>
-      )
-    }
 
     let wordpressDashboardButton = (
       <span
@@ -286,7 +273,7 @@ export default class WordPressAdminControl extends NavbarContent {
         <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
       </span>
     )
-    if (env('TF_DISABLE_BACKEND') && !env('THEME_EDITOR')) {
+    if (!env('THEME_EDITOR')) {
       wordpressDashboardButton = null
     }
 
