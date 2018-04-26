@@ -8,4 +8,8 @@ addStorage('cache', (storage) => {
     cache[id] = value
     storage.state(type).set(cache)
   })
+
+  storage.on('clear', (type) => {
+    storage.state(type).set({})
+  })
 })

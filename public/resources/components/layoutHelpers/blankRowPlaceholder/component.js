@@ -11,6 +11,7 @@ import fiveColumnsIcon from 'public/sources/images/blankRowPlaceholderIcons/five
 import customIcon from 'public/sources/images/blankRowPlaceholderIcons/custom.raw'
 import textBlockIcon from 'public/sources/images/blankRowPlaceholderIcons/textBlock.raw'
 import addElementIcon from 'public/sources/images/blankRowPlaceholderIcons/addElement.raw'
+import pasteIcon from 'public/sources/images/blankRowPlaceholderIcons/pasteIcon.raw'
 
 import oneColumnIconLight from 'public/sources/images/blankRowPlaceholderIcons/oneColumnLight.raw'
 import twoColumnsIconLight from 'public/sources/images/blankRowPlaceholderIcons/twoColumnsLight.raw'
@@ -20,6 +21,7 @@ import fiveColumnsIconLight from 'public/sources/images/blankRowPlaceholderIcons
 import customIconLight from 'public/sources/images/blankRowPlaceholderIcons/customLight.raw'
 import textBlockIconLight from 'public/sources/images/blankRowPlaceholderIcons/textBlockLight.raw'
 import addElementIconLight from 'public/sources/images/blankRowPlaceholderIcons/addElementLight.raw'
+import pasteIconLight from 'public/sources/images/blankRowPlaceholderIcons/pasteIconLight.raw'
 
 const cook = vcCake.getService('cook')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -27,15 +29,73 @@ const elementsStorage = vcCake.getStorage('elements')
 
 export default class BlankRowPlaceholder extends React.Component {
   static propTypes = {
-    api: PropTypes.object.isRequired,
-    controlsData: PropTypes.array
+    api: PropTypes.object.isRequired
   }
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
-  static defaultProps = {
-    controlsData: [
+  rowContainer = null
+  elementsContainer = null
+  initialSetControlsLayoutTimeout = null
+  addedId = null
+  iframeWindow = null
+  pasteElements = [
+    'Row',
+    'Section'
+  ]
+
+  constructor (props) {
+    super(props)
+    let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
+    if (!copyData) {
+      copyData = false
+    } else if (copyData.constructor === String) {
+      try {
+        copyData = JSON.parse(copyData)
+      } catch (err) {
+        copyData = false
+      }
+    }
+    this.state = {
+      copyData
+    }
+    this.handleClick = this.handleClick.bind(this)
+    this.setControlsLayout = this.setControlsLayout.bind(this)
+    this.openEditForm = this.openEditForm.bind(this)
+    this.checkPaste = this.checkPaste.bind(this)
+    this.getControls = this.getControls.bind(this)
+  }
+
+  componentDidMount () {
+    this.setControlData()
+    // set timeout to get new state data from setControlData()
+    this.initialSetControlsLayoutTimeout = setTimeout(() => {
+      this.setControlsLayout()
+    }, 1)
+    this.addResizeListener(this.rowContainer, this.setControlsLayout)
+    workspaceStorage.state('copyData').onChange(this.checkPaste)
+  }
+
+  componentWillUnmount () {
+    this.removeResizeListener(this.rowContainer, this.setControlsLayout)
+    if (this.initialSetControlsLayoutTimeout) {
+      window.clearTimeout(this.initialSetControlsLayoutTimeout)
+      this.initialSetControlsLayoutTimeout = null
+    }
+    workspaceStorage.state('copyData').ignoreChange(this.checkPaste)
+  }
+
+  checkPaste (data) {
+    if (data && data.element) {
+      this.setState({
+        copyData: data
+      })
+    }
+  }
+
+  getControls () {
+    var result = [
       {
         tag: 'row',
         options: {
@@ -100,37 +160,20 @@ export default class BlankRowPlaceholder extends React.Component {
         }
       }
     ]
-  }
 
-  rowContainer = null
-  elementsContainer = null
-  initialSetControlsLayoutTimeout = null
-  addedId = null
-  iframeWindow = null
+    const cookElement = this.state.copyData && cook.get(this.state.copyData.element.element)
+    const cookElementName = cookElement && cookElement.get('name')
 
-  constructor (props) {
-    super(props)
-    this.state = {}
-    this.handleClick = this.handleClick.bind(this)
-    this.setControlsLayout = this.setControlsLayout.bind(this)
-    this.openEditForm = this.openEditForm.bind(this)
-  }
-
-  componentDidMount () {
-    this.setControlData()
-    // set timeout to get new state data from setControlData()
-    this.initialSetControlsLayoutTimeout = setTimeout(() => {
-      this.setControlsLayout()
-    }, 1)
-    this.addResizeListener(this.rowContainer, this.setControlsLayout)
-  }
-
-  componentWillUnmount () {
-    this.removeResizeListener(this.rowContainer, this.setControlsLayout)
-    if (this.initialSetControlsLayoutTimeout) {
-      window.clearTimeout(this.initialSetControlsLayoutTimeout)
-      this.initialSetControlsLayoutTimeout = null
+    if (vcCake.env('FT_COPY_PASTE_FOR_ROW') && (cookElementName && this.pasteElements.indexOf(cookElementName) > -1)) {
+      result.push({
+        tag: 'paste',
+        options: {
+          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? pasteIcon : pasteIconLight,
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.paste : 'Paste'
+        }
+      })
     }
+    return result
   }
 
   /**
@@ -178,6 +221,14 @@ export default class BlankRowPlaceholder extends React.Component {
   }
 
   /**
+   * Handle click for element control, don't open edit form
+   * @param element
+   */
+  handlePaste () {
+    workspaceStorage.trigger('pasteEnd')
+  }
+
+  /**
    * Handle click for element control
    * @param element
    * @param tab
@@ -215,6 +266,9 @@ export default class BlankRowPlaceholder extends React.Component {
    * @param control
    */
   handleClick (control) {
+    if (control.tag === 'paste') {
+      this.handlePaste()
+    }
     if (control.tag === 'addElement') {
       this.handleAddElementControl()
     }
@@ -246,7 +300,7 @@ export default class BlankRowPlaceholder extends React.Component {
     const controlFullWidth = controlWidth + controlMargin
     this.setState({
       controlWidth: controlFullWidth,
-      controlsWidth: controlFullWidth * this.props.controlsData.length
+      controlsWidth: controlFullWidth * this.getControls().length
     })
   }
 
@@ -283,7 +337,7 @@ export default class BlankRowPlaceholder extends React.Component {
    * @return []
    */
   getElementControls () {
-    return this.props.controlsData.map((control, i) => {
+    return this.getControls().map((control, i) => {
       return <ElementControl {...this.getControlProps(control, i)} />
     })
   }
