@@ -229,6 +229,59 @@ export default class ControlsHandler {
     return control
   }
 
+  getPasteOptions (copyData, pasteEl) {
+    let pasteOptions = {
+      disabled: !copyData,
+      pasteAfter: false
+    }
+
+    if (!copyData || copyData.constructor !== String) {
+      return pasteOptions
+    }
+
+    try {
+      copyData = JSON.parse(copyData)
+    } catch (err) {
+      console.error(err)
+      return pasteOptions
+    }
+
+    const copiedEl = copyData && copyData.element && copyData.element.element
+    const copiedElCook = copiedEl && cook.get(copiedEl)
+    const copiedElRelatedTo = copiedElCook.get('relatedTo')
+    const copiedElRelatedToValue = copiedElRelatedTo && copiedElRelatedTo.value
+
+    const pasteElCook = pasteEl && cook.get(pasteEl)
+    const pasteElContainerFor = pasteElCook.get('containerFor')
+    const pasteElContainerForValue = pasteElContainerFor && pasteElContainerFor.value
+
+    if (
+      copiedElRelatedToValue &&
+      pasteElContainerForValue &&
+      copiedElRelatedToValue.length &&
+      pasteElContainerForValue.length
+    ) {
+      if (pasteElContainerForValue.indexOf('General') < 0 || copiedElRelatedToValue.indexOf('General') < 0) {
+        pasteOptions.disabled = true
+
+        pasteElContainerForValue.forEach((item) => {
+          if (copiedElRelatedToValue.indexOf(item) >= 0) {
+            pasteOptions.disabled = false
+          }
+        })
+      }
+
+      if (pasteOptions.disabled && pasteElContainerForValue.indexOf('General') < 0) {
+        if (pasteElCook.get('tag') === copiedElCook.get('tag')) {
+          pasteOptions.disabled = false
+          pasteOptions.pasteAfter = true
+        }
+      }
+    }
+
+    return pasteOptions
+  }
+
   /**
    * Create append element control
    * @param data
@@ -376,6 +429,7 @@ export default class ControlsHandler {
     const cloneText = localizations ? localizations.clone : 'Clone'
     const copyText = localizations ? localizations.copy : 'Copy'
     const pasteText = localizations ? localizations.paste : 'Paste'
+    const pasteAfterText = localizations ? localizations.pasteAfter : 'Paste After'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
     const hideOffText = localizations ? localizations.hideOff : 'Hide: Off'
@@ -467,11 +521,11 @@ export default class ControlsHandler {
 
     // copy action
     if (
-      options.relatedTo &&
+      (options.relatedTo &&
       options.relatedTo.value &&
       ((options.relatedTo.value.includes('General') && !options.relatedTo.value.includes('RootElements')) ||
-      (env('FT_COPY_PASTE_FOR_COLUMN') && options.relatedTo.value.includes('Column')) ||
-      (env('FT_COPY_PASTE_FOR_ROW') && options.relatedTo.value.includes('Row')))
+      (env('FT_COPY_PASTE_FOR_COLUMN') && options.relatedTo.value.includes('Column')))) ||
+      env('FT_COPY_PASTE_FOR_ROW')
     ) {
       actions.push({
         label: copyText,
@@ -484,46 +538,32 @@ export default class ControlsHandler {
     }
 
     // paste action
-    const isPasteAvailable = exceptionalElements.includes(options.name)
+    let isPasteAvailable = exceptionalElements.includes(options.name)
+
+    if (env('FT_COPY_PASTE_FOR_ROW')) {
+      const pasteElCook = options && cook.get(options)
+      const pasteElContainerFor = pasteElCook && pasteElCook.get('containerFor')
+
+      isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
+    }
+
     if (isPasteAvailable) {
       let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
-      let disabled = !copyData
+      let pasteOptions = {
+        disabled: !copyData,
+        pasteAfter: false
+      }
 
-      if (env('FT_COPY_PASTE_FOR_COLUMN') && copyData && copyData.constructor === String) {
-        try {
-          copyData = JSON.parse(copyData)
-        } catch (err) {
-          console.error(err)
-          copyData = null
-        }
-
-        const elData = copyData && copyData.element && copyData.element.element
-        const elementContainerFor = options.containerFor && options.containerFor.value
-        const elementRelatedTo = cook.get(elData).get('relatedTo')
-
-        if (
-          elementRelatedTo &&
-          elementRelatedTo.value &&
-          elementRelatedTo.value.length &&
-          elementContainerFor.length &&
-          (elementContainerFor.indexOf('General') < 0 || elementRelatedTo.value.indexOf('General') < 0)
-        ) {
-          disabled = true
-
-          elementContainerFor.forEach((item) => {
-            if (elementRelatedTo.value.indexOf(item) >= 0) {
-              disabled = false
-            }
-          })
-        }
+      if (env('FT_COPY_PASTE_FOR_ROW') || env('FT_COPY_PASTE_FOR_COLUMN')) {
+        pasteOptions = this.getPasteOptions(copyData, options)
       }
 
       actions.push({
-        label: pasteText,
-        disabled,
+        label: pasteOptions.pasteAfter ? pasteAfterText : pasteText,
+        disabled: pasteOptions.disabled,
         icon: 'vcv-ui-icon-paste-icon',
         data: {
-          vcControlEvent: 'paste'
+          vcControlEvent: pasteOptions.pasteAfter ? 'pasteAfter' : 'paste'
         }
       })
     }

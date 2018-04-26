@@ -112,6 +112,7 @@ class Localizations extends Container implements Helper
             'clone' => __('Clone', 'vcwb'),
             'copy' => __('Copy', 'vcwb'),
             'paste' => __('Paste', 'vcwb'),
+            'pasteAfter' => __('Paste After', 'vcwb'),
             'remove' => __('Remove', 'vcwb'),
             'move' => __('Move', 'vcwb'),
             'searchContentElements' => __('Search content elements', 'vcwb'),
