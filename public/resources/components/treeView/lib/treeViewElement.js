@@ -190,6 +190,11 @@ export default class TreeViewElement extends React.Component {
     workspaceStorage.trigger('paste', this.state.element.id)
   }
 
+  clickPasteAfter = (e) => {
+    e && e.preventDefault()
+    workspaceStorage.trigger('pasteAfter', this.state.element.id)
+  }
+
   clickEdit = (tab = '') => {
     let settings = workspaceStorage.state('settings').get()
     if (settings && settings.action === 'edit') {
@@ -344,6 +349,61 @@ export default class TreeViewElement extends React.Component {
     })
   }
 
+  getPasteOptions (copyData, pasteEl) {
+    let pasteOptions = {
+      disabled: !copyData,
+      pasteAfter: false
+    }
+
+    if (!copyData) {
+      return pasteOptions
+    }
+
+    if (copyData.constructor === String) {
+      try {
+        copyData = JSON.parse(copyData)
+      } catch (err) {
+        console.error(err)
+        return pasteOptions
+      }
+    }
+
+    const copiedEl = copyData && copyData.element && copyData.element.element
+    const copiedElCook = copiedEl && cook.get(copiedEl)
+    const copiedElRelatedTo = copiedElCook.get('relatedTo')
+    const copiedElRelatedToValue = copiedElRelatedTo && copiedElRelatedTo.value
+
+    const pasteElCook = pasteEl && cook.get(pasteEl)
+    const pasteElContainerFor = pasteElCook.get('containerFor')
+    const pasteElContainerForValue = pasteElContainerFor && pasteElContainerFor.value
+
+    if (
+      copiedElRelatedToValue &&
+      pasteElContainerForValue &&
+      copiedElRelatedToValue.length &&
+      pasteElContainerForValue.length
+    ) {
+      if (pasteElContainerForValue.indexOf('General') < 0 || copiedElRelatedToValue.indexOf('General') < 0) {
+        pasteOptions.disabled = true
+
+        pasteElContainerForValue.forEach((item) => {
+          if (copiedElRelatedToValue.indexOf(item) >= 0) {
+            pasteOptions.disabled = false
+          }
+        })
+      }
+
+      if (pasteOptions.disabled && pasteElContainerForValue.indexOf('General') < 0) {
+        if (pasteElCook.get('tag') === copiedElCook.get('tag')) {
+          pasteOptions.disabled = false
+          pasteOptions.pasteAfter = true
+        }
+      }
+    }
+
+    return pasteOptions
+  }
+
   render () {
     const hidden = this.state.element.hidden
     const localizations = window.VCV_I18N ? window.VCV_I18N() : false
@@ -352,6 +412,7 @@ export default class TreeViewElement extends React.Component {
     const cloneText = localizations ? localizations.clone : 'Clone'
     const copyText = localizations ? localizations.copy : 'Copy'
     const pasteText = localizations ? localizations.paste : 'Paste'
+    const pasteAfterText = localizations ? localizations.pasteAfter : 'Paste After'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
     let visibilityText = ''
@@ -446,10 +507,11 @@ export default class TreeViewElement extends React.Component {
 
     // copy action
     if (
-      relatedTo &&
+      (relatedTo &&
       relatedTo.value &&
       ((relatedTo.value.includes('General') && !relatedTo.value.includes('RootElements')) ||
-      (vcCake.env('FT_COPY_PASTE_FOR_COLUMN') && relatedTo.value.includes('Column')))
+      (vcCake.env('FT_COPY_PASTE_FOR_COLUMN') && relatedTo.value.includes('Column')))) ||
+      vcCake.env('FT_COPY_PASTE_FOR_ROW')
     ) {
       copyControl = (
         <span
@@ -462,52 +524,40 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
-    const isPasteAvailable = exceptionalElements.includes(this.state.element.name)
     // paste action
+    let isPasteAvailable = exceptionalElements.includes(this.state.element.name)
+
+    if (vcCake.env('FT_COPY_PASTE_FOR_ROW')) {
+      const pasteElCook = this.state.element && cook.get(this.state.element)
+      const pasteElContainerFor = pasteElCook && pasteElCook.get('containerFor')
+
+      isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
+    }
+
     if (isPasteAvailable) {
+      let pasteOptions = {
+        disabled: !copyData,
+        pasteAfter: false
+      }
+
+      if (vcCake.env('FT_COPY_PASTE_FOR_ROW') || vcCake.env('FT_COPY_PASTE_FOR_COLUMN')) {
+        pasteOptions = this.getPasteOptions(copyData, this.state.element)
+      }
+
       let attrs = {}
-      if (!copyData) {
+
+      if (pasteOptions.disabled) {
         attrs.disabled = true
       }
 
-      if (vcCake.env('FT_COPY_PASTE_FOR_COLUMN') && copyData) {
-        if (copyData.constructor === String) {
-          try {
-            copyData = JSON.parse(copyData)
-          } catch (err) {
-            console.error(err)
-            copyData = null
-          }
-        }
-
-        const elData = copyData && copyData.element && copyData.element.element
-        const elementRelatedTo = cook.get(elData).get('relatedTo')
-
-        if (
-          elementRelatedTo &&
-          elementRelatedTo.value &&
-          elementRelatedTo.value.length &&
-          elementContainerFor.length &&
-          (elementContainerFor.indexOf('General') < 0 || elementRelatedTo.value.indexOf('General') < 0)
-        ) {
-          attrs.disabled = true
-
-          elementContainerFor.forEach((item) => {
-            if (elementRelatedTo.value.indexOf(item) >= 0) {
-              delete attrs.disabled
-            }
-          })
-        }
-      }
-
       if (!attrs.disabled) {
-        attrs.onClick = this.clickPaste.bind(this)
+        attrs.onClick = pasteOptions.pasteAfter ? this.clickPasteAfter.bind(this) : this.clickPaste.bind(this)
       }
 
       pasteControl = (
         <span
           className='vcv-ui-tree-layout-control-action'
-          title={pasteText}
+          title={pasteOptions.pasteAfter ? pasteAfterText : pasteText}
           {...attrs}
         >
           <i className='vcv-ui-icon vcv-ui-icon-paste-icon' />

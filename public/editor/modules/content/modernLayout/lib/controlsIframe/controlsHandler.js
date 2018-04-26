@@ -521,20 +521,12 @@ export default class ControlsHandler {
 
     // copy action
     if (
-      options.relatedTo &&
+      (options.relatedTo &&
       options.relatedTo.value &&
       ((options.relatedTo.value.includes('General') && !options.relatedTo.value.includes('RootElements')) ||
-      (env('FT_COPY_PASTE_FOR_COLUMN') && options.relatedTo.value.includes('Column')))
+      (env('FT_COPY_PASTE_FOR_COLUMN') && options.relatedTo.value.includes('Column')))) ||
+      env('FT_COPY_PASTE_FOR_ROW')
     ) {
-      actions.push({
-        label: copyText,
-        title: `${copyText} ${options.title}`,
-        icon: 'vcv-ui-icon-copy-icon',
-        data: {
-          vcControlEvent: 'copy'
-        }
-      })
-    } else if (env('FT_COPY_PASTE_FOR_ROW')) {
       actions.push({
         label: copyText,
         title: `${copyText} ${options.title}`,
