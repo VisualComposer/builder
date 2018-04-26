@@ -46,7 +46,6 @@ addStorage('elements', (storage) => {
   }
 
   storage.on('add', (elementData, wrap = true, options = {}) => {
-    // debugger
     let createdElements = []
     let cookElement = cook.get(elementData)
     if (!cookElement) {
