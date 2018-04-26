@@ -11,6 +11,7 @@ import fiveColumnsIcon from 'public/sources/images/blankRowPlaceholderIcons/five
 import customIcon from 'public/sources/images/blankRowPlaceholderIcons/custom.raw'
 import textBlockIcon from 'public/sources/images/blankRowPlaceholderIcons/textBlock.raw'
 import addElementIcon from 'public/sources/images/blankRowPlaceholderIcons/addElement.raw'
+import pasteIcon from 'public/sources/images/blankRowPlaceholderIcons/pasteIcon.raw'
 
 import oneColumnIconLight from 'public/sources/images/blankRowPlaceholderIcons/oneColumnLight.raw'
 import twoColumnsIconLight from 'public/sources/images/blankRowPlaceholderIcons/twoColumnsLight.raw'
@@ -20,6 +21,7 @@ import fiveColumnsIconLight from 'public/sources/images/blankRowPlaceholderIcons
 import customIconLight from 'public/sources/images/blankRowPlaceholderIcons/customLight.raw'
 import textBlockIconLight from 'public/sources/images/blankRowPlaceholderIcons/textBlockLight.raw'
 import addElementIconLight from 'public/sources/images/blankRowPlaceholderIcons/addElementLight.raw'
+import pasteIconLight from 'public/sources/images/blankRowPlaceholderIcons/pasteIconLight.raw'
 
 const cook = vcCake.getService('cook')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -35,71 +37,83 @@ export default class BlankRowPlaceholder extends React.Component {
   static editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
   static defaultProps = {
-    controlsData: [
-      {
-        tag: 'row',
-        options: {
-          layout: [ 'auto' ],
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? oneColumnIcon : oneColumnIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addOneColumn : 'Add one column'
+    controlsData: (() => {
+      var result = [
+        {
+          tag: 'row',
+          options: {
+            layout: [ 'auto' ],
+            icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? oneColumnIcon : oneColumnIconLight,
+            title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addOneColumn : 'Add one column'
+          }
+        },
+        {
+          tag: 'row',
+          options: {
+            layout: [ '50%', '50%' ],
+            icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? twoColumnsIcon : twoColumnsIconLight,
+            title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTwoColumns : 'Add two columns'
+          }
+        },
+        {
+          tag: 'row',
+          options: {
+            layout: [ '33.33%', '33.33%', '33.33%' ],
+            icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? threeColumnsIcon : threeColumnsIconLight,
+            title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addThreeColumns : 'Add three columns'
+          }
+        },
+        {
+          tag: 'row',
+          options: {
+            layout: [ '25%', '25%', '25%', '25%' ],
+            icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fourColumnsIcon : fourColumnsIconLight,
+            title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFourColumns : 'Add four columns'
+          }
+        },
+        {
+          tag: 'row',
+          options: {
+            layout: [ '20%', '20%', '20%', '20%', '20%' ],
+            icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fiveColumnsIcon : fiveColumnsIconLight,
+            title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFiveColumns : 'Add five columns'
+          }
+        },
+        {
+          tag: 'row',
+          options: {
+            layout: [ '66.66%', '33.34%' ],
+            icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? customIcon : customIconLight,
+            title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addCustomRowLayout : 'Add custom row layout',
+            type: 'custom'
+          }
+        },
+        {
+          tag: 'textBlock',
+          options: {
+            icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? textBlockIcon : textBlockIconLight,
+            title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTextBlock : 'Add Text block'
+          }
+        },
+        {
+          tag: 'addElement',
+          options: {
+            icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? addElementIcon : addElementIconLight,
+            title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addElement : 'Add Element'
+          }
         }
-      },
-      {
-        tag: 'row',
-        options: {
-          layout: [ '50%', '50%' ],
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? twoColumnsIcon : twoColumnsIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTwoColumns : 'Add two columns'
-        }
-      },
-      {
-        tag: 'row',
-        options: {
-          layout: [ '33.33%', '33.33%', '33.33%' ],
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? threeColumnsIcon : threeColumnsIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addThreeColumns : 'Add three columns'
-        }
-      },
-      {
-        tag: 'row',
-        options: {
-          layout: [ '25%', '25%', '25%', '25%' ],
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fourColumnsIcon : fourColumnsIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFourColumns : 'Add four columns'
-        }
-      },
-      {
-        tag: 'row',
-        options: {
-          layout: [ '20%', '20%', '20%', '20%', '20%' ],
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fiveColumnsIcon : fiveColumnsIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFiveColumns : 'Add five columns'
-        }
-      },
-      {
-        tag: 'row',
-        options: {
-          layout: [ '66.66%', '33.34%' ],
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? customIcon : customIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addCustomRowLayout : 'Add custom row layout',
-          type: 'custom'
-        }
-      },
-      {
-        tag: 'textBlock',
-        options: {
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? textBlockIcon : textBlockIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTextBlock : 'Add Text block'
-        }
-      },
-      {
-        tag: 'addElement',
-        options: {
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? addElementIcon : addElementIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addElement : 'Add Element'
-        }
+      ]
+      if (vcCake.env('FT_COPY_PASTE_FOR_ROW')) {
+        result.push({
+          tag: 'paste',
+          options: {
+            icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? pasteIcon : pasteIconLight,
+            title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.paste : 'Paste'
+          }
+        })
       }
-    ]
+      return result
+    })()
   }
 
   rowContainer = null
@@ -178,6 +192,14 @@ export default class BlankRowPlaceholder extends React.Component {
   }
 
   /**
+   * Handle click for element control, don't open edit form
+   * @param element
+   */
+  handlePaste () {
+    workspaceStorage.trigger('pasteEnd')
+  }
+
+  /**
    * Handle click for element control
    * @param element
    * @param tab
@@ -215,6 +237,9 @@ export default class BlankRowPlaceholder extends React.Component {
    * @param control
    */
   handleClick (control) {
+    if (control.tag === 'paste') {
+      this.handlePaste()
+    }
     if (control.tag === 'addElement') {
       this.handleAddElementControl()
     }

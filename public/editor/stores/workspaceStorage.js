@@ -139,7 +139,6 @@ addStorage('workspace', (storage) => {
     let elementId = createKey()
     options = {
       ...options,
-      insertAfter: parentId,
       silent: !data.lastItem,
       skipInitialExtraElements: true
     }
