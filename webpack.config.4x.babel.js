@@ -81,8 +81,8 @@ module.exports = {
           'cook',
           'sharedAssetsLibrary',
           'elementAssetsLibrary',
-          'actions-manager',
-          'rules-manager',
+          'actionsManager',
+          'rulesManager',
           'api',
           'dataProcessor',
           'modernAssetsStorage',
@@ -109,8 +109,8 @@ module.exports = {
           'sharedAssetsLibrary',
           'elementAssetsLibrary',
           'time-machine',
-          'actions-manager',
-          'rules-manager',
+          'actionsManager',
+          'rulesManager',
           'api',
           'dataProcessor',
           'modernAssetsStorage',
@@ -185,7 +185,9 @@ module.exports = {
           use: [ 'css-loader', {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [ require('autoprefixer') ]
+              plugins: () => [ require('autoprefixer')({
+                browsers: [ 'ie >= 11', 'last 2 version' ]
+              }) ]
             }
           } ]
         })
@@ -197,7 +199,9 @@ module.exports = {
           use: [ 'css-loader', {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [ require('autoprefixer') ]
+              plugins: () => [ require('autoprefixer')({
+                browsers: [ 'ie >= 11', 'last 2 version' ]
+              }) ]
             }
           }, 'less-loader' ]
         })

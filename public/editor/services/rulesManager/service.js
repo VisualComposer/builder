@@ -165,4 +165,4 @@ const RulesManagerAPI = {
   }
 }
 
-vcCake.addService('rules-manager', RulesManagerAPI)
+vcCake.addService('rulesManager', RulesManagerAPI)

@@ -92,7 +92,7 @@ const innerApi = {
       jsBundles: []
     }
 
-    const RulesManager = vcCake.getService('rules-manager')
+    const RulesManager = vcCake.getService('rulesManager')
     const elementPath = cookElement.get('metaElementPath')
 
     let libraries = cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries
@@ -124,7 +124,7 @@ const innerApi = {
     }
 
     if (options && options.metaPublicJs) {
-      const RulesManager = vcCake.getService('rules-manager')
+      const RulesManager = vcCake.getService('rulesManager')
       const elementPath = cookElement.get('metaElementPath')
 
       let libraries = cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries

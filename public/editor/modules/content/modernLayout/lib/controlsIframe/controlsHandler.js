@@ -375,6 +375,7 @@ export default class ControlsHandler {
       {
         isContainer: colorIndex < 2,
         title: vcElement.get('customHeaderTitle') || vcElement.get('name'),
+        name: vcElement.get('name'),
         tag: vcElement.get('tag'),
         relatedTo: vcElement.get('relatedTo'),
         designOptions: doType,
@@ -545,7 +546,7 @@ export default class ControlsHandler {
     }
 
     // paste action
-    let isPasteAvailable = exceptionalElements.includes(options.title)
+    let isPasteAvailable = exceptionalElements.includes(options.name)
 
     if (env('FT_COPY_PASTE_FOR_ROW')) {
       const pasteElCook = options && cook.get(options)

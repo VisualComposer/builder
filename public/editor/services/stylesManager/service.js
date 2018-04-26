@@ -11,6 +11,7 @@ import postcssEach from 'postcss-each'
 import colorBlend from 'color-blend'
 import functions from 'postcss-functions'
 import postcssMath from 'postcss-math'
+import autoprefixer from 'autoprefixer'
 import objectHash from 'object-hash'
 
 let cssHashes = {}
@@ -28,6 +29,9 @@ mainPlugins.push(functions({
 mainPlugins.push(postcssColor)
 mainPlugins.push(postcssNested)
 mainPlugins.push(postcssClean)
+mainPlugins.push(autoprefixer({
+  browsers: [ 'ie >= 11', 'last 2 version' ]
+}))
 
 class StylesManager {
   constructor (styles = []) {
@@ -132,7 +136,7 @@ class StylesManager {
         }))
       }
       use = use.concat(mainPlugins)
-      return iterations.push(postcss(use).process(style.src).then((result) => {
+      return iterations.push(postcss(use).process(style.src, { from: undefined }).then((result) => {
         let resultCss = result && result.css ? result.css : ''
         cssHashes[ hash ].result = resultCss
         return resultCss
