@@ -26,10 +26,15 @@ module.exports = Object.assign({}, config, {
     },
     minimizer: [
       new UglifyJSPlugin({
+        cache: true,
+        parallel: true,
         uglifyOptions: {
           output: {
             comments: false
-          }
+          },
+          compress: false,
+          ecma: 6,
+          mangle: true
           // compress: {
           //   // unsafe_comps: true,
           //   // properties: true,
