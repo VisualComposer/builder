@@ -367,48 +367,29 @@ export default class ContentEditableComponent extends React.Component {
         'vcv-nonce': window.vcvNonce,
         'vcv-source-id': window.vcvSourceID
       }).then((data) => {
-        if (!vcCake.env('FE_SHORTCODES_SCRIPTS')) {
-          let scriptDom = window.jQuery('<div>' + data + '</div>').find('[data="vcv-files"]').get(0)
-          if (scriptDom) {
-            let assetFiles = window.jQuery('<div>' + decodeURIComponent(scriptDom.innerHTML) + '</div>')
-            shortcodesAssetsStorage.trigger('add', {
-              cssBundles: assetFiles.find('link[href], style'),
-              jsBundles: assetFiles.find('script')
-            })
-          }
-          if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
-            this.ref && (this.ref.innerHTML = data)
-            this.updateInlineData(data)
-          } else {
-            this.setState({ html: data }, () => {
-              this.updateInlineData()
-            })
-          }
-        } else {
-          let iframe = vcCake.env('iframe')
-          let _this = this
+        let iframe = vcCake.env('iframe')
+        let _this = this
 
-          try {
-            ((function (window, document) {
-              let jsonData = JSON.parse(data)
-              let { headerContent, shortcodeContent, footerContent } = jsonData
-              _this.ref && (_this.ref.innerHTML = '')
+        try {
+          ((function (window, document) {
+            let jsonData = JSON.parse(data)
+            let { headerContent, shortcodeContent, footerContent } = jsonData
+            _this.ref && (_this.ref.innerHTML = '')
 
-              let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
-              headerDom.context = document
-              shortcodesAssetsStorage.trigger('add', { type: 'header', ref: _this.ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
+            let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+            headerDom.context = document
+            shortcodesAssetsStorage.trigger('add', { type: 'header', ref: _this.ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
 
-              let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
-              shortcodeDom.context = document
-              shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: _this.ref, domNodes: shortcodeDom.children(), addToDocument: true })
+            let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+            shortcodeDom.context = document
+            shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: _this.ref, domNodes: shortcodeDom.children(), addToDocument: true })
 
-              let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
-              footerDom.context = document
-              shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: _this.ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
-            })(iframe, iframe.document))
-          } catch (e) {
-            console.warn('failed to parse json', e)
-          }
+            let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+            footerDom.context = document
+            shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: _this.ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
+          })(iframe, iframe.document))
+        } catch (e) {
+          console.warn('failed to parse json', e)
         }
       })
     } else {
