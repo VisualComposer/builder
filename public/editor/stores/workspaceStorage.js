@@ -2,6 +2,7 @@ import MobileDetect from 'mobile-detect'
 import { addStorage, getService, getStorage, env } from 'vc-cake'
 
 const createKey = getService('utils').createKey
+const cacheStorage = getStorage('cache')
 
 addStorage('workspace', (storage) => {
   const elementsStorage = getStorage('elements')
@@ -87,6 +88,7 @@ addStorage('workspace', (storage) => {
     if (window.localStorage) {
       window.localStorage.setItem('vcv-copy-data', JSON.stringify(copyData))
     }
+    env('CACHE_HOVER_CONTROLS') && cacheStorage.trigger('clear', 'controls')
   })
   const markLastChild = (data) => {
     if (data.children.length) {
