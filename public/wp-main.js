@@ -130,7 +130,7 @@ $(() => {
       require('./config/wp-modules')
     })
     vcCake.env('iframe', iframe)
-    if (vcCake.env('IFRAME_RELOAD') && $iframe && $iframe.get(0).contentWindow) {
+    if ($iframe && $iframe.get(0).contentWindow) {
       const settingsStorage = vcCake.getStorage('settings')
       $iframe.get(0).contentWindow.onunload = function () {
         let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current)
@@ -211,9 +211,6 @@ if (vcCake.env('debug') === true) {
 // window.vcvAddElement = vcCake.getService('cook').add
 // window.React = React
 // window.vcvAPI = vcCake.getService('api')
-// if (!vcCake.env('FEATURE_WEBPACK')) {
-//   require('./config/elements')
-// }
 
 // import './sources/newElements/row'
 // import './sources/newElements/column'

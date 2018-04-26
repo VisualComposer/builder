@@ -91,8 +91,8 @@ export default class SaveController {
         'vcv-source-css': pageStyles,
         'vcv-settings-source-custom-css': settingsStorage.state('customCss').get() || '',
         'vcv-settings-global-css': settingsStorage.state('globalCss').get() || '',
-        'vcv-settings-source-local-js': (vcCake.env('CUSTOM_JS') && settingsStorage.state('localJs').get()) || '',
-        'vcv-settings-global-js': (vcCake.env('CUSTOM_JS') && settingsStorage.state('globalJs').get()) || '',
+        'vcv-settings-source-local-js': settingsStorage.state('localJs').get() || '',
+        'vcv-settings-global-js': settingsStorage.state('globalJs').get() || '',
         'vcv-tf': 'noGlobalCss',
         'vcv-be-editor': 'fe',
         'vcv-updatePost': '1'

@@ -1,5 +1,5 @@
 import React from 'react'
-import {setData, getStorage, env} from 'vc-cake'
+import { setData, getStorage, env } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
@@ -61,10 +61,7 @@ export default class TemplateSettings extends React.Component {
     }
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
-    let pageTemplateDescription = localizations ? localizations.pageTemplateDescription : 'To apply a template save changes and reload the page'
-    if (env('IFRAME_RELOAD')) {
-      pageTemplateDescription = localizations ? localizations.pageTemplateReloadDescription : 'To apply a template you will need to save changes and content will be reloaded.'
-    }
+    let pageTemplateDescription = localizations ? localizations.pageTemplateReloadDescription : 'To apply a template you will need to save changes and content will be reloaded.'
 
     return <p className='vcv-ui-form-helper'>{pageTemplateDescription}</p>
   }
