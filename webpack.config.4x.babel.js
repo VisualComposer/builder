@@ -72,7 +72,8 @@ module.exports = {
       wp: {
         modules: [
           'content/modernLayout',
-          'wordpressWorkspace'
+          'wordpressWorkspace',
+          'heartbeat'
         ],
         services: [
           'utils',

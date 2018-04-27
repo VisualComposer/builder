@@ -68,7 +68,8 @@ module.exports = Object.assign({}, config, {
       wp: {
         modules: [
           'content/modernLayout',
-          'wordpressWorkspace'
+          'wordpressWorkspace',
+          'heartbeat'
         ],
         services: [
           'utils',
