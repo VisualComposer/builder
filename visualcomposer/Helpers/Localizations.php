@@ -39,7 +39,6 @@ class Localizations extends Container implements Helper
             'update' => __('Update', 'vcwb'),
             'menu' => __('Menu', 'vcwb'),
             'viewPage' => __('View Page', 'vcwb'),
-            'editInBackendEditor' => __('Edit in Backend Editor', 'vcwb'),
             'backToWordpress' => __('Back to WordPress', 'vcwb'),
             'wordPressDashboard' => __('WordPress Dashboard', 'vcwb'),
             'publish' => __('Publish', 'vcwb'),
@@ -133,11 +132,6 @@ class Localizations extends Container implements Helper
             'addTextBlock' => __('Add Text block', 'vcwb'),
             'frontendEditor' => __('Edit with Visual Composer', 'vcwb'),
             'classicEditor' => __('Classic Editor', 'vcwb'),
-            'enableBackendEditorConfirmMessage' => __(
-            // @codingStandardsIgnoreLine
-                'Visual Composer will overwrite your content created in WordPress Classic editor with the latest version of content created in Visual Composer Website Builder. Do you want to continue?',
-                'vcwb'
-            ),
             'openFrontendEditorFromClassic' => __(
             // @codingStandardsIgnoreLine
                 'You are switching to Visual Composer. Visual Composer will load the latest version of content created with the builder.',
