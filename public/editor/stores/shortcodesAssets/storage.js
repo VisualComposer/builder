@@ -36,10 +36,10 @@ addStorage('shortcodeAssets', (storage) => {
           position = 'head'
           type = 'template'
         } else if (data.cacheInnerHTML) {
-          slug = utils.slugify(domNode.innerHTML)
+          slug = utils.slugify(domNode.innerHTML || domNode.textContent)
         }
 
-        let cached = slug && loadedFiles.indexOf(slug) >= 0
+        let cached = slug && slug.length > 0 && loadedFiles.indexOf(slug) >= 0
         if (!cached) {
           let ignoreCache = type === 'template' ? false : data.ignoreCache
           !ignoreCache && slug && loadedFiles.push(slug)

@@ -12,6 +12,7 @@ import ColorGradientBackground from './colorGradientBackground'
 import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
+
 const { Component } = React
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
 
@@ -57,14 +58,10 @@ export default class ElementComponent extends Component {
           return
         }
         let iframe = vcCake.env('iframe')
-        let jsonData
-        try {
-          jsonData = JSON.parse(data)
-        } catch (e) {
-          console.warn('failed to parse json data', e, data)
-        }
+
         try {
           ((function (window, document) {
+            let jsonData = JSON.parse(data)
             let { headerContent, shortcodeContent, footerContent } = jsonData
             ref && (ref.innerHTML = '')
 
@@ -75,7 +72,7 @@ export default class ElementComponent extends Component {
             let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
             shortcodeDom.context = document
             if (shortcodeDom.children().length) {
-              shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.children(), addToDocument: true })
+              shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.contents(), addToDocument: true })
             } else if (shortcodeDom.text()) {
               window.jQuery(ref).append(document.createTextNode(shortcodeDom.text()))
             }
@@ -85,7 +82,7 @@ export default class ElementComponent extends Component {
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
           })(iframe, iframe.document))
         } catch (e) {
-          console.warn('failed to parse json', e, jsonData)
+          console.warn('failed to parse json', e, data)
         }
         this.ajax = null
         cb && cb.constructor === Function && cb()
@@ -422,7 +419,7 @@ export default class ElementComponent extends Component {
   }
 
   getPublicImage (filename) {
-    let {metaAssetsPath} = this.props.atts
+    let { metaAssetsPath } = this.props.atts
     if (!filename) {
       return ''
     }

@@ -117,9 +117,6 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateInlineData (html) {
-    if (!vcCake.env('FE_CONTENTEDITABLE_REFS')) {
-      html = this.state.html
-    }
     if (!html) {
       return
     }
@@ -356,11 +353,7 @@ export default class ContentEditableComponent extends React.Component {
 
   updateHtmlWithServer (content) {
     if (content.match(this.getShortcodesRegexp())) {
-      if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
-        this.ref && (this.ref.innerHTML = ContentEditableComponent.spinnerHTML)
-      } else {
-        this.setState({ html: ContentEditableComponent.spinnerHTML })
-      }
+      this.ref && (this.ref.innerHTML = ContentEditableComponent.spinnerHTML)
       dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
         'vcv-shortcode-string': content,
@@ -382,7 +375,7 @@ export default class ContentEditableComponent extends React.Component {
 
             let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
             shortcodeDom.context = document
-            shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: _this.ref, domNodes: shortcodeDom.children(), addToDocument: true })
+            shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: _this.ref, domNodes: shortcodeDom.contents(), addToDocument: true })
 
             let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
             footerDom.context = document
@@ -393,11 +386,7 @@ export default class ContentEditableComponent extends React.Component {
         }
       })
     } else {
-      if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
-        this.ref && (this.ref.innerHTML = content)
-      } else {
-        this.setState({ html: content })
-      }
+      this.ref && (this.ref.innerHTML = content)
     }
   }
 
@@ -452,11 +441,7 @@ export default class ContentEditableComponent extends React.Component {
       }
       this.iframeWindow.addEventListener('click', this.handleGlobalClick)
       this.layoutHeader.addEventListener('click', this.handleGlobalClick)
-      if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
-        this.ref && (this.ref.innerHTML = this.state.realContent)
-      } else {
-        this.setState({ html: this.state.realContent })
-      }
+      this.ref && (this.ref.innerHTML = this.state.realContent)
     }
   }
 
@@ -470,11 +455,7 @@ export default class ContentEditableComponent extends React.Component {
       'data-vcvs-html': this.state.realContent,
       'data-vcv-content-editable-inline-mode': this.props.options.inlineMode || 'html'
     }
-    if (vcCake.env('FE_CONTENTEDITABLE_REFS')) {
-      props.ref = (ref) => { this.ref = ref }
-    } else {
-      props.dangerouslySetInnerHTML = { __html: this.state.html }
-    }
+    props.ref = (ref) => { this.ref = ref }
 
     if (this.mediumSelection) {
       window.setTimeout(() => {
