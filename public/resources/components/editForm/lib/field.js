@@ -1,5 +1,5 @@
 import React from 'react'
-import { format } from 'util'
+import lodash from 'lodash'
 import PropTypes from 'prop-types'
 
 export default class Field extends React.Component {
@@ -23,9 +23,9 @@ export default class Field extends React.Component {
   }
 
   updateValue (data) {
-    if (data[ this.props.fieldKey ] && this.state.value !== data[ this.props.fieldKey ]) {
+    if (!lodash.isEqual(data, this.state.value)) {
       this.setState({
-        value: data[ this.props.fieldKey ]
+        value: data
       })
     }
   }
@@ -44,10 +44,10 @@ export default class Field extends React.Component {
       return null
     }
     if (!settings) {
-      throw new Error(format('Wrong attribute settings %s', fieldKey))
+      throw new Error(`Wrong attribute settings ${fieldKey}`)
     }
     if (!type) {
-      throw new Error(format('Wrong attribute type %s', fieldKey))
+      throw new Error(`Wrong attribute type ${fieldKey}`)
     }
     const { options } = settings
     const tabTypeName = tab.data.type.name

@@ -11,7 +11,7 @@ class Element {
         set: settings.access === 'public' ? (val) => {
           storages.elements.trigger('update', this.id, {
             ...this.get(),
-            [key]: val
+            [ key ]: val
           }, 'editForm', {
             changedAttribute: key,
             changedAttributeType: settings.type

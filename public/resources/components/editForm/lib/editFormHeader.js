@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
-import vcCake from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
 
-const hubCategories = vcCake.getService('hubCategories')
-const workspaceStorage = vcCake.getStorage('workspace')
-const cook = vcCake.getService('cook')
+const hubCategories = getService('hubCategories')
+const workspaceStorage = getStorage('workspace')
+const cook = getService('cook')
+const elementsStorage = getStorage('elements')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
@@ -40,7 +41,9 @@ export default class EditFormHeader extends React.Component {
 
   updateElementOnChange () {
     const { element } = this.props
-    let content = element.cook().getName()
+    let cookElement = element.cook()
+    let content = cookElement.getName()
+    // Check element name field
     if (this.state.content !== content) {
       this.setState({
         content
@@ -48,6 +51,19 @@ export default class EditFormHeader extends React.Component {
         this.span.innerText = content
       })
     }
+
+    // Trigger attributes events
+    const publicKeys = cookElement.filter((key, value, settings) => {
+      return settings.access === 'public'
+    })
+    publicKeys.forEach((key) => {
+      const newValue = cookElement.get(key)
+      if (env('TF_RENDER_PERFORMANCE')) {
+        elementsStorage.trigger(`element:${cookElement.get('id')}:attribute:${key}`, newValue, cookElement)
+      } else {
+        elementsStorage.state(`element:${cookElement.get('id')}:attribute:${key}`).set(newValue, cookElement)
+      }
+    })
   }
 
   enableEditable () {
