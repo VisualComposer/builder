@@ -52,10 +52,10 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Url $urlHelper
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     *
      * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
      *
      * @return bool|void
+     * @throws \Exception
      */
     protected function init(
         Request $requestHelper,
@@ -93,7 +93,11 @@ class Controller extends Container implements Module
                 $content = vcfilter('vcv:editors:frontend:render', '');
 
                 if (empty($content)) {
-                    $content = __('Sorry, you are not allowed to create posts as this user.', 'vcwb');
+                    wp_die(
+                        '<h1>' . __('Cheatin&#8217; uh?', 'vcwb') . '</h1>' .
+                        '<p>' . __('Sorry, you are not allowed to create posts as this user.', 'vcwb') . '</p>',
+                        403
+                    );
                 }
 
                 /** @noinspection PhpInconsistentReturnPointsInspection */
@@ -115,12 +119,11 @@ class Controller extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Views $templates
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
-     * @return string
+     * @return bool|string
      */
     protected function renderEditorBase(
         Views $templates,

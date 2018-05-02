@@ -98,7 +98,7 @@ class Controller extends Container implements Module
         ActivationPage $activationPage,
         Token $tokenHelper
     ) {
-        $hasAccess = !$currentUserAccess->wpAll('manage_options')->part('settings')->can($postTypes->getSlug())->get();
+        $hasAccess = !$currentUserAccess->wpAll('edit_pages')->part('settings')->can($postTypes->getSlug())->get();
 
         if ($hasAccess) {
             return $aboutPage->getSlug();
@@ -109,6 +109,8 @@ class Controller extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Url $urlHelper
+     *
+     * @throws \ReflectionException
      */
     protected function addMenuPage(Url $urlHelper)
     {
