@@ -8,6 +8,7 @@ add('heartbeat', (api) => {
     let check, timeout
 
     /**
+     * @see wp-admin/js/post.js:246
      * Only allow to check for nonce refresh every 30 seconds.
      */
     let schedule = () => {
@@ -39,6 +40,7 @@ add('heartbeat', (api) => {
         if (nonces.heartbeatNonce && window.heartbeatSettings) {
           window.heartbeatSettings.nonce = nonces.heartbeatNonce
         }
+        // Update Visual Composer nonce
         if (nonces.vcvNonce) {
           window.vcvNonce = nonces.vcvNonce
         }
