@@ -60,6 +60,7 @@ class Settings extends Container implements Module
             'showTab' => false,
             'layout' => 'settings-standalone',
             'controller' => $this,
+            'capability' => 'manage_options',
         ];
 
         return $pages;

@@ -67,7 +67,7 @@ class UpdateBePage extends Container implements Module
     protected function addPage($pages)
     {
         $currentUserAccess = vchelper('AccessCurrentUser');
-        if (!$currentUserAccess->wpAll('manage_options')->get()) {
+        if (!$currentUserAccess->wpAll('edit_posts')->get()) {
             return $pages;
         }
         $pages[] = [
@@ -76,6 +76,7 @@ class UpdateBePage extends Container implements Module
             'showTab' => false,
             'layout' => 'standalone',
             'controller' => $this,
+            'capability' => 'edit_posts',
         ];
 
         return $pages;

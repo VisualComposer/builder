@@ -11,15 +11,20 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class PostType extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
+
+    protected $postType = 'vcv_templates';
 
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Templates\PostType::registerTemplatesPostType */
         $this->addEvent('vcv:inited', 'registerTemplatesPostType', 10);
+        $this->wpAddAction('admin_init', 'coreCapabilities');
     }
 
     /**
@@ -28,7 +33,7 @@ class PostType extends Container implements Module
     protected function registerTemplatesPostType()
     {
         register_post_type(
-            'vcv_templates',
+            $this->postType,
             [
                 'label' => __('Global Templates', 'vcwb'),
                 'public' => false,
@@ -44,7 +49,54 @@ class PostType extends Container implements Module
                 'rewrite' => false,
                 'query_var' => false,
                 'show_in_nav_menus' => false,
+                'capability_type' => $this->postType,
+                'capabilities' => [
+                    'edit_post' => 'edit_' . $this->postType,
+                    'read_post' => 'read_' . $this->postType,
+                    'delete_post' => 'delete_' . $this->postType,
+                    'edit_posts' => 'edit_' . $this->postType . 's',
+                    'edit_others_posts' => 'edit_others_' . $this->postType . 's',
+                    'publish_posts' => 'publish_' . $this->postType . 's',
+                    'create_posts' => 'edit_' . $this->postType . 's',
+                    'edit_published_posts' => 'edit_published_' . $this->postType . 's',
+                    'delete_posts' => 'delete_' . $this->postType . 's',
+                    'delete_published_posts' => 'delete_published_' . $this->postType . 's',
+                    'delete_others_posts' => 'delete_others_' . $this->postType . 's',
+                    'read' => 'read_' . $this->postType,
+                ],
             ]
         );
+    }
+
+    protected function coreCapabilities()
+    {
+        $roles = ['administrator', 'editor', 'author', 'contributor'];
+
+        foreach ($roles as $role) {
+            $capabilities = [
+                "read_{$this->postType}",
+            ];
+
+            if (in_array($role, ['administrator', 'editor'])) {
+                $capabilities = [
+                    "edit_{$this->postType}",
+                    "read_{$this->postType}",
+                    "delete_{$this->postType}",
+                    "edit_{$this->postType}s",
+                    "edit_others_{$this->postType}s",
+                    "publish_{$this->postType}s",
+                    "create_{$this->postType}s",
+                    "delete_{$this->postType}s",
+                    "delete_published_{$this->postType}s",
+                    "delete_others_{$this->postType}s",
+                    "edit_published_{$this->postType}s",
+                ];
+            }
+
+            $role = get_role($role);
+            foreach ($capabilities as $cap) {
+                $role->add_cap($cap);
+            }
+        }
     }
 }
