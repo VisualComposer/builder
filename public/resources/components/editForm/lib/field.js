@@ -22,6 +22,10 @@ export default class Field extends React.Component {
     this.props.element.onAttributeChange(this.props.fieldKey, this.updateValue)
   }
 
+  componentWillUnmount () {
+    this.props.element.ignoreAttributeChange(this.props.fieldKey, this.updateValue)
+  }
+
   updateValue (data) {
     if (!lodash.isEqual(data, this.state.value)) {
       this.setState({
