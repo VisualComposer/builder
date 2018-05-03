@@ -189,6 +189,9 @@ vcCake.add('contentModernLayout', (api) => {
         if (item.indexOf('vcv-template') >= 0) {
           write = false
         }
+        if (item.indexOf('vcv-nonce') >= 0) {
+          write = false
+        }
         if (vcCake.env('THEME_LAYOUTS')) {
           if (
             item.indexOf('vcv-header') >= 0 ||
@@ -201,7 +204,7 @@ vcCake.add('contentModernLayout', (api) => {
         write && arr.push(item)
         return arr
       }, [])
-
+      params.push(`vcv-nonce=${window.vcvNonce}`)
       if (template) {
         if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
           params.push(`vcv-template=${template.value}`)
