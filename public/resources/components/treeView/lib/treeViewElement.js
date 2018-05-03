@@ -636,7 +636,7 @@ export default class TreeViewElement extends React.Component {
                 <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon'
                   alt='' /></i>
                 <span className='vcv-ui-tree-layout-control-label'>
-                  <span ref={span => { this.span = span }}>{content}</span>
+                  <span>{content}</span>
                 </span>
               </div>
               <div
