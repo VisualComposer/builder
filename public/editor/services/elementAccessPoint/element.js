@@ -62,11 +62,12 @@ class Element {
   }
 
   onAttributeChange (fieldKey, callback) {
-    if (env('TF_RENDER_PERFORMANCE')) {
-      this.storages.elements.on(`element:${this.id}:attribute:${fieldKey}`, callback)
-    } else {
-      this.storages.elements.state(`element:${this.id}:attribute:${fieldKey}`).onChange(callback)
-    }
+    // return // temporary disable
+    // if (env('TF_RENDER_PERFORMANCE')) {
+    //   this.storages.elements.on(`element:${this.id}:attribute:${fieldKey}`, callback)
+    // } else {
+    //   this.storages.elements.state(`element:${this.id}:attribute:${fieldKey}`).onChange(callback)
+    // }
   }
 
   ignoreChange (callback) {
@@ -78,11 +79,12 @@ class Element {
   }
 
   ignoreAttributeChange (fieldKey, callback) {
-    if (env('TF_RENDER_PERFORMANCE')) {
-      this.storages.elements.off(`element:${this.id}:attribute:${fieldKey}`, callback)
-    } else {
-      this.storages.elements.state(`element:${this.id}:attribute:${fieldKey}`).ignoreChange(callback)
-    }
+    // return // temporary disable
+    // if (env('TF_RENDER_PERFORMANCE')) {
+    //   this.storages.elements.off(`element:${this.id}:attribute:${fieldKey}`, callback)
+    // } else {
+    //   this.storages.elements.state(`element:${this.id}:attribute:${fieldKey}`).ignoreChange(callback)
+    // }
   }
 }
 

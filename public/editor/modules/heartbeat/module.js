@@ -43,6 +43,12 @@ add('heartbeat', (api) => {
         // Update Visual Composer nonce
         if (nonces.vcvNonce) {
           window.vcvNonce = nonces.vcvNonce
+          let iframe = document.getElementById('vcv-editor-iframe')
+          if (iframe && iframe.contentWindow) {
+            let oldUrl = iframe.contentWindow.location.href
+            let newUrl = oldUrl.replace(/(vcv-nonce=).*?(&|$)/, '$1' + nonces.vcvNonce + '$2')
+            iframe.contentWindow.history.replaceState('vcvNonce', '', newUrl)
+          }
         }
       }
     }).ready(schedule)
