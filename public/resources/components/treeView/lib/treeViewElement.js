@@ -324,7 +324,9 @@ export default class TreeViewElement extends React.Component {
 
   validateContent () {
     let value = this.span && this.span.innerText.trim()
-    this.updateContent(value)
+    if (value) {
+      this.updateContent(value)
+    }
   }
 
   preventNewLine (event) {
@@ -634,7 +636,7 @@ export default class TreeViewElement extends React.Component {
                 <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon'
                   alt='' /></i>
                 <span className='vcv-ui-tree-layout-control-label'>
-                  <span>{content}</span>
+                  <span ref={span => { this.span = span }}>{content}</span>
                 </span>
               </div>
               <div
