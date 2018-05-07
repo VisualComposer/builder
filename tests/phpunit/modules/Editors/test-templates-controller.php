@@ -12,6 +12,7 @@ class TemplatesControllerTest extends WP_UnitTestCase
                 [
                     'post_type' => 'vcv_templates',
                     'post_content' => 'Test',
+                    'post_status' => 'publish',
                     'post_title' => 'Welcome-testAsyncTemplateLoad',
                     'meta_input' => [
                         VCV_PREFIX
