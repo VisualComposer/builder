@@ -1,7 +1,5 @@
 import vcCake, { addService, getService, getStorage, env } from 'vc-cake'
 
-// import { predefinedTemplates } from './lib/predefinedTemplates'
-
 const utils = getService('utils')
 const documentManager = getService('document')
 let getType = {}.toString
@@ -42,7 +40,7 @@ addService('myTemplates', {
           } else {
             let id = response.postData.id
             let templateData = { id: id.toString(), name: name, data: data, html: html }
-            getStorage('templates').trigger('add', 'custom', templateData)
+            getStorage('hubTemplates').trigger('add', 'custom', templateData)
             successCallback && typeof successCallback === 'function' && successCallback()
           }
         } catch (e) {
@@ -69,7 +67,7 @@ addService('myTemplates', {
   },
   remove (id, successCallback, errorCallback) {
     handleSaveRequest('delete', 'vcv-template-id', id, (response) => {
-      getStorage('templates').trigger('remove', 'custom', id)
+      getStorage('hubTemplates').trigger('remove', 'custom', id)
       successCallback && typeof successCallback === 'function' && successCallback()
     }, errorCallback)
   },
@@ -85,7 +83,7 @@ addService('myTemplates', {
     })
   },
   all (filter = null, sort = null, data) {
-    let custom = vcCake.env('TEMPLATE_PANEL_PERF') ? data && data.custom : getStorage('templates').state('templates').get().custom
+    let custom = vcCake.env('TEMPLATE_PANEL_PERF') ? data && data.custom : getStorage('hubTemplates').state('templates').get().custom
     let myTemplates
     if (vcCake.env('THEME_EDITOR')) {
       let customTemplates = custom && custom.templates ? custom.templates : []
@@ -113,15 +111,15 @@ addService('myTemplates', {
     return myTemplates
   },
   predefined (data) {
-    let predefinedTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data || getStorage('templates').state('templates').get().predefined : getStorage('templates').state('templates').get().predefined
+    let predefinedTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data || getStorage('hubTemplates').state('templates').get().predefined : getStorage('hubTemplates').state('templates').get().predefined
     return predefinedTemplates && predefinedTemplates.templates ? predefinedTemplates.templates : []
   },
   hub (data) {
-    let hubTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data || getStorage('templates').state('templates').get().hub : getStorage('templates').state('templates').get().hub
+    let hubTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data || getStorage('hubTemplates').state('templates').get().hub : getStorage('hubTemplates').state('templates').get().hub
     return hubTemplates && hubTemplates.templates ? hubTemplates.templates : []
   },
   findTemplateByBundle (bundle) {
-    const allTemplates = getStorage('templates').state('templates').get() || []
+    const allTemplates = getStorage('hubTemplates').state('templates').get() || {}
     delete allTemplates.custom
     let template = false
     const templatesTypes = Object.keys(allTemplates)
@@ -144,31 +142,31 @@ addService('myTemplates', {
     return hubAndPredefined || []
   },
   hubHeader (data) {
-    let hubHeaderTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data : getStorage('templates').state('templates').get().hubHeader
+    let hubHeaderTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data : getStorage('hubTemplates').state('templates').get().hubHeader
     return hubHeaderTemplates && hubHeaderTemplates.templates ? hubHeaderTemplates.templates : []
   },
   hubFooter (data) {
-    let hubFooterTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data : getStorage('templates').state('templates').get().hubFooter
+    let hubFooterTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data : getStorage('hubTemplates').state('templates').get().hubFooter
     return hubFooterTemplates && hubFooterTemplates.templates ? hubFooterTemplates.templates : []
   },
   hubSidebar (data) {
-    let hubSidebarTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data : getStorage('templates').state('templates').get().hubSidebar
+    let hubSidebarTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data : getStorage('hubTemplates').state('templates').get().hubSidebar
     return hubSidebarTemplates && hubSidebarTemplates.templates ? hubSidebarTemplates.templates : []
   },
   customHeader (data) {
-    let customHeaderTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data && data.customHeaders : getStorage('templates').state('templates').get().customHeaders
+    let customHeaderTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data && data.customHeaders : getStorage('hubTemplates').state('templates').get().customHeaders
     return customHeaderTemplates && customHeaderTemplates.templates ? customHeaderTemplates.templates : []
   },
   customFooter (data) {
-    let customFooterTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data && data.customFooter : getStorage('templates').state('templates').get().customFooter
+    let customFooterTemplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data && data.customFooter : getStorage('hubTemplates').state('templates').get().customFooter
     return customFooterTemplates && customFooterTemplates.templates ? customFooterTemplates.templates : []
   },
   customSidebar (data) {
-    let customSidebaremplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data && data.customSidebar : getStorage('templates').state('templates').get().customSidebar
+    let customSidebaremplates = vcCake.env('TEMPLATE_PANEL_PERF') ? data && data.customSidebar : getStorage('hubTemplates').state('templates').get().customSidebar
     return customSidebaremplates && customSidebaremplates.templates ? customSidebaremplates.templates : []
   },
   getAllTemplates (filter = null, sort = null, data) {
-    let allTemplatesGroups = vcCake.env('TEMPLATE_PANEL_PERF') ? data || [] : getStorage('templates').state('templates').get() || []
+    let allTemplatesGroups = vcCake.env('TEMPLATE_PANEL_PERF') ? data || {} : getStorage('hubTemplates').state('templates').get() || {}
     let allTemplates = []
     for (let key in allTemplatesGroups) {
       allTemplates = allTemplates.concat(allTemplatesGroups[ key ].templates)
@@ -187,7 +185,7 @@ addService('myTemplates', {
   },
   getTemplateData () {
     let data = {}
-    let storageData = getStorage('templates').state('templates').get()
+    let storageData = getStorage('hubTemplates').state('templates').get()
     if (storageData) {
       data.getAllTemplates = this.getAllTemplates(null, null, storageData)
       data.all = this.all(null, null, storageData)
