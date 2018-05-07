@@ -12,7 +12,6 @@ const settingsStorage = getStorage('settings')
 const utils = getService('utils')
 
 add('wordpressWorkspace', (api) => {
-  // Set Templates
   api.reply('start', () => {
     wordpressDataStorage.trigger('start')
   })

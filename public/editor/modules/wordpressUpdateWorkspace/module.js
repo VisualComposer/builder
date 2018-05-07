@@ -8,7 +8,6 @@ const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
 const elementsStorage = getStorage('elements')
 add('wordpressUpdateWorkspace', (api) => {
-  // Set Templates
   api.reply('start', () => {
     wordpressDataStorage.trigger('start')
   })
