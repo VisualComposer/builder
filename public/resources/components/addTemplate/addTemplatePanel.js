@@ -115,7 +115,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   componentDidMount () {
-    vcCake.getStorage('templates').state('templates').onChange(this.handleTemplateStorageStateChange)
+    vcCake.getStorage('hubTemplates').state('templates').onChange(this.handleTemplateStorageStateChange)
   }
 
   componentWillUnmount () {
@@ -123,7 +123,7 @@ export default class AddTemplatePanel extends React.Component {
       window.clearTimeout(this.errorTimeout)
       this.errorTimeout = 0
     }
-    vcCake.getStorage('templates').state('templates').ignoreChange(this.handleTemplateStorageStateChange)
+    vcCake.getStorage('hubTemplates').state('templates').ignoreChange(this.handleTemplateStorageStateChange)
   }
 
   setCategoryArray (data) {
