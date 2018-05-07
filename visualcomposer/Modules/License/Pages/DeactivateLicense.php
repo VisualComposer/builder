@@ -38,19 +38,17 @@ class DeactivateLicense extends Container /*implements Module*/
 
     public function __construct(License $licenseHelper)
     {
-        if ('account' === vcvenv('VCV_ENV_ADDONS_ID')) {
-            $this->optionGroup = $this->getSlug();
-            $this->optionSlug = 'vcv-deactivate-license';
+        $this->optionGroup = $this->getSlug();
+        $this->optionSlug = 'vcv-deactivate-license';
 
-            if ($licenseHelper->isActivated()) {
-                $this->wpAddAction(
-                    'vcv:settings:initAdmin:page:' . $this->getSlug(),
-                    'buildPage',
-                    110
-                );
+        if ($licenseHelper->isActivated()) {
+            $this->wpAddAction(
+                'vcv:settings:initAdmin:page:' . $this->getSlug(),
+                'buildPage',
+                110
+            );
 
-                $this->addFilter('vcv:ajax:settings:license:deactivate', [$licenseHelper, 'deactivateInAccount']);
-            }
+            $this->addFilter('vcv:ajax:settings:license:deactivate', [$licenseHelper, 'deactivateInAccount']);
         }
     }
 

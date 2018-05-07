@@ -88,7 +88,7 @@ class AddonsActivationController extends Container implements Module
         }
 
         if ($tokenHelper->isSiteAuthorized()) {
-            return ['status' => true, 'skipped' => true];
+            return ['status' => true, 'skipped' => true, 'actions' => []];
         }
 
         return ['status' => false];

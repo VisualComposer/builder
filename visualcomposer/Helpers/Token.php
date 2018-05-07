@@ -77,7 +77,7 @@ class Token extends Container implements Helper
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
      * @return bool|string|array
      */
@@ -105,7 +105,7 @@ class Token extends Container implements Helper
             $body['license-key'] = $licenseHelper->getKey();
         }
         $result = wp_remote_get(
-            VCV_TOKEN_URL,
+            $licenseHelper->isActivated() ? VCV_PREMIUM_TOKEN_URL : VCV_TOKEN_URL,
             [
                 'timeout' => 30,
                 'body' => $body,

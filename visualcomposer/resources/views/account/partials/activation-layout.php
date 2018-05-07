@@ -69,8 +69,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
 <div class="vcv-popup-container vcv-popup-container--hidden" style="opacity: 0;visibility: hidden">
     <div class="vcv-popup-scroll-container">
         <div class="vcv-popup">
-            <?php if (!$tokenHelper->isSiteAuthorized() && 'account' === vcvenv('VCV_ENV_ADDONS_ID')
-                && vcvenv(
+            <?php if (!$tokenHelper->isSiteAuthorized() && vcvenv(
                     'VCV_ENV_LICENSES'
                 )) { ?>
                 <!-- Back button -->
@@ -97,7 +96,7 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
             );
             ?>
             <?php
-            if (vcvenv('VCV_ENV_LICENSES') && 'account' === vcvenv('VCV_ENV_ADDONS_ID')) {
+            if (vcvenv('VCV_ENV_LICENSES')) {
                 evcview(
                     'account/partials/activation-intro',
                     [

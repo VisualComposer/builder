@@ -56,6 +56,13 @@ if (!defined('VCV_TOKEN_URL')) {
             : 'https://account.visualcomposer.io/authorization-token'
     );
 }
+if (!defined('VCV_PREMIUM_TOKEN_URL')) {
+    define(
+        'VCV_PREMIUM_TOKEN_URL',
+        isset($_SERVER['ENV_VCV_PREMIUM_TOKEN_URL']) ? $_SERVER['ENV_PREMIUM_VCV_TOKEN_URL']
+            : 'https://account.visualcomposer.io/authorization-token'
+    );
+}
 
 if (!defined('VCV_API_URL')) {
     define(
