@@ -77,14 +77,12 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
         }
       })
 
-      if (window.vcvActivationType !== 'standalone') {
-        $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button, .vcv-about-screen--active .vcv-popup-back-button', () => {
-          showIntroScreen($popup)
-        })
-        $('body').on('click', '.vcv-go-premium-screen--active .vcv-popup-back-button', () => {
-          showAboutScreen($popup)
-        })
-      }
+      $('body').on('click', '.vcv-first-screen--active .vcv-popup-back-button, .vcv-about-screen--active .vcv-popup-back-button', () => {
+        showIntroScreen($popup)
+      })
+      $('body').on('click', '.vcv-go-premium-screen--active .vcv-popup-back-button', () => {
+        showAboutScreen($popup)
+      })
       $('.vcv-popup-close-button').on('click', () => {
         window.location.href = 'index.php'
       })
@@ -119,7 +117,7 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
           showLastGoPremiumScreen($popup)
         } else {
           showLoadingScreen($popup)
-          if (window.vcvActivationActivePage === 'first' || window.vcvActivationType === 'standalone') {
+          if (window.vcvActivationActivePage === 'first') {
             setTimeout(() => {
               showFirstScreen($popup)
             }, 300)
@@ -127,7 +125,7 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
             setTimeout(() => {
               showDownloadWithLicenseScreen($popup, $heading, downloadingInitialExtensionsText, downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation)
             }, 300)
-          } else if (window.vcvActivationActivePage === 'intro') {
+          } else if (window.vcvActivationActivePage === 'intro' || window.vcvActivationType === 'standalone') {
             setTimeout(() => {
               showIntroScreen($popup)
             }, 300)

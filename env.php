@@ -56,6 +56,13 @@ if (!defined('VCV_TOKEN_URL')) {
             : 'https://account.visualcomposer.io/authorization-token'
     );
 }
+if (!defined('VCV_PREMIUM_TOKEN_URL')) {
+    define(
+        'VCV_PREMIUM_TOKEN_URL',
+        isset($_SERVER['ENV_VCV_PREMIUM_TOKEN_URL']) ? $_SERVER['ENV_PREMIUM_VCV_TOKEN_URL']
+            : 'https://account.visualcomposer.io/authorization-token'
+    );
+}
 
 if (!defined('VCV_API_URL')) {
     define(
@@ -222,9 +229,17 @@ if (!defined('VCV_ENV_TEMPLATES_FULL_SAVE')) {
     );
 }
 
+// Disabled until all php elements updated
 if (!defined('VCV_ENV_ELEMENTS_FILES_NOGLOB')) {
     define(
         'VCV_ENV_ELEMENTS_FILES_NOGLOB',
-        isset($_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB']) ? $_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB'] : true
+        isset($_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB']) ? $_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB'] : false
+    );
+}
+
+if (!defined('VCV_ENV_TEMPLATES_LOAD_ASYNC')) {
+    define(
+        'VCV_ENV_TEMPLATES_LOAD_ASYNC',
+        isset($_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC']) ? $_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC'] : false
     );
 }

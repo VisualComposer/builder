@@ -1,13 +1,24 @@
-import { addStorage, getService, getStorage } from 'vc-cake'
+import { addStorage, getService, getStorage, env } from 'vc-cake'
 
 addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const workspaceNotifications = workspaceStorage.state('notifications')
   const utils = getService('utils')
-  const templateStorage = getStorage('templates')
 
   storage.on('start', () => {
-    templateStorage.trigger('start')
+    /**
+     * @deprecated 2.5 on remove need to set state(templates) {}
+     */
+    if (!env('FT_TEMPLATE_LOAD_ASYNC')) {
+      let vcvtemplates = storage.state('templates').get() || window.VCV_TEMPLATES()
+      if (!vcvtemplates || Array.isArray(vcvtemplates)) {
+        vcvtemplates = {}
+      }
+      storage.state('templates').set(vcvtemplates)
+    } else {
+      // TODO: Remove this code with whole on('start') block and refactor initial templates loading
+      storage.state('templates').set(storage.state('templates').get() || {})
+    }
   })
 
   storage.on('downloadTemplate', (template) => {
@@ -57,7 +68,7 @@ addStorage('hubTemplates', (storage) => {
             if (jsonResponse.templates) {
               let template = jsonResponse.templates[ 0 ]
               template.id = template.id.toString()
-              templateStorage.trigger('add', template.type, template)
+              storage.trigger('add', template.type, template)
             }
             workspaceStorage.trigger('removeFromDownloading', tag)
           } else {
@@ -118,5 +129,28 @@ addStorage('hubTemplates', (storage) => {
       utils.startDownload(bundle, data, successCallback, errorCallback)
     }
     tryDownload()
+  })
+
+  storage.on('add', (type, templateData) => {
+    let all = storage.state('templates').get() || {}
+    if (!all[ type ]) {
+      all[ type ] = {
+        'name': type,
+        'type': type,
+        'templates': []
+      }
+    }
+    all[ type ].templates.unshift(templateData)
+    storage.state('templates').set(all)
+  })
+  storage.on('remove', (type, id) => {
+    let all = storage.state('templates').get() || {}
+    if (all[ type ]) {
+      let removeIndex = all[ type ].templates.findIndex((template) => {
+        return template.id === id
+      })
+      all[ type ].templates.splice(removeIndex, 1)
+      storage.state('templates').set(all)
+    }
   })
 })

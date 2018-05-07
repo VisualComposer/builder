@@ -7,6 +7,7 @@ addStorage('wordpressData', (storage) => {
   const elementsStorage = getStorage('elements')
   const workspaceStorage = getStorage('workspace')
   const settingsStorage = getStorage('settings')
+  const hubTemplatesStorage = getStorage('hubTemplates')
   const documentManager = getService('document')
   const wordpressDataStorage = getStorage('wordpressData')
   const utils = getService('utils')
@@ -86,6 +87,9 @@ addStorage('wordpressData', (storage) => {
       }
       if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('global')) {
         globalJsState.set(responseData.jsSettings.global || '')
+      }
+      if (responseData.templates) {
+        hubTemplatesStorage.state('templates').set(responseData.templates)
       }
       if (pageTitleData.hasOwnProperty('current')) {
         settingsStorage.state('pageTitle').set(pageTitleData.current)

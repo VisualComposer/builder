@@ -46,21 +46,18 @@ class Premium extends Container implements Module
      */
     public function __construct(Token $tokenHelper, License $licenseHelper, Request $requestHelper)
     {
-        if ('account' === vcvenv('VCV_ENV_ADDONS_ID')) {
-            /** @see \VisualComposer\Modules\Premium\Pages\Premium::addPage */
-            if ($requestHelper->input('page') === $this->getSlug()) {
-                $this->addEvent('vcv:inited', 'beforePageRender');
-            }
-            if (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
-                ||
-                ($licenseHelper->getKey() && $licenseHelper->getKeyToken())
-            ) {
-                $this->addFilter(
-                    'vcv:settings:getPages',
-                    'addPage',
-                    70
-                );
-            }
+        /** @see \VisualComposer\Modules\Premium\Pages\Premium::addPage */
+        if ($requestHelper->input('page') === $this->getSlug()) {
+            $this->addEvent('vcv:inited', 'beforePageRender');
+        }
+        if (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
+            || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())
+        ) {
+            $this->addFilter(
+                'vcv:settings:getPages',
+                'addPage',
+                70
+            );
         }
         /** @see \VisualComposer\Modules\Premium\Pages\Premium::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
