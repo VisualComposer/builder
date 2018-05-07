@@ -77,7 +77,9 @@ export default class TreeViewElement extends React.Component {
         this.setState({
           content
         }, () => {
-          this.span.innerText = content
+          if (this.span) {
+            this.span.innerText = content
+          }
         })
       }
     }
@@ -301,7 +303,7 @@ export default class TreeViewElement extends React.Component {
     this.setState({
       editable: true
     }, () => {
-      this.span.focus()
+      this.span && this.span.focus()
     })
   }
 
@@ -314,15 +316,17 @@ export default class TreeViewElement extends React.Component {
       content: value || element.get('name'),
       editable: false
     }, () => {
-      if (!value) {
+      if (!value && this.span) {
         this.span.innerText = element.get('name')
       }
     })
   }
 
   validateContent () {
-    let value = this.span.innerText.trim()
-    this.updateContent(value)
+    let value = this.span && this.span.innerText.trim()
+    if (value) {
+      this.updateContent(value)
+    }
   }
 
   preventNewLine (event) {
@@ -330,7 +334,7 @@ export default class TreeViewElement extends React.Component {
       event.preventDefault()
       event.nativeEvent.stopImmediatePropagation()
       event.stopPropagation()
-      this.span.blur()
+      this.span && this.span.blur()
       this.validateContent()
     }
   }
