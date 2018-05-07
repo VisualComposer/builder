@@ -29,7 +29,11 @@ class Controller extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:editor:variables', 'allTemplates');
+        if (!vcvenv('VCV_ENV_TEMPLATES_LOAD_ASYNC')) {
+            $this->addFilter('vcv:editor:variables', 'allTemplates');
+        } else {
+            $this->addFilter('vcv:dataAjax:getData', 'allTemplatesAsync');
+        }
 
         if (!vcvenv('VCV_ENV_TEMPLATES_FULL_SAVE')) {
             /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
@@ -54,6 +58,7 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      *
      * @return string
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     protected function templatesEditorBlankTemplate(
         $originalTemplate,
@@ -73,6 +78,14 @@ class Controller extends Container implements Module
         return $originalTemplate;
     }
 
+    /**
+     * @deprecated 2.5
+     *
+     * @param $variables
+     * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
+     *
+     * @return array
+     */
     protected function allTemplates($variables, EditorTemplates $editorTemplatesHelper)
     {
         $key = 'VCV_TEMPLATES';
@@ -85,6 +98,21 @@ class Controller extends Container implements Module
         ];
 
         return $variables;
+    }
+
+    /**
+     * @param $response
+     * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
+     *
+     * @return array
+     */
+    protected function allTemplatesAsync($response, EditorTemplates $editorTemplatesHelper)
+    {
+        if (!vcIsBadResponse($response)) {
+            $response['templates'] = $editorTemplatesHelper->all();
+        }
+
+        return $response;
     }
 
     protected function getData(array $templates)

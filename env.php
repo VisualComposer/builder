@@ -222,9 +222,17 @@ if (!defined('VCV_ENV_TEMPLATES_FULL_SAVE')) {
     );
 }
 
+// Disabled until all php elements updated
 if (!defined('VCV_ENV_ELEMENTS_FILES_NOGLOB')) {
     define(
         'VCV_ENV_ELEMENTS_FILES_NOGLOB',
-        isset($_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB']) ? $_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB'] : true
+        isset($_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB']) ? $_SERVER['ENV_VCV_ENV_ELEMENTS_FILES_NOGLOB'] : false
+    );
+}
+
+if (!defined('VCV_ENV_TEMPLATES_LOAD_ASYNC')) {
+    define(
+        'VCV_ENV_TEMPLATES_LOAD_ASYNC',
+        isset($_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC']) ? $_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC'] : false
     );
 }
