@@ -4,6 +4,16 @@ import { default as PostUpdater } from './postUpdate'
 import { log as logError } from './logger'
 
 (($) => {
+  const $skipPost = $('[data-vcv-skip-post]')
+  $skipPost.find('[data-vcv-skip-post-control]').on('click', () => {
+    window.vcvRebuildPostSkipPost && window.vcvSourceID && window.vcvRebuildPostSkipPost(window.vcvSourceID)
+  })
+  const showSkipPostButton = () => {
+    $skipPost.removeClass('vcv-popup--hidden')
+  }
+  const hideSkipPostButton = () => {
+    $skipPost.addClass('vcv-popup--hidden')
+  }
   let doneActions = (requestFailed, $heading, downloadingInitialExtensionsText, savingResultsText, $errorPopup, activationFailedText, $popup, loadAnimation, email, category, agreement) => {
     $heading.text(savingResultsText)
     let premiumErrorCallback = () => {
@@ -111,6 +121,9 @@ import { log as logError } from './logger'
           const postData = posts[ postsIndex ]
           $heading.text(postUpdateText.replace('{i}', postsIndex + 1).replace('{cnt}', posts.length).replace('{name}', postData.name || 'No name'))
           let ready = false
+          const to = window.setTimeout(() => {
+            showSkipPostButton()
+          }, 60 * 1000)
           try {
             await postUpdater.update(postData)
             ready = true
@@ -125,6 +138,8 @@ import { log as logError } from './logger'
             })
             showOopsScreen($popup, e, premiumErrorCallback)
           }
+          window.clearTimeout(to)
+          hideSkipPostButton()
           if (ready === false) {
             return
           }

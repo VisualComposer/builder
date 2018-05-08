@@ -46,6 +46,11 @@ class PostBuilder {
           this.resolve && this.resolve(this.settings)
         }
       })
+      vcCake.getStorage('wordpressRebuildPostData').on('skipPost', (id) => {
+        if (id === this.settings.id) {
+          this.resolve && this.resolve()
+        }
+      })
     })
     this.cakeReady = true
   }
@@ -84,6 +89,10 @@ const builder = new PostBuilder()
 
 window.vcvRebuildPostSave = async (data) => {
   return builder.update(data)
+}
+
+window.vcvRebuildPostSkipPost = (id) => {
+  vcCake.getStorage('wordpressRebuildPostData').trigger('skipPost', id)
 }
 
 if (vcCake.env('debug') === true) {

@@ -37,6 +37,9 @@ class BundleUpdateController extends Container implements Module
             $result = $this->checkVersion();
             if (!vcIsBadResponse($result)) {
                 $optionsHelper->setTransient('lastBundleUpdate', time() + DAY_IN_SECONDS);
+            } else {
+                //if failed try one more time after one hour
+                $optionsHelper->setTransient('lastBundleUpdate', time() + 3600);
             }
         }
 

@@ -126,3 +126,20 @@
     }
   }
 }
+
+.vcv-skip-post-update-block {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(120%);
+  text-align: center;
+
+  &.vcv-popup--hidden {
+    display: none;
+  }
+
+  .vcv-popup-button {
+    padding: @vcv-buttonInnerSpacingError;
+  }
+}

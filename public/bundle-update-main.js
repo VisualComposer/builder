@@ -20,7 +20,10 @@ import { log as logError, send as sendError, messages as getErrorsMessages } fro
     let $retryButton = $('[data-vcv-error-description]')
     let $lockUpdate = $('[data-vcv-error-lock]')
     let $heading = $('.vcv-loading-text-main')
-
+    let $skipPost = $('[data-vcv-skip-post]')
+    $skipPost.find('[data-vcv-skip-post-control]').on('click', () => {
+      window.vcvRebuildPostSkipPost && window.vcvSourceID && window.vcvRebuildPostSkipPost(window.vcvSourceID)
+    })
     let closeError = (cb) => {
       $errorPopup.removeClass('vcv-popup-error--active')
       if (cb && typeof cb === 'function') {
@@ -87,7 +90,12 @@ import { log as logError, send as sendError, messages as getErrorsMessages } fro
     let hideRetryButton = () => {
       $retryButton.addClass('vcv-popup--hidden')
     }
-
+    const showSkipPostButton = () => {
+      $skipPost.removeClass('vcv-popup--hidden')
+    }
+    const hideSkipPostButton = () => {
+      $skipPost.addClass('vcv-popup--hidden')
+    }
     let showErrorMessage = (message, time) => {
       if (typeof message !== 'undefined') {
         showError(message, time)
@@ -158,6 +166,9 @@ import { log as logError, send as sendError, messages as getErrorsMessages } fro
             const postData = posts[ postsIndex ]
             $heading.text(postUpdateText.replace('{i}', postsIndex + 1).replace('{cnt}', posts.length).replace('{name}', postData.name || 'No name'))
             let ready = false
+            const to = window.setTimeout(() => {
+              showSkipPostButton()
+            }, 60 * 1000)
             try {
               await postUpdater.update(postData)
               ready = true
@@ -171,6 +182,8 @@ import { log as logError, send as sendError, messages as getErrorsMessages } fro
               })
               showErrorMessage(e)
             }
+            window.clearTimeout(to)
+            hideSkipPostButton()
             if (ready === false) {
               return
             }

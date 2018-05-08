@@ -23,6 +23,15 @@ if (!defined('ABSPATH')) {
             <span class="vcv-popup-helper"><?php
                 echo esc_html__('Don’t close this window while activation is in the process.', 'vcwb');
                 ?></span>
+            <?php if (vcvenv('VCV_FT_POST_UPDATE')): ?>
+		        <div data-vcv-skip-post class="vcv-button-container vcv-skip-post-update-block vcv-popup--hidden">
+			        <button data-vcv-skip-post-control class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+                <span>
+                    <?php echo esc_html__('Skip this post', 'vcwb'); ?>
+                </span>
+			        </button>
+		        </div>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
     <!-- Loading big white circle -->
