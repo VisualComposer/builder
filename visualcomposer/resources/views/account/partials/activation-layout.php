@@ -162,18 +162,6 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                     </span>
 				</a>
 			</div>
-            <?php if (vcvenv('VCV_FT_POST_UPDATE')): ?>
-				<div data-vcv-skip-post
-						class="vcv-popup-content vcv-popup-error-description vcv-popup-skip-post vcv-popup--hidden">
-					<div class="vcv-button-container">
-						<button data-vcv-skip-post-control class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
-                                    <span>
-                                        <?php echo esc_html__('Skip this post', 'vcwb'); ?>
-                                    </span>
-						</button>
-					</div>
-				</div>
-            <?php endif; ?>
 		</div>
 		<div class="vcv-hidden-helper"></div>
 	</div>

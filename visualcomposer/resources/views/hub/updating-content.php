@@ -81,6 +81,15 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
         <span class="vcv-popup-helper"><?php
             echo esc_html__('Don’t close this window while update is in process.', 'vcwb');
             ?></span>
+        <?php if (vcvenv('VCV_FT_POST_UPDATE')): ?>
+		    <div data-vcv-skip-post class="vcv-button-container vcv-skip-post-update-block vcv-popup--hidden">
+			    <button data-vcv-skip-post-control class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+                <span>
+                    <?php echo esc_html__('Skip this post', 'vcwb'); ?>
+                </span>
+			    </button>
+		    </div>
+        <?php endif; ?>
     </div>
     <!-- Loading big white circle -->
     <div class="vcv-popup-loading-zoom"></div>
@@ -122,18 +131,6 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
         </span>
         </button>
     </div>
-    <?php if (vcvenv('VCV_FT_POST_UPDATE')): ?>
-		<div data-vcv-skip-post
-				class="vcv-popup-content vcv-popup-error-description vcv-popup-skip-post vcv-popup--hidden">
-			<div class="vcv-button-container">
-				<button data-vcv-skip-post-control class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
-                                    <span>
-                                        <?php echo esc_html__('Skip this post', 'vcwb'); ?>
-                                    </span>
-				</button>
-			</div>
-		</div>
-    <?php endif; ?>
 </div>
 <?php if ($optionsHelper->getTransient('vcv:activation:request')) : ?>
     <div data-vcv-error-lock

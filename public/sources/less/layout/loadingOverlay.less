@@ -16,6 +16,7 @@
   flex-direction: column;
   align-content: center;
   align-items: center;
+  position: relative;
 }
 
 .vcv-loading-dots-container {
@@ -52,6 +53,7 @@
 }
 
 .vcv-loading-text {
+  position: relative;
   margin-top: @editor-layout-loading-text-top-space;
   text-align: center;
   color: @editor-layout-loading-text-color;
@@ -85,4 +87,22 @@
   display: none;
   z-index: 100001;
   border: 0;
+}
+
+.vcv-skip-post-update-block {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(120%);
+  text-align: center;
+
+  &.vcv-popup--hidden {
+    display: none;
+  }
+
+  .vcv-popup-button {
+    padding: @vcv-buttonInnerSpacingError;
+    color: @editor-layout-loading-text-color;
+  }
 }

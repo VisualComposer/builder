@@ -112,6 +112,15 @@ $time = intval($_SERVER['REQUEST_TIME']);
                                         'vcwb'
                                     ); ?></p>
 							</div>
+                            <?php if (vcvenv('VCV_FT_POST_UPDATE')): ?>
+								<div data-vcv-skip-post class="vcv-button-container vcv-skip-post-update-block vcv-popup--hidden">
+									<button data-vcv-skip-post-control class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+                                            <span>
+                                                <?php echo esc_html__('Skip this post', 'vcwb'); ?>
+                                            </span>
+									</button>
+								</div>
+                            <?php endif; ?>
 						</div>
 						<div data-vcv-error-description
 								class="vcv-popup-content vcv-popup-error-description vcv-popup--hidden">
@@ -161,18 +170,6 @@ $time = intval($_SERVER['REQUEST_TIME']);
 								</button>
 							</div>
 						</div>
-                        <?php if (vcvenv('VCV_FT_POST_UPDATE')): ?>
-							<div data-vcv-skip-post
-									class="vcv-popup-content vcv-popup-error-description vcv-popup-skip-post vcv-popup--hidden">
-								<div class="vcv-button-container">
-									<button data-vcv-skip-post-control class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
-                                    <span>
-                                        <?php echo esc_html__('Skip this post', 'vcwb'); ?>
-                                    </span>
-									</button>
-								</div>
-							</div>
-                        <?php endif; ?>
                         <?php if ($optionsHelper->getTransient('vcv:activation:request')) : ?>
 							<div data-vcv-error-lock
 									class="vcv-popup-content vcv-popup-error-description">
