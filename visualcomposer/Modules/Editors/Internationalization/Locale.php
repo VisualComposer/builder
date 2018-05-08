@@ -21,6 +21,8 @@ class Locale extends Container implements Module
     use EventsFilters;
     use WpFiltersActions;
 
+    protected $printed = false;
+
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Internationalization\Locale::outputLocalizations */
@@ -34,6 +36,10 @@ class Locale extends Container implements Module
 
     protected function outputLocalizations($response, $payload, Localizations $localizationsHelper)
     {
+        if ($this->printed) {
+            return $response;
+        }
+        $this->printed = true;
         $response = array_merge(
             $response,
             [
@@ -55,7 +61,11 @@ class Locale extends Container implements Module
         EditorPostType $editorPostTypeHelper,
         Frontend $frontendHelper
     ) {
+        if ($this->printed) {
+            return;
+        }
         if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()) {
+            $this->printed = true;
             evcview(
                 'partials/constant-script',
                 [
