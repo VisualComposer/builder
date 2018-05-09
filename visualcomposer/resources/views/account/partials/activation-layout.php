@@ -75,19 +75,19 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
 ?>
 <div id="vcv-posts-update-wrapper"></div>
 <div class="vcv-popup-container vcv-popup-container--hidden" style="opacity: 0;visibility: hidden">
-	<div class="vcv-popup-scroll-container">
-		<div class="vcv-popup">
+    <div class="vcv-popup-scroll-container">
+        <div class="vcv-popup">
             <?php if (!$tokenHelper->isSiteAuthorized() && 'account' === vcvenv('VCV_ENV_ADDONS_ID')
                 && vcvenv(
                     'VCV_ENV_LICENSES'
                 )) { ?>
-				<!-- Back button -->
-				<button class="vcv-popup-back-button">
-					<span><?php echo esc_html__('Back', 'vcwb'); ?></span>
-				</button>
+                <!-- Back button -->
+                <button class="vcv-popup-back-button">
+                    <span><?php echo esc_html__('Back', 'vcwb'); ?></span>
+                </button>
             <?php } ?>
-			<!-- Close button -->
-			<button class="vcv-popup-close-button"></button>
+            <!-- Close button -->
+            <button class="vcv-popup-close-button"></button>
             <?php
             evcview(
                 'account/partials/activation-oops',
@@ -153,16 +153,16 @@ if ($optionsHelper->getTransient('vcv:activation:request')) {
                     'controller' => $controller,
                 ]
             ); ?>
-			<!-- Error block -->
-			<div class="vcv-popup-error vcv-popup-error-with-button">
-				<span class="vcv-error-message"></span>
-				<a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
+            <!-- Error block -->
+            <div class="vcv-popup-error vcv-popup-error-with-button">
+                <span class="vcv-error-message"></span>
+                <a href="#" data-vcv-send-error-report class="vcv-popup-button vcv-popup-form-submit vcv-popup-form-update">
                     <span>
                         <?php echo esc_html__('Send error report', 'vcwb'); ?>
                     </span>
-				</a>
-			</div>
-		</div>
-		<div class="vcv-hidden-helper"></div>
-	</div>
+                </a>
+            </div>
+        </div>
+        <div class="vcv-hidden-helper"></div>
+    </div>
 </div>
