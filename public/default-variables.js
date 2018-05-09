@@ -71,5 +71,5 @@ vcCake.env('FT_COPY_PASTE_FOR_ROW', false)
 vcCake.env('FT_CSS_CACHE', true)
 vcCake.env('FT_INITAL_ELEMENTS_REFACTOR', false)
 vcCake.env('FE_SHORTCODES_SCRIPTS', true) // USED in Elements.
-vcCake.env('FT_TEMPLATE_LOAD_ASYNC', false)
-vcCake.env('FT_ELEMENT_WRAPPING_REFACTOR', false)
+vcCake.env('FT_TEMPLATE_LOAD_ASYNC', true)
+vcCake.env('FT_ELEMENT_WRAPPING_REFACTOR', true)
