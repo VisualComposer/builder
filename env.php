@@ -243,3 +243,10 @@ if (!defined('VCV_ENV_TEMPLATES_LOAD_ASYNC')) {
         isset($_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC']) ? $_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC'] : false
     );
 }
+
+if (!defined('VCV_FT_POST_UPDATE')) {
+    define(
+        'VCV_FT_POST_UPDATE',
+        true
+    );
+}
