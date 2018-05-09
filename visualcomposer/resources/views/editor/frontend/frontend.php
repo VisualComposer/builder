@@ -130,7 +130,6 @@ if (is_array($extraOutput)) {
     <div class="vcv-layout-overlay"></div>
 </div>
 <?php
-do_action('wp_footer');
 wp_print_footer_scripts();
 do_action('admin_footer', '');
 do_action('admin_print_footer_scripts-{$hook_suffix}');
