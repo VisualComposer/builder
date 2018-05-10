@@ -34,10 +34,8 @@ class ActivationController extends Container implements Module
      */
     public function __construct()
     {
-        if (vcvenv('VCV_ENV_ADDONS_ID') === 'account') {
-            /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
-            $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
-        }
+        /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
+        $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
         /** @see \VisualComposer\Modules\Account\ActivationController::checkActivationError */
         $this->addFilter(
             'vcv:ajax:account:activation:adminNonce vcv:hub:download:bundle:*',
@@ -84,10 +82,13 @@ class ActivationController extends Container implements Module
 
             if ($licenseHelper->isActivated()) {
                 $id = VCV_PLUGIN_URL . $licenseHelper->getKey();
-            } else {
+            } elseif (vcvenv('VCV_ENV_ADDONS_ID') === 'account') {
                 $id = VCV_PLUGIN_URL . trim($requestHelper->input('vcv-email'));
+                $optionsHelper->set('hubTokenId', $id);
+            } else {
+                $id = vcvenv('ENV_VCV_SITE_ID', '');
             }
-            $optionsHelper->set('hubTokenId', $id);
+
             $token = $tokenHelper->createToken($id);
             if (!vcIsBadResponse($token)) {
                 return $filterHelper->fire('vcv:activation:token:success', ['status' => true], ['token' => $token]);
