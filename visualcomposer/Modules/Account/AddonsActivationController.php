@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Filters;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
@@ -49,9 +50,10 @@ class AddonsActivationController extends Container implements Module
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\Filters $filterHelper
-     * @param Logger $loggerHelper
+     * @param \VisualComposer\Helpers\Logger $loggerHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
      *
-     * @return array|bool|\WP_Error
+     * @return array|null
      */
     protected function requestAddonsActivation(
         $response,
@@ -61,16 +63,37 @@ class AddonsActivationController extends Container implements Module
         Options $optionsHelper,
         CurrentUser $currentUserHelper,
         Filters $filterHelper,
-        Logger $loggerHelper
+        Logger $loggerHelper,
+        License $licenseHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
             && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
+            || ($tokenHelper->isSiteAuthorized() && $licenseHelper->isActivated()
+                && !$optionsHelper->getTransient(
+                    'vcv:activation:request'
+                ))
         ) {
             $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
             $token = $tokenHelper->createToken(vcvenv('ENV_VCV_SITE_ID', ''));
-            if ($token) {
+            if (!vcIsBadResponse($token)) {
                 return $filterHelper->fire('vcv:activation:token:success', ['status' => true], ['token' => $token]);
+            } else {
+                $messages = [];
+                $messages[] = __('Failed to get activation token', 'vcwb') . ' #10013';
+                if (is_wp_error($token)) {
+                    /** @var \WP_Error $token */
+                    $messages[] = implode('. ', $token->get_error_messages()) . ' #10014';
+                } elseif (is_array($token) && isset($token['body'])) {
+                    // @codingStandardsIgnoreLine
+                    $resultDetails = @json_decode($token['body'], 1);
+                    if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                        $messages[] = $resultDetails['message'] . ' #10015';
+                    }
+                }
+                $loggerHelper->log(
+                    implode('. ', $messages)
+                );
             }
         }
 
