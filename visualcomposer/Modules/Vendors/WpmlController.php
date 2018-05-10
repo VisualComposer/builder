@@ -31,6 +31,7 @@ class WpmlController extends Container implements Module
             $this->addFilter('vcv:frontend:url', 'addLangToLink');
             $this->addFilter('vcv:ajax:setData:adminNonce', 'setDataTrid', -1);
             $this->addFilter('vcv:about:postNewUrl', 'addLangToLink');
+            $this->addFilter('vcv:linkSelector:url', 'addLanguageDetails');
             $this->wpAddAction(
                 'save_post',
                 'insertTrid'
@@ -82,5 +83,22 @@ class WpmlController extends Container implements Module
         }
 
         return $trid;
+    }
+
+    protected function addLanguageDetails($url, $payload)
+    {
+        $post = $payload['post'];
+        $postLang = apply_filters('wpml_post_language_details', null, $post->ID);
+        if ($postLang && isset($postLang['language_code']) && $postLang['language_code']) {
+            $url = apply_filters(
+                'wpml_permalink',
+                get_permalink($post->ID),
+                $postLang['language_code']
+            );
+        } else {
+            $url = get_permalink($post->ID);
+        }
+
+        return $url;
     }
 }

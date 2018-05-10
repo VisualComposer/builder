@@ -55,7 +55,7 @@ class Controller extends Container implements Module
                     'id' => $post->ID,
                     // @codingStandardsIgnoreLine
                     'title' => $post->post_title,
-                    'url' => get_permalink($post->ID),
+                    'url' => vcfilter('vcv:linkSelector:url', get_permalink($post->ID), ['post' => $post]),
                     // @codingStandardsIgnoreLine
                     'type' => $post->post_type,
                 ];
