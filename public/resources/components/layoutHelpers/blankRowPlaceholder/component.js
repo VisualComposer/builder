@@ -146,15 +146,14 @@ export default class BlankRowPlaceholder extends React.Component {
       }
     ]
 
-    if (vcCake.env('FT_COPY_PASTE_FOR_ROW')) {
-      result.push({
-        tag: 'paste',
-        options: {
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? pasteIcon : pasteIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.paste : 'Paste'
-        }
-      })
-    }
+    result.push({
+      tag: 'paste',
+      options: {
+        icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? pasteIcon : pasteIconLight,
+        title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.paste : 'Paste'
+      }
+    })
+
     return result
   }
 

@@ -66,8 +66,6 @@ vcCake.env('TEMPLATE_PANEL_PERF', true)
 vcCake.env('VCV_HUB_ADDON_TEASER', true)
 vcCake.env('FIX_SHORTCODE_BLOCKS_TEXT_BLOCK_EDIT', true)
 vcCake.env('FT_WAIT_FOR_FINAL_RENDER', true)
-vcCake.env('FT_COPY_PASTE_FOR_COLUMN', true)
-vcCake.env('FT_COPY_PASTE_FOR_ROW', true)
 vcCake.env('FT_CSS_CACHE', true)
 vcCake.env('FT_INITAL_ELEMENTS_REFACTOR', true)
 vcCake.env('FE_SHORTCODES_SCRIPTS', true) // USED in Elements.
