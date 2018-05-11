@@ -54,34 +54,21 @@ addStorage('elements', (storage) => {
     }
     elementData = recursiveElementsRebuild(cookElement)
 
-    if (env('FT_ELEMENT_WRAPPING_REFACTOR')) {
-      if (wrap && !cookElement.get('parent')) {
-        const parentWrapper = cookElement.get('parentWrapper')
+    if (wrap && !cookElement.get('parent')) {
+      const parentWrapper = cookElement.get('parentWrapper')
 
-        if (parentWrapper === undefined) {
-          const wrapperData = cook.get({ tag: defaultWrapper })
-          elementData.parent = wrapperData.toJS().id
-          if (wrapperData) {
-            storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true })
-          }
-        } else if (parentWrapper) {
-          const wrapperData = cook.get({ tag: parentWrapper })
-          elementData.parent = wrapperData.toJS().id
-          if (wrapperData) {
-            storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true })
-          }
+      if (parentWrapper === undefined) {
+        const wrapperData = cook.get({ tag: defaultWrapper })
+        elementData.parent = wrapperData.toJS().id
+        if (wrapperData) {
+          storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true })
         }
-      }
-    } else {
-      if (wrap && !cookElement.get('parent') && !cookElement.relatedTo([ 'RootElements' ])) {
-        const rowElementSettings = cook.get({ tag: 'row' })
-        let rowElement = documentManager.create(rowElementSettings.toJS())
-        createdElements.push(rowElement.id)
-        const columnElementSettings = cook.get({ tag: 'column', parent: rowElement.id }).toJS()
-        let columnElement = documentManager.create(columnElementSettings)
-        createdElements.push(columnElement.id)
-        elementData.parent = columnElement.id
-        rebuildRawLayout(rowElement.id, {}, documentManager, options)
+      } else if (parentWrapper) {
+        const wrapperData = cook.get({ tag: parentWrapper })
+        elementData.parent = wrapperData.toJS().id
+        if (wrapperData) {
+          storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true })
+        }
       }
     }
 

@@ -40,10 +40,6 @@ export default class BlankRowPlaceholder extends React.Component {
   initialSetControlsLayoutTimeout = null
   addedId = null
   iframeWindow = null
-  pasteElements = [
-    'Row',
-    'Section'
-  ]
 
   constructor (props) {
     super(props)
@@ -63,7 +59,6 @@ export default class BlankRowPlaceholder extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.setControlsLayout = this.setControlsLayout.bind(this)
     this.openEditForm = this.openEditForm.bind(this)
-    this.checkPaste = this.checkPaste.bind(this)
     this.getControls = this.getControls.bind(this)
   }
 
@@ -74,9 +69,6 @@ export default class BlankRowPlaceholder extends React.Component {
       this.setControlsLayout()
     }, 1)
     this.addResizeListener(this.rowContainer, this.setControlsLayout)
-    if (!vcCake.env('FT_ELEMENT_WRAPPING_REFACTOR')) {
-      workspaceStorage.state('copyData').onChange(this.checkPaste)
-    }
   }
 
   componentWillUnmount () {
@@ -84,17 +76,6 @@ export default class BlankRowPlaceholder extends React.Component {
     if (this.initialSetControlsLayoutTimeout) {
       window.clearTimeout(this.initialSetControlsLayoutTimeout)
       this.initialSetControlsLayoutTimeout = null
-    }
-    if (!vcCake.env('FT_ELEMENT_WRAPPING_REFACTOR')) {
-      workspaceStorage.state('copyData').ignoreChange(this.checkPaste)
-    }
-  }
-
-  checkPaste (data) {
-    if (data && data.element) {
-      this.setState({
-        copyData: data
-      })
     }
   }
 
@@ -165,10 +146,7 @@ export default class BlankRowPlaceholder extends React.Component {
       }
     ]
 
-    const cookElement = this.state.copyData && cook.get(this.state.copyData.element.element)
-    const cookElementName = cookElement && cookElement.get('name')
-
-    if (vcCake.env('FT_COPY_PASTE_FOR_ROW') && ((cookElementName && this.pasteElements.indexOf(cookElementName) > -1) || vcCake.env('FT_ELEMENT_WRAPPING_REFACTOR'))) {
+    if (vcCake.env('FT_COPY_PASTE_FOR_ROW')) {
       result.push({
         tag: 'paste',
         options: {
