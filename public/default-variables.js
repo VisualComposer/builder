@@ -67,6 +67,5 @@ vcCake.env('VCV_HUB_ADDON_TEASER', true)
 vcCake.env('FIX_SHORTCODE_BLOCKS_TEXT_BLOCK_EDIT', true)
 vcCake.env('FT_WAIT_FOR_FINAL_RENDER', true)
 vcCake.env('FT_CSS_CACHE', true)
-vcCake.env('FT_INITAL_ELEMENTS_REFACTOR', true)
 vcCake.env('FE_SHORTCODES_SCRIPTS', true) // USED in Elements.
 vcCake.env('FT_TEMPLATE_LOAD_ASYNC', true)

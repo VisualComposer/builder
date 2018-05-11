@@ -77,96 +77,16 @@ addStorage('elements', (storage) => {
     })
     createdElements.push(data.id)
 
-    if (env('FT_INITAL_ELEMENTS_REFACTOR')) {
-      const initChildren = cookElement.get('initChildren')
+    const initChildren = cookElement.get('initChildren')
 
-      if (wrap && initChildren && initChildren.length && !options.skipInitialExtraElements) {
-        initChildren.forEach((initChild) => {
-          initChild.parent = data.id
-          const childData = cook.get(initChild)
-          if (childData) {
-            storage.trigger('add', childData.toJS())
-          }
-        })
-      }
-    } else {
-      if (wrap && cookElement.get('tag') === 'row' && !options.skipInitialExtraElements) {
-        let columnData = cook.get({ tag: 'column', parent: data.id })
-        if (columnData) {
-          let columnElement = documentManager.create(columnData.toJS())
-          createdElements.push(columnElement.id)
+    if (wrap && initChildren && initChildren.length && !options.skipInitialExtraElements) {
+      initChildren.forEach((initChild) => {
+        initChild.parent = data.id
+        const childData = cook.get(initChild)
+        if (childData) {
+          storage.trigger('add', childData.toJS())
         }
-      }
-      if (wrap && cookElement.get('tag') === 'tabsWithSlide' && !options.skipInitialExtraElements) {
-        let tabData = cook.get({ tag: 'tab', parent: data.id })
-        let tabData1 = cook.get({ tag: 'tab', parent: data.id })
-        if (tabData) {
-          let tabElement = documentManager.create(tabData.toJS())
-          let tabElement1 = documentManager.create(tabData1.toJS())
-          createdElements.push(tabElement.id)
-          createdElements.push(tabElement1.id)
-        }
-      }
-      if (env('CLASSIC_TABS')) {
-        if (wrap && cookElement.get('tag') === 'classicTabs' && !options.skipInitialExtraElements) {
-          let tabData = cook.get({ tag: 'classicTab', parent: data.id })
-          let tabData1 = cook.get({ tag: 'classicTab', parent: data.id })
-          if (tabData) {
-            let tabElement = documentManager.create(tabData.toJS())
-            let tabElement1 = documentManager.create(tabData1.toJS())
-            createdElements.push(tabElement.id)
-            createdElements.push(tabElement1.id)
-          }
-        }
-      }
-      if (env('CLASSIC_ACCORDION')) {
-        if (wrap && cookElement.get('tag') === 'classicAccordion' && !options.skipInitialExtraElements) {
-          let sectionData = cook.get({ tag: 'classicAccordionSection', parent: data.id })
-          let sectionData1 = cook.get({ tag: 'classicAccordionSection', parent: data.id })
-          if (sectionData) {
-            let sectionElement = documentManager.create(sectionData.toJS())
-            let sectionElement1 = documentManager.create(sectionData1.toJS())
-            createdElements.push(sectionElement.id)
-            createdElements.push(sectionElement1.id)
-          }
-        }
-      }
-      if (wrap && cookElement.get('tag') === 'pageableContainer' && !options.skipInitialExtraElements) {
-        let tabData = cook.get({ tag: 'pageableTab', parent: data.id, pointerColor: '#fff', backgroundColor: '#4155a7' })
-        let tabData1 = cook.get({ tag: 'pageableTab', parent: data.id, pointerColor: '#fff', backgroundColor: '#e39a54' })
-        let tabData2 = cook.get({ tag: 'pageableTab', parent: data.id })
-        if (tabData) {
-          let tabElement = documentManager.create(tabData.toJS())
-          let tabElement1 = documentManager.create(tabData1.toJS())
-          let tabElement2 = documentManager.create(tabData2.toJS())
-          createdElements.push(tabElement.id)
-          createdElements.push(tabElement1.id)
-          createdElements.push(tabElement2.id)
-        }
-      }
-      if (wrap && cookElement.get('tag') === 'grid' && !options.skipInitialExtraElements) {
-        let gridData = cook.get({ tag: 'gridItem', parent: data.id })
-        if (gridData) {
-          let gridElement = documentManager.create(gridData.toJS())
-          createdElements.push(gridElement.id)
-        }
-      }
-      if (wrap && cookElement.get('tag') === 'section' && !options.skipInitialExtraElements) {
-        let rowData = cook.get({ tag: 'row', parent: data.id })
-        let rowElement
-        if (rowData) {
-          rowElement = documentManager.create(rowData.toJS())
-          createdElements.push(rowElement.id)
-        }
-
-        let columnData = cook.get({ tag: 'column', parent: rowElement.id })
-        if (columnData) {
-          let columnElement = documentManager.create(columnData.toJS())
-          createdElements.push(columnElement.id)
-        }
-
-        rebuildRawLayout(rowElement.id, {}, documentManager)
-      }
+      })
     }
 
     if (data.tag === 'column') {
