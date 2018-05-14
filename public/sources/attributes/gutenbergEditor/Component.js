@@ -46,6 +46,10 @@ export default class Component extends Attribute {
     newPost.content.raw = value
     newPost.content.rendered = value
     const editor = wpData.dispatch('core/editor')
+    // remove autosave
+    if (!!editor.autosave && typeof editor.autosave === 'function') {
+      editor.autosave = () => {}
+    }
     editor.setupEditor(newPost, editorSettings)
   }
 
