@@ -56,7 +56,7 @@ export default class Component extends Attribute {
   }
 
   render () {
-    let { value, showEditor } = this.state
+    let { showEditor } = this.state
     const editor = () => {
       if (showEditor) {
         const closeClasses = classnames({
@@ -78,7 +78,6 @@ export default class Component extends Attribute {
         <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.openEditor}>
           Open Gutenberg
         </button>
-        <textarea className='vcv-ui-form-input' onChange={this.handleChange} value={value} />
         {editor()}
       </React.Fragment>
     )
