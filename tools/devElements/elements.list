@@ -146,3 +146,8 @@ marqueeElement
 progressBars
 gutenberg
 globalTemplate
+simpleCallToAction
+semiFilledMessageBox
+simpleMessageBox
+zigZagSeparator
+outlineCallToAction

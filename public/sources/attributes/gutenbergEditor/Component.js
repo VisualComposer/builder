@@ -60,7 +60,7 @@ export default class Component extends Attribute {
   }
 
   render () {
-    let { value, showEditor } = this.state
+    let { showEditor } = this.state
     const editor = () => {
       if (showEditor) {
         const closeClasses = classnames({
@@ -68,7 +68,7 @@ export default class Component extends Attribute {
           'vcv-ui-icon': true,
           'vcv-ui-icon-close-thin': true
         })
-        const iframeURL = '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
+        const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
         return (
           <GutenbergModal>
             <i onClick={this.closeEditor.bind(this)} className={closeClasses} style={{ color: '#000', position: 'fixed', top: '12px', right: '12px' }} />
@@ -82,7 +82,6 @@ export default class Component extends Attribute {
         <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.openEditor}>
           Open Gutenberg
         </button>
-        <textarea className='vcv-ui-form-input' onChange={this.handleChange} value={value} />
         {editor()}
       </React.Fragment>
     )
