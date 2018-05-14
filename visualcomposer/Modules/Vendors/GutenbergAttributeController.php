@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Settings\SettingsHelper;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -21,6 +20,7 @@ use VisualComposer\Modules\Settings\Traits\Fields;
 class GutenbergAttributeController extends Container implements Module
 {
     protected $postTypeSlug = 'vcv_gutenberg_attr';
+    protected $removeGutenberg = null;
 
     use WpFiltersActions;
     use EventsFilters;
@@ -41,15 +41,16 @@ class GutenbergAttributeController extends Container implements Module
         $this->optionGroup = $this->getSlug();
         $this->optionSlug = 'vcv-gutenberg-editor';
         if (function_exists('the_gutenberg_project')) {
-        	$this->addFilter('vcv:helpers:settingsDefault','defaultSettings');
+            $this->addFilter('vcv:helpers:settingsDefault', 'defaultSettings');
             /** @see  \VisualComposer\Modules\Vendors\GutenbergAttributeController::buildPage */
             $this->wpAddAction(
                 'vcv:settings:initAdmin:page:' . $this->getSlug(),
                 'buildPage',
                 90
             );
-            $this->addEvent('vcv:inited', 'disableGutenberg');
+            $this->call('disableGutenberg');
         }
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     protected function buildPage(CurrentUser $currentUserAccess)
@@ -90,7 +91,6 @@ class GutenbergAttributeController extends Container implements Module
                 'fieldCallback' => $fieldCallback,
             ]
         );
-
     }
 
     protected function renderToggle($value, Options $optionsHelper)
@@ -104,15 +104,15 @@ class GutenbergAttributeController extends Container implements Module
         );
     }
 
-    protected function disableGutenberg(Frontend $frontendHelper, SettingsHelper $settingsHelper)
+    protected function disableGutenberg(SettingsHelper $settingsHelper)
     {
         $settings = $settingsHelper->getAll();
-        if (function_exists('the_gutenberg_project') && !$frontendHelper->isFrontend()
+        if (function_exists('the_gutenberg_project')
             && !in_array(
                 'gutenberg-editor',
                 $settings
             )) {
-            $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
+            $this->removeGutenberg = $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
         }
     }
 
@@ -235,6 +235,11 @@ class GutenbergAttributeController extends Container implements Module
             'supports' => ['editor'],
         ];
         register_post_type($this->postTypeSlug, $args);
-        // add_filter('gutenberg_can_edit_post_type', true, $this->postTypeSlug);
+        $this->wpRemoveFilter('gutenberg_can_edit_post_type', $this->removeGutenberg);
+    }
+
+    protected function unsetOptions(Options $optionsHelper)
+    {
+        $optionsHelper->delete('settings');
     }
 }
