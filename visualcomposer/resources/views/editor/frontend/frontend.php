@@ -83,6 +83,7 @@ if (vcvenv('VCV_ENV_LICENSES')) {
   window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
   window.vcvGoPremiumUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>&vcv-ref=nav-bar';
   window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>';
+  window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(admin_url('post-new.php?post_type=vcv_gutenberg_attr')); ?>';
     <?php endif; ?>
     <?php if (isset($feError) && $feError) : ?>
   window.vcvFeError = '<?php echo $feError; ?>'

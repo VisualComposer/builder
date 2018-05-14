@@ -64,7 +64,7 @@ export default class Component extends Attribute {
           'vcv-ui-icon': true,
           'vcv-ui-icon-close-thin': true
         })
-        const iframeURL = '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
+        const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
         return (
           <GutenbergModal>
             <i onClick={this.closeEditor.bind(this)} className={closeClasses} style={{ color: '#000', position: 'fixed', top: '12px', right: '12px' }} />
