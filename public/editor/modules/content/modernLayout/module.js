@@ -206,17 +206,13 @@ vcCake.add('contentModernLayout', (api) => {
       }, [])
       params.push(`vcv-nonce=${window.vcvNonce}`)
       if (template) {
-        if (vcCake.env('PAGE_TEMPLATE_LAYOUTS')) {
-          params.push(`vcv-template=${template.value}`)
-          params.push(`vcv-template-type=${template.type}`)
-        } else {
-          params.push(`vcv-template=${template}`)
-        }
+        params.push(`vcv-template=${template.value}`)
+        params.push(`vcv-template-type=${template.type}`)
 
-        let hasHeader = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
-        let hasSidebar = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
-        let hasFooter = !vcCake.env('PAGE_TEMPLATE_LAYOUTS')
-        let currentLayoutType = vcCake.env('PAGE_TEMPLATE_LAYOUTS') && window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().find(item => item.type === template.type)
+        let hasHeader = false
+        let hasSidebar = false
+        let hasFooter = false
+        let currentLayoutType = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().find(item => item.type === template.type)
         if (currentLayoutType && currentLayoutType.values) {
           let currentTemplate = currentLayoutType.values.find(item => item.value === template.value)
           if (currentTemplate) {

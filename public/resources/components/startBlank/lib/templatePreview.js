@@ -150,7 +150,7 @@ export default class TemplatePreview extends React.Component {
   handleClick (e) {
     e && e.preventDefault()
     if (this.props.blank) {
-      vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? this.props.click('theme', 'default') : this.props.click('default')
+      this.props.click('theme', 'default')
     } else {
       this.props.click(this.props.templatesList.type, this.props.templateValue)
     }
@@ -170,16 +170,12 @@ export default class TemplatePreview extends React.Component {
       'vcv-start-blank-content': true
     })
 
-    let previewClasses = ''
-    let figure = ''
-    let icon = ''
-
-    previewClasses = classNames({
+    let previewClasses = classNames({
       'vcv-ui-item-preview-container': true,
       'vcv-ui-state--visible': previewVisible
     })
 
-    figure = (
+    let figure = (
       <figure className={previewClasses} style={previewStyle}>
         <img
           className='vcv-ui-item-preview-image'
@@ -200,7 +196,7 @@ export default class TemplatePreview extends React.Component {
     }
     let itemClasses = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
     this.props.active && (itemClasses += ' vcv-ui-start-layout-list-item-active')
-    icon = Icon ? (<Icon {...iconProps} />) : null
+    let icon = Icon ? (<Icon {...iconProps} />) : null
 
     return (
       <li className={itemClasses}>
