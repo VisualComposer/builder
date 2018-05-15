@@ -46,6 +46,8 @@ export default class Component extends Attribute {
     newPost.content.raw = value
     newPost.content.rendered = value
     const editor = wpData.dispatch('core/editor')
+    const selectEditor = wpData.select('core/edit-post')
+    selectEditor.isPublishSidebarOpened = () => { return true }
     editor.setupEditor(newPost, editorSettings)
   }
 
