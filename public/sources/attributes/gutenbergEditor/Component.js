@@ -10,15 +10,26 @@ export default class Component extends Attribute {
     this.openEditor = this.openEditor.bind(this)
     this.iframeLoaded = this.iframeLoaded.bind(this)
     this.updateValueFromIframe = this.updateValueFromIframe.bind(this)
+
+    this.state = {
+      showEditor: false,
+      loadingEditor: false
+    }
   }
 
   openEditor (e) {
     e.preventDefault()
-    this.setState({ showEditor: true })
+    this.setState({
+      showEditor: true,
+      loadingEditor: true
+    })
   }
 
   closeEditor () {
-    this.setState({ showEditor: false })
+    this.setState({
+      showEditor: false,
+      loadingEditor: false
+    })
   }
 
   iframeLoaded () {
@@ -52,16 +63,32 @@ export default class Component extends Attribute {
       editor.autosave = () => {}
     }
     editor.setupEditor(newPost, editorSettings)
+    this.setState({ loadingEditor: false })
   }
 
   updateValueFromIframe () {
+    if (!this.iframe) {
+      return
+    }
     const wpData = this.iframe.contentWindow.wp.data
     const value = wpData.select('core/editor').getEditedPostContent()
     this.setFieldValue(value)
   }
 
   render () {
-    let { showEditor } = this.state
+    let { showEditor, loadingEditor } = this.state
+    let loadingOverlay = null
+    if (loadingEditor) {
+      loadingOverlay = (
+        <div className='vcv-loading-overlay'>
+          <div className='vcv-loading-dots-container'>
+            <div className='vcv-loading-dot vcv-loading-dot-1' />
+            <div className='vcv-loading-dot vcv-loading-dot-2' />
+          </div>
+        </div>
+      )
+    }
+
     const editor = () => {
       if (showEditor) {
         const closeClasses = classnames({
@@ -71,6 +98,7 @@ export default class Component extends Attribute {
         const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
         return (
           <GutenbergModal>
+            {loadingOverlay}
             <div className='vcv-gutenberg-modal-inner'>
               <button className='vcv-gutenberg-modal-close-button' onClick={this.closeEditor.bind(this)}>
                 <i className={closeClasses} />
