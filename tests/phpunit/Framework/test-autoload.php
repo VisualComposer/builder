@@ -14,7 +14,7 @@ class AutoloadTest extends WP_UnitTestCase
         $this->assertTrue(!empty($components['helpers']));
         $this->assertTrue(!empty($components['modules']));
         foreach ($components['helpers'] as $helper) {
-            $helperObj = vchelper(str_replace('Helper', '', $helper['name']));
+            $helperObj = vchelper(preg_replace('/Helper$/', '', $helper['name']));
             $helperObjFromApp = vcapp($helper['name']);
             $this->assertEquals(
                 $helperObj,

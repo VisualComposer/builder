@@ -48,6 +48,9 @@ export default class Component extends Attribute {
     const editor = wpData.dispatch('core/editor')
     const selectEditor = wpData.select('core/edit-post')
     selectEditor.isPublishSidebarOpened = () => { return true }
+    if (!!editor.autosave && typeof editor.autosave === 'function') {
+      editor.autosave = () => {}
+    }
     editor.setupEditor(newPost, editorSettings)
   }
 
@@ -62,15 +65,18 @@ export default class Component extends Attribute {
     const editor = () => {
       if (showEditor) {
         const closeClasses = classnames({
-          'vcv-layout-bar-content-hide-icon': true,
           'vcv-ui-icon': true,
           'vcv-ui-icon-close-thin': true
         })
         const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
         return (
           <GutenbergModal>
-            <i onClick={this.closeEditor.bind(this)} className={closeClasses} style={{ color: '#000', position: 'fixed', top: '12px', right: '12px' }} />
-            <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} style={{ width: '100%', height: '100%' }} onLoad={this.iframeLoaded} />
+            <div className='vcv-gutenberg-modal-inner'>
+              <button className='vcv-gutenberg-modal-close-button' onClick={this.closeEditor.bind(this)}>
+                <i className={closeClasses} />
+              </button>
+              <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} onLoad={this.iframeLoaded} />
+            </div>
           </GutenbergModal>
         )
       }
