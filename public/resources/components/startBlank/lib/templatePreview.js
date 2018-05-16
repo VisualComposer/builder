@@ -12,29 +12,31 @@ export default class TemplatePreview extends React.Component {
       previewVisible: false,
       previewStyle: {}
     }
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+
     this.templateInfo = {
       'theme-default': {
-        description: 'Your WordPress theme defined layout for specific page, post, or custom post type.',
+        description: localizations ? localizations.themeDefaultDescription : 'Your WordPress theme defined layout for specific page, post, or custom post type.',
         img: 'theme-defined-preview.png'
       },
       'vc__boxed': {
-        description: 'Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar.',
+        description: localizations ? localizations.vcBoxedDescription : 'Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar.',
         img: 'boxed-preview.png'
       },
       'vc__blank': {
-        description: 'Full width blank page without header, footer, or sidebar.',
+        description: localizations ? localizations.vcBlankDescription : 'Full width blank page without header, footer, or sidebar.',
         img: 'blank-preview.png'
       },
       'vc-theme__header-footer-layout': {
-        description: 'Default layout with custom header, content, and footer area.',
+        description: localizations ? localizations.vcThemeHeaderFooterDescription : 'Default layout with custom header, content, and footer area.',
         img: 'header-footer-preview.png'
       },
       'vc-theme__header-footer-sidebar-layout': {
-        description: 'Default layout with custom header, content, footer and sidebar area on the right.',
+        description: localizations ? localizations.vcThemeHeaderFooterSidebarDescription : 'Default layout with custom header, content, footer and sidebar area on the right.',
         img: 'hfs-right-preview.png'
       },
       'vc-theme__header-footer-sidebar-left-layout': {
-        description: 'Default layout with custom header, content, footer and sidebar area on the left.',
+        description: localizations ? localizations.vcThemeHeaderFooterLeftSidebarDescription : 'Default layout with custom header, content, footer and sidebar area on the left.',
         img: 'hfs-left-preview.png'
       }
     }
@@ -149,37 +151,42 @@ export default class TemplatePreview extends React.Component {
 
   handleClick (e) {
     e && e.preventDefault()
-    if (this.props.blank) {
-      vcCake.env('PAGE_TEMPLATE_LAYOUTS') ? this.props.click('theme', 'default') : this.props.click('default')
+    const { click, blank, templatesList, templateValue } = this.props
+    if (!click) {
+      return
+    }
+    if (blank) {
+      click('theme', 'default')
     } else {
-      this.props.click(this.props.templatesList.type, this.props.templateValue)
+      click(templatesList.type, templateValue)
     }
   }
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addText = localizations ? localizations.add : 'Add'
+    const availableInPremiumText = localizations ? localizations.availableInPremium : 'Available in Premium version.'
 
-    let { name } = this.props
-    let { previewVisible, previewStyle } = this.state
+    const { name, templateName, active, disabled, icon } = this.props
+    const { previewVisible, previewStyle } = this.state
 
-    let description = this.templateInfo[ this.props.templateName ].description
-    let preview = this.templateInfo[ this.props.templateName ].img
+    let description = this.templateInfo[ templateName ].description
+    if (disabled) {
+      description += ` ${availableInPremiumText}`
+    }
+
+    let preview = this.templateInfo[ templateName ].img
 
     let elementContentClasses = classNames({
       'vcv-start-blank-content': true
     })
 
-    let previewClasses = ''
-    let figure = ''
-    let icon = ''
-
-    previewClasses = classNames({
+    let previewClasses = classNames({
       'vcv-ui-item-preview-container': true,
       'vcv-ui-state--visible': previewVisible
     })
 
-    figure = (
+    let figure = (
       <figure className={previewClasses} style={previewStyle}>
         <img
           className='vcv-ui-item-preview-image'
@@ -194,13 +201,18 @@ export default class TemplatePreview extends React.Component {
       </figure>
     )
 
-    let Icon = this.props.icon
+    let Icon = icon
     let iconProps = {
       classes: 'vcv-ui-start-layout-list-item-icon'
     }
-    let itemClasses = 'vcv-ui-item-list-item vcv-ui-start-layout-list-item'
-    this.props.active && (itemClasses += ' vcv-ui-start-layout-list-item-active')
-    icon = Icon ? (<Icon {...iconProps} />) : null
+
+    let itemClasses = classNames({
+      'vcv-ui-item-list-item vcv-ui-start-layout-list-item': true,
+      'vcv-ui-start-layout-list-item-active': active,
+      'vcv-ui-start-layout-list-item-disabled': disabled
+    })
+
+    let iconHtml = Icon ? (<Icon {...iconProps} />) : null
 
     return (
       <li className={itemClasses}>
@@ -211,7 +223,7 @@ export default class TemplatePreview extends React.Component {
           onMouseLeave={this.hidePreview}
         >
           <span className={elementContentClasses}>
-            {icon}
+            {iconHtml}
           </span>
           {figure}
         </span>
