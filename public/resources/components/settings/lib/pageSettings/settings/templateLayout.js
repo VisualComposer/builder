@@ -116,7 +116,7 @@ export default class TemplateLayout extends React.Component {
         templateList.values.forEach((template, tIndex) => {
           let templateName = `${templateList.type}__${template.value}`
           let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
-          let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].default
+          let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].icon.default
           let iconProps = {
             classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
           }
@@ -136,7 +136,7 @@ export default class TemplateLayout extends React.Component {
     }
 
     let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
-    let Icon = LayoutIcons[ 'theme-default' ] && LayoutIcons[ 'theme-default' ].default
+    let Icon = LayoutIcons[ 'theme-default' ] && LayoutIcons[ 'theme-default' ].icon.default
     let iconProps = {
       classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
     }

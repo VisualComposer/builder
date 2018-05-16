@@ -10,9 +10,7 @@ const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
-let pageLayouts
-
-pageLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
+let pageLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
 
 export default class PagePanelContent extends React.Component {
   rowContainer = null
@@ -138,14 +136,9 @@ export default class PagePanelContent extends React.Component {
     }
   }
 
-  getBlankControls () {
-    let controls = []
-    controls = this.getLayoutControls()
-    return controls
-  }
-
   getLayoutControls () {
     let layouts = []
+    let inactiveIcons = Object.assign({}, LayoutIcons)
 
     if (pageLayouts) {
       let allowedTypes = [ 'vc', 'vc-theme' ]
@@ -153,7 +146,8 @@ export default class PagePanelContent extends React.Component {
         if (allowedTypes.indexOf(templatesList.type) >= 0) {
           templatesList.values.forEach((template, index) => {
             let templateName = `${templatesList.type}__${template.value}`
-            let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].default
+            let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].icon.default
+            delete inactiveIcons[ templateName ]
             layouts.push(
               <TemplatePreview key={`layout-${key}-${index}`}
                 click={this.handleLayoutClick}
@@ -169,7 +163,32 @@ export default class PagePanelContent extends React.Component {
       })
     }
 
-    let Icon = LayoutIcons[ 'theme-default' ] && LayoutIcons[ 'theme-default' ].default
+    if (vcCake.env('FT_SHOW_ALL_LAYOUTS')) {
+      // get inactive controls
+      for (const templateName of Object.keys(inactiveIcons)) {
+        let allowedTypes = [ 'vc', 'vc-theme' ]
+        let allowed = false
+
+        allowedTypes.forEach((allowedType) => {
+          if (templateName.indexOf(allowedType) >= 0) {
+            allowed = true
+          }
+        })
+
+        if (allowed) {
+          layouts.push(
+            <TemplatePreview key={`layout-inactive-${templateName}`}
+              templateName={templateName}
+              icon={inactiveIcons[ templateName ].icon.default}
+              name={inactiveIcons[ templateName ].label}
+              disabled={allowed}
+            />
+          )
+        }
+      }
+    }
+
+    let Icon = LayoutIcons[ 'theme-default' ] && LayoutIcons[ 'theme-default' ].icon.default
     layouts.push(
       <TemplatePreview key={`layout-theme-default`}
         click={this.handleLayoutClick}
@@ -229,7 +248,7 @@ export default class PagePanelContent extends React.Component {
           style={containerWidth}
           ref={(container) => { this.elementsContainer = container }}
         >
-          {this.getBlankControls()}
+          {this.getLayoutControls()}
         </ul>
       </div>
       <div className='vcv-start-blank-description'>You can change layout of your page later on at any time via Visual Composer Settings</div>
