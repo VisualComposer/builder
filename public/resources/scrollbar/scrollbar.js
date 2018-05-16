@@ -4,6 +4,8 @@ import {Scrollbars} from 'react-custom-scrollbars'
 import PropTypes from 'prop-types'
 
 export default class Scrollbar extends React.Component {
+  scrollbars = null
+
   static propTypes = {
     content: PropTypes.number
   }
@@ -15,8 +17,14 @@ export default class Scrollbar extends React.Component {
     }
   }
 
+  componentDidMount () {
+    // Fixes content disappearing issue on iPhone/iPad deviced
+    // webkitOverflowScrolling property is not standartized
+    this.scrollbars.view.style.webkitOverflowScrolling = ''
+  }
+
   scrollTop (top) {
-    return this.refs.scrollbars.scrollTop(top)
+    return this.scrollbars.scrollTop(top)
   }
 
   render () {
@@ -27,7 +35,7 @@ export default class Scrollbar extends React.Component {
     })
 
     return (
-      <Scrollbars ref='scrollbars' {...props} className={scrollbarClasses}
+      <Scrollbars ref={(scrollbars) => { this.scrollbars = scrollbars }} {...props} className={scrollbarClasses}
         renderTrackHorizontal={props => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
         renderTrackVertical={props => <div {...props} className='vcv-ui-scroll-track--vertical' />}
         renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}

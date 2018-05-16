@@ -67,4 +67,4 @@ vcCake.env('FT_WAIT_FOR_FINAL_RENDER', true)
 vcCake.env('FT_CSS_CACHE', true)
 vcCake.env('FE_SHORTCODES_SCRIPTS', true) // USED in Elements.
 vcCake.env('FT_TEMPLATE_LOAD_ASYNC', true)
-vcCake.env('FT_SHOW_ALL_LAYOUTS', false)
+vcCake.env('FT_SHOW_ALL_LAYOUTS', true)
