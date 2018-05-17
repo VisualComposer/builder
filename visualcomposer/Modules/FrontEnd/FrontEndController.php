@@ -27,6 +27,8 @@ class FrontEndController extends Container implements Module
         $this->wpAddFilter('the_content', 'decode', 10);
         /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::removeOldCommentTags */
         $this->wpAddFilter('the_content', 'removeOldCommentTags');
+        /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::removeIpadMeta */
+        $this->wpAddAction('admin_enqueue_scripts', 'removeIpadMeta');
     }
 
     protected function encode($content)
@@ -83,5 +85,13 @@ class FrontEndController extends Container implements Module
         );
 
         return $content;
+    }
+
+    /**
+     * Remove iPad meta from FE
+     */
+    protected function removeIpadMeta()
+    {
+        $this->wpRemoveAction('admin_head', '_ipad_meta');
     }
 }
