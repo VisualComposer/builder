@@ -52,20 +52,33 @@
 
   .vcv-ui-item-element {
     cursor: default;
+    &:hover {
+      .vcv-ui-item-overlay {
+        opacity: 1;
+        z-index: 2;
+        transition: opacity @transition-duration @transition-timing-function, z-index 0s 0s;
+      }
+      .vcv-ui-item-control {
+        visibility: visible;
+        transition: visibility 0s 1ms;
+      }
+    }
   }
 
   .vcv-ui-item-overlay {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: -1;
+    transition: opacity @transition-duration @transition-timing-function, z-index 0s @transition-duration;
   }
 
   .vcv-ui-item-control {
     padding: @add-template-item-control-padding;
     font-size: @add-template-item-control-font-size;
     cursor: pointer;
-    transition: color @transition-duration @transition-timing-function;
+    transition: color @transition-duration @transition-timing-function, visibility 0s 0s;
+    visibility: hidden;
 
     &.vcv-ui-icon-add {
       &:hover {
@@ -133,6 +146,7 @@
     }
   }
 }
+
 .rtl {
   .vcv-ui-add-template-content {
     .vcv-ui-save-template-form {
@@ -144,7 +158,6 @@
 }
 
 //== Tree view styles
-
 
 //== content
 .vcv-ui-tree-view-content {
