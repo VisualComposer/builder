@@ -91,62 +91,70 @@ class PredefinedTemplateMigration extends MigrationsController implements Module
 
         foreach ($predefinedTemplates as $template) {
             $metaValue = get_post_meta($template->ID, '_' . VCV_PREFIX . 'id', true);
-            switch ($metaValue) {
-                case 'TP11000001' :
-                    update_post_meta(
-                        $template->ID,
-                        '_' . VCV_PREFIX . 'bundle',
-                        'predefinedTemplate/simpleLandingPage'
-                    );
-                    break;
-                case 'TP11000002' :
-                    update_post_meta(
-                        $template->ID,
-                        '_' . VCV_PREFIX . 'bundle',
-                        'predefinedTemplate/simpleBlogArticle'
-                    );
-                    break;
-                case 'TP11000003' :
-                    update_post_meta(
-                        $template->ID,
-                        '_' . VCV_PREFIX . 'bundle',
-                        'predefinedTemplate/photographyPortfolio'
-                    );
-                    break;
-                case 'TP11000004' :
-                    update_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', 'predefinedTemplate/startupPage');
-                    break;
-                case 'TP11000005' :
-                    update_post_meta(
-                        $template->ID,
-                        '_' . VCV_PREFIX . 'bundle',
-                        'predefinedTemplate/singleProductPage'
-                    );
-                    break;
-                case 'TP11000006' :
-                    update_post_meta(
-                        $template->ID,
-                        '_' . VCV_PREFIX . 'bundle',
-                        'predefinedTemplate/mediumStyleArticle'
-                    );
-                    break;
-                case 'TP11000007' :
-                    update_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', 'predefinedTemplate/personalPage');
-                    break;
-                case 'TP11000008' :
-                    update_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', 'predefinedTemplate/weddingPage');
-                    break;
-                case 'TP11000009' :
-                    update_post_meta(
-                        $template->ID,
-                        '_' . VCV_PREFIX . 'bundle',
-                        'predefinedTemplate/productCategoryPage'
-                    );
-                    break;
-            }
-
+            $this->updateMeta($metaValue, $template);
         }
 
         return true;
+    }
+
+    /**
+     * @param $metaValue
+     * @param $template
+     */
+    protected function updateMeta($metaValue, $template)
+    {
+        switch ($metaValue) {
+            case 'TP11000001':
+                update_post_meta(
+                    $template->ID,
+                    '_' . VCV_PREFIX . 'bundle',
+                    'predefinedTemplate/simpleLandingPage'
+                );
+                break;
+            case 'TP11000002':
+                update_post_meta(
+                    $template->ID,
+                    '_' . VCV_PREFIX . 'bundle',
+                    'predefinedTemplate/simpleBlogArticle'
+                );
+                break;
+            case 'TP11000003':
+                update_post_meta(
+                    $template->ID,
+                    '_' . VCV_PREFIX . 'bundle',
+                    'predefinedTemplate/photographyPortfolio'
+                );
+                break;
+            case 'TP11000004':
+                update_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', 'predefinedTemplate/startupPage');
+                break;
+            case 'TP11000005':
+                update_post_meta(
+                    $template->ID,
+                    '_' . VCV_PREFIX . 'bundle',
+                    'predefinedTemplate/singleProductPage'
+                );
+                break;
+            case 'TP11000006':
+                update_post_meta(
+                    $template->ID,
+                    '_' . VCV_PREFIX . 'bundle',
+                    'predefinedTemplate/mediumStyleArticle'
+                );
+                break;
+            case 'TP11000007':
+                update_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', 'predefinedTemplate/personalPage');
+                break;
+            case 'TP11000008':
+                update_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', 'predefinedTemplate/weddingPage');
+                break;
+            case 'TP11000009':
+                update_post_meta(
+                    $template->ID,
+                    '_' . VCV_PREFIX . 'bundle',
+                    'predefinedTemplate/productCategoryPage'
+                );
+                break;
+        }
     }
 }
