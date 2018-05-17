@@ -29,7 +29,7 @@ addStorage('hubTemplates', (storage) => {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    let tag = bundle.replace('template/', '')
+    let tag = bundle.replace('template/', '').replace('predefinedTemplate/', '')
     let successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
     const hubTemplates = window.VCV_HUB_GET_TEMPLATES_TEASER()
     let findTemplate = hubTemplates.find(template => template.bundle === bundle)
