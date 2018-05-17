@@ -124,6 +124,13 @@ class Controller extends Container implements Module
         }
         $sourceId = $requestHelper->input('vcv-source-id');
 
+        $postType = get_post_type($sourceId);
+        if ($postType === 'vcv_templates') {
+            if (!get_post_meta($sourceId, '_' . VCV_PREFIX . 'id', true)) {
+                update_post_meta($sourceId, '_' . VCV_PREFIX . 'id', uniqid());
+            }
+        }
+
         if (!is_numeric($sourceId) && !empty($sourceId)) {
             $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $sourceId);
         }
