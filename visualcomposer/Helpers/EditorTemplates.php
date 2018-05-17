@@ -33,7 +33,11 @@ class EditorTemplates implements Helper
             '_' . VCV_PREFIX . 'type'
         );
         $dataHelper = vchelper('Data');
-        $outputTemplates = [];
+        $outputTemplates = [
+            'predefined' => ['templates' => []],
+            'hub' => ['templates' => []],
+            'custom' => ['templates' => []],
+        ];
         if (!empty($templatesGroups)) {
             foreach ($templatesGroups as $groupKey => $templates) {
                 $groupTemplates = [];

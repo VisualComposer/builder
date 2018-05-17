@@ -35,7 +35,14 @@ export default class Component extends Attribute {
   iframeLoaded () {
     const { value } = this.state
     const window = this.iframe.contentWindow
-    const wpData = window.wp.data
+    const wpData = window.wp ? window.wp.data : false
+    if (!wpData) {
+      const localizations = window.VCV_I18N && window.VCV_I18N()
+
+      const alertNotice = localizations ? localizations.gutenbergDoesntWorkProperly : "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin."
+      window.alert(alertNotice)
+      this.closeEditor()
+    }
     // Subscribe to data change
     const debounce = lodash.debounce(this.updateValueFromIframe.bind(this), 500)
     if (!window._wpGutenbergPost) {
