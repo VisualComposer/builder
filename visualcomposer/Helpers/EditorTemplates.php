@@ -51,7 +51,7 @@ class EditorTemplates implements Helper
                     if (empty($groupKey)) {
                         $groupKey = 'custom';
                     }
-                    if (isset($outputTemplates[ $groupKey ])) {
+                    if (isset($outputTemplates[ $groupKey ]) && isset($outputTemplates[ $groupKey ]['name'])) {
                         $outputTemplates[ $groupKey ]['templates'] = $dataHelper->arrayDeepUnique(
                             array_merge($outputTemplates[ $groupKey ]['templates'], $groupTemplates)
                         );
