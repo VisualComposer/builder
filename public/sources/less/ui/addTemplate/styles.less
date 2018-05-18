@@ -53,11 +53,6 @@
   .vcv-ui-item-element {
     cursor: default;
     &:hover {
-      .vcv-ui-item-overlay {
-        opacity: 1;
-        z-index: 2;
-        transition: opacity @transition-duration @transition-timing-function, z-index 0s 0s;
-      }
       .vcv-ui-item-control {
         visibility: visible;
         transition: visibility 0s 1ms;
@@ -69,8 +64,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: -1;
-    transition: opacity @transition-duration @transition-timing-function, z-index 0s @transition-duration;
+    z-index: 2;
   }
 
   .vcv-ui-item-control {
