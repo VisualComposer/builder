@@ -17,12 +17,6 @@ export default class Scrollbar extends React.Component {
     }
   }
 
-  componentDidMount () {
-    // Fixes content disappearing issue on iPhone/iPad deviced
-    // webkitOverflowScrolling property is not standartized
-    this.scrollbars.view.style.webkitOverflowScrolling = ''
-  }
-
   scrollTop (top) {
     return this.scrollbars.scrollTop(top)
   }
