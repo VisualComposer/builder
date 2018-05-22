@@ -11,14 +11,14 @@ export default class DefaultLayouts extends React.Component {
   }
   findEqualDefaultProps (layout) {
     return this.props.layouts.findIndex((defaultLayout) => {
-      return _.isEqual(layout, defaultLayout)
+      return _.isEqual(this.convertColumns(layout), defaultLayout)
     })
   }
   convertColumns (columns) {
     return columns.map((column) => {
       let split = column.match(/(\d+)\/(\d+)/)
       if (split && split.length) {
-        return split[1] / split[2]
+        return `${parseFloat((split[ 1 ] / split[ 2 ] * 100).toFixed(2))}%`
       }
       return column
     })
@@ -44,7 +44,7 @@ export default class DefaultLayouts extends React.Component {
         'vcv-ui-state--active': activeLayoutIndex === index
       })
       return <div key={`layouts-${layoutsKeys}`} className={layoutClasses}
-        onClick={this.handleClick} data-index={index}>{spans}</div>
+        onClick={this.handleClick} data-index={index} title={columns.join(' + ')}>{spans}</div>
     })
     return <div className='vcv-ui-form-layout-layouts'>
       {layoutsData}
