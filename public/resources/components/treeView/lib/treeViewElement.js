@@ -35,8 +35,16 @@ export default class TreeViewElement extends React.Component {
   constructor (props) {
     super(props)
 
+    if (vcCake.env('MOBILE_DETECT')) {
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        this.isMobile = true
+      }
+    }
+
     this.state = {
-      childExpand: true,
+      childExpand: props.level > 1 || this.isMobile || !vcCake.env('FT_COLLAPSE_ELEMENTS_TREE_VIEW'),
+      hasBeenOpened: false,
       isActive: false,
       hasChild: false,
       showOutline: false,
@@ -59,13 +67,6 @@ export default class TreeViewElement extends React.Component {
     this.clickHide = this.clickHide.bind(this)
     this.toggleControls = this.toggleControls.bind(this)
     this.checkTarget = this.checkTarget.bind(this)
-
-    if (vcCake.env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        this.isMobile = true
-      }
-    }
   }
 
   dataUpdate (data) {
@@ -169,7 +170,10 @@ export default class TreeViewElement extends React.Component {
   }
 
   clickChildExpand = () => {
-    this.setState({ childExpand: !this.state.childExpand })
+    this.setState({
+      childExpand: !this.state.childExpand,
+      hasBeenOpened: true
+    })
   }
 
   clickAddChild (tag) {
@@ -213,10 +217,14 @@ export default class TreeViewElement extends React.Component {
     workspaceStorage.trigger('hide', this.state.element.id)
   }
 
-  getContent () {
+  getContent (children) {
+    const { hasBeenOpened, childExpand } = this.state
+    if (!childExpand && !hasBeenOpened && !this.isMobile && vcCake.env('FT_COLLAPSE_ELEMENTS_TREE_VIEW')) {
+      return null
+    }
     const { showOutlineCallback, onMountCallback, onUnmountCallback } = this.props
     const level = this.props.level + 1
-    let elementsList = documentManger.children(this.state.element.id).map((element) => {
+    let elementsList = children.map((element) => {
       return <TreeViewElement
         showOutlineCallback={showOutlineCallback}
         onMountCallback={onMountCallback}
@@ -444,9 +452,9 @@ export default class TreeViewElement extends React.Component {
       treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
     }
 
-    let child = this.getContent()
-
-    this.state.hasChild = !!child
+    let innerChildren = documentManger.children(this.state.element.id)
+    let childHtml = this.getContent(innerChildren)
+    this.state.hasChild = !!innerChildren.length
 
     let addChildControl = false
     let editRowLayoutControl = false
@@ -625,7 +633,7 @@ export default class TreeViewElement extends React.Component {
               {controlsContent}
             </div>
           </div>
-          {child}
+          {childHtml}
         </li>
       )
     }
@@ -664,7 +672,7 @@ export default class TreeViewElement extends React.Component {
             {childControls}
           </div>
         </div>
-        {child}
+        {childHtml}
       </li>
     )
   }
