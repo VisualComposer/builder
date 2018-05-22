@@ -20,9 +20,6 @@ let setList = {
     linearicons: require('./lib/linearicons-1.0-170')
   },
   newShapes: {
-    all: require('./lib/dividerShapes')
-  },
-  newShapes2: {
     all: require('./lib/dividerShapes-2.0')
   }
 }
