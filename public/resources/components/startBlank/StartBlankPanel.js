@@ -33,7 +33,7 @@ export default class startBlank extends React.Component {
   }
 
   handlePageNameClick (value) {
-    if (vcCake.env('HFS_START_PAGE') && value) {
+    if (value) {
       settingsStorage.state('pageTitle').set(value)
     }
     this.handleCloseClick(true)
@@ -70,7 +70,7 @@ export default class startBlank extends React.Component {
       )
     }
     let startBlankContent
-    if (vcCake.env('HFS_START_PAGE') && window.VCV_EDITOR_TYPE) {
+    if (window.VCV_EDITOR_TYPE) {
       premium = null
       let type = window.VCV_EDITOR_TYPE()
       type = type.charAt(0).toUpperCase() + type.slice(1)
