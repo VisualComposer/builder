@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { env } from 'vc-cake'
 
 export default class TeaserTypeControl extends React.Component {
   buttonsGroup = null
@@ -84,12 +83,9 @@ export default class TeaserTypeControl extends React.Component {
         'vcv-ui-form-button': true,
         'vcv-ui-form-button--active': type === this.props.filterType
       })
-      let index = i
-      if (env('TF_FIX_EMPTY_ELEMENT_SECTION')) {
-        index = control.index
-        if (control.subIndex !== undefined) {
-          index = `${control.index}-${control.subIndex}`
-        }
+      let index = control.index
+      if (control.subIndex !== undefined) {
+        index = `${control.index}-${control.subIndex}`
       }
 
       return <button
