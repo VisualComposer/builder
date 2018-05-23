@@ -12,7 +12,6 @@ import ButtonGroup from '../buttonGroup/Component'
 import Range from '../range/Component'
 import IconPicker from '../iconpicker/Component'
 import String from '../string/Component'
-import vcCake from 'vc-cake'
 
 export default class Divider extends Attribute {
   /**
@@ -673,14 +672,16 @@ export default class Divider extends Attribute {
         {
           label: 'Self-hosted video',
           value: 'videoEmbed'
+        },
+        {
+          label: 'Youtube video',
+          value: 'videoYoutube'
+        },
+        {
+          label: 'Vimeo video',
+          value: 'videoVimeo'
         }
       ]
-    }
-
-    options.values.push({ label: 'Youtube video', value: 'videoYoutube' })
-
-    if (vcCake.env('DIVIDER_VIMEO')) {
-      options.values.push({ label: 'Vimeo video', value: 'videoVimeo' })
     }
 
     let value = deviceData[ dividerBgTypeName ] || Divider.deviceDefaults[ dividerBgTypeName ]
@@ -964,11 +965,11 @@ export default class Divider extends Attribute {
       }
     }
 
-    if ((backgroundType === 'videoYoutube' && !deviceData[ dividerVideoYoutubeName ])) {
+    if (backgroundType === 'videoYoutube' && !deviceData[ dividerVideoYoutubeName ]) {
       return null
     }
 
-    if ((backgroundType === 'videoVimeo' && !deviceData[ dividerVideoVimeoName ]) || (backgroundType === 'videoVimeo' && !vcCake.env('DIVIDER_VIMEO'))) {
+    if (backgroundType === 'videoVimeo' && !deviceData[ dividerVideoVimeoName ]) {
       return null
     }
 
@@ -1110,7 +1111,7 @@ export default class Divider extends Attribute {
     let deviceData = this.state.devices[ this.state.currentDevice ]
     let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'videoVimeo' || !vcCake.env('DIVIDER_VIMEO')) {
+    if (!deviceData[ dividerType ] || backgroundType !== 'videoVimeo') {
       return null
     }
 

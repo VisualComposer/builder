@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FIX_DND_FOR_TABS', true)
-vcCake.env('DIVIDER_VIMEO', true)
 vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD', true)
 vcCake.env('UI_NOTIFICATIONS', true)
 vcCake.env('PAGE_TITLE_FE', true)
