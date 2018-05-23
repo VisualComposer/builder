@@ -101,11 +101,10 @@ export default class SaveController {
       if (pageTemplateData) {
         requestData[ 'vcv-page-template' ] = pageTemplateData
       }
-      if (vcCake.env('PAGE_TITLE_FE')) {
-        let title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
-        requestData[ 'vcv-page-title' ] = title
-        requestData[ 'vcv-page-title-disabled' ] = settingsStorage.state('pageTitleDisabled').get() || ''
-      }
+      let title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
+      requestData[ 'vcv-page-title' ] = title
+      requestData[ 'vcv-page-title-disabled' ] = settingsStorage.state('pageTitleDisabled').get() || ''
+
       if (vcCake.env('SAVE_API')) {
         let extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
         requestData[ 'vcv-extra' ] = extraRequestData

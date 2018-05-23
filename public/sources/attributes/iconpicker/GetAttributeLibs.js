@@ -1,18 +1,14 @@
-import { env } from 'vc-cake'
-
 export default (value) => {
-  if (env('ATTRIBUTE_LIBS')) {
-    let libs = []
+  let libs = []
 
-    if (value && value.icon && value.iconSet) {
-      let libData = {
-        name: 'iconpicker',
-        dependencies: []
-      }
-
-      libs.push(libData)
+  if (value && value.icon && value.iconSet) {
+    let libData = {
+      name: 'iconpicker',
+      dependencies: []
     }
 
-    return libs
+    libs.push(libData)
   }
+
+  return libs
 }

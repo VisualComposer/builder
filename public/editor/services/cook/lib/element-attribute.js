@@ -1,5 +1,3 @@
-import { env } from 'vc-cake'
-
 export default class {
   constructor (name, component, settings, representers = {}) {
     this.name = name
@@ -9,9 +7,7 @@ export default class {
 
     this.setter = null
     this.getter = null
-    if (env('ATTRIBUTE_LIBS')) {
-      this.getAttributeLibs = null
-    }
+    this.getAttributeLibs = null
   }
 
   setSetter (setter) {
@@ -23,9 +19,7 @@ export default class {
   }
 
   setGetAttributeLibs (getAttributeLibs) {
-    if (env('ATTRIBUTE_LIBS')) {
-      this.getAttributeLibs = getAttributeLibs
-    }
+    this.getAttributeLibs = getAttributeLibs
   }
 
   getValue (settings, data, key, ignoreGetter = false) {
