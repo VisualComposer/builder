@@ -466,6 +466,10 @@ export default class ControlsHandler {
         label = `${addText} ${element.get('name')}`
         addElementTag = element.get('tag')
       }
+      if (env('FT_ADD_ELEMENT_LIST') && options.tag === 'buttonGroup') {
+        label = `${addText} Buttons`
+        addElementTag = options.tag
+      }
       actions.push({
         label: label,
         icon: 'vcv-ui-icon-add-thin',
