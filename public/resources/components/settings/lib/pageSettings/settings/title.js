@@ -52,7 +52,7 @@ export default class TitleSettings extends React.Component {
 
   onIframeChange (data = {}) {
     let { type = 'loaded' } = data
-    if (type === 'reload' && env('TF_SETTINGS_THEME_ICONS')) {
+    if (type === 'reload') {
       data && data.template && data.template.type && this.updateShowToggle(data.template.type)
     }
   }
@@ -96,7 +96,7 @@ export default class TitleSettings extends React.Component {
     let checked = (this.state.disabled) ? 'checked' : ''
 
     let toggleHTML = null
-    if (this.state.showToggle || !env('TF_SETTINGS_THEME_ICONS')) {
+    if (this.state.showToggle) {
       toggleHTML = (
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <div className='vcv-ui-form-switch-container'>

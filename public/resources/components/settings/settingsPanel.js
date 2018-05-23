@@ -3,7 +3,6 @@ import SettingsContent from './lib/settingsContent'
 import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'
-import { env } from 'vc-cake'
 
 export default class SettingsPanel extends React.Component {
   constructor (props) {
@@ -17,7 +16,7 @@ export default class SettingsPanel extends React.Component {
      */
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
-    const settingsText = localizations ? (env('TF_SETTINGS_THEME_ICONS') ? (localizations.layout || 'Layout') : localizations.settings) : 'Settings'
+    const settingsText = localizations ? localizations.layout : 'Layout'
     const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 
     sections.push({

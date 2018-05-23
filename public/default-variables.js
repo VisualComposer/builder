@@ -9,7 +9,6 @@ vcCake.env('CSS_GRID', false)
 vcCake.env('THEME_LAYOUTS', false) // SEE the devAddons/themeEditor/themeEditor/src/*.js files
 vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
-vcCake.env('TF_SETTINGS_THEME_ICONS', true)
 vcCake.env('TF_RENDER_PERFORMANCE', true)
 vcCake.env('CACHE_HOVER_CONTROLS', true)
 vcCake.env('TF_FREE_VERSION_DOWNLOAD', true)
