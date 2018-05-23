@@ -2,8 +2,6 @@ import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FIX_DND_FOR_TABS', true)
-vcCake.env('CLASSIC_TABS', true)
-vcCake.env('IMAGE_FILTERS', true)
 vcCake.env('DND_FIX_TREEVIEW_CLOSED', true)
 vcCake.env('CLASSIC_ACCORDION', true)
 vcCake.env('REFACTOR_ELEMENT_ACCESS_POINT', true)

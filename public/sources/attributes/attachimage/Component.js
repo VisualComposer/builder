@@ -7,7 +7,6 @@ import FilterList from './filterList'
 import Toggle from '../toggle/Component'
 import {SortableContainer, arrayMove} from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
-import { env } from 'vc-cake'
 
 const SortableList = SortableContainer((props) => {
   return (
@@ -248,7 +247,7 @@ export default class AttachImage extends Attribute {
       />
     ) : ''
 
-    if (!env('IMAGE_FILTERS') || !this.props.options.imageFilter || (value && value.urls && value.urls.length < 1)) {
+    if (!this.props.options.imageFilter || (value && value.urls && value.urls.length < 1)) {
       filterControl = ''
       filterList = ''
     }
