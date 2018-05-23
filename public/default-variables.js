@@ -9,7 +9,6 @@ vcCake.env('CSS_GRID', false)
 vcCake.env('THEME_LAYOUTS', false) // SEE the devAddons/themeEditor/themeEditor/src/*.js files
 vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
-vcCake.env('SAVE_ZIP', true)
 vcCake.env('HFS_START_PAGE', true)
 vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR', true)
 vcCake.env('REPLACE_ELEMENTS', true)
