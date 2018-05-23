@@ -9,8 +9,6 @@ vcCake.env('CSS_GRID', false)
 vcCake.env('THEME_LAYOUTS', false) // SEE the devAddons/themeEditor/themeEditor/src/*.js files
 vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
-vcCake.env('REPLACE_ELEMENTS', true)
-vcCake.env('HUB_CONTROLS', true)
 vcCake.env('REMOVE_SETTINGS_SAVE_BUTTON', true)
 vcCake.env('TF_FIX_EMPTY_ELEMENT_SECTION', true)
 vcCake.env('TF_TEMPLATES_DROPDOWN_UPDATE', true)

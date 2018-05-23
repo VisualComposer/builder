@@ -111,11 +111,8 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       const footerGroup = this.getHFSGroup(categories.hubFooter)
       const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
       const allGroup = vcCake.env('VCV_HUB_ADDON_TEASER') ? this.getAllGroup([ elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ]) : this.getAllGroup([ elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ])
-      if (vcCake.env('HUB_CONTROLS')) {
-        this.allCategories = vcCake.env('VCV_HUB_ADDON_TEASER') ? [ allGroup, elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ] : [ allGroup, elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ]
-      } else {
-        this.allCategories = vcCake.env('VCV_HUB_ADDON_TEASER') ? [ allGroup, elementGroup, templateGroup, addonsGroup ] : [ allGroup, elementGroup, templateGroup ]
-      }
+
+      this.allCategories = vcCake.env('VCV_HUB_ADDON_TEASER') ? [ allGroup, elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ] : [ allGroup, elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ]
     }
     return this.allCategories
   }
@@ -252,28 +249,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       selectEvent: (active) => {
         let activeId = active && active.constructor === String && active.split('-')[ 0 ]
         let result = this.state
-        if (vcCake.env('HUB_CONTROLS')) {
-          let foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
-          result.filterType = foundCategory.type
-          this.setState(result)
-        } else {
-          switch (activeId) {
-            case '0':
-              result.filterType = 'all'
-              this.setState(result)
-              break
-            case '1':
-              result.filterType = 'element'
-              this.setState(result)
-              break
-            case '2':
-              result.filterType = 'template'
-              this.setState(result)
-              break
-            default:
-              console.warn('There was an issue filtering data!')
-          }
-        }
+        let foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
+        result.filterType = foundCategory.type
+        this.setState(result)
       }
     }
   }
@@ -300,7 +278,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       if (this.state.filterType === 'all') {
         return true
       } else {
-        if (vcCake.env('HUB_CONTROLS') && categories[ this.state.filterType ].templateType) {
+        if (categories[ this.state.filterType ].templateType) {
           return item.props.type === 'template' && item.props.element.templateType === this.state.filterType
         }
         return item.props.type === this.state.filterType
@@ -345,32 +323,13 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       </div>)
     }
 
-    let controls = (
-      <div className='vcv-ui-hub-control-container'>
-        <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
-          <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all', '0')}>
-            All
-          </button>
-          <button type='button' className={this.activeFilterButton('element')}
-            onClick={() => this.setFilterType('element', '1-0')}>Elements
-          </button>
-          <button type='button' className={this.activeFilterButton('template')}
-            onClick={() => this.setFilterType('template', '2')}>Templates
-          </button>
-        </div>
-      </div>
-    )
-
-    if (vcCake.env('HUB_CONTROLS')) {
-      controls = this.getHubPanelControls()
-    }
     return (
       <div className='vcv-ui-tree-content'>
         {this.getSearchElement()}
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
             <div className={innerSectionClasses}>
-              {controls}
+              {this.getHubPanelControls()}
               <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                 <div className='vcv-ui-editor-plates'>
                   <div className='vcv-ui-editor-plate vcv-ui-state--active'>

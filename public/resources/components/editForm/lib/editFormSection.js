@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import FieldDependencyManager from './fieldDependencyManager'
-import vcCake from 'vc-cake'
 import EditFormReplaceElement from './editFormReplaceElement'
 
 export default class EditFormSection extends React.Component {
@@ -127,7 +126,7 @@ export default class EditFormSection extends React.Component {
     let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
     let replaceElement = null
 
-    if (vcCake.env('REPLACE_ELEMENTS') && tab.fieldKey === 'editFormTab1') {
+    if (tab.fieldKey === 'editFormTab1') {
       replaceElement = (
         <EditFormReplaceElement {...this.props} />
       )
