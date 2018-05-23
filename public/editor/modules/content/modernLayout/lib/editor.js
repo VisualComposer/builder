@@ -70,7 +70,7 @@ export default class LayoutEditor extends React.Component {
     })
     this.editor.bind('t', (e) => {
       e.preventDefault()
-      let contentState = vcCake.env('NAVBAR_SINGLE_CONTENT') ? 'content' : 'contentStart'
+      let contentState = 'content'
       let settings = workspaceStorage.state(contentState).get()
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {

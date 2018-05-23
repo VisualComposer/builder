@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PanelsContainer from './panelsContainer'
 import NavbarContainer from './navbarContainer'
 import Workspace from '../../../../resources/components/workspace'
-import {getStorage, env} from 'vc-cake'
+import {getStorage} from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const workspace = getStorage('workspace')
@@ -20,8 +20,6 @@ export default class WorkspaceCont extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      contentStart: false,
-      contentEnd: false,
       content: false,
       settings: {},
       isSticky: false,
@@ -33,20 +31,13 @@ export default class WorkspaceCont extends React.Component {
       adminBar: document.getElementById('wpadminbar')
     }
     this.setContent = this.setContent.bind(this)
-    this.setContentStart = this.setContentStart.bind(this)
-    this.setContentEnd = this.setContentEnd.bind(this)
     this.handleNavbarPosition = this.handleNavbarPosition.bind(this)
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
     this.handleLayoutResize = this.handleLayoutResize.bind(this)
   }
 
   componentDidMount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspace.state('content').onChange(this.setContent)
-    } else {
-      workspace.state('contentStart').onChange(this.setContentStart)
-      workspace.state('contentEnd').onChange(this.setContentEnd)
-    }
+    workspace.state('content').onChange(this.setContent)
     window.addEventListener('scroll', this.handleWindowScroll)
     this.addResizeListener(this.props.layout, this.handleLayoutResize)
     const layoutRect = this.props.layout.getBoundingClientRect()
@@ -54,30 +45,13 @@ export default class WorkspaceCont extends React.Component {
   }
 
   componentWillUnmount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspace.state('content').ignoreChange(this.setContent)
-    } else {
-      workspace.state('contentStart').ignoreChange(this.setContentStart)
-      workspace.state('contentEnd').ignoreChange(this.setContentEnd)
-    }
+    workspace.state('content').ignoreChange(this.setContent)
     window.removeEventListener('scroll', this.handleWindowScroll)
     this.removeResizeListener(this.props.layout, this.handleLayoutResize)
   }
 
   componentDidUpdate (prevProps, prevState) {
     this.refreshHeaderHeight()
-  }
-
-  setContentEnd (value) {
-    const contentEnd = value || false
-    this.setState({ contentEnd: contentEnd, settings: workspace.state('settings').get() || {} })
-  }
-
-  setContentStart (value, id) {
-    this.setState({
-      contentStart: value || false,
-      contentStartId: id || ''
-    })
   }
 
   setContent (value, id) {
@@ -214,7 +188,7 @@ export default class WorkspaceCont extends React.Component {
   }
 
   render () {
-    const { contentStart, contentEnd, content, contentId, settings, isSticky, barTopPos, barLeftPos, barWidth, contentStartId } = this.state
+    const { content, contentId, settings, isSticky, barTopPos, barLeftPos, barWidth } = this.state
 
     let stickyBar = {}
     if (isSticky) {
@@ -226,37 +200,16 @@ export default class WorkspaceCont extends React.Component {
       }
     }
 
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      return (
-        <Workspace
-          content={!!content}
-          stickyBar={stickyBar}
-          ref={(bar) => { this.layoutBar = bar }}
-        >
-          <NavbarContainer />
-          <PanelsContainer
-            content={content}
-            contentId={contentId}
-            settings={settings}
-            layoutWidth={barWidth}
-            ref={(panels) => { this.panels = panels }}
-          />
-        </Workspace>
-      )
-    }
-
     return (
       <Workspace
-        contentStart={!!contentStart}
-        contentEnd={!!contentEnd}
+        content={!!content}
         stickyBar={stickyBar}
         ref={(bar) => { this.layoutBar = bar }}
       >
         <NavbarContainer />
         <PanelsContainer
-          start={contentStart}
-          end={contentEnd}
-          contentStartId={contentStartId}
+          content={content}
+          contentId={contentId}
           settings={settings}
           layoutWidth={barWidth}
           ref={(panels) => { this.panels = panels }}

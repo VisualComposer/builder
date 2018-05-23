@@ -1,13 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import { getStorage, getService, env } from 'vc-cake'
-import MobileDetect from 'mobile-detect'
+import { getStorage, getService } from 'vc-cake'
 
 const dataProcessor = getService('dataProcessor')
 const workspaceSettings = getStorage('workspace').state('settings')
-const workspaceContentStartState = getStorage('workspace').state('contentStart')
-const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 const workspaceContentState = getStorage('workspace').state('content')
 
 export default class PlusTeaserControl extends NavbarContent {
@@ -26,19 +23,11 @@ export default class PlusTeaserControl extends NavbarContent {
   }
 
   componentDidMount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.onChange(this.setActiveState)
-      return
-    }
-    workspaceContentEndState.onChange(this.setActiveState)
+    workspaceContentState.onChange(this.setActiveState)
   }
 
   componentWillUnmount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.ignoreChange(this.setActiveState)
-      return
-    }
-    workspaceContentEndState.ignoreChange(this.setActiveState)
+    workspaceContentState.ignoreChange(this.setActiveState)
   }
 
   toggleAddElement (e) {
@@ -48,10 +37,6 @@ export default class PlusTeaserControl extends NavbarContent {
       element: {},
       tag: '',
       options: {}
-    }
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      workspaceContentStartState.set(false)
     }
     workspaceSettings.set(settings)
     if (window.vcvHubTeaserShowBadge || this.state.showBadge) {

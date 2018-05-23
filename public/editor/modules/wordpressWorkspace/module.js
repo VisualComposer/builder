@@ -16,35 +16,18 @@ add('wordpressWorkspace', (api) => {
     wordpressDataStorage.trigger('start')
   })
   workspaceStorage.state('settings').onChange((settings) => {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      if (!settings || !settings.action) {
-        workspaceStorage.state('content').set(false)
-        return
-      }
-      if (settings.action === 'add') {
-        workspaceStorage.state('content').set('addElement')
-      } else if (settings.action === 'addHub') {
-        workspaceStorage.state('content').set('addHubElement')
-      } else if (settings.action === 'edit') {
-        workspaceStorage.state('content').set('editElement')
-      } else if (settings.action === 'addTemplate') {
-        workspaceStorage.state('content').set('addTemplate')
-      }
-      return
-    }
-
     if (!settings || !settings.action) {
-      workspaceStorage.state('contentEnd').set(false)
+      workspaceStorage.state('content').set(false)
       return
     }
     if (settings.action === 'add') {
-      workspaceStorage.state('contentEnd').set('addElement')
+      workspaceStorage.state('content').set('addElement')
     } else if (settings.action === 'addHub') {
-      workspaceStorage.state('contentEnd').set('addHubElement')
+      workspaceStorage.state('content').set('addHubElement')
     } else if (settings.action === 'edit') {
-      workspaceStorage.state('contentEnd').set('editElement')
+      workspaceStorage.state('content').set('editElement')
     } else if (settings.action === 'addTemplate') {
-      workspaceStorage.state('contentEnd').set('addTemplate')
+      workspaceStorage.state('content').set('addTemplate')
     }
   })
 

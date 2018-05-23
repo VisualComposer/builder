@@ -1,8 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import Content from 'public/resources/components/contentParts/content'
-import ContentStart from 'public/resources/components/contentParts/contentStart'
-import ContentEnd from 'public/resources/components/contentParts/contentEnd'
 import AddElementPanel from 'public/resources/components/addElement/addElementPanel'
 import TeaserAddElementCategories from 'public/resources/components/teaserAddElement/lib/teaserCategories'
 import AddTemplatePanel from 'public/resources/components/addTemplate/addTemplatePanel'
@@ -146,34 +144,21 @@ export default class PanelsContainer extends React.Component {
       treeViewLayout = <TreeViewLayout contentId={contentId} visible={content === 'treeView'} />
     }
 
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      if (env('HUB_REDESIGN')) {
-        return (
-          <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>
-            <Content content={content}>
-              {treeViewLayout}
-              {this.getContent()}
-            </Content>
-          </div>
-        )
-      }
+    if (env('HUB_REDESIGN')) {
       return (
-        <div className={layoutClasses} style={layoutStyle}>
+        <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>
           <Content content={content}>
+            {treeViewLayout}
             {this.getContent()}
           </Content>
         </div>
       )
     }
-
     return (
       <div className={layoutClasses} style={layoutStyle}>
-        <ContentStart>
-          {this.getStartContent()}
-        </ContentStart>
-        <ContentEnd content={end}>
-          {this.getEndContent()}
-        </ContentEnd>
+        <Content content={content}>
+          {this.getContent()}
+        </Content>
       </div>
     )
   }

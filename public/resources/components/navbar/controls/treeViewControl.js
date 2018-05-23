@@ -1,11 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import MobileDetect from 'mobile-detect'
 import { getStorage, env } from 'vc-cake'
 
-const workspaceContentStartState = getStorage('workspace').state('contentStart')
-const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('settings')
 
@@ -25,35 +22,19 @@ export default class TreeViewControl extends NavbarContent {
   }
 
   componentDidMount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.onChange(this.setActiveState)
-      return
-    }
-    workspaceContentStartState.onChange(this.setActiveState)
+    workspaceContentState.onChange(this.setActiveState)
   }
 
   componentWillUnmount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.ignoreChange(this.setActiveState)
-      return
-    }
-    workspaceContentStartState.ignoreChange(this.setActiveState)
+    workspaceContentState.ignoreChange(this.setActiveState)
   }
 
   toggleTreeView (e) {
     e && e.preventDefault()
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      workspaceContentEndState.set(false)
+    if (env('HUB_REDESIGN')) {
+      workspaceSettings.set({ action: 'treeView' })
     }
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      if (env('HUB_REDESIGN')) {
-        workspaceSettings.set({ action: 'treeView' })
-      }
-      workspaceContentState.set(!this.state.isActive ? 'treeView' : false)
-      return
-    }
-    workspaceContentStartState.set(!this.state.isActive ? 'treeView' : false)
+    workspaceContentState.set(!this.state.isActive ? 'treeView' : false)
   }
 
   render () {

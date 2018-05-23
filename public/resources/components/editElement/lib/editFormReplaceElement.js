@@ -34,9 +34,7 @@ export default class EditFormReplaceElement extends React.Component {
   openEditFormOnReplace ({ id, data }) {
     if (id === this.previousElementId) {
       elementsStorage.state('elementReplace').ignoreChange(this.openEditFormOnReplace)
-      if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
-        workspaceContentState.set(false)
-      }
+      workspaceContentState.set(false)
       let settings = workspaceStorage.state('settings').get()
       if (settings && settings.action === 'edit') {
         workspaceStorage.state('settings').set(false)

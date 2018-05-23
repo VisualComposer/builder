@@ -1,12 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getStorage, env } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 import NavbarContent from '../navbarContent'
-import MobileDetect from 'mobile-detect'
 
 const workspaceSettings = getStorage('workspace').state('settings')
-const workspaceContentStartState = getStorage('workspace').state('contentStart')
-const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 const workspaceContentState = getStorage('workspace').state('content')
 
 export default class AddTemplateControl extends NavbarContent {
@@ -20,19 +17,11 @@ export default class AddTemplateControl extends NavbarContent {
   }
 
   componentDidMount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.onChange(this.setActiveState)
-      return
-    }
-    workspaceContentEndState.onChange(this.setActiveState)
+    workspaceContentState.onChange(this.setActiveState)
   }
 
   componentWillUnmount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.ignoreChange(this.setActiveState)
-      return
-    }
-    workspaceContentEndState.ignoreChange(this.setActiveState)
+    workspaceContentState.ignoreChange(this.setActiveState)
   }
 
   setActiveState (state) {
@@ -46,10 +35,6 @@ export default class AddTemplateControl extends NavbarContent {
       element: {},
       tag: '',
       options: {}
-    }
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      workspaceContentStartState.set(false)
     }
     workspaceSettings.set(settings)
   }

@@ -113,14 +113,10 @@ vcCake.add('contentModernLayout', (api) => {
         iframeWindow.document.querySelectorAll('[data-vcv-layout-zone]').forEach((zone) => {
           let zoneButton = zone.querySelector('[data-vcv-action="settings"]')
           zoneButton && zoneButton.addEventListener('click', () => {
-            if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
-              workspaceStorage.state('content').set('settings')
-              if (vcCake.env('HUB_REDESIGN')) {
-                workspaceSettings.set({ action: 'settings' })
-              }
-              return
+            workspaceStorage.state('content').set('settings')
+            if (vcCake.env('HUB_REDESIGN')) {
+              workspaceSettings.set({ action: 'settings' })
             }
-            workspaceStorage.state('contentEnd').set('settings')
           })
         })
       }

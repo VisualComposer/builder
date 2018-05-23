@@ -1,15 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
-import Content from '../../../../resources/components/contentParts/content'
-import ContentStart from '../../../../resources/components/contentParts/contentStart'
-import ContentEnd from '../../../../resources/components/contentParts/contentEnd'
-import AddElementPanel from '../../../../resources/components/addElement/addElementPanel'
-import TeaserAddElementCategories from '../../../../resources/components/teaserAddElement/lib/teaserCategories'
-import AddTemplatePanel from '../../../../resources/components/addTemplate/addTemplatePanel'
-import TreeViewLayout from '../../../../resources/components/treeView/treeViewLayout'
-import SettingsPanel from '../../../../resources/components/settings/settingsPanel'
-import EditElementPanel from '../../../../resources/components/editElement/editElementPanel'
-import {getService, env} from 'vc-cake'
+import Content from 'public/resources/components/contentParts/content'
+import AddElementPanel from 'public/resources/components/addElement/addElementPanel'
+import TeaserAddElementCategories from 'public/resources/components/teaserAddElement/lib/teaserCategories'
+import AddTemplatePanel from 'public/resources/components/addTemplate/addTemplatePanel'
+import TreeViewLayout from 'public/resources/components/treeView/treeViewLayout'
+import SettingsPanel from 'public/resources/components/settings/settingsPanel'
+import EditElementPanel from 'public/resources/components/editElement/editElementPanel'
+import {getService} from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const cook = getService('cook')
@@ -129,24 +127,11 @@ export default class PanelsContainer extends React.Component {
       'vcv-layout-bar-content-stack': stack
     })
 
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      return (
-        <div className={layoutClasses}>
-          <Content content={content}>
-            {this.getContent()}
-          </Content>
-        </div>
-      )
-    }
-
     return (
       <div className={layoutClasses}>
-        <ContentStart>
-          {this.getStartContent()}
-        </ContentStart>
-        <ContentEnd content={end} >
-          {this.getEndContent()}
-        </ContentEnd>
+        <Content content={content}>
+          {this.getContent()}
+        </Content>
       </div>
     )
   }

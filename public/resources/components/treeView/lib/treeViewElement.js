@@ -56,7 +56,6 @@ export default class TreeViewElement extends React.Component {
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.handleOutline = this.handleOutline.bind(this)
-    this.checkActive = this.checkActive.bind(this)
     this.checkPaste = this.checkPaste.bind(this)
     this.dataUpdate = this.dataUpdate.bind(this)
     this.enableEditable = this.enableEditable.bind(this)
@@ -89,10 +88,6 @@ export default class TreeViewElement extends React.Component {
     this.dataUpdate(nextProps.element)
   }
 
-  componentWillMount () {
-    this.checkActive(workspaceStorage.state('settings').get())
-  }
-
   componentDidMount () {
     if (vcCake.env('TF_RENDER_PERFORMANCE')) {
       elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
@@ -100,20 +95,7 @@ export default class TreeViewElement extends React.Component {
       elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
     }
     this.props.onMountCallback(this.state.element.id)
-    workspaceStorage.state('settings').onChange(this.checkActive)
     workspaceStorage.state('copyData').onChange(this.checkPaste)
-    // vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
-
-    /*
-    this.props.api.notify('element:mount', this.props.element.id)
-    this.props.api
-      .reply('app:edit', this.checkActive)
-      .reply('app:add', this.checkActive)
-      .reply('data:add', this.checkActive)
-      .on('hide', this.checkActive)
-      .on('form:hide', this.checkActive)
-    vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
-    */
   }
 
   componentWillUnmount () {
@@ -123,31 +105,8 @@ export default class TreeViewElement extends React.Component {
       elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
     }
     this.props.onUnmountCallback(this.state.element.id)
-    workspaceStorage.state('settings').ignoreChange(this.checkActive)
     workspaceStorage.state('copyData').ignoreChange(this.checkPaste)
     workspaceStorage.state('userInteractWith').set(false)
-    // vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
-
-    /*
-    this.props.api
-      .forget('app:edit', this.checkActive)
-      .forget('app:add', this.checkActive)
-      .forget('data:add', this.checkActive)
-      .off('hide', this.checkActive)
-      .off('form:hide', this.checkActive)
-    vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
-    */
-    // should put after unmount component
-    // this.props.api.notify('element:unmount', this.props.element.id)
-  }
-
-  checkActive (data = false) {
-    if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
-      return
-    }
-    this.setState({
-      isActive: data && data.element && data.element.id === this.props.element.id
-    })
   }
 
   checkPaste (data) {
