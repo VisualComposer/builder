@@ -43,20 +43,9 @@ export default class TeaserElementControl extends ElementControl {
       if (downloadingItems.includes(tag)) {
         elementState = 'downloading'
       } else {
-        if (env('TF_TEMPLATES_DROPDOWN_UPDATE')) {
-          elementState = 'inactive'
-          if (templatesService.findTemplateByBundle(this.props.element.bundle)) {
-            elementState = 'success'
-          }
-        } else {
-          let hubTemplates = templatesService.hub()
-          elementState = 'inactive'
-          for (let i = 0; i < hubTemplates.length; i++) {
-            if (hubTemplates[ i ].bundle === this.props.element.bundle) {
-              elementState = 'success'
-              break
-            }
-          }
+        elementState = 'inactive'
+        if (templatesService.findTemplateByBundle(this.props.element.bundle)) {
+          elementState = 'success'
         }
       }
     }
@@ -196,20 +185,8 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   addTemplate () {
-    if (env('TF_TEMPLATES_DROPDOWN_UPDATE')) {
-      const template = templatesService.findTemplateByBundle(this.props.element.bundle)
-      elementsStorage.trigger('merge', template.data)
-    } else {
-      let data = {}
-      let hubTemplates = templatesService.hub()
-      for (let i = 0; i < hubTemplates.length; i++) {
-        if (hubTemplates[ i ].bundle === this.props.element.bundle) {
-          data = hubTemplates[ i ].data
-          break
-        }
-      }
-      elementsStorage.trigger('merge', data)
-    }
+    const template = templatesService.findTemplateByBundle(this.props.element.bundle)
+    elementsStorage.trigger('merge', template.data)
     workspaceSettings.set(false)
   }
 
