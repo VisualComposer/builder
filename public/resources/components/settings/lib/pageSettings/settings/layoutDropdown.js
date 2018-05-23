@@ -36,7 +36,7 @@ export default class LayoutDropdown extends React.Component {
       current: value
     })
 
-    if (!env('THEME_EDITOR') && env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+    if (!env('THEME_EDITOR')) {
       if (env('THEME_LAYOUTS')) {
         settingsStorage.state(`${layoutName}Template`).set(value)
       }

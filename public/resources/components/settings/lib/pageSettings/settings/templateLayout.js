@@ -58,7 +58,7 @@ export default class TemplateLayout extends React.Component {
       current: data,
       showTheme: showTheme
     })
-    if (!env('THEME_EDITOR') && env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+    if (!env('THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(data)
 
       let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())

@@ -27,7 +27,7 @@ export default class TemplateSettings extends React.Component {
       current: value
     })
 
-    if (!env('THEME_EDITOR') && env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+    if (!env('THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(value)
 
       const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current)
@@ -55,17 +55,6 @@ export default class TemplateSettings extends React.Component {
     ))
   }
 
-  getDescription () {
-    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
-      return null
-    }
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-
-    let pageTemplateDescription = localizations ? localizations.pageTemplateReloadDescription : 'To apply a template you will need to save changes and content will be reloaded.'
-
-    return <p className='vcv-ui-form-helper'>{pageTemplateDescription}</p>
-  }
-
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const settingName = localizations ? localizations.template : 'Template'
@@ -78,7 +67,6 @@ export default class TemplateSettings extends React.Component {
           <option key='default' value='default'>{defaultTemplate}</option>
           {this.getTemplateOptions()}
         </select>
-        {this.getDescription()}
       </div>
     )
   }
