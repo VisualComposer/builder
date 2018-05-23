@@ -2,10 +2,7 @@ import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FIX_DND_FOR_TABS', true)
-vcCake.env('DND_FIX_TREEVIEW_CLOSED', true)
-vcCake.env('CLASSIC_ACCORDION', true)
 vcCake.env('REFACTOR_ELEMENT_ACCESS_POINT', true)
-vcCake.env('COLORPICKER_LAST_USED', true)
 vcCake.env('TF_SHOW_PLUGIN_UPDATE', true)
 vcCake.env('TF_HEARTBEAT_HAS_CLASS_ERROR', false)
 vcCake.env('CSS_GRID', false)

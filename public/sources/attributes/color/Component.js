@@ -7,8 +7,6 @@ import tinycolor from 'tinycolor2'
 import classNames from 'classnames'
 import _ from 'lodash'
 
-import {env} from 'vc-cake'
-
 class Color extends Attribute {
   static getEmptyColor () {
     return `rgba(186, 218, 85, 0)`
@@ -97,9 +95,7 @@ class Color extends Attribute {
     this.setState({
       displayColorPicker: !this.state.displayColorPicker
     })
-    if (env('COLORPICKER_LAST_USED')) {
-      this.state.value && this.updateUsedStack()
-    }
+    this.state.value && this.updateUsedStack()
   }
 
   handleChange (sketchValue) {
@@ -113,16 +109,11 @@ class Color extends Attribute {
       value = color.toString(format || 'rgb')
     }
 
-    if (env('COLORPICKER_LAST_USED')) {
-      this.setState({
-        value: value,
-        valueChanged: true
-      })
-    } else {
-      this.setState({
-        value: value
-      })
-    }
+    this.setState({
+      value: value,
+      valueChanged: true
+    })
+
     updater(fieldKey, value)
   }
 

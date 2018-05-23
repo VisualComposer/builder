@@ -8,8 +8,6 @@ import SketchFields from './SketchFields'
 import SketchPresetColors from './SketchPresetColors'
 import UsedStack from './UsedStack'
 
-import { env } from 'vc-cake'
-
 export class Sketch extends React.Component {
   shouldComponentUpdate = shallowCompare.bind(this, this, arguments[ 0 ], arguments[ 1 ])
 
@@ -85,8 +83,6 @@ export class Sketch extends React.Component {
       }
     }, this.props)
 
-    let lastUsedEl = env('COLORPICKER_LAST_USED') ? (<UsedStack colors={this.props.usedStack} onClick={this.handleChange} />) : null
-
     return (
       <div className='vcv-ui-color-picker-panel' style={styles.picker}>
         <div className='vcv-ui-color-picker-custom-color'>
@@ -118,7 +114,7 @@ export class Sketch extends React.Component {
             disableAlpha={this.props.disableAlpha}
           />
         </div>
-        {lastUsedEl}
+        <UsedStack colors={this.props.usedStack} onClick={this.handleChange} />
         <SketchPresetColors colors={this.props.presetColors} onClick={this.handleChange} />
       </div>
     )

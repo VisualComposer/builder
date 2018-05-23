@@ -405,9 +405,7 @@ export default class TreeViewElement extends React.Component {
     })
 
     let treeChildProps = {}
-    if (vcCake.env('DND_FIX_TREEVIEW_CLOSED')) {
-      treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
-    }
+    treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
 
     let innerChildren = documentManger.children(this.state.element.id)
     let childHtml = this.getContent(innerChildren)
