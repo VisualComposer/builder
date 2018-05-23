@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FIX_DND_FOR_TABS', true)
-vcCake.env('UI_NOTIFICATIONS', true)
 vcCake.env('PAGE_TITLE_FE', true)
 vcCake.env('ATTRIBUTE_LIBS', true)
 vcCake.env('TEASER_DROPDOWN_UPDATE', true)
