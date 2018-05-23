@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FIX_DND_FOR_TABS', true)
-vcCake.env('FEATURE_ASSETS_FILTER', true)
 vcCake.env('DND_SMART_LINE_TRANSITION', true)
 vcCake.env('DND_TRASH_BIN', true)
 vcCake.env('DND_DISABLE_DROP_IN_CLOSED_TABS', true)
