@@ -48,23 +48,22 @@ vcCake.add('contentModernLayout', (api) => {
       !reload && notifications.init()
 
       workspaceIFrame.onChange(reloadLayout)
-      if (vcCake.env('TF_SHOW_PLUGIN_UPDATE')) {
-        const pluginUpdate = VCV_PLUGIN_UPDATE()
-        pluginUpdate && workspaceNotifications.set({
-          position: 'top',
-          transparent: false,
-          showCloseButton: true,
-          rounded: false,
-          type: 'warning',
-          text: localizations.newPluginVersionIsAvailable || `There is a new version of Visual Composer Website Builder available`,
-          html: true,
-          cookie: {
-            name: 'vcv-update-notice',
-            expireInDays: 1
-          },
-          time: 10000
-        })
-      }
+
+      const pluginUpdate = VCV_PLUGIN_UPDATE()
+      pluginUpdate && workspaceNotifications.set({
+        position: 'top',
+        transparent: false,
+        showCloseButton: true,
+        rounded: false,
+        type: 'warning',
+        text: localizations.newPluginVersionIsAvailable || `There is a new version of Visual Composer Website Builder available`,
+        html: true,
+        cookie: {
+          name: 'vcv-update-notice',
+          expireInDays: 1
+        },
+        time: 10000
+      })
 
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
