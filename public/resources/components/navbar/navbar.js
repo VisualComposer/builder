@@ -26,12 +26,10 @@ export default class Navbar extends React.Component {
   constructor (props) {
     super(props)
     let navbarPosition = 'left'
-    if (vcCake.env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile()) {
-        this.isMobile = true
-        navbarPosition = 'top'
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile()) {
+      this.isMobile = true
+      navbarPosition = 'top'
     }
     this.state = {
       visibleControls: this.setVisibleControls(),
@@ -61,7 +59,7 @@ export default class Navbar extends React.Component {
       isActiveSandwich: false
     }
 
-    if (vcCake.env('MOBILE_DETECT') && this.isMobile && vcCake.env('editor') === 'frontend') {
+    if (this.isMobile && vcCake.env('editor') === 'frontend') {
       let isScrolling = 0
 
       window.addEventListener('scroll', () => {

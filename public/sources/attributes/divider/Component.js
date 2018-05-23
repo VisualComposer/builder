@@ -520,11 +520,7 @@ export default class Divider extends Attribute {
     }
 
     let value = deviceData[ dividerShapeName ] || Divider.deviceDefaults[ dividerShapeName ]
-    let iconType = 'newShapes'
-
-    if (vcCake.env('DIVIDER_SHAPE_UPDATE')) {
-      iconType = 'newShapes2'
-    }
+    const iconType = 'newShapes'
 
     return (
       <div className='vcv-ui-form-group'>
@@ -681,9 +677,7 @@ export default class Divider extends Attribute {
       ]
     }
 
-    if (vcCake.env('DIVIDER_YOUTUBE')) {
-      options.values.push({ label: 'Youtube video', value: 'videoYoutube' })
-    }
+    options.values.push({ label: 'Youtube video', value: 'videoYoutube' })
 
     if (vcCake.env('DIVIDER_VIMEO')) {
       options.values.push({ label: 'Vimeo video', value: 'videoVimeo' })
@@ -970,7 +964,7 @@ export default class Divider extends Attribute {
       }
     }
 
-    if ((backgroundType === 'videoYoutube' && !deviceData[ dividerVideoYoutubeName ]) || (backgroundType === 'videoYoutube' && !vcCake.env('DIVIDER_YOUTUBE'))) {
+    if ((backgroundType === 'videoYoutube' && !deviceData[ dividerVideoYoutubeName ])) {
       return null
     }
 
@@ -1086,7 +1080,7 @@ export default class Divider extends Attribute {
     let deviceData = this.state.devices[ this.state.currentDevice ]
     let backgroundType = deviceData[ dividerBgTypeName ]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'videoYoutube' || !vcCake.env('DIVIDER_YOUTUBE')) {
+    if (!deviceData[ dividerType ] || backgroundType !== 'videoYoutube') {
       return null
     }
 

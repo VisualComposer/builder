@@ -10,21 +10,39 @@ export default class Component extends Attribute {
     this.openEditor = this.openEditor.bind(this)
     this.iframeLoaded = this.iframeLoaded.bind(this)
     this.updateValueFromIframe = this.updateValueFromIframe.bind(this)
+
+    this.state = {
+      showEditor: false,
+      loadingEditor: false
+    }
   }
 
   openEditor (e) {
     e.preventDefault()
-    this.setState({ showEditor: true })
+    this.setState({
+      showEditor: true,
+      loadingEditor: true
+    })
   }
 
   closeEditor () {
-    this.setState({ showEditor: false })
+    this.setState({
+      showEditor: false,
+      loadingEditor: false
+    })
   }
 
   iframeLoaded () {
     const { value } = this.state
     const window = this.iframe.contentWindow
-    const wpData = window.wp.data
+    const wpData = window.wp ? window.wp.data : false
+    if (!wpData) {
+      const localizations = window.VCV_I18N && window.VCV_I18N()
+
+      const alertNotice = localizations ? localizations.gutenbergDoesntWorkProperly : "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin."
+      window.alert(alertNotice)
+      this.closeEditor()
+    }
     // Subscribe to data change
     const debounce = lodash.debounce(this.updateValueFromIframe.bind(this), 500)
     if (!window._wpGutenbergPost) {
@@ -46,29 +64,54 @@ export default class Component extends Attribute {
     newPost.content.raw = value
     newPost.content.rendered = value
     const editor = wpData.dispatch('core/editor')
+    const selectEditor = wpData.select('core/edit-post')
+    selectEditor.isPublishSidebarOpened = () => { return true }
+    if (!!editor.autosave && typeof editor.autosave === 'function') {
+      editor.autosave = () => {}
+    }
     editor.setupEditor(newPost, editorSettings)
+    this.setState({ loadingEditor: false })
   }
 
   updateValueFromIframe () {
+    if (!this.iframe) {
+      return
+    }
     const wpData = this.iframe.contentWindow.wp.data
     const value = wpData.select('core/editor').getEditedPostContent()
     this.setFieldValue(value)
   }
 
   render () {
-    let { value, showEditor } = this.state
+    let { showEditor, loadingEditor } = this.state
+    let loadingOverlay = null
+    if (loadingEditor) {
+      loadingOverlay = (
+        <div className='vcv-loading-overlay'>
+          <div className='vcv-loading-dots-container'>
+            <div className='vcv-loading-dot vcv-loading-dot-1' />
+            <div className='vcv-loading-dot vcv-loading-dot-2' />
+          </div>
+        </div>
+      )
+    }
+
     const editor = () => {
       if (showEditor) {
         const closeClasses = classnames({
-          'vcv-layout-bar-content-hide-icon': true,
           'vcv-ui-icon': true,
           'vcv-ui-icon-close-thin': true
         })
-        const iframeURL = '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
+        const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
         return (
           <GutenbergModal>
-            <i onClick={this.closeEditor.bind(this)} className={closeClasses} style={{ color: '#000', position: 'fixed', top: '12px', right: '12px' }} />
-            <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} style={{ width: '100%', height: '100%' }} onLoad={this.iframeLoaded} />
+            {loadingOverlay}
+            <div className='vcv-gutenberg-modal-inner'>
+              <button className='vcv-gutenberg-modal-close-button' onClick={this.closeEditor.bind(this)}>
+                <i className={closeClasses} />
+              </button>
+              <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} onLoad={this.iframeLoaded} />
+            </div>
           </GutenbergModal>
         )
       }
@@ -78,7 +121,6 @@ export default class Component extends Attribute {
         <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.openEditor}>
           Open Gutenberg
         </button>
-        <textarea className='vcv-ui-form-input' onChange={this.handleChange} value={value} />
         {editor()}
       </React.Fragment>
     )

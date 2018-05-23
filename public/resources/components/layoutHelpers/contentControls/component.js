@@ -21,11 +21,9 @@ export default class ContentControls extends React.Component {
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
-    if (vcCake.env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        this.isMobile = true
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      this.isMobile = true
     }
   }
 

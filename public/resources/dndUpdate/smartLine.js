@@ -1,4 +1,3 @@
-import { env } from 'vc-cake'
 const _ = require('lodash')
 const $ = require('jquery')
 /**
@@ -61,9 +60,7 @@ SmartLine.prototype.setStyle = function (point, width, height, frame) {
 }
 SmartLine.prototype.clearStyle = function () {
   this.el.classList.remove('vcv-dnd-smart-line-frame', 'vcv-is-shown')
-  if (env('DND_SMART_LINE_TRANSITION')) {
-    this.el && this.el.classList.remove('vcv-smart-line-transition')
-  }
+  this.el && this.el.classList.remove('vcv-smart-line-transition')
 }
 SmartLine.prototype.getVcvIdFromElement = function (element) {
   return element.dataset.vcvDndElement || null
@@ -154,14 +151,12 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     this.setStyle({...point, ...linePoint}, lineWidth, lineHeight, frame)
     window.setTimeout(function () {
       this.el && this.el.classList.add('vcv-is-shown')
-      if (env('DND_SMART_LINE_TRANSITION')) {
-        if (isVerticalLine) {
-          this.el && this.el.classList.add('vcv-smart-line-vertical')
-        } else {
-          this.el && this.el.classList.remove('vcv-smart-line-vertical')
-        }
-        this.el && this.el.classList.add('vcv-smart-line-transition')
+      if (isVerticalLine) {
+        this.el && this.el.classList.add('vcv-smart-line-vertical')
+      } else {
+        this.el && this.el.classList.remove('vcv-smart-line-vertical')
       }
+      this.el && this.el.classList.add('vcv-smart-line-transition')
     }.bind(this), 0)
   } else {
     position = false

@@ -3,7 +3,6 @@ import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
-import { exceptionalElements } from 'public/editor/modules/content/modernLayout/lib/controlsIframe/exceptionalElements'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
@@ -36,8 +35,14 @@ export default class TreeViewElement extends React.Component {
   constructor (props) {
     super(props)
 
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      this.isMobile = true
+    }
+
     this.state = {
-      childExpand: true,
+      childExpand: props.level > 1 || this.isMobile || !vcCake.env('FT_COLLAPSE_ELEMENTS_TREE_VIEW'),
+      hasBeenOpened: false,
       isActive: false,
       hasChild: false,
       showOutline: false,
@@ -60,13 +65,6 @@ export default class TreeViewElement extends React.Component {
     this.clickHide = this.clickHide.bind(this)
     this.toggleControls = this.toggleControls.bind(this)
     this.checkTarget = this.checkTarget.bind(this)
-
-    if (vcCake.env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        this.isMobile = true
-      }
-    }
   }
 
   dataUpdate (data) {
@@ -170,7 +168,10 @@ export default class TreeViewElement extends React.Component {
   }
 
   clickChildExpand = () => {
-    this.setState({ childExpand: !this.state.childExpand })
+    this.setState({
+      childExpand: !this.state.childExpand,
+      hasBeenOpened: true
+    })
   }
 
   clickAddChild (tag) {
@@ -214,10 +215,14 @@ export default class TreeViewElement extends React.Component {
     workspaceStorage.trigger('hide', this.state.element.id)
   }
 
-  getContent () {
+  getContent (children) {
+    const { hasBeenOpened, childExpand } = this.state
+    if (!childExpand && !hasBeenOpened && !this.isMobile && vcCake.env('FT_COLLAPSE_ELEMENTS_TREE_VIEW')) {
+      return null
+    }
     const { showOutlineCallback, onMountCallback, onUnmountCallback } = this.props
     const level = this.props.level + 1
-    let elementsList = documentManger.children(this.state.element.id).map((element) => {
+    let elementsList = children.map((element) => {
       return <TreeViewElement
         showOutlineCallback={showOutlineCallback}
         onMountCallback={onMountCallback}
@@ -445,9 +450,9 @@ export default class TreeViewElement extends React.Component {
       treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
     }
 
-    let child = this.getContent()
-
-    this.state.hasChild = !!child
+    let innerChildren = documentManger.children(this.state.element.id)
+    let childHtml = this.getContent(innerChildren)
+    this.state.hasChild = !!innerChildren.length
 
     let addChildControl = false
     let editRowLayoutControl = false
@@ -505,48 +510,25 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
-    let copyControl = false
     let pasteControl = false
-    const relatedTo = element.get('relatedTo')
 
-    // copy action
-    if (
-      (relatedTo &&
-      relatedTo.value &&
-      ((relatedTo.value.includes('General') && !relatedTo.value.includes('RootElements')) ||
-      (vcCake.env('FT_COPY_PASTE_FOR_COLUMN') && relatedTo.value.includes('Column')))) ||
-      vcCake.env('FT_COPY_PASTE_FOR_ROW')
-    ) {
-      copyControl = (
-        <span
-          className='vcv-ui-tree-layout-control-action'
-          title={copyText}
-          onClick={this.clickCopy.bind(this)}
-        >
-          <i className='vcv-ui-icon vcv-ui-icon-copy-icon' />
-        </span>
-      )
-    }
+    let copyControl = (
+      <span
+        className='vcv-ui-tree-layout-control-action'
+        title={copyText}
+        onClick={this.clickCopy.bind(this)}
+      >
+        <i className='vcv-ui-icon vcv-ui-icon-copy-icon' />
+      </span>
+    )
 
     // paste action
-    let isPasteAvailable = exceptionalElements.includes(this.state.element.name)
-
-    if (vcCake.env('FT_COPY_PASTE_FOR_ROW')) {
-      const pasteElCook = this.state.element && cook.get(this.state.element)
-      const pasteElContainerFor = pasteElCook && pasteElCook.get('containerFor')
-
-      isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
-    }
+    const pasteElCook = this.state.element && cook.get(this.state.element)
+    const pasteElContainerFor = pasteElCook && pasteElCook.get('containerFor')
+    const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
     if (isPasteAvailable) {
-      let pasteOptions = {
-        disabled: !copyData,
-        pasteAfter: false
-      }
-
-      if (vcCake.env('FT_COPY_PASTE_FOR_ROW') || vcCake.env('FT_COPY_PASTE_FOR_COLUMN')) {
-        pasteOptions = this.getPasteOptions(copyData, this.state.element)
-      }
+      let pasteOptions = this.getPasteOptions(copyData, this.state.element)
 
       let attrs = {}
 
@@ -649,7 +631,7 @@ export default class TreeViewElement extends React.Component {
               {controlsContent}
             </div>
           </div>
-          {child}
+          {childHtml}
         </li>
       )
     }
@@ -688,7 +670,7 @@ export default class TreeViewElement extends React.Component {
             {childControls}
           </div>
         </div>
-        {child}
+        {childHtml}
       </li>
     )
   }

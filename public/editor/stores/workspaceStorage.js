@@ -29,11 +29,9 @@ addStorage('workspace', (storage) => {
         return
       }
     }
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        storage.state('contentStart').set(false)
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      storage.state('contentStart').set(false)
     }
     storage.state('settings').set({
       action: 'add',
@@ -54,13 +52,10 @@ addStorage('workspace', (storage) => {
         return
       }
     }
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        storage.state('contentStart').set(false)
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      storage.state('contentStart').set(false)
     }
-
     storage.state('settings').set({
       action: 'edit',
       element: element,
@@ -216,11 +211,9 @@ addStorage('workspace', (storage) => {
     storage.state('app').set('started')
   })
   storage.on('addTemplate', () => {
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        storage.state('contentStart').set(false)
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      storage.state('contentStart').set(false)
     }
     storage.state('settings').set({
       action: 'addTemplate',

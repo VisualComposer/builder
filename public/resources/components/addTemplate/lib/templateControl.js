@@ -1,10 +1,13 @@
-import vcCake from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import HubTemplateControl from './hubTemplateControl'
+import CustomTemplateControl from './customTemplateControl'
 
-const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+const hubTemplateTypes = [ 'predefined', 'hub', 'hubHeader', 'hubFooter', 'hubSidebar' ]
+const localizations = window.VCV_I18N && window.VCV_I18N()
+const addTemplate = localizations ? localizations.addTemplate : 'Add Template'
+const removeTemplate = localizations ? localizations.removeTemplate : 'Remove Template'
 
 export default class TemplateControl extends React.Component {
   static propTypes = {
@@ -161,125 +164,40 @@ export default class TemplateControl extends React.Component {
     return this
   }
 
-  render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const addTemplate = localizations ? localizations.addTemplate : 'Add Template'
-    const removeTemplate = localizations ? localizations.removeTemplate : 'Remove Template'
-
-    let { name, spinner, type, thumbnail, preview, description } = this.props
-    let { previewVisible, previewStyle, letter } = this.state
-
-    let nameClasses = classNames({
-      'vcv-ui-item-badge vcv-ui-badge--success': false,
-      'vcv-ui-item-badge vcv-ui-badge--warning': false
-    })
-
-    let spinnerClasses = classNames({
-      'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner-light': true,
-      'vcv-ui-state--hidden': !spinner
-    })
-
-    let applyClasses = classNames({
-      'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true,
-      'vcv-ui-state--hidden': spinner
-    })
-
-    let removeClasses = classNames({
-      'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
-      'vcv-ui-state--hidden': spinner
-    })
-
-    let overlayClasses = classNames({
-      'vcv-ui-item-overlay': true,
-      'vcv-ui-item-overlay--visible': spinner
-    })
-
-    let previewClasses = classNames({
-      'vcv-ui-item-preview-container': true,
-      'vcv-ui-state--visible': previewVisible
-    })
-
-    if (type && (type === 'predefined' || type === 'hub' || type === 'hubHeader' || type === 'hubFooter' || type === 'hubSidebar')) {
-      return (
-        <li className='vcv-ui-item-list-item'>
-          <span className='vcv-ui-item-element'
-            onMouseEnter={this.showPreview}
-            onMouseLeave={this.hidePreview}
-          >
-            <span className='vcv-ui-item-element-content'>
-              <img
-                className='vcv-ui-item-element-image'
-                src={thumbnail}
-                alt={name}
-              />
-              <span className={overlayClasses}>
-                <span
-                  className={applyClasses}
-                  onClick={this.handleApplyTemplate}
-                  title={addTemplate}
-                />
-                <span
-                  className={removeClasses}
-                  style={{cursor: 'not-allowed'}}
-                  title={removeTemplate}
-                />
-              </span>
-            </span>
-            <span className='vcv-ui-item-element-name'>
-              <span className={nameClasses}>
-                {name}
-              </span>
-            </span>
-            <figure className={previewClasses} style={previewStyle}>
-              <img
-                className='vcv-ui-item-preview-image'
-                src={preview}
-                alt={name}
-              />
-              <figcaption className='vcv-ui-item-preview-caption'>
-                <div className='vcv-ui-item-preview-text'>
-                  {description}
-                </div>
-              </figcaption>
-            </figure>
-          </span>
-        </li>
-      )
+  getCustomTemplateProps () {
+    return {
+      ...this.props,
+      handleApplyTemplate: this.handleApplyTemplate,
+      handleRemoveTemplate: this.handleRemoveTemplate,
+      addTemplateText: addTemplate,
+      removeTemplateText: removeTemplate
     }
+  }
 
-    return (
-      <li className='vcv-ui-item-list-item'>
-        <span className='vcv-ui-item-element'>
-          <span
-            className='vcv-ui-item-element-content'
-            data-letter={letter}
-          >
-            <img
-              className='vcv-ui-item-element-image'
-              src={sharedAssetsLibraryService.getSourcePath('images/template-thumbnail.png')}
-              alt={name}
-            />
-            <span className={overlayClasses}>
-              <span
-                className={applyClasses}
-                onClick={this.handleApplyTemplate}
-                title={addTemplate}
-              />
-              <span
-                className={removeClasses}
-                onClick={this.handleRemoveTemplate}
-                title={removeTemplate}
-              />
-              <span className={spinnerClasses} />
-            </span>
-          </span>
-          <span className='vcv-ui-item-element-name'>
-            <span className={nameClasses}>
-              {name}
-            </span>
-          </span>
-        </span>
-      </li>
-    )
+  getHubTemplateProps () {
+    return {
+      ...this.props,
+      handleApplyTemplate: this.handleApplyTemplate,
+      handleRemoveTemplate: this.handleRemoveTemplate,
+      showPreview: this.showPreview,
+      hidePreview: this.hidePreview,
+      addTemplateText: addTemplate,
+      removeTemplateText: removeTemplate,
+      previewStyle: this.state.previewStyle,
+      previewVisible: this.state.previewVisible
+    }
+  }
+
+  getCustomTemplateControl () {
+    return <CustomTemplateControl {...this.getCustomTemplateProps()} />
+  }
+
+  getHubTemplateControl () {
+    return <HubTemplateControl {...this.getHubTemplateProps()} />
+  }
+
+  render () {
+    const { type } = this.props
+    return type && hubTemplateTypes.includes(type) ? this.getHubTemplateControl() : this.getCustomTemplateControl()
   }
 }

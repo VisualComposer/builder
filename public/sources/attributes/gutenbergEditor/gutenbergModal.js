@@ -6,7 +6,7 @@ export default class GutenbergModal extends React.Component {
   constructor (props) {
     super(props)
     this.el = document.createElement('div')
-    this.el.style.cssText = 'position:fixed;overflow:hidden;left:0;top:0;right:0;bottom:0;background:#fff;z-index:10000;'
+    this.el.className = 'vcv-gutenberg-modal'
   }
 
   componentDidMount () {

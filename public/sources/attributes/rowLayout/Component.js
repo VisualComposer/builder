@@ -54,9 +54,6 @@ class Layout extends Attribute {
         columnGap: {
           value: false
         },
-        gapSpace: {
-          value: false
-        },
         spaceForColumn: {
           value: false
         },
@@ -136,23 +133,22 @@ class Layout extends Attribute {
               newMixin[ mixinName ].variables.fullColumn.value = true
             }
           }
-          const gapSpace = (columnGap * (parseFloat(fraction[ 1 ]) - 1)).toString()
-          const spaceForColumn = (columnGap - (columnGap * (parseFloat(fraction[ 0 ]) / 100))).toString()
+          const percentages = (fraction[ 0 ] / fraction[ 1 ] * 100).toFixed(2)
+          const spaceForColumn = (columnGap - (columnGap * (parseFloat(percentages) / 100))).toString()
 
           if (col !== 'auto') {
             if (col.indexOf('%') >= 0) {
               newMixin[ mixinName ].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
             } else {
+              newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
               newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
             }
-            newMixin[ mixinName ].variables.percentage.value = fraction[ 0 ] / fraction[ 1 ]
+            newMixin[ mixinName ].variables.percentage.value = percentages
           } else {
             newMixin[ mixinName ].variables.autoColumn.value = true
           }
           newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
-          newMixin[ mixinName ].variables.gapSpace.value = gapSpace
           newMixin[ mixinName ].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
-          newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
         })
       }
     })

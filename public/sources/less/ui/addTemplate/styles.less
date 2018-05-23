@@ -52,6 +52,12 @@
 
   .vcv-ui-item-element {
     cursor: default;
+    &:hover {
+      .vcv-ui-item-control {
+        visibility: visible;
+        transition: visibility 0s 100ms;
+      }
+    }
   }
 
   .vcv-ui-item-overlay {
@@ -65,7 +71,8 @@
     padding: @add-template-item-control-padding;
     font-size: @add-template-item-control-font-size;
     cursor: pointer;
-    transition: color @transition-duration @transition-timing-function;
+    transition: color @transition-duration @transition-timing-function, visibility 0s 0s;
+    visibility: hidden;
 
     &.vcv-ui-icon-add {
       &:hover {
@@ -133,6 +140,7 @@
     }
   }
 }
+
 .rtl {
   .vcv-ui-add-template-content {
     .vcv-ui-save-template-form {
@@ -144,7 +152,6 @@
 }
 
 //== Tree view styles
-
 
 //== content
 .vcv-ui-tree-view-content {

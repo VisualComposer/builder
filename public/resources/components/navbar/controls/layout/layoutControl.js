@@ -69,11 +69,9 @@ export default class LayoutButtonControl extends React.Component {
       activeDevice: 0
     }
 
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile()) {
-        this.isMobile = true
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile()) {
+      this.isMobile = true
     }
 
     if (env('THEME_EDITOR')) {

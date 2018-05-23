@@ -23,6 +23,7 @@ export default class Categories extends React.Component {
   static allCategories = []
   static allElementsTags = []
   static addedId = null
+  static parentElementTag = null
 
   constructor (props) {
     super(props)
@@ -69,13 +70,15 @@ export default class Categories extends React.Component {
   getAllElements () {
     const { parent } = this.props
     let relatedTo = [ 'General', 'RootElements' ]
-    if (parent && parent.tag) {
+    let isParentTag = vcCake.env('FT_ADD_ELEMENT_LIST') ? parent && parent.tag && parent.tag !== 'column' : parent && parent.tag
+    if (isParentTag) {
       const parentElement = cook.get(parent)
       if (parentElement) {
         relatedTo = parentElement.containerFor()
       }
     }
-    if (!Categories.allElements.length) {
+    let isAllElements = vcCake.env('FT_ADD_ELEMENT_LIST') ? !Categories.allElements.length || Categories.parentElementTag !== parent.tag : !Categories.allElements.length
+    if (isAllElements) {
       let allElements = categoriesService.getSortedElements()
       Categories.allElements = allElements.filter((elementData) => {
         let cookElement = cook.get(elementData)
@@ -87,7 +90,8 @@ export default class Categories extends React.Component {
   }
 
   getAllElementsTags () {
-    if (!Categories.allElementsTags.length) {
+    let isElementTags = vcCake.env('FT_ADD_ELEMENT_LIST') ? !Categories.allElementsTags.length || Categories.parentElementTag !== this.props.parent.tag : !Categories.allElementsTags.length
+    if (isElementTags) {
       let allElements = this.getAllElements()
 
       Categories.allElementsTags = allElements.map((element) => {
@@ -120,7 +124,8 @@ export default class Categories extends React.Component {
   }
 
   getAllCategories () {
-    if (!Categories.allCategories.length) {
+    let isCategories = vcCake.env('FT_ADD_ELEMENT_LIST') ? !Categories.allCategories.length || Categories.parentElementTag !== this.props.parent.tag : !Categories.allCategories.length
+    if (isCategories) {
       let groupsStore = {}
       let groups = groupsService.all()
       let tags = this.getAllElementsTags()
@@ -136,6 +141,9 @@ export default class Categories extends React.Component {
           isVisible: true
         }
       })
+      if (vcCake.env('FT_ADD_ELEMENT_LIST')) {
+        Categories.parentElementTag = this.props.parent.tag
+      }
     }
 
     return Categories.allCategories
@@ -262,10 +270,11 @@ export default class Categories extends React.Component {
   }
 
   getElementsByCategory () {
-    let { activeCategoryIndex } = this.state
-    let allCategories = this.getAllCategories()
+    const { activeCategoryIndex } = this.state
+    const allCategories = this.getAllCategories()
+    const i = activeCategoryIndex
 
-    return allCategories && allCategories[ activeCategoryIndex ] && allCategories[ activeCategoryIndex ].elements ? allCategories[ activeCategoryIndex ].elements.map((tag) => {
+    return allCategories && allCategories[ i ] && allCategories[ i ].elements ? allCategories[ i ].elements.map((tag) => {
       return this.getElementControl(tag)
     }) : []
   }
@@ -286,7 +295,7 @@ export default class Categories extends React.Component {
   applyFirstElement () {
     const { searchResults, focusedElement } = this.state
     if ((searchResults && searchResults.length) || focusedElement) {
-      let tag = focusedElement || searchResults[0].tag
+      let tag = focusedElement || searchResults[ 0 ].tag
       this.addElement(tag)
     }
   }

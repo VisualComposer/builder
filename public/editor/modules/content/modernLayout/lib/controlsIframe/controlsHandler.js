@@ -466,6 +466,10 @@ export default class ControlsHandler {
         label = `${addText} ${element.get('name')}`
         addElementTag = element.get('tag')
       }
+      if (env('FT_ADD_ELEMENT_LIST') && options.tag === 'buttonGroup') {
+        label = `${addText} Buttons`
+        addElementTag = options.tag
+      }
       actions.push({
         label: label,
         icon: 'vcv-ui-icon-add-thin',
@@ -520,43 +524,23 @@ export default class ControlsHandler {
     })
 
     // copy action
-    if (
-      (options.relatedTo &&
-      options.relatedTo.value &&
-      ((options.relatedTo.value.includes('General') && !options.relatedTo.value.includes('RootElements')) ||
-      (env('FT_COPY_PASTE_FOR_COLUMN') && options.relatedTo.value.includes('Column')))) ||
-      env('FT_COPY_PASTE_FOR_ROW')
-    ) {
-      actions.push({
-        label: copyText,
-        title: `${copyText} ${options.title}`,
-        icon: 'vcv-ui-icon-copy-icon',
-        data: {
-          vcControlEvent: 'copy'
-        }
-      })
-    }
+    actions.push({
+      label: copyText,
+      title: `${copyText} ${options.title}`,
+      icon: 'vcv-ui-icon-copy-icon',
+      data: {
+        vcControlEvent: 'copy'
+      }
+    })
 
     // paste action
-    let isPasteAvailable = exceptionalElements.includes(options.name)
-
-    if (env('FT_COPY_PASTE_FOR_ROW')) {
-      const pasteElCook = options && cook.get(options)
-      const pasteElContainerFor = pasteElCook && pasteElCook.get('containerFor')
-
-      isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
-    }
+    const pasteElCook = options && cook.get(options)
+    const pasteElContainerFor = pasteElCook && pasteElCook.get('containerFor')
+    const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
     if (isPasteAvailable) {
       let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
-      let pasteOptions = {
-        disabled: !copyData,
-        pasteAfter: false
-      }
-
-      if (env('FT_COPY_PASTE_FOR_ROW') || env('FT_COPY_PASTE_FOR_COLUMN')) {
-        pasteOptions = this.getPasteOptions(copyData, options)
-      }
+      let pasteOptions = this.getPasteOptions(copyData, options)
 
       actions.push({
         label: pasteOptions.pasteAfter ? pasteAfterText : pasteText,

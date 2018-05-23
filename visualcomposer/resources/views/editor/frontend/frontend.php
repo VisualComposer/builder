@@ -35,33 +35,11 @@ if (vcvenv('VCV_ENV_LICENSES')) {
 <head>
     <link rel="profile" href="http://gmpg.org/xfn/11" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0" />
     <title><?php echo sprintf(__('Frontend editor: %s', 'vcwb'), get_the_title()); ?></title>
     <link rel="stylesheet"
             href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
     <?php
-    // @codingStandardsIgnoreStart ?>
-    <script>
-      window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
-      window.vcvSourceID = <?php echo get_the_ID(); ?>;
-      window.vcvAjaxUrl = '<?php echo $urlHelper->ajax() ?>';
-      window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
-      window.vcvNonce = '<?php echo esc_js($nonceHelper->admin()); ?>';
-      window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
-      window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
-      window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
-      window.vcvPostPermanentLink = '<?php echo set_url_scheme(get_permalink(get_the_ID())); ?>';
-      <?php if (vcvenv('VCV_ENV_LICENSES')) : ?>
-      window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
-      window.vcvGoPremiumUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>&vcv-ref=nav-bar';
-      window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>';
-      <?php endif; ?>
-      <?php if (isset($feError) && $feError) : ?>
-      window.vcvFeError = '<?php echo $feError; ?>'
-      <?php endif; ?>
-    </script>
-    <?php
-    // @codingStandardsIgnoreEnd
     // @codingStandardsIgnoreLine
     do_action('admin_enqueue_scripts', $hook_suffix);
     do_action('admin_print_styles');
@@ -90,7 +68,29 @@ if (vcvenv('VCV_ENV_LICENSES')) {
     ?>
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
+<?php // @codingStandardsIgnoreStart ?>
+<script>
+  window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
+  window.vcvSourceID = <?php echo get_the_ID(); ?>;
+  window.vcvAjaxUrl = '<?php echo $urlHelper->ajax() ?>';
+  window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
+  window.vcvNonce = '<?php echo esc_js($nonceHelper->admin()); ?>';
+  window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
+  window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
+  window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
+  window.vcvPostPermanentLink = '<?php echo set_url_scheme(get_permalink(get_the_ID())); ?>';
+    <?php if (vcvenv('VCV_ENV_LICENSES')) : ?>
+  window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
+  window.vcvGoPremiumUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>&vcv-ref=nav-bar';
+  window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>';
+  window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(admin_url('post-new.php?post_type=vcv_gutenberg_attr')); ?>';
+    <?php endif; ?>
+    <?php if (isset($feError) && $feError) : ?>
+  window.vcvFeError = '<?php echo $feError; ?>'
+    <?php endif; ?>
+</script>
 <?php
+// @codingStandardsIgnoreEnd
 $extraOutput = vcfilter('vcv:frontend:body:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {

@@ -5,6 +5,7 @@ import TreeViewDndManager from './lib/treeViewDndManager'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
@@ -17,7 +18,8 @@ export default class TreeViewLayout extends React.Component {
   static propTypes = {
     scrollValue: PropTypes.any,
     contentStartId: PropTypes.string,
-    contentId: PropTypes.string
+    contentId: PropTypes.string,
+    visible: PropTypes.bool
   }
 
   layoutContainer = null
@@ -188,9 +190,14 @@ export default class TreeViewLayout extends React.Component {
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const addTemplateText = localizations ? localizations.addTemplate : 'Add Template'
 
+    let treeLayoutClasses = classNames({
+      'vcv-ui-tree-layout-container': true,
+      'vcv-ui-state--hidden': env('FT_COLLAPSE_ELEMENTS_TREE_VIEW') ? !this.props.visible : false
+    })
+
     return (
       <div
-        className='vcv-ui-tree-layout-container'
+        className={treeLayoutClasses}
         ref={(layoutContainer) => { this.layoutContainer = layoutContainer }}
       >
         <Scrollbar ref={this.scrollBarMounted}>

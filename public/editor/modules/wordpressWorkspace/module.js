@@ -96,12 +96,11 @@ add('wordpressWorkspace', (api) => {
       documentElements = elements
       if (data.length === 0) {
         let showBlank = true
-        if (env('PAGE_TEMPLATE_LAYOUTS')) {
-          let currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
-          if (currentTemplate && currentTemplate.type !== 'theme' && currentTemplate.value !== 'default') {
-            showBlank = false
-          }
+        let currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
+        if (currentTemplate && currentTemplate.type !== 'theme' && currentTemplate.value !== 'default') {
+          showBlank = false
         }
+
         if (showBlank && !settingsStorage.state('skipBlank').get()) {
           addStartBlank()
           isBlank = true

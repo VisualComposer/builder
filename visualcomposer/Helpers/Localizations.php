@@ -290,6 +290,38 @@ class Localizations extends Container implements Helper
                 ),
                 '{name}'
             ),
+            'themeDefaultDescription' => __(
+                'Your WordPress theme defined layout for specific page, post, or custom post type.',
+                'vcwb'
+            ),
+            'vcBoxedDescription' => __(
+                'Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar.',
+                'vcwb'
+            ),
+            'vcBlankDescription' => __(
+                'Full width blank page without header, footer, or sidebar.',
+                'vcwb'
+            ),
+            'vcThemeHeaderFooterDescription' => __(
+                'Default layout with custom header, content, and footer area.',
+                'vcwb'
+            ),
+            'vcThemeHeaderFooterSidebarDescription' => __(
+                'Default layout with custom header, content, footer and sidebar area on the right.',
+                'vcwb'
+            ),
+            'vcThemeHeaderFooterLeftSidebarDescription' => __(
+                'Default layout with custom header, content, footer and sidebar area on the left.',
+                'vcwb'
+            ),
+            'availableInPremium' => __(
+                'Available in Premium version.',
+                'vcwb'
+            ),
+            'gutenbergDoesntWorkProperly' => __(
+                "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin.",
+                'vcwb'
+            )
         ];
 
         return $locale;

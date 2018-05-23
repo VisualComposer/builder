@@ -33,7 +33,11 @@ class EditorTemplates implements Helper
             '_' . VCV_PREFIX . 'type'
         );
         $dataHelper = vchelper('Data');
-        $outputTemplates = [];
+        $outputTemplates = [
+            'predefined' => ['templates' => []],
+            'hub' => ['templates' => []],
+            'custom' => ['templates' => []],
+        ];
         if (!empty($templatesGroups)) {
             foreach ($templatesGroups as $groupKey => $templates) {
                 $groupTemplates = [];
@@ -47,7 +51,7 @@ class EditorTemplates implements Helper
                     if (empty($groupKey)) {
                         $groupKey = 'custom';
                     }
-                    if (isset($outputTemplates[ $groupKey ])) {
+                    if (isset($outputTemplates[ $groupKey ]) && isset($outputTemplates[ $groupKey ]['name'])) {
                         $outputTemplates[ $groupKey ]['templates'] = $dataHelper->arrayDeepUnique(
                             array_merge($outputTemplates[ $groupKey ]['templates'], $groupTemplates)
                         );

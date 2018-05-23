@@ -126,11 +126,9 @@ export default class Element extends React.Component {
     let layoutAtts = {}
     let atts = element.getAll(false)
     let allowInline = true
-    if (vcCake.env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        allowInline = false
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      allowInline = false
     }
     Object.keys(atts).forEach((key) => {
       let attrSettings = element.settings(key)

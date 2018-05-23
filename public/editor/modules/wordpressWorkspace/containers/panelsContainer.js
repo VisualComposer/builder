@@ -1,15 +1,15 @@
 import React from 'react'
 import classNames from 'classnames'
-import Content from '../../../../resources/components/contentParts/content'
-import ContentStart from '../../../../resources/components/contentParts/contentStart'
-import ContentEnd from '../../../../resources/components/contentParts/contentEnd'
-import AddElementPanel from '../../../../resources/components/addElement/addElementPanel'
-import TeaserAddElementCategories from '../../../../resources/components/teaserAddElement/lib/teaserCategories'
-import AddTemplatePanel from '../../../../resources/components/addTemplate/addTemplatePanel'
-import TreeViewLayout from '../../../../resources/components/treeView/treeViewLayout'
-import SettingsPanel from '../../../../resources/components/settings/settingsPanel'
-import EditElementPanel from '../../../../resources/components/editElement/editElementPanel'
-import EditFormPanel from '../../../../resources/components/editForm/editFormPanel'
+import Content from 'public/resources/components/contentParts/content'
+import ContentStart from 'public/resources/components/contentParts/contentStart'
+import ContentEnd from 'public/resources/components/contentParts/contentEnd'
+import AddElementPanel from 'public/resources/components/addElement/addElementPanel'
+import TeaserAddElementCategories from 'public/resources/components/teaserAddElement/lib/teaserCategories'
+import AddTemplatePanel from 'public/resources/components/addTemplate/addTemplatePanel'
+import TreeViewLayout from 'public/resources/components/treeView/treeViewLayout'
+import SettingsPanel from 'public/resources/components/settings/settingsPanel'
+import EditElementPanel from 'public/resources/components/editElement/editElementPanel'
+import EditFormPanel from 'public/resources/components/editForm/editFormPanel'
 import { getService, env } from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
@@ -40,11 +40,9 @@ export default class PanelsContainer extends React.Component {
     this.state = {
       height: window.innerHeight - 60
     }
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        this.isMobile = true
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      this.isMobile = true
     }
 
     this.updateOnResize = this.updateOnResize.bind(this)
@@ -71,7 +69,11 @@ export default class PanelsContainer extends React.Component {
   getContent () {
     const { content, settings, contentId } = this.props
     if (content === 'treeView') {
-      return <TreeViewLayout contentId={contentId} />
+      if (!env('FT_COLLAPSE_ELEMENTS_TREE_VIEW')) {
+        return <TreeViewLayout contentId={contentId} />
+      } else {
+        return null
+      }
     } else if (content === 'addElement') {
       return <AddElementPanel options={settings || {}} />
     } else if (content === 'addHubElement') {
@@ -128,7 +130,7 @@ export default class PanelsContainer extends React.Component {
   }
 
   render () {
-    const { start, end, content } = this.props
+    const { start, end, content, contentId } = this.props
     let layoutClasses = classNames({
       'vcv-layout-bar-content': true,
       'vcv-ui-state--visible': !!(start || end || content),
@@ -139,12 +141,17 @@ export default class PanelsContainer extends React.Component {
     if (this.isMobile) {
       layoutStyle.height = this.state.height
     }
+    let treeViewLayout = ''
+    if (env('FT_COLLAPSE_ELEMENTS_TREE_VIEW')) {
+      treeViewLayout = <TreeViewLayout contentId={contentId} visible={content === 'treeView'} />
+    }
 
     if (env('NAVBAR_SINGLE_CONTENT')) {
       if (env('HUB_REDESIGN')) {
         return (
           <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>
             <Content content={content}>
+              {treeViewLayout}
               {this.getContent()}
             </Content>
           </div>
