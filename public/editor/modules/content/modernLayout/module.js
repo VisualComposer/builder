@@ -88,9 +88,7 @@ vcCake.add('contentModernLayout', (api) => {
           let zoneButton = zone.querySelector('[data-vcv-action="settings"]')
           zoneButton && zoneButton.addEventListener('click', () => {
             workspaceStorage.state('content').set('settings')
-            if (vcCake.env('HUB_REDESIGN')) {
-              workspaceSettings.set({ action: 'settings' })
-            }
+            workspaceSettings.set({ action: 'settings' })
           })
         })
       }

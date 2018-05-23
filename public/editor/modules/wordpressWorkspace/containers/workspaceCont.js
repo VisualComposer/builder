@@ -3,7 +3,7 @@ import React from 'react'
 import PanelsContainer from './panelsContainer'
 import NavbarContainer from './navbarContainer'
 import Workspace from 'public/resources/components/workspace'
-import {getStorage, env} from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
 const workspace = getStorage('workspace')
 const workspaceSettings = workspace.state('settings')
@@ -79,33 +79,18 @@ export default class WorkspaceCont extends React.Component {
 
   render () {
     const {content, contentId, settings} = this.state
+    this.updatePanel()
 
-    if (env('HUB_REDESIGN')) {
-      this.updatePanel()
-    }
-
-    if (env('HUB_REDESIGN')) {
-      return (
-        <Workspace content={!!content}>
-          <NavbarContainer getNavbarPosition={this.getNavbarPosition} wrapperRef={(navbar) => { this.navbar = navbar }} />
-          <PanelsContainer
-            content={content}
-            settings={settings}
-            contentId={contentId}
-            wrapperRef={(panel) => {
-              this.panel = panel
-            }}
-          />
-        </Workspace>
-      )
-    }
     return (
       <Workspace content={!!content}>
-        <NavbarContainer />
+        <NavbarContainer getNavbarPosition={this.getNavbarPosition} wrapperRef={(navbar) => { this.navbar = navbar }} />
         <PanelsContainer
           content={content}
           settings={settings}
           contentId={contentId}
+          wrapperRef={(panel) => {
+            this.panel = panel
+          }}
         />
       </Workspace>
     )

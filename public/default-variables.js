@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FIX_DND_FOR_TABS', true)
-vcCake.env('HUB_REDESIGN', true)
 vcCake.env('DISABLE_COLUMN_STACKING', true)
 vcCake.env('CLASSIC_TABS', true)
 vcCake.env('IMAGE_FILTERS', true)

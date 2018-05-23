@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import { getStorage, env } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceContentState = getStorage('workspace').state('content')
@@ -48,9 +48,7 @@ export default class SettingsButtonControl extends NavbarContent {
   toggleSettings (e) {
     e && e.preventDefault()
     workspaceContentState.set(!this.state.isActive ? 'settings' : false)
-    if (env('HUB_REDESIGN')) {
-      workspaceSettings.set({ action: 'settings' })
-    }
+    workspaceSettings.set({ action: 'settings' })
   }
 
   render () {

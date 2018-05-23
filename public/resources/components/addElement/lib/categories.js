@@ -27,24 +27,16 @@ export default class Categories extends React.Component {
 
   constructor (props) {
     super(props)
-    if (vcCake.env('HUB_REDESIGN')) {
-      this.state = {
-        activeCategoryIndex: 0,
-        inputValue: '',
-        isSearching: '',
-        centered: false,
-        filterType: 'all',
-        focusedElement: null
-      }
-    } else {
-      this.state = {
-        activeCategoryIndex: 0,
-        inputValue: '',
-        isSearching: '',
-        centered: false,
-        focusedElement: null
-      }
+
+    this.state = {
+      activeCategoryIndex: 0,
+      inputValue: '',
+      isSearching: '',
+      centered: false,
+      filterType: 'all',
+      focusedElement: null
     }
+
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.changeSearchState = this.changeSearchState.bind(this)
     this.changeInput = this.changeInput.bind(this)

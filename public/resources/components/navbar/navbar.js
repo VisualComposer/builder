@@ -180,13 +180,9 @@ export default class Navbar extends React.Component {
         break
       case 'left':
       case 'right':
-        if (vcCake.env('HUB_REDESIGN')) {
-          let currentSettings = workspaceSettings.get()
-          if (currentSettings && currentSettings.action && currentSettings.action === 'addHub') {
-            manageLock(false)
-          } else {
-            manageLock(true)
-          }
+        let currentSettings = workspaceSettings.get()
+        if (currentSettings && currentSettings.action && currentSettings.action === 'addHub') {
+          manageLock(false)
         } else {
           manageLock(true)
         }
@@ -573,11 +569,10 @@ export default class Navbar extends React.Component {
       'vcv-ui-navbar-is-detached': !isDragging
     })
     this.updateWrapper()
-    if (vcCake.env('HUB_REDESIGN')) {
-      if (this.props.editor !== 'backend') {
-        this.props.getNavbarPosition(this.state.navbarPosition)
-      }
+    if (this.props.editor !== 'backend') {
+      this.props.getNavbarPosition(this.state.navbarPosition)
     }
+
     return (
       <div className={navbarContainerClasses}>
         <nav className='vcv-ui-navbar vcv-ui-navbar-hide-labels'>

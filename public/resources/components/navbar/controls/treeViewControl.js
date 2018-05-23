@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import { getStorage, env } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
 const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('settings')
@@ -31,9 +31,7 @@ export default class TreeViewControl extends NavbarContent {
 
   toggleTreeView (e) {
     e && e.preventDefault()
-    if (env('HUB_REDESIGN')) {
-      workspaceSettings.set({ action: 'treeView' })
-    }
+    workspaceSettings.set({ action: 'treeView' })
     workspaceContentState.set(!this.state.isActive ? 'treeView' : false)
   }
 

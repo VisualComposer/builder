@@ -144,19 +144,10 @@ export default class PanelsContainer extends React.Component {
       treeViewLayout = <TreeViewLayout contentId={contentId} visible={content === 'treeView'} />
     }
 
-    if (env('HUB_REDESIGN')) {
-      return (
-        <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>
-          <Content content={content}>
-            {treeViewLayout}
-            {this.getContent()}
-          </Content>
-        </div>
-      )
-    }
     return (
-      <div className={layoutClasses} style={layoutStyle}>
+      <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>
         <Content content={content}>
+          {treeViewLayout}
           {this.getContent()}
         </Content>
       </div>
