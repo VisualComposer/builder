@@ -1,5 +1,4 @@
 import React from 'react'
-import { env } from 'vc-cake'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 const { Component } = React
@@ -22,7 +21,7 @@ export default class ParallaxBackground extends Component {
       let elementClasses = [
         `vce-asset-parallax`
       ]
-      if (env('PARALLAX_MOUSEMOVE') && parallax === 'mouse-move') {
+      if (parallax === 'mouse-move') {
         customProps[ 'data-vce-assets-parallax-mouse-move' ] = '.vce-asset-parallax'
         customProps[ 'data-vce-assets-parallax-mouse-move-element' ] = atts.id
         elementClasses.push('vce-asset-parallax-mouse-move')

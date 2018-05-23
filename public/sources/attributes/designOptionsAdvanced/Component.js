@@ -1771,14 +1771,12 @@ export default class DesignOptionsAdvanced extends Attribute {
         {
           label: 'Simple with fade',
           value: 'simple-fade'
+        },
+        {
+          label: 'Mouse move',
+          value: 'mouse-move'
         }
       ]
-    }
-    if (env('PARALLAX_MOUSEMOVE')) {
-      options.values.push({
-        label: 'Mouse move',
-        value: 'mouse-move'
-      })
     }
     let value = this.state.devices[ this.state.currentDevice ].parallax || ''
     return <div className='vcv-ui-form-group'>

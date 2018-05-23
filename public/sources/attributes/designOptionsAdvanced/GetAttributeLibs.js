@@ -1,5 +1,3 @@
-import { env } from 'vc-cake'
-
 export default (value) => {
   let libs = []
   const libNames = [
@@ -64,17 +62,14 @@ export default (value) => {
         'waypoints',
         'parallaxBackground'
       ]
-    }
-  ]
-
-  if (env('PARALLAX_MOUSEMOVE')) {
-    libNames.push({
+    },
+    {
       fieldKey: 'parallax',
       value: 'mouse-move',
       library: 'parallaxMouseMove',
       dependencies: []
-    })
-  }
+    }
+  ]
 
   if (value && value.device && Object.keys(value.device).length) {
     for (let device in value.device) {
