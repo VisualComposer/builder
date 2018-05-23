@@ -168,7 +168,7 @@ export default class CookElement {
     } else {
       data.order = 0
     }
-    if (vcCake.env('EXISTING_ELEMENT_ATTR_FIX') && publicOnly) {
+    if (publicOnly) {
       const publicKeys = this.getPublicKeys() // TODO: merge all data with public keys
       return lodash.pick(data, publicKeys)
     }

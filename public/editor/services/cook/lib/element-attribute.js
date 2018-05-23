@@ -29,7 +29,7 @@ export default class {
   }
 
   getValue (settings, data, key, ignoreGetter = false) {
-    if ((env('EXISTING_ELEMENT_ATTR_FIX') && settings.access === 'protected') || (typeof data[ key ] === 'undefined' && typeof settings.value !== 'undefined')) {
+    if ((settings.access === 'protected') || (typeof data[ key ] === 'undefined' && typeof settings.value !== 'undefined')) {
       data[ key ] = settings.value
     }
     return this.getter && ignoreGetter !== true ? this.getter(data, key, settings) : this.getRawValue(data, key)
