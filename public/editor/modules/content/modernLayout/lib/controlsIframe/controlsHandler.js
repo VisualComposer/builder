@@ -33,9 +33,6 @@ export default class ControlsHandler {
   setup () {
     this.controlsWrapper = document.createElement('div')
     this.controlsWrapper.classList.add('vcv-ui-outline-controls-wrapper')
-    if (env('ELEMENT_CONTROLS_DELAY')) {
-      this.controlsWrapper.classList.add('vcv-ui-outline-controls-delay-toggle-feature')
-    }
     this.iframeOverlay.appendChild(this.controlsWrapper)
 
     this.controlsContainer = document.createElement('div')
@@ -93,9 +90,6 @@ export default class ControlsHandler {
     this.stopAutoUpdateContainerPosition()
     this.destroyAppendControl()
     this.stopAutoUpdateAppendContainerPosition()
-    if (!env('ELEMENT_CONTROLS_DELAY')) {
-      this.controlsWrapper.classList.remove('vcv-state--visible')
-    }
   }
 
   /**
@@ -154,12 +148,10 @@ export default class ControlsHandler {
         }
       }
     }
-    if (env('ELEMENT_CONTROLS_DELAY')) {
-      if (env('CACHE_HOVER_CONTROLS')) {
-        this.elementInlineEdit && this.element.addEventListener('mouseup', this.hide)
-      } else {
-        this.addControlDropdownInteractionEvents(controlsList)
-      }
+    if (env('CACHE_HOVER_CONTROLS')) {
+      this.elementInlineEdit && this.element.addEventListener('mouseup', this.hide)
+    } else {
+      this.addControlDropdownInteractionEvents(controlsList)
     }
   }
 
@@ -439,9 +431,6 @@ export default class ControlsHandler {
 
     let dropdown = document.createElement('div')
     dropdown.classList.add('vcv-ui-outline-control-dropdown-content')
-    if (env('ELEMENT_CONTROLS_DELAY')) {
-      dropdown.classList.add('vcv-ui-outline-controls-dropdown-content-delay-toggle-feature')
-    }
 
     // prepare actions
     let actions = []
@@ -646,15 +635,14 @@ export default class ControlsHandler {
    * Destroy controls
    */
   destroyControls () {
-    if (env('ELEMENT_CONTROLS_DELAY')) {
-      let controls = this.controlsContainer && this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
-      controls = [].slice.call(controls)
-      controls.forEach(control => {
-        control.removeEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control))
-        control.removeEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control))
-      })
-      this.elementInlineEdit && this.element.removeEventListener('mouseup', this.hide)
-    }
+    let controls = this.controlsContainer && this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
+    controls = [].slice.call(controls)
+    controls.forEach(control => {
+      control.removeEventListener('mouseenter', this.controlDropdownMouseEnter.bind(this, control))
+      control.removeEventListener('mouseleave', this.controlDropdownMouseLeave.bind(this, control))
+    })
+    this.elementInlineEdit && this.element.removeEventListener('mouseup', this.hide)
+
     while (this.controlsContainer && this.controlsContainer.firstChild) {
       this.controlsContainer.removeChild(this.controlsContainer.firstChild)
     }
@@ -797,12 +785,6 @@ export default class ControlsHandler {
    * @param e
    */
   updateDropdownsPosition (e) {
-    if (!env('ELEMENT_CONTROLS_DELAY')) {
-      this.controlsWrapper.classList.add('vcv-state--visible')
-      this.controlsContainer.addEventListener('mouseleave', () => {
-        this.controlsWrapper.classList.remove('vcv-state--visible')
-      })
-    }
     let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
     dropdowns = [].slice.call(dropdowns)
     let iframeRect = this.iframe.getBoundingClientRect()
