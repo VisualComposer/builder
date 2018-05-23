@@ -1,5 +1,4 @@
 import React from 'react'
-import { env } from 'vc-cake'
 import PropTypes from 'prop-types'
 
 export default class Logo extends React.Component {
@@ -20,14 +19,12 @@ export default class Logo extends React.Component {
       </a>
     )
 
-    if (env('FE_LOGO_LINK_PREMIUM')) {
-      if (typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
-        output = (
-          <span className='vcv-ui-navbar-logo vcv-ui-navbar-logo--no-click' title='Visual Composer Website Builder'>
-            <span className='vcv-ui-navbar-logo-title'>Visual Composer Website Builder</span>
-          </span>
-        )
-      }
+    if (typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
+      output = (
+        <span className='vcv-ui-navbar-logo vcv-ui-navbar-logo--no-click' title='Visual Composer Website Builder'>
+          <span className='vcv-ui-navbar-logo-title'>Visual Composer Website Builder</span>
+        </span>
+      )
     }
 
     return output

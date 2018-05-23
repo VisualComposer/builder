@@ -2,9 +2,6 @@ import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FIX_DND_FOR_TABS', true)
-vcCake.env('TEASER_DROPDOWN_UPDATE', true)
-vcCake.env('FF_QUANTUM_DO', true)
-vcCake.env('FE_LOGO_LINK_PREMIUM', true)
 vcCake.env('FE_TOGGLE_ELEMENT', true)
 vcCake.env('PARALLAX_MOUSEMOVE', true)
 vcCake.env('HUB_REDESIGN', true)
