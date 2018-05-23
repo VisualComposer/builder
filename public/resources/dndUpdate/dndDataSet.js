@@ -165,7 +165,7 @@ export default class DndDataSet {
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
     root.refresh()
-    if (env('DND_TRASH_BIN') && this.options.isIframe) {
+    if (this.options.isIframe) {
       this.trash = new TrashBin({
         ..._.pick(this.options, 'document', 'container'),
         handleDrag: this.handleDragFunction,
@@ -285,7 +285,7 @@ export default class DndDataSet {
   }
 
   checkItems (point) {
-    let trashBin = env('DND_TRASH_BIN') ? this.checkTrashBin(point) : null
+    let trashBin = this.checkTrashBin(point)
     if (trashBin) {
       this.trash && this.trash.setActive()
       this.placeholder && this.placeholder.clearStyle()
@@ -293,13 +293,11 @@ export default class DndDataSet {
       this.helper && this.helper.setOverTrash && this.helper.setOverTrash()
       this.currentElement = 'vcv-dnd-trash-bin'
     } else {
-      if (env('DND_TRASH_BIN')) {
-        this.trash && this.trash.removeActive()
-        if (this.currentElement === 'vcv-dnd-trash-bin') {
-          this.currentElement = null
-        }
-        this.helper && this.helper.removeOverTrash && this.helper.removeOverTrash()
+      this.trash && this.trash.removeActive()
+      if (this.currentElement === 'vcv-dnd-trash-bin') {
+        this.currentElement = null
       }
+      this.helper && this.helper.removeOverTrash && this.helper.removeOverTrash()
       let domNode = this.findDOMNode(point)
       let domElement = this.getDomElement(domNode)
       if (!domElement) {
@@ -336,7 +334,7 @@ export default class DndDataSet {
   }
 
   start (id, point, tag, domNode, disableTrashBin = false) {
-    if (env('DND_TRASH_BIN') && !disableTrashBin) {
+    if (!disableTrashBin) {
       this.trashBinTimeout = setTimeout(() => {
         this.trashBinTimeout = null
         this.trash && this.trash.create()
@@ -416,16 +414,14 @@ export default class DndDataSet {
     this.helper && this.helper.remove()
     // Remove css class for body
     this.options.document.body.classList.remove('vcv-dnd-dragging--start', 'vcv-is-no-selection')
-    if (env('DND_TRASH_BIN')) {
-      // Remove trash bin
-      if (this.trashBinTimeout) {
-        clearTimeout(this.trashBinTimeout)
-        this.trashBinTimeout = null
-      }
-      this.trash && this.trash.remove()
-      if (!this.position && this.currentElement === 'vcv-dnd-trash-bin') {
-        this.position = 'after'
-      }
+    // Remove trash bin
+    if (this.trashBinTimeout) {
+      clearTimeout(this.trashBinTimeout)
+      this.trashBinTimeout = null
+    }
+    this.trash && this.trash.remove()
+    if (!this.position && this.currentElement === 'vcv-dnd-trash-bin') {
+      this.position = 'after'
     }
     this.forgetMouse()
     this.removePlaceholder()
