@@ -91,8 +91,7 @@ class Layout extends Attribute {
     const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
 
     Layout.devices.forEach((device) => {
-      // TODO: Simplify IF
-      if ((device === 'md' || (device === 'xs' && (!disableStacking || !vcCake.env('DISABLE_COLUMN_STACKING')))) || (device === 'xs' && disableStacking)) {
+      if (device === 'md' || device === 'xs') {
         let reducedLayout = []
         layoutData.forEach((col) => {
           if (reducedLayout.indexOf(col) < 0) {
@@ -231,9 +230,7 @@ class Layout extends Attribute {
   getReverseToggle () {
     let data = this.state.value
     if (data && data.disableStacking) {
-      if (vcCake.env('DISABLE_COLUMN_STACKING')) {
-        return null
-      }
+      return null
     }
     let reverseState = data && data.hasOwnProperty('reverseColumn') ? data.reverseColumn : false
     return (
@@ -256,9 +253,6 @@ class Layout extends Attribute {
   }
 
   getStackingToggle () {
-    if (!vcCake.env('DISABLE_COLUMN_STACKING')) {
-      return null
-    }
     let data = this.state.value
     let disableStackingState = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
     return (
