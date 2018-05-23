@@ -7,14 +7,6 @@ import { default as attributeManager } from './lib/attribute-manager'
 import CookElement from './lib/element'
 
 const DocumentData = getService('document')
-let _service = null
-let hubElementService = () => {
-  if (_service) {
-    return _service
-  }
-  _service = getService('hubElements')
-  return _service
-}
 
 const API = {
   get (data) {
@@ -22,16 +14,6 @@ const API = {
       console.error('No element Tag provided', data)
       return null
     }
-    if (env('FIX_UNREGISTERED_ELEMENT')) {
-      return new CookElement(data)
-    }
-    let elements = hubElementService().all()
-
-    if (!elements || !elements[ data.tag ]) {
-      env('debug') === true && console.warn('Element is not registered in system', data)
-      return null
-    }
-
     return new CookElement(data)
   },
   getSettings (tag) {

@@ -34,7 +34,7 @@ export default class CookElement {
     let elements = hubElementService().all()
     let element = elements ? elements[ tag ] : null
 
-    if (vcCake.env('FIX_UNREGISTERED_ELEMENT') && !element) {
+    if (!element) {
       vcCake.env('debug') === true && console.warn(`Element ${tag} is not registered in system`)
       element = {
         settings: {
@@ -44,8 +44,6 @@ export default class CookElement {
           name: '--'
         }
       }
-    } else if (!element) {
-      throw new Error(`Element ${tag} is not registered in system`)
     }
     let metaSettings = element.settings
     let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
