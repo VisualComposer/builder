@@ -11,11 +11,11 @@ import UsedStack from './UsedStack'
 export class Sketch extends React.Component {
   shouldComponentUpdate = shallowCompare.bind(this, this, arguments[ 0 ], arguments[ 1 ])
 
-  handleChange = (data: any) => {
+  handleChange = (data) => {
     this.props.onChange(data)
   }
 
-  render (): any {
+  render () {
     const rgb = this.props.rgb
     const styles = reactCSS({
       'default': {
