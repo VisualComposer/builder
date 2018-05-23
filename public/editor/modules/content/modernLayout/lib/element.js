@@ -44,9 +44,7 @@ export default class Element extends React.Component {
     } else {
       elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
     }
-    if (vcCake.env('CSS_LOADING')) {
-      assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
-    }
+    assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
     assetsStorage.trigger('addElement', this.state.element.id)
     if (this.state.element.tag === 'column') {
       assetsStorage.trigger('updateElement', this.state.element.parent)
@@ -63,9 +61,7 @@ export default class Element extends React.Component {
     } else {
       elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
     }
-    if (vcCake.env('CSS_LOADING')) {
-      assetsStorage.state('jobs').ignoreChange(this.cssJobsUpdate)
-    }
+    assetsStorage.state('jobs').ignoreChange(this.cssJobsUpdate)
     assetsStorage.trigger('removeElement', this.state.element.id)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
   }
@@ -149,7 +145,7 @@ export default class Element extends React.Component {
   }
 
   render () {
-    if (vcCake.env('CSS_LOADING') && this.state.cssBuildingProcess && !this.state.isRendered) {
+    if (this.state.cssBuildingProcess && !this.state.isRendered) {
       return null
     }
     let { api, ...other } = this.props

@@ -112,30 +112,25 @@ add('wordpressWorkspace', (api) => {
         if (!Object.keys(visibleElements).length) {
           iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
         }
-        if (!env('CSS_LOADING')) {
-          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
-        }
         removeStartBlank()
         isBlank = false
       }
       settingsStorage.state('skipBlank').set(false)
     })
 
-    if (env('CSS_LOADING')) {
-      assetsStorage.state('jobs').onChange((data) => {
-        if (documentElements) {
-          let visibleJobs = data.elements.filter(element => !element.hidden)
-          let visibleElements = utils.getVisibleElements(documentElements)
-          let documentIds = Object.keys(visibleElements)
-          if (documentIds.length === visibleJobs.length) {
-            let jobsInprogress = data.elements.find(element => element.jobs)
-            if (jobsInprogress) {
-              return
-            }
-            iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+    assetsStorage.state('jobs').onChange((data) => {
+      if (documentElements) {
+        let visibleJobs = data.elements.filter(element => !element.hidden)
+        let visibleElements = utils.getVisibleElements(documentElements)
+        let documentIds = Object.keys(visibleElements)
+        if (documentIds.length === visibleJobs.length) {
+          let jobsInprogress = data.elements.find(element => element.jobs)
+          if (jobsInprogress) {
+            return
           }
+          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
         }
-      })
-    }
+      }
+    })
   }
 })

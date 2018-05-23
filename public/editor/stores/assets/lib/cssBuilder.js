@@ -1,4 +1,4 @@
-import { getService, getStorage, env } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 const cook = getService('cook')
 const assetsStorage = getStorage('assets')
 
@@ -91,9 +91,7 @@ export default class CssBuilder {
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data, force)
     this.doJobs(data).then(() => {
-      if (env('CSS_LOADING')) {
-        this.addElementJobsToStorage(data, false)
-      }
+      this.addElementJobsToStorage(data, false)
       this.window.vcv.trigger('ready', 'add', data.id)
     })
   }
@@ -110,9 +108,7 @@ export default class CssBuilder {
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data)
     this.doJobs(data).then(() => {
-      if (env('CSS_LOADING')) {
-        this.addElementJobsToStorage(data, false)
-      }
+      this.addElementJobsToStorage(data, false)
       this.window.vcv.trigger('ready', 'update', data.id, options)
     })
   }
@@ -415,9 +411,7 @@ export default class CssBuilder {
   }
 
   doJobs (data) {
-    if (env('CSS_LOADING')) {
-      this.addElementJobsToStorage(data, true)
-    }
+    this.addElementJobsToStorage(data, true)
     return Promise.all(this.jobs).catch(this.resetJobs).then(this.resetJobs)
   }
 
