@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { getService, setData, getData, getStorage, env } from 'vc-cake'
+import { getService, setData, getData, getStorage } from 'vc-cake'
 import SmartLine from './smartLine'
 import TrashBin from './trashBin'
 import Helper from './helper'
@@ -316,8 +316,8 @@ export default class DndDataSet {
         allowAppend: !this.isDraggingElementParent(domElement) &&
         domElement && this.draggingElement.isChild(domElement) &&
         !documentManager.children(domElement.id).length &&
-        (env('DND_DISABLE_DROP_IN_CLOSED_TABS') ? !domElement.node.dataset.vceTab : true) &&
-        ((env('DND_DISABLE_DROP_IN_CLOSED_TABS') && domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
+        !domElement.node.dataset.vceTab &&
+        ((domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
       })
 
       if (position) {

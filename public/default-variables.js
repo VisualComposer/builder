@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FIX_DND_FOR_TABS', true)
-vcCake.env('DND_DISABLE_DROP_IN_CLOSED_TABS', true)
 vcCake.env('ELEMENT_CONTROLS_DELAY', true)
 vcCake.env('CSS_LOADING', true)
 vcCake.env('EXISTING_ELEMENT_ATTR_FIX', true)

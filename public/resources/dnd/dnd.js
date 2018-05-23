@@ -343,8 +343,8 @@ export default class DnD {
         allowAppend: !afterLastContainerElement && !this.isDraggingElementParent(domElement) &&
         domElement && this.draggingElement.isChild(domElement) &&
         allowApend &&
-        (env('DND_DISABLE_DROP_IN_CLOSED_TABS') ? !domElement.node.dataset.vceTab : true) &&
-        ((env('DND_DISABLE_DROP_IN_CLOSED_TABS') && domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
+        !domElement.node.dataset.vceTab &&
+        ((domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
       })
 
       if (position) {
