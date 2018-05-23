@@ -8,7 +8,7 @@ import TreeViewControl from '../../../../resources/components/navbar/controls/tr
 import UndoRedoControl from '../../../../resources/components/navbar/controls/undoRedoControl'
 import SettingsButtonControl from '../../../../resources/components/navbar/controls/settingsButtonControl'
 import Navbar from '../../../../resources/components/navbar/navbar'
-import {getStorage, env} from 'vc-cake'
+import {getStorage} from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
 const contentEndState = workspaceStorage.state('contentEnd')
@@ -37,7 +37,7 @@ export default class NavbarContainer extends React.Component {
       <AddTemplateControl />
       <TreeViewControl visibility='pinned' />
       <UndoRedoControl />
-      { env('HUB_TEASER') ? <PlusTeaserControl /> : null }
+      <PlusTeaserControl />
       <SettingsButtonControl />
     </Navbar>
   }
