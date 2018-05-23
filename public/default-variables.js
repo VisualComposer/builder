@@ -65,3 +65,4 @@ vcCake.env('FE_SHORTCODES_SCRIPTS', true) // USED in Elements.
 vcCake.env('FT_TEMPLATE_LOAD_ASYNC', true)
 vcCake.env('FT_SHOW_ALL_LAYOUTS', true)
 vcCake.env('FT_COLLAPSE_ELEMENTS_TREE_VIEW', true)
+vcCake.env('FT_ADD_ELEMENT_LIST', false)
