@@ -1,5 +1,3 @@
-import { env } from 'vc-cake'
-
 class Element {
   constructor (data, services, storages) {
     this.id = data.id
@@ -54,37 +52,21 @@ class Element {
   }
 
   onChange (callback) {
-    if (env('TF_RENDER_PERFORMANCE')) {
-      this.storages.elements.on(`element:${this.id}`, callback)
-    } else {
-      this.storages.elements.state(`element:${this.id}`).onChange(callback)
-    }
+    this.storages.elements.on(`element:${this.id}`, callback)
   }
 
   onAttributeChange (fieldKey, callback) {
     // return // temporary disable
-    // if (env('TF_RENDER_PERFORMANCE')) {
-    //   this.storages.elements.on(`element:${this.id}:attribute:${fieldKey}`, callback)
-    // } else {
-    //   this.storages.elements.state(`element:${this.id}:attribute:${fieldKey}`).onChange(callback)
-    // }
+    // this.storages.elements.on(`element:${this.id}:attribute:${fieldKey}`, callback)
   }
 
   ignoreChange (callback) {
-    if (env('TF_RENDER_PERFORMANCE')) {
-      this.storages.elements.off(`element:${this.id}`, callback)
-    } else {
-      this.storages.elements.state(`element:${this.id}`).ignoreChange(callback)
-    }
+    this.storages.elements.off(`element:${this.id}`, callback)
   }
 
   ignoreAttributeChange (fieldKey, callback) {
     // return // temporary disable
-    // if (env('TF_RENDER_PERFORMANCE')) {
-    //   this.storages.elements.off(`element:${this.id}:attribute:${fieldKey}`, callback)
-    // } else {
-    //   this.storages.elements.state(`element:${this.id}:attribute:${fieldKey}`).ignoreChange(callback)
-    // }
+    // this.storages.elements.off(`element:${this.id}:attribute:${fieldKey}`, callback)
   }
 }
 

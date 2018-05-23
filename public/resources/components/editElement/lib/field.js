@@ -33,11 +33,7 @@ export default class Field extends React.Component {
     if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
       this.element.onAttributeChange(fieldKey, this.updateElementOnExternalChange)
     } else {
-      if (env('TF_RENDER_PERFORMANCE')) {
-        elementsStorage.on(`element:${element.get('id')}:attribute:${fieldKey}`, this.updateElementOnExternalChange)
-      } else {
-        elementsStorage.state(`element:${element.get('id')}:attribute:${fieldKey}`).onChange(this.updateElementOnExternalChange)
-      }
+      elementsStorage.on(`element:${element.get('id')}:attribute:${fieldKey}`, this.updateElementOnExternalChange)
     }
   }
 
@@ -47,13 +43,7 @@ export default class Field extends React.Component {
     if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
       this.element.ignoreAttributeChange(fieldKey, this.updateElementOnExternalChange)
     } else {
-      if (env('TF_RENDER_PERFORMANCE')) {
-        elementsStorage.off(`element:${id}:attribute:${fieldKey}`, this.updateElementOnExternalChange)
-      } else {
-        elementsStorage.state(`element:${id}:attribute:${fieldKey}`)
-          .ignoreChange(this.updateElementOnExternalChange)
-        elementsStorage.state(`element:${id}:attribute:${fieldKey}`).delete()
-      }
+      elementsStorage.off(`element:${id}:attribute:${fieldKey}`, this.updateElementOnExternalChange)
     }
   }
 

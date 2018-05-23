@@ -118,15 +118,11 @@ addStorage('elements', (storage) => {
       element.layout.layoutData = undefined
     }
     documentManager.update(id, element)
-    if (env('TF_RENDER_PERFORMANCE')) {
-      storage.trigger(`element:${id}`, element, source, options)
-      if (options && options.action === 'hide' && element.parent) {
-        storage.trigger(`element:${element.parent}`, documentManager.get(element.parent), source, options)
-      } else {
-        storage.trigger(`element:${id}`, element, source, options)
-      }
+    storage.trigger(`element:${id}`, element, source, options)
+    if (options && options.action === 'hide' && element.parent) {
+      storage.trigger(`element:${element.parent}`, documentManager.get(element.parent), source, options)
     } else {
-      storage.state(`element:${id}`).set(element, source, options)
+      storage.trigger(`element:${id}`, element, source, options)
     }
     if (element.tag === 'column') {
       addRowColumnBackground(id, element, documentManager)
@@ -138,9 +134,6 @@ addStorage('elements', (storage) => {
       storage.trigger('update', tabParent.id, tabParent)
     }
     if (!options.silent) {
-      if (!env('TF_RENDER_PERFORMANCE')) {
-        storage.state('document').set(documentManager.children(false))
-      }
       updateTimeMachine(source || 'elements')
     }
   })
@@ -162,11 +155,7 @@ addStorage('elements', (storage) => {
     }
     storage.state(`element:${id}`).delete()
     if (parent && element.tag !== 'column') {
-      if (env('TF_RENDER_PERFORMANCE')) {
-        storage.trigger(`element:${parent.id}`, parent)
-      } else {
-        storage.state(`element:${parent.id}`).set(parent)
-      }
+      storage.trigger(`element:${parent.id}`, parent)
     } else {
       storage.state('document').set(documentManager.children(false))
     }
@@ -180,11 +169,7 @@ addStorage('elements', (storage) => {
       storage.trigger('update', rowElement.id, rowElement)
     }
     if (dolly.parent) {
-      if (env('TF_RENDER_PERFORMANCE')) {
-        storage.trigger(`element:${dolly.parent}`, documentManager.get(dolly.parent))
-      } else {
-        storage.state('element:' + dolly.parent).set(documentManager.get(dolly.parent))
-      }
+      storage.trigger(`element:${dolly.parent}`, documentManager.get(dolly.parent))
     } else {
       storage.state('document').set(documentManager.children(false))
     }
@@ -214,7 +199,7 @@ addStorage('elements', (storage) => {
       rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout.disableStacking }, documentManager)
     }
     const updatedElement = documentManager.get(id)
-    if (env('TF_RENDER_PERFORMANCE') && oldParent && updatedElement.parent) {
+    if (oldParent && updatedElement.parent) {
       storage.trigger(`element:${oldParent}`, documentManager.get(oldParent))
       if (oldParent !== updatedElement.parent) {
         storage.trigger(`element:${updatedElement.parent}`, documentManager.get(updatedElement.parent))

@@ -1,7 +1,7 @@
 import React from 'react'
 import FormWrapper from './lib/FormWrapper'
 import ActivitiesManager from './lib/activitiesManager'
-import { env, getStorage, getService } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import PropTypes from 'prop-types'
 import lodash from 'lodash'
 
@@ -29,21 +29,15 @@ export default class EditElementPanel extends ActivitiesManager {
   componentDidMount () {
     const { element } = this.props
     const id = element.get('id')
-    if (env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.on(`element:${id}`, this.updateElementOnChange)
-    } else {
-      elementsStorage.state(`element:${id}`).onChange(this.updateElementOnChange)
-    }
+
+    elementsStorage.on(`element:${id}`, this.updateElementOnChange)
   }
 
   componentWillUnmount () {
     const { element } = this.props
     const id = element.get('id')
-    if (env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.off(`element:${id}`, this.updateElementOnChange)
-    } else {
-      elementsStorage.state(`element:${id}`).ignoreChange(this.updateElementOnChange)
-    }
+
+    elementsStorage.off(`element:${id}`, this.updateElementOnChange)
   }
 
   updateElementOnChange (data, source) {
@@ -56,11 +50,7 @@ export default class EditElementPanel extends ActivitiesManager {
       })
       publicKeys.forEach((key) => {
         const newValue = cookElement.get(key)
-        if (env('TF_RENDER_PERFORMANCE')) {
-          elementsStorage.trigger(`element:${id}:attribute:${key}`, newValue, cookElement)
-        } else {
-          elementsStorage.state(`element:${id}:attribute:${key}`).set(newValue, cookElement)
-        }
+        elementsStorage.trigger(`element:${id}:attribute:${key}`, newValue, cookElement)
       })
     }
   }

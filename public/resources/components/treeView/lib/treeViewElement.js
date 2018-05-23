@@ -89,21 +89,14 @@ export default class TreeViewElement extends React.Component {
   }
 
   componentDidMount () {
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
-    } else {
-      elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
-    }
+    elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
+
     this.props.onMountCallback(this.state.element.id)
     workspaceStorage.state('copyData').onChange(this.checkPaste)
   }
 
   componentWillUnmount () {
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
-    } else {
-      elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
-    }
+    elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
     this.props.onUnmountCallback(this.state.element.id)
     workspaceStorage.state('copyData').ignoreChange(this.checkPaste)
     workspaceStorage.state('userInteractWith').set(false)

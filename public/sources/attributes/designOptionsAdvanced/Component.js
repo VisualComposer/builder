@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import { env, getStorage, getService } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -222,20 +222,12 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.getDefaultStyles()
 
     const id = this.props.element.get('id')
-    if (env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.on(`element:${id}`, this.handleElementChange)
-    } else {
-      elementsStorage.state('element:' + id).onChange(this.handleElementChange)
-    }
+    elementsStorage.on(`element:${id}`, this.handleElementChange)
   }
 
   componentWillUnmount () {
     const id = this.props.element.get('id')
-    if (env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.off(`element:${id}`, this.handleElementChange)
-    } else {
-      elementsStorage.state('element:' + id).ignoreChange(this.handleElementChange)
-    }
+    elementsStorage.off(`element:${id}`, this.handleElementChange)
   }
 
   handleElementChange () {
@@ -747,12 +739,8 @@ export default class DesignOptionsAdvanced extends Attribute {
   getDeviceVisibilityRender () {
     if (this.state.currentDevice === 'all') {
       let id = this.props.element.get('id')
-      let element = ''
-      if (env('TF_RENDER_PERFORMANCE')) {
-        element = documentManager.get(id)
-      } else {
-        element = elementsStorage.state(`element:${id}`).get() || this.props.element.toJS()
-      }
+      let element = documentManager.get(id)
+
       if (element.tag === 'column') {
         return null
       } else {

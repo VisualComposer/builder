@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { env, getService, getStorage } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const hubCategories = getService('hubCategories')
@@ -58,11 +58,7 @@ export default class EditFormHeader extends React.Component {
     })
     publicKeys.forEach((key) => {
       const newValue = cookElement.get(key)
-      if (env('TF_RENDER_PERFORMANCE')) {
-        elementsStorage.trigger(`element:${cookElement.get('id')}:attribute:${key}`, newValue, cookElement)
-      } else {
-        elementsStorage.state(`element:${cookElement.get('id')}:attribute:${key}`).set(newValue, cookElement)
-      }
+      elementsStorage.trigger(`element:${cookElement.get('id')}:attribute:${key}`, newValue, cookElement)
     })
   }
 
