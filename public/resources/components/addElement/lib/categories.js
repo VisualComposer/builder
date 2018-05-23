@@ -54,9 +54,8 @@ export default class Categories extends React.Component {
     this.openEditForm = this.openEditForm.bind(this)
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
-    if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-      hubElementsStorage.state('elements').onChange(this.reset)
-    }
+
+    hubElementsStorage.state('elements').onChange(this.reset)
   }
 
   reset () {

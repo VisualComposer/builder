@@ -268,41 +268,38 @@ export default class TeaserElementControl extends ElementControl {
 
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
-
     let overlayOutput = <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
-    if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-      let lockIcon = !this.state.allowDownload && this.state.elementState === 'inactive'
-      if (env('TF_FREE_VERSION_DOWNLOAD')) {
-        lockIcon = !this.props.element.allowDownload && this.state.elementState === 'inactive'
-      }
-      let iconClasses = classNames({
-        'vcv-ui-item-add': true,
-        'vcv-ui-item-add-hub': true,
-        'vcv-ui-icon': true,
-        'vcv-ui-icon-download': elementState === 'inactive' || elementState === 'failed',
-        'vcv-ui-icon-add': elementState === 'success',
-        'vcv-ui-wp-spinner-light': elementState === 'downloading',
-        'vcv-ui-icon vcv-ui-icon-lock': lockIcon
-      })
-      let action = this.addElement
-      if (this.props.type === 'element') {
-        if (elementState !== 'success') {
-          action = this.downloadElement
-        }
-      } else if (this.props.type === 'template') {
-        action = this.addTemplate
-        if (elementState !== 'success') {
-          action = this.downloadTemplate
-        }
-      } else if (this.props.type === 'addon') {
-        if (elementState !== 'success') {
-          action = this.downloadAddon
-        } else {
-          action = this.handleAddonClick
-        }
-      }
-      overlayOutput = <span className={iconClasses} onClick={action} />
+    let lockIcon = !this.state.allowDownload && this.state.elementState === 'inactive'
+    if (env('TF_FREE_VERSION_DOWNLOAD')) {
+      lockIcon = !this.props.element.allowDownload && this.state.elementState === 'inactive'
     }
+    let iconClasses = classNames({
+      'vcv-ui-item-add': true,
+      'vcv-ui-item-add-hub': true,
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-download': elementState === 'inactive' || elementState === 'failed',
+      'vcv-ui-icon-add': elementState === 'success',
+      'vcv-ui-wp-spinner-light': elementState === 'downloading',
+      'vcv-ui-icon vcv-ui-icon-lock': lockIcon
+    })
+    let action = this.addElement
+    if (this.props.type === 'element') {
+      if (elementState !== 'success') {
+        action = this.downloadElement
+      }
+    } else if (this.props.type === 'template') {
+      action = this.addTemplate
+      if (elementState !== 'success') {
+        action = this.downloadTemplate
+      }
+    } else if (this.props.type === 'addon') {
+      if (elementState !== 'success') {
+        action = this.downloadAddon
+      } else {
+        action = this.handleAddonClick
+      }
+    }
+    overlayOutput = <span className={iconClasses} onClick={action} />
 
     return (
       <li className={listItemClasses}>

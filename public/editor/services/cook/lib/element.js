@@ -30,13 +30,10 @@ export default class CookElement {
     let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, ...attr } = data
     attr.tag = tag
     attr.id = id
-    let element = null
-    if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-      let elements = hubElementService().all()
-      element = elements ? elements[ tag ] : null
-    } else {
-      element = window.VCV_HUB_GET_ELEMENTS()[ tag ]
-    }
+
+    let elements = hubElementService().all()
+    let element = elements ? elements[ tag ] : null
+
     if (vcCake.env('FIX_UNREGISTERED_ELEMENT') && !element) {
       vcCake.env('debug') === true && console.warn(`Element ${tag} is not registered in system`)
       element = {

@@ -25,12 +25,7 @@ const API = {
     if (env('FIX_UNREGISTERED_ELEMENT')) {
       return new CookElement(data)
     }
-    let elements = null
-    if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-      elements = hubElementService().all()
-    } else {
-      elements = window.VCV_HUB_GET_ELEMENTS()
-    }
+    let elements = hubElementService().all()
 
     if (!elements || !elements[ data.tag ]) {
       env('debug') === true && console.warn('Element is not registered in system', data)
