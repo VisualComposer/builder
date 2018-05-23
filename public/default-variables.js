@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
 vcCake.env('FIX_DND_FOR_TABS', true)
-vcCake.env('MOBILE_DETECT', true)
 vcCake.env('HUB_TEASER', true)
 vcCake.env('FEATURE_ASSETS_FILTER', true)
 vcCake.env('DND_SMART_LINE_TRANSITION', true)

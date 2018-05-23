@@ -35,11 +35,9 @@ export default class TreeViewElement extends React.Component {
   constructor (props) {
     super(props)
 
-    if (vcCake.env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        this.isMobile = true
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      this.isMobile = true
     }
 
     this.state = {

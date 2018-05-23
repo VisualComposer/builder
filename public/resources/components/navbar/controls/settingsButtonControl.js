@@ -60,11 +60,9 @@ export default class SettingsButtonControl extends NavbarContent {
 
   toggleSettings (e) {
     e && e.preventDefault()
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        workspaceContentStartState.set(false)
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      workspaceContentStartState.set(false)
     }
     if (env('NAVBAR_SINGLE_CONTENT')) {
       workspaceContentState.set(!this.state.isActive ? 'settings' : false)

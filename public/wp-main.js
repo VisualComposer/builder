@@ -27,14 +27,12 @@ $(() => {
     $(iframeDocument.body).on('click', 'a[href]:not([data-vcv-link])', (e) => {
       e && e.preventDefault()
     })
-    if (vcCake.env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        $(iframeDocument.body).on('contextmenu', 'a[href]', (e) => {
-          e && e.preventDefault()
-          e && e.stopPropagation()
-        })
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      $(iframeDocument.body).on('contextmenu', 'a[href]', (e) => {
+        e && e.preventDefault()
+        e && e.stopPropagation()
+      })
     }
     $(iframeDocument.body).on('click', '[type="submit"]', (e) => {
       e && e.preventDefault() && e.stopPropagation()
@@ -45,25 +43,22 @@ $(() => {
       margin-top: 0px !important;
     }`
     iframeDocument.head.appendChild(iframeStyles)
-    if (vcCake.env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && mobileDetect.os() === 'iOS') {
-        let style = iframeDocument.createElement('style')
-        style.setAttribute('type', 'text/css')
-        style.innerText = `
-        html, body {
-          height: 100%;
-          width: 100vw;
-          overflow: auto;
-          -webkit-overflow-scrolling: touch;
-          -webkit-user-select: none;
-          user-select: none;
-        }
-        a[href] {
-          -webkit-touch-callout: none !important;
-        }`
-        iframeDocument.head.appendChild(style)
+    if (mobileDetect.mobile() && mobileDetect.os() === 'iOS') {
+      let style = iframeDocument.createElement('style')
+      style.setAttribute('type', 'text/css')
+      style.innerText = `
+      html, body {
+        height: 100%;
+        width: 100vw;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        -webkit-user-select: none;
+        user-select: none;
       }
+      a[href] {
+        -webkit-touch-callout: none !important;
+      }`
+      iframeDocument.head.appendChild(style)
     }
     if (vcCake.env('THEME_EDITOR')) {
       const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
@@ -172,19 +167,17 @@ $(() => {
         iframeLoadEvent()
       }
 
-      if (vcCake.env('MOBILE_DETECT')) {
-        const mobileDetect = new MobileDetect(window.navigator.userAgent)
-        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-          $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
 
-          const $layoutContainer = $('.vcv-layout-container')
-          if ($layoutContainer) {
-            $layoutContainer.height(window.innerHeight)
-            window.addEventListener('resize', () => {
-              let height = window.innerHeight
-              $layoutContainer.height(height)
-            })
-          }
+        const $layoutContainer = $('.vcv-layout-container')
+        if ($layoutContainer) {
+          $layoutContainer.height(window.innerHeight)
+          window.addEventListener('resize', () => {
+            let height = window.innerHeight
+            $layoutContainer.height(height)
+          })
         }
       }
     }

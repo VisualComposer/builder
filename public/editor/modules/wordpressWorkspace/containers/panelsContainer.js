@@ -40,11 +40,9 @@ export default class PanelsContainer extends React.Component {
     this.state = {
       height: window.innerHeight - 60
     }
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        this.isMobile = true
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      this.isMobile = true
     }
 
     this.updateOnResize = this.updateOnResize.bind(this)

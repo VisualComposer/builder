@@ -50,11 +50,9 @@ export default class Workspace extends React.Component {
     this.workspace.bind('a', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
-      if (env('MOBILE_DETECT')) {
-        const mobileDetect = new MobileDetect(window.navigator.userAgent)
-        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-          workspaceStorage.state('contentStart').set(false)
-        }
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        workspaceStorage.state('contentStart').set(false)
       }
       if (settings && settings.action === 'add') {
         workspaceStorage.state('settings').set({})
@@ -65,11 +63,9 @@ export default class Workspace extends React.Component {
     this.workspace.bind('l', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
-      if (env('MOBILE_DETECT')) {
-        const mobileDetect = new MobileDetect(window.navigator.userAgent)
-        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-          workspaceStorage.state('contentStart').set(false)
-        }
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        workspaceStorage.state('contentStart').set(false)
       }
       if (settings && settings.action === 'addTemplate') {
         workspaceStorage.state('settings').set({})
@@ -81,11 +77,9 @@ export default class Workspace extends React.Component {
       e.preventDefault()
       let contentState = env('NAVBAR_SINGLE_CONTENT') ? 'content' : 'contentStart'
       let settings = workspaceStorage.state(contentState).get()
-      if (env('MOBILE_DETECT')) {
-        const mobileDetect = new MobileDetect(window.navigator.userAgent)
-        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-          workspaceStorage.state('contentEnd').set(false)
-        }
+      const mobileDetect = new MobileDetect(window.navigator.userAgent)
+      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        workspaceStorage.state('contentEnd').set(false)
       }
       if (settings === 'treeView') {
         workspaceStorage.state(contentState).set(false)

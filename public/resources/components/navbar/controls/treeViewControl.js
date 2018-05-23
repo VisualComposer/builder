@@ -42,11 +42,9 @@ export default class TreeViewControl extends NavbarContent {
 
   toggleTreeView (e) {
     e && e.preventDefault()
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        workspaceContentEndState.set(false)
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      workspaceContentEndState.set(false)
     }
     if (env('NAVBAR_SINGLE_CONTENT')) {
       if (env('HUB_REDESIGN')) {

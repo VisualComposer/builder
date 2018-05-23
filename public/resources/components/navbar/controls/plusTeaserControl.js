@@ -49,11 +49,9 @@ export default class PlusTeaserControl extends NavbarContent {
       tag: '',
       options: {}
     }
-    if (env('MOBILE_DETECT')) {
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        workspaceContentStartState.set(false)
-      }
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      workspaceContentStartState.set(false)
     }
     workspaceSettings.set(settings)
     if (window.vcvHubTeaserShowBadge || this.state.showBadge) {

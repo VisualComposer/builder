@@ -34,7 +34,7 @@ export default class SearchElement extends React.Component {
     this.getPlaceholder = this.getPlaceholder.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
 
-    this.mobileDetect = vcCake.env('MOBILE_DETECT') ? new MobileDetect(window.navigator.userAgent) : null
+    this.mobileDetect = new MobileDetect(window.navigator.userAgent)
   }
 
   componentWillUnmount () {
@@ -190,7 +190,7 @@ export default class SearchElement extends React.Component {
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
     })
-    let autoFocus = vcCake.env('MOBILE_DETECT') ? !this.mobileDetect.mobile() : true
+    let autoFocus = !this.mobileDetect.mobile()
 
     if (vcCake.env('HUB_REDESIGN')) {
       return <div className='vcv-ui-editor-search-container'>
