@@ -98,11 +98,9 @@ export default class SaveController {
         'vcv-be-editor': 'fe',
         'vcv-updatePost': '1'
       }
-      if (vcCake.env('PAGE_TEMPLATES_FE')) {
-        let pageTemplateData = settingsStorage.state('pageTemplate').get()
-        if (pageTemplateData) {
-          requestData[ 'vcv-page-template' ] = pageTemplateData
-        }
+      let pageTemplateData = settingsStorage.state('pageTemplate').get()
+      if (pageTemplateData) {
+        requestData[ 'vcv-page-template' ] = pageTemplateData
       }
       if (vcCake.env('PAGE_TITLE_FE')) {
         requestData[ 'vcv-page-title' ] = settingsStorage.state('pageTitle').get() || ''

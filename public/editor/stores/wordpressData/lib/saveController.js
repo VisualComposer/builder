@@ -97,11 +97,9 @@ export default class SaveController {
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview')
       }
-      if (vcCake.env('PAGE_TEMPLATES_FE')) {
-        let pageTemplateData = settingsStorage.state('pageTemplate').get()
-        if (pageTemplateData) {
-          requestData[ 'vcv-page-template' ] = pageTemplateData
-        }
+      let pageTemplateData = settingsStorage.state('pageTemplate').get()
+      if (pageTemplateData) {
+        requestData[ 'vcv-page-template' ] = pageTemplateData
       }
       if (vcCake.env('PAGE_TITLE_FE')) {
         let title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
