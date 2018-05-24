@@ -11,5 +11,6 @@ export const exceptionalElements = [
   'Classic Accordion Section',
   'Pageable Tab',
   'Row',
-  'Buttons'
+  'Buttons',
+  'Icon'
 ]

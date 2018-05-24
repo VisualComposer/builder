@@ -145,7 +145,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Icon' => [
                     'title' => 'Icon',
-                    'elements' => ['icon'],
+                    'elements' => ['icon', 'iconGroup'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Icon.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Icon.svg'),
                 ],

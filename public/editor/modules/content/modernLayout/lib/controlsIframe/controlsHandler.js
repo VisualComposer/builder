@@ -456,8 +456,13 @@ export default class ControlsHandler {
         addElementTag = element.get('tag')
       }
       if (env('FT_ADD_ELEMENT_LIST') && options.tag === 'buttonGroup') {
-        label = `${addText} Buttons`
+        label = `${addText} Button`
         addElementTag = options.tag
+      }
+      if (env('FT_ADD_ELEMENT_LIST') && options.tag === 'iconGroup') {
+        let element = cook.get({ tag: 'icon' })
+        label = `${addText} ${element.get('name')}`
+        addElementTag = element.get('tag')
       }
       actions.push({
         label: label,
