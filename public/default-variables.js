@@ -11,6 +11,5 @@ vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
 vcCake.env('TF_ELEMENT_CRUD_PERFORMANCE', false)
 vcCake.env('TF_PARAM_GROUP_CSS_MIXINS', false)
-vcCake.env('FT_SHOW_ALL_LAYOUTS', true)
 vcCake.env('FT_COLLAPSE_ELEMENTS_TREE_VIEW', true)
 vcCake.env('FT_ADD_ELEMENT_LIST', false)
