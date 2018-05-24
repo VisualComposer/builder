@@ -65,13 +65,9 @@ export default class PanelsContainer extends React.Component {
   }
 
   getContent () {
-    const { content, settings, contentId } = this.props
+    const { content, settings } = this.props
     if (content === 'treeView') {
-      if (!env('FT_COLLAPSE_ELEMENTS_TREE_VIEW')) {
-        return <TreeViewLayout contentId={contentId} />
-      } else {
-        return null
-      }
+      return null
     } else if (content === 'addElement') {
       return <AddElementPanel options={settings || {}} />
     } else if (content === 'addHubElement') {
@@ -139,10 +135,8 @@ export default class PanelsContainer extends React.Component {
     if (this.isMobile) {
       layoutStyle.height = this.state.height
     }
-    let treeViewLayout = ''
-    if (env('FT_COLLAPSE_ELEMENTS_TREE_VIEW')) {
-      treeViewLayout = <TreeViewLayout contentId={contentId} visible={content === 'treeView'} />
-    }
+
+    let treeViewLayout = <TreeViewLayout contentId={contentId} visible={content === 'treeView'} />
 
     return (
       <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>

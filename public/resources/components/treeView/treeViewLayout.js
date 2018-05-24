@@ -1,4 +1,4 @@
-import {getStorage, getService, env} from 'vc-cake'
+import {getStorage, getService} from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'
@@ -187,7 +187,7 @@ export default class TreeViewLayout extends React.Component {
 
     let treeLayoutClasses = classNames({
       'vcv-ui-tree-layout-container': true,
-      'vcv-ui-state--hidden': env('FT_COLLAPSE_ELEMENTS_TREE_VIEW') ? !this.props.visible : false
+      'vcv-ui-state--hidden': !this.props.visible
     })
 
     return (

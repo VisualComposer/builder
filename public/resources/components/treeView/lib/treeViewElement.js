@@ -41,7 +41,7 @@ export default class TreeViewElement extends React.Component {
     }
 
     this.state = {
-      childExpand: props.level > 1 || this.isMobile || !vcCake.env('FT_COLLAPSE_ELEMENTS_TREE_VIEW'),
+      childExpand: props.level > 1 || this.isMobile,
       hasBeenOpened: false,
       isActive: false,
       hasChild: false,
@@ -169,7 +169,7 @@ export default class TreeViewElement extends React.Component {
 
   getContent (children) {
     const { hasBeenOpened, childExpand } = this.state
-    if (!childExpand && !hasBeenOpened && !this.isMobile && vcCake.env('FT_COLLAPSE_ELEMENTS_TREE_VIEW')) {
+    if (!childExpand && !hasBeenOpened && !this.isMobile) {
       return null
     }
     const { showOutlineCallback, onMountCallback, onUnmountCallback } = this.props
