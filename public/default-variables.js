@@ -11,7 +11,6 @@ vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
 vcCake.env('TF_ELEMENT_CRUD_PERFORMANCE', false)
 vcCake.env('TF_PARAM_GROUP_CSS_MIXINS', false)
-vcCake.env('FIX_SHORTCODE_BLOCKS_TEXT_BLOCK_EDIT', true)
 vcCake.env('FT_WAIT_FOR_FINAL_RENDER', true)
 vcCake.env('FT_CSS_CACHE', true)
 vcCake.env('FE_SHORTCODES_SCRIPTS', true) // USED in Elements.
