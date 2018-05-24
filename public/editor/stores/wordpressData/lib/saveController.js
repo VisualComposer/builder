@@ -69,10 +69,10 @@ export default class SaveController {
         elementsCss[ key ].mixinsCss = result
       }))
     })
-    if (vcCake.env('FT_WAIT_FOR_FINAL_RENDER')) {
-      promises.push(renderProcessor.appAllDone())
-      promises.push(dataProcessor.appAllDone())
-    }
+
+    promises.push(renderProcessor.appAllDone())
+    promises.push(dataProcessor.appAllDone())
+
     assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
     assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     return Promise.all(promises).then(() => {
