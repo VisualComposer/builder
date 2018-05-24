@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { env, getService, getStorage } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const hubElementsService = getService('hubElements')
@@ -50,16 +50,10 @@ export default class TeaserElementControl extends ElementControl {
       }
     }
 
-    if (env('TF_FREE_VERSION_DOWNLOAD')) {
-      this.state = {
-        elementState: elementState
-      }
-    } else {
-      this.state = {
-        allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD ? window.VCV_HUB_ALLOW_DOWNLOAD() : false,
-        elementState: elementState
-      }
+    this.state = {
+      elementState: elementState
     }
+
     this.addElement = this.addElement.bind(this)
     this.downloadElement = this.downloadElement.bind(this)
     this.downloadTemplate = this.downloadTemplate.bind(this)
@@ -103,15 +97,10 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadAddon (e) {
-    if (env('TF_FREE_VERSION_DOWNLOAD')) {
-      if (!this.props.element.allowDownload) {
-        return
-      }
-    } else {
-      if (!this.state.allowDownload) {
-        return
-      }
+    if (!this.props.element.allowDownload) {
+      return
     }
+
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
       let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
@@ -130,15 +119,10 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadElement (e) {
-    if (env('TF_FREE_VERSION_DOWNLOAD')) {
-      if (!this.props.element.allowDownload) {
-        return
-      }
-    } else {
-      if (!this.state.allowDownload) {
-        return
-      }
+    if (!this.props.element.allowDownload) {
+      return
     }
+
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
       let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
@@ -157,15 +141,10 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadTemplate (e) {
-    if (env('TF_FREE_VERSION_DOWNLOAD')) {
-      if (!this.props.element.allowDownload) {
-        return
-      }
-    } else {
-      if (!this.state.allowDownload) {
-        return
-      }
+    if (!this.props.element.allowDownload) {
+      return
     }
+
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
     if (this.props.element.update) {
@@ -246,10 +225,8 @@ export default class TeaserElementControl extends ElementControl {
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
     let overlayOutput = <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
-    let lockIcon = !this.state.allowDownload && this.state.elementState === 'inactive'
-    if (env('TF_FREE_VERSION_DOWNLOAD')) {
-      lockIcon = !this.props.element.allowDownload && this.state.elementState === 'inactive'
-    }
+    let lockIcon = !this.props.element.allowDownload && this.state.elementState === 'inactive'
+
     let iconClasses = classNames({
       'vcv-ui-item-add': true,
       'vcv-ui-item-add-hub': true,
