@@ -104,11 +104,11 @@ class StylesManager {
     let iterations = []
     this.get().forEach((style) => {
       let hash = objectHash(style)
-      if (vcCake.env('FT_CSS_CACHE')) {
-        if (typeof cssHashes[ hash ] !== 'undefined' && typeof cssHashes[ hash ].result !== 'undefined') {
-          return iterations.push(cssHashes[ hash ].result)
-        }
+
+      if (typeof cssHashes[ hash ] !== 'undefined' && typeof cssHashes[ hash ].result !== 'undefined') {
+        return iterations.push(cssHashes[ hash ].result)
       }
+
       let use = []
       if (style.hasOwnProperty('variables')) {
         use.push(postcssAdvancedVars({
