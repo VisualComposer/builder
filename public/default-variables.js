@@ -9,10 +9,8 @@ vcCake.env('CSS_GRID', false)
 vcCake.env('THEME_LAYOUTS', false) // SEE the devAddons/themeEditor/themeEditor/src/*.js files
 vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
-vcCake.env('SINGLE_IMAGE_REFACTOR', true)
 vcCake.env('TF_ELEMENT_CRUD_PERFORMANCE', false)
 vcCake.env('TF_PARAM_GROUP_CSS_MIXINS', false)
-vcCake.env('TEMPLATE_PANEL_PERF', true)
 vcCake.env('VCV_HUB_ADDON_TEASER', true)
 vcCake.env('FIX_SHORTCODE_BLOCKS_TEXT_BLOCK_EDIT', true)
 vcCake.env('FT_WAIT_FOR_FINAL_RENDER', true)

@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
-import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 
 export default class SearchTemplate extends React.Component {
@@ -43,7 +42,7 @@ export default class SearchTemplate extends React.Component {
   getCategorySelect () {
     let options = []
     this.props.allCategories.forEach((item) => {
-      if (vcCake.env('TEMPLATE_PANEL_PERF') ? item.visible : item.visible()) {
+      if (item.visible) {
         options.push(<option key={item.id} value={item.index}>{item.title}</option>)
       }
     })
