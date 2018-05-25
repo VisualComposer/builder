@@ -31,7 +31,6 @@ export default class TreeViewLayout extends React.Component {
   constructor (props) {
     super(props)
     this.updateElementsData = lodash.debounce(this.updateElementsData.bind(this), 250)
-    this.updateTreeViewElementsData = lodash.debounce(this.updateTreeViewElementsData.bind(this), 250)
     this.handleScrollToElement = this.handleScrollToElement.bind(this)
     this.interactWithContent = this.interactWithContent.bind(this)
     this.handleAddElement = this.handleAddElement.bind(this)
@@ -49,11 +48,10 @@ export default class TreeViewLayout extends React.Component {
   }
 
   updateElementsData (data) {
-    this.setState({ data: data })
-  }
-
-  updateTreeViewElementsData (data) {
-    const newData = documentManager.children(this.props.element.get('id'))
+    let newData = data
+    if (env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute) {
+      newData = documentManager.children(this.props.element.get('id'))
+    }
     this.setState({ data: newData })
   }
 
@@ -62,7 +60,7 @@ export default class TreeViewLayout extends React.Component {
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     let data = env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
     if (env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute) {
-      elementsStorage.on(`element:${this.props.element.get('id')}`, this.updateTreeViewElementsData)
+      elementsStorage.on(`element:${this.props.element.get('id')}`, this.updateElementsData)
     }
     this.setState({
       header: document.querySelector('.vcv-ui-navbar-container'),
@@ -88,7 +86,7 @@ export default class TreeViewLayout extends React.Component {
       this.scrollTimeout = 0
     }
     if (env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute) {
-      elementsStorage.off(`element:${this.props.element.get('id')}`, this.updateTreeViewElementsData)
+      elementsStorage.off(`element:${this.props.element.get('id')}`, this.updateElementsData)
     }
     /*
      this.props.api.forget('bar-content-start:show', this.handleScrollToElement)
