@@ -1,4 +1,4 @@
-import {getStorage, getService} from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'
@@ -19,7 +19,9 @@ export default class TreeViewLayout extends React.Component {
     scrollValue: PropTypes.any,
     contentStartId: PropTypes.string,
     contentId: PropTypes.string,
-    visible: PropTypes.bool
+    visible: PropTypes.bool,
+    isAttribute: PropTypes.bool,
+    element: PropTypes.object
   }
 
   layoutContainer = null
@@ -29,6 +31,7 @@ export default class TreeViewLayout extends React.Component {
   constructor (props) {
     super(props)
     this.updateElementsData = lodash.debounce(this.updateElementsData.bind(this), 250)
+    this.updateTreeViewElementsData = lodash.debounce(this.updateTreeViewElementsData.bind(this), 250)
     this.handleScrollToElement = this.handleScrollToElement.bind(this)
     this.interactWithContent = this.interactWithContent.bind(this)
     this.handleAddElement = this.handleAddElement.bind(this)
@@ -49,10 +52,18 @@ export default class TreeViewLayout extends React.Component {
     this.setState({ data: data })
   }
 
+  updateTreeViewElementsData (data) {
+    const newData = documentManager.children(this.props.element.get('id'))
+    this.setState({ data: newData })
+  }
+
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
-    let data = documentManager.children(false)
+    let data = env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
+    if (env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute) {
+      elementsStorage.on(`element:${this.props.element.get('id')}`, this.updateTreeViewElementsData)
+    }
     this.setState({
       header: document.querySelector('.vcv-ui-navbar-container'),
       data: data
@@ -76,11 +87,14 @@ export default class TreeViewLayout extends React.Component {
       window.clearTimeout(this.scrollTimeout)
       this.scrollTimeout = 0
     }
+    if (env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute) {
+      elementsStorage.off(`element:${this.props.element.get('id')}`, this.updateTreeViewElementsData)
+    }
     /*
-    this.props.api.forget('bar-content-start:show', this.handleScrollToElement)
-    this.props.api.forget('editorContent:control:mouseEnter', this.interactWithContent)
-    this.props.api.forget('editorContent:control:mouseLeave', this.interactWithContent)
-    */
+     this.props.api.forget('bar-content-start:show', this.handleScrollToElement)
+     this.props.api.forget('editorContent:control:mouseEnter', this.interactWithContent)
+     this.props.api.forget('editorContent:control:mouseLeave', this.interactWithContent)
+     */
   }
 
   interactWithContent (id = false) {
@@ -145,7 +159,11 @@ export default class TreeViewLayout extends React.Component {
 
   handleAddElement (e) {
     e && e.preventDefault()
-    workspaceStorage.trigger('add', null)
+    if (env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute) {
+      workspaceStorage.trigger('add', this.props.element.get('id'), this.props.element.get('tag'), {})
+    } else {
+      workspaceStorage.trigger('add', null)
+    }
     // this.props.api.request('app:add', null)
   }
 
@@ -190,6 +208,18 @@ export default class TreeViewLayout extends React.Component {
       'vcv-ui-state--hidden': !this.props.visible
     })
 
+    let addTemplate = env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute ? null
+      : <span
+        className='vcv-ui-tree-layout-action'
+        title={addTemplateText}
+        onClick={this.handleAddTemplate}
+      >
+        <span className='vcv-ui-tree-layout-action-content'>
+          <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' />
+          <span>{addTemplateText}</span>
+        </span>
+      </span>
+
     return (
       <div
         className={treeLayoutClasses}
@@ -208,16 +238,7 @@ export default class TreeViewLayout extends React.Component {
                 <span>{addElementText}</span>
               </span>
             </span>
-            <span
-              className='vcv-ui-tree-layout-action'
-              title={addTemplateText}
-              onClick={this.handleAddTemplate}
-            >
-              <span className='vcv-ui-tree-layout-action-content'>
-                <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' />
-                <span>{addTemplateText}</span>
-              </span>
-            </span>
+            {addTemplate}
           </div>
         </Scrollbar>
       </div>
