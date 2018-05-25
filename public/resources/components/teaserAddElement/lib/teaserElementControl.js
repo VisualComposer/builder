@@ -225,17 +225,22 @@ export default class TeaserElementControl extends ElementControl {
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
     let overlayOutput = <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
-    let lockIcon = !this.props.element.allowDownload && this.state.elementState === 'inactive'
+    let lockIcon = !element.allowDownload && elementState === 'inactive'
 
     let iconClasses = classNames({
       'vcv-ui-item-add': true,
       'vcv-ui-item-add-hub': true,
       'vcv-ui-icon': true,
       'vcv-ui-icon-download': elementState === 'inactive' || elementState === 'failed',
-      'vcv-ui-icon-add': elementState === 'success',
       'vcv-ui-wp-spinner-light': elementState === 'downloading',
-      'vcv-ui-icon vcv-ui-icon-lock': lockIcon
+      'vcv-ui-icon-lock': lockIcon
     })
+
+    if (elementState === 'success') {
+      const actionClass = (element.addable === undefined || element.addable) ? 'vcv-ui-icon-add' : 'vcv-ui-icon-more-dots'
+      iconClasses += ` ${actionClass}`
+    }
+
     let action = this.addElement
     if (this.props.type === 'element') {
       if (elementState !== 'success') {

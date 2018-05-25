@@ -36,7 +36,7 @@ class AddonTeasersController extends Container implements Module
 
         $variables[] = [
             'key' => $key,
-            'value' => $value,
+            'value' => vcfilter('vcv:account:addon:teasers', $value),
             'type' => 'constant',
         ];
 

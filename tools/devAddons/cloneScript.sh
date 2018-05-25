@@ -5,6 +5,7 @@ echo "My script is running."
 declare -a arr=(
 'themeEditor'
 'globalTemplate'
+'exportImport'
 )
 
 EXECDIR=`pwd`
