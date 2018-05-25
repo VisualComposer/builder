@@ -1,5 +1,5 @@
 import MobileDetect from 'mobile-detect'
-import { addStorage, getService, getStorage } from 'vc-cake'
+import { addStorage, getService, getStorage, env } from 'vc-cake'
 
 const createKey = getService('utils').createKey
 const cacheStorage = getStorage('cache')
@@ -65,8 +65,14 @@ addStorage('workspace', (storage) => {
   })
   storage.on('remove', (id) => {
     const settings = storage.state('settings').get()
-    if (settings && (settings.action === 'edit' || settings.action === 'add')) {
-      storage.state('settings').set({})
+    if (env('FT_TREE_VIEW_ATTRIBUTE')) {
+      if (settings && settings.action === 'edit' && settings.element.id === id) {
+        storage.state('settings').set({})
+      }
+    } else {
+      if (settings && (settings.action === 'edit' || settings.action === 'add')) {
+        storage.state('settings').set({})
+      }
     }
     elementsStorage.trigger('remove', id)
   })
