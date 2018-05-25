@@ -51,6 +51,7 @@ export default class TreeViewLayout extends React.Component {
     let newData = data
     if (env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute) {
       newData = documentManager.children(this.props.element.get('id'))
+      this.setTreeViewHeight(newData)
     }
     this.setState({ data: newData })
   }
@@ -60,6 +61,7 @@ export default class TreeViewLayout extends React.Component {
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     let data = env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
     if (env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute) {
+      this.setTreeViewHeight(data)
       elementsStorage.on(`element:${this.props.element.get('id')}`, this.updateElementsData)
     }
     this.setState({
@@ -196,15 +198,30 @@ export default class TreeViewLayout extends React.Component {
     )
   }
 
+  setTreeViewHeight (data) {
+    const treeLayoutChild = this.layoutContainer.querySelector('.vcv-ui-tree-layout-node-child')
+    const treeLayoutActions = this.layoutContainer.querySelector('.vcv-ui-tree-layout-actions')
+    let treeLayoutChildRect = treeLayoutChild ? treeLayoutChild.getBoundingClientRect() : null
+    let treeLayoutActionsRect = treeLayoutActions ? treeLayoutActions.getBoundingClientRect() : null
+    const minHeight = 161
+    let treeViewHeight = treeLayoutChildRect && treeLayoutActionsRect ? treeLayoutChildRect.height * data.length + treeLayoutActionsRect.height : minHeight
+    this.setState({ height: treeViewHeight })
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const addTemplateText = localizations ? localizations.addTemplate : 'Add Template'
+    const { height } = this.state
 
     let treeLayoutClasses = classNames({
       'vcv-ui-tree-layout-container': true,
       'vcv-ui-state--hidden': !this.props.visible
     })
+
+    let treeLayoutStyles = env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute ? {
+      height: height ? `${height}px` : 0
+    } : {}
 
     let addTemplate = env('FT_TREE_VIEW_ATTRIBUTE') && this.props.isAttribute ? null
       : <span
@@ -222,6 +239,7 @@ export default class TreeViewLayout extends React.Component {
       <div
         className={treeLayoutClasses}
         ref={(layoutContainer) => { this.layoutContainer = layoutContainer }}
+        style={treeLayoutStyles}
       >
         <Scrollbar ref={this.scrollBarMounted}>
           {this.getElementsOutput()}
