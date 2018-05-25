@@ -150,11 +150,11 @@ export default class TreeViewLayout extends React.Component {
   }
 
   onElementMount (id) {
-    this.dnd.add(id)
+    this.dnd.add(id, this.props.isAttribute)
   }
 
   onElementUnmount (id) {
-    this.dnd.remove(id)
+    this.dnd.remove(id, this.props.isAttribute)
   }
 
   handleAddElement (e) {

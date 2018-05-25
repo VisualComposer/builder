@@ -146,7 +146,8 @@ export default class DnD {
           customScroll: false,
           scrollContainer: null,
           scrollCallback: function () {
-          }
+          },
+          isAttribute: false
         })
       }
     })
@@ -333,6 +334,7 @@ export default class DnD {
       }
 
       let position = this.placeholder.redraw(domElement.node, point, {
+        attribute: this.options.isAttribute,
         afterLastContainerElement,
         allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
         allowAppend: !afterLastContainerElement && !this.isDraggingElementParent(domElement) &&

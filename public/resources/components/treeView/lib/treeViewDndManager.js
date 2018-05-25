@@ -41,10 +41,12 @@ export default class TreeViewDndManager {
     })
   }
 
-  buildItems () {
+  buildItems (isAttribute = false) {
+    let scrollContainerSelector = isAttribute ? '.vcv-ui-edit-form-section-content .vcv-ui-tree-layout-container .vcv-ui-scroll-content' : '.vcv-ui-tree-layout-container .vcv-ui-scroll-content'
+    let containerSelector = isAttribute ? '.vcv-ui-edit-form-section-content .vcv-ui-tree-layout' : '.vcv-ui-tree-layout'
     if (!this.items) {
-      this.scrollContainer = document.querySelector('.vcv-ui-tree-layout-container .vcv-ui-scroll-content')
-      this.items = new DnD(document.querySelector('.vcv-ui-tree-layout'), {
+      this.scrollContainer = document.querySelector(scrollContainerSelector)
+      this.items = new DnD(document.querySelector(containerSelector), {
         cancelMove: true,
         moveCallback: this.move.bind(this),
         startCallback: this.start.bind(this),
@@ -55,7 +57,8 @@ export default class TreeViewDndManager {
         helperType: 'clone',
         customScroll: true,
         scrollContainer: this.scrollContainer,
-        scrollCallback: this.scrollTo.bind(this)
+        scrollCallback: this.scrollTo.bind(this),
+        isAttribute: isAttribute
       })
       this.items.init()
     }
@@ -117,13 +120,13 @@ export default class TreeViewDndManager {
     workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
   }
 
-  add (id) {
-    this.buildItems()
+  add (id, isAttribute) {
+    this.buildItems(isAttribute)
     this.items.addItem(id, this.documentDOM)
   }
 
-  remove (id) {
-    this.buildItems()
+  remove (id, isAttribute) {
+    this.buildItems(isAttribute)
     this.items.removeItem(id)
     window.setTimeout(() => {
       if (!document.querySelector('.vcv-ui-tree-layout')) {
