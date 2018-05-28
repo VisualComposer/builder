@@ -195,7 +195,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   render () {
-    let { name, element } = this.props
+    let { name, element, tag, type } = this.props
     let { previewVisible, previewStyle, elementState } = this.state
 
     let itemElementClasses = classNames({
@@ -237,7 +237,13 @@ export default class TeaserElementControl extends ElementControl {
     })
 
     if (elementState === 'success') {
-      const actionClass = (element.addable === undefined || element.addable) ? 'vcv-ui-icon-add' : 'vcv-ui-icon-more-dots'
+      let actionClass = 'vcv-ui-icon-add'
+
+      if (type === 'addon') {
+        const addonData = hubAddonsStorage.state('addons').get()[ tag ]
+        actionClass = (addonData && (addonData.addable === undefined || addonData.addable)) ? 'vcv-ui-icon-add' : 'vcv-ui-icon-more-dots'
+      }
+
       iconClasses += ` ${actionClass}`
     }
 
