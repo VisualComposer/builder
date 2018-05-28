@@ -48,6 +48,7 @@ class Addons extends Container implements Module
                     [
                         'key' => 'VCV_HUB_GET_ADDONS',
                         'value' => $hubHelper->getAddons(),
+                        'options' => JSON_FORCE_OBJECT
                     ]
                 ),
             ]

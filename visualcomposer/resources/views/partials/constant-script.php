@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
   Object.defineProperty(window, '<?php echo esc_js($key); ?>', {
     value: function () {
       // @codingStandardsIgnoreLine
-      return <?php echo json_encode($value); ?> },
+      return <?php echo json_encode($value, isset($options) ? $options : 0); ?> },
     writable: false
   });
 </script>
