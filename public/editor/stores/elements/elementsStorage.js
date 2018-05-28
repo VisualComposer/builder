@@ -61,13 +61,13 @@ addStorage('elements', (storage) => {
         const wrapperData = cook.get({ tag: defaultWrapper })
         elementData.parent = wrapperData.toJS().id
         if (wrapperData) {
-          storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true })
+          storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true, silent: true })
         }
       } else if (parentWrapper) {
         const wrapperData = cook.get({ tag: parentWrapper })
         elementData.parent = wrapperData.toJS().id
         if (wrapperData) {
-          storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true })
+          storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true, silent: true })
         }
       }
     }
@@ -84,7 +84,7 @@ addStorage('elements', (storage) => {
         initChild.parent = data.id
         const childData = cook.get(initChild)
         if (childData) {
-          storage.trigger('add', childData.toJS())
+          storage.trigger('add', childData.toJS(), false, { silent: true })
         }
       })
     }
