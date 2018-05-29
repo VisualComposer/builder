@@ -66,13 +66,12 @@ addStorage('workspace', (storage) => {
   storage.on('remove', (id) => {
     const settings = storage.state('settings').get()
     if (env('FT_TREE_VIEW_ATTRIBUTE')) {
-      // Close edit form if deleted element is being edited or
-      // if deleted element is the last child of element being edited e.g. last Column in Row
-      const deletedElement = documentManager.get(id)
-      let activeEditElementChildren = documentManager.children(settings.element.id)
-      let lastChildElement = deletedElement.parent === settings.element.id && activeEditElementChildren.length === 1 && activeEditElementChildren[0].id === id
-      if (settings && settings.action === 'edit' && (settings.element.id === id || lastChildElement)) {
-        storage.state('settings').set({})
+      if (settings && settings.action === 'edit' && settings.element) {
+        // check if deleted element is a parent of opened edit form element, if true - do not close edit form
+        const deletedElement = documentManager.get(id)
+        if (deletedElement.parent !== settings.element.id) {
+          storage.state('settings').set({})
+        }
       }
     } else {
       if (settings && (settings.action === 'edit' || settings.action === 'add')) {
