@@ -9,5 +9,5 @@ vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
 vcCake.env('TF_ELEMENT_CRUD_PERFORMANCE', false)
 vcCake.env('TF_PARAM_GROUP_CSS_MIXINS', false)
-vcCake.env('FT_ADD_ELEMENT_LIST', false)
-vcCake.env('FT_TREE_VIEW_ATTRIBUTE', false)
+vcCake.env('FT_ADD_ELEMENT_LIST', true)
+vcCake.env('FT_TREE_VIEW_ATTRIBUTE', true)
