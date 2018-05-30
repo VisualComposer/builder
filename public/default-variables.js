@@ -1,3 +1,6 @@
+/**
+ * IF YOU ADD NEW FEATURE TOGGLE REMOVE ONE OLD FEATURE TOGGLE
+ */
 import vcCake from 'vc-cake'
 
 vcCake.env('debug', false) // Set false on real production deploy
