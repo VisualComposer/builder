@@ -121,8 +121,6 @@ addStorage('elements', (storage) => {
     storage.trigger(`element:${id}`, element, source, options)
     if (options && options.action === 'hide' && element.parent) {
       storage.trigger(`element:${element.parent}`, documentManager.get(element.parent), source, options)
-    } else {
-      storage.trigger(`element:${id}`, element, source, options)
     }
     if (element.tag === 'column') {
       addRowColumnBackground(id, element, documentManager)
