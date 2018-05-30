@@ -19,6 +19,7 @@ export default class TeaserTypeControl extends React.Component {
       isControlsHidden: true
     }
     this.handleResize = this.handleResize.bind(this)
+    this.getDropdownItems = this.getDropdownItems.bind(this)
   }
 
   componentDidMount () {
@@ -72,17 +73,18 @@ export default class TeaserTypeControl extends React.Component {
     }
   }
 
-  handleClick (type, index) {
-    this.props.setFilterType(type, index)
+  handleClick (type, index, licenceType) {
+    this.props.setFilterType(type, index, licenceType)
   }
 
   getControls () {
     let controls = Object.values(this.props.categories)
     return controls.map((control, i) => {
-      const { type, name } = control
+      const { type, name, licenceTypes } = control
+      const isActive = type === this.props.filterType
       let controlClasses = classNames({
         'vcv-ui-form-button': true,
-        'vcv-ui-form-button--active': type === this.props.filterType
+        'vcv-ui-form-button--active': isActive
       })
       let index = control.index
       if (control.subIndex !== undefined) {
@@ -94,10 +96,10 @@ export default class TeaserTypeControl extends React.Component {
           <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
             {name}
           </button>
-          <div className='vcv-ui-form-button-group-dropdown'>
-            <button className='vcv-ui-form-button-group-dropdown-item'>Free</button>
-            <button className='vcv-ui-form-button-group-dropdown-item'>Premium</button>
-          </div>
+          {licenceTypes && licenceTypes.length
+            ? <div className='vcv-ui-form-button-group-dropdown'>
+              {this.getDropdownItems(licenceTypes, type, index, isActive)}
+            </div> : null}
         </div>
       } else {
         return <button
@@ -109,6 +111,24 @@ export default class TeaserTypeControl extends React.Component {
           {name}
         </button>
       }
+    })
+  }
+
+  getDropdownItems (licenceTypes, type, categoryIndex, isActive) {
+    return licenceTypes.map((licence) => {
+      let dropdownItemClasses = classNames({
+        'vcv-ui-form-button-group-dropdown-item': true,
+        'vcv-ui-form-button-group-dropdown-item--active': isActive && licence === this.props.licenceType
+      })
+
+      return <button
+        key={`hub-control-dropdown-item-${licence}`}
+        type='button'
+        onClick={() => this.handleClick(type, categoryIndex, licence)}
+        className={dropdownItemClasses}
+      >
+        {licence}
+      </button>
     })
   }
 

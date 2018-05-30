@@ -16,18 +16,27 @@ const categories = (() => {
     all: {
       index: 0,
       type: 'all',
-      name: 'All'
+      name: 'All',
+      licenceTypes: [
+        'Free', 'Premium'
+      ]
     },
     element: {
       index: 1,
       subIndex: 0,
       type: 'element',
-      name: 'Elements'
+      name: 'Elements',
+      licenceTypes: [
+        'Free', 'Premium'
+      ]
     },
     template: {
       index: 2,
       type: 'template',
-      name: 'Templates'
+      name: 'Templates',
+      licenceTypes: [
+        'Free', 'Premium'
+      ]
     },
     addon: {
       index: 3,
@@ -212,11 +221,12 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return <SearchElement {...searchProps} />
   }
 
-  setFilterType (value, id) {
-    let data = this.state
-    data.filterType = value
-    data.activeCategoryIndex = id
-    this.setState(data)
+  setFilterType (value, id, licenceType) {
+    this.setState({
+      filterType: value,
+      activeCategoryIndex: id,
+      licenceType: licenceType
+    })
   }
 
   activeFilterButton (value) {
@@ -224,16 +234,29 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   filterResult () {
+    const { filterType, licenceType } = this.state
     let result = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
     result = result.filter((item) => {
-      if (this.state.filterType === 'all') {
-        return true
+      let isClean = false
+
+      if (filterType === 'all') {
+        isClean = true
       } else {
-        if (categories[ this.state.filterType ].templateType) {
-          return item.props.type === 'template' && item.props.element.templateType === this.state.filterType
+        if (categories[ filterType ].templateType) {
+          isClean = item.props.type === 'template' && item.props.element.templateType === filterType
+        } else {
+          isClean = item.props.type === filterType
         }
-        return item.props.type === this.state.filterType
       }
+
+      // filter for licence type
+      if (isClean && item.props.licenceType && licenceType) {
+        if (item.props.licenceType.toLowerCase() !== licenceType.toLowerCase()) {
+          isClean = false
+        }
+      }
+
+      return isClean
     })
     return result
   }
@@ -242,6 +265,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return {
       categories: categories,
       filterType: this.state.filterType,
+      licenceType: this.state.licenceType,
       setFilterType: this.setFilterType
     }
   }
