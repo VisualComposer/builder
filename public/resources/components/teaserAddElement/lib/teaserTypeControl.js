@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import vcCake from 'vc-cake'
 
 export default class TeaserTypeControl extends React.Component {
   buttonsGroup = null
@@ -88,14 +89,26 @@ export default class TeaserTypeControl extends React.Component {
         index = `${control.index}-${control.subIndex}`
       }
 
-      return <button
-        key={`hub-control-${type}`}
-        className={controlClasses}
-        type='button'
-        onClick={() => this.handleClick(type, index)}
-      >
-        {name}
-      </button>
+      if (vcCake.env('FT_HUB_CATEGORIES_DROPDOWN')) {
+        return <div key={`hub-control-${type}`} className='vcv-ui-form-button-group-item'>
+          <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
+            {name}
+          </button>
+          <div className='vcv-ui-form-button-group-dropdown'>
+            <button className='vcv-ui-form-button-group-dropdown-item'>Free</button>
+            <button className='vcv-ui-form-button-group-dropdown-item'>Premium</button>
+          </div>
+        </div>
+      } else {
+        return <button
+          key={`hub-control-${type}`}
+          className={controlClasses}
+          type='button'
+          onClick={() => this.handleClick(type, index)}
+        >
+          {name}
+        </button>
+      }
     })
   }
 
