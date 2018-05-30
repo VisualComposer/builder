@@ -83,7 +83,7 @@ addService('myTemplates', {
     })
   },
   all (filter = null, sort = null, data) {
-    let custom = env('TEMPLATE_PANEL_PERF') ? data && data.custom : getStorage('hubTemplates').state('templates').get().custom
+    let custom = data && data.custom
     let myTemplates
     if (env('THEME_EDITOR')) {
       let customTemplates = custom && custom.templates ? custom.templates : []
@@ -111,11 +111,11 @@ addService('myTemplates', {
     return myTemplates
   },
   predefined (data) {
-    let predefinedTemplates = env('TEMPLATE_PANEL_PERF') ? data || getStorage('hubTemplates').state('templates').get().predefined : getStorage('hubTemplates').state('templates').get().predefined
+    let predefinedTemplates = data || getStorage('hubTemplates').state('templates').get().predefined
     return predefinedTemplates && predefinedTemplates.templates ? predefinedTemplates.templates : []
   },
   hub (data) {
-    let hubTemplates = env('TEMPLATE_PANEL_PERF') ? data || getStorage('hubTemplates').state('templates').get().hub : getStorage('hubTemplates').state('templates').get().hub
+    let hubTemplates = data || getStorage('hubTemplates').state('templates').get().hub
     return hubTemplates && hubTemplates.templates ? hubTemplates.templates : []
   },
   findTemplateByBundle (bundle) {
@@ -138,35 +138,35 @@ addService('myTemplates', {
     return template
   },
   hubAndPredefined (data) {
-    let hubAndPredefined = env('TEMPLATE_PANEL_PERF') ? data && this.hub(data.hub).concat(this.predefined(data.predefined)) : this.hub().concat(this.predefined())
+    let hubAndPredefined = data && this.hub(data.hub).concat(this.predefined(data.predefined))
     return hubAndPredefined || []
   },
   hubHeader (data) {
-    let hubHeaderTemplates = env('TEMPLATE_PANEL_PERF') ? data : getStorage('hubTemplates').state('templates').get().hubHeader
+    let hubHeaderTemplates = data
     return hubHeaderTemplates && hubHeaderTemplates.templates ? hubHeaderTemplates.templates : []
   },
   hubFooter (data) {
-    let hubFooterTemplates = env('TEMPLATE_PANEL_PERF') ? data : getStorage('hubTemplates').state('templates').get().hubFooter
+    let hubFooterTemplates = data
     return hubFooterTemplates && hubFooterTemplates.templates ? hubFooterTemplates.templates : []
   },
   hubSidebar (data) {
-    let hubSidebarTemplates = env('TEMPLATE_PANEL_PERF') ? data : getStorage('hubTemplates').state('templates').get().hubSidebar
+    let hubSidebarTemplates = data
     return hubSidebarTemplates && hubSidebarTemplates.templates ? hubSidebarTemplates.templates : []
   },
   customHeader (data) {
-    let customHeaderTemplates = env('TEMPLATE_PANEL_PERF') ? data && data.customHeaders : getStorage('hubTemplates').state('templates').get().customHeaders
+    let customHeaderTemplates = data && data.customHeaders
     return customHeaderTemplates && customHeaderTemplates.templates ? customHeaderTemplates.templates : []
   },
   customFooter (data) {
-    let customFooterTemplates = env('TEMPLATE_PANEL_PERF') ? data && data.customFooter : getStorage('hubTemplates').state('templates').get().customFooter
+    let customFooterTemplates = data && data.customFooter
     return customFooterTemplates && customFooterTemplates.templates ? customFooterTemplates.templates : []
   },
   customSidebar (data) {
-    let customSidebaremplates = env('TEMPLATE_PANEL_PERF') ? data && data.customSidebar : getStorage('hubTemplates').state('templates').get().customSidebar
+    let customSidebaremplates = data && data.customSidebar
     return customSidebaremplates && customSidebaremplates.templates ? customSidebaremplates.templates : []
   },
   getAllTemplates (filter = null, sort = null, data) {
-    let allTemplatesGroups = env('TEMPLATE_PANEL_PERF') ? data || {} : getStorage('hubTemplates').state('templates').get() || {}
+    let allTemplatesGroups = data || {}
     let allTemplates = []
     for (let key in allTemplatesGroups) {
       allTemplates = allTemplates.concat(allTemplatesGroups[ key ].templates)

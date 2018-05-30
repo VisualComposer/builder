@@ -1,14 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import MobileDetect from 'mobile-detect'
-import { getStorage, env } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
-// const assetsStorage = getService('assetsStorage')
-const workspaceStorage = getStorage('workspace')
 const settingsStorage = getStorage('settings')
-const workspaceContentStartState = getStorage('workspace').state('contentStart')
-const workspaceContentEndState = workspaceStorage.state('contentEnd')
 const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('settings')
 
@@ -33,21 +28,13 @@ export default class SettingsButtonControl extends NavbarContent {
   }
 
   componentDidMount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.onChange(this.setActiveState)
-    } else {
-      workspaceContentEndState.onChange(this.setActiveState)
-    }
+    workspaceContentState.onChange(this.setActiveState)
     settingsStorage.state('customCss').onChange(this.checkSettings)
     settingsStorage.state('globalCss').onChange(this.checkSettings)
   }
 
   componentWillUnmount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.ignoreChange(this.setActiveState)
-    } else {
-      workspaceContentEndState.ignoreChange(this.setActiveState)
-    }
+    workspaceContentState.ignoreChange(this.setActiveState)
     settingsStorage.state('customCss').ignoreChange(this.checkSettings)
     settingsStorage.state('globalCss').ignoreChange(this.checkSettings)
   }
@@ -60,18 +47,8 @@ export default class SettingsButtonControl extends NavbarContent {
 
   toggleSettings (e) {
     e && e.preventDefault()
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      workspaceContentStartState.set(false)
-    }
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspaceContentState.set(!this.state.isActive ? 'settings' : false)
-      if (env('HUB_REDESIGN')) {
-        workspaceSettings.set({ action: 'settings' })
-      }
-      return
-    }
-    workspaceContentEndState.set(!this.state.isActive ? 'settings' : false)
+    workspaceContentState.set(!this.state.isActive ? 'settings' : false)
+    workspaceSettings.set({ action: 'settings' })
   }
 
   render () {

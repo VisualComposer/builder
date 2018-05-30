@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import { getStorage, env } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 import Resizer from '../../resizer/resizer'
 import PropTypes from 'prop-types'
 
@@ -119,7 +119,7 @@ export default class Content extends React.Component {
       'vcv-media--md': this.state.realWidth > 800,
       'vcv-media--lg': this.state.realWidth > 1200,
       'vcv-media--xl': this.state.realWidth > 1600,
-      'vcv-ui-hide-resizers': env('HUB_REDESIGN') && currentSettings && currentSettings.action && currentSettings.action === 'addHub'
+      'vcv-ui-hide-resizers': currentSettings && currentSettings.action && currentSettings.action === 'addHub'
     })
 
     let closeBtnClasses = classNames({

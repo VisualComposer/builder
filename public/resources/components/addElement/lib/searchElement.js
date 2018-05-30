@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
-import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 
 export default class SearchElement extends React.Component {
@@ -97,9 +96,8 @@ export default class SearchElement extends React.Component {
   }
 
   handleCategorySelect (e) {
-    if (vcCake.env('HUB_REDESIGN')) {
-      this.props.selectEvent && this.props.selectEvent.constructor === Function && this.props.selectEvent(e.currentTarget.value)
-    }
+    this.props.selectEvent && this.props.selectEvent.constructor === Function && this.props.selectEvent(e.currentTarget.value)
+
     this.setState({
       inputValue: '',
       activeIndex: e.currentTarget.value,
@@ -180,8 +178,6 @@ export default class SearchElement extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const searchPlaceholder = localizations ? localizations.searchContentElements : 'Search content elements'
     let dropdownContainerClasses = classNames({
       'vcv-ui-editor-search-dropdown-container': true,
       'vcv-ui-editor-field-highlight': this.state.dropdown
@@ -191,34 +187,6 @@ export default class SearchElement extends React.Component {
       'vcv-ui-editor-field-highlight': this.state.input
     })
     let autoFocus = !this.mobileDetect.mobile()
-
-    if (vcCake.env('HUB_REDESIGN')) {
-      return <div className='vcv-ui-editor-search-container'>
-        <div
-          className={dropdownContainerClasses}
-          data-content={this.state.content}
-          onClick={this.handleCategoryClick}
-        >
-          {this.getCategorySelect()}
-        </div>
-        <div className={inputContainerClasses}>
-          <label className='vcv-ui-editor-search-icon-container' htmlFor='add-element-search'>
-            <i className='vcv-ui-icon vcv-ui-icon-search' />
-          </label>
-          <input
-            className='vcv-ui-form-input vcv-ui-editor-search-field'
-            id='add-element-search'
-            onChange={this.handleSearch}
-            onFocus={this.handleInputFocus}
-            type='text'
-            value={this.state.inputValue}
-            placeholder={this.getPlaceholder()}
-            autoFocus={autoFocus}
-            onKeyPress={this.handleKeyPress}
-          />
-        </div>
-      </div>
-    }
 
     return <div className='vcv-ui-editor-search-container'>
       <div
@@ -239,7 +207,7 @@ export default class SearchElement extends React.Component {
           onFocus={this.handleInputFocus}
           type='text'
           value={this.state.inputValue}
-          placeholder={searchPlaceholder}
+          placeholder={this.getPlaceholder()}
           autoFocus={autoFocus}
           onKeyPress={this.handleKeyPress}
         />

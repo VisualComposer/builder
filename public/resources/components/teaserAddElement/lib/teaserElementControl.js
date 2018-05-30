@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { env, getService, getStorage } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const hubElementsService = getService('hubElements')
@@ -43,34 +43,17 @@ export default class TeaserElementControl extends ElementControl {
       if (downloadingItems.includes(tag)) {
         elementState = 'downloading'
       } else {
-        if (env('TF_TEMPLATES_DROPDOWN_UPDATE')) {
-          elementState = 'inactive'
-          if (templatesService.findTemplateByBundle(this.props.element.bundle)) {
-            elementState = 'success'
-          }
-        } else {
-          let hubTemplates = templatesService.hub()
-          elementState = 'inactive'
-          for (let i = 0; i < hubTemplates.length; i++) {
-            if (hubTemplates[ i ].bundle === this.props.element.bundle) {
-              elementState = 'success'
-              break
-            }
-          }
+        elementState = 'inactive'
+        if (templatesService.findTemplateByBundle(this.props.element.bundle)) {
+          elementState = 'success'
         }
       }
     }
 
-    if (env('TF_FREE_VERSION_DOWNLOAD')) {
-      this.state = {
-        elementState: elementState
-      }
-    } else {
-      this.state = {
-        allowDownload: window.VCV_HUB_ALLOW_DOWNLOAD ? window.VCV_HUB_ALLOW_DOWNLOAD() : false,
-        elementState: elementState
-      }
+    this.state = {
+      elementState: elementState
     }
+
     this.addElement = this.addElement.bind(this)
     this.downloadElement = this.downloadElement.bind(this)
     this.downloadTemplate = this.downloadTemplate.bind(this)
@@ -114,15 +97,10 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadAddon (e) {
-    if (env('TF_FREE_VERSION_DOWNLOAD')) {
-      if (!this.props.element.allowDownload) {
-        return
-      }
-    } else {
-      if (!this.state.allowDownload) {
-        return
-      }
+    if (!this.props.element.allowDownload) {
+      return
     }
+
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
       let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
@@ -141,15 +119,10 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadElement (e) {
-    if (env('TF_FREE_VERSION_DOWNLOAD')) {
-      if (!this.props.element.allowDownload) {
-        return
-      }
-    } else {
-      if (!this.state.allowDownload) {
-        return
-      }
+    if (!this.props.element.allowDownload) {
+      return
     }
+
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
       let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
@@ -168,15 +141,10 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadTemplate (e) {
-    if (env('TF_FREE_VERSION_DOWNLOAD')) {
-      if (!this.props.element.allowDownload) {
-        return
-      }
-    } else {
-      if (!this.state.allowDownload) {
-        return
-      }
+    if (!this.props.element.allowDownload) {
+      return
     }
+
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
     if (this.props.element.update) {
@@ -196,20 +164,8 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   addTemplate () {
-    if (env('TF_TEMPLATES_DROPDOWN_UPDATE')) {
-      const template = templatesService.findTemplateByBundle(this.props.element.bundle)
-      elementsStorage.trigger('merge', template.data)
-    } else {
-      let data = {}
-      let hubTemplates = templatesService.hub()
-      for (let i = 0; i < hubTemplates.length; i++) {
-        if (hubTemplates[ i ].bundle === this.props.element.bundle) {
-          data = hubTemplates[ i ].data
-          break
-        }
-      }
-      elementsStorage.trigger('merge', data)
-    }
+    const template = templatesService.findTemplateByBundle(this.props.element.bundle)
+    elementsStorage.trigger('merge', template.data)
     workspaceSettings.set(false)
   }
 
@@ -239,7 +195,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   render () {
-    let { name, element } = this.props
+    let { name, element, tag, type } = this.props
     let { previewVisible, previewStyle, elementState } = this.state
 
     let itemElementClasses = classNames({
@@ -268,41 +224,47 @@ export default class TeaserElementControl extends ElementControl {
 
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
-
     let overlayOutput = <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
-    if (env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-      let lockIcon = !this.state.allowDownload && this.state.elementState === 'inactive'
-      if (env('TF_FREE_VERSION_DOWNLOAD')) {
-        lockIcon = !this.props.element.allowDownload && this.state.elementState === 'inactive'
+    let lockIcon = !element.allowDownload && elementState === 'inactive'
+
+    let iconClasses = classNames({
+      'vcv-ui-item-add': true,
+      'vcv-ui-item-add-hub': true,
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-download': elementState === 'inactive' || elementState === 'failed',
+      'vcv-ui-wp-spinner-light': elementState === 'downloading',
+      'vcv-ui-icon-lock': lockIcon
+    })
+
+    if (elementState === 'success') {
+      let actionClass = 'vcv-ui-icon-add'
+
+      if (type === 'addon') {
+        const addonData = hubAddonsStorage.state('addons').get()[ tag ]
+        actionClass = (addonData && (addonData.addable === undefined || addonData.addable)) ? 'vcv-ui-icon-add' : 'vcv-ui-icon-more-dots'
       }
-      let iconClasses = classNames({
-        'vcv-ui-item-add': true,
-        'vcv-ui-item-add-hub': true,
-        'vcv-ui-icon': true,
-        'vcv-ui-icon-download': elementState === 'inactive' || elementState === 'failed',
-        'vcv-ui-icon-add': elementState === 'success',
-        'vcv-ui-wp-spinner-light': elementState === 'downloading',
-        'vcv-ui-icon vcv-ui-icon-lock': lockIcon
-      })
-      let action = this.addElement
-      if (this.props.type === 'element') {
-        if (elementState !== 'success') {
-          action = this.downloadElement
-        }
-      } else if (this.props.type === 'template') {
-        action = this.addTemplate
-        if (elementState !== 'success') {
-          action = this.downloadTemplate
-        }
-      } else if (this.props.type === 'addon') {
-        if (elementState !== 'success') {
-          action = this.downloadAddon
-        } else {
-          action = this.handleAddonClick
-        }
-      }
-      overlayOutput = <span className={iconClasses} onClick={action} />
+
+      iconClasses += ` ${actionClass}`
     }
+
+    let action = this.addElement
+    if (this.props.type === 'element') {
+      if (elementState !== 'success') {
+        action = this.downloadElement
+      }
+    } else if (this.props.type === 'template') {
+      action = this.addTemplate
+      if (elementState !== 'success') {
+        action = this.downloadTemplate
+      }
+    } else if (this.props.type === 'addon') {
+      if (elementState !== 'success') {
+        action = this.downloadAddon
+      } else {
+        action = this.handleAddonClick
+      }
+    }
+    overlayOutput = <span className={iconClasses} onClick={action} />
 
     return (
       <li className={listItemClasses}>

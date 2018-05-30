@@ -1,4 +1,4 @@
-import { addStorage, getService, getStorage, env } from 'vc-cake'
+import { addStorage, getService, getStorage } from 'vc-cake'
 
 addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
@@ -9,16 +9,8 @@ addStorage('hubTemplates', (storage) => {
     /**
      * @deprecated 2.5 on remove need to set state(templates) {}
      */
-    if (!env('FT_TEMPLATE_LOAD_ASYNC')) {
-      let vcvtemplates = storage.state('templates').get() || window.VCV_TEMPLATES()
-      if (!vcvtemplates || Array.isArray(vcvtemplates)) {
-        vcvtemplates = {}
-      }
-      storage.state('templates').set(vcvtemplates)
-    } else {
-      // TODO: Remove this code with whole on('start') block and refactor initial templates loading
-      storage.state('templates').set(storage.state('templates').get() || {})
-    }
+    // TODO: Remove this code with whole on('start') block and refactor initial templates loading
+    storage.state('templates').set(storage.state('templates').get() || {})
   })
 
   storage.on('downloadTemplate', (template) => {

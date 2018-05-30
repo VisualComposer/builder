@@ -11,20 +11,8 @@ const API = {
     }
 
     if (data) {
-      if (vcCake.env('ATTRIBUTE_LIBS')) {
-        if (library.dependencies && library.dependencies.length) {
-          library.dependencies.forEach((dependency) => {
-            let dependencyLibraryFiles = API.getAssetsLibraryFiles(dependency)
-            if (dependencyLibraryFiles.cssBundles && dependencyLibraryFiles.cssBundles.length) {
-              files.cssBundles = files.cssBundles.concat(dependencyLibraryFiles.cssBundles)
-            }
-            if (dependencyLibraryFiles.jsBundles && dependencyLibraryFiles.jsBundles.length) {
-              files.jsBundles = files.jsBundles.concat(dependencyLibraryFiles.jsBundles)
-            }
-          })
-        }
-      } else if (data.dependencies && data.dependencies.length) {
-        data.dependencies.forEach((dependency) => {
+      if (library.dependencies && library.dependencies.length) {
+        library.dependencies.forEach((dependency) => {
           let dependencyLibraryFiles = API.getAssetsLibraryFiles(dependency)
           if (dependencyLibraryFiles.cssBundles && dependencyLibraryFiles.cssBundles.length) {
             files.cssBundles = files.cssBundles.concat(dependencyLibraryFiles.cssBundles)
@@ -34,6 +22,7 @@ const API = {
           }
         })
       }
+
       if (data.cssBundle) {
         files.cssBundles = files.cssBundles.concat(data.cssBundle)
       }

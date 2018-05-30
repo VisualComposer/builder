@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import { env, getStorage, getService } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -222,20 +222,12 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.getDefaultStyles()
 
     const id = this.props.element.get('id')
-    if (env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.on(`element:${id}`, this.handleElementChange)
-    } else {
-      elementsStorage.state('element:' + id).onChange(this.handleElementChange)
-    }
+    elementsStorage.on(`element:${id}`, this.handleElementChange)
   }
 
   componentWillUnmount () {
     const id = this.props.element.get('id')
-    if (env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.off(`element:${id}`, this.handleElementChange)
-    } else {
-      elementsStorage.state('element:' + id).ignoreChange(this.handleElementChange)
-    }
+    elementsStorage.off(`element:${id}`, this.handleElementChange)
   }
 
   handleElementChange () {
@@ -746,36 +738,28 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getDeviceVisibilityRender () {
     if (this.state.currentDevice === 'all') {
-      if (env('FE_TOGGLE_ELEMENT')) {
-        let id = this.props.element.get('id')
-        let element = ''
-        if (env('TF_RENDER_PERFORMANCE')) {
-          element = documentManager.get(id)
-        } else {
-          element = elementsStorage.state(`element:${id}`).get() || this.props.element.toJS()
-        }
-        if (element.tag === 'column') {
-          return null
-        } else {
-          let checked = !element.hidden
-          return (
-            <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-              <div className='vcv-ui-form-switch-container'>
-                <label className='vcv-ui-form-switch'>
-                  <input type='checkbox' onChange={this.elementVisibilityChangeHandler} id='show_element' checked={checked} />
-                  <span className='vcv-ui-form-switch-indicator' />
-                  <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
-                  <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
-                </label>
-                <label htmlFor='show_element' className='vcv-ui-form-switch-trigger-label'>
-                  Show element
-                </label>
-              </div>
-            </div>
-          )
-        }
-      } else {
+      let id = this.props.element.get('id')
+      let element = documentManager.get(id)
+
+      if (element.tag === 'column') {
         return null
+      } else {
+        let checked = !element.hidden
+        return (
+          <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+            <div className='vcv-ui-form-switch-container'>
+              <label className='vcv-ui-form-switch'>
+                <input type='checkbox' onChange={this.elementVisibilityChangeHandler} id='show_element' checked={checked} />
+                <span className='vcv-ui-form-switch-indicator' />
+                <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
+                <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
+              </label>
+              <label htmlFor='show_element' className='vcv-ui-form-switch-trigger-label'>
+                Show element
+              </label>
+            </div>
+          </div>
+        )
       }
     }
 
@@ -1775,14 +1759,12 @@ export default class DesignOptionsAdvanced extends Attribute {
         {
           label: 'Simple with fade',
           value: 'simple-fade'
+        },
+        {
+          label: 'Mouse move',
+          value: 'mouse-move'
         }
       ]
-    }
-    if (env('PARALLAX_MOUSEMOVE')) {
-      options.values.push({
-        label: 'Mouse move',
-        value: 'mouse-move'
-      })
     }
     let value = this.state.devices[ this.state.currentDevice ].parallax || ''
     return <div className='vcv-ui-form-group'>

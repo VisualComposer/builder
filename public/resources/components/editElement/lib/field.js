@@ -1,14 +1,9 @@
 import React from 'react'
 import { format } from 'util'
-import { getStorage, getService, env } from 'vc-cake'
+import { getService } from 'vc-cake'
 import PropTypes from 'prop-types'
 
-const elementsStorage = getStorage('elements')
-let elementAccessPoint = null
-
-if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
-  elementAccessPoint = getService('elementAccessPoint')
-}
+const elementAccessPoint = getService('elementAccessPoint')
 
 export default class Field extends React.Component {
   static propTypes = {
@@ -23,38 +18,18 @@ export default class Field extends React.Component {
     this.state = {
       element: props.element
     }
-    if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
-      this.element = elementAccessPoint.get(props.element.get('id'))
-    }
+
+    this.element = elementAccessPoint.get(props.element.get('id'))
   }
 
   componentDidMount () {
-    const { element, fieldKey } = this.props
-    if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
-      this.element.onAttributeChange(fieldKey, this.updateElementOnExternalChange)
-    } else {
-      if (env('TF_RENDER_PERFORMANCE')) {
-        elementsStorage.on(`element:${element.get('id')}:attribute:${fieldKey}`, this.updateElementOnExternalChange)
-      } else {
-        elementsStorage.state(`element:${element.get('id')}:attribute:${fieldKey}`).onChange(this.updateElementOnExternalChange)
-      }
-    }
+    const { fieldKey } = this.props
+    this.element.onAttributeChange(fieldKey, this.updateElementOnExternalChange)
   }
 
   componentWillUnmount () {
-    const { element, fieldKey } = this.props
-    const id = element.get('id')
-    if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
-      this.element.ignoreAttributeChange(fieldKey, this.updateElementOnExternalChange)
-    } else {
-      if (env('TF_RENDER_PERFORMANCE')) {
-        elementsStorage.off(`element:${id}:attribute:${fieldKey}`, this.updateElementOnExternalChange)
-      } else {
-        elementsStorage.state(`element:${id}:attribute:${fieldKey}`)
-          .ignoreChange(this.updateElementOnExternalChange)
-        elementsStorage.state(`element:${id}:attribute:${fieldKey}`).delete()
-      }
-    }
+    const { fieldKey } = this.props
+    this.element.ignoreAttributeChange(fieldKey, this.updateElementOnExternalChange)
   }
 
   updateElementOnExternalChange (value) {
@@ -70,9 +45,8 @@ export default class Field extends React.Component {
 
   render () {
     let { fieldKey, updater, tab, fieldType } = this.props
-    if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
-      updater = this.updateElement.bind(this)
-    }
+    updater = this.updateElement.bind(this)
+
     const { element } = this.state
     let { type, settings } = element.settings(fieldKey)
     let AttributeComponent = type.component

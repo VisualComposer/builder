@@ -22,7 +22,7 @@ vcCake.add('contentModernLayout', (api) => {
   let iframeContent = document.getElementById('vcv-layout-iframe-content')
   let dnd = new DndManager(api)
   let controls = new ControlsManager(api)
-  let notifications = vcCake.env('UI_NOTIFICATIONS') && (new Notifications(document.querySelector('.vcv-layout-overlay'), 10))
+  let notifications = new Notifications(document.querySelector('.vcv-layout-overlay'), 10)
   const localizations = window.VCV_I18N && window.VCV_I18N()
   if (Utils.isRTL()) {
     document.body && document.body.classList.add('rtl')
@@ -30,7 +30,7 @@ vcCake.add('contentModernLayout', (api) => {
 
   const renderLayout = (reload = false) => {
     /* 'REFACTOR_ELEMENT_ACCESS_POINT' uncomment to enable public ElementAPI in browser console */
-    // let elementAccessPoint = vcCake.env('REFACTOR_ELEMENT_ACCESS_POINT') ? vcCake.getService('elementAccessPoint') : null
+    // let elementAccessPoint = vcCake.getService('elementAccessPoint')
     // elementAccessPoint && (window.elAP = elementAccessPoint)
     /* */
     workspaceIFrame.ignoreChange(reloadLayout)
@@ -45,67 +45,40 @@ vcCake.add('contentModernLayout', (api) => {
       )
 
       !reload && dnd.init()
+      !reload && notifications.init()
 
-      if (vcCake.env('UI_NOTIFICATIONS')) {
-        !reload && notifications.init()
-      }
       workspaceIFrame.onChange(reloadLayout)
-      if (vcCake.env('TF_SHOW_PLUGIN_UPDATE')) {
-        const pluginUpdate = VCV_PLUGIN_UPDATE()
-        pluginUpdate && workspaceNotifications.set({
-          position: 'top',
-          transparent: false,
-          showCloseButton: true,
-          rounded: false,
-          type: 'warning',
-          text: localizations.newPluginVersionIsAvailable || `There is a new version of Visual Composer Website Builder available`,
-          html: true,
-          cookie: {
-            name: 'vcv-update-notice',
-            expireInDays: 1
-          },
-          time: 10000
-        })
-      }
+
+      const pluginUpdate = VCV_PLUGIN_UPDATE()
+      pluginUpdate && workspaceNotifications.set({
+        position: 'top',
+        transparent: false,
+        showCloseButton: true,
+        rounded: false,
+        type: 'warning',
+        text: localizations.newPluginVersionIsAvailable || `There is a new version of Visual Composer Website Builder available`,
+        html: true,
+        cookie: {
+          name: 'vcv-update-notice',
+          expireInDays: 1
+        },
+        time: 10000
+      })
 
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
         let mobileControls = new MobileControlsManager(api)
         mobileControls.init()
-        if (vcCake.env('UI_NOTIFICATIONS')) {
-          workspaceNotifications.set({
-            position: 'bottom',
-            transparent: true,
-            rounded: true,
-            text: localizations.mobileTooltipText || 'Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view.',
-            cookie: 'vcv-mobile-tooltip',
-            time: 10000
-          })
-          return
-        } else {
-          let disableTooltip = Utils.getCookie('vcv-mobile-tooltip') || false
-          if (!disableTooltip) {
-            let iframeOverlay = document.querySelector('.vcv-layout-iframe-overlay')
-            let mobileTooltip = document.createElement('div')
-            mobileTooltip.className = 'vcv-ui-mobile-tooltip'
-            mobileTooltip.innerText = localizations.mobileTooltipText || 'Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view.'
-            mobileTooltip.addEventListener('click', () => {
-              if (!disableTooltip) {
-                mobileTooltip.className += ' disabled'
-                disableTooltip = true
-                Utils.setCookie('vcv-mobile-tooltip', true)
-              }
-            })
-            iframeOverlay.appendChild(mobileTooltip)
-            setTimeout(() => {
-              if (!disableTooltip) {
-                mobileTooltip.className += ' disabled'
-                disableTooltip = true
-              }
-            }, 10000)
-          }
-          return
-        }
+
+        workspaceNotifications.set({
+          position: 'bottom',
+          transparent: true,
+          rounded: true,
+          text: localizations.mobileTooltipText || 'Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view.',
+          cookie: 'vcv-mobile-tooltip',
+          time: 10000
+        })
+        return
       }
 
       reload ? controls.updateIframeVariables() : controls.init()
@@ -113,14 +86,8 @@ vcCake.add('contentModernLayout', (api) => {
         iframeWindow.document.querySelectorAll('[data-vcv-layout-zone]').forEach((zone) => {
           let zoneButton = zone.querySelector('[data-vcv-action="settings"]')
           zoneButton && zoneButton.addEventListener('click', () => {
-            if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
-              workspaceStorage.state('content').set('settings')
-              if (vcCake.env('HUB_REDESIGN')) {
-                workspaceSettings.set({ action: 'settings' })
-              }
-              return
-            }
-            workspaceStorage.state('contentEnd').set('settings')
+            workspaceStorage.state('content').set('settings')
+            workspaceSettings.set({ action: 'settings' })
           })
         })
       }

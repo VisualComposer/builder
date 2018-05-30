@@ -187,30 +187,32 @@ export default class DesignOptions extends Attribute {
     this.getDefaultStyles()
 
     const id = this.props.element.get('id')
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.on(`element:${id}`, this.handleElementChange)
-    } else {
-      elementsStorage.state('element:' + id).onChange(this.handleElementChange)
-    }
+    elementsStorage.on(`element:${id}`, this.handleElementChange)
   }
 
   componentWillUnmount () {
     const id = this.props.element.get('id')
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.off(`element:${id}`, this.handleElementChange)
-    } else {
-      elementsStorage.state('element:' + id).ignoreChange(this.handleElementChange)
-    }
+    elementsStorage.off(`element:${id}`, this.handleElementChange)
   }
 
   componentDidUpdate () {
     this.getDefaultStyles()
   }
 
-  handleElementChange () {
-    setTimeout(() => {
-      this.getDefaultStyles()
-    }, 200)
+  handleElementChange (data, source, options) {
+    if (vcCake.env('FT_FIX_SHOW_ELEMENT_CONTROL')) {
+      if (!options || options.action !== 'hide') {
+        setTimeout(() => {
+          this.getDefaultStyles()
+        }, 200)
+      } else {
+        this.forceUpdate()
+      }
+    } else {
+      setTimeout(() => {
+        this.getDefaultStyles()
+      }, 200)
+    }
   }
 
   /**
@@ -557,33 +559,24 @@ export default class DesignOptions extends Attribute {
    */
   getDeviceVisibilityRender () {
     if (this.state.currentDevice === 'all') {
-      if (vcCake.env('FE_TOGGLE_ELEMENT')) {
-        let id = this.props.element.get('id')
-        let element = ''
-        if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-          element = documentManager.get(id)
-        } else {
-          element = elementsStorage.state(`element:${id}`).get() || this.props.element.toJS()
-        }
-        let checked = !element.hidden
-        return (
-          <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-            <div className='vcv-ui-form-switch-container'>
-              <label className='vcv-ui-form-switch'>
-                <input type='checkbox' onChange={this.elementVisibilityChangeHandler} id='show_element' checked={checked} />
-                <span className='vcv-ui-form-switch-indicator' />
-                <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
-                <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
-              </label>
-              <label htmlFor='show_element' className='vcv-ui-form-switch-trigger-label'>
-                Show element
-              </label>
-            </div>
+      let id = this.props.element.get('id')
+      let element = documentManager.get(id)
+      let checked = !element.hidden
+      return (
+        <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+          <div className='vcv-ui-form-switch-container'>
+            <label className='vcv-ui-form-switch'>
+              <input type='checkbox' onChange={this.elementVisibilityChangeHandler} id='show_element' checked={checked} />
+              <span className='vcv-ui-form-switch-indicator' />
+              <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
+              <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
+            </label>
+            <label htmlFor='show_element' className='vcv-ui-form-switch-trigger-label'>
+              Show element
+            </label>
           </div>
-        )
-      } else {
-        return null
-      }
+        </div>
+      )
     }
 
     return (

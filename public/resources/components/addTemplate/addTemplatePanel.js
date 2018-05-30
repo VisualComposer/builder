@@ -11,58 +11,6 @@ const documentManager = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceSettings = vcCake.getStorage('workspace').state('settings')
 
-const templatesCategories = [
-  {
-    title: 'All',
-    index: 0,
-    id: 'all',
-    visible () { return true },
-    templates () { return myTemplatesService.getAllTemplates() }
-  },
-  {
-    title: 'My Templates',
-    index: 1,
-    id: 'myTemplates',
-    visible () { return this.templates().length },
-    templates () { return myTemplatesService.all() }
-  },
-  {
-    title: 'Content Templates',
-    index: 2,
-    id: 'hubAndPredefined',
-    visible () { return this.templates().length },
-    templates () { return myTemplatesService.hubAndPredefined() }
-  },
-  {
-    title: 'Header Templates',
-    index: 3,
-    id: 'hubHeader',
-    visible () { return this.templates().length },
-    templates () { return myTemplatesService.hubHeader() }
-  },
-  {
-    title: 'Footer Templates',
-    index: 4,
-    id: 'hubFooter',
-    visible () { return this.templates().length },
-    templates () { return myTemplatesService.hubFooter() }
-  },
-  {
-    title: 'Sidebar Templates',
-    index: 5,
-    id: 'hubSidebar',
-    visible () { return this.templates().length },
-    templates () { return myTemplatesService.hubSidebar() }
-  },
-  {
-    title: 'Download More Templates',
-    index: 6,
-    id: 'downloadMoreTemplates',
-    visible () { return false },
-    templates: null
-  }
-]
-
 export default class AddTemplatePanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
@@ -70,33 +18,20 @@ export default class AddTemplatePanel extends React.Component {
 
   constructor (props) {
     super(props)
-    if (vcCake.env('TEMPLATE_PANEL_PERF')) {
-      this.templateServiceData = myTemplatesService.getTemplateData()
-      this.setCategoryArray(this.templateServiceData)
-      this.state = {
-        activeCategoryIndex: 0,
-        categoryTitle: 'My Templates',
-        templateName: '',
-        inputValue: '',
-        isSearching: false,
-        error: false,
-        errorName: '',
-        showSpinner: false,
-        categories: this.templatesCategories
-      }
-    } else {
-      this.state = {
-        activeCategoryIndex: 0,
-        categoryTitle: 'My Templates',
-        templateName: '',
-        inputValue: '',
-        isSearching: false,
-        error: false,
-        errorName: '',
-        showSpinner: false,
-        categories: templatesCategories
-      }
+    this.templateServiceData = myTemplatesService.getTemplateData()
+    this.setCategoryArray(this.templateServiceData)
+    this.state = {
+      activeCategoryIndex: 0,
+      categoryTitle: 'My Templates',
+      templateName: '',
+      inputValue: '',
+      isSearching: false,
+      error: false,
+      errorName: '',
+      showSpinner: false,
+      categories: this.templatesCategories
     }
+
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.changeTemplateName = this.changeTemplateName.bind(this)
     this.changeSearchInput = this.changeSearchInput.bind(this)
@@ -181,13 +116,9 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   handleTemplateStorageStateChange () {
-    if (vcCake.env('TEMPLATE_PANEL_PERF')) {
-      this.templateServiceData = myTemplatesService.getTemplateData()
-      this.setCategoryArray(this.templateServiceData)
-      this.setState({ categories: this.templatesCategories })
-    } else {
-      this.setState({ categories: templatesCategories })
-    }
+    this.templateServiceData = myTemplatesService.getTemplateData()
+    this.setCategoryArray(this.templateServiceData)
+    this.setState({ categories: this.templatesCategories })
   }
 
   // Check state
@@ -271,7 +202,7 @@ export default class AddTemplatePanel extends React.Component {
     const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
     // let source, btnText, helper, button
     let source
-    if (vcCake.env('TEMPLATE_PANEL_PERF') ? !this.state.categories[ 0 ].templates.length && !this.state.isSearching : !this.state.categories[ 0 ].templates().length && !this.state.isSearching) {
+    if (!this.state.categories[ 0 ].templates.length && !this.state.isSearching) {
       // btnText = buttonText
       // helper = noTemplatesText
       // button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
@@ -317,21 +248,12 @@ export default class AddTemplatePanel extends React.Component {
 
   getSearchResults () {
     let { inputValue } = this.state
-    if (vcCake.env('TEMPLATE_PANEL_PERF')) {
-      return this.state.categories[ 0 ].templates.filter((template) => {
-        let name = template.name.toLowerCase()
-        return template.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
-      }).map((template) => {
-        return this.getTemplateControl(template)
-      })
-    } else {
-      return this.state.categories[ 0 ].templates().filter((template) => {
-        let name = template.name.toLowerCase()
-        return template.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
-      }).map((template) => {
-        return this.getTemplateControl(template)
-      })
-    }
+    return this.state.categories[ 0 ].templates.filter((template) => {
+      let name = template.name.toLowerCase()
+      return template.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
+    }).map((template) => {
+      return this.getTemplateControl(template)
+    })
   }
 
   getTemplatesByCategory () {
@@ -341,7 +263,7 @@ export default class AddTemplatePanel extends React.Component {
       this.handleGoToHub()
       return []
     }
-    let templates = vcCake.env('TEMPLATE_PANEL_PERF') ? this.state.categories[ activeCategoryIndex ].templates : this.state.categories[ activeCategoryIndex ].templates()
+    let templates = this.state.categories[ activeCategoryIndex ].templates
     return templates.map((template) => {
       return this.getTemplateControl(template)
     })
@@ -414,18 +336,10 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   onRemoveSuccess () {
-    if (vcCake.env('TEMPLATE_PANEL_PERF')) {
-      if (!this.state.categories[ this.state.activeCategoryIndex ].templates.length) {
-        this.setState({ activeCategoryIndex: 0 })
-      } else {
-        this.setState({ activeCategoryIndex: this.state.activeCategoryIndex })
-      }
+    if (!this.state.categories[ this.state.activeCategoryIndex ].templates.length) {
+      this.setState({ activeCategoryIndex: 0 })
     } else {
-      if (!this.state.categories[ this.state.activeCategoryIndex ].templates().length) {
-        this.setState({ activeCategoryIndex: 0 })
-      } else {
-        this.setState({ activeCategoryIndex: this.state.activeCategoryIndex })
-      }
+      this.setState({ activeCategoryIndex: this.state.activeCategoryIndex })
     }
   }
 

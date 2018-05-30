@@ -5,7 +5,6 @@ import FramesHandler from './framesHandler'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
-const workspaceContentStartState = workspaceStorage.state('contentStart')
 const workspaceContentState = workspaceStorage.state('content')
 const elementsStorage = vcCake.getStorage('elements')
 const documentManager = vcCake.getService('document')
@@ -317,23 +316,22 @@ export default class ControlsManager {
         this.showFrames(data)
       }
       if (data && data.type === 'mouseEnter') {
-        if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
-          if (this.closingControlsInterval) {
-            clearInterval(this.closingControlsInterval)
-            this.closingControlsInterval = null
-          }
-          if (this.closingControls) {
-            if (this.closingControls === data.vcElementId) {
-              return
-            }
-
-            this.controls.hide()
-            if (this.state.showFrames) {
-              this.frames.hide()
-            }
-            this.closingControls = null
-          }
+        if (this.closingControlsInterval) {
+          clearInterval(this.closingControlsInterval)
+          this.closingControlsInterval = null
         }
+        if (this.closingControls) {
+          if (this.closingControls === data.vcElementId) {
+            return
+          }
+
+          this.controls.hide()
+          if (this.state.showFrames) {
+            this.frames.hide()
+          }
+          this.closingControls = null
+        }
+
         if (this.state.showControls) {
           let element = documentManager.get(data.vcElementId)
           let cookElement = cook.get(element)
@@ -351,29 +349,22 @@ export default class ControlsManager {
         }
       }
       if (data && data.type === 'mouseLeave') {
-        if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
-          this.closingControls = data.vcElementId
-          if (this.closingControlsInterval) {
-            clearInterval(this.closingControlsInterval)
-            this.closingControlsInterval = null
-          }
-          this.closingControlsInterval = setInterval(() => {
-            if (this.closingControls) {
-              this.controls.hide()
-              if (this.state.showFrames) {
-                this.frames.hide()
-              }
-              this.closingControls = null
-            }
-            clearInterval(this.closingControlsInterval)
-            this.closingControlsInterval = null
-          }, 400)
-        } else {
-          this.controls.hide()
-          if (this.state.showFrames) {
-            this.frames.hide()
-          }
+        this.closingControls = data.vcElementId
+        if (this.closingControlsInterval) {
+          clearInterval(this.closingControlsInterval)
+          this.closingControlsInterval = null
         }
+        this.closingControlsInterval = setInterval(() => {
+          if (this.closingControls) {
+            this.controls.hide()
+            if (this.state.showFrames) {
+              this.frames.hide()
+            }
+            this.closingControls = null
+          }
+          clearInterval(this.closingControlsInterval)
+          this.closingControlsInterval = null
+        }, 400)
       }
     })
   }
@@ -431,26 +422,14 @@ export default class ControlsManager {
         }
         let elementId = el.dataset.vcvElementId
         if (event === 'treeView') {
-          if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
-            workspaceContentState.set('treeView', elementId)
-            return
-          }
-          workspaceContentStartState.set('treeView', elementId)
+          workspaceContentState.set('treeView', elementId)
         } else if (event === 'edit') {
-          if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
-            workspaceContentState.set(false)
-          }
+          workspaceContentState.set(false)
           let settings = workspaceStorage.state('settings').get()
           if (settings && settings.action === 'edit') {
             workspaceStorage.state('settings').set(false)
           }
           workspaceStorage.trigger(event, elementId, tag, options)
-          if (vcCake.env('NAVBAR_SINGLE_CONTENT')) {
-            return
-          }
-          if (workspaceContentStartState.get() === 'treeView') {
-            workspaceContentStartState.set('treeView', elementId)
-          }
         } else if (event === 'remove') {
           this.controls.hide()
           this.findElement()
@@ -502,9 +481,7 @@ export default class ControlsManager {
           }
           if (el) {
             this.outline.hide()
-            if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
-              this.controls.hide()
-            }
+            this.controls.hide()
             vcCake.setData('draggingElement', { id: el.dataset.vcDragHelper, point: { x: e.clientX, y: e.clientY } })
           }
         }
@@ -514,11 +491,9 @@ export default class ControlsManager {
     // Controls interaction
     layoutStorage.state('interactWithControls').onChange((data) => {
       if (data && data.type === 'mouseEnter') {
-        if (vcCake.env('ELEMENT_CONTROLS_DELAY')) {
-          if (this.closingControlsInterval) {
-            clearInterval(this.closingControlsInterval)
-            this.closingControlsInterval = null
-          }
+        if (this.closingControlsInterval) {
+          clearInterval(this.closingControlsInterval)
+          this.closingControlsInterval = null
         }
         if (this.state.showOutline) {
           // show outline over content element

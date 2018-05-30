@@ -46,7 +46,7 @@ export default class TemplateLayout extends React.Component {
   }
 
   updateTemplate (selectedTemplate) {
-    let layoutData = env('TF_SETTINGS_THEME_ICONS') && selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
+    let layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
     let data = {
       type: layoutData[ 0 ],
       value: layoutData[ 1 ]
@@ -58,7 +58,7 @@ export default class TemplateLayout extends React.Component {
       current: data,
       showTheme: showTheme
     })
-    if (!env('THEME_EDITOR') && env('REMOVE_SETTINGS_SAVE_BUTTON')) {
+    if (!env('THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(data)
 
       let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
@@ -77,8 +77,7 @@ export default class TemplateLayout extends React.Component {
         (lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type)) ||
         (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) ||
         (lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate) ||
-        (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate) ||
-        env('TF_SETTINGS_THEME_ICONS')
+        (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate)
       ) {
         this.reloadIframe(
           lastSavedPageTemplate,
@@ -252,7 +251,7 @@ export default class TemplateLayout extends React.Component {
     return (
       <React.Fragment>
         <div className='vcv-ui-form-group vcv-ui-template-group-wrapper'>
-          {env('TF_SETTINGS_THEME_ICONS') ? this.getTemplateLayoutIcons() : this.getLayoutsDropdown()}
+          {this.getTemplateLayoutIcons()}
         </div>
         {this.getThemeTemplateDropdown()}
       </React.Fragment>

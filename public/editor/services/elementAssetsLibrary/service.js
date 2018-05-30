@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 
 const innerApi = {
   getElementAssetsLibraryFiles (cookElement) {
-    const assetsLibrary = cookElement.get('assetsLibrary')
     /** @see public/editor/services/sharedAssetsLibrary/service.js */
     const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
     const assetsStorage = vcCake.getStorage('assets')
@@ -11,10 +10,39 @@ const innerApi = {
       cssBundles: [],
       jsBundles: []
     }
-    if (vcCake.env('ATTRIBUTE_LIBS')) {
-      if (!assetsStorageState) {
-        return files
-      }
+
+    if (!assetsStorageState) {
+      return files
+    }
+    let elementFromStorage = assetsStorageState.elements.find((element) => {
+      return element.id === cookElement.get('id')
+    })
+    let elementAssetLibraries = elementFromStorage && elementFromStorage.assetLibraries
+    if (elementAssetLibraries && elementAssetLibraries.length) {
+      elementAssetLibraries.forEach((lib) => {
+        let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
+        if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
+          files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
+        }
+        if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
+          files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
+        }
+      })
+    }
+
+    return files
+  },
+  getElementBackendAssetsLibraryFiles (cookElement) {
+    /** @see public/editor/services/sharedAssetsLibrary/service.js */
+    const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+    const assetsStorage = vcCake.getStorage('assetsUpdate')
+    const assetsStorageState = assetsStorage.state('jsLibs').get()
+    let files = {
+      cssBundles: [],
+      jsBundles: []
+    }
+
+    if (assetsStorageState && assetsStorageState.elements) {
       let elementFromStorage = assetsStorageState.elements.find((element) => {
         return element.id === cookElement.get('id')
       })
@@ -30,58 +58,6 @@ const innerApi = {
           }
         })
       }
-    } else if (assetsLibrary && assetsLibrary.length) {
-      assetsLibrary.forEach((lib) => {
-        let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
-        if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
-          files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
-        }
-        if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
-          files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
-        }
-      })
-    }
-
-    return files
-  },
-  getElementBackendAssetsLibraryFiles (cookElement) {
-    const assetsLibrary = cookElement.get('assetsLibrary')
-    /** @see public/editor/services/sharedAssetsLibrary/service.js */
-    const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
-    const assetsStorage = vcCake.getStorage('assetsUpdate')
-    const assetsStorageState = assetsStorage.state('jsLibs').get()
-    let files = {
-      cssBundles: [],
-      jsBundles: []
-    }
-    if (vcCake.env('ATTRIBUTE_LIBS')) {
-      if (assetsStorageState && assetsStorageState.elements) {
-        let elementFromStorage = assetsStorageState.elements.find((element) => {
-          return element.id === cookElement.get('id')
-        })
-        let elementAssetLibraries = elementFromStorage && elementFromStorage.assetLibraries
-        if (elementAssetLibraries && elementAssetLibraries.length) {
-          elementAssetLibraries.forEach((lib) => {
-            let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
-            if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
-              files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
-            }
-            if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
-              files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
-            }
-          })
-        }
-      }
-    } else if (assetsLibrary && assetsLibrary.length) {
-      assetsLibrary.forEach((lib) => {
-        let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
-        if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
-          files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
-        }
-        if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
-          files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
-        }
-      })
     }
 
     return files

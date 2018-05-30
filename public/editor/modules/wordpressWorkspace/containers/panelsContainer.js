@@ -1,8 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import Content from 'public/resources/components/contentParts/content'
-import ContentStart from 'public/resources/components/contentParts/contentStart'
-import ContentEnd from 'public/resources/components/contentParts/contentEnd'
 import AddElementPanel from 'public/resources/components/addElement/addElementPanel'
 import TeaserAddElementCategories from 'public/resources/components/teaserAddElement/lib/teaserCategories'
 import AddTemplatePanel from 'public/resources/components/addTemplate/addTemplatePanel'
@@ -10,7 +8,7 @@ import TreeViewLayout from 'public/resources/components/treeView/treeViewLayout'
 import SettingsPanel from 'public/resources/components/settings/settingsPanel'
 import EditElementPanel from 'public/resources/components/editElement/editElementPanel'
 import EditFormPanel from 'public/resources/components/editForm/editFormPanel'
-import { getService, env } from 'vc-cake'
+import { getService } from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
@@ -67,13 +65,9 @@ export default class PanelsContainer extends React.Component {
   }
 
   getContent () {
-    const { content, settings, contentId } = this.props
+    const { content, settings } = this.props
     if (content === 'treeView') {
-      if (!env('FT_COLLAPSE_ELEMENTS_TREE_VIEW')) {
-        return <TreeViewLayout contentId={contentId} />
-      } else {
-        return null
-      }
+      return null
     } else if (content === 'addElement') {
       return <AddElementPanel options={settings || {}} />
     } else if (content === 'addHubElement') {
@@ -89,12 +83,7 @@ export default class PanelsContainer extends React.Component {
     } else if (content === 'editElement') {
       if (settings && settings.element) {
         const activeTabId = settings.tag || ''
-        if (env('REFACTOR_ELEMENT_ACCESS_POINT')) {
-          return <EditFormPanel key={`panels-container-edit-element-${settings.element.id}`} element={settings.element} activeTabId={activeTabId} options={settings.options || {}} />
-        } else {
-          const cookElement = cook.get(settings.element)
-          return <EditElementPanel key={`panels-container-edit-element-${cookElement.get('id')}`} element={cookElement} activeTabId={activeTabId} options={settings.options || {}} />
-        }
+        return <EditFormPanel key={`panels-container-edit-element-${settings.element.id}`} element={settings.element} activeTabId={activeTabId} options={settings.options || {}} />
       }
     }
   }
@@ -141,39 +130,15 @@ export default class PanelsContainer extends React.Component {
     if (this.isMobile) {
       layoutStyle.height = this.state.height
     }
-    let treeViewLayout = ''
-    if (env('FT_COLLAPSE_ELEMENTS_TREE_VIEW')) {
-      treeViewLayout = <TreeViewLayout contentId={contentId} visible={content === 'treeView'} />
-    }
 
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      if (env('HUB_REDESIGN')) {
-        return (
-          <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>
-            <Content content={content}>
-              {treeViewLayout}
-              {this.getContent()}
-            </Content>
-          </div>
-        )
-      }
-      return (
-        <div className={layoutClasses} style={layoutStyle}>
-          <Content content={content}>
-            {this.getContent()}
-          </Content>
-        </div>
-      )
-    }
+    let treeViewLayout = <TreeViewLayout contentId={contentId} visible={content === 'treeView'} />
 
     return (
-      <div className={layoutClasses} style={layoutStyle}>
-        <ContentStart>
-          {this.getStartContent()}
-        </ContentStart>
-        <ContentEnd content={end}>
-          {this.getEndContent()}
-        </ContentEnd>
+      <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>
+        <Content content={content}>
+          {treeViewLayout}
+          {this.getContent()}
+        </Content>
       </div>
     )
   }

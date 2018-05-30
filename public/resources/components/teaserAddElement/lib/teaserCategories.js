@@ -12,84 +12,54 @@ const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
 
 const categories = (() => {
-  if (vcCake.env('VCV_HUB_ADDON_TEASER')) {
-    return {
-      all: {
-        index: 0,
-        type: 'all',
-        name: 'All'
-      },
-      element: {
-        index: 1,
-        subIndex: 0,
-        type: 'element',
-        name: 'Elements'
-      },
-      template: {
-        index: 2,
-        type: 'template',
-        name: 'Templates'
-      },
-      addon: {
-        index: 3,
-        type: 'addon',
-        name: 'Addons'
-      },
-      hubHeader: {
-        index: 4,
-        type: 'hubHeader',
-        name: 'Headers',
-        templateType: true
-      },
-      hubFooter: {
-        index: 5,
-        type: 'hubFooter',
-        name: 'Footers',
-        templateType: true
-      },
-      hubSidebar: {
-        index: 6,
-        type: 'hubSidebar',
-        name: 'Sidebars',
-        templateType: true
-      }
-    }
-  } else {
-    return {
-      all: {
-        index: 0,
-        type: 'all',
-        name: 'All'
-      },
-      element: {
-        index: 1,
-        subIndex: 0,
-        type: 'element',
-        name: 'Elements'
-      },
-      template: {
-        index: 2,
-        type: 'template',
-        name: 'Templates'
-      },
-      hubHeader: {
-        index: 3,
-        type: 'hubHeader',
-        name: 'Headers',
-        templateType: true
-      },
-      hubFooter: {
-        index: 4,
-        type: 'hubFooter',
-        name: 'Footers',
-        templateType: true
-      },
-      hubSidebar: {
-        index: 5,
-        type: 'hubSidebar',
-        name: 'Sidebars',
-        templateType: true
-      }
+  return {
+    all: {
+      index: 0,
+      type: 'all',
+      name: 'All',
+      licenceTypes: [
+        'Free', 'Premium'
+      ]
+    },
+    element: {
+      index: 1,
+      subIndex: 0,
+      type: 'element',
+      name: 'Elements',
+      licenceTypes: [
+        'Free', 'Premium'
+      ]
+    },
+    template: {
+      index: 2,
+      type: 'template',
+      name: 'Templates',
+      licenceTypes: [
+        'Free', 'Premium'
+      ]
+    },
+    addon: {
+      index: 3,
+      type: 'addon',
+      name: 'Addons'
+    },
+    hubHeader: {
+      index: 4,
+      type: 'hubHeader',
+      name: 'Headers',
+      templateType: true
+    },
+    hubFooter: {
+      index: 5,
+      type: 'hubFooter',
+      name: 'Footers',
+      templateType: true
+    },
+    hubSidebar: {
+      index: 6,
+      type: 'hubSidebar',
+      name: 'Sidebars',
+      templateType: true
     }
   }
 })()
@@ -106,16 +76,13 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     if (!this.allCategories) {
       const elementGroup = this.getElementGroup()
       const templateGroup = this.getTemplateGroup()
-      const addonsGroup = vcCake.env('VCV_HUB_ADDON_TEASER') && this.getAddonsGroup()
+      const addonsGroup = this.getAddonsGroup()
       const headerGroup = this.getHFSGroup(categories.hubHeader)
       const footerGroup = this.getHFSGroup(categories.hubFooter)
       const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
-      const allGroup = vcCake.env('VCV_HUB_ADDON_TEASER') ? this.getAllGroup([ elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ]) : this.getAllGroup([ elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ])
-      if (vcCake.env('HUB_CONTROLS')) {
-        this.allCategories = vcCake.env('VCV_HUB_ADDON_TEASER') ? [ allGroup, elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ] : [ allGroup, elementGroup, templateGroup, headerGroup, footerGroup, sidebarGroup ]
-      } else {
-        this.allCategories = vcCake.env('VCV_HUB_ADDON_TEASER') ? [ allGroup, elementGroup, templateGroup, addonsGroup ] : [ allGroup, elementGroup, templateGroup ]
-      }
+      const allGroup = this.getAllGroup([ elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ])
+
+      this.allCategories = [ allGroup, elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ]
     }
     return this.allCategories
   }
@@ -162,22 +129,12 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   getHFSGroup (category) {
     const { type, name } = category
     let index
-    if (vcCake.env('VCV_HUB_ADDON_TEASER')) {
-      if (type === 'hubHeader') {
-        index = 4
-      } else if (type === 'hubFooter') {
-        index = 5
-      } else if (type === 'hubSidebar') {
-        index = 6
-      }
-    } else {
-      if (type === 'hubHeader') {
-        index = 3
-      } else if (type === 'hubFooter') {
-        index = 4
-      } else if (type === 'hubSidebar') {
-        index = 5
-      }
+    if (type === 'hubHeader') {
+      index = 4
+    } else if (type === 'hubFooter') {
+      index = 5
+    } else if (type === 'hubSidebar') {
+      index = 6
     }
     if (index) {
       let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()
@@ -252,28 +209,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       selectEvent: (active) => {
         let activeId = active && active.constructor === String && active.split('-')[ 0 ]
         let result = this.state
-        if (vcCake.env('HUB_CONTROLS')) {
-          let foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
-          result.filterType = foundCategory.type
-          this.setState(result)
-        } else {
-          switch (activeId) {
-            case '0':
-              result.filterType = 'all'
-              this.setState(result)
-              break
-            case '1':
-              result.filterType = 'element'
-              this.setState(result)
-              break
-            case '2':
-              result.filterType = 'template'
-              this.setState(result)
-              break
-            default:
-              console.warn('There was an issue filtering data!')
-          }
-        }
+        let foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
+        result.filterType = foundCategory.type
+        this.setState(result)
       }
     }
   }
@@ -283,11 +221,12 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return <SearchElement {...searchProps} />
   }
 
-  setFilterType (value, id) {
-    let data = this.state
-    data.filterType = value
-    data.activeCategoryIndex = id
-    this.setState(data)
+  setFilterType (value, id, licenceType) {
+    this.setState({
+      filterType: value,
+      activeCategoryIndex: id,
+      licenceType: licenceType
+    })
   }
 
   activeFilterButton (value) {
@@ -295,16 +234,29 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   filterResult () {
+    const { filterType, licenceType } = this.state
     let result = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
     result = result.filter((item) => {
-      if (this.state.filterType === 'all') {
-        return true
+      let isClean = false
+
+      if (filterType === 'all') {
+        isClean = true
       } else {
-        if (vcCake.env('HUB_CONTROLS') && categories[ this.state.filterType ].templateType) {
-          return item.props.type === 'template' && item.props.element.templateType === this.state.filterType
+        if (categories[ filterType ].templateType) {
+          isClean = item.props.type === 'template' && item.props.element.templateType === filterType
+        } else {
+          isClean = item.props.type === filterType
         }
-        return item.props.type === this.state.filterType
       }
+
+      // filter for licence type
+      if (isClean && item.props.licenceType && licenceType) {
+        if (item.props.licenceType.toLowerCase() !== licenceType.toLowerCase()) {
+          isClean = false
+        }
+      }
+
+      return isClean
     })
     return result
   }
@@ -313,6 +265,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return {
       categories: categories,
       filterType: this.state.filterType,
+      licenceType: this.state.licenceType,
       setFilterType: this.setFilterType
     }
   }
@@ -345,32 +298,13 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       </div>)
     }
 
-    let controls = (
-      <div className='vcv-ui-hub-control-container'>
-        <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
-          <button type='button' className={this.activeFilterButton('all')} onClick={() => this.setFilterType('all', '0')}>
-            All
-          </button>
-          <button type='button' className={this.activeFilterButton('element')}
-            onClick={() => this.setFilterType('element', '1-0')}>Elements
-          </button>
-          <button type='button' className={this.activeFilterButton('template')}
-            onClick={() => this.setFilterType('template', '2')}>Templates
-          </button>
-        </div>
-      </div>
-    )
-
-    if (vcCake.env('HUB_CONTROLS')) {
-      controls = this.getHubPanelControls()
-    }
     return (
       <div className='vcv-ui-tree-content'>
         {this.getSearchElement()}
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
             <div className={innerSectionClasses}>
-              {controls}
+              {this.getHubPanelControls()}
               <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                 <div className='vcv-ui-editor-plates'>
                   <div className='vcv-ui-editor-plate vcv-ui-state--active'>

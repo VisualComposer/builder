@@ -1,5 +1,4 @@
 import vcCake from 'vc-cake'
-import DnD from 'public/resources/dnd/dnd'
 import DndDataSet from 'public/resources/dndUpdate/dndDataSet'
 
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -55,7 +54,7 @@ export default class DndManager {
       }
       let container = this.documentDOM.querySelector('[data-vcv-module="content-layout"]')
       if (container) {
-        const DndConstructor = vcCake.env('FIX_DND_FOR_TABS') ? DndDataSet : DnD
+        const DndConstructor = DndDataSet
         this.items = new DndConstructor(container, {
           cancelMove: true,
           moveCallback: this.move.bind(this),

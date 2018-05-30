@@ -64,6 +64,7 @@ class AddonDownloadController extends ElementDownloadController implements Modul
                     ];
                 }
                 $response = $this->initializeElementsAndAddons($response);
+                $response = vcfilter('vcv:hub:addonDownloadController:download:response', $response);
             } else {
                 return $json;
             }

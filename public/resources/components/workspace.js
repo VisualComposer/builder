@@ -1,6 +1,6 @@
 import React from 'react'
 import ClassNames from 'classnames'
-import {getStorage, onDataChange, ignoreDataChange, env} from 'vc-cake'
+import {getStorage, onDataChange, ignoreDataChange} from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import Combokeys from 'combokeys'
@@ -75,7 +75,7 @@ export default class Workspace extends React.Component {
     })
     this.workspace.bind('t', (e) => {
       e.preventDefault()
-      let contentState = env('NAVBAR_SINGLE_CONTENT') ? 'content' : 'contentStart'
+      let contentState = 'content'
       let settings = workspaceStorage.state(contentState).get()
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {

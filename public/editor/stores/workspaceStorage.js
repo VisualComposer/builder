@@ -65,8 +65,18 @@ addStorage('workspace', (storage) => {
   })
   storage.on('remove', (id) => {
     const settings = storage.state('settings').get()
-    if (settings && (settings.action === 'edit' || settings.action === 'add')) {
-      storage.state('settings').set({})
+    if (env('FT_TREE_VIEW_ATTRIBUTE')) {
+      if (settings && settings.action === 'edit' && settings.element) {
+        // check if deleted element is a parent of opened edit form element, if true - do not close edit form
+        const deletedElement = documentManager.get(id)
+        if (deletedElement.parent !== settings.element.id) {
+          storage.state('settings').set({})
+        }
+      }
+    } else {
+      if (settings && (settings.action === 'edit' || settings.action === 'add')) {
+        storage.state('settings').set({})
+      }
     }
     elementsStorage.trigger('remove', id)
   })
@@ -83,7 +93,7 @@ addStorage('workspace', (storage) => {
     if (window.localStorage) {
       window.localStorage.setItem('vcv-copy-data', JSON.stringify(copyData))
     }
-    env('CACHE_HOVER_CONTROLS') && cacheStorage.trigger('clear', 'controls')
+    cacheStorage.trigger('clear', 'controls')
   })
   const markLastChild = (data) => {
     if (data.children.length) {

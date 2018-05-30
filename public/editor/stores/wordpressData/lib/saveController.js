@@ -69,10 +69,10 @@ export default class SaveController {
         elementsCss[ key ].mixinsCss = result
       }))
     })
-    if (vcCake.env('FT_WAIT_FOR_FINAL_RENDER')) {
-      promises.push(renderProcessor.appAllDone())
-      promises.push(dataProcessor.appAllDone())
-    }
+
+    promises.push(renderProcessor.appAllDone())
+    promises.push(dataProcessor.appAllDone())
+
     assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
     assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     return Promise.all(promises).then(() => {
@@ -97,21 +97,17 @@ export default class SaveController {
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview')
       }
-      if (vcCake.env('PAGE_TEMPLATES_FE')) {
-        let pageTemplateData = settingsStorage.state('pageTemplate').get()
-        if (pageTemplateData) {
-          requestData[ 'vcv-page-template' ] = pageTemplateData
-        }
+      let pageTemplateData = settingsStorage.state('pageTemplate').get()
+      if (pageTemplateData) {
+        requestData[ 'vcv-page-template' ] = pageTemplateData
       }
-      if (vcCake.env('PAGE_TITLE_FE')) {
-        let title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
-        requestData[ 'vcv-page-title' ] = title
-        requestData[ 'vcv-page-title-disabled' ] = settingsStorage.state('pageTitleDisabled').get() || ''
-      }
-      if (vcCake.env('SAVE_API')) {
-        let extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
-        requestData[ 'vcv-extra' ] = extraRequestData
-      }
+      let title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
+      requestData[ 'vcv-page-title' ] = title
+      requestData[ 'vcv-page-title-disabled' ] = settingsStorage.state('pageTitleDisabled').get() || ''
+
+      let extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
+      requestData[ 'vcv-extra' ] = extraRequestData
+
       this.ajax(
         requestData,
         options && options.successCallback ? options.successCallback : this.saveSuccess.bind(this, status),

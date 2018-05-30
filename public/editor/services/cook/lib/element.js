@@ -30,14 +30,11 @@ export default class CookElement {
     let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, ...attr } = data
     attr.tag = tag
     attr.id = id
-    let element = null
-    if (vcCake.env('HUB_TEASER_ELEMENT_DOWNLOAD')) {
-      let elements = hubElementService().all()
-      element = elements ? elements[ tag ] : null
-    } else {
-      element = window.VCV_HUB_GET_ELEMENTS()[ tag ]
-    }
-    if (vcCake.env('FIX_UNREGISTERED_ELEMENT') && !element) {
+
+    let elements = hubElementService().all()
+    let element = elements ? elements[ tag ] : null
+
+    if (!element) {
       vcCake.env('debug') === true && console.warn(`Element ${tag} is not registered in system`)
       element = {
         settings: {
@@ -47,8 +44,6 @@ export default class CookElement {
           name: '--'
         }
       }
-    } else if (!element) {
-      throw new Error(`Element ${tag} is not registered in system`)
     }
     let metaSettings = element.settings
     let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
@@ -168,7 +163,7 @@ export default class CookElement {
     } else {
       data.order = 0
     }
-    if (vcCake.env('EXISTING_ELEMENT_ATTR_FIX') && publicOnly) {
+    if (publicOnly) {
       const publicKeys = this.getPublicKeys() // TODO: merge all data with public keys
       return lodash.pick(data, publicKeys)
     }

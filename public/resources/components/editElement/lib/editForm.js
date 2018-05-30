@@ -33,25 +33,19 @@ export default class EditForm extends React.Component {
   componentDidMount () {
     const { element } = this.props
     const id = element.get('id')
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.on(`element:${id}`, this.updateElementOnChange)
-    } else {
-      elementsStorage.state(`element:${id}`).onChange(this.updateElementOnChange)
-    }
+
+    elementsStorage.on(`element:${id}`, this.updateElementOnChange)
   }
 
   componentWillUnmount () {
     const { element } = this.props
     const id = element.get('id')
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.off(`element:${id}`, this.updateElementOnChange)
-    } else {
-      elementsStorage.state(`element:${id}`).ignoreChange(this.updateElementOnChange)
-    }
+
+    elementsStorage.off(`element:${id}`, this.updateElementOnChange)
   }
 
   updateElementOnChange (data, source) {
-    if (vcCake.env('TF_RENDER_PERFORMANCE') && source === 'editForm') {
+    if (source === 'editForm') {
       return
     }
     const element = cook.get(data)

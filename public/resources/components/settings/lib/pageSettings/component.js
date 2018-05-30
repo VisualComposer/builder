@@ -7,9 +7,8 @@ import TemplateLayoutSettings from './settings/templateLayout'
 export default class PageSettings extends React.Component {
   render () {
     const content = []
-    if (env('PAGE_TITLE_FE')) {
-      content.push(<TitleSettings key={content.length} />)
-    }
+    content.push(<TitleSettings key={content.length} />)
+
     if (!env('THEME_EDITOR')) {
       content.push(<TemplateLayoutSettings key={content.length} />)
     }

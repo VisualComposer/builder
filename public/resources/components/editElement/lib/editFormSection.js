@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import FieldDependencyManager from './fieldDependencyManager'
 import PropTypes from 'prop-types'
-import vcCake from 'vc-cake'
 import EditFormReplaceElement from './editFormReplaceElement'
 
 export default class EditFormSection extends React.Component {
@@ -82,11 +81,11 @@ export default class EditFormSection extends React.Component {
   getSectionFormFields (tabParams) {
     return tabParams.map((param) => {
       const fieldType = param.data && param.data.type ? param.data.type.name : ''
-      const fieldOptions = vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR') ? this.checkContainerDependency(param) : null
+      const fieldOptions = this.checkContainerDependency(param)
       if (fieldOptions && fieldOptions.hide) {
         return null
       }
-      const removeDependencies = vcCake.env('HIDE_ATTRIBUTES_DEPENDING_ON_EDITOR') && fieldOptions && fieldOptions.removeDependencies
+      const removeDependencies = fieldOptions && fieldOptions.removeDependencies
 
       return <FieldDependencyManager
         {...this.props}
@@ -131,7 +130,7 @@ export default class EditFormSection extends React.Component {
 
     let replaceElement = null
 
-    if (vcCake.env('REPLACE_ELEMENTS') && tab.fieldKey === 'editFormTab1') {
+    if (tab.fieldKey === 'editFormTab1') {
       replaceElement = (
         <EditFormReplaceElement {...this.props} />
       )

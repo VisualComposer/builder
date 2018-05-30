@@ -39,7 +39,7 @@ const API = {
     elements.forEach((element) => {
       let cookElement = cook.get({ tag: element })
       if (cookElement) {
-        cookElements.push(vcCake.env('EXISTING_ELEMENT_ATTR_FIX') ? cookElement.toJS(true, false) : cookElement.toJS())
+        cookElements.push(cookElement.toJS(true, false))
       }
     })
 

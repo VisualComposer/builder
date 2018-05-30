@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import {getService, setData, getData, getStorage, env} from 'vc-cake'
+import {getService, setData, getData, getStorage} from 'vc-cake'
 import SmartLine from './smartLine'
 import TrashBin from './trashBin'
 import Helper from './helper'
@@ -146,7 +146,8 @@ export default class DnD {
           customScroll: false,
           scrollContainer: null,
           scrollCallback: function () {
-          }
+          },
+          isAttribute: false
         })
       }
     })
@@ -273,12 +274,8 @@ export default class DnD {
       domNode = $(domNode).closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
     }
     if (domNode && domNodeAttr && domNodeAttr === 'vcv-content-root') {
-      if (env('DND_FIX_TREEVIEW_CLOSED')) {
-        const domElement = this.items[ domNodeAttr ]
-        if (!this.draggingElement.relatedTo(domElement.containerFor())) {
-          domNode = null
-        }
-      } else {
+      const domElement = this.items[ domNodeAttr ]
+      if (!this.draggingElement.relatedTo(domElement.containerFor())) {
         domNode = null
       }
     }
@@ -323,28 +320,28 @@ export default class DnD {
       }
       let afterLastContainerElement = false
       let allowApend = !documentManager.children(domElement.id).length
-      if (env('DND_FIX_TREEVIEW_CLOSED')) {
-        if (!allowApend && domElement.node && domElement.node.classList && domElement.node.dataset.vcvDndElementExpandStatus === 'closed') {
-          allowApend = true
-        }
-        if (domElement.id === this.options.rootID) {
-          const lastContainerElementId = domElement.$node.children('[data-vcv-dnd-element]').last().attr('data-vcv-dnd-element')
-          if (lastContainerElementId) {
-            domElement = this.items[ lastContainerElementId ]
-            domElement && (afterLastContainerElement = true)
-          } else {
-            domElement = null
-          }
+      if (!allowApend && domElement.node && domElement.node.classList && domElement.node.dataset.vcvDndElementExpandStatus === 'closed') {
+        allowApend = true
+      }
+      if (domElement.id === this.options.rootID) {
+        const lastContainerElementId = domElement.$node.children('[data-vcv-dnd-element]').last().attr('data-vcv-dnd-element')
+        if (lastContainerElementId) {
+          domElement = this.items[ lastContainerElementId ]
+          domElement && (afterLastContainerElement = true)
+        } else {
+          domElement = null
         }
       }
+
       let position = this.placeholder.redraw(domElement.node, point, {
+        attribute: this.options.isAttribute,
         afterLastContainerElement,
         allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
         allowAppend: !afterLastContainerElement && !this.isDraggingElementParent(domElement) &&
         domElement && this.draggingElement.isChild(domElement) &&
         allowApend &&
-        (env('DND_DISABLE_DROP_IN_CLOSED_TABS') ? !domElement.node.dataset.vceTab : true) &&
-        ((env('DND_DISABLE_DROP_IN_CLOSED_TABS') && domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
+        !domElement.node.dataset.vceTab &&
+        ((domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
       })
 
       if (position) {

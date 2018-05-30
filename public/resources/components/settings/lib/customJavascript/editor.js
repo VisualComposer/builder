@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import CodeEditor from '../../../../codeEditor/codeEditor'
-import { getData, getStorage, env } from 'vc-cake'
+import { getData, getStorage } from 'vc-cake'
 const settingsStorage = getStorage('settings')
 
 export default class ScriptEditor extends React.Component {
@@ -28,9 +28,7 @@ export default class ScriptEditor extends React.Component {
     this.codeEditor = CodeEditor.getEditor(this.editorWrapper, 'javascript', this.props.value)
     this.codeEditor.setSize('100%', '50vh')
     this.codeEditor.on('change', this.handleChange)
-    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
-      this.codeEditor.on('blur', this.handleBlur)
-    }
+    this.codeEditor.on('blur', this.handleBlur)
   }
 
   componentDidUpdate (prevProps, prevState) {

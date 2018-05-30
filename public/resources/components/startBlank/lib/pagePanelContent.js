@@ -163,28 +163,26 @@ export default class PagePanelContent extends React.Component {
       })
     }
 
-    if (vcCake.env('FT_SHOW_ALL_LAYOUTS')) {
-      // get inactive controls
-      for (const templateName of Object.keys(inactiveIcons)) {
-        let allowedTypes = [ 'vc', 'vc-theme' ]
-        let allowed = false
+    // get inactive controls
+    for (const templateName of Object.keys(inactiveIcons)) {
+      let allowedTypes = [ 'vc', 'vc-theme' ]
+      let allowed = false
 
-        allowedTypes.forEach((allowedType) => {
-          if (templateName.indexOf(allowedType) >= 0) {
-            allowed = true
-          }
-        })
-
-        if (allowed) {
-          layouts.push(
-            <TemplatePreview key={`layout-inactive-${templateName}`}
-              templateName={templateName}
-              icon={inactiveIcons[ templateName ].icon.default}
-              name={inactiveIcons[ templateName ].label}
-              disabled={allowed}
-            />
-          )
+      allowedTypes.forEach((allowedType) => {
+        if (templateName.indexOf(allowedType) >= 0) {
+          allowed = true
         }
+      })
+
+      if (allowed) {
+        layouts.push(
+          <TemplatePreview key={`layout-inactive-${templateName}`}
+            templateName={templateName}
+            icon={inactiveIcons[ templateName ].icon.default}
+            name={inactiveIcons[ templateName ].label}
+            disabled={allowed}
+          />
+        )
       }
     }
 

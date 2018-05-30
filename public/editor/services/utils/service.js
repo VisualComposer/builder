@@ -1,4 +1,4 @@
-import { getService, addService, env } from 'vc-cake'
+import { getService, addService } from 'vc-cake'
 import pako from 'pako'
 import base64 from 'base-64'
 
@@ -102,13 +102,13 @@ const API = {
         failureCallback(request)
       }
     }
-    if (env('SAVE_ZIP')) {
-      let binaryString = pako.deflate(JSON.stringify(data), { to: 'string' })
-      let encodedString = base64.encode(binaryString)
-      data = {
-        'vcv-zip': encodedString
-      }
+
+    let binaryString = pako.deflate(JSON.stringify(data), { to: 'string' })
+    let encodedString = base64.encode(binaryString)
+    data = {
+      'vcv-zip': encodedString
     }
+
     request.send(window.jQuery.param(data))
 
     return request

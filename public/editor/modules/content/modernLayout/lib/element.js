@@ -39,14 +39,8 @@ export default class Element extends React.Component {
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
-    } else {
-      elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
-    }
-    if (vcCake.env('CSS_LOADING')) {
-      assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
-    }
+    elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
+    assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
     assetsStorage.trigger('addElement', this.state.element.id)
     if (this.state.element.tag === 'column') {
       assetsStorage.trigger('updateElement', this.state.element.parent)
@@ -58,14 +52,8 @@ export default class Element extends React.Component {
 
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
-    } else {
-      elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
-    }
-    if (vcCake.env('CSS_LOADING')) {
-      assetsStorage.state('jobs').ignoreChange(this.cssJobsUpdate)
-    }
+    elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
+    assetsStorage.state('jobs').ignoreChange(this.cssJobsUpdate)
     assetsStorage.trigger('removeElement', this.state.element.id)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
   }
@@ -149,7 +137,7 @@ export default class Element extends React.Component {
   }
 
   render () {
-    if (vcCake.env('CSS_LOADING') && this.state.cssBuildingProcess && !this.state.isRendered) {
+    if (this.state.cssBuildingProcess && !this.state.isRendered) {
       return null
     }
     let { api, ...other } = this.props

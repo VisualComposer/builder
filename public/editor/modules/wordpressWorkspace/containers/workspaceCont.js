@@ -2,8 +2,8 @@ import React from 'react'
 
 import PanelsContainer from './panelsContainer'
 import NavbarContainer from './navbarContainer'
-import Workspace from '../../../../resources/components/workspace'
-import {getStorage, env} from 'vc-cake'
+import Workspace from 'public/resources/components/workspace'
+import { getStorage } from 'vc-cake'
 
 const workspace = getStorage('workspace')
 const workspaceSettings = workspace.state('settings')
@@ -12,44 +12,20 @@ export default class WorkspaceCont extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      contentStart: false,
-      contentEnd: false,
       content: false,
       settings: {}
     }
     this.setContent = this.setContent.bind(this)
-    this.setContentStart = this.setContentStart.bind(this)
-    this.setContentEnd = this.setContentEnd.bind(this)
     this.getNavbarPosition = this.getNavbarPosition.bind(this)
     this.setPanelSize = this.setPanelSize.bind(this)
     this.resetPanelSize = this.resetPanelSize.bind(this)
     this.updatePanel = this.updatePanel.bind(this)
   }
   componentDidMount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspace.state('content').onChange(this.setContent)
-      return
-    }
-    workspace.state('contentStart').onChange(this.setContentStart)
-    workspace.state('contentEnd').onChange(this.setContentEnd)
+    workspace.state('content').onChange(this.setContent)
   }
   componentWillUnmount () {
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      workspace.state('content').ignoreChange(this.setContent)
-      return
-    }
-    workspace.state('contentStart').ignoreChange(this.setContentStart)
-    workspace.state('contentEnd').ignoreChange(this.setContentEnd)
-  }
-  setContentEnd (value) {
-    const contentEnd = value || false
-    this.setState({contentEnd: contentEnd, settings: workspace.state('settings').get() || {}})
-  }
-  setContentStart (value, id) {
-    this.setState({
-      contentStart: value || false,
-      contentStartId: id || ''
-    })
+    workspace.state('content').ignoreChange(this.setContent)
   }
   setContent (value, id) {
     const content = value || false
@@ -102,48 +78,19 @@ export default class WorkspaceCont extends React.Component {
   }
 
   render () {
-    const {contentStart, contentEnd, content, contentId, settings, contentStartId} = this.state
-
-    if (env('HUB_REDESIGN')) {
-      this.updatePanel()
-    }
-
-    if (env('NAVBAR_SINGLE_CONTENT')) {
-      if (env('HUB_REDESIGN')) {
-        return (
-          <Workspace content={!!content}>
-            <NavbarContainer getNavbarPosition={this.getNavbarPosition} wrapperRef={(navbar) => { this.navbar = navbar }} />
-            <PanelsContainer
-              content={content}
-              settings={settings}
-              contentId={contentId}
-              wrapperRef={(panel) => {
-                this.panel = panel
-              }}
-            />
-          </Workspace>
-        )
-      }
-      return (
-        <Workspace content={!!content}>
-          <NavbarContainer />
-          <PanelsContainer
-            content={content}
-            settings={settings}
-            contentId={contentId}
-          />
-        </Workspace>
-      )
-    }
+    const {content, contentId, settings} = this.state
+    this.updatePanel()
 
     return (
-      <Workspace contentStart={!!contentStart} contentEnd={!!contentEnd}>
-        <NavbarContainer />
+      <Workspace content={!!content}>
+        <NavbarContainer getNavbarPosition={this.getNavbarPosition} wrapperRef={(navbar) => { this.navbar = navbar }} />
         <PanelsContainer
-          start={contentStart}
-          end={contentEnd}
+          content={content}
           settings={settings}
-          contentStartId={contentStartId}
+          contentId={contentId}
+          wrapperRef={(panel) => {
+            this.panel = panel
+          }}
         />
       </Workspace>
     )

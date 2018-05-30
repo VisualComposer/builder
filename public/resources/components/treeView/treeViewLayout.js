@@ -1,4 +1,4 @@
-import {getStorage, getService, env} from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'
@@ -19,7 +19,9 @@ export default class TreeViewLayout extends React.Component {
     scrollValue: PropTypes.any,
     contentStartId: PropTypes.string,
     contentId: PropTypes.string,
-    visible: PropTypes.bool
+    visible: PropTypes.bool,
+    isAttribute: PropTypes.bool,
+    element: PropTypes.object
   }
 
   layoutContainer = null
@@ -37,6 +39,7 @@ export default class TreeViewLayout extends React.Component {
     this.onElementMount = this.onElementMount.bind(this)
     this.onElementUnmount = this.onElementUnmount.bind(this)
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
+    this.getScrollbarContent = this.getScrollbarContent.bind(this)
     this.dnd = new TreeViewDndManager()
     this.state = {
       data: [],
@@ -46,17 +49,19 @@ export default class TreeViewLayout extends React.Component {
   }
 
   updateElementsData (data) {
-    this.setState({ data: data })
+    let newData = data
+    if (this.props.isAttribute) {
+      newData = documentManager.children(this.props.element.get('id'))
+    }
+    this.setState({ data: newData })
   }
 
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
-    let data = ''
-    if (env('TF_RENDER_PERFORMANCE')) {
-      data = documentManager.children(false)
-    } else {
-      data = elementsStorage.state('document').get()
+    let data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
+    if (this.props.isAttribute) {
+      elementsStorage.on(`element:${this.props.element.get('id')}`, this.updateElementsData)
     }
     this.setState({
       header: document.querySelector('.vcv-ui-navbar-container'),
@@ -81,11 +86,9 @@ export default class TreeViewLayout extends React.Component {
       window.clearTimeout(this.scrollTimeout)
       this.scrollTimeout = 0
     }
-    /*
-    this.props.api.forget('bar-content-start:show', this.handleScrollToElement)
-    this.props.api.forget('editorContent:control:mouseEnter', this.interactWithContent)
-    this.props.api.forget('editorContent:control:mouseLeave', this.interactWithContent)
-    */
+    if (this.props.isAttribute) {
+      elementsStorage.off(`element:${this.props.element.get('id')}`, this.updateElementsData)
+    }
   }
 
   interactWithContent (id = false) {
@@ -141,17 +144,20 @@ export default class TreeViewLayout extends React.Component {
   }
 
   onElementMount (id) {
-    this.dnd.add(id)
+    this.dnd.add(id, this.props.isAttribute)
   }
 
   onElementUnmount (id) {
-    this.dnd.remove(id)
+    this.dnd.remove(id, this.props.isAttribute)
   }
 
   handleAddElement (e) {
     e && e.preventDefault()
-    workspaceStorage.trigger('add', null)
-    // this.props.api.request('app:add', null)
+    if (this.props.isAttribute) {
+      workspaceStorage.trigger('add', this.props.element.get('id'), this.props.element.get('tag'))
+    } else {
+      workspaceStorage.trigger('add', null)
+    }
   }
 
   handleAddTemplate (e) {
@@ -185,46 +191,67 @@ export default class TreeViewLayout extends React.Component {
     )
   }
 
-  render () {
+  getScrollbarContent () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const addTemplateText = localizations ? localizations.addTemplate : 'Add Template'
 
+    let addTemplate = this.props.isAttribute ? null
+      : <span
+        className='vcv-ui-tree-layout-action'
+        title={addTemplateText}
+        onClick={this.handleAddTemplate}
+      >
+        <span className='vcv-ui-tree-layout-action-content'>
+          <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' />
+          <span>{addTemplateText}</span>
+        </span>
+      </span>
+
+    return (
+      <React.Fragment>
+        {this.getElementsOutput()}
+        <div className='vcv-ui-tree-layout-actions'>
+          <span
+            className='vcv-ui-tree-layout-action'
+            title={addElementText}
+            onClick={this.handleAddElement}
+          >
+            <span className='vcv-ui-tree-layout-action-content'>
+              <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
+              <span>{addElementText}</span>
+            </span>
+          </span>
+          {addTemplate}
+        </div>
+      </React.Fragment>
+    )
+  }
+
+  render () {
     let treeLayoutClasses = classNames({
       'vcv-ui-tree-layout-container': true,
-      'vcv-ui-state--hidden': env('FT_COLLAPSE_ELEMENTS_TREE_VIEW') ? !this.props.visible : false
+      'vcv-ui-state--hidden': !this.props.visible
     })
+
+    let treeViewContent = ''
+
+    if (!this.props.isAttribute) {
+      treeViewContent = (
+        <Scrollbar ref={this.scrollBarMounted}>
+          {this.getScrollbarContent()}
+        </Scrollbar>
+      )
+    } else {
+      treeViewContent = this.getScrollbarContent()
+    }
 
     return (
       <div
         className={treeLayoutClasses}
         ref={(layoutContainer) => { this.layoutContainer = layoutContainer }}
       >
-        <Scrollbar ref={this.scrollBarMounted}>
-          {this.getElementsOutput()}
-          <div className='vcv-ui-tree-layout-actions'>
-            <span
-              className='vcv-ui-tree-layout-action'
-              title={addElementText}
-              onClick={this.handleAddElement}
-            >
-              <span className='vcv-ui-tree-layout-action-content'>
-                <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
-                <span>{addElementText}</span>
-              </span>
-            </span>
-            <span
-              className='vcv-ui-tree-layout-action'
-              title={addTemplateText}
-              onClick={this.handleAddTemplate}
-            >
-              <span className='vcv-ui-tree-layout-action-content'>
-                <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' />
-                <span>{addTemplateText}</span>
-              </span>
-            </span>
-          </div>
-        </Scrollbar>
+        {treeViewContent}
       </div>
     )
   }

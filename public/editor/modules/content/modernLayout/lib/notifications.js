@@ -67,7 +67,7 @@ export default class Notifications {
 
     const text = document.createElement('div')
     text.setAttribute('class', 'vcv-layout-notifications-text')
-    if (vcCake.env('TF_SHOW_PLUGIN_UPDATE') && data.html) {
+    if (data.html) {
       text.innerHTML = data.text
     } else {
       text.innerText = data.text

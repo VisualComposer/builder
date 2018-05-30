@@ -31,13 +31,8 @@ export default class Element extends React.Component {
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
-    } else {
-      elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
-    }
+    elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
     assetsStorage.trigger('addElement', this.state.element.id)
-    // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
 
   dataUpdate (data, source, options) {
@@ -47,11 +42,7 @@ export default class Element extends React.Component {
 
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
-    if (vcCake.env('TF_RENDER_PERFORMANCE')) {
-      elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
-    } else {
-      elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
-    }
+    elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
     assetsStorage.trigger('removeElement', this.state.element.id)
   }
 

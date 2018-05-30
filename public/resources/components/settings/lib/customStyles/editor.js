@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import CodeEditor from '../../../../codeEditor/codeEditor'
 
-import { getData, getStorage, env } from 'vc-cake'
+import { getData, getStorage } from 'vc-cake'
 const settingsStorage = getStorage('settings')
 
 export default class StyleEditor extends React.Component {
@@ -36,10 +36,7 @@ export default class StyleEditor extends React.Component {
 
   handleChange (value) {
     this.props.updater(this.props.name, value.getValue())
-
-    if (env('REMOVE_SETTINGS_SAVE_BUTTON')) {
-      settingsStorage.state(this.props.settingsStorageState).set(getData(`ui:settings:customStyles:${this.props.name}`))
-    }
+    settingsStorage.state(this.props.settingsStorageState).set(getData(`ui:settings:customStyles:${this.props.name}`))
   }
 
   render () {
