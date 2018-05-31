@@ -127,7 +127,7 @@ export default class TeaserTypeControl extends React.Component {
         onClick={() => this.handleClick(type, categoryIndex, bundleType)}
         className={dropdownItemClasses}
       >
-        {bundleType}
+        {bundleType.charAt(0).toUpperCase() + bundleType.slice(1)}
       </button>
     })
   }
