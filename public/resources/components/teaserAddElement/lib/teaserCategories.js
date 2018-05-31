@@ -249,19 +249,20 @@ export default class TeaserAddElementCategories extends AddElementCategories {
         }
       }
 
-      // filter for licence type
-      if (isClean && item.props.bundleType && item.props.bundleType.length && bundleType) {
-        const itemBundleType = item.props.bundleType
+      // filter for bundle type
+      const itemBundleType = item.props.element.bundleType
 
+      // if bundleType is not set - do not show it on free/premium
+      if (bundleType && !item.props.element.bundleType.length) {
+        isClean = false
+      }
+
+      if (isClean && itemBundleType && itemBundleType.length && bundleType) {
         isClean = itemBundleType.indexOf(bundleType) > -1
 
         // remove item if item has also free bundle type, when premium is clicked
         if (bundleType === 'premium' && isClean) {
           isClean = itemBundleType.indexOf('free') < 0
-        }
-
-        if (item.props.licenceType.toLowerCase() !== bundleType.toLowerCase()) {
-          isClean = false
         }
       }
 
@@ -274,7 +275,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return {
       categories: categories,
       filterType: this.state.filterType,
-      licenceType: this.state.licenceType,
+      bundleType: this.state.bundleType,
       setFilterType: this.setFilterType
     }
   }
