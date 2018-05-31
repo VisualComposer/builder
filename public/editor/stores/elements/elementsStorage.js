@@ -1,4 +1,4 @@
-import { addStorage, getStorage, getService, env } from 'vc-cake'
+import { addStorage, getStorage, getService } from 'vc-cake'
 import { rebuildRawLayout, isElementOneRelation, addRowColumnBackground } from './lib/tools'
 
 addStorage('elements', (storage) => {
@@ -104,7 +104,7 @@ addStorage('elements', (storage) => {
     }
     if (!options.silent) {
       storage.state('elementAdd').set(data)
-      if (env('TF_ELEMENT_CRUD_PERFORMANCE') && !wrap && data.parent) {
+      if (!wrap && data.parent) {
         storage.trigger(`element:${data.parent}`, documentManager.get(data.parent), 'storage', options)
       } else {
         storage.state('document').set(documentManager.children(false))
@@ -121,8 +121,6 @@ addStorage('elements', (storage) => {
     storage.trigger(`element:${id}`, element, source, options)
     if (options && options.action === 'hide' && element.parent) {
       storage.trigger(`element:${element.parent}`, documentManager.get(element.parent), source, options)
-    } else {
-      storage.trigger(`element:${id}`, element, source, options)
     }
     if (element.tag === 'column') {
       addRowColumnBackground(id, element, documentManager)

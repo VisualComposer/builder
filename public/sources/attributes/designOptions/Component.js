@@ -199,10 +199,20 @@ export default class DesignOptions extends Attribute {
     this.getDefaultStyles()
   }
 
-  handleElementChange () {
-    setTimeout(() => {
-      this.getDefaultStyles()
-    }, 200)
+  handleElementChange (data, source, options) {
+    if (vcCake.env('FT_FIX_SHOW_ELEMENT_CONTROL')) {
+      if (!options || options.action !== 'hide') {
+        setTimeout(() => {
+          this.getDefaultStyles()
+        }, 200)
+      } else {
+        this.forceUpdate()
+      }
+    } else {
+      setTimeout(() => {
+        this.getDefaultStyles()
+      }, 200)
+    }
   }
 
   /**
