@@ -26,7 +26,7 @@ export default class TreeViewElement extends React.Component {
   }
 
   static defaultProps = {
-    iframe: document.getElementById('vcv-editor-iframe').contentWindow.document
+    iframe: document.getElementById('vcv-editor-iframe') && document.getElementById('vcv-editor-iframe').contentWindow.document
   }
 
   adminBar = document.getElementById('wpadminbar')
