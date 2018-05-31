@@ -10,6 +10,7 @@ vcCake.env('CSS_GRID', false)
 vcCake.env('THEME_LAYOUTS', false) // SEE the devAddons/themeEditor/themeEditor/src/*.js files
 vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
+vcCake.env('SAVE_ZIP', true)
 vcCake.env('TF_PARAM_GROUP_CSS_MIXINS', false)
 vcCake.env('FT_ADD_ELEMENT_LIST', true)
 vcCake.env('FT_TREE_VIEW_ATTRIBUTE', true)
