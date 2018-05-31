@@ -17,8 +17,8 @@ const categories = (() => {
       index: 0,
       type: 'all',
       name: 'All',
-      licenceTypes: [
-        'Free', 'Premium'
+      bundleTypes: [
+        'free', 'premium'
       ]
     },
     element: {
@@ -26,16 +26,16 @@ const categories = (() => {
       subIndex: 0,
       type: 'element',
       name: 'Elements',
-      licenceTypes: [
-        'Free', 'Premium'
+      bundleTypes: [
+        'free', 'premium'
       ]
     },
     template: {
       index: 2,
       type: 'template',
       name: 'Templates',
-      licenceTypes: [
-        'Free', 'Premium'
+      bundleTypes: [
+        'free', 'premium'
       ]
     },
     addon: {
@@ -221,11 +221,11 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return <SearchElement {...searchProps} />
   }
 
-  setFilterType (value, id, licenceType) {
+  setFilterType (value, id, bundleType) {
     this.setState({
       filterType: value,
       activeCategoryIndex: id,
-      licenceType: licenceType
+      bundleType: bundleType
     })
   }
 
@@ -234,7 +234,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   filterResult () {
-    const { filterType, licenceType } = this.state
+    const { filterType, bundleType } = this.state
     let result = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
     result = result.filter((item) => {
       let isClean = false
@@ -250,8 +250,17 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       }
 
       // filter for licence type
-      if (isClean && item.props.licenceType && licenceType) {
-        if (item.props.licenceType.toLowerCase() !== licenceType.toLowerCase()) {
+      if (isClean && item.props.bundleType && item.props.bundleType.length && bundleType) {
+        const itemBundleType = item.props.bundleType
+
+        isClean = itemBundleType.indexOf(bundleType) > -1
+
+        // remove item if item has also free bundle type, when premium is clicked
+        if (bundleType === 'premium' && isClean) {
+          isClean = itemBundleType.indexOf('free') < 0
+        }
+
+        if (item.props.licenceType.toLowerCase() !== bundleType.toLowerCase()) {
           isClean = false
         }
       }

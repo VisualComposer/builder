@@ -73,14 +73,14 @@ export default class TeaserTypeControl extends React.Component {
     }
   }
 
-  handleClick (type, index, licenceType) {
-    this.props.setFilterType(type, index, licenceType)
+  handleClick (type, index, bundleType) {
+    this.props.setFilterType(type, index, bundleType)
   }
 
   getControls () {
     let controls = Object.values(this.props.categories)
     return controls.map((control, i) => {
-      const { type, name, licenceTypes } = control
+      const { type, name, bundleTypes } = control
       const isActive = type === this.props.filterType
       let controlClasses = classNames({
         'vcv-ui-form-button': true,
@@ -96,9 +96,9 @@ export default class TeaserTypeControl extends React.Component {
           <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
             {name}
           </button>
-          {licenceTypes && licenceTypes.length
+          {bundleTypes && bundleTypes.length
             ? <div className='vcv-ui-form-button-group-dropdown'>
-              {this.getDropdownItems(licenceTypes, type, index, isActive)}
+              {this.getDropdownItems(bundleTypes, type, index, isActive)}
             </div> : null}
         </div>
       } else {
@@ -114,20 +114,20 @@ export default class TeaserTypeControl extends React.Component {
     })
   }
 
-  getDropdownItems (licenceTypes, type, categoryIndex, isActive) {
-    return licenceTypes.map((licence) => {
+  getDropdownItems (bundleTypes, type, categoryIndex, isActive) {
+    return bundleTypes.map((bundleType) => {
       let dropdownItemClasses = classNames({
         'vcv-ui-form-button-group-dropdown-item': true,
-        'vcv-ui-form-button-group-dropdown-item--active': isActive && licence === this.props.licenceType
+        'vcv-ui-form-button-group-dropdown-item--active': isActive && bundleType === this.props.bundleType
       })
 
       return <button
-        key={`hub-control-dropdown-item-${licence}`}
+        key={`hub-control-dropdown-item-${bundleType}`}
         type='button'
-        onClick={() => this.handleClick(type, categoryIndex, licence)}
+        onClick={() => this.handleClick(type, categoryIndex, bundleType)}
         className={dropdownItemClasses}
       >
-        {licence}
+        {bundleType}
       </button>
     })
   }
