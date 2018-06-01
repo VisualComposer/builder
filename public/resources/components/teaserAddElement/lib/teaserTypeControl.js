@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import vcCake from 'vc-cake'
 
 export default class TeaserTypeControl extends React.Component {
   buttonsGroup = null
@@ -91,27 +90,16 @@ export default class TeaserTypeControl extends React.Component {
         index = `${control.index}-${control.subIndex}`
       }
 
-      if (vcCake.env('FT_HUB_CATEGORIES_DROPDOWN')) {
-        return <div key={`hub-control-${type}`} className='vcv-ui-form-button-group-item'>
-          <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
-            {name}
-            {bundleTypes && bundleTypes.length ? <i className='vcv-ui-icon vcv-ui-icon-expand' /> : null}
-          </button>
-          {bundleTypes && bundleTypes.length
-            ? <div className='vcv-ui-form-button-group-dropdown'>
-              {this.getDropdownItems(bundleTypes, type, index, isActive)}
-            </div> : null}
-        </div>
-      } else {
-        return <button
-          key={`hub-control-${type}`}
-          className={controlClasses}
-          type='button'
-          onClick={() => this.handleClick(type, index)}
-        >
+      return <div key={`hub-control-${type}`} className='vcv-ui-form-button-group-item'>
+        <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
           {name}
+          {bundleTypes && bundleTypes.length ? <i className='vcv-ui-icon vcv-ui-icon-expand' /> : null}
         </button>
-      }
+        {bundleTypes && bundleTypes.length
+          ? <div className='vcv-ui-form-button-group-dropdown'>
+            {this.getDropdownItems(bundleTypes, type, index, isActive)}
+          </div> : null}
+      </div>
     })
   }
 
