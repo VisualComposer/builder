@@ -16,10 +16,7 @@ const categories = (() => {
     all: {
       index: 0,
       type: 'all',
-      name: 'All',
-      bundleTypes: [
-        'free', 'premium'
-      ]
+      name: 'All'
     },
     element: {
       index: 1,
@@ -253,7 +250,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       const itemBundleType = item.props.element.bundleType
 
       // if bundleType is not set - do not show it on free/premium
-      if (bundleType && !item.props.element.bundleType.length) {
+      if (bundleType && (!item.props.element.bundleType || !item.props.element.bundleType.length)) {
         isClean = false
       }
 

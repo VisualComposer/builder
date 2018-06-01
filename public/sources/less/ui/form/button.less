@@ -152,6 +152,10 @@
     &:hover {
       background: @vcui-button-group-attribute-background-active;
     }
+
+    .vcv-ui-icon-expand {
+      margin-left: 8px;
+    }
   }
 
   .vcv-ui-form-button-group-item {
@@ -209,13 +213,20 @@
 .rtl {
   .vcv-ui-form-button-group--attribute,
   .vcv-ui-form-button-group--large {
-    .vcv-ui-form-button {
+    > .vcv-ui-form-button {
       &:first-child {
         border-left: @control-border;
       }
 
       &:last-child {
         border-left: none;
+      }
+    }
+
+    .vcv-ui-form-button {
+      .vcv-ui-icon-expand {
+        margin-left: 0;
+        margin-right: 8px;
       }
     }
 

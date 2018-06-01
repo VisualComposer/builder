@@ -95,6 +95,7 @@ export default class TeaserTypeControl extends React.Component {
         return <div key={`hub-control-${type}`} className='vcv-ui-form-button-group-item'>
           <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
             {name}
+            {bundleTypes && bundleTypes.length ? <i className='vcv-ui-icon vcv-ui-icon-expand' /> : null}
           </button>
           {bundleTypes && bundleTypes.length
             ? <div className='vcv-ui-form-button-group-dropdown'>
@@ -115,11 +116,21 @@ export default class TeaserTypeControl extends React.Component {
   }
 
   getDropdownItems (bundleTypes, type, categoryIndex, isActive) {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
     return bundleTypes.map((bundleType) => {
       let dropdownItemClasses = classNames({
         'vcv-ui-form-button-group-dropdown-item': true,
         'vcv-ui-form-button-group-dropdown-item--active': isActive && bundleType === this.props.bundleType
       })
+      let buttonText = localizations[ bundleType ]
+
+      if (!buttonText && bundleType === 'free') {
+        buttonText = 'Free'
+      }
+
+      if (!buttonText && bundleType === 'premium') {
+        buttonText = 'Premium'
+      }
 
       return <button
         key={`hub-control-dropdown-item-${bundleType}`}
@@ -127,7 +138,7 @@ export default class TeaserTypeControl extends React.Component {
         onClick={() => this.handleClick(type, categoryIndex, bundleType)}
         className={dropdownItemClasses}
       >
-        {bundleType.charAt(0).toUpperCase() + bundleType.slice(1)}
+        {buttonText}
       </button>
     })
   }

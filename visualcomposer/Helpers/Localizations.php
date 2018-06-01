@@ -321,7 +321,9 @@ class Localizations extends Container implements Helper
             'gutenbergDoesntWorkProperly' => __(
                 "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin.",
                 'vcwb'
-            )
+            ),
+            'free' => __('Free', 'vcwb'),
+            'premium' => __('Premium', 'vcwb')
         ];
 
         return $locale;
