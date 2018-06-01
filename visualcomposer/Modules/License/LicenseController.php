@@ -74,17 +74,20 @@ class LicenseController extends Container implements Module
             $token = $requestHelper->input('activate');
 
             if ($licenseHelper->isValidToken($token)) {
+                $body = [
+                    'token' => $licenseHelper->getKeyToken(),
+                    'id' => get_site_url(),
+                    'hoster_id' => vcvenv('VCV_ENV_ADDONS_ID'),
+                    'domain' => get_site_url(),
+                    'url' => VCV_PLUGIN_URL,
+                ];
+                $url = VCV_LICENSE_ACTIVATE_FINISH_URL;
+                $url = vchelper('Url')->query($url, $body);
+
                 $result = wp_remote_get(
-                    VCV_LICENSE_ACTIVATE_FINISH_URL,
+                    $url,
                     [
                         'timeout' => 30,
-                        'body' => [
-                            'token' => $licenseHelper->getKeyToken(),
-                            'id' => get_site_url(),
-                            'hoster_id' => vcvenv('VCV_ENV_ADDONS_ID'),
-                            'domain' => get_site_url(),
-                            'url' => VCV_PLUGIN_URL,
-                        ],
                     ]
                 );
 
@@ -138,15 +141,19 @@ class LicenseController extends Container implements Module
             $token = $requestHelper->input('deactivate');
 
             if ($licenseHelper->isValidToken($token)) {
+                $body = [
+                    'token' => $licenseHelper->getKeyToken(),
+                    'url' => VCV_PLUGIN_URL,
+                    'domain' => get_site_url(),
+                ];
+
+                $url = VCV_LICENSE_DEACTIVATE_FINISH_URL;
+                $url = vchelper('Url')->query($url, $body);
+
                 $result = wp_remote_get(
-                    VCV_LICENSE_DEACTIVATE_FINISH_URL,
+                    $url,
                     [
                         'timeout' => 30,
-                        'body' => [
-                            'token' => $licenseHelper->getKeyToken(),
-                            'url' => VCV_PLUGIN_URL,
-                            'domain' => get_site_url(),
-                        ],
                     ]
                 );
 

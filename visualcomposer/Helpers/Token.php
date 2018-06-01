@@ -104,11 +104,13 @@ class Token extends Container implements Helper
         if ($licenseHelper->isActivated()) {
             $body['license-key'] = $licenseHelper->getKey();
         }
+
+        $url = $licenseHelper->isActivated() ? VCV_PREMIUM_TOKEN_URL : VCV_TOKEN_URL;
+        $url = vchelper('Url')->query($url, $body);
         $result = wp_remote_get(
-            $licenseHelper->isActivated() ? VCV_PREMIUM_TOKEN_URL : VCV_TOKEN_URL,
+            $url,
             [
                 'timeout' => 30,
-                'body' => $body,
             ]
         );
 
