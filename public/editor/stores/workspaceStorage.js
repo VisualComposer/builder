@@ -66,12 +66,9 @@ addStorage('workspace', (storage) => {
   storage.on('remove', (id) => {
     const settings = storage.state('settings').get()
     if (env('FT_TREE_VIEW_ATTRIBUTE')) {
-      if (settings && settings.action === 'edit' && settings.element) {
-        // check if deleted element is a parent of opened edit form element, if true - do not close edit form
-        const deletedElement = documentManager.get(id)
-        if (deletedElement.parent !== settings.element.id) {
-          storage.state('settings').set({})
-        }
+      // close editForm if deleted element is opened in edit form
+      if (settings && settings.action === 'edit' && settings.element && (id === settings.element.id)) {
+        storage.state('settings').set({})
       }
     } else {
       if (settings && (settings.action === 'edit' || settings.action === 'add')) {

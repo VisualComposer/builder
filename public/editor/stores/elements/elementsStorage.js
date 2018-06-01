@@ -1,5 +1,5 @@
 import { addStorage, getStorage, getService } from 'vc-cake'
-import { rebuildRawLayout, isElementOneRelation, addRowColumnBackground } from './lib/tools'
+import { rebuildRawLayout, addRowColumnBackground } from './lib/tools'
 
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
@@ -8,6 +8,7 @@ addStorage('elements', (storage) => {
   const historyStorage = getStorage('history')
   const utils = getService('utils')
   const wordpressDataStorage = getStorage('wordpressData')
+  const workspaceStorage = getStorage('workspace')
   const updateTimeMachine = () => {
     wordpressDataStorage.state('status').set({ status: 'changed' })
     historyStorage.trigger('add', documentManager.all())
@@ -142,8 +143,15 @@ addStorage('elements', (storage) => {
     }
     let parent = element && element.parent ? documentManager.get(element.parent) : false
     documentManager.delete(id)
-    if (parent && !documentManager.children(parent.id).length && element.tag === isElementOneRelation(parent.id, documentManager, cook)) {
+
+    // remove parent if it must have children by default (initChildren)
+    if (parent && parent.initChildren && parent.initChildren.length && !documentManager.children(parent.id).length) {
       documentManager.delete(parent.id)
+      // close editForm if deleted element is opened in edit form
+      const settings = workspaceStorage.state('settings').get()
+      if (settings && settings.action === 'edit' && settings.element && (parent.id === settings.element.id)) {
+        workspaceStorage.state('settings').set({})
+      }
       parent = parent.parent ? documentManager.get(parent.parent) : false
     } else if (element.tag === 'column') {
       let rowElement = documentManager.get(parent.id)
