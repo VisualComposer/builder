@@ -51,7 +51,7 @@ class TestUpdates extends WP_UnitTestCase
         $token = true;
         $actions = true;
         add_filter('pre_http_request', function ($response, $body, $url) use (&$token, &$actions) {
-            if ($url === VCV_TOKEN_URL && $token) {
+            if (strpos($url, VCV_TOKEN_URL) !== false && $token) {
                 $token = false;
                 return ['body' => '{"success":true, "data":{"token":"temp2token"}}'];
             }

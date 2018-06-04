@@ -40,19 +40,24 @@ class SubscribeController extends Container implements Module
         }
         // This is a place where we need to make registration/activation request in account
         $id = VCV_PLUGIN_URL . trim($requestHelper->input('vcv-email'));
+
+        $body = [
+            'url' => VCV_PLUGIN_URL,
+            'email' => trim($requestHelper->input('vcv-email')),
+            'category' => trim($requestHelper->input('vcv-category')),
+            'agreement' => $requestHelper->input('vcv-agreement'),
+            'id' => $id,
+        ];
+
+        $url = VCV_ACCOUNT_URL . '/subscribe-lite-version';
+        $url = vchelper('Url')->query($url, $body);
         $result = wp_remote_get(
-            VCV_ACCOUNT_URL . '/subscribe-lite-version',
+            $url,
             [
                 'timeout' => 30,
-                'body' => [
-                    'url' => VCV_PLUGIN_URL,
-                    'email' => trim($requestHelper->input('vcv-email')),
-                    'category' => trim($requestHelper->input('vcv-category')),
-                    'agreement' => $requestHelper->input('vcv-agreement'),
-                    'id' => $id,
-                ],
             ]
         );
+
         if (!vcIsBadResponse($result)) {
             // Register in options subscribe request time for future request.
             $optionsHelper->setTransient('vcv:activation:subscribe', 1, 600);

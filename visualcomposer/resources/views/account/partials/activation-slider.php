@@ -69,7 +69,7 @@ $currentUserHelper = vchelper('AccessCurrentUser');
                 'vcwb'
             ); ?>
             <a href="https://twitter.com/share"
-                data-via="wpbakery"
+                data-via="VisualComposers"
                 data-hashtags="madeinvc"
                 class="twitter-share-button"
                 data-text="<?php esc_attr_e(

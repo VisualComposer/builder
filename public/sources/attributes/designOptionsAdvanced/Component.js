@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import { getStorage, getService } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -230,10 +230,20 @@ export default class DesignOptionsAdvanced extends Attribute {
     elementsStorage.off(`element:${id}`, this.handleElementChange)
   }
 
-  handleElementChange () {
-    setTimeout(() => {
-      this.getDefaultStyles()
-    }, 200)
+  handleElementChange (data, source, options) {
+    if (env('FT_FIX_SHOW_ELEMENT_CONTROL')) {
+      if (!options || options.action !== 'hide') {
+        setTimeout(() => {
+          this.getDefaultStyles()
+        }, 200)
+      } else {
+        this.forceUpdate()
+      }
+    } else {
+      setTimeout(() => {
+        this.getDefaultStyles()
+      }, 200)
+    }
   }
 
   componentDidUpdate () {

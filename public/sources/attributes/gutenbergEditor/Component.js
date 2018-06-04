@@ -10,6 +10,7 @@ export default class Component extends Attribute {
     this.openEditor = this.openEditor.bind(this)
     this.iframeLoaded = this.iframeLoaded.bind(this)
     this.updateValueFromIframe = this.updateValueFromIframe.bind(this)
+    this.closeEditor = this.closeEditor.bind(this)
 
     this.state = {
       showEditor: false,
@@ -26,6 +27,8 @@ export default class Component extends Attribute {
   }
 
   closeEditor () {
+    this.updateValueFromIframe()
+
     this.setState({
       showEditor: false,
       loadingEditor: false
@@ -107,7 +110,7 @@ export default class Component extends Attribute {
           <GutenbergModal>
             {loadingOverlay}
             <div className='vcv-gutenberg-modal-inner'>
-              <button className='vcv-gutenberg-modal-close-button' onClick={this.closeEditor.bind(this)}>
+              <button className='vcv-gutenberg-modal-close-button' onClick={this.closeEditor}>
                 <i className={closeClasses} />
               </button>
               <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} onLoad={this.iframeLoaded} />

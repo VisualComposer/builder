@@ -15,8 +15,9 @@ export default class EditFormReplaceElement extends React.Component {
   }
 
   handleReplaceElement (tag) {
-    const id = this.previousElementId = this.props.element.get('id')
-    let editFormTabSettings = this.props.element.settings('editFormTab1')
+    const element = this.props.element.cook()
+    const id = this.previousElementId = element.get('id')
+    let editFormTabSettings = element.settings('editFormTab1')
     let currentElementAttributes = [
       ...(editFormTabSettings && editFormTabSettings.settings && editFormTabSettings.settings.value),
       'parent'
@@ -25,7 +26,7 @@ export default class EditFormReplaceElement extends React.Component {
       tag
     }
     currentElementAttributes.forEach(key => {
-      replaceElementMergeData[ key ] = this.props.element.get(key)
+      replaceElementMergeData[ key ] = element.get(key)
     })
     elementsStorage.state('elementReplace').onChange(this.openEditFormOnReplace)
     elementsStorage.trigger('replace', id, replaceElementMergeData)
@@ -45,11 +46,12 @@ export default class EditFormReplaceElement extends React.Component {
 
   render () {
     let { element } = this.props
+    element = element.cook()
     let tag = element.get('tag')
     let category = hubCategoriesService.getElementCategoryName(tag) || ''
     let options = {
       category: category || '*',
-      elementLabel: element.cook().get('name') || category.toLowerCase() || 'element'
+      elementLabel: element.get('name') || category.toLowerCase() || 'element'
     }
 
     let categorySettings = hubCategoriesService.get(category)

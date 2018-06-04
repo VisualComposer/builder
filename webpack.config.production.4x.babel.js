@@ -95,8 +95,7 @@ module.exports = Object.assign({}, config, {
       },
       wpupdate: {
         modules: [
-          'content/updateContent',
-          'wordpressUpdateWorkspace'
+          'content/updateContent'
         ],
         services: [
           'utils',

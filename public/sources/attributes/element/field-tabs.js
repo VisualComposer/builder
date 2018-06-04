@@ -1,6 +1,6 @@
 import React from 'react'
-import ActivitiesManager from './../../../editor/modules/ui/edit-element/lib/activities-manager'
-import EditFormFieldDependencies from './../../../editor/modules/ui/edit-element/lib/field-dependencies'
+import ActivitiesManager from './lib/activities-manager'
+import EditFormFieldDependencies from './lib/field-dependencies'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 

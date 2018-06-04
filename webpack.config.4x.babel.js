@@ -99,8 +99,7 @@ module.exports = {
       },
       wpupdate: {
         modules: [
-          'content/updateContent',
-          'wordpressUpdateWorkspace'
+          'content/updateContent'
         ],
         services: [
           'utils',

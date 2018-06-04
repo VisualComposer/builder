@@ -8,7 +8,6 @@ const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
 const documentManger = vcCake.getService('document')
 const utils = vcCake.getService('utils')
-
 const cook = vcCake.getService('cook')
 // const categoriesService = vcCake.getService('categories')
 const hubCategoriesService = vcCake.getService('hubCategories')
@@ -22,11 +21,12 @@ export default class TreeViewElement extends React.Component {
     iframe: PropTypes.any,
     onMountCallback: PropTypes.func,
     onUnmountCallback: PropTypes.func,
-    scrollValue: PropTypes.any
+    scrollValue: PropTypes.any,
+    isAttribute: PropTypes.bool
   }
 
   static defaultProps = {
-    iframe: document.getElementById('vcv-editor-iframe').contentWindow.document
+    iframe: document.getElementById('vcv-editor-iframe') && document.getElementById('vcv-editor-iframe').contentWindow.document
   }
 
   adminBar = document.getElementById('wpadminbar')
@@ -155,7 +155,14 @@ export default class TreeViewElement extends React.Component {
     if (settings && settings.action === 'edit') {
       workspaceStorage.state('settings').set(false)
     }
-    workspaceStorage.trigger('edit', this.state.element.id, tab)
+    const options = {}
+    if (this.props.isAttribute) {
+      const parentElement = documentManger.get(this.state.element.parent)
+      options.child = true
+      options.parentElement = parentElement
+      options.parentElementOptions = {}
+    }
+    workspaceStorage.trigger('edit', this.state.element.id, tab, options)
   }
 
   clickDelete = (e) => {

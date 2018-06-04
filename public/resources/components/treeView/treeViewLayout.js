@@ -137,6 +137,7 @@ export default class TreeViewLayout extends React.Component {
           onMountCallback={this.onElementMount}
           onUnmountCallback={this.onElementUnmount}
           scrollValue={this.props.scrollValue}
+          isAttribute={this.props.isAttribute}
         />
       }, this)
     }

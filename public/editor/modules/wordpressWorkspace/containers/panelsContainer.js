@@ -6,30 +6,17 @@ import TeaserAddElementCategories from 'public/resources/components/teaserAddEle
 import AddTemplatePanel from 'public/resources/components/addTemplate/addTemplatePanel'
 import TreeViewLayout from 'public/resources/components/treeView/treeViewLayout'
 import SettingsPanel from 'public/resources/components/settings/settingsPanel'
-import EditElementPanel from 'public/resources/components/editElement/editElementPanel'
 import EditFormPanel from 'public/resources/components/editForm/editFormPanel'
-import { getService } from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
-const cook = getService('cook')
-
 export default class PanelsContainer extends React.Component {
   static propTypes = {
-    start: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ]),
-    end: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ]),
     content: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node
     ]),
     settings: PropTypes.object,
-    contentStartId: PropTypes.string,
     contentId: PropTypes.string
   }
 
@@ -88,41 +75,11 @@ export default class PanelsContainer extends React.Component {
     }
   }
 
-  getStartContent () {
-    const { start, contentStartId } = this.props
-    if (start === 'treeView') {
-      return <TreeViewLayout contentStartId={contentStartId} />
-    }
-  }
-
-  getEndContent () {
-    const { end, settings } = this.props
-    if (end === 'addElement') {
-      return <AddElementPanel options={settings || {}} />
-    } else if (end === 'addHubElement') {
-      return (
-        <AddElementPanel options={settings || {}}>
-          <TeaserAddElementCategories parent={{}} />
-        </AddElementPanel>
-      )
-    } else if (end === 'addTemplate') {
-      return <AddTemplatePanel />
-    } else if (end === 'settings') {
-      return <SettingsPanel />
-    } else if (end === 'editElement') {
-      if (settings && settings.element) {
-        const activeTabId = settings.tag || ''
-        const cookElement = cook.get(settings.element)
-        return <EditElementPanel key={`panels-container-edit-element-${cookElement.get('id')}`} element={cookElement} activeTabId={activeTabId} />
-      }
-    }
-  }
-
   render () {
-    const { start, end, content, contentId } = this.props
+    const { content, contentId } = this.props
     let layoutClasses = classNames({
       'vcv-layout-bar-content': true,
-      'vcv-ui-state--visible': !!(start || end || content),
+      'vcv-ui-state--visible': !!content,
       'vcv-layout-bar-content-mobile': this.isMobile
     })
     let layoutStyle = {}
