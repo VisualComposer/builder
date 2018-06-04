@@ -274,4 +274,11 @@ class WpMedia implements Helper
 
         return preg_match($re, strtolower($string));
     }
+
+    public function checkIsVideo($string)
+    {
+        $re = '/(\.mp4|avi|flv|wmv|mov)$/';
+
+        return preg_match($re, strtolower($string));
+    }
 }
