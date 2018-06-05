@@ -170,6 +170,7 @@ class HubCategories extends Container implements Module
                         'imageGalleryWithScaleUp',
                         'imageGalleryWithIcon',
                         'imageGalleryWithZoom',
+                        'imageMasonryGalleryWithZoom',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Image-Gallery.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Image-Gallery.svg'),
