@@ -6,7 +6,7 @@ let webpack = require('webpack')
 module.exports = {
   // devtool: 'source-map',
   entry: {
-    photoswipe: [ './src/photoswipe.js', './src/photoswipe-init.js', './src/photoswipe-ui-default.js', './src/photoswipe.css' ]
+    photoswipe: [ './src/photoswipe.js', './src/photoswipe-ui-default.js', './src/photoswipe-init.js', './src/photoswipe.css' ]
   },
   output: {
     path: path.resolve(__dirname, 'dist/'), // Assets dist path

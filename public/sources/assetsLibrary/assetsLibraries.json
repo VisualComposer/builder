@@ -100,7 +100,8 @@
     {
       "name": "lightbox",
       "dependencies": [],
-      "jsBundle": "[publicPath]/dist/lightbox.bundle.js"
+      "jsBundle": "[publicPath]/dist/lightbox.bundle.js",
+      "cssBundle": "[publicPath]/dist/lightbox.bundle.css"
     },
     {
       "name": "photoswipe",
