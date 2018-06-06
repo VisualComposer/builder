@@ -61,14 +61,14 @@ export default class Categories extends React.Component {
   getAllElements () {
     const { parent } = this.props
     let relatedTo = [ 'General', 'RootElements' ]
-    let isParentTag = vcCake.env('FT_ADD_ELEMENT_LIST') ? parent && parent.tag && parent.tag !== 'column' : parent && parent.tag
+    let isParentTag = parent && parent.tag && parent.tag !== 'column'
     if (isParentTag) {
       const parentElement = cook.get(parent)
       if (parentElement) {
         relatedTo = parentElement.containerFor()
       }
     }
-    let isAllElements = vcCake.env('FT_ADD_ELEMENT_LIST') ? !Categories.allElements.length || Categories.parentElementTag !== parent.tag : !Categories.allElements.length
+    let isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
     if (isAllElements) {
       let allElements = categoriesService.getSortedElements()
       Categories.allElements = allElements.filter((elementData) => {
@@ -81,7 +81,7 @@ export default class Categories extends React.Component {
   }
 
   getAllElementsTags () {
-    let isElementTags = vcCake.env('FT_ADD_ELEMENT_LIST') ? !Categories.allElementsTags.length || Categories.parentElementTag !== this.props.parent.tag : !Categories.allElementsTags.length
+    let isElementTags = !Categories.allElementsTags.length || Categories.parentElementTag !== this.props.parent.tag
     if (isElementTags) {
       let allElements = this.getAllElements()
 
@@ -115,7 +115,7 @@ export default class Categories extends React.Component {
   }
 
   getAllCategories () {
-    let isCategories = vcCake.env('FT_ADD_ELEMENT_LIST') ? !Categories.allCategories.length || Categories.parentElementTag !== this.props.parent.tag : !Categories.allCategories.length
+    let isCategories = !Categories.allCategories.length || Categories.parentElementTag !== this.props.parent.tag
     if (isCategories) {
       let groupsStore = {}
       let groups = groupsService.all()
@@ -132,9 +132,7 @@ export default class Categories extends React.Component {
           isVisible: true
         }
       })
-      if (vcCake.env('FT_ADD_ELEMENT_LIST')) {
-        Categories.parentElementTag = this.props.parent.tag
-      }
+      Categories.parentElementTag = this.props.parent.tag
     }
 
     return Categories.allCategories

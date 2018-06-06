@@ -12,7 +12,5 @@ vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
 vcCake.env('SAVE_ZIP', true)
 vcCake.env('TF_PARAM_GROUP_CSS_MIXINS', false)
-vcCake.env('FT_ADD_ELEMENT_LIST', true)
-vcCake.env('FT_TREE_VIEW_ATTRIBUTE', true)
 vcCake.env('FT_FIX_SHOW_ELEMENT_CONTROL', true)
 vcCake.env('FT_SHARED_ASSET_LIBS', false)
