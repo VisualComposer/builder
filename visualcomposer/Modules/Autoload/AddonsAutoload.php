@@ -22,16 +22,10 @@ class AddonsAutoload extends ElementsAutoload implements Module
     public function __construct(ApplicationVc $app, $init = true)
     {
         $this->app = $app;
-        $this->wpAddAction(
-            'init',
-            function () use ($init) {
-                if ($init) {
-                    $components = $this->getComponents();
-                    $this->doComponents($components);
-                }
-            },
-            11
-        );
+        if ($init) {
+            $components = $this->getComponents();
+            $this->doComponents($components);
+        }
 
         $this->addEvent(
             'vcv:hub:addons:autoload',
