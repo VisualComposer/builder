@@ -451,11 +451,11 @@ export default class ControlsHandler {
         label = `${addText} ${element.get('name')}`
         addElementTag = element.get('tag')
       }
-      if (env('FT_ADD_ELEMENT_LIST') && options.tag === 'buttonGroup') {
+      if (options.tag === 'buttonGroup') {
         label = `${addText} Button`
         addElementTag = options.tag
       }
-      if (env('FT_ADD_ELEMENT_LIST') && options.tag === 'iconGroup') {
+      if (options.tag === 'iconGroup') {
         let element = cook.get({ tag: 'icon' })
         label = `${addText} ${element.get('name')}`
         addElementTag = element.get('tag')

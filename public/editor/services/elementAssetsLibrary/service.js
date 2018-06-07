@@ -173,6 +173,42 @@ const innerApi = {
     files.jsBundles = [ ...new Set(files.jsBundles) ]
 
     return files
+  },
+  getElementSharedAssetsLibraryFiles (cookElement) {
+    const RulesManager = vcCake.getService('rulesManager')
+    const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+    let elementLibs = cookElement.get('sharedAssetsLibrary') && cookElement.get('sharedAssetsLibrary').libraries
+    let files = {
+      cssBundles: [],
+      jsBundles: []
+    }
+    let sharedLibs = []
+    // get element shared libs list from attribute
+    elementLibs && elementLibs.forEach((lib) => {
+      if (lib.libsNames && lib.libsNames.length) {
+        if (lib.rules) {
+          RulesManager.checkSync(cookElement.toJS(), lib.rules, (status) => {
+            if (status) {
+              sharedLibs = sharedLibs.concat(lib.libsNames)
+            }
+          })
+        } else {
+          sharedLibs = sharedLibs.concat(lib.libsNames)
+        }
+      }
+    })
+    // get element shared libs files from sharedAssetsLibrary service
+    sharedLibs.forEach((lib) => {
+      let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
+      if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
+        files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
+      }
+      if (libraryFiles && libraryFiles.jsBundles && libraryFiles.jsBundles.length) {
+        files.jsBundles = files.jsBundles.concat(libraryFiles.jsBundles)
+      }
+    })
+
+    return files
   }
 }
 
@@ -247,8 +283,9 @@ const publicApi = {
     }
     let elementAssetsLibraryFiles = innerApi.getElementAssetsLibraryFiles(cookElement)
     let elementPublicAssetsFiles = innerApi.getElementPublicAssetsFiles(cookElement)
+    let elementSharedAssetsLibraryFiles = vcCake.env('FT_SHARED_ASSET_LIBS') ? innerApi.getElementSharedAssetsLibraryFiles(cookElement) : false
 
-    // SharedAssets
+    // Element Assets Libs
     files.cssBundles = files.cssBundles.concat(elementAssetsLibraryFiles.cssBundles)
     files.jsBundles = files.jsBundles.concat(elementAssetsLibraryFiles.jsBundles)
 
@@ -259,6 +296,12 @@ const publicApi = {
     // Element Attributes Css/Js
     // Google Fonts
     files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
+
+    if (vcCake.env('FT_SHARED_ASSET_LIBS')) {
+      // Element Shared Assets Libs
+      files.cssBundles = files.cssBundles.concat(elementSharedAssetsLibraryFiles.cssBundles)
+      files.jsBundles = files.jsBundles.concat(elementSharedAssetsLibraryFiles.jsBundles)
+    }
 
     // Inner elements / Sub elements
     let { getAssetsFilesByElement } = publicApi

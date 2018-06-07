@@ -96,6 +96,18 @@
       "name": "imageFilter",
       "dependencies": [],
       "cssBundle": "[publicPath]/dist/imageFilter.bundle.css"
+    },
+    {
+      "name": "lightbox",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/lightbox.bundle.js",
+      "cssBundle": "[publicPath]/dist/lightbox.bundle.css"
+    },
+    {
+      "name": "photoswipe",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/photoswipe.bundle.js",
+      "cssBundle": "[publicPath]/dist/photoswipe.bundle.css"
     }
   ]
 }
