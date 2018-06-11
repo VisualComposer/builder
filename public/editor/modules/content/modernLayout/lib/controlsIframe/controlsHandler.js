@@ -1,4 +1,4 @@
-import { getService, getStorage, env } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import { exceptionalElements } from './exceptionalElements'
 
 const documentManager = getService('document')

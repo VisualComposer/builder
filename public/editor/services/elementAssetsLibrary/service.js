@@ -283,7 +283,7 @@ const publicApi = {
     }
     let elementAssetsLibraryFiles = innerApi.getElementAssetsLibraryFiles(cookElement)
     let elementPublicAssetsFiles = innerApi.getElementPublicAssetsFiles(cookElement)
-    let elementSharedAssetsLibraryFiles = vcCake.env('FT_SHARED_ASSET_LIBS') ? innerApi.getElementSharedAssetsLibraryFiles(cookElement) : false
+    let elementSharedAssetsLibraryFiles = innerApi.getElementSharedAssetsLibraryFiles(cookElement)
 
     // Element Assets Libs
     files.cssBundles = files.cssBundles.concat(elementAssetsLibraryFiles.cssBundles)
@@ -297,11 +297,9 @@ const publicApi = {
     // Google Fonts
     files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
 
-    if (vcCake.env('FT_SHARED_ASSET_LIBS')) {
-      // Element Shared Assets Libs
-      files.cssBundles = files.cssBundles.concat(elementSharedAssetsLibraryFiles.cssBundles)
-      files.jsBundles = files.jsBundles.concat(elementSharedAssetsLibraryFiles.jsBundles)
-    }
+    // Element Shared Assets Libs
+    files.cssBundles = files.cssBundles.concat(elementSharedAssetsLibraryFiles.cssBundles)
+    files.jsBundles = files.jsBundles.concat(elementSharedAssetsLibraryFiles.jsBundles)
 
     // Inner elements / Sub elements
     let { getAssetsFilesByElement } = publicApi

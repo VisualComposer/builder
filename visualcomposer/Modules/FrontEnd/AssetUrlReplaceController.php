@@ -28,6 +28,9 @@ class AssetUrlReplaceController extends Container implements Module
 
     protected function replaceUrls($content)
     {
+        $content = str_replace(['http://|!|vcvAssetsUploadUrl|!|', 'https://|!|vcvAssetsUploadUrl|!|'], '|!|vcvAssetsUploadUrl|!|', $content);
+        $content = str_replace(['http://|!|vcvUploadUrl|!|', 'https://|!|vcvUploadUrl|!|'], '|!|vcvUploadUrl|!|', $content);
+
         $content = preg_replace_callback(
             '/\[vcvAssetsUploadUrl\]/',
             function () {
@@ -37,7 +40,23 @@ class AssetUrlReplaceController extends Container implements Module
             $content
         );
         $content = preg_replace_callback(
+            '/\|!\|vcvAssetsUploadUrl\|!\|/',
+            function () {
+                /** @see \VisualComposer\Modules\Elements\AssetShortcode\AssetUrlReplaceController::renderAssetsUploadUrl */
+                return $this->call('renderAssetsUploadUrl');
+            },
+            $content
+        );
+        $content = preg_replace_callback(
             '/\[vcvUploadUrl\]/',
+            function () {
+                /** @see \VisualComposer\Modules\Elements\AssetShortcode\AssetUrlReplaceController::renderUploadUrl */
+                return $this->call('renderUploadUrl');
+            },
+            $content
+        );
+        $content = preg_replace_callback(
+            '/\|!\|vcvUploadUrl\|!\|/',
             function () {
                 /** @see \VisualComposer\Modules\Elements\AssetShortcode\AssetUrlReplaceController::renderUploadUrl */
                 return $this->call('renderUploadUrl');

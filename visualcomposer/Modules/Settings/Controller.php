@@ -48,7 +48,7 @@ class Controller extends Container implements Module
     /**
      * @var string
      */
-    protected $layout = 'default';
+    protected $layout = 'standalone';
 
     public function __construct()
     {

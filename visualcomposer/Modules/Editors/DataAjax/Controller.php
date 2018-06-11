@@ -219,7 +219,7 @@ class Controller extends Container implements Module
                 'https://' . $assetUrl,
                 'http://' . $assetUrl,
             ],
-            '[vcvAssetsUploadUrl]',
+            '|!|vcvAssetsUploadUrl|!|',
             $content
         );
 
@@ -232,7 +232,7 @@ class Controller extends Container implements Module
                 'https://' . $uploadUrl,
                 'http://' . $uploadUrl,
             ],
-            '[vcvUploadUrl]',
+            '|!|vcvUploadUrl|!|',
             $content
         );
         $post->post_content = $content;

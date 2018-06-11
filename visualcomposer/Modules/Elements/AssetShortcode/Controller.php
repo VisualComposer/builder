@@ -17,17 +17,30 @@ class Controller extends Container implements Module
 {
     use AddShortcodeTrait;
 
+    /**
+     * @deprecated 2.8
+     */
     public function __construct()
     {
         $this->addShortcode('vcvAssetsUploadUrl', 'renderAssetsUploadUrl');
         $this->addShortcode('vcvUploadUrl', 'renderUploadUrl');
     }
 
+    /**
+     * @deprecated 2.8
+     *
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
+     *
+     * @return string
+     */
     protected function renderAssetsUploadUrl(Assets $assetsHelper)
     {
         return $assetsHelper->getAssetUrl();
     }
 
+    /**
+     * @deprecated 2.8
+     */
     protected function renderUploadUrl()
     {
         $uploadDir = wp_upload_dir();
