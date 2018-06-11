@@ -6,7 +6,7 @@ let webpack = require('webpack')
 module.exports = {
   // devtool: 'source-map',
   entry: {
-    lightbox: [ './src/lightbox.js' ]
+    lightbox: [ './src/lightbox.js', './src/lightbox.css' ]
   },
   output: {
     path: path.resolve(__dirname, 'dist/'), // Assets dist path
