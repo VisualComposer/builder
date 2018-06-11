@@ -30,7 +30,7 @@ class VendorBundleController extends Container implements Module
             1
         );
         $this->wpAddAction('init', 'registerVendorScripts');
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorScripts', 1);
+        //$this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorScripts', 1);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueFrontScripts', 2);
         $this->wpAddAction('admin_enqueue_scripts', 'enqueueJquery');
     }
@@ -58,7 +58,7 @@ class VendorBundleController extends Container implements Module
                 :
                 $urlHelper->to('public/dist/front.bundle.js'),
             [
-                'vcv:assets:vendor:script',
+               // 'vcv:assets:vendor:script',
             ],
             VCV_VERSION,
             true
@@ -98,7 +98,7 @@ class VendorBundleController extends Container implements Module
     protected function enqueueVendorScripts()
     {
         wp_enqueue_script('jquery'); // Required for 3-rd elements libraries
-        wp_enqueue_script('vcv:assets:vendor:script');
+        //wp_enqueue_script('vcv:assets:vendor:script');
     }
 
     protected function enqueueFrontScripts()
