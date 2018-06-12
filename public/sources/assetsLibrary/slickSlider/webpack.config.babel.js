@@ -6,7 +6,7 @@ import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
 module.exports = {
   mode: 'production',
   entry: {
-    slickCustom: [ './src/slickCustom.js' ]
+    slickCustom: [ './src/slickCustom.js', './src/slickCustom.css' ]
   },
   output: {
     path: path.resolve(__dirname, 'dist/'), // Assets dist path
