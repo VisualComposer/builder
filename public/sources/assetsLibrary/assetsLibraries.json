@@ -112,7 +112,8 @@
     {
       "name": "slickSlider",
       "dependencies": [],
-      "jsBundle": "[publicPath]/dist/slickCustom.bundle.js"
+      "jsBundle": "[publicPath]/dist/slickCustom.bundle.js",
+      "cssBundle": "[publicPath]/dist/slickCustom.bundle.css"
     }
   ]
 }
