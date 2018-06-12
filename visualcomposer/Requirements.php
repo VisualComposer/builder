@@ -65,20 +65,6 @@ class VcvCoreRequirements
                 '</li>';
         }
 
-        if (glob(VCV_PLUGIN_ASSETS_DIR_PATH . '/*/*.php') === false
-            || glob(
-                VCV_PLUGIN_ASSETS_DIR_PATH . '/*',
-                GLOB_ONLYDIR | GLOB_NOSORT
-            ) === false) {
-            $die = true;
-            $message .= '<li>' .
-                'The php.ini open_basedir must allow to check wp-content/uploads directory!<br>' .
-                'Current value:' . ini_get('open_basedir') . '<br>' .
-                'Visual Composer Assets directory:' . VCV_PLUGIN_ASSETS_DIR_PATH . '<br>' .
-                'Failed to glob the files in assets directory' .
-                '</li>';
-        }
-
         if ($die) {
             wp_die(
             // @codingStandardsIgnoreLine

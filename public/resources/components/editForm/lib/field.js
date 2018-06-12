@@ -1,6 +1,7 @@
 import React from 'react'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
+import { env } from 'vc-cake'
 
 export default class Field extends React.Component {
   static propTypes = {
@@ -42,6 +43,10 @@ export default class Field extends React.Component {
   render () {
     let { fieldKey, tab, fieldType, element } = this.props
     let { value } = this.state
+
+    if (env('FT_FIX_ELEMENT_STRETCH_BUTTON') && fieldKey && element) {
+      value = element[ fieldKey ]
+    }
     let { type, settings } = element.cook().settings(fieldKey)
     let AttributeComponent = type.component
     if (!AttributeComponent) {

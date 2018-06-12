@@ -419,7 +419,7 @@ export default class TreeViewElement extends React.Component {
     })
 
     let treeChildProps = {}
-    treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
+    treeChildProps[ 'data-vcv-dnd-element-expand-status' ] = this.state.childExpand ? 'opened' : 'closed'
 
     let innerChildren = documentManger.children(this.state.element.id)
     let childHtml = this.getContent(innerChildren)
@@ -566,22 +566,19 @@ export default class TreeViewElement extends React.Component {
       {pasteControl}
     </React.Fragment>
 
-    let dropdown = ''
-    if (vcCake.env('FT_TREE_VIEW_SANDWICH')) {
-      let dropdownClasses = classNames({
-        'vcv-ui-tree-layout-control-dropdown-content': true,
-        'vcv-ui-state--active': this.state.showDropdown
-      })
-      dropdown = (
-        <div
-          className={dropdownClasses}
-          onMouseEnter={this.handleSandwichMouseEnter}
-          onMouseLeave={this.handleSandwichMouseLeave}
-        >
-          {sandwichControls}
-        </div>
-      )
-    }
+    let dropdownClasses = classNames({
+      'vcv-ui-tree-layout-control-dropdown-content': true,
+      'vcv-ui-state--active': this.state.showDropdown
+    })
+    let dropdown = (
+      <div
+        className={dropdownClasses}
+        onMouseEnter={this.handleSandwichMouseEnter}
+        onMouseLeave={this.handleSandwichMouseLeave}
+      >
+        {sandwichControls}
+      </div>
+    )
 
     let controlClasses = classNames({
       'vcv-ui-tree-layout-control': true,
@@ -682,7 +679,7 @@ export default class TreeViewElement extends React.Component {
                 {content}
               </span>
             </span>
-            {vcCake.env('FT_TREE_VIEW_SANDWICH') ? baseControls : childControls}
+            {baseControls}
           </div>
           {dropdown}
         </div>
