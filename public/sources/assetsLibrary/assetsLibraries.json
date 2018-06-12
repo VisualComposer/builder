@@ -108,6 +108,11 @@
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/photoswipe.bundle.js",
       "cssBundle": "[publicPath]/dist/photoswipe.bundle.css"
+    },
+    {
+      "name": "slickSlider",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/slickCustom.bundle.js"
     }
   ]
 }
