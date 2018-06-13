@@ -96,7 +96,10 @@ export default class CookElement {
     return type && settings ? type.getValue(settings, this[ elData ].data, k, raw) : undefined
   }
 
-  settings (k) {
+  settings (k, settings = false) {
+    if (settings !== false) {
+      return getAttributeType(k, settings)
+    }
     return this[ elData ].getAttributeType(k)
   }
 
