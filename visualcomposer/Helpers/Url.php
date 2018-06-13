@@ -58,6 +58,12 @@ class Url implements Helper
         // // @codingStandardsIgnoreEnd
         $url = set_url_scheme(get_permalink());
 
+        /** @var Str $strHelper */
+        $strHelper = vchelper('Str');
+        if ($strHelper->contains($url, '?')) {
+            $url .= '?';
+        }
+
         return $this->query($url, $query);
     }
 
@@ -78,7 +84,13 @@ class Url implements Helper
             $query['lang'] = strip_tags(esc_attr($_REQUEST['lang']));
         }
         // @codingStandardsIgnoreEnd
-        $url = set_url_scheme(admin_url('admin-ajax.php')) . '?';
+        $url = set_url_scheme(admin_url('admin-ajax.php'));
+
+        /** @var Str $strHelper */
+        $strHelper = vchelper('Str');
+        if ($strHelper->contains($url, '?')) {
+            $url .= '?';
+        }
 
         return $this->query($url, $query);
     }
