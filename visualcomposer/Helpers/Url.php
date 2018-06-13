@@ -60,7 +60,7 @@ class Url implements Helper
 
         /** @var Str $strHelper */
         $strHelper = vchelper('Str');
-        if ($strHelper->contains($url, '?')) {
+        if (!$strHelper->contains($url, '?')) {
             $url .= '?';
         }
 
@@ -88,7 +88,7 @@ class Url implements Helper
 
         /** @var Str $strHelper */
         $strHelper = vchelper('Str');
-        if ($strHelper->contains($url, '?')) {
+        if (!$strHelper->contains($url, '?')) {
             $url .= '?';
         }
 
