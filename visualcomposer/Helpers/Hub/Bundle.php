@@ -282,18 +282,7 @@ class Bundle implements Helper
                 $checksum,
                 $version
             );
-            if (isset($data['dependencies']) && is_array($data['dependencies']) && !empty($data['dependencies'])) {
-                foreach ($data['dependencies'] as $dependency) {
-                    if (isset($allActions[ $dependency ])) {
-                        $requiredActions = $this->loopActionIterator(
-                            $allActions[ $dependency ],
-                            $requiredActions,
-                            $allActions,
-                            true
-                        );
-                    }
-                }
-            }
+            $requiredActions = $this->checkActionDependencies($requiredActions, $allActions, $data);
         } elseif ($autoDownload && version_compare($version, $previousVersion, '>')) {
             list($needUpdatePost, $requiredActions) = $this->doAction(
                 $value,
@@ -305,18 +294,7 @@ class Bundle implements Helper
                 $checksum,
                 $version
             );
-            if (isset($data['dependencies']) && is_array($data['dependencies']) && !empty($data['dependencies'])) {
-                foreach ($data['dependencies'] as $dependency) {
-                    if (isset($allActions[ $dependency ])) {
-                        $requiredActions = $this->loopActionIterator(
-                            $allActions[ $dependency ],
-                            $requiredActions,
-                            $allActions,
-                            true
-                        );
-                    }
-                }
-            }
+            $requiredActions = $this->checkActionDependencies($requiredActions, $allActions, $data);
         }
         if (vcvenv('VCV_TF_POSTS_RERENDER', false)) {
             $optionsHelper->set('hubAction:updatePosts', $needUpdatePost);
@@ -413,5 +391,31 @@ class Bundle implements Helper
         }
 
         return $result;
+    }
+
+    /**
+     * @param $requiredActions
+     * @param $allActions
+     * @param $data
+     *
+     * @return array
+     */
+    protected function checkActionDependencies($requiredActions, $allActions, $data)
+    {
+        if (isset($data['dependencies']) && is_array($data['dependencies']) && !empty($data['dependencies'])) {
+            foreach ($data['dependencies'] as $dependency) {
+                $dependency = trim($dependency);
+                if (isset($allActions[ $dependency ])) {
+                    $requiredActions = $this->loopActionIterator(
+                        $allActions[ $dependency ],
+                        $requiredActions,
+                        $allActions,
+                        true
+                    );
+                }
+            }
+        }
+
+        return $requiredActions;
     }
 }
