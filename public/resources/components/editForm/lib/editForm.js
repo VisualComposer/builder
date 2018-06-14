@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import EditFormSection from './editFormSection'
 import Scrollbar from '../../../scrollbar/scrollbar.js'
+import { env } from 'vc-cake'
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -47,7 +48,7 @@ export default class EditForm extends React.Component {
         index: index,
         data: tab.data,
         isVisible: true,
-        pinned: tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
+        pinned: tab.data.settings && tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
         params: this.editFormTabParams(props, tab),
         key: `edit-form-tab-${props.element.id}-${index}-${tab.key}`,
         changeTab: this.onChangeActiveTab.bind(this, index),
@@ -62,6 +63,17 @@ export default class EditForm extends React.Component {
 
   editFormTabs (props) {
     const group = props.element.metaEditFormTabs
+    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+      let groups = []
+      let attributes = props.element.cook().settings(props.options.fieldKey)
+      let iterator = {
+        key: props.options.fieldKey,
+        value: attributes.settings.options.settings._paramGroupEditFormTab1.value,
+        data: attributes.settings.options.settings._paramGroupEditFormTab1
+      }
+      groups.push(iterator)
+      return groups
+    }
     if (group && group.length) {
       return group.map(item => (this.editFormTabsIterator(props, item)))
     }
@@ -77,6 +89,19 @@ export default class EditForm extends React.Component {
   }
 
   editFormTabParams (props, tab) {
+    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+      let groups = props.element.cook().toJS()[ tab.key ].value
+      let currentGroup = groups.find((group, i) => {
+        return i === props.options.activeParamGroupIndex
+      })
+      return tab.value.map(item => {
+        return {
+          key: item,
+          value: currentGroup[ item ],
+          data: props.element.cook().settings(tab.key).settings.options.settings[ item ]
+        }
+      })
+    }
     if (tab.data.settings.type === 'group' && tab.value && tab.value.length) {
       return tab.value.map(item => (this.editFormTabsIterator(props, item)))
     }

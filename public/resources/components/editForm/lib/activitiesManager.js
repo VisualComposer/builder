@@ -23,7 +23,7 @@ export default class ActivitiesManager extends React.Component {
     this.state = {
       element
     }
-    this.listeners = this.initListeners(element.cook())
+    this.listeners = this.initListeners(element.cook(), props)
   }
 
   componentWillUpdate (nextProps) {
@@ -33,12 +33,16 @@ export default class ActivitiesManager extends React.Component {
     this.initialStack = {}
     let element = elementAccessPoint.get(nextProps.element.id)
     this.setState({ element })
-    this.listeners = this.initListeners(element.cook())
+    this.listeners = this.initListeners(element.cook(), nextProps)
   }
 
-  initListeners (elementCook) {
+  initListeners (elementCook, props = false) {
     let listeners = []
-    Object.keys(elementCook.getAll()).forEach(key => {
+    let fields = elementCook.getAll()
+    if (vcCake.env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+      fields = elementCook.settings(props.options.fieldKey).settings.options.settings._paramGroupEditFormTab1.value
+    }
+    Object.keys(fields).forEach(key => {
       let onChange = this.getRules(elementCook.settings(key))
       if (onChange) {
         Object.keys(onChange).forEach(keyOnChange => {
