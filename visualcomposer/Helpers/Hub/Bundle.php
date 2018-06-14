@@ -239,6 +239,7 @@ class Bundle implements Helper
                 $optionsHelper->set('hubAction:updatePosts', $needUpdatePost);
             }
         }
+        $requiredActions = array_values($requiredActions);
 
         return [$needUpdatePost, $requiredActions];
     }
@@ -344,7 +345,7 @@ class Bundle implements Helper
         ];
         $optionNameKey = $action . $actionData['version'];
         $optionsHelper->set('hubA:d:' . md5($optionNameKey), $actionData);
-        $requiredActions[] = [
+        $requiredActions[ $actionData['action'] ] = [
             'key' => $optionNameKey,
             'name' => $actionData['name'],
             'action' => $actionData['action'],
@@ -406,6 +407,9 @@ class Bundle implements Helper
             foreach ($data['dependencies'] as $dependency) {
                 $dependency = trim($dependency);
                 if (isset($allActions[ $dependency ])) {
+                    if (array_key_exists($dependency, $requiredActions)) {
+                        continue;
+                    }
                     $requiredActions = $this->loopActionIterator(
                         $allActions[ $dependency ],
                         $requiredActions,
