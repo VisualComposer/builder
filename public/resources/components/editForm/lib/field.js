@@ -43,6 +43,7 @@ export default class Field extends React.Component {
     if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
       const { options, element } = this.props
       options.customUpdater(options.activeParamGroupIndex, element, fieldKey, value)
+      this.props.onAttributeChange(fieldKey)
     } else {
       this.props.element[ fieldKey ] = value
       this.props.onAttributeChange(fieldKey)
