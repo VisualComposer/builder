@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import FieldDependencyManager from './fieldDependencyManager'
 import EditFormReplaceElement from './editFormReplaceElement'
+import { env } from 'vc-cake'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
@@ -77,7 +78,10 @@ export default class EditFormSection extends React.Component {
    */
   getSectionFormFields (tabParams) {
     return tabParams.map((param) => {
-      const fieldType = param.data && param.data.type ? param.data.type.name : ''
+      let fieldType = param.data && param.data.type ? param.data.type.name : ''
+      if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+        fieldType = param.data.type
+      }
       const fieldOptions = this.checkContainerDependency(param)
       if (fieldOptions && fieldOptions.hide) {
         return null
@@ -123,7 +127,12 @@ export default class EditFormSection extends React.Component {
       'vcv-ui-edit-form-section--opened': isActive,
       'vcv-ui-edit-form-section--closed': !isActive
     }, sectionDependenciesClasses)
-    let tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
+    let tabTitle
+    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+      tabTitle = tab.data.options.label
+    } else {
+      tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
+    }
     let replaceElement = null
 
     if (tab.fieldKey === 'editFormTab1') {

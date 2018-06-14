@@ -200,18 +200,12 @@ export default class DesignOptions extends Attribute {
   }
 
   handleElementChange (data, source, options) {
-    if (vcCake.env('FT_FIX_SHOW_ELEMENT_CONTROL')) {
-      if (!options || options.action !== 'hide') {
-        setTimeout(() => {
-          this.getDefaultStyles()
-        }, 200)
-      } else {
-        this.forceUpdate()
-      }
-    } else {
+    if (!options || options.action !== 'hide') {
       setTimeout(() => {
         this.getDefaultStyles()
       }, 200)
+    } else {
+      this.forceUpdate()
     }
   }
 

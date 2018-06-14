@@ -85,8 +85,8 @@ export default class EditFormHeader extends React.Component {
       this.span.innerText = element.get('name')
     }
 
-    if (options && options.child) {
-      options.customUpdater(element, 'title', value)
+    if (options && (options.child || options.nestedAttr)) {
+      options.customUpdater(options.activeParamGroupIndex, element, 'title', value)
     } else {
       element.customHeaderTitle = value
     }
@@ -111,10 +111,9 @@ export default class EditFormHeader extends React.Component {
   }
 
   goBack () {
-    let { parentElement, parentElementOptions } = this.props.options
+    let { parentElement, options } = this.props.options
     let element = cook.get(parentElement)
-    parentElementOptions.element = parentElement
-    workspaceStorage.trigger('edit', element.get('id'), element.get('tag'), parentElementOptions)
+    workspaceStorage.trigger('edit', element.get('id'), element.get('tag'), options)
   }
 
   render () {
@@ -124,11 +123,11 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-edit-form-header-title': true,
       'active': editable
     })
-    const backButton = options && options.child ? (
+    const backButton = options && (options.child || options.nestedAttr) ? (
       <span className='vcv-ui-edit-form-back-button' onClick={this.goBack}>
         <i className='vcv-ui-icon vcv-ui-icon-chevron-left' /></span>) : null
 
-    if (options && options.child && options.activeParamGroup) {
+    if (options && (options.child || options.nestedAttr) && options.activeParamGroup) {
       content = options.activeParamGroup.title
     }
 

@@ -15,17 +15,7 @@
 
  */
 /* global window, document, define, jQuery, setInterval, clearInterval */
-(function(factory) {
-  'use strict';
-  if (typeof define === 'function' && define.amd) {
-    define(['jquery'], factory);
-  } else if (typeof exports !== 'undefined') {
-    module.exports = factory(require('jquery'));
-  } else {
-    factory(jQuery);
-  }
-
-}(function($) {
+(function($) {
   'use strict';
   var Slick = window.Slick || {};
 
@@ -773,18 +763,20 @@
       _.$nextArrow && _.$nextArrow.off('click.slick', _.changeSlide);
     }
 
-    _.$list.off('touchstart.slick mousedown.slick', _.swipeHandler);
-    _.$list.off('touchmove.slick mousemove.slick', _.swipeHandler);
-    _.$list.off('touchend.slick mouseup.slick', _.swipeHandler);
-    _.$list.off('touchcancel.slick mouseleave.slick', _.swipeHandler);
+    if (_.$list) {
+      _.$list.off('touchstart.slick mousedown.slick', _.swipeHandler);
+      _.$list.off('touchmove.slick mousemove.slick', _.swipeHandler);
+      _.$list.off('touchend.slick mouseup.slick', _.swipeHandler);
+      _.$list.off('touchcancel.slick mouseleave.slick', _.swipeHandler);
 
-    _.$list.off('click.slick', _.clickHandler);
+      _.$list.off('click.slick', _.clickHandler);
+    }
 
     $(document).off(_.visibilityChange, _.visibility);
 
     _.cleanUpSlideEvents();
 
-    if (_.options.accessibility === true) {
+    if (_.options.accessibility === true && _.$list) {
       _.$list.off('keydown.slick', _.keyHandler);
     }
 
@@ -807,8 +799,10 @@
 
     var _ = this;
 
-    _.$list.off('mouseenter.slick', $.proxy(_.interrupt, _, true));
-    _.$list.off('mouseleave.slick', $.proxy(_.interrupt, _, false));
+    if (_.$list) {
+      _.$list.off('mouseenter.slick', $.proxy(_.interrupt, _, true));
+      _.$list.off('mouseleave.slick', $.proxy(_.interrupt, _, false));
+    }
 
   };
 
@@ -1281,6 +1275,9 @@
 
   Slick.prototype.initADA = function() {
     var _ = this;
+    if (!_.$slides || !_.$slideTrack) {
+      return
+    }
     _.$slides.add(_.$slideTrack.find('.slick-cloned')).attr({
       'aria-hidden': 'true',
       'tabindex': '-1'
@@ -2894,10 +2891,10 @@
       if (typeof opt == 'object' || typeof opt == 'undefined')
         _[i].slick = new Slick(_[i], opt);
       else
-        ret = _[i].slick[opt].apply(_[i].slick, args);
+        ret = _[i].slick && _[i].slick[opt] && _[i].slick[opt].apply(_[i].slick, args);
       if (typeof ret != 'undefined') return ret;
     }
     return _;
   };
 
-}));
+})(window.jQuery)

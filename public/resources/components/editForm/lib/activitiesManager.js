@@ -23,7 +23,7 @@ export default class ActivitiesManager extends React.Component {
     this.state = {
       element
     }
-    this.listeners = this.initListeners(element.cook())
+    this.listeners = this.initListeners(element.cook(), props)
   }
 
   componentWillUpdate (nextProps) {
@@ -33,13 +33,21 @@ export default class ActivitiesManager extends React.Component {
     this.initialStack = {}
     let element = elementAccessPoint.get(nextProps.element.id)
     this.setState({ element })
-    this.listeners = this.initListeners(element.cook())
+    this.listeners = this.initListeners(element.cook(), nextProps)
   }
 
-  initListeners (elementCook) {
+  initListeners (elementCook, props = false) {
     let listeners = []
-    Object.keys(elementCook.getAll()).forEach(key => {
+    let fields = Object.keys(elementCook.getAll())
+    if (vcCake.env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+      fields = elementCook.settings(props.options.fieldKey).settings.options.settings._paramGroupEditFormTab1.value
+    }
+    fields.forEach(key => {
       let onChange = this.getRules(elementCook.settings(key))
+      if (vcCake.env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+        let attrSettings = elementCook.settings(props.options.fieldKey).settings.options.settings
+        onChange = this.getRules(elementCook.settings(key, attrSettings))
+      }
       if (onChange) {
         Object.keys(onChange).forEach(keyOnChange => {
           if (!listeners[ keyOnChange ]) {
@@ -185,6 +193,11 @@ export default class ActivitiesManager extends React.Component {
     })
     let actionsCallback = (ruleState, listener) => {
       let actions = this.getActions(this.state.element.cook().settings(listener.key))
+      if (vcCake.env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+        let attrSettings = this.state.element.cook().settings(this.props.options.fieldKey).settings.options.settings
+        let elSettings = this.state.element.cook().settings(listener.key, attrSettings)
+        actions = this.getActions(elSettings)
+      }
       if (actions) {
         keys.forEach((type) => {
           actions.forEach((action) => {
@@ -200,13 +213,16 @@ export default class ActivitiesManager extends React.Component {
       }
     }
 
-    const fieldSettings = this.state.element.cook().settings(listener.key)
-    const options = this.getOptions(fieldSettings)
+    let fieldSettings = this.state.element.cook().settings(listener.key)
+    if (vcCake.env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+      let attrSettings = this.state.element.cook().settings(this.props.options.fieldKey).settings.options.settings
+      fieldSettings = this.state.element.cook().settings(listener.key, attrSettings)
+    }
     const rules = this.getRules(fieldSettings)
-    const isChild = this.props.options && this.props.options.child
+    const isChild = this.props.options && (this.props.options.child || this.props.options.nestedAttr)
     let values = this.state.element.get()
-    if (isChild && options && options.parent) {
-      values = this.props.options.parentElement
+    if (isChild) {
+      values = values[this.props.options.fieldKey].value[this.props.options.activeParamGroupIndex]
     }
 
     RulesManager.check(values, rules, (status) => {

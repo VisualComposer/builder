@@ -1,12 +1,10 @@
 import React from 'react'
 import Attribute from '../attribute'
 import lodash from 'lodash'
-import { getStorage, getService } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 
 const workspaceStorage = getStorage('workspace')
-const cook = getService('cook')
-const hubElementsService = getService('hubElements')
 
 export default class ParamsGroupAttribute extends Attribute {
   constructor (props) {
@@ -25,10 +23,10 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   onParamChange (index, element, paramFieldKey, newValue) {
-    element.set(paramFieldKey, newValue)
-    let value = this.state.value
-    value.value[ index ][ paramFieldKey ] = newValue
     let { updater, fieldKey, fieldType } = this.props
+    let { value } = this.state
+    value.value[ index ][ paramFieldKey ] = newValue
+    element.cook ? element.cook().set(fieldKey, value) : element.set(fieldKey, value)
     updater(fieldKey, value, null, fieldType)
   }
 
@@ -56,28 +54,15 @@ export default class ParamsGroupAttribute extends Attribute {
 
   clickEdit (index) {
     let groupName = this.state.value.value[ index ]
-    let tag = `${this.props.element.get('tag')}-${this.props.element.get('id')}-${this.props.fieldKey}`
-    let settings = this.props.options.settings
-    settings.name = { type: 'string', value: this.props.options.title, 'access': 'public' }
-    settings.tag = { type: 'string', value: tag, 'access': 'public' }
-    let value = this.state.value.value[ index ]
-    value.tag = tag
-    value.name = value.title || this.props.options.title
-
-    hubElementsService.add({ settings: value, tag: tag })
-    cook.add(settings)
-
-    let element = cook.get(value).toJS()
-
     let options = {
-      child: true,
+      nestedAttr: true,
       parentElement: this.props.element,
-      parentElementOptions: this.props.elementOptions,
-      element: element, // Current
       activeParamGroup: groupName,
-      customUpdater: this.onParamChange.bind(this, index)
+      activeParamGroupIndex: index,
+      fieldKey: this.props.fieldKey,
+      customUpdater: this.onParamChange.bind(this)
     }
-    workspaceStorage.trigger('edit', element.id, element.tag, options)
+    workspaceStorage.trigger('edit', this.props.element.get('id'), this.props.element.get('tag'), options)
   }
 
   clickAdd () {

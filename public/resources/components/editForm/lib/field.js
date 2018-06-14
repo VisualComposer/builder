@@ -12,8 +12,12 @@ export default class Field extends React.Component {
 
   constructor (props) {
     super(props)
+    let value = props.element[ props.fieldKey ]
+    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+      value = props.options.activeParamGroup[ props.fieldKey ]
+    }
     this.state = {
-      value: props.element[ props.fieldKey ]
+      value: value
     }
     this.updateElement = this.updateElement.bind(this)
     this.updateValue = this.updateValue.bind(this)
@@ -36,8 +40,14 @@ export default class Field extends React.Component {
   }
 
   updateElement (fieldKey, value) {
-    this.props.element[ fieldKey ] = value
-    this.props.onAttributeChange(fieldKey)
+    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+      const { options, element } = this.props
+      options.customUpdater(options.activeParamGroupIndex, element, fieldKey, value)
+      this.props.onAttributeChange(fieldKey)
+    } else {
+      this.props.element[ fieldKey ] = value
+      this.props.onAttributeChange(fieldKey)
+    }
   }
 
   render () {
@@ -48,6 +58,13 @@ export default class Field extends React.Component {
       value = element[ fieldKey ]
     }
     let { type, settings } = element.cook().settings(fieldKey)
+    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+      let attrSettings = element.cook().settings(this.props.options.fieldKey).settings.options.settings
+      let elSettings = element.cook().settings(fieldKey, attrSettings)
+      type = elSettings.type
+      settings = elSettings.settings
+      value = element[ this.props.options.fieldKey ].value[this.props.options.activeParamGroupIndex][fieldKey]
+    }
     let AttributeComponent = type.component
     if (!AttributeComponent) {
       return null
@@ -59,7 +76,7 @@ export default class Field extends React.Component {
       throw new Error(`Wrong attribute type ${fieldKey}`)
     }
     const { options } = settings
-    const tabTypeName = tab.data.type.name
+    const tabTypeName = tab.data.type && tab.data.type.name ? tab.data.type.name : tab.data.type
     let label = ''
     const isOptionsLabel = options && typeof options.label === 'string'
     const isRegularAttributeField = tabTypeName === 'group' && fieldType !== 'paramsGroup'
