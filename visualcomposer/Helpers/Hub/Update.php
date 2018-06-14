@@ -38,6 +38,7 @@ class Update implements Helper
         }
         list($needUpdatePost, $requiredActions) = vchelper('HubBundle')->loopActions($json);
         $reRenderPosts = array_unique($needUpdatePost);
+        $requiredActions = vchelper('Data')->arrayDeepUnique($requiredActions);
         $response['actions'] = $requiredActions;
         if (count($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
             $postsActions = $this->createPostUpdateObjects($reRenderPosts);

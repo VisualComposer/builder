@@ -214,7 +214,8 @@ class Bundle implements Helper
                 if (isset($value['action'])) {
                     $requiredActions = $this->loopActionIterator(
                         $value,
-                        $requiredActions
+                        $requiredActions,
+                        $json['actions']
                     );
                 }
             }
@@ -245,10 +246,12 @@ class Bundle implements Helper
     /**
      * @param $value
      * @param $requiredActions
+     * @param $allActions
+     * @param bool $forceAutoDownload
      *
      * @return array
      */
-    protected function loopActionIterator($value, $requiredActions)
+    protected function loopActionIterator($value, $requiredActions, $allActions, $forceAutoDownload = false)
     {
         $optionsHelper = vchelper('Options');
         $action = $value['action'];
@@ -263,6 +266,9 @@ class Bundle implements Helper
         }
         $checksum = isset($value['checksum']) ? $value['checksum'] : '';
         $autoDownload = isset($value['auto_download']) ? $value['auto_download'] : true;
+        if ($forceAutoDownload) {
+            $autoDownload = true;
+        }
         $version = $value['version'];
         $previousVersion = $optionsHelper->get('hubAction:' . $action, '0');
         if ($previousVersion !== '0' && version_compare($version, $previousVersion, '>')) {
@@ -276,6 +282,18 @@ class Bundle implements Helper
                 $checksum,
                 $version
             );
+            if (isset($data['dependencies']) && is_array($data['dependencies']) && !empty($data['dependencies'])) {
+                foreach ($data['dependencies'] as $dependency) {
+                    if (isset($allActions[ $dependency ])) {
+                        $requiredActions = $this->loopActionIterator(
+                            $allActions[ $dependency ],
+                            $requiredActions,
+                            $allActions,
+                            true
+                        );
+                    }
+                }
+            }
         } elseif ($autoDownload && version_compare($version, $previousVersion, '>')) {
             list($needUpdatePost, $requiredActions) = $this->doAction(
                 $value,
@@ -287,6 +305,18 @@ class Bundle implements Helper
                 $checksum,
                 $version
             );
+            if (isset($data['dependencies']) && is_array($data['dependencies']) && !empty($data['dependencies'])) {
+                foreach ($data['dependencies'] as $dependency) {
+                    if (isset($allActions[ $dependency ])) {
+                        $requiredActions = $this->loopActionIterator(
+                            $allActions[ $dependency ],
+                            $requiredActions,
+                            $allActions,
+                            true
+                        );
+                    }
+                }
+            }
         }
         if (vcvenv('VCV_TF_POSTS_RERENDER', false)) {
             $optionsHelper->set('hubAction:updatePosts', $needUpdatePost);
