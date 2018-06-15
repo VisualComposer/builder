@@ -3,10 +3,10 @@ import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
 
-import { getAttributeType } from '../../../../../tools'
+import { getAttributeType } from './tools'
 
 const createKey = vcCake.getService('utils').createKey
-const elData = Symbol('element data')
+const elData = 'element data'
 
 export default class Element {
   static propTypes = {

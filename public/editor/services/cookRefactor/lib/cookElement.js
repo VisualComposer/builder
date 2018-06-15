@@ -1,15 +1,16 @@
 /* eslint jsx-quotes: [2, "prefer-double"] */
 import React from 'react'
 import vcCake from 'vc-cake'
+import lodash from 'lodash'
 import PropTypes from 'prop-types'
 
 import Element from './element'
 import { default as elementSettings } from './element-settings'
 import { default as elementComponent } from './element-component'
-import { getAttributeType } from '../../../../../tools'
+import { getAttributeType } from './tools'
 
 const createKey = vcCake.getService('utils').createKey
-const elData = Symbol('element data')
+const elData = 'element data'
 const elComponent = Symbol('element component')
 
 let _service = null
@@ -116,5 +117,47 @@ export default class CookElement extends Element {
     props.content = content
 
     return <ElementToRender {...props} />
+  }
+  toJS (raw = true, publicOnly = true) {
+    let data = {}
+    for (let k of Object.keys(this[ elData ].settings)) {
+      let value = this.get(k, raw)
+      if (value !== undefined) {
+        data[ k ] = value
+      }
+    }
+    data.id = this[ elData ].id
+    data.tag = this[ elData ].tag
+    data.name = this[ elData ].name
+    data.metaThumbnailUrl = this[ elData ].metaThumbnailUrl
+    data.metaPreviewUrl = this[ elData ].metaPreviewUrl
+    data.metaDescription = this[ elData ].metaDescription
+    data.metaAssetsPath = this[ elData ].metaAssetsPath
+    data.metaElementPath = this[ elData ].metaElementPath
+    data.metaBundlePath = this[ elData ].metaBundlePath
+    if (this[ elData ].customHeaderTitle !== undefined) {
+      data.customHeaderTitle = this[ elData ].customHeaderTitle
+    }
+    if (this[ elData ].hidden !== undefined) {
+      data.hidden = this[ elData ].hidden
+    } else {
+      data.hidden = false
+    }
+    // JSON.parse can return '' for false entries
+    if (this[ elData ].parent !== undefined && this[ elData ].parent !== '') {
+      data.parent = this[ elData ].parent
+    } else {
+      data.parent = false
+    }
+    if (this[ elData ].order !== undefined) {
+      data.order = this[ elData ].order
+    } else {
+      data.order = 0
+    }
+    if (publicOnly) {
+      const publicKeys = this.getPublicKeys() // TODO: merge all data with public keys
+      return lodash.pick(data, publicKeys)
+    }
+    return data
   }
 }
