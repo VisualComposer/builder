@@ -12,5 +12,5 @@ vcCake.env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
 vcCake.env('SAVE_ZIP', true)
 vcCake.env('TF_PARAM_GROUP_CSS_MIXINS', false)
-vcCake.env('FT_FIX_ELEMENT_STRETCH_BUTTON', false)
+vcCake.env('FT_FIX_ELEMENT_STRETCH_BUTTON', true)
 vcCake.env('FT_PARAM_GROUP_IN_EDIT_FORM', false)
