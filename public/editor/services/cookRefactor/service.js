@@ -17,8 +17,8 @@ const API = {
     }
     return new CookElement(data)
   },
-  buildSettingsElement (data, settings) {
-    return new Element(data, settings)
+  buildSettingsElement (data, settings, cssSettings) {
+    return new Element(data, settings, cssSettings)
   },
   getSettings (tag) {
     return elementSettings.get(tag)

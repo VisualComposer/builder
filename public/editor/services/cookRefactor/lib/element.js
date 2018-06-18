@@ -13,15 +13,14 @@ export default class Element {
     tag: PropTypes.string.isRequired
   }
 
-  constructor (data, dataSettings = {}) {
-    this.init(data, dataSettings)
+  constructor (data, dataSettings = {}, cssSettings = {}) {
+    this.init(data, dataSettings, cssSettings)
   }
 
-  init (data, dataSettings = {}) {
-    let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, ...attr } = data
+  init (data, dataSettings = {}, cssSettings = {}) {
+    let { id = createKey(), parent = false, tag, order, hidden, ...attr } = data
     attr.tag = tag
     attr.id = id
-    vcCake.env('debug') === true && console.warn(`Element ${tag} is not registered in system`)
     let element = {
       settings: {
         metaDescription: '',
@@ -31,10 +30,13 @@ export default class Element {
       }
     }
     let metaSettings = element.settings
-    let elSettings = {}
+    const settings = {}
     for (let k in dataSettings) {
       if (dataSettings.hasOwnProperty(k)) {
-        elSettings[ k ] = getAttributeType(k, dataSettings)
+        const attrSettings = getAttributeType(k, dataSettings)
+        if (attrSettings.hasOwnProperty('settings')) {
+          settings[ k ] = attrSettings.settings
+        }
       }
     }
     // Split on separate symbols
@@ -52,11 +54,11 @@ export default class Element {
         metaAssetsPath: element.assetsPath,
         metaElementPath: element.elementPath,
         metaBundlePath: element.bundlePath,
-        customHeaderTitle: customHeaderTitle || '',
+        customHeaderTitle: '',
         order: order,
         hidden: hidden,
-        settings: elSettings && elSettings.settings ? elSettings.settings : {},
-        cssSettings: elSettings && elSettings.cssSettings ? elSettings.cssSettings : {},
+        settings: settings,
+        cssSettings: cssSettings || {},
         getAttributeType: function (k) {
           return getAttributeType(k, this.settings)
         }
@@ -73,7 +75,10 @@ export default class Element {
     return type && settings ? type.getValue(settings, this[ elData ].data, k, raw) : undefined
   }
 
-  settings (k) {
+  settings (k, settings = false) {
+    if (settings !== false) {
+      return getAttributeType(k, settings)
+    }
     return this[ elData ].getAttributeType(k)
   }
 
