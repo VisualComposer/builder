@@ -16,6 +16,7 @@ use VisualComposer\Helpers\Hub\Templates;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\WpMedia;
 use WP_Query;
 
 /**
@@ -61,7 +62,8 @@ class TemplatesDownloadController extends Container implements Module
         TemplatesBundle $hubBundleHelper,
         File $fileHelper,
         Templates $hubTemplatesHelper,
-        Logger $loggerHelper
+        Logger $loggerHelper,
+        WpMedia $wpMediaHelper
     ) {
         $bundleJson = $payload['archive'];
         if (vcIsBadResponse($response) || is_wp_error($bundleJson)) {
@@ -90,26 +92,26 @@ class TemplatesDownloadController extends Container implements Module
 
                 $template = $this->processTemplateMetaImages($template);
                 $templateElements = $template['data'];
-                $elementsImages = $this->getTemplateElementImages($templateElements);
+                $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
                 foreach ($elementsImages as $element) {
-                    foreach ($element['images'] as $image) {
-                        if (isset($image['complex']) && $image['complex']) {
+                    foreach ($element['media'] as $media) {
+                        if (isset($media['complex']) && $media['complex']) {
                             $imageData = $this->processWpMedia(
-                                $image,
+                                $media,
                                 $template,
-                                $element['elementId'] . '-' . $image['key'] . '-'
+                                $element['elementId'] . '-' . $media['key'] . '-'
                             );
                         } else {
                             // it is simple url
                             $imageData = $this->processSimple(
-                                $image['url'],
+                                $media['url'],
                                 $template,
-                                $element['elementId'] . '-' . $image['key'] . '-'
+                                $element['elementId'] . '-' . $media['key'] . '-'
                             );
                         }
 
                         if (!is_wp_error($imageData) && $imageData) {
-                            $templateElements[ $element['elementId'] ][ $image['key'] ] = $imageData;
+                            $templateElements[ $element['elementId'] ][ $media['key'] ] = $imageData;
                         }
                     }
                 }
@@ -285,74 +287,6 @@ class TemplatesDownloadController extends Container implements Module
         }
 
         return $newImages;
-    }
-
-    /**
-     * @param $elements
-     *
-     * @return array
-     */
-    protected function getTemplateElementImages($elements)
-    {
-        $images = [];
-
-        foreach ($elements as $element) {
-            $elementImages = $this->getElementImages($element);
-            if ($elementImages['images']) {
-                $images[] = $elementImages;
-            }
-        }
-
-        return $images;
-    }
-
-    /**
-     * @param $element
-     *
-     * @return array
-     */
-    protected function getElementImages($element)
-    {
-        $images = [];
-        $wpMediaHelper = vchelper('WpMedia');
-        foreach ($element as $propKey => $propValue) {
-            if (in_array($propKey, ['metaThumbnailUrl', 'metaPreviewUrl'], true)) {
-                continue;
-            }
-            // first level
-            if (!isset($propValue['urls']) && (is_string($propValue) || $propKey === "image")) {
-                if (isset($propValue[0]) && $propKey === "image" && is_array($propValue)) {
-                    foreach ($propValue as $image) {
-                        if ($wpMediaHelper->checkIsImage($image)) {
-                            $images[] = [
-                                'complex' => true,
-                                'value' => $image,
-                                'key' => $propKey,
-                            ];
-                        }
-                    }
-                } else {
-                    if ($wpMediaHelper->checkIsImage($propValue)) {
-                        $images[] = [
-                            'url' => $propValue,
-                            'key' => $propKey,
-                        ];
-                    }
-                }
-                // second level
-            } elseif (is_array($propValue) && isset($propValue['urls'])) {
-                $images[] = [
-                    'complex' => true,
-                    'value' => $propValue,
-                    'key' => $propKey,
-                ];
-            }
-        }
-
-        return [
-            'elementId' => $element['id'],
-            'images' => $images,
-        ];
     }
 
     protected function processDesignOptions($templateElements, $template)

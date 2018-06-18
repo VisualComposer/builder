@@ -14,6 +14,7 @@ use VisualComposer\Helpers\Hub\Actions\HubTemplatesBundle;
 use VisualComposer\Helpers\Hub\Templates;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\WpMedia;
 use VisualComposer\Modules\Editors\Templates\TemplatesDownloadController;
 use WP_Query;
 
@@ -42,7 +43,8 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
         Logger $loggerHelper,
         File $fileHelper,
         Templates $hubTemplatesHelper,
-        HubTemplatesBundle $hubTemplatesBundleHelper
+        HubTemplatesBundle $hubTemplatesBundleHelper,
+        WpMedia $wpMediaHelper
     ) {
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
         if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
@@ -80,25 +82,25 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
         );
         $template['name'] = $payload['actionData']['data']['name'];
         $templateElements = $template['data'];
-        $elementsImages = $this->getTemplateElementImages($templateElements);
+        $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
         foreach ($elementsImages as $element) {
-            foreach ($element['images'] as $image) {
-                if (isset($image['complex']) && $image['complex']) {
+            foreach ($element['media'] as $media) {
+                if (isset($media['complex']) && $media['complex']) {
                     $imageData = $this->processWpMedia(
-                        $image,
+                        $media,
                         $template,
-                        $element['elementId'] . '-' . $image['key'] . '-'
+                        $element['elementId'] . '-' . $media['key'] . '-'
                     );
                 } else {
                     // it is simple url
                     $imageData = $this->processSimple(
-                        $image['url'],
+                        $media['url'],
                         $template,
-                        $element['elementId'] . '-' . $image['key'] . '-'
+                        $element['elementId'] . '-' . $media['key'] . '-'
                     );
                 }
                 if (!is_wp_error($imageData) && $imageData) {
-                    $templateElements[ $element['elementId'] ][ $image['key'] ] = $imageData;
+                    $templateElements[ $element['elementId'] ][ $media['key'] ] = $imageData;
                 }
             }
         }

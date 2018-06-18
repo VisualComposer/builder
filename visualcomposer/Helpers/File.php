@@ -127,6 +127,11 @@ class File implements Helper
         return $fileSystem->rmdir($dir, $recursive);
     }
 
+    public function removeFile($file)
+    {
+        return wp_delete_file($file);
+    }
+
     public function copyDirectory($from, $to, $overwrite = true)
     {
         $fileSystem = $this->getFileSystem();
@@ -139,6 +144,16 @@ class File implements Helper
         $this->createDirectory($to);
 
         return copy_dir($from, $to);
+    }
+
+    public function copyFile($from, $to, $overwrite = true)
+    {
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+
+        return $fileSystem->copy($from, $to, $overwrite);
     }
 
     public function createDirectory($dir)

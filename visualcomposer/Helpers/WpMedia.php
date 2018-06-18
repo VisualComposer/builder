@@ -281,4 +281,72 @@ class WpMedia implements Helper
 
         return preg_match($re, strtolower($string));
     }
+
+
+    /**
+     * @param $element
+     *
+     * @return array
+     */
+    public function getElementMedia($element)
+    {
+        $media = [];
+
+        foreach ($element as $propKey => $propValue) {
+            if (in_array($propKey, ['metaThumbnailUrl', 'metaPreviewUrl'], true)) {
+                continue;
+            }
+            // first level
+            if (!isset($propValue['urls']) && (is_string($propValue) || $propKey === "image" || $propKey === "video")) {
+                if (isset($propValue[0]) && ($propKey === "image" || $propKey === "video") && is_array($propValue)) {
+                    foreach ($propValue as $image) {
+                        if ($this->checkIsImage($image) || $this->checkIsVideo($image)) {
+                            $media[] = [
+                                'complex' => true,
+                                'value' => $image,
+                                'key' => $propKey,
+                            ];
+                        }
+                    }
+                } else {
+                    if ($this->checkIsImage($propValue) || $this->checkIsVideo($propValue)) {
+                        $media[] = [
+                            'url' => $propValue,
+                            'key' => $propKey,
+                        ];
+                    }
+                }
+                // second level
+            } elseif (is_array($propValue) && isset($propValue['urls'])) {
+                $media[] = [
+                    'complex' => true,
+                    'value' => $propValue,
+                    'key' => $propKey,
+                ];
+            }
+        }
+
+        return [
+            'elementId' => $element['id'],
+            'media' => $media,
+        ];
+    }
+
+    /**
+     * @param $elements
+     *
+     * @return array
+     */
+    public function getTemplateElementMedia($elements)
+    {
+        $media = [];
+        foreach ($elements as $element) {
+            $elementMedia = $this->getElementMedia($element);
+            if ($elementMedia['media']) {
+                $media[] = $elementMedia;
+            }
+        }
+
+        return $media;
+    }
 }
