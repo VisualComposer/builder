@@ -104,6 +104,7 @@ export default class LayoutDropdown extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const chooseHFSText = localizations ? localizations.chooseHFS : 'Choose {name} template from the list or <a href="{link}" target="_blank">create new</a>.'
     const selectHFSText = localizations ? localizations.selectHFS : 'Select {name} template'
+    const noneText = localizations ? localizations.noneText : 'None'
     const globalUrl = `vcvCreate${this.props.layoutName}`
     const createNewUrl = window[ globalUrl ] ? window[ globalUrl ] : ''
 
@@ -114,6 +115,7 @@ export default class LayoutDropdown extends React.Component {
           <option value='default'>
             {selectHFSText.replace('{name}', this.props.layoutName.toLocaleLowerCase())}
           </option>
+          <option value='none'>{noneText}</option>
           {this.getTemplateOptions()}
         </select>
         <p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{__html: chooseHFSText.replace('{name}', this.props.layoutName.toLocaleLowerCase()).replace('{link}', createNewUrl)}} />
