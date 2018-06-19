@@ -192,7 +192,7 @@ class Localizations extends Container implements Helper
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'vcwb'),
             'postUpdateAjaxRequestError' => __('Failed to load: {file}', 'vcwb'). ' #10077',
-            'noneText' => __('None', 'vcwb'),
+            'none' => __('None', 'vcwb'),
             'mobileTooltipText' => __(
             // @codingStandardsIgnoreLine
                 'Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view.',
