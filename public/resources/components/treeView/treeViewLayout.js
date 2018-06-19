@@ -161,6 +161,15 @@ export default class TreeViewLayout extends React.Component {
     }
   }
 
+  handleRemoveAllElements (e) {
+    e && e.preventDefault()
+    const allElements = documentManager.all()
+
+    for (const id in allElements) {
+      workspaceStorage.trigger('remove', id)
+    }
+  }
+
   handleAddTemplate (e) {
     e && e.preventDefault()
     workspaceSettings.set({
@@ -196,6 +205,7 @@ export default class TreeViewLayout extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const addTemplateText = localizations ? localizations.addTemplate : 'Add Template'
+    const removeAllText = localizations ? localizations.removeAll : 'Remove All'
 
     let addTemplate = this.props.isAttribute ? null
       : <span
@@ -221,6 +231,16 @@ export default class TreeViewLayout extends React.Component {
             <span className='vcv-ui-tree-layout-action-content'>
               <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
               <span>{addElementText}</span>
+            </span>
+          </span>
+          <span
+            className='vcv-ui-tree-layout-action'
+            title={removeAllText}
+            onClick={this.handleRemoveAllElements}
+          >
+            <span className='vcv-ui-tree-layout-action-content'>
+              <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-trash' />
+              <span>{removeAllText}</span>
             </span>
           </span>
           {addTemplate}
