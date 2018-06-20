@@ -163,11 +163,10 @@ export default class TreeViewLayout extends React.Component {
 
   handleRemoveAllElements (e) {
     e && e.preventDefault()
-    const allElements = documentManager.all()
-
-    for (const id in allElements) {
-      workspaceStorage.trigger('remove', id)
-    }
+    const allElements = documentManager.children(false)
+    allElements.forEach((row) => {
+      workspaceStorage.trigger('remove', row.id)
+    })
   }
 
   handleAddTemplate (e) {
