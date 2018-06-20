@@ -11,8 +11,10 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Localizations;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -64,7 +66,11 @@ class Locale extends Container implements Module
         if ($this->printed) {
             return;
         }
-        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()) {
+        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()
+            || vcfilter(
+                'vcv:editors:internationalization:printLocalizations',
+                false
+            )) {
             $this->printed = true;
             evcview(
                 'partials/constant-script',
