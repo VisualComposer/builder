@@ -5,6 +5,8 @@ import { buildSettingsObject } from './lib/tools'
 import { default as elementSettings } from './lib/element-settings'
 import { default as attributeManager } from './lib/attribute-manager'
 import CookElement from './lib/element'
+// FT: FT_PARAM_GROUP_IN_EDIT_FORM
+import '../cookRefactor/service'
 
 const DocumentData = getService('document')
 
@@ -69,5 +71,6 @@ const API = {
     })
   }
 }
-
-addService('cook', API)
+if (!env('FT_PARAM_GROUP_IN_EDIT_FORM')) {
+  addService('cook', API)
+}
