@@ -73,5 +73,6 @@ const API = {
     })
   }
 }
-
-addService('cook', API)
+if (env('FT_PARAM_GROUP_IN_EDIT_FORM')) {
+  addService('cook', API)
+}
