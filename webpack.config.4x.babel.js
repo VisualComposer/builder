@@ -13,6 +13,7 @@ module.exports = {
     pe: './public/pe-main',
     front: './public/front-main',
     wpbackendswitch: './public/wpbackend-switch',
+    wpBase: './public/wp-base',
     vendor: [
       'jquery',
       'react',
