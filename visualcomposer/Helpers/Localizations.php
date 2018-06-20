@@ -325,7 +325,9 @@ class Localizations extends Container implements Helper
             ),
             'free' => __('Free', 'vcwb'),
             'premium' => __('Premium', 'vcwb'),
-            'removeAll' => __('Remove All', 'vcwb')
+            'removeAll' => __('Remove All', 'vcwb'),
+            'continueImport' => __('Continue import', 'vcwb'),
+            'backToImport' => __('Back to import', 'vcwb')
         ];
 
         return $locale;
