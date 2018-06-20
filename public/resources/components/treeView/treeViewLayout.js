@@ -161,6 +161,14 @@ export default class TreeViewLayout extends React.Component {
     }
   }
 
+  handleRemoveAllElements (e) {
+    e && e.preventDefault()
+    const allElements = documentManager.children(false)
+    allElements.forEach((row) => {
+      workspaceStorage.trigger('remove', row.id)
+    })
+  }
+
   handleAddTemplate (e) {
     e && e.preventDefault()
     workspaceSettings.set({
@@ -195,19 +203,7 @@ export default class TreeViewLayout extends React.Component {
   getScrollbarContent () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
-    const addTemplateText = localizations ? localizations.addTemplate : 'Add Template'
-
-    let addTemplate = this.props.isAttribute ? null
-      : <span
-        className='vcv-ui-tree-layout-action'
-        title={addTemplateText}
-        onClick={this.handleAddTemplate}
-      >
-        <span className='vcv-ui-tree-layout-action-content'>
-          <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' />
-          <span>{addTemplateText}</span>
-        </span>
-      </span>
+    const removeAllText = localizations ? localizations.removeAll : 'Remove All'
 
     return (
       <React.Fragment>
@@ -223,7 +219,16 @@ export default class TreeViewLayout extends React.Component {
               <span>{addElementText}</span>
             </span>
           </span>
-          {addTemplate}
+          <span
+            className='vcv-ui-tree-layout-action'
+            title={removeAllText}
+            onClick={this.handleRemoveAllElements}
+          >
+            <span className='vcv-ui-tree-layout-action-content'>
+              <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-trash' />
+              <span>{removeAllText}</span>
+            </span>
+          </span>
         </div>
       </React.Fragment>
     )
