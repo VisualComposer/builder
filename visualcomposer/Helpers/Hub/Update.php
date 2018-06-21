@@ -83,4 +83,26 @@ class Update implements Helper
 
         return !empty($requiredActions) || !empty($needUpdatePost);
     }
+
+    /**
+     * Remove trashed posts
+     * 
+     * @return array
+     */
+    public function getUpdatePosts()
+    {
+        $optionsHelper = vchelper('Options');
+        $updatePosts = $optionsHelper->get('hubAction:updatePosts', []);
+        $canUpdate = [];
+
+        foreach ($updatePosts as $updatePost) {
+            $post = get_post($updatePost);
+
+            if ($post && $post->post_status !== 'trash') {
+                $canUpdate[] = $updatePost;
+            }
+        }
+
+        return $canUpdate;
+    }
 }
