@@ -97,7 +97,7 @@ class Update implements Helper
 
         foreach ($updatePosts as $updatePost) {
             $post = get_post($updatePost);
-
+            // @codingStandardsIgnoreLine
             if ($post && $post->post_status !== 'trash') {
                 $canUpdate[] = $updatePost;
             }
