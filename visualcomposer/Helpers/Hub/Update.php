@@ -86,7 +86,7 @@ class Update implements Helper
 
     /**
      * Remove trashed posts
-     * 
+     *
      * @return array
      */
     public function getUpdatePosts()
