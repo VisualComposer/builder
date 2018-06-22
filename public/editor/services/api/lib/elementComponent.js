@@ -224,10 +224,13 @@ export default class ElementComponent extends Component {
       if (mixin) {
         returnData = mixinData[ tag ][ mixinName ][ mixin ]
       }
+    } else {
+      returnData = mixinData[ tag ] || mixinData
     }
     return returnData
   }
 
+  // TODO: Unused method, consider removing?
   getAttributeMixinData (attributeName) {
     const vcCake = require('vc-cake')
     const assetsStorage = vcCake.getService('modernAssetsStorage').getGlobalInstance()

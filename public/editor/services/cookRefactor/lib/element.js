@@ -46,7 +46,7 @@ export default class Element {
         id: id,
         tag: tag,
         parent: parent,
-        data: attr,
+        data: data,
         name: metaSettings.name,
         metaThumbnailUrl: metaSettings.metaThumbnailUrl,
         metaPreviewUrl: metaSettings.metaPreviewUrl,
