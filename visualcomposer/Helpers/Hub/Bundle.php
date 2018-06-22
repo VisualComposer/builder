@@ -208,6 +208,7 @@ class Bundle implements Helper
     public function loopActions($json)
     {
         $optionsHelper = vchelper('Options');
+        $hubUpdateHelper = vchelper('HubUpdate');
         $requiredActions = [];
         if (isset($json['actions'])) {
             foreach ($json['actions'] as $key => $value) {
@@ -220,7 +221,7 @@ class Bundle implements Helper
                 }
             }
         }
-        $needUpdatePost = vcvenv('VCV_TF_POSTS_RERENDER', false) ? $optionsHelper->get('hubAction:updatePosts', [])
+        $needUpdatePost = vcvenv('VCV_TF_POSTS_RERENDER', false) ? $hubUpdateHelper->getUpdatePosts()
             : [];
         if (empty($needUpdatePost) || !is_array($needUpdatePost)) {
             $needUpdatePost = [];
