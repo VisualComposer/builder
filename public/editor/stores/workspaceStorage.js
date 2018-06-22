@@ -65,8 +65,8 @@ addStorage('workspace', (storage) => {
   })
   storage.on('remove', (id) => {
     const settings = storage.state('settings').get()
-    // close editForm if deleted element is opened in edit form
-    if (settings && settings.action === 'edit' && settings.element && (id === settings.element.id)) {
+    // close editForm
+    if (settings && settings.action === 'edit') {
       storage.state('settings').set({})
     }
     elementsStorage.trigger('remove', id)
