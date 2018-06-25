@@ -285,6 +285,10 @@ const publicApi = {
     let elementPublicAssetsFiles = innerApi.getElementPublicAssetsFiles(cookElement)
     let elementSharedAssetsLibraryFiles = innerApi.getElementSharedAssetsLibraryFiles(cookElement)
 
+    // Element Shared Assets Libs
+    files.cssBundles = files.cssBundles.concat(elementSharedAssetsLibraryFiles.cssBundles)
+    files.jsBundles = files.jsBundles.concat(elementSharedAssetsLibraryFiles.jsBundles)
+
     // Element Assets Libs
     files.cssBundles = files.cssBundles.concat(elementAssetsLibraryFiles.cssBundles)
     files.jsBundles = files.jsBundles.concat(elementAssetsLibraryFiles.jsBundles)
@@ -296,10 +300,6 @@ const publicApi = {
     // Element Attributes Css/Js
     // Google Fonts
     files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
-
-    // Element Shared Assets Libs
-    files.cssBundles = files.cssBundles.concat(elementSharedAssetsLibraryFiles.cssBundles)
-    files.jsBundles = files.jsBundles.concat(elementSharedAssetsLibraryFiles.jsBundles)
 
     // Inner elements / Sub elements
     let { getAssetsFilesByElement } = publicApi

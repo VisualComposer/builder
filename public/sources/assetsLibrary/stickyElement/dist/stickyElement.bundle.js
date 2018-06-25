@@ -9,7 +9,7 @@
  * @license https://github.com/rgalus/sticky-js/blob/master/LICENSE
  */
 
-class Sticky {
+class vcSticky {
   /**
    * Sticky instance constructor
    * @constructor
@@ -440,6 +440,6 @@ class Sticky {
       return factory;
     });
   } else {
-    root.Sticky = factory;
+    root.vcSticky = factory;
   }
-})(this, Sticky);
+})(this, vcSticky);
