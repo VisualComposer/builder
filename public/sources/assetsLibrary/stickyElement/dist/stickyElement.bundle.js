@@ -26,7 +26,7 @@ class vcSticky {
     this.body = document.querySelector('body');
 
     this.options = {
-      wrap: options.wrap || false,
+      wrap: options.wrap || true,
       marginTop: options.marginTop || 0,
       stickyFor: options.stickyFor || 0,
       stickyClass: options.stickyClass || null,
@@ -420,6 +420,9 @@ class vcSticky {
    * @param {object} properties - CSS properties that will be added/removed from specified element
    */
   css(element, properties) {
+    if (!element) {
+      return;
+    }
     for (let property in properties) {
       if (properties.hasOwnProperty(property)) {
         element.style[property] = properties[property];
