@@ -223,7 +223,7 @@ class vcSticky {
    * @param {node} element - Element for which event function is fired
    */
   onScrollEvents(element) {
-    if (element.sticky.active) {
+    if (element && element.sticky && element.sticky.active) {
       this.setPosition(element);
     }
   }
