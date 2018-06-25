@@ -63,6 +63,9 @@ module.exports = Object.assign({}, config, {
       })
     ]
   },
+  entry: {
+    wpbase: './public/wp-base'
+  },
   plugins: [
     new Collector({
       wp: {
