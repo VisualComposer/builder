@@ -328,7 +328,8 @@ class Localizations extends Container implements Helper
             'removeAll' => __('Remove All', 'vcwb'),
             'continueImport' => __('Continue import', 'vcwb'),
             'backToImport' => __('Back to import', 'vcwb'),
-            'startingImportProcess' => __('Starting import process...', 'vcwb')
+            'startingImportProcess' => __('Starting import process...', 'vcwb'),
+            'backToParent' => __('Back to parent', 'vcwb')
         ];
 
         return $locale;

@@ -8,7 +8,7 @@
     "url": "git@gitlab.com:visual-composer-website-builder/builder.git"
   },
   "scripts": {
-    "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 jest",
+    "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 npx jest",
     "standard": "standard",
     "build": "webpack --config webpack.config.4x.babel.js --progress --colors",
     "build-production": "webpack --config webpack.config.production.4x.babel.js -p --silent",
@@ -160,10 +160,6 @@
     }
   },
   "jest": {
-    "testRegex": "(/tests/jest/.*|\\.(test|spec))\\.jsx?$",
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "setupFiles": [
-      "<rootDir>/setupFile.js"
-    ]
+    "testRegex": "(/tests/jest/.*)\\.jsx?$"
   }
 }
