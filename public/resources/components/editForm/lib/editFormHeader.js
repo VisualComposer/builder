@@ -80,16 +80,11 @@ export default class EditFormHeader extends React.Component {
   }
 
   updateContent (value) {
-    const { element, options } = this.props
+    const { element } = this.props
     if (!value) {
       this.span.innerText = element.get('name')
     }
-
-    if (options && (options.child || options.nestedAttr)) {
-      options.customUpdater(options.activeParamGroupIndex, element, 'title', value)
-    } else {
-      element.customHeaderTitle = value
-    }
+    element.customHeaderTitle = value
     this.setState({
       editable: false
     })
@@ -119,37 +114,50 @@ export default class EditFormHeader extends React.Component {
   render () {
     const { element, options } = this.props
     let { content, editable } = this.state
+    let isNested = options && (options.child || options.nestedAttr)
     let headerTitleClasses = classNames({
       'vcv-ui-edit-form-header-title': true,
       'active': editable
     })
-    const backButton = options && (options.child || options.nestedAttr) ? (
+    const backButton = isNested ? (
       <span className='vcv-ui-edit-form-back-button' onClick={this.goBack}>
         <i className='vcv-ui-icon vcv-ui-icon-chevron-left' /></span>) : null
 
-    if (options && (options.child || options.nestedAttr) && options.activeParamGroup) {
-      content = options.activeParamGroup.title
+    if (isNested && options.activeParamGroup) {
+      content = 'Back to parent'
     }
 
     const sectionImageSrc = hubCategories.getElementIcon(element.tag)
     const sectionImage = sectionImageSrc ? (
       <img src={sectionImageSrc} title={content} />) : null
+
+    let headerTitle = isNested && options.activeParamGroup
+      ? (<span className={headerTitleClasses}
+        ref={span => { this.span = span }}
+      >
+        {content}
+      </span>)
+      : (<span className={headerTitleClasses}
+        ref={span => { this.span = span }}
+        contentEditable={editable}
+        suppressContentEditableWarning
+        onClick={this.enableEditable}
+        onKeyDown={this.preventNewLine}
+        onBlur={this.validateContent}
+      >
+        {content}
+      </span>)
+
+    let editIcon = isNested && options.activeParamGroup
+      ? null
+      : <i className='vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title' onClick={this.editTitle} />
+
     return (
       <div className='vcv-ui-edit-form-header'>
         {backButton}
         {sectionImage}
-        <span className={headerTitleClasses}
-          ref={span => { this.span = span }}
-          contentEditable={editable}
-          suppressContentEditableWarning
-          onClick={this.enableEditable}
-          onKeyDown={this.preventNewLine}
-          onBlur={this.validateContent}
-        >
-          {content}
-        </span>
-        <i className='vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title'
-          onClick={this.editTitle} />
+        {headerTitle}
+        {editIcon}
       </div>
     )
   }
