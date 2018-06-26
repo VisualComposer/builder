@@ -120,11 +120,11 @@ export default class EditFormHeader extends React.Component {
       'active': editable
     })
     const backButton = isNested ? (
-      <span className='vcv-ui-edit-form-back-button' onClick={this.goBack}>
+      <span className='vcv-ui-edit-form-back-button' onClick={this.goBack} title='Back to parent'>
         <i className='vcv-ui-icon vcv-ui-icon-chevron-left' /></span>) : null
 
     if (isNested && options.activeParamGroup) {
-      content = 'Back to parent'
+      content = options.activeParamGroup.title
     }
 
     const sectionImageSrc = hubCategories.getElementIcon(element.tag)
