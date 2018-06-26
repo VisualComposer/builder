@@ -119,8 +119,10 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-edit-form-header-title': true,
       'active': editable
     })
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     const backButton = isNested ? (
-      <span className='vcv-ui-edit-form-back-button' onClick={this.goBack} title='Back to parent'>
+      <span className='vcv-ui-edit-form-back-button' onClick={this.goBack} title={backToParentTitle}>
         <i className='vcv-ui-icon vcv-ui-icon-chevron-left' /></span>) : null
 
     if (isNested && options.activeParamGroup) {
