@@ -11,7 +11,11 @@ const dataStore = {
         return el.get('parent') === id
       })
       .sortBy((el) => {
-        return el.get('order')
+        let order = el.get('order')
+        if (typeof order === 'string') {
+          order = parseInt(order)
+        }
+        return order
       })
   },
   getLastOrderIndex: function (id) {
