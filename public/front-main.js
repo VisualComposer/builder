@@ -3,7 +3,14 @@ import './polyfills'
 import publicAPI from './resources/api/publicAPI'
 import './sources/less/front/init.less'
 
-window.vcv = publicAPI
+if (!window.hasOwnProperty('vcv')) {
+  Object.defineProperty(window, 'vcv', {
+    value: publicAPI,
+    writable: false,
+    configurable: false,
+    enumerable: false
+  })
+}
 
 jQuery(document).ready(() => {
   window.vcv.trigger('ready')

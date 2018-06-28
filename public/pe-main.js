@@ -6,4 +6,11 @@ import publicAPI from './resources/api/publicAPI'
 
 require('expose-loader?$!jquery')
 
-window.vcv = publicAPI
+if (!window.hasOwnProperty('vcv')) {
+  Object.defineProperty(window, 'vcv', {
+    value: publicAPI,
+    writable: false,
+    configurable: false,
+    enumerable: false
+  })
+}
