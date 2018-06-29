@@ -160,6 +160,7 @@
     }
   },
   "jest": {
+    "testPathIgnorePatterns": ["/node_modules/", "/devElements/"],
     "testRegex": "(/tests/jest/.*)\\.jsx?$"
   }
 }
