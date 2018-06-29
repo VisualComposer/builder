@@ -19,11 +19,12 @@ addStorage('shortcodeAssets', (storage) => {
   let loadFiles = (data) => {
     const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
     if (data.domNodes && data.domNodes.length) {
+      const allowedHeadTags = ['META', 'LINK', 'STYLE', 'SCRIPT']
       Array.from(data.domNodes).forEach(domNode => {
         let slug = ''
         let position = ''
         let type = ''
-        if (domNode.href) {
+        if (domNode.href && (allowedHeadTags.indexOf(domNode.tag) > -1)) {
           slug = utils.slugify(domNode.href)
           position = 'head'
           type = 'css'
