@@ -1,8 +1,9 @@
 import vcCake from 'vc-cake'
 import RowElement from '../../../devElements/row/row/component'
-const vcvAddElement = vcCake.getService('cook').add
+const AddElement = vcCake.getService('cook').add
+const AddElementToHub = vcCake.getService('hubElements').add
 
-vcvAddElement(
+AddElement(
   require('../../../devElements/row/row/settings.json'),
   // Component callback
   function (component) {
@@ -20,4 +21,19 @@ vcvAddElement(
   },
   // javascript callback
   ''
+)
+
+AddElementToHub(
+  {
+    tag: 'row',
+    assetsPath: '',
+    bundlePath: '',
+    elementPath: '',
+    settings: {
+      metaDescription: '',
+      metaPreviewUrl: '',
+      metaThumbnailUrl: '',
+      name: ''
+    }
+  }
 )
