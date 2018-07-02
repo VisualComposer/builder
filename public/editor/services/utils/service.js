@@ -138,8 +138,10 @@ const API = {
     let deleteAttrElements = documentFragment.querySelectorAll(`[${deleteAttribute}]`)
     deleteAttrElements = [].slice.call(deleteAttrElements)
     deleteAttrElements.forEach((node) => {
-      const attrToDelete = node.getAttribute(deleteAttribute)
-      node.removeAttribute(attrToDelete)
+      const attributesToDelete = node.getAttribute(deleteAttribute)
+      attributesToDelete.split(' ').forEach((attr) => {
+        node.removeAttribute(attr)
+      })
       node.removeAttribute(deleteAttribute)
     })
 
