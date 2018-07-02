@@ -21,6 +21,7 @@
     activate = activate.bind(this);
     initResizeEvents = initResizeEvents.bind(this);
     destroyResizeEvents = destroyResizeEvents.bind(this);
+    onResizeEvents = onResizeEvents.bind(this);
     onScrollEvents = onScrollEvents.bind(this);
     setPosition = setPosition.bind(this);
     update = update.bind(this);
@@ -87,12 +88,10 @@
     element.sticky.stickyFor = parseInt(element.getAttribute('data-sticky-for')) || this.options.stickyFor;
     element.sticky.stickyClass = element.getAttribute('data-sticky-class') || this.options.stickyClass;
     element.sticky.wrap = element.hasAttribute('data-sticky-wrap') ? true : this.options.wrap;
-    // @todo attribute for stickyContainer
-    // element.sticky.stickyContainer = element.getAttribute('data-sticky-container') || this.options.stickyContainer;
     element.sticky.stickyContainer = this.options.stickyContainer;
 
     element.sticky.container = getStickyContainer(element);
-    element.sticky.container.rect = getRectangle(element.sticky.container);
+    element.sticky.container.rect = getRectangle(element.sticky.container, true);
 
     element.sticky.rect = getRectangle(element);
 
@@ -185,7 +184,7 @@
     this.vp = getViewportSize();
 
     element.sticky.rect = getRectangle(element);
-    element.sticky.container.rect = getRectangle(element.sticky.container);
+    element.sticky.container.rect = getRectangle(element.sticky.container, true);
 
     if (
       ((element.sticky.rect.top + element.sticky.rect.height) < (element.sticky.container.rect.top + element.sticky.container.rect.height))
@@ -321,7 +320,7 @@
   function update() {
     forEach(this.elements, (element) => {
       element.sticky.rect = getRectangle(element);
-      element.sticky.container.rect = getRectangle(element.sticky.container);
+      element.sticky.container.rect = getRectangle(element.sticky.container, true);
 
       activate(element);
       setPosition(element);
@@ -356,20 +355,29 @@
    * @param {node} element - Element which position & rectangle are returned
    * @return {object}
    */
-  function getRectangle(element) {
+  function getRectangle(element, isParent) {
     css(element, { position: '', width: '', top: '', left: '' });
 
-    const width = Math.max(element.offsetWidth, element.clientWidth, element.scrollWidth);
-    const height = Math.max(element.offsetHeight, element.clientHeight, element.scrollHeight);
+    // reset parents css
+    if (!isParent) {
+      css(element.parentElement, { position: '', width: '', top: '', left: '' });
+    }
 
-    let top = 0;
-    let left = 0;
+    const elementRect = element.getBoundingClientRect();
 
-    do {
-      top += element.offsetTop || 0;
-      left += element.offsetLeft || 0;
-      element = element.offsetParent;
-    } while(element);
+    const body = document.body;
+    const docEl = document.documentElement;
+
+    const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    const scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+    const clientTop = docEl.clientTop || body.clientTop || 0;
+    const clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+    const top  = elementRect.top +  scrollTop - clientTop;
+    const left = elementRect.left + scrollLeft - clientLeft;
+    const width = elementRect.width;
+    const height = elementRect.height;
 
     return { top, left, width, height };
   }
