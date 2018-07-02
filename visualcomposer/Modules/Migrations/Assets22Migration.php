@@ -31,6 +31,9 @@ class Assets22Migration extends MigrationsController implements Module
         // check if folder exists in wp-content/visualcomposer-assets
         if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
             $fileSystem = $fileHelper->getFileSystem();
+            if (!$fileSystem) {
+                return false;
+            }
             if (!$fileSystem->is_dir(VCV_PLUGIN_ASSETS_DIR_PATH)
                 && $fileSystem->is_dir(
                     WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME
