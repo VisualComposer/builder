@@ -118,8 +118,7 @@
     {
       "name": "stickyElement",
       "dependencies": [],
-      "jsBundle": "[publicPath]/dist/stickyElement.bundle.js",
-      "cssBundle": "[publicPath]/dist/stickyElement.bundle.css"
+      "jsBundle": "[publicPath]/dist/stickyElement.bundle.js"
     }
   ]
 }
