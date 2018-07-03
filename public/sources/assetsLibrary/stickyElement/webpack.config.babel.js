@@ -6,7 +6,7 @@ import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
 module.exports = {
   mode: 'production',
   entry: {
-    stickyElement: ['./src/stickyElement.js' ]
+    stickyElement: [ './src/stickyElementStarter.js', './src/stickyElement.js', './src/stickyElement.css' ]
   },
   output: {
     path: path.resolve(__dirname, 'dist/'), // Assets dist path

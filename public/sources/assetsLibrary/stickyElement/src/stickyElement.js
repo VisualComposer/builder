@@ -11,13 +11,14 @@
       marginTop: options.marginTop || 0,
       stickyFor: options.stickyFor || 0,
       stickyClass: options.stickyClass || null,
+      stickyAttribute: options.stickyAttribute || null,
       stickyContainer: options.stickyContainer || 'body',
+      isFullWidth: options.isFullWidth || false,
     };
 
     updateScrollTopPosition = updateScrollTopPosition.bind(this);
     run = run.bind(this);
     renderElement = renderElement.bind(this);
-    wrapElement = wrapElement.bind(this);
     activate = activate.bind(this);
     initResizeEvents = initResizeEvents.bind(this);
     destroyResizeEvents = destroyResizeEvents.bind(this);
@@ -87,36 +88,23 @@
     element.sticky.marginTop = parseInt(element.getAttribute('data-margin-top')) || this.options.marginTop;
     element.sticky.stickyFor = parseInt(element.getAttribute('data-sticky-for')) || this.options.stickyFor;
     element.sticky.stickyClass = element.getAttribute('data-sticky-class') || this.options.stickyClass;
+    element.sticky.stickyAttribute = element.getAttribute('data-sticky-attribute') || this.options.stickyAttribute;
     element.sticky.wrap = element.hasAttribute('data-sticky-wrap') ? true : this.options.wrap;
     element.sticky.stickyContainer = this.options.stickyContainer;
+    element.sticky.isFullWidth = element.getAttribute('data-vce-full-width') === 'true' || this.options.isFullWidth;
 
     element.sticky.container = getStickyContainer(element);
-    element.sticky.container.rect = getRectangle(element.sticky.container, true);
+    element.sticky.container.rect = getRectangle(element.sticky.container, true, element.sticky.isFullWidth);
 
-    element.sticky.rect = getRectangle(element);
+    element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
 
     // fix when element is image that has not yet loaded and width, height = 0
     if (element.tagName.toLowerCase() === 'img') {
-      element.onload = () => element.sticky.rect = getRectangle(element);
-    }
-
-    if (element.sticky.wrap) {
-      // wrapElement(element);
+      element.onload = () => element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
     }
 
     // activate rendered element
     activate(element);
-  }
-
-
-  /**
-   * Wraps element into placeholder element
-   * @function
-   * @param {node} element - Element to be wrapped
-   */
-  function wrapElement(element) {
-    element.insertAdjacentHTML('beforebegin', '<span></span>');
-    element.previousSibling.appendChild(element);
   }
 
 
@@ -183,8 +171,8 @@
   function onResizeEvents(element) {
     this.vp = getViewportSize();
 
-    element.sticky.rect = getRectangle(element);
-    element.sticky.container.rect = getRectangle(element.sticky.container, true);
+    element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
+    element.sticky.container.rect = getRectangle(element.sticky.container, true, element.sticky.isFullWidth);
 
     if (
       ((element.sticky.rect.top + element.sticky.rect.height) < (element.sticky.container.rect.top + element.sticky.container.rect.height))
@@ -240,74 +228,96 @@
 
 
   /**
+   * Helper function to parse css properties when some are not needed.
+   * @helper
+   * @param {object} css - CSS properties that will be parsed
+   * @param {boolean} isFullWidth - full width element
+   */
+  function parseCss(css, isFullWidth) {
+    if (isFullWidth) {
+      delete css.width;
+      delete css.left;
+    }
+    return css;
+  }
+
+  /**
    * Main function for the library. Here are some condition calculations and css appending for sticky element when user scroll window
    * @function
    * @param {node} element - Element that will be positioned if it's active
    */
   function setPosition(element) {
-    css(element, { position: '', width: '', top: '', left: '' });
+    css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
 
     if ((this.vp.height < element.sticky.rect.height) || !element.sticky.active) {
       return;
     }
 
     if (!element.sticky.rect.width) {
-      element.sticky.rect = getRectangle(element);
+      element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
     }
 
     if (element.sticky.wrap) {
-      css(element.parentNode, {
+      css(element.parentNode, parseCss({
         display: 'block',
         width: element.sticky.rect.width + 'px',
         height: element.sticky.rect.height + 'px',
-      });
+      }, element.sticky.isFullWidth));
     }
 
     if (
       element.sticky.rect.top === 0
       && element.sticky.container === this.body
     ) {
-      css(element, {
+      css(element, parseCss({
         position: 'fixed',
         top: element.sticky.rect.top + 'px',
         left: element.sticky.rect.left + 'px',
         width: element.sticky.rect.width + 'px',
-      });
+      }, element.sticky.isFullWidth));
     } else if (this.scrollTop > (element.sticky.rect.top - element.sticky.marginTop)) {
-      css(element, {
+      css(element, parseCss({
         position: 'fixed',
         width: element.sticky.rect.width + 'px',
         left: element.sticky.rect.left + 'px',
-      });
+      }, element.sticky.isFullWidth));
 
       if (
         (this.scrollTop + element.sticky.rect.height + element.sticky.marginTop)
         > (element.sticky.container.rect.top + element.sticky.container.offsetHeight)
       ) {
-
         if (element.sticky.stickyClass) {
           element.classList.remove(element.sticky.stickyClass);
         }
+        if (element.sticky.stickyAttribute) {
+          element.removeAttribute(element.sticky.stickyAttribute)
+        }
 
-        css(element, {
-          top: (element.sticky.container.rect.top + element.sticky.container.offsetHeight) - (this.scrollTop + element.sticky.rect.height) + 'px' }
-        );
+        css(element, parseCss({
+          top: (element.sticky.container.rect.top + element.sticky.container.offsetHeight) - (this.scrollTop + element.sticky.rect.height) + 'px'
+        }, element.sticky.isFullWidth));
       } else {
         if (element.sticky.stickyClass) {
           element.classList.add(element.sticky.stickyClass);
         }
+        if (element.sticky.stickyAttribute) {
+          element.setAttribute(element.sticky.stickyAttribute, true)
+        }
 
-        css(element, { top: element.sticky.marginTop + 'px' });
+        css(element, parseCss({ top: element.sticky.marginTop + 'px' }, element.sticky.isFullWidth));
       }
     } else {
       if (element.sticky.stickyClass) {
         element.classList.remove(element.sticky.stickyClass);
       }
+      if (element.sticky.stickyAttribute) {
+        element.removeAttribute(element.sticky.stickyAttribute)
+      }
 
-      css(element, { position: '', width: '', top: '', left: '' });
+      css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
 
       if (element.sticky.wrap) {
-        css(element.parentNode, { display: '', width: '', height: '' });
+        css(element.parentNode, parseCss({ display: '', width: '', height: '' }, element.sticky.isFullWidth));
       }
     }
   }
@@ -319,8 +329,8 @@
    */
   function update() {
     forEach(this.elements, (element) => {
-      element.sticky.rect = getRectangle(element);
-      element.sticky.container.rect = getRectangle(element.sticky.container, true);
+      element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
+      element.sticky.container.rect = getRectangle(element.sticky.container, true, element.sticky.isFullWidth);
 
       activate(element);
       setPosition(element);
@@ -353,14 +363,15 @@
    * Function that returns element rectangle & position (width, height, top, left)
    * @function
    * @param {node} element - Element which position & rectangle are returned
+   * @param {boolean} isParent - sticky element parent
    * @return {object}
    */
-  function getRectangle(element, isParent) {
-    css(element, { position: '', width: '', top: '', left: '' });
+  function getRectangle(element, isParent = false, isFullWidth = false) {
+    css(element, parseCss({ position: '', width: '', top: '', left: '' }, isFullWidth));
 
     // reset parents css
     if (!isParent) {
-      css(element.parentElement, { position: '', width: '', top: '', left: '' });
+      css(element.parentElement, parseCss({ position: '', width: '', top: '', left: '' }, isFullWidth));
     }
 
     const elementRect = element.getBoundingClientRect();
@@ -429,6 +440,7 @@
     if (!element) {
       return;
     }
+
     for (let property in properties) {
       if (properties.hasOwnProperty(property)) {
         element.style[property] = properties[property];
