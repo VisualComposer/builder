@@ -22,7 +22,7 @@
     fullWidthElements.forEach(function (element) {
       const mainBody = document.body
       const elementParent = element.parentElement
-      const elementContent = element.querySelector('data-vce-element-content="true"')
+      const elementContent = element.querySelector('[data-vce-element-content="true"]')
       const elementCustomContainer = document.querySelector('.vce-full-width-custom-container')
 
       const elMarginLeft = parseInt(window.getComputedStyle(element, null)['margin-left'], 10)
