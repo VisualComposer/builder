@@ -125,6 +125,11 @@
       "name": "faqToggle",
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/faqToggle.bundle.js"
+    },
+    {
+      "name": "fullWidth",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/fullWidth.bundle.js"
     }
   ]
 }
