@@ -119,6 +119,11 @@
       "name": "stickyElement",
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/stickyElement.bundle.js"
+    },
+    {
+      "name": "faqToggle",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/faqToggle.bundle.js"
     }
   ]
 }
