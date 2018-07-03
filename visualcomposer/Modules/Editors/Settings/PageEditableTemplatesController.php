@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -25,7 +26,7 @@ class PageEditableTemplatesController extends Container implements Module
         $this->wpAddFilter(
             'template_include',
             'viewPePageTemplate',
-            9
+            12
         );
 
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewThemeTemplate');
@@ -52,13 +53,17 @@ class PageEditableTemplatesController extends Container implements Module
         return $originalTemplate;
     }
 
-    protected function viewThemeTemplate($originalTemplate, $data)
+    protected function viewThemeTemplate($originalTemplate, $data, File $fileHelper)
     {
         if ($data && $data['type'] === 'theme') {
             $templateList = wp_get_theme()->get_page_templates();
             if (isset($templateList[ $data['value'] ])) {
                 return locate_template($data['value']);
             } elseif ($data['value'] === 'default') {
+                if ($fileHelper->isFile($originalTemplate)) {
+                    return $originalTemplate;
+                }
+
                 return $this->getDefaultTheme();
             }
         }
