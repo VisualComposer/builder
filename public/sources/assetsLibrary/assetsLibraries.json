@@ -120,6 +120,11 @@
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/stickyElement.bundle.js",
       "cssBundle": "[publicPath]/dist/stickyElement.bundle.css"
+    },
+    {
+      "name": "faqToggle",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/faqToggle.bundle.js"
     }
   ]
 }
