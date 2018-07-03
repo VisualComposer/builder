@@ -130,6 +130,11 @@
       "name": "fullWidth",
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/fullWidth.bundle.js"
+    },
+    {
+      "name": "fullHeight",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/fullHeight.bundle.js"
     }
   ]
 }
