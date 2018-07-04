@@ -26,6 +26,11 @@ function vcapp($make = null, $parameters = [])
     return FrameworkContainer::getInstance()->make($make, $parameters);
 }
 
+function vcapi()
+{
+    return vcapp('ApiFactory');
+}
+
 /**
  * Get the available container instance.
  *
