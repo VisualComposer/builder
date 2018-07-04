@@ -14,7 +14,7 @@ export default (value) => {
 
   if (addStickyLib) {
     libs.push({
-      name: 'sticky'
+      name: 'stickyElement'
     })
   }
 
