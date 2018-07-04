@@ -430,6 +430,27 @@ export default class ElementComponent extends Component {
     return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
   }
 
+  getStickyAttributes (sticky) {
+    let attributes = {}
+    if (Object.keys(sticky.device).length) {
+      let deviceKeys = Object.keys(sticky.device)
+      deviceKeys.forEach((deviceKey) => {
+        // At the moment allow only for device "all"
+        if (deviceKey === 'all') {
+          let device = sticky.device[ deviceKey ]
+          if (device.stickyEnable) {
+            attributes[ 'data-vce-sticky-element' ] = true
+
+            if (device.stickyOffset && device.stickyOffset !== '0') {
+              attributes[ 'data-margin-top' ] = device.stickyOffset
+            }
+          }
+        }
+      })
+    }
+    return attributes
+  }
+
   render () {
     return null
   }
