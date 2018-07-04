@@ -329,7 +329,10 @@ class Localizations extends Container implements Helper
             'continueImport' => __('Continue import', 'vcwb'),
             'backToImport' => __('Back to import', 'vcwb'),
             'startingImportProcess' => __('Starting import process...', 'vcwb'),
-            'backToParent' => __('Back to parent', 'vcwb')
+            'backToParent' => __('Back to parent', 'vcwb'),
+            'editorSettings' => __('Editor Settings', 'vcwb'),
+            'disablePreviewDescription' => __('Disable element and template preview popup in Add Element and Add Template windows', 'vcwb'),
+            'disablePreview' => __('Disable preview', 'vcwb')
         ];
 
         return $locale;

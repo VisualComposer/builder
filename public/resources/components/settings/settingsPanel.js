@@ -3,6 +3,8 @@ import SettingsContent from './lib/settingsContent'
 import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'
+import EditorSettings from './lib/editorSettings/component'
+import { env } from 'vc-cake'
 
 export default class SettingsPanel extends React.Component {
   constructor (props) {
@@ -18,6 +20,7 @@ export default class SettingsPanel extends React.Component {
     const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
     const settingsText = localizations ? localizations.layout : 'Layout'
     const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
+    const editorSettingsText = localizations ? localizations.editorSettings : 'Editor Settings'
 
     sections.push({
       title: settingsText,
@@ -33,6 +36,13 @@ export default class SettingsPanel extends React.Component {
       title: customJSText,
       content: CustomScripts
     })
+
+    if (env('FT_DISABLE_ITEM_PREVIEW')) {
+      sections.push({
+        title: editorSettingsText,
+        content: EditorSettings
+      })
+    }
 
     this.state = {
       sections,
