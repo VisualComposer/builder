@@ -441,8 +441,8 @@ export default class ElementComponent extends Component {
           if (device.stickyEnable) {
             attributes[ 'data-vce-sticky-element' ] = true
 
-            if (device.stickyOffset && device.stickyOffset !== '0') {
-              attributes[ 'data-margin-top' ] = device.stickyOffset
+            if (device.stickyOffsetTop && device.stickyOffsetTop !== '0') {
+              attributes[ 'data-margin-top' ] = device.stickyOffsetTop
             }
           }
         }

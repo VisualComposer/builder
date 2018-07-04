@@ -3,10 +3,12 @@ import React from 'react'
 import lodash from 'lodash'
 import Attribute from '../attribute'
 import Toggle from '../toggle/Component'
+import Number from '../number/Component'
 
 export default class Sticky extends Attribute {
   static deviceDefaults = {
-    stickyEnable: false
+    stickyEnable: false,
+    stickyOffsetTop: '0'
   }
   static defaultState = {
     currentDevice: 'all',
@@ -17,6 +19,7 @@ export default class Sticky extends Attribute {
     super(props)
 
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
+    this.getStickyOffset = this.getStickyOffset.bind(this)
   }
 
   updateState (props) {
@@ -99,7 +102,7 @@ export default class Sticky extends Attribute {
     let fieldKey = 'stickyEnable'
     let deviceData = this.state.devices[ this.state.currentDevice ]
     let value = deviceData[ fieldKey ] || false
-    let labelText = `Enable sticky`
+    let labelText = 'Enable sticky'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -114,12 +117,37 @@ export default class Sticky extends Attribute {
     )
   }
 
+  getStickyOffset () {
+    let fieldKey = 'stickyOffsetTop'
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    if (!deviceData[ 'stickyEnable' ]) {
+      return null
+    }
+    let value = deviceData[ fieldKey ] || false
+    let labelText = 'Sticky offset top (px)'
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <span className='vcv-ui-form-group-heading'>
+          {labelText}
+        </span>
+        <Number
+          api={this.props.api}
+          fieldKey={fieldKey}
+          updater={this.valueChangeHandler}
+          options={{placeholder: Sticky.deviceDefaults.stickyOffsetTop}}
+          value={value}
+        />
+      </div>
+    )
+  }
+
   render () {
     return (
       <div className='vcv-ui-sticky-section'>
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getStickyToggle()}
+            {this.getStickyOffset()}
           </div>
         </div>
       </div>
