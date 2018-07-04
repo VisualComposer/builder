@@ -7,10 +7,10 @@ export default class PreviewToggle extends React.Component {
   constructor (props) {
     super(props)
 
-    let pageTitleDisabled = settingsStorage.state('itemPreviewDisabled').get()
+    let itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled').get()
 
     this.state = {
-      disabled: pageTitleDisabled
+      disabled: itemPreviewDisabled
     }
 
     this.updateTitleToggle = this.updateTitleToggle.bind(this)

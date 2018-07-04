@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubCategories = vcCake.getService('hubCategories')
+const settingsStorage = vcCake.getStorage('settings')
 const cook = vcCake.getService('cook')
 
 export default class ElementControl extends React.Component {
@@ -180,6 +181,9 @@ export default class ElementControl extends React.Component {
 
   ellipsize (selector) {
     let element = ReactDOM.findDOMNode(this).querySelector(selector)
+    if (!element) {
+      return
+    }
     let wordArray = element.innerHTML.split(' ')
     while (element.scrollHeight > element.offsetHeight && wordArray.length > 0) {
       wordArray.pop()
@@ -370,22 +374,30 @@ export default class ElementControl extends React.Component {
       'vcv-ui-item-preview-container': true,
       'vcv-ui-state--visible': previewVisible
     })
-    // Possible overlays:
 
-    // <span className="vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add"></span>
-
-    // <span className='vcv-ui-item-edit'>
-    //   <span className='vcv-ui-item-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
-    //   <span className='vcv-ui-item-remove vcv-ui-icon vcv-ui-icon-close'></span>
-    // </span>
     let publicPathThumbnail = cookElement.get('metaThumbnailUrl')
     let publicPathPreview = cookElement.get('metaPreviewUrl')
+
+    const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
+    let previewBox = ''
+    if (!disablePreview) {
+      previewBox = (
+        <figure className={previewClasses} style={previewStyle}>
+          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
+          <figcaption className='vcv-ui-item-preview-caption'>
+            <div className='vcv-ui-item-preview-text'>
+              {cookElement.get('metaDescription')}
+            </div>
+          </figcaption>
+        </figure>
+      )
+    }
 
     return (
       <li className={listItemClasses}>
         <span className='vcv-ui-item-element'
-          onMouseEnter={this.showPreview}
-          onMouseLeave={this.hidePreview}
+          onMouseEnter={!disablePreview ? this.showPreview : null}
+          onMouseLeave={!disablePreview ? this.hidePreview : null}
           onMouseDown={this.handleMouseDown}
           onMouseUp={this.handleMouseUp}
           onFocus={this.handleFocus}
@@ -405,14 +417,7 @@ export default class ElementControl extends React.Component {
               {name}
             </span>
           </span>
-          <figure className={previewClasses} style={previewStyle}>
-            <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
-            <figcaption className='vcv-ui-item-preview-caption'>
-              <div className='vcv-ui-item-preview-text'>
-                {cookElement.get('metaDescription')}
-              </div>
-            </figcaption>
-          </figure>
+          {previewBox}
         </span>
       </li>
     )
