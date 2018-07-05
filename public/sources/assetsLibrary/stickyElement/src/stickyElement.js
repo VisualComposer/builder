@@ -51,6 +51,21 @@
     forEach(window.vcStickyElements, (element) => {
       destroyResizeEvents(element);
       destroyScrollEvents(element);
+
+      if (element.sticky.stickyClass) {
+        element.classList.remove(element.sticky.stickyClass);
+      }
+      if (element.sticky.stickyAttribute) {
+        element.removeAttribute(element.sticky.stickyAttribute)
+      }
+
+      element.removeAttribute(element.sticky.stickyOffsetAttribute);
+
+      css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
+
+      if (element.sticky.wrap) {
+        css(element.parentNode, parseCss({ display: '', width: '', height: '' }, element.sticky.isFullWidth));
+      }
       delete element.sticky;
     });
   }
