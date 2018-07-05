@@ -103,7 +103,7 @@ export default class Sticky extends Attribute {
     let fieldKey = 'stickyEnable'
     let deviceData = this.state.devices[ this.state.currentDevice ]
     let value = deviceData[ fieldKey ] || false
-    let labelText = 'Enable sticky'
+    let labelText = 'Enable stickiness'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -125,7 +125,7 @@ export default class Sticky extends Attribute {
       return null
     }
     let value = deviceData[ fieldKey ] || false
-    let labelText = 'Sticky offset top (px)'
+    let labelText = 'Margin top'
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <span className='vcv-ui-form-group-heading'>
@@ -138,6 +138,7 @@ export default class Sticky extends Attribute {
           options={{placeholder: Sticky.deviceDefaults.stickyOffsetTop}}
           value={value}
         />
+        <p className='vcv-ui-form-helper'>Specify space (in pixels) from the screen top where element should stick.</p>
       </div>
     )
   }
@@ -149,7 +150,7 @@ export default class Sticky extends Attribute {
       return null
     }
     let value = deviceData[ fieldKey ] || false
-    let labelText = 'Sticky z-index'
+    let labelText = 'Z-index'
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <span className='vcv-ui-form-group-heading'>
@@ -162,6 +163,7 @@ export default class Sticky extends Attribute {
           options={{}}
           value={value}
         />
+        <p className='vcv-ui-form-helper'>Control z-index for the element to place it on top or above the following content.</p>
       </div>
     )
   }
@@ -173,7 +175,7 @@ export default class Sticky extends Attribute {
       return null
     }
     let value = deviceData[ fieldKey ] || false
-    let labelText = 'Enable sticky container'
+    let labelText = 'Relate to parent'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -184,6 +186,7 @@ export default class Sticky extends Attribute {
           options={{ labelText: labelText }}
           value={value}
         />
+        <p className='vcv-ui-form-helper'>Limit stickiness to work only in the parent container.</p>
       </div>
     )
   }
