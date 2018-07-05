@@ -444,6 +444,14 @@ export default class ElementComponent extends Component {
             if (device.stickyOffsetTop && device.stickyOffsetTop !== '0') {
               attributes[ 'data-margin-top' ] = device.stickyOffsetTop
             }
+
+            if (device.stickyZIndex) {
+              attributes[ 'data-vce-sticky-z-index' ] = device.stickyZIndex
+            }
+
+            if (device.stickyContainer) {
+              attributes[ 'data-vce-sticky-container' ] = '[data-vce-element-content]'
+            }
           }
         }
       })

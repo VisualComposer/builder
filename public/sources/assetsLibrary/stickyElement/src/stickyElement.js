@@ -14,6 +14,7 @@
       stickyAttribute: options.stickyAttribute || null,
       stickyContainer: options.stickyContainer || 'body',
       isFullWidth: options.isFullWidth || false,
+      stickyZIndex: options.isFullWidth || null
     };
 
     updateScrollTopPosition = updateScrollTopPosition.bind(this);
@@ -91,13 +92,16 @@
     element.sticky.stickyAttribute = element.getAttribute('data-sticky-attribute') || this.options.stickyAttribute;
     element.sticky.stickyOffsetAttribute = 'data-vcv-sticky-element-active-offset';
     element.sticky.wrap = element.hasAttribute('data-sticky-wrap') ? true : this.options.wrap;
-    element.sticky.stickyContainer = this.options.stickyContainer;
+    element.sticky.stickyContainer = element.getAttribute('data-vce-sticky-container') || this.options.stickyContainer;
+    element.sticky.stickyZIndex = element.getAttribute('data-vce-sticky-z-index') || this.options.stickyZIndex;
     element.sticky.isFullWidth = element.getAttribute('data-vce-full-width') === 'true' || this.options.isFullWidth;
 
     element.sticky.container = getStickyContainer(element);
     element.sticky.container.rect = getRectangle(element.sticky.container, true, element.sticky.isFullWidth);
 
     element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
+
+    css(element, parseCss({ zIndex: element.sticky.stickyZIndex }, element.sticky.isFullWidth))
 
     // fix when element is image that has not yet loaded and width, height = 0
     if (element.tagName.toLowerCase() === 'img') {
@@ -352,17 +356,42 @@
    * @return {node} element - Sticky container
    */
   function getStickyContainer(element) {
-    let container = element.parentNode;
+    let container = getClosest(element, element.sticky.stickyContainer);
 
-    while (
-      !container.hasAttribute('data-sticky-container')
-      && !container.parentNode.querySelector(element.sticky.stickyContainer)
-      && container !== this.body
-      ) {
-      container = container.parentNode;
+    if (!container) {
+      container = this.body;
     }
 
     return container;
+  }
+
+
+  /**
+   * Function that search closes element with selector
+   * @function
+   * @param {node} element - Element which sticky container are looked for
+   * @return {node} selector - Selector of closest element to find
+   */
+  function getClosest (element, selector) {
+    let matchesFn
+    // find vendor prefix
+    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
+      if (typeof document.body[ fn ] === 'function') {
+        matchesFn = fn
+        return true
+      }
+      return false
+    })
+    let parent
+    // traverse parents
+    while (element) {
+      parent = element.parentElement
+      if (parent && parent[ matchesFn ](selector)) {
+        return parent
+      }
+      element = parent
+    }
+    return null
   }
 
 

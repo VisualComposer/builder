@@ -8,7 +8,8 @@ import Number from '../number/Component'
 export default class Sticky extends Attribute {
   static deviceDefaults = {
     stickyEnable: false,
-    stickyOffsetTop: '0'
+    stickyOffsetTop: '0',
+    stickyZIndex: null
   }
   static defaultState = {
     currentDevice: 'all',
@@ -141,6 +142,52 @@ export default class Sticky extends Attribute {
     )
   }
 
+  getStickyZIndex () {
+    let fieldKey = 'stickyZIndex'
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    if (!deviceData[ 'stickyEnable' ]) {
+      return null
+    }
+    let value = deviceData[ fieldKey ] || false
+    let labelText = 'Sticky z-index'
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <span className='vcv-ui-form-group-heading'>
+          {labelText}
+        </span>
+        <Number
+          api={this.props.api}
+          fieldKey={fieldKey}
+          updater={this.valueChangeHandler}
+          options={{}}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  getStickyContainerToggle () {
+    let fieldKey = 'stickyContainer'
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    if (!deviceData[ 'stickyEnable' ]) {
+      return null
+    }
+    let value = deviceData[ fieldKey ] || false
+    let labelText = 'Enable sticky container'
+
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <Toggle
+          api={this.props.api}
+          fieldKey={fieldKey}
+          updater={this.valueChangeHandler}
+          options={{ labelText: labelText }}
+          value={value}
+        />
+      </div>
+    )
+  }
+
   render () {
     return (
       <div className='vcv-ui-sticky-section'>
@@ -148,6 +195,8 @@ export default class Sticky extends Attribute {
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getStickyToggle()}
             {this.getStickyOffset()}
+            {this.getStickyZIndex()}
+            {this.getStickyContainerToggle()}
           </div>
         </div>
       </div>
