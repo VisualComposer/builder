@@ -10,7 +10,11 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\File;
+use VisualComposer\Helpers\Hub\Categories;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Modules\Api\ApiRegisterTrait;
+use VisualComposer\Helpers\Hub\Elements;
 
 /**
  * Class ApiController
@@ -18,43 +22,40 @@ use VisualComposer\Helpers\Traits\EventsFilters;
  */
 class ApiController extends Container implements Module
 {
-    use EventsFilters;
+    protected $apiHook = 'elements';
+
+    protected $publicMethods = ['add'];
+
+    use ApiRegisterTrait;
 
     /**
-     * ApiController constructor.
-     */
-    public function __construct()
-    {
-        $this->addFilter('vcv:api:service', 'registerApi');
-    }
-
-    /**
-     * @param $name
+     * @param $manifestPath
+     * @param $elementBaseUrl
      *
-     * @return string
-     */
-    protected function registerApi($name)
-    {
-        if ($name === 'elements') {
-            return __CLASS__;
-        }
-
-        return $name;
-    }
-
-    /**
-     * Allow call protected methods
+     * @param \VisualComposer\Helpers\Hub\Elements $hubElements
+     * @param \VisualComposer\Helpers\File $fileHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Hub\Categories $hubCategories
      *
-     * @param $name
-     * @param $arguments
-     *
-     * @return bool|mixed
-     * @throws \ReflectionException
+     * @return bool
      */
-    public function __call($name, $arguments)
-    {
-        if (in_array($name, ['add'])) {
-            return $this->call($name, $arguments);
+    protected function add(
+        $manifestPath,
+        $elementBaseUrl,
+        Elements $hubElements,
+        File $fileHelper,
+        Options $optionsHelper,
+        Categories $hubCategories
+    ) {
+        $manifestContents = $fileHelper->getContents($manifestPath);
+        $manifestData = json_decode($manifestContents, true);
+        if (is_array($manifestData) && isset($manifestData['elements']) && isset($manifestData['categories'])) {
+            $elements = $optionsHelper->get('hubElements', []);
+            $elementBaseUrl = rtrim($elementBaseUrl, '\\/');
+            $this->processElements($manifestPath, $elementBaseUrl, $hubElements, $manifestData, $elements);
+            $this->processCategories($hubCategories, $manifestData);
+
+            return true;
         }
 
         return false;
@@ -63,11 +64,52 @@ class ApiController extends Container implements Module
     /**
      * @param $manifestPath
      * @param $elementBaseUrl
-     *
-     * @return bool
+     * @param \VisualComposer\Helpers\Hub\Elements $hubElements
+     * @param $manifestData
+     * @param $elements
      */
-    protected function add($manifestPath, $elementBaseUrl)
+    protected function processElements($manifestPath, $elementBaseUrl, Elements $hubElements, $manifestData, $elements)
     {
-        return true;
+        foreach ($manifestData['elements'] as $tag => $elementSettings) {
+            if (array_key_exists($tag, $elements)) {
+                // warning: Element with $tag already exists
+                continue;
+            }
+            $elementSettings['key'] = $tag;
+            $elementSettings['bundlePath'] = $elementBaseUrl . '/public/dist/element.bundle.js';
+            $elementSettings['elementPath'] = $elementBaseUrl . '/' . $tag . '/';
+            $elementSettings['elementRealPath'] = '[thirdPartyFullPath]' . dirname($manifestPath) . '/' . $tag
+                . '/';
+            $elementSettings['assetsPath'] = $elementBaseUrl . '/' . $tag . '/public/';
+
+            $elementSettings = json_decode(
+                str_replace(
+                    '[publicPath]',
+                    $elementBaseUrl . '/' . $tag . '/public',
+                    json_encode($elementSettings)
+                ),
+                true
+            );
+            if (isset($elementSettings['phpFiles'])) {
+                $elementSettings['phpFiles'] = array_map(
+                    function ($path) use ($elementSettings, $tag) {
+                        return $elementSettings['elementRealPath'] . $path;
+                    },
+                    $elementSettings['phpFiles']
+                );
+            }
+            $hubElements->addElement($tag, $elementSettings);
+        }
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Hub\Categories $hubCategories
+     * @param $manifestData
+     */
+    protected function processCategories(Categories $hubCategories, $manifestData)
+    {
+        foreach ($manifestData['categories'] as $category => $categoryElements) {
+            $hubCategories->addCategoryElements($category, $categoryElements['elements']);
+        }
     }
 }

@@ -22,8 +22,7 @@ class Factory extends Container implements Module
             'init',
             function () {
                 do_action('vcv:api', $this);
-            },
-            999
+            }
         );
     }
 

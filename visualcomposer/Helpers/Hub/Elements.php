@@ -12,11 +12,25 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Elements implements Helper
 {
+    protected $thirdPartyElements = [];
+
+    public function addElement($key, $data)
+    {
+        if (!array_key_exists($key, $this->thirdPartyElements)) {
+            $this->thirdPartyElements[ $key ] = $data;
+
+            return true;
+        }
+
+        return false;
+    }
+
     public function getElements($raw = false, $elementRealPath = true)
     {
         $optionHelper = vchelper('Options');
 
         $elements = $optionHelper->get('hubElements', []);
+        $elements = $elements + $this->thirdPartyElements;
         $outputElements = [];
         foreach ($elements as $tag => $element) {
             $data = $element;
@@ -26,7 +40,7 @@ class Elements implements Helper
                     'bundlePath' => $raw ? $element['bundlePath'] : $this->getElementUrl($element['bundlePath']),
                     'elementPath' => $raw ? $element['elementPath'] : $this->getElementUrl($element['elementPath']),
                     'elementRealPath' => $raw
-                        ? $element['elementRealPath']
+                        ? str_replace('[thirdPartyFullPath]', '', $element['elementRealPath'])
                         : $this->getElementPath(
                             $element['elementRealPath']
                         ),
@@ -151,10 +165,18 @@ class Elements implements Helper
 
             return vcapp()->path() . 'devElements/' . $path;
         }
-
+        if (file_exists($path) || is_dir($path)) {
+            return $path;
+        }
         $pattern = '/' . VCV_PLUGIN_ASSETS_DIRNAME . '\//';
         if (preg_match($pattern, $path)) {
             return $path;
+        }
+        if (strpos($path, ABSPATH) !== false) {
+            return $path;
+        }
+        if (strpos($path, '[thirdPartyFullPath]') !== false) {
+            return str_replace('[thirdPartyFullPath]', '', $path);
         }
 
         return VCV_PLUGIN_ASSETS_DIR_PATH . '/elements/' . ltrim($path, '\\/');
