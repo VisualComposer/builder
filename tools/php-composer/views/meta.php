@@ -1,4 +1,4 @@
-<?php echo '<?php'; ?>
+<?php echo '<?php' . PHP_EOL; ?>
 <?php
 /** @var $methods array */
 /** @var $bindings array */

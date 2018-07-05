@@ -90,8 +90,8 @@ class ElementsAutoload extends Autoload implements Module
     protected function getSingleComponent($element)
     {
         $hubHelper = vchelper('HubElements');
-        if (vcvenv('VCV_ENV_ELEMENTS_FILES_NOGLOB')) {
-            $components = isset($element['phpFiles']) ? $element['phpFiles'] : [];
+        if (isset($element['phpFiles'])) {
+            $components = $element['phpFiles'];
             $components = array_map([$hubHelper, 'getElementPath'], $components);
         } else {
             $components = $this->app->glob(

@@ -70,7 +70,9 @@ class Differ extends Container implements Helper, Immutable
                     ]
                 );
             }
-            $this->data[ $key ] = $mergedValue;
+            if (!empty($mergedValue)) {
+                $this->data[ $key ] = $mergedValue;
+            }
         }
 
         return $this;

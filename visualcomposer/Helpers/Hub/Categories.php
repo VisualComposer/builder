@@ -12,11 +12,41 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Categories implements Helper
 {
+    protected $thirdPartyCategoriesElements = [];
+
+    public function addCategoryElements($category, $elements)
+    {
+        if (!isset($this->thirdPartyCategoriesElements[ $category ])) {
+            $this->thirdPartyCategoriesElements[ $category ] = ['elements' => []];
+        }
+        $this->thirdPartyCategoriesElements[ $category ]['elements'] = array_merge(
+            $this->thirdPartyCategoriesElements[ $category ]['elements'],
+            $elements
+        );
+    }
+
     public function getCategories()
     {
         $optionHelper = vchelper('Options');
+        $categoriesDiffer = vchelper('Differ');
+        $hubCategories = $optionHelper->get('hubCategories', []);
+        $categoriesDiffer->set($hubCategories);
 
-        return $optionHelper->get('hubCategories', []);
+        $categoriesDiffer->onUpdate(
+            function ($key, $oldValue, $newValue, $mergedValue) {
+                if (empty($oldValue)) {
+                    return []; // Do not allow to create 'new' categories
+                }
+                $mergedValue['elements'] = array_unique(array_merge($oldValue['elements'], $newValue['elements']));
+
+                return $mergedValue;
+            }
+        )->set(
+            $this->thirdPartyCategoriesElements
+        );
+        $new = $categoriesDiffer->get();
+
+        return $new;
     }
 
     public function setCategories($categories = [])
