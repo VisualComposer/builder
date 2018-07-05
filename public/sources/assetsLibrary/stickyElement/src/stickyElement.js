@@ -89,6 +89,7 @@
     element.sticky.stickyFor = parseInt(element.getAttribute('data-sticky-for')) || this.options.stickyFor;
     element.sticky.stickyClass = element.getAttribute('data-sticky-class') || this.options.stickyClass;
     element.sticky.stickyAttribute = element.getAttribute('data-sticky-attribute') || this.options.stickyAttribute;
+    element.sticky.stickyOffsetAttribute = 'data-vcv-sticky-element-active-offset';
     element.sticky.wrap = element.hasAttribute('data-sticky-wrap') ? true : this.options.wrap;
     element.sticky.stickyContainer = this.options.stickyContainer;
     element.sticky.isFullWidth = element.getAttribute('data-vce-full-width') === 'true' || this.options.isFullWidth;
@@ -249,9 +250,9 @@
   function setPosition(element) {
     css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
 
-    if ((this.vp.height < element.sticky.rect.height) || !element.sticky.active) {
-      return;
-    }
+    // if ((this.vp.height < element.sticky.rect.height) || !element.sticky.active) {
+    //   return;
+    // }
 
     if (!element.sticky.rect.width) {
       element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
@@ -290,8 +291,10 @@
           element.classList.remove(element.sticky.stickyClass);
         }
         if (element.sticky.stickyAttribute) {
-          element.removeAttribute(element.sticky.stickyAttribute)
+          element.removeAttribute(element.sticky.stickyAttribute);
         }
+
+        element.setAttribute(element.sticky.stickyOffsetAttribute, true);
 
         css(element, parseCss({
           top: (element.sticky.container.rect.top + element.sticky.container.offsetHeight) - (this.scrollTop + element.sticky.rect.height) + 'px'
@@ -301,8 +304,10 @@
           element.classList.add(element.sticky.stickyClass);
         }
         if (element.sticky.stickyAttribute) {
-          element.setAttribute(element.sticky.stickyAttribute, true)
+          element.setAttribute(element.sticky.stickyAttribute, true);
         }
+
+        element.removeAttribute(element.sticky.stickyOffsetAttribute);
 
         css(element, parseCss({ top: element.sticky.marginTop + 'px' }, element.sticky.isFullWidth));
       }
@@ -313,6 +318,8 @@
       if (element.sticky.stickyAttribute) {
         element.removeAttribute(element.sticky.stickyAttribute)
       }
+
+      element.removeAttribute(element.sticky.stickyOffsetAttribute);
 
       css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
 
@@ -364,6 +371,7 @@
    * @function
    * @param {node} element - Element which position & rectangle are returned
    * @param {boolean} isParent - sticky element parent
+   * @param {boolean} isFullWidth - is the row full width
    * @return {object}
    */
   function getRectangle(element, isParent = false, isFullWidth = false) {
