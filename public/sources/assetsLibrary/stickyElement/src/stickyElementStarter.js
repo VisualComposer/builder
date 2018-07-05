@@ -3,14 +3,14 @@
 
   window.vcv.on('ready', function (action, id) {
     if (action !== 'merge') {
-      var selector = '[data-vcv-sticky-element]';
+      var selector = '[data-vce-sticky-element]';
       // selector = id ? '[data-vcv-element="' + id + '"]' + selector : selector;
 
       var stickyElement = document.querySelector(selector);
       if (stickyElement) {
         var settings = {
           wrap: true,
-          stickyAttribute: 'data-vce-sticky-element-active'
+          stickyAttribute: 'data-vcv-sticky-element-active'
         };
 
         // Delay for editor (text block element causes issue with sticky only in editor)
