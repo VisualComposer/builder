@@ -68,6 +68,8 @@
       }
       delete element.sticky;
     });
+
+    window.vcStickyElements = [];
   }
 
   // ========= Private Methods =========
