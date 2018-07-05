@@ -1,6 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import vcCake from 'vc-cake'
+
+const settingsStorage = vcCake.getStorage('settings')
 
 export default class HubTemplateControl extends React.Component {
   static propTypes = {
@@ -52,11 +55,30 @@ export default class HubTemplateControl extends React.Component {
       'vcv-ui-state--visible': previewVisible
     })
 
+    const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
+    let previewBox = ''
+    if (!disablePreview) {
+      previewBox = (
+        <figure className={previewClasses} style={previewStyle}>
+          <img
+            className='vcv-ui-item-preview-image'
+            src={preview}
+            alt={name}
+          />
+          <figcaption className='vcv-ui-item-preview-caption'>
+            <div className='vcv-ui-item-preview-text'>
+              {description}
+            </div>
+          </figcaption>
+        </figure>
+      )
+    }
+
     return (
       <li className='vcv-ui-item-list-item'>
         <span className='vcv-ui-item-element'
-          onMouseEnter={showPreview}
-          onMouseLeave={hidePreview}
+          onMouseEnter={!disablePreview ? showPreview : null}
+          onMouseLeave={!disablePreview ? hidePreview : null}
         >
           <span className='vcv-ui-item-element-content'>
             <img
@@ -82,18 +104,7 @@ export default class HubTemplateControl extends React.Component {
               {name}
             </span>
           </span>
-          <figure className={previewClasses} style={previewStyle}>
-            <img
-              className='vcv-ui-item-preview-image'
-              src={preview}
-              alt={name}
-            />
-            <figcaption className='vcv-ui-item-preview-caption'>
-              <div className='vcv-ui-item-preview-text'>
-                {description}
-              </div>
-            </figcaption>
-          </figure>
+          {previewBox}
         </span>
       </li>
     )

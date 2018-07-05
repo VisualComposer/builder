@@ -1,3 +1,5 @@
+import PhotoSwipe from './photoswipe';
+import PhotoSwipeUI_Default from './photoswipe-ui-default';
 (function () {
   var openedPhotoswipe;
   window.vcv.on('ready', function () {
@@ -133,7 +135,7 @@
 
         options.hideAnimationDuration = 100;
 
-        gallery = openedPhotoswipe = new PhotoSwipe(domPswp, PhotoSwipeUI_Default, items, options);
+        var gallery = openedPhotoswipe = new PhotoSwipe(domPswp, PhotoSwipeUI_Default, items, options);
         gallery.init();
       };
 

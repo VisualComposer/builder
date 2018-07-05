@@ -45,6 +45,7 @@ addStorage('wordpressData', (storage) => {
       const customCssState = settingsStorage.state('customCss')
       const globalCssState = settingsStorage.state('globalCss')
       const pageTemplate = settingsStorage.state('pageTemplate')
+      const itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled')
       const localJsState = settingsStorage.state('localJs')
       const globalJsState = settingsStorage.state('globalJs')
       /**
@@ -55,6 +56,7 @@ addStorage('wordpressData', (storage) => {
       let responseData = JSON.parse(request || '{}')
       const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
       const pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
+      const itemPreviewData = responseData.itemPreviewDisabled ? responseData.itemPreviewDisabled : false
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
         globalElements && globalAssetsStorage.setElements(globalElements)
@@ -99,6 +101,9 @@ addStorage('wordpressData', (storage) => {
       }
       if (pageTemplateData.current) {
         pageTemplate.set(pageTemplateData.current)
+      }
+      if (itemPreviewData) {
+        itemPreviewDisabled.set(itemPreviewData)
       }
       storage.state('status').set({ status: 'loaded' })
       settingsStorage.state('status').set({ status: 'ready' })

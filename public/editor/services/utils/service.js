@@ -134,6 +134,17 @@ const API = {
       }
       parentNode.removeChild(node)
     })
+    let deleteAttribute = 'data-vce-delete-attr'
+    let deleteAttrElements = documentFragment.querySelectorAll(`[${deleteAttribute}]`)
+    deleteAttrElements = [].slice.call(deleteAttrElements)
+    deleteAttrElements.forEach((node) => {
+      const attributesToDelete = node.getAttribute(deleteAttribute)
+      attributesToDelete.split(' ').forEach((attr) => {
+        node.removeAttribute(attr)
+      })
+      node.removeAttribute(deleteAttribute)
+    })
+
     let html = ''
     let elementChildren = documentFragment.children
     // polyfill for IE and Edge

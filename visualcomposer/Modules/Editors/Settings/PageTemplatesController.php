@@ -10,8 +10,10 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -27,7 +29,7 @@ class PageTemplatesController extends Container implements Module
         $this->wpAddFilter(
             'template_include',
             'viewPageTemplate',
-            8
+            11
         );
     }
 
@@ -73,8 +75,12 @@ class PageTemplatesController extends Container implements Module
         return $output;
     }
 
-    protected function viewPageTemplate($originalTemplate)
+    protected function viewPageTemplate($originalTemplate, Request $requestHelper, File $fileHelper)
     {
+        if ($requestHelper->input('vcv-template') === 'default') {
+            return $originalTemplate;
+        }
+
         /** @see \VisualComposer\Modules\Editors\Settings\PageTemplatesController::getCurrentTemplateLayout */
         $current = $this->call(
             'getCurrentTemplateLayout',
