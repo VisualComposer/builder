@@ -3,7 +3,7 @@
 
   window.vcv.on('ready', function (action, id) {
     if (action !== 'merge') {
-      var selector = '[data-vce-sticky-element]';
+      var selector = '[data-vcv-sticky-element]';
       // selector = id ? '[data-vcv-element="' + id + '"]' + selector : selector;
 
       var stickyElement = document.querySelector(selector);
