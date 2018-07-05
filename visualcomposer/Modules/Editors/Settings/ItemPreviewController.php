@@ -28,6 +28,7 @@ class ItemPreviewController extends Container implements Module
     {
         $this->addFilter('vcv:dataAjax:getData', 'outputItemPreview');
         $this->addFilter('vcv:dataAjax:setData', 'setItemPreview');
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     protected function setItemPreview($response, $payload, Request $requestHelper, Options $optionsHelper)
@@ -52,5 +53,10 @@ class ItemPreviewController extends Container implements Module
         $response['itemPreviewDisabled'] = $frontendSettings['itemPreviewDisabled'];
 
         return $response;
+    }
+
+    protected function unsetOptions(Options $optionsHelper)
+    {
+        $optionsHelper->delete('frontendSettings');
     }
 }
