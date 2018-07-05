@@ -1,5 +1,5 @@
-(function () {
-  var sticky = null;
+(function (window) {
+  window.vcStickySettings = null;
 
   window.vcv.on('ready', function (action, id) {
     if (action !== 'merge') {
@@ -17,16 +17,16 @@
         var delay = action ? 500 : 10;
         if (window.vcSticky) {
           setTimeout(function() {
-            if (sticky) {
-              sticky.destroy();
+            if (window.vcStickySettings) {
+              window.vcStickySettings.destroy();
             }
-            sticky = new window.vcSticky(selector, settings);
+            window.vcStickySettings = new window.vcSticky(selector, settings);
           }, delay);
         } else {
-          console.error('vcSticky library is not enqueued')
+          console.error('vcSticky library is not enqueued');
         }
       }
     }
   });
-})();
+}(window));
 

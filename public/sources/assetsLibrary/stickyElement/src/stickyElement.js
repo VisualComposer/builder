@@ -1,7 +1,7 @@
 (function(window) {
   function vcSticky(selector, options = {}) {
     this.selector = selector;
-    this.elements = [];
+    window.vcStickyElements = [];
 
     this.vp = getViewportSize();
     this.body = document.querySelector('body');
@@ -48,7 +48,7 @@
    * @function
    */
   vcSticky.prototype.destroy = function() {
-    forEach(this.elements, (element) => {
+    forEach(window.vcStickyElements, (element) => {
       destroyResizeEvents(element);
       destroyScrollEvents(element);
       delete element.sticky;
@@ -127,8 +127,8 @@
       element.sticky.active = true;
     }
 
-    if (this.elements.indexOf(element) < 0) {
-      this.elements.push(element);
+    if (window.vcStickyElements.indexOf(element) < 0) {
+      window.vcStickyElements.push(element);
     }
 
     if (!element.sticky.resizeEvent) {
@@ -339,7 +339,7 @@
    * @function
    */
   function update() {
-    forEach(this.elements, (element) => {
+    forEach(window.vcStickyElements, (element) => {
       element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
       element.sticky.container.rect = getRectangle(element.sticky.container, true, element.sticky.isFullWidth);
 
