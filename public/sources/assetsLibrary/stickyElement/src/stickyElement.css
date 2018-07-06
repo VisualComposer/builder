@@ -7,3 +7,8 @@
   left: 0!important;
   right: 0!important;
 }
+
+[data-vce-sticky-element="true"] {
+  position: relative;
+  z-index: 999;
+}

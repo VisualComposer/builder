@@ -160,7 +160,7 @@ export default class Sticky extends Attribute {
           api={this.props.api}
           fieldKey={fieldKey}
           updater={this.valueChangeHandler}
-          options={{}}
+          options={{placeholder: '999'}}
           value={value}
         />
         <p className='vcv-ui-form-helper'>Control z-index for the element to place it on top or above the following content.</p>
@@ -183,7 +183,7 @@ export default class Sticky extends Attribute {
           api={this.props.api}
           fieldKey={fieldKey}
           updater={this.valueChangeHandler}
-          options={{ labelText: labelText }}
+          options={{labelText: labelText}}
           value={value}
         />
         <p className='vcv-ui-form-helper'>Limit stickiness to work only in the parent container.</p>

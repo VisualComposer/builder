@@ -271,10 +271,6 @@
   function setPosition(element) {
     css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
 
-    // if ((this.vp.height < element.sticky.rect.height) || !element.sticky.active) {
-    //   return;
-    // }
-
     if (!element.sticky.rect.width) {
       element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
     }
@@ -293,10 +289,20 @@
     ) {
       css(element, parseCss({
         position: 'fixed',
-        top: element.sticky.rect.top + 'px',
+        top: element.sticky.marginTop + 'px',
         left: element.sticky.rect.left + 'px',
-        width: element.sticky.rect.width + 'px',
+        width: element.sticky.rect.width + 'px'
       }, element.sticky.isFullWidth));
+
+      if (element.sticky.stickyClass) {
+        element.classList.add(element.sticky.stickyClass);
+      }
+      if (element.sticky.stickyAttribute) {
+        element.setAttribute(element.sticky.stickyAttribute, true);
+      }
+
+      element.removeAttribute(element.sticky.stickyOffsetAttribute);
+
     } else if (this.scrollTop > (element.sticky.rect.top - element.sticky.marginTop)) {
       css(element, parseCss({
         position: 'fixed',
