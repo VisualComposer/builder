@@ -287,7 +287,7 @@ export default class ElementControl extends React.Component {
       const dragState = workspaceStorage.state('drag')
       this.hidePreview()
       if (!dragState.get() || !dragState.get().active) {
-        dragState.set({ active: true })
+        dragState.set({ active: true, addPanel: true })
       }
       if (!isDragging) {
         this.setState({ isDragging: true })
