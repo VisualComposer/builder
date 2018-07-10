@@ -336,6 +336,7 @@ class HubCategories extends Container implements Module
                         'mailChimpForWordPress',
                         'gutenberg',
                         'calderaForms',
+                        'wpDataTables',
                     ],
                     'icon' => $urlHelper->to('devCategories/categories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/WordPress.svg'),
