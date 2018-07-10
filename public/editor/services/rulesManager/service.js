@@ -82,6 +82,13 @@ const Rules = {
     }
     return indexOf(options.values, checkValue) > -1
   },
+  valueContains: (value, options) => {
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
+    }
+    return checkValue.indexOf(options.value) > -1
+  },
   required: (value, options) => {
     let checkValue = value
     if (options.key) {
