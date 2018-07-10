@@ -93,16 +93,17 @@ class ElementsAutoload extends Autoload implements Module
         // TODO: phpFiles, NO_GLOB and API
         //if (isset($element['phpFiles'])) {
           //  $components = $element['phpFiles'];
-         //   $components = array_map([$hubHelper, 'getElementPath'], $components);
+        //   $components = array_map([$hubHelper, 'getElementPath'], $components);
         //} else {
-            $components = $this->app->glob(
-                rtrim(
-                    $hubHelper->getElementPath(
-                        $element['elementRealPath']
-                    ),
-                    '\//'
-                ) . '/*.php'
-            );
+        $components = $this->app->glob(
+            rtrim(
+                $hubHelper->getElementPath(
+                    $element['elementRealPath']
+                ),
+                '\//'
+            ) . '/*.php'
+        );
+
         //}
 
         return $this->checkElementController($components);

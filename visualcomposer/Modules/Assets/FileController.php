@@ -170,6 +170,11 @@ class FileController extends Container implements Module
                 $globalElementsAttributesCssContent . $sourceCss,
                 $sourceId . '.source.css'
             );
+        } else {
+            $bundleUrl = $assetsHelper->updateBundleFile(
+                $sourceCss,
+                $sourceId . '.source.css'
+            );
         }
         update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
         update_post_meta($sourceId, 'vcvSourceCssFileHash', md5($sourceCss));
