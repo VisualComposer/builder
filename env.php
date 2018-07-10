@@ -250,3 +250,10 @@ if (!defined('VCV_FT_POST_UPDATE')) {
         true
     );
 }
+
+if (!defined('VCV_TF_OPTIMIZE_GLOBAL_CSS')) {
+    define(
+        'VCV_TF_OPTIMIZE_GLOBAL_CSS',
+        true
+    );
+}

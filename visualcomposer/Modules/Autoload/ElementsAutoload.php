@@ -90,19 +90,21 @@ class ElementsAutoload extends Autoload implements Module
     protected function getSingleComponent($element)
     {
         $hubHelper = vchelper('HubElements');
-        if (isset($element['phpFiles'])) {
-            $components = $element['phpFiles'];
-            $components = array_map([$hubHelper, 'getElementPath'], $components);
-        } else {
-            $components = $this->app->glob(
-                rtrim(
-                    $hubHelper->getElementPath(
-                        $element['elementRealPath']
-                    ),
-                    '\//'
-                ) . '/*.php'
-            );
-        }
+        // TODO: phpFiles, NO_GLOB and API
+        //if (isset($element['phpFiles'])) {
+          //  $components = $element['phpFiles'];
+        //   $components = array_map([$hubHelper, 'getElementPath'], $components);
+        //} else {
+        $components = $this->app->glob(
+            rtrim(
+                $hubHelper->getElementPath(
+                    $element['elementRealPath']
+                ),
+                '\//'
+            ) . '/*.php'
+        );
+
+        //}
 
         return $this->checkElementController($components);
     }
