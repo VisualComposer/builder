@@ -9,7 +9,6 @@ const elementsStorage = vcCake.getStorage('elements')
 const documentManger = vcCake.getService('document')
 const utils = vcCake.getService('utils')
 const cook = vcCake.getService('cook')
-// const categoriesService = vcCake.getService('categories')
 const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class TreeViewElement extends React.Component {
@@ -18,19 +17,15 @@ export default class TreeViewElement extends React.Component {
     element: PropTypes.object.isRequired,
     data: PropTypes.oneOfType([ PropTypes.object, PropTypes.array ]),
     level: PropTypes.number,
-    iframe: PropTypes.any,
     onMountCallback: PropTypes.func,
     onUnmountCallback: PropTypes.func,
     scrollValue: PropTypes.any,
     isAttribute: PropTypes.bool
   }
 
-  static defaultProps = {
-    iframe: document.getElementById('vcv-editor-iframe') && document.getElementById('vcv-editor-iframe').contentWindow.document
-  }
-
   adminBar = document.getElementById('wpadminbar')
   layoutBar = document.querySelector('.vcv-layout-bar')
+  iframe = document.getElementById('vcv-editor-iframe') && document.getElementById('vcv-editor-iframe').contentWindow.document
 
   constructor (props) {
     super(props)
@@ -202,7 +197,7 @@ export default class TreeViewElement extends React.Component {
    */
   scrollToElementInsideFrame (e) {
     const elId = e.currentTarget.parentNode.dataset.vcvElement
-    const editorEl = this.props.iframe.querySelector(`#el-${elId}`)
+    const editorEl = this.iframe.querySelector(`#el-${elId}`)
     if (!editorEl) {
       return
     }
