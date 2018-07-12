@@ -87,6 +87,8 @@ class EnqueueController extends Container implements Module
      * @param \VisualComposer\Helpers\Str $strHelper
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Assets $assetsHelper
+     *
+     * @throws \ReflectionException
      */
     protected function enqueueAssets(Str $strHelper, Frontend $frontendHelper, Assets $assetsHelper)
     {
@@ -114,6 +116,7 @@ class EnqueueController extends Container implements Module
 
         if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
             foreach ($assetsFiles['jsBundles'] as $asset) {
+                $asset = $this->call('findLocalAssetsPath', [$asset]);
                 wp_enqueue_script(
                     'vcv:assets:source:scripts:' . $strHelper->slugify($asset),
                     $assetsHelper->getAssetUrl($asset),
@@ -124,5 +127,81 @@ class EnqueueController extends Container implements Module
             }
             unset($asset);
         }
+    }
+
+    /**
+     * Find new local assets path. Needed for BC
+     *
+     * @param $assetsPath
+     *
+     * @return mixed
+     */
+    protected function findLocalAssetsPath($assetsPath)
+    {
+        $assets = [
+            'elements/singleImage/singleImage/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+            'elements/simpleImageSlider/simpleImageSlider/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+            'elements/imageGallery/imageGallery/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+            'elements/imageGalleryWithIcon/imageGalleryWithIcon/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+            'elements/imageGalleryWithScaleUp/imageGalleryWithScaleUp/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+            'elements/imageGalleryWithZoom/imageGalleryWithZoom/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+            'elements/imageMasonryGallery/imageMasonryGallery/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+            'elements/imageMasonryGalleryWithIcon/imageMasonryGalleryWithIcon/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+            'elements/imageMasonryGalleryWithScaleUp/imageMasonryGalleryWithScaleUp/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+            'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
+
+            'elements/singleImage/singleImage/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/simpleImageSlider/simpleImageSlider/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGallery/imageGallery/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGalleryWithIcon/imageGalleryWithIcon/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGalleryWithScaleUp/imageGalleryWithScaleUp/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGalleryWithZoom/imageGalleryWithZoom/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGallery/imageMasonryGallery/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGalleryWithIcon/imageMasonryGalleryWithIcon/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGalleryWithScaleUp/imageMasonryGalleryWithScaleUp/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+
+            'elements/singleImage/singleImage/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/simpleImageSlider/simpleImageSlider/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGallery/imageGallery/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGalleryWithIcon/imageGalleryWithIcon/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGalleryWithScaleUp/imageGalleryWithScaleUp/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGalleryWithZoom/imageGalleryWithZoom/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGallery/imageMasonryGallery/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGalleryWithIcon/imageMasonryGalleryWithIcon/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGalleryWithScaleUp/imageMasonryGalleryWithScaleUp/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+
+            'elements/singleImage/singleImage/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/simpleImageSlider/simpleImageSlider/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGallery/imageGallery/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGalleryWithIcon/imageGalleryWithIcon/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGalleryWithScaleUp/imageGalleryWithScaleUp/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageGalleryWithZoom/imageGalleryWithZoom/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGallery/imageMasonryGallery/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGalleryWithIcon/imageMasonryGalleryWithIcon/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGalleryWithScaleUp/imageMasonryGalleryWithScaleUp/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+            'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
+
+            'elements/faqToggle/faqToggle/public/dist/faqToggle.min.js' => 'sharedLibraries/faqToggle/dist/faqToggle.bundle.js',
+            'elements/outlineFaqToggle/outlineFaqToggle/public/dist/outlineFaqToggle.min.js' => 'sharedLibraries/faqToggle/dist/faqToggle.bundle.js',
+
+            'elements/row/row/public/dist/fullHeightRow.min.js' => 'sharedLibraries/fullHeight/dist/fullHeight.bundle.js',
+            'elements/row/row/public/dist/fullWidthRow.min.js' => 'sharedLibraries/fullWidth/dist/fullWidth.bundle.js',
+
+            'elements/section/section/public/dist/fullWidthSection.min.js' => 'sharedLibraries/fullWidth/dist/fullWidth.bundle.js',
+            'elements/section/section/public/dist/fullHeightRow.min.js' => 'sharedLibraries/fullWidth/dist/fullHeightRow.bundle.js',
+
+            'elements/logoSlider/logoSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
+            'elements/postsSlider/postsSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
+            'elements/simpleImageSlider/simpleImageSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
+            'elements/pageableContainer/pageableContainer/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
+        ];
+
+        if (isset($assets[ $assetsPath ])) {
+            return $assets[ $assetsPath ];
+        }
+
+        return $assetsPath;
     }
 }
