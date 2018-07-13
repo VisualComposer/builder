@@ -4,10 +4,9 @@ import { getStorage, getService } from 'vc-cake'
 const utils = getService('utils')
 const cook = getService('cook')
 const elementsStorage = getStorage('elements')
-const multipleShortcodesRegex = wp.shortcode.regexp(window.VCV_API_WPBAKERY_VC_MAP().join('|'))
-const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
 
-const parse = (content, parent = false) => {
+const parse = (multipleShortcodesRegex, content, parent = false) => {
+  const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
   const globalMatches = content.match(multipleShortcodesRegex)
   globalMatches.forEach((line) => {
     const innerContent = line.match(localShortcodesRegex)
@@ -15,13 +14,14 @@ const parse = (content, parent = false) => {
       const row = cook.get({ tag: 'row' })
       elementsStorage.trigger('add', row.toJS(), false, { addColumn: false })
       if (innerContent[ 5 ]) {
-        parse(innerContent[ 5 ], row.get('id'))
+        parse(multipleShortcodesRegex, innerContent[ 5 ], row.get('id'))
       }
     } else if (innerContent[ 2 ] === 'vc_column') {
-      const column = cook.get({ tag: 'column', parent: parent })
+      const attr = wp.shortcode.attrs(innerContent[ 3 ]).named
+      const column = cook.get({ tag: 'column', parent: parent, size: attr.width || 'auto' })
       elementsStorage.trigger('add', column.toJS(), false)
       if (innerContent[ 5 ]) {
-        parse(innerContent[ 5 ], column.get('id'))
+        parse(multipleShortcodesRegex, innerContent[ 5 ], column.get('id'))
       }
     } else {
       const shortcode = cook.get({ tag: 'shortcode', parent: parent, shortcode: line })
@@ -31,8 +31,9 @@ const parse = (content, parent = false) => {
 }
 
 export default (content) => {
-  if (typeof window.VCV_API_WPBAKERY_VC_MAP !== 'undefined') {
-    parse(content)
+  if (window.hasOwnProperty('VCV_API_WPBAKERY_VC_MAP')) {
+    const multipleShortcodesRegex = wp.shortcode.regexp(window.VCV_API_WPBAKERY_VC_MAP().join('|'))
+    parse(multipleShortcodesRegex, content)
   } else {
     const textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(content, '__VCVID__') })
     if (textElement) {
