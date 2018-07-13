@@ -1,5 +1,6 @@
 import { addStorage, getStorage, getService } from 'vc-cake'
 import SaveController from './lib/saveController'
+import {default as wrapExistingContent} from './lib/wrapExistingContent'
 
 addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
@@ -10,8 +11,7 @@ addStorage('wordpressData', (storage) => {
   const hubTemplatesStorage = getStorage('hubTemplates')
   const documentManager = getService('document')
   const wordpressDataStorage = getStorage('wordpressData')
-  const utils = getService('utils')
-  const cook = getService('cook')
+
   storage.on('start', () => {
     // Here we call data load
     controller.load(window.vcvSourceID, {}, storage.state('status'))
@@ -30,12 +30,7 @@ addStorage('wordpressData', (storage) => {
     let id = options && options.id ? options.id : window.vcvSourceID
     controller.save(id, data, status, options)
   })
-  const wrapExistingContent = (content) => {
-    let textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(content, '__VCVID__') })
-    if (textElement) {
-      elementsStorage.trigger('add', textElement.toJS())
-    }
-  }
+
   storage.state('status').set('init')
   storage.state('status').onChange((data) => {
     const { status, request } = data
