@@ -1,6 +1,5 @@
 export const parseRowAttributes = (attrs) => {
   const data = { tag: 'row', rowWidth: 'boxed' }
-  console.log(attrs)
   attrs = Object.assign({
     full_width: '',
     full_height: ''

@@ -11,27 +11,29 @@ const parse = (multipleShortcodesRegex, content, parent = false) => {
   const globalMatches = content.match(multipleShortcodesRegex)
   globalMatches.forEach((line) => {
     const innerContent = line.match(localShortcodesRegex)
-    if (innerContent && innerContent[ 2 ] === 'vc_row') {
+    const shortcodeTag = innerContent[ 2 ]
+    const subInnerContent = innerContent[ 5 ]
+    if (innerContent && shortcodeTag === 'vc_row') {
       const attr = wp.shortcode.attrs(innerContent[ 3 ]).named
       const rowAttributes = parseRowAttributes(attr)
-      const row = cook.get(rowAttributes)
-      elementsStorage.trigger('add', row.toJS(), false, { addColumn: false })
-      if (innerContent[ 5 ]) {
-        parse(multipleShortcodesRegex, innerContent[ 5 ], row.get('id'))
+      const rowElement = cook.get(rowAttributes)
+      elementsStorage.trigger('add', rowElement.toJS(), false, { addColumn: false })
+      if (subInnerContent) {
+        parse(multipleShortcodesRegex, subInnerContent, rowElement.get('id'))
       }
-    } else if (innerContent[ 2 ] === 'vc_column') {
+    } else if (shortcodeTag === 'vc_column') {
       const attr = wp.shortcode.attrs(innerContent[ 3 ]).named
-      const column = cook.get({ tag: 'column', parent: parent, size: attr.width || 'auto' })
-      elementsStorage.trigger('add', column.toJS(), false)
-      if (innerContent[ 5 ]) {
-        parse(multipleShortcodesRegex, innerContent[ 5 ], column.get('id'))
+      const columnElement = cook.get({ tag: 'column', parent: parent, size: attr.width || 'auto' })
+      elementsStorage.trigger('add', columnElement.toJS(), false)
+      if (subInnerContent) {
+        parse(multipleShortcodesRegex, subInnerContent, columnElement.get('id'))
       }
-    } else if (innerContent[ 2 ] === 'vc_column_text') {
-      const textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(innerContent[ 5 ], '__VCVID__') })
+    } else if (shortcodeTag === 'vc_column_text') {
+      const textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(subInnerContent, '__VCVID__') })
       elementsStorage.trigger('add', textElement.toJS())
     } else {
-      const shortcode = cook.get({ tag: 'shortcode', parent: parent, shortcode: line })
-      elementsStorage.trigger('add', shortcode.toJS(), false)
+      const shortcodeElement = cook.get({ tag: 'shortcode', parent: parent, shortcode: line })
+      elementsStorage.trigger('add', shortcodeElement.toJS(), false)
     }
   })
 }
