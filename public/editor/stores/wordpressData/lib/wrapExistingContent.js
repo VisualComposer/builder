@@ -23,6 +23,9 @@ const parse = (multipleShortcodesRegex, content, parent = false) => {
       if (innerContent[ 5 ]) {
         parse(multipleShortcodesRegex, innerContent[ 5 ], column.get('id'))
       }
+    } else if (innerContent[ 2 ] === 'vc_column_text') {
+      const textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(innerContent[ 5 ], '__VCVID__') })
+      elementsStorage.trigger('add', textElement.toJS())
     } else {
       const shortcode = cook.get({ tag: 'shortcode', parent: parent, shortcode: line })
       elementsStorage.trigger('add', shortcode.toJS(), false)
