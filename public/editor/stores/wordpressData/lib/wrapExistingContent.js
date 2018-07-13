@@ -1,5 +1,6 @@
 /* global wp */
 import { getStorage, getService } from 'vc-cake'
+import {parseRowAttributes} from './parseAttributes'
 
 const utils = getService('utils')
 const cook = getService('cook')
@@ -11,7 +12,9 @@ const parse = (multipleShortcodesRegex, content, parent = false) => {
   globalMatches.forEach((line) => {
     const innerContent = line.match(localShortcodesRegex)
     if (innerContent && innerContent[ 2 ] === 'vc_row') {
-      const row = cook.get({ tag: 'row' })
+      const attr = wp.shortcode.attrs(innerContent[ 3 ]).named
+      const rowAttributes = parseRowAttributes(attr)
+      const row = cook.get(rowAttributes)
       elementsStorage.trigger('add', row.toJS(), false, { addColumn: false })
       if (innerContent[ 5 ]) {
         parse(multipleShortcodesRegex, innerContent[ 5 ], row.get('id'))
