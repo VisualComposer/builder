@@ -36,10 +36,8 @@ class Controller extends Container implements Module
         $this->wpAddAction('pre_get_posts', 'inject404Page');
         $this->wpAddFilter('pre_handle_404', 'check404');
 
-        if (vcvenv('VCV_TF_EDITOR_IN_CONTENT')) {
-            /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::pejQueryReady */
-            $this->wpAddAction('wp_enqueue_scripts', 'pejQueryReady');
-        }
+        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::pejQueryReady */
+        $this->wpAddAction('wp_enqueue_scripts', 'pejQueryReady');
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets');
     }
 
@@ -110,18 +108,9 @@ class Controller extends Container implements Module
     protected function buildPageEditable()
     {
         global $post;
-        if (vcvenv('VCV_TF_EDITOR_IN_CONTENT')) {
-            // @codingStandardsIgnoreLine
-            $post->post_content = vcview('editor/pageEditable/pageEditable.php');
-            wp_cache_add($post->ID, $post, 'posts');
-        } else {
-            /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::addTheContentFilteringForPost */
-            $this->wpAddAction(
-                'the_post',
-                'addTheContentFilteringForPost',
-                9999 // Do with high weight - when all other actions is done
-            );
-        }
+        // @codingStandardsIgnoreLine
+        $post->post_content = vcview('editor/pageEditable/pageEditable.php');
+        wp_cache_add($post->ID, $post, 'posts');
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::registerAssets */
         $this->call('registerAssets');
     }
@@ -158,6 +147,7 @@ class Controller extends Container implements Module
             $warn = vcvenv('VCV_DEBUG') ? 'console.warn(\'jquery ready failed\', e, param)' : '';
 
             $script = 'jQuery.fn.ready = function (param) {
+            console.log("fn.ready")
                 try {
                   window.setTimeout(function () {
                     param.call(this, jQuery)
@@ -168,6 +158,21 @@ class Controller extends Container implements Module
             
                 return this
                }
+              ';
+            $script .= '
+            window.setTimeout(function() {
+            jQuery.fn.load = function (param) {
+            console.log("fn.load")
+                try {
+                  window.setTimeout(function () {
+                    param.call(this, jQuery)
+                  }, 300)
+                } catch (e) {
+                   ' . $warn . '
+                }
+            
+                return this
+               }}, 1)
               ';
 
             wp_add_inline_script('jquery-core', $script);
