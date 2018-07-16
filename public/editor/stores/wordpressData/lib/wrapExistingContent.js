@@ -30,7 +30,7 @@ const parse = (multipleShortcodesRegex, content, parent = false) => {
         parse(multipleShortcodesRegex, subInnerContent, columnElement.get('id'))
       }
     } else if (shortcodeTag === 'vc_column_text') {
-      const textElementAttributes = Object.assign({}, generalElementAttributes, { tag: 'textBlock', output: utils.wpAutoP(subInnerContent, '__VCVID__') })
+      const textElementAttributes = Object.assign({}, generalElementAttributes, { tag: 'textBlock', output: utils.wpAutoP(subInnerContent, '__VCVID__'), parent: parent })
       const textElement = cook.get(textElementAttributes)
       elementsStorage.trigger('add', textElement.toJS())
     } else {
