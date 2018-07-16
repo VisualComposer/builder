@@ -39,7 +39,10 @@ module.exports = {
       'babel-runtime/core-js/object/define-property.js',
       'babel-runtime/core-js/object/create.js',
       'babel-runtime/core-js/object/assign.js',
-      'babel-runtime/core-js/object/keys.js'
+      'babel-runtime/core-js/object/keys.js',
+      'core-js/library/modules/web.dom.iterable.js',
+      'core-js/library/modules/es6.string.iterator.js',
+      'core-js/library/modules/core.is-iterable.js'
     ],
     wpPostRebuild: './public/wp-post-rebuild-main'
   },
