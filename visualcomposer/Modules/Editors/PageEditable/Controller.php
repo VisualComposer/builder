@@ -147,7 +147,6 @@ class Controller extends Container implements Module
             $warn = vcvenv('VCV_DEBUG') ? 'console.warn(\'jquery ready failed\', e, param)' : '';
 
             $script = 'jQuery.fn.ready = function (param) {
-            console.log("fn.ready")
                 try {
                   window.setTimeout(function () {
                     param.call(this, jQuery)
@@ -162,7 +161,6 @@ class Controller extends Container implements Module
             $script .= '
             window.setTimeout(function() {
             jQuery.fn.load = function (param) {
-            console.log("fn.load")
                 try {
                   window.setTimeout(function () {
                     param.call(this, jQuery)
