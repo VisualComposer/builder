@@ -1,13 +1,13 @@
 import vcCake from 'vc-cake'
-import RowElement from './row/row/component'
+import ColumnElement from './column/column/component'
 const AddElement = vcCake.getService('cook').add
 const AddElementToHub = vcCake.getService('hubElements').add
 
 AddElement(
-  require('./row/row/settings.json'),
+  require('./column/column/settings.json'),
   // Component callback
   function (component) {
-    component.add(RowElement)
+    component.add(ColumnElement)
   },
   // css settings // css for element
   {
@@ -25,7 +25,7 @@ AddElement(
 
 AddElementToHub(
   {
-    tag: 'row',
+    tag: 'column',
     assetsPath: '',
     bundlePath: '',
     elementPath: '',

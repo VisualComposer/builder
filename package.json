@@ -8,7 +8,7 @@
     "url": "git@gitlab.com:visual-composer-website-builder/builder.git"
   },
   "scripts": {
-    "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 npx jest",
+    "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 bash ./tests/jest/devElements/_cloneScript.sh && npx jest",
     "standard": "standard",
     "build": "webpack --config webpack.config.4x.babel.js --progress --colors",
     "build-production": "webpack --config webpack.config.production.4x.babel.js -p --silent",
@@ -52,7 +52,7 @@
     "expose-loader": "0.7.5",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
     "file-loader": "1.1.11",
-    "jest-cli": "22.4.3",
+    "jest-cli": "23.4.1",
     "jquery.caret": "git://github.com/ichord/caret.js.git#341fb20b6126220192b2cd226836cd5d614b3e09",
     "less-loader": "4.1.0",
     "postcss-functions": "git://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1",
@@ -160,7 +160,10 @@
     }
   },
   "jest": {
-    "testPathIgnorePatterns": ["/node_modules/", "/devElements/"],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/devElements/"
+    ],
     "testRegex": "(/tests/jest/.*)\\.jsx?$"
   }
 }
