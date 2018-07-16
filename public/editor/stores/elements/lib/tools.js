@@ -61,16 +61,12 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       lastColumnObject.firstInRow = firstInRow
       lastColumnObject.disableStacking = disableStacking
       documentManager.update(lastColumnObject.id, lastColumnObject)
-      // api.request('data:afterUpdate', lastColumnObject.id, lastColumnObject)
       elements.push([ lastColumnObject, 'update' ])
     } else {
-      let createdElement = documentManager.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow, disableStacking: disableStacking, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {} })
+      let createdElement = documentManager.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow, disableStacking: disableStacking, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {} })
       elements.push([ createdElement, 'add' ])
     }
   })
-  /*
-   api.request('data:afterAdd', createdElements)
-   */
   if (columns.length > layout.length) {
     let removingColumns = columns.slice(layout.length)
     removingColumns.forEach((column) => {
@@ -78,9 +74,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       childElements.forEach((el) => {
         el.parent = lastColumnObject.id
         documentManager.update(el.id, el)
-        // elements.push([el.id, 'create'])
       })
-      // api.request('data:remove', column.id)
       documentManager.delete(column.id)
       elements.push([ column, 'remove' ])
     })
