@@ -266,8 +266,9 @@ export default class TokenizationList extends React.Component {
     let cssClasses = classNames({
       'vcv-ui-form-input': true,
       'vcv-ui-tag-list-input': true,
-      'vcv-ui-tag-list-input-editing-disabled': !this.state.editing
+      'vcv-ui-tag-list-input-editing-disabled': !this.state.editing && !this.props.responsiveness
     })
+    const tokensList = !this.props.responsiveness ? this.renderTokensList() : null
     return <div className='vcv-ui-tag-list-container'>
       <Textarea
         minRows={1}
@@ -280,7 +281,7 @@ export default class TokenizationList extends React.Component {
         onBlur={this.handleBlur}
         data-vcv-type='vcv-tokenized-input'
       />
-      {this.renderTokensList()}
+      {tokensList}
       {this.renderSuggestionBox()}
     </div>
   }
