@@ -1,0 +1,89 @@
+.$selector > .vce-row-content {
+  @media (--$(device)) {
+    @if $fullColumn != false {
+      > .vce-col {
+        margin-right: 0;
+      }
+    } @else {
+      > .vce-col {
+        margin-right: $(columnGap)px;
+      }
+      @if $autoColumn != false {
+
+      } @else {
+        $width: calc($(percentage)% - $(spaceForColumn)px);
+
+        @if $percentageSelector != false {
+          > .vce-col--$(device)-$(percentageSelector)p {
+            flex: 0;
+            flex-basis: $(width);
+            max-width: $(width);
+          }
+        } @else {
+          > .vce-col--$(device)-$(numerator)-$(denominator) {
+            flex: 0;
+            flex-basis: $(width);
+            max-width: $(width);
+          }
+        }
+      }
+    }
+  }
+}
+
+
+/* === Resizer === */
+
+.$selector {
+  .vce-column-resizer-handler {
+    width: $(columnGap)px;
+  }
+}
+
+
+/* === RTL === */
+
+.rtl .$selector > .vce-row-content,
+.rtl.$selector > .vce-row-content {
+  @media (--$(device)) {
+    @if $fullColumn != false {
+      > .vce-col {
+        margin-left: $(columnGap)px;
+        margin-right: 0;
+      }
+    }
+
+    > .vce-column-resizer > .vce-column-resizer-handler {
+      left: 0;
+      right: auto;
+    }
+  }
+}
+
+
+/* === Backend === */
+
+.vcv-wpbackend-layout .vce-row {
+  @if $autoColumn != false {
+    .vce-col--$(device)-auto {
+      flex: 1 1 0;
+      width: 1px;
+    }
+  } @else {
+    $width: calc(100% * $(percentage));
+
+    @if $percentageSelector != false {
+      .vce-col--$(device)-$(percentageSelector)p {
+        flex: 0;
+        flex-basis: $(width);
+        max-width: $(width);
+      }
+    } @else {
+      .vce-col--$(device)-$(numerator)-$(denominator) {
+        flex: 0;
+        flex-basis: $(width);
+        max-width: $(width);
+      }
+    }
+  }
+}
