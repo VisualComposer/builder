@@ -76,12 +76,32 @@ export default class Layout extends Attribute {
   static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
 
   static buildMixins (data) {
-    let layoutData = vcCake.getService('document').children(data.id)
-      .map((element) => {
-        return element.size || 'auto'
-      })
+    let layoutData = {}
+    const rowChildren = vcCake.getService('document').children(data.id)
 
-    if (!layoutData) {
+    rowChildren.forEach((element) => {
+      if (element.size[ 'all' ]) {
+        if (!layoutData.hasOwnProperty('all')) {
+          layoutData.all = []
+        }
+        layoutData[ 'all' ].push(element.size[ 'all' ])
+      }
+    })
+
+    if (!layoutData.hasOwnProperty('all')) {
+      Layout.devices.forEach((device) => {
+        rowChildren.forEach((element) => {
+          if (element.size[ device ]) {
+            if (!layoutData.hasOwnProperty(device)) {
+              layoutData[ device ] = []
+            }
+            layoutData[ device ].push(element.size[ device ])
+          }
+        })
+      })
+    }
+
+    if (!layoutData.hasOwnProperty('all') && !layoutData.hasOwnProperty('xs')) {
       return null
     }
 
@@ -92,65 +112,64 @@ export default class Layout extends Attribute {
     const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
 
     Layout.devices.forEach((device) => {
-      if (device === 'md' || device === 'xs') {
-        let reducedLayout = []
-        layoutData.forEach((col) => {
-          if (reducedLayout.indexOf(col) < 0) {
-            reducedLayout.push(col)
-          }
-        })
+      let currentLayout = layoutData[ 'all' ] || layoutData[ device ]
+      let reducedLayout = []
+      currentLayout.forEach((col) => {
+        if (reducedLayout.indexOf(col) < 0) {
+          reducedLayout.push(col)
+        }
+      })
 
-        reducedLayout.forEach((col, index) => {
-          let mixinName = ''
-          let fraction = ''
+      reducedLayout.forEach((col, index) => {
+        let mixinName = ''
+        let fraction = ''
+        if (col.indexOf('%') >= 0) {
+          let numerator = parseFloat(col.replace('%', '').replace(',', '.'))
+          fraction = [ numerator, 100 ]
+        } else {
+          fraction = col.split('/')
+        }
+
+        if (col !== 'auto') {
+          mixinName = `${'columnStyleMixin'}:col${fraction[ 0 ]}/${fraction[ 1 ]}:gap${columnGap}:${device}`
+        } else {
+          mixinName = `${'columnStyleMixin'}:col${col}:gap${columnGap}:${device}`
+        }
+
+        if (device === 'xs') {
+          if (!disableStacking) {
+            mixinName = `${'columnStyleMixin'}:col1:xs`
+          }
+        }
+        // put index in the beginning of key to sort columns
+        mixinName = `${Layout.devices.indexOf(device)}:${mixinName}`
+
+        newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
+        newMixin[ mixinName ].variables.selector.value = selector
+        newMixin[ mixinName ].variables.device.value = device
+
+        if (device === 'xs') {
+          if (!disableStacking) {
+            newMixin[ mixinName ].variables.fullColumn.value = true
+          }
+        }
+        const percentages = (fraction[ 0 ] / fraction[ 1 ] * 100).toFixed(2)
+        const spaceForColumn = (columnGap - (columnGap * (parseFloat(percentages) / 100))).toString()
+
+        if (col !== 'auto') {
           if (col.indexOf('%') >= 0) {
-            let numerator = parseFloat(col.replace('%', '').replace(',', '.'))
-            fraction = [ numerator, 100 ]
+            newMixin[ mixinName ].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
           } else {
-            fraction = col.split('/')
+            newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
+            newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
           }
-
-          if (col !== 'auto') {
-            mixinName = `${'columnStyleMixin'}:col${fraction[ 0 ]}/${fraction[ 1 ]}:gap${columnGap}:${device}`
-          } else {
-            mixinName = `${'columnStyleMixin'}:col${col}:gap${columnGap}:${device}`
-          }
-
-          if (device === 'xs') {
-            if (!disableStacking) {
-              mixinName = `${'columnStyleMixin'}:col1:xs`
-            }
-          }
-          // put index in the beginning of key to sort columns
-          mixinName = `${Layout.devices.indexOf(device)}:${mixinName}`
-
-          newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
-          newMixin[ mixinName ].variables.selector.value = selector
-          newMixin[ mixinName ].variables.device.value = device
-
-          if (device === 'xs') {
-            if (!disableStacking) {
-              newMixin[ mixinName ].variables.fullColumn.value = true
-            }
-          }
-          const percentages = (fraction[ 0 ] / fraction[ 1 ] * 100).toFixed(2)
-          const spaceForColumn = (columnGap - (columnGap * (parseFloat(percentages) / 100))).toString()
-
-          if (col !== 'auto') {
-            if (col.indexOf('%') >= 0) {
-              newMixin[ mixinName ].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
-            } else {
-              newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
-              newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
-            }
-            newMixin[ mixinName ].variables.percentage.value = percentages
-          } else {
-            newMixin[ mixinName ].variables.autoColumn.value = true
-          }
-          newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
-          newMixin[ mixinName ].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
-        })
-      }
+          newMixin[ mixinName ].variables.percentage.value = percentages
+        } else {
+          newMixin[ mixinName ].variables.autoColumn.value = true
+        }
+        newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
+        newMixin[ mixinName ].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
+      })
     })
     return newMixin
   }
@@ -181,7 +200,6 @@ export default class Layout extends Attribute {
           md: layout,
           lg: layout,
           xl: layout
-
         },
         defaultLayoutData: layout,
         reverseColumn: reverseColumnState,
@@ -192,48 +210,44 @@ export default class Layout extends Attribute {
   }
 
   updateDevicesLayout (defaultLayout, newState) {
+    newState.layoutData[ 'all' ] = defaultLayout
+    newState.defaultLayoutData = defaultLayout
     for (let device in newState.layoutData) {
       if (newState.layoutData.hasOwnProperty(device)) {
-        const deviceLayout = newState.layoutData[ device ]
-        if (device !== 'all' && deviceLayout.length !== defaultLayout.length) {
+        let deviceLayout = newState.layoutData[ device ]
+        if (device !== 'all' && defaultLayout.length < deviceLayout.length) {
+          deviceLayout.length = 0
+          defaultLayout.forEach((col) => {
+            deviceLayout.push(col)
+          })
+        } else if (device !== 'all' && defaultLayout.length > deviceLayout.length) {
           defaultLayout.forEach((col, i) => {
-            if (!deviceLayout[i]) {
-              console.log('not found index, layout[i], col: ', i, defaultLayout[ i ], col)
-              deviceLayout[ i ] = col
+            if (!deviceLayout[ i ] && col) {
+              deviceLayout.push(col)
             }
           })
-
-          // if (defaultLayout.length < deviceLayout.length) {}
-          // console.log('newState.layoutData[ device ]', newState.layoutData[ device ])
         }
       }
     }
-    // console.log('updateDevicesLayout newState', newState)
-    console.log('updateDevicesLayout newState.layoutData.all', newState.layoutData.all)
-    console.log('updateDevicesLayout newState.layoutData.lg', newState.layoutData.lg)
-    // console.log('updateDevicesLayout layout', layout)
+    return newState
   }
 
   setActiveLayout (layout, options) {
     let newState = lodash.defaultsDeep({}, this.state.value)
-    if (options) {
-      newState.layoutData[options.device][options.index] = layout
+    if (options && options.device) {
+      newState.layoutData[ options.device ][ options.index ] = layout
     } else {
-      newState.layoutData['all'] = layout
-      newState.defaultLayoutData = layout
+      newState = this.updateDevicesLayout(layout, newState)
     }
-    if (options && options.device === 'all') {
-      this.updateDevicesLayout(layout, newState)
-    }
-    this.setFieldValue(newState, options.device)
+    this.setFieldValue(newState, options)
   }
 
-  setFieldValue (value, device) {
+  setFieldValue (value, options) {
     let { updater, fieldKey } = this.props
     let { layoutData, ...rest } = value
 
     updater(fieldKey, {
-      layoutData: this.sanitizeLayout(layoutData, device),
+      layoutData: this.sanitizeLayout(layoutData, options),
       ...rest
     })
     this.setState({
@@ -241,8 +255,9 @@ export default class Layout extends Attribute {
     })
   }
 
-  sanitizeLayout (value, device = 'all') {
-    return value[device].filter((col) => {
+  sanitizeLayout (value, options) {
+    const device = (options && options.device) || 'all'
+    return value[ device ].filter((col) => {
       return this.validateSize(col)
     })
   }
@@ -356,7 +371,7 @@ responsiveness options and stacking order.
                   <div className='vcv-ui-form-layout-custom-layout-input'>
                     <TokenizationList
                       layouts={this.props.layouts}
-                      value={layoutData['all'].join(' + ')}
+                      value={layoutData[ 'all' ].join(' + ')}
                       onChange={this.setActiveLayout}
                       validator={this.validateSize}
                       suggestions={this.props.suggestions}
