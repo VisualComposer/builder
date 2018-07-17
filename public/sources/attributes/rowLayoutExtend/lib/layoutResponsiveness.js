@@ -3,7 +3,7 @@
 
 import React from 'react'
 import ResponsivenessSettings from '../../responsivenessSettings/Component'
-import TokenizationList from '../../rowLayout/lib/tokenizationList'
+import TokenizationList from './tokenizationList'
 
 export default class LayoutResponsiveness extends React.Component {
   getSettings () {
