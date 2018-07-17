@@ -119,8 +119,8 @@ class EnqueueController extends Container implements Module
                 $asset = $this->call('findLocalAssetsPath', [$asset]);
                 foreach ((array)$asset as $single) {
                     wp_enqueue_script(
-                        'vcsv:assets:source:scripts:' . $strHelper->slugify($asset),
-                        $assetsHelper->getAssetUrl($asset),
+                        'vcsv:assets:source:scripts:' . $strHelper->slugify($single),
+                        $assetsHelper->getAssetUrl($single),
                         [],
                         VCV_VERSION,
                         true
