@@ -189,7 +189,7 @@ class EnqueueController extends Container implements Module
                 'sharedLibraries/faqToggle/dist/faqToggle.bundle.js', // shared-library
                 'elements/faqToggle/faqToggle/public/dist/faqToggle.min.js' // initializator
             ],
-            'elements/outlineFaqToggle/outlineFaqToggle/public/dist/outlineFaqToggle.min.js' => [
+            'elements/outlineFaqToggle/outlineFaqToggle/public/dist/faqToggle.min.js' => [
                 'sharedLibraries/faqToggle/dist/faqToggle.bundle.js', // shared-library
                 'elements/outlineFaqToggle/outlineFaqToggle/public/dist/outlineFaqToggle.min.js' // initializator
             ],

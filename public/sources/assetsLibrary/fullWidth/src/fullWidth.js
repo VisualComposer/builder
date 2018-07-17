@@ -1,5 +1,4 @@
 (function () {
-  console.log('loaded fullWidth.js')
   if (typeof window.vceResetFullWidthElements !== 'undefined') {
     return
   }
