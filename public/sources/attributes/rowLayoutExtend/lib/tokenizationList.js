@@ -164,7 +164,7 @@ export default class TokenizationList extends React.Component {
   updateValue (value) {
     this.setState({ value: value, suggestedValue: null, activeSuggestion: -1 })
     const layoutSplit = this.props.device ? value : this.getLayout(value)
-    const options = this.props.device && this.props.index ? {
+    const options = this.props.device ? {
       device: this.props.device,
       index: this.props.index
     } : false

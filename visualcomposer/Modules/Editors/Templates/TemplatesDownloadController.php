@@ -30,6 +30,7 @@ class TemplatesDownloadController extends Container implements Module
     /**
      * TemplatesDownloadController constructor.
      * @deprecated 2.3
+     *
      * @param \VisualComposer\Helpers\Options $optionsHelper
      */
     public function __construct(Options $optionsHelper)
@@ -275,14 +276,21 @@ class TemplatesDownloadController extends Container implements Module
 
         $value = $imageData['value'];
         $images = is_array($value) && isset($value['urls']) ? $value['urls'] : $value;
-        foreach ($images as $key => $image) {
-            if (is_string($image)) {
-                $newUrl = $this->processSimple($image, $template, $prefix . $key . '-');
-            } else {
-                $newUrl = $this->processSimple($image['full'], $template, $prefix . $key . '-');
-            }
-            if ($newUrl && !is_wp_error($newUrl)) {
-                $newImages[] = $newUrl;
+        if (is_string($images)) {
+            $images = [
+                $images => $images,
+            ];
+        }
+        if (!empty($images) && is_array($images)) {
+            foreach ($images as $key => $image) {
+                if (is_string($image)) {
+                    $newUrl = $this->processSimple($image, $template, $prefix . $key . '-');
+                } else {
+                    $newUrl = $this->processSimple($image['full'], $template, $prefix . $key . '-');
+                }
+                if ($newUrl && !is_wp_error($newUrl)) {
+                    $newImages[] = $newUrl;
+                }
             }
         }
 
