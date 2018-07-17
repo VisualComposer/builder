@@ -79,15 +79,8 @@
    * @function
    */
   function run() {
-    // wait for page to be fully loaded
-    const pageLoaded = setInterval(() => {
-      if (document.readyState === 'complete') {
-        clearInterval(pageLoaded);
-
-        const elements = document.querySelectorAll(this.selector);
-        forEach(elements, (element) => renderElement(element));
-      }
-    }, 10);
+    const elements = document.querySelectorAll(this.selector);
+    forEach(elements, (element) => renderElement(element));
   }
 
 
