@@ -117,13 +117,15 @@ class EnqueueController extends Container implements Module
         if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
             foreach ($assetsFiles['jsBundles'] as $asset) {
                 $asset = $this->call('findLocalAssetsPath', [$asset]);
-                wp_enqueue_script(
-                    'vcv:assets:source:scripts:' . $strHelper->slugify($asset),
-                    $assetsHelper->getAssetUrl($asset),
-                    [],
-                    VCV_VERSION,
-                    true
-                );
+                foreach ((array)$asset as $single) {
+                    wp_enqueue_script(
+                        'vcsv:assets:source:scripts:' . $strHelper->slugify($single),
+                        $assetsHelper->getAssetUrl($single),
+                        [],
+                        VCV_VERSION,
+                        true
+                    );
+                }
             }
             unset($asset);
         }
@@ -183,8 +185,14 @@ class EnqueueController extends Container implements Module
             'elements/imageMasonryGalleryWithScaleUp/imageMasonryGalleryWithScaleUp/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
             'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
 
-            'elements/faqToggle/faqToggle/public/dist/faqToggle.min.js' => 'sharedLibraries/faqToggle/dist/faqToggle.bundle.js',
-            'elements/outlineFaqToggle/outlineFaqToggle/public/dist/outlineFaqToggle.min.js' => 'sharedLibraries/faqToggle/dist/faqToggle.bundle.js',
+            'elements/faqToggle/faqToggle/public/dist/faqToggle.min.js' => [
+                'sharedLibraries/faqToggle/dist/faqToggle.bundle.js', // shared-library
+                'elements/faqToggle/faqToggle/public/dist/faqToggle.min.js' // initializator
+            ],
+            'elements/outlineFaqToggle/outlineFaqToggle/public/dist/faqToggle.min.js' => [
+                'sharedLibraries/faqToggle/dist/faqToggle.bundle.js', // shared-library
+                'elements/outlineFaqToggle/outlineFaqToggle/public/dist/outlineFaqToggle.min.js' // initializator
+            ],
 
             'elements/row/row/public/dist/fullHeightRow.min.js' => 'sharedLibraries/fullHeight/dist/fullHeight.bundle.js',
             'elements/row/row/public/dist/fullWidthRow.min.js' => 'sharedLibraries/fullWidth/dist/fullWidth.bundle.js',

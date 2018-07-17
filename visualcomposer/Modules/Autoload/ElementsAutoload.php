@@ -90,32 +90,34 @@ class ElementsAutoload extends Autoload implements Module
     protected function getSingleComponent($element)
     {
         $hubHelper = vchelper('HubElements');
-        // TODO: phpFiles, NO_GLOB and API
-        //        if (isset($element['phpFiles'])) {
-        //            $phpFiles = $element['phpFiles'];
-        //            $phpFiles = array_map(
-        //                function ($file) use ($element) {
-        //                    // tag/tag/*.php
-        //                    if (strpos($file, '[thirdPartyFullPath]') !== false) {
-        //                        return $file;
-        //                    }
-        //
-        //                    return rtrim($element['elementRealPath'], '\\/') . '/' . $file;
-        //                },
-        //                $phpFiles
-        //            );
-        //            $components = array_map([$hubHelper, 'getElementPath'], $phpFiles);
-        //            var_export([$element['phpFiles'], $components]);
-        //        } else {
-        $components = $this->app->glob(
-            rtrim(
-                $hubHelper->getElementPath(
-                    $element['elementRealPath']
-                ),
-                '\//'
-            ) . '/*.php'
-        );
-        //        }
+        if (isset($element['phpFiles'])) {
+            $phpFiles = $element['phpFiles'];
+            $phpFiles = array_map(
+                function ($file) use ($element) {
+                    // tag/tag/*.php
+                    if (strpos($file, '[thirdPartyFullPath]') !== false) {
+                        return $file;
+                    }
+
+                    if (strpos($file, 'devElements') !== false || file_exists($file)) {
+                        return $file;
+                    }
+
+                    return rtrim($element['elementRealPath'], '\\/') . '/' . $file;
+                },
+                $phpFiles
+            );
+            $components = array_map([$hubHelper, 'getElementPath'], $phpFiles);
+        } else {
+            $components = $this->app->glob(
+                rtrim(
+                    $hubHelper->getElementPath(
+                        $element['elementRealPath']
+                    ),
+                    '\//'
+                ) . '/*.php'
+            );
+        }
 
         return $this->checkElementController($components);
     }

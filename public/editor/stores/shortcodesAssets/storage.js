@@ -16,10 +16,24 @@ addStorage('shortcodeAssets', (storage) => {
     loadFiles(data)
   }
 
+  let scriptsLoader = {
+    src: [],
+    add: (src) => {
+      scriptsLoader.src.push(src)
+    },
+    loadNext: (assetsWindow) => {
+      if (scriptsLoader.src.length) {
+        let tmpSrc = scriptsLoader.src.splice(0, 1)
+        assetsWindow.jQuery.getScript(tmpSrc).always(() => {
+          scriptsLoader.loadNext(assetsWindow)
+        })
+      }
+    }
+  }
   let loadFiles = (data) => {
     const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
     if (data.domNodes && data.domNodes.length) {
-      const allowedHeadTags = ['META', 'LINK', 'STYLE', 'SCRIPT']
+      const allowedHeadTags = [ 'META', 'LINK', 'STYLE', 'SCRIPT' ]
       Array.from(data.domNodes).forEach(domNode => {
         let slug = ''
         let position = ''
@@ -45,14 +59,23 @@ addStorage('shortcodeAssets', (storage) => {
           let ignoreCache = type === 'template' ? false : data.ignoreCache
           !ignoreCache && slug && loadedFiles.push(slug)
           if (data.addToDocument) {
-            if (position) {
-              assetsWindow.document[ position ] && assetsWindow.jQuery(assetsWindow.document[ position ]).append(domNode)
+            if (domNode.tagName === 'SCRIPT') {
+              if (domNode.src) {
+                scriptsLoader.add(domNode.src)
+              } else {
+                data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
+              }
             } else {
-              data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
+              if (position) {
+                assetsWindow.document[ position ] && assetsWindow.jQuery(assetsWindow.document[ position ]).append(domNode)
+              } else {
+                data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
+              }
             }
           }
         }
       })
+      scriptsLoader.loadNext(assetsWindow)
     }
     assetsWindow.window.vcv && assetsWindow.window.vcv.trigger('ready')
   }
