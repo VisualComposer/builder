@@ -182,26 +182,54 @@ export default class Layout extends Attribute {
   }
 
   updateState (props) {
-    let layout = props.value && props.value.layoutData instanceof Array && props.value.layoutData.length
-      ? props.value.layoutData
-      : vcCake.getService('document').children(props.element.get('id'))
-        .map((element) => {
-          return element.size || 'auto'
+    let deviceLayoutData = {}
+
+    if (props.value && props.value.layoutData && (props.value.layoutData['all'] || props.value.layoutData['xs'])) {
+      deviceLayoutData = props.value.layoutData
+    } else {
+      const rowChildren = vcCake.getService('document').children(props.element.get('id'))
+
+      rowChildren.forEach((element) => {
+        if (element.size[ 'all' ]) {
+          if (!deviceLayoutData.hasOwnProperty('all')) {
+            deviceLayoutData.all = []
+          }
+          deviceLayoutData[ 'all' ].push(element.size[ 'all' ])
+        }
+      })
+
+      if (!deviceLayoutData.hasOwnProperty('all')) {
+        Layout.devices.forEach((device) => {
+          rowChildren.forEach((element) => {
+            if (element.size[ device ]) {
+              if (!deviceLayoutData.hasOwnProperty(device)) {
+                deviceLayoutData[ device ] = []
+              }
+              deviceLayoutData[ device ].push(element.size[ device ])
+            }
+          })
         })
+      } else {
+        Layout.devices.forEach((device) => {
+          rowChildren.forEach((element) => {
+            if (element.size['all']) {
+              if (!deviceLayoutData.hasOwnProperty(device)) {
+                deviceLayoutData[ device ] = []
+              }
+              deviceLayoutData[ device ].push(element.size['all'])
+            }
+          })
+        })
+      }
+    }
+
     let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
     let disableStackingState = props.value && props.value.disableStacking ? props.value.disableStacking : false
     let responsivenessSettingsState = props.value && props.value.responsivenessSettings ? props.value.responsivenessSettings : false
     return {
       value: {
-        layoutData: {
-          all: layout,
-          xs: layout,
-          sm: layout,
-          md: layout,
-          lg: layout,
-          xl: layout
-        },
-        defaultLayoutData: layout,
+        layoutData: deviceLayoutData,
+        defaultLayoutData: deviceLayoutData['all'],
         reverseColumn: reverseColumnState,
         disableStacking: disableStackingState,
         responsivenessSettings: responsivenessSettingsState
@@ -245,7 +273,6 @@ export default class Layout extends Attribute {
   setFieldValue (value, options) {
     let { updater, fieldKey } = this.props
     let { layoutData, ...rest } = value
-
     updater(fieldKey, {
       layoutData: this.sanitizeLayout(layoutData, options),
       ...rest
