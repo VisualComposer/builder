@@ -245,24 +245,34 @@ export default class Layout extends Attribute {
     } else {
       newState = this.updateDevicesLayout(layout, newState)
     }
-    this.setFieldValue(newState, options)
+    this.setFieldValue(newState)
   }
 
-  setFieldValue (value, options) {
+  setFieldValue (value) {
     let { updater, fieldKey } = this.props
     let { layoutData, ...rest } = value
+    const sanitizedValue = {}
+    for (let device in layoutData) {
+      if (layoutData.hasOwnProperty(device)) {
+        sanitizedValue[device] = this.sanitizeLayout(layoutData[device])
+      }
+    }
     updater(fieldKey, {
-      layoutData: this.sanitizeLayout(layoutData, options),
+      layoutData: sanitizedValue,
       ...rest
     })
+    if (value.responsivenessSettings) {
+      delete layoutData[ 'all' ]
+    } else {
+      layoutData['all'] = value.defaultLayoutData
+    }
     this.setState({
       value: value
     })
   }
 
-  sanitizeLayout (value, options) {
-    const device = (options && options.device) || 'all'
-    return value[ device ].filter((col) => {
+  sanitizeLayout (value) {
+    return value.filter((col) => {
       return this.validateSize(col)
     })
   }
@@ -354,7 +364,7 @@ export default class Layout extends Attribute {
   }
 
   render () {
-    let { layoutData, responsivenessSettings } = this.state.value
+    let { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
     let responsiveness = responsivenessSettings
       ? <LayoutResponsiveness layouts={this.props.layouts} layoutData={layoutData}
         onChange={this.setActiveLayout} validator={this.validateSize} devices={Layout.devices} {...this.props} />
@@ -365,7 +375,7 @@ export default class Layout extends Attribute {
 or enter custom values. Extend row layout by customizing
 responsiveness options and stacking order.
         </span>
-        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(layoutData)}
+        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(defaultLayoutData)}
           onChange={this.setActiveLayout} />
         <div className='vcv-ui-form-layout-custom-layout'>
           <span className='vcv-ui-form-group-heading'>Custom row layout</span>
@@ -376,7 +386,7 @@ responsiveness options and stacking order.
                   <div className='vcv-ui-form-layout-custom-layout-input'>
                     <TokenizationList
                       layouts={this.props.layouts}
-                      value={layoutData[ 'all' ].join(' + ')}
+                      value={defaultLayoutData.join(' + ')}
                       onChange={this.setActiveLayout}
                       validator={this.validateSize}
                       suggestions={this.props.suggestions}
