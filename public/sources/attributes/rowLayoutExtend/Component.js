@@ -87,6 +87,7 @@ export default class Layout extends Attribute {
     let columnGap = data.columnGap ? parseInt(data.columnGap) : 0
     let selector = `vce-row--col-gap-${columnGap}`
     const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
+    const responsivenessSettings = data && data.layout && data.layout.hasOwnProperty('responsivenessSettings') ? data.layout.responsivenessSettings : false
 
     Layout.devices.forEach((device) => {
       let currentLayout = layoutData[ 'all' ] || layoutData[ device ]
@@ -114,7 +115,7 @@ export default class Layout extends Attribute {
         }
 
         if (device === 'xs') {
-          if (!disableStacking) {
+          if (!disableStacking && !responsivenessSettings) {
             mixinName = `${'columnStyleMixin'}:col1:xs`
           }
         }
@@ -126,7 +127,7 @@ export default class Layout extends Attribute {
         newMixin[ mixinName ].variables.device.value = device
 
         if (device === 'xs') {
-          if (!disableStacking) {
+          if (!disableStacking && !responsivenessSettings) {
             newMixin[ mixinName ].variables.fullColumn.value = true
           }
         }
@@ -245,14 +246,25 @@ export default class Layout extends Attribute {
     } else {
       newState = this.updateDevicesLayout(layout, newState)
     }
-    this.setFieldValue(newState, options)
+    this.setFieldValue(newState)
   }
 
-  setFieldValue (value, options) {
+  setFieldValue (value) {
     let { updater, fieldKey } = this.props
     let { layoutData, ...rest } = value
+    if (value.responsivenessSettings) {
+      delete layoutData[ 'all' ]
+    } else {
+      layoutData['all'] = value.defaultLayoutData
+    }
+    const sanitizedValue = {}
+    for (let device in layoutData) {
+      if (layoutData.hasOwnProperty(device)) {
+        sanitizedValue[device] = this.sanitizeLayout(layoutData[device])
+      }
+    }
     updater(fieldKey, {
-      layoutData: this.sanitizeLayout(layoutData, options),
+      layoutData: sanitizedValue,
       ...rest
     })
     this.setState({
@@ -260,9 +272,8 @@ export default class Layout extends Attribute {
     })
   }
 
-  sanitizeLayout (value, options) {
-    const device = (options && options.device) || 'all'
-    return value[ device ].filter((col) => {
+  sanitizeLayout (value) {
+    return value.filter((col) => {
       return this.validateSize(col)
     })
   }
@@ -354,10 +365,16 @@ export default class Layout extends Attribute {
   }
 
   render () {
-    let { layoutData, responsivenessSettings } = this.state.value
+    let { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
     let responsiveness = responsivenessSettings
-      ? <LayoutResponsiveness layouts={this.props.layouts} layoutData={layoutData}
-        onChange={this.setActiveLayout} validator={this.validateSize} devices={Layout.devices} {...this.props} />
+      ? <LayoutResponsiveness
+        layouts={this.props.layouts}
+        layoutData={layoutData}
+        onChange={this.setActiveLayout}
+        validator={this.validateSize}
+        devices={Layout.devices}
+        defaultLayoutData={defaultLayoutData}
+        {...this.props} />
       : null
     return (
       <div className='vcv-ui-form-layout'>
@@ -365,7 +382,7 @@ export default class Layout extends Attribute {
 or enter custom values. Extend row layout by customizing
 responsiveness options and stacking order.
         </span>
-        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(layoutData)}
+        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(defaultLayoutData)}
           onChange={this.setActiveLayout} />
         <div className='vcv-ui-form-layout-custom-layout'>
           <span className='vcv-ui-form-group-heading'>Custom row layout</span>
@@ -376,7 +393,7 @@ responsiveness options and stacking order.
                   <div className='vcv-ui-form-layout-custom-layout-input'>
                     <TokenizationList
                       layouts={this.props.layouts}
-                      value={layoutData[ 'all' ].join(' + ')}
+                      value={defaultLayoutData.join(' + ')}
                       onChange={this.setActiveLayout}
                       validator={this.validateSize}
                       suggestions={this.props.suggestions}
