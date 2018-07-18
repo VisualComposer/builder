@@ -4,71 +4,131 @@ const elementsStorage = vcCake.getStorage('elements')
 export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   let elements = []
   let columns = documentManager.children(id)
-  let layout = data.layout
-  if (!layout) {
-    layout = documentManager.children(id)
-      .map((element) => {
-        return element.size || '100%'
+  let newColumns = []
+  const devices = [ 'all', 'xs', 'sm', 'md', 'lg', 'xl' ]
+  let layouts = data.layout
+  let createdColumnData = { tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {} }
+  const disableStacking = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
+  let lastColumnObject = null
+
+  if (!layouts) {
+    layouts = {}
+
+    const rowChildren = documentManager.children(id)
+
+    // Get layout for 'all'
+    rowChildren.forEach((element) => {
+      if (element.size['all']) {
+        if (!layouts.hasOwnProperty('all')) {
+          layouts.all = []
+        }
+        layouts['all'].push(element.size['all'])
+      }
+    })
+
+    if (!layouts.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
+      devices.forEach((device) => {
+        rowChildren.forEach((element) => {
+          if (element.size[device]) {
+            if (!layouts.hasOwnProperty(device)) {
+              layouts[device] = []
+            }
+            layouts[device].push(element.size[device])
+          }
+        })
       })
-    if (data.action === 'columnAdd' || data.action === 'columnClone') {
-      let prevLayout = layout.slice()
-      prevLayout.pop()
-      let rowData = getRowData(prevLayout)
-      if (data.columnSize !== '100%' && data.columnSize !== undefined) {
-        layout = prevLayout
-        layout.push(data.columnSize)
-      } else if ((Math.round(rowData.rowValue * 100) / 100) < 1) {
-        if (data.action === 'columnAdd') {
-          let leftValue = 1 - rowData.rowValue
-          layout = prevLayout
-          layout.push(`${leftValue * 100}%`)
-        }
-      } else if (rowData.isColumnsEqual) {
-        let colCount = layout.length
-        let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
-        layout = []
-        for (let i = 0; i < colCount; i++) {
-          layout.push(colSize)
-        }
-      }
-    }
-
-    if (data.action === 'columnRemove' && data.size) {
-      let prevLayout = layout.slice()
-      prevLayout.push(data.size)
-      let rowData = getRowData(prevLayout)
-
-      if (((Math.round(rowData.rowValue * 100) / 100) === 1) && rowData.isColumnsEqual) {
-        let colCount = layout.length
-        let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
-        layout = []
-        for (let i = 0; i < colCount; i++) {
-          layout.push(colSize)
-        }
-      }
     }
   }
-  let lastColumns = getRowData(layout).lastColumnIndex
-  let lastColumnObject = null
-  const disableStacking = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
-  layout.forEach((size, i) => {
-    let lastInRow = lastColumns.indexOf(i) > -1
-    let firstInRow = i === 0 || lastColumns.indexOf(i - 1) > -1
-    if (columns[ i ] !== undefined) {
-      lastColumnObject = columns[ i ]
-      lastColumnObject.size = size
-      lastColumnObject.lastInRow = lastInRow
-      lastColumnObject.firstInRow = firstInRow
-      lastColumnObject.disableStacking = disableStacking
-      documentManager.update(lastColumnObject.id, lastColumnObject)
-      elements.push([ lastColumnObject, 'update' ])
-    } else {
-      let createdElement = documentManager.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow, disableStacking: disableStacking, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {} })
-      elements.push([ createdElement, 'add' ])
+
+  Object.keys(layouts).forEach((device) => {
+    let layout = layouts[ device ]
+    if (layout && layout.length) {
+      if (data.action === 'columnAdd' || data.action === 'columnClone') {
+        let prevLayout = layout.slice()
+        prevLayout.pop()
+        let rowData = getRowData(prevLayout)
+        if (data.columnSize && data.columnSize[ device ] !== '100%' && data.columnSize[ device ] !== undefined) {
+          layout = prevLayout
+          layout.push(data.columnSize[ device ])
+        } else if ((Math.round(rowData.rowValue * 100) / 100) < 1) {
+          if (data.action === 'columnAdd') {
+            let leftValue = 1 - rowData.rowValue
+            layout = prevLayout
+            layout.push(`${leftValue * 100}%`)
+          }
+        } else if (rowData.isColumnsEqual) {
+          let colCount = layout.length
+          let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
+          layout = []
+          for (let i = 0; i < colCount; i++) {
+            layout.push(colSize)
+          }
+        }
+      }
+
+      if (data.action === 'columnRemove' && data.size[ device ]) {
+        let prevLayout = layout.slice()
+        prevLayout.push(data.size[ device ])
+        let rowData = getRowData(prevLayout)
+
+        if (((Math.round(rowData.rowValue * 100) / 100) === 1) && rowData.isColumnsEqual) {
+          let colCount = layout.length
+          let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
+          layout = []
+          for (let i = 0; i < colCount; i++) {
+            layout.push(colSize)
+          }
+        }
+      }
     }
+
+    let lastColumns = getRowData(layout).lastColumnIndex
+
+    layout.forEach((size, i) => {
+      let lastInRow = lastColumns.indexOf(i) > -1
+      let firstInRow = i === 0 || lastColumns.indexOf(i - 1) > -1
+      if (columns[ i ] !== undefined) {
+        lastColumnObject = columns[ i ]
+        lastColumnObject.size[ device ] = size
+        lastColumnObject.lastInRow[ device ] = lastInRow
+        lastColumnObject.firstInRow[ device ] = firstInRow
+        lastColumnObject.disableStacking = disableStacking
+        newColumns.push(lastColumnObject)
+      } else {
+        if (!createdColumnData.hasOwnProperty('size')) {
+          createdColumnData.size = {}
+        }
+        createdColumnData.size[ device ] = size
+        createdColumnData.lastInRow[ device ] = lastInRow
+        createdColumnData.firstInRow[ device ] = firstInRow
+        createdColumnData.disableStacking = disableStacking
+      }
+    })
   })
-  if (columns.length > layout.length) {
-    let removingColumns = columns.slice(layout.length)
+
+  newColumns.forEach((col) => {
+    if (!layouts.hasOwnProperty('all')) {
+      delete col.size['all']
+    } else {
+      delete col.size['xs']
+      delete col.size['sm']
+      delete col.size['md']
+      delete col.size['lg']
+      delete col.size['xl']
+    }
+    documentManager.update(col.id, col)
+    elements.push([ col, 'update' ])
+  })
+
+  if (createdColumnData.hasOwnProperty('size')) {
+    let createdElement = documentManager.create(createdColumnData)
+    elements.push([ createdElement, 'add' ])
+  }
+
+  let defaultLayout = layouts[ 'all' ] || layouts[ 'xs' ]
+
+  if (columns.length > defaultLayout.length) {
+    let removingColumns = columns.slice(defaultLayout.length)
     removingColumns.forEach((column) => {
       let childElements = documentManager.children(column.id)
       childElements.forEach((el) => {

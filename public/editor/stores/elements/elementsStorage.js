@@ -114,7 +114,7 @@ addStorage('elements', (storage) => {
     }
   })
   storage.on('update', (id, element, source = '', options = {}) => {
-    if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
+    if (element.tag === 'row' && element.layout && element.layout.layoutData && (element.layout.layoutData.hasOwnProperty('all') || element.layout.layoutData.hasOwnProperty('xs'))) {
       rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking }, documentManager)
       element.layout.layoutData = undefined
     }

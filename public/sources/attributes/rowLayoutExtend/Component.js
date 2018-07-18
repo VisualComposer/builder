@@ -87,6 +87,7 @@ export default class Layout extends Attribute {
     let columnGap = data.columnGap ? parseInt(data.columnGap) : 0
     let selector = `vce-row--col-gap-${columnGap}`
     const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
+    const responsivenessSettings = data && data.layout && data.layout.hasOwnProperty('responsivenessSettings') ? data.layout.responsivenessSettings : false
 
     Layout.devices.forEach((device) => {
       let currentLayout = layoutData[ 'all' ] || layoutData[ device ]
@@ -114,7 +115,7 @@ export default class Layout extends Attribute {
         }
 
         if (device === 'xs') {
-          if (!disableStacking) {
+          if (!disableStacking && !responsivenessSettings) {
             mixinName = `${'columnStyleMixin'}:col1:xs`
           }
         }
@@ -126,7 +127,7 @@ export default class Layout extends Attribute {
         newMixin[ mixinName ].variables.device.value = device
 
         if (device === 'xs') {
-          if (!disableStacking) {
+          if (!disableStacking && !responsivenessSettings) {
             newMixin[ mixinName ].variables.fullColumn.value = true
           }
         }
