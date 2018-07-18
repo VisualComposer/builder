@@ -76,30 +76,7 @@ export default class Layout extends Attribute {
   static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
 
   static buildMixins (data) {
-    let layoutData = {}
-    const rowChildren = vcCake.getService('document').children(data.id)
-
-    rowChildren.forEach((element) => {
-      if (element.size[ 'all' ]) {
-        if (!layoutData.hasOwnProperty('all')) {
-          layoutData.all = []
-        }
-        layoutData[ 'all' ].push(element.size[ 'all' ])
-      }
-    })
-
-    if (!layoutData.hasOwnProperty('all')) {
-      Layout.devices.forEach((device) => {
-        rowChildren.forEach((element) => {
-          if (element.size[ device ]) {
-            if (!layoutData.hasOwnProperty(device)) {
-              layoutData[ device ] = []
-            }
-            layoutData[ device ].push(element.size[ device ])
-          }
-        })
-      })
-    }
+    let layoutData = Layout.getLayoutData(data.id)
 
     if (!layoutData.hasOwnProperty('all') && !layoutData.hasOwnProperty('xs')) {
       return null
@@ -223,13 +200,14 @@ export default class Layout extends Attribute {
       deviceLayoutData = Layout.getLayoutData(props.element.get('id'))
     }
 
-    let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
-    let disableStackingState = props.value && props.value.disableStacking ? props.value.disableStacking : false
-    let responsivenessSettingsState = props.value && props.value.responsivenessSettings ? props.value.responsivenessSettings : false
+    const defaultLayoutData = props.value && props.value.defaultLayoutData ? props.value.defaultLayoutData : deviceLayoutData['all']
+    const reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
+    const disableStackingState = props.value && props.value.disableStacking ? props.value.disableStacking : false
+    const responsivenessSettingsState = props.value && props.value.responsivenessSettings ? props.value.responsivenessSettings : false
     return {
       value: {
         layoutData: deviceLayoutData,
-        defaultLayoutData: deviceLayoutData['all'],
+        defaultLayoutData: defaultLayoutData,
         reverseColumn: reverseColumnState,
         disableStacking: disableStackingState,
         responsivenessSettings: responsivenessSettingsState
