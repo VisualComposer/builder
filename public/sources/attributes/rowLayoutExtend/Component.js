@@ -174,6 +174,39 @@ export default class Layout extends Attribute {
     return newMixin
   }
 
+  static getLayoutData (rowId) {
+    const deviceLayoutData = {}
+    const rowChildren = vcCake.getService('document').children(rowId)
+
+    // Get layout for 'all'
+    rowChildren.forEach((element) => {
+      if (element.size['all']) {
+        if (!deviceLayoutData.hasOwnProperty('all')) {
+          deviceLayoutData.all = []
+        }
+        deviceLayoutData['all'].push(element.size['all'])
+      }
+    })
+
+    if (!deviceLayoutData.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
+      Layout.devices.forEach((device) => {
+        rowChildren.forEach((element) => {
+          if (element.size[device]) {
+            if (!deviceLayoutData.hasOwnProperty(device)) {
+              deviceLayoutData[device] = []
+            }
+            deviceLayoutData[device].push(element.size[device])
+          }
+        })
+      })
+    } else { // Copy layout for devices from 'all' if 'all' is defined
+      Layout.devices.forEach((device) => {
+        deviceLayoutData[device] = deviceLayoutData['all']
+      })
+    }
+    return deviceLayoutData
+  }
+
   constructor (props) {
     super(props)
     this.setActiveLayout = this.setActiveLayout.bind(this)
@@ -187,40 +220,7 @@ export default class Layout extends Attribute {
     if (props.value && props.value.layoutData && (props.value.layoutData['all'] || props.value.layoutData['xs'])) {
       deviceLayoutData = props.value.layoutData
     } else {
-      const rowChildren = vcCake.getService('document').children(props.element.get('id'))
-
-      rowChildren.forEach((element) => {
-        if (element.size[ 'all' ]) {
-          if (!deviceLayoutData.hasOwnProperty('all')) {
-            deviceLayoutData.all = []
-          }
-          deviceLayoutData[ 'all' ].push(element.size[ 'all' ])
-        }
-      })
-
-      if (!deviceLayoutData.hasOwnProperty('all')) {
-        Layout.devices.forEach((device) => {
-          rowChildren.forEach((element) => {
-            if (element.size[ device ]) {
-              if (!deviceLayoutData.hasOwnProperty(device)) {
-                deviceLayoutData[ device ] = []
-              }
-              deviceLayoutData[ device ].push(element.size[ device ])
-            }
-          })
-        })
-      } else {
-        Layout.devices.forEach((device) => {
-          rowChildren.forEach((element) => {
-            if (element.size['all']) {
-              if (!deviceLayoutData.hasOwnProperty(device)) {
-                deviceLayoutData[ device ] = []
-              }
-              deviceLayoutData[ device ].push(element.size['all'])
-            }
-          })
-        })
-      }
+      deviceLayoutData = Layout.getLayoutData(props.element.get('id'))
     }
 
     let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
