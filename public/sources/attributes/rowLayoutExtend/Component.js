@@ -251,6 +251,11 @@ export default class Layout extends Attribute {
   setFieldValue (value) {
     let { updater, fieldKey } = this.props
     let { layoutData, ...rest } = value
+    if (value.responsivenessSettings) {
+      delete layoutData[ 'all' ]
+    } else {
+      layoutData['all'] = value.defaultLayoutData
+    }
     const sanitizedValue = {}
     for (let device in layoutData) {
       if (layoutData.hasOwnProperty(device)) {
@@ -261,11 +266,6 @@ export default class Layout extends Attribute {
       layoutData: sanitizedValue,
       ...rest
     })
-    if (value.responsivenessSettings) {
-      delete layoutData[ 'all' ]
-    } else {
-      layoutData['all'] = value.defaultLayoutData
-    }
     this.setState({
       value: value
     })
