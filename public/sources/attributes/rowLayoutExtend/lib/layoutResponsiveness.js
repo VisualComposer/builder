@@ -7,13 +7,18 @@ import TokenizationList from './tokenizationList'
 
 export default class LayoutResponsiveness extends React.Component {
   getSettings () {
-    const { devices, layoutData } = this.props
+    const { devices, layoutData, defaultLayoutData } = this.props
     return devices.map((device, i) => {
       const deviceLayout = layoutData[ device ]
       return <div key={`${device}-device-layout-${i}`}>{deviceLayout.map((layout, index) => {
         // if layout is empty and is the last item in array
         // don't render field
-        if (!layout.length && (deviceLayout.indexOf(layout) === deviceLayout.length - 1) && deviceLayout.length > 1) {
+        if (!layout.length &&
+          (deviceLayout.indexOf(layout) === deviceLayout.length - 1) &&
+          deviceLayout.length > 1 &&
+          deviceLayout.length !== defaultLayoutData.length &&
+          defaultLayoutData[defaultLayoutData.length - 1]
+        ) {
           return null
         }
         const responsiveness = true

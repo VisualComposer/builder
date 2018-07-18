@@ -367,8 +367,14 @@ export default class Layout extends Attribute {
   render () {
     let { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
     let responsiveness = responsivenessSettings
-      ? <LayoutResponsiveness layouts={this.props.layouts} layoutData={layoutData}
-        onChange={this.setActiveLayout} validator={this.validateSize} devices={Layout.devices} {...this.props} />
+      ? <LayoutResponsiveness
+        layouts={this.props.layouts}
+        layoutData={layoutData}
+        onChange={this.setActiveLayout}
+        validator={this.validateSize}
+        devices={Layout.devices}
+        defaultLayoutData={defaultLayoutData}
+        {...this.props} />
       : null
     return (
       <div className='vcv-ui-form-layout'>
