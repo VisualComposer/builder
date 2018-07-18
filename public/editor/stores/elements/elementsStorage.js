@@ -1,4 +1,4 @@
-import { addStorage, getStorage, getService } from 'vc-cake'
+import { addStorage, getStorage, getService, env } from 'vc-cake'
 import { rebuildRawLayout, addRowColumnBackground } from './lib/tools'
 
 addStorage('elements', (storage) => {
@@ -35,13 +35,29 @@ addStorage('elements', (storage) => {
     return cookElement.toJS(true, false)
   }
   const sanitizeData = (data) => {
-    const newData = Object.assign({}, data || {})
-    Object.keys(data).forEach((key) => {
-      let cookElement = cook.get(data[ key ])
+    let newData = Object.assign({}, data || {})
+    const allKeys = Object.keys(data)
+    allKeys.forEach((key) => {
+      if (!newData.hasOwnProperty(key)) {
+        return
+      }
+      let cookElement = cook.get(newData[ key ])
       if (!cookElement) {
         delete newData[ key ]
+        env('debug') === true && console.warn(`Element with key ${key} removed, failed to get CookElement`)
       } else {
-        newData[ key ] = recursiveElementsRebuild(cookElement)
+        let parent = cookElement.get('parent')
+        if (parent) {
+          if (!data.hasOwnProperty(parent)) {
+            delete newData[ key ]
+            env('debug') === true && console.warn(`Element with key ${key} removed, failed to get parent element`)
+            newData = sanitizeData(newData)
+          } else {
+            newData[ key ] = recursiveElementsRebuild(cookElement)
+          }
+        } else {
+          newData[ key ] = recursiveElementsRebuild(cookElement)
+        }
       }
     })
     return newData
