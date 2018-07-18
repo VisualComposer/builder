@@ -30,8 +30,35 @@ addStorage('elements', (storage) => {
         let innerElement = cook.get(value)
         let innerElementValue = recursiveElementsRebuild(innerElement)
         cookElement.set(attrKey, innerElementValue)
+      } else if (attributeSettings.settings.type === 'rowLayout') {
+        // Update OLD rowLayout to devices-object
+        let value = cookElement.get(attrKey)
+        if (!value || Array.isArray(value)) {
+          value = {all: value}
+          cookElement.set(attrKey, value)
+        }
       }
     })
+    // TODO: Create BC migrator for attributes/elements
+    if (cookGetAll.tag === 'column') {
+      // Update OLD column sizes to devices-object
+      let sizeValue = cookElement.get('size')
+      if (typeof sizeValue !== 'object') {
+        sizeValue = {all: sizeValue}
+        cookElement.set('size', sizeValue)
+      }
+      let lastInRowValue = cookElement.get('lastInRow')
+      if (typeof lastInRowValue !== 'object') {
+        lastInRowValue = {all: lastInRowValue}
+        cookElement.set('lastInRow', lastInRowValue)
+      }
+      let firstInRowValue = cookElement.get('firstInRow')
+      if (typeof firstInRowValue !== 'object') {
+        firstInRowValue = {all: firstInRowValue}
+        cookElement.set('firstInRow', firstInRowValue)
+      }
+    }
+
     return cookElement.toJS(true, false)
   }
   const sanitizeData = (data) => {
