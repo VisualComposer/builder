@@ -9,8 +9,9 @@ import Attribute from '../attribute'
 import DefaultLayouts from './lib/defaultLayouts'
 import TokenizationList from './lib/tokenizationList'
 import Toggle from '../toggle/Component'
+import LayoutResponsiveness from './lib/layoutResponsiveness'
 
-class Layout extends Attribute {
+export default class Layout extends Attribute {
   static defaultProps = {
     layouts: [
       [ '100%' ],
@@ -75,12 +76,9 @@ class Layout extends Attribute {
   static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
 
   static buildMixins (data) {
-    let layoutData = vcCake.getService('document').children(data.id)
-      .map((element) => {
-        return element.size || 'auto'
-      })
+    let layoutData = Layout.getLayoutData(data.id)
 
-    if (!layoutData) {
+    if (!layoutData.hasOwnProperty('all') && !layoutData.hasOwnProperty('xs')) {
       return null
     }
 
@@ -89,69 +87,102 @@ class Layout extends Attribute {
     let columnGap = data.columnGap ? parseInt(data.columnGap) : 0
     let selector = `vce-row--col-gap-${columnGap}`
     const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
+    const responsivenessSettings = data && data.layout && data.layout.hasOwnProperty('responsivenessSettings') ? data.layout.responsivenessSettings : false
 
     Layout.devices.forEach((device) => {
-      if (device === 'md' || device === 'xs') {
-        let reducedLayout = []
-        layoutData.forEach((col) => {
-          if (reducedLayout.indexOf(col) < 0) {
-            reducedLayout.push(col)
-          }
-        })
+      let currentLayout = layoutData[ 'all' ] || layoutData[ device ]
+      let reducedLayout = []
+      currentLayout.forEach((col) => {
+        if (reducedLayout.indexOf(col) < 0) {
+          reducedLayout.push(col)
+        }
+      })
 
-        reducedLayout.forEach((col, index) => {
-          let mixinName = ''
-          let fraction = ''
+      reducedLayout.forEach((col, index) => {
+        let mixinName = ''
+        let fraction = ''
+        if (col.indexOf('%') >= 0) {
+          let numerator = parseFloat(col.replace('%', '').replace(',', '.'))
+          fraction = [ numerator, 100 ]
+        } else {
+          fraction = col.split('/')
+        }
+
+        if (col !== 'auto') {
+          mixinName = `${'columnStyleMixin'}:col${fraction[ 0 ]}/${fraction[ 1 ]}:gap${columnGap}:${device}`
+        } else {
+          mixinName = `${'columnStyleMixin'}:col${col}:gap${columnGap}:${device}`
+        }
+
+        if (device === 'xs') {
+          if (!disableStacking && !responsivenessSettings) {
+            mixinName = `${'columnStyleMixin'}:col1:xs`
+          }
+        }
+        // put index in the beginning of key to sort columns
+        mixinName = `${Layout.devices.indexOf(device)}:${mixinName}`
+
+        newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
+        newMixin[ mixinName ].variables.selector.value = selector
+        newMixin[ mixinName ].variables.device.value = device
+
+        if (device === 'xs') {
+          if (!disableStacking && !responsivenessSettings) {
+            newMixin[ mixinName ].variables.fullColumn.value = true
+          }
+        }
+        const percentages = (fraction[ 0 ] / fraction[ 1 ] * 100).toFixed(2)
+        const spaceForColumn = (columnGap - (columnGap * (parseFloat(percentages) / 100))).toString()
+
+        if (col !== 'auto') {
           if (col.indexOf('%') >= 0) {
-            let numerator = parseFloat(col.replace('%', '').replace(',', '.'))
-            fraction = [ numerator, 100 ]
+            newMixin[ mixinName ].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
           } else {
-            fraction = col.split('/')
+            newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
+            newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
           }
-
-          if (col !== 'auto') {
-            mixinName = `${'columnStyleMixin'}:col${fraction[ 0 ]}/${fraction[ 1 ]}:gap${columnGap}:${device}`
-          } else {
-            mixinName = `${'columnStyleMixin'}:col${col}:gap${columnGap}:${device}`
-          }
-
-          if (device === 'xs') {
-            if (!disableStacking) {
-              mixinName = `${'columnStyleMixin'}:col1:xs`
-            }
-          }
-          // put index in the beginning of key to sort columns
-          mixinName = `${Layout.devices.indexOf(device)}:${mixinName}`
-
-          newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
-          newMixin[ mixinName ].variables.selector.value = selector
-          newMixin[ mixinName ].variables.device.value = device
-
-          if (device === 'xs') {
-            if (!disableStacking) {
-              newMixin[ mixinName ].variables.fullColumn.value = true
-            }
-          }
-          const percentages = (fraction[ 0 ] / fraction[ 1 ] * 100).toFixed(2)
-          const spaceForColumn = (columnGap - (columnGap * (parseFloat(percentages) / 100))).toString()
-
-          if (col !== 'auto') {
-            if (col.indexOf('%') >= 0) {
-              newMixin[ mixinName ].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
-            } else {
-              newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
-              newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
-            }
-            newMixin[ mixinName ].variables.percentage.value = percentages
-          } else {
-            newMixin[ mixinName ].variables.autoColumn.value = true
-          }
-          newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
-          newMixin[ mixinName ].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
-        })
-      }
+          newMixin[ mixinName ].variables.percentage.value = percentages
+        } else {
+          newMixin[ mixinName ].variables.autoColumn.value = true
+        }
+        newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
+        newMixin[ mixinName ].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
+      })
     })
     return newMixin
+  }
+
+  static getLayoutData (rowId) {
+    const deviceLayoutData = {}
+    const rowChildren = vcCake.getService('document').children(rowId)
+
+    // Get layout for 'all'
+    rowChildren.forEach((element) => {
+      if (element.size['all']) {
+        if (!deviceLayoutData.hasOwnProperty('all')) {
+          deviceLayoutData.all = []
+        }
+        deviceLayoutData['all'].push(element.size['all'])
+      }
+    })
+
+    if (!deviceLayoutData.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
+      Layout.devices.forEach((device) => {
+        rowChildren.forEach((element) => {
+          if (element.size[device]) {
+            if (!deviceLayoutData.hasOwnProperty(device)) {
+              deviceLayoutData[device] = []
+            }
+            deviceLayoutData[device].push(element.size[device])
+          }
+        })
+      })
+    } else { // Copy layout for devices from 'all' if 'all' is defined
+      Layout.devices.forEach((device) => {
+        deviceLayoutData[device] = deviceLayoutData['all']
+      })
+    }
+    return deviceLayoutData
   }
 
   constructor (props) {
@@ -162,35 +193,78 @@ class Layout extends Attribute {
   }
 
   updateState (props) {
-    let layout = props.value && props.value.layoutData instanceof Array && props.value.layoutData.length
-      ? props.value.layoutData
-      : vcCake.getService('document').children(props.element.get('id'))
-        .map((element) => {
-          return element.size || 'auto'
-        })
-    let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
-    let disableStackingState = props.value && props.value.disableStacking ? props.value.disableStacking : false
+    let deviceLayoutData = {}
+
+    if (props.value && props.value.layoutData && (props.value.layoutData['all'] || props.value.layoutData['xs'])) {
+      deviceLayoutData = props.value.layoutData
+    } else {
+      deviceLayoutData = Layout.getLayoutData(props.element.get('id'))
+    }
+
+    const defaultLayoutData = props.value && props.value.defaultLayoutData ? props.value.defaultLayoutData : deviceLayoutData['all']
+    const reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
+    const disableStackingState = props.value && props.value.disableStacking ? props.value.disableStacking : false
+    const responsivenessSettingsState = props.value && props.value.responsivenessSettings ? props.value.responsivenessSettings : false
     return {
       value: {
-        layoutData: layout,
+        layoutData: deviceLayoutData,
+        defaultLayoutData: defaultLayoutData,
         reverseColumn: reverseColumnState,
-        disableStacking: disableStackingState
+        disableStacking: disableStackingState,
+        responsivenessSettings: responsivenessSettingsState
       }
     }
   }
 
-  setActiveLayout (layout) {
+  updateDevicesLayout (defaultLayout, newState) {
+    newState.layoutData[ 'all' ] = defaultLayout
+    newState.defaultLayoutData = defaultLayout
+    for (let device in newState.layoutData) {
+      if (newState.layoutData.hasOwnProperty(device)) {
+        let deviceLayout = newState.layoutData[ device ]
+        if (device !== 'all' && defaultLayout.length < deviceLayout.length) {
+          deviceLayout.length = 0
+          defaultLayout.forEach((col) => {
+            deviceLayout.push(col)
+          })
+        } else if (device !== 'all' && defaultLayout.length > deviceLayout.length) {
+          defaultLayout.forEach((col, i) => {
+            if (!deviceLayout[ i ] && col) {
+              deviceLayout.push(col)
+            }
+          })
+        }
+      }
+    }
+    return newState
+  }
+
+  setActiveLayout (layout, options) {
     let newState = lodash.defaultsDeep({}, this.state.value)
-    newState.layoutData = layout
+    if (options && options.device) {
+      newState.layoutData[ options.device ][ options.index ] = layout
+    } else {
+      newState = this.updateDevicesLayout(layout, newState)
+    }
     this.setFieldValue(newState)
   }
 
   setFieldValue (value) {
     let { updater, fieldKey } = this.props
     let { layoutData, ...rest } = value
-
+    if (value.responsivenessSettings) {
+      delete layoutData[ 'all' ]
+    } else {
+      layoutData['all'] = value.defaultLayoutData
+    }
+    const sanitizedValue = {}
+    for (let device in layoutData) {
+      if (layoutData.hasOwnProperty(device)) {
+        sanitizedValue[device] = this.sanitizeLayout(layoutData[device])
+      }
+    }
     updater(fieldKey, {
-      layoutData: this.sanitizeLayout(layoutData),
+      layoutData: sanitizedValue,
       ...rest
     })
     this.setState({
@@ -249,11 +323,17 @@ class Layout extends Attribute {
   valueChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state.value)
     newState[ fieldKey ] = value
+    if (fieldKey === 'responsivenessSettings' && value && newState[ 'disableStacking' ]) {
+      newState[ 'disableStacking' ] = false
+    }
     this.setFieldValue(newState)
   }
 
   getStackingToggle () {
     let data = this.state.value
+    if (data && data.responsivenessSettings) {
+      return null
+    }
     let disableStackingState = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
     return (
       <div className='vcv-ui-form-layout-disable-stacking-toggle'>
@@ -268,15 +348,41 @@ class Layout extends Attribute {
     )
   }
 
+  getResponsiveToggle () {
+    let data = this.state.value
+    let responsivenessSettingsState = data && data.hasOwnProperty('responsivenessSettings') ? data.responsivenessSettings : false
+    return (
+      <div className='vcv-ui-form-layout-disable-stacking-toggle'>
+        <Toggle
+          api={this.props.api}
+          fieldKey={'responsivenessSettings'}
+          updater={this.valueChangeHandler}
+          options={{ labelText: 'Custom responsiveness settings' }}
+          value={responsivenessSettingsState}
+        />
+      </div>
+    )
+  }
+
   render () {
-    let { layoutData } = this.state.value
+    let { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
+    let responsiveness = responsivenessSettings
+      ? <LayoutResponsiveness
+        layouts={this.props.layouts}
+        layoutData={layoutData}
+        onChange={this.setActiveLayout}
+        validator={this.validateSize}
+        devices={Layout.devices}
+        defaultLayoutData={defaultLayoutData}
+        {...this.props} />
+      : null
     return (
       <div className='vcv-ui-form-layout'>
         <span className='vcv-ui-form-layout-description'>Specify number of columns within row by choosing preset
 or enter custom values. Extend row layout by customizing
 responsiveness options and stacking order.
         </span>
-        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(layoutData)}
+        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(defaultLayoutData)}
           onChange={this.setActiveLayout} />
         <div className='vcv-ui-form-layout-custom-layout'>
           <span className='vcv-ui-form-group-heading'>Custom row layout</span>
@@ -287,7 +393,7 @@ responsiveness options and stacking order.
                   <div className='vcv-ui-form-layout-custom-layout-input'>
                     <TokenizationList
                       layouts={this.props.layouts}
-                      value={layoutData.join(' + ')}
+                      value={defaultLayoutData.join(' + ')}
                       onChange={this.setActiveLayout}
                       validator={this.validateSize}
                       suggestions={this.props.suggestions}
@@ -307,9 +413,11 @@ responsiveness options and stacking order.
             </div>
           </div>
         </div>
+        <div className='vcv-ui-form-layout-responsiveness'>
+          {this.getResponsiveToggle()}
+          {responsiveness}
+        </div>
       </div>
     )
   }
 }
-
-export default Layout

@@ -3,26 +3,34 @@
 
 import React from 'react'
 import ResponsivenessSettings from '../../responsivenessSettings/Component'
-import TokenizationList from '../../rowLayout/lib/tokenizationList'
+import TokenizationList from './tokenizationList'
 
 export default class LayoutResponsiveness extends React.Component {
   getSettings () {
-    const { devices, layoutData } = this.props
+    const { devices, layoutData, defaultLayoutData } = this.props
     return devices.map((device, i) => {
-      return <div key={`${device}-device-layout-${i}`}>{layoutData.map((layout, i) => {
+      const deviceLayout = layoutData[ device ]
+      return <div key={`${device}-device-layout-${i}`}>{deviceLayout.map((layout, index) => {
         // if layout is empty and is the last item in array
         // don't render field
-        if (!layout.length && (layoutData.indexOf(layout) === layoutData.length - 1) && layoutData.length > 1) {
+        if (!layout.length &&
+          (deviceLayout.indexOf(layout) === deviceLayout.length - 1) &&
+          deviceLayout.length > 1 &&
+          deviceLayout.length !== defaultLayoutData.length &&
+          defaultLayoutData[defaultLayoutData.length - 1]
+        ) {
           return null
         }
         const responsiveness = true
-        return <TokenizationList key={`${device}-device-layout-item-${i}`}
+        return <TokenizationList key={`${device}-device-layout-item-${index}`}
           layouts={this.props.layouts}
           value={layout}
           onChange={this.props.onChange}
           validator={this.props.validator}
           suggestions={this.props.suggestions}
           responsiveness={responsiveness}
+          device={device}
+          index={index}
         />
       })}
       </div>
