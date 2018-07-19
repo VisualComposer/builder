@@ -44,7 +44,7 @@ addStorage('elements', (storage) => {
       // Update OLD column sizes to devices-object
       let sizeValue = cookElement.get('size')
       if (typeof sizeValue !== 'object') {
-        sizeValue = {all: sizeValue}
+        sizeValue = {all: sizeValue, defaultSize: sizeValue}
         cookElement.set('size', sizeValue)
       }
       let lastInRowValue = cookElement.get('lastInRow')

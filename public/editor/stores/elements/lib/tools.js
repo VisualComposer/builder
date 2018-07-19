@@ -6,7 +6,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   let elements = []
   let columns = documentManager.children(id)
   let newColumns = []
-  const devices = [ 'all', 'xs', 'sm', 'md', 'lg', 'xl' ]
+  const devices = [ 'all', 'defaultSize', 'xs', 'sm', 'md', 'lg', 'xl' ]
   let layouts = data.layout
   let defaultColumnData = {tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {}, size: {}}
   let createdColumns = []
@@ -17,33 +17,59 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
     layouts = {}
 
     const rowChildren = documentManager.children(id)
+    let customDevices = false
+    rowChildren.forEach((element) => {
+      if (element.size.hasOwnProperty('xs')) {
+        customDevices = true
+      }
+    })
 
     // Get layout for 'all'
     rowChildren.forEach((element) => {
-      if (element.size['all']) {
+      if (!customDevices && element.size['all']) {
         if (!layouts.hasOwnProperty('all')) {
           layouts.all = []
         }
         layouts['all'].push(element.size['all'])
       }
+
+      if (element.size['defaultSize']) {
+        if (!layouts.hasOwnProperty('defaultSize')) {
+          layouts.defaultSize = []
+        }
+        layouts['defaultSize'].push(element.size['defaultSize'])
+      }
     })
 
     if (!layouts.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
       devices.forEach((device) => {
-        rowChildren.forEach((element) => {
-          if (element.size[device]) {
-            if (!layouts.hasOwnProperty(device)) {
-              layouts[device] = []
+        if (device !== 'defaultSize' && device !== 'all') {
+          rowChildren.forEach((element) => {
+            if (element.size[device]) {
+              if (!layouts.hasOwnProperty(device)) {
+                layouts[device] = []
+              }
+              layouts[device].push(element.size[device])
             }
-            layouts[device].push(element.size[device])
-          }
-        })
+
+            if (customDevices && element.size.hasOwnProperty('all')) {
+              if (!layouts.hasOwnProperty(device)) {
+                layouts[device] = []
+              }
+              layouts[device].push(element.size['all'])
+            }
+          })
+        }
       })
+    }
+  } else {
+    if (layouts.hasOwnProperty('all') && !layouts.hasOwnProperty('defaultSize')) {
+      layouts['defaultSize'] = layouts['all']
     }
   }
 
   Object.keys(layouts).forEach((device) => {
-    let layout = layouts[ device ]
+    let layout = layouts[device]
     if (layout && layout.length) {
       if (data.action === 'columnAdd' || data.action === 'columnClone') {
         let prevLayout = layout.slice()
@@ -90,26 +116,41 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       const lastInRow = lastColumns.indexOf(i) > -1
       const firstInRow = i === 0 || lastColumns.indexOf(i - 1) > -1
 
-      if (columns[ i ] !== undefined) {
-        lastColumnObject = columns[ i ]
-        lastColumnObject.size[ device ] = size
-        lastColumnObject.lastInRow[ device ] = lastInRow
-        lastColumnObject.firstInRow[ device ] = firstInRow
+      if (columns[i] !== undefined) {
+        lastColumnObject = columns[i]
+        lastColumnObject.size[device] = size
+        if (device !== 'defaultSize') {
+          lastColumnObject.lastInRow[device] = lastInRow
+          lastColumnObject.firstInRow[device] = firstInRow
+        }
         lastColumnObject.disableStacking = disableStacking
-        newColumns.push(lastColumnObject)
+        let oldCol = false
+        newColumns.forEach((newCol, index) => {
+          if (lastColumnObject.id === newCol) {
+            newColumns[index] = lastColumnObject
+            oldCol = true
+          }
+        })
+        if (!oldCol) {
+          newColumns.push(lastColumnObject)
+        }
       } else {
         if (!createdColumns[createdColCount]) {
           let createdColumnData = lodash.defaultsDeep({}, defaultColumnData)
           createdColumnData.size[device] = size
-          createdColumnData.lastInRow[ device ] = lastInRow
-          createdColumnData.firstInRow[device] = firstInRow
+          if (device !== 'defaultSize') {
+            createdColumnData.lastInRow[device] = lastInRow
+            createdColumnData.firstInRow[device] = firstInRow
+          }
           createdColumnData.disableStacking = disableStacking
           createdColumns.push(createdColumnData)
         } else {
           let createdColumnData = createdColumns[createdColCount]
           createdColumnData.size[device] = size
-          createdColumnData.lastInRow[ device ] = lastInRow
-          createdColumnData.firstInRow[device] = firstInRow
+          if (device !== 'defaultSize') {
+            createdColumnData.lastInRow[device] = lastInRow
+            createdColumnData.firstInRow[device] = firstInRow
+          }
           createdColumnData.disableStacking = disableStacking
         }
         createdColCount += 1

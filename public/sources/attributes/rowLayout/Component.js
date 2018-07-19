@@ -180,7 +180,7 @@ export default class Layout extends Attribute {
     return newMixin
   }
 
-  static getLayoutData (rowId) {
+  static getLayoutData (rowId, getDefault) {
     const deviceLayoutData = {}
     const rowChildren = vcCake.getService('document').children(rowId)
 
@@ -191,6 +191,13 @@ export default class Layout extends Attribute {
           deviceLayoutData.all = []
         }
         deviceLayoutData['all'].push(element.size['all'])
+      }
+
+      if (getDefault && element.size['defaultSize']) {
+        if (!deviceLayoutData.hasOwnProperty('defaultSize')) {
+          deviceLayoutData.defaultSize = []
+        }
+        deviceLayoutData['defaultSize'].push(element.size['defaultSize'])
       }
     })
 
@@ -226,10 +233,10 @@ export default class Layout extends Attribute {
     if (props.value && props.value.layoutData && (props.value.layoutData['all'] || props.value.layoutData['xs'])) {
       deviceLayoutData = props.value.layoutData
     } else {
-      deviceLayoutData = Layout.getLayoutData(props.element.get('id'))
+      deviceLayoutData = Layout.getLayoutData(props.element.get('id'), true)
     }
 
-    const defaultLayoutData = props.value && props.value.defaultLayoutData ? props.value.defaultLayoutData : deviceLayoutData['all']
+    const defaultLayoutData = deviceLayoutData.defaultSize ? deviceLayoutData.defaultSize : []
     const reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
     const disableStackingState = props.value && props.value.disableStacking ? props.value.disableStacking : false
     const responsivenessSettingsState = props.value && props.value.responsivenessSettings ? props.value.responsivenessSettings : false
