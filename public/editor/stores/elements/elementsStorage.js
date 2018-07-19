@@ -139,7 +139,7 @@ addStorage('elements', (storage) => {
       storage.trigger('update', rowElement.id, rowElement, '', options)
     }
     if (data.tag === 'row') {
-      if (data.layout && data.layout.layoutData && data.layout.layoutData.length) {
+      if (data.layout && data.layout.layoutData && (data.layout.layoutData.hasOwnProperty('all') || data.layout.layoutData.hasOwnProperty('xs'))) {
         rebuildRawLayout(data.id, { layout: data.layout.layoutData }, documentManager)
         data.layout.layoutData = undefined
       } else {

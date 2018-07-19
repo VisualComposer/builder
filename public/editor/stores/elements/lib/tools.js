@@ -1,4 +1,5 @@
 import vcCake from 'vc-cake'
+import lodash from 'lodash'
 const elementsStorage = vcCake.getStorage('elements')
 
 export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
@@ -7,7 +8,8 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   let newColumns = []
   const devices = [ 'all', 'xs', 'sm', 'md', 'lg', 'xl' ]
   let layouts = data.layout
-  let createdColumnData = { tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {} }
+  let defaultColumnData = {tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {}, size: {}}
+  let createdColumns = []
   const disableStacking = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
   let lastColumnObject = null
 
@@ -82,11 +84,12 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       }
     }
 
-    let lastColumns = getRowData(layout).lastColumnIndex
-
+    const lastColumns = getRowData(layout).lastColumnIndex
+    let createdColCount = 0
     layout.forEach((size, i) => {
-      let lastInRow = lastColumns.indexOf(i) > -1
-      let firstInRow = i === 0 || lastColumns.indexOf(i - 1) > -1
+      const lastInRow = lastColumns.indexOf(i) > -1
+      const firstInRow = i === 0 || lastColumns.indexOf(i - 1) > -1
+
       if (columns[ i ] !== undefined) {
         lastColumnObject = columns[ i ]
         lastColumnObject.size[ device ] = size
@@ -95,13 +98,21 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
         lastColumnObject.disableStacking = disableStacking
         newColumns.push(lastColumnObject)
       } else {
-        if (!createdColumnData.hasOwnProperty('size')) {
-          createdColumnData.size = {}
+        if (!createdColumns[createdColCount]) {
+          let createdColumnData = lodash.defaultsDeep({}, defaultColumnData)
+          createdColumnData.size[device] = size
+          createdColumnData.lastInRow[ device ] = lastInRow
+          createdColumnData.firstInRow[device] = firstInRow
+          createdColumnData.disableStacking = disableStacking
+          createdColumns.push(createdColumnData)
+        } else {
+          let createdColumnData = createdColumns[createdColCount]
+          createdColumnData.size[device] = size
+          createdColumnData.lastInRow[ device ] = lastInRow
+          createdColumnData.firstInRow[device] = firstInRow
+          createdColumnData.disableStacking = disableStacking
         }
-        createdColumnData.size[ device ] = size
-        createdColumnData.lastInRow[ device ] = lastInRow
-        createdColumnData.firstInRow[ device ] = firstInRow
-        createdColumnData.disableStacking = disableStacking
+        createdColCount += 1
       }
     })
   })
@@ -120,10 +131,10 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
     elements.push([ col, 'update' ])
   })
 
-  if (createdColumnData.hasOwnProperty('size')) {
-    let createdElement = documentManager.create(createdColumnData)
-    elements.push([ createdElement, 'add' ])
-  }
+  createdColumns.forEach((newCol) => {
+    let createdCol = documentManager.create(newCol)
+    elements.push([ createdCol, 'add' ])
+  })
 
   let defaultLayout = layouts[ 'all' ] || layouts[ 'xs' ]
 
