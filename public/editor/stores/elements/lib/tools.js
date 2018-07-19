@@ -138,7 +138,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
 
   let defaultLayout = layouts[ 'all' ] || layouts[ 'xs' ]
 
-  if (columns.length > defaultLayout.length) {
+  if (defaultLayout && (columns.length > defaultLayout.length)) {
     let removingColumns = columns.slice(defaultLayout.length)
     removingColumns.forEach((column) => {
       let childElements = documentManager.children(column.id)
