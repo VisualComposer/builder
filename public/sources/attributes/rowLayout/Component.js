@@ -73,7 +73,7 @@ export default class Layout extends Attribute {
       }
     }
   }
-  static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
+  static devices = [ 'xl', 'lg', 'md', 'sm', 'xs' ]
 
   static buildMixins (data) {
     let layoutData = Layout.getLayoutData(data.id)
@@ -222,12 +222,8 @@ export default class Layout extends Attribute {
     for (let device in newState.layoutData) {
       if (newState.layoutData.hasOwnProperty(device)) {
         let deviceLayout = newState.layoutData[ device ]
-        if (device !== 'all' && defaultLayout.length < deviceLayout.length) {
+        if (device !== 'all' && defaultLayout.length !== deviceLayout.length) {
           deviceLayout.length = 0
-          defaultLayout.forEach((col) => {
-            deviceLayout.push(col)
-          })
-        } else if (device !== 'all' && defaultLayout.length > deviceLayout.length) {
           defaultLayout.forEach((col, i) => {
             if (!deviceLayout[ i ] && col) {
               deviceLayout.push(col)
