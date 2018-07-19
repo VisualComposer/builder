@@ -8,7 +8,8 @@ import TokenizationList from './tokenizationList'
 export default class LayoutResponsiveness extends React.Component {
   getSettings () {
     const { devices, layoutData, defaultLayoutData } = this.props
-    return devices.map((device, i) => {
+    const devicesReversed = devices.slice().reverse()
+    return devicesReversed.map((device, i) => {
       const deviceLayout = layoutData[ device ]
       return <div key={`${device}-device-layout-${i}`}>{deviceLayout.map((layout, index) => {
         // if layout is empty and is the last item in array

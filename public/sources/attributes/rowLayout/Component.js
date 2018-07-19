@@ -73,7 +73,7 @@ export default class Layout extends Attribute {
       }
     }
   }
-  static devices = [ 'xl', 'lg', 'md', 'sm', 'xs' ]
+  static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
 
   static buildMixins (data) {
     let layoutData = Layout.getLayoutData(data.id)

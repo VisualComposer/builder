@@ -6,7 +6,8 @@ import Attribute from '../attribute'
 
 export default class ResponsivenessSettings extends Attribute {
   getDevicesSettings () {
-    return this.props.devices.map((device) => {
+    const devicesReversed = this.props.devices.slice().reverse()
+    return devicesReversed.map((device) => {
       let key = `responsiveness-settings-${device}`
       return <div key={key} style={{ background: 'blue', margin: '0 1px', flex: '1 0 auto' }}>{device}</div>
     })
