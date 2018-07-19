@@ -8,40 +8,39 @@ import TokenizationList from './tokenizationList'
 export default class LayoutResponsiveness extends React.Component {
   getSettings () {
     const { devices, layoutData, defaultLayoutData } = this.props
-    const devicesReversed = devices.slice().reverse()
-    return devicesReversed.map((device, i) => {
-      const deviceLayout = layoutData[ device ]
-      return <div key={`${device}-device-layout-${i}`}>{deviceLayout.map((layout, index) => {
-        // if layout is empty and is the last item in array
-        // don't render field
-        if (!layout.length &&
-          (deviceLayout.indexOf(layout) === deviceLayout.length - 1) &&
-          deviceLayout.length > 1 &&
-          deviceLayout.length !== defaultLayoutData.length &&
-          defaultLayoutData[defaultLayoutData.length - 1]
-        ) {
-          return null
-        }
-        const responsiveness = true
-        return <TokenizationList key={`${device}-device-layout-item-${index}`}
-          layouts={this.props.layouts}
-          value={layout}
-          onChange={this.props.onChange}
-          validator={this.props.validator}
-          suggestions={this.props.suggestions}
-          responsiveness={responsiveness}
-          device={device}
-          index={index}
-        />
-      })}
+    return devices.map((deviceData, i) => {
+      const deviceLayout = layoutData[ deviceData.deviceKey ]
+      return <div key={`${deviceData.deviceKey}-device-layout-${i}`} className='vcv-ui-form-responsiveness-settings-device-layout'>
+        {deviceLayout.map((layout, index) => {
+          // if layout is empty and is the last item in array
+          // don't render field
+          if (!layout.length &&
+            (deviceLayout.indexOf(layout) === deviceLayout.length - 1) &&
+            deviceLayout.length > 1 &&
+            deviceLayout.length !== defaultLayoutData.length &&
+            defaultLayoutData[defaultLayoutData.length - 1]
+          ) {
+            return null
+          }
+          const responsiveness = true
+          return <TokenizationList key={`${deviceData.deviceKey}-device-layout-item-${index}`}
+            layouts={this.props.layouts}
+            value={layout}
+            onChange={this.props.onChange}
+            validator={this.props.validator}
+            suggestions={this.props.suggestions}
+            responsiveness={responsiveness}
+            device={deviceData.deviceKey}
+            index={index}
+          />
+        })}
       </div>
     })
   }
 
   render () {
     return (<ResponsivenessSettings {...this.props}>
-      <div className='vcv-ui-form-responsiveness-settings-options'
-        style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className='vcv-ui-form-responsiveness-settings-options'>
         {this.getSettings()}
       </div>
     </ResponsivenessSettings>)

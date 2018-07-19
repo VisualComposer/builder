@@ -6,17 +6,22 @@ import Attribute from '../attribute'
 
 export default class ResponsivenessSettings extends Attribute {
   getDevicesSettings () {
-    const devicesReversed = this.props.devices.slice().reverse()
-    return devicesReversed.map((device) => {
-      let key = `responsiveness-settings-${device}`
-      return <div key={key} style={{ background: 'blue', margin: '0 1px', flex: '1 0 auto' }}>{device}</div>
+    const { devices } = this.props
+    return devices.map((deviceData) => {
+      let key = `responsiveness-settings-${deviceData.deviceKey}`
+      return (
+        <div key={key} className='vcv-ui-form-responsiveness-settings-devices-item' title={deviceData.title}>
+          <i className={`vcv-ui-icon vcv-ui-icon-${deviceData.className}`} />
+          <p className='vcv-ui-form-responsiveness-settings-devices-item-title'>{deviceData.title}</p>
+        </div>
+      )
     })
   }
 
   render () {
     return (
       <div className='vcv-ui-form-responsiveness-settings'>
-        <div className='vcv-ui-form-responsiveness-settings-devices' style={{ display: 'flex' }}>
+        <div className='vcv-ui-form-responsiveness-settings-devices vcv-vcv-ui-form-responsiveness-settings-hide-labels'>
           {this.getDevicesSettings()}
         </div>
         {this.props.children}

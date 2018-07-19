@@ -63,3 +63,65 @@
 .vcv-ui-form-layout-reverse-column-toggle {
   margin-top: 3px;
 }
+
+.vcv-ui-form-responsiveness-settings-devices {
+  display: flex;
+  background: #2b4b80;
+  color: #fff;
+}
+
+.vcv-ui-form-responsiveness-settings-devices-item {
+  flex-basis: 20%;
+  text-align: center;
+  padding: 12px 0;
+  border-right: 1px solid rgba(255, 255, 255, .1);
+
+  &:first-child {
+    border-left: 1px solid #2b4b80;
+  }
+
+  &:last-child {
+    border-right: 1px solid #2b4b80;
+  }
+
+  .vcv-ui-icon {
+    font-size: 18px;
+    vertical-align: middle;
+  }
+}
+
+.vcv-ui-form-responsiveness-settings-devices-item-title {
+  margin-bottom: 0;
+  font-size: 10px;
+}
+
+.vcv-vcv-ui-form-responsiveness-settings-hide-labels .vcv-ui-form-responsiveness-settings-devices-item-title {
+  display: none;
+}
+
+.vcv-ui-form-responsiveness-settings-options {
+  display: flex;
+}
+
+.vcv-ui-form-responsiveness-settings-device-layout {
+  border-right: 1px solid #d1d1d1;
+  flex-basis: 20%;
+
+  &:first-child {
+    border-left: 1px solid #d1d1d1;
+  }
+
+  .vcv-ui-tag-list-container {
+    border-bottom: 1px solid #d1d1d1;
+    background: #fff;
+    padding: 5px 0;
+  }
+
+  .vcv-ui-tag-list-container .vcv-ui-tag-list-input {
+    border-radius: 0;
+    padding: 0;
+    text-align: center;
+    border: 0;
+  }
+}
+

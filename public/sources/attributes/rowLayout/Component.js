@@ -74,6 +74,34 @@ export default class Layout extends Attribute {
     }
   }
   static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static deviceData = [
+    {
+      deviceKey: 'xl',
+      title: Layout.localizations ? Layout.localizations.desktop : 'Desktop',
+      className: 'desktop'
+    },
+    {
+      deviceKey: 'lg',
+      title: Layout.localizations ? Layout.localizations.tabletLandscape : 'Tablet Landscape',
+      className: 'tablet-landscape'
+    },
+    {
+      deviceKey: 'md',
+      title: Layout.localizations ? Layout.localizations.tabletPortrait : 'Tablet Portrait',
+      className: 'tablet-portrait'
+    },
+    {
+      deviceKey: 'sm',
+      title: Layout.localizations ? Layout.localizations.mobileLandscape : 'Mobile Landscape',
+      className: 'mobile-landscape'
+    },
+    {
+      deviceKey: 'xs',
+      title: Layout.localizations ? Layout.localizations.mobilePortrait : 'Mobile Portrait',
+      className: 'mobile-portrait'
+    }
+  ]
 
   static buildMixins (data) {
     let layoutData = Layout.getLayoutData(data.id)
@@ -304,14 +332,16 @@ export default class Layout extends Attribute {
     }
     let reverseState = data && data.hasOwnProperty('reverseColumn') ? data.reverseColumn : false
     return (
-      <div className='vcv-ui-form-layout-reverse-column-toggle'>
-        <Toggle
-          api={this.props.api}
-          fieldKey={'reverseColumn'}
-          updater={this.valueChangeHandler}
-          options={{ labelText: 'Reverse column stacking' }}
-          value={reverseState}
-        />
+      <div className='vcv-ui-form-group'>
+        <div className='vcv-ui-form-layout-reverse-column-toggle'>
+          <Toggle
+            api={this.props.api}
+            fieldKey={'reverseColumn'}
+            updater={this.valueChangeHandler}
+            options={{ labelText: 'Reverse column stacking' }}
+            value={reverseState}
+          />
+        </div>
       </div>
     )
   }
@@ -332,14 +362,16 @@ export default class Layout extends Attribute {
     }
     let disableStackingState = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
     return (
-      <div className='vcv-ui-form-layout-disable-stacking-toggle'>
-        <Toggle
-          api={this.props.api}
-          fieldKey={'disableStacking'}
-          updater={this.valueChangeHandler}
-          options={{ labelText: 'Disable column stacking' }}
-          value={disableStackingState}
-        />
+      <div className='vcv-ui-form-group'>
+        <div className='vcv-ui-form-layout-disable-stacking-toggle'>
+          <Toggle
+            api={this.props.api}
+            fieldKey={'disableStacking'}
+            updater={this.valueChangeHandler}
+            options={{ labelText: 'Disable column stacking' }}
+            value={disableStackingState}
+          />
+        </div>
       </div>
     )
   }
@@ -348,14 +380,16 @@ export default class Layout extends Attribute {
     let data = this.state.value
     let responsivenessSettingsState = data && data.hasOwnProperty('responsivenessSettings') ? data.responsivenessSettings : false
     return (
-      <div className='vcv-ui-form-layout-disable-stacking-toggle'>
-        <Toggle
-          api={this.props.api}
-          fieldKey={'responsivenessSettings'}
-          updater={this.valueChangeHandler}
-          options={{ labelText: 'Custom responsiveness settings' }}
-          value={responsivenessSettingsState}
-        />
+      <div className='vcv-ui-form-group'>
+        <div className='vcv-ui-form-custom-responsiveness-toggle'>
+          <Toggle
+            api={this.props.api}
+            fieldKey={'responsivenessSettings'}
+            updater={this.valueChangeHandler}
+            options={{ labelText: 'Custom responsiveness settings' }}
+            value={responsivenessSettingsState}
+          />
+        </div>
       </div>
     )
   }
@@ -368,7 +402,7 @@ export default class Layout extends Attribute {
         layoutData={layoutData}
         onChange={this.setActiveLayout}
         validator={this.validateSize}
-        devices={Layout.devices}
+        devices={Layout.deviceData}
         defaultLayoutData={defaultLayoutData}
         {...this.props} />
       : null
@@ -400,12 +434,8 @@ responsiveness options and stacking order.
               </div>
             </div>
             <div className='vcv-ui-col vcv-ui-col--md-6'>
-              <div className='vcv-ui-form-group'>
-                {this.getStackingToggle()}
-              </div>
-              <div className='vcv-ui-form-group'>
-                {this.getReverseToggle()}
-              </div>
+              {this.getStackingToggle()}
+              {this.getReverseToggle()}
             </div>
           </div>
         </div>
