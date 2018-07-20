@@ -258,7 +258,7 @@ export default class Layout extends Attribute {
     for (let device in newState.layoutData) {
       if (newState.layoutData.hasOwnProperty(device)) {
         let deviceLayout = newState.layoutData[ device ]
-        if (device !== 'all' && defaultLayout.length !== deviceLayout.length) {
+        if (device !== 'all') {
           deviceLayout.length = 0
           defaultLayout.forEach((col, i) => {
             if (!deviceLayout[ i ] && col) {
