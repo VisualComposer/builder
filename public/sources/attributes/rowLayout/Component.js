@@ -114,7 +114,7 @@ export default class Layout extends Attribute {
     let newMixin = {}
 
     let columnGap = data.columnGap ? parseInt(data.columnGap) : 0
-    let selector = `vce-row--col-gap-${columnGap}`
+    let selector = `vce-row--col-gap-${columnGap}#el-${data.id}`
     const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
     const responsivenessSettings = data && data.layout && data.layout.hasOwnProperty('responsivenessSettings') ? data.layout.responsivenessSettings : false
 
