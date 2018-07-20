@@ -21,7 +21,7 @@ export default class ResponsivenessSettings extends Attribute {
   render () {
     return (
       <div className='vcv-ui-form-responsiveness-settings'>
-        <div className='vcv-ui-form-responsiveness-settings-devices vcv-vcv-ui-form-responsiveness-settings-hide-labels'>
+        <div className='vcv-ui-form-responsiveness-settings-devices vcv-ui-form-responsiveness-settings-hide-labels'>
           {this.getDevicesSettings()}
         </div>
         {this.props.children}
