@@ -289,6 +289,11 @@ export default class Layout extends Attribute {
       delete layoutData[ 'all' ]
     } else {
       layoutData['all'] = value.defaultLayoutData
+      delete layoutData[ 'xs' ]
+      delete layoutData[ 'sm' ]
+      delete layoutData[ 'md' ]
+      delete layoutData[ 'lg' ]
+      delete layoutData[ 'xl' ]
     }
     const sanitizedValue = {}
     for (let device in layoutData) {

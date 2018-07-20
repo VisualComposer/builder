@@ -126,7 +126,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
         lastColumnObject.disableStacking = disableStacking
         let oldCol = false
         newColumns.forEach((newCol, index) => {
-          if (lastColumnObject.id === newCol) {
+          if (lastColumnObject.id === newCol.id) {
             newColumns[index] = lastColumnObject
             oldCol = true
           }
