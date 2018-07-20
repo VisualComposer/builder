@@ -225,6 +225,7 @@ export default class Layout extends Attribute {
     this.setActiveLayout = this.setActiveLayout.bind(this)
     this.validateSize = this.validateSize.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
+    this.handleColumnHover = this.handleColumnHover.bind(this)
   }
 
   updateState (props) {
@@ -401,6 +402,12 @@ export default class Layout extends Attribute {
     )
   }
 
+  handleColumnHover (options) {
+    const newState = {}
+    newState[options.type] = options.over ? options.index : false
+    this.setState(newState)
+  }
+
   render () {
     let { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
     let responsiveness = responsivenessSettings
@@ -411,6 +418,8 @@ export default class Layout extends Attribute {
         validator={this.validateSize}
         devices={Layout.deviceData}
         defaultLayoutData={defaultLayoutData}
+        activeColumn={this.state.activeColumn}
+        handleColumnHover={this.handleColumnHover}
         {...this.props} />
       : null
     return (
@@ -434,6 +443,8 @@ responsiveness options and stacking order.
                       onChange={this.setActiveLayout}
                       validator={this.validateSize}
                       suggestions={this.props.suggestions}
+                      handleColumnHover={this.handleColumnHover}
+                      activeToken={this.state.activeToken}
                     />
                     <p className='vcv-ui-form-helper'>Enter custom layout option for columns by using percentages, fractions or ‘auto’ value (ex. 50% + 50%; 1/3 + 1/3 + 1/3; auto + auto).</p>
                   </div>

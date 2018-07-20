@@ -14,7 +14,8 @@
   &::before {
     content: attr(data-vcv-tag-list-label)
   }
-  &:hover {
+  &:hover,
+  &.vcv-ui-tag-list-item--active {
     background-color: @color-base-active;
     &::before {
       content: attr(data-vcv-tag-list-label-hover)

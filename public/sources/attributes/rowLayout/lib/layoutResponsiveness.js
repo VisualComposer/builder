@@ -32,6 +32,8 @@ export default class LayoutResponsiveness extends React.Component {
             responsiveness={responsiveness}
             device={deviceData.deviceKey}
             index={index}
+            activeColumn={this.props.activeColumn}
+            handleColumnHover={this.props.handleColumnHover}
           />
         })}
       </div>

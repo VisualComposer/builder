@@ -18,7 +18,16 @@ export default class TokenizationList extends React.Component {
     suggestions: PropTypes.array.isRequired,
     responsiveness: PropTypes.bool,
     device: PropTypes.string,
-    index: PropTypes.number
+    index: PropTypes.number,
+    handleColumnHover: PropTypes.func,
+    activeColumn: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    activeToken: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.bool
+    ])
   }
 
   stayEditing = false
@@ -46,6 +55,8 @@ export default class TokenizationList extends React.Component {
     this.updateValue = this.updateValue.bind(this)
     this.handleTagListClick = this.handleTagListClick.bind(this)
     this.handleSuggestionMouseDown = this.handleSuggestionMouseDown.bind(this)
+    this.handleMouseOver = this.handleMouseOver.bind(this)
+    this.handleMouseOut = this.handleMouseOut.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -161,6 +172,25 @@ export default class TokenizationList extends React.Component {
     }
   }
 
+  handleHover (mouseOver) {
+    if (this.props.device) {
+      const options = {
+        index: this.props.index,
+        over: mouseOver,
+        type: 'activeToken'
+      }
+      this.props.handleColumnHover(options)
+    }
+  }
+
+  handleMouseOver () {
+    this.handleHover(true)
+  }
+
+  handleMouseOut () {
+    this.handleHover(false)
+  }
+
   updateValue (value) {
     this.setState({ value: value, suggestedValue: null, activeSuggestion: -1 })
     const layoutSplit = this.props.device ? value : this.getLayout(value)
@@ -215,6 +245,8 @@ export default class TokenizationList extends React.Component {
         removeCallback={this.removeToken}
         valid={this.props.validator(token)}
         index={index}
+        handleColumnHover={this.props.handleColumnHover}
+        activeToken={this.props.activeToken}
       />
     })
   }
@@ -270,13 +302,18 @@ export default class TokenizationList extends React.Component {
   }
 
   render () {
+    const { activeColumn, index, responsiveness } = this.props
     let cssClasses = classNames({
       'vcv-ui-form-input': true,
       'vcv-ui-tag-list-input': true,
-      'vcv-ui-tag-list-input-editing-disabled': !this.state.editing && !this.props.responsiveness
+      'vcv-ui-tag-list-input-editing-disabled': !this.state.editing && !responsiveness
     })
-    const tokensList = !this.props.responsiveness ? this.renderTokensList() : null
-    return <div className='vcv-ui-tag-list-container'>
+    let listContainerClasses = classNames({
+      'vcv-ui-tag-list-container': true,
+      'vcv-ui-tag-list-container--active': typeof activeColumn === 'number' && (activeColumn === index)
+    })
+    const tokensList = !responsiveness ? this.renderTokensList() : null
+    return <div className={listContainerClasses} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
       <Textarea
         minRows={1}
         className={cssClasses}
