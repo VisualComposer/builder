@@ -33,7 +33,8 @@ export default class Layout extends Attribute {
       '20%',
       '16.66%',
       '66.66%',
-      '75%'
+      '75%',
+      'auto'
     ]
   }
   static attributeMixins = {

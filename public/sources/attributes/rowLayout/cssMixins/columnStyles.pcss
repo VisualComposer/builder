@@ -9,7 +9,11 @@
         margin-right: $(columnGap)px;
       }
       @if $autoColumn != false {
-
+        > .vce-col--$(device)-auto {
+          flex: 1 1 0;
+          width: 1px;
+          max-width: none;
+        }
       } @else {
         $width: calc($(percentage)% - $(spaceForColumn)px);
 
