@@ -100,7 +100,7 @@ addStorage('elements', (storage) => {
 
     if (wrap && !cookElement.get('parent')) {
       const parentWrapper = cookElement.get('parentWrapper')
-
+      console.log(cookElement.toJS(), parentWrapper)
       if (parentWrapper === undefined) {
         const wrapperData = cook.get({ tag: defaultWrapper })
         elementData.parent = wrapperData.toJS().id

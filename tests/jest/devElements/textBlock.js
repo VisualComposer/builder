@@ -1,10 +1,13 @@
 import vcCake from 'vc-cake'
 import TextBlockElement from './textBlock/textBlock/component'
+import {readJsonSync} from 'fs-extra'
+
 const AddElement = vcCake.getService('cook').add
 const AddElementToHub = vcCake.getService('hubElements').add
+const settings = readJsonSync('./tests/jest/devElements/textBlock/textBlock/settings.json')
 
 AddElement(
-  require('./textBlock/textBlock/settings.json'),
+  settings,
   // Component callback
   function (component) {
     component.add(TextBlockElement)
