@@ -452,6 +452,10 @@ export default class ElementComponent extends Component {
             if (device.stickyContainer) {
               attributes[ 'data-vce-sticky-container' ] = '[data-vce-element-content]'
             }
+
+            if (device.stickyVisibility) {
+              attributes[ 'data-vce-sticky-visibility' ] = device.stickyVisibility
+            }
           }
         }
       })
