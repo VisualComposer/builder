@@ -128,6 +128,9 @@ export default class Layout extends Attribute {
       })
 
       reducedLayout.forEach((col, index) => {
+        if (col === '') {
+          col = 'auto'
+        }
         let mixinName = ''
         let fraction = ''
         if (col.indexOf('%') >= 0) {
@@ -205,12 +208,10 @@ export default class Layout extends Attribute {
     if (!deviceLayoutData.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
       Layout.devices.forEach((device) => {
         rowChildren.forEach((element) => {
-          if (element.size[device]) {
-            if (!deviceLayoutData.hasOwnProperty(device)) {
-              deviceLayoutData[device] = []
-            }
-            deviceLayoutData[device].push(element.size[device])
+          if (!deviceLayoutData.hasOwnProperty(device)) {
+            deviceLayoutData[device] = []
           }
+          deviceLayoutData[device].push(element.size[device])
         })
       })
     } else { // Copy layout for devices from 'all' if 'all' is defined
@@ -230,6 +231,7 @@ export default class Layout extends Attribute {
   }
 
   updateState (props) {
+    // debugger
     let deviceLayoutData = {}
 
     if (props.value && props.value.layoutData && (props.value.layoutData['all'] || props.value.layoutData['xs'])) {
@@ -286,6 +288,11 @@ export default class Layout extends Attribute {
     let { updater, fieldKey } = this.props
     let { layoutData, ...rest } = value
     if (value.responsivenessSettings) {
+      layoutData['xs'] = layoutData['xs'] || layoutData['all']
+      layoutData['sm'] = layoutData['sm'] || layoutData['all']
+      layoutData['md'] = layoutData['md'] || layoutData['all']
+      layoutData['lg'] = layoutData['lg'] || layoutData['all']
+      layoutData['xl'] = layoutData['xl'] || layoutData['all']
       delete layoutData[ 'all' ]
     } else {
       layoutData['all'] = value.defaultLayoutData
@@ -298,7 +305,8 @@ export default class Layout extends Attribute {
     const sanitizedValue = {}
     for (let device in layoutData) {
       if (layoutData.hasOwnProperty(device)) {
-        sanitizedValue[device] = this.sanitizeLayout(layoutData[device])
+        const convertToEmpty = device !== 'defaultSize' && device !== 'all'
+        sanitizedValue[device] = this.sanitizeLayout(layoutData[device], convertToEmpty)
       }
     }
     updater(fieldKey, {
@@ -310,10 +318,19 @@ export default class Layout extends Attribute {
     })
   }
 
-  sanitizeLayout (value) {
-    return value.filter((col) => {
-      return this.validateSize(col)
+  sanitizeLayout (value, convertToEmpty) {
+    let newValue = []
+
+    value.map((col) => {
+      let isValid = this.validateSize(col)
+      if (isValid) {
+        newValue.push(col)
+      } else if (convertToEmpty) {
+        newValue.push('')
+      }
     })
+
+    return newValue
   }
 
   validateSize (text) {

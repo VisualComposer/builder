@@ -272,7 +272,7 @@ export const isElementOneRelation = (parent, documentManager, cook) => {
   return false
 }
 
-export const getRowData = (layout, documentManager) => {
+export const getRowData = (layout) => {
   let lastColumnIndex = []
   let rowValue = 0
   let autoCount = 0
@@ -281,7 +281,7 @@ export const getRowData = (layout, documentManager) => {
 
   layout.forEach((col, index) => {
     let colValue = 0
-    if (col === 'auto') {
+    if (col === 'auto' || col === '') {
       colValue = 0.01
       columnValues.push('auto')
       autoCount++
@@ -304,7 +304,7 @@ export const getRowData = (layout, documentManager) => {
       lastColumnIndex.push(index - 1)
       rowValue = 0
     }
-    if (!layout[ index + 1 ]) {
+    if (layout[ index + 1 ] === undefined) {
       lastColumnIndex.push(index)
     }
     rowValue += colValue
