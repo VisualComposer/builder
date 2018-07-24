@@ -82,14 +82,29 @@ class ColumnResizer extends React.Component {
 
   getRowData (e) {
     let $helper = ReactDOM.findDOMNode(this)
-    let $rightCol = $helper.nextElementSibling
-    let $leftCol = $helper.previousElementSibling
-    let rtl = false
-    if ($leftCol.getBoundingClientRect().left > $rightCol.getBoundingClientRect().left) {
-      $rightCol = $helper.previousElementSibling
-      $leftCol = $helper.nextElementSibling
-      rtl = true
+    let $tempRightCol = $helper.nextElementSibling
+    let $rightCol = null
+    let $leftCol = null
+
+    // Search for next visible column
+    while (!$tempRightCol.offsetParent) {
+      $tempRightCol = $tempRightCol.nextElementSibling
     }
+
+    let $tempLeftCol = $helper.previousElementSibling
+
+    while (!$tempLeftCol.offsetParent) {
+      $tempLeftCol = $tempLeftCol.nextElementSibling
+    }
+
+    if ($tempLeftCol.getBoundingClientRect().left > $tempRightCol.getBoundingClientRect().left) {
+      $rightCol = $tempLeftCol
+      $leftCol = $tempRightCol
+    } else {
+      $rightCol = $tempRightCol
+      $leftCol = $tempLeftCol
+    }
+
     let rightColId = $rightCol ? $rightCol.id.replace('el-', '') : null
     let leftColId = $leftCol ? $leftCol.id.replace('el-', '') : null
     let rowId = vcCake.getService('document').get(rightColId || leftColId).parent
@@ -99,12 +114,8 @@ class ColumnResizer extends React.Component {
     let bothColumnsWidth = ($leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width + columnGap * 2) / rowWidth
     let bothColumnsWidthPx = $leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width
     let allColumns = [].slice.call($helper.parentElement.querySelectorAll('.vce-col'))
-    let leftColumnIndex = ''
-    allColumns.forEach((column, index) => {
-      if (column === $leftCol) {
-        leftColumnIndex = index
-      }
-    })
+    let leftColumnIndex = allColumns.indexOf($leftCol)
+    let rightColumnIndex = allColumns.indexOf($rightCol)
 
     this.resizerData.rowId = rowId
     this.resizerData.rowData = rowData
@@ -117,7 +128,8 @@ class ColumnResizer extends React.Component {
     this.resizerData.columnGap = columnGap
     this.resizerData.mousePosition = e.clientX
     this.resizerData.leftColumnIndex = leftColumnIndex
-    this.resizerData.rightColumnIndex = rtl ? leftColumnIndex - 1 : leftColumnIndex + 1
+    this.resizerData.rightColumnIndex = rightColumnIndex
+    this.resizerData.currentDevice = this.getCurrentDevice()
   }
 
   handleMouseDown (e) {
@@ -150,10 +162,10 @@ class ColumnResizer extends React.Component {
     let firstInRow, lastInRow
     for (let i = 0; i < resizerRow.childNodes.length; i++) {
       let elementClasses = resizerRow.childNodes[ i ].classList
-      if (elementClasses.contains('vce-col--all-first') || elementClasses.contains('vce-col--md-first')) {
+      if (elementClasses.contains('vce-col--all-first') || elementClasses.contains('vce-col--' + this.resizerData.currentDevice + '-first')) {
         firstInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
       }
-      if (elementClasses.contains('vce-col--all-last') || elementClasses.contains('vce-col--md-last')) {
+      if (elementClasses.contains('vce-col--all-last') || elementClasses.contains('vce-col--' + this.resizerData.currentDevice + '-last')) {
         lastInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
       }
       if (firstInRow && lastInRow) {
@@ -279,7 +291,7 @@ class ColumnResizer extends React.Component {
 
   createWrapBlockers () {
     let $resizer = this.resizerData.helper
-    let firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--all-first') || this.getSibling($resizer, 'prev', 'vce-col--md-first')
+    let firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--all-first') || this.getSibling($resizer, 'prev', 'vce-col--' + this.resizerData.currentDevice + '-first')
     let blockElement = document.createElement('div')
     blockElement.className = 'vce-column-wrap-blocker'
 
@@ -342,7 +354,7 @@ class ColumnResizer extends React.Component {
     let rightSize = (Math.round(this.state.rightColPercentage * 10000) / 10000) * 100
     rightSize = rightSize.toString().slice(0, rightSize.toString().indexOf('.') + 3)
 
-    const device = layoutData.hasOwnProperty('all') ? 'all' : this.getCurrentDevice()
+    const device = layoutData.hasOwnProperty('all') ? 'all' : this.resizerData.currentDevice
 
     layoutData[device][this.resizerData.leftColumnIndex] = `${leftSize}%`
     layoutData[device][this.resizerData.rightColumnIndex] = `${rightSize}%`
