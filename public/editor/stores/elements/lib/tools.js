@@ -283,7 +283,7 @@ export const getRowData = (layout) => {
   // Remove last hide values
   while (layoutCopy.lastIndexOf('hide') === layoutCopy.length - 1 && layoutCopy.length) {
     isColumnsEqual = false
-    layoutCopy.splice(layoutCopy.lastIndexOf('hide', 1))
+    layoutCopy.splice(layoutCopy.lastIndexOf('hide'), 1)
   }
 
   layoutCopy.forEach((col, index) => {

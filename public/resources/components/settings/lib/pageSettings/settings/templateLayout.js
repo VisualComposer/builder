@@ -49,7 +49,8 @@ export default class TemplateLayout extends React.Component {
     let layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
     let data = {
       type: layoutData[ 0 ],
-      value: layoutData[ 1 ]
+      value: layoutData[ 1 ],
+      stretchedContent: false // TODO
     }
     let showTheme = data.type === 'theme'
 
