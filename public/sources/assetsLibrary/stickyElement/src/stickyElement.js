@@ -264,14 +264,22 @@
    * @param {node} element - Element that will be positioned if it's active
    */
   function setPosition(element) {
-    css(element, parseCss({ position: '', width: '', top: '', left: '', height: 'auto', opacity: 1 }, element.sticky.isFullWidth));
+    css(element, parseCss({
+      position: '',
+      width: '',
+      top: '',
+      left: '',
+      height: 'auto',
+      opacity: 1,
+      visibility: 'visible'
+    }, element.sticky.isFullWidth));
 
     if (!element.sticky.rect.width) {
       element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
     }
 
     if (element.sticky.wrap) {
-      const height = element.sticky.stickyVisibility ? '' : element.sticky.rect.height + 'px'
+      const height = element.sticky.stickyVisibility ? 0 : element.sticky.rect.height + 'px'
       css(element.parentNode, parseCss({
         display: 'block',
         width: element.sticky.rect.width + 'px',
@@ -280,18 +288,30 @@
     }
 
     if (element.sticky.stickyVisibility) {
-      css(element, parseCss({ position: '', width: '', top: '', left: '', height: 0, opacity: 0 }, element.sticky.isFullWidth));
+      css(element, parseCss({
+        position: '',
+        width: '',
+        top: '',
+        left: '',
+        height: 0,
+        opacity: 0,
+        visibility: 'hidden'
+      }, element.sticky.isFullWidth));
     }
     if (
       element.sticky.rect.top === 0
       && element.sticky.container === this.body
     ) {
+      if (element.sticky.stickyVisibility) {
+        css(element.parentNode, parseCss({ height: '' }, element.sticky.isFullWidth));
+      }
       css(element, parseCss({
         position: 'fixed',
         top: element.sticky.marginTop + 'px',
         left: element.sticky.rect.left + 'px',
         width: element.sticky.rect.width + 'px',
         height: 'auto',
+        visibility: 'visible',
         opacity: 1
       }, element.sticky.isFullWidth));
 
@@ -305,11 +325,15 @@
       element.removeAttribute(element.sticky.stickyOffsetAttribute);
 
     } else if (this.scrollTop > (element.sticky.rect.top - element.sticky.marginTop)) {
+      if (element.sticky.stickyVisibility) {
+        css(element.parentNode, parseCss({ height: '' }, element.sticky.isFullWidth));
+      }
       css(element, parseCss({
         position: 'fixed',
         width: element.sticky.rect.width + 'px',
         left: element.sticky.rect.left + 'px',
         height: 'auto',
+        visibility: 'visible',
         opacity: 1
       }, element.sticky.isFullWidth));
 
@@ -353,7 +377,7 @@
 
       css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
 
-      if (element.sticky.wrap) {
+      if (element.sticky.wrap && !element.sticky.stickyVisibility) {
         css(element.parentNode, parseCss({ display: '', width: '', height: '' }, element.sticky.isFullWidth));
       }
     }
