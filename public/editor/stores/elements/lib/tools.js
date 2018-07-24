@@ -278,10 +278,19 @@ export const getRowData = (layout) => {
   let autoCount = 0
   let columnValues = []
   let isColumnsEqual = true
+  let layoutCopy = layout.slice()
 
-  layout.forEach((col, index) => {
+  // Remove last hide values
+  while (layoutCopy.lastIndexOf('hide') === layoutCopy.length - 1 && layoutCopy.length) {
+    isColumnsEqual = false
+    layoutCopy.splice(layoutCopy.lastIndexOf('hide', 1))
+  }
+
+  layoutCopy.forEach((col, index) => {
     let colValue = 0
-    if (col === 'auto' || col === '') {
+    if (col === 'hide') {
+      isColumnsEqual = false
+    } else if (col === 'auto' || col === '') {
       colValue = 0.01
       columnValues.push('auto')
       autoCount++
@@ -299,12 +308,12 @@ export const getRowData = (layout) => {
 
     let newRowValue = Math.floor((rowValue + colValue) * 1000) / 1000
 
-    if (newRowValue > 1) {
+    if (newRowValue > 1 || (newRowValue === 1 && col === 'hide')) {
       isColumnsEqual = false
       lastColumnIndex.push(index - 1)
       rowValue = 0
     }
-    if (layout[ index + 1 ] === undefined) {
+    if (layoutCopy[ index + 1 ] === undefined) {
       lastColumnIndex.push(index)
     }
     rowValue += colValue
