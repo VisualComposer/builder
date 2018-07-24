@@ -34,7 +34,8 @@ export default class Layout extends Attribute {
       '16.66%',
       '66.66%',
       '75%',
-      'auto'
+      'auto',
+      'hide'
     ]
   }
   static attributeMixins = {
@@ -231,7 +232,6 @@ export default class Layout extends Attribute {
   }
 
   updateState (props) {
-    // debugger
     let deviceLayoutData = {}
 
     if (props.value && props.value.layoutData && (props.value.layoutData['all'] || props.value.layoutData['xs'])) {
@@ -334,7 +334,7 @@ export default class Layout extends Attribute {
   }
 
   validateSize (text) {
-    if (text === 'auto') {
+    if (text === 'auto' || text === 'hide') {
       return true
     }
     let fractionRegex = /^(\d+)\/(\d+)$/

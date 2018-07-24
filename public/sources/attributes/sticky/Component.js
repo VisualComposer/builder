@@ -135,7 +135,7 @@ export default class Sticky extends Attribute {
           api={this.props.api}
           fieldKey={fieldKey}
           updater={this.valueChangeHandler}
-          options={{placeholder: Sticky.deviceDefaults.stickyOffsetTop}}
+          options={{ placeholder: Sticky.deviceDefaults.stickyOffsetTop }}
           value={value}
         />
         <p className='vcv-ui-form-helper'>Specify space (in pixels) from the screen top where element should stick.</p>
@@ -160,7 +160,7 @@ export default class Sticky extends Attribute {
           api={this.props.api}
           fieldKey={fieldKey}
           updater={this.valueChangeHandler}
-          options={{placeholder: '999'}}
+          options={{ placeholder: '999' }}
           value={value}
         />
         <p className='vcv-ui-form-helper'>Control z-index for the element to place it on top or above the following content.</p>
@@ -183,10 +183,32 @@ export default class Sticky extends Attribute {
           api={this.props.api}
           fieldKey={fieldKey}
           updater={this.valueChangeHandler}
-          options={{labelText: labelText}}
+          options={{ labelText: labelText }}
           value={value}
         />
         <p className='vcv-ui-form-helper'>Limit stickiness to work only in the parent container.</p>
+      </div>
+    )
+  }
+
+  getStickyVisibilityToggle () {
+    let fieldKey = 'stickyVisibility'
+    let deviceData = this.state.devices[ this.state.currentDevice ]
+    if (!deviceData[ 'stickyEnable' ]) {
+      return null
+    }
+    let value = deviceData[ fieldKey ] || false
+    let labelText = 'Show on sticky'
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <Toggle
+          api={this.props.api}
+          fieldKey={fieldKey}
+          updater={this.valueChangeHandler}
+          options={{ labelText: labelText }}
+          value={value}
+        />
+        <p className='vcv-ui-form-helper'>Show only when it becomes sticky.</p>
       </div>
     )
   }
@@ -200,6 +222,7 @@ export default class Sticky extends Attribute {
             {this.getStickyOffset()}
             {this.getStickyZIndex()}
             {this.getStickyContainerToggle()}
+            {this.getStickyVisibilityToggle()}
           </div>
         </div>
       </div>
