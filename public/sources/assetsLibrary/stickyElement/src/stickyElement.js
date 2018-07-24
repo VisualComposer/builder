@@ -14,7 +14,8 @@
       stickyAttribute: options.stickyAttribute || null,
       stickyContainer: options.stickyContainer || 'body',
       isFullWidth: options.isFullWidth || false,
-      stickyZIndex: options.isFullWidth || null
+      stickyZIndex: options.isFullWidth || null,
+      stickyVisibility: options.stickyVisibility || null
     };
 
     updateScrollTopPosition = updateScrollTopPosition.bind(this);
@@ -105,6 +106,7 @@
     element.sticky.stickyContainer = element.getAttribute('data-vce-sticky-container') || this.options.stickyContainer;
     element.sticky.stickyZIndex = element.getAttribute('data-vce-sticky-z-index') || this.options.stickyZIndex;
     element.sticky.isFullWidth = element.getAttribute('data-vce-full-width') === 'true' || this.options.isFullWidth;
+    element.sticky.stickyVisibility = element.getAttribute('data-vce-sticky-visibility') === 'true' || this.options.stickyVisibility;
 
     element.sticky.container = getStickyContainer(element);
     element.sticky.container.rect = getRectangle(element.sticky.container, true, element.sticky.isFullWidth);
@@ -262,7 +264,7 @@
    * @param {node} element - Element that will be positioned if it's active
    */
   function setPosition(element) {
-    css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
+    css(element, parseCss({ position: '', width: '', top: '', left: '', display: '' }, element.sticky.isFullWidth));
 
     if (!element.sticky.rect.width) {
       element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
@@ -276,6 +278,9 @@
       }, element.sticky.isFullWidth));
     }
 
+    if (element.sticky.stickyVisibility) {
+      css(element, parseCss({ position: '', width: '', top: '', left: '', display: 'none' }, element.sticky.isFullWidth));
+    }
     if (
       element.sticky.rect.top === 0
       && element.sticky.container === this.body
@@ -284,7 +289,8 @@
         position: 'fixed',
         top: element.sticky.marginTop + 'px',
         left: element.sticky.rect.left + 'px',
-        width: element.sticky.rect.width + 'px'
+        width: element.sticky.rect.width + 'px',
+        display: 'block',
       }, element.sticky.isFullWidth));
 
       if (element.sticky.stickyClass) {
@@ -301,6 +307,7 @@
         position: 'fixed',
         width: element.sticky.rect.width + 'px',
         left: element.sticky.rect.left + 'px',
+        display: 'block',
       }, element.sticky.isFullWidth));
 
       if (
