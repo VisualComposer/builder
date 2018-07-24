@@ -264,22 +264,23 @@
    * @param {node} element - Element that will be positioned if it's active
    */
   function setPosition(element) {
-    css(element, parseCss({ position: '', width: '', top: '', left: '', display: '' }, element.sticky.isFullWidth));
+    css(element, parseCss({ position: '', width: '', top: '', left: '', height: 'auto', opacity: 1 }, element.sticky.isFullWidth));
 
     if (!element.sticky.rect.width) {
       element.sticky.rect = getRectangle(element, false, element.sticky.isFullWidth);
     }
 
     if (element.sticky.wrap) {
+      const height = element.sticky.stickyVisibility ? '' : element.sticky.rect.height + 'px'
       css(element.parentNode, parseCss({
         display: 'block',
         width: element.sticky.rect.width + 'px',
-        height: element.sticky.rect.height + 'px',
+        height: height,
       }, element.sticky.isFullWidth));
     }
 
     if (element.sticky.stickyVisibility) {
-      css(element, parseCss({ position: '', width: '', top: '', left: '', display: 'none' }, element.sticky.isFullWidth));
+      css(element, parseCss({ position: '', width: '', top: '', left: '', height: 0, opacity: 0 }, element.sticky.isFullWidth));
     }
     if (
       element.sticky.rect.top === 0
@@ -290,7 +291,8 @@
         top: element.sticky.marginTop + 'px',
         left: element.sticky.rect.left + 'px',
         width: element.sticky.rect.width + 'px',
-        display: 'block',
+        height: 'auto',
+        opacity: 1
       }, element.sticky.isFullWidth));
 
       if (element.sticky.stickyClass) {
@@ -307,7 +309,8 @@
         position: 'fixed',
         width: element.sticky.rect.width + 'px',
         left: element.sticky.rect.left + 'px',
-        display: 'block',
+        height: 'auto',
+        opacity: 1
       }, element.sticky.isFullWidth));
 
       if (
