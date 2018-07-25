@@ -19,6 +19,11 @@ before_script:
   - eval $(ssh-agent -s)
 
   ##
+  ## Create the SSH directory and give it the right permissions
+  ##
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  ##
   ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
   ## We're using tr to fix line endings which makes ed25519 keys work
   ## without extra base64 encoding.
@@ -27,12 +32,6 @@ before_script:
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
   - ssh-keyscan -H 'github.com' >> $HOME/.ssh/known_hosts
   - ssh-keyscan -H 'gitlab.com' >> $HOME/.ssh/known_hosts
-  ##
-  ## Create the SSH directory and give it the right permissions
-  ##
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-
   ##
   ## Optionally, if you will be using any Git commands, set the user name and
   ## and email.
