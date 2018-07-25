@@ -54,6 +54,10 @@ class PageTemplatesVariablesController extends Container implements Module
                         'title' => __('Visual Composer', 'vcwb'),
                         'values' => [
                             [
+                                'label' => __('Boxed Template', 'vcwb'),
+                                'value' => 'boxed',
+                            ],
+                            [
                                 'label' => __('Blank Template', 'vcwb'),
                                 'value' => 'blank',
                             ],

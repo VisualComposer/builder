@@ -170,6 +170,9 @@ export default class TemplatePreview extends React.Component {
     const { name, templateName, active, disabled, icon } = this.props
     const { previewVisible, previewStyle } = this.state
 
+    if (typeof this.templateInfo[ templateName ] === 'undefined') {
+      return null
+    }
     let description = this.templateInfo[ templateName ].description
     if (disabled) {
       description += ` ${availableInPremiumText}`

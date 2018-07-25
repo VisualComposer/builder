@@ -3,6 +3,10 @@ export default {
     icon: require('./vc__blank'),
     label: 'Blank Template'
   },
+  'vc__boxed': {
+    icon: require('./vc__boxed'),
+    label: 'Boxed Template'
+  },
   'vc-theme__header-footer-layout': {
     icon: require('./vc-theme__header-footer-layout'),
     label: 'Header and Footer'

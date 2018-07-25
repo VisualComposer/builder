@@ -63,13 +63,11 @@ class PageTemplatesController extends Container implements Module
                 $output = [
                     'type' => $customTemplateType,
                     'value' => $customTemplate,
-                    'stretchedContent' => false,
                 ];
             } else {
                 $output = [
                     'type' => 'theme',
                     'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'default',
-                    'stretchedContent' => false,
                 ];
             }
         }
