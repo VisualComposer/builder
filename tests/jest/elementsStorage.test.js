@@ -1,5 +1,7 @@
 /* global describe, test, expect */
 import vcCake from 'vc-cake'
+import '../../public/default-variables'
+
 // Services & Storages
 import '../../public/editor/services/utils/service.js'
 import '../../public/editor/services/document/service.js'
@@ -7,22 +9,39 @@ import '../../public/editor/services/hubElements/service.js'
 import '../../public/editor/services/cook/service.js'
 import '../../public/editor/services/api/service.js'
 import '../../public/editor/stores/elements/elementsStorage'
+import '../../public/config/wp-attributes'
+
 // Elements
 import './devElements/row'
 import './devElements/column'
 import './devElements/textBlock'
 
 describe('Test elementsStorage', () => {
-  test('Test elementsStorage', () => {
-    const id = '123456'
-    vcCake.env('debug', true)
-    vcCake.start(() => {
-      const elementsStorage = vcCake.getStorage('elements')
-      elementsStorage.trigger('add', {tag: 'textBlock', id: id}, false)
-    }).end(() => {
-      const documentManager = vcCake.getService('document')
+  const elementsStorage = vcCake.getStorage('elements')
+  const documentManager = vcCake.getService('document')
+  const cook = vcCake.getService('cook')
+
+  const id = '123456'
+  const testText = 'This test text, it must work as expected!'
+
+  vcCake.env('debug', true)
+  vcCake.start(() => {
+    elementsStorage.trigger('add', { tag: 'textBlock', id: id })
+  }).end(() => {
+    test('ElementStorage add textBlock', () => {
       const textBlock = documentManager.get(id)
       expect(textBlock.id).toBe(id)
+    })
+  })
+  vcCake.start(() => {
+    const textBlock = cook.get(documentManager.get(id))
+    textBlock.set('output', testText)
+    const data = textBlock.toJS()
+    elementsStorage.trigger('update', id, data)
+  }).end(() => {
+    test('ElementsStorage update textBlock text', () => {
+      const element = documentManager.get(id)
+      expect(element.output).toBe(testText)
     })
   })
 })
