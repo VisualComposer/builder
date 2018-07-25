@@ -21,14 +21,16 @@ class EnqueueController extends Container implements Module
 {
     use WpFiltersActions;
 
+    protected $lastEnqueueIdSourceAssets = null;
+
+    protected $lastEnqueueIdAssets = null;
+
     public function __construct(Frontend $frontendHelper)
     {
         $actionPriority = 50;
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
-        if (!$frontendHelper->isPreview()) {
-            $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
-            $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
-        }
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
     }
 
     /**
@@ -65,9 +67,20 @@ class EnqueueController extends Container implements Module
      */
     protected function enqueueSourceAssets(Str $strHelper, Frontend $frontendHelper, Assets $assetsHelper)
     {
+        if ($frontendHelper->isPageEditable()) {
+            return;
+        }
+        if ($frontendHelper->isPreview()
+            && (!$this->lastEnqueueIdSourceAssets
+                || ($this->lastEnqueueIdSourceAssets === get_the_ID()))) {
+            $this->lastEnqueueIdSourceAssets = get_the_ID();
+
+            return;
+        }
+        $this->lastEnqueueIdSourceAssets = get_the_ID();
         $sourceId = get_the_ID();
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
-        if ($bundleUrl && !$frontendHelper->isPageEditable()) {
+        if ($bundleUrl) {
             $version = get_post_meta($sourceId, 'vcvSourceCssFileHash', true);
             if (!preg_match('/^http/', $bundleUrl)) {
                 if (!preg_match('/assets-bundles/', $bundleUrl)) {
@@ -102,6 +115,14 @@ class EnqueueController extends Container implements Module
         if ($frontendHelper->isPageEditable()) {
             return;
         }
+        if ($frontendHelper->isPreview()
+            && (!$this->lastEnqueueIdAssets
+                || ($this->lastEnqueueIdAssets === get_the_ID()))) {
+            $this->lastEnqueueIdAssets = get_the_ID();
+
+            return;
+        }
+        $this->lastEnqueueIdAssets = get_the_ID();
         $sourceId = get_the_ID();
         $assetsFiles = get_post_meta($sourceId, 'vcvSourceAssetsFiles', true);
 
