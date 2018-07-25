@@ -26,7 +26,7 @@ describe('Test elementsStorage', () => {
 
   vcCake.env('debug', true)
   vcCake.start(() => {
-    elementsStorage.trigger('add', { tag: 'textBlock', id: id }, false)
+    elementsStorage.trigger('add', { tag: 'textBlock', id: id })
   }).end(() => {
     test('ElementStorage add textBlock', () => {
       const textBlock = documentManager.get(id)
@@ -44,4 +44,15 @@ describe('Test elementsStorage', () => {
       expect(element.output).toBe(testText)
     })
   })
+/*  vcCake.start(() => {
+    elementsStorage.trigger('clone', id)
+  }).end(() => {
+    test('ElementsStorage clone textBlock', () => {
+      const textBlocks = documentManager.filter((data) => {
+        console.log(data.get('tag'))
+        return data.get('tag') === 'textBlock'
+      })
+      expect(textBlocks.length).toBe(2)
+    })
+  })*/
 })

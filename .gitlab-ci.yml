@@ -100,6 +100,7 @@ test:js:storages:
   image: node:9.11
   script:
     - npm install
+    - npm run build
     - npm run test
   tags:
     - docker
