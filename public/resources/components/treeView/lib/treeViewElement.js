@@ -66,7 +66,7 @@ export default class TreeViewElement extends React.Component {
 
   dataUpdate (data, newProps = false) {
     this.setState({ element: data || this.props.element })
-    if (!newProps) {
+    if (!newProps && this.props.updateElementsData) {
       this.props.updateElementsData(data || this.props.element, 'singleElement')
     }
     if (data && data.hasOwnProperty('customHeaderTitle')) {
