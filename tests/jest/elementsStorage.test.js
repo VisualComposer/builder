@@ -44,15 +44,4 @@ describe('Test elementsStorage', () => {
       expect(element.output).toBe(testText)
     })
   })
-/*  vcCake.start(() => {
-    elementsStorage.trigger('clone', id)
-  }).end(() => {
-    test('ElementsStorage clone textBlock', () => {
-      const textBlocks = documentManager.filter((data) => {
-        console.log(data.get('tag'))
-        return data.get('tag') === 'textBlock'
-      })
-      expect(textBlocks.length).toBe(2)
-    })
-  })*/
 })
