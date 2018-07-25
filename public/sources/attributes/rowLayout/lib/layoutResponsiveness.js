@@ -6,8 +6,10 @@ import ResponsivenessSettings from '../../responsivenessSettings/Component'
 import TokenizationList from './tokenizationList'
 
 export default class LayoutResponsiveness extends React.Component {
+  static localizations = window.VCV_I18N && window.VCV_I18N()
   getSettings () {
     const { devices, layoutData, defaultLayoutData } = this.props
+    const hoverTitle = LayoutResponsiveness.localizations ? LayoutResponsiveness.localizations.clickToEditColumnValue : 'Click to edit column value'
     return devices.map((deviceData, i) => {
       const deviceLayout = layoutData[ deviceData.deviceKey ]
       return <div key={`${deviceData.deviceKey}-device-layout-${i}`} className='vcv-ui-form-responsiveness-settings-device-layout'>
@@ -34,6 +36,7 @@ export default class LayoutResponsiveness extends React.Component {
             index={index}
             activeColumn={this.props.activeColumn}
             handleColumnHover={this.props.handleColumnHover}
+            title={hoverTitle}
           />
         })}
       </div>
