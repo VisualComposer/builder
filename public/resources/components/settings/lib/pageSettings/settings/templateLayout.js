@@ -1,6 +1,7 @@
 import React from 'react'
 import { setData, getStorage, env } from 'vc-cake'
 import LayoutIcons from 'public/resources/components/startBlank/lib/layoutIcons'
+import lodash from 'lodash'
 
 const settingsStorage = getStorage('settings')
 const vcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
@@ -25,6 +26,8 @@ export default class TemplateLayout extends React.Component {
     this.allowedTypes = [ 'vc', 'vc-theme', 'theme' ]
     this.updateTemplate = this.updateTemplate.bind(this)
     this.updateState = this.updateState.bind(this)
+    this.handleTemplateChange = this.handleTemplateChange.bind(this)
+    this.updateStretchedContentState = this.updateStretchedContentState.bind(this)
   }
 
   componentDidMount () {
@@ -45,13 +48,18 @@ export default class TemplateLayout extends React.Component {
     }
   }
 
-  updateTemplate (selectedTemplate) {
+  handleTemplateChange (selectedTemplate) {
     let layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
     let data = {
       type: layoutData[ 0 ],
       value: layoutData[ 1 ],
-      stretchedContent: false // TODO
+      stretchedContent: this.state.current.stretchedContent
     }
+
+    this.updateTemplate(data)
+  }
+
+  updateTemplate (data) {
     let showTheme = data.type === 'theme'
 
     setData('ui:settings:pageTemplate', data)
@@ -75,7 +83,7 @@ export default class TemplateLayout extends React.Component {
       let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
       if (
-        (lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type)) ||
+        (lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type || lastLoadedPageTemplate.stretchedContent !== lastSavedPageTemplate.stretchedContent)) ||
         (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) ||
         (lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate) ||
         (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate)
@@ -127,7 +135,7 @@ export default class TemplateLayout extends React.Component {
             <span className={classes}
               title={template.label}
               key={`settings-layout-${index}-${tIndex}`}
-              onClick={() => { this.updateTemplate(templateName) }}>
+              onClick={() => { this.handleTemplateChange(templateName) }}>
               <Icon {...iconProps} />
             </span>
           )
@@ -147,7 +155,7 @@ export default class TemplateLayout extends React.Component {
       <span className={classes}
         title='Theme default'
         key={`settings-layout-theme-default`}
-        onClick={() => { this.updateTemplate('theme__default') }}>
+        onClick={() => { this.handleTemplateChange('theme__default') }}>
         <Icon {...iconProps} />
       </span>
     )
@@ -166,7 +174,7 @@ export default class TemplateLayout extends React.Component {
     }
 
     return (
-      <select className='vcv-ui-form-dropdown' value={value} onChange={this.updateTemplate}>
+      <select className='vcv-ui-form-dropdown' value={value} onChange={this.handleTemplateChange}>
         {this.getTemplateOptions()}
       </select>
     )
@@ -241,9 +249,39 @@ export default class TemplateLayout extends React.Component {
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>{templateTxt}</span>
         <select className='vcv-ui-form-dropdown' value={`${this.state.current.type}__${this.state.current.value}`}
-          onChange={this.updateTemplate}>
+          onChange={this.handleTemplateChange}>
           {this.getThemeTemplateOptions()}
         </select>
+      </div>
+    )
+  }
+
+  updateStretchedContentState (event) {
+    const newValue = event.target.checked
+    let currentTemplate = lodash.defaultsDeep({}, this.state.current)
+    currentTemplate.stretchedContent = newValue
+    this.updateTemplate(currentTemplate)
+  }
+
+  getStretchedToggle () {
+    const { current } = this.state
+    if (current.type === 'theme') {
+      return null
+    }
+
+    let checked = current.stretchedContent
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <div className='vcv-ui-form-switch-container'>
+          <label className='vcv-ui-form-switch'>
+            <input type='checkbox' onChange={this.updateStretchedContentState} id='vcv-stretch-layout-enable' checked={checked} />
+            <span className='vcv-ui-form-switch-indicator' />
+            <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
+            <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
+          </label>
+          <label htmlFor='vcv-stretch-layout-enable'
+            className='vcv-ui-form-switch-trigger-label'>Stretch content</label>
+        </div>
       </div>
     )
   }
@@ -255,6 +293,7 @@ export default class TemplateLayout extends React.Component {
           {this.getTemplateLayoutIcons()}
         </div>
         {this.getThemeTemplateDropdown()}
+        {this.getStretchedToggle()}
       </React.Fragment>
     )
   }

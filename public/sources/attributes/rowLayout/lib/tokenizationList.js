@@ -27,7 +27,8 @@ export default class TokenizationList extends React.Component {
     activeToken: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.bool
-    ])
+    ]),
+    title: PropTypes.string
   }
 
   stayEditing = false
@@ -306,7 +307,11 @@ export default class TokenizationList extends React.Component {
   }
 
   render () {
-    const { activeColumn, index, responsiveness } = this.props
+    const { activeColumn, index, responsiveness, title } = this.props
+    const tokenProps = {}
+    if (title) {
+      tokenProps.title = title
+    }
     let cssClasses = classNames({
       'vcv-ui-form-input': true,
       'vcv-ui-tag-list-input': true,
@@ -317,7 +322,7 @@ export default class TokenizationList extends React.Component {
       'vcv-ui-tag-list-container--active': typeof activeColumn === 'number' && (activeColumn === index)
     })
     const tokensList = !responsiveness ? this.renderTokensList() : null
-    return <div className={listContainerClasses} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+    return <div className={listContainerClasses} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} {...tokenProps}>
       <Textarea
         minRows={1}
         className={cssClasses}

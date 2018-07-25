@@ -48,8 +48,17 @@ export default class TreeViewLayout extends React.Component {
     }
   }
 
-  updateElementsData (data) {
-    let newData = data
+  updateElementsData (data, singleElement = false) {
+    let newData
+    if (singleElement && singleElement === 'singleElement') {
+      const currentData = this.state.data
+      const newDataIndex = currentData.findIndex(element => element.id === data.id)
+      currentData[newDataIndex] = data
+      newData = currentData
+    } else {
+      newData = data
+    }
+
     if (this.props.isAttribute) {
       newData = documentManager.children(this.props.element.get('id'))
     }
@@ -138,6 +147,7 @@ export default class TreeViewLayout extends React.Component {
           onUnmountCallback={this.onElementUnmount}
           scrollValue={this.props.scrollValue}
           isAttribute={this.props.isAttribute}
+          updateElementsData={this.updateElementsData}
         />
       }, this)
     }
