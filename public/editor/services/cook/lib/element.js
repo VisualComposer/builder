@@ -47,6 +47,7 @@ export default class CookElement {
     }
     let metaSettings = element.settings
     let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
+    console.log(elSettings)
     // Split on separate symbols
     Object.defineProperty(this, elData, {
       writable: true,
