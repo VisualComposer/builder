@@ -131,15 +131,15 @@ test:php:modules:
   tags:
     - docker
 
-# test:js:storages:
-#  stage: test
-#  image: node:9.11
-#  script:
-#    - npm install
-#    - npm run build
-#    - npm run test
-#  tags:
-#    - docker
+test:js:storages:
+  stage: test
+  image: node:9.11
+  script:
+    - npm install
+    - npm run build
+    - npm run test
+  tags:
+    - docker
 
 test:js:build:
   stage: test
