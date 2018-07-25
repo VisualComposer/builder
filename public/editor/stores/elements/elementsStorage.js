@@ -9,6 +9,7 @@ addStorage('elements', (storage) => {
   const utils = getService('utils')
   const wordpressDataStorage = getStorage('wordpressData')
   const workspaceStorage = getStorage('workspace')
+  const cacheStorage = getStorage('cache')
   const updateTimeMachine = () => {
     wordpressDataStorage.state('status').set({ status: 'changed' })
     historyStorage.trigger('add', documentManager.all())
@@ -157,6 +158,10 @@ addStorage('elements', (storage) => {
     }
   })
   storage.on('update', (id, element, source = '', options = {}) => {
+    const currentElement = cook.getById(id).toJS()
+    if (currentElement.customHeaderTitle !== element.customHeaderTitle) {
+      cacheStorage.trigger('clear', 'controls')
+    }
     if (element.tag === 'row' && element.layout && element.layout.layoutData && (element.layout.layoutData.hasOwnProperty('all') || element.layout.layoutData.hasOwnProperty('xs'))) {
       rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking }, documentManager)
       element.layout.layoutData = undefined
