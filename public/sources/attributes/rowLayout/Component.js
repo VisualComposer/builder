@@ -215,10 +215,6 @@ export default class Layout extends Attribute {
           deviceLayoutData[device].push(element.size[device])
         })
       })
-    } else { // Copy layout for devices from 'all' if 'all' is defined
-      Layout.devices.forEach((device) => {
-        deviceLayoutData[device] = deviceLayoutData['all']
-      })
     }
     return deviceLayoutData
   }
@@ -265,7 +261,7 @@ export default class Layout extends Attribute {
           deviceLayout.length = 0
           defaultLayout.forEach((col, i) => {
             if (!deviceLayout[ i ] && col) {
-              deviceLayout.push(col)
+              deviceLayout.push((device === 'xs' || device === 'sm') ? '100%' : col)
             }
           })
         }
@@ -288,8 +284,13 @@ export default class Layout extends Attribute {
     let { updater, fieldKey } = this.props
     let { layoutData, ...rest } = value
     if (value.responsivenessSettings) {
-      layoutData['xs'] = layoutData['xs'] || layoutData['all']
-      layoutData['sm'] = layoutData['sm'] || layoutData['all']
+      const mobileDeviceLayout = layoutData['all'] ? layoutData['all'].map(() => { return '100%' }) : []
+      if (!layoutData['xs']) {
+        layoutData['xs'] = mobileDeviceLayout
+      }
+      if (!layoutData['sm']) {
+        layoutData['sm'] = mobileDeviceLayout
+      }
       layoutData['md'] = layoutData['md'] || layoutData['all']
       layoutData['lg'] = layoutData['lg'] || layoutData['all']
       layoutData['xl'] = layoutData['xl'] || layoutData['all']
