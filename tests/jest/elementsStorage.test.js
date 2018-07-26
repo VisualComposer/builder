@@ -8,13 +8,15 @@ import '../../public/editor/services/document/service.js'
 import '../../public/editor/services/hubElements/service.js'
 import '../../public/editor/services/cook/service.js'
 import '../../public/editor/services/api/service.js'
-import '../../public/editor/stores/elements/elementsStorage'
 import '../../public/config/wp-attributes'
+import '../../public/editor/stores/elements/elementsStorage'
 
 // Elements
 import './devElements/row'
 import './devElements/column'
 import './devElements/textBlock'
+
+jest.useFakeTimers()
 
 describe('Test elementsStorage', () => {
   const elementsStorage = vcCake.getStorage('elements')
@@ -26,22 +28,46 @@ describe('Test elementsStorage', () => {
 
   vcCake.env('debug', true)
   vcCake.start(() => {
-    elementsStorage.trigger('add', { tag: 'textBlock', id: id })
-  }).end(() => {
     test('ElementStorage add textBlock', () => {
+      elementsStorage.trigger('add', { tag: 'textBlock', id: id })
       const textBlock = documentManager.get(id)
       expect(textBlock.id).toBe(id)
     })
-  })
-  vcCake.start(() => {
-    const textBlock = cook.get(documentManager.get(id))
-    textBlock.set('output', testText)
-    const data = textBlock.toJS()
-    elementsStorage.trigger('update', id, data)
-  }).end(() => {
     test('ElementsStorage update textBlock text', () => {
+      const textBlock = cook.get(documentManager.get(id))
+      textBlock.set('output', testText)
+      const data = textBlock.toJS()
+      elementsStorage.trigger('update', id, data)
       const element = documentManager.get(id)
       expect(element.output).toBe(testText)
+    })
+    test('ElementsStorage clone textBlock', () => {
+      elementsStorage.trigger('clone', id)
+      jest.runAllTimers()
+      const textBlocks = documentManager.filter((data) => {
+        return data.get('tag') === 'textBlock'
+      })
+      expect(textBlocks.length).toBe(2)
+    })
+    test('ElementsStorage move column', () => {
+      const columnID = '654321'
+      const textBlock = documentManager.get(id)
+      const textBlockParentColumn = documentManager.get(textBlock.parent)
+      const parentRow = documentManager.get(textBlockParentColumn.parent)
+      elementsStorage.trigger('add', { tag: 'column', id: columnID })
+      elementsStorage.trigger('move', columnID, {
+        action: 'append',
+        related: parentRow.id
+      })
+      const rowChildren = documentManager.children(parentRow.id)
+      expect(rowChildren.length).toBe(2)
+    })
+    test('ElementsStorage remove textBlock', () => {
+      elementsStorage.trigger('remove', id)
+      const textBlocks = documentManager.filter((data) => {
+        return data.get('tag') === 'textBlock'
+      })
+      expect(textBlocks.length).toBe(1)
     })
   })
 })
