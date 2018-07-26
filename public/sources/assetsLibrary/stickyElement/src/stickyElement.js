@@ -65,7 +65,7 @@
       css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
 
       if (element.sticky.wrap) {
-        css(element.parentNode, parseCss({ display: '', width: '', height: '' }, element.sticky.isFullWidth));
+        css(element.parentNode, parseCss({ display: '', width: '', height: '', position: '' }, element.sticky.isFullWidth));
       }
       delete element.sticky;
     });
@@ -269,7 +269,6 @@
       width: '',
       top: '',
       left: '',
-      height: 'auto',
       opacity: 1,
       visibility: 'visible'
     }, element.sticky.isFullWidth));
@@ -279,21 +278,20 @@
     }
 
     if (element.sticky.wrap) {
-      const height = element.sticky.stickyVisibility ? 0 : element.sticky.rect.height + 'px'
       css(element.parentNode, parseCss({
         display: 'block',
         width: element.sticky.rect.width + 'px',
-        height: height,
+        height: element.sticky.rect.height + 'px',
+        position: element.sticky.stickyVisibility ? 'absolute' : ''
       }, element.sticky.isFullWidth));
     }
 
     if (element.sticky.stickyVisibility) {
       css(element, parseCss({
-        position: '',
         width: '',
         top: '',
         left: '',
-        height: 0,
+        position: 'absolute',
         opacity: 0,
         visibility: 'hidden'
       }, element.sticky.isFullWidth));
@@ -310,7 +308,6 @@
         top: element.sticky.marginTop + 'px',
         left: element.sticky.rect.left + 'px',
         width: element.sticky.rect.width + 'px',
-        height: 'auto',
         visibility: 'visible',
         opacity: 1
       }, element.sticky.isFullWidth));
@@ -332,7 +329,6 @@
         position: 'fixed',
         width: element.sticky.rect.width + 'px',
         left: element.sticky.rect.left + 'px',
-        height: 'auto',
         visibility: 'visible',
         opacity: 1
       }, element.sticky.isFullWidth));
@@ -386,7 +382,7 @@
       }, element.sticky.isFullWidth));
 
       if (element.sticky.wrap && !element.sticky.stickyVisibility) {
-        css(element.parentNode, parseCss({ display: '', width: '', height: '' }, element.sticky.isFullWidth));
+        css(element.parentNode, parseCss({ display: '', width: '', height: '', position: '' }, element.sticky.isFullWidth));
       }
     }
   }
