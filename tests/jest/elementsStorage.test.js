@@ -8,13 +8,15 @@ import '../../public/editor/services/document/service.js'
 import '../../public/editor/services/hubElements/service.js'
 import '../../public/editor/services/cook/service.js'
 import '../../public/editor/services/api/service.js'
-import '../../public/editor/stores/elements/elementsStorage'
 import '../../public/config/wp-attributes'
+import '../../public/editor/stores/elements/elementsStorage'
 
 // Elements
 import './devElements/row'
 import './devElements/column'
 import './devElements/textBlock'
+
+jest.useFakeTimers()
 
 describe('Test elementsStorage', () => {
   const elementsStorage = vcCake.getStorage('elements')
@@ -26,8 +28,8 @@ describe('Test elementsStorage', () => {
 
   vcCake.env('debug', true)
   vcCake.start(() => {
-    elementsStorage.trigger('add', { tag: 'textBlock', id: id })
     test('ElementStorage add textBlock', () => {
+      elementsStorage.trigger('add', { tag: 'textBlock', id: id })
       const textBlock = documentManager.get(id)
       expect(textBlock.id).toBe(id)
     })
@@ -39,12 +41,20 @@ describe('Test elementsStorage', () => {
       const element = documentManager.get(id)
       expect(element.output).toBe(testText)
     })
+    test('ElementsStorage clone textBlock', () => {
+      elementsStorage.trigger('clone', id)
+      jest.runAllTimers()
+      const textBlocks = documentManager.filter((data) => {
+        return data.get('tag') === 'textBlock'
+      })
+      expect(textBlocks.length).toBe(2)
+    })
     test('ElementsStorage remove textBlock', () => {
       elementsStorage.trigger('remove', id)
       const textBlocks = documentManager.filter((data) => {
         return data.get('tag') === 'textBlock'
       })
-      expect(textBlocks.length).toBe(0)
+      expect(textBlocks.length).toBe(1)
     })
   })
 })
