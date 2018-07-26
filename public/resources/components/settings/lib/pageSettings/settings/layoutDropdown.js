@@ -27,6 +27,17 @@ export default class LayoutDropdown extends React.Component {
     this.getTemplateOptions = this.getTemplateOptions.bind(this)
   }
 
+  static getDerivedStateFromProps (props, state) {
+    const layoutName = props.layoutName.toLowerCase()
+    const storageStateLayout = settingsStorage.state(`${layoutName}Template`).get()
+    if (storageStateLayout !== state.current) {
+      return {
+        current: storageStateLayout
+      }
+    }
+    return null
+  }
+
   updateLayout (event) {
     const layoutName = this.props.layoutName.toLowerCase()
     const layoutNameUppercase = this.props.layoutName.toUpperCase()
