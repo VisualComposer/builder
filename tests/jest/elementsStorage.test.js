@@ -49,6 +49,19 @@ describe('Test elementsStorage', () => {
       })
       expect(textBlocks.length).toBe(2)
     })
+    test('ElementsStorage move column', () => {
+      const columnID = '654321'
+      const textBlock = documentManager.get(id)
+      const textBlockParentColumn = documentManager.get(textBlock.parent)
+      const parentRow = documentManager.get(textBlockParentColumn.parent)
+      elementsStorage.trigger('add', { tag: 'column', id: columnID })
+      elementsStorage.trigger('move', columnID, {
+        action: 'append',
+        related: parentRow.id
+      })
+      const rowChildren = documentManager.children(parentRow.id)
+      expect(rowChildren.length).toBe(2)
+    })
     test('ElementsStorage remove textBlock', () => {
       elementsStorage.trigger('remove', id)
       const textBlocks = documentManager.filter((data) => {
