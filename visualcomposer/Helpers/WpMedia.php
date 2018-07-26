@@ -282,7 +282,6 @@ class WpMedia implements Helper
         return preg_match($re, strtolower($string));
     }
 
-
     /**
      * @param $element
      *
@@ -299,14 +298,18 @@ class WpMedia implements Helper
             // first level
             if (!isset($propValue['urls']) && (is_string($propValue) || $propKey === "image" || $propKey === "video")) {
                 if (isset($propValue[0]) && ($propKey === "image" || $propKey === "video") && is_array($propValue)) {
+                    $vals = [];
                     foreach ($propValue as $image) {
                         if ($this->checkIsImage($image) || $this->checkIsVideo($image)) {
-                            $media[] = [
-                                'complex' => true,
-                                'value' => $image,
-                                'key' => $propKey,
-                            ];
+                            $vals[] = $image;
                         }
+                    }
+                    if (!empty($vals)) {
+                        $media[] = [
+                            'complex' => true,
+                            'value' => $vals,
+                            'key' => $propKey,
+                        ];
                     }
                 } else {
                     if ($this->checkIsImage($propValue) || $this->checkIsVideo($propValue)) {
