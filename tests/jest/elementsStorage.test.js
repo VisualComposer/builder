@@ -27,21 +27,24 @@ describe('Test elementsStorage', () => {
   vcCake.env('debug', true)
   vcCake.start(() => {
     elementsStorage.trigger('add', { tag: 'textBlock', id: id })
-  }).end(() => {
     test('ElementStorage add textBlock', () => {
       const textBlock = documentManager.get(id)
       expect(textBlock.id).toBe(id)
     })
-  })
-  vcCake.start(() => {
-    const textBlock = cook.get(documentManager.get(id))
-    textBlock.set('output', testText)
-    const data = textBlock.toJS()
-    elementsStorage.trigger('update', id, data)
-  }).end(() => {
     test('ElementsStorage update textBlock text', () => {
+      const textBlock = cook.get(documentManager.get(id))
+      textBlock.set('output', testText)
+      const data = textBlock.toJS()
+      elementsStorage.trigger('update', id, data)
       const element = documentManager.get(id)
       expect(element.output).toBe(testText)
+    })
+    test('ElementsStorage remove textBlock', () => {
+      elementsStorage.trigger('remove', id)
+      const textBlocks = documentManager.filter((data) => {
+        return data.get('tag') === 'textBlock'
+      })
+      expect(textBlocks.length).toBe(0)
     })
   })
 })
