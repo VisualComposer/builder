@@ -375,7 +375,15 @@
 
       element.removeAttribute(element.sticky.stickyOffsetAttribute);
 
-      css(element, parseCss({ position: '', width: '', top: '', left: '' }, element.sticky.isFullWidth));
+      css(element, parseCss({
+        position: '',
+        width: '',
+        top: '',
+        left: '',
+        opacity: '',
+        height: '',
+        visibility: ''
+      }, element.sticky.isFullWidth));
 
       if (element.sticky.wrap && !element.sticky.stickyVisibility) {
         css(element.parentNode, parseCss({ display: '', width: '', height: '' }, element.sticky.isFullWidth));
