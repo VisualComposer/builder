@@ -250,3 +250,11 @@ if (!defined('VCV_TF_OPTIMIZE_GLOBAL_CSS')) {
         true
     );
 }
+
+if (!defined('VCV_TF_BLANK_PAGE_BOXED')) {
+    define(
+        'VCV_TF_BLANK_PAGE_BOXED',
+        false
+    );
+}
+
