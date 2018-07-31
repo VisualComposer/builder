@@ -45,6 +45,7 @@ class PageEditableTemplatesController extends Container implements Module
                     [
                         'type' => $requestHelper->input('vcv-template-type'),
                         'value' => $requestHelper->input('vcv-template'),
+                        'stretchedContent' => $requestHelper->input('vcv-template-stretched') === 'true',
                     ]
                 );
             }
@@ -74,10 +75,11 @@ class PageEditableTemplatesController extends Container implements Module
     protected function viewVcTemplate($originalTemplate, $data)
     {
         if ($data && $data['type'] === 'vc') {
-            if (in_array($data['value'], ['blank', 'boxed'])) {
-                $template = $data['value'] . '-template.php';
+            if ($data['value'] === 'blank') {
+                $stretched = $data['stretchedContent'];
+                $template = 'blank' . ($stretched ? '-stretched' : '') . '-template.php';
 
-                return vcapp()->path('visualcomposer/resources/views/editor/templates/') . $template;
+                return vcapp()->path('visualcomposer/resources/views/editor/templates/' . $template);
             }
         }
 
