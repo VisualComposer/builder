@@ -62,18 +62,11 @@ class PageTemplatesController extends Container implements Module
             }
 
             // BC: For 2.9 blank page update to stretchedContent/notStretchedContent options
-            if (vcvenv('VCV_TF_BLANK_PAGE_BOXED')) {
-                if ($customTemplateType === 'vc' && $templateStretch === '') {
-                    if ($customTemplate === 'blank') {
-                        // It means that templateStretch=true
-                        $templateStretch = true;
-                    } elseif ($customTemplate === 'boxed') {
-                        // It means that templateStretch=false
-                        $templateStretch = false;
-                        $customTemplate = 'blank';
-                    }
-                }
-            }
+            list($templateStretch, $customTemplate) = $this->bcBlankPageUpdate(
+                $customTemplateType,
+                $templateStretch,
+                $customTemplate
+            );
 
             if (!empty($customTemplateType) && !empty($customTemplate)) {
                 $output = [
@@ -123,5 +116,30 @@ class PageTemplatesController extends Container implements Module
         }
 
         return $originalTemplate;
+    }
+
+    /**
+     * @param $customTemplateType
+     * @param $templateStretch
+     * @param $customTemplate
+     *
+     * @return array
+     */
+    protected function bcBlankPageUpdate($customTemplateType, $templateStretch, $customTemplate)
+    {
+        if (vcvenv('VCV_TF_BLANK_PAGE_BOXED')) {
+            if ($customTemplateType === 'vc' && $templateStretch === '') {
+                if ($customTemplate === 'blank') {
+                    // It means that templateStretch=true
+                    $templateStretch = true;
+                } elseif ($customTemplate === 'boxed') {
+                    // It means that templateStretch=false
+                    $templateStretch = false;
+                    $customTemplate = 'blank';
+                }
+            }
+        }
+
+        return [$templateStretch, $customTemplate];
     }
 }
