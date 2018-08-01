@@ -1,4 +1,4 @@
-import { addStorage, getStorage, getService } from 'vc-cake'
+import { addStorage, getStorage, getService, env } from 'vc-cake'
 import { rebuildRawLayout, addRowColumnBackground } from './lib/tools'
 
 addStorage('elements', (storage) => {
@@ -9,6 +9,7 @@ addStorage('elements', (storage) => {
   const utils = getService('utils')
   const wordpressDataStorage = getStorage('wordpressData')
   const workspaceStorage = getStorage('workspace')
+  const cacheStorage = getStorage('cache')
   const updateTimeMachine = () => {
     wordpressDataStorage.state('status').set({ status: 'changed' })
     historyStorage.trigger('add', documentManager.all())
@@ -30,18 +31,61 @@ addStorage('elements', (storage) => {
         let innerElement = cook.get(value)
         let innerElementValue = recursiveElementsRebuild(innerElement)
         cookElement.set(attrKey, innerElementValue)
+      } else if (attributeSettings.settings.type === 'rowLayout') {
+        // Update OLD rowLayout to devices-object
+        let value = cookElement.get(attrKey)
+        if (!value || Array.isArray(value)) {
+          value = {all: value}
+          cookElement.set(attrKey, value)
+        }
       }
     })
+    // TODO: Create BC migrator for attributes/elements
+    if (cookGetAll.tag === 'column') {
+      // Update OLD column sizes to devices-object
+      let sizeValue = cookElement.get('size')
+      if (typeof sizeValue !== 'object') {
+        sizeValue = {all: sizeValue, defaultSize: sizeValue}
+        cookElement.set('size', sizeValue)
+      }
+      let lastInRowValue = cookElement.get('lastInRow')
+      if (typeof lastInRowValue !== 'object') {
+        lastInRowValue = {all: lastInRowValue}
+        cookElement.set('lastInRow', lastInRowValue)
+      }
+      let firstInRowValue = cookElement.get('firstInRow')
+      if (typeof firstInRowValue !== 'object') {
+        firstInRowValue = {all: firstInRowValue}
+        cookElement.set('firstInRow', firstInRowValue)
+      }
+    }
+
     return cookElement.toJS(true, false)
   }
   const sanitizeData = (data) => {
-    const newData = Object.assign({}, data || {})
-    Object.keys(data).forEach((key) => {
-      let cookElement = cook.get(data[ key ])
+    let newData = Object.assign({}, data || {})
+    const allKeys = Object.keys(data)
+    allKeys.forEach((key) => {
+      if (!newData.hasOwnProperty(key)) {
+        return
+      }
+      let cookElement = cook.get(newData[ key ])
       if (!cookElement) {
         delete newData[ key ]
+        env('debug') === true && console.warn(`Element with key ${key} removed, failed to get CookElement`)
       } else {
-        newData[ key ] = recursiveElementsRebuild(cookElement)
+        let parent = cookElement.get('parent')
+        if (parent) {
+          if (!data.hasOwnProperty(parent)) {
+            delete newData[ key ]
+            env('debug') === true && console.warn(`Element with key ${key} removed, failed to get parent element`)
+            newData = sanitizeData(newData)
+          } else {
+            newData[ key ] = recursiveElementsRebuild(cookElement)
+          }
+        } else {
+          newData[ key ] = recursiveElementsRebuild(cookElement)
+        }
       }
     })
     return newData
@@ -57,7 +101,7 @@ addStorage('elements', (storage) => {
 
     if (wrap && !cookElement.get('parent')) {
       const parentWrapper = cookElement.get('parentWrapper')
-
+      // console.log(cookElement.toJS(), parentWrapper)
       if (parentWrapper === undefined) {
         const wrapperData = cook.get({ tag: defaultWrapper })
         elementData.parent = wrapperData.toJS().id
@@ -96,7 +140,7 @@ addStorage('elements', (storage) => {
       storage.trigger('update', rowElement.id, rowElement, '', options)
     }
     if (data.tag === 'row') {
-      if (data.layout && data.layout.layoutData && data.layout.layoutData.length) {
+      if (data.layout && data.layout.layoutData && (data.layout.layoutData.hasOwnProperty('all') || data.layout.layoutData.hasOwnProperty('xs'))) {
         rebuildRawLayout(data.id, { layout: data.layout.layoutData }, documentManager)
         data.layout.layoutData = undefined
       } else {
@@ -114,7 +158,11 @@ addStorage('elements', (storage) => {
     }
   })
   storage.on('update', (id, element, source = '', options = {}) => {
-    if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
+    const currentElement = cook.getById(id).toJS()
+    if (currentElement.customHeaderTitle !== element.customHeaderTitle) {
+      cacheStorage.trigger('clear', 'controls')
+    }
+    if (element.tag === 'row' && element.layout && element.layout.layoutData && (element.layout.layoutData.hasOwnProperty('all') || element.layout.layoutData.hasOwnProperty('xs'))) {
       rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking }, documentManager)
       element.layout.layoutData = undefined
     }
