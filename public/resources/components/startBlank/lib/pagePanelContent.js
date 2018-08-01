@@ -205,7 +205,7 @@ export default class PagePanelContent extends React.Component {
     let newLayout = {
       type: layoutType,
       value: layoutValue,
-      stretchedContent: false // TODO
+      stretchedContent: false
     }
     if (activeLayout.value !== newLayout.value) {
       settingsStorage.state('pageTemplate').set(newLayout)
