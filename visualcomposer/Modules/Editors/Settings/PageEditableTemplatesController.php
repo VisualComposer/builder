@@ -45,7 +45,7 @@ class PageEditableTemplatesController extends Container implements Module
                     [
                         'type' => $requestHelper->input('vcv-template-type'),
                         'value' => $requestHelper->input('vcv-template'),
-                        'stretchedContent' => $requestHelper->input('vcv-template-stretched') === 'true',
+                        'stretchedContent' => intval($requestHelper->input('vcv-template-stretched')) === 1,
                     ]
                 );
             }
