@@ -1,9 +1,10 @@
 /* global wp */
 import { getStorage, getService } from 'vc-cake'
-import { parseRowAttributes, parseGeneralAttributes } from './parseAttributes'
+// import { parseRowAttributes, parseGeneralAttributes } from './parseAttributes'
 
 const utils = getService('utils')
 const cook = getService('cook')
+const migrationStorage = getStorage('migration')
 const elementsStorage = getStorage('elements')
 
 const parse = (multipleShortcodesRegex, content, parent = false) => {
@@ -14,30 +15,19 @@ const parse = (multipleShortcodesRegex, content, parent = false) => {
     const shortcodeTag = innerContent[ 2 ]
     const subInnerContent = innerContent[ 5 ]
     const attr = wp.shortcode.attrs(innerContent[ 3 ]).named
-    const generalElementAttributes = parseGeneralAttributes(attr)
-    if (innerContent && shortcodeTag === 'vc_row') {
-      const rowAttributes = Object.assign({}, generalElementAttributes, parseRowAttributes(attr))
-      const rowElement = cook.get(rowAttributes)
-      elementsStorage.trigger('add', rowElement.toJS(), false, { addColumn: false })
-      if (subInnerContent) {
-        parse(multipleShortcodesRegex, subInnerContent, rowElement.get('id'))
-      }
-    } else if (shortcodeTag === 'vc_column') {
-      const columnAttributes = Object.assign({}, generalElementAttributes, { tag: 'column', parent: parent, size: attr.width || 'auto' })
-      const columnElement = cook.get(columnAttributes)
-      elementsStorage.trigger('add', columnElement.toJS(), false)
-      if (subInnerContent) {
-        parse(multipleShortcodesRegex, subInnerContent, columnElement.get('id'))
-      }
-    } else if (shortcodeTag === 'vc_column_text') {
-      const textElementAttributes = Object.assign({}, generalElementAttributes, { tag: 'textBlock', output: utils.wpAutoP(subInnerContent, '__VCVID__'), parent: parent })
-      const textElement = cook.get(textElementAttributes)
-      elementsStorage.trigger('add', textElement.toJS())
-    } else {
-      const shortcodeElementAttributes = Object.assign({}, generalElementAttributes, { tag: 'shortcode', parent: parent, shortcode: line })
-      const shortcodeElement = cook.get(shortcodeElementAttributes)
-      elementsStorage.trigger('add', shortcodeElement.toJS(), false)
-    }
+    // const generalElementAttributes = parseGeneralAttributes(attr)
+    // Migrate All other elements to shortcode Element
+
+    migrationStorage.trigger('migrateElement', {
+      tag: shortcodeTag,
+      _attrs: attr,
+      _subInnerContent: subInnerContent,
+      _parse: parse,
+      _multipleShortcodesRegex: multipleShortcodesRegex,
+      _parent: parent,
+      _shortcodeString: line,
+      _migrated: false
+    })
   })
 }
 
