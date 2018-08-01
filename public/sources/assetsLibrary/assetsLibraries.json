@@ -135,6 +135,11 @@
       "name": "fullHeight",
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/fullHeight.bundle.js"
+    },
+    {
+      "name": "zoom",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/zoom.bundle.js"
     }
   ]
 }

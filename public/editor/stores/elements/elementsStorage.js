@@ -48,7 +48,6 @@ addStorage('elements', (storage) => {
   }
 
   storage.on('add', (elementData, wrap = true, options = {}) => {
-    options = Object.assign({ addColumn: true }, options)
     let createdElements = []
     let cookElement = cook.get(elementData)
     if (!cookElement) {
@@ -96,7 +95,7 @@ addStorage('elements', (storage) => {
       rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size, disableStacking: rowElement.layout.disableStacking }, documentManager)
       storage.trigger('update', rowElement.id, rowElement, '', options)
     }
-    if (data.tag === 'row' && options.addColumn !== false) {
+    if (data.tag === 'row') {
       if (data.layout && data.layout.layoutData && data.layout.layoutData.length) {
         rebuildRawLayout(data.id, { layout: data.layout.layoutData }, documentManager)
         data.layout.layoutData = undefined

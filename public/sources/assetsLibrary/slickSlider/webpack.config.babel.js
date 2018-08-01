@@ -76,16 +76,16 @@ module.exports = {
         include: /node_modules/,
         type: 'javascript/auto'
       },
-      {
-        test: /\.js$/,
-        use: { loader: 'babel-loader' },
-        exclude: /node_modules/
-        // exclude: new RegExp('node_modules\\' + path.sep + '(?!postcss-prefix-url)'),
-        // query: {
-        //   // https://github.com/babel/babel-loader#options
-        //   cacheDirectory: true
-        // }
-      },
+      // {
+      //   test: /\.js$/,
+      //   use: { loader: 'babel-loader' },
+      //   exclude: /node_modules/
+      //   // exclude: new RegExp('node_modules\\' + path.sep + '(?!postcss-prefix-url)'),
+      //   // query: {
+      //   //   // https://github.com/babel/babel-loader#options
+      //   //   cacheDirectory: true
+      //   // }
+      // },
       // {
       //   test: /\.js$/,
       //   include: /node_modules/,

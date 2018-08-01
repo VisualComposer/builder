@@ -15,7 +15,20 @@ export default class TokenizationList extends React.Component {
     value: PropTypes.string.isRequired,
     validator: PropTypes.func.isRequired,
     layouts: PropTypes.array.isRequired,
-    suggestions: PropTypes.array.isRequired
+    suggestions: PropTypes.array.isRequired,
+    responsiveness: PropTypes.bool,
+    device: PropTypes.string,
+    index: PropTypes.number,
+    handleColumnHover: PropTypes.func,
+    activeColumn: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    activeToken: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    title: PropTypes.string
   }
 
   stayEditing = false
@@ -43,10 +56,12 @@ export default class TokenizationList extends React.Component {
     this.updateValue = this.updateValue.bind(this)
     this.handleTagListClick = this.handleTagListClick.bind(this)
     this.handleSuggestionMouseDown = this.handleSuggestionMouseDown.bind(this)
+    this.handleMouseOver = this.handleMouseOver.bind(this)
+    this.handleMouseOut = this.handleMouseOut.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({value: nextProps.value})
+    this.setState({ value: nextProps.value })
   }
 
   componentWillUnmount () {
@@ -121,19 +136,19 @@ export default class TokenizationList extends React.Component {
       this.updateValue(this.state.suggestedValue)
     } else if (key === 13) {
       e.target.blur()
-      this.setState({editing: false})
+      this.setState({ editing: false })
     }
     updateCursorPosition && this.updateCursorPosition(e.target)
   }
 
   handleFocus (e) {
-    this.setState({editing: true})
+    this.setState({ editing: true })
     this.updateCursorPosition(e.target)
   }
 
   handleBlur (e) {
     if (this.stayEditing === false) {
-      this.setState({editing: false})
+      this.setState({ editing: false })
     } else {
       e.currentTarget.focus()
       this.stayEditing = false
@@ -145,30 +160,57 @@ export default class TokenizationList extends React.Component {
 
   handleSuggestionMouseDown (e) {
     let value = this.state.value + e.currentTarget.getAttribute('data-vcv-suggest')
-    this.setState({value: value, suggestedValue: null, activeSuggestion: -1})
-    let layoutSplit = this.getLayout(value)
-    this.props.onChange(layoutSplit)
+    this.setState({ value: value, suggestedValue: null, activeSuggestion: -1 })
+    let layoutSplit = this.props.device ? value : this.getLayout(value)
+    const options = this.props.device ? {
+      device: this.props.device,
+      index: this.props.index
+    } : false
+    this.props.onChange(layoutSplit, options)
     this.stayEditing = true
   }
 
   handleTagListClick (e) {
     if (e.target === e.currentTarget) {
-      this.handleFocus({target: e.currentTarget.previousSibling})
+      this.handleFocus({ target: e.currentTarget.previousSibling })
       e.currentTarget.previousSibling.focus()
     }
   }
 
+  handleHover (mouseOver) {
+    if (this.props.device) {
+      const options = {
+        index: this.props.index,
+        over: mouseOver,
+        type: 'activeToken'
+      }
+      this.props.handleColumnHover(options)
+    }
+  }
+
+  handleMouseOver () {
+    this.handleHover(true)
+  }
+
+  handleMouseOut () {
+    this.handleHover(false)
+  }
+
   updateValue (value) {
-    this.setState({value: value, suggestedValue: null, activeSuggestion: -1})
-    let layoutSplit = this.getLayout(value)
-    this.props.onChange(layoutSplit)
+    this.setState({ value: value, suggestedValue: null, activeSuggestion: -1 })
+    const layoutSplit = this.props.device ? value : this.getLayout(value)
+    const options = this.props.device ? {
+      device: this.props.device,
+      index: this.props.index
+    } : false
+    this.props.onChange(layoutSplit, options)
   }
 
   setActiveSuggestion (incr) {
     let suggestions = this.getSuggestions()
     let index = this.state.activeSuggestion + incr
-    if (suggestions[index] !== undefined) {
-      this.setState({activeSuggestion: index, suggestedValue: this.state.value + suggestions[index]})
+    if (suggestions[ index ] !== undefined) {
+      this.setState({ activeSuggestion: index, suggestedValue: this.state.value + suggestions[ index ] })
     }
   }
 
@@ -208,6 +250,8 @@ export default class TokenizationList extends React.Component {
         removeCallback={this.removeToken}
         valid={this.props.validator(token)}
         index={index}
+        handleColumnHover={this.props.handleColumnHover}
+        activeToken={this.props.activeToken}
       />
     })
   }
@@ -263,12 +307,22 @@ export default class TokenizationList extends React.Component {
   }
 
   render () {
+    const { activeColumn, index, responsiveness, title } = this.props
+    const tokenProps = {}
+    if (title) {
+      tokenProps.title = title
+    }
     let cssClasses = classNames({
       'vcv-ui-form-input': true,
       'vcv-ui-tag-list-input': true,
-      'vcv-ui-tag-list-input-editing-disabled': !this.state.editing
+      'vcv-ui-tag-list-input-editing-disabled': !this.state.editing && !responsiveness
     })
-    return <div className='vcv-ui-tag-list-container'>
+    let listContainerClasses = classNames({
+      'vcv-ui-tag-list-container': true,
+      'vcv-ui-tag-list-container--active': typeof activeColumn === 'number' && (activeColumn === index)
+    })
+    const tokensList = !responsiveness ? this.renderTokensList() : null
+    return <div className={listContainerClasses} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} {...tokenProps}>
       <Textarea
         minRows={1}
         className={cssClasses}
@@ -280,7 +334,7 @@ export default class TokenizationList extends React.Component {
         onBlur={this.handleBlur}
         data-vcv-type='vcv-tokenized-input'
       />
-      {this.renderTokensList()}
+      {tokensList}
       {this.renderSuggestionBox()}
     </div>
   }

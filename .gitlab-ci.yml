@@ -6,6 +6,42 @@ stages:
   - deploy
   - push
 
+before_script:
+  ## https://docs.gitlab.com/ee/ci/ssh_keys/
+  ## Install ssh-agent if not already installed, it is required by Docker.
+  ## (change apt-get to yum if you use an RPM-based image)
+  ##
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  ##
+  ## Run ssh-agent (inside the build environment)
+  ##
+  - eval $(ssh-agent -s)
+
+  ##
+  ## Create the SSH directory and give it the right permissions
+  ##
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  ##
+  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  ## We're using tr to fix line endings which makes ed25519 keys work
+  ## without extra base64 encoding.
+  ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+  ##
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - ssh-keyscan -H 'github.com' >> $HOME/.ssh/known_hosts
+  - ssh-keyscan -H 'gitlab.com' >> $HOME/.ssh/known_hosts
+  ##
+  ## Optionally, if you will be using any Git commands, set the user name and
+  ## and email.
+  ##
+  #- git config --global user.email "user@example.com"
+  #- git config --global user.name "User name"
+  # disable host key checking (NOTE: makes you susceptible to man-in-the-middle attacks)
+  # WARNING: use only in docker container, if you use it with shell you will overwrite your user's ssh config
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
 codestyle:js:
   image: wpbakery/standardjs
   stage: codestyle
@@ -92,6 +128,16 @@ test:php:modules:
     - php tools/php-composer/cli.php
     - php -d 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so' ci/phpunit-5.6.5.phar --configuration=ci/phpunit-modules-coverage.xml
     - php ci/coverage-test.php
+  tags:
+    - docker
+
+test:js:storages:
+  stage: test
+  image: node:9.11
+  script:
+    - npm install
+    - npm run build
+    - npm run test
   tags:
     - docker
 

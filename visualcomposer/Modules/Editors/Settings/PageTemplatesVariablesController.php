@@ -44,6 +44,26 @@ class PageTemplatesVariablesController extends Container implements Module
 
     protected function outputTemplatesLayouts($variables, $payload)
     {
+        if (vcvenv('VCV_TF_BLANK_PAGE_BOXED')) {
+            $value = [
+                [
+                    'label' => __('Blank Template', 'vcwb'),
+                    'value' => 'blank',
+                ],
+            ];
+        } else {
+            $value = [
+                [
+                    'label' => __('Boxed Template', 'vcwb'),
+                    'value' => 'boxed',
+                ],
+                [
+                    'label' => __('Blank Template', 'vcwb'),
+                    'value' => 'blank',
+                ],
+            ];
+        }
+
         $variables[] = [
             'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS',
             'value' => vcfilter(
@@ -52,16 +72,7 @@ class PageTemplatesVariablesController extends Container implements Module
                     [
                         'type' => 'vc',
                         'title' => __('Visual Composer', 'vcwb'),
-                        'values' => [
-                            [
-                                'label' => __('Boxed Template', 'vcwb'),
-                                'value' => 'boxed',
-                            ],
-                            [
-                                'label' => __('Blank Template', 'vcwb'),
-                                'value' => 'blank',
-                            ],
-                        ],
+                        'values' => $value,
                     ],
                 ]
             ),

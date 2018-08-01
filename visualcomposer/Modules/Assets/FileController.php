@@ -51,7 +51,7 @@ class FileController extends Container implements Module
          * @see
          */
         if (vcvenv('VCV_TF_OPTIMIZE_GLOBAL_CSS')) {
-            $this->wpAddAction('template_redirect', 'checkGenerateSourceCss');
+            $this->wpAddAction('wp_enqueue_scripts', 'checkGenerateSourceCss');
         }
     }
 

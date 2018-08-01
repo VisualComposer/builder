@@ -9,7 +9,7 @@
   const headerFooterEditor = '.vcv-editor-theme-hf'
 
   function getFullWidthElements() {
-    fullWidthElements = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"]'))
+    fullWidthElements = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"],[data-vce-full-width-section="true"]'))
     if (fullWidthElements.length) {
       handleResize()
     }
@@ -48,7 +48,7 @@
         element.style.left = offset + 'px'
       }
 
-      if (!element.getAttribute('data-vce-stretch-content')) {
+      if (!element.getAttribute('data-vce-stretch-content') && !element.getAttribute('data-vce-section-stretch-content')) {
         let padding = -1 * offset
         if (padding < 0) {
           padding = 0

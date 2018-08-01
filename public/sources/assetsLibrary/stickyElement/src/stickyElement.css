@@ -12,3 +12,10 @@
   position: relative;
   z-index: 999;
 }
+
+[data-vce-sticky-visibility="true"] {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s ease-in-out;
+}

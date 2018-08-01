@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
+use VisualComposer\Helpers\AssetsShared;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Str;
@@ -20,14 +21,16 @@ class EnqueueController extends Container implements Module
 {
     use WpFiltersActions;
 
+    protected $lastEnqueueIdSourceAssets = null;
+
+    protected $lastEnqueueIdAssets = null;
+
     public function __construct(Frontend $frontendHelper)
     {
         $actionPriority = 50;
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
-        if (!$frontendHelper->isPreview()) {
-            $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
-            $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
-        }
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
     }
 
     /**
@@ -64,9 +67,20 @@ class EnqueueController extends Container implements Module
      */
     protected function enqueueSourceAssets(Str $strHelper, Frontend $frontendHelper, Assets $assetsHelper)
     {
+        if ($frontendHelper->isPageEditable()) {
+            return;
+        }
+        if ($frontendHelper->isPreview()
+            && (!$this->lastEnqueueIdSourceAssets
+                || ($this->lastEnqueueIdSourceAssets === get_the_ID()))) {
+            $this->lastEnqueueIdSourceAssets = get_the_ID();
+
+            return;
+        }
+        $this->lastEnqueueIdSourceAssets = get_the_ID();
         $sourceId = get_the_ID();
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
-        if ($bundleUrl && !$frontendHelper->isPageEditable()) {
+        if ($bundleUrl) {
             $version = get_post_meta($sourceId, 'vcvSourceCssFileHash', true);
             if (!preg_match('/^http/', $bundleUrl)) {
                 if (!preg_match('/assets-bundles/', $bundleUrl)) {
@@ -88,13 +102,27 @@ class EnqueueController extends Container implements Module
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      * @param \VisualComposer\Helpers\Assets $assetsHelper
      *
+     * @param \VisualComposer\Helpers\AssetsShared $assetsSharedHelper
+     *
      * @throws \ReflectionException
      */
-    protected function enqueueAssets(Str $strHelper, Frontend $frontendHelper, Assets $assetsHelper)
-    {
+    protected function enqueueAssets(
+        Str $strHelper,
+        Frontend $frontendHelper,
+        Assets $assetsHelper,
+        AssetsShared $assetsSharedHelper
+    ) {
         if ($frontendHelper->isPageEditable()) {
             return;
         }
+        if ($frontendHelper->isPreview()
+            && (!$this->lastEnqueueIdAssets
+                || ($this->lastEnqueueIdAssets === get_the_ID()))) {
+            $this->lastEnqueueIdAssets = get_the_ID();
+
+            return;
+        }
+        $this->lastEnqueueIdAssets = get_the_ID();
         $sourceId = get_the_ID();
         $assetsFiles = get_post_meta($sourceId, 'vcvSourceAssetsFiles', true);
 
@@ -116,92 +144,18 @@ class EnqueueController extends Container implements Module
 
         if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
             foreach ($assetsFiles['jsBundles'] as $asset) {
-                $asset = $this->call('findLocalAssetsPath', [$asset]);
-                wp_enqueue_script(
-                    'vcv:assets:source:scripts:' . $strHelper->slugify($asset),
-                    $assetsHelper->getAssetUrl($asset),
-                    [],
-                    VCV_VERSION,
-                    true
-                );
+                $asset = $assetsSharedHelper->findLocalAssetsPath($asset);
+                foreach ((array)$asset as $single) {
+                    wp_enqueue_script(
+                        'vcsv:assets:source:scripts:' . $strHelper->slugify($single),
+                        $assetsHelper->getAssetUrl($single),
+                        [],
+                        VCV_VERSION,
+                        true
+                    );
+                }
             }
             unset($asset);
         }
-    }
-
-    /**
-     * Find new local assets path. Needed for BC
-     *
-     * @param $assetsPath
-     *
-     * @return mixed
-     */
-    protected function findLocalAssetsPath($assetsPath)
-    {
-        $assets = [
-            'elements/singleImage/singleImage/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-            'elements/simpleImageSlider/simpleImageSlider/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-            'elements/imageGallery/imageGallery/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-            'elements/imageGalleryWithIcon/imageGalleryWithIcon/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-            'elements/imageGalleryWithScaleUp/imageGalleryWithScaleUp/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-            'elements/imageGalleryWithZoom/imageGalleryWithZoom/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-            'elements/imageMasonryGallery/imageMasonryGallery/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-            'elements/imageMasonryGalleryWithIcon/imageMasonryGalleryWithIcon/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-            'elements/imageMasonryGalleryWithScaleUp/imageMasonryGalleryWithScaleUp/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-            'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/lightbox.min.js' => 'sharedLibraries/lightbox/dist/lightbox.bundle.js',
-
-            'elements/singleImage/singleImage/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/simpleImageSlider/simpleImageSlider/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGallery/imageGallery/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGalleryWithIcon/imageGalleryWithIcon/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGalleryWithScaleUp/imageGalleryWithScaleUp/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGalleryWithZoom/imageGalleryWithZoom/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGallery/imageMasonryGallery/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGalleryWithIcon/imageMasonryGalleryWithIcon/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGalleryWithScaleUp/imageMasonryGalleryWithScaleUp/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/photoswipe.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-
-            'elements/singleImage/singleImage/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/simpleImageSlider/simpleImageSlider/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGallery/imageGallery/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGalleryWithIcon/imageGalleryWithIcon/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGalleryWithScaleUp/imageGalleryWithScaleUp/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGalleryWithZoom/imageGalleryWithZoom/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGallery/imageMasonryGallery/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGalleryWithIcon/imageMasonryGalleryWithIcon/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGalleryWithScaleUp/imageMasonryGalleryWithScaleUp/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/photoswipe-ui-default.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-
-            'elements/singleImage/singleImage/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/simpleImageSlider/simpleImageSlider/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGallery/imageGallery/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGalleryWithIcon/imageGalleryWithIcon/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGalleryWithScaleUp/imageGalleryWithScaleUp/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageGalleryWithZoom/imageGalleryWithZoom/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGallery/imageMasonryGallery/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGalleryWithIcon/imageMasonryGalleryWithIcon/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGalleryWithScaleUp/imageMasonryGalleryWithScaleUp/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-            'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/photoswipe-init.min.js' => 'sharedLibraries/photoswipe/dist/photoswipe.bundle.js',
-
-            'elements/faqToggle/faqToggle/public/dist/faqToggle.min.js' => 'sharedLibraries/faqToggle/dist/faqToggle.bundle.js',
-            'elements/outlineFaqToggle/outlineFaqToggle/public/dist/outlineFaqToggle.min.js' => 'sharedLibraries/faqToggle/dist/faqToggle.bundle.js',
-
-            'elements/row/row/public/dist/fullHeightRow.min.js' => 'sharedLibraries/fullHeight/dist/fullHeight.bundle.js',
-            'elements/row/row/public/dist/fullWidthRow.min.js' => 'sharedLibraries/fullWidth/dist/fullWidth.bundle.js',
-
-            'elements/section/section/public/dist/fullWidthSection.min.js' => 'sharedLibraries/fullWidth/dist/fullWidth.bundle.js',
-            'elements/section/section/public/dist/fullHeightRow.min.js' => 'sharedLibraries/fullWidth/dist/fullHeightRow.bundle.js',
-
-            'elements/logoSlider/logoSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
-            'elements/postsSlider/postsSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
-            'elements/simpleImageSlider/simpleImageSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
-            'elements/pageableContainer/pageableContainer/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
-        ];
-
-        if (isset($assets[ $assetsPath ])) {
-            return $assets[ $assetsPath ];
-        }
-
-        return $assetsPath;
     }
 }

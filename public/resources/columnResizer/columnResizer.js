@@ -1,11 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
+import Layout from '../../sources/attributes/rowLayout/Component'
 const elementsStorage = vcCake.getStorage('elements')
 const layoutStorage = vcCake.getStorage('layout')
 let previousLayoutCustomMode = false
 class ColumnResizer extends React.Component {
   static defaultGridPercentage = [ 20, 25, 33.33, 50, 66.66, 75 ]
+
+  static deviceViewports = {
+    xs: 0,
+    sm: 544,
+    md: 768,
+    lg: 992,
+    xl: 1200
+  }
 
   resizerData = {
     rowId: null,
@@ -73,14 +82,29 @@ class ColumnResizer extends React.Component {
 
   getRowData (e) {
     let $helper = ReactDOM.findDOMNode(this)
-    let $rightCol = $helper.nextElementSibling
-    let $leftCol = $helper.previousElementSibling
-    let rtl = false
-    if ($leftCol.getBoundingClientRect().left > $rightCol.getBoundingClientRect().left) {
-      $rightCol = $helper.previousElementSibling
-      $leftCol = $helper.nextElementSibling
-      rtl = true
+    let $tempRightCol = $helper.nextElementSibling
+    let $rightCol = null
+    let $leftCol = null
+
+    // Search for next visible column
+    while (!$tempRightCol.offsetParent) {
+      $tempRightCol = $tempRightCol.nextElementSibling
     }
+
+    let $tempLeftCol = $helper.previousElementSibling
+
+    while (!$tempLeftCol.offsetParent) {
+      $tempLeftCol = $tempLeftCol.nextElementSibling
+    }
+
+    if ($tempLeftCol.getBoundingClientRect().left > $tempRightCol.getBoundingClientRect().left) {
+      $rightCol = $tempLeftCol
+      $leftCol = $tempRightCol
+    } else {
+      $rightCol = $tempRightCol
+      $leftCol = $tempLeftCol
+    }
+
     let rightColId = $rightCol ? $rightCol.id.replace('el-', '') : null
     let leftColId = $leftCol ? $leftCol.id.replace('el-', '') : null
     let rowId = vcCake.getService('document').get(rightColId || leftColId).parent
@@ -90,12 +114,8 @@ class ColumnResizer extends React.Component {
     let bothColumnsWidth = ($leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width + columnGap * 2) / rowWidth
     let bothColumnsWidthPx = $leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width
     let allColumns = [].slice.call($helper.parentElement.querySelectorAll('.vce-col'))
-    let leftColumnIndex = ''
-    allColumns.forEach((column, index) => {
-      if (column === $leftCol) {
-        leftColumnIndex = index
-      }
-    })
+    let leftColumnIndex = allColumns.indexOf($leftCol)
+    let rightColumnIndex = allColumns.indexOf($rightCol)
 
     this.resizerData.rowId = rowId
     this.resizerData.rowData = rowData
@@ -108,7 +128,8 @@ class ColumnResizer extends React.Component {
     this.resizerData.columnGap = columnGap
     this.resizerData.mousePosition = e.clientX
     this.resizerData.leftColumnIndex = leftColumnIndex
-    this.resizerData.rightColumnIndex = rtl ? leftColumnIndex - 1 : leftColumnIndex + 1
+    this.resizerData.rightColumnIndex = rightColumnIndex
+    this.resizerData.currentDevice = this.getCurrentDevice()
   }
 
   handleMouseDown (e) {
@@ -141,10 +162,10 @@ class ColumnResizer extends React.Component {
     let firstInRow, lastInRow
     for (let i = 0; i < resizerRow.childNodes.length; i++) {
       let elementClasses = resizerRow.childNodes[ i ].classList
-      if (elementClasses.contains('vce-col--all-first') || elementClasses.contains('vce-col--md-first')) {
+      if (elementClasses.contains('vce-col--all-first') || elementClasses.contains('vce-col--' + this.resizerData.currentDevice + '-first')) {
         firstInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
       }
-      if (elementClasses.contains('vce-col--all-last') || elementClasses.contains('vce-col--md-last')) {
+      if (elementClasses.contains('vce-col--all-last') || elementClasses.contains('vce-col--' + this.resizerData.currentDevice + '-last')) {
         lastInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
       }
       if (firstInRow && lastInRow) {
@@ -270,7 +291,7 @@ class ColumnResizer extends React.Component {
 
   createWrapBlockers () {
     let $resizer = this.resizerData.helper
-    let firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--all-first') || this.getSibling($resizer, 'prev', 'vce-col--md-first')
+    let firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--all-first') || this.getSibling($resizer, 'prev', 'vce-col--' + this.resizerData.currentDevice + '-first')
     let blockElement = document.createElement('div')
     blockElement.className = 'vce-column-wrap-blocker'
 
@@ -326,18 +347,65 @@ class ColumnResizer extends React.Component {
 
   rebuildRowLayout () {
     const parentRow = vcCake.getService('document').get(this.resizerData.rowId)
-    let layoutData = vcCake.getService('document').children(this.resizerData.rowId)
-      .map((element) => {
-        return element.size || '100%'
-      })
+    let layoutData = this.getLayoutData(this.resizerData.rowId)
+
     let leftSize = (Math.round(this.state.leftColPercentage * 10000) / 10000) * 100
     leftSize = leftSize.toString().slice(0, leftSize.toString().indexOf('.') + 3)
     let rightSize = (Math.round(this.state.rightColPercentage * 10000) / 10000) * 100
     rightSize = rightSize.toString().slice(0, rightSize.toString().indexOf('.') + 3)
-    layoutData[ this.resizerData.leftColumnIndex ] = `${leftSize}%`
-    layoutData[ this.resizerData.rightColumnIndex ] = `${rightSize}%`
+
+    const device = layoutData.hasOwnProperty('all') ? 'all' : this.resizerData.currentDevice
+
+    layoutData[device][this.resizerData.leftColumnIndex] = `${leftSize}%`
+    layoutData[device][this.resizerData.rightColumnIndex] = `${rightSize}%`
     parentRow.layout.layoutData = layoutData
     elementsStorage.trigger('update', parentRow.id, parentRow)
+  }
+
+  getCurrentDevice () {
+    const iframeDocument = document.querySelector('#vcv-editor-iframe').contentWindow
+    const windowWidth = Math.max(iframeDocument.document.documentElement.clientWidth, iframeDocument.innerWidth || 0)
+    let currentDevice = null
+
+    Object.keys(ColumnResizer.deviceViewports).forEach((device) => {
+      const viewport = ColumnResizer.deviceViewports[device]
+
+      if (windowWidth >= viewport) {
+        currentDevice = device
+      }
+    })
+
+    return currentDevice
+  }
+
+  getLayoutData (rowId) {
+    const deviceLayoutData = {}
+    const rowChildren = vcCake.getService('document').children(rowId)
+
+    // Get layout for 'all'
+    rowChildren.forEach((element) => {
+      if (element.size['all']) {
+        if (!deviceLayoutData.hasOwnProperty('all')) {
+          deviceLayoutData.all = []
+        }
+        deviceLayoutData['all'].push(element.size['all'])
+      }
+    })
+
+    if (!deviceLayoutData.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
+      Layout.devices.forEach((device) => {
+        rowChildren.forEach((element) => {
+          if (element.size[device]) {
+            if (!deviceLayoutData.hasOwnProperty(device)) {
+              deviceLayoutData[device] = []
+            }
+            deviceLayoutData[device].push(element.size[device])
+          }
+        })
+      })
+    }
+
+    return deviceLayoutData
   }
 
   hide () {

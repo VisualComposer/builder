@@ -1,4 +1,4 @@
-import vcCake from 'vc-cake'
+import vcCake, { env } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
@@ -14,30 +14,55 @@ export default class TemplatePreview extends React.Component {
     }
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
-    this.templateInfo = {
-      'theme-default': {
-        description: localizations ? localizations.themeDefaultDescription : 'Your WordPress theme defined layout for specific page, post, or custom post type.',
-        img: 'theme-defined-preview.png'
-      },
-      'vc__boxed': {
-        description: localizations ? localizations.vcBoxedDescription : 'Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar.',
-        img: 'boxed-preview.png'
-      },
-      'vc__blank': {
-        description: localizations ? localizations.vcBlankDescription : 'Full width blank page without header, footer, or sidebar.',
-        img: 'blank-preview.png'
-      },
-      'vc-theme__header-footer-layout': {
-        description: localizations ? localizations.vcThemeHeaderFooterDescription : 'Default layout with custom header, content, and footer area.',
-        img: 'header-footer-preview.png'
-      },
-      'vc-theme__header-footer-sidebar-layout': {
-        description: localizations ? localizations.vcThemeHeaderFooterSidebarDescription : 'Default layout with custom header, content, footer and sidebar area on the right.',
-        img: 'hfs-right-preview.png'
-      },
-      'vc-theme__header-footer-sidebar-left-layout': {
-        description: localizations ? localizations.vcThemeHeaderFooterLeftSidebarDescription : 'Default layout with custom header, content, footer and sidebar area on the left.',
-        img: 'hfs-left-preview.png'
+    if (env('FT_BLANK_PAGE_BOXED')) {
+      this.templateInfo = {
+        'theme-default': {
+          description: localizations ? localizations.themeDefaultDescription : 'Your WordPress theme defined layout for specific page, post, or custom post type.',
+          img: 'theme-defined-preview.png'
+        },
+        'vc__blank': {
+          description: localizations ? localizations.vcBlankDescription : 'Full width blank page without header, footer, or sidebar.',
+          img: 'blank-preview.png'
+        },
+        'vc-theme__header-footer-layout': {
+          description: localizations ? localizations.vcThemeHeaderFooterDescription : 'Default layout with custom header, content, and footer area.',
+          img: 'header-footer-preview.png'
+        },
+        'vc-theme__header-footer-sidebar-layout': {
+          description: localizations ? localizations.vcThemeHeaderFooterSidebarDescription : 'Default layout with custom header, content, footer and sidebar area on the right.',
+          img: 'hfs-right-preview.png'
+        },
+        'vc-theme__header-footer-sidebar-left-layout': {
+          description: localizations ? localizations.vcThemeHeaderFooterLeftSidebarDescription : 'Default layout with custom header, content, footer and sidebar area on the left.',
+          img: 'hfs-left-preview.png'
+        }
+      }
+    } else {
+      this.templateInfo = {
+        'theme-default': {
+          description: localizations ? localizations.themeDefaultDescription : 'Your WordPress theme defined layout for specific page, post, or custom post type.',
+          img: 'theme-defined-preview.png'
+        },
+        'vc__boxed': {
+          description: localizations ? localizations.vcBoxedDescription : 'Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar.',
+          img: 'boxed-preview.png'
+        },
+        'vc__blank': {
+          description: localizations ? localizations.vcBlankDescription : 'Full width blank page without header, footer, or sidebar.',
+          img: 'blank-preview.png'
+        },
+        'vc-theme__header-footer-layout': {
+          description: localizations ? localizations.vcThemeHeaderFooterDescription : 'Default layout with custom header, content, and footer area.',
+          img: 'header-footer-preview.png'
+        },
+        'vc-theme__header-footer-sidebar-layout': {
+          description: localizations ? localizations.vcThemeHeaderFooterSidebarDescription : 'Default layout with custom header, content, footer and sidebar area on the right.',
+          img: 'hfs-right-preview.png'
+        },
+        'vc-theme__header-footer-sidebar-left-layout': {
+          description: localizations ? localizations.vcThemeHeaderFooterLeftSidebarDescription : 'Default layout with custom header, content, footer and sidebar area on the left.',
+          img: 'hfs-left-preview.png'
+        }
       }
     }
     this.handleClick = this.handleClick.bind(this)
@@ -170,6 +195,9 @@ export default class TemplatePreview extends React.Component {
     const { name, templateName, active, disabled, icon } = this.props
     const { previewVisible, previewStyle } = this.state
 
+    if (typeof this.templateInfo[ templateName ] === 'undefined') {
+      return null
+    }
     let description = this.templateInfo[ templateName ].description
     if (disabled) {
       description += ` ${availableInPremiumText}`
@@ -212,7 +240,7 @@ export default class TemplatePreview extends React.Component {
       'vcv-ui-start-layout-list-item-disabled': disabled
     })
 
-    let iconHtml = Icon ? (<Icon {...iconProps} />) : null
+    let iconHtml = icon ? (<Icon {...iconProps} />) : null
 
     return (
       <li className={itemClasses}>

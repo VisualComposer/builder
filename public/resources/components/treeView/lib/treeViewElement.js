@@ -20,7 +20,8 @@ export default class TreeViewElement extends React.Component {
     onMountCallback: PropTypes.func,
     onUnmountCallback: PropTypes.func,
     scrollValue: PropTypes.any,
-    isAttribute: PropTypes.bool
+    isAttribute: PropTypes.bool,
+    updateElementsData: PropTypes.func
   }
 
   adminBar = document.getElementById('wpadminbar')
@@ -63,8 +64,11 @@ export default class TreeViewElement extends React.Component {
     this.handleSandwichMouseLeave = this.handleSandwichMouseLeave.bind(this)
   }
 
-  dataUpdate (data) {
+  dataUpdate (data, newProps = false) {
     this.setState({ element: data || this.props.element })
+    if (!newProps && this.props.updateElementsData) {
+      this.props.updateElementsData(data || this.props.element, 'singleElement')
+    }
     if (data && data.hasOwnProperty('customHeaderTitle')) {
       let content = data.customHeaderTitle || data.name
       if (this.state.content !== content) {
@@ -82,7 +86,7 @@ export default class TreeViewElement extends React.Component {
   componentWillReceiveProps (nextProps) {
     const newShowOutline = nextProps.showOutlineCallback(nextProps.element.id)
     newShowOutline !== this.state.showOutline && this.setState({ showOutline: newShowOutline })
-    this.dataUpdate(nextProps.element)
+    this.dataUpdate(nextProps.element, true)
   }
 
   componentDidMount () {

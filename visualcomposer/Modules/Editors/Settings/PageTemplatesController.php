@@ -52,6 +52,8 @@ class PageTemplatesController extends Container implements Module
             $currentPostTemplate = $post->page_template;
             $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
             $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
+            $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
+
             // BC: For TemplateFilterController.php
             if (in_array($currentPostTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
                 $customTemplateType = 'vc';
@@ -59,10 +61,18 @@ class PageTemplatesController extends Container implements Module
                 $customTemplate = str_replace('boxed-blank', 'boxed', $currentPostTemplate);
             }
 
+            // BC: For 2.9 blank page update to stretchedContent/notStretchedContent options
+            list($templateStretch, $customTemplate) = $this->bcBlankPageUpdate(
+                $customTemplateType,
+                $templateStretch,
+                $customTemplate
+            );
+
             if (!empty($customTemplateType) && !empty($customTemplate)) {
                 $output = [
                     'type' => $customTemplateType,
                     'value' => $customTemplate,
+                    'stretchedContent' => intval($templateStretch),
                 ];
             } else {
                 $output = [
@@ -106,5 +116,30 @@ class PageTemplatesController extends Container implements Module
         }
 
         return $originalTemplate;
+    }
+
+    /**
+     * @param $customTemplateType
+     * @param $templateStretch
+     * @param $customTemplate
+     *
+     * @return array
+     */
+    protected function bcBlankPageUpdate($customTemplateType, $templateStretch, $customTemplate)
+    {
+        if (vcvenv('VCV_TF_BLANK_PAGE_BOXED')) {
+            if ($customTemplateType === 'vc' && $templateStretch === '') {
+                if ($customTemplate === 'blank') {
+                    // It means that templateStretch=true
+                    $templateStretch = true;
+                } elseif ($customTemplate === 'boxed') {
+                    // It means that templateStretch=false
+                    $templateStretch = false;
+                    $customTemplate = 'blank';
+                }
+            }
+        }
+
+        return [$templateStretch, $customTemplate];
     }
 }
