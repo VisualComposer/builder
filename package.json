@@ -162,6 +162,8 @@
     }
   },
   "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/devElements/",
