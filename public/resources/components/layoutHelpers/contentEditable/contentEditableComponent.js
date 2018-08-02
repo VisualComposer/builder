@@ -13,6 +13,7 @@ const dataProcessor = vcCake.getService('dataProcessor')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
+const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class ContentEditableComponent extends React.Component {
   static spinnerHTML = '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
@@ -165,6 +166,10 @@ export default class ContentEditableComponent extends React.Component {
         ? striptags(this.state.realContent) : this.state.realContent
       element.set(this.props.field, contentToSave)
       elementsStorage.trigger('update', element.get('id'), element.toJS())
+      const workspaceStorageState = workspaceStorage.state('settings').get()
+      if (workspaceStorageState && workspaceStorageState.action === 'edit') {
+        workspaceStorage.trigger('edit', this.props.id, '')
+      }
       // this.props.api.request('data:update', element.get('id'), element.toJS())
     }
     // add overlay
