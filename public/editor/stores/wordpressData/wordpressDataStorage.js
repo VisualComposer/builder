@@ -1,6 +1,5 @@
 import { addStorage, getStorage, getService } from 'vc-cake'
 import SaveController from './lib/saveController'
-import {default as wrapExistingContent} from './lib/wrapExistingContent'
 
 addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
@@ -9,6 +8,7 @@ addStorage('wordpressData', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const settingsStorage = getStorage('settings')
   const hubTemplatesStorage = getStorage('hubTemplates')
+  const migrationStorage = getStorage('migration')
   const documentManager = getService('document')
   const wordpressDataStorage = getStorage('wordpressData')
 
@@ -59,7 +59,10 @@ addStorage('wordpressData', (storage) => {
       const initialContent = responseData.post_content
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         elementsStorage.trigger('reset', {})
-        wrapExistingContent(initialContent)
+        migrationStorage.trigger('migrateContent', {
+          _migrated: false,
+          content: initialContent
+        })
       } else if (responseData.data) {
         let data = { elements: {} }
         try {
