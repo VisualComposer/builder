@@ -56,12 +56,6 @@
       "cssBundle": "[publicPath]/dist/backgroundZoom.bundle.css"
     },
     {
-      "name": "backgroundSlider",
-      "dependencies": [],
-      "jsBundle": "[publicPath]/dist/backgroundSlider.bundle.js",
-      "cssBundle": "[publicPath]/dist/backgroundSlider.bundle.css"
-    },
-    {
       "name": "parallaxBackground",
       "dependencies": [
         "waypoints"
