@@ -32,8 +32,8 @@ const parse = (multipleShortcodesRegex, content, parent = false) => {
 }
 
 export default (content) => {
-  if (window.hasOwnProperty('VCV_API_WPBAKERY_VC_MAP')) {
-    const multipleShortcodesRegex = wp.shortcode.regexp(window.VCV_API_WPBAKERY_VC_MAP().join('|'))
+  if (window.hasOwnProperty('VCV_API_WPBAKERY_WPB_MAP')) {
+    const multipleShortcodesRegex = wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
     parse(multipleShortcodesRegex, content)
   } else {
     const textElement = cook.get({ tag: 'textBlock', output: utils.wpAutoP(content, '__VCVID__') })
