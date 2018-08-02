@@ -101,7 +101,6 @@ $(() => {
       require('./editor/stores/assets/assetsStorage')
       require('./editor/stores/shortcodesAssets/storage')
       require('./editor/stores/cacheStorage')
-      require('./editor/stores/migrationStorage')
 
       require('./editor/stores/workspaceStorage')
       require('./editor/stores/hub/hubElementsStorage')
