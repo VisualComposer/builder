@@ -57,9 +57,11 @@ class PageTemplatesSaveController extends Container implements Module
             if (is_array($pageTemplateData)) {
                 $value = $pageTemplateData['value'];
                 $type = $pageTemplateData['type'];
+                $stretchedContent = intval($pageTemplateData['stretchedContent']);
                 if ($post && $type && $value) {
                     update_metadata('post', $post->ID, '_vcv-page-template', $value);
                     update_metadata('post', $post->ID, '_vcv-page-template-type', $type);
+                    update_metadata('post', $post->ID, '_vcv-page-template-stretch', $stretchedContent);
                     if ($type === 'theme') {
                         // @codingStandardsIgnoreLine
                         $post->page_template = $value === 'default' ? '' : $value;

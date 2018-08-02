@@ -174,6 +174,7 @@ vcCake.add('contentModernLayout', (api) => {
       if (template) {
         params.push(`vcv-template=${template.value}`)
         params.push(`vcv-template-type=${template.type}`)
+        params.push(`vcv-template-stretched=${template.stretchedContent ? 1 : 0}`)
 
         let hasHeader = false
         let hasSidebar = false
