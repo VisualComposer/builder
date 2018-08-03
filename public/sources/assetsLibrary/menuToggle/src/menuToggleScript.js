@@ -1,0 +1,61 @@
+(function () {
+  window.vcvSandwichModal = function () {
+    // Create global element references
+    this.modal = null;
+    this.openButton = null;
+    this.closeButton = null;
+
+    // Define option defaults
+    var defaults = {
+      container: null,
+      modalSelector: null,
+      openSelector: null,
+      closeSelector: null,
+      activeAttribute: null
+    };
+
+    // Create options by extending defaults with the passed in arguments
+    if (arguments[ 0 ] && typeof arguments[ 0 ] === "object") {
+      this.options = extendDefaults(defaults, arguments[ 0 ]);
+    }
+
+    initializeEvents.call(this);
+  };
+
+  // Public Methods
+
+  window.vcvSandwichModal.prototype.close = function () {
+    this.modal.removeAttribute(this.options.activeAttribute);
+    document.body.style.overflow = "";
+  };
+
+  window.vcvSandwichModal.prototype.open = function () {
+    document.body.style.overflow = "hidden";
+    this.modal.setAttribute(this.options.activeAttribute, "true");
+  };
+
+  // Private Methods
+
+  function extendDefaults (source, properties) {
+    var property;
+    for (property in properties) {
+      if (properties.hasOwnProperty(property)) {
+        source[ property ] = properties[ property ];
+      }
+    }
+    return source;
+  }
+
+  function initializeEvents () {
+    this.modal = this.options.container.querySelector(this.options.modalSelector);
+    this.openButton = this.options.container.querySelector(this.options.openSelector);
+    this.closeButton = this.options.container.querySelector(this.options.closeSelector);
+
+    if (this.openButton) {
+      this.openButton.addEventListener("click", this.open.bind(this));
+    }
+    if (this.closeButton) {
+      this.closeButton.addEventListener("click", this.close.bind(this));
+    }
+  }
+})();
