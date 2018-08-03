@@ -99,6 +99,12 @@ export default class SaveController {
       }
       let pageTemplateData = settingsStorage.state('pageTemplate').get()
       if (pageTemplateData) {
+        if (pageTemplateData.stretchedContent) {
+          // Due to browsers converts Boolean TRUE to string "true"
+          pageTemplateData.stretchedContent = 1
+        } else {
+          pageTemplateData.stretchedContent = 0
+        }
         requestData[ 'vcv-page-template' ] = pageTemplateData
       }
       let title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
