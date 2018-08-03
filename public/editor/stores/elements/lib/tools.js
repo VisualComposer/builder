@@ -56,7 +56,11 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
               if (!layouts.hasOwnProperty(device)) {
                 layouts[device] = []
               }
-              layouts[device].push(element.size['all'])
+              if (device === 'xs' || device === 'sm') {
+                layouts[device].push('100%')
+              } else {
+                layouts[device].push(element.size['all'])
+              }
             }
           })
         }
