@@ -134,6 +134,11 @@
       "name": "zoom",
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/zoom.bundle.js"
+    },
+    {
+      "name": "menuToggle",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/menuToggle.bundle.js"
     }
   ]
 }
