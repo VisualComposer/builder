@@ -252,7 +252,7 @@ export default class DesignOptions extends Attribute {
     return newState
   }
 
-  addPixelToNumber (number) {
+  static addPixelToNumber (number) {
     return /^\d+$/.test(number) ? `${number}px` : number
   }
 
@@ -326,118 +326,7 @@ export default class DesignOptions extends Attribute {
             delete newValue[ device ].borderColor
           }
         }
-        // mixins
-        if (newValue[ device ].hasOwnProperty('display')) {
-          newMixins[ `visibilityMixin:${device}` ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.visibilityMixin)
-          newMixins[ `visibilityMixin:${device}` ].variables = {
-            device: {
-              value: device
-            }
-          }
-        } else {
-          // boxModelMixin
-          if (newValue[ device ].hasOwnProperty('boxModel')) {
-            let value = newValue[ device ].boxModel
-            if (!lodash.isEmpty(value)) {
-              // update mixin
-              let mixinName = `boxModelMixin:${device}`
-              newMixins[ mixinName ] = {}
-              newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.boxModelMixin)
-              let syncData = {
-                borderWidth: [ { key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' } ],
-                borderTopWidth: [ { key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' } ],
-                borderRightWidth: [ { key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' } ],
-                borderBottomWidth: [ { key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' } ],
-                borderLeftWidth: [ { key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' } ]
-              }
-              for (let property in value) {
-                newMixins[ mixinName ].variables[ property ] = {
-                  value: this.addPixelToNumber(value[ property ])
-                }
-                if (syncData[ property ]) {
-                  syncData[ property ].forEach((syncProp) => {
-                    let propVal = newValue[ device ][ syncProp.value ] || false
-                    newMixins[ mixinName ].variables[ syncProp.key ] = {
-                      value: this.addPixelToNumber(propVal)
-                    }
-                  })
-                }
-              }
-              // devices
-              newMixins[ mixinName ].variables.device = {
-                value: device
-              }
-            }
-          }
-          // backgroundMixin
-          if (newValue[ device ] && (newValue[ device ].backgroundColor || newValue[ device ].image)) {
-            let mixinName = `backgroundColorMixin:${device}`
-            newMixins[ mixinName ] = {}
-            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundColorMixin)
-
-            if (newValue[ device ].backgroundColor) {
-              newMixins[ mixinName ].variables.backgroundColor = {
-                value: newValue[ device ].backgroundColor
-              }
-            }
-
-            if (newValue[ device ].image && newValue[ device ].image.urls && newValue[ device ].image.urls.length) {
-              newMixins[ mixinName ].variables.backgroundImage = {
-                value: newValue[ device ].image.urls[ 0 ].full
-              }
-            }
-
-            if (newValue[ device ].backgroundStyle) {
-              let sizeStyles = [ 'cover', 'contain', 'full-width', 'full-height' ]
-              let sizeState = sizeStyles.indexOf(newValue[ device ].backgroundStyle) >= 0
-
-              if (sizeState) {
-                newMixins[ mixinName ].variables.backgroundRepeat = {
-                  value: false
-                }
-                switch (newValue[ device ].backgroundStyle) {
-                  case 'full-width':
-                    newMixins[ mixinName ].variables.backgroundSize = {
-                      value: '100% auto'
-                    }
-                    break
-                  case 'full-height':
-                    newMixins[ mixinName ].variables.backgroundSize = {
-                      value: 'auto 100%'
-                    }
-                    break
-                  default:
-                    newMixins[ mixinName ].variables.backgroundRepeat = {
-                      value: 'no-repeat'
-                    }
-                    newMixins[ mixinName ].variables.backgroundSize = {
-                      value: newValue[ device ].backgroundStyle
-                    }
-                    newMixins[ mixinName ].variables.backgroundPosition = {
-                      value: DesignOptions.defaultState.backgroundPosition
-                    }
-                }
-              } else {
-                newMixins[ mixinName ].variables.backgroundRepeat = {
-                  value: newValue[ device ].backgroundStyle
-                }
-                newMixins[ mixinName ].variables.backgroundSize = {
-                  value: false
-                }
-              }
-            }
-
-            if (newValue[ device ].backgroundPosition) {
-              newMixins[ mixinName ].variables.backgroundPosition = {
-                value: newValue[ device ].backgroundPosition
-              }
-            }
-
-            newMixins[ mixinName ].variables.device = {
-              value: device
-            }
-          }
-        }
+        device = DesignOptions.getMixins(newValue, device, newMixins)
 
         // remove device from list if it's empty
         if (!Object.keys(newValue[ device ]).length) {
@@ -448,6 +337,122 @@ export default class DesignOptions extends Attribute {
 
     this.setFieldValue(newValue, newMixins, fieldKey)
     this.setState(newState)
+  }
+
+  static getMixins (newValue, device, newMixins) {
+    // mixins
+    if (newValue[ device ].hasOwnProperty('display')) {
+      newMixins[ `visibilityMixin:${device}` ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.visibilityMixin)
+      newMixins[ `visibilityMixin:${device}` ].variables = {
+        device: {
+          value: device
+        }
+      }
+    } else {
+      // boxModelMixin
+      if (newValue[ device ].hasOwnProperty('boxModel')) {
+        let value = newValue[ device ].boxModel
+        if (!lodash.isEmpty(value)) {
+          // update mixin
+          let mixinName = `boxModelMixin:${device}`
+          newMixins[ mixinName ] = {}
+          newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.boxModelMixin)
+          let syncData = {
+            borderWidth: [ { key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' } ],
+            borderTopWidth: [ { key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' } ],
+            borderRightWidth: [ { key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' } ],
+            borderBottomWidth: [ { key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' } ],
+            borderLeftWidth: [ { key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' } ]
+          }
+          for (let property in value) {
+            newMixins[ mixinName ].variables[ property ] = {
+              value: DesignOptions.addPixelToNumber(value[ property ])
+            }
+            if (syncData[ property ]) {
+              syncData[ property ].forEach((syncProp) => {
+                let propVal = newValue[ device ][ syncProp.value ] || false
+                newMixins[ mixinName ].variables[ syncProp.key ] = {
+                  value: DesignOptions.addPixelToNumber(propVal)
+                }
+              })
+            }
+          }
+          // devices
+          newMixins[ mixinName ].variables.device = {
+            value: device
+          }
+        }
+      }
+      // backgroundMixin
+      if (newValue[ device ] && (newValue[ device ].backgroundColor || newValue[ device ].image)) {
+        let mixinName = `backgroundColorMixin:${device}`
+        newMixins[ mixinName ] = {}
+        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundColorMixin)
+
+        if (newValue[ device ].backgroundColor) {
+          newMixins[ mixinName ].variables.backgroundColor = {
+            value: newValue[ device ].backgroundColor
+          }
+        }
+
+        if (newValue[ device ].image && newValue[ device ].image.urls && newValue[ device ].image.urls.length) {
+          newMixins[ mixinName ].variables.backgroundImage = {
+            value: newValue[ device ].image.urls[ 0 ].full
+          }
+        }
+
+        if (newValue[ device ].backgroundStyle) {
+          let sizeStyles = [ 'cover', 'contain', 'full-width', 'full-height' ]
+          let sizeState = sizeStyles.indexOf(newValue[ device ].backgroundStyle) >= 0
+
+          if (sizeState) {
+            newMixins[ mixinName ].variables.backgroundRepeat = {
+              value: false
+            }
+            switch (newValue[ device ].backgroundStyle) {
+              case 'full-width':
+                newMixins[ mixinName ].variables.backgroundSize = {
+                  value: '100% auto'
+                }
+                break
+              case 'full-height':
+                newMixins[ mixinName ].variables.backgroundSize = {
+                  value: 'auto 100%'
+                }
+                break
+              default:
+                newMixins[ mixinName ].variables.backgroundRepeat = {
+                  value: 'no-repeat'
+                }
+                newMixins[ mixinName ].variables.backgroundSize = {
+                  value: newValue[ device ].backgroundStyle
+                }
+                newMixins[ mixinName ].variables.backgroundPosition = {
+                  value: DesignOptions.defaultState.backgroundPosition
+                }
+            }
+          } else {
+            newMixins[ mixinName ].variables.backgroundRepeat = {
+              value: newValue[ device ].backgroundStyle
+            }
+            newMixins[ mixinName ].variables.backgroundSize = {
+              value: false
+            }
+          }
+        }
+
+        if (newValue[ device ].backgroundPosition) {
+          newMixins[ mixinName ].variables.backgroundPosition = {
+            value: newValue[ device ].backgroundPosition
+          }
+        }
+
+        newMixins[ mixinName ].variables.device = {
+          value: device
+        }
+      }
+    }
+    return device
   }
 
   /**
@@ -531,7 +536,7 @@ export default class DesignOptions extends Attribute {
    * @returns {XML}
    */
   devicesChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
+    let newState = lodash.defaultsDeep({}, { [ fieldKey ]: value }, this.state)
 
     if (newState.currentDevice === 'all') {
       // clone data from xl in to all except display property

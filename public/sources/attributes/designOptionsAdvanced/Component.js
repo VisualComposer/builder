@@ -287,7 +287,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     return newState
   }
 
-  addPixelToNumber (number) {
+  static addPixelToNumber (number) {
     return /^\d+$/.test(number) ? `${number}px` : number
   }
 
@@ -537,95 +537,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             }
           }
         }
-        // mixins
-        if (newValue[ device ].hasOwnProperty('display')) {
-          newMixins[ `visibilityMixin:${device}` ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.visibilityMixin)
-          newMixins[ `visibilityMixin:${device}` ].variables = {
-            device: {
-              value: device
-            }
-          }
-        } else {
-          // boxModelMixin
-          if (newValue[ device ].hasOwnProperty('boxModel')) {
-            let value = newValue[ device ].boxModel
-            if (!lodash.isEmpty(value)) {
-              // update mixin
-              let mixinName = `boxModelMixin:${device}`
-              newMixins[ mixinName ] = {}
-              newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.boxModelMixin)
-              let syncData = {
-                borderWidth: [ { key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' } ],
-                borderTopWidth: [ { key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' } ],
-                borderRightWidth: [ { key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' } ],
-                borderBottomWidth: [ { key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' } ],
-                borderLeftWidth: [ { key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' } ]
-              }
-              for (let property in value) {
-                newMixins[ mixinName ].variables[ property ] = {
-                  value: this.addPixelToNumber(value[ property ])
-                }
-                if (syncData[ property ]) {
-                  syncData[ property ].forEach((syncProp) => {
-                    let propVal = newValue[ device ][ syncProp.value ] || false
-                    newMixins[ mixinName ].variables[ syncProp.key ] = {
-                      value: this.addPixelToNumber(propVal)
-                    }
-                  })
-                }
-              }
-              // devices
-              newMixins[ mixinName ].variables.device = {
-                value: device
-              }
-            }
-          }
-          // backgroundMixin
-          if (newValue[ device ] && newValue[ device ].backgroundColor) {
-            let mixinName = `backgroundColorMixin:${device}`
-            newMixins[ mixinName ] = {}
-            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.backgroundColorMixin)
-            newMixins[ mixinName ].variables.backgroundColor = {
-              value: newValue[ device ].backgroundColor
-            }
-            newMixins[ mixinName ].variables.device = {
-              value: device
-            }
-          }
-          // gradientMixin
-          if (newValue[ device ] && newValue[ device ].gradientOverlay) {
-            let mixinName = `gradientMixin:${device}`
-            newMixins[ mixinName ] = {}
-            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
-            if (newValue[ device ].gradientStartColor) {
-              newMixins[ mixinName ].variables.startColor = {
-                value: newValue[ device ].gradientStartColor
-              }
-            }
-            if (newValue[ device ].gradientEndColor) {
-              newMixins[ mixinName ].variables.endColor = {
-                value: newValue[ device ].gradientEndColor
-              }
-            }
-            newMixins[ mixinName ].variables.angle = {
-              value: newValue[ device ].gradientAngle || 0
-            }
-            newMixins[ mixinName ].variables.device = {
-              value: device
-            }
-          }
-
-          // dividerMixin
-          if (newValue[ device ] && newValue[ device ].divider && (newValue[ device ].dividerBackgroundType === 'image' || newValue[ device ].dividerBackgroundType === 'videoEmbed')) {
-            let mixinName = `dividerMixin:${device}`
-            newMixins[ mixinName ] = {}
-            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
-
-            newMixins[ mixinName ].variables.device = {
-              value: device
-            }
-          }
-        }
+        device = DesignOptionsAdvanced.getMixins(newValue, device, newMixins)
 
         // remove device from list if it's empty
         if (!Object.keys(newValue[ device ]).length) {
@@ -636,6 +548,99 @@ export default class DesignOptionsAdvanced extends Attribute {
 
     this.setFieldValue(newValue, newMixins, fieldKey)
     this.setState(newState)
+  }
+
+  static getMixins (newValue, device, newMixins) {
+    // mixins
+    if (newValue[ device ].hasOwnProperty('display')) {
+      newMixins[ `visibilityMixin:${device}` ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.visibilityMixin)
+      newMixins[ `visibilityMixin:${device}` ].variables = {
+        device: {
+          value: device
+        }
+      }
+    } else {
+      // boxModelMixin
+      if (newValue[ device ].hasOwnProperty('boxModel')) {
+        let value = newValue[ device ].boxModel
+        if (!lodash.isEmpty(value)) {
+          // update mixin
+          let mixinName = `boxModelMixin:${device}`
+          newMixins[ mixinName ] = {}
+          newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.boxModelMixin)
+          let syncData = {
+            borderWidth: [ { key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' } ],
+            borderTopWidth: [ { key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' } ],
+            borderRightWidth: [ { key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' } ],
+            borderBottomWidth: [ { key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' } ],
+            borderLeftWidth: [ { key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' } ]
+          }
+          for (let property in value) {
+            newMixins[ mixinName ].variables[ property ] = {
+              value: this.addPixelToNumber(value[ property ])
+            }
+            if (syncData[ property ]) {
+              syncData[ property ].forEach((syncProp) => {
+                let propVal = newValue[ device ][ syncProp.value ] || false
+                newMixins[ mixinName ].variables[ syncProp.key ] = {
+                  value: DesignOptionsAdvanced.addPixelToNumber(propVal)
+                }
+              })
+            }
+          }
+          // devices
+          newMixins[ mixinName ].variables.device = {
+            value: device
+          }
+        }
+      }
+      // backgroundMixin
+      if (newValue[ device ] && newValue[ device ].backgroundColor) {
+        let mixinName = `backgroundColorMixin:${device}`
+        newMixins[ mixinName ] = {}
+        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.backgroundColorMixin)
+        newMixins[ mixinName ].variables.backgroundColor = {
+          value: newValue[ device ].backgroundColor
+        }
+        newMixins[ mixinName ].variables.device = {
+          value: device
+        }
+      }
+      // gradientMixin
+      if (newValue[ device ] && newValue[ device ].gradientOverlay) {
+        let mixinName = `gradientMixin:${device}`
+        newMixins[ mixinName ] = {}
+        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
+        if (newValue[ device ].gradientStartColor) {
+          newMixins[ mixinName ].variables.startColor = {
+            value: newValue[ device ].gradientStartColor
+          }
+        }
+        if (newValue[ device ].gradientEndColor) {
+          newMixins[ mixinName ].variables.endColor = {
+            value: newValue[ device ].gradientEndColor
+          }
+        }
+        newMixins[ mixinName ].variables.angle = {
+          value: newValue[ device ].gradientAngle || 0
+        }
+        newMixins[ mixinName ].variables.device = {
+          value: device
+        }
+      }
+
+      // dividerMixin
+      if (newValue[ device ] && newValue[ device ].divider && (newValue[ device ].dividerBackgroundType === 'image' || newValue[ device ].dividerBackgroundType === 'videoEmbed')) {
+        let mixinName = `dividerMixin:${device}`
+        newMixins[ mixinName ] = {}
+        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
+
+        newMixins[ mixinName ].variables.device = {
+          value: device
+        }
+      }
+    }
+    return device
   }
 
   /**
@@ -720,7 +725,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   devicesChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
+    let newState = lodash.defaultsDeep({}, { [ fieldKey ]: value }, this.state)
 
     if (newState.currentDevice === 'all') {
       // clone data from xl in to all except display property
@@ -992,9 +997,9 @@ export default class DesignOptionsAdvanced extends Attribute {
 
       for (let style in BoxModel.defaultState) {
         if (computedStyles && computedStyles.getPropertyValue) {
-          let styleValue = computedStyles.getPropertyValue(style.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)) // Transform camelCase to hyphen-case
+          let styleValue = computedStyles.getPropertyValue(style.replace(/([A-Z])/g, (g) => `-${g[ 0 ].toLowerCase()}`)) // Transform camelCase to hyphen-case
           if (styleValue && styleValue !== '0px' && styleValue.split(' ').length === 1) {
-            styles[style] = styleValue
+            styles[ style ] = styleValue
           }
         }
       }
