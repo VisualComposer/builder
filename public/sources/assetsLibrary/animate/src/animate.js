@@ -1,9 +1,9 @@
-window.vcv.on('ready', (action, id, options) => {
-  let enableAnimate = (id, action, innerKey) => {
+window.vcv.on('ready', function (action, id, options) {
+  let enableAnimate = function (id, action, innerKey) {
     let selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'
     let elements = document.querySelectorAll(selector)
     elements = [].slice.call(elements)
-    elements.forEach((element) => {
+    elements.forEach(function (element) {
       if (id) {
         if (!innerKey) {
           let containerElement = element
@@ -24,7 +24,7 @@ window.vcv.on('ready', (action, id, options) => {
             })
           }
         } else {
-          let innerSelector = `[data-vce-animate][data-vcv-animate-fieldkey="${innerKey}"]`
+          let innerSelector = '[data-vce-animate][data-vcv-animate-fieldkey="' + innerKey + '"]'
           let innerElement = element.querySelector(innerSelector)
           if (innerElement) {
             animateElement(innerElement)
@@ -36,7 +36,7 @@ window.vcv.on('ready', (action, id, options) => {
     })
   }
 
-  let animateElement = (element) => {
+  let animateElement = function (element) {
     let previousElementWaypoints = element.vcvWaypoints
     if (previousElementWaypoints) {
       previousElementWaypoints.destroy()
@@ -44,7 +44,7 @@ window.vcv.on('ready', (action, id, options) => {
     }
     let waypointObj = new window.Waypoint({
       element: element,
-      handler: (a, b, c, d, e) => {
+      handler: function (a, b, c, d, e) {
         element.setAttribute('data-vcv-o-animated', 'true')
         waypointObj.destroy()
       },
