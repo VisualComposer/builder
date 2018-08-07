@@ -110,7 +110,7 @@ module.exports = {
               }) ]
             }
           } ]
-        })
+        }, 'less-loader')
       },
       {
         test: /\.less$/,

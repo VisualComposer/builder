@@ -899,11 +899,6 @@
     _.$slider.removeClass('slick-dotted');
 
     _.unslicked = true;
-
-    if(!refresh) {
-      _.$slider.trigger('destroy', [_]);
-    }
-
   };
 
   Slick.prototype.disableTransition = function(slide) {

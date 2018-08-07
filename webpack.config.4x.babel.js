@@ -193,7 +193,7 @@ module.exports = {
                 browsers: [ 'ie >= 11', 'last 2 version' ]
               }) ]
             }
-          } ]
+          }, 'less-loader' ]
         })
       },
       {
