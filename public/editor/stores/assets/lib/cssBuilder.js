@@ -1,4 +1,5 @@
-import { getService, getStorage } from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
+
 const cook = getService('cook')
 const assetsStorage = getStorage('assets')
 
@@ -83,13 +84,20 @@ export default class CssBuilder {
     if (!data) {
       return
     }
+    const dataStorageState = getStorage('wordpressData').state('status').get().status
+
     this.updateStyleDomNodes(data)
-    this.addCssElementBaseByElement(data)
-    this.addElementEditorFiles(data)
-    this.globalAssetsStorageService.addElement(data.id)
-    this.addElementGlobalAttributesCssMixins(data) // designOptions!
-    this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
-    this.addElementFiles(data, force)
+    if (dataStorageState === 'loadSuccess' && env('FT_INITIAL_CSS_LOAD')) {
+      this.addElementEditorFiles(data)
+    } else {
+      this.addCssElementBaseByElement(data)
+      this.addElementEditorFiles(data)
+      this.globalAssetsStorageService.addElement(data.id)
+      this.addElementGlobalAttributesCssMixins(data) // designOptions!
+      this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
+      this.addElementFiles(data, force)
+    }
+
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
       this.window.vcv.trigger('ready', 'add', data.id)
@@ -100,13 +108,19 @@ export default class CssBuilder {
     if (!data) {
       return
     }
+    const dataStorageState = getStorage('wordpressData').state('status').get().status
+
     this.updateStyleDomNodes(data)
-    this.addCssElementBaseByElement(data)
-    this.addElementEditorFiles(data)
-    this.globalAssetsStorageService.updateElement(data.id)
-    this.addElementGlobalAttributesCssMixins(data) // designOptions!
-    this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
-    this.addElementFiles(data)
+    if (dataStorageState === 'loadSuccess' && env('FT_INITIAL_CSS_LOAD')) {
+      this.addElementEditorFiles(data)
+    } else {
+      this.addCssElementBaseByElement(data)
+      this.addElementEditorFiles(data)
+      this.globalAssetsStorageService.updateElement(data.id)
+      this.addElementGlobalAttributesCssMixins(data) // designOptions!
+      this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
+      this.addElementFiles(data)
+    }
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
       this.window.vcv.trigger('ready', 'update', data.id, options)

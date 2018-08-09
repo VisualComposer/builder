@@ -67,7 +67,7 @@ class EnqueueController extends Container implements Module
      */
     protected function enqueueSourceAssets(Str $strHelper, Frontend $frontendHelper, Assets $assetsHelper)
     {
-        if ($frontendHelper->isPageEditable()) {
+        if ($frontendHelper->isPageEditable() && !vcvenv('VCV_FT_INITIAL_CSS_LOAD')) {
             return;
         }
         if ($frontendHelper->isPreview()
@@ -112,7 +112,7 @@ class EnqueueController extends Container implements Module
         Assets $assetsHelper,
         AssetsShared $assetsSharedHelper
     ) {
-        if ($frontendHelper->isPageEditable()) {
+        if ($frontendHelper->isPageEditable() && !vcvenv('VCV_FT_INITIAL_CSS_LOAD')) {
             return;
         }
         if ($frontendHelper->isPreview()
