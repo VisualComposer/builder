@@ -70,8 +70,7 @@ class Controller extends Container implements Module
                 $postTypeHelper->get()->post_type,
                 ['vcv_templates']
             )) {
-            $stretched = true;
-            $template = 'blank' . ($stretched ? '-stretched' : '') . '-template.php';
+            $template = 'blank-stretched-template.php';
 
             return vcapp()->path('visualcomposer/resources/views/editor/templates/') . $template;
         }
