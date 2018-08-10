@@ -21,9 +21,9 @@ export default class FieldDependencyManager extends React.Component {
 
   componentDidMount () {
     this.props.setFieldMount(this.props.fieldKey, {
-      ref: this.field,
+      ref: this.refs.field,
       refComponent: this,
-      refDomComponent: this.domComponent
+      refDomComponent: this.refs.domComponent
     }, 'field')
   }
 
@@ -37,8 +37,8 @@ export default class FieldDependencyManager extends React.Component {
     }, this.state.dependenciesClasses)
 
     return (
-      <div ref={ref => { this.field = ref }} className={classes}>
-        <Field ref={ref => { this.domComponent = ref }} {...this.props} />
+      <div ref='field' className={classes}>
+        <Field ref='domComponent' {...this.props} />
       </div>
     )
   }
