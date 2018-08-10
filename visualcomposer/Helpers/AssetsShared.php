@@ -179,7 +179,6 @@ class AssetsShared extends Container implements Helper
         return $optionsHelper->set('assetsLibrary', $assets);
     }
 
-
     /**
      * Find new local assets path. Needed for BC
      *
@@ -252,13 +251,21 @@ class AssetsShared extends Container implements Helper
             'elements/logoSlider/logoSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
             'elements/postsSlider/postsSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
             'elements/simpleImageSlider/simpleImageSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
-            'elements/pageableContainer/pageableContainer/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
+
+            'elements/sandwichMenu/sandwichMenu/public/dist/sandwichMenu.min.js' => [
+                'sharedLibraries/menuToggle/dist/menuToggle.bundle.js', // shared-library
+                'elements/sandwichMenu/sandwichMenu/public/dist/sandwichMenu.min.js' // initializator
+            ],
         ];
 
+        $output = $assetsPath;
+
         if (isset($assets[ $assetsPath ])) {
-            return $assets[ $assetsPath ];
+            $output = $assets[ $assetsPath ];
         }
 
-        return $assetsPath;
+        $output = vcfilter('vcv:helpers:assetsShared:findLocalAssetsPath', $output, [$assetsPath]);
+
+        return $output;
     }
 }

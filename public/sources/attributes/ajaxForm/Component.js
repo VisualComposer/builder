@@ -1,6 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
-import vcCake from 'vc-cake'
+import { getService } from 'vc-cake'
 import serialize from 'form-serialize'
 
 export default class AjaxForm extends Attribute {
@@ -71,7 +71,7 @@ export default class AjaxForm extends Attribute {
   }
 
   requestToServer () {
-    let ajax = vcCake.getService('utils').ajax
+    let ajax = getService('utils').ajax
 
     if (this.serverRequest) {
       this.serverRequest.abort()
@@ -88,7 +88,7 @@ export default class AjaxForm extends Attribute {
     this.serverRequest = ajax({
       'vcv-action': `attribute:ajaxForm:render:adminNonce`,
       'vcv-form-action': action,
-      'vcv-form-element': this.props.element.toJS(),
+      'vcv-form-element': getService('document').get(this.props.element.get('id')),
       'vcv-form-value': value,
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID

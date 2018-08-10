@@ -107,7 +107,7 @@ export default class Field extends React.Component {
           updater={this.updateElement}
           element={element.cook()}
           fieldType={fieldType}
-          ref={ref => { this.domComponent = ref }}
+          ref='domComponent'
         />
         {description}
       </div>
