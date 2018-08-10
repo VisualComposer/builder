@@ -3,6 +3,24 @@ const assets = getStorage('assetsUpdate')
 const storageState = assets.state('jsLibs')
 const cook = getService('cook')
 
+const getLibsFromAttributeSettings = (settingsAttributes, cookElement, attrKey) => {
+  let assetLibraries = []
+  let elementSettingsAttributes = Object.keys(settingsAttributes)
+  elementSettingsAttributes.forEach((settingsKey) => {
+    let attributeSettings = cookElement.settings(settingsKey, settingsAttributes)
+    if (attributeSettings.type.getAttributeLibs) {
+      let attributeValue = cookElement.get(attrKey, true)
+      Object.keys(attributeValue.value).forEach((value) => {
+        let attributeLibs = attributeSettings.type.getAttributeLibs(attributeValue.value[ value ][settingsKey])
+        if (attributeLibs && attributeLibs.length) {
+          assetLibraries.push(...attributeLibs)
+        }
+      })
+    }
+  })
+  return assetLibraries
+}
+
 const getElementLibNames = (id, element, callback) => {
   let cookElement = cook.get(element)
   let data = {
@@ -25,6 +43,11 @@ const getElementLibNames = (id, element, callback) => {
       let innerElement = cook.get(value)
       let innerElementValue = innerElement.toJS()
       callback(innerElementValue.id, innerElementValue)
+    }
+    if (attributeSettings.settings.type === 'paramsGroup') {
+      let attributeSettings = cookElement.settings(attrKey).settings.options.settings
+      const settingsLibs = getLibsFromAttributeSettings(attributeSettings, cookElement, attrKey)
+      data.assetLibraries = data.assetLibraries.concat(settingsLibs)
     }
   })
   return data
