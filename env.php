@@ -258,3 +258,11 @@ if (!defined('VCV_TF_BLANK_PAGE_BOXED')) {
     );
 }
 
+
+if (!defined('VCV_FT_INITIAL_CSS_LOAD')) {
+    define(
+        'VCV_FT_INITIAL_CSS_LOAD',
+        false
+    );
+}
+
