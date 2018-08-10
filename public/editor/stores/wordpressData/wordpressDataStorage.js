@@ -141,17 +141,27 @@ addStorage('wordpressData', (storage) => {
       let iframe = document.getElementById('vcv-editor-iframe')
       if (iframe) {
         titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
+        if (!titles.length) {
+          titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1.entry-title'))
+        }
+        if (!titles.length) {
+          titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1[class*="title"'))
+        }
         setTitle()
       }
     }
   }
 
   function setTitle () {
-    if (!titles) {
+    if (!titles.length) {
       return
     }
     const current = settingsStorage.state('pageTitle').get()
+    if (typeof current === 'undefined') {
+      return
+    }
     const disabled = settingsStorage.state('pageTitleDisabled').get()
+
     titles.forEach(title => {
       title.innerText = current
       title.style.display = disabled ? 'none' : ''
