@@ -92,8 +92,10 @@ class PostType extends Container implements Module
             }
 
             $role = get_role($role);
-            foreach ($capabilities as $cap) {
-                $role->add_cap($cap);
+            if ($role) {
+                foreach ($capabilities as $cap) {
+                    $role->add_cap($cap);
+                }
             }
         }
     }
