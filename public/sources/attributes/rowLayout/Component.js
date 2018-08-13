@@ -210,9 +210,15 @@ export default class Layout extends Attribute {
       Layout.devices.forEach((device) => {
         rowChildren.forEach((element) => {
           if (!deviceLayoutData.hasOwnProperty(device)) {
-            deviceLayoutData[device] = []
+            deviceLayoutData[ device ] = []
           }
-          deviceLayoutData[device].push(element.size[device])
+          if (typeof element.size === 'string') {
+            deviceLayoutData[ device ].push(element.size)
+          } else if (element.size.hasOwnProperty && element.size.hasOwnProperty(device)) {
+            deviceLayoutData[ device ].push(element.size[ device ])
+          } else {
+            deviceLayoutData[ device ].push('auto')
+          }
         })
       })
     }
