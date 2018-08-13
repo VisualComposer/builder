@@ -55,7 +55,7 @@
     "jest-cli": "23.4.2",
     "jquery.caret": "git://github.com/ichord/caret.js.git#341fb20b6126220192b2cd226836cd5d614b3e09",
     "less-loader": "4.1.0",
-    "npm": "^6.2.0",
+    "npm": "6.3.0",
     "postcss-functions": "git://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1",
     "postcss-prefix-url": "git://github.com/wpbakery/postcss-prefix-url.git#60f177340ab35fce12cf4172752bd484ece3c7df",
     "qunitjs": "2.4.1",
