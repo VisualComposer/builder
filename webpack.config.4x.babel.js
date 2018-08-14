@@ -112,7 +112,6 @@ module.exports = {
           'cook',
           'sharedAssetsLibrary',
           'elementAssetsLibrary',
-          'time-machine',
           'actionsManager',
           'rulesManager',
           'api',

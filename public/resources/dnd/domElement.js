@@ -7,7 +7,8 @@ export default class DOMElement {
       containerFor: null,
       childFor: null,
       parent: null,
-      handler: null
+      handler: null,
+      datasetKey: 'vcvDndDomElement'
     })
     Object.defineProperties(this, {
       /**
@@ -82,6 +83,7 @@ export default class DOMElement {
     this.node.setAttribute('data-vcv-dnd-element', this.id)
     if (this.handler) {
       this.handler.setAttribute('data-vcv-dnd-element-handler', this.id)
+      this.handler.dataset[this.options.datasetKey] = this.node.className
     } else if (!this.options.handler) {
       this.node.setAttribute('data-vcv-dnd-element-handler', this.id)
     }

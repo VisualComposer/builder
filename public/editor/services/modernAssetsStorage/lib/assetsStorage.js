@@ -176,11 +176,11 @@ export default class {
     for (let key in elementSettings.settings) {
       // If found element than get actual tags form element
       if (elementSettings.settings[ key ].type === 'element') {
-        if (lodash.isEmpty(data)) {
+        if (lodash.isEmpty(data) || lodash.isEmpty(data[ key ])) {
           // get tag from default value
           tags = this.getElementTagsByTagName(elementSettings.settings[ key ].value.tag, tags)
         } else {
-          // get tad from data
+          // get tag from data
           tags = this.getElementTagsByTagName(data[ key ].tag, tags, data[ key ])
         }
       } else if (elementSettings.settings[ key ].type === 'paramsGroup') {
