@@ -106,6 +106,32 @@ export default class Element extends React.Component {
     return returnData
   }
 
+  visualizeNestedAttributes (options) {
+    const returnValue = {}
+    returnValue.value = []
+    const { element, attrKey, attrSettings, allowInline, id } = options
+    const settings = attrSettings.settings.options.settings
+    const attrValue = element.get(attrKey).value
+    attrValue.forEach((value, i) => {
+      returnValue.value[ i ] = {}
+      Object.keys(value).forEach((propKey) => {
+        if (settings[ propKey ] && settings[ propKey ].options && settings[ propKey ].options.inline) {
+          returnValue.value[ i ][ propKey ] =
+            <ContentEditableComponent id={id} field={attrKey} paramIndex={i} paramField={propKey} fieldType={settings[ propKey ].type} api={this.props.api}
+              options={{
+                ...attrSettings.settings.options,
+                allowInline
+              }}>
+              {value[ propKey ] || ''}
+            </ContentEditableComponent>
+        } else {
+          returnValue.value[ i ][ propKey ] = value[ propKey ]
+        }
+      })
+    })
+    return returnValue
+  }
+
   visualizeAttributes (element) {
     let layoutAtts = {}
     let atts = element.getAll(false)
@@ -125,6 +151,14 @@ export default class Element extends React.Component {
             }}>
             {atts[ key ] || ''}
           </ContentEditableComponent>
+      } else if (attrSettings.settings.type === 'paramsGroup') {
+        const options = {}
+        options.element = element
+        options.attrKey = key
+        options.attrSettings = attrSettings
+        options.allowInline = allowInline
+        options.id = atts.id
+        layoutAtts[ key ] = this.visualizeNestedAttributes(options)
       } else {
         layoutAtts[ key ] = atts[ key ]
       }
