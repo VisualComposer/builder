@@ -51,8 +51,8 @@ SmartLine.prototype.setStyle = function (point, width, height, frame) {
   this.el.setAttribute('style', _.reduce({
     width: width,
     height: height,
-    top: point.y,
-    left: point.x
+    top: point.y - point.top,
+    left: point.x - point.left
   }, function (result, value, key) {
     return result + key + ':' + value + 'px;'
   }, ''))
@@ -75,8 +75,6 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let frame = false
   let isVerticalLine
   settings = _.defaults(settings || {}, {
-    attribute: false,
-    afterLastContainerElement: false,
     allowAppend: true,
     allowBeforeAfter: true
   })
@@ -88,10 +86,8 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     position = 'append'
   } else if (settings.allowBeforeAfter === true && Math.abs(positionX) / rect.width > Math.abs(positionY) / rect.height) {
     position = positionX > 0 ? 'after' : 'before'
-  } else if (settings.allowBeforeAfter === true || settings.attribute) {
+  } else if (settings.allowBeforeAfter === true) {
     position = positionY > 0 ? 'after' : 'before'
-  } else if (settings.afterLastContainerElement) {
-    position = 'after'
   }
 
   if (position === 'append') {
@@ -152,7 +148,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   if (position && !this.isSameElementPosition(linePoint, this.getVcvIdFromElement(element))) {
     this.clearStyle()
     this.setPoint(linePoint.x, linePoint.y)
-    this.setStyle(linePoint, lineWidth, lineHeight, frame)
+    this.setStyle({...point, ...linePoint}, lineWidth, lineHeight, frame)
     window.setTimeout(function () {
       this.el && this.el.classList.add('vcv-is-shown')
       if (isVerticalLine) {
