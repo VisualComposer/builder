@@ -104,7 +104,6 @@ module.exports = Object.assign({}, config, {
           'cook',
           'sharedAssetsLibrary',
           'elementAssetsLibrary',
-          'time-machine',
           'actionsManager',
           'rulesManager',
           'api',
