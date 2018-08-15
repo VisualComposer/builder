@@ -22,6 +22,11 @@ export default class ContentEditableComponent extends React.Component {
     api: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
+    paramField: PropTypes.string,
+    paramIndex: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]),
     fieldType: PropTypes.string.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -164,6 +169,9 @@ export default class ContentEditableComponent extends React.Component {
       const element = cook.get(data)
       let contentToSave = this.props.options && this.props.options.inlineMode === 'text'
         ? striptags(this.state.realContent) : this.state.realContent
+      if (this.props.paramField && this.props.paramIndex >= 0) {
+        contentToSave = this.getParamsGroupContent(element, contentToSave)
+      }
       element.set(this.props.field, contentToSave)
       elementsStorage.trigger('update', element.get('id'), element.toJS())
       const workspaceStorageState = workspaceStorage.state('settings').get()
@@ -176,6 +184,13 @@ export default class ContentEditableComponent extends React.Component {
     if (this.state.contentEditable) {
       this.drawOverlay()
     }
+  }
+
+  getParamsGroupContent (element, content) {
+    const attrValue = element.get(this.props.field)
+    const newValue = Object.assign(attrValue)
+    newValue.value[this.props.paramIndex][this.props.paramField] = content
+    return newValue
   }
 
   drawOverlay () {
