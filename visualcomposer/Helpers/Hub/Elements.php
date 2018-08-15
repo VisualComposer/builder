@@ -17,6 +17,7 @@ class Elements implements Helper
     public function addElement($key, $data)
     {
         if (!array_key_exists($key, $this->thirdPartyElements)) {
+            $data['thirdParty'] = true;
             $this->thirdPartyElements[ $key ] = $data;
 
             return true;

@@ -22,6 +22,7 @@ export default class Categories extends React.Component {
   static allElements = []
   static allCategories = []
   static allElementsTags = []
+  static hubElements = []
   static addedId = null
   static parentElementTag = null
 
@@ -46,7 +47,7 @@ export default class Categories extends React.Component {
     this.openEditForm = this.openEditForm.bind(this)
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
-
+    Categories.hubElements = hubElementsStorage.state('elements').get()
     hubElementsStorage.state('elements').onChange(this.reset)
   }
 
@@ -54,6 +55,7 @@ export default class Categories extends React.Component {
     Categories.allCategories = []
     Categories.allElements = []
     Categories.allElementsTags = []
+    Categories.hubElements = hubElementsStorage.state('elements').get()
 
     vcCake.getService('hubCategories').getSortedElements.cache.clear()
   }
@@ -196,16 +198,18 @@ export default class Categories extends React.Component {
 
   getElementControl (elementData) {
     const element = cook.get(elementData)
+    let tag = element.get('tag')
+
     return <ElementControl
-      key={'vcv-element-control-' + element.get('tag')}
+      key={'vcv-element-control-' + tag}
       element={elementData}
-      tag={element.get('tag')}
+      hubElement={Categories.hubElements[ tag ]}
+      tag={tag}
       workspace={workspaceStorage.state('settings').get() || {}}
       name={element.get('name')}
       addElement={this.addElement}
       setFocusedElement={this.setFocusedElement}
       applyFirstElement={this.applyFirstElement}
-
     />
   }
 
