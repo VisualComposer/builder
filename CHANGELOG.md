@@ -1,12 +1,3 @@
-## [Unreleased]
-<details>
-  <summary>
-    Changes that are not yet released.
-    Click to see more.
-  </summary>
-
-</details>
-
 ## ver 2.10 - 09.08.2018
 * Update: Page layout options updated to choose between boxed and stretched for all layouts
 * Fix: Theme editor width works properly
