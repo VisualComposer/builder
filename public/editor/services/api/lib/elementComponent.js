@@ -127,7 +127,7 @@ export default class ElementComponent extends Component {
     let escapedString = escape(tagString)
     script.text = `try{ 
       eval(unescape('${escapedString}'))
-    } catch(e) {}`
+    } catch(e) {console.warn(e);}`
     // TODO: add catched error message to console..
     helper.appendChild(script)
     elementWrapper.appendChild(helper)

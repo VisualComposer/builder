@@ -5,6 +5,8 @@ import base64 from 'base-64'
 const API = {
   ajaxRequests: [],
   ajaxCall: false,
+  base64encode: base64.encode,
+  base64decode: base64.decode,
   createKey: () => {
     let uuid = ''
 
