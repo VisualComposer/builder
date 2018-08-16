@@ -387,7 +387,7 @@ export default class ElementControl extends React.Component {
 
       previewBox = (
         <figure className={previewClasses} style={previewStyle}>
-          {vcCake.env('FT_THIRD_PARTY_TAGS') && this.props.hubElement.thirdParty ? <span style={{ padding: '5px', display: 'inline-block', background: 'red' }}>{addOnTitle}</span> : null}
+          {vcCake.env('FT_THIRD_PARTY_TAGS') && this.props.hubElement.thirdParty ? <span className='vcv-ui-item-preview-addon-tag'>{addOnTitle}</span> : null}
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
