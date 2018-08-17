@@ -191,14 +191,17 @@ export default class Layout extends Attribute {
 
     // Get layout for 'all'
     rowChildren.forEach((element) => {
-      if (element.size['all']) {
+      if (!element) {
+        return
+      }
+      if (element.size && element.size['all']) {
         if (!deviceLayoutData.hasOwnProperty('all')) {
           deviceLayoutData.all = []
         }
         deviceLayoutData['all'].push(element.size['all'])
       }
 
-      if (getDefault && element.size['defaultSize']) {
+      if (getDefault && element.size && element.size['defaultSize']) {
         if (!deviceLayoutData.hasOwnProperty('defaultSize')) {
           deviceLayoutData.defaultSize = []
         }
@@ -209,12 +212,15 @@ export default class Layout extends Attribute {
     if (!deviceLayoutData.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
       Layout.devices.forEach((device) => {
         rowChildren.forEach((element) => {
+          if (!element) {
+            return
+          }
           if (!deviceLayoutData.hasOwnProperty(device)) {
             deviceLayoutData[ device ] = []
           }
-          if (typeof element.size === 'string') {
+          if (element.size && typeof element.size === 'string') {
             deviceLayoutData[ device ].push(element.size)
-          } else if (element.size.hasOwnProperty && element.size.hasOwnProperty(device)) {
+          } else if (element.size && element.size.hasOwnProperty && element.size.hasOwnProperty(device)) {
             deviceLayoutData[ device ].push(element.size[ device ])
           } else {
             deviceLayoutData[ device ].push('auto')
