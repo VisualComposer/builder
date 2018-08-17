@@ -188,7 +188,7 @@ export default class ContentEditableComponent extends React.Component {
 
   getParamsGroupContent (element, content) {
     const attrValue = element.get(this.props.field)
-    const newValue = Object.assign(attrValue)
+    const newValue = lodash.defaultsDeep({}, attrValue)
     newValue.value[this.props.paramIndex][this.props.paramField] = content
     return newValue
   }
