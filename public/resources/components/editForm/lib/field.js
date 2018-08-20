@@ -67,6 +67,7 @@ export default class Field extends React.Component {
     }
     let AttributeComponent = type.component
     if (!AttributeComponent) {
+      env('debug') && console.warn(`No component for attribute ${fieldKey}`)
       return null
     }
     if (!settings) {

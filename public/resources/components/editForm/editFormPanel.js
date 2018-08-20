@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import lodash from 'lodash'
 import ActivitiesManager from './lib/activitiesManager'
 import EditForm from './lib/editForm'
 
@@ -9,22 +8,6 @@ export default class EditFormPanel extends ActivitiesManager {
     element: PropTypes.object.isRequired,
     activeTabId: PropTypes.string,
     options: PropTypes.object
-  }
-
-  shouldComponentUpdate (nextProps, nextState) {
-    let isEqual = lodash.isEqual(this.props, nextProps)
-    let isEqualState = lodash.isEqual(this.state, nextState)
-    return !(isEqual && isEqualState)
-  }
-
-  getActiveTabId () {
-    let formWrapper = this.formWrapper
-    return formWrapper.allTabs[ formWrapper.state.activeTabIndex ].data.id
-  }
-
-  setActiveTabId (tabId) {
-    let formWrapper = this.formWrapper
-    formWrapper.onChangeActiveTab(formWrapper.getActiveTabIndex(tabId))
   }
 
   render () {
