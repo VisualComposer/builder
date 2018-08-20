@@ -32,7 +32,7 @@ export default class ActivitiesManager extends React.Component {
     this.mountStack = {}
     this.initialStack = {}
     let element = elementAccessPoint.get(nextProps.element.id)
-    this.setState({ element })
+    // this.setState({ element }) // Causes re-rendering loop.
     this.listeners = this.initListeners(element.cook(), nextProps)
   }
 
