@@ -38,6 +38,7 @@ describe('Test elementsStorage', () => {
       textBlock.set('output', testText)
       const data = textBlock.toJS()
       elementsStorage.trigger('update', id, data)
+      jest.runAllTimers()
       const element = documentManager.get(id)
       expect(element.output).toBe(testText)
     })
