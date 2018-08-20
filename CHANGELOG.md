@@ -128,7 +128,7 @@
 * Fix: Custom link selector search returns all results without number limits
 * Fix: Theme template dropdown display chosen template in page layout settings
 * Fix: Environment variable fixed for PHP version 5.2
-* Fix: \<p> tag is not stripped out when saving page in WordPress admin editor
+* Fix: &lt;p&gt; tag is not stripped out when saving page in WordPress admin editor
 * Fix: Single Image resize mechanism accept custom values
 * Fix: Proper activation link generated for custom PHP versions
 * Fix: Header, Footer, and Sidebar templates are not displayed in page search results
