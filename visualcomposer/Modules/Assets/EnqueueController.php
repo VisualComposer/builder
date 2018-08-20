@@ -81,7 +81,12 @@ class EnqueueController extends Container implements Module
         $sourceId = get_the_ID();
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
-            $version = get_post_meta($sourceId, 'vcvSourceCssFileHash', true);
+            if (vcvenv('VCV_TF_SOURCE_CSS_CHECKSUM')) {
+                $version = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
+            } else {
+                $version = get_post_meta($sourceId, 'vcvSourceCssFileHash', true);
+            }
+
             if (!preg_match('/^http/', $bundleUrl)) {
                 if (!preg_match('/assets-bundles/', $bundleUrl)) {
                     $bundleUrl = '/assets-bundles/' . $bundleUrl;

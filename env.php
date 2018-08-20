@@ -244,13 +244,6 @@ if (!defined('VCV_FT_POST_UPDATE')) {
     );
 }
 
-if (!defined('VCV_TF_OPTIMIZE_GLOBAL_CSS')) {
-    define(
-        'VCV_TF_OPTIMIZE_GLOBAL_CSS',
-        true
-    );
-}
-
 if (!defined('VCV_TF_BLANK_PAGE_BOXED')) {
     define(
         'VCV_TF_BLANK_PAGE_BOXED',
@@ -263,6 +256,13 @@ if (!defined('VCV_FT_INITIAL_CSS_LOAD')) {
     define(
         'VCV_FT_INITIAL_CSS_LOAD',
         true
+    );
+}
+
+if (!defined('VCV_TF_SOURCE_CSS_CHECKSUM')) {
+    define(
+        'VCV_TF_SOURCE_CSS_CHECKSUM',
+        false
     );
 }
 

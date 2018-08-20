@@ -50,9 +50,7 @@ class FileController extends Container implements Module
          * Migration callback to move globalElements Attribute.css into source.css file
          * @see
          */
-        if (vcvenv('VCV_TF_OPTIMIZE_GLOBAL_CSS')) {
-            $this->wpAddAction('wp_enqueue_scripts', 'checkGenerateSourceCss');
-        }
+        $this->wpAddAction('wp_enqueue_scripts', 'checkGenerateSourceCss');
     }
 
     /**
@@ -97,10 +95,6 @@ class FileController extends Container implements Module
                         $mixinsCssHash = wp_hash($element['mixinsCss']);
                         $globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
                         $globalElementsMixinsCss[ $mixinsCssHash ] = $element['mixinsCss'];
-                        if (!vcvenv('VCV_TF_OPTIMIZE_GLOBAL_CSS')) {
-                            $attributesCssHash = wp_hash($element['attributesCss']);
-                            $globalElementsAttributesCss[ $attributesCssHash ] = $element['attributesCss'];
-                        }
                     }
                 }
             }
@@ -110,13 +104,8 @@ class FileController extends Container implements Module
 
         $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
         $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
-        if (!vcvenv('VCV_TF_OPTIMIZE_GLOBAL_CSS')) {
-            $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
-            $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
-                . $globalElementsMixinsCssContent . $globalCss;
-        } else {
-            $globalElementsCss = $globalElementsBaseCssContent . $globalElementsMixinsCssContent . $globalCss;
-        }
+        $globalElementsCss = $globalElementsBaseCssContent . $globalElementsMixinsCssContent . $globalCss;
+
         // Remove previous file if possible
         $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
         $previousCssHash = $optionsHelper->get('globalElementsCssHash', '');
@@ -143,41 +132,63 @@ class FileController extends Container implements Module
      * @param $payload
      * @param \VisualComposer\Helpers\Assets $assetsHelper
      *
-     * @return bool|string URL to generated bundle.
+     * @param \VisualComposer\Helpers\File $fileHelper
      *
+     * @return bool|string URL to generated bundle.
      */
-    protected function generateSourceCssFile($response, $payload, Assets $assetsHelper)
+    protected function generateSourceCssFile($response, $payload, Assets $assetsHelper, File $fileHelper)
     {
         $sourceId = $payload['sourceId'];
         $sourceCss = get_post_meta($sourceId, 'vcvSourceCss', true);
-        if (vcvenv('VCV_TF_OPTIMIZE_GLOBAL_CSS')) {
-            $globalElementsCssData = get_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', true);
-            $globalElementsAttributesCss = [];
-            if (is_array($globalElementsCssData)) {
-                foreach ($globalElementsCssData as $element) {
-                    if ($element) {
-                        //$baseCssHash = wp_hash($element['baseCss']);
-                        //$mixinsCssHash = wp_hash($element['mixinsCss']);
-                        $attributesCssHash = wp_hash($element['attributesCss']);
-                        //$globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
-                        // $globalElementsMixinsCss[ $mixinsCssHash ] = $element['mixinsCss'];
-                        $globalElementsAttributesCss[ $attributesCssHash ] = $element['attributesCss'];
-                    }
+
+        $globalElementsCssData = get_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', true);
+        $globalElementsAttributesCss = [];
+        if (is_array($globalElementsCssData)) {
+            foreach ($globalElementsCssData as $element) {
+                if ($element) {
+                    //$baseCssHash = wp_hash($element['baseCss']);
+                    //$mixinsCssHash = wp_hash($element['mixinsCss']);
+                    $attributesCssHash = wp_hash($element['attributesCss']);
+                    //$globalElementsBaseCss[ $baseCssHash ] = $element['baseCss'];
+                    // $globalElementsMixinsCss[ $mixinsCssHash ] = $element['mixinsCss'];
+                    $globalElementsAttributesCss[ $attributesCssHash ] = $element['attributesCss'];
                 }
             }
-            $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
+        }
+        $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
+
+        if (vcvenv('VCV_TF_SOURCE_CSS_CHECKSUM')) {
+            $sourceCssContent = $globalElementsAttributesCssContent . $sourceCss;
+            $sourceChecksum = wp_hash($sourceCssContent);
+            $oldSourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
+            $sourceCssName = $sourceChecksum . '.source.css';
+
+            $bundleUrl = $assetsHelper->updateBundleFile(
+                $sourceCssContent,
+                $sourceCssName
+            );
+
+            if ($sourceChecksum !== $oldSourceChecksum) {
+                $sourcePath = $assetsHelper->getFilePath($sourceCssName);
+                if ($fileHelper->isFile($sourcePath)) {
+                    $this->call('deleteSourceAssetsFile', [$sourceId]);
+                    update_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', $sourceChecksum);
+                    update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
+                }
+            }
+        } else {
             $bundleUrl = $assetsHelper->updateBundleFile(
                 $globalElementsAttributesCssContent . $sourceCss,
                 $sourceId . '.source.css'
             );
-        } else {
-            $bundleUrl = $assetsHelper->updateBundleFile(
-                $sourceCss,
-                $sourceId . '.source.css'
-            );
         }
-        update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
-        update_post_meta($sourceId, 'vcvSourceCssFileHash', md5($sourceCss));
+
+
+        if (!vcvenv('VCV_TF_SOURCE_CSS_CHECKSUM')) {
+            update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
+            update_post_meta($sourceId, 'vcvSourceCssFileHash', md5($sourceCss));
+        }
+
         $response['sourceBundleCssFileUrl'] = $bundleUrl;
 
         return $response;
@@ -211,7 +222,13 @@ class FileController extends Container implements Module
     protected function deleteSourceAssetsFile($sourceId, Assets $assetsHelper)
     {
         $extension = $sourceId . '.source.css';
+        $sourcePath = $assetsHelper->getFilePath($extension);
         $assetsHelper->deleteAssetsBundles($extension);
+
+        $sourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
+        $extension = $sourceChecksum . '.source.css';
+        $assetsHelper->deleteAssetsBundles($extension);
+
         vcfilter('vcv:assets:file:generate', []);
 
         return true;
