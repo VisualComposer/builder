@@ -78,7 +78,7 @@ export default class ContentEditableComponent extends React.Component {
       ownerDocument: this.iframeDocument,
       elementsContainer: this.iframeDocument.body
     }
-    if (this.props.options && this.props.options.inlineMode === 'text') {
+    if (this.getInlineMode() === 'text') {
       editorSettings.toolbar = false
       editorSettings.keyboardCommands = {
         commands: [
@@ -167,7 +167,7 @@ export default class ContentEditableComponent extends React.Component {
       // Save data to map to undo/Redo
       const data = documentManager.get(this.props.id)
       const element = cook.get(data)
-      let contentToSave = this.props.options && this.props.options.inlineMode === 'text'
+      let contentToSave = this.getInlineMode() === 'text'
         ? striptags(this.state.realContent) : this.state.realContent
       if (this.props.paramField && this.props.paramIndex >= 0) {
         contentToSave = this.getParamsGroupContent(element, contentToSave)
@@ -448,6 +448,15 @@ export default class ContentEditableComponent extends React.Component {
     }
   }
 
+  getInlineMode () {
+    let inlineMode = this.props.options && this.props.options.inlineMode
+    if (this.props.paramField && this.props.paramIndex >= 0) {
+      const { paramField } = this.props
+      inlineMode = this.props.options.settings[paramField].options && this.props.options.settings[paramField].options.inlineMode
+    }
+    return inlineMode
+  }
+
   render () {
     const props = {
       className: this.props.className ? this.props.className + ' vcvhelper' : 'vcvhelper',
@@ -456,7 +465,7 @@ export default class ContentEditableComponent extends React.Component {
       onMouseMove: this.handleMouseMove,
       onMouseUp: this.handleMouseUp,
       'data-vcvs-html': this.state.realContent,
-      'data-vcv-content-editable-inline-mode': this.props.options.inlineMode || 'html'
+      'data-vcv-content-editable-inline-mode': this.getInlineMode() || 'html'
     }
     props.ref = (ref) => { this.ref = ref }
 
