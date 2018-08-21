@@ -106,19 +106,39 @@ class FileController extends Container implements Module
         $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
         $globalElementsCss = $globalElementsBaseCssContent . $globalElementsMixinsCssContent . $globalCss;
 
-        // Remove previous file if possible
-        $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
-        $previousCssHash = $optionsHelper->get('globalElementsCssHash', '');
-        if (!empty($previousCssFile) && empty($previousCssHash)) {
-            $assetsPath = $assetsHelper->getFilePath($previousCssFile);
-            if (!empty($assetsPath)) {
-                $fileHelper->getFileSystem()->delete($assetsPath);
-            }
-        }
+        if (vcvenv('VCV_TF_CSS_CHECKSUM')) {
+            $globalElementsChecksum = wp_hash($globalElementsCss);
+            $oldGlobalElementsChecksum = $optionsHelper->get('globalElementsChecksum');
 
-        $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
+            $globalElementsName = 'global-elements-' . $globalElementsChecksum . '.css';
+
+            $bundleUrl = $assetsHelper->updateBundleFile(
+                $globalElementsCss,
+                $globalElementsName
+            );
+
+            if ($globalElementsChecksum !== $oldGlobalElementsChecksum) {
+                $globalElementsPath = $assetsHelper->getFilePath($globalElementsName);
+                if ($fileHelper->isFile($globalElementsPath)) {
+                    $assetsHelper->deleteAssetsBundles('global-elements-' . $oldGlobalElementsChecksum . '.css');
+                    $optionsHelper->set('globalElementsChecksum', $globalElementsChecksum);
+
+                    //remove old global-elements.css file
+                    $globalElementsPath = $assetsHelper->getFilePath('global-elements.css');
+                    if ($fileHelper->isFile($globalElementsPath)) {
+                        $assetsHelper->deleteAssetsBundles('global-elements.css');
+                    }
+                }
+            }
+        } else {
+            $bundleUrl = $this->parseGlobalElementsCssFile(
+                $optionsHelper,
+                $assetsHelper,
+                $fileHelper,
+                $globalElementsCss
+            );
+        }
         $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
-        $optionsHelper->set('globalElementsCssHash', md5($globalElementsCss));
         $response['globalBundleCssFileUrl'] = $bundleUrl;
 
         return $response;
@@ -135,6 +155,7 @@ class FileController extends Container implements Module
      * @param \VisualComposer\Helpers\File $fileHelper
      *
      * @return bool|string URL to generated bundle.
+     * @throws \ReflectionException
      */
     protected function generateSourceCssFile($response, $payload, Assets $assetsHelper, File $fileHelper)
     {
@@ -157,7 +178,7 @@ class FileController extends Container implements Module
         }
         $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
 
-        if (vcvenv('VCV_TF_SOURCE_CSS_CHECKSUM')) {
+        if (vcvenv('VCV_TF_CSS_CHECKSUM')) {
             $sourceCssContent = $globalElementsAttributesCssContent . $sourceCss;
             $sourceChecksum = wp_hash($sourceCssContent);
             $oldSourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
@@ -183,8 +204,7 @@ class FileController extends Container implements Module
             );
         }
 
-
-        if (!vcvenv('VCV_TF_SOURCE_CSS_CHECKSUM')) {
+        if (!vcvenv('VCV_TF_CSS_CHECKSUM')) {
             update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
             update_post_meta($sourceId, 'vcvSourceCssFileHash', md5($sourceCss));
         }
@@ -222,7 +242,6 @@ class FileController extends Container implements Module
     protected function deleteSourceAssetsFile($sourceId, Assets $assetsHelper)
     {
         $extension = $sourceId . '.source.css';
-        $sourcePath = $assetsHelper->getFilePath($extension);
         $assetsHelper->deleteAssetsBundles($extension);
 
         $sourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
@@ -232,5 +251,37 @@ class FileController extends Container implements Module
         vcfilter('vcv:assets:file:generate', []);
 
         return true;
+    }
+
+    /**
+     * @deprecated 2.10
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
+     * @param \VisualComposer\Helpers\File $fileHelper
+     * @param $globalElementsCss
+     *
+     * @return bool|string
+     */
+    protected function parseGlobalElementsCssFile(
+        Options $optionsHelper,
+        Assets $assetsHelper,
+        File $fileHelper,
+        $globalElementsCss
+    ) {
+        // Remove previous file if possible
+        $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
+        $previousCssHash = $optionsHelper->get('globalElementsCssHash', '');
+        if (!empty($previousCssFile) && empty($previousCssHash)) {
+            $assetsPath = $assetsHelper->getFilePath($previousCssFile);
+            if (!empty($assetsPath)) {
+                $fileHelper->getFileSystem()->delete($assetsPath);
+            }
+        }
+
+        $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
+        $optionsHelper->set('globalElementsCssHash', md5($globalElementsCss));
+
+        return $bundleUrl;
     }
 }
