@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
@@ -35,8 +36,9 @@ class VendorBundleController extends Container implements Module
         $this->wpAddAction('admin_enqueue_scripts', 'enqueueJquery');
     }
 
-    protected function registerVendorScripts(Url $urlHelper, Assets $assetsHelper)
+    protected function registerVendorScripts(Url $urlHelper, Assets $assetsHelper, Options $optionsHelper)
     {
+        $editorVersion = $optionsHelper->get('hubAction:editors', '0');
         wp_register_script(
             'vcv:assets:vendor:script',
             vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
@@ -47,7 +49,7 @@ class VendorBundleController extends Container implements Module
             [
                 'jquery',
             ],
-            VCV_VERSION,
+            $editorVersion,
             true
         );
         wp_register_script(
@@ -60,7 +62,7 @@ class VendorBundleController extends Container implements Module
             [
                // 'vcv:assets:vendor:script',
             ],
-            VCV_VERSION,
+            $editorVersion,
             true
         );
         wp_register_style(
@@ -71,7 +73,7 @@ class VendorBundleController extends Container implements Module
                 :
                 $urlHelper->to('public/dist/front.bundle.css'),
             [],
-            VCV_VERSION
+            $editorVersion
         );
     }
 
