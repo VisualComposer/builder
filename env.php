@@ -262,7 +262,7 @@ if (!defined('VCV_FT_INITIAL_CSS_LOAD')) {
 if (!defined('VCV_TF_CSS_CHECKSUM')) {
     define(
         'VCV_TF_CSS_CHECKSUM',
-        false
+        true
     );
 }
 
