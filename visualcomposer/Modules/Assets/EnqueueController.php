@@ -45,7 +45,7 @@ class EnqueueController extends Container implements Module
     ) {
         $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
         if ($bundleUrl) {
-            $version = $optionsHelper->get('globalElementsCssHash', VCV_VERSION);
+            $version = $optionsHelper->get('globalElementsChecksum', VCV_VERSION);
             if (!preg_match('/^http/', $bundleUrl)) {
                 if (!preg_match('/assets-bundles/', $bundleUrl)) {
                     $bundleUrl = '/assets-bundles/' . $bundleUrl;
@@ -109,13 +109,14 @@ class EnqueueController extends Container implements Module
      *
      * @param \VisualComposer\Helpers\AssetsShared $assetsSharedHelper
      *
-     * @throws \ReflectionException
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      */
     protected function enqueueAssets(
         Str $strHelper,
         Frontend $frontendHelper,
         Assets $assetsHelper,
-        AssetsShared $assetsSharedHelper
+        AssetsShared $assetsSharedHelper,
+        Options $optionsHelper
     ) {
         if ($frontendHelper->isPageEditable() && !vcvenv('VCV_FT_INITIAL_CSS_LOAD')) {
             return;
@@ -130,7 +131,7 @@ class EnqueueController extends Container implements Module
         $this->lastEnqueueIdAssets = get_the_ID();
         $sourceId = get_the_ID();
         $assetsFiles = get_post_meta($sourceId, 'vcvSourceAssetsFiles', true);
-
+        $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
         if (!is_array($assetsFiles)) {
             return;
         }
@@ -141,7 +142,7 @@ class EnqueueController extends Container implements Module
                     'vcv:assets:source:styles:' . $strHelper->slugify($asset),
                     $assetsHelper->getAssetUrl($asset),
                     [],
-                    VCV_VERSION
+                    $assetsVersion
                 );
             }
             unset($asset);
@@ -155,7 +156,7 @@ class EnqueueController extends Container implements Module
                         'vcv:assets:source:scripts:' . $strHelper->slugify($single),
                         $assetsHelper->getAssetUrl($single),
                         [],
-                        VCV_VERSION,
+                        $assetsVersion,
                         true
                     );
                 }
