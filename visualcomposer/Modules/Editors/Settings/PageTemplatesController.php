@@ -128,8 +128,8 @@ class PageTemplatesController extends Container implements Module
     protected function bcBlankPageUpdate($customTemplateType, $templateStretch, $customTemplate)
     {
         if (vcvenv('VCV_TF_BLANK_PAGE_BOXED')) {
-            if ($customTemplateType === 'vc' && $templateStretch === '') {
-                if ($customTemplate === 'blank') {
+            if ($customTemplateType === 'vc') {
+                if ($customTemplate === 'blank' && $templateStretch === '') {
                     // It means that templateStretch=true
                     $templateStretch = true;
                 } elseif ($customTemplate === 'boxed') {
