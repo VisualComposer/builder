@@ -182,8 +182,6 @@ addStorage('elements', (storage) => {
     if (!options.silent) {
       updateTimeMachine(source || 'elements')
     }
-  }, {
-    debounce: 50
   })
   storage.on('remove', (id) => {
     let element = documentManager.get(id)
