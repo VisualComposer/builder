@@ -15,6 +15,7 @@
 
 [data-vce-sticky-visibility="true"] {
   position: absolute;
+  width: 100%;
   opacity: 0;
   visibility: hidden;
   transition: opacity .2s ease-in-out;
