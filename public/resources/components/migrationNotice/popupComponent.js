@@ -15,7 +15,7 @@ export default class PopupComponent extends React.Component {
       background: 'red',
       width: '100%',
       height: '100%',
-      zIndex: '1050',
+      zIndex: '1150',
       top: '0',
       left: '0',
       opacity: '0.4'
