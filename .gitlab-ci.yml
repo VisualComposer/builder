@@ -49,7 +49,7 @@ codestyle:js:
     - refactor
     - headerFooter
   script:
-    - npm run standard
+    - npm install && npm run standard
   tags:
     - docker
 
