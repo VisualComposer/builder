@@ -10,22 +10,24 @@ addStorage('migration', (storage) => {
 
   if (env('FT_MIGRATION_NOTICE')) {
     storage.on('migrateContent', (contentData) => {
-      // If no addon installed show popup with offer to install addon
-      let iframeContent = document.getElementById('vcv-layout-iframe-content')
-      let layoutHeader = document.getElementById('vcv-layout-header')
+      if (!window.hasOwnProperty('VCV_API_WPBAKERY_WPB_MAP')) {
+        // If no addon installed show popup with offer to install addon
+        let iframeContent = document.getElementById('vcv-layout-iframe-content')
+        let layoutHeader = document.getElementById('vcv-layout-header')
 
-      const removePopup = () => {
-        ReactDOM.unmountComponentAtNode(iframeContent)
-        layoutHeader.style = ''
+        const removePopup = () => {
+          ReactDOM.unmountComponentAtNode(iframeContent)
+          layoutHeader.style = ''
+        }
+        const addPopup = () => {
+          ReactDOM.render(
+            <PopupComponent close={removePopup} />,
+            iframeContent
+          )
+          layoutHeader.style.pointerEvents = 'none'
+        }
+        addPopup()
       }
-      const addPopup = () => {
-        ReactDOM.render(
-          <PopupComponent close={removePopup} />,
-          iframeContent
-        )
-        layoutHeader.style.pointerEvents = 'none'
-      }
-      addPopup()
     })
   }
 

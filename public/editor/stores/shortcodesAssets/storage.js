@@ -38,7 +38,7 @@ addStorage('shortcodeAssets', (storage) => {
         let slug = ''
         let position = ''
         let type = ''
-        if (domNode.href && (allowedHeadTags.indexOf(domNode.tag) > -1)) {
+        if (domNode.href && (allowedHeadTags.indexOf(domNode.tagName) > -1)) {
           slug = utils.slugify(domNode.href)
           position = 'head'
           type = 'css'
