@@ -12,15 +12,18 @@ addStorage('migration', (storage) => {
     storage.on('migrateContent', (contentData) => {
       // If no addon installed show popup with offer to install addon
       let iframeContent = document.getElementById('vcv-layout-iframe-content')
+      let layoutHeader = document.getElementById('vcv-layout-header')
 
       const removePopup = () => {
         ReactDOM.unmountComponentAtNode(iframeContent)
+        layoutHeader.style = ''
       }
       const addPopup = () => {
         ReactDOM.render(
           <PopupComponent close={removePopup} />,
           iframeContent
         )
+        layoutHeader.style.pointerEvents = 'none'
       }
       addPopup()
     })

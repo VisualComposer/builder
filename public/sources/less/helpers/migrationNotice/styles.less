@@ -1,0 +1,177 @@
+.vcv-migration-notice {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1150;
+  width: 100%;
+  height: 100%;
+  background: @vcv-color-white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 15%;
+  text-align: center;
+  font: @vcv-migration-font;
+  overflow-y: scroll;
+}
+
+.vcv-migration-title {
+  width: 80%;
+  font-size: 40px;
+  line-height: 1.5;
+  color: #363636;
+}
+
+.vcv-migration-description,
+.vcv-migration-label {
+  color: #717171;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 1px;
+  margin: 0 0 2em;
+}
+
+.vcv-migration-button {
+  width: 422px;
+}
+
+.vcv-migration-label {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  display: inline-block;
+  vertical-align: -3px;
+  padding: 0 0 0 25px;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+  }
+
+  &::before {
+    top: 4px;
+    left: 0px;
+    width: @vcv-migration-checkboxSize;
+    height: @vcv-migration-checkboxSize;
+    transition: border @transition-duration @transition-timing-function, background @transition-duration @transition-timing-function;
+  }
+  &:after {
+    height: @vcv-migration-checkIconHeight;
+    width: @vcv-migration-checkIconWidth;
+    border: 2px solid @vcv-migration-checkColor;
+    border-left: 0;
+    border-top: 0;
+    top: @vcv-migration-checkTopPosition;
+    left: @vcv-migration-checkLeftPosition;
+    transform: rotate(45deg);
+    transition: border-color @transition-duration @transition-timing-function;
+  }
+}
+
+.vcv-migration-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  height: 16px;
+  width: 16px;
+  opacity: 0;
+  z-index: -99;
+
+  &:not(:checked) + label:before {
+    border: @vcv-migration-checkboxBorderWidth solid @vcv-migration-uncheckedCheckboxBorderColor;
+  }
+
+  &:checked + label:before {
+    border: @vcv-migration-checkboxBorderWidth solid @vcv-migration-checkedCheckboxBorderColor;
+    background: @vcv-migration-checkedCheckboxBackground;
+  }
+
+  &:not(:checked) + label:after {
+    border-color: transparent;
+  }
+
+  &:checked + label:after {
+    border-color: @vcv-migration-checkColor;
+  }
+}
+
+.vcv-migration-button {
+  display: inline-block;
+  background: transparent;
+  color: @vcv-migration-buttonColor;
+  letter-spacing: @vcv-migration-buttonLetterSpacing;
+  text-transform: uppercase;
+  border: @vcv-migration-buttonBorderDark;
+  padding: @vcv-migration-buttonInnerSpacing;
+  transition: color @transition-duration @transition-timing-function, border-color @transition-duration @transition-timing-function, background @transition-duration @transition-timing-function;
+  margin-bottom: @vcv-migration-buttonBottomSpacing;
+  max-width: 100%;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.vcv-migration-button--start {
+  border-color: @vcv-migration-startButtonColor;
+  background:@vcv-migration-startButtonColor;
+  color: @vcv-color-white;
+
+  &:hover {
+    border-color: @vcv-migration-startButtonHoverColor;
+    background: @vcv-migration-startButtonHoverColor;
+  }
+}
+
+.vcv-migration-button--back {
+  &:hover {
+    color: @vcv-migration-buttonHoverDarkColor;
+    border-color: @vcv-migration-buttonHoverDarkBorder;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .vcv-migration-notice {
+    padding: 0 10%;
+  }
+
+  .vcv-migration-title {
+    font-size: 30px;
+    margin: .5em 0;
+  }
+
+  .vcv-migration-description,
+  .vcv-migration-label {
+    line-height: 22px;
+    font-size: 13px;
+    margin: 0 0 1.5em;
+  }
+
+  .vcv-migration-button {
+    margin-bottom: 15px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .vcv-migration-notice {
+    padding: 0 3%;
+  }
+
+  .vcv-migration-title {
+    width: 100%;
+    font-size: 24px;
+    margin: .4em 0;
+  }
+
+  .vcv-migration-description,
+  .vcv-migration-label {
+    line-height: 20px;
+    font-size: 13px;
+    margin: 0 0 1.3em;
+  }
+
+  .vcv-migration-button {
+    margin-bottom: 13px;
+  }
+}
