@@ -191,7 +191,7 @@ class Localizations extends Container implements Helper
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'vcwb'),
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'vcwb'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'vcwb'),
-            'postUpdateAjaxRequestError' => __('Failed to load: {file}', 'vcwb'). ' #10077',
+            'postUpdateAjaxRequestError' => __('Failed to load: {file}', 'vcwb') . ' #10077',
             'none' => __('None', 'vcwb'),
             'mobileTooltipText' => __(
             // @codingStandardsIgnoreLine
@@ -331,12 +331,15 @@ class Localizations extends Container implements Helper
             'startingImportProcess' => __('Starting import process...', 'vcwb'),
             'backToParent' => __('Back to parent', 'vcwb'),
             'editorSettings' => __('Editor Settings', 'vcwb'),
-            'disablePreviewDescription' => __('Disable element and template preview popup in Add Element and Add Template windows', 'vcwb'),
+            'disablePreviewDescription' => __(
+                'Disable element and template preview popup in Add Element and Add Template windows',
+                'vcwb'
+            ),
             'disablePreview' => __('Disable preview', 'vcwb'),
             'clickToEditColumnValue' => __('Click to edit column value', 'vcwb'),
             'addOn' => __('Add-on', 'vcwb'),
         ];
 
-        return $locale;
+        return vcfilter('vcv:helpers:localizations:i18n', $locale);
     }
 }

@@ -16,19 +16,46 @@ addStorage('wordpressData', (storage) => {
     // Here we call data load
     controller.load(window.vcvSourceID, {}, storage.state('status'))
   })
+
+  let lockData = {
+    locked: false,
+    status: true
+  }
   storage.on('save', (data, source = '', options = {}) => {
-    let status = options && typeof options.status !== 'undefined' ? options.status : storage.state('status')
-    status && status.set({ status: 'saving' }, source)
-    settingsStorage.state('status').set({ status: 'ready' })
-    const documentData = documentManager.all()
-    storage.trigger('wordpress:beforeSave', {
-      pageElements: documentData
-    })
-    data = Object.assign({}, {
-      elements: documentData
-    }, data)
-    let id = options && options.id ? options.id : window.vcvSourceID
-    controller.save(id, data, status, options)
+    if (lockData.locked) { return }
+    const next = () => {
+      // Reset lockData to default
+      lockData = {
+        locked: false,
+        status: true
+      }
+      let status = options && typeof options.status !== 'undefined' ? options.status : storage.state('status')
+      status && status.set({ status: 'saving' }, source)
+      settingsStorage.state('status').set({ status: 'ready' })
+      const documentData = documentManager.all()
+      storage.trigger('wordpress:beforeSave', {
+        pageElements: documentData
+      })
+      data = Object.assign({}, {
+        elements: documentData
+      }, data)
+      let id = options && options.id ? options.id : window.vcvSourceID
+      controller.save(id, data, status, options)
+    }
+    storage.trigger('wordpress:beforeSaveLock', lockData)
+    const timeoutCheck = () => {
+      if (lockData.locked) {
+        window.setTimeout(timeoutCheck, 30)
+      } else {
+        if (lockData.status) {
+          next()
+        } else {
+          let status = options && typeof options.status !== 'undefined' ? options.status : storage.state('status')
+          status && status.set({ status: 'failed' }, source)
+        }
+      }
+    }
+    window.setTimeout(timeoutCheck, 5)
   })
 
   storage.state('status').set('init')

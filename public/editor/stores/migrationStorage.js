@@ -10,7 +10,7 @@ addStorage('migration', (storage) => {
 
   if (env('FT_MIGRATION_NOTICE')) {
     storage.on('migrateContent', (contentData) => {
-      if (!window.hasOwnProperty('VCV_API_WPBAKERY_WPB_MAP')) {
+      if (!window.hasOwnProperty('VCV_API_WPBAKERY_WPB_MAP') && contentData.content.indexOf('[vc_row') !== -1) {
         // If no addon installed show popup with offer to install addon
         let iframeContent = document.getElementById('vcv-layout-iframe-content')
         let layoutHeader = document.getElementById('vcv-layout-header')
