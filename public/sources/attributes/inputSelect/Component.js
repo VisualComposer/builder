@@ -18,8 +18,8 @@ export default class InputSelect extends Attribute {
 
   updateState (props) {
     return {
-      input: props.value.input,
-      select: props.value.select,
+      input: props.value.input || props.value || props.defaultValue.input,
+      select: props.value.select || props.defaultValue.select,
       openedSelect: false
     }
   }
@@ -148,6 +148,8 @@ export default class InputSelect extends Attribute {
       select,
       [key]: value
     }
+    console.log('setFieldValue updatedValues', updatedValues)
+    console.log('setFieldValue value', value)
     updater(fieldKey, updatedValues)
     this.setState({
       [key]: value,

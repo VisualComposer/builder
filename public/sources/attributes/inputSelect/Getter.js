@@ -1,0 +1,20 @@
+module.exports = (data, key, settings) => {
+  const value = data[ key ]
+  const fieldValue = settings.value
+  const isCSSMixin = settings.options && settings.options.cssMixin
+  const isValueObject = value && typeof value === 'object' && value.constructor === Object
+  let valueContainsChars
+  let returnValue = value
+  if (isCSSMixin) {
+    if (!isValueObject) {
+      valueContainsChars = value.slice(parseFloat(value).toString().length)
+      if (!valueContainsChars) {
+        returnValue = value + fieldValue.select
+      }
+    } else {
+      returnValue = value.input + value.select
+    }
+  }
+
+  return returnValue
+}
