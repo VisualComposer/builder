@@ -55,10 +55,11 @@ class DevAddons extends Container implements Module
                 if (isset($manifest['addons'], $manifest['addons'][ $tag ], $manifest['addons'][ $tag ]['phpFiles'])) {
                     $files = $manifest['addons'][ $tag ]['phpFiles'];
                     foreach ($files as $index => $filePath) {
-                        $manifest['addons'][ $tag ]['phpFiles'][ $index ] = rtrim(
-                                $manifest['addons'][ $tag ]['addonRealPath'],
-                                '\\/'
-                            ) . '/' . $filePath;
+                        $rtrim = rtrim(
+                            $manifest['addons'][ $tag ]['addonRealPath'],
+                            '\\/'
+                        );
+                        $manifest['addons'][ $tag ]['phpFiles'][ $index ] = $rtrim . '/' . $filePath;
                     }
                     unset($index, $filePath);
                 }
