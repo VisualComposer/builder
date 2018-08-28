@@ -12,17 +12,21 @@ addStorage('migration', (storage) => {
     storage.on('migrateContent', (contentData) => {
       if (!window.hasOwnProperty('VCV_API_WPBAKERY_WPB_MAP') && contentData.content.indexOf('[vc_row') !== -1) {
         // If no addon installed show popup with offer to install addon
-        let iframeContent = document.getElementById('vcv-layout-iframe-content')
         let layoutHeader = document.getElementById('vcv-layout-header')
-
+        let $el = document.createElement('div')
+        $el.className = 'vcv-migration-notice'
         const removePopup = () => {
-          ReactDOM.unmountComponentAtNode(iframeContent)
+          const modalRoot = document.querySelector('.vcv-layout-iframe-container')
+          ReactDOM.unmountComponentAtNode($el)
+          modalRoot.removeChild($el)
           layoutHeader.style = ''
         }
         const addPopup = () => {
+          const modalRoot = document.querySelector('.vcv-layout-iframe-container')
+          modalRoot.appendChild($el)
           ReactDOM.render(
             <PopupComponent close={removePopup} />,
-            iframeContent
+            $el
           )
           layoutHeader.style.pointerEvents = 'none'
         }
