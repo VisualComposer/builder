@@ -338,6 +338,17 @@ class Localizations extends Container implements Helper
             'disablePreview' => __('Disable preview', 'vcwb'),
             'clickToEditColumnValue' => __('Click to edit column value', 'vcwb'),
             'addOn' => __('Add-on', 'vcwb'),
+            'addonWpbMigration_download_update_required' => __(
+                'Update Visual Composer plugin to the most recent version to download addon.',
+                'vcwb'
+            ),
+            'addonWpbMigration_title' => __('WPBakery Page Builder Layout Detected', 'vcwb'),
+            'addonWpbMigration_description' => __(
+                'In order to proceed with the Website Builder, you will need to download Migration add-on from the Visual Composer Hub. The migration add-on will transfer your WPBakery layout to Visual Composer. Basic elements will be converted into Visual Composer elements, rest of the elements will be converted into the Shortcode element',
+                'vcwb'
+            ),
+            'addonWpbMigration_download_button' => __('Download Migration Addon', 'vcwb'),
+            'addonWpbMigration_skip_button' => __('Skip', 'vcwb'),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

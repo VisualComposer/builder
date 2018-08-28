@@ -16,6 +16,18 @@ const options = {
     {
       value: 'rem',
       label: 'Rem'
+    },
+    {
+      value: '%',
+      label: '%'
+    },
+    {
+      value: 'vh',
+      label: 'Vh'
+    },
+    {
+      value: 'vw',
+      label: 'Vw'
     }
   ],
   currency: [

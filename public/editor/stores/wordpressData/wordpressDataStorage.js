@@ -1,4 +1,4 @@
-import { addStorage, getStorage, getService } from 'vc-cake'
+import { addStorage, getStorage, getService, getData } from 'vc-cake'
 import SaveController from './lib/saveController'
 
 addStorage('wordpressData', (storage) => {
@@ -41,6 +41,10 @@ addStorage('wordpressData', (storage) => {
       }, data)
       let id = options && options.id ? options.id : window.vcvSourceID
       controller.save(id, data, status, options)
+    }
+    if (getData('wp-preview') === 'dopreview') {
+      next()
+      return
     }
     storage.trigger('wordpress:beforeSaveLock', lockData)
     const timeoutCheck = () => {
