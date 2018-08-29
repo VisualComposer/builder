@@ -57,12 +57,12 @@ export default class PopupComponent extends React.Component {
     if (this.state.elementState === 'downloading') {
       return <LoadingComponent />
     }
-    return <React.Fragment>
+    return <div className='vcv-migration-notice'>
       <img className='vcv-migration-image' src={migrateIcon} alt='Migrate' />
       <h1 className='vcv-migration-title'>{localizations.addonWpbMigration_title}</h1>
       <p className='vcv-migration-description'>{localizations.addonWpbMigration_description}</p>
       <button className='vcv-migration-button vcv-migration-button--start' onClick={this.clickDownloadAddon.bind(this)}>{localizations.addonWpbMigration_download_button}</button>
       <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickSkip.bind(this)}>{localizations.addonWpbMigration_skip_button}</button>
-    </React.Fragment>
+    </div>
   }
 }
