@@ -14,7 +14,6 @@ addStorage('migration', (storage) => {
         // If no addon installed show popup with offer to install addon
         let layoutHeader = document.getElementById('vcv-layout-header')
         let $el = document.createElement('div')
-        $el.className = 'vcv-migration-notice'
         const removePopup = () => {
           const modalRoot = document.querySelector('.vcv-layout-iframe-container')
           ReactDOM.unmountComponentAtNode($el)
