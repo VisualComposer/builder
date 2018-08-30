@@ -1,10 +1,17 @@
-.vcv-migration-notice {
+.vcv-migration-notice-container {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1150;
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: @vcv-color-white;
+}
+
+.vcv-migration-notice {
   background: @vcv-color-white;
   display: flex;
   justify-content: center;
@@ -13,13 +20,12 @@
   padding: 0 15%;
   text-align: center;
   font: @vcv-migration-font;
-  overflow-y: scroll;
 }
 
 .vcv-migration-title {
   width: 80%;
   font-size: 40px;
-  line-height: 1.5;
+  line-height: 1.3;
   color: #363636;
 }
 
@@ -155,7 +161,11 @@
 
 @media screen and (max-width: 768px) {
   .vcv-migration-notice {
-    padding: 0 3%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 12% 3%;
   }
 
   .vcv-migration-title {

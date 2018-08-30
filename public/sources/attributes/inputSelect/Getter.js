@@ -7,12 +7,15 @@ module.exports = (data, key, settings) => {
   let returnValue = value
   if (isCSSMixin) {
     if (!isValueObject) {
+      returnValue = {}
+      returnValue.input = value
+      returnValue.select = fieldValue.select
       valueContainsChars = value.slice(parseFloat(value).toString().length)
       if (!valueContainsChars) {
-        returnValue = value + fieldValue.select
+        returnValue.mixinValue = value + fieldValue.select
       }
     } else {
-      returnValue = value.input + value.select
+      returnValue.mixinValue = value.input + value.select
     }
   }
 
