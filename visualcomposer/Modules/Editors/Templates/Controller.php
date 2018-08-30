@@ -40,6 +40,10 @@ class Controller extends Container implements Module
             $this->addFilter('vcv:ajax:editorTemplates:create:adminNonce', 'create');
         }
 
+        if (vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
+            $this->addFilter('vcv:ajax:editorTemplates:read:adminNonce', 'read');
+        }
+
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::delete */
         $this->addFilter('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
 
@@ -187,6 +191,7 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
      * @return array
      */
@@ -198,6 +203,31 @@ class Controller extends Container implements Module
             return [
                 'status' => $postTypeHelper->delete($id, 'vcv_templates'),
             ];
+        }
+
+        return ['status' => false];
+    }
+
+    /**
+     * CRUD -> read
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
+     *
+     * @return array|bool
+     */
+    protected function read(
+        Request $requestHelper,
+        EditorTemplates $editorTemplatesHelper,
+        CurrentUser $currentUserHelper
+    ) {
+        $id = $requestHelper->input('vcv-template-id');
+        if ($currentUserHelper->wpAll(['edit_posts', $id])) {
+            $template = $editorTemplatesHelper->get($id);
+            if ($template) {
+                return ['status' => true, 'data' => $template->vcvTemplateElements];
+            }
         }
 
         return ['status' => false];

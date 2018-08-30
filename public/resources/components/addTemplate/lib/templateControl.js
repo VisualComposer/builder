@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import HubTemplateControl from './hubTemplateControl'
 import CustomTemplateControl from './customTemplateControl'
+import { env } from 'vc-cake'
 
 const hubTemplateTypes = [ 'predefined', 'hub', 'hubHeader', 'hubFooter', 'hubSidebar' ]
 const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -147,7 +148,11 @@ export default class TemplateControl extends React.Component {
 
   handleApplyTemplate (e) {
     e && e.preventDefault()
-    this.props.applyTemplate(this.props.data || {})
+    if (env('FT_TEMPLATE_DATA_ASYNC')) {
+      this.props.applyTemplate(this.props.id)
+    } else {
+      this.props.applyTemplate(this.props.data || {})
+    }
   }
 
   handleRemoveTemplate () {

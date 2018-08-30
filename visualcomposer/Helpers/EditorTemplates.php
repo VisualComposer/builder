@@ -44,7 +44,10 @@ class EditorTemplates implements Helper
                 foreach ($templates as $key => $template) {
                     /** @var $template \WP_Post */
                     $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
-                    $templateElements = $this->getTemplateElements($meta, $template);
+                    $templateElements = [];
+                    if (!vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
+                        $templateElements = $this->getTemplateElements($meta, $template);
+                    }
                     $groupTemplates = $this->processTemplateElements($templateElements, $template, $groupTemplates);
                 }
                 if (!empty($groupTemplates)) {
@@ -98,6 +101,11 @@ class EditorTemplates implements Helper
     public function get($templateId)
     {
         $template = vchelper('PostType')->get($templateId, 'vcv_templates');
+        if (vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
+            $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
+            $templateElements = $templateElements = $this->getTemplateElements($meta, $template);
+            $template->vcvTemplateElements = $templateElements;
+        }
 
         return $template;
     }
@@ -111,7 +119,7 @@ class EditorTemplates implements Helper
      */
     protected function processTemplateElements($templateElements, $template, $groupTemplates)
     {
-        if (!empty($templateElements)) {
+        if (!empty($templateElements) || vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
             $type = get_post_meta($template->ID, '_' . VCV_PREFIX . 'type', true);
             $thumbnail = get_post_meta($template->ID, '_' . VCV_PREFIX . 'thumbnail', true);
             $preview = get_post_meta($template->ID, '_' . VCV_PREFIX . 'preview', true);
@@ -121,10 +129,12 @@ class EditorTemplates implements Helper
             $data = [
                 // @codingStandardsIgnoreLine
                 'name' => $template->post_title,
-                'data' => $templateElements,
                 'bundle' => $bundle,
                 'id' => (string)$template->ID,
             ];
+            if (!vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
+                $data['data'] = $templateElements;
+            }
             if (!empty($thumbnail)) {
                 $data['thumbnail'] = $thumbnail;
             }
