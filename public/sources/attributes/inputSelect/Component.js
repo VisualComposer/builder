@@ -148,8 +148,7 @@ export default class InputSelect extends Attribute {
       select,
       [key]: value
     }
-    console.log('setFieldValue updatedValues', updatedValues)
-    console.log('setFieldValue value', value)
+
     updater(fieldKey, updatedValues)
     this.setState({
       [key]: value,
