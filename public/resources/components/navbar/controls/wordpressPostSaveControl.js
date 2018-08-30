@@ -80,6 +80,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     if (this.state.status === 'saving') {
       return
     }
+    this.clearTimer()
     this.setState({
       status: 'saving'
     })
