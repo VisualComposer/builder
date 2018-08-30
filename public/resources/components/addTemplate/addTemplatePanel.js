@@ -3,13 +3,14 @@ import classNames from 'classnames'
 import SearchTemplate from './lib/searchTemplate'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import TemplateControl from './lib/templateControl'
-import vcCake from 'vc-cake'
+import LoadingComponent from 'public/resources/components/loading/loadingComponent'
+import { getService, getStorage, env } from 'vc-cake'
 
-const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
-const myTemplatesService = vcCake.getService('myTemplates')
-const documentManager = vcCake.getService('document')
-const elementsStorage = vcCake.getStorage('elements')
-const workspaceSettings = vcCake.getStorage('workspace').state('settings')
+const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
+const myTemplatesService = getService('myTemplates')
+const documentManager = getService('document')
+const elementsStorage = getStorage('elements')
+const workspaceSettings = getStorage('workspace').state('settings')
 
 export default class AddTemplatePanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -29,7 +30,8 @@ export default class AddTemplatePanel extends React.Component {
       error: false,
       errorName: '',
       showSpinner: false,
-      categories: this.templatesCategories
+      categories: this.templatesCategories,
+      showLoading: false
     }
 
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
@@ -50,7 +52,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   componentDidMount () {
-    vcCake.getStorage('hubTemplates').state('templates').onChange(this.handleTemplateStorageStateChange)
+    getStorage('hubTemplates').state('templates').onChange(this.handleTemplateStorageStateChange)
   }
 
   componentWillUnmount () {
@@ -58,7 +60,7 @@ export default class AddTemplatePanel extends React.Component {
       window.clearTimeout(this.errorTimeout)
       this.errorTimeout = 0
     }
-    vcCake.getStorage('hubTemplates').state('templates').ignoreChange(this.handleTemplateStorageStateChange)
+    getStorage('hubTemplates').state('templates').ignoreChange(this.handleTemplateStorageStateChange)
   }
 
   setCategoryArray (data) {
@@ -324,8 +326,20 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   handleApplyTemplate (data) {
-    elementsStorage.trigger('merge', data)
-    workspaceSettings.set(false)
+    const next = (elements) => {
+      elementsStorage.trigger('merge', elements)
+      workspaceSettings.set(false)
+    }
+    if (env('FT_TEMPLATE_DATA_ASYNC')) {
+      let id = data
+      this.setState({ showLoading: true })
+      myTemplatesService.load(id, (response) => {
+        next(response.data)
+        this.setState({ showLoading: false })
+      })
+    } else {
+      next(data)
+    }
   }
 
   handleRemoveTemplate (id) {
@@ -350,6 +364,9 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   render () {
+    if (env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading) {
+      return <LoadingComponent />
+    }
     // const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Go Premium'
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
@@ -372,10 +389,7 @@ export default class AddTemplatePanel extends React.Component {
       'vcv-ui-tree-content-error-message': true,
       'vcv-ui-tree-content-error-message--visible': this.state.error
     })
-    // let listCtaClasses = classNames({
-    //   'vcv-ui-editor-list-cta-wrapper': true,
-    //   'vcv-ui-state--hidden': itemsOutput && !itemsOutput.length
-    // })
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
         <div className='vcv-ui-tree-content'>
@@ -424,61 +438,5 @@ export default class AddTemplatePanel extends React.Component {
         </div>
       </div>
     )
-    // return (
-    //   <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
-    //     <div className='vcv-ui-tree-content'>
-    //       {this.getSearch()}
-    //       <div className='vcv-ui-tree-content-section'>
-    //         <div className='vcv-ui-tree-content-error-message-container'>
-    //           <div className={errorMessageClasses}>{this.state.errorName}</div>
-    //         </div>
-    //         <Scrollbar>
-    //           <div className={innerSectionClasses}>
-    //             <div className='vcv-ui-form-dependency'>
-    //               <div className='vcv-ui-form-group'>
-    //                 <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
-    //                 <form
-    //                   className='vcv-ui-save-template-form'
-    //                   onSubmit={this.handleSaveTemplate}
-    //                   disabled={this.state.showSpinner}
-    //                 >
-    //                   <input
-    //                     className='vcv-ui-form-input'
-    //                     type='text'
-    //                     value={this.state.templateName}
-    //                     onChange={this.changeTemplateName}
-    //                     disabled={this.state.showSpinner}
-    //                   />
-    //                   <button
-    //                     className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
-    //                     type='submit'
-    //                     disabled={this.state.showSpinner}
-    //                   >{saveTemplateText}
-    //                   </button>
-    //                 </form>
-    //               </div>
-    //             </div>
-    //             <div className='vcv-ui-editor-plates-container'>
-    //               <div className='vcv-ui-editor-plates'>
-    //                 <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-    //                   {this.getTemplateListContainer(itemsOutput)}
-    //                 </div>
-    //               </div>
-    //             </div>
-    //             <div className={listCtaClasses}>
-    //               <button
-    //                 className='vcv-ui-editor-no-items-action vcv-ui-editor-button-disabled'
-    //                 disabled
-    //                 onClick={this.handleGoToHub}
-    //               >
-    //                 {buttonText}
-    //               </button>
-    //             </div>
-    //           </div>
-    //         </Scrollbar>
-    //       </div>
-    //     </div>
-    //   </div>
-    // )
   }
 }

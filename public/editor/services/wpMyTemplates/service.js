@@ -4,7 +4,7 @@ const utils = getService('utils')
 const documentManager = getService('document')
 let getType = {}.toString
 
-let handleSaveRequest = (action, key, data, successCallback, errorCallback) => {
+let processRequest = (action, key, data, successCallback, errorCallback) => {
   let ajax = getService('utils').ajax
 
   return ajax({
@@ -66,9 +66,14 @@ addService('myTemplates', {
     return false
   },
   remove (id, successCallback, errorCallback) {
-    handleSaveRequest('delete', 'vcv-template-id', id, (response) => {
+    processRequest('delete', 'vcv-template-id', id, (response) => {
       getStorage('hubTemplates').trigger('remove', 'custom', id)
-      successCallback && typeof successCallback === 'function' && successCallback()
+      successCallback && typeof successCallback === 'function' && successCallback(response)
+    }, errorCallback)
+  },
+  load (id, successCallback, errorCallback) {
+    processRequest('read', 'vcv-template-id', id, (response) => {
+      successCallback && typeof successCallback === 'function' && successCallback(response)
     }, errorCallback)
   },
   get (id) {
