@@ -2,19 +2,55 @@ import React from 'react'
 import migrateIcon from 'public/sources/images/migrate-icon.png'
 import LoadingComponent from 'public/resources/components/loading/loadingComponent'
 import { getStorage } from 'vc-cake'
+import PropTypes from 'prop-types'
+import ReactDOM from 'react-dom'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
 const hubAddonsStorage = getStorage('hubAddons')
 
 export default class PopupComponent extends React.Component {
+  static propTypes = {
+    parent: PropTypes.string,
+    hideLayoutBar: PropTypes.bool,
+    disableNavBar: PropTypes.bool,
+    close: PropTypes.func.isRequired
+  }
+
   state = {
     elementState: ''
   }
 
   constructor (props) {
     super(props)
+    this.el = document.createElement('div')
     this.downloadingItemOnChange = this.downloadingItemOnChange.bind(this)
+  }
+
+  componentDidMount () {
+    const modalRoot = document.querySelector(this.props.parent || '.vcv-layout-iframe-container')
+    modalRoot.appendChild(this.el)
+    this.el.classList.add('vcv-migration-notice-container')
+    if (this.props.disableNavBar) {
+      let layoutHeader = document.getElementById('vcv-layout-header')
+      layoutHeader.style.pointerEvents = 'none'
+    }
+    if (this.props.hideLayoutBar) {
+      document.body.classList.add('vcv-loading-overlay--enabled')
+    }
+  }
+
+  componentWillUnmount () {
+    const modalRoot = document.querySelector(this.props.parent || '.vcv-layout-iframe-container')
+    modalRoot.removeChild(this.el)
+    this.el.classList.remove('vcv-migration-notice-container')
+    if (this.props.disableNavBar) {
+      let layoutHeader = document.getElementById('vcv-layout-header')
+      layoutHeader.style.pointerEvents = ''
+    }
+    if (this.props.hideLayoutBar) {
+      document.body.classList.remove('vcv-loading-overlay--enabled')
+    }
   }
 
   clickSkip (e) {
@@ -57,12 +93,16 @@ export default class PopupComponent extends React.Component {
     if (this.state.elementState === 'downloading') {
       return <LoadingComponent />
     }
-    return <div className='vcv-migration-notice'>
-      <img className='vcv-migration-image' src={migrateIcon} alt='Migrate' />
-      <h1 className='vcv-migration-title'>{localizations.addonWpbMigration_title}</h1>
-      <p className='vcv-migration-description'>{localizations.addonWpbMigration_description}</p>
-      <button className='vcv-migration-button vcv-migration-button--start' onClick={this.clickDownloadAddon.bind(this)}>{localizations.addonWpbMigration_download_button}</button>
-      <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickSkip.bind(this)}>{localizations.addonWpbMigration_skip_button}</button>
-    </div>
+
+    return ReactDOM.createPortal(
+      <div className='vcv-migration-notice'>
+        <img className='vcv-migration-image' src={migrateIcon} alt='Migrate' />
+        <h1 className='vcv-migration-title'>{localizations.addonWpbMigration_title}</h1>
+        <p className='vcv-migration-description'>{localizations.addonWpbMigration_description}</p>
+        <button className='vcv-migration-button vcv-migration-button--start' onClick={this.clickDownloadAddon.bind(this)}>{localizations.addonWpbMigration_download_button}</button>
+        <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickSkip.bind(this)}>{localizations.addonWpbMigration_skip_button}</button>
+      </div>,
+      this.el
+    )
   }
 }

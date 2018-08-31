@@ -35,6 +35,11 @@ export default class HubTemplateControl extends React.Component {
       'vcv-ui-item-badge vcv-ui-badge--warning': false
     })
 
+    let spinnerClasses = classNames({
+      'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner-light': true,
+      'vcv-ui-state--hidden': !spinner
+    })
+
     let applyClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true,
       'vcv-ui-state--hidden': spinner
@@ -97,6 +102,7 @@ export default class HubTemplateControl extends React.Component {
                 style={{ cursor: 'not-allowed' }}
                 title={removeTemplateText}
               />
+              <span className={spinnerClasses} />
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>

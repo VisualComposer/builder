@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import SearchTemplate from './lib/searchTemplate'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import TemplateControl from './lib/templateControl'
-import LoadingComponent from 'public/resources/components/loading/loadingComponent'
+import OverlayComponent from 'public/resources/components/overlay/overlayComponent'
 import { getService, getStorage, env } from 'vc-cake'
 
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
@@ -181,6 +181,10 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getTemplateControlProps (template) {
+    template = Object.assign({}, template)
+    if (env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading) {
+      template.spinner = true
+    }
     return {
       key: 'vcv-element-control-' + template.id,
       applyTemplate: this.handleApplyTemplate,
@@ -364,9 +368,6 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   render () {
-    if (env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading) {
-      return <LoadingComponent />
-    }
     // const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Go Premium'
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
@@ -392,6 +393,7 @@ export default class AddTemplatePanel extends React.Component {
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
+        {env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading ? <OverlayComponent disableNavBar parent='.vcv-layout' /> : null}
         <div className='vcv-ui-tree-content'>
           {this.getSearch()}
           <div className='vcv-ui-tree-content-section'>
