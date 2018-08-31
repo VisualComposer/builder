@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-export default class LoadingComponent extends React.Component {
+export default class OverlayComponent extends React.Component {
   static propTypes = {
     parent: PropTypes.string,
     hideLayoutBar: PropTypes.bool,
@@ -24,7 +24,7 @@ export default class LoadingComponent extends React.Component {
       layoutHeader.style.pointerEvents = 'none'
     }
     if (this.props.hideLayoutBar) {
-      document.body.classList.add('vcv-loading-overlay--enabled')
+      document.body.classList.add('vcv-overlay--enabled')
     }
   }
 
@@ -36,25 +36,18 @@ export default class LoadingComponent extends React.Component {
       layoutHeader.style.pointerEvents = ''
     }
     if (this.props.hideLayoutBar) {
-      document.body.classList.remove('vcv-loading-overlay--enabled')
+      document.body.classList.remove('vcv-overlay--enabled')
     }
   }
 
   render () {
     let overlayClasses = {
-      'vcv-loading-overlay': true,
+      'vcv-overlay': true,
       ...this.props.extraClassNames || {}
     }
 
     return ReactDOM.createPortal(
-      <div className={classNames(overlayClasses)}>
-        <div className='vcv-loading-overlay-inner'>
-          <div className='vcv-loading-dots-container'>
-            <div className='vcv-loading-dot vcv-loading-dot-1' />
-            <div className='vcv-loading-dot vcv-loading-dot-2' />
-          </div>
-        </div>
-      </div>,
+      <div className={classNames(overlayClasses)} />,
       this.el
     )
   }
