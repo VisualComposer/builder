@@ -60,8 +60,8 @@ export default class Helper {
   }
 
   setPosition (point) {
-    this.control.style.top = point.y - point.top + 'px'
-    this.control.style.left = point.x - point.left + 'px'
+    this.control.style.top = point.y + 'px'
+    this.control.style.left = point.x + 'px'
   }
 
   hide () {
