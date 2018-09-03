@@ -592,6 +592,9 @@ export default class {
           name = name.match(new RegExp(foundMixins[ mixin ].variables[ variable ].namePattern, 'gi'))
           name = name.length ? name.join('-') : 'empty'
         }
+        if (name.indexOf('%')) {
+          name = name.replace('%', 'percent')
+        }
         names.push(name)
         variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value || false
         // if any variable is set we can use mixin
