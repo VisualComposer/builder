@@ -349,6 +349,7 @@ class Localizations extends Container implements Helper
             ),
             'addonWpbMigration_download_button' => __('Download Migration Addon', 'vcwb'),
             'addonWpbMigration_skip_button' => __('Skip', 'vcwb'),
+            'addonWpbMigration_backToWordpress' => __('Back to WordPress', 'vcwb'),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

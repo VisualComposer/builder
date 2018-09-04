@@ -13,12 +13,9 @@ addStorage('migration', (storage) => {
       if (!window.hasOwnProperty('VCV_API_WPBAKERY_WPB_MAP') && contentData.content.indexOf('[vc_row') !== -1) {
         // If no addon installed show popup with offer to install addon
         let $el = document.createElement('div')
-        const removePopup = () => {
-          ReactDOM.unmountComponentAtNode($el)
-        }
         const addPopup = () => {
           ReactDOM.render(
-            <PopupComponent close={removePopup} disableNavBar hideLayoutBar />,
+            <PopupComponent disableNavBar hideLayoutBar />,
             $el
           )
         }
