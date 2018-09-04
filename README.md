@@ -13,8 +13,8 @@ Use ES6 version for Javascript code.
 ## Variables and Classes
 For all var, let, const and method names you should use camelCase.
 Exceptions to the rule:
-    * Class names for ES6 with camelCase and first Uppercase letter. Example: MySuperClass
-    * Constructors for ES5 with camelCase and first Uppercase letter. Example: `let Constructor = () => {}`
+* Class names for ES6 with camelCase and first Uppercase letter.
+* Constructors for ES5 with camelCase and first Uppercase letter.
 
 ## No jQuery
 Contributor should try not to use jQuery and jQuery-like libraries.
