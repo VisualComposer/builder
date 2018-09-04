@@ -47,6 +47,10 @@ $ ./install-hooks
 ```sh
 $ npm run build
 ```
+### Build settings (Welcome page, Activation page)
+```sh
+$ npm run build-settings
+```
 ### Start watcher
 ```sh
 $ npm run watch
