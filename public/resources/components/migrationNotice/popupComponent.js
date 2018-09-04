@@ -95,12 +95,21 @@ export default class PopupComponent extends React.Component {
 
     const backToWordpressText = localizations.addonWpbMigration_backToWordpress ? localizations.addonWpbMigration_backToWordpress : 'Back to wordpress'
 
+    let buttonHtml = (
+      <button className='vcv-migration-button vcv-migration-button--start' onClick={this.clickDownloadAddon.bind(this)}>{localizations.addonWpbMigration_download_button}</button>
+    )
+    if (window.VCV_HUB_GET_ADDONS().hasOwnProperty('wpbMigration')) {
+      // addons exists but no WPB activated
+      // TODO: Change also description text
+      buttonHtml = null
+    }
+
     return ReactDOM.createPortal(
       <div className='vcv-migration-notice'>
         <img className='vcv-migration-image' src={migrateIcon} alt='Migrate' />
         <h1 className='vcv-migration-title'>{localizations.addonWpbMigration_title}</h1>
         <p className='vcv-migration-description'>{localizations.addonWpbMigration_description}</p>
-        <button className='vcv-migration-button vcv-migration-button--start' onClick={this.clickDownloadAddon.bind(this)}>{localizations.addonWpbMigration_download_button}</button>
+        {buttonHtml}
         <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickBackToWordpress.bind(this)}>{backToWordpressText}</button>
       </div>,
       this.el
