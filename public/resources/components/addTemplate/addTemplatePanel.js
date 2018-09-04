@@ -338,8 +338,8 @@ export default class AddTemplatePanel extends React.Component {
       let id = data
       this.setState({ showLoading: id })
       myTemplatesService.load(id, (response) => {
-        next(response.data)
         this.setState({ showLoading: 0 })
+        next(response.data)
       })
     } else {
       next(data)

@@ -1,10 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getService, getStorage } from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const hubElementsService = getService('hubElements')
-const templatesService = getService('myTemplates')
+const myTemplatesService = getService('myTemplates')
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
 const elementsStorage = getStorage('elements')
@@ -32,7 +32,7 @@ export default class TeaserElementControl extends ElementControl {
       const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
       if (downloadingItems.includes(tag)) {
         elementState = 'downloading'
-      } else if (hubAddonsStorage.state('addons').get()[tag]) {
+      } else if (hubAddonsStorage.state('addons').get()[ tag ]) {
         elementState = 'success'
       } else {
         elementState = 'inactive'
@@ -44,14 +44,15 @@ export default class TeaserElementControl extends ElementControl {
         elementState = 'downloading'
       } else {
         elementState = 'inactive'
-        if (templatesService.findTemplateByBundle(this.props.element.bundle)) {
+        if (myTemplatesService.findTemplateByBundle(this.props.element.bundle)) {
           elementState = 'success'
         }
       }
     }
 
     this.state = {
-      elementState: elementState
+      elementState: elementState,
+      showLoading: false
     }
 
     this.addElement = this.addElement.bind(this)
@@ -164,9 +165,22 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   addTemplate () {
-    const template = templatesService.findTemplateByBundle(this.props.element.bundle)
-    elementsStorage.trigger('merge', template.data)
-    workspaceSettings.set(false)
+    const next = (elements) => {
+      elementsStorage.trigger('merge', elements)
+      workspaceSettings.set(false)
+    }
+    if (env('FT_TEMPLATE_DATA_ASYNC')) {
+      const template = myTemplatesService.findTemplateByBundle(this.props.element.bundle)
+      const id = template.id
+      this.setState({ showLoading: true })
+      myTemplatesService.load(id, (response) => {
+        this.setState({ showLoading: false })
+        next(response.data)
+      })
+    } else {
+      const template = myTemplatesService.findTemplateByBundle(this.props.element.bundle)
+      next(template.data)
+    }
   }
 
   buildVariables (variables) {
@@ -232,7 +246,7 @@ export default class TeaserElementControl extends ElementControl {
       'vcv-ui-item-add-hub': true,
       'vcv-ui-icon': true,
       'vcv-ui-icon-download': elementState === 'inactive' || elementState === 'failed',
-      'vcv-ui-wp-spinner-light': elementState === 'downloading',
+      'vcv-ui-wp-spinner-light': elementState === 'downloading' || this.state.showLoading,
       'vcv-ui-icon-lock': lockIcon
     })
 
