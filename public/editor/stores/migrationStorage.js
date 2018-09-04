@@ -39,7 +39,7 @@ addStorage('migration', (storage) => {
             elementsArray.push(elements[ key ])
           }
         }
-        elementsArray.sort((first, second) => first.element.order > second.element.order)
+        elementsArray.sort((first, second) => first.element.order - second.element.order)
         elementsArray.forEach((element) => {
           elementsStorage.trigger('add', element.element, element.wrap, element.options)
         })
