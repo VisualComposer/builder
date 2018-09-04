@@ -30,7 +30,6 @@ All javascript is build with webpack module builder.
 ``` sh
 $ npm install
 $ php ci/composer.phar update
-$ npm install -g eslint eslint-config-standard eslint-plugin-standard eslint-plugin-promise  eslint-config-standard-react eslint-config-standard-jsx eslint-plugin-react
 ```
 ### Environment Configuration in Javascript
 If you want to setup custom environment configuration settings,3 you can use *custom-variables.js* by c it from default-variables.js.
@@ -53,35 +52,34 @@ $ npm run build
 $ npm run watch
 ```
 
-###  Add dev elements/categories for macOs users ###
+###  Add dev elements/categories/addons ###
 ```sh
 bash tools/devElements/cloneScript.sh
 bash tools/devCategories/cloneScript.sh
-bash tools/devElements/buildScriptMac.sh
+bash tools/devAddons/cloneScript.sh
+bash tools/devElements/buildScript.sh
+bash tools/devAddons/buildScript.sh
 ```
 
-###  Add dev elements/categories for Windows users ###
-```sh
-bash tools/devElements/cloneScript.sh
-bash tools/devCategories/cloneScript.sh
-bash tools/devElements/buildScriptWindows.sh
-```
-
-### env-dev.php
+### env-dev.php example
 ```
 <?php
 
 define('VCV_ENV_ADDONS_ID', 'account');
 define('VCV_ENV_DEV_ELEMENTS', true);
 define('VCV_ENV_DEV_CATEGORIES', true);
+define('VCV_ENV_DEV_ADDONS', true);
 define('VCV_ENV_HUB_DOWNLOAD', false);
 define('VCV_ENV_TEMPLATES_DOWNLOAD', false);
 define('VCV_ENV_ELEMENT_DOWNLOAD', false);
 define('VCV_ENV_ELEMENT_DOWNLOAD_V', 2);
 define('VCV_ENV_EXTENSION_DOWNLOAD', false);
-define('VCV_TOKEN_URL', 'http://account.visualcomposer.io/authorization-token');
-define('VCV_ACCOUNT_URL', 'http://account.visualcomposer.io');
-define('VCV_HUB_URL', 'http://account.visualcomposer.io');
+define('VCV_TOKEN_URL', 'http://test.account.visualcomposer.io/authorization-token');
+define('VCV_ACCOUNT_URL', 'http://test.account.visualcomposer.io');
+define('VCV_HUB_URL', 'http://test.account.visualcomposer.io');
+define('VCV_PREMIUM_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
+
+require_once "env.php";
 ```
 
 ## Build Wordpress plugin package(zip archive)
