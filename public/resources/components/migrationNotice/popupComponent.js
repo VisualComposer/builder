@@ -1,6 +1,6 @@
 import React from 'react'
 import migrateIcon from 'public/sources/images/migrate-icon.png'
-import LoadingComponent from 'public/resources/components/loading/loadingComponent'
+import LoadingOverlayComponent from 'public/resources/components/overlays/loadingOverlay/loadingOverlayComponent'
 import { getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
@@ -91,7 +91,7 @@ export default class PopupComponent extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.state.elementState === 'downloading') {
-      return <LoadingComponent />
+      return <LoadingOverlayComponent />
     }
 
     return ReactDOM.createPortal(
