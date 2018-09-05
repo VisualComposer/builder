@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import SearchTemplate from './lib/searchTemplate'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import TemplateControl from './lib/templateControl'
-import OverlayComponent from 'public/resources/components/overlay/overlayComponent'
+import TransparentOverlayComponent from 'public/resources/components/overlays/transparentOverlay/transparentOverlayComponent'
 import { getService, getStorage, env } from 'vc-cake'
 
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
@@ -182,7 +182,7 @@ export default class AddTemplatePanel extends React.Component {
 
   getTemplateControlProps (template) {
     template = Object.assign({}, template)
-    if (env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading) {
+    if (env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading === template.id) {
       template.spinner = true
     }
     return {
@@ -336,10 +336,10 @@ export default class AddTemplatePanel extends React.Component {
     }
     if (env('FT_TEMPLATE_DATA_ASYNC')) {
       let id = data
-      this.setState({ showLoading: true })
+      this.setState({ showLoading: id })
       myTemplatesService.load(id, (response) => {
+        this.setState({ showLoading: 0 })
         next(response.data)
-        this.setState({ showLoading: false })
       })
     } else {
       next(data)
@@ -393,7 +393,7 @@ export default class AddTemplatePanel extends React.Component {
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
-        {env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading ? <OverlayComponent disableNavBar parent='.vcv-layout' /> : null}
+        {env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading ? <TransparentOverlayComponent disableNavBar parent='.vcv-layout' /> : null}
         <div className='vcv-ui-tree-content'>
           {this.getSearch()}
           <div className='vcv-ui-tree-content-section'>

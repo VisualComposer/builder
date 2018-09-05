@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-export default class OverlayComponent extends React.Component {
+export default class TransparentOverlayComponent extends React.Component {
   static propTypes = {
     parent: PropTypes.string,
     hideLayoutBar: PropTypes.bool,
