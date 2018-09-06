@@ -2,6 +2,10 @@
  * Visual Composer Website Builder wp backend switcher
  * =================================== */
 
+.vcv-wpbackend-switcher-wrapper {
+  margin-bottom: @vcv-wpbackend-switcher-wrapper-margin-top;
+}
+
 .vcv-wpbackend-switcher {
   box-sizing: border-box;
   display: inline-block;
@@ -118,5 +122,15 @@
     pointer-events: none;
     max-height: 1px;
     overflow: hidden;
+  }
+}
+
+@media screen and (max-width: 454px) {
+  .vcv-wpbackend-switcher {
+    margin: @vcv-wpbackend-switcher-mobile-margin;
+  }
+
+  .vcv-wpbackend-switcher--type-classic {
+    margin: @vcv-wpbackend-switcher-classic-mobile-margin;
   }
 }

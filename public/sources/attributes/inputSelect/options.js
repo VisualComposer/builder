@@ -7,23 +7,23 @@ const options = {
   size: [
     {
       value: 'px',
-      label: 'Px'
+      label: 'px'
     },
     {
       value: 'em',
-      label: 'Em'
+      label: 'em'
     },
     {
       value: 'rem',
-      label: 'Rem'
+      label: 'rem'
     },
     {
       value: 'vh',
-      label: 'Vh'
+      label: 'vh'
     },
     {
       value: 'vw',
-      label: 'Vw'
+      label: 'vw'
     },
     {
       value: '%',
