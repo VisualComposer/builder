@@ -4,6 +4,7 @@ import LoadingOverlayComponent from 'public/resources/components/overlays/loadin
 import { getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
+import classNames from 'classnames'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
@@ -98,17 +99,34 @@ export default class PopupComponent extends React.Component {
     let buttonHtml = (
       <button className='vcv-migration-button vcv-migration-button--start' onClick={this.clickDownloadAddon.bind(this)}>{localizations.addonWpbMigration_download_button}</button>
     )
-    if (window.VCV_HUB_GET_ADDONS().hasOwnProperty('wpbMigration')) {
+    const hasAddon = window.VCV_HUB_GET_ADDONS().hasOwnProperty('wpbMigration')
+    const hasWpb = true // TODO
+    if (hasAddon) {
       // addons exists but no WPB activated
       // TODO: Change also description text
       buttonHtml = null
+    }
+
+    let firstCheckClasses = {
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-save': hasAddon,
+      'vcv-ui-icon-close-thin': !hasAddon
+    }
+
+    let secondCheckClasses = {
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-save': hasWpb,
+      'vcv-ui-icon-close-thin': !hasWpb
     }
 
     return ReactDOM.createPortal(
       <div className='vcv-migration-notice'>
         <img className='vcv-migration-image' src={migrateIcon} alt='Migrate' />
         <h1 className='vcv-migration-title'>{localizations.addonWpbMigration_title}</h1>
-        <p className='vcv-migration-description'>{localizations.addonWpbMigration_description}</p>
+        <p className='vcv-migration-description'>{localizations.addonWpbMigration_intro}</p>
+        <i className={classNames(firstCheckClasses)} /><p className='vcv-migration-description'>{localizations.addonWpbMigration_checkAddon}</p>
+        <i className={classNames(secondCheckClasses)} /><p className='vcv-migration-description'>{localizations.addonWpbMigration_checkWpb}</p>
+        <p className='vcv-migration-description'>{localizations.addonWpbMigration_note}</p>
         {buttonHtml}
         <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickBackToWordpress.bind(this)}>{backToWordpressText}</button>
       </div>,
