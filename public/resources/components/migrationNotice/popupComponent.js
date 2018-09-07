@@ -110,13 +110,17 @@ export default class PopupComponent extends React.Component {
     let firstCheckClasses = {
       'vcv-ui-icon': true,
       'vcv-ui-icon-save': hasAddon,
-      'vcv-ui-icon-close-thin': !hasAddon
+      'vcv-ui-icon-close-thin': !hasAddon,
+      'vcv-ui-state--success': false,
+      'vcv-ui-state--error': true
     }
 
     let secondCheckClasses = {
       'vcv-ui-icon': true,
       'vcv-ui-icon-save': hasWpb,
-      'vcv-ui-icon-close-thin': !hasWpb
+      'vcv-ui-icon-close-thin': !hasWpb,
+      'vcv-ui-state--success': true,
+      'vcv-ui-state--error': false
     }
 
     return ReactDOM.createPortal(
@@ -124,9 +128,17 @@ export default class PopupComponent extends React.Component {
         <img className='vcv-migration-image' src={migrateIcon} alt='Migrate' />
         <h1 className='vcv-migration-title'>{localizations.addonWpbMigration_title}</h1>
         <p className='vcv-migration-description'>{localizations.addonWpbMigration_intro}</p>
-        <i className={classNames(firstCheckClasses)} /><p className='vcv-migration-description'>{localizations.addonWpbMigration_checkAddon}</p>
-        <i className={classNames(secondCheckClasses)} /><p className='vcv-migration-description'>{localizations.addonWpbMigration_checkWpb}</p>
-        <p className='vcv-migration-description'>{localizations.addonWpbMigration_note}</p>
+        <div className='vcv-migration-notes'>
+          <div className='vcv-migration-note'>
+            <i className={classNames(firstCheckClasses)} />
+            <p className='vcv-migration-description'>{localizations.addonWpbMigration_checkAddon}</p>
+          </div>
+          <div className='vcv-migration-note'>
+            <i className={classNames(secondCheckClasses)} />
+            <p className='vcv-migration-description'>{localizations.addonWpbMigration_checkWpb}</p>
+          </div>
+        </div>
+        <p className='vcv-migration-description vcv-migration-description--emphasized'>{localizations.addonWpbMigration_note}</p>
         {buttonHtml}
         <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickBackToWordpress.bind(this)}>{backToWordpressText}</button>
       </div>,
