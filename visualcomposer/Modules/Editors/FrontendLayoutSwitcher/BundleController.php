@@ -66,7 +66,10 @@ class BundleController extends Container implements Module
         EditorPostType $editorPostTypeHelper,
         Assets $assetsHelper
     ) {
-        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()) {
+        $screen = get_current_screen();
+        // @codingStandardsIgnoreLine
+        if ($screen->post_type === get_post_type() && $editorPostTypeHelper->isEditorEnabled(get_post_type())
+            && !$frontendHelper->isFrontend()) {
             // Add CSS
             wp_enqueue_style(
                 'vcv:editors:backendswitcher:style',
@@ -87,7 +90,10 @@ class BundleController extends Container implements Module
         EditorPostType $editorPostTypeHelper,
         Assets $assetsHelper
     ) {
-        if ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend()) {
+        $screen = get_current_screen();
+        // @codingStandardsIgnoreLine
+        if ($screen->post_type === get_post_type() && $editorPostTypeHelper->isEditorEnabled(get_post_type())
+            && !$frontendHelper->isFrontend()) {
             wp_enqueue_script(
                 'vcv:editors:backendswitcher:script',
                 vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
