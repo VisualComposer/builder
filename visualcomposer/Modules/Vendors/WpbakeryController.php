@@ -33,8 +33,8 @@ class WpbakeryController extends Container implements Module
         );
 
         $this->wpAddFilter(
-            'hideWpbakeryActions',
-            'page_row_actions'
+            'page_row_actions',
+            'hideWpbakeryActions'
         );
 
         $this->wpAddFilter(
@@ -72,21 +72,21 @@ class WpbakeryController extends Container implements Module
         return $actions;
     }
 
-    // @codingStandardsIgnoreStart
-    protected function hideWpbakeryAdminBarLink($wp_admin_bar)
+    protected function hideWpbakeryAdminBarLink($wpAdminBar)
     {
-        if (!is_object($wp_admin_bar)) {
+        if (!is_object($wpAdminBar)) {
+            // @codingStandardsIgnoreStart
             global $wp_admin_bar;
+            $wpAdminBar = $wp_admin_bar;
+            // @codingStandardsIgnoreEnd
         }
-        // @codingStandardsIgnoreEnd
+
         if (is_singular()) {
             $sourceId = get_the_ID();
             $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
             if (!empty($postContent)) {
                 $id = 'vc_inline-admin-bar-link';
-                // @codingStandardsIgnoreStart
-                $wp_admin_bar->remove_node( $id );
-                // @codingStandardsIgnoreEnd
+                $wpAdminBar->remove_node($id);
             }
         }
     }
