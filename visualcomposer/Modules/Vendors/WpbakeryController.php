@@ -10,11 +10,13 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class WpbakeryController extends Container implements Module
 {
     use WpFiltersActions;
+    use EventsFilters;
 
     public function __construct()
     {
@@ -47,6 +49,8 @@ class WpbakeryController extends Container implements Module
             'hideWpbakeryAdminBarLink',
             1001
         );
+
+        $this->addFilter('vcv:editor:variables', 'outputWpbakery');
     }
 
     protected function disableWpbakery($isValid)
@@ -86,8 +90,20 @@ class WpbakeryController extends Container implements Module
             $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
             if (!empty($postContent)) {
                 $id = 'vc_inline-admin-bar-link';
+                /** @var $wpAdminBar \WP_Admin_Bar */
                 $wpAdminBar->remove_node($id);
             }
         }
+    }
+
+    protected function outputWpbakery($variables)
+    {
+        $variables[] = [
+            'key' => 'VCV_WPBAKERY_ACTIVE',
+            'value' => true,
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 }

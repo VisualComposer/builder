@@ -1,5 +1,4 @@
 import React from 'react'
-import migrateIcon from 'public/sources/images/migrate-icon.png'
 import LoadingOverlayComponent from 'public/resources/components/overlays/loadingOverlay/loadingOverlayComponent'
 import { getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
@@ -9,6 +8,7 @@ import classNames from 'classnames'
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
 const hubAddonsStorage = getStorage('hubAddons')
+const migrationStorage = getStorage('migration')
 
 export default class PopupComponent extends React.Component {
   static propTypes = {
@@ -94,16 +94,13 @@ export default class PopupComponent extends React.Component {
       return <LoadingOverlayComponent />
     }
 
-    const backToWordpressText = localizations.addonWpbMigration_backToWordpress ? localizations.addonWpbMigration_backToWordpress : 'Back to wordpress'
-
     let buttonHtml = (
       <button className='vcv-migration-button vcv-migration-button--start' onClick={this.clickDownloadAddon.bind(this)}>{localizations.addonWpbMigration_download_button}</button>
     )
     const hasAddon = window.VCV_HUB_GET_ADDONS().hasOwnProperty('wpbMigration')
-    const hasWpb = true // TODO
+    const hasWpb = window.VCV_WPBAKERY_ACTIVE && window.VCV_WPBAKERY_ACTIVE()
     if (hasAddon) {
       // addons exists but no WPB activated
-      // TODO: Change also description text
       buttonHtml = null
     }
 
@@ -111,21 +108,21 @@ export default class PopupComponent extends React.Component {
       'vcv-ui-icon': true,
       'vcv-ui-icon-save': hasAddon,
       'vcv-ui-icon-close-thin': !hasAddon,
-      'vcv-ui-state--success': false,
-      'vcv-ui-state--error': true
+      'vcv-ui-state--success': hasAddon,
+      'vcv-ui-state--error': !hasAddon
     }
 
     let secondCheckClasses = {
       'vcv-ui-icon': true,
       'vcv-ui-icon-save': hasWpb,
       'vcv-ui-icon-close-thin': !hasWpb,
-      'vcv-ui-state--success': true,
-      'vcv-ui-state--error': false
+      'vcv-ui-state--success': hasWpb,
+      'vcv-ui-state--error': !hasWpb
     }
 
     return ReactDOM.createPortal(
       <div className='vcv-migration-notice'>
-        <img className='vcv-migration-image' src={migrateIcon} alt='Migrate' />
+        <img className='vcv-migration-image' src={migrationStorage.state('icon').get()} alt='Migrate' />
         <h1 className='vcv-migration-title'>{localizations.addonWpbMigration_title}</h1>
         <p className='vcv-migration-description'>{localizations.addonWpbMigration_intro}</p>
         <div className='vcv-migration-notes'>
@@ -140,7 +137,7 @@ export default class PopupComponent extends React.Component {
         </div>
         <p className='vcv-migration-description vcv-migration-description--emphasized'>{localizations.addonWpbMigration_note}</p>
         {buttonHtml}
-        <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickBackToWordpress.bind(this)}>{backToWordpressText}</button>
+        <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickBackToWordpress.bind(this)}>{localizations.addonWpbMigration_backToWordpressText}</button>
       </div>,
       this.el
     )
