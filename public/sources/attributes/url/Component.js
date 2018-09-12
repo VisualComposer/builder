@@ -5,7 +5,6 @@ import Attribute from '../attribute'
 import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
 import classNames from 'classnames'
-import $ from 'jquery'
 import UrlDropdownInput from './UrlDropdownInput'
 
 let pagePosts = {
@@ -87,7 +86,7 @@ export default class Url extends Attribute {
         }
       }
     }.bind(this)
-    request.send($.param(data))
+    request.send(window.jQuery.param(data))
   }
 
   loadPosts (search) {

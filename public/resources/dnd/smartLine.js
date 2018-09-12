@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const $ = require('jquery')
 /**
  * From to highlight position
  * @constructor
@@ -67,7 +66,7 @@ SmartLine.prototype.getVcvIdFromElement = function (element) {
 }
 SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let position = false
-  let $element = $(element)
+  let $element = window.jQuery(element)
   let defaultLiteSize = 2
   let lineWidth = defaultLiteSize
   let lineHeight = defaultLiteSize

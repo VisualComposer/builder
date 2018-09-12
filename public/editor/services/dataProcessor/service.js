@@ -1,6 +1,5 @@
 import { addService, env } from 'vc-cake'
-import $ from 'jquery'
-import pako from 'pako'
+import deflate from 'pako/lib/deflate'
 import base64 from 'base-64'
 
 let processes = []
@@ -19,7 +18,7 @@ const Service = {
           request.open(method, url)
           contentType && request.setRequestHeader('Content-type', contentType)
           try {
-            request.send(args ? $.param(args) : '')
+            request.send(args ? window.jQuery.param(args) : '')
           } catch (e) {
             reject(this.statusText)
           }
@@ -77,7 +76,7 @@ const Service = {
     }, args)
 
     if (env('SAVE_ZIP')) {
-      let binaryString = pako.deflate(JSON.stringify(args), { to: 'string' })
+      let binaryString = deflate(JSON.stringify(args), { to: 'string' })
       let encodedString = base64.encode(binaryString)
       args = {
         'vcv-zip': encodedString
@@ -94,7 +93,7 @@ const Service = {
     }, args)
 
     if (env('SAVE_ZIP')) {
-      let binaryString = pako.deflate(JSON.stringify(args), { to: 'string' })
+      let binaryString = deflate(JSON.stringify(args), { to: 'string' })
       let encodedString = base64.encode(binaryString)
       args = {
         'vcv-zip': encodedString

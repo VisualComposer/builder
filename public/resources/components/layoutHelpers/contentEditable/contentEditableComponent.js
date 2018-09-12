@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import MediumEditor from 'medium-editor'
 import vcCake from 'vc-cake'
-import $ from 'jquery'
 import striptags from 'striptags'
 import PropTypes from 'prop-types'
 import lodash from 'lodash'
@@ -409,7 +408,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   handleGlobalClick (e) {
-    const $target = $(e.target)
+    const $target = window.jQuery(e.target)
     if (!$target.is('[data-vcv-element="' + this.props.id + '"]') && !$target.parents('[data-vcv-element="' + this.props.id + '"]').length) {
       this.medium.destroy()
       if (vcCake.getData('vcv:layoutCustomMode') !== null) {
