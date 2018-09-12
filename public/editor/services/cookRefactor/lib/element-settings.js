@@ -1,10 +1,10 @@
-import lodash from 'lodash'
+import {defaults, defaultsDeep} from 'lodash'
 
 let items = {}
 export default {
   add (settings, componentCallback, cssSettings) {
     items[ settings.tag.value ] = {
-      settings: lodash.defaults(settings, { tag: null }),
+      settings: defaults(settings, { tag: null }),
       component: componentCallback,
       cssSettings: cssSettings
     }
@@ -13,7 +13,7 @@ export default {
     delete items[ tag ]
   },
   get (tag) {
-    return items[ tag ] || null
+    return defaultsDeep({}, items[ tag ]) || null
   },
   findTagByName (name) {
     return Object.keys(items).find((key) => {

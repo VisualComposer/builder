@@ -1,3 +1,4 @@
+import {defaultsDeep} from 'lodash'
 export default class TimeMachine {
   constructor (name, limit = 0) {
     Object.defineProperties(this, {
@@ -71,7 +72,7 @@ export default class TimeMachine {
     if (this.can('redo')) {
       this.stack = this.stack.slice(0, this.stackPosition)
     }
-    this.stack.push(data)
+    this.stack.push(defaultsDeep({}, data))
     if (this.limit > 0) {
       this.stack = this.stack.slice(0, this.limit)
     }
