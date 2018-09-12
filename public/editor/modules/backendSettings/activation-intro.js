@@ -1,4 +1,4 @@
-import {showFirstScreen, showAboutScreen} from './screens'
+import { showFirstScreen, showAboutScreen } from './screens'
 
 (($) => {
   $(() => {

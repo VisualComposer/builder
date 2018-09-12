@@ -1,4 +1,4 @@
-import {default as attributeManager} from './attribute-manager'
+import attributeManager from './attribute-manager'
 
 export function buildSettingsObject (settings) {
   return Object.keys(settings).reduce((data, k) => {

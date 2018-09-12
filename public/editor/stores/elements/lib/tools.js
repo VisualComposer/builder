@@ -8,7 +8,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   let newColumns = []
   const devices = [ 'all', 'defaultSize', 'xs', 'sm', 'md', 'lg', 'xl' ]
   let layouts = data.layout
-  let defaultColumnData = {tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {}, size: {}}
+  let defaultColumnData = { tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {}, size: {} }
   let createdColumns = []
   const disableStacking = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
   let lastColumnObject = null

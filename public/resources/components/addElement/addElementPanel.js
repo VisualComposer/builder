@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {default as Categories} from './lib/categories'
+import Categories from './lib/categories'
 
 export default class AddElementPanel extends React.Component {
   static propTypes = {

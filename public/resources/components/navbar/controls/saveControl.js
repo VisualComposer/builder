@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 
-import {getStorage} from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
 const localStorage = getStorage('localStorage')
 

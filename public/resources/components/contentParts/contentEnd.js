@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import {getStorage} from 'vc-cake'
+import { getStorage } from 'vc-cake'
 import Resizer from '../../resizer/resizer'
 import PropTypes from 'prop-types'
 

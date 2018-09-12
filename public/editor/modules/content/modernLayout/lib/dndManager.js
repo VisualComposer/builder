@@ -160,7 +160,7 @@ export default class DndManager {
       if (related === 'vcv-dnd-trash-bin') {
         workspaceStorage.trigger('remove', id)
       } else {
-        workspaceStorage.trigger('drop', id, {action: action, related: related, element: element})
+        workspaceStorage.trigger('drop', id, { action: action, related: related, element: element })
       }
     }
   }

@@ -89,7 +89,7 @@ export default class ContentStart extends React.Component {
   }
 
   render () {
-    const {children} = this.props
+    const { children } = this.props
     /*
     if (this.state.contentComponent) {
       content = React.createElement(this.state.contentComponent, this.state.contentProps)

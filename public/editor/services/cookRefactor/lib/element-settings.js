@@ -1,4 +1,4 @@
-import {defaults, defaultsDeep} from 'lodash'
+import { defaults, defaultsDeep } from 'lodash'
 
 let items = {}
 export default {

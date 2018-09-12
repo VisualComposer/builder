@@ -1,4 +1,4 @@
-'use strict' /* @flow */
+'use strict'
 
 import React from 'react'
 import reactCSS from 'reactcss'
@@ -8,7 +8,9 @@ import shallowCompare from 'react-addons-shallow-compare'
 import Swatch from './Swatch'
 
 export class SketchPresetColors extends React.Component {
-  shouldComponentUpdate = shallowCompare.bind(this, this, arguments[0], arguments[1])
+  shouldComponentUpdate (nextProps, nextState) {
+    return shallowCompare.bind(this, this, nextProps, nextState)
+  }
 
   handleClick = (hex: any) => {
     this.props.onClick({

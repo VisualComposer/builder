@@ -1,4 +1,4 @@
-import {log as logError} from './logger'
+import { log as logError } from './logger'
 
 export default class {
   constructor (globalUrls, vendorUrl, updaterUrl) {

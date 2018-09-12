@@ -1,6 +1,6 @@
 import React from 'react'
 import ClassNames from 'classnames'
-import {getStorage, onDataChange, ignoreDataChange} from 'vc-cake'
+import { getStorage, onDataChange, ignoreDataChange } from 'vc-cake'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import Combokeys from 'combokeys'

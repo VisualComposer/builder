@@ -254,14 +254,14 @@ export default class BlankRowPlaceholder extends React.Component {
       this.handleAddElementControl()
     }
     if (control.tag === 'textBlock') {
-      const element = cook.get({tag: control.tag}).toJS()
+      const element = cook.get({ tag: control.tag }).toJS()
       this.handleElementControlWithForm(element)
     }
     if (control.tag === 'row') {
       const layoutData = {
         layoutData: control.options.layout
       }
-      const element = cook.get({tag: control.tag, layout: layoutData}).toJS()
+      const element = cook.get({ tag: control.tag, layout: layoutData }).toJS()
       if (control.options.type && control.options.type === 'custom') {
         this.handleElementControlWithForm(element, 'layout')
       } else {

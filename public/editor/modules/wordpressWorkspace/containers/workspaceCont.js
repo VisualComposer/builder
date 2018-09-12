@@ -78,7 +78,7 @@ export default class WorkspaceCont extends React.Component {
   }
 
   render () {
-    const {content, contentId, settings} = this.state
+    const { content, contentId, settings } = this.state
     this.updatePanel()
 
     return (

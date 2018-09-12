@@ -18,7 +18,7 @@ export default class RowControl extends React.Component {
     return <span className='vcv-ui-blank-row-element-control'>
       <span
         className={svgClasses}
-        dangerouslySetInnerHTML={{__html: addElementIcon}}
+        dangerouslySetInnerHTML={{ __html: addElementIcon }}
         alt={RowControl.localizations ? RowControl.localizations.addElement : 'Add Element'}
       />
       <span className='vcv-ui-blank-row-element-control-label'>Add Element</span>

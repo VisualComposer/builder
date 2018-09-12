@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getData, getStorage, env} from 'vc-cake'
+import { getData, getStorage, env } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')

@@ -1,6 +1,6 @@
 import { showError } from './errors'
 import { showFirstScreen, loadLastScreen, showLoadingScreen, showOopsScreen } from './screens'
-import { default as PostUpdater } from './postUpdate'
+import PostUpdater from './postUpdate'
 import { log as logError } from './logger'
 
 (($) => {

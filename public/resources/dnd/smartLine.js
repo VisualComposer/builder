@@ -147,7 +147,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   if (position && !this.isSameElementPosition(linePoint, this.getVcvIdFromElement(element))) {
     this.clearStyle()
     this.setPoint(linePoint.x, linePoint.y)
-    this.setStyle({...point, ...linePoint}, lineWidth, lineHeight, frame)
+    this.setStyle({ ...point, ...linePoint }, lineWidth, lineHeight, frame)
     window.setTimeout(function () {
       this.el && this.el.classList.add('vcv-is-shown')
       if (isVerticalLine) {

@@ -1,4 +1,4 @@
-import {defaultsDeep} from 'lodash'
+import { defaultsDeep } from 'lodash'
 export default class TimeMachine {
   constructor (name, limit = 0) {
     Object.defineProperties(this, {

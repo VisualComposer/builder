@@ -1,4 +1,4 @@
-'use strict' /* @flow */
+'use strict'
 
 import React from 'react'
 import reactCSS from 'reactcss'
@@ -7,7 +7,9 @@ import shallowCompare from 'react-addons-shallow-compare'
 import { EditableInput } from 'react-color/lib/components/common'
 
 export class ShetchFields extends React.Component {
-  shouldComponentUpdate = shallowCompare.bind(this, this, arguments[0], arguments[1])
+  shouldComponentUpdate (nextProps, nextState) {
+    return shallowCompare.bind(this, this, nextProps, nextState)
+  }
 
   handleChange = (data: any) => {
     if (data.hex) {
@@ -139,3 +141,4 @@ export class ShetchFields extends React.Component {
 }
 
 export default ShetchFields
+

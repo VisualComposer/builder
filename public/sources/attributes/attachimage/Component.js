@@ -5,7 +5,7 @@ import Url from '../url/Component'
 import AttachImageList from './attachImageList'
 import FilterList from './filterList'
 import Toggle from '../toggle/Component'
-import {SortableContainer, arrayMove} from 'react-sortable-hoc'
+import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 
 const SortableList = SortableContainer((props) => {

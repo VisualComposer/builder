@@ -1,5 +1,5 @@
 import React from 'react'
-import {format} from 'util'
+import { format } from 'util'
 import PropTypes from 'prop-types'
 
 export default class EditFromField extends React.Component {

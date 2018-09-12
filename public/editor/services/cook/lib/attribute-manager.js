@@ -1,4 +1,4 @@
-import { default as ElementAttribute } from './element-attribute'
+import ElementAttribute from './element-attribute'
 
 export default {
   items: {},

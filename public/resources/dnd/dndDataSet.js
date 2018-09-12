@@ -392,7 +392,7 @@ export default class DndDataSet {
   }
 
   createDraggingElementFromTag (tag, domNode) {
-    let element = cook.get({tag: tag})
+    let element = cook.get({ tag: tag })
     if (!element) { return }
     let containerFor = element.get('containerFor')
     let relatedTo = element.get('relatedTo')
@@ -528,9 +528,9 @@ export default class DndDataSet {
     let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
     let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     if (e.touches && e.touches[0]) {
-      e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY, left: scrollX, top: scrollY})
+      e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({ x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY, left: scrollX, top: scrollY })
     } else {
-      e.clientX !== undefined && e.clientY !== undefined && this.check({x: e.clientX - offsetX, y: e.clientY - offsetY, left: scrollX, top: scrollY})
+      e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX - offsetX, y: e.clientY - offsetY, left: scrollX, top: scrollY })
     }
   }
 
@@ -552,9 +552,9 @@ export default class DndDataSet {
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
     if (e.touches && e.touches[0]) {
       e.preventDefault()
-      this.start(id, {x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY}, null, e.currentTarget)
+      this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
     } else {
-      this.start(id, {x: e.clientX, y: e.clientY, left: scrollX, top: scrollY}, null, e.currentTarget)
+      this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
     }
   }
 

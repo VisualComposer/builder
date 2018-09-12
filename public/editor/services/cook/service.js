@@ -1,9 +1,9 @@
-import { default as lodash } from 'lodash'
+import lodash from 'lodash'
 import { addService, getService, env } from 'vc-cake'
 
 import { buildSettingsObject } from './lib/tools'
-import { default as elementSettings } from './lib/element-settings'
-import { default as attributeManager } from './lib/attribute-manager'
+import elementSettings from './lib/element-settings'
+import attributeManager from './lib/attribute-manager'
 import CookElement from './lib/element'
 // FT: FT_PARAM_GROUP_IN_EDIT_FORM
 import '../cookRefactor/service'

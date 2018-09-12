@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
-import {getRealSize} from './tools'
-import {Scrollbars} from 'react-custom-scrollbars'
+import { getRealSize } from './tools'
+import { Scrollbars } from 'react-custom-scrollbars'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 const Utils = vcCake.getService('utils')
@@ -98,7 +98,7 @@ export default class Navbar extends React.Component {
     })
   }
   componentWillMount () {
-    const {draggable} = this.props
+    const { draggable } = this.props
     if (!draggable) {
       this.setState({
         navPosX: 0,
@@ -145,7 +145,7 @@ export default class Navbar extends React.Component {
       return
     }
     // TODO: move this method to wrapper itself
-    const {locked} = this.props
+    const { locked } = this.props
     let { navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
     let navBarStyle = {}
     let manageLock = (shouldLocked) => {
@@ -554,7 +554,7 @@ export default class Navbar extends React.Component {
     e.target.dispatchEvent(movingEvent)
   }
   renderDragHandler () {
-    const {draggable} = this.props
+    const { draggable } = this.props
     if (!draggable || this.isMobile) {
       return true
     }

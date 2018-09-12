@@ -1,5 +1,5 @@
 import React from 'react'
-import {env, setData, getStorage} from 'vc-cake'
+import { env, setData, getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
@@ -129,7 +129,7 @@ export default class LayoutDropdown extends React.Component {
           <option value='none'>{noneText}</option>
           {this.getTemplateOptions()}
         </select>
-        <p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{__html: chooseHFSText.replace('{name}', this.props.layoutName.toLocaleLowerCase()).replace('{link}', createNewUrl)}} />
+        <p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: chooseHFSText.replace('{name}', this.props.layoutName.toLocaleLowerCase()).replace('{link}', createNewUrl) }} />
       </div>
     )
   }
