@@ -349,7 +349,7 @@ class Localizations extends Container implements Helper
             ),
             'addonWpbMigration_checkAddon' => __('Download Migration addon from the Hub', 'vcwb'),
             'addonWpbMigration_checkWpb' => __('Keep WPBakery Page Builder plugin activated', 'vcwb'),
-            'addonWpbMigration_note' => __('Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the Shortcode element.', 'vcwb'),
+            'addonWpbMigration_note' => __('Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element.', 'vcwb'),
             'addonWpbMigration_download_button' => __('Download Migration Addon', 'vcwb'),
             'addonWpbMigration_backToWordpress' => __('Back to WordPress', 'vcwb'),
         ];
