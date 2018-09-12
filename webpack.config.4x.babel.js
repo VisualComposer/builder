@@ -15,7 +15,6 @@ module.exports = {
     wpbackendswitch: './public/wpbackend-switch',
     wpbase: './public/wp-base',
     vendor: [
-      'jquery',
       'react',
       './oldreact.js',
       'react-dom',
