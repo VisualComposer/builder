@@ -269,7 +269,7 @@ if (!defined('VCV_TF_CSS_CHECKSUM')) {
 if (!defined('VCV_FT_TEMPLATE_DATA_ASYNC')) {
     define(
         'VCV_FT_TEMPLATE_DATA_ASYNC',
-        false
+        true
     );
 }
 
