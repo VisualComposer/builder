@@ -137,6 +137,10 @@ module.exports = {
       contents: `module.exports = require('react')`
     }),
     new VirtualModulePlugin({
+      moduleName: 'node_modules/jquery/dist/jquery.js',
+      contents: `module.exports = window.jQuery`
+    }),
+    new VirtualModulePlugin({
       moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/web.dom.iterable.js',
       contents: `module.exports = require('core-js/library/modules/web.dom.iterable.js')`
     }),

@@ -2,6 +2,8 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import webpack from 'webpack'
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
 import VirtualModulePlugin from 'virtual-module-webpack-plugin'
+// import DuplicatePackageCheckerPlugin from 'duplicate-package-checker-webpack-plugin'
+// import BundleAnalyzerPlugin from 'webpack-bundle-analyzer/lib/BundleAnalyzerPlugin'
 
 import Collector from './tools/webpack-collector-4x'
 import config from './webpack.config.4x.babel'
@@ -130,6 +132,10 @@ module.exports = Object.assign({}, config, {
       contents: `module.exports = require('react')`
     }),
     new VirtualModulePlugin({
+      moduleName: 'node_modules/jquery/dist/jquery.js',
+      contents: `module.exports = window.jQuery`
+    }),
+    new VirtualModulePlugin({
       moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/web.dom.iterable.js',
       contents: `module.exports = require('core-js/library/modules/web.dom.iterable.js')`
     }),
@@ -146,6 +152,8 @@ module.exports = Object.assign({}, config, {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    })
+    })/* ,
+    new DuplicatePackageCheckerPlugin(),
+    new BundleAnalyzerPlugin() */
   ]
 })
