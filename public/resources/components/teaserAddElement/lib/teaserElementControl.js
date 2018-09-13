@@ -209,7 +209,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   openPremiumTab () {
-    window.open(window.VCV_UTM().goPremiumElementDownload);
+    window.open(window.VCV_UTM().goPremiumElementDownload)
   }
 
   render () {
