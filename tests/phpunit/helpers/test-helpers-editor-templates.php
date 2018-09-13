@@ -25,6 +25,9 @@ class HelpersEditorTemplatesTest extends WP_UnitTestCase
         $this->assertTrue(is_numeric($postId));
         $post = $postTypeHelper->setupPost($postId);
         $template = $templatesHelper->get($postId);
+        if (vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
+            unset($template->vcvTemplateElements);
+        }
         $this->assertEquals(1, did_action('init'));
         $this->assertTrue(post_type_exists('vcv_templates'));
         $this->assertTrue(is_object($template));
