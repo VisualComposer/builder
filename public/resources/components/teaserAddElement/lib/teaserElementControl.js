@@ -277,11 +277,19 @@ export default class TeaserElementControl extends ElementControl {
     } else if (this.props.type === 'template') {
       action = this.addTemplate
       if (elementState !== 'success') {
-        action = this.downloadTemplate
+        if (lockIcon) {
+          action = this.openPremiumTab
+        } else {
+          action = this.downloadTemplate
+        }
       }
     } else if (this.props.type === 'addon') {
       if (elementState !== 'success') {
-        action = this.downloadAddon
+        if (lockIcon) {
+          action = this.openPremiumTab
+        } else {
+          action = this.downloadAddon
+        }
       } else {
         action = this.handleAddonClick
       }
