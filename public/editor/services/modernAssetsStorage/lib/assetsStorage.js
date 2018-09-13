@@ -588,6 +588,10 @@ export default class {
       let useMixin = false
       Object.keys(foundMixins[ mixin ].variables).sort().forEach((variable) => {
         let name = foundMixins[ mixin ].variables[ variable ].value || 'empty' // must be string 'empty' for css selector
+        if (!lodash.isString(name)) {
+          vcCake.env('debug') && console.warn('Mixin atribute value not a string')
+        }
+        name = name + ''
         if (name !== 'empty' && foundMixins[ mixin ].variables[ variable ].namePattern) {
           name = name.match(new RegExp(foundMixins[ mixin ].variables[ variable ].namePattern, 'gi'))
           name = name.length ? name.join('-') : 'empty'
