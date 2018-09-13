@@ -100,8 +100,8 @@ export default class CssBuilder {
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.addElementFiles(data)
     this.doJobs().then(() => {
-      this.contentWindow.vcv.trigger('ready', 'add', data.id)
-      this.window.vcv.trigger('ready', 'add', data.id)
+      this.contentWindow.vcv.trigger('ready', 'add', data.id, {}, data.tag)
+      this.window.vcv.trigger('ready', 'add', data.id, {}, data.tag)
     })
   }
 
@@ -116,8 +116,8 @@ export default class CssBuilder {
     this.addElementGlobalAttributesCssMixins(data) // designOptions!
     this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
     this.doJobs().then(() => {
-      this.contentWindow.vcv.trigger('ready', 'update', data.id, options)
-      this.window.vcv.trigger('ready', 'update', data.id, options)
+      this.contentWindow.vcv.trigger('ready', 'update', data.id, options, data.tag)
+      this.window.vcv.trigger('ready', 'update', data.id, options, data.tag)
     })
   }
 
@@ -126,8 +126,8 @@ export default class CssBuilder {
     this.removeCssElementBaseByElement(tag)
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
-    this.contentWindow.vcv.trigger('ready', 'destroy', id)
-    this.window.vcv.trigger('ready', 'destroy', id)
+    this.contentWindow.vcv.trigger('ready', 'destroy', id, {}, tag)
+    this.window.vcv.trigger('ready', 'destroy', id, {}, tag)
   }
 
   updateStyleDomNodes (data) {

@@ -30,6 +30,7 @@ class Utm implements Helper
             'feAddTemplateSearchPremiumTemplates' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=add-template&utm_campaign=gopremium&utm_content=search',
             'feAddElementSearchPremiumVersion' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=add-element&utm_campaign=gopremium&utm_content=search',
             'feHubTeaserPremiumVersion' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium',
+            'goPremiumElementDownload' => 'https://visualcomposer.io/premium?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium&utm_content=locked-item'
         ];
 
         return $utm;
