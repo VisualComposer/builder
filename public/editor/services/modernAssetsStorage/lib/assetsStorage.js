@@ -474,7 +474,6 @@ export default class {
         let paramsGroupValue = element.get(key)
         if (paramsGroupValue && paramsGroupValue.value && paramsGroupValue.value.length) {
           paramsGroupValue.value.forEach((value, i) => {
-            value.tag = element.get('tag')
             // here we need to add options
             const paramGroupSettings = {}
             const paramGroupSettingsList = settings[ key ].options.settings
@@ -638,8 +637,6 @@ export default class {
           let paramsGroupValue = element.get(key)
           if (paramsGroupValue && paramsGroupValue.value && paramsGroupValue.value.length) {
             paramsGroupValue.value.forEach((value, i) => {
-              let tag = `${element.get('tag')}-${element.get('id')}-${key}`
-              value.tag = tag
               mixins = this.getCssMixinsByElement(value, mixins)
             })
           }
