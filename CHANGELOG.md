@@ -1,3 +1,31 @@
+## ver 2.11 - 14.09.2018
+* Update: CSS-cache issues eliminated by adding checksum to asset URL
+* Update: Improved performance with editor style compilation on the initial editor load
+* Update: Notification about 3rd party elements added to the element preview
+* Update: Empty space element updated to accept various type of sizes
+* Update: Visual Composer and page builder buttons are aligned in height
+* Update: 'Lock' icon in the Visual Composer Hub opens Premium section of visualcomposer.io site
+* Fix: Goodreads widget works properly
+* Fix: Bold and Italic options of inline editor works properly with Total theme
+* Fix: Compatibility with One.com hosting environment
+* Fix: 'Show on sticky' option works properly
+* Fix: Inline editor works properly for paramGroup items
+* Fix: Editor doesn't overwrite theme fonts
+* Fix: Google Fonts are rendering properly on Safari
+* Fix: Boxed template warnings removed
+* Fix: Widgets ajaxForm attribute gets updated automatically
+* Fix: Column styles are loaded properly on the public side
+* Fix: TypeError window.vcvSandwichModal resolved
+* Fix: Drag and Drop helper is added to 'Add Element'
+* Fix: Template data loading working properly
+* Fix: Pageable container work properly
+* Fix: Row cssmixins (Design Options) are not called twice to improve performance
+* Fix: vcvtitle and the_title hook
+* Fix: Blank template for templates editor/import fixed
+* Fix: 'Edit with Visual Composer' button is not displayed on WordPress Edit Menu 
+* Fix: Compatibility with Contact Form 7 redirection plugin
+* Fix: Params group items work properly
+
 ## ver 2.10 - 09.08.2018
 * Update: Page layout options updated to choose between boxed and stretched for all layouts
 * Fix: Theme editor width works properly
