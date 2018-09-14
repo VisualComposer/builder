@@ -127,7 +127,7 @@ addStorage('elements', (storage) => {
         initChild.parent = data.id
         const childData = cook.get(initChild)
         if (childData) {
-          if(data.tag === 'section') {
+          if (data.tag === 'section') {
             storage.trigger('add', childData.toJS(), true, { silent: true })
           } else {
             storage.trigger('add', childData.toJS(), false, { silent: true })
