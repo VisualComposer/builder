@@ -98,7 +98,6 @@ addStorage('elements', (storage) => {
       return
     }
     elementData = recursiveElementsRebuild(cookElement)
-
     if (wrap && !cookElement.get('parent')) {
       const parentWrapper = cookElement.get('parentWrapper')
       if (parentWrapper === undefined) {
@@ -128,7 +127,11 @@ addStorage('elements', (storage) => {
         initChild.parent = data.id
         const childData = cook.get(initChild)
         if (childData) {
-          storage.trigger('add', childData.toJS(), false, { silent: true })
+          if(data.tag === 'section') {
+            storage.trigger('add', childData.toJS(), true, { silent: true })
+          } else {
+            storage.trigger('add', childData.toJS(), false, { silent: true })
+          }
         }
       })
     }
