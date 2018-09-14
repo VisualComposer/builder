@@ -2,8 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import ReactDOMServer from 'react-dom/server'
 import PropTypes from 'prop-types'
-const { Component } = React
-export default class ImageSlideshowBackground extends Component {
+
+export default class ImageSlideshowBackground extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     atts: PropTypes.object,
@@ -82,6 +82,7 @@ export default class ImageSlideshowBackground extends Component {
         <div className='vcvhelper' data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
       </div>
     }
+
     return null
   }
 }

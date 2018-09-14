@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-const { Component } = React
-export default class VimeoBackground extends Component {
+
+export default class VimeoBackground extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     atts: PropTypes.object,
@@ -25,6 +25,7 @@ export default class VimeoBackground extends Component {
         `vce-asset-video-vimeo-container`,
         `vce-visible-${deviceKey}-only`
       ]
+
       return <div className={classNames(containerClasses)}>
         <div className='vce-asset-video-vimeo-wrapper'>
           <div className='vce-asset-video-vimeo-background'
@@ -37,6 +38,7 @@ export default class VimeoBackground extends Component {
         </div>
       </div>
     }
+
     return null
   }
 }
