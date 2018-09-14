@@ -2,9 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import DividerShape from './dividerShape'
 import PropTypes from 'prop-types'
-const { Component } = React
 
-export default class Divider extends Component {
+export default class Divider extends React.Component {
   static propTypes = {
     deviceData: PropTypes.object,
     deviceKey: PropTypes.string,
@@ -50,10 +49,10 @@ export default class Divider extends Component {
 
     let containerClasses = classNames({
       'vce-container-divider': true,
-      [`vce-divider-position--${type && type.toLowerCase()}`]: type,
+      [ `vce-divider-position--${type && type.toLowerCase()}` ]: type,
       'vce-container-divider-flip--horizontally': flipHorizontally,
-      [backgroundStyleClass]: dividerBackgroundStyle,
-      [backgroundPositionClass]: dividerBackgroundPosition,
+      [ backgroundStyleClass ]: dividerBackgroundStyle,
+      [ backgroundPositionClass ]: dividerBackgroundPosition,
       'vce-container-divider-new': true
     }, `vce-visible-${deviceKey}-only`)
 

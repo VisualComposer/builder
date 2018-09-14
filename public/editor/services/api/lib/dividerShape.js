@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-const { Component } = React
+
 const shapes = require('./shapes-new')
 
-export default class DividerShape extends Component {
+export default class DividerShape extends React.Component {
   static propTypes = {
     width: PropTypes.string,
     height: PropTypes.string,
@@ -23,8 +23,8 @@ export default class DividerShape extends Component {
   setAlphaForColor (color, alpha = '1') {
     if (color.indexOf('rgba') >= 0) {
       let values = color.match(/[\d.]+/g)
-      if (values[3] && values[3] !== '1') {
-        values[3] = alpha
+      if (values[ 3 ] && values[ 3 ] !== '1') {
+        values[ 3 ] = alpha
         color = `rgba(${values.join(',')})`
       }
     }
@@ -35,7 +35,7 @@ export default class DividerShape extends Component {
     let alpha = '1'
     if (color.indexOf('rgba') >= 0) {
       let values = color.match(/[\d.]+/g)
-      values[3] && (alpha = values[3])
+      values[ 3 ] && (alpha = values[ 3 ])
     }
     return alpha
   }
