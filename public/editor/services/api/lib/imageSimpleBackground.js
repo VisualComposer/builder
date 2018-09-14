@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-const { Component } = React
-export default class ImageSimpleBackground extends Component {
+
+export default class ImageSimpleBackground extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     atts: PropTypes.object,
@@ -57,12 +57,14 @@ export default class ImageSimpleBackground extends Component {
       let slideshowClasses = classNames([
         `vce-asset-background-simple`
       ])
+
       return <div className={classNames(containerClasses)}>
         <div className={classNames(slideshowClasses)}>
           {imagesJSX}
         </div>
       </div>
     }
+
     return null
   }
 }

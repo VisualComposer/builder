@@ -2,8 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import ReactDOMServer from 'react-dom/server'
 import PropTypes from 'prop-types'
-const { Component } = React
-export default class ImageBackgroundZoom extends Component {
+
+export default class ImageBackgroundZoom extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     atts: PropTypes.object,
@@ -74,10 +74,12 @@ export default class ImageBackgroundZoom extends Component {
           </div>
         </div>
       )
+
       return <div className={classNames(containerClasses)}>
         <div className='vcvhelper' data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
       </div>
     }
+
     return null
   }
 }

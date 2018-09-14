@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-const { Component } = React
-export default class YoutubeBackground extends Component {
+
+export default class YoutubeBackground extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     atts: PropTypes.object,
@@ -38,6 +38,7 @@ export default class YoutubeBackground extends Component {
         </div>
       </div>
     }
+
     return null
   }
 }

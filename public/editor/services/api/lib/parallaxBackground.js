@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-const { Component } = React
-export default class ParallaxBackground extends Component {
+
+export default class ParallaxBackground extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     atts: PropTypes.object,
@@ -39,12 +39,14 @@ export default class ParallaxBackground extends Component {
         customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
       }
       customProps[ 'data-vce-assets-parallax-reverse' ] = parallaxReverse
+
       return <div className={classNames(containerClasses)} {...customProps} >
         <div className={classNames(elementClasses)}>
-          { content }
+          {content}
         </div>
       </div>
     }
+
     return null
   }
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-const { Component } = React
-export default class VideoEmbedBackground extends Component {
+
+export default class VideoEmbedBackground extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     atts: PropTypes.object,
@@ -19,6 +19,7 @@ export default class VideoEmbedBackground extends Component {
         `vce-asset-video-embed-container`,
         `vce-visible-${deviceKey}-only`
       ]
+
       return <div className={classNames(containerClasses)}>
         <div className='vce-asset-video-embed-wrapper'>
           <div className='vce-asset-video-embed-background'
@@ -33,6 +34,7 @@ export default class VideoEmbedBackground extends Component {
         </div>
       </div>
     }
+
     return null
   }
 }
