@@ -75,7 +75,7 @@ class DataController extends Container implements Module
         update_post_meta(
             $sourceId,
             'vcvSettingsSourceCustomCss',
-            $requestHelper->input('vcv-settings-source-custom-css')
+            wp_slash($requestHelper->input('vcv-settings-source-custom-css'))
         );
     }
 
@@ -86,7 +86,7 @@ class DataController extends Container implements Module
         // Base css
         $elementsCssData = $requestHelper->inputJson('vcv-elements-css-data', '');
 
-        update_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', $elementsCssData);
+        update_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', wp_slash($elementsCssData));
         // Other data
         $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
         $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
