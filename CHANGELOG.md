@@ -1,4 +1,4 @@
-## ver 2.11 - 14.09.2018
+## ver 2.11 - 17.09.2018
 * Update: CSS-cache issues eliminated by adding checksum to asset URL
 * Update: Improved performance with editor style compilation on the initial editor load
 * Update: Notification about 3rd party elements added to the element preview
