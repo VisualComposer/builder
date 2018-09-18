@@ -71,7 +71,7 @@ class DataController extends Container implements Module
             }
         }
         update_post_meta($sourceId, 'vcvSourceAssetsFiles', $assetsFiles);
-        update_post_meta($sourceId, 'vcvSourceCss', $requestHelper->input('vcv-source-css'));
+        update_post_meta($sourceId, 'vcvSourceCss', wp_slash($requestHelper->input('vcv-source-css')));
         update_post_meta(
             $sourceId,
             'vcvSettingsSourceCustomCss',
