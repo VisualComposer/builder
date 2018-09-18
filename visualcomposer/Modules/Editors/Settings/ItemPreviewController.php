@@ -50,7 +50,8 @@ class ItemPreviewController extends Container implements Module
     {
         $frontendSettings = $optionsHelper->get('frontendSettings');
 
-        $response['itemPreviewDisabled'] = $frontendSettings['itemPreviewDisabled'];
+        $response['itemPreviewDisabled'] = is_array($frontendSettings)
+        && isset($frontendSettings['itemPreviewDisabled']) ? $frontendSettings['itemPreviewDisabled'] : false;
 
         return $response;
     }
