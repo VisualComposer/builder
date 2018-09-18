@@ -39,6 +39,6 @@ export default class RawCode extends Attribute {
   }
 
   render () {
-    return <div className='vcv-row-html-editor-container' ref={editor => (this.editorWrapper = editor)} />
+    return <textarea className='vcv-row-html-editor-container' ref={editor => (this.editorWrapper = editor)} />
   }
 }
