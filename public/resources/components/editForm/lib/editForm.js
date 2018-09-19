@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import EditFormSection from './editFormSection'
 import Scrollbar from '../../../scrollbar/scrollbar.js'
-import { env } from 'vc-cake'
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -63,7 +62,7 @@ export default class EditForm extends React.Component {
 
   editFormTabs (props) {
     const group = props.element.metaEditFormTabs
-    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+    if (props.options.nestedAttr) {
       let groups = []
       let attributes = props.element.cook().settings(props.options.fieldKey)
       let iterator = {
@@ -89,7 +88,7 @@ export default class EditForm extends React.Component {
   }
 
   editFormTabParams (props, tab) {
-    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+    if (props.options.nestedAttr) {
       let groups = props.element.cook().toJS()[ tab.key ].value
       let currentGroup = groups.find((group, i) => {
         return i === props.options.activeParamGroupIndex
