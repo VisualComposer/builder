@@ -127,7 +127,7 @@ export default class CssBuilder {
       this.addElementEditorFiles(data)
       this.globalAssetsStorageService.updateElement(data.id)
       this.addElementGlobalAttributesCssMixins(data) // designOptions!
-      this.addElementLocalAttributesCssMixins(data, options.changedAttribute) // local element cssMixins folder
+      this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
       this.addElementFiles(data)
     }
     this.doJobs(data).then(() => {
@@ -303,9 +303,9 @@ export default class CssBuilder {
     return (chk & 0xffffffff).toString(16)
   }
 
-  addElementLocalAttributesCssMixins (data, changedAttribute) {
+  addElementLocalAttributesCssMixins (data) {
     let styles = this.stylesManager.create()
-    let localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data, changedAttribute)
+    let localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
     styles.add(localElementStyles)
 
     let attributesStylesPromise = styles.compile().then((result) => {

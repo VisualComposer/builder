@@ -916,14 +916,14 @@ export default class {
    * Get design options css data for single element
    * @returns {Array}
    */
-  getElementLocalAttributesCssMixins (elementData, changedAttribute) {
+  getElementLocalAttributesCssMixins (elementData) {
     if (!elementData) {
       return null
     }
     let styles = []
 
     // get mixins styles
-    styles = styles.concat(this.getMixinStyles(elementData, changedAttribute))
+    styles = styles.concat(this.getMixinStyles(elementData))
 
     return styles
   }
