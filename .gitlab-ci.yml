@@ -48,7 +48,6 @@ before_script:
   # disable host key checking (NOTE: makes you susceptible to man-in-the-middle attacks)
   # WARNING: use only in docker container, if you use it with shell you will overwrite your user's ssh config
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-  - yarn install
   - if [ $(type -t yarn) ]; then yarn install; fi;
   - if [ $(type -t php) ]; then php ci/composer.phar install; fi;
 
