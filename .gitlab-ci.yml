@@ -54,6 +54,7 @@ codestyle:js:
       expire_in: 1d
       paths:
         - node_modules/
+        - yarn.lock
   tags:
     - docker
 
