@@ -219,8 +219,8 @@ class PublicApi {
     return storage.getElementGlobalAttributesCssMixins(elementData)
   }
 
-  getElementLocalAttributesCssMixins (elementData) {
-    return storage.getElementLocalAttributesCssMixins(elementData)
+  getElementLocalAttributesCssMixins (elementData, changedAttribute) {
+    return storage.getElementLocalAttributesCssMixins(elementData, changedAttribute)
   }
 
   elementCssEditor (tag) {

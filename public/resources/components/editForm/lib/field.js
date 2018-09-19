@@ -13,7 +13,7 @@ export default class Field extends React.Component {
   constructor (props) {
     super(props)
     let value = props.element[ props.fieldKey ]
-    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+    if (props.options.nestedAttr) {
       value = props.options.activeParamGroup[ props.fieldKey ]
     }
     this.state = {
@@ -40,7 +40,7 @@ export default class Field extends React.Component {
   }
 
   updateElement (fieldKey, value) {
-    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+    if (this.props.options.nestedAttr) {
       const { options, element } = this.props
       options.customUpdater(options.activeParamGroupIndex, element, fieldKey, value)
       this.props.onAttributeChange(fieldKey)
@@ -58,7 +58,7 @@ export default class Field extends React.Component {
       value = element[ fieldKey ]
     }
     let { type, settings } = element.cook().settings(fieldKey)
-    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+    if (this.props.options.nestedAttr) {
       let attrSettings = element.cook().settings(this.props.options.fieldKey).settings.options.settings
       let elSettings = element.cook().settings(fieldKey, attrSettings)
       type = elSettings.type
