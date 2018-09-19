@@ -35,8 +35,8 @@ export default class StyleEditor extends React.Component {
     this.codeEditor.refresh()
   }
 
-  handleChange (value) {
-    this.props.updater(this.props.name, value.getValue())
+  handleChange () {
+    this.props.updater(this.props.name, this.codeEditor.getValue())
     settingsStorage.state(this.props.settingsStorageState).set(getData(`ui:settings:customStyles:${this.props.name}`))
   }
 

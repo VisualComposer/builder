@@ -34,8 +34,8 @@ export default class RawCode extends Attribute {
     this.codeEditor.refresh()
   }
 
-  setValue (value) {
-    this.setFieldValue(value.getValue())
+  setValue () {
+    this.setFieldValue(this.codeEditor.getValue())
   }
 
   render () {

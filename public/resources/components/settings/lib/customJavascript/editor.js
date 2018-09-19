@@ -36,8 +36,8 @@ export default class ScriptEditor extends React.Component {
     this.codeEditor.refresh()
   }
 
-  handleChange (value) {
-    this.props.updater(this.props.name, value.getValue())
+  handleChange () {
+    this.props.updater(this.props.name, this.codeEditor.getValue())
   }
 
   handleBlur () {
