@@ -6,6 +6,13 @@ stages:
   - deploy
   - push
 
+cache:
+  paths:
+    - node_modules/
+    - public/dist/
+    - vendor/
+    - yarn.lock
+
 before_script:
   ## https://docs.gitlab.com/ee/ci/ssh_keys/
   ## Install ssh-agent if not already installed, it is required by Docker.
@@ -50,11 +57,6 @@ codestyle:js:
     - headerFooter
   script:
     - yarn install && yarn standard
-  artifacts:
-      expire_in: 1d
-      paths:
-        - node_modules/
-        - yarn.lock
   tags:
     - docker
 
