@@ -49,7 +49,7 @@ codestyle:js:
     - refactor
     - headerFooter
   script:
-    - npm install && npm run standard
+    - yarn install && yarn standard
   tags:
     - docker
 
@@ -135,9 +135,9 @@ test:js:storages:
   stage: test
   image: node:9.11
   script:
-    - npm install
-    - npm run build
-    - npm run test
+    - yarn install
+    - yarn build
+    - yarn test
   tags:
     - docker
 
@@ -145,8 +145,8 @@ test:js:build:
   stage: test
   image: node:9.11
   script:
-    - npm install
-    - npm run build
+    - yarn install
+    - yarn build
     - cat public/dist/front.bundle.js | grep "webpackMissingModule" && exit 1
     - cat public/dist/vendor.bundle.js | grep "webpackMissingModule" && exit 1
     - cat public/dist/pe.bundle.js | grep "webpackMissingModule" && exit 1
