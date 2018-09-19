@@ -2,7 +2,7 @@ export default {
   getEditor (element, mode, value) {
     let editor
     if (typeof window.wp !== 'undefined' && typeof window.wp.codeEditor !== 'undefined') {
-      let instance = window.wp.codeEditor.initialize(element, { codemirror: window.jQuery.extend({}, wp.codeEditor.defaultSettings.codemirror, { mode: mode }) })
+      let instance = window.wp.codeEditor.initialize(element, { codemirror: window.jQuery.extend({}, window.wp.codeEditor.defaultSettings.codemirror, { mode: mode }) })
       instance.codemirror.setValue(value)
       editor = instance.codemirror
     } else {
