@@ -1,11 +1,11 @@
 import React from 'react'
 import Attribute from '../attribute'
 import lodash from 'lodash'
+import fonts from './lib/google-fonts-set.json'
+import webFontLoader from 'webfontloader'
 
 import Dropdown from '../dropdown/Component'
-
-let webFontLoader = require('webfontloader')
-let googleFonts = require('./lib/google-fonts-set')
+const googleFonts = fonts.families
 
 export default class GoogleFonts extends Attribute {
   static fontWeight = {
@@ -68,13 +68,8 @@ export default class GoogleFonts extends Attribute {
 
   createStyleArray (fontFamily) {
     let newArray = []
-    let variants = ''
-
-    googleFonts.forEach((item) => {
-      if (item.family === fontFamily) {
-        variants = item.variants
-      }
-    })
+    let family = googleFonts.find(item => item.family === fontFamily)
+    let variants = family.variants
 
     variants.forEach((item) => {
       let fontStyle = this.getFontVariant(item)
@@ -122,14 +117,20 @@ export default class GoogleFonts extends Attribute {
     this.setFieldValue(mergedValue)
   }
 
+  getFontSubsets (family) {
+    const selectedFont = googleFonts.find(font => font.family === family)
+    return selectedFont.subsets
+  }
+
   loadFonts (family, style, text) {
     let iframe = window.document.getElementById('vcv-editor-iframe')
     let iframeSettings = {}
     iframe && iframe.contentWindow && (iframeSettings.context = iframe.contentWindow)
     let fontStyle = style.style === 'regular' ? '' : style.style
+    const subsets = this.getFontSubsets(family)
     webFontLoader.load({
       google: {
-        families: [ `${family}:${style.weight + fontStyle}` ]
+        families: [ `${family}:${style.weight + fontStyle}:${subsets}` ]
       },
       ...iframeSettings,
       fontinactive: this.createFieldValue.bind(this, family, style, text, 'inactive'),
