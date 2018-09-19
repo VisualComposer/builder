@@ -6,20 +6,20 @@ export default {
       instance.codemirror.setValue(value)
       editor = instance.codemirror
     } else {
-      editor = new this.getDefaultTextAreaEditor(element)
+      editor = new this.DefaultTextAreaEditor(element)
       editor.setValue(value)
     }
 
     return editor
   },
-  getDefaultTextAreaEditor (element) {
+  DefaultTextAreaEditor (element) {
     let $el = window.jQuery(element)
     return {
       setSize: () => {},
       refresh: () => {},
       setValue: (value) => { $el.val(value) },
       getValue: () => { return $el.val() },
-      on: (event, callback) => { $el.on(event, callback) },
+      on: (event, callback) => { $el.on(event, callback) }
     }
   }
 }

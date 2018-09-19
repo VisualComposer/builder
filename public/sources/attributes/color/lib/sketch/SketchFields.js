@@ -6,7 +6,7 @@ import color from 'react-color/lib/helpers/color'
 import shallowCompare from 'react-addons-shallow-compare'
 import { EditableInput } from 'react-color/lib/components/common'
 
-export class ShetchFields extends React.Component {
+export class SketchFields extends React.Component {
   shouldComponentUpdate (nextProps, nextState) {
     return shallowCompare.bind(this, this, nextProps, nextState)
   }
@@ -140,5 +140,4 @@ export class ShetchFields extends React.Component {
   }
 }
 
-export default ShetchFields
-
+export default SketchFields
