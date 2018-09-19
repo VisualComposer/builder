@@ -76,9 +76,27 @@ class EnqueueController extends Container implements Module
             $this->lastEnqueueIdSourceAssets = get_the_ID();
 
             return;
+        } elseif ( is_home() || is_archive() || is_category() || is_tag() ) {
+            global $wp_query;
+            $wpQuery = $wp_query;
+            foreach ($wpQuery->posts as $post) {
+                $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $post->ID);
+            }
+
+            return;
         }
-        $this->lastEnqueueIdSourceAssets = get_the_ID();
-        $sourceId = get_the_ID();
+        $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, get_the_ID());
+    }
+
+    /**
+     * @param $sourceId
+     */
+    protected function enqueueSourceAssetsBySourceId(Str $strHelper, Assets $assetsHelper, $sourceId = null)
+    {
+        if($sourceId==null) {
+            $sourceId = get_the_ID();
+        }
+        $this->lastEnqueueIdSourceAssets = $sourceId;
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
             if (vcvenv('VCV_TF_SOURCE_CSS_CHECKSUM')) {
