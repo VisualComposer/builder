@@ -49,7 +49,6 @@ before_script:
   # WARNING: use only in docker container, if you use it with shell you will overwrite your user's ssh config
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   - yarn install
-  - php ci/composer.phar install
 
 codestyle:js:
   image: wpbakery/standardjs
