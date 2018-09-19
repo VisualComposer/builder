@@ -50,6 +50,10 @@ codestyle:js:
     - headerFooter
   script:
     - yarn install && yarn standard
+  artifacts:
+      expire_in: 1d
+      paths:
+        - node_modules/
   tags:
     - docker
 
