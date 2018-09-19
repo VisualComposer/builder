@@ -105,6 +105,15 @@ export default class CssBuilder {
   }
 
   update (data, options) {
+    if (env('BUILD_MIXINS_ON_DEMAND')) {
+      const changedAttributeOptions = options && cook.getSettings(data.tag).settings[ options.changedAttribute ] && cook.getSettings(data.tag).settings[ options.changedAttribute ].options
+      let shouldStop = options.changedAttributeType !== 'paramsGroup' && options.changedAttributeType !== 'designOptions' && options.changedAttributeType !== 'designOptionsAdvanced' && options.changedAttributeType !== 'element'
+
+      if (shouldStop && (!changedAttributeOptions || !changedAttributeOptions.cssMixin)) {
+        return
+      }
+    }
+
     if (!data) {
       return
     }
@@ -118,7 +127,7 @@ export default class CssBuilder {
       this.addElementEditorFiles(data)
       this.globalAssetsStorageService.updateElement(data.id)
       this.addElementGlobalAttributesCssMixins(data) // designOptions!
-      this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
+      this.addElementLocalAttributesCssMixins(data, options.changedAttribute) // local element cssMixins folder
       this.addElementFiles(data)
     }
     this.doJobs(data).then(() => {
@@ -294,9 +303,9 @@ export default class CssBuilder {
     return (chk & 0xffffffff).toString(16)
   }
 
-  addElementLocalAttributesCssMixins (data) {
+  addElementLocalAttributesCssMixins (data, changedAttribute) {
     let styles = this.stylesManager.create()
-    let localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
+    let localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data, changedAttribute)
     styles.add(localElementStyles)
 
     let attributesStylesPromise = styles.compile().then((result) => {
