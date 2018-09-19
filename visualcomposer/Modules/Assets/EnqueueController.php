@@ -76,9 +76,11 @@ class EnqueueController extends Container implements Module
             $this->lastEnqueueIdSourceAssets = get_the_ID();
 
             return;
-        } elseif ( is_home() || is_archive() || is_category() || is_tag() ) {
+        } elseif (is_home() || is_archive() || is_category() || is_tag()) {
+            // @codingStandardsIgnoreStart
             global $wp_query;
             $wpQuery = $wp_query;
+            // @codingStandardsIgnoreEnd
             foreach ($wpQuery->posts as $post) {
                 $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $post->ID);
             }
@@ -93,7 +95,7 @@ class EnqueueController extends Container implements Module
      */
     protected function enqueueSourceAssetsBySourceId(Str $strHelper, Assets $assetsHelper, $sourceId = null)
     {
-        if($sourceId==null) {
+        if ($sourceId==null) {
             $sourceId = get_the_ID();
         }
         $this->lastEnqueueIdSourceAssets = $sourceId;
