@@ -140,7 +140,7 @@ test:php:modules:
 
 test:js:storages:
   stage: test
-  image: node:9.11
+  image: wpbakery/standardjs
   script:
     - yarn install
     - yarn build
@@ -150,7 +150,7 @@ test:js:storages:
 
 test:js:build:
   stage: test
-  image: node:9.11
+  image: wpbakery/standardjs
   script:
     - yarn install
     - yarn build
