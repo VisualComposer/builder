@@ -5,7 +5,7 @@ import SmartLine from './../dnd/smartLine'
 import TrashBin from './../dnd/trashBin'
 import Helper from './../dnd/helper'
 import HelperClone from './../dnd/helperClone'
-import Api from './api'
+import Api from './../dnd/api'
 import DOMElement from './../dnd/domElement'
 
 const documentManager = getService('document')
