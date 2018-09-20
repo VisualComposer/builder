@@ -137,7 +137,7 @@ export default class PopupComponent extends React.Component {
         </div>
         <p className='vcv-migration-description vcv-migration-description--emphasized'>{localizations.addonWpbMigration_note}</p>
         {buttonHtml}
-        <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickBackToWordpress.bind(this)}>{localizations.addonWpbMigration_backToWordpressText}</button>
+        <button className='vcv-migration-button vcv-migration-button--back' onClick={this.clickBackToWordpress.bind(this)}>{localizations.addonWpbMigration_backToWordpress}</button>
       </div>,
       this.el
     )
