@@ -105,13 +105,11 @@ export default class CssBuilder {
   }
 
   update (data, options) {
-    if (env('BUILD_MIXINS_ON_DEMAND')) {
-      const changedAttributeOptions = options && cook.getSettings(data.tag).settings[ options.changedAttribute ] && cook.getSettings(data.tag).settings[ options.changedAttribute ].options
-      let shouldStop = options.changedAttributeType !== 'paramsGroup' && options.changedAttributeType !== 'designOptions' && options.changedAttributeType !== 'designOptionsAdvanced' && options.changedAttributeType !== 'element'
+    const changedAttributeOptions = options && cook.getSettings(data.tag).settings[ options.changedAttribute ] && cook.getSettings(data.tag).settings[ options.changedAttribute ].options
+    let shouldStop = options && (options.changedAttributeType !== 'paramsGroup' && options.changedAttributeType !== 'designOptions' && options.changedAttributeType !== 'designOptionsAdvanced' && options.changedAttributeType !== 'element')
 
-      if (shouldStop && (!changedAttributeOptions || !changedAttributeOptions.cssMixin)) {
-        return
-      }
+    if (shouldStop && (!changedAttributeOptions || !changedAttributeOptions.cssMixin)) {
+      return
     }
 
     if (!data) {
