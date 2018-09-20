@@ -51,8 +51,8 @@ SmartLine.prototype.setStyle = function (point, width, height, frame) {
   this.el.setAttribute('style', _.reduce({
     width: width,
     height: height,
-    top: point.y - point.top,
-    left: point.x - point.left
+    top: point.top ? point.y - point.top : point.y,
+    left: point.left ? point.x - point.left : point.x
   }, function (result, value, key) {
     return result + key + ':' + value + 'px;'
   }, ''))
@@ -75,6 +75,8 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let frame = false
   let isVerticalLine
   settings = _.defaults(settings || {}, {
+    attribute: false,
+    afterLastContainerElement: false,
     allowAppend: true,
     allowBeforeAfter: true
   })
@@ -86,8 +88,10 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     position = 'append'
   } else if (settings.allowBeforeAfter === true && Math.abs(positionX) / rect.width > Math.abs(positionY) / rect.height) {
     position = positionX > 0 ? 'after' : 'before'
-  } else if (settings.allowBeforeAfter === true) {
+  } else if (settings.allowBeforeAfter === true || settings.attribute) {
     position = positionY > 0 ? 'after' : 'before'
+  } else if (settings.afterLastContainerElement) {
+    position = 'after'
   }
 
   if (position === 'append') {
