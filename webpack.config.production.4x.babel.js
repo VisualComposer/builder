@@ -147,13 +147,25 @@ module.exports = Object.assign({}, config, {
       moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/core.is-iterable.js',
       contents: `module.exports = require('core-js/library/modules/core.is-iterable.js')`
     }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/es7.object.values.js',
+      contents: `module.exports = require('core-js/library/modules/es7.object.values.js')`
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/fn/object/values.js',
+      contents: `module.exports = require('core-js/library/fn/object/values.js')`
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/_core.js',
+      contents: `module.exports = require('core-js/library/modules/_core.js')`
+    }),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    })/* ,
+    })/*,
     new DuplicatePackageCheckerPlugin(),
-    new BundleAnalyzerPlugin() */
+    new BundleAnalyzerPlugin()*/
   ]
 })

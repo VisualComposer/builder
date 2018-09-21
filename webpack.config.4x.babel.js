@@ -16,7 +16,7 @@ module.exports = {
     wpbase: './public/wp-base',
     vendor: [
       'react',
-      './oldreact.js',
+      './oldlibs-bc.js',
       'react-dom',
       'create-react-class',
       'classnames',
@@ -41,7 +41,10 @@ module.exports = {
       'babel-runtime/core-js/object/keys.js',
       'core-js/library/modules/web.dom.iterable.js',
       'core-js/library/modules/es6.string.iterator.js',
-      'core-js/library/modules/core.is-iterable.js'
+      'core-js/library/modules/core.is-iterable.js',
+      'core-js/library/modules/es7.object.values.js',
+      'core-js/library/fn/object/values.js',
+      'core-js/library/modules/_core.js'
     ],
     wpPostRebuild: './public/wp-post-rebuild-main'
   },
@@ -151,6 +154,18 @@ module.exports = {
     new VirtualModulePlugin({
       moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/core.is-iterable.js',
       contents: `module.exports = require('core-js/library/modules/core.is-iterable.js')`
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/es7.object.values.js',
+      contents: `module.exports = require('core-js/library/modules/es7.object.values.js')`
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/fn/object/values.js',
+      contents: `module.exports = require('core-js/library/fn/object/values.js')`
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/_core.js',
+      contents: `module.exports = require('core-js/library/modules/_core.js')`
     }),
     new webpack.NamedModulesPlugin()
   ],
