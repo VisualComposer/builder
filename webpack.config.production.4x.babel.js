@@ -164,8 +164,8 @@ module.exports = Object.assign({}, config, {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    })/*,
+    })/* ,
     new DuplicatePackageCheckerPlugin(),
-    new BundleAnalyzerPlugin()*/
+    new BundleAnalyzerPlugin() */
   ]
 })
