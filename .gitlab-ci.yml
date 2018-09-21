@@ -164,7 +164,7 @@ test:js:build:
     - docker
 
 deployEditorsBundle:
-  image: node:8.6.0
+  image: wpbakery/standardjs
   stage: deploy
   script:
     - bash ci/deploy-editors-bundle.sh
@@ -172,7 +172,7 @@ deployEditorsBundle:
     - docker
 
 deployAssetsBundle:
-  image: node:8.6.0
+  image: wpbakery/standardjs
   stage: deploy
   script:
     - bash ci/deploy-assets-bundle.sh
