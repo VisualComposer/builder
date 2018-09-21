@@ -34,12 +34,10 @@ addStorage('shortcodeAssets', (storage) => {
     const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
     if (data.domNodes && data.domNodes.length) {
       const allowedHeadTags = [ 'META', 'LINK', 'STYLE', 'SCRIPT' ]
-      debugger
       Array.from(data.domNodes).forEach(domNode => {
         let slug = ''
         let position = ''
         let type = ''
-
         if (domNode.href && (allowedHeadTags.indexOf(domNode.tagName) > -1)) {
           slug = utils.slugify(domNode.href)
           position = 'head'
@@ -61,7 +59,9 @@ addStorage('shortcodeAssets', (storage) => {
         // Remove first part of url, because they can differ by CDN and local files
         if (!cached) {
           loadedFiles.forEach((loadedFile) => {
-            if (loadedFile.split('wp-content')[ 1 ] === slug.split('wp-content')[ 1 ]) {
+            const cutLoadedFile = loadedFile.split('wp-content')[ 1 ]
+            const cutSlug = slug.split('wp-content')[ 1 ]
+            if (cutLoadedFile && cutSlug && (cutLoadedFile === cutSlug)) {
               cached = true
             }
           })
