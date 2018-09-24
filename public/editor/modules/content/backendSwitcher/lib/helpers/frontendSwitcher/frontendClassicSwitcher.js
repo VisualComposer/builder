@@ -60,6 +60,7 @@ export default class FrontendClassicSwitcher extends React.Component {
     const buttonFEText = localizations ? localizations.frontendEditor : 'Edit with Visual Composer Website Builder'
     const buttonClassictext = localizations && localizations.classicEditor ? localizations.classicEditor : 'Classic Editor'
     const { editor } = this.state
+    const wpbEditorButton = document.getElementsByClassName('wpb_switch-to-composer')
     let output = <div className='vcv-wpbackend-switcher-wrapper'>
       <div className='vcv-wpbackend-switcher'>
         <span className='vcv-wpbackend-switcher-logo' />
@@ -67,7 +68,7 @@ export default class FrontendClassicSwitcher extends React.Component {
           {buttonFEText}
         </button>
       </div>
-      {editor !== 'classic' ? (() => {
+      {editor !== 'classic' && wpbEditorButton.length === 0 ? (() => {
         return <div className='vcv-wpbackend-switcher--type-classic'>
           <button className='vcv-wpbackend-switcher-option'
             onClick={this.enableClassicEditor}>{buttonClassictext}</button>
