@@ -1,11 +1,6 @@
 import vcCake from 'vc-cake'
-import './polyfills'
-import './config/variables'
-import './config/wpupdate-services'
-import './config/wpupdate-attributes'
-import publicAPI from './resources/api/publicAPI'
 
-class PostBuilder {
+export default class PostBuilder {
   /**
    * Setup iframe where content of rerender post will be placed
    */
@@ -82,19 +77,3 @@ class PostBuilder {
     })
   }
 }
-
-const builder = new PostBuilder()
-
-window.vcvRebuildPostSave = async (data) => {
-  return builder.update(data)
-}
-
-window.vcvRebuildPostSkipPost = (id) => {
-  vcCake.getStorage('wordpressRebuildPostData').trigger('skipPost', id)
-}
-
-if (vcCake.env('debug') === true) {
-  window.app = vcCake
-}
-
-window.vcv = publicAPI
