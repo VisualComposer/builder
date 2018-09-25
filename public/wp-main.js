@@ -9,8 +9,23 @@ import './config/variables'
 import './config/wp-services'
 import './config/wp-attributes'
 
+import PostBuilder from './postBuilder'
+
 (($) => {
   let $iframeContainer = $('.vcv-layout-iframe-container')
+  if (!$iframeContainer.length) {
+    const builder = new PostBuilder()
+
+    window.vcvRebuildPostSave = async (data) => {
+      return builder.update(data)
+    }
+
+    window.vcvRebuildPostSkipPost = (id) => {
+      vcCake.getStorage('wordpressRebuildPostData').trigger('skipPost', id)
+    }
+    window.vcv = vcCake.getService('api')
+    return
+  }
   let $iframe = $iframeContainer.find('#vcv-editor-iframe')
   let isIframeLoaded = false
 
@@ -93,6 +108,7 @@ import './config/wp-attributes'
       }
     }
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
+
     vcCake.env('platform', 'wordpress').start(() => {
       vcCake.env('editor', 'frontend')
       require('./editor/stores/events/eventsStorage')
@@ -120,6 +136,7 @@ import './config/wp-attributes'
       // require('./editor/stores/elementsLoader/elementsLoaderStorage')
       require('./config/wp-modules')
     })
+
     vcCake.env('iframe', iframe)
     if ($iframe && $iframe.get(0).contentWindow) {
       const settingsStorage = vcCake.getStorage('settings')

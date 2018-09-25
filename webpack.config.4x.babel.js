@@ -45,8 +45,7 @@ module.exports = {
       'core-js/library/modules/es7.object.values.js',
       'core-js/library/fn/object/values.js',
       'core-js/library/modules/_core.js'
-    ],
-    wpPostRebuild: './public/wp-post-rebuild-main'
+    ]
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
@@ -77,6 +76,7 @@ module.exports = {
     new Collector({
       wp: {
         modules: [
+          'content/updateContent',
           'content/modernLayout',
           'wordpressWorkspace',
           'heartbeat'
@@ -100,30 +100,6 @@ module.exports = {
           'hubElements',
           'elementAccessPoint',
           'hubAddons',
-          'renderProcessor'
-        ]
-      },
-      wpupdate: {
-        modules: [
-          'content/updateContent'
-        ],
-        services: [
-          'utils',
-          'document',
-          'wordpress-post-data',
-          'cook',
-          'sharedAssetsLibrary',
-          'elementAssetsLibrary',
-          'actionsManager',
-          'rulesManager',
-          'api',
-          'dataProcessor',
-          'modernAssetsStorage',
-          'stylesManager',
-          'wpMyTemplates',
-          'hubCategories',
-          'hubGroups',
-          'hubElements',
           'renderProcessor'
         ]
       },
