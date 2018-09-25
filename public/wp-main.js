@@ -23,7 +23,7 @@ import PostBuilder from './postBuilder'
     window.vcvRebuildPostSkipPost = (id) => {
       vcCake.getStorage('wordpressRebuildPostData').trigger('skipPost', id)
     }
-    window.vcv = vcCake.getService('api')
+    window.vcv = vcCake.getService('api').publicEvents
     return
   }
   let $iframe = $iframeContainer.find('#vcv-editor-iframe')
