@@ -5,10 +5,10 @@
 
 
 ## Javascript Code Style
-* Use StandardJS to validate code-style. `npm run standard`
+* Use StandardJS to validate code-style. `yarn standard`
 
 ## Supported Language
-Use ES6 version for Javascript code.
+Use ES6 version for Javascript code. https://standardjs.com
 
 ## Variables and Classes
 For all var, let, const and method names you should use camelCase.
@@ -21,14 +21,17 @@ Contributor should try not to use jQuery and jQuery-like libraries.
 
 ## Requirements
 * PHP > 5.4
-* WordPress > 4.4
+* WordPress > 4.6
 * PHP `gd2/imagick` extension to be loaded
+* Node
+* npm
+* `npm install -g yarn`
 
 ## Installation instruction
 All javascript is build with webpack module builder.
 
 ``` sh
-$ npm install
+$ yarn install
 $ php ci/composer.phar update
 ```
 ### Environment Configuration in Javascript
@@ -45,15 +48,15 @@ $ ./install-hooks
 ```
 ### Build project
 ```sh
-$ npm run build
+$ yarn build
 ```
 ### Build settings (Welcome page, Activation page)
 ```sh
-$ npm run build-settings
+$ yarn build-settings
 ```
 ### Start watcher
 ```sh
-$ npm run watch
+$ yarn watch
 ```
 
 ###  Add dev elements/categories/addons ###
@@ -66,7 +69,7 @@ bash tools/devAddons/buildScript.sh
 ```
 
 ### env-dev.php example
-```
+```php
 <?php
 
 define('VCV_ENV_ADDONS_ID', 'account');
@@ -76,7 +79,6 @@ define('VCV_ENV_DEV_ADDONS', true);
 define('VCV_ENV_HUB_DOWNLOAD', false);
 define('VCV_ENV_TEMPLATES_DOWNLOAD', false);
 define('VCV_ENV_ELEMENT_DOWNLOAD', false);
-define('VCV_ENV_ELEMENT_DOWNLOAD_V', 2);
 define('VCV_ENV_EXTENSION_DOWNLOAD', false);
 define('VCV_TOKEN_URL', 'http://test.account.visualcomposer.io/authorization-token');
 define('VCV_ACCOUNT_URL', 'http://test.account.visualcomposer.io');
@@ -88,6 +90,7 @@ require_once "env.php";
 
 ## Build Wordpress plugin package(zip archive)
 ```sh
-node tools/vcwb-builder/builder plugin -p <directoryWhereToPlaceZipArchive>
-node tools/vcwb-builder/builder plugin --help # for more info
+git clone account-project
+node [account-project]_infrastructure/vcwb-builder/builder plugin -p <directoryWhereToPlaceZipArchive>
+node [account-project]_infrastructure/vcwb-builder/builder plugin --help # for more info
 ```
