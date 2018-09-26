@@ -284,26 +284,32 @@
   }
 }
 
+.vcv-ui-form-group {
+  .vcv-ui-edit-form-section {
+    margin: 0 -20px;
+  }
+}
+
 .vcv-ui-edit-form-section--opened {
-  .vcv-ui-edit-form-section-header {
+  > .vcv-ui-edit-form-section-header {
     &::after {
       border-bottom: @edit-form-section-header-arrow-tip-border;
     }
   }
 
-  .vcv-ui-edit-form-section-content {
+  > .vcv-ui-edit-form-section-content {
     display: block;
   }
 }
 
 .vcv-ui-edit-form-section--closed {
-  .vcv-ui-edit-form-section-header {
+  > .vcv-ui-edit-form-section-header {
     &::after {
       border-top: @edit-form-section-header-arrow-tip-border;
     }
   }
 
-  .vcv-ui-edit-form-section-content {
+  > .vcv-ui-edit-form-section-content {
     display: none;
   }
 }
