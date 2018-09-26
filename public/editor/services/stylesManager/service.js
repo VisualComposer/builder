@@ -1,3 +1,4 @@
+/* eslint-disable no-eval */
 import vcCake from 'vc-cake'
 import postcss from 'postcss'
 import postcssClean from 'postcss-clean'
@@ -43,7 +44,7 @@ let plugin = postcss.plugin('postcss-math', () => {
     })
   }
 })
-mainPlugins.push(plugin());
+mainPlugins.push(plugin())
 
 // mainPlugins.push(postcssMath())
 mainPlugins.push(functions({
