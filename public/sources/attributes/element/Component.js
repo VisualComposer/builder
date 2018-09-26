@@ -17,7 +17,8 @@ export default class ElementAttribute extends Attribute {
     fieldKey: PropTypes.string.isRequired,
     value: PropTypes.object.isRequired,
     element: PropTypes.object.isRequired,
-    options: PropTypes.any
+    options: PropTypes.any,
+    id: PropTypes.string
   }
 
   constructor (props) {
@@ -25,6 +26,7 @@ export default class ElementAttribute extends Attribute {
     this.onChange = this.onChange.bind(this)
     this.onClickReplacement = this.onClickReplacement.bind(this)
     this.changeShowReplacements = this.changeShowReplacements.bind(this)
+    this.toggleSection = this.toggleSection.bind(this)
   }
 
   updateState (props) {
@@ -125,6 +127,10 @@ export default class ElementAttribute extends Attribute {
 
   onChange () {
     this.setFieldValue(this.state.element.toJS())
+  }
+
+  toggleSection () {
+    this.setState({ isActive: !this.state.isActive })
   }
 
   render () {
@@ -237,14 +243,41 @@ export default class ElementAttribute extends Attribute {
       }
     }
 
-    return <div className='vcv-ui-form-element'>
-      {replacementBlock}
-      <FieldWrapper
-        onChange={this.onChange}
-        element={this.state.element}
-        allTabs={this.state.allTabs}
-        exclude={exclude}
-      />
-    </div>
+    const editableElement = vcCake.getStorage('workspace').state('settings').get().element.id
+    const currentElement = this.props.element.get('id')
+
+    if (vcCake.env('FT_NESTED_ELEMENT_EDIT_FORM') && (editableElement !== currentElement)) {
+      const { options } = this.props
+      let { isActive } = this.state
+      let sectionClasses = classNames({
+        'vcv-ui-edit-form-section': true,
+        'vcv-ui-edit-form-section--opened': isActive,
+        'vcv-ui-edit-form-section--closed': !isActive
+      })
+      return <div className={sectionClasses}>
+        <div className='vcv-ui-edit-form-section-header' onClick={this.toggleSection}>
+          {options.tabLabel}
+        </div>
+        <div className='vcv-ui-form-element vcv-ui-edit-form-section-content'>
+          {replacementBlock}
+          <FieldWrapper
+            onChange={this.onChange}
+            element={this.state.element}
+            allTabs={this.state.allTabs}
+            exclude={exclude}
+          />
+        </div>
+      </div>
+    } else {
+      return <div className='vcv-ui-form-element'>
+        {replacementBlock}
+        <FieldWrapper
+          onChange={this.onChange}
+          element={this.state.element}
+          allTabs={this.state.allTabs}
+          exclude={exclude}
+        />
+      </div>
+    }
   }
 }
