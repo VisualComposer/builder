@@ -7,6 +7,7 @@ import FilterList from './filterList'
 import Toggle from '../toggle/Component'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
+import { env } from 'vc-cake'
 
 const SortableList = SortableContainer((props) => {
   return (
@@ -32,6 +33,11 @@ export default class AttachImage extends Attribute {
     this.onSortEnd = this.onSortEnd.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
+    if (env('FT_FIX_SINGLE_IMAGE_URL_DEPENDENCY')) {
+      this.state.extraAttributes = {
+        url: props.options.url
+      }
+    }
   }
 
   componentWillMount () {
@@ -143,6 +149,12 @@ export default class AttachImage extends Attribute {
     }
   }
 
+  updateExtraAttributesStates (attribute, state) {
+    const { extraAttributes } = this.state
+    extraAttributes[ attribute ] = state
+    this.setState({ extraAttributes: extraAttributes })
+  }
+
   mediaAttachmentParse (attachment) {
     attachment = attachment.toJSON()
     let srcUrl = {}
@@ -206,7 +218,8 @@ export default class AttachImage extends Attribute {
 
   getUrlHtml (key) {
     let urlHtml = ''
-    if (this.props.options.url) {
+    const show = env('FT_FIX_SINGLE_IMAGE_URL_DEPENDENCY') ? this.state.extraAttributes.url : this.props.options.url
+    if (show) {
       let urlValue = this.state.value.urls[ key ].link || ''
       urlHtml = (
         <Url

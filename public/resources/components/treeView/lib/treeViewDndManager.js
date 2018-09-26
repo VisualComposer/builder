@@ -1,5 +1,5 @@
 import vcCake from 'vc-cake'
-import DnD from '../../../dnd/dndDataSet'
+import DnD from '../../../dnd/dnd'
 const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class TreeViewDndManager {

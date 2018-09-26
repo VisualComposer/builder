@@ -41,12 +41,12 @@ export default class ActivitiesManager extends React.Component {
   initListeners (elementCook, props = false) {
     let listeners = []
     let fields = Object.keys(elementCook.getAll())
-    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+    if (props.options.nestedAttr) {
       fields = elementCook.settings(props.options.fieldKey).settings.options.settings._paramGroupEditFormTab1.value
     }
     fields.forEach(key => {
       let onChange = this.getRules(elementCook.settings(key))
-      if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && props.options.nestedAttr) {
+      if (props.options.nestedAttr) {
         let attrSettings = elementCook.settings(props.options.fieldKey).settings.options.settings
         onChange = this.getRules(elementCook.settings(key, attrSettings))
       }
@@ -195,7 +195,7 @@ export default class ActivitiesManager extends React.Component {
     })
     let actionsCallback = (ruleState, listener) => {
       let actions = this.getActions(this.state.element.cook().settings(listener.key))
-      if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+      if (this.props.options.nestedAttr) {
         let attrSettings = this.state.element.cook().settings(this.props.options.fieldKey).settings.options.settings
         let elSettings = this.state.element.cook().settings(listener.key, attrSettings)
         actions = this.getActions(elSettings)
@@ -216,7 +216,7 @@ export default class ActivitiesManager extends React.Component {
     }
 
     let fieldSettings = this.state.element.cook().settings(listener.key)
-    if (env('FT_PARAM_GROUP_IN_EDIT_FORM') && this.props.options.nestedAttr) {
+    if (this.props.options.nestedAttr) {
       let attrSettings = this.state.element.cook().settings(this.props.options.fieldKey).settings.options.settings
       fieldSettings = this.state.element.cook().settings(listener.key, attrSettings)
     }

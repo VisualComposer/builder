@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import _ from 'lodash'
 import { getService, setData, getData, getStorage } from 'vc-cake'
 import SmartLine from './smartLine'
@@ -12,7 +13,7 @@ const cook = getService('cook')
 const hubCategories = getService('hubCategories')
 const workspaceStorage = getStorage('workspace')
 
-export default class DndDataSet {
+export default class DnD {
   /**
    * Drag&drop builder.
    *
@@ -23,7 +24,7 @@ export default class DndDataSet {
   constructor (container, options) {
     Object.defineProperties(this, {
       /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
        */
       helper: {
         enumerable: false,
@@ -32,7 +33,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
        */
       position: {
         enumerable: false,
@@ -41,7 +42,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
        */
       placeholder: {
         enumerable: false,
@@ -50,16 +51,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DndDataSet
-       */
-      items: {
-        enumerable: false,
-        configurable: false,
-        writable: false,
-        value: {}
-      },
-      /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
        */
       currentElement: {
         enumerable: false,
@@ -68,7 +60,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
        */
       draggingElement: {
         enumerable: false,
@@ -77,7 +69,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
        */
       point: {
         enumerable: false,
@@ -86,7 +78,7 @@ export default class DndDataSet {
         value: null
       },
       /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
        */
       hover: {
         enumerable: false,
@@ -95,7 +87,16 @@ export default class DndDataSet {
         value: ''
       },
       /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
+       */
+      items: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: {}
+      },
+      /**
+       * @memberOf! DnD
        */
       container: {
         enumerable: false,
@@ -104,7 +105,7 @@ export default class DndDataSet {
         value: container
       },
       /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
        */
       manualScroll: {
         enumerable: false,
@@ -113,7 +114,7 @@ export default class DndDataSet {
         value: false
       },
       /**
-       * @memberOf! DndDataSet
+       * @memberOf! DnD
        */
       options: {
         enumerable: false,
@@ -129,12 +130,10 @@ export default class DndDataSet {
           },
           endCallback: function () {
           },
-          window: window,
           document: document,
           container: document.body,
-          wrapper: null,
           boundariesGap: 10,
-          rootContainerFor: ['RootElements'],
+          rootContainerFor: [ 'RootElements' ],
           rootID: 'vcv-content-root',
           handler: null,
           ignoreHandling: null,
@@ -143,7 +142,12 @@ export default class DndDataSet {
           manualScroll: false,
           drop: false,
           allowMultiNodes: false,
-          isIframe: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false
+          enableTrashBin: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false,
+          customScroll: false,
+          scrollContainer: null,
+          scrollCallback: function () {
+          },
+          isAttribute: false
         })
       }
     })
@@ -152,19 +156,20 @@ export default class DndDataSet {
   }
 
   option (name, value) {
-    this.options[name] = value
+    this.options[ name ] = value
   }
 
   init () {
-    const root = new DOMElement(this.options.rootID, this.container, {
+    this.items[ this.options.rootID ] = new DOMElement(this.options.rootID, this.container, {
       containerFor: this.options.rootContainerFor
     })
     this.handleDragFunction = this.handleDrag.bind(this)
+    this.handleMobileCancelDragFunction = this.handleMobileCancelDrag.bind(this)
     this.handleDragStartFunction = this.handleDragStart.bind(this)
+    this.handleMobileDragStartFunction = this.handleMobileDragStart.bind(this)
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
-    root.refresh()
-    if (this.options.isIframe) {
+    if (this.options.enableTrashBin) {
       this.trash = new TrashBin({
         ..._.pick(this.options, 'document', 'container'),
         handleDrag: this.handleDragFunction,
@@ -174,27 +179,29 @@ export default class DndDataSet {
   }
 
   addItem (id) {
-    if (!documentManager.get(id)) { return }
-    let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
-    domNodes = Array.prototype.slice.call(domNodes)
-    domNodes.forEach((domNode) => {
+    let element = cook.get(documentManager.get(id))
+    if (!element) { return }
+    if (this.options.allowMultiNodes) {
+      let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
+      domNodes = Array.prototype.slice.call(domNodes)
+      domNodes.forEach((domNode) => {
+        if (domNode && domNode.ELEMENT_NODE) {
+          this.buildNodeElement(domNode, element)
+        }
+      })
+    } else {
+      let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
       if (domNode && domNode.ELEMENT_NODE) {
-        this.buildNodeElement(domNode, id)
+        this.buildNodeElement(domNode, element)
       }
-    })
+    }
   }
 
-  dOMElementCreate (domNode, id) {
-    if (id === this.options.rootID) {
-      return new DOMElement(this.options.rootID, this.container, {
-        containerFor: this.options.rootContainerFor
-      })
-    }
-    let element = cook.get(documentManager.get(id))
-    if (!element) { return null }
+  buildNodeElement (domNode, element) {
+    const id = element.get('id')
     const containerFor = element.get('containerFor')
     const relatedTo = element.get('relatedTo')
-    return new DOMElement(id, domNode, {
+    this.items[ id ] = new DOMElement(id, domNode, {
       containerFor: containerFor ? containerFor.value : null,
       relatedTo: relatedTo ? relatedTo.value : null,
       parent: element.get('parent') || this.options.rootID,
@@ -202,21 +209,41 @@ export default class DndDataSet {
       tag: element.get('tag'),
       iconLink: hubCategories.getElementIcon(element.get('tag'))
     })
-  }
-
-  buildNodeElement (domNode, id) {
-    const dOMElement = this.dOMElementCreate(domNode, id)
-    dOMElement
-      .on('dragstart', (e) => { e.preventDefault() })
+      .on('dragstart', function (e) { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
+      .on('touchstart', this.handleMobileDragStartFunction)
       .on('mousedown', this.handleDragFunction)
+      .on('touchmove', this.handleMobileCancelDragFunction)
+      .on('touchend', this.handleMobileCancelDragFunction)
   }
 
   updateItem (id) {
+    if (!this.items[ id ]) { return }
+    this.items[ id ]
+      .refresh()
+      .off('mousedown', this.handleDragStartFunction)
+      .off('touchstart', this.handleMobileDragStartFunction)
+      .off('mousedown', this.handleDragFunction)
+      .off('touchmove', this.handleMobileCancelDragFunction)
+      .off('touchend', this.handleMobileCancelDragFunction)
+      .on('dragstart', function (e) { e.preventDefault() })
+      .on('mousedown', this.handleDragStartFunction)
+      .on('touchstart', this.handleMobileDragStartFunction)
+      .on('mousedown', this.handleDragFunction)
+      .on('touchmove', this.handleMobileCancelDragFunction)
+      .on('touchend', this.handleMobileCancelDragFunction)
+    this.removeItem(id)
     this.addItem(id)
   }
 
   removeItem (id) {
+    this.items[ id ] && this.items[ id ]
+      .off('mousedown', this.handleDragStartFunction)
+      .off('touchstart', this.handleMobileDragStartFunction)
+      .off('mousedown', this.handleDragFunction)
+      .off('touchmove', this.handleMobileCancelDragFunction)
+      .off('touchend', this.handleMobileCancelDragFunction)
+    delete this.items[ id ]
   }
 
   removePlaceholder () {
@@ -226,21 +253,8 @@ export default class DndDataSet {
     }
   }
 
-  getDomElement (domNode) {
-    if (!domNode || !domNode.ELEMENT_NODE) {
-      return null
-    }
-    const elementID = domNode.dataset.vcvDndElement || domNode.dataset.vcvDndElementHandler
-    return this.dOMElementCreate(domNode, elementID)
-  }
-
-  getDomElementParent (id) {
-    let domNode = this.options.document.querySelector(`[data-vcv-dnd-element="${id}"]`)
-    return this.getDomElement(domNode)
-  }
-
   findElementWithValidParent (domElement) {
-    let parentElement = domElement.parent() ? this.getDomElementParent(domElement.parent()) : null
+    let parentElement = domElement.parent() ? this.items[ domElement.parent() ] : null
     if (parentElement && this.draggingElement.isChild(parentElement)) {
       return domElement
     } else if (parentElement) {
@@ -256,30 +270,23 @@ export default class DndDataSet {
   findDOMNode (point) {
     let domNode = this.options.document.elementFromPoint(point.x, point.y)
     const domNodeAttr = domNode && domNode.getAttribute('data-vcv-dnd-element')
-    const domNodeDomElementAttr = domNode && domNode.getAttribute('data-vcv-dnd-dom-element')
-    let $domNode = window.jQuery(domNode)
-    const domNodeDomElement = $domNode.closest(`.${domNodeDomElementAttr}`).get(0)
     if (domNode && !domNodeAttr) {
-      domNode = $domNode.closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
+      domNode = $(domNode).closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
     }
     if (domNode && domNodeAttr && domNodeAttr === 'vcv-content-root') {
-      domNode = null
+      const domElement = this.items[ domNodeAttr ]
+      if (!this.draggingElement.relatedTo(domElement.containerFor())) {
+        domNode = null
+      }
     }
-    if (domNode && domNodeDomElement) {
-      domNode = domNodeDomElement
-    }
-    return domNode || null
+    return domNode && domNode.ELEMENT_NODE ? this.items[ domNode.getAttribute('data-vcv-dnd-element') ] : null
   }
 
-  checkTrashBin ({ x, y, left = 0, top = 0 }) {
-    let iframeParent = this.options && this.options.container && this.options.container.parentNode ? this.options.container.parentNode : null
-    if (iframeParent) {
-      x += iframeParent.offsetLeft
-      y += iframeParent.offsetTop
-    }
-    let domNode = document.elementFromPoint(x - left, y - top)
+  checkTrashBin ({ x, y }) {
+    x += 60
+    let domNode = document.elementFromPoint(x, y)
     if (domNode && domNode.id === 'vcv-dnd-trash-bin') {
-      return window.jQuery(domNode).get(0)
+      return $(domNode).get(0)
     }
     return null
   }
@@ -298,24 +305,41 @@ export default class DndDataSet {
         this.currentElement = null
       }
       this.helper && this.helper.removeOverTrash && this.helper.removeOverTrash()
-      let domNode = this.findDOMNode(point)
-      let domElement = this.getDomElement(domNode)
+
+      let domElement = this.findDOMNode(point)
       if (!domElement) {
         return
       }
-      let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+      let parentDOMElement = this.items[ domElement.parent() ] || null
       if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
         domElement = this.findElementWithValidParent(parentDOMElement) || domElement
-        parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+        parentDOMElement = this.items[ domElement.parent() ] || null
       }
       if (this.isDraggingElementParent(domElement)) {
         return
       }
+      let afterLastContainerElement = false
+      let allowApend = !documentManager.children(domElement.id).length
+      if (!allowApend && domElement.node && domElement.node.classList && domElement.node.dataset.vcvDndElementExpandStatus === 'closed') {
+        allowApend = true
+      }
+      if (domElement.id === this.options.rootID) {
+        const lastContainerElementId = domElement.$node.children('[data-vcv-dnd-element]').last().attr('data-vcv-dnd-element')
+        if (lastContainerElementId) {
+          domElement = this.items[ lastContainerElementId ]
+          domElement && (afterLastContainerElement = true)
+        } else {
+          domElement = null
+        }
+      }
+
       let position = this.placeholder.redraw(domElement.node, point, {
+        attribute: this.options.isAttribute,
+        afterLastContainerElement,
         allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
-        allowAppend: !this.isDraggingElementParent(domElement) &&
+        allowAppend: !afterLastContainerElement && !this.isDraggingElementParent(domElement) &&
         domElement && this.draggingElement.isChild(domElement) &&
-        !documentManager.children(domElement.id).length &&
+        allowApend &&
         !domElement.node.dataset.vceTab &&
         ((domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
       })
@@ -346,15 +370,13 @@ export default class DndDataSet {
     if (id && tag) {
       this.draggingElement = this.createDraggingElementFromTag(tag, domNode)
     } else {
-      this.draggingElement = this.getDomElement(domNode)
+      this.draggingElement = id ? this.items[ id ] : null
       this.options.drop = false
       if (!this.draggingElement) {
-        this.dragStartHandled = false
         this.draggingElement = null
         return false
       }
     }
-
     this.options.document.addEventListener('mousedown', this.handleRightMouseClickFunction, false)
     this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
     this.options.document.addEventListener('touchend', this.handleDragEndFunction, false)
@@ -363,8 +385,7 @@ export default class DndDataSet {
       this.helper = new HelperClone(this.draggingElement.node, point)
     } else {
       this.helper = new Helper(this.draggingElement, {
-        container: this.options.container,
-        wrapper: this.options.isIframe && this.options.wrapper
+        container: this.options.container
       })
     }
 
@@ -387,8 +408,6 @@ export default class DndDataSet {
     window.setTimeout(() => {
       this.helper && this.helper.show()
     }, 200)
-
-    this.dragStartedAt = (new Date()).getTime()
   }
 
   createDraggingElementFromTag (tag, domNode) {
@@ -398,7 +417,7 @@ export default class DndDataSet {
     let relatedTo = element.get('relatedTo')
     return new DOMElement('dropElement', domNode, {
       containerFor: containerFor ? containerFor.value : null,
-      relatedTo: relatedTo ? relatedTo.value.concat(['RootElements']) : null,
+      relatedTo: relatedTo ? relatedTo.value.concat([ 'RootElements' ]) : null,
       parent: this.options.rootID,
       handler: this.options.handler,
       tag: element.get('tag'),
@@ -407,9 +426,6 @@ export default class DndDataSet {
   }
 
   end () {
-    let dragEndedAt = (new Date()).getTime()
-    let dragStartedAt = this.dragStartedAt
-    this.dragStartedAt = null
     // Remove helper
     this.helper && this.helper.remove()
     // Remove css class for body
@@ -433,25 +449,22 @@ export default class DndDataSet {
     }
     const isValidLayoutCustomMode = getData('vcv:layoutCustomMode') === 'dnd'
 
-    // prevent quick multiple click
-    if (dragEndedAt - dragStartedAt > 250) {
-      if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
-        this.position && this.options.dropCallback(
-          this.draggingElement.id,
-          this.position,
-          this.currentElement,
-          this.draggingElement
-        )
-        if (!this.position) {
-          workspaceStorage.state('drag').set({ terminate: true })
-        }
-      } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
-        this.position && this.options.moveCallback(
-          this.draggingElement.id,
-          this.position,
-          this.currentElement
-        )
+    if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
+      this.position && this.options.dropCallback(
+        this.draggingElement.id,
+        this.position,
+        this.currentElement,
+        this.draggingElement
+      )
+      if (!this.position) {
+        workspaceStorage.state('drag').set({ terminate: true })
       }
+    } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
+      this.position && this.options.moveCallback(
+        this.draggingElement.id,
+        this.position,
+        this.currentElement
+      )
     }
     this.draggingElement = null
     this.currentElement = null
@@ -467,19 +480,18 @@ export default class DndDataSet {
   }
 
   scrollManually (point) {
-    let body = this.options.isIframe ? this.options.window : this.options.document.body
+    let body = this.options.document.body
     let clientHeight = this.options.document.documentElement.clientHeight
     let top = null
     let speed = 30
     let gap = 10
-    let bodyTop = this.options.isIframe ? body.scrollY : body.scrollTop
-    if (clientHeight - gap <= point.y - point.top) {
-      top = bodyTop + speed
-    } else if (point.y - point.top <= gap && bodyTop >= speed) {
-      top = bodyTop - speed
+    if (clientHeight - gap <= point.y) {
+      top = body.scrollTop + speed
+    } else if (point.y <= gap && body.scrollTop >= speed) {
+      top = body.scrollTop - speed
     }
     if (top !== null) {
-      this.options.isIframe ? body.scroll(0, top) : body.scrollTop = top > 0 ? top : 0
+      body.scrollTop = top > 0 ? top : 0
     }
   }
 
@@ -488,10 +500,13 @@ export default class DndDataSet {
       this.handleDragEnd()
       return
     }
-    if (this.draggingElement && getData('vcv:layoutCustomMode') !== 'dnd') {
+    if (getData('vcv:layoutCustomMode') !== 'dnd') {
       setData('vcv:layoutCustomMode', 'dnd')
     }
     this.options.manualScroll && this.scrollManually(point)
+    if (this.dragStartHandled) {
+      this.options.customScroll && this.options.scrollCallback(point)
+    }
     window.setTimeout(() => {
       if (!this.startPoint) {
         this.startPoint = point
@@ -525,12 +540,20 @@ export default class DndDataSet {
       this.handleDragEnd()
       return false
     }
-    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
-    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
-    if (e.touches && e.touches[0]) {
-      e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({ x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY, left: scrollX, top: scrollY })
+    if (e.touches && e.touches[ 0 ] && this.dragStartHandled) {
+      e.preventDefault()
+      e.touches[ 0 ].clientX !== undefined && e.touches[ 0 ].clientY !== undefined && this.check({ x: e.touches[ 0 ].clientX - offsetX, y: e.touches[ 0 ].clientY - offsetY })
     } else {
-      e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX - offsetX, y: e.clientY - offsetY, left: scrollX, top: scrollY })
+      e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX - offsetX, y: e.clientY - offsetY })
+    }
+  }
+
+  handleMobileCancelDrag (e) {
+    if (this.startDragTimeout) {
+      clearTimeout(this.startDragTimeout)
+      this.startDragTimeout = null
+    } else {
+      this.handleDrag(e)
     }
   }
 
@@ -541,25 +564,44 @@ export default class DndDataSet {
     if (this.options.disabled === true || this.dragStartHandled) { // hack not to use stopPropogation
       return
     }
-    if (this.options.ignoreHandling && window.jQuery(e.currentTarget).is(this.options.ignoreHandling)) {
+    if (this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
       return
     }
     if (e.which > 1) {
       return
     }
-    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
-    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[0]) {
+    if (e.touches && e.touches[ 0 ]) {
       e.preventDefault()
-      this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY })
     } else {
-      this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      this.start(id, { x: e.clientX, y: e.clientY })
+    }
+  }
+
+  handleMobileDragStart (e) {
+    if (this.options.disabled === true || this.dragStartHandled) { // hack not to use stopPropogation
+      return
+    }
+    if (this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
+      return
+    }
+    if (e.which > 1) {
+      return
+    }
+    let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
+    if (e.touches && e.touches[ 0 ]) {
+      this.startDragTimeout = setTimeout(() => {
+        this.startDragTimeout = null
+        e.preventDefault()
+        this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY })
+      }, 450)
     }
   }
 
   handleDragEnd () {
     this.dragStartHandled = false
+    this.options.customScroll && this.options.scrollCallback({ end: true })
     this.end()
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-eval */
 import vcCake from 'vc-cake'
 import postcss from 'postcss'
 import postcssClean from 'postcss-clean'
@@ -10,7 +11,6 @@ import postcssMedia from 'postcss-custom-media'
 import postcssEach from 'postcss-each'
 import colorBlend from 'color-blend'
 import functions from 'postcss-functions'
-import postcssMath from 'postcss-math'
 import autoprefixer from 'autoprefixer'
 import objectHash from 'object-hash'
 
@@ -18,7 +18,35 @@ let cssHashes = {}
 let mainPlugins = []
 mainPlugins.push(postcssEach)
 mainPlugins.push(colorBlend())
-mainPlugins.push(postcssMath())
+let plugin = postcss.plugin('postcss-math', () => {
+  return (css) => {
+    // Transform CSS AST here
+    css.walk((node) => {
+      let nodeProp
+
+      if (node.type === 'decl') {
+        nodeProp = 'value'
+      } else if (node.type === 'atrule' && node.name === 'media') {
+        nodeProp = 'params'
+      } else if (node.type === 'rule') {
+        nodeProp = 'selector'
+      } else {
+        return
+      }
+
+      let match = 'resolve('
+      if (!node[ nodeProp ] || node[ nodeProp ].indexOf(match) === -1) {
+        return
+      }
+      let temp = node[ nodeProp ].replace(/([^)]+)$/, '')
+      let newValue = window.eval('var resolve=function(s) { return window.eval(s)+\'\'; }; ' + temp) + ''
+      node[ nodeProp ] = node[ nodeProp ].replace(temp, newValue)
+    })
+  }
+})
+mainPlugins.push(plugin())
+
+// mainPlugins.push(postcssMath())
 mainPlugins.push(functions({
   functions: {
     rawUrl: (path) => {

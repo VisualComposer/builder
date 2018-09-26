@@ -55,6 +55,18 @@ addStorage('shortcodeAssets', (storage) => {
         }
 
         let cached = slug && slug.length > 0 && loadedFiles.indexOf(slug) >= 0
+
+        // Remove first part of url, because they can differ by CDN and local files
+        if (!cached) {
+          loadedFiles.forEach((loadedFile) => {
+            const cutLoadedFile = loadedFile.split('wp-content')[ 1 ]
+            const cutSlug = slug.split('wp-content')[ 1 ]
+            if (cutLoadedFile && cutSlug && (cutLoadedFile === cutSlug)) {
+              cached = true
+            }
+          })
+        }
+
         if (!cached) {
           let ignoreCache = type === 'template' ? false : data.ignoreCache
           !ignoreCache && slug && loadedFiles.push(slug)

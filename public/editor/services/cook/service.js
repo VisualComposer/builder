@@ -4,9 +4,8 @@ import { addService, getService, env } from 'vc-cake'
 import { buildSettingsObject } from './lib/tools'
 import elementSettings from './lib/element-settings'
 import attributeManager from './lib/attribute-manager'
-import CookElement from './lib/element'
-// FT: FT_PARAM_GROUP_IN_EDIT_FORM
-import '../cookRefactor/service'
+import CookElement from './lib/cookElement'
+import Element from './lib/element'
 
 const DocumentData = getService('document')
 
@@ -17,6 +16,9 @@ const API = {
       return null
     }
     return new CookElement(data)
+  },
+  buildSettingsElement (data, settings, cssSettings) {
+    return new Element(data, settings, cssSettings)
   },
   getSettings (tag) {
     return elementSettings.get(tag)
@@ -71,6 +73,4 @@ const API = {
     })
   }
 }
-if (!env('FT_PARAM_GROUP_IN_EDIT_FORM')) {
-  addService('cook', API)
-}
+addService('cook', API)

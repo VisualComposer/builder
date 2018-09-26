@@ -48,6 +48,9 @@
 
 .vcv-wpbackend-switcher-container {
   display: inline-block;
+  & + .composer-switch {
+    margin-left: @vcv-wpbackend-switcher-spacing;
+  }
 }
 
 .vcv-wpbackend-switcher-logo {
@@ -132,5 +135,11 @@
 
   .vcv-wpbackend-switcher--type-classic {
     margin: @vcv-wpbackend-switcher-classic-mobile-margin;
+  }
+
+  .vcv-wpbackend-switcher-container {
+    & + .composer-switch {
+      margin: @vcv-wpbackend-switcher-classic-mobile-margin;
+    }
   }
 }
