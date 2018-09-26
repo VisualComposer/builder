@@ -1,4 +1,4 @@
-import {defaults, defaultsDeep} from 'lodash'
+import { defaults, defaultsDeep } from 'lodash'
 
 let items = {}
 export default {
@@ -17,7 +17,7 @@ export default {
   },
   findTagByName (name) {
     return Object.keys(items).find((key) => {
-      return items[key].settings && items[key].settings.name && items[key].settings.name.value === name
+      return items[ key ].settings && items[ key ].settings.name && items[ key ].settings.name.value === name
     })
   },
   getAttributeType (tag, key) {

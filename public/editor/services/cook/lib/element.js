@@ -3,8 +3,6 @@ import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
 
-import elementSettings from './element-settings'
-import elementComponent from './element-component'
 import { getAttributeType } from './tools'
 
 const createKey = vcCake.getService('utils').createKey

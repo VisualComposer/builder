@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import {getService, setData, getData, getStorage} from 'vc-cake'
+import { getService, setData, getData, getStorage } from 'vc-cake'
 import SmartLine from './smartLine'
 import TrashBin from './trashBin'
 import Helper from './helper'
