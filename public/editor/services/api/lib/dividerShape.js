@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-const { Component } = React
-const shapes = require('./shapes-new')
+import shapes from './shapes'
 
-export default class DividerShape extends Component {
+export default class DividerShape extends React.Component {
   static propTypes = {
     width: PropTypes.string,
     height: PropTypes.string,
@@ -23,11 +22,12 @@ export default class DividerShape extends Component {
   setAlphaForColor (color, alpha = '1') {
     if (color.indexOf('rgba') >= 0) {
       let values = color.match(/[\d.]+/g)
-      if (values[3] && values[3] !== '1') {
-        values[3] = alpha
+      if (values[ 3 ] && values[ 3 ] !== '1') {
+        values[ 3 ] = alpha
         color = `rgba(${values.join(',')})`
       }
     }
+
     return color
   }
 
@@ -35,8 +35,9 @@ export default class DividerShape extends Component {
     let alpha = '1'
     if (color.indexOf('rgba') >= 0) {
       let values = color.match(/[\d.]+/g)
-      values[3] && (alpha = values[3])
+      values[ 3 ] && (alpha = values[ 3 ])
     }
+
     return alpha
   }
 
@@ -108,10 +109,12 @@ export default class DividerShape extends Component {
             points.push(coordinates[ 0 ] + ',' + newY)
           }
         })
+
         return letter + points.join(' ')
       })
       path.setAttribute('d', `${pointArrays.join(' ')} Z`)
     })
+
     return doc.body && doc.body.innerHTML
   }
 
@@ -146,10 +149,12 @@ export default class DividerShape extends Component {
             points.push(coordinates[ 0 ] + ',' + newX)
           }
         })
+
         return letter + points.join(' ')
       })
       path.setAttribute('d', `${pointArrays.join(' ')} Z`)
     })
+
     return doc.body && doc.body.innerHTML
   }
 
@@ -206,9 +211,7 @@ export default class DividerShape extends Component {
           <g {...customAttributes} dangerouslySetInnerHTML={{ __html: html }} />
         </svg>
       )
-    }
-
-    if (fillType === 'image') {
+    } else if (fillType === 'image') {
       let imageId = `image-el-${id}-${deviceKey}-${position}`
       let html = svgUnitContent
       let backgroundImageUrl = `url(${backgroundImage})`
@@ -243,9 +246,7 @@ export default class DividerShape extends Component {
           </div>
         </div>
       )
-    }
-
-    if (fillType === 'videoEmbed') {
+    } else if (fillType === 'videoEmbed') {
       let imageId = `video-el-${id}-${deviceKey}-${position}`
       let html = svgUnitContent
       let percentage = width.replace('%', '')
@@ -289,9 +290,7 @@ export default class DividerShape extends Component {
           </div>
         </div>
       )
-    }
-
-    if (fillType === 'videoYoutube') {
+    } else if (fillType === 'videoYoutube') {
       let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
       if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
         let youtubeVideoId = `video-el-${id}-${deviceKey}-${position}`
@@ -348,9 +347,7 @@ export default class DividerShape extends Component {
       }
 
       return null
-    }
-
-    if (fillType === 'videoVimeo') {
+    } else if (fillType === 'videoVimeo') {
       let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
       if (videoVimeo && videoVimeo.search(vrx) !== -1) {
         let vimeoVideoId = `video-el-${id}-${deviceKey}-${position}`

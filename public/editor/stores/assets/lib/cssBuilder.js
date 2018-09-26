@@ -100,11 +100,18 @@ export default class CssBuilder {
 
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
-      this.window.vcv.trigger('ready', 'add', data.id)
+      this.window.vcv.trigger('ready', 'add', data.id, {}, data.tag)
     })
   }
 
   update (data, options) {
+    const changedAttributeOptions = options && cook.getSettings(data.tag).settings[ options.changedAttribute ] && cook.getSettings(data.tag).settings[ options.changedAttribute ].options
+    let shouldStop = options && (options.changedAttributeType !== 'paramsGroup' && options.changedAttributeType !== 'designOptions' && options.changedAttributeType !== 'designOptionsAdvanced' && options.changedAttributeType !== 'element')
+
+    if (shouldStop && (!changedAttributeOptions || !changedAttributeOptions.cssMixin)) {
+      return
+    }
+
     if (!data) {
       return
     }
@@ -123,7 +130,7 @@ export default class CssBuilder {
     }
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
-      this.window.vcv.trigger('ready', 'update', data.id, options)
+      this.window.vcv.trigger('ready', 'update', data.id, options, data.tag)
     })
   }
 
@@ -132,7 +139,7 @@ export default class CssBuilder {
     this.removeCssElementBaseByElement(tag)
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
-    this.window.vcv.trigger('ready', 'destroy', id)
+    this.window.vcv.trigger('ready', 'destroy', id, {}, tag)
     this.removeElementJobsFromStorage(id)
   }
 

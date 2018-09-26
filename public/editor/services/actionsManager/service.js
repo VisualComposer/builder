@@ -61,6 +61,10 @@ const ActionsManager = {
       }
     },
     attachImageUrls: (state, target, options, element) => {
+      if (vcCake.env('FT_FIX_SINGLE_IMAGE_URL_DEPENDENCY') && target.refComponent.refs.domComponent.refs.domComponent.updateExtraAttributesStates) {
+        target.refComponent.refs.domComponent.refs.domComponent.updateExtraAttributesStates('url', state)
+        return
+      }
       if (element.settings(target.key).settings.options.url === state) {
         return
       }

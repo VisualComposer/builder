@@ -13,12 +13,11 @@ import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
 
-const { Component } = React
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
 
 let dataProcessor = null
 
-export default class ElementComponent extends Component {
+export default class ElementComponent extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     api: PropTypes.object,

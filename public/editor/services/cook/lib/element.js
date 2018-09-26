@@ -1,5 +1,4 @@
 /* eslint jsx-quotes: [2, "prefer-double"] */
-import React from 'react'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
@@ -9,45 +8,39 @@ import elementComponent from './element-component'
 import { getAttributeType } from './tools'
 
 const createKey = vcCake.getService('utils').createKey
-const elData = Symbol('element data')
-const elComponent = Symbol('element component')
+const elData = 'element data'
 
-let _service = null
-let hubElementService = () => {
-  if (_service) {
-    return _service
-  }
-  _service = vcCake.getService('hubElements')
-  return _service
-}
-
-export default class CookElement {
+export default class Element {
   static propTypes = {
     tag: PropTypes.string.isRequired
   }
 
-  constructor (data) {
-    let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, ...attr } = data
+  constructor (data, dataSettings = {}, cssSettings = {}) {
+    this.init(data, dataSettings, cssSettings)
+  }
+
+  init (data, dataSettings = {}, cssSettings = {}) {
+    let { id = createKey(), parent = false, tag, order, hidden, ...attr } = data
     attr.tag = tag
     attr.id = id
-
-    let elements = hubElementService().all()
-    let element = elements ? elements[ tag ] : null
-
-    if (!element) {
-      vcCake.env('debug') === true && console.warn(`Element ${tag} is not registered in system`)
-      element = {
-        settings: {
-          metaDescription: '',
-          metaPreviewUrl: '',
-          metaThumbnailUrl: '',
-          name: '--'
-        }
+    let element = {
+      settings: {
+        metaDescription: '',
+        metaPreviewUrl: '',
+        metaThumbnailUrl: '',
+        name: '--'
       }
     }
     let metaSettings = element.settings
-    let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
-    console.log(elSettings)
+    const settings = {}
+    for (let k in dataSettings) {
+      if (dataSettings.hasOwnProperty(k)) {
+        const attrSettings = getAttributeType(k, dataSettings)
+        if (attrSettings.hasOwnProperty('settings')) {
+          settings[ k ] = attrSettings.settings
+        }
+      }
+    }
     // Split on separate symbols
     Object.defineProperty(this, elData, {
       writable: true,
@@ -55,7 +48,7 @@ export default class CookElement {
         id: id,
         tag: tag,
         parent: parent,
-        data: attr,
+        data: data,
         name: metaSettings.name,
         metaThumbnailUrl: metaSettings.metaThumbnailUrl,
         metaPreviewUrl: metaSettings.metaPreviewUrl,
@@ -63,26 +56,13 @@ export default class CookElement {
         metaAssetsPath: element.assetsPath,
         metaElementPath: element.elementPath,
         metaBundlePath: element.bundlePath,
-        customHeaderTitle: customHeaderTitle || '',
+        customHeaderTitle: '',
         order: order,
         hidden: hidden,
-        settings: elSettings && elSettings.settings ? elSettings.settings : {},
-        cssSettings: elSettings && elSettings.cssSettings ? elSettings.cssSettings : {},
+        settings: settings,
+        cssSettings: cssSettings || {},
         getAttributeType: function (k) {
           return getAttributeType(k, this.settings)
-        }
-      }
-    })
-    Object.defineProperty(this, elComponent, {
-      value: {
-        add (Component) {
-          elementComponent.add(tag, Component)
-        },
-        get () {
-          return elementComponent.get(tag)
-        },
-        has () {
-          return elementComponent.has(tag)
         }
       }
     })
@@ -118,17 +98,6 @@ export default class CookElement {
       this[ elData ].data = type.setValue(settings, this[ elData ].data, k, v)
     }
     return this[ elData ].data[ k ]
-  }
-
-  getContentComponent () {
-    if (!this[ elComponent ].has()) {
-      elementSettings.get(this[ elData ].tag) && elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
-    }
-    return this[ elComponent ].get()
-  }
-
-  static create (tag) {
-    return new CookElement({ tag: tag })
   }
 
   toJS (raw = true, publicOnly = true) {
@@ -172,26 +141,6 @@ export default class CookElement {
       return lodash.pick(data, publicKeys)
     }
     return data
-  }
-
-  render (content, editor) {
-    if (!this[ elComponent ].has()) {
-      elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
-    }
-    let ElementToRender = this[ elComponent ].get()
-    let props = {}
-    let editorProps = {}
-    let atts = this.toJS(true, false)
-    props.key = this[ elData ].id
-    props.id = this[ elData ].atts && typeof this[ elData ].atts.metaCustomId !== 'undefined' ? this[ elData ].atts.metaCustomId : this[ elData ].id
-    editorProps[ 'data-vc-element' ] = this[ elData ].id
-    if (typeof editor === 'undefined' || editor) {
-      props.editor = editorProps
-    }
-    props.atts = atts
-    props.content = content
-
-    return <ElementToRender {...props} />
   }
 
   /**
