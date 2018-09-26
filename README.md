@@ -91,6 +91,6 @@ require_once "env.php";
 ## Build Wordpress plugin package(zip archive)
 ```sh
 git clone account-project
-node [account-project]_infrastructure/vcwb-builder/builder plugin -p <directoryWhereToPlaceZipArchive>
-node [account-project]_infrastructure/vcwb-builder/builder plugin --help # for more info
+node [account-project]_infrastructure/vcwb-builder/builder plugin2 -p <directoryWhereToPlaceZipArchive>
+node [account-project]_infrastructure/vcwb-builder/builder plugin2 --help # for more info
 ```
