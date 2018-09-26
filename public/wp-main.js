@@ -13,7 +13,10 @@ import PostBuilder from './postBuilder'
 
 (($) => {
   let $iframeContainer = $('.vcv-layout-iframe-container')
-  if (!$iframeContainer.length) {
+  let $iframe = $iframeContainer.find('#vcv-editor-iframe')
+  let isIframeLoaded = false
+
+  if (!$iframe.length) {
     const builder = new PostBuilder()
 
     window.vcvRebuildPostSave = async (data) => {
@@ -26,8 +29,6 @@ import PostBuilder from './postBuilder'
     window.vcv = vcCake.getService('api').publicEvents
     return
   }
-  let $iframe = $iframeContainer.find('#vcv-editor-iframe')
-  let isIframeLoaded = false
 
   let iframeLoadEvent = () => {
     if (!isIframeLoaded) {
