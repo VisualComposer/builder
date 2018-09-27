@@ -154,7 +154,7 @@ class StylesManager {
         viewports = style.viewports
       }
       use.push(postcssMedia({
-        extensions: viewports
+        importFrom: { customMedia: viewports }
       }))
 
       if (style.path) {
