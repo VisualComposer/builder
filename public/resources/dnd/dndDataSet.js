@@ -13,7 +13,7 @@ const cook = getService('cook')
 const hubCategories = getService('hubCategories')
 const workspaceStorage = getStorage('workspace')
 
-export default class DnD {
+export default class DndDataSet {
   /**
    * Drag&drop builder.
    *
@@ -24,7 +24,7 @@ export default class DnD {
   constructor (container, options) {
     Object.defineProperties(this, {
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       helper: {
         enumerable: false,
@@ -33,7 +33,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       position: {
         enumerable: false,
@@ -42,7 +42,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       placeholder: {
         enumerable: false,
@@ -51,7 +51,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       currentElement: {
         enumerable: false,
@@ -60,7 +60,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       draggingElement: {
         enumerable: false,
@@ -69,7 +69,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       point: {
         enumerable: false,
@@ -78,7 +78,7 @@ export default class DnD {
         value: null
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       hover: {
         enumerable: false,
@@ -87,16 +87,7 @@ export default class DnD {
         value: ''
       },
       /**
-       * @memberOf! DnD
-       */
-      items: {
-        enumerable: false,
-        configurable: false,
-        writable: true,
-        value: {}
-      },
-      /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       container: {
         enumerable: false,
@@ -105,7 +96,7 @@ export default class DnD {
         value: container
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       manualScroll: {
         enumerable: false,
@@ -114,7 +105,7 @@ export default class DnD {
         value: false
       },
       /**
-       * @memberOf! DnD
+       * @memberOf! DndDataSet
        */
       options: {
         enumerable: false,
@@ -130,8 +121,10 @@ export default class DnD {
           },
           endCallback: function () {
           },
+          window: window,
           document: document,
           container: document.body,
+          wrapper: null,
           boundariesGap: 10,
           rootContainerFor: [ 'RootElements' ],
           rootID: 'vcv-content-root',
@@ -147,7 +140,9 @@ export default class DnD {
           scrollContainer: null,
           scrollCallback: function () {
           },
-          isAttribute: false
+          isAttribute: false,
+          disableMobile: false,
+          isIframe: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false
         })
       }
     })
@@ -160,7 +155,7 @@ export default class DnD {
   }
 
   init () {
-    this.items[ this.options.rootID ] = new DOMElement(this.options.rootID, this.container, {
+    const root = new DOMElement(this.options.rootID, this.container, {
       containerFor: this.options.rootContainerFor
     })
     this.handleDragFunction = this.handleDrag.bind(this)
@@ -169,7 +164,8 @@ export default class DnD {
     this.handleMobileDragStartFunction = this.handleMobileDragStart.bind(this)
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
-    if (this.options.enableTrashBin) {
+    root.refresh()
+    if (this.options.enableTrashBin && this.options.isIframe) {
       this.trash = new TrashBin({
         ..._.pick(this.options, 'document', 'container'),
         handleDrag: this.handleDragFunction,
@@ -179,29 +175,34 @@ export default class DnD {
   }
 
   addItem (id) {
-    let element = cook.get(documentManager.get(id))
-    if (!element) { return }
+    if (!documentManager.get(id)) { return }
     if (this.options.allowMultiNodes) {
       let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
       domNodes = Array.prototype.slice.call(domNodes)
       domNodes.forEach((domNode) => {
         if (domNode && domNode.ELEMENT_NODE) {
-          this.buildNodeElement(domNode, element)
+          this.buildNodeElement(domNode, id)
         }
       })
     } else {
       let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
       if (domNode && domNode.ELEMENT_NODE) {
-        this.buildNodeElement(domNode, element)
+        this.buildNodeElement(domNode, id)
       }
     }
   }
 
-  buildNodeElement (domNode, element) {
-    const id = element.get('id')
+  dOMElementCreate (domNode, id) {
+    if (id === this.options.rootID) {
+      return new DOMElement(this.options.rootID, this.container, {
+        containerFor: this.options.rootContainerFor
+      })
+    }
+    let element = cook.get(documentManager.get(id))
+    if (!element) { return null }
     const containerFor = element.get('containerFor')
     const relatedTo = element.get('relatedTo')
-    this.items[ id ] = new DOMElement(id, domNode, {
+    return new DOMElement(id, domNode, {
       containerFor: containerFor ? containerFor.value : null,
       relatedTo: relatedTo ? relatedTo.value : null,
       parent: element.get('parent') || this.options.rootID,
@@ -209,41 +210,28 @@ export default class DnD {
       tag: element.get('tag'),
       iconLink: hubCategories.getElementIcon(element.get('tag'))
     })
-      .on('dragstart', function (e) { e.preventDefault() })
+  }
+
+  buildNodeElement (domNode, id) {
+    const dOMElement = this.dOMElementCreate(domNode, id)
+    dOMElement
+      .on('dragstart', (e) => { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
-      .on('touchstart', this.handleMobileDragStartFunction)
       .on('mousedown', this.handleDragFunction)
-      .on('touchmove', this.handleMobileCancelDragFunction)
-      .on('touchend', this.handleMobileCancelDragFunction)
+
+    if (!this.options.disableMobile) {
+      dOMElement
+        .on('touchstart', this.handleMobileDragStartFunction)
+        .on('touchmove', this.handleMobileCancelDragFunction)
+        .on('touchend', this.handleMobileCancelDragFunction)
+    }
   }
 
   updateItem (id) {
-    if (!this.items[ id ]) { return }
-    this.items[ id ]
-      .refresh()
-      .off('mousedown', this.handleDragStartFunction)
-      .off('touchstart', this.handleMobileDragStartFunction)
-      .off('mousedown', this.handleDragFunction)
-      .off('touchmove', this.handleMobileCancelDragFunction)
-      .off('touchend', this.handleMobileCancelDragFunction)
-      .on('dragstart', function (e) { e.preventDefault() })
-      .on('mousedown', this.handleDragStartFunction)
-      .on('touchstart', this.handleMobileDragStartFunction)
-      .on('mousedown', this.handleDragFunction)
-      .on('touchmove', this.handleMobileCancelDragFunction)
-      .on('touchend', this.handleMobileCancelDragFunction)
-    this.removeItem(id)
     this.addItem(id)
   }
 
   removeItem (id) {
-    this.items[ id ] && this.items[ id ]
-      .off('mousedown', this.handleDragStartFunction)
-      .off('touchstart', this.handleMobileDragStartFunction)
-      .off('mousedown', this.handleDragFunction)
-      .off('touchmove', this.handleMobileCancelDragFunction)
-      .off('touchend', this.handleMobileCancelDragFunction)
-    delete this.items[ id ]
   }
 
   removePlaceholder () {
@@ -253,8 +241,24 @@ export default class DnD {
     }
   }
 
+  getDomElement (domNode) {
+    if (!domNode || !domNode.ELEMENT_NODE) {
+      return null
+    }
+    const elementID = domNode.dataset.vcvDndElement || domNode.dataset.vcvDndElementHandler
+    return this.dOMElementCreate(domNode, elementID)
+  }
+
+  getDomElementParent (id) {
+    let domNode = this.container.querySelector(`[data-vcv-dnd-element="${id}"]:not([data-vcv-dnd-helper="true"])`)
+    if (id === 'vcv-content-root') {
+      domNode = this.container
+    }
+    return this.getDomElement(domNode)
+  }
+
   findElementWithValidParent (domElement) {
-    let parentElement = domElement.parent() ? this.items[ domElement.parent() ] : null
+    let parentElement = domElement.parent() ? this.getDomElementParent(domElement.parent()) : null
     if (parentElement && this.draggingElement.isChild(parentElement)) {
       return domElement
     } else if (parentElement) {
@@ -270,21 +274,32 @@ export default class DnD {
   findDOMNode (point) {
     let domNode = this.options.document.elementFromPoint(point.x, point.y)
     const domNodeAttr = domNode && domNode.getAttribute('data-vcv-dnd-element')
+    const domNodeDomElementAttr = domNode && domNode.getAttribute('data-vcv-dnd-dom-element')
+    const domNodeDomElement = $(domNode).closest(`.${domNodeDomElementAttr}`).get(0)
+
     if (domNode && !domNodeAttr) {
       domNode = $(domNode).closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
     }
+
     if (domNode && domNodeAttr && domNodeAttr === 'vcv-content-root') {
-      const domElement = this.items[ domNodeAttr ]
+      const domElement = this.getDomElement(domNode)
       if (!this.draggingElement.relatedTo(domElement.containerFor())) {
         domNode = null
       }
     }
-    return domNode && domNode.ELEMENT_NODE ? this.items[ domNode.getAttribute('data-vcv-dnd-element') ] : null
+    if (domNode && domNodeDomElement) {
+      domNode = domNodeDomElement
+    }
+    return domNode || null
   }
 
-  checkTrashBin ({ x, y }) {
-    x += 60
-    let domNode = document.elementFromPoint(x, y)
+  checkTrashBin ({ x, y, left = 0, top = 0 }) {
+    let iframeParent = this.options && this.options.container && this.options.container.parentNode ? this.options.container.parentNode : null
+    if (iframeParent) {
+      x += iframeParent.offsetLeft
+      y += iframeParent.offsetTop
+    }
+    let domNode = document.elementFromPoint(x - left, y - top)
     if (domNode && domNode.id === 'vcv-dnd-trash-bin') {
       return $(domNode).get(0)
     }
@@ -301,19 +316,20 @@ export default class DnD {
       this.currentElement = 'vcv-dnd-trash-bin'
     } else {
       this.trash && this.trash.removeActive()
+
       if (this.currentElement === 'vcv-dnd-trash-bin') {
         this.currentElement = null
       }
       this.helper && this.helper.removeOverTrash && this.helper.removeOverTrash()
-
-      let domElement = this.findDOMNode(point)
+      let domNode = this.findDOMNode(point)
+      let domElement = this.getDomElement(domNode)
       if (!domElement) {
         return
       }
-      let parentDOMElement = this.items[ domElement.parent() ] || null
+      let parentDOMElement = this.getDomElementParent(domElement.parent()) || null
       if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
         domElement = this.findElementWithValidParent(parentDOMElement) || domElement
-        parentDOMElement = this.items[ domElement.parent() ] || null
+        parentDOMElement = this.getDomElementParent(domElement.parent()) || null
       }
       if (this.isDraggingElementParent(domElement)) {
         return
@@ -323,10 +339,12 @@ export default class DnD {
       if (!allowApend && domElement.node && domElement.node.classList && domElement.node.dataset.vcvDndElementExpandStatus === 'closed') {
         allowApend = true
       }
+
       if (domElement.id === this.options.rootID) {
         const lastContainerElementId = domElement.$node.children('[data-vcv-dnd-element]').last().attr('data-vcv-dnd-element')
         if (lastContainerElementId) {
-          domElement = this.items[ lastContainerElementId ]
+          domNode = this.container.querySelector(`[data-vcv-dnd-element="${lastContainerElementId}"]:not([data-vcv-dnd-helper="true"])`)
+          domElement = this.getDomElement(domNode)
           domElement && (afterLastContainerElement = true)
         } else {
           domElement = null
@@ -370,22 +388,25 @@ export default class DnD {
     if (id && tag) {
       this.draggingElement = this.createDraggingElementFromTag(tag, domNode)
     } else {
-      this.draggingElement = id ? this.items[ id ] : null
+      this.draggingElement = this.getDomElement(domNode)
       this.options.drop = false
       if (!this.draggingElement) {
+        this.dragStartHandled = false
         this.draggingElement = null
         return false
       }
     }
+
     this.options.document.addEventListener('mousedown', this.handleRightMouseClickFunction, false)
     this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
     this.options.document.addEventListener('touchend', this.handleDragEndFunction, false)
     // Create helper/clone of element
     if (this.options.helperType === 'clone') {
-      this.helper = new HelperClone(this.draggingElement.node, point)
+      this.helper = new HelperClone(this.draggingElement.node.closest('[data-vcv-element]'), point)
     } else {
       this.helper = new Helper(this.draggingElement, {
-        container: this.options.container
+        container: this.options.container,
+        wrapper: this.options.isIframe && this.options.wrapper
       })
     }
 
@@ -408,6 +429,8 @@ export default class DnD {
     window.setTimeout(() => {
       this.helper && this.helper.show()
     }, 200)
+
+    this.dragStartedAt = (new Date()).getTime()
   }
 
   createDraggingElementFromTag (tag, domNode) {
@@ -426,6 +449,9 @@ export default class DnD {
   }
 
   end () {
+    let dragEndedAt = (new Date()).getTime()
+    let dragStartedAt = this.dragStartedAt
+    this.dragStartedAt = null
     // Remove helper
     this.helper && this.helper.remove()
     // Remove css class for body
@@ -449,22 +475,25 @@ export default class DnD {
     }
     const isValidLayoutCustomMode = getData('vcv:layoutCustomMode') === 'dnd'
 
-    if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
-      this.position && this.options.dropCallback(
-        this.draggingElement.id,
-        this.position,
-        this.currentElement,
-        this.draggingElement
-      )
-      if (!this.position) {
-        workspaceStorage.state('drag').set({ terminate: true })
+    // prevent quick multiple click
+    if (dragEndedAt - dragStartedAt > 250) {
+      if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
+        this.position && this.options.dropCallback(
+          this.draggingElement.id,
+          this.position,
+          this.currentElement,
+          this.draggingElement
+        )
+        if (!this.position) {
+          workspaceStorage.state('drag').set({ terminate: true })
+        }
+      } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
+        this.position && this.options.moveCallback(
+          this.draggingElement.id,
+          this.position,
+          this.currentElement
+        )
       }
-    } else if (isValidLayoutCustomMode && this.draggingElement && typeof this.options.moveCallback === 'function' && this.draggingElement.id !== this.currentElement) {
-      this.position && this.options.moveCallback(
-        this.draggingElement.id,
-        this.position,
-        this.currentElement
-      )
     }
     this.draggingElement = null
     this.currentElement = null
@@ -480,18 +509,19 @@ export default class DnD {
   }
 
   scrollManually (point) {
-    let body = this.options.document.body
+    let body = this.options.isIframe ? this.options.window : this.options.document.body
     let clientHeight = this.options.document.documentElement.clientHeight
     let top = null
     let speed = 30
     let gap = 10
-    if (clientHeight - gap <= point.y) {
-      top = body.scrollTop + speed
-    } else if (point.y <= gap && body.scrollTop >= speed) {
-      top = body.scrollTop - speed
+    let bodyTop = this.options.isIframe ? body.scrollY : body.scrollTop
+    if (clientHeight - gap <= point.y - point.top) {
+      top = bodyTop + speed
+    } else if (point.y - point.top <= gap && bodyTop >= speed) {
+      top = bodyTop - speed
     }
     if (top !== null) {
-      body.scrollTop = top > 0 ? top : 0
+      this.options.isIframe ? body.scroll(0, top) : body.scrollTop = top > 0 ? top : 0
     }
   }
 
@@ -500,7 +530,7 @@ export default class DnD {
       this.handleDragEnd()
       return
     }
-    if (getData('vcv:layoutCustomMode') !== 'dnd') {
+    if (this.draggingElement && getData('vcv:layoutCustomMode') !== 'dnd') {
       setData('vcv:layoutCustomMode', 'dnd')
     }
     this.options.manualScroll && this.scrollManually(point)
@@ -540,11 +570,13 @@ export default class DnD {
       this.handleDragEnd()
       return false
     }
+    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
+    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     if (e.touches && e.touches[ 0 ] && this.dragStartHandled) {
       e.preventDefault()
-      e.touches[ 0 ].clientX !== undefined && e.touches[ 0 ].clientY !== undefined && this.check({ x: e.touches[ 0 ].clientX - offsetX, y: e.touches[ 0 ].clientY - offsetY })
+      e.touches[ 0 ].clientX !== undefined && e.touches[ 0 ].clientY !== undefined && this.check({ x: e.touches[ 0 ].clientX - offsetX, y: e.touches[ 0 ].clientY - offsetY, left: scrollX, top: scrollY })
     } else {
-      e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX - offsetX, y: e.clientY - offsetY })
+      e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX - offsetX, y: e.clientY - offsetY, left: scrollX, top: scrollY })
     }
   }
 
@@ -570,12 +602,14 @@ export default class DnD {
     if (e.which > 1) {
       return
     }
+    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
+    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
     if (e.touches && e.touches[ 0 ]) {
       e.preventDefault()
-      this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY })
+      this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
     } else {
-      this.start(id, { x: e.clientX, y: e.clientY })
+      this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
     }
   }
 
@@ -594,7 +628,7 @@ export default class DnD {
       this.startDragTimeout = setTimeout(() => {
         this.startDragTimeout = null
         e.preventDefault()
-        this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY })
+        this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY }, null, this.findDOMNode({ x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY }))
       }, 450)
     }
   }
