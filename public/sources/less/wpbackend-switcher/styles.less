@@ -128,6 +128,22 @@
   }
 }
 
+@media screen and (min-width: 851px) and (max-width: 938px) {
+  .vcv-wpbackend-switcher-container {
+    & + .composer-switch {
+      margin-left: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 577px) {
+  .vcv-wpbackend-switcher-container {
+    & + .composer-switch {
+      margin-left: 0;
+    }
+  }
+}
+
 @media screen and (max-width: 454px) {
   .vcv-wpbackend-switcher {
     margin: @vcv-wpbackend-switcher-mobile-margin;
@@ -135,11 +151,5 @@
 
   .vcv-wpbackend-switcher--type-classic {
     margin: @vcv-wpbackend-switcher-classic-mobile-margin;
-  }
-
-  .vcv-wpbackend-switcher-container {
-    & + .composer-switch {
-      margin: @vcv-wpbackend-switcher-classic-mobile-margin;
-    }
   }
 }
