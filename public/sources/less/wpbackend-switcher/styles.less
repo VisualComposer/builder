@@ -10,6 +10,7 @@
   box-sizing: border-box;
   display: inline-block;
   margin-top: @vcv-wpbackend-switcher-margin-top;
+  margin-right: @vcv-wpbackend-switcher-spacing;
   line-height: @vcv-wpbackend-switcher-size;
   font-size: @vcv-wpbackend-switcher-font-size;
   font-family: @text-family-base;
@@ -31,7 +32,6 @@
   box-sizing: border-box;
   display: inline-block;
   margin-top: @vcv-wpbackend-switcher-margin-top;
-  margin-left: @vcv-wpbackend-switcher-spacing;
   margin-right: @vcv-wpbackend-switcher-spacing;
   line-height: @vcv-wpbackend-switcher-size;
   font-size: @vcv-wpbackend-switcher-font-size;
@@ -48,9 +48,6 @@
 
 .vcv-wpbackend-switcher-container {
   display: inline-block;
-  & + .composer-switch {
-    margin-left: @vcv-wpbackend-switcher-spacing;
-  }
 }
 
 .vcv-wpbackend-switcher-logo {
@@ -135,11 +132,5 @@
 
   .vcv-wpbackend-switcher--type-classic {
     margin: @vcv-wpbackend-switcher-classic-mobile-margin;
-  }
-
-  .vcv-wpbackend-switcher-container {
-    & + .composer-switch {
-      margin: @vcv-wpbackend-switcher-classic-mobile-margin;
-    }
   }
 }
