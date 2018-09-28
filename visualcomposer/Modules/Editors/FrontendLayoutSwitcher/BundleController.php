@@ -73,11 +73,7 @@ class BundleController extends Container implements Module
             // Add CSS
             wp_enqueue_style(
                 'vcv:editors:backendswitcher:style',
-                vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                    ?
-                    $assetsHelper->getAssetUrl('/editor/wpbackendswitch.bundle.css')
-                    :
-                    $urlHelper->to('public/dist/wpbackendswitch.bundle.css'),
+                $urlHelper->to('public/dist/wpbackendswitch.bundle.css'),
                 [],
                 VCV_VERSION
             );
@@ -96,11 +92,7 @@ class BundleController extends Container implements Module
             && !$frontendHelper->isFrontend()) {
             wp_enqueue_script(
                 'vcv:editors:backendswitcher:script',
-                vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                    ?
-                    $assetsHelper->getAssetUrl('/editor/wpbackendswitch.bundle.js')
-                    :
-                    $urlHelper->to('public/dist/wpbackendswitch.bundle.js'),
+                $urlHelper->to('public/dist/wpbackendswitch.bundle.js'),
                 ['vcv:assets:vendor:script'],
                 VCV_VERSION
             );

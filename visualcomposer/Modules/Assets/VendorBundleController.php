@@ -41,11 +41,7 @@ class VendorBundleController extends Container implements Module
         $editorVersion = $optionsHelper->get('hubAction:editors', '0');
         wp_register_script(
             'vcv:assets:vendor:script',
-            vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                ?
-                $assetsHelper->getAssetUrl('/editor/vendor.bundle.js')
-                :
-                $urlHelper->to('public/dist/vendor.bundle.js'),
+            $urlHelper->to('public/dist/vendor.bundle.js'),
             [
                 'jquery',
             ],
@@ -54,24 +50,16 @@ class VendorBundleController extends Container implements Module
         );
         wp_register_script(
             'vcv:assets:front:script',
-            vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                ?
-                $assetsHelper->getAssetUrl('/editor/front.bundle.js')
-                :
-                $urlHelper->to('public/dist/front.bundle.js'),
+            $urlHelper->to('public/dist/front.bundle.js'),
             [
-               // 'vcv:assets:vendor:script',
+                // 'vcv:assets:vendor:script',
             ],
             $editorVersion,
             true
         );
         wp_register_style(
             'vcv:assets:front:style',
-            vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                ?
-                $assetsHelper->getAssetUrl('/editor/front.bundle.css')
-                :
-                $urlHelper->to('public/dist/front.bundle.css'),
+            $urlHelper->to('public/dist/front.bundle.css'),
             [],
             $editorVersion
         );
@@ -85,11 +73,7 @@ class VendorBundleController extends Container implements Module
             [
                 sprintf(
                     '<script id="vcv-script-vendor-bundle" type="text/javascript" src="%s"></script>',
-                    vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                        ?
-                        $assetsHelper->getAssetUrl('/editor/vendor.bundle.js?v=' . VCV_VERSION)
-                        :
-                        $urlHelper->to('public/dist/vendor.bundle.js?v=' . VCV_VERSION)
+                    $urlHelper->to('public/dist/vendor.bundle.js?v=' . VCV_VERSION)
                 ),
             ]
         );

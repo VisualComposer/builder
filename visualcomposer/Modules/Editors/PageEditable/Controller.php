@@ -185,18 +185,10 @@ class Controller extends Container implements Module
      */
     protected function registerAssets(Url $urlHelper, Assets $assetsHelper)
     {
-        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
-            $bundleJsUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.js');
-            $bundleCssUrl = $assetsHelper->getAssetUrl('/editor/pe.bundle.css');
-        } else {
-            $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js');
-            $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css');
-        }
-        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
-            $vendorBundleJsUrl = $assetsHelper->getAssetUrl('/editor/vendor.bundle.js');
-        } else {
-            $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js');
-        }
+        $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js');
+        $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css');
+        $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js');
+
         wp_register_script('vcv:assets:vendor:script', $vendorBundleJsUrl, ['jquery'], VCV_VERSION, true);
         wp_register_script('vcv:pageEditable:bundle', $bundleJsUrl, ['vcv:assets:vendor:script'], VCV_VERSION, true);
         wp_register_style('vcv:pageEditable:css', $bundleCssUrl, [], VCV_VERSION);

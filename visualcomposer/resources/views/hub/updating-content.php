@@ -56,13 +56,8 @@ $posts = $optionsHelper->get('bundleUpdatePosts', []);
   window.vcvErrorReportUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'account:error:report:adminNonce']); ?>';
   window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->adminAjax(['vcv-action' => 'elements:globalVariables:adminNonce']); ?>';
   window.vcvDashboardUrl = '<?php echo admin_url('index.php'); ?>';
-    <?php if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) : ?>
-  window.vcvUpdaterUrl = '<?php echo $assetsHelper->getAssetUrl('/editor/wp.bundle.js'); ?>';
-  window.vcvVendorUrl = '<?php echo $assetsHelper->getAssetUrl('/editor/vendor.bundle.js'); ?>';
-    <?php else : ?>
   window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wp.bundle.js'); ?>';
   window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
-    <?php endif; ?>
 </script>
 <?php // @codingStandardsIgnoreEnd ?>
 <!-- Third screen / loading screen -->

@@ -44,13 +44,8 @@ $type = isset($page, $page['type']) ? $page['type'] : 'default';
   window.vcvElementsGlobalsUrl = '<?php echo vchelper('Url')->adminAjax(
       ['vcv-action' => 'elements:globalVariables:adminNonce']
   ); ?>';
-  <?php if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) : ?>
-  window.vcvUpdaterUrl = '<?php echo $assetsHelper->getAssetUrl('/editor/wp.bundle.js'); ?>';
-  window.vcvVendorUrl = '<?php echo $assetsHelper->getAssetUrl('/editor/vendor.bundle.js'); ?>';
-  <?php else : ?>
   window.vcvUpdaterUrl = '<?php echo vchelper('Url')->to('public/dist/wp.bundle.js'); ?>';
   window.vcvVendorUrl = '<?php echo vchelper('Url')->to('public/dist/vendor.bundle.js'); ?>';
-  <?php endif; ?>
 </script>
 <?php
 // @codingStandardsIgnoreEnd

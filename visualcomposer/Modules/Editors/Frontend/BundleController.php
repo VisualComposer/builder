@@ -37,12 +37,7 @@ class BundleController extends Container implements Module
                     sprintf(
                         '<link id="vcv-style-fe-bundle" 
 rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
-                        vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                            ?
-                            $assetsHelper->getAssetUrl('/editor/wp.bundle.css?v=' . VCV_VERSION)
-                            // TODO: Check latest downloaded version
-                            :
-                            $urlHelper->to('public/dist/wp.bundle.css?v=' . VCV_VERSION)
+                        $urlHelper->to('public/dist/wp.bundle.css?v=' . VCV_VERSION)
                     ),
                 ]
             );
@@ -60,12 +55,7 @@ rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
                 [
                     sprintf(
                         '<script id="vcv-script-fe-bundle" type="text/javascript" src="%s"></script>',
-                        vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')
-                            ?
-                            $assetsHelper->getAssetUrl('/editor/wp.bundle.js?v=' . VCV_VERSION)
-                            // TODO Check latest download version
-                            :
-                            $urlHelper->to('public/dist/wp.bundle.js?v=' . VCV_VERSION)
+                        $urlHelper->to('public/dist/wp.bundle.js?v=' . VCV_VERSION)
                     ),
                 ]
             );
