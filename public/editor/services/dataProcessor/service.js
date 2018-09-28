@@ -1,5 +1,5 @@
 import { addService, env } from 'vc-cake'
-import deflate from 'pako/lib/deflate'
+import { deflate } from 'pako/lib/deflate'
 import base64 from 'base-64'
 
 let processes = []
