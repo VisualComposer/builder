@@ -9,11 +9,26 @@ import './config/variables'
 import './config/wp-services'
 import './config/wp-attributes'
 
-const $ = require('expose-loader?$!jquery')
-$(() => {
+import PostBuilder from './postBuilder'
+
+(($) => {
   let $iframeContainer = $('.vcv-layout-iframe-container')
   let $iframe = $iframeContainer.find('#vcv-editor-iframe')
   let isIframeLoaded = false
+
+  if (!$iframe.length) {
+    const builder = new PostBuilder()
+
+    window.vcvRebuildPostSave = async (data) => {
+      return builder.update(data)
+    }
+
+    window.vcvRebuildPostSkipPost = (id) => {
+      vcCake.getStorage('wordpressRebuildPostData').trigger('skipPost', id)
+    }
+    window.vcv = vcCake.getService('api').publicEvents
+    return
+  }
 
   let iframeLoadEvent = () => {
     if (!isIframeLoaded) {
@@ -94,6 +109,7 @@ $(() => {
       }
     }
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
+
     vcCake.env('platform', 'wordpress').start(() => {
       vcCake.env('editor', 'frontend')
       require('./editor/stores/events/eventsStorage')
@@ -121,6 +137,7 @@ $(() => {
       // require('./editor/stores/elementsLoader/elementsLoaderStorage')
       require('./config/wp-modules')
     })
+
     vcCake.env('iframe', iframe)
     if ($iframe && $iframe.get(0).contentWindow) {
       const settingsStorage = vcCake.getStorage('settings')
@@ -193,7 +210,7 @@ $(() => {
   if (vcCake.env('TF_HEARTBEAT_HAS_CLASS_ERROR') && window.wp.heartbeat) {
     window.wp.heartbeat.interval(120)
   }
-})
+})(window.jQuery)
 
 if (vcCake.env('debug') === true) {
   window.app = vcCake

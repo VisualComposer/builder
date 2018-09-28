@@ -34,7 +34,7 @@ export const getClosest = (el, selector) => {
  * @returns {*|NavbarControl.state.realSize|{width, height}}
  */
 export const getRealSize = ($el, parent) => {
-  const realSize = {width: 0, height: 0}
+  const realSize = { width: 0, height: 0 }
   let $tempEl = $el.cloneNode(true)
   $tempEl.style.position = 'fixed'
   let container

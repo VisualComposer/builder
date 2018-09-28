@@ -5,8 +5,8 @@ import lodash from 'lodash'
 import PropTypes from 'prop-types'
 
 import Element from './element'
-import { default as elementSettings } from './element-settings'
-import { default as elementComponent } from './element-component'
+import elementSettings from './element-settings'
+import elementComponent from './element-component'
 import { getAttributeType } from './tools'
 
 const createKey = vcCake.getService('utils').createKey

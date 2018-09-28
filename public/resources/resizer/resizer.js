@@ -1,5 +1,4 @@
 import React from 'react'
-import $ from 'jquery'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
 
@@ -21,12 +20,12 @@ class Resizer extends React.Component {
       resizerTargetRight: '',
       resizerClasses: 'vcv-ui-resizer',
       overlayClasses: 'vcv-ui-resizer-overlay',
-      $overlay: $('<div></div>')
+      $overlay: window.jQuery('<div></div>')
     })
   }
 
   componentDidMount () {
-    $(this.refs[ 'resizer' ])
+    window.jQuery(this.refs[ 'resizer' ])
       .on('mousedown.vcv-resizer', this.bindDrag)
       .on('touchstart.vcv-resizer', this.bindDrag)
       .on('dragstart.vcv-resizer', (e) => {
@@ -34,16 +33,16 @@ class Resizer extends React.Component {
         return false
       })
 
-    let $target = this.state.resizerOptions.resizerTarget ? $(this.state.resizerOptions.resizerTarget) : false
-    this.$targetTop = this.state.resizerOptions.resizerTargetTop ? $(this.state.resizerOptions.resizerTargetTop) : $target
-    this.$targetBottom = this.state.resizerOptions.resizerTargetBottom ? $(this.state.resizerOptions.resizerTargetBottom) : $target
-    this.$targetLeft = this.state.resizerOptions.resizerTargetLeft ? $(this.state.resizerOptions.resizerTargetLeft) : $target
-    this.$targetRight = this.state.resizerOptions.resizerTargetRight ? $(this.state.resizerOptions.resizerTargetRight) : $target
+    let $target = this.state.resizerOptions.resizerTarget ? window.jQuery(this.state.resizerOptions.resizerTarget) : false
+    this.$targetTop = this.state.resizerOptions.resizerTargetTop ? window.jQuery(this.state.resizerOptions.resizerTargetTop) : $target
+    this.$targetBottom = this.state.resizerOptions.resizerTargetBottom ? window.jQuery(this.state.resizerOptions.resizerTargetBottom) : $target
+    this.$targetLeft = this.state.resizerOptions.resizerTargetLeft ? window.jQuery(this.state.resizerOptions.resizerTargetLeft) : $target
+    this.$targetRight = this.state.resizerOptions.resizerTargetRight ? window.jQuery(this.state.resizerOptions.resizerTargetRight) : $target
   }
 
   componentWillUnmount () {
     this.stopResize()
-    $(this.refs[ 'resizer' ]).off('mousedown.vcv-resizer').off('touchstart.vcv-resizer')
+    window.jQuery(this.refs[ 'resizer' ]).off('mousedown.vcv-resizer').off('touchstart.vcv-resizer')
     this.state.resizerOptions.$overlay.remove()
   }
 
@@ -61,7 +60,7 @@ class Resizer extends React.Component {
     e.returnValue = false
     this.state.resizerOptions.overlayClasses && this.state.resizerOptions.$overlay.addClass(this.state.resizerOptions.overlayClasses)
     this.state.resizerOptions.$overlay.appendTo('body')
-    $(document)
+    window.jQuery(document)
       .on('mousemove.vcv-resizer', this.doResize)
       .on('mouseup.vcv-resizer', this.stopResize)
       .on('touchmove.vcv-resizer', this.doResize)
@@ -78,7 +77,7 @@ class Resizer extends React.Component {
 
   doResize = (e) => {
     if (e.which === 1 || (e.originalEvent && e.originalEvent.touches)) {
-      let $window = $(window)
+      let $window = window.jQuery(window)
       let clientX = this.getClientX(e)
       let clientY = this.getClientY(e)
       let offsetX = this.startClientX - clientX
@@ -184,7 +183,7 @@ class Resizer extends React.Component {
 
   stopResize = () => {
     this.state.resizerOptions.$overlay.detach()
-    $(document)
+    window.jQuery(document)
       .off('mousemove.vcv-resizer')
       .off('mouseup.vcv-resizer')
       .off('touchmove.vcv-resizer')

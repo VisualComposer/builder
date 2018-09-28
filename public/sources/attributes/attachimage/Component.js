@@ -152,7 +152,7 @@ export default class AttachImage extends Attribute {
   updateExtraAttributesStates (attribute, state) {
     const { extraAttributes } = this.state
     extraAttributes[ attribute ] = state
-    this.setState({extraAttributes: extraAttributes})
+    this.setState({ extraAttributes: extraAttributes })
   }
 
   mediaAttachmentParse (attachment) {

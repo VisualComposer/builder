@@ -6,6 +6,12 @@ stages:
   - deploy
   - push
 
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - yarn.lock
+
 before_script:
   ## https://docs.gitlab.com/ee/ci/ssh_keys/
   ## Install ssh-agent if not already installed, it is required by Docker.
@@ -41,6 +47,7 @@ before_script:
   # disable host key checking (NOTE: makes you susceptible to man-in-the-middle attacks)
   # WARNING: use only in docker container, if you use it with shell you will overwrite your user's ssh config
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - if [ $(type -t yarn) ]; then yarn install; fi;
 
 codestyle:js:
   image: wpbakery/standardjs
@@ -49,7 +56,7 @@ codestyle:js:
     - refactor
     - headerFooter
   script:
-    - npm install && npm run standard
+    - yarn install && yarn standard
   tags:
     - docker
 
@@ -133,20 +140,20 @@ test:php:modules:
 
 test:js:storages:
   stage: test
-  image: node:9.11
+  image: wpbakery/standardjs
   script:
-    - npm install
-    - npm run build
-    - npm run test
+    - yarn install
+    - yarn build
+    - yarn test
   tags:
     - docker
 
 test:js:build:
   stage: test
-  image: node:9.11
+  image: wpbakery/standardjs
   script:
-    - npm install
-    - npm run build
+    - yarn install
+    - yarn build
     - cat public/dist/front.bundle.js | grep "webpackMissingModule" && exit 1
     - cat public/dist/vendor.bundle.js | grep "webpackMissingModule" && exit 1
     - cat public/dist/pe.bundle.js | grep "webpackMissingModule" && exit 1
@@ -157,7 +164,7 @@ test:js:build:
     - docker
 
 deployEditorsBundle:
-  image: node:8.6.0
+  image: wpbakery/standardjs
   stage: deploy
   script:
     - bash ci/deploy-editors-bundle.sh
@@ -165,7 +172,7 @@ deployEditorsBundle:
     - docker
 
 deployAssetsBundle:
-  image: node:8.6.0
+  image: wpbakery/standardjs
   stage: deploy
   script:
     - bash ci/deploy-assets-bundle.sh

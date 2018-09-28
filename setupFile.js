@@ -32,7 +32,7 @@ window.VCV_HUB_GET_ELEMENTS = () => {
       'elementPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/column/column/',
       'elementRealPath': '/home/pavel/Data/visualcomposer/devElements/column/column/',
       'assetsPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/column/column/public/',
-      'settings': {'name': 'Column', 'metaThumbnailUrl': '', 'metaPreviewUrl': '', 'metaDescription': ''}
+      'settings': { 'name': 'Column', 'metaThumbnailUrl': '', 'metaPreviewUrl': '', 'metaDescription': '' }
     },
     'textBlock': {
       'bundlePath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/textBlock/public/dist/element.bundle.js',
@@ -123,7 +123,7 @@ window.VCV_HUB_GET_ELEMENTS = () => {
       'elementPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/tab/tab/',
       'elementRealPath': '/home/pavel/Data/visualcomposer/devElements/tab/tab/',
       'assetsPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/tab/tab/public/',
-      'settings': {'name': 'Tab', 'metaThumbnailUrl': '', 'metaPreviewUrl': '', 'metaDescription': ''}
+      'settings': { 'name': 'Tab', 'metaThumbnailUrl': '', 'metaPreviewUrl': '', 'metaDescription': '' }
     },
     'flipBox': {
       'bundlePath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/flipBox/public/dist/element.bundle.js',
@@ -418,35 +418,35 @@ window.VCV_HUB_GET_ELEMENTS = () => {
       'elementPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/',
       'elementRealPath': '/home/pavel/Data/visualcomposer/devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/',
       'assetsPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourceCustomPostType/postsGridDataSourceCustomPostType/public/',
-      'settings': {'name': 'Custom Post Type', 'metaDescription': ''}
+      'settings': { 'name': 'Custom Post Type', 'metaDescription': '' }
     },
     'postsGridDataSourcePage': {
       'bundlePath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourcePage/public/dist/element.bundle.js',
       'elementPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourcePage/postsGridDataSourcePage/',
       'elementRealPath': '/home/pavel/Data/visualcomposer/devElements/postsGridDataSourcePage/postsGridDataSourcePage/',
       'assetsPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourcePage/postsGridDataSourcePage/public/',
-      'settings': {'name': 'Pages', 'metaDescription': ''}
+      'settings': { 'name': 'Pages', 'metaDescription': '' }
     },
     'postsGridDataSourcePost': {
       'bundlePath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourcePost/public/dist/element.bundle.js',
       'elementPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourcePost/postsGridDataSourcePost/',
       'elementRealPath': '/home/pavel/Data/visualcomposer/devElements/postsGridDataSourcePost/postsGridDataSourcePost/',
       'assetsPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourcePost/postsGridDataSourcePost/public/',
-      'settings': {'name': 'Posts', 'metaDescription': ''}
+      'settings': { 'name': 'Posts', 'metaDescription': '' }
     },
     'postsGridDataSourceListOfIds': {
       'bundlePath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourceListOfIds/public/dist/element.bundle.js',
       'elementPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/',
       'elementRealPath': '/home/pavel/Data/visualcomposer/devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/',
       'assetsPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridDataSourceListOfIds/postsGridDataSourceListOfIds/public/',
-      'settings': {'name': 'List Of Ids', 'metaDescription': ''}
+      'settings': { 'name': 'List Of Ids', 'metaDescription': '' }
     },
     'postsGridItemPostDescription': {
       'bundlePath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridItemPostDescription/public/dist/element.bundle.js',
       'elementPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridItemPostDescription/postsGridItemPostDescription/',
       'elementRealPath': '/home/pavel/Data/visualcomposer/devElements/postsGridItemPostDescription/postsGridItemPostDescription/',
       'assetsPath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/postsGridItemPostDescription/postsGridItemPostDescription/public/',
-      'settings': {'name': 'Post Description', 'metaDescription': ''}
+      'settings': { 'name': 'Post Description', 'metaDescription': '' }
     },
     'rawJs': {
       'bundlePath': 'http://vcwb.dev/wp-content/plugins/visualcomposer/devElements/rawJs/public/dist/element.bundle.js',

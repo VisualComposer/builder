@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import $ from 'jquery'
 
 export default class DOMElement {
   constructor (id, DOMNode, options) {
@@ -26,7 +25,7 @@ export default class DOMElement {
       '$node': {
         configurable: false,
         enumerable: false,
-        value: $(DOMNode),
+        value: window.jQuery(DOMNode),
         writable: false
       },
       /**

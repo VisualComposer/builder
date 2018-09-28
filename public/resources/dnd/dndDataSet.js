@@ -1,6 +1,5 @@
-import $ from 'jquery'
 import _ from 'lodash'
-import {getService, setData, getData, getStorage} from 'vc-cake'
+import { getService, setData, getData, getStorage } from 'vc-cake'
 import SmartLine from './smartLine'
 import TrashBin from './trashBin'
 import Helper from './helper'
@@ -275,10 +274,10 @@ export default class DndDataSet {
     let domNode = this.options.document.elementFromPoint(point.x, point.y)
     const domNodeAttr = domNode && domNode.getAttribute('data-vcv-dnd-element')
     const domNodeDomElementAttr = domNode && domNode.getAttribute('data-vcv-dnd-dom-element')
-    const domNodeDomElement = $(domNode).closest(`.${domNodeDomElementAttr}`).get(0)
+    const domNodeDomElement = window.jQuery(domNode).closest(`.${domNodeDomElementAttr}`).get(0)
 
     if (domNode && !domNodeAttr) {
-      domNode = $(domNode).closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
+      domNode = window.jQuery(domNode).closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
     }
 
     if (domNode && domNodeAttr && domNodeAttr === 'vcv-content-root') {
@@ -301,7 +300,7 @@ export default class DndDataSet {
     }
     let domNode = document.elementFromPoint(x - left, y - top)
     if (domNode && domNode.id === 'vcv-dnd-trash-bin') {
-      return $(domNode).get(0)
+      return window.jQuery(domNode).get(0)
     }
     return null
   }
@@ -596,7 +595,7 @@ export default class DndDataSet {
     if (this.options.disabled === true || this.dragStartHandled) { // hack not to use stopPropogation
       return
     }
-    if (this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
+    if (this.options.ignoreHandling && window.jQuery(e.currentTarget).is(this.options.ignoreHandling)) {
       return
     }
     if (e.which > 1) {
@@ -617,7 +616,7 @@ export default class DndDataSet {
     if (this.options.disabled === true || this.dragStartHandled) { // hack not to use stopPropogation
       return
     }
-    if (this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
+    if (this.options.ignoreHandling && window.jQuery(e.currentTarget).is(this.options.ignoreHandling)) {
       return
     }
     if (e.which > 1) {

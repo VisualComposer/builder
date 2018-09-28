@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import CodeEditor from '../../../../codeEditor/codeEditor'
 import { getData, getStorage } from 'vc-cake'
+
 const settingsStorage = getStorage('settings')
 
 export default class ScriptEditor extends React.Component {
@@ -35,8 +36,8 @@ export default class ScriptEditor extends React.Component {
     this.codeEditor.refresh()
   }
 
-  handleChange (value) {
-    this.props.updater(this.props.name, value.getValue())
+  handleChange () {
+    this.props.updater(this.props.name, this.codeEditor.getValue())
   }
 
   handleBlur () {
@@ -49,7 +50,7 @@ export default class ScriptEditor extends React.Component {
       'vcv-ui-state--active': (this.props.index === this.props.activeIndex)
     })
     return <div className={controlClass}>
-      <div className='vcv-ui-script-ace-container' ref={editor => (this.editorWrapper = editor)} />
+      <textarea className='vcv-ui-script-ace-container' ref={editor => (this.editorWrapper = editor)} />
       <p className='vcv-ui-form-helper'>{this.props.editorLabel}</p>
     </div>
   }

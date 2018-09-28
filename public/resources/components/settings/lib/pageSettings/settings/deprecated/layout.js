@@ -1,5 +1,5 @@
 import React from 'react'
-import {getStorage} from 'vc-cake'
+import { getStorage } from 'vc-cake'
 import LayoutDropdown from './../layoutDropdown'
 
 const settingsStorage = getStorage('settings')

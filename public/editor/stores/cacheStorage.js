@@ -1,4 +1,4 @@
-import {addStorage} from 'vc-cake'
+import { addStorage } from 'vc-cake'
 
 addStorage('cache', (storage) => {
   storage.state('controls').set({})

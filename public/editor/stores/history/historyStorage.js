@@ -1,4 +1,4 @@
-import {addStorage, getStorage, getService} from 'vc-cake'
+import { addStorage, getStorage, getService } from 'vc-cake'
 import TimeMachine from './lib/timeMachine'
 /**
  * History storage

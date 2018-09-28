@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import _ from 'lodash'
 import Textarea from 'react-textarea-autosize'
-import $ from 'jquery'
 import 'jquery.caret'
 
 import Token from './token'
@@ -110,7 +109,7 @@ export default class TokenizationList extends React.Component {
 
   updateCursorPosition (el) {
     this.keydownTimeout = setTimeout(() => {
-      let caret = $(el).caret('offset')
+      let caret = window.jQuery(el).caret('offset')
       let offset = el.getBoundingClientRect()
       this.setState({
         cursorPosition: {

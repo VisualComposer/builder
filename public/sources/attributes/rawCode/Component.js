@@ -34,11 +34,11 @@ export default class RawCode extends Attribute {
     this.codeEditor.refresh()
   }
 
-  setValue (value) {
-    this.setFieldValue(value.getValue())
+  setValue () {
+    this.setFieldValue(this.codeEditor.getValue())
   }
 
   render () {
-    return <div className='vcv-row-html-editor-container' ref={editor => (this.editorWrapper = editor)} />
+    return <textarea className='vcv-row-html-editor-container' ref={editor => (this.editorWrapper = editor)} />
   }
 }

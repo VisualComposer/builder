@@ -46,7 +46,7 @@ export default class Helper {
     this.clone.style.position = 'fixed'
     this.clone.style.opacity = this.options.opacity
     this.clone.style.pointerEvents = 'none'
-    let {height, width} = rect
+    let { height, width } = rect
     this.clone.style.width = width + 'px'
     this.clone.style.overflowY = 'hidden'
     if (this.cutSize) {

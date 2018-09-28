@@ -3,7 +3,7 @@ import Attribute from '../attribute'
 import lodash from 'lodash'
 import Url from '../url/Component'
 import AttachVideoList from './attachVideoList'
-import {SortableContainer, arrayMove} from 'react-sortable-hoc'
+import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 
 const SortableList = SortableContainer((props) => {

@@ -1,4 +1,4 @@
-import {getService, getStorage} from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 const cook = getService('cook')
 const backendAssetsStorage = getStorage('assetsUpdate')
 

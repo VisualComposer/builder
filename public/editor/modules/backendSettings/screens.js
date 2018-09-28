@@ -1,5 +1,5 @@
-import {closeError} from './errors'
-import {loadSlider} from './slider'
+import { closeError } from './errors'
+import { loadSlider } from './slider'
 
 (($) => {
   let showIntroScreen = ($popup) => {

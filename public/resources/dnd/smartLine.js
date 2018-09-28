@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const $ = require('jquery')
 /**
  * From to highlight position
  * @constructor
@@ -67,7 +66,7 @@ SmartLine.prototype.getVcvIdFromElement = function (element) {
 }
 SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let position = false
-  let $element = $(element)
+  let $element = window.jQuery(element)
   let defaultLiteSize = 2
   let lineWidth = defaultLiteSize
   let lineHeight = defaultLiteSize
@@ -152,7 +151,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   if (position && !this.isSameElementPosition(linePoint, this.getVcvIdFromElement(element))) {
     this.clearStyle()
     this.setPoint(linePoint.x, linePoint.y)
-    this.setStyle({...point, ...linePoint}, lineWidth, lineHeight, frame)
+    this.setStyle({ ...point, ...linePoint }, lineWidth, lineHeight, frame)
     window.setTimeout(function () {
       this.el && this.el.classList.add('vcv-is-shown')
       if (isVerticalLine) {

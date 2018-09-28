@@ -35,7 +35,7 @@ addStorage('elements', (storage) => {
         // Update OLD rowLayout to devices-object
         let value = cookElement.get(attrKey)
         if (!value || Array.isArray(value)) {
-          value = {all: value}
+          value = { all: value }
           cookElement.set(attrKey, value)
         }
       }
@@ -45,17 +45,17 @@ addStorage('elements', (storage) => {
       // Update OLD column sizes to devices-object
       let sizeValue = cookElement.get('size')
       if (typeof sizeValue !== 'object') {
-        sizeValue = {all: sizeValue, defaultSize: sizeValue}
+        sizeValue = { all: sizeValue, defaultSize: sizeValue }
         cookElement.set('size', sizeValue)
       }
       let lastInRowValue = cookElement.get('lastInRow')
       if (typeof lastInRowValue !== 'object') {
-        lastInRowValue = {all: lastInRowValue}
+        lastInRowValue = { all: lastInRowValue }
         cookElement.set('lastInRow', lastInRowValue)
       }
       let firstInRowValue = cookElement.get('firstInRow')
       if (typeof firstInRowValue !== 'object') {
-        firstInRowValue = {all: firstInRowValue}
+        firstInRowValue = { all: firstInRowValue }
         cookElement.set('firstInRow', firstInRowValue)
       }
     }

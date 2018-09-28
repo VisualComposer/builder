@@ -1,5 +1,4 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
-import $ from 'jquery'
 
 addStorage('hubElements', (storage) => {
   const workspaceStorage = getStorage('workspace')
@@ -17,7 +16,7 @@ addStorage('hubElements', (storage) => {
     hubElementsService.add(elementData)
     storage.state('elements').set(elements)
     if (addBundle) {
-      Promise.all([ $.getScript(elementData.bundlePath) ])
+      Promise.all([ window.jQuery.getScript(elementData.bundlePath) ])
     }
   })
 

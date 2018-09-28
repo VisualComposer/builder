@@ -15,9 +15,8 @@ module.exports = {
     wpbackendswitch: './public/wpbackend-switch',
     wpbase: './public/wp-base',
     vendor: [
-      'jquery',
       'react',
-      './oldreact.js',
+      './oldlibs-bc.js',
       'react-dom',
       'create-react-class',
       'classnames',
@@ -42,9 +41,11 @@ module.exports = {
       'babel-runtime/core-js/object/keys.js',
       'core-js/library/modules/web.dom.iterable.js',
       'core-js/library/modules/es6.string.iterator.js',
-      'core-js/library/modules/core.is-iterable.js'
-    ],
-    wpPostRebuild: './public/wp-post-rebuild-main'
+      'core-js/library/modules/core.is-iterable.js',
+      'core-js/library/modules/es7.object.values.js',
+      'core-js/library/fn/object/values.js',
+      'core-js/library/modules/_core.js'
+    ]
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
@@ -75,6 +76,7 @@ module.exports = {
     new Collector({
       wp: {
         modules: [
+          'content/updateContent',
           'content/modernLayout',
           'wordpressWorkspace',
           'heartbeat'
@@ -101,30 +103,6 @@ module.exports = {
           'renderProcessor'
         ]
       },
-      wpupdate: {
-        modules: [
-          'content/updateContent'
-        ],
-        services: [
-          'utils',
-          'document',
-          'wordpress-post-data',
-          'cook',
-          'sharedAssetsLibrary',
-          'elementAssetsLibrary',
-          'actionsManager',
-          'rulesManager',
-          'api',
-          'dataProcessor',
-          'modernAssetsStorage',
-          'stylesManager',
-          'wpMyTemplates',
-          'hubCategories',
-          'hubGroups',
-          'hubElements',
-          'renderProcessor'
-        ]
-      },
       'wpbackend-switcher': {
         services: [],
         modules: [
@@ -138,6 +116,10 @@ module.exports = {
       contents: `module.exports = require('react')`
     }),
     new VirtualModulePlugin({
+      moduleName: 'node_modules/jquery/dist/jquery.js',
+      contents: `module.exports = window.jQuery`
+    }),
+    new VirtualModulePlugin({
       moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/web.dom.iterable.js',
       contents: `module.exports = require('core-js/library/modules/web.dom.iterable.js')`
     }),
@@ -148,6 +130,18 @@ module.exports = {
     new VirtualModulePlugin({
       moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/core.is-iterable.js',
       contents: `module.exports = require('core-js/library/modules/core.is-iterable.js')`
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/es7.object.values.js',
+      contents: `module.exports = require('core-js/library/modules/es7.object.values.js')`
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/fn/object/values.js',
+      contents: `module.exports = require('core-js/library/fn/object/values.js')`
+    }),
+    new VirtualModulePlugin({
+      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/_core.js',
+      contents: `module.exports = require('core-js/library/modules/_core.js')`
     }),
     new webpack.NamedModulesPlugin()
   ],

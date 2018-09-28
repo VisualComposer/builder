@@ -1,7 +1,7 @@
 import React from 'react'
 import StyleControl from './control'
 import StyleEditor from './editor'
-import {setData, getStorage} from 'vc-cake'
+import { setData, getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
 const settingsStorage = getStorage('settings')
 
@@ -64,11 +64,11 @@ export default class CustomStyles extends React.Component {
 
   getButtons () {
     let allButtons = []
-    let {styleData} = this.props
-    let {isActiveIndex} = this.state
+    let { styleData } = this.props
+    let { isActiveIndex } = this.state
     for (let i in styleData) {
       if (styleData.hasOwnProperty(i)) {
-        let {...buttonProps} = this.getButtonProps(styleData[i], isActiveIndex)
+        let { ...buttonProps } = this.getButtonProps(styleData[i], isActiveIndex)
         allButtons.push(
           <StyleControl {...buttonProps} />
         )
@@ -78,11 +78,11 @@ export default class CustomStyles extends React.Component {
   }
   updateSettings (key, value) {
     setData('ui:settings:customStyles:' + key, value)
-    this.setState({[key]: value})
+    this.setState({ [key]: value })
   }
   getEditor () {
     let allEditors = []
-    let {styleData} = this.props
+    let { styleData } = this.props
     for (let i in styleData) {
       if (styleData.hasOwnProperty(i)) {
         allEditors.push(

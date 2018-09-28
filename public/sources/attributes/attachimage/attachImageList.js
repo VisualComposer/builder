@@ -1,6 +1,6 @@
 import React from 'react'
 import AttachImageItem from './attachImageItem'
-import {SortableElement, SortableHandle} from 'react-sortable-hoc'
+import { SortableElement, SortableHandle } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 
 const SortableHandler = SortableHandle(({ title }) => {

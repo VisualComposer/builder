@@ -1,5 +1,5 @@
 import './sources/less/wpupdates/init.less'
-import { default as PostUpdater } from './editor/modules/backendSettings/postUpdate'
+import PostUpdater from './editor/modules/backendSettings/postUpdate'
 import { log as logError, send as sendError, messages as getErrorsMessages } from './editor/modules/backendSettings/logger'
 
 (($) => {
