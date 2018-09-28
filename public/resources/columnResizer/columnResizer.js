@@ -359,7 +359,7 @@ class ColumnResizer extends React.Component {
     layoutData[device][this.resizerData.leftColumnIndex] = `${leftSize}%`
     layoutData[device][this.resizerData.rightColumnIndex] = `${rightSize}%`
     parentRow.layout.layoutData = layoutData
-    elementsStorage.trigger('update', parentRow.id, parentRow)
+    elementsStorage.trigger('update', parentRow.id, parentRow, '', { changedAttributeType: 'rowLayout' })
   }
 
   getCurrentDevice () {
