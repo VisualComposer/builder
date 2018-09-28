@@ -33,7 +33,7 @@ if (!defined('VCV_ENV_ELEMENT_DOWNLOAD_V')) {
 if (!defined('VCV_ENV_EXTENSION_DOWNLOAD')) {
     define(
         'VCV_ENV_EXTENSION_DOWNLOAD',
-        isset($_SERVER['ENV_VCV_ENV_EXTENSION_DOWNLOAD']) ? $_SERVER['ENV_VCV_ENV_EXTENSION_DOWNLOAD'] : true
+        isset($_SERVER['ENV_VCV_ENV_EXTENSION_DOWNLOAD']) ? $_SERVER['ENV_VCV_ENV_EXTENSION_DOWNLOAD'] : false
     );
 }
 if (!defined('VCV_ACCOUNT_URL')) {
