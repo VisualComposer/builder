@@ -17,7 +17,7 @@ export default class FrontendClassicSwitcher extends React.Component {
       editor: editor
     }
 
-    this.wpb = (typeof window.vc !== 'undefined') ? true : false
+    this.wpb = (typeof window.vc !== 'undefined')
   }
 
   enableClassicEditor (e) {
