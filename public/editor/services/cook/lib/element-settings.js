@@ -1,10 +1,18 @@
 import { defaults, defaultsDeep } from 'lodash'
+import { getStorage } from 'vc-cake'
 
 let items = {}
 export default {
   add (settings, componentCallback, cssSettings) {
+    let allElementsSettings = getStorage('hubElements').state('elements').get() || window.VCV_HUB_GET_ELEMENTS()
+    let settingsCloneJsonString = JSON.stringify(settings)
+
+    if (allElementsSettings[ settings.tag.value ]) {
+      settingsCloneJsonString = settingsCloneJsonString.replace('[assetsPath]/', allElementsSettings[ settings.tag.value ].assetsPath).replace('[assetsPath]', allElementsSettings[ settings.tag.value ])
+    }
+
     items[ settings.tag.value ] = {
-      settings: defaults(settings, { tag: null }),
+      settings: JSON.parse(settingsCloneJsonString),
       component: componentCallback,
       cssSettings: cssSettings
     }
