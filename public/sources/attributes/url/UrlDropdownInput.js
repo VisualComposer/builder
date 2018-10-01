@@ -176,7 +176,7 @@ export default class UrlDropdownInput extends React.Component {
             type='text'
             value={this.state.inputValue}
             placeholder={urlInputPlaceholder}
-            autoFocus='true'
+            autoFocus={true}
           />
         </div>
       </div>
