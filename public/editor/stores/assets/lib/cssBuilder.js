@@ -105,12 +105,12 @@ export default class CssBuilder {
   }
 
   update (data, options) {
-    const changedAttributeOptions = options && cook.getSettings(data.tag).settings[ options.changedAttribute ] && cook.getSettings(data.tag).settings[ options.changedAttribute ].options
-    let shouldStop = options && (options.changedAttributeType !== 'rowLayout' && options.changedAttributeType !== 'paramsGroup' && options.changedAttributeType !== 'designOptions' && options.changedAttributeType !== 'designOptionsAdvanced' && options.changedAttributeType !== 'element' && options.changedAttribute !== 'rowWidth')
-
-    if (shouldStop && (!changedAttributeOptions || !changedAttributeOptions.cssMixin)) {
-      return
-    }
+    // const changedAttributeOptions = options && cook.getSettings(data.tag).settings[ options.changedAttribute ] && cook.getSettings(data.tag).settings[ options.changedAttribute ].options
+    // let shouldStop = options && (options.changedAttributeType !== 'rowLayout' && options.changedAttributeType !== 'paramsGroup' && options.changedAttributeType !== 'designOptions' && options.changedAttributeType !== 'designOptionsAdvanced' && options.changedAttributeType !== 'element' && options.changedAttribute !== 'rowWidth')
+    //
+    // if (shouldStop && (!changedAttributeOptions || !changedAttributeOptions.cssMixin)) {
+    //   return
+    // }
 
     if (!data) {
       return
