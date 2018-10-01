@@ -40,7 +40,7 @@ export default class ActivitiesManager extends React.Component {
 
   initListeners (elementCook, props = false) {
     let listeners = []
-    let fields = Object.keys(elementCook.getAll())
+    let fields = Object.keys(elementCook.getAll(false))
     if (props.options.nestedAttr) {
       fields = elementCook.settings(props.options.fieldKey).settings.options.settings._paramGroupEditFormTab1.value
     }
