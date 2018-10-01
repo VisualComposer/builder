@@ -414,7 +414,7 @@ export default class ElementComponent extends React.Component {
         })
         imageUrl = urls
       } else {
-        imageUrl = image && image.full && image.id ? image.full : (image && image.full ? this.getPublicImage(image.full) : this.getPublicImage(image))
+        imageUrl = image && image.full && image.id ? image.full : (image && image.hasOwnProperty('full') ? this.getPublicImage(image.full) : this.getPublicImage(image))
       }
     }
     return imageUrl
