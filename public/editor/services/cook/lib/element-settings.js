@@ -1,4 +1,4 @@
-import { defaults, defaultsDeep } from 'lodash'
+import { defaultsDeep } from 'lodash'
 import { getStorage } from 'vc-cake'
 
 let items = {}
