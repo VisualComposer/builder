@@ -38,6 +38,9 @@ class GetPremium extends Container implements Module
 
     public function __construct(License $licenseHelper, Token $tokenHelper, Request $requestHelper)
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            $this->templatePath = 'account/main/layout';
+        }
         if (vcvenv('VCV_ENV_LICENSES')) {
             if (!$licenseHelper->isActivated()) {
                 $this->wpAddAction(
