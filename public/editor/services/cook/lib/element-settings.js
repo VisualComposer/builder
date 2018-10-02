@@ -4,7 +4,7 @@ import { getStorage } from 'vc-cake'
 let items = {}
 export default {
   add (settings, componentCallback, cssSettings) {
-    let allElementsSettings = getStorage('hubElements').state('elements').get() || window.VCV_HUB_GET_ELEMENTS()
+    let allElementsSettings = getStorage('hubElements').state('elements').get() || (window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
     let settingsCloneJsonString = JSON.stringify(settings)
 
     if (allElementsSettings[ settings.tag.value ]) {
