@@ -406,9 +406,10 @@ export default class ElementComponent extends React.Component {
     if (size && image && image[ size ]) {
       imageUrl = image[ size ]
     } else {
-      if (image instanceof Array) {
+      if (image instanceof Array || (image.urls && image.urls instanceof Array)) {
         let urls = []
-        image.forEach((item) => {
+        const images = image.urls || image
+        images.forEach((item) => {
           let url = item && item.full && item.id ? item.full : (item && item.full ? this.getPublicImage(item.full) : this.getPublicImage(item))
           urls.push(url)
         })
