@@ -95,8 +95,9 @@ class AppTest extends WP_UnitTestCase
             $arg = $app;
         };
         $helper->listen('vcv:inited', $callback);
-        vcapp()->init();
+        $init = vcapp()->init(true);
         $this->assertTrue($called);
+        $this->assertTrue($init instanceof \VisualComposer\Application);
         $this->assertTrue(is_object($arg));
         $this->assertTrue($arg instanceof \VisualComposer\Application);
         $helper->forget('vcv:inited');
@@ -104,5 +105,38 @@ class AppTest extends WP_UnitTestCase
         foreach ($listeners as $listener) {
             $helper->listen('vcv:inited', $listener);
         }
+    }
+
+    public function testAliases()
+    {
+        // isAlias
+        /** @var \VisualComposer\Application $app */
+        $app = vcapp();
+
+        $this->assertTrue($app->isAlias('VisualComposer\Application'));
+        $this->assertTrue($app->isAlias('VisualComposer\Framework\Application'));
+        $this->assertTrue($app->isAlias('VisualComposer\Framework\Illuminate\Container\Container'));
+        $this->assertTrue($app->isAlias('VisualComposer\Framework\Illuminate\Contracts\Container\Container'));
+        $this->assertTrue($app->isAlias('VisualComposer\Helpers\Events'));
+        $this->assertTrue($app->isAlias('VisualComposer\Helpers\Filters'));
+        $this->assertTrue($app->isAlias('VisualComposer\Framework\Autoload'));
+    }
+
+    public function testBindings()
+    {
+        /** @var \VisualComposer\Application $app */
+        $app = vcapp();
+        $autoload = $app->make('Autoload');
+        $events = $app->make('EventsHelper');
+        $filters = $app->make('FiltersHelper');
+
+        $this->assertSame($autoload, $app->make('Autoload'));
+        $this->assertSame($events, $app->make('EventsHelper'));
+        $this->assertSame($filters, $app->make('FiltersHelper'));
+
+        $boot = $app->boot();
+        $this->assertTrue($boot instanceof \VisualComposer\Application);
+        $adminInit = $app->adminInit();
+        $this->assertTrue($adminInit instanceof \VisualComposer\Application);
     }
 }
