@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
+
 use VisualComposer\Framework\Application as ApplicationFactory;
 use VisualComposer\Framework\Autoload;
 use VisualComposer\Framework\Illuminate\Filters\Dispatcher as FiltersDispatcher;
@@ -31,14 +32,30 @@ class Application extends ApplicationFactory
         'Autoload' => 'registerAutoloadBindings',
     ];
 
-    public function init()
+    protected $inited = false;
+
+    protected $adminInited = false;
+
+    protected $booted = false;
+
+    public function init($force = false)
     {
-        vcevent('vcv:inited', $this);
+        if ($force || !$this->inited) {
+            $this->inited = true;
+            vcevent('vcv:inited', $this);
+        }
+
+        return $this;
     }
 
-    public function adminInit()
+    public function adminInit($force = false)
     {
-        vcevent('vcv:admin:inited', $this);
+        if ($force || !$this->adminInited) {
+            $this->adminInited = true;
+            vcevent('vcv:admin:inited', $this);
+        }
+
+        return $this;
     }
 
     /**
@@ -49,8 +66,11 @@ class Application extends ApplicationFactory
      */
     public function boot()
     {
-        parent::boot();
-        do_action('vcv:boot', $this);
+        if (!$this->booted) {
+            $this->booted = true;
+            parent::boot();
+            do_action('vcv:boot', $this);
+        }
 
         return $this;
     }

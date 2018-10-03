@@ -86,6 +86,20 @@ class EnqueueController extends Container implements Module
             }
 
             return;
+        } elseif (function_exists('twentyseventeen_is_static_front_page') && (twentyseventeen_is_static_front_page() || is_customize_preview())) {
+            $mods = get_theme_mods();
+            $pattern = '/panel_/';
+            $panels = array();
+            foreach ($mods as $key => $mod) {
+                if (preg_match($pattern, $key)) {
+                    array_push($panels, $mod);
+                }
+            }
+            if (! empty($panels)) {
+                foreach ($panels as $panel) {
+                    $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $panel);
+                }
+            }
         }
         $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, get_the_ID());
     }
@@ -147,9 +161,33 @@ class EnqueueController extends Container implements Module
             $this->lastEnqueueIdAssets = get_the_ID();
 
             return;
+        } elseif (function_exists('twentyseventeen_is_static_front_page') && (twentyseventeen_is_static_front_page() || is_customize_preview())) {
+            $mods = get_theme_mods();
+            $pattern = '/panel_/';
+            $panels = array();
+            foreach ($mods as $key => $mod) {
+                if (preg_match($pattern, $key)) {
+                    array_push($panels, $mod);
+                }
+            }
+            if (! empty($panels)) {
+                foreach ($panels as $panel) {
+                    $this->enqueueAssetsBySourceId($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, $panel);
+                }
+            }
         }
-        $this->lastEnqueueIdAssets = get_the_ID();
-        $sourceId = get_the_ID();
+        $this->enqueueAssetsBySourceId($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, get_the_ID());
+    }
+
+    /**
+     * @param $sourceId
+     */
+    protected function enqueueAssetsBySourceId(Str $strHelper, Assets $assetsHelper, AssetsShared $assetsSharedHelper, Options $optionsHelper, $sourceId = null)
+    {
+        if ($sourceId==null) {
+            $sourceId = get_the_ID();
+        }
+        $this->lastEnqueueIdAssets = $sourceId;
         $assetsFiles = get_post_meta($sourceId, 'vcvSourceAssetsFiles', true);
         $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
         if (!is_array($assetsFiles)) {

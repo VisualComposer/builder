@@ -6,6 +6,7 @@ import webpackConfig from './webpack.config.4x.babel'
 module.exports = Object.assign({}, webpackConfig, {
   entry: {
     wpsettings: './public/wp-settings-main',
+    wpactivation: './public/wp-activation-main',
     wpupdate: './public/bundle-update-main'
   },
   output: {

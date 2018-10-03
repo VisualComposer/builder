@@ -13,7 +13,7 @@ foreach ($elements as $key => $element) :
         // @codingStandardsIgnoreLine
         echo set_url_scheme($element['bundlePath']);
         ?>?v=<?php
-        echo vcvenv('VCV_DEBUG') ? esc_attr($time) : esc_attr($optionsHelper->get('hubAction:element/' . $key));
+        echo vcvenv('VCV_DEBUG') ? esc_attr($time) : esc_attr($optionsHelper->get('hubAction:element/' . $key, VCV_VERSION));
         ?>"></script>
     <?php
     endif;

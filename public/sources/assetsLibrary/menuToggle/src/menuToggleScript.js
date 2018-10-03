@@ -50,12 +50,20 @@
     this.modal = this.options.container.querySelector(this.options.modalSelector);
     this.openButton = this.options.container.querySelector(this.options.openSelector);
     this.closeButton = this.options.container.querySelector(this.options.closeSelector);
+    this.modalMenuItems = this.options.container.querySelectorAll(this.options.modalSelector + ' .menu-item a');
 
     if (this.openButton) {
       this.openButton.addEventListener("click", this.open.bind(this));
     }
     if (this.closeButton) {
       this.closeButton.addEventListener("click", this.close.bind(this));
+    }
+
+    if (this.modalMenuItems && this.modalMenuItems.length) {
+      let that = this;
+      this.modalMenuItems.forEach(function(item) {
+        item.addEventListener("click", that.close.bind(that));
+      });
     }
   }
 })();
