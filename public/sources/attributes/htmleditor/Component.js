@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import TinyMceEditor from 'react-tinymce'
-import './css/skin.css'
+// import './css/skin.css'
 import './css/content.css'
 import './css/wpEditor.css'
 import Attribute from '../attribute'
