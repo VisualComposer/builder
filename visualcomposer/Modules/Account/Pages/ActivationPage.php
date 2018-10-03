@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
@@ -39,6 +40,9 @@ class ActivationPage extends Container implements Module
      */
     public function __construct()
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            $this->templatePath = 'account/main/layout';
+        }
         $this->addEvent(
             'vcv:inited',
             function (Token $tokenHelper, Request $requestHelper) {
@@ -63,17 +67,38 @@ class ActivationPage extends Container implements Module
      */
     protected function beforeRender()
     {
-        wp_enqueue_script('vcv:settings:script');
-        wp_enqueue_style('vcv:settings:style');
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            wp_enqueue_script('vcv:wpactivation:script');
+            wp_enqueue_style('vcv:wpactivation:style');
+        } else {
+            wp_enqueue_script('vcv:settings:script');
+            wp_enqueue_style('vcv:settings:style');
+        }
     }
 
     /**
      * @param array $pages
+     * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return array
      */
-    protected function addPage($pages)
+    protected function addPage($pages, Url $urlHelper)
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            wp_register_script(
+                'vcv:wpactivation:script',
+                $urlHelper->assetUrl('dist/wpactivation.bundle.js'),
+                [],
+                VCV_VERSION
+            );
+            wp_register_style(
+                'vcv:wpactivation:style',
+                $urlHelper->assetUrl('dist/wpactivation.bundle.css'),
+                [],
+                VCV_VERSION
+            );
+        }
+
         $currentUserAccess = vchelper('AccessCurrentUser');
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             return $pages;
