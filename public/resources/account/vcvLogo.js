@@ -3,7 +3,7 @@ import React from 'react'
 const VCVLogo = () => {
   return (
     <div className='vcv-logo'>
-      <svg width='36px' height='37px' viewBox='0 0 36 37' version='1.1'
+      <svg width='60px' height='62px' viewBox='0 0 36 37' version='1.1'
         xmlns='http://www.w3.org/2000/svg'>
         <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
           <g id='01-Intro-Free' transform='translate(-683.000000, -185.000000)'>

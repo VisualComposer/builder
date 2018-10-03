@@ -1,8 +1,9 @@
 import './editor/modules/backendSettings/activation-intro'
 import './editor/modules/backendSettings/activation'
 import './editor/modules/backendSettings/deactivation'
-// import './resources/account/activationSection' // comment 3 lines above to make it work correctly
 import './sources/less/wpsettings/init.less'
+// import './resources/account/activationSection' // uncomment this and comment 4 lines above to make it work correctly
+// import './sources/less/wpsettings-update/init.less' // uncomment this also
 
 window.jQuery(() => {
   let $ = window.jQuery
