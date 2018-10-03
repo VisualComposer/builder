@@ -1,26 +1,48 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import VCVLogo from './vcvLogo'
+import InitialScreen from './initialScreen'
+import LoadingScreen from './loadingScreen'
+import FinalScreen from './finalScreen'
 
-export default class ActivationSection extends React.Component {
+const ActivationSectionContext = React.createContext()
+
+export default class ActivationSectionProvider extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      activeScreen: 'initialScreen'
+    }
+
+    this.setActiveScreen = this.setActiveScreen.bind(this)
+  }
+
+  setActiveScreen (activeScreen) {
+    this.setState({ activeScreen })
+  }
+
   render () {
+    let activeScreen = ''
+    if (this.state.activeScreen === 'initialScreen') {
+      activeScreen = <InitialScreen />
+    } else if (this.state.activeScreen === 'loadingScreen') {
+      activeScreen = <LoadingScreen />
+    } else if (this.state.activeScreen === 'finalScreen') {
+      activeScreen = <FinalScreen />
+    }
+
     return (
-      <div className='vcv-activation-section'>
-        <VCVLogo />
-        <div className='vcv-activation-plugin-version-box'>
-          version 10.0
+      <ActivationSectionContext.Provider
+        value={{
+          setActiveScreen: this.setActiveScreen
+        }}
+      >
+        <div className='vcv-activation-section'>
+          {activeScreen}
         </div>
-        <div className='vcv-activation-heading'>
-          <h2>Create your wordpress website.</h2>
-          <h2>Any layout. Fast and easy.</h2>
-        </div>
-        <div>Slider</div>
-      </div>
+      </ActivationSectionContext.Provider>
+
     )
   }
 }
 
-ReactDOM.render(
-  <ActivationSection />,
-  document.querySelector('.vcv-settings')
-)
+export const ActivationSectionConsumer = ActivationSectionContext.Consumer
