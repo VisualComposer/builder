@@ -1,7 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
-import './css/styles.less'
 
 let setList = {
   icons: {

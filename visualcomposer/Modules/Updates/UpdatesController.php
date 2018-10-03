@@ -26,17 +26,28 @@ class UpdatesController extends Container implements Module
      *
      * @var string
      */
-    protected $updateVersionUrl = 'http://updates.visualcomposer.io/visual-composer-website-builder/index.html';
+    protected $updateVersionUrl;
 
-    protected $updateChangelogUrl = 'http://updates.visualcomposer.io/visual-composer-website-builder/changes.json';
+    protected $updateChangelogUrl;
+
+    protected $updatePackageUrl;
 
     protected $logoUrl = 'http://updates.visualcomposer.io/visual-composer-website-builder/vc-logo.svg';
 
-    // @codingStandardsIgnoreLine
-    protected $updatePackageUrl = 'http://updates.visualcomposer.io/visual-composer-website-builder/visualcomposer.zip';
-
     public function __construct()
     {
+        $this->updateVersionUrl = vcvenv(
+            'VCV_ENV_PLUGIN_UPDATE_VERSION_URL',
+            'http://updates.visualcomposer.io/visual-composer-website-builder/index.html'
+        );
+        $this->updateChangelogUrl = vcvenv(
+            'VCV_ENV_PLUGIN_UPDATE_CHANGELOG_URL',
+            'http://updates.visualcomposer.io/visual-composer-website-builder/changes.json'
+        );
+        $this->updatePackageUrl = vcvenv(
+            'VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL',
+            'http://updates.visualcomposer.io/visual-composer-website-builder/visualcomposer.zip'
+        );
         /** @see \VisualComposer\Modules\Updates\UpdatesController::checkForUpdates */
         $this->wpAddFilter(
             'pre_set_site_transient_update_plugins',
