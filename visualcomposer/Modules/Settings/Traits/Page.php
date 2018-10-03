@@ -81,6 +81,9 @@ trait Page
                 'page' => $page,
             ]
         );
+        if (!$this->getTemplatePath()) {
+            return '';
+        }
 
         return vcview($this->getTemplatePath(), $args);
     }

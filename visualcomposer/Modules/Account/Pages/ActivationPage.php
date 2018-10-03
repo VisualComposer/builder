@@ -41,7 +41,7 @@ class ActivationPage extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            $this->templatePath = 'account/main/layout';
+            $this->templatePath = null; // Empty page, logic in js
         }
         $this->addEvent(
             'vcv:inited',
