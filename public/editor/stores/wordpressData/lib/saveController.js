@@ -116,7 +116,6 @@ export default class SaveController {
 
       let itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled').get() || ''
       requestData[ 'vcv-item-preview-disabled' ] = itemPreviewDisabled
-
       this.ajax(
         requestData,
         options && options.successCallback ? options.successCallback : this.saveSuccess.bind(this, status),

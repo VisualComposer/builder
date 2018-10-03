@@ -201,4 +201,9 @@ addStorage('wordpressData', (storage) => {
       }
     })
   }
+  // postUpdate event
+  storage.on('rebuild', (postId) => {
+    storage.state('id').set(postId)
+    postId && controller.load(postId, {}, storage.state('status'))
+  })
 })

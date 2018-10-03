@@ -1,5 +1,7 @@
 import vcCake from 'vc-cake'
 
+const { env, getStorage } = vcCake
+
 export default class PostBuilder {
   /**
    * Setup iframe where content of rerender post will be placed
@@ -27,21 +29,31 @@ export default class PostBuilder {
     vcCake.env('platform', 'wordpress').start(() => {
       require('./editor/stores/hub/hubElementsStorage')
       require('./editor/stores/hub/hubTemplatesStorage')
-      const hubElementsStorage = vcCake.getStorage('hubElements')
+      const hubElementsStorage = getStorage('hubElements')
       hubElementsStorage.trigger('start')
       require('./editor/stores/settingsStorage')
       require('./editor/stores/elements/elementsStorage')
-      require('./editor/stores/assetsUpdate/assetsStorage')
-      require('./editor/stores/wordpressRebuildPostData/wordpressRebuildPostDataStorage.js')
+      require('./editor/stores/assets/assetsStorage')
+      require('./editor/stores/wordpressData/wordpressDataStorage.js')
       require('./editor/modules/content/updateContent/module.js')
-      vcCake.getStorage('wordpressRebuildPostData').state('status').onChange((state) => {
+      const wordpressBackendWorkspace = getStorage('wordpressBackendWorkspace')
+      const wordpressRebuildPostData = getStorage('wordpressData')
+
+      wordpressRebuildPostData.state('status').onChange((state) => {
         if (state && state.status === 'success') {
           this.resolve && this.resolve(this.settings)
         }
       })
-      vcCake.getStorage('wordpressRebuildPostData').on('skipPost', (id) => {
+      wordpressRebuildPostData.on('skipPost', (id) => {
         if (id === this.settings.id) {
           this.resolve && this.resolve()
+        }
+      })
+      wordpressBackendWorkspace.state('lastAction').onChange((action) => {
+        if (action === 'contentBuilt') {
+          const id = wordpressRebuildPostData.state('id').get()
+          wordpressRebuildPostData.trigger('save', id)
+          wordpressRebuildPostData.state('id').set(false)
         }
       })
     })
@@ -52,10 +64,10 @@ export default class PostBuilder {
    * Event listener to watch when editor is loaded
    */
   renderData () {
-    vcCake.env('iframe', this.iframe.contentWindow)
+    env('iframe', this.iframe.contentWindow)
     !this.cakeReady && this.setupCake()
     window.vcvSourceID = this.settings.id
-    vcCake.getStorage('wordpressRebuildPostData').trigger('rebuild', this.settings.id)
+    getStorage('wordpressData').trigger('rebuild', this.settings.id)
   }
 
   /**
