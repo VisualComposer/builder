@@ -10,6 +10,8 @@ require_once(ABSPATH . 'wp-admin/includes/admin.php');
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
        $update_title, $total_update_count, $parent_file, $typenow;
 
+$hookSuffix = $hook_suffix;
+
 if (empty($current_screen)) {
     set_current_screen();
 }
@@ -42,7 +44,7 @@ if (vcvenv('VCV_ENV_LICENSES')) {
     <?php
     // @codingStandardsIgnoreLine
     vcevent('vcv:frontend:render');
-    do_action('admin_enqueue_scripts', $hook_suffix);
+    do_action('admin_enqueue_scripts', $hookSuffix);
     do_action('admin_print_styles');
     do_action('admin_print_scripts');
     do_action('admin_head');
@@ -134,9 +136,9 @@ if (is_array($extraOutput)) {
 <?php
 wp_print_footer_scripts();
 do_action('admin_footer', '');
-do_action('admin_print_footer_scripts-{$hook_suffix}');
+do_action('admin_print_footer_scripts-{$hookSuffix}');
 do_action('admin_print_footer_scripts');
-do_action('admin_footer-{$hook_suffix}');
+do_action('admin_footer-{$hookSuffix}');
 $extraOutput = vcfilter('vcv:frontend:footer:extraOutput', []);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
