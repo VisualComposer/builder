@@ -86,6 +86,20 @@ class EnqueueController extends Container implements Module
             }
 
             return;
+        } elseif (function_exists('twentyseventeen_is_static_front_page') && (twentyseventeen_is_static_front_page() || is_customize_preview())) {
+            $mods = get_theme_mods();
+            $pattern = '/panel_/';
+            $panels = array();
+            foreach ($mods as $key => $mod) {
+                if (preg_match($pattern, $key)) {
+                    array_push($panels, $mod);
+                }
+            }
+            if (! empty($panels)) {
+                foreach ($panels as $panel) {
+                    $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $panel);
+                }
+            }
         }
         $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, get_the_ID());
     }
