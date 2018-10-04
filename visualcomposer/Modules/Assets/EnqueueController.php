@@ -15,10 +15,12 @@ use VisualComposer\Helpers\AssetsShared;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Str;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class EnqueueController extends Container implements Module
 {
+    use EventsFilters;
     use WpFiltersActions;
 
     protected $lastEnqueueIdSourceAssets = null;
@@ -31,27 +33,20 @@ class EnqueueController extends Container implements Module
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
-        $this->wpAddAction('enqueueAssetsListener', 'enqueueAssetsListener', $actionPriority);
-        $this->wpAddAction('enqueueSourceAssetsListener', 'enqueueSourceAssetsListener', $actionPriority);
+        $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsListener');
     }
 
-    public function enqueueAssetsListener(Str $strHelper, Assets $assetsHelper, AssetsShared $assetsSharedHelper, Options $optionsHelper, $sourceIds)
+    /**
+     * @param array $sourceIds // IDs to enqueue resources
+     */
+    public function enqueueAssetsListener($sourceIds)
     {
         if (empty($sourceIds)) {
             return;
         }
         foreach ($sourceIds as $sourceId) {
-            $this->enqueueAssetsBySourceId($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, $sourceId);
-        }
-    }
-
-    public function enqueueSourceAssetsListener(Str $strHelper, Assets $assetsHelper, $sourceIds)
-    {
-        if (empty($sourceIds)) {
-            return;
-        }
-        foreach ($sourceIds as $sourceId) {
-            $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $sourceId);
+            $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
+            $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
         }
     }
 
@@ -104,13 +99,12 @@ class EnqueueController extends Container implements Module
             $wpQuery = $wp_query;
             // @codingStandardsIgnoreEnd
             foreach ($wpQuery->posts as $post) {
-                $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $post->ID);
+                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID]);
             }
 
             return;
         }
-        vcevent('vcv:assets:enqueueSourceAssets');
-        $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, get_the_ID());
+        $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => get_the_ID()]);
     }
 
     /**
@@ -171,8 +165,7 @@ class EnqueueController extends Container implements Module
 
             return;
         }
-        vcevent('vcv:assets:enqueueAssets');
-        $this->enqueueAssetsBySourceId($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, get_the_ID());
+        $this->call('enqueueAssetsBySourceId', ['sourceId' => get_the_ID()]);
     }
 
     /**

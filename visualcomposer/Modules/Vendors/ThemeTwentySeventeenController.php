@@ -10,13 +10,8 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Helpers\Assets;
-use VisualComposer\Helpers\AssetsShared;
-use VisualComposer\Helpers\Options;
-use VisualComposer\Helpers\Str;
-use VisualComposer\Modules\Assets\EnqueueController;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class ThemeTwentySeventeenController extends Container implements Module
 {
@@ -25,22 +20,18 @@ class ThemeTwentySeventeenController extends Container implements Module
 
     public function __construct()
     {
-        $this->wpAddAction('init', 'initialize');
+        $this->wpAddAction(
+            'wp',
+            'initialize'
+        );
     }
 
     protected function initialize()
     {
-        if (!defined('WPB_VC_VERSION')) {
+        if (!function_exists('twentyseventeen_is_static_front_page')){
             return;
         }
-
-        $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssets');
-        $this->addEvent('vcv:assets:enqueueSourceAssets', 'enqueueSourceAssets');
-    }
-
-    protected function enqueueAssets(EnqueueController $enqueueController, Str $strHelper, Assets $assetsHelper, AssetsShared $assetsSharedHelper, Options $optionsHelper)
-    {
-        if (function_exists('twentyseventeen_is_static_front_page') && (twentyseventeen_is_static_front_page() || is_customize_preview())) {
+        if (twentyseventeen_is_static_front_page() || is_customize_preview()) {
             $mods = get_theme_mods();
             $pattern = '/panel_/';
             $panels = [];
@@ -50,24 +41,7 @@ class ThemeTwentySeventeenController extends Container implements Module
                 }
             }
             if (!empty($panels)) {
-                $enqueueController->enqueueAssetsListener($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, $panels);
-            }
-        }
-    }
-
-    protected function enqueueSourceAssets(EnqueueController $enqueueController, Str $strHelper, Assets $assetsHelper)
-    {
-        if (function_exists('twentyseventeen_is_static_front_page') && (twentyseventeen_is_static_front_page() || is_customize_preview())) {
-            $mods = get_theme_mods();
-            $pattern = '/panel_/';
-            $panels = [];
-            foreach ($mods as $key => $mod) {
-                if (preg_match($pattern, $key)) {
-                    array_push($panels, $mod);
-                }
-            }
-            if (!empty($panels)) {
-                $enqueueController->enqueueSourceAssetsListener($strHelper, $assetsHelper, $panels);
+                vcevent('vcv:assets:enqueueAssets',['sourceIds' => $panels]);
             }
         }
     }
