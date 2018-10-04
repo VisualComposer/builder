@@ -28,7 +28,7 @@ class ThemeTwentySeventeenController extends Container implements Module
 
     protected function initialize()
     {
-        if (!function_exists('twentyseventeen_is_static_front_page')){
+        if (!function_exists('twentyseventeen_is_static_front_page')) {
             return;
         }
         if (twentyseventeen_is_static_front_page() || is_customize_preview()) {
@@ -41,7 +41,7 @@ class ThemeTwentySeventeenController extends Container implements Module
                 }
             }
             if (!empty($panels)) {
-                vcevent('vcv:assets:enqueueAssets',['sourceIds' => $panels]);
+                vcevent('vcv:assets:enqueueAssets', ['sourceIds' => $panels]);
             }
         }
     }
