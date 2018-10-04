@@ -31,6 +31,28 @@ class EnqueueController extends Container implements Module
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
+        $this->wpAddAction('enqueueAssetsListener', 'enqueueAssetsListener', $actionPriority);
+        $this->wpAddAction('enqueueSourceAssetsListener', 'enqueueSourceAssetsListener', $actionPriority);
+    }
+
+    public function enqueueAssetsListener(Str $strHelper, Assets $assetsHelper, AssetsShared $assetsSharedHelper, Options $optionsHelper, $sourceIds)
+    {
+        if (empty($sourceIds)) {
+            return;
+        }
+        foreach ($sourceIds as $sourceId) {
+            $this->enqueueAssetsBySourceId($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, $sourceId);
+        }
+    }
+
+    public function enqueueSourceAssetsListener(Str $strHelper, Assets $assetsHelper, $sourceIds)
+    {
+        if (empty($sourceIds)) {
+            return;
+        }
+        foreach ($sourceIds as $sourceId) {
+            $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $sourceId);
+        }
     }
 
     /**
@@ -86,21 +108,8 @@ class EnqueueController extends Container implements Module
             }
 
             return;
-        } elseif (function_exists('twentyseventeen_is_static_front_page') && (twentyseventeen_is_static_front_page() || is_customize_preview())) {
-            $mods = get_theme_mods();
-            $pattern = '/panel_/';
-            $panels = array();
-            foreach ($mods as $key => $mod) {
-                if (preg_match($pattern, $key)) {
-                    array_push($panels, $mod);
-                }
-            }
-            if (! empty($panels)) {
-                foreach ($panels as $panel) {
-                    $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $panel);
-                }
-            }
         }
+        vcevent('vcv:assets:enqueueSourceAssets');
         $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, get_the_ID());
     }
 
@@ -161,21 +170,8 @@ class EnqueueController extends Container implements Module
             $this->lastEnqueueIdAssets = get_the_ID();
 
             return;
-        } elseif (function_exists('twentyseventeen_is_static_front_page') && (twentyseventeen_is_static_front_page() || is_customize_preview())) {
-            $mods = get_theme_mods();
-            $pattern = '/panel_/';
-            $panels = array();
-            foreach ($mods as $key => $mod) {
-                if (preg_match($pattern, $key)) {
-                    array_push($panels, $mod);
-                }
-            }
-            if (! empty($panels)) {
-                foreach ($panels as $panel) {
-                    $this->enqueueAssetsBySourceId($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, $panel);
-                }
-            }
         }
+        vcevent('vcv:assets:enqueueAssets');
         $this->enqueueAssetsBySourceId($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, get_the_ID());
     }
 
