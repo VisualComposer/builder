@@ -15,10 +15,12 @@ use VisualComposer\Helpers\AssetsShared;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Str;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class EnqueueController extends Container implements Module
 {
+    use EventsFilters;
     use WpFiltersActions;
 
     protected $lastEnqueueIdSourceAssets = null;
@@ -31,6 +33,21 @@ class EnqueueController extends Container implements Module
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
+        $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsListener');
+    }
+
+    /**
+     * @param array $sourceIds // IDs to enqueue resources
+     */
+    public function enqueueAssetsListener($sourceIds)
+    {
+        if (empty($sourceIds)) {
+            return;
+        }
+        foreach ($sourceIds as $sourceId) {
+            $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
+            $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
+        }
     }
 
     /**
@@ -82,26 +99,12 @@ class EnqueueController extends Container implements Module
             $wpQuery = $wp_query;
             // @codingStandardsIgnoreEnd
             foreach ($wpQuery->posts as $post) {
-                $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $post->ID);
+                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID]);
             }
 
             return;
-        } elseif (function_exists('twentyseventeen_is_static_front_page') && (twentyseventeen_is_static_front_page() || is_customize_preview())) {
-            $mods = get_theme_mods();
-            $pattern = '/panel_/';
-            $panels = array();
-            foreach ($mods as $key => $mod) {
-                if (preg_match($pattern, $key)) {
-                    array_push($panels, $mod);
-                }
-            }
-            if (! empty($panels)) {
-                foreach ($panels as $panel) {
-                    $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, $panel);
-                }
-            }
         }
-        $this->enqueueSourceAssetsBySourceId($strHelper, $assetsHelper, get_the_ID());
+        $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => get_the_ID()]);
     }
 
     /**
@@ -161,22 +164,8 @@ class EnqueueController extends Container implements Module
             $this->lastEnqueueIdAssets = get_the_ID();
 
             return;
-        } elseif (function_exists('twentyseventeen_is_static_front_page') && (twentyseventeen_is_static_front_page() || is_customize_preview())) {
-            $mods = get_theme_mods();
-            $pattern = '/panel_/';
-            $panels = array();
-            foreach ($mods as $key => $mod) {
-                if (preg_match($pattern, $key)) {
-                    array_push($panels, $mod);
-                }
-            }
-            if (! empty($panels)) {
-                foreach ($panels as $panel) {
-                    $this->enqueueAssetsBySourceId($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, $panel);
-                }
-            }
         }
-        $this->enqueueAssetsBySourceId($strHelper, $assetsHelper, $assetsSharedHelper, $optionsHelper, get_the_ID());
+        $this->call('enqueueAssetsBySourceId', ['sourceId' => get_the_ID()]);
     }
 
     /**

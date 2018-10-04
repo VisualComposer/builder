@@ -1,24 +1,89 @@
+.vcv-settings {
+  margin: 0;
+}
+
 .vcv-activation-section {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 0;
+  padding: 20px 20px 0 0;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  height: calc(100vh - 32px);
+  overflow: auto;
+  text-align: center;
 
   .vcv-logo {
-    margin: 20px 0 20px;
+    margin: 17px 0 10px;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 }
 
 .vcv-activation-plugin-version-box {
   position: absolute;
-  top: 10px;
-  right: 0;
+  top: 20px;
+  right: 20px;
   background: #fff;
-  padding: 7px 12px;
+  padding: 9px 12px;
   border-radius: 30px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  color: #C9C9C9;
+  font-size: 12px;
+  letter-spacing: 0.92px;
+  line-height: 13px;
 }
 
-.vcv-activation-heading {
+.vcv-activation-section .vcv-activation-heading {
   text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 40px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-size: 32px;
+  margin: 23px 0;
 }
+
+.vcv-activation-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+
+  button.vcv-activation-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    letter-spacing: .92px;
+    line-height: 15px;
+    font-size: 12px;
+    color: #fff;
+    border: 0;
+    padding: 18px 38px;
+    border-radius: 0;
+    background: #294A82;
+    text-transform: uppercase;
+    min-width: 210px;
+    margin: 10px 20px;
+    outline: none;
+    transition: background @vcv-transitionDuration @vcv-transitionTimingFunction;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background: #1F3152;
+    }
+
+    &--dark {
+      background: #363636;
+
+      &:hover,
+      &:focus {
+        background: #1e1e1e;
+      }
+    }
+  }
+}
+
