@@ -27,24 +27,30 @@ class EnqueueController extends Container implements Module
 
     protected $lastEnqueueIdAssets = null;
 
+    protected $lastEnqueueIdAssetsAll = [];
+
     public function __construct(Frontend $frontendHelper)
     {
         $actionPriority = 50;
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
-        $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsListener');
+        $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsVendorListener');
     }
 
     /**
      * @param array $sourceIds // IDs to enqueue resources
      */
-    public function enqueueAssetsListener($sourceIds)
+    public function enqueueAssetsVendorListener($sourceIds)
     {
         if (empty($sourceIds)) {
             return;
         }
+        $sourceIds = array_unique($sourceIds);
         foreach ($sourceIds as $sourceId) {
+            if (in_array($sourceId, $this->lastEnqueueIdAssetsAll)) {
+                continue;
+            }
             $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
             $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
         }
@@ -104,6 +110,7 @@ class EnqueueController extends Container implements Module
 
             return;
         }
+        vcevent('vcv:assets:enqueueVendorAssets');
         $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => get_the_ID()]);
     }
 
@@ -116,6 +123,7 @@ class EnqueueController extends Container implements Module
             $sourceId = get_the_ID();
         }
         $this->lastEnqueueIdSourceAssets = $sourceId;
+        array_push($this->lastEnqueueIdAssetsAll, $sourceId);
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
             if (vcvenv('VCV_TF_SOURCE_CSS_CHECKSUM')) {
@@ -165,6 +173,7 @@ class EnqueueController extends Container implements Module
 
             return;
         }
+        vcevent('vcv:assets:enqueueVendorAssets');
         $this->call('enqueueAssetsBySourceId', ['sourceId' => get_the_ID()]);
     }
 
@@ -177,6 +186,7 @@ class EnqueueController extends Container implements Module
             $sourceId = get_the_ID();
         }
         $this->lastEnqueueIdAssets = $sourceId;
+        array_push($this->lastEnqueueIdAssetsAll, $sourceId);
         $assetsFiles = get_post_meta($sourceId, 'vcvSourceAssetsFiles', true);
         $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
         if (!is_array($assetsFiles)) {

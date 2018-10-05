@@ -20,8 +20,8 @@ class ThemeTwentySeventeenController extends Container implements Module
 
     public function __construct()
     {
-        $this->wpAddAction(
-            'wp',
+        $this->addEvent(
+            'vcv:assets:enqueueVendorAssets',
             'initialize'
         );
     }
