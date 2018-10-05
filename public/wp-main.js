@@ -11,7 +11,6 @@ import './config/wp-attributes'
 
 import PostBuilder from './postBuilder'
 
-
 (($) => {
   let started = false
   if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
