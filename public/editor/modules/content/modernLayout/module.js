@@ -49,7 +49,7 @@ vcCake.add('contentModernLayout', (api) => {
 
       workspaceIFrame.onChange(reloadLayout)
 
-      const pluginUpdate = VCV_PLUGIN_UPDATE()
+      const pluginUpdate = typeof VCV_PLUGIN_UPDATE === 'function' ? VCV_PLUGIN_UPDATE() : false
       pluginUpdate && workspaceNotifications.set({
         position: 'top',
         transparent: false,

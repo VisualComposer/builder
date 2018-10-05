@@ -13,25 +13,23 @@ import PostBuilder from './postBuilder'
 
 (($) => {
   let started = false
+  if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
+    const builder = new PostBuilder()
+    window.vcvRebuildPostSave = async (data) => {
+      return builder.update(data)
+    }
+
+    window.vcvRebuildPostSkipPost = (id) => {
+      vcCake.getStorage('wordpressRebuildPostData').trigger('skipPost', id)
+    }
+    window.vcv = vcCake.getService('api').publicEvents
+    return
+  }
   const start = () => {
     started = true
     let $iframeContainer = $('.vcv-layout-iframe-container')
     let $iframe = $iframeContainer.find('#vcv-editor-iframe')
     let isIframeLoaded = false
-
-    if (!$iframe.length) {
-      const builder = new PostBuilder()
-
-      window.vcvRebuildPostSave = async (data) => {
-        return builder.update(data)
-      }
-
-      window.vcvRebuildPostSkipPost = (id) => {
-        vcCake.getStorage('wordpressRebuildPostData').trigger('skipPost', id)
-      }
-      window.vcv = vcCake.getService('api').publicEvents
-      return
-    }
 
     let iframeLoadEvent = () => {
       if (!isIframeLoaded) {
@@ -216,7 +214,6 @@ import PostBuilder from './postBuilder'
   }
   // Need to wait while ALL Elements will be initialized otherwise can break layout
   $.ready(start)
-
   // In case if jQuery.ready fails try to load manually
   window.setTimeout(() => {
     if (!started) {

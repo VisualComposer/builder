@@ -25,7 +25,9 @@ export default class LayoutEditor extends React.Component {
   }
 
   updateState (data) {
-    this.setState({ data })
+    this.setState({ data }, () => {
+      wordpressDataStorage.state('lastAction').set('contentBuilt')
+    })
   }
 
   componentDidMount () {

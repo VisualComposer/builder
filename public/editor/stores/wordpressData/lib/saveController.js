@@ -95,7 +95,8 @@ export default class SaveController {
         'vcv-settings-global-js': settingsStorage.state('globalJs').get() || '',
         'vcv-tf': 'noGlobalCss',
         'vcv-be-editor': 'fe',
-        'wp-preview': vcCake.getData('wp-preview')
+        'wp-preview': vcCake.getData('wp-preview'),
+        'vcv-updatePost': '1'
       }
       let pageTemplateData = settingsStorage.state('pageTemplate').get()
       if (pageTemplateData) {

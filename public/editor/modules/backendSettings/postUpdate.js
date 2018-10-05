@@ -8,6 +8,7 @@ export default class {
   }
 
   async setup () {
+    window.vcvPostUpdateAction = 'updatePosts'
     const $ = window.jQuery
     $.ajaxSetup({
       beforeSend: function (jqXHR, settings) {

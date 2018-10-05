@@ -35,25 +35,25 @@ export default class PostBuilder {
       require('./editor/stores/elements/elementsStorage')
       require('./editor/stores/assets/assetsStorage')
       require('./editor/stores/wordpressData/wordpressDataStorage.js')
-      require('./editor/modules/content/updateContent/module.js')
-      const wordpressBackendWorkspace = getStorage('wordpressBackendWorkspace')
-      const wordpressRebuildPostData = getStorage('wordpressData')
+      require('./editor/modules/content/modernLayout/module.js')
+      // require('./editor/modules/content/updateContent/module.js')
+      const wordpressDataStorage = getStorage('wordpressData')
 
-      wordpressRebuildPostData.state('status').onChange((state) => {
+      wordpressDataStorage.state('status').onChange((state) => {
         if (state && state.status === 'success') {
           this.resolve && this.resolve(this.settings)
         }
       })
-      wordpressRebuildPostData.on('skipPost', (id) => {
+      wordpressDataStorage.on('skipPost', (id) => {
         if (id === this.settings.id) {
           this.resolve && this.resolve()
         }
       })
-      wordpressBackendWorkspace.state('lastAction').onChange((action) => {
+      wordpressDataStorage.state('lastAction').onChange((action) => {
         if (action === 'contentBuilt') {
-          const id = wordpressRebuildPostData.state('id').get()
-          wordpressRebuildPostData.trigger('save', id)
-          wordpressRebuildPostData.state('id').set(false)
+          const id = wordpressDataStorage.state('id').get()
+          wordpressDataStorage.trigger('save', id)
+          wordpressDataStorage.state('id').set(false)
         }
       })
     })
