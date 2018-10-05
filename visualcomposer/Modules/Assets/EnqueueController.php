@@ -89,7 +89,8 @@ class EnqueueController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    protected function enqueueAssets(Frontend $frontendHelper) {
+    protected function enqueueAssets(Frontend $frontendHelper)
+    {
         if ($frontendHelper->isPageEditable() && !vcvenv('VCV_FT_INITIAL_CSS_LOAD')) {
             return;
         }
@@ -97,7 +98,7 @@ class EnqueueController extends Container implements Module
         if ($frontendHelper->isPreview()
             && (!empty($this->lastEnqueueIdAssetsAll)
                 || (in_array($sourceId, $this->lastEnqueueIdAssetsAll)))) {
-            $this->call('addEnqueuedId',['sourceId' => $sourceId]);
+            $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
 
             return;
         } elseif (is_home() || is_archive() || is_category() || is_tag()) {
@@ -127,7 +128,7 @@ class EnqueueController extends Container implements Module
         if ($sourceId==null) {
             $sourceId = get_the_ID();
         }
-        $this->call('addEnqueuedId',['sourceId' => $sourceId]);
+        $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
             if (vcvenv('VCV_TF_SOURCE_CSS_CHECKSUM')) {
@@ -164,7 +165,7 @@ class EnqueueController extends Container implements Module
         if ($sourceId==null) {
             $sourceId = get_the_ID();
         }
-        $this->call('addEnqueuedId',['sourceId' => $sourceId]);
+        $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
         $assetsFiles = get_post_meta($sourceId, 'vcvSourceAssetsFiles', true);
         $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
         if (!is_array($assetsFiles)) {
@@ -205,7 +206,7 @@ class EnqueueController extends Container implements Module
      */
     protected function addEnqueuedId($sourceId)
     {
-        if(!in_array($sourceId, $this->lastEnqueueIdAssetsAll)){
+        if (!in_array($sourceId, $this->lastEnqueueIdAssetsAll)) {
             array_push($this->lastEnqueueIdAssetsAll, $sourceId);
         }
     }
