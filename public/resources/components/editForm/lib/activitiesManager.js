@@ -221,12 +221,8 @@ export default class ActivitiesManager extends React.Component {
       fieldSettings = this.state.element.cook().settings(listener.key, attrSettings)
     }
     const rules = this.getRules(fieldSettings)
-    const isChild = this.props.options && this.props.options.child
     const isNested = this.props.options && this.props.options.nestedAttr
     let values = this.state.element.get()
-    if (isChild) {
-      values = this.props.options.parentElement
-    }
     if (isNested) {
       values = values[ this.props.options.fieldKey ].value[ this.props.options.activeParamGroupIndex ]
     }
