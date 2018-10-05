@@ -29,7 +29,7 @@
       const elMarginRight = parseInt(window.getComputedStyle(element, null)['margin-right'], 10)
       let offset, width
 
-      if (element.closest(headerZone) || element.closest(footerZone)) {
+      if (element.closest(headerZone) || element.closest(footerZone) || element.closest(headerFooterEditor)) {
         return
       }
 
