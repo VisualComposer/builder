@@ -158,7 +158,7 @@ class EnqueueController extends Container implements Module
      */
     protected function enqueueAssetsBySourceId(Str $strHelper, Assets $assetsHelper, AssetsShared $assetsSharedHelper, Options $optionsHelper, $sourceId = null)
     {
-        if ($sourceId==null) {
+        if ($sourceId === null) {
             $sourceId = get_the_ID();
         }
         $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
