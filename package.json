@@ -112,6 +112,7 @@
     "react-color": "2.14.1",
     "react-custom-scrollbars": "4.2.1",
     "react-dom": "16.5.2",
+    "react-slick": "0.23.1",
     "react-sortable-hoc": "0.8.3",
     "react-test-renderer": "16.5.2",
     "react-textarea-autosize": "7.0.4",
