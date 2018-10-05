@@ -23,10 +23,6 @@ class EnqueueController extends Container implements Module
     use EventsFilters;
     use WpFiltersActions;
 
-    protected $lastEnqueueIdSourceAssets = null;
-
-    protected $lastEnqueueIdAssets = null;
-
     protected $lastEnqueueIdAssetsAll = [];
 
     public function __construct(Frontend $frontendHelper)
