@@ -28,27 +28,8 @@ class EnqueueController extends Container implements Module
     public function __construct(Frontend $frontendHelper)
     {
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAllAssets', 50);
-        $this->wpAddAction('customize_partial_render', 'myFunc', 50);
         $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsVendorListener');
-    }
-
-    protected function myFunc($rendered)
-    {
-        $panelId = get_query_var('panel');
-        if (!$panelId) {
-            return;
-        }
-        global $post;
-        $post = get_post(get_theme_mod('panel_' . $panelId));
-        setup_postdata($post);
-        ob_start();
-        $this->call('enqueueAssetsBySourceId', ['sourceId' => $post->ID]);
-        $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID]);
-        wp_print_styles();
-        wp_print_scripts();
-        $assets = ob_get_clean();
-        wp_reset_postdata();
-        return $rendered.$assets;
+        $this->addEvent('vcv:assets:enqueueAssetsForCustomizePartials', 'enqueueAssetsForCustomizePartial');
     }
 
     protected function enqueueAllAssets()
@@ -225,5 +206,19 @@ class EnqueueController extends Container implements Module
         if (!in_array($sourceId, $this->lastEnqueueIdAssetsAll)) {
             array_push($this->lastEnqueueIdAssetsAll, $sourceId);
         }
+    }
+
+    /**
+     * @param $rendered
+     */
+    protected function enqueueAssetsForCustomizePartial($sourceId)
+    {
+        if (!$sourceId) {
+            return;
+        }
+        $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
+        $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
+        wp_print_styles();
+        wp_print_scripts();
     }
 }
