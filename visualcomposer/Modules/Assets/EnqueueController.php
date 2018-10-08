@@ -28,7 +28,27 @@ class EnqueueController extends Container implements Module
     public function __construct(Frontend $frontendHelper)
     {
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAllAssets', 50);
+        $this->wpAddAction('customize_partial_render', 'myFunc', 50);
         $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsVendorListener');
+    }
+
+    protected function myFunc($rendered)
+    {
+        $panelId = get_query_var('panel');
+        if (!$panelId) {
+            return;
+        }
+        global $post;
+        $post = get_post(get_theme_mod('panel_' . $panelId));
+        setup_postdata($post);
+        ob_start();
+        $this->call('enqueueAssetsBySourceId', ['sourceId' => $post->ID]);
+        $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID]);
+        wp_print_styles();
+        wp_print_scripts();
+        $assets = ob_get_clean();
+        wp_reset_postdata();
+        return $rendered.$assets;
     }
 
     protected function enqueueAllAssets()
