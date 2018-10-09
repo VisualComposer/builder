@@ -61,7 +61,9 @@ class ThemeTwentySeventeenController extends Container implements Module
         $post = get_post(get_theme_mod('panel_' . $panelId));
         setup_postdata($post);
         ob_start();
-        vcevent('vcv:assets:enqueueAssetsForCustomizePartials', ['sourceId' => $post->ID]);
+        vcevent('vcv:assets:enqueueAssets', ['sourceIds' => array($post->ID)]);
+        wp_print_styles();
+        wp_print_scripts();
         $assets = ob_get_clean();
         wp_reset_postdata();
         return $rendered.$assets;
