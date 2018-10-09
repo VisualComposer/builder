@@ -1,7 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
-import 'public/sources/assetsLibrary/iconpicker/dist/iconpicker.bundle.css'
 
 let setList = {
   icons: {
