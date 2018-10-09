@@ -24,6 +24,11 @@ class ThemeTwentySeventeenController extends Container implements Module
             'vcv:assets:enqueueVendorAssets',
             'initialize'
         );
+        $this->wpAddAction(
+            'customize_partial_render',
+            'enqueueAssetsForCustomizePartial',
+            50
+        );
     }
 
     protected function initialize()
@@ -44,5 +49,24 @@ class ThemeTwentySeventeenController extends Container implements Module
                 vcevent('vcv:assets:enqueueAssets', ['sourceIds' => $panels]);
             }
         }
+    }
+
+    protected function enqueueAssetsForCustomizePartial($rendered)
+    {
+        $panelId = get_query_var('panel');
+        if (!$panelId) {
+            return;
+        }
+        global $post;
+        $post = get_post(get_theme_mod('panel_' . $panelId));
+        setup_postdata($post);
+        ob_start();
+        vcevent('vcv:assets:enqueueAssets', ['sourceIds' => [$post->ID]]);
+        wp_print_styles();
+        wp_print_scripts();
+        $assets = ob_get_clean();
+        wp_reset_postdata();
+
+        return $rendered . $assets;
     }
 }
