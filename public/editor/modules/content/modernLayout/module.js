@@ -126,7 +126,7 @@ vcCake.add('contentModernLayout', (api) => {
       }
       let data = vcCake.getService('document').all()
       iframe.onload = () => {
-        let visibleElements = vcCake.getService('utils').getVisibleElements(data)
+        let visibleElements = Utils.getVisibleElements(data)
         workspaceIFrame.set({ type: 'loaded' })
         elementsStorage.trigger('updateAll', data)
         assetsStorage.trigger('updateAllElements', visibleElements)
@@ -208,4 +208,36 @@ vcCake.add('contentModernLayout', (api) => {
   }
 
   renderLayout()
+
+  assetsStorage.state('jobs').onChange((data) => {
+    let documentElements = vcCake.getService('document').all()
+    if (documentElements) {
+      let visibleJobs = data.elements.filter(element => !element.hidden)
+      let visibleElements = Utils.getVisibleElements(documentElements)
+      let documentIds = Object.keys(visibleElements)
+      if (documentIds.length === visibleJobs.length) {
+        let jobsInprogress = data.elements.find(element => element.jobs)
+        if (jobsInprogress) {
+          return
+        }
+        elementsStorage.trigger('elementsCssBuildDone', data)
+      }
+    }
+  })
+
+  const elementsStorage = vcCake.getStorage('elements')
+  elementsStorage.on('elementsCssBuildDone', (data) => {
+    // need wait until latest element will be rendered
+    let timer = null
+    const renderDone = () => {
+      elementsStorage.trigger('elementsRenderDone')
+    }
+    api.on('element:didUpdate', () => {
+      window.clearTimeout(timer)
+      timer = null
+      timer = window.setTimeout(renderDone, 150)
+    })
+
+    timer = window.setTimeout(renderDone, 200)
+  })
 })
