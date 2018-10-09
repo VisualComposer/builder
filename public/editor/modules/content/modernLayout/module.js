@@ -225,8 +225,7 @@ vcCake.add('contentModernLayout', (api) => {
     }
   })
 
-  const elementsStorage = vcCake.getStorage('elements')
-  elementsStorage.on('elementsCssBuildDone', (data) => {
+  elementsStorage.on('elementsCssBuildDone', () => {
     // need wait until latest element will be rendered
     let timer = null
     const renderDone = () => {
