@@ -156,8 +156,13 @@ class EnqueueController extends Container implements Module
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param $sourceId
      */
-    protected function enqueueAssetsBySourceId(Str $strHelper, Assets $assetsHelper, AssetsShared $assetsSharedHelper, Options $optionsHelper, $sourceId = null)
-    {
+    protected function enqueueAssetsBySourceId(
+        Str $strHelper,
+        Assets $assetsHelper,
+        AssetsShared $assetsSharedHelper,
+        Options $optionsHelper,
+        $sourceId = null
+    ) {
         if (!$sourceId) {
             $sourceId = get_the_ID();
         }
