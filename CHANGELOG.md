@@ -1,3 +1,38 @@
+## ver 2.12 - 10.10.2018
+* Update: Optimized the plugin by using default WordPress code editor
+* Update: SlideOut Post Grid element button is defined as a section
+* Update: CSS attributes are rebuilt on-demand
+* Update: Drag and drop logic optimized for performance
+* Update: Classic editor button removed if the page builder is activated
+* Update: PHP download controllers optimized
+* Update: PostCSS code optimized
+* Update: Ability to insert an element into already nested element via API
+* Fix: Editor does not overwrite fonts of WordPress theme
+* Fix: Image placeholders removed for post grid elements
+* Fix: Google Fonts loaded with subsets
+* Fix: Custom CSS editor correctly removes backslashes on save
+* Fix: Category pages source-css not enqueued
+* Fix: Drag and drop helper works correctly in Tree View attribute
+* Fix: Hover box elements working on IOS mobile devices
+* Fix: Flip Box issue on mobile
+* Fix: 'Onclick action' link selector works properly
+* Fix: Initial editor Ajax loading fixed 
+* Fix: Layout calculations performed properly
+* Fix: Backward compatibility works properly in the sandwich menu
+* Fix: Jetpack does not break WordPress TinyMCE
+* Fix: Nested elements contain proper image data
+* Fix: Sandwich menu closes after clicking on an item
+* Fix: Default margin-bottom placeholder added to the Basic Menu in Design Options
+* Fix: Design Options for WooCommerce elements work properly
+* Fix: Post Update does not break Global CSS and Design Options
+* Fix: Design options works for WooCommerce elements
+* Fix: Gutenberg saving does not add additional brackets
+* Fix: Row stretching displayed properly in Header and Footer editors
+* Fix: Top Rated Products Order property of WooCommerce works properly
+* Fix: All styles are applied to the theme section
+* Fix: My Account property of WooCommerce has correct styles applied
+* Fix: Masonry Image Gallery with Icon displayed properly on mobile
+
 ## ver 2.11 - 17.09.2018
 * Update: CSS-cache issues eliminated by adding checksum to asset URL
 * Update: Improved performance with editor style compilation on the initial editor load
