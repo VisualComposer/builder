@@ -101,7 +101,7 @@ export default class MultipleDropdown extends Attribute {
     let { value } = this.state
     return (
       <select
-        multiple='true'
+        multiple
         value={value}
         onChange={this.handleChange}
         onMouseDown={this.handleMouseDown}
