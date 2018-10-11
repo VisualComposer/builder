@@ -20,19 +20,16 @@ class AddonTeasersDownloadController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_ENV_HUB_ADDON_TEASER')) {
-            $this->addFilter('vcv:hub:process:action:hubAddons', 'processAction');
+            $this->addEvent('vcv:hub:process:action:hubAddons', 'processAction');
         }
     }
 
-    protected function processAction($response, $payload, Options $optionsHelper)
+    protected function processAction($teasers, Options $optionsHelper)
     {
-        if (!vcIsBadResponse($response) && $payload['data']) {
-            $teaserAddons = $this->getTeaserAddons($payload['data']['addons']);
+        if (isset($teasers) && isset($teasers['data'])) {
+            $teaserAddons = $this->getTeaserAddons($teasers['data']['addons']);
             $optionsHelper->set('hubTeaserAddons', $teaserAddons);
-            $response = ['status' => true];
         }
-
-        return $response;
     }
 
     protected function getTeaserAddons($teasers)

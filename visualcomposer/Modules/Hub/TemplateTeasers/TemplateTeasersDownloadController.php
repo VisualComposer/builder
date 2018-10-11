@@ -20,19 +20,16 @@ class TemplateTeasersDownloadController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_ENV_HUB_TEMPLATES_TEASER')) {
-            $this->addFilter('vcv:hub:process:action:hubTemplates', 'processAction');
+            $this->addEvent('vcv:hub:process:action:hubTemplates', 'processAction');
         }
     }
 
-    protected function processAction($response, $payload, Options $optionsHelper)
+    protected function processAction($teasers, Options $optionsHelper)
     {
-        if (!vcIsBadResponse($response) && $payload['data']) {
-            $teaserElements = $this->getTeaserTemplates($payload['data']['templates']);
-            $optionsHelper->set('hubTeaserTemplates', $teaserElements);
-            $response = ['status' => true];
+        if (isset($teasers) && isset($teasers['data'])) {
+            $teaserTemplates = $this->getTeaserTemplates($teasers['data']['templates']);
+            $optionsHelper->set('hubTeaserTemplates', $teaserTemplates);
         }
-
-        return $response;
     }
 
     protected function getTeaserTemplates($teasers)

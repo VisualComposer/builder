@@ -212,7 +212,11 @@ class Bundle implements Helper
         $requiredActions = [];
         if (isset($json['actions'])) {
             foreach ($json['actions'] as $key => $value) {
-                if (isset($value['action'])) {
+                if (isset($value['action'])
+                    && !in_array(
+                        $value['action'],
+                        ['hubTeaser', 'hubTemplates', 'hubAddons']
+                    )) {
                     $requiredActions = $this->loopActionIterator(
                         $value,
                         $requiredActions,
