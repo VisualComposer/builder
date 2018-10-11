@@ -1,0 +1,159 @@
+{
+  "name": "vcwb",
+  "version": "10.0.0-dev",
+  "description": "VC Website Builder",
+  "main": "index.php",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:visual-composer-website-builder/builder.git"
+  },
+  "scripts": {
+    "standard": "standard --version && standard",
+    "build": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --colors",
+    "build-production": "webpack --version && webpack --config webpack.config.4x.production.babel.js -p --silent",
+    "watch": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --colors --watch"
+  },
+  "author": "@wpb",
+  "license": "GPL-2.0+",
+  "engines": {
+    "node": ">=9",
+    "npm": ">=5.8"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.3",
+    "babel-eslint": "10.0.1",
+    "babel-loader": "7.1.5",
+    "babel-plugin-lodash": "3.3.4",
+    "babel-plugin-rewire": "1.2.0",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-1": "6.24.1",
+    "babel-register": "6.26.0",
+    "babel-runtime": "6.26.0",
+    "classnames": "2.2.6",
+    "color-blend": "git://github.com/wpbakery/color-blend.git#5dd059a6dbdc6754f53f4eca09800953534d8322",
+    "css-loader": "1.0.0",
+    "duplicate-package-checker-webpack-plugin": "3.0.0",
+    "eslint": "5.6.1",
+    "eslint-config-standard": "12.0.0",
+    "eslint-config-standard-jsx": "6.0.2",
+    "eslint-config-standard-react": "7.0.2",
+    "eslint-plugin-react": "7.11.1",
+    "exports-loader": "0.7.0",
+    "expose-loader": "0.7.5",
+    "extract-text-webpack-plugin": "4.0.0-beta.0",
+    "file-loader": "2.0.0",
+    "fs-extra": "7.0.0",
+    "jquery.caret": "git://github.com/ichord/caret.js.git#341fb20b6126220192b2cd226836cd5d614b3e09",
+    "less-loader": "4.1.0",
+    "npm": "6.4.1",
+    "postcss-functions": "git://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1",
+    "postcss-prefix-url": "git://github.com/wpbakery/postcss-prefix-url.git#60f177340ab35fce12cf4172752bd484ece3c7df",
+    "standard": "12.0.1",
+    "string-replace-webpack-plugin": "0.1.3",
+    "style-loader": "0.23.1",
+    "tinycolor2": "1.4.1",
+    "uglifyjs-webpack-plugin": "1.3.0",
+    "url-loader": "1.1.1",
+    "virtual-module-webpack-plugin": "0.4.0",
+    "webpack": "4.20.2",
+    "webpack-bundle-analyzer": "3.0.2",
+    "webpack-cli": "3.1.2"
+  },
+  "dependencies": {
+    "autoprefixer": "9.1.5",
+    "base-64": "0.1.0",
+    "codemirror": "5.40.2",
+    "combokeys": "3.0.0",
+    "csslint": "1.0.5",
+    "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-standard": "4.0.0",
+    "event-emitter": "0.3.5",
+    "form-serialize": "0.7.2",
+    "identity-obj-proxy": "3.0.0",
+    "immutable": "3.8.2",
+    "imports-loader": "0.8.0",
+    "jquery": "3.3.1",
+    "less": "3.8.1",
+    "lodash": "4.17.11",
+    "medium-editor": "5.23.3",
+    "mobile-detect": "1.4.3",
+    "object-hash": "1.3.0",
+    "pako": "1.0.6",
+    "perfect-scrollbar": "1.4.0",
+    "postcss": "7.0.5",
+    "postcss-advanced-variables": "2.3.3",
+    "postcss-clean": "1.1.0",
+    "postcss-color-function": "4.0.1",
+    "postcss-conditionals": "2.1.0",
+    "postcss-custom-media": "7.0.4",
+    "postcss-custom-properties": "8.0.8",
+    "postcss-each": "0.10.0",
+    "postcss-loader": "3.0.0",
+    "postcss-math": "0.0.10",
+    "postcss-nested": "4.1.0",
+    "prop-types": "15.6.2",
+    "raw-loader": "0.5.1",
+    "react": "16.5.2",
+    "react-addons-shallow-compare": "15.6.2",
+    "react-color": "2.14.1",
+    "react-custom-scrollbars": "4.2.1",
+    "react-dom": "16.5.2",
+    "react-slick": "0.23.1",
+    "react-sortable-hoc": "0.8.3",
+    "react-textarea-autosize": "7.0.4",
+    "react-tinymce": "0.7.0",
+    "reactcss": "1.2.3",
+    "simple-react-modal": "0.5.1",
+    "slick-carousel": "1.8.1",
+    "striptags": "3.1.1",
+    "vc-cake": "0.7.0",
+    "webfontloader": "1.6.28"
+  },
+  "babel": {
+    "presets": [
+      "react",
+      "es2015",
+      "stage-1"
+    ],
+    "plugins": [
+      "transform-runtime"
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "standard",
+      "standard-react"
+    ],
+    "rules": {
+      "jsx-quotes": [
+        2,
+        "prefer-single"
+      ],
+      "import/no-webpack-loader-syntax": "off"
+    }
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "public/config/",
+      "public/sources/assetsLibrary",
+      "tests/",
+      "tools/"
+    ],
+    "rules": {
+      "jsx-quotes": [
+        2,
+        "prefer-single"
+      ],
+      "import/no-webpack-loader-syntax": "off"
+    }
+  },
+  "resolutions": {
+    "postcss": "7.0.5",
+    "css-loader": "1.0.0"
+  }
+}

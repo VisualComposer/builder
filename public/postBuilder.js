@@ -49,12 +49,12 @@ export default class PostBuilder {
           this.resolve && this.resolve()
         }
       })
-      wordpressDataStorage.state('lastAction').onChange((action) => {
-        if (action === 'contentBuilt') {
-          const id = wordpressDataStorage.state('id').get()
-          wordpressDataStorage.trigger('save', id)
-          wordpressDataStorage.state('id').set(false)
-        }
+
+      const elementsStorage = getStorage('elements')
+      elementsStorage.on('elementsRenderDone', () => {
+        const id = wordpressDataStorage.state('id').get()
+        wordpressDataStorage.trigger('save', id)
+        wordpressDataStorage.state('id').set(false)
       })
     })
     this.cakeReady = true

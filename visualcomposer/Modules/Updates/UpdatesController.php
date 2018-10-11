@@ -178,8 +178,9 @@ class UpdatesController extends Container implements Module
         $information['sections']['Installation &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/installation/">Installation</a>';
         $information['sections']['FAQ &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/faq/">FAQ</a>';
 
+        $urlHelper = vchelper('Url');
         $response = wp_remote_get(
-            $this->updateChangelogUrl . '?v=' . VCV_VERSION,
+            $urlHelper->query($this->updateChangelogUrl, ['v' => VCV_VERSION]),
             [
                 'timeout' => 30,
             ]

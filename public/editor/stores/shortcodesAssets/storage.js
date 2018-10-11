@@ -71,18 +71,22 @@ addStorage('shortcodeAssets', (storage) => {
           let ignoreCache = type === 'template' ? false : data.ignoreCache
           !ignoreCache && slug && loadedFiles.push(slug)
           if (data.addToDocument) {
-            if (domNode.tagName === 'SCRIPT') {
-              if (domNode.src) {
-                scriptsLoader.add(domNode.src)
+            try {
+              if (domNode.tagName === 'SCRIPT') {
+                if (domNode.src) {
+                  scriptsLoader.add(domNode.src)
+                } else {
+                  data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
+                }
               } else {
-                data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
+                if (position) {
+                  assetsWindow.document[ position ] && assetsWindow.jQuery(assetsWindow.document[ position ]).append(domNode)
+                } else {
+                  data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
+                }
               }
-            } else {
-              if (position) {
-                assetsWindow.document[ position ] && assetsWindow.jQuery(assetsWindow.document[ position ]).append(domNode)
-              } else {
-                data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
-              }
+            } catch (e) {
+              console.warn('Failed to add domNode', e, domNode)
             }
           }
         }
