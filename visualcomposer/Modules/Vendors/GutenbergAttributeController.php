@@ -136,36 +136,36 @@ class GutenbergAttributeController extends Container implements Module
     protected function removeAdminUi()
     {
         ?>
-		<style>
-			#adminmenumain, #wpadminbar {
-				display: none;
-			}
+        <style>
+            #adminmenumain, #wpadminbar {
+                display: none;
+            }
 
-			html.wp-toolbar {
-				padding: 0 !important;
-			}
+            html.wp-toolbar {
+                padding: 0 !important;
+            }
 
-			.wp-toolbar #wpcontent {
-				margin: 0;
-			}
+            .wp-toolbar #wpcontent {
+                margin: 0;
+            }
 
-			.wp-toolbar #wpbody {
-				padding-top: 0;
-			}
+            .wp-toolbar #wpbody {
+                padding-top: 0;
+            }
 
-			.gutenberg .gutenberg__editor .edit-post-layout .edit-post-header {
-				top: 0;
-				left: 0;
-			}
+            .gutenberg .gutenberg__editor .edit-post-layout .edit-post-header {
+                top: 0;
+                left: 0;
+            }
 
-			.gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
-				margin-right: 0;
-			}
+            .gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
+                margin-right: 0;
+            }
 
-			.gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel {
-				display: none;
-			}
-		</style>
+            .gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel {
+                display: none;
+            }
+        </style>
         <?php
     }
 
