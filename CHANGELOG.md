@@ -1,4 +1,4 @@
-## ver 2.12 - 10.10.2018
+## ver 2.12 - 11.10.2018
 * Update: Optimized the plugin by using default WordPress code editor
 * Update: SlideOut Post Grid element button is defined as a section
 * Update: CSS attributes are rebuilt on-demand
