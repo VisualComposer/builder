@@ -20,6 +20,7 @@ use VisualComposer\Modules\Settings\Traits\Fields;
 class GutenbergAttributeController extends Container implements Module
 {
     protected $postTypeSlug = 'vcv_gutenberg_attr';
+
     protected $removeGutenberg = null;
 
     use WpFiltersActions;
@@ -135,31 +136,37 @@ class GutenbergAttributeController extends Container implements Module
     protected function removeAdminUi()
     {
         ?>
-        <style>
-            #adminmenumain, #wpadminbar {
-                display: none;
-            }
-            html.wp-toolbar {
-                padding: 0 !important;
-            }
-            .wp-toolbar #wpcontent {
-                margin: 0;
-            }
-            .wp-toolbar #wpbody {
-                padding-top: 0;
-            }
-            .gutenberg .gutenberg__editor .edit-post-layout .edit-post-header {
-                top: 0;
-                left: 0;
-            }
-            .gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
-                margin-right: 0;
-            }
-            .gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel {
-                display: none;
-            }
-        </style>
-<?php
+		<style>
+			#adminmenumain, #wpadminbar {
+				display: none;
+			}
+
+			html.wp-toolbar {
+				padding: 0 !important;
+			}
+
+			.wp-toolbar #wpcontent {
+				margin: 0;
+			}
+
+			.wp-toolbar #wpbody {
+				padding-top: 0;
+			}
+
+			.gutenberg .gutenberg__editor .edit-post-layout .edit-post-header {
+				top: 0;
+				left: 0;
+			}
+
+			.gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
+				margin-right: 0;
+			}
+
+			.gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel {
+				display: none;
+			}
+		</style>
+        <?php
     }
 
     protected function getGutenberg()
@@ -254,7 +261,9 @@ class GutenbergAttributeController extends Container implements Module
             'supports' => ['editor'],
         ];
         register_post_type($this->postTypeSlug, $args);
-        $this->wpRemoveFilter('gutenberg_can_edit_post_type', $this->removeGutenberg);
+        if ($this->removeGutenberg) {
+            $this->wpRemoveFilter('gutenberg_can_edit_post_type', $this->removeGutenberg);
+        }
     }
 
     protected function unsetOptions(Options $optionsHelper)

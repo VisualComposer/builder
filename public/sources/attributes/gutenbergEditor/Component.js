@@ -48,7 +48,7 @@ export default class Component extends Attribute {
     }
     // Subscribe to data change
     const debounce = lodash.debounce(this.updateValueFromIframe.bind(this), 500)
-    if (!window._wpGutenbergDefaultPost) {
+    if (!window._wpGutenbergCodeEditorSettings) {
       return
     }
     wpData.subscribe(debounce)
@@ -63,9 +63,9 @@ export default class Component extends Attribute {
       titlePlaceholder: '',
       bodyPlaceholder: 'Add content to apply to VCWB ;)'
     }
-    const newPost = Object.assign({}, window._wpGutenbergDefaultPost)
-    newPost.title.raw = value
-    newPost.title.rendered = value
+    const newPost = Object.assign({ content: { raw: '', rendered: '' } }, window._wpGutenbergDefaultPost)
+    newPost.content.raw = value
+    newPost.content.rendered = value
     const editor = wpData.dispatch('core/editor')
     const selectEditor = wpData.select('core/edit-post')
     selectEditor.isPublishSidebarOpened = () => { return true }
@@ -77,12 +77,14 @@ export default class Component extends Attribute {
   }
 
   updateValueFromIframe () {
-    if (!this.iframe) {
+    if (!this.iframe || !this.iframe.contentWindow || !this.iframe.contentWindow.wp) {
       return
     }
     const wpData = this.iframe.contentWindow.wp.data
-    const value = wpData.select('core/editor').getEditedPostContent()
-    this.setFieldValue(value)
+    if (wpData) {
+      const value = wpData.select('core/editor').getEditedPostContent()
+      this.setFieldValue(value)
+    }
   }
 
   render () {
