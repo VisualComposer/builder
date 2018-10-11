@@ -60,7 +60,7 @@ addStorage('elements', (storage) => {
       }
     }
 
-    return cookElement.toJS(true, true)
+    return cookElement.toJS()
   }
   const sanitizeData = (data) => {
     let newData = Object.assign({}, data || {})
