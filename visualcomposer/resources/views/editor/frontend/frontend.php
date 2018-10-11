@@ -8,10 +8,10 @@ require_once(ABSPATH . 'wp-admin/includes/admin.php');
 
 // @codingStandardsIgnoreStart
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
-       $update_title, $total_update_count, $parent_file, $typenow;
+       $update_title, $total_update_count, $parent_file, $typenow, $wp_meta_boxes;
 
 $hookSuffix = $hook_suffix;
-
+$wp_meta_boxes = [];
 if (empty($current_screen)) {
     set_current_screen();
 }
