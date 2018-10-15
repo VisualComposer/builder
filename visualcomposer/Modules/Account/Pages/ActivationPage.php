@@ -88,7 +88,6 @@ class ActivationPage extends Container implements Module
             && $editorPostTypeHelper->isEditorEnabled(
                 'post'
             )) {
-
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_URL',
                 'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend'),
