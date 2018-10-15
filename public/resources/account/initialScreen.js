@@ -17,8 +17,8 @@ export default class InitialScreen extends React.Component {
             </h2>
             <SliderComponent />
             <div className='vcv-activation-button-container'>
-              <button className='vcv-activation-button' onClick={() => { setActiveScreen('loadingScreen') }}>Create new page</button>
-              <button className='vcv-activation-button vcv-activation-button--dark' onClick={() => { setActiveScreen('loadingScreen') }}>Go premium</button>
+              <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
+              <a href={window.VCV_ACTIVATION_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>Go premium</a>
             </div>
           </React.Fragment>
         )}

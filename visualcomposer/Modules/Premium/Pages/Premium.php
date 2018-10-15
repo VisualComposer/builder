@@ -50,17 +50,33 @@ class Premium extends Container implements Module
         if ($requestHelper->input('page') === $this->getSlug()) {
             $this->addEvent('vcv:inited', 'beforePageRender');
         }
-        if (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
-            || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())
-        ) {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')
+            || (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
+                || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())
+            )) {
             $this->addFilter(
                 'vcv:settings:getPages',
                 'addPage',
                 70
             );
         }
+
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            $this->addFilter('vcv:account:variables', 'addActivationVariables');
+        }
         /** @see \VisualComposer\Modules\Premium\Pages\Premium::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+    }
+
+    protected function addActivationVariables($variables)
+    {
+        $variables[] = [
+            'key' => 'VCV_ACTIVATION_PREMIUM_URL',
+            'value' => esc_url(admin_url('admin.php?page=' . rawurlencode($this->getSlug()))),
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 
     protected function redirectToAbout(About $aboutPageModule)

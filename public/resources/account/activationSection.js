@@ -40,7 +40,6 @@ export default class ActivationSectionProvider extends React.Component {
           {activeScreen}
         </div>
       </ActivationSectionContext.Provider>
-
     )
   }
 }

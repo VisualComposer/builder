@@ -63,7 +63,7 @@ class License extends Container implements Helper
 
         $category = $requestHelper->input('vcv-account-activation-category');
         $agreement = $requestHelper->input('vcv-account-activation-agreement');
-        if (empty($category) || empty($agreement)) {
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN') && (empty($category) || empty($agreement))) {
             vchelper('Logger')->log(__('The agreement and category fields are required'));
 
             return false;
