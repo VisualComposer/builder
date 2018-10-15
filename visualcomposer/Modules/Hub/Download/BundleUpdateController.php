@@ -90,11 +90,14 @@ class BundleUpdateController extends Container implements Module
 
     /**
      * @param $json
+     *
      * @return bool|array
+     * @throws \ReflectionException
      */
     protected function processJson($json)
     {
         if (is_array($json) && isset($json['actions'])) {
+            $this->call('processTeasers', [$json['actions']]);
             $optionsHelper = vchelper('Options');
             $hubUpdateHelper = vchelper('HubUpdate');
             if ($hubUpdateHelper->checkIsUpdateRequired($json)) {
@@ -107,6 +110,19 @@ class BundleUpdateController extends Container implements Module
         }
 
         return false;
+    }
+
+    protected function processTeasers($actions)
+    {
+        if (isset($actions['hubTeaser'])) {
+            vcevent('vcv:hub:process:action:hubTeaser', ['teasers' => $actions['hubTeaser']]);
+        }
+        if (isset($actions['hubAddons'])) {
+            vcevent('vcv:hub:process:action:hubAddons', ['teasers' => $actions['hubAddons']]);
+        }
+        if (isset($actions['hubTemplates'])) {
+            vcevent('vcv:hub:process:action:hubTemplates', ['teasers' => $actions['hubTemplates']]);
+        }
     }
 
     protected function unsetOptions(Options $optionsHelper)

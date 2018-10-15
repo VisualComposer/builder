@@ -20,20 +20,17 @@ class TeaserDownloadController extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_ENV_HUB_TEASER')) {
-            $this->addFilter('vcv:hub:process:action:hubTeaser', 'processAction');
+            $this->addEvent('vcv:hub:process:action:hubTeaser', 'processAction');
         }
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
-    protected function processAction($response, $payload, Options $optionsHelper)
+    protected function processAction($teasers, Options $optionsHelper)
     {
-        if (!vcIsBadResponse($response) && $payload['data']) {
-            $teaserElements = $this->getTeaserElements($payload['data']['teasers']);
+        if (isset($teasers) && isset($teasers['data'])) {
+            $teaserElements = $this->getTeaserElements($teasers['data']['teasers']);
             $optionsHelper->set('hubTeaserElements', $teaserElements);
-            $response = ['status' => true];
         }
-
-        return $response;
     }
 
     protected function getTeaserElements($teasers)
