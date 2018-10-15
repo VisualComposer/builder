@@ -136,19 +136,25 @@ addStorage('elements', (storage) => {
       })
     }
 
-    if (data.tag === 'column') {
-      let rowElement = documentManager.get(data.parent)
-      rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size, disableStacking: rowElement.layout.disableStacking }, documentManager)
-      storage.trigger('update', rowElement.id, rowElement, '', options)
-    }
-    if (data.tag === 'row') {
-      if (data.layout && data.layout.layoutData && (data.layout.layoutData.hasOwnProperty('all') || data.layout.layoutData.hasOwnProperty('xs'))) {
-        rebuildRawLayout(data.id, { layout: data.layout.layoutData }, documentManager)
-        data.layout.layoutData = undefined
-      } else {
-        rebuildRawLayout(data.id, {}, documentManager)
+    if (!env('FT_ROW_COLUMN_LOGIC_REFACTOR')) {
+      if (data.tag === 'column') {
+        let rowElement = documentManager.get(data.parent)
+        rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size, disableStacking: rowElement.layout.disableStacking }, documentManager)
+        storage.trigger('update', rowElement.id, rowElement, '', options)
       }
     }
+
+    if (!env('FT_ROW_COLUMN_LOGIC_REFACTOR')) {
+      if (data.tag === 'row') {
+        if (data.layout && data.layout.layoutData && (data.layout.layoutData.hasOwnProperty('all') || data.layout.layoutData.hasOwnProperty('xs'))) {
+          rebuildRawLayout(data.id, { layout: data.layout.layoutData }, documentManager)
+          data.layout.layoutData = undefined
+        } else {
+          rebuildRawLayout(data.id, {}, documentManager)
+        }
+      }
+    }
+
     if (!options.silent) {
       storage.state('elementAdd').set(data)
       if (!wrap && data.parent) {
@@ -164,9 +170,11 @@ addStorage('elements', (storage) => {
     if (currentElement.customHeaderTitle !== element.customHeaderTitle) {
       cacheStorage.trigger('clear', 'controls')
     }
-    if (element.tag === 'row' && element.layout && element.layout.layoutData && (element.layout.layoutData.hasOwnProperty('all') || element.layout.layoutData.hasOwnProperty('xs'))) {
-      rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking }, documentManager)
-      element.layout.layoutData = undefined
+    if (!env('FT_ROW_COLUMN_LOGIC_REFACTOR')) {
+      if (element.tag === 'row' && element.layout && element.layout.layoutData && (element.layout.layoutData.hasOwnProperty('all') || element.layout.layoutData.hasOwnProperty('xs'))) {
+        rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking }, documentManager)
+        element.layout.layoutData = undefined
+      }
     }
     documentManager.update(id, element)
     storage.trigger(`element:${id}`, element, source, options)
@@ -205,7 +213,9 @@ addStorage('elements', (storage) => {
       parent = parent.parent ? documentManager.get(parent.parent) : false
     } else if (element.tag === 'column') {
       let rowElement = documentManager.get(parent.id)
-      rebuildRawLayout(rowElement.id, { action: 'columnRemove', size: element.size, disableStacking: rowElement.layout.disableStacking }, documentManager)
+      if (!env('FT_ROW_COLUMN_LOGIC_REFACTOR')) {
+        rebuildRawLayout(rowElement.id, { action: 'columnRemove', size: element.size, disableStacking: rowElement.layout.disableStacking }, documentManager)
+      }
       addRowColumnBackground(id, element, documentManager)
       storage.trigger('update', rowElement.id, documentManager.get(parent.id))
     }
@@ -219,10 +229,12 @@ addStorage('elements', (storage) => {
   })
   storage.on('clone', (id) => {
     let dolly = documentManager.clone(id)
-    if (dolly.tag === 'column') {
-      let rowElement = documentManager.get(dolly.parent)
-      rebuildRawLayout(rowElement.id, { action: 'columnClone', disableStacking: rowElement.layout.disableStacking }, documentManager)
-      storage.trigger('update', rowElement.id, rowElement)
+    if (!env('FT_ROW_COLUMN_LOGIC_REFACTOR')) {
+      if (dolly.tag === 'column') {
+        let rowElement = documentManager.get(dolly.parent)
+        rebuildRawLayout(rowElement.id, { action: 'columnClone', disableStacking: rowElement.layout.disableStacking }, documentManager)
+        storage.trigger('update', rowElement.id, rowElement)
+      }
     }
     if (dolly.parent) {
       storage.trigger(`element:${dolly.parent}`, documentManager.get(dolly.parent))
@@ -246,13 +258,17 @@ addStorage('elements', (storage) => {
     if (element.tag === 'column') {
       // rebuild previous column
       let rowElement = documentManager.get(element.parent)
-      rebuildRawLayout(element.parent, { disableStacking: rowElement.layout.disableStacking }, documentManager)
+      if (!env('FT_ROW_COLUMN_LOGIC_REFACTOR')) {
+        rebuildRawLayout(element.parent, { disableStacking: rowElement.layout.disableStacking }, documentManager)
+      }
       addRowColumnBackground(element.id, element, documentManager)
       // rebuild next column
       let newElement = documentManager.get(id)
       let newRowElement = documentManager.get(newElement.parent)
       addRowColumnBackground(newElement.id, newElement, documentManager)
-      rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout.disableStacking }, documentManager)
+      if (!env('FT_ROW_COLUMN_LOGIC_REFACTOR')) {
+        rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout.disableStacking }, documentManager)
+      }
     }
     const updatedElement = documentManager.get(id)
     if (oldParent && updatedElement.parent) {
