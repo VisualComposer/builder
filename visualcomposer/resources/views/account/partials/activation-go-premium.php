@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$premiumPage = vcapp('PremiumPagesPremium');
+$premiumPage = vcapp('LicensePagesPremium');
 $loginCategoryHelper = vchelper('LoginCategory');
 $loginCategories = $loginCategoryHelper->all();
 ?>

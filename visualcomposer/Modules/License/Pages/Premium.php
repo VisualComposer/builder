@@ -18,6 +18,7 @@ use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Traits\Page;
+use VisualComposer\Modules\Settings\Traits\SubMenu;
 
 /**
  * Class Premium.
@@ -25,6 +26,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class Premium extends Container implements Module
 {
     use Page;
+    use SubMenu;
     use EventsFilters;
     use WpFiltersActions;
 
@@ -53,33 +55,15 @@ class Premium extends Container implements Module
         if ($requestHelper->input('page') === $this->getSlug()) {
             $this->addEvent('vcv:inited', 'beforePageRender');
         }
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')
-            || (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
-                || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())
-            )) {
-            $this->addFilter(
-                'vcv:settings:getPages',
+        if (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
+            || ($licenseHelper->getKey()
+                && $licenseHelper->getKeyToken())) {
+            $this->wpAddAction(
+                'admin_menu',
                 'addPage',
                 70
             );
         }
-
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            $this->addFilter('vcv:account:variables', 'addActivationVariables');
-        }
-        /** @see \VisualComposer\Modules\License\Pages\Premium::unsetOptions */
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
-    }
-
-    protected function addActivationVariables($variables)
-    {
-        $variables[] = [
-            'key' => 'VCV_ACTIVATION_PREMIUM_URL',
-            'value' => esc_url(admin_url('admin.php?page=' . rawurlencode($this->getSlug()))),
-            'type' => 'constant',
-        ];
-
-        return $variables;
     }
 
     protected function redirectToAbout(About $aboutPageModule)
@@ -89,13 +73,10 @@ class Premium extends Container implements Module
     }
 
     /**
-     * @param array $pages
-     *
-     * @return array
      */
-    protected function addPage($pages)
+    protected function addPage()
     {
-        $pages[] = [
+        $page = [
             'slug' => $this->getSlug(),
             'title' => __('Go Premium', 'vcwb'),
             'layout' => 'standalone',
@@ -105,8 +86,7 @@ class Premium extends Container implements Module
             'capability' => 'manage_options',
             'type' => 'premium',
         ];
-
-        return $pages;
+        $this->addSubmenuPage($page);
     }
 
     /**
@@ -114,6 +94,19 @@ class Premium extends Container implements Module
      */
     protected function beforeRender()
     {
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:settings:script',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_style(
+            'vcv:settings:style',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+            [],
+            VCV_VERSION
+        );
         wp_enqueue_script('vcv:settings:script');
         wp_enqueue_style('vcv:settings:style');
     }
@@ -135,12 +128,5 @@ class Premium extends Container implements Module
     public function getActivePage()
     {
         return 'download';
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     */
-    protected function unsetOptions(Options $optionsHelper)
-    {
     }
 }

@@ -18,7 +18,7 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Modules\Premium\Pages\Premium;
+use VisualComposer\Modules\License\Pages\Premium;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
@@ -54,7 +54,7 @@ class LicenseController extends Container implements Module
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Logger $loggerHelper
      * @param \VisualComposer\Helpers\Notice $noticeHelper
-     * @param \VisualComposer\Modules\Premium\Pages\Premium $premiumPageModule
+     * @param \VisualComposer\Modules\License\Pages\Premium $premiumPageModule
      * @param Token $tokenHelper
      *
      * @return bool|void

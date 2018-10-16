@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * @var \VisualComposer\Modules\Account\Pages\ActivationPage $controller
+ * @var \VisualComposer\Modules\License\Pages\ActivationPage $controller
  * @var array $page
  */
 $optionsHelper = vchelper('Options');

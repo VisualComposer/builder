@@ -22,7 +22,11 @@ trait SubMenu
         if (!$currentUserAccess->wpAll('edit_posts')->get()) {
             return;
         }
+        $tokenHelper = vchelper('Token');
         $hasAccess = $currentUserAccess->part('settings')->can($page['slug'] . '-tab')->get();
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN') && !$tokenHelper->isSiteAuthorized() && $hasAccess) {
+            $parentSlug = 'vcv-activation';
+        }
 
         if ($hasAccess) {
             add_submenu_page(
@@ -38,7 +42,6 @@ trait SubMenu
                 }
             );
         }
-        // vcevent('vcv:settings:pageSettingsBuild', ['pages' => $pages, 'parentSlug' => $parentSlug]);
     }
 
     /**

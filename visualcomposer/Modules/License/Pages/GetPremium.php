@@ -16,6 +16,7 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Modules\Settings\Traits\Page;
+use VisualComposer\Modules\Settings\Traits\SubMenu;
 
 /**
  * Class GetPremium.
@@ -23,6 +24,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class GetPremium extends Container implements Module
 {
     use Page;
+    use SubMenu;
     use EventsFilters;
     use WpFiltersActions;
 
@@ -53,16 +55,12 @@ class GetPremium extends Container implements Module
             );
         }
 
-        $this->addEvent(
-            'vcv:inited',
+        $this->wpAddAction(
+            'admin_menu',
             function (License $licenseHelper, Request $requestHelper) {
                 if (!$licenseHelper->isActivated()) {
                     /** @see \VisualComposer\Modules\License\Pages\GetPremium::addPage */
-                    $this->addFilter(
-                        'vcv:settings:getPages',
-                        'addPage',
-                        70
-                    );
+                    $this->call('addPage');
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
                     $aboutPage = vcapp('SettingsPagesAbout');
                     wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
@@ -85,18 +83,29 @@ class GetPremium extends Container implements Module
      */
     protected function beforeRender()
     {
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:settings:script',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_style(
+            'vcv:settings:style',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+            [],
+            VCV_VERSION
+        );
         wp_enqueue_script('vcv:settings:script');
         wp_enqueue_style('vcv:settings:style');
     }
 
     /**
-     * @param array $pages
      *
-     * @return array
      */
-    protected function addPage($pages)
+    protected function addPage()
     {
-        $pages[] = [
+        $page = [
             'slug' => $this->getSlug(),
             'title' => $this->buttonTitle(),
             'layout' => 'standalone',
@@ -104,8 +113,7 @@ class GetPremium extends Container implements Module
             'controller' => $this,
             'capability' => 'manage_options',
         ];
-
-        return $pages;
+        $this->addSubmenuPage($page);
     }
 
     protected function buttonTitle()
@@ -146,8 +154,11 @@ class GetPremium extends Container implements Module
      */
     protected function pluginsPageLink($links)
     {
-        $goPremiumLink = '<a href="' . esc_url(admin_url('admin.php?page=' . rawurlencode($this->getSlug())))
-            . '&vcv-ref=plugins-page">' . __('Go Premium', 'vcwb') . '</a>';
+        $goPremiumLink = sprintf(
+            '<a href="%s">%s</a>',
+            esc_url(admin_url('admin.php?page=vcv-go-premium')) . '&vcv-ref=plugins-page',
+            __('Go Premium', 'vcwb')
+        );
 
         array_push($links, $goPremiumLink);
 

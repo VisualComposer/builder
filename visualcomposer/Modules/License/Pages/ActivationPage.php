@@ -13,8 +13,9 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Url;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
+use VisualComposer\Modules\Settings\Traits\SubMenu;
 
 /**
  * Class ActivationPage
@@ -23,6 +24,8 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class ActivationPage extends Container implements Module
 {
     use Page;
+    use SubMenu;
+    use WpFiltersActions;
     use EventsFilters;
 
     /**
@@ -43,22 +46,18 @@ class ActivationPage extends Container implements Module
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
-        $this->addEvent(
-            'vcv:inited',
+        $this->wpAddAction(
+            'admin_menu',
             function (Token $tokenHelper, Request $requestHelper) {
                 if (!$tokenHelper->isSiteAuthorized()) {
                     /** @see \VisualComposer\Modules\License\Pages\ActivationPage::addPage */
-                    $this->addFilter(
-                        'vcv:settings:getPages',
-                        'addPage',
-                        20
-                    );
+                    $this->call('addPage');
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
-                    $aboutPage = vcapp('SettingsPagesAbout');
-                    wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
+                    wp_redirect(admin_url('admin.php?page=vcv-about'));
                     exit;
                 }
-            }
+            },
+            1
         );
     }
 
@@ -67,40 +66,45 @@ class ActivationPage extends Container implements Module
      */
     protected function beforeRender()
     {
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:settings:script',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_style(
+            'vcv:settings:style',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+            [],
+            VCV_VERSION
+        );
         wp_enqueue_script('vcv:settings:script');
         wp_enqueue_style('vcv:settings:style');
     }
 
     /**
-     * @param array $pages
-     * @param \VisualComposer\Helpers\Url $urlHelper
      *
-     * @return array
      */
-    protected function addPage($pages, Url $urlHelper)
+    protected function addPage()
     {
-        $currentUserAccess = vchelper('AccessCurrentUser');
-        if (!$currentUserAccess->wpAll('manage_options')->get()) {
-            return $pages;
-        }
-        $pages[] = [
+        $page = [
             'slug' => $this->getSlug(),
             'title' => __('Activation', 'vcwb'),
             'showTab' => false,
             'layout' => 'standalone',
             'controller' => $this,
-            'type' => vcvenv('VCV_ENV_ADDONS_ID') !== 'account' ? 'standalone' : 'default',
+            'type' => vcvenv('VCV_ENV_ADDONS_ID') !== 'account' ? 'standalone' : 'default', // TODO: check
+            'capability' => 'manage_options',
         ];
-
-        return $pages;
+        $this->addSubmenuPage($page);
     }
 
     /**
      * This method overrides by about page
-     * @return string
      */
     public function getActivePage()
     {
-        return vcfilter('vcv:account:activation:activePage', 'first');
+        return vcfilter('vcv:account:activation:activePage', 'intro');
     }
 }

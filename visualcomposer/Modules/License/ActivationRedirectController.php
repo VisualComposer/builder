@@ -15,7 +15,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Modules\Account\Pages\ActivationPage;
+use VisualComposer\Modules\License\Pages\ActivationPage;
 
 class ActivationRedirectController extends Container implements Module
 {
@@ -57,7 +57,7 @@ class ActivationRedirectController extends Container implements Module
      * Do redirect if required on welcome page
      *
      * @param $response
-     * @param \VisualComposer\Modules\Account\Pages\ActivationPage $activationWelcomePageModule
+     * @param \VisualComposer\Modules\License\Pages\ActivationPage $activationWelcomePageModule
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return

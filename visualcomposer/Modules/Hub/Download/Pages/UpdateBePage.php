@@ -14,11 +14,15 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
+use VisualComposer\Modules\Settings\Traits\SubMenu;
 
 class UpdateBePage extends Container implements Module
 {
     use Page;
+    use SubMenu;
+    use WpFiltersActions;
     use EventsFilters;
 
     /**
@@ -36,21 +40,18 @@ class UpdateBePage extends Container implements Module
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
-        $this->addEvent(
-            'vcv:inited',
+        $this->wpAddAction(
+            'admin_menu',
             function (Options $optionsHelper, Request $requestHelper, Token $tokenHelper) {
                 if ($tokenHelper->isSiteAuthorized() && $optionsHelper->get('bundleUpdateRequired')) {
-                    $this->addFilter(
-                        'vcv:settings:getPages',
-                        'addPage',
-                        40
-                    );
+                    $this->call('addPage');
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
                     $aboutPage = vcapp('SettingsPagesAbout');
                     wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
                     exit;
                 }
-            }
+            },
+            40
         );
     }
 
@@ -59,21 +60,16 @@ class UpdateBePage extends Container implements Module
      */
     protected function beforeRender()
     {
+        // TODO: Check
         wp_dequeue_script('vcv:settings:script');
     }
 
     /**
-     * @param array $pages
      *
-     * @return array
      */
-    protected function addPage($pages)
+    protected function addPage()
     {
-        $currentUserAccess = vchelper('AccessCurrentUser');
-        if (!$currentUserAccess->wpAll('edit_posts')->get()) {
-            return $pages;
-        }
-        $pages[] = [
+        $page = [
             'slug' => $this->getSlug(),
             'title' => __('Update', 'vcwb'),
             'showTab' => false,
@@ -81,7 +77,6 @@ class UpdateBePage extends Container implements Module
             'controller' => $this,
             'capability' => 'edit_posts',
         ];
-
-        return $pages;
+        $this->addSubmenuPage($page);
     }
 }

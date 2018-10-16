@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/** @var $controller \VisualComposer\Modules\Account\Pages\ActivationPage */
+/** @var $controller \VisualComposer\Modules\License\Pages\ActivationPage */
 ?>
 <!-- Third screen / loading screen -->
 <div class="vcv-popup-content vcv-popup-loading-screen">
