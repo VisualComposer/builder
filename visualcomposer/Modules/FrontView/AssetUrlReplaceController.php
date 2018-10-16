@@ -26,57 +26,43 @@ class AssetUrlReplaceController extends Container implements Module
         $this->wpAddFilter('the_editor_content', 'replaceUrls', 100);
     }
 
-    protected function replaceUrls($content)
+    protected function replaceUrls($content, Assets $assetsHelper)
     {
-        $content = str_replace(['http://|!|vcvAssetsUploadUrl|!|', 'https://|!|vcvAssetsUploadUrl|!|'], '|!|vcvAssetsUploadUrl|!|', $content);
-        $content = str_replace(['http://|!|vcvUploadUrl|!|', 'https://|!|vcvUploadUrl|!|'], '|!|vcvUploadUrl|!|', $content);
+        $assetUrl = $assetsHelper->getAssetUrl();
+        $uploadDir = wp_upload_dir();
+        $uploadUrl = set_url_scheme($uploadDir['baseurl']);
 
-        $content = preg_replace_callback(
-            '/\[vcvAssetsUploadUrl\]/',
-            function () {
-                /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::renderAssetsUploadUrl */
-                return $this->call('renderAssetsUploadUrl');
-            },
+        $content = str_replace(
+            ['http://|!|vcvAssetsUploadUrl|!|', 'https://|!|vcvAssetsUploadUrl|!|'],
+            '|!|vcvAssetsUploadUrl|!|',
             $content
         );
-        $content = preg_replace_callback(
-            '/\|!\|vcvAssetsUploadUrl\|!\|/',
-            function () {
-                /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::renderAssetsUploadUrl */
-                return $this->call('renderAssetsUploadUrl');
-            },
+        $content = str_replace(
+            ['http://|!|vcvUploadUrl|!|', 'https://|!|vcvUploadUrl|!|'],
+            '|!|vcvUploadUrl|!|',
             $content
         );
-        $content = preg_replace_callback(
-            '/\[vcvUploadUrl\]/',
-            function () {
-                /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::renderUploadUrl */
-                return $this->call('renderUploadUrl');
-            },
+        $content = str_replace(
+            '[vcvAssetsUploadUrl]',
+            $assetUrl,
             $content
         );
-        $content = preg_replace_callback(
-            '/\|!\|vcvUploadUrl\|!\|/',
-            function () {
-                /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::renderUploadUrl */
-                return $this->call('renderUploadUrl');
-            },
+        $content = str_replace(
+            '|!|vcvAssetsUploadUrl|!|',
+            $assetUrl,
+            $content
+        );
+        $content = str_replace(
+            '[vcvUploadUrl]',
+            $uploadUrl,
+            $content
+        );
+        $content = str_replace(
+            '|!|vcvUploadUrl|!|',
+            $uploadUrl,
             $content
         );
 
         return $content;
-    }
-
-    protected function renderAssetsUploadUrl(Assets $assetsHelper)
-    {
-        return $assetsHelper->getAssetUrl();
-    }
-
-    protected function renderUploadUrl()
-    {
-        $uploadDir = wp_upload_dir();
-        $url = set_url_scheme($uploadDir['baseurl']);
-
-        return $url;
     }
 }
