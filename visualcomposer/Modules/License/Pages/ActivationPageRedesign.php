@@ -35,24 +35,21 @@ class ActivationPageRedesign extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = 'account/partials/activation-layout';
+    protected $templatePath = 'license/activation/layout';
 
     /**
      * ActivationPage constructor.
      */
     public function __construct()
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
-        }
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            $this->templatePath = 'account/layout.php';
         }
         $this->addEvent(
             'vcv:inited',
             function (Token $tokenHelper, Request $requestHelper) {
                 if (!$tokenHelper->isSiteAuthorized()) {
-                    /** @see \VisualComposer\Modules\Account\Pages\ActivationPage::addPage */
+                    /** @see \VisualComposer\Modules\License\Pages\ActivationPage::addPage */
                     $this->addFilter(
                         'vcv:settings:getPages',
                         'addPage',
@@ -64,9 +61,7 @@ class ActivationPageRedesign extends Container implements Module
                     exit;
                 }
 
-                if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-                    $this->addFilter('vcv:account:variables', 'addActivationVariables');
-                }
+                $this->addFilter('vcv:license:variables', 'addActivationVariables');
             }
         );
     }
@@ -108,64 +103,48 @@ class ActivationPageRedesign extends Container implements Module
     }
 
     /**
-     *
+     * Enqueue activations styles and scripts
      */
     protected function beforeRender()
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            wp_enqueue_script('vcv:wpactivation:script');
-            wp_enqueue_style('vcv:wpactivation:style');
-        } else {
-            wp_enqueue_script('vcv:settings:script');
-            wp_enqueue_style('vcv:settings:style');
-        }
+        wp_enqueue_script('vcv:wpactivation:script');
+        wp_enqueue_style('vcv:wpactivation:style');
     }
 
     /**
      * @param array $pages
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return array
      */
-    protected function addPage($pages, Url $urlHelper)
+    protected function addPage($pages, CurrentUser $currentUserAccessHelper, Url $urlHelper)
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            wp_register_script(
-                'vcv:wpactivation:script',
-                $urlHelper->assetUrl('dist/wpactivation.bundle.js'),
-                [],
-                VCV_VERSION
-            );
-            wp_register_style(
-                'vcv:wpactivation:style',
-                $urlHelper->assetUrl('dist/wpactivation.bundle.css'),
-                [],
-                VCV_VERSION
-            );
-        }
-
-        $currentUserAccess = vchelper('AccessCurrentUser');
-        if (!$currentUserAccess->wpAll('manage_options')->get()) {
+        if (!$currentUserAccessHelper->wpAll('manage_options')->get()) {
             return $pages;
         }
+        wp_register_script(
+            'vcv:wpactivation:script',
+            $urlHelper->assetUrl('dist/wpactivation.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_style(
+            'vcv:wpactivation:style',
+            $urlHelper->assetUrl('dist/wpactivation.bundle.css'),
+            [],
+            VCV_VERSION
+        );
+
         $pages[] = [
             'slug' => $this->getSlug(),
             'title' => __('Activation', 'vcwb'),
             'showTab' => false,
             'layout' => 'standalone',
             'controller' => $this,
-            'type' => vcvenv('VCV_ENV_ADDONS_ID') !== 'account' ? 'standalone' : 'default',
+            'type' => vcvenv('VCV_ENV_ADDONS_ID') !== 'account' ? 'standalone' : 'default', // TODO: check
         ];
 
         return $pages;
-    }
-
-    /**
-     * This method overrides by about page
-     * @return string
-     */
-    public function getActivePage()
-    {
-        return vcfilter('vcv:account:activation:activePage', 'first');
     }
 }
