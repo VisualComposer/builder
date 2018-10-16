@@ -23,7 +23,7 @@ use WP_Query;
  * Class TemplatesDownloadController
  * @package VisualComposer\Modules\Editors\Templates
  */
-class TemplatesDownloadController extends Container implements Module
+class TemplatesDownloadController extends Container /*implements Module*/
 {
     use EventsFilters;
 
