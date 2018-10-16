@@ -32,33 +32,26 @@ class AssetUrlReplaceController extends Container implements Module
         $uploadDir = wp_upload_dir();
         $uploadUrl = set_url_scheme($uploadDir['baseurl']);
 
+        // Assets Url
         $content = str_replace(
-            ['http://|!|vcvAssetsUploadUrl|!|', 'https://|!|vcvAssetsUploadUrl|!|'],
-            '|!|vcvAssetsUploadUrl|!|',
-            $content
-        );
-        $content = str_replace(
-            ['http://|!|vcvUploadUrl|!|', 'https://|!|vcvUploadUrl|!|'],
-            '|!|vcvUploadUrl|!|',
-            $content
-        );
-        $content = str_replace(
-            '[vcvAssetsUploadUrl]',
+            [
+                '[vcvAssetsUploadUrl]',
+                'http://|!|vcvAssetsUploadUrl|!|',
+                'https://|!|vcvAssetsUploadUrl|!|',
+                '|!|vcvAssetsUploadUrl|!|',
+            ],
             $assetUrl,
             $content
         );
+
+        // Upload Url
         $content = str_replace(
-            '|!|vcvAssetsUploadUrl|!|',
-            $assetUrl,
-            $content
-        );
-        $content = str_replace(
-            '[vcvUploadUrl]',
-            $uploadUrl,
-            $content
-        );
-        $content = str_replace(
-            '|!|vcvUploadUrl|!|',
+            [
+                '[vcvUploadUrl]',
+                'http://|!|vcvUploadUrl|!|',
+                'https://|!|vcvUploadUrl|!|',
+                '|!|vcvUploadUrl|!|',
+            ],
             $uploadUrl,
             $content
         );
