@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub\TemplateTeasers;
+namespace VisualComposer\Modules\Editors\Templates;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\Actions\HubTemplatesBundle;
@@ -15,26 +16,19 @@ use VisualComposer\Helpers\Hub\Templates;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\WpMedia;
-use VisualComposer\Modules\Editors\Templates\TemplatesDownloadController;
 use WP_Query;
 
-class TemplatesUpdater extends TemplatesDownloadController implements Module
+class TemplatesUpdater extends Container implements Module
 {
     use EventsFilters;
 
     /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct()
     {
-        if (vcvenv('VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE')) {
-            if (vcvenv('VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
-                $this->addFilter(
-                    'vcv:hub:download:bundle vcv:hub:download:bundle:template/* vcv:hub:download:bundle:predefinedTemplate/*',
-                    'updateTemplate'
-                );
-            } else {
-                $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:template/*', 'updateTemplate');
-            }
-        }
+        $this->addFilter(
+            'vcv:hub:download:bundle vcv:hub:download:bundle:template/* vcv:hub:download:bundle:predefinedTemplate/*',
+            'updateTemplate'
+        );
     }
 
     protected function updateTemplate(
@@ -180,6 +174,163 @@ class TemplatesUpdater extends TemplatesDownloadController implements Module
         ];
 
         return $response;
+    }
+
+    /**
+     * @param $template
+     *
+     * @return mixed
+     */
+    protected function processTemplateMetaImages($template)
+    {
+        $wpMediaHelper = vchelper('WpMedia');
+        $urlHelper = vchelper('Url');
+        if ($wpMediaHelper->checkIsImage($template['preview'])) {
+            $url = $template['preview'];
+            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
+                $url = '[publicPath]' . $url;
+            }
+
+            $preview = $this->processSimple($url, $template);
+            if (!is_wp_error($preview) && $preview) {
+                $template['preview'] = $preview;
+            }
+        }
+
+        if ($wpMediaHelper->checkIsImage($template['thumbnail'])) {
+            $url = $template['thumbnail'];
+            if (!$urlHelper->isUrl($url) && strpos($url, '[publicPath]') === false) {
+                $url = '[publicPath]' . $url;
+            }
+
+            $thumbnail = $this->processSimple($url, $template);
+            if (!is_wp_error($thumbnail) && $thumbnail) {
+                $template['thumbnail'] = $thumbnail;
+            }
+        }
+
+        return $template;
+    }
+
+    /**
+     * @param $url
+     * @param $template
+     * @param string $prefix
+     *
+     * @return bool|mixed|string
+     */
+    protected function processSimple($url, $template, $prefix = '')
+    {
+        $fileHelper = vchelper('File');
+        $hubTemplatesHelper = vchelper('HubTemplates');
+        $urlHelper = vchelper('Url');
+        $assetsHelper = vchelper('Assets');
+
+        if ($urlHelper->isUrl($url)) {
+            $imageFile = $fileHelper->download($url);
+            $localImagePath = $template['id'] . '/' . strtolower($prefix . '' . basename($url));
+            if (!is_wp_error($imageFile)) {
+                $fileHelper->createDirectory(
+                    $hubTemplatesHelper->getTemplatesPath($template['id'])
+                );
+
+                if (rename(
+                    $imageFile,
+                    $hubTemplatesHelper->getTemplatesPath(
+                        $localImagePath
+                    )
+                )) {
+                    return $assetsHelper->getAssetUrl(
+                        'templates/' . $localImagePath
+                    );
+                }
+            } else {
+                return $imageFile;
+            }
+        } else {
+            // File located locally
+            if (strpos($url, '[publicPath]') !== false) {
+                $url = str_replace('[publicPath]', '', $url);
+
+                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
+            } elseif (strpos($url, 'assets/elements/') !== false) {
+                return $hubTemplatesHelper->getTemplatesUrl($template['id'] . '/' . ltrim($url, '\\/'));
+            } else {
+                return $url; // it is local file url (default file)
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $imageData
+     * @param $template
+     * @param string $prefix
+     *
+     * @return array
+     */
+    protected function processWpMedia($imageData, $template, $prefix = '')
+    {
+        $newImages = [];
+
+        $value = $imageData['value'];
+        $images = is_array($value) && isset($value['urls']) ? $value['urls'] : $value;
+        if (is_string($images)) {
+            $images = [
+                $images => $images,
+            ];
+        }
+        if (!empty($images) && is_array($images)) {
+            foreach ($images as $key => $image) {
+                if (is_string($image)) {
+                    $newUrl = $this->processSimple($image, $template, $prefix . $key . '-');
+                } else {
+                    $newUrl = $this->processSimple($image['full'], $template, $prefix . $key . '-');
+                }
+                if ($newUrl && !is_wp_error($newUrl)) {
+                    $newImages[] = $newUrl;
+                }
+            }
+        }
+
+        return $newImages;
+    }
+
+    protected function processDesignOptions($templateElements, $template)
+    {
+        $arrayIterator = new \RecursiveArrayIterator($templateElements);
+        $recursiveIterator = new \RecursiveIteratorIterator($arrayIterator, \RecursiveIteratorIterator::SELF_FIRST);
+
+        $keys = [
+            'image',
+            'images',
+        ];
+
+        foreach ($recursiveIterator as $key => $value) {
+            if (is_array($value) && in_array($key, $keys, true) && isset($value['urls'])) {
+                $newValue = $this->processWpMedia(['value' => $value], $template);
+
+                // Get the current depth and traverse back up the tree, saving the modifications
+                $currentDepth = $recursiveIterator->getDepth();
+                for ($subDepth = $currentDepth; $subDepth >= 0; $subDepth--) {
+                    // Get the current level iterator
+                    $subIterator = $recursiveIterator->getSubIterator($subDepth);
+                    // If we are on the level we want to change
+                    // use the replacements ($value) other wise set the key to the parent iterators value
+                    $subIterator->offsetSet(
+                        $subIterator->key(),
+                        ($subDepth === $currentDepth
+                            ? $newValue
+                            : $recursiveIterator->getSubIterator(
+                                ($subDepth + 1)
+                            )->getArrayCopy())
+                    );
+                }
+            }
+        }
+
+        return $recursiveIterator->getArrayCopy();
     }
 
     /**
