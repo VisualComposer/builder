@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\FrontEnd;
+namespace VisualComposer\Modules\FrontView;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -34,7 +34,7 @@ class AssetUrlReplaceController extends Container implements Module
         $content = preg_replace_callback(
             '/\[vcvAssetsUploadUrl\]/',
             function () {
-                /** @see \VisualComposer\Modules\Elements\AssetShortcode\AssetUrlReplaceController::renderAssetsUploadUrl */
+                /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::renderAssetsUploadUrl */
                 return $this->call('renderAssetsUploadUrl');
             },
             $content
@@ -42,7 +42,7 @@ class AssetUrlReplaceController extends Container implements Module
         $content = preg_replace_callback(
             '/\|!\|vcvAssetsUploadUrl\|!\|/',
             function () {
-                /** @see \VisualComposer\Modules\Elements\AssetShortcode\AssetUrlReplaceController::renderAssetsUploadUrl */
+                /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::renderAssetsUploadUrl */
                 return $this->call('renderAssetsUploadUrl');
             },
             $content
@@ -50,7 +50,7 @@ class AssetUrlReplaceController extends Container implements Module
         $content = preg_replace_callback(
             '/\[vcvUploadUrl\]/',
             function () {
-                /** @see \VisualComposer\Modules\Elements\AssetShortcode\AssetUrlReplaceController::renderUploadUrl */
+                /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::renderUploadUrl */
                 return $this->call('renderUploadUrl');
             },
             $content
@@ -58,7 +58,7 @@ class AssetUrlReplaceController extends Container implements Module
         $content = preg_replace_callback(
             '/\|!\|vcvUploadUrl\|!\|/',
             function () {
-                /** @see \VisualComposer\Modules\Elements\AssetShortcode\AssetUrlReplaceController::renderUploadUrl */
+                /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::renderUploadUrl */
                 return $this->call('renderUploadUrl');
             },
             $content

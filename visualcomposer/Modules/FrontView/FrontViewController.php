@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\FrontEnd;
+namespace VisualComposer\Modules\FrontView;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -12,7 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-class FrontEndController extends Container implements Module
+class FrontViewController extends Container implements Module
 {
     use WpFiltersActions;
 
@@ -21,13 +21,13 @@ class FrontEndController extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::encode */
+        /** @see \VisualComposer\Modules\FrontView\FrontViewController::encode */
         $this->wpAddFilter('the_content', 'encode', 1);
-        /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::decode */
+        /** @see \VisualComposer\Modules\FrontView\FrontViewController::decode */
         $this->wpAddFilter('the_content', 'decode', 10);
-        /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::removeOldCommentTags */
+        /** @see \VisualComposer\Modules\FrontView\FrontViewController::removeOldCommentTags */
         $this->wpAddFilter('the_content', 'removeOldCommentTags');
-        /** @see \VisualComposer\Modules\FrontEnd\FrontEndController::removeIpadMeta */
+        /** @see \VisualComposer\Modules\FrontView\FrontViewController::removeIpadMeta */
         $this->wpAddAction('admin_enqueue_scripts', 'removeIpadMeta');
     }
 

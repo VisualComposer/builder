@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\FrontEnd;
+namespace VisualComposer\Modules\FrontView;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -24,10 +24,10 @@ class PluginsInfoController extends Container implements Module
 
     protected function addMetaGenerator()
     {
-        if (apply_filters('vcv:output:meta', true)) {
-            $text = sprintf(
-                'Powered by Visual Composer Website Builder %s - fast and easy to use drag and drop builder for experts and beginners.',
-                VCV_VERSION
+        if (apply_filters('vcv:api:output:meta', apply_filters('vcv:output:meta', true))) {
+            $text = __(
+                'Powered by Visual Composer Website Builder - fast and easy to use drag and drop builder for experts and beginners.',
+                'vcwb'
             );
             echo sprintf(
                 '<meta name="generator" content="%s"/>',
@@ -39,7 +39,6 @@ class PluginsInfoController extends Container implements Module
     protected function addBodyClass($classes)
     {
         $classes[] = 'vcwb';
-        $classes[] = sprintf('vcwb-ver-%s', VCV_VERSION);
 
         return $classes;
     }
