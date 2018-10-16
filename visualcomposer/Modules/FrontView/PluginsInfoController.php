@@ -12,16 +12,29 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Class PluginsInfoController
+ * @package VisualComposer\Modules\FrontView
+ */
 class PluginsInfoController extends Container implements Module
 {
     use WpFiltersActions;
 
+    /**
+     * PluginsInfoController constructor.
+     */
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\FrontView\PluginsInfoController::addMetaGenerator */
         $this->wpAddAction('wp_head', 'addMetaGenerator');
+
+        /** @see \VisualComposer\Modules\FrontView\PluginsInfoController::addBodyClass */
         $this->wpAddFilter('body_class', 'addBodyClass');
     }
 
+    /**
+     * Public filter to disable meta 'vcv:api:output:meta'
+     */
     protected function addMetaGenerator()
     {
         if (apply_filters('vcv:api:output:meta', apply_filters('vcv:output:meta', true))) {
@@ -36,6 +49,11 @@ class PluginsInfoController extends Container implements Module
         }
     }
 
+    /**
+     * @param $classes
+     *
+     * @return array
+     */
     protected function addBodyClass($classes)
     {
         $classes[] = 'vcwb';

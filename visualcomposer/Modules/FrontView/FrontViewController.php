@@ -12,6 +12,10 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Class FrontViewController
+ * @package VisualComposer\Modules\FrontView
+ */
 class FrontViewController extends Container implements Module
 {
     use WpFiltersActions;
@@ -31,6 +35,11 @@ class FrontViewController extends Container implements Module
         $this->wpAddAction('admin_enqueue_scripts', 'removeIpadMeta');
     }
 
+    /**
+     * @param $content
+     *
+     * @return null|string|string[]
+     */
     protected function encode($content)
     {
         if (in_array(get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true), ['fe', 'be'])) {
@@ -54,6 +63,11 @@ class FrontViewController extends Container implements Module
         return $content;
     }
 
+    /**
+     * @param $content
+     *
+     * @return null|string|string[]
+     */
     protected function decode($content)
     {
         if (in_array(get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true), ['fe', 'be'])) {
@@ -88,6 +102,7 @@ class FrontViewController extends Container implements Module
     }
 
     /**
+     * @fix Remove scaling on mobile devices #652509233919236
      * Remove iPad meta from FE
      */
     protected function removeIpadMeta()
