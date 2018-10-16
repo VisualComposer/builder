@@ -89,3 +89,65 @@
   }
 }
 
+.vcv-activation-loading-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .vcv-loading-dots-container .vcv-loading-dot {
+    background: #BDBDBD;
+  }
+}
+
+.vcv-activation-loading-screen .vcv-activation-loading-text {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 22px;
+  letter-spacing: .56px;
+  font-weight: 600;
+  font-size: 18px;
+  margin: 31px 0 6px;
+}
+
+.vcv-activation-loading-screen .vcv-activation-loading-helper-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  color: #999999;
+  font-size: 13px;
+  letter-spacing: 0.82px;
+  margin: 0;
+  line-height: 24px;
+}
+
+.vcv-activation-parallax-block {
+  min-height: 410px;
+  max-width: 940px;
+  margin: 20px auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.vcv-activation-parallax-inner {
+  background: url('https://i.imgur.com/rK1TmHG.png') center;
+  background-size: cover;
+  width: 940px;
+  height: 410px;
+
+
+  position: absolute;
+  top: calc(50% - 205px);
+  left: calc(50% - 470px);
+  transition: transform .1s;
+}
+
+.vcv-activation-parallax-fixed {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 55px;
+}
