@@ -43,11 +43,11 @@ class Settings extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::addPage */
+        /** @see \VisualComposer\Modules\Settings\Pages\Settings::addPage */
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            1
+            9
         );
     }
 
