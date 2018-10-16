@@ -14,18 +14,34 @@ use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Class AssetUrlReplaceController
+ * @package VisualComposer\Modules\FrontView
+ */
 class AssetUrlReplaceController extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
 
+    /**
+     * AssetUrlReplaceController constructor.
+     */
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\FrontView\AssetUrlReplaceController::replaceUrls */
         $this->addFilter('vcv:frontend:content vcv:frontend:content:encode', 'replaceUrls');
         $this->wpAddFilter('the_content', 'replaceUrls', 100);
         $this->wpAddFilter('the_editor_content', 'replaceUrls', 100);
     }
 
+    /**
+     * Replace urls placeholders
+     *
+     * @param $content
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
+     *
+     * @return mixed
+     */
     protected function replaceUrls($content, Assets $assetsHelper)
     {
         $assetUrl = $assetsHelper->getAssetUrl();
