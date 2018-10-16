@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Premium\Pages;
+namespace VisualComposer\Modules\License\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -12,10 +12,8 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Data;
 use VisualComposer\Helpers\License;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Modules\Account\Pages\ActivationPage;
 
 class HookActivationPage extends Container implements Module
 {
@@ -23,12 +21,15 @@ class HookActivationPage extends Container implements Module
 
     public function __construct()
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
         if (vcvenv('VCV_ENV_LICENSES')) {
             $this->addEvent(
                 'vcv:inited',
-                function (Token $tokenHelper, Request $requestHelper, License $licenseHelper) {
+                function (Token $tokenHelper, License $licenseHelper) {
                     if (!$tokenHelper->isSiteAuthorized() && $licenseHelper->isActivated()) {
-                        /** @see \VisualComposer\Modules\Account\Pages\HookActivationPage::hookAddPage */
+                        /** @see \VisualComposer\Modules\License\Pages\HookActivationPage::hookAddPage */
                         $this->addFilter(
                             'vcv:settings:getPages',
                             'hookAddPage',
@@ -37,7 +38,7 @@ class HookActivationPage extends Container implements Module
                     }
                 }
             );
-            /** @see \VisualComposer\Modules\Account\Pages\HookActivationPage::getActivationActivePage */
+            /** @see \VisualComposer\Modules\License\Pages\HookActivationPage::getActivationActivePage */
             $this->addFilter('vcv:account:activation:activePage', 'getActivationActivePage');
         }
     }

@@ -90,8 +90,8 @@ class Frontend implements Helper
     {
         $requestHelper = vchelper('Request');
         $nonceHelper = vchelper('Nonce');
-        $sourceId = vchelper("Request")->input('vcv-source-id');
-        $currentUserAccessHelper = vchelper("AccessCurrentUser");
+        $sourceId = vchelper('Request')->input('vcv-source-id');
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             if ($requestHelper->exists('vcv-editable')

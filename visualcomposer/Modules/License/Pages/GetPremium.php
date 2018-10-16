@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Premium\Pages;
+namespace VisualComposer\Modules\License\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -36,47 +36,47 @@ class GetPremium extends Container implements Module
      */
     protected $templatePath = 'account/partials/activation-layout';
 
-    public function __construct(License $licenseHelper, Token $tokenHelper, Request $requestHelper)
+    public function __construct(License $licenseHelper, Token $tokenHelper)
     {
-        if (vcvenv('VCV_ENV_LICENSES')) {
-            if (!$licenseHelper->isActivated()) {
-                $this->wpAddAction(
-                    'in_admin_footer',
-                    'addJs'
-                );
-                $this->wpAddAction(
-                    'in_admin_header',
-                    'addCss'
-                );
-            }
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
 
-            $this->addEvent(
-                'vcv:inited',
-                function (License $licenseHelper, Request $requestHelper) {
-                    if (!$licenseHelper->isActivated()) {
-                        /** @see \VisualComposer\Modules\Account\Pages\ActivationPage::addPage */
-                        $this->addFilter(
-                            'vcv:settings:getPages',
-                            'addPage',
-                            70
-                        );
-                    } elseif ($requestHelper->input('page') === $this->getSlug()) {
-                        $aboutPage = vcapp('SettingsPagesAbout');
-                        wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
-                        exit;
-                    }
-                },
-                70
+        if (!$licenseHelper->isActivated()) {
+            $this->wpAddAction(
+                'in_admin_footer',
+                'addJs'
             );
+            $this->wpAddAction(
+                'in_admin_header',
+                'addCss'
+            );
+        }
 
-            if (!$tokenHelper->isSiteAuthorized()
-                || ($tokenHelper->isSiteAuthorized() && !$licenseHelper->isActivated())
-            ) {
-                $this->wpAddFilter(
-                    'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
-                    'pluginsPageLink'
-                );
-            }
+        $this->addEvent(
+            'vcv:inited',
+            function (License $licenseHelper, Request $requestHelper) {
+                if (!$licenseHelper->isActivated()) {
+                    /** @see \VisualComposer\Modules\License\Pages\GetPremium::addPage */
+                    $this->addFilter(
+                        'vcv:settings:getPages',
+                        'addPage',
+                        70
+                    );
+                } elseif ($requestHelper->input('page') === $this->getSlug()) {
+                    $aboutPage = vcapp('SettingsPagesAbout');
+                    wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
+                    exit;
+                }
+            },
+            70
+        );
+
+        if (!$tokenHelper->isSiteAuthorized() || ($tokenHelper->isSiteAuthorized() && !$licenseHelper->isActivated())) {
+            $this->wpAddFilter(
+                'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
+                'pluginsPageLink'
+            );
         }
     }
 
@@ -146,9 +146,8 @@ class GetPremium extends Container implements Module
      */
     protected function pluginsPageLink($links)
     {
-        $getPremiumPage = vcapp('PremiumPagesGetPremium');
-
-        $goPremiumLink = '<a href="' . esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))) . '&vcv-ref=plugins-page">' . __('Go Premium', 'vcwb') . '</a>';
+        $goPremiumLink = '<a href="' . esc_url(admin_url('admin.php?page=' . rawurlencode($this->getSlug())))
+            . '&vcv-ref=plugins-page">' . __('Go Premium', 'vcwb') . '</a>';
 
         array_push($links, $goPremiumLink);
 

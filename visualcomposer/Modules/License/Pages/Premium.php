@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Premium\Pages;
+namespace VisualComposer\Modules\License\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -46,7 +46,10 @@ class Premium extends Container implements Module
      */
     public function __construct(Token $tokenHelper, License $licenseHelper, Request $requestHelper)
     {
-        /** @see \VisualComposer\Modules\Premium\Pages\Premium::addPage */
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
+        /** @see \VisualComposer\Modules\License\Pages\Premium::addPage */
         if ($requestHelper->input('page') === $this->getSlug()) {
             $this->addEvent('vcv:inited', 'beforePageRender');
         }
@@ -64,7 +67,7 @@ class Premium extends Container implements Module
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             $this->addFilter('vcv:account:variables', 'addActivationVariables');
         }
-        /** @see \VisualComposer\Modules\Premium\Pages\Premium::unsetOptions */
+        /** @see \VisualComposer\Modules\License\Pages\Premium::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 

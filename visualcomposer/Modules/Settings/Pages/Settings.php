@@ -39,7 +39,7 @@ class Settings extends Container implements Module
         $this->addFilter(
             'vcv:settings:getPages',
             'addPage',
-            40
+            -10000
         );
     }
 
@@ -55,7 +55,7 @@ class Settings extends Container implements Module
             return $pages;
         }
         $pages[] = [
-            'slug' => $this->getSlug(),
+            'slug' => $this->slug,
             'title' => __('Settings', 'vcwb'),
             'showTab' => false,
             'layout' => 'settings-standalone',

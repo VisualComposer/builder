@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Account;
+namespace VisualComposer\Modules\License;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -22,7 +22,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class ActivationController
- * @package VisualComposer\Modules\Account
+ * @package VisualComposer\Modules\License
  */
 class ActivationController extends Container implements Module
 {
@@ -34,9 +34,12 @@ class ActivationController extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
+        /** @see \VisualComposer\Modules\License\ActivationController::requestActivation */
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
-        /** @see \VisualComposer\Modules\Account\ActivationController::checkActivationError */
+        /** @see \VisualComposer\Modules\License\ActivationController::checkActivationError */
         $this->addFilter(
             'vcv:ajax:account:activation:adminNonce vcv:hub:download:bundle:*',
             'checkActivationError',

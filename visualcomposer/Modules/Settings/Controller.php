@@ -11,16 +11,9 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Assets;
-use VisualComposer\Helpers\Data;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
-use VisualComposer\Modules\Account\Pages\ActivationPage;
-use VisualComposer\Modules\Settings\Pages\About;
-use VisualComposer\Modules\Settings\Pages\PostTypes;
-use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Controller.
@@ -45,18 +38,15 @@ class Controller extends Container implements Module
      */
     protected $pageSlug = 'vcv-settings';
 
-    /**
-     * @var string
-     */
-    protected $layout = 'standalone';
-
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Settings\Controller::initAdmin */
-        $this->wpAddAction(
-            'admin_init',
-            'initAdmin'
-        );
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            /** @see \VisualComposer\Modules\Settings\Controller::initAdmin */
+            $this->wpAddAction(
+                'admin_init',
+                'initAdmin'
+            );
+        }
 
         /** @see \VisualComposer\Modules\Settings\Controller::addMenuPage */
         $this->wpAddAction(
@@ -83,28 +73,15 @@ class Controller extends Container implements Module
      * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened.
      *
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
-     * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
-     * @param \VisualComposer\Modules\Settings\Pages\PostTypes $postTypes
-     * @param \VisualComposer\Modules\Account\Pages\ActivationPage $activationPage
-     * @param \VisualComposer\Helpers\Token $tokenHelper
      *
      * @return string
      * @throws \Exception
      */
-    public function getMainPageSlug(
-        CurrentUser $currentUserAccess,
-        About $aboutPage,
-        PostTypes $postTypes,
-        ActivationPage $activationPage,
-        Token $tokenHelper
-    ) {
-        $hasAccess = !$currentUserAccess->wpAll('edit_pages')->part('settings')->can($postTypes->getSlug())->get();
+    public function getMainPageSlug(CurrentUser $currentUserAccess)
+    {
+        $hasAccess = $currentUserAccess->wpAll('edit_pages')->part('settings')->can('vcv-settings')->get();
 
-        if ($hasAccess) {
-            return $aboutPage->getSlug();
-        } else {
-            return $tokenHelper->isSiteAuthorized() ? $postTypes->getSlug() : $activationPage->getSlug();
-        }
+        return $hasAccess ? 'vcv-settings' : 'vcv-about';
     }
 
     /**
@@ -167,21 +144,18 @@ class Controller extends Container implements Module
     /**
      * @param array $page
      * @param array $pages
-     * @param \VisualComposer\Helpers\Data $data
      *
      * @return string
      */
-    protected function renderPage($page, $pages, Data $data)
+    protected function renderPage($page, $pages)
     {
-        $layout = $this->layout;
+        $layout = 'standalone';
 
-        wp_enqueue_script('vcv:settings:script');
-        wp_enqueue_style('vcv:settings:style');
         // pages can define different layout, by setting 'layout' key/value.
         if (isset($page['layout'])) {
             $layout = $page['layout'];
         }
-        /** @var Page $controller */
+        /** @var \visualComposer\Modules\Settings\Traits\Page $controller */
         $controller = $page['controller'];
 
         return vcview(
@@ -196,25 +170,11 @@ class Controller extends Container implements Module
     }
 
     /**
+     * @deprecated
      * Init settings page.
-     *
-     * @param \VisualComposer\Helpers\Url $urlHelper
      */
-    protected function initAdmin(Url $urlHelper, Assets $assetsHelper)
+    protected function initAdmin()
     {
-        wp_register_script(
-            'vcv:settings:script',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
-            [],
-            VCV_VERSION
-        );
-        wp_register_style(
-            'vcv:settings:style',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-
         foreach ($this->getPages() as $page) {
             do_action('vcv:settings:initAdmin:page:' . $page['slug']);
         }

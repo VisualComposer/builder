@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Account\Pages;
+namespace VisualComposer\Modules\License\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -19,10 +19,10 @@ use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class ActivationPage
- * @package VisualComposer\Modules\Account\Pages
+ * Class ActivationPageRedesign
+ * @package VisualComposer\Modules\License\Pages
  */
-class ActivationPage extends Container implements Module
+class ActivationPageRedesign extends Container implements Module
 {
     use Page;
     use EventsFilters;
@@ -42,6 +42,9 @@ class ActivationPage extends Container implements Module
      */
     public function __construct()
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             $this->templatePath = 'account/layout.php';
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub\Download\Pages;
+namespace VisualComposer\Modules\License\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -10,13 +10,17 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 
-class UpdateBePage extends Container implements Module
+/**
+ * Class ActivationPage
+ * @package VisualComposer\Modules\License\Pages
+ */
+class ActivationPage extends Container implements Module
 {
     use Page;
     use EventsFilters;
@@ -24,26 +28,30 @@ class UpdateBePage extends Container implements Module
     /**
      * @var string
      */
-    protected $slug = 'vcv-update';
+    protected $slug = 'vcv-activation';
 
     /**
      * @var string
      */
-    protected $templatePath = 'hub/updating-layout';
+    protected $templatePath = 'account/partials/activation-layout';
 
-    public function __construct(Token $tokenHelper)
+    /**
+     * ActivationPage constructor.
+     */
+    public function __construct()
     {
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
         $this->addEvent(
             'vcv:inited',
-            function (Options $optionsHelper, Request $requestHelper, Token $tokenHelper) {
-                if ($tokenHelper->isSiteAuthorized() && $optionsHelper->get('bundleUpdateRequired')) {
+            function (Token $tokenHelper, Request $requestHelper) {
+                if (!$tokenHelper->isSiteAuthorized()) {
+                    /** @see \VisualComposer\Modules\License\Pages\ActivationPage::addPage */
                     $this->addFilter(
                         'vcv:settings:getPages',
                         'addPage',
-                        40
+                        20
                     );
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
                     $aboutPage = vcapp('SettingsPagesAbout');
@@ -59,29 +67,40 @@ class UpdateBePage extends Container implements Module
      */
     protected function beforeRender()
     {
-        wp_dequeue_script('vcv:settings:script');
+        wp_enqueue_script('vcv:settings:script');
+        wp_enqueue_style('vcv:settings:style');
     }
 
     /**
      * @param array $pages
+     * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return array
      */
-    protected function addPage($pages)
+    protected function addPage($pages, Url $urlHelper)
     {
         $currentUserAccess = vchelper('AccessCurrentUser');
-        if (!$currentUserAccess->wpAll('edit_posts')->get()) {
+        if (!$currentUserAccess->wpAll('manage_options')->get()) {
             return $pages;
         }
         $pages[] = [
             'slug' => $this->getSlug(),
-            'title' => __('Update', 'vcwb'),
+            'title' => __('Activation', 'vcwb'),
             'showTab' => false,
             'layout' => 'standalone',
             'controller' => $this,
-            'capability' => 'edit_posts',
+            'type' => vcvenv('VCV_ENV_ADDONS_ID') !== 'account' ? 'standalone' : 'default',
         ];
 
         return $pages;
+    }
+
+    /**
+     * This method overrides by about page
+     * @return string
+     */
+    public function getActivePage()
+    {
+        return vcfilter('vcv:account:activation:activePage', 'first');
     }
 }

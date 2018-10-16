@@ -26,11 +26,9 @@ $urlHelper = vchelper('Url');
 $nonceHelper = vchelper('Nonce');
 wp_enqueue_style('wp-admin');
 wp_enqueue_media();
+$licenseHelper = vchelper('License');
 $postTypeHelper = vchelper('PostType');
-if (vcvenv('VCV_ENV_LICENSES')) {
-    $licenseHelper = vchelper('License');
-    $getPremiumPage = vcapp('PremiumPagesGetPremium');
-}
+$getPremiumPage = vcapp('LicensePagesGetPremium');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
@@ -82,15 +80,21 @@ if (vcvenv('VCV_ENV_LICENSES')) {
   window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
   window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
   window.vcvPostPermanentLink = '<?php echo set_url_scheme(get_permalink(get_the_ID())); ?>';
-    <?php if (vcvenv('VCV_ENV_LICENSES')) : ?>
+  <?php if (vcvenv('VCV_ENV_LICENSES')) : ?>
   window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
-  window.vcvGoPremiumUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>&vcv-ref=nav-bar';
-  window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))); ?>';
-  window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(admin_url('post-new.php?post_type=vcv_gutenberg_attr')); ?>';
-    <?php endif; ?>
-    <?php if (isset($feError) && $feError) : ?>
+  window.vcvGoPremiumUrl = '<?php echo set_url_scheme(
+      admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))
+  ); ?>&vcv-ref=nav-bar';
+  window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(
+      admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))
+  ); ?>';
+  window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(
+      admin_url('post-new.php?post_type=vcv_gutenberg_attr')
+  ); ?>';
+  <?php endif; ?>
+  <?php if (isset($feError) && $feError) : ?>
   window.vcvFeError = '<?php echo $feError; ?>'
-    <?php endif; ?>
+  <?php endif; ?>
 </script>
 <?php
 // @codingStandardsIgnoreEnd

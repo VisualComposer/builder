@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Account;
+namespace VisualComposer\Modules\License;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -24,9 +24,12 @@ class ActivationRedirectController extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Account\ActivationRedirectController::setRedirect */
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
+        /** @see \VisualComposer\Modules\License\ActivationRedirectController::setRedirect */
         $this->addEvent('vcv:system:activation:hook', 'setRedirect');
-        /** @see \VisualComposer\Modules\Account\ActivationRedirectController::doRedirect */
+        /** @see \VisualComposer\Modules\License\ActivationRedirectController::doRedirect */
         $this->wpAddAction('admin_init', 'doRedirect');
 
         $this->addFilter(
