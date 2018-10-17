@@ -28,11 +28,11 @@ export default class ActivationSectionProvider extends React.Component {
   render () {
     let activeScreen = ''
     if (this.state.activeScreen === 'initialScreen') {
-      activeScreen = <InitialScreen />
+      activeScreen = <InitialScreen setActiveScreen={this.setActiveScreen} />
     } else if (this.state.activeScreen === 'loadingScreen') {
-      activeScreen = <LoadingScreen />
+      activeScreen = <LoadingScreen setActiveScreen={this.setActiveScreen} />
     } else if (this.state.activeScreen === 'finalScreen') {
-      activeScreen = <FinalScreen />
+      activeScreen = <FinalScreen setActiveScreen={this.setActiveScreen} />
     }
 
     return (
