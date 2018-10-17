@@ -60,8 +60,21 @@ class UpdateBePage extends Container implements Module
      */
     protected function beforeRender()
     {
-        // TODO: Check
-        wp_dequeue_script('vcv:settings:script');
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:settings:script',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_style(
+            'vcv:settings:style',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+            [],
+            VCV_VERSION
+        );
+        wp_enqueue_script('vcv:settings:script');
+        wp_enqueue_style('vcv:settings:style');
     }
 
     /**
