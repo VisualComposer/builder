@@ -1,0 +1,9 @@
+{
+  "assetsLibrary": [
+    {
+      "name": "iconpicker",
+      "dependencies": [],
+      "cssBundle": "[publicPath]/dist/iconpicker.bundle.css"
+    }
+  ]
+}
