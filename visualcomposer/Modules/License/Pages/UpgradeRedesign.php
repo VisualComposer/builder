@@ -136,7 +136,18 @@ class UpgradeRedesign extends Container implements Module
             ),
             'type' => 'constant',
         ];
-
+        $variables[] = [
+            'key' => 'VCV_UPDATE_PROCESS_ACTION_URL',
+            'value' => $urlHelper->adminAjax(['vcv-action' => 'hub:action:adminNonce']),
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_FINISH_URL',
+            'value' => $urlHelper->adminAjax(
+                ['vcv-action' => 'bundle:update:finished:adminNonce']
+            ),
+            'type' => 'constant',
+        ];
         $variables[] = [
             'key' => 'VCV_UPDATE_AJAX_TIME',
             'value' => intval($_SERVER['REQUEST_TIME']),
