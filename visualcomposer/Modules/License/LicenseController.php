@@ -34,9 +34,6 @@ class LicenseController extends Container implements Module
      */
     public function __construct()
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            return;
-        }
         $this->addFilter('vcv:ajax:license:activate:adminNonce', 'getLicenseKey');
         $this->addFilter('vcv:ajax:license:deactivate:adminNonce', 'unsetLicenseKey');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
