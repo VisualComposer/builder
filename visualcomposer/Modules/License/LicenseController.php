@@ -18,7 +18,6 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Modules\License\Pages\Premium;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
@@ -32,10 +31,8 @@ class LicenseController extends Container implements Module
 
     /**
      * LicenseController constructor.
-     *
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      */
-    public function __construct(Options $optionsHelper)
+    public function __construct()
     {
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
@@ -66,7 +63,6 @@ class LicenseController extends Container implements Module
         License $licenseHelper,
         Logger $loggerHelper,
         Notice $noticeHelper,
-        Premium $premiumPageModule,
         Token $tokenHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
@@ -101,7 +97,7 @@ class LicenseController extends Container implements Module
                         $tokenHelper->setToken($result['auth_token']);
                     }
                     $noticeHelper->removeNotice('premium:deactivated');
-                    wp_redirect(admin_url('admin.php?page=' . $premiumPageModule->getSlug()));
+                    wp_redirect(admin_url('admin.php?page=vcv-upgrade'));
                     exit;
                 } else {
                     $loggerHelper->logNotice('activation:failed', __('License activation failed', 'vcwb'));
