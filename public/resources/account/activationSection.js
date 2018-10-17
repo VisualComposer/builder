@@ -10,7 +10,7 @@ export default class ActivationSectionProvider extends React.Component {
     super(props)
 
     this.state = {
-      activeScreen: 'finalScreen'
+      activeScreen: 'initialScreen'
     }
 
     this.setActiveScreen = this.setActiveScreen.bind(this)
