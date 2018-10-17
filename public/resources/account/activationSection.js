@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import InitialScreen from './initialScreen'
 import LoadingScreen from './loadingScreen'
 import FinalScreen from './finalScreen'
@@ -6,11 +7,15 @@ import FinalScreen from './finalScreen'
 const ActivationSectionContext = React.createContext()
 
 export default class ActivationSectionProvider extends React.Component {
+  static propTypes = {
+    activeScreen: PropTypes.string
+  }
+
   constructor (props) {
     super(props)
 
     this.state = {
-      activeScreen: 'initialScreen'
+      activeScreen: props.activeScreen || 'initialScreen'
     }
 
     this.setActiveScreen = this.setActiveScreen.bind(this)

@@ -111,19 +111,19 @@ class ActivationPageRedesign extends Container implements Module
     {
         $urlHelper = vchelper('Url');
         wp_register_script(
-            'vcv:wpactivation:script',
-            $urlHelper->assetUrl('dist/wpactivation.bundle.js'),
+            'vcv:wpActivationRedesign:script',
+            $urlHelper->assetUrl('dist/wpActivationRedesign.bundle.js'),
             [],
             VCV_VERSION
         );
         wp_register_style(
-            'vcv:wpactivation:style',
-            $urlHelper->assetUrl('dist/wpactivation.bundle.css'),
+            'vcv:wpActivationRedesign:style',
+            $urlHelper->assetUrl('dist/wpActivationRedesign.bundle.css'),
             [],
             VCV_VERSION
         );
-        wp_enqueue_script('vcv:wpactivation:script');
-        wp_enqueue_style('vcv:wpactivation:style');
+        wp_enqueue_script('vcv:wpActivationRedesign:script');
+        wp_enqueue_style('vcv:wpActivationRedesign:style');
         $this->addFilter('vcv:license:variables', 'addActivationVariables');
     }
 

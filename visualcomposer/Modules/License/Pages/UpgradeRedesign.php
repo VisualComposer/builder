@@ -108,6 +108,21 @@ class UpgradeRedesign extends Container implements Module
      */
     protected function beforeRender()
     {
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:wpUpdateRedesign:script',
+            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_style(
+            'vcv:wpUpdateRedesign:style',
+            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.css'),
+            [],
+            VCV_VERSION
+        );
+        wp_enqueue_script('vcv:wpUpdateRedesign:script');
+        wp_enqueue_style('vcv:wpUpdateRedesign:style');
         $this->addFilter('vcv:license:variables', 'addActivationVariables');
     }
 
