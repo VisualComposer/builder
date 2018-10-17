@@ -20,9 +20,9 @@ use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
 /**
- * Class Premium.
+ * Class Upgrade.
  */
-class Premium extends Container implements Module
+class Upgrade extends Container implements Module
 {
     use Page;
     use SubMenu;
@@ -40,7 +40,7 @@ class Premium extends Container implements Module
     protected $templatePath = 'account/partials/activation-layout';
 
     /**
-     * Premium constructor.
+     * Upgrade constructor.
      *
      * @param \VisualComposer\Helpers\Token $tokenHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
@@ -51,7 +51,7 @@ class Premium extends Container implements Module
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
-        /** @see \VisualComposer\Modules\License\Pages\Premium::addPage */
+        /** @see \VisualComposer\Modules\License\Pages\Upgrade::addPage */
         if ($requestHelper->input('page') === $this->getSlug()) {
             $this->addEvent('vcv:inited', 'beforePageRender');
         }
@@ -95,7 +95,7 @@ class Premium extends Container implements Module
         }
         $licenseHelper = vchelper('License');
         if (!$licenseHelper->getKey()) {
-            /** @see \VisualComposer\Modules\License\Pages\Premium::activateInAccount */
+            /** @see \VisualComposer\Modules\License\Pages\Upgrade::activateInAccount */
             $this->call('activateInAccount');
             exit;
         } elseif (!$licenseHelper->getKeyToken()) {

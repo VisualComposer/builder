@@ -5,7 +5,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$premiumPage = vcapp('LicensePagesPremium');
 $loginCategoryHelper = vchelper('LoginCategory');
 $loginCategories = $loginCategoryHelper->all();
 ?>
@@ -30,7 +29,7 @@ $loginCategories = $loginCategoryHelper->all();
     <div class="vcv-popup-heading">
         <?php echo esc_html__('Get Premium Elements, Templates, and Support.', 'vcwb'); ?>
     </div>
-	<form class="vcv-popup-form vcv-popup-form-light-theme" id="vcv-premium-activation-form" method="post" action="<?php echo esc_url(admin_url('admin.php?page=' . rawurlencode($premiumPage->getSlug()))); ?>">
+	<form class="vcv-popup-form vcv-popup-form-light-theme" id="vcv-premium-activation-form" method="post" action="<?php echo esc_url(admin_url('admin.php?page=vcv-upgrade')); ?>">
 		<select class="vcv-popup-form-select" name="vcv-account-activation-category" id="vcv-account-premium-form-category" required="required">
 			<option value disabled selected><?php echo esc_html__('Select Your Category', 'vcwb'); ?></option>
             <?php foreach ($loginCategories as $key => $loginCategory) { ?>
@@ -52,9 +51,7 @@ $loginCategories = $loginCategoryHelper->all();
                     'http://visualcomposer.io/cloud-access-terms'
                 ); ?></span>
         </div>
-        <?php if (vcvenv('VCV_ENV_UPGRADE')) { ?>
-            <input type="submit" value="<?php echo esc_html__('Activate Premium', 'vcwb'); ?>" class="vcv-activate-premium vcv-popup-button" id="vcv-activate-premium-button">
-        <?php } ?>
+        <input type="submit" value="<?php echo esc_html__('Activate Premium', 'vcwb'); ?>" class="vcv-activate-premium vcv-popup-button" id="vcv-activate-premium-button">
     </form>
     <span class="vcv-popup-slider-item-text"><?php echo esc_html__('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
     <div class="vcv-popup-go-premium-container"></div>

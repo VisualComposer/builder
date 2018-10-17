@@ -51,7 +51,7 @@ class LicenseController extends Container implements Module
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Logger $loggerHelper
      * @param \VisualComposer\Helpers\Notice $noticeHelper
-     * @param \VisualComposer\Modules\License\Pages\Premium $premiumPageModule
+     * @param \VisualComposer\Modules\License\Pages\Upgrade $premiumPageModule
      * @param Token $tokenHelper
      *
      * @return bool|void

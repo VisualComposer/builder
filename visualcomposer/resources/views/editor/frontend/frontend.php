@@ -28,7 +28,6 @@ wp_enqueue_style('wp-admin');
 wp_enqueue_media();
 $licenseHelper = vchelper('License');
 $postTypeHelper = vchelper('PostType');
-$getPremiumPage = vcapp('LicensePagesGetPremium');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
@@ -82,12 +81,8 @@ $getPremiumPage = vcapp('LicensePagesGetPremium');
   window.vcvPostPermanentLink = '<?php echo set_url_scheme(get_permalink(get_the_ID())); ?>';
   <?php if (vcvenv('VCV_ENV_LICENSES')) : ?>
   window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
-  window.vcvGoPremiumUrl = '<?php echo set_url_scheme(
-      admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))
-  ); ?>&vcv-ref=nav-bar';
-  window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(
-      admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))
-  ); ?>';
+  window.vcvGoPremiumUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=nav-bar')); ?>';
+  window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium')); ?>';
   window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(
       admin_url('post-new.php?post_type=vcv_gutenberg_attr')
   ); ?>';
