@@ -22,7 +22,7 @@ use VisualComposer\Modules\Settings\Traits\SubMenu;
 /**
  * Class Premium.
  */
-class Premium extends Container implements Module
+class PremiumRedesign extends Container implements Module
 {
     use Page;
     use SubMenu;
@@ -37,7 +37,7 @@ class Premium extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = 'account/partials/activation-layout';
+    protected $templatePath = 'license/activation/layout';
 
     /**
      * Premium constructor.
@@ -48,11 +48,11 @@ class Premium extends Container implements Module
      */
     public function __construct(Token $tokenHelper, License $licenseHelper, Request $requestHelper)
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
         /** @see \VisualComposer\Modules\License\Pages\Premium::addPage */
-        if ($requestHelper->input('page') === $this->getSlug()) {
+        if ($requestHelper->input('page') === 'vcv-upgrade') {
             $this->addEvent('vcv:inited', 'beforePageRender');
         }
 
@@ -108,21 +108,18 @@ class Premium extends Container implements Module
      */
     protected function beforeRender()
     {
-        $urlHelper = vchelper('Url');
-        wp_register_script(
-            'vcv:settings:script',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
-            [],
-            VCV_VERSION
-        );
-        wp_register_style(
-            'vcv:settings:style',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_script('vcv:settings:script');
-        wp_enqueue_style('vcv:settings:style');
+        $this->addFilter('vcv:license:variables', 'addActivationVariables');
+    }
+
+    protected function addActivationVariables($variables)
+    {
+        $variables[] = [
+            'key' => 'VCV_CREATE_NEW_URL',
+            'value' => admin_url('admin.php?page=vcv-about'),
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 
     protected function redirectToAbout()
@@ -145,15 +142,6 @@ class Premium extends Container implements Module
         }
         $urlHelper = vchelper('Url');
         $nonceHelper = vchelper('Nonce');
-        $requestHelper = vchelper('Request');
-
-        $category = $requestHelper->input('vcv-account-activation-category');
-        $agreement = $requestHelper->input('vcv-account-activation-agreement');
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN') && (empty($category) || empty($agreement))) {
-            vchelper('Logger')->log(__('The agreement and category fields are required'));
-
-            return false;
-        }
 
         wp_redirect(
             VCV_LICENSE_ACTIVATE_URL .
@@ -164,15 +152,8 @@ class Premium extends Container implements Module
             ) .
             '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
             '&url=' . VCV_PLUGIN_URL .
-            '&domain=' . get_site_url() .
-            '&agreement=' . $agreement .
-            '&category=' . rawurlencode($category)
+            '&domain=' . get_site_url()
         );
         exit;
-    }
-
-    public function getActivePage()
-    {
-        return 'download';
     }
 }

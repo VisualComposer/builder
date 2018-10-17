@@ -10,6 +10,8 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
@@ -19,9 +21,9 @@ use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
 /**
- * Class GetPremium.
+ * Class GetPremiumRedesign.
  */
-class GetPremium extends Container implements Module
+class GetPremiumRedesign extends Container implements Module
 {
     use Page;
     use SubMenu;
@@ -36,23 +38,12 @@ class GetPremium extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = 'account/partials/activation-layout';
+    protected $templatePath = 'license/activation/layout';
 
-    public function __construct(License $licenseHelper, Token $tokenHelper)
+    public function __construct(License $licenseHelper)
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
-        }
-
-        if (!$licenseHelper->isActivated()) {
-            $this->wpAddAction(
-                'in_admin_footer',
-                'addJs'
-            );
-            $this->wpAddAction(
-                'in_admin_header',
-                'addCss'
-            );
         }
 
         $this->wpAddAction(
@@ -69,7 +60,7 @@ class GetPremium extends Container implements Module
             70
         );
 
-        if (!$tokenHelper->isSiteAuthorized() || ($tokenHelper->isSiteAuthorized() && !$licenseHelper->isActivated())) {
+        if (!$licenseHelper->isActivated()) {
             $this->wpAddFilter(
                 'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
                 'pluginsPageLink'
@@ -84,19 +75,34 @@ class GetPremium extends Container implements Module
     {
         $urlHelper = vchelper('Url');
         wp_register_script(
-            'vcv:settings:script',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+            'vcv:wpactivation:script',
+            $urlHelper->assetUrl('dist/wpactivation.bundle.js'),
             [],
             VCV_VERSION
         );
         wp_register_style(
-            'vcv:settings:style',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+            'vcv:wpactivation:style',
+            $urlHelper->assetUrl('dist/wpactivation.bundle.css'),
             [],
             VCV_VERSION
         );
-        wp_enqueue_script('vcv:settings:script');
-        wp_enqueue_style('vcv:settings:style');
+        wp_enqueue_script('vcv:wpactivation:script');
+        wp_enqueue_style('vcv:wpactivation:style');
+        $this->addFilter('vcv:license:variables', 'addActivationVariables');
+    }
+
+    protected function addActivationVariables(
+        $variables,
+        CurrentUser $currentUserAccessHelper,
+        EditorPostType $editorPostTypeHelper
+    ) {
+        $variables[] = [
+            'key' => 'VCV_ACTIVATION_CURRENT_PAGE',
+            'value' => '',
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 
     /**
@@ -121,27 +127,6 @@ class GetPremium extends Container implements Module
             '<strong style="vertical-align: middle;font-weight:500;">%s</strong>',
             __('Go Premium', 'vcwb')
         );
-    }
-
-    /**
-     * Add target _blank to external "Go Premium" link in sidebar
-     */
-    protected function addJs()
-    {
-        evcview('premium/partials/get-premium-js');
-    }
-
-    /**
-     * Add style to "Go Premium" link in sidebar
-     */
-    protected function addCss()
-    {
-        evcview('premium/partials/get-premium-css');
-    }
-
-    public function getActivePage()
-    {
-        return 'go-premium';
     }
 
     /**

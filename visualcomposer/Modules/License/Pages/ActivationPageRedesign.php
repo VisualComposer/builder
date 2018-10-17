@@ -94,6 +94,12 @@ class ActivationPageRedesign extends Container implements Module
                 'type' => 'constant',
             ];
         }
+        $variables[] = [
+            'key' => 'VCV_ACTIVATION_PREMIUM_URL',
+            'value' => admin_url('admin.php?page=vcv-upgrade'),
+            'type' => 'constant',
+        ];
+
 
         return $variables;
     }
