@@ -36,7 +36,9 @@ module.exports = Object.assign({}, config, {
           },
           compress: false,
           ecma: 6,
-          mangle: true
+          mangle: {
+            safari10: true
+          }
           // compress: {
           //   // unsafe_comps: true,
           //   // properties: true,
