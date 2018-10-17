@@ -97,9 +97,11 @@ class Token extends Container implements Helper
         if ('account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
             $body = apply_filters('vcv:create:token:attributes', $body);
         }
-        if ($requestHelper->input('category') && 'account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
-            $body['category'] = $requestHelper->input('category');
-            vchelper('Options')->set('activation-category', $requestHelper->input('category'));
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            if ($requestHelper->input('category') && 'account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
+                $body['category'] = $requestHelper->input('category');
+                vchelper('Options')->set('activation-category', $requestHelper->input('category'));
+            }
         }
         if ($licenseHelper->isActivated()) {
             $body['license-key'] = $licenseHelper->getKey();
