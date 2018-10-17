@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 trait Page
 {
     /**
+     * Get URL slug
      * @return string
      */
     public function getSlug()
@@ -22,18 +23,7 @@ trait Page
     }
 
     /**
-     * @param mixed $slug
-     *
-     * @return $this
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = (string)$slug;
-
-        return $this;
-    }
-
-    /**
+     * @deprecated
      * @return mixed
      */
     public function getTemplatePath()
@@ -42,19 +32,8 @@ trait Page
     }
 
     /**
-     * @param mixed $templatePath
-     *
-     * @return $this
-     */
-    public function setTemplatePath($templatePath)
-    {
-        $this->templatePath = $templatePath;
-
-        return $this;
-    }
-
-    /**
-     *
+     * Code executed in render method just before view open
+     * Useful to enqueue assets
      */
     protected function beforeRender()
     {
@@ -76,15 +55,15 @@ trait Page
             method_exists($this, 'getRenderArgs') ? (array)$this->call('getRenderArgs') : [],
             [
                 'controller' => $this,
-                'slug' => $this->getSlug(),
-                'path' => $this->getTemplatePath(),
+                'slug' => $this->slug,
+                'path' => $this->templatePath,
                 'page' => $page,
             ]
         );
-        if (!$this->getTemplatePath()) {
+        if (!$this->templatePath) {
             return '';
         }
 
-        return vcview($this->getTemplatePath(), $args);
+        return vcview($this->templatePath, $args);
     }
 }

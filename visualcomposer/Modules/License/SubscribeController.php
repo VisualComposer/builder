@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Account;
+namespace VisualComposer\Modules\License;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -22,8 +22,11 @@ class SubscribeController extends Container implements Module
 
     public function __construct()
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
         if (vcvenv('VCV_ENV_ADDONS_ID') === 'account') {
-            /** @see \VisualComposer\Modules\Account\SubscribeController::subscribeLiteVersion */
+            /** @see \VisualComposer\Modules\License\SubscribeController::subscribeLiteVersion */
             $this->addEvent('vcv:activation:finish', 'subscribeLiteVersion');
         }
     }

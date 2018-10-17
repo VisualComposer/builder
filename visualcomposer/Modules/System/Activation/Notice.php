@@ -20,6 +20,9 @@ class Notice extends Container implements Module
 
     public function __construct()
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
         $this->wpAddAction('pre_current_active_plugins', 'renderPluginsNameVariable');
         $this->wpAddAction('pre_current_active_plugins', 'enqueueScripts');
         $this->wpAddAction('pre_current_active_plugins', 'renderPluginNoticeTemplate');

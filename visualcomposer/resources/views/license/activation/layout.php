@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$variables = vcfilter('vcv:account:variables', []);
+$variables = vcfilter('vcv:license:variables', []);
 if (is_array($variables)) {
     foreach ($variables as $variable) {
         if (is_array($variable) && isset($variable['key'], $variable['value'])) {

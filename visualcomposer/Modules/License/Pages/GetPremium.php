@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Premium\Pages;
+namespace VisualComposer\Modules\License\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -16,6 +16,7 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Modules\Settings\Traits\Page;
+use VisualComposer\Modules\Settings\Traits\SubMenu;
 
 /**
  * Class GetPremium.
@@ -23,6 +24,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class GetPremium extends Container implements Module
 {
     use Page;
+    use SubMenu;
     use EventsFilters;
     use WpFiltersActions;
 
@@ -36,47 +38,42 @@ class GetPremium extends Container implements Module
      */
     protected $templatePath = 'account/partials/activation-layout';
 
-    public function __construct(License $licenseHelper, Token $tokenHelper, Request $requestHelper)
+    public function __construct(License $licenseHelper, Token $tokenHelper)
     {
-        if (vcvenv('VCV_ENV_LICENSES')) {
-            if (!$licenseHelper->isActivated()) {
-                $this->wpAddAction(
-                    'in_admin_footer',
-                    'addJs'
-                );
-                $this->wpAddAction(
-                    'in_admin_header',
-                    'addCss'
-                );
-            }
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
 
-            $this->addEvent(
-                'vcv:inited',
-                function (License $licenseHelper, Request $requestHelper) {
-                    if (!$licenseHelper->isActivated()) {
-                        /** @see \VisualComposer\Modules\Account\Pages\ActivationPage::addPage */
-                        $this->addFilter(
-                            'vcv:settings:getPages',
-                            'addPage',
-                            70
-                        );
-                    } elseif ($requestHelper->input('page') === $this->getSlug()) {
-                        $aboutPage = vcapp('SettingsPagesAbout');
-                        wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
-                        exit;
-                    }
-                },
-                70
+        if (!$licenseHelper->isActivated()) {
+            $this->wpAddAction(
+                'in_admin_footer',
+                'addJs'
             );
+            $this->wpAddAction(
+                'in_admin_header',
+                'addCss'
+            );
+        }
 
-            if (!$tokenHelper->isSiteAuthorized()
-                || ($tokenHelper->isSiteAuthorized() && !$licenseHelper->isActivated())
-            ) {
-                $this->wpAddFilter(
-                    'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
-                    'pluginsPageLink'
-                );
-            }
+        $this->wpAddAction(
+            'admin_menu',
+            function (License $licenseHelper, Request $requestHelper) {
+                if (!$licenseHelper->isActivated()) {
+                    /** @see \VisualComposer\Modules\License\Pages\GetPremium::addPage */
+                    $this->call('addPage');
+                } elseif ($requestHelper->input('page') === $this->getSlug()) {
+                    wp_redirect(admin_url('admin.php?page=vcv-about'));
+                    exit;
+                }
+            },
+            70
+        );
+
+        if (!$tokenHelper->isSiteAuthorized() || ($tokenHelper->isSiteAuthorized() && !$licenseHelper->isActivated())) {
+            $this->wpAddFilter(
+                'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
+                'pluginsPageLink'
+            );
         }
     }
 
@@ -85,18 +82,29 @@ class GetPremium extends Container implements Module
      */
     protected function beforeRender()
     {
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:settings:script',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_style(
+            'vcv:settings:style',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+            [],
+            VCV_VERSION
+        );
         wp_enqueue_script('vcv:settings:script');
         wp_enqueue_style('vcv:settings:style');
     }
 
     /**
-     * @param array $pages
      *
-     * @return array
      */
-    protected function addPage($pages)
+    protected function addPage()
     {
-        $pages[] = [
+        $page = [
             'slug' => $this->getSlug(),
             'title' => $this->buttonTitle(),
             'layout' => 'standalone',
@@ -104,8 +112,7 @@ class GetPremium extends Container implements Module
             'controller' => $this,
             'capability' => 'manage_options',
         ];
-
-        return $pages;
+        $this->addSubmenuPage($page);
     }
 
     protected function buttonTitle()
@@ -146,9 +153,11 @@ class GetPremium extends Container implements Module
      */
     protected function pluginsPageLink($links)
     {
-        $getPremiumPage = vcapp('PremiumPagesGetPremium');
-
-        $goPremiumLink = '<a href="' . esc_url(admin_url('admin.php?page=' . rawurlencode($getPremiumPage->getSlug()))) . '&vcv-ref=plugins-page">' . __('Go Premium', 'vcwb') . '</a>';
+        $goPremiumLink = sprintf(
+            '<a href="%s">%s</a>',
+            esc_url(admin_url('admin.php?page=vcv-go-premium')) . '&vcv-ref=plugins-page',
+            __('Go Premium', 'vcwb')
+        );
 
         array_push($links, $goPremiumLink);
 
