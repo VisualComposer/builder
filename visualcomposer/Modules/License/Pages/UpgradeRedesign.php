@@ -16,6 +16,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
@@ -126,11 +127,19 @@ class UpgradeRedesign extends Container implements Module
         $this->addFilter('vcv:license:variables', 'addActivationVariables');
     }
 
-    protected function addActivationVariables($variables)
+    protected function addActivationVariables($variables, Url $urlHelper)
     {
         $variables[] = [
-            'key' => 'VCV_CREATE_NEW_URL',
-            'value' => admin_url('admin.php?page=vcv-about'),
+            'key' => 'VCV_UPDATE_ACTIONS_URL',
+            'value' => $urlHelper->adminAjax(
+                ['vcv-action' => 'account:activation:adminNonce']
+            ),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_UPDATE_AJAX_TIME',
+            'value' => intval($_SERVER['REQUEST_TIME']),
             'type' => 'constant',
         ];
 
