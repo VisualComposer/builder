@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Account;
+namespace VisualComposer\Modules\License;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -15,7 +15,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Modules\Account\Pages\ActivationPage;
+use VisualComposer\Modules\License\Pages\ActivationPage;
 
 class ActivationRedirectController extends Container implements Module
 {
@@ -24,9 +24,12 @@ class ActivationRedirectController extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Account\ActivationRedirectController::setRedirect */
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
+        /** @see \VisualComposer\Modules\License\ActivationRedirectController::setRedirect */
         $this->addEvent('vcv:system:activation:hook', 'setRedirect');
-        /** @see \VisualComposer\Modules\Account\ActivationRedirectController::doRedirect */
+        /** @see \VisualComposer\Modules\License\ActivationRedirectController::doRedirect */
         $this->wpAddAction('admin_init', 'doRedirect');
 
         $this->addFilter(
@@ -54,7 +57,7 @@ class ActivationRedirectController extends Container implements Module
      * Do redirect if required on welcome page
      *
      * @param $response
-     * @param \VisualComposer\Modules\Account\Pages\ActivationPage $activationWelcomePageModule
+     * @param \VisualComposer\Modules\License\Pages\ActivationPage $activationWelcomePageModule
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return

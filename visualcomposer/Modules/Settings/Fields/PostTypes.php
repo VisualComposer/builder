@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Settings\Pages;
+namespace VisualComposer\Modules\Settings\Fields;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -24,13 +24,7 @@ class PostTypes extends Container implements Module
     use WpFiltersActions;
     use EventsFilters;
 
-    public function getSlug()
-    {
-        /** @var Settings $settings */
-        $settings = vcapp('SettingsPagesSettings');
-
-        return $settings->getSlug();
-    }
+    protected $slug = 'vcv-settings';
 
     /**
      * General constructor.
@@ -39,12 +33,12 @@ class PostTypes extends Container implements Module
      */
     public function __construct(Token $tokenHelper)
     {
-        if ($tokenHelper->isSiteAuthorized()) {
-            $this->optionGroup = $this->getSlug();
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN') || $tokenHelper->isSiteAuthorized()) {
+            $this->optionGroup = $this->slug;
             $this->optionSlug = 'vcv-post-types';
-            /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::buildPage */
+            /** @see \VisualComposer\Modules\Settings\Fields\PostTypes::buildPage */
             $this->wpAddAction(
-                'vcv:settings:initAdmin:page:' . $this->getSlug(),
+                'admin_init',
                 'buildPage'
             );
         }
@@ -67,7 +61,7 @@ class PostTypes extends Container implements Module
         $this->addSection(
             [
                 'title' => __('Post Types', 'vcwb'),
-                'page' => $this->getSlug(),
+                'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]
         );
@@ -76,13 +70,12 @@ class PostTypes extends Container implements Module
         foreach ($availablePostTypes as $postType) {
             $fieldCallback = function ($data) use ($postType) {
                 /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::renderPostTypes */
-                // @codingStandardsIgnoreLine
                 echo $this->call('renderPostTypes', ['data' => $data, 'postType' => $postType]);
             };
 
             $this->addField(
                 [
-                    'page' => $this->getSlug(),
+                    'page' => $this->slug,
                     'title' => $postType['label'],
                     'name' => 'post-types',
                     'id' => 'vcv-post-types-' . $postType['value'],

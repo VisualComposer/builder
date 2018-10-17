@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 /**
- * @var \VisualComposer\Modules\Account\Pages\ActivationPage $controller
+ * @var \VisualComposer\Modules\License\Pages\ActivationPage $controller
  */
 ?>
 

@@ -29,10 +29,8 @@ class DeactivationController extends Container implements Module
      */
     public function __construct()
     {
-        if (vcvenv('VCV_ENV_LICENSES')) {
-            /** @see \VisualComposer\Modules\License\DeactivationController::pingDeactivation */
-            $this->addFilter('vcv:ajax:license:deactivation:ping', 'pingDeactivation');
-        }
+        /** @see \VisualComposer\Modules\License\DeactivationController::pingDeactivation */
+        $this->addFilter('vcv:ajax:license:deactivation:ping', 'pingDeactivation');
 
         /** @see \VisualComposer\Modules\License\DeactivationController::unsetOptions */
         $this->addEvent('vcv:system:deactivation:hook vcv:system:factory:reset', 'unsetOptions');
@@ -40,6 +38,7 @@ class DeactivationController extends Container implements Module
 
     /**
      * Force license deactivation
+     *
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper

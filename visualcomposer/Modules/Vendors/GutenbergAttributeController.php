@@ -27,25 +27,20 @@ class GutenbergAttributeController extends Container implements Module
     use EventsFilters;
     use Fields;
 
-    public function getSlug()
-    {
-        /** @var Settings $settings */
-        $settings = vcapp('SettingsPagesSettings');
-
-        return $settings->getSlug();
-    }
-
     public function __construct()
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
         $this->wpAddAction('init', 'initialize');
 
-        $this->optionGroup = $this->getSlug();
+        $this->optionGroup = 'vcv-settings';
         $this->optionSlug = 'vcv-gutenberg-editor';
         if (function_exists('the_gutenberg_project')) {
             $this->addFilter('vcv:helpers:settingsDefault', 'defaultSettings');
             /** @see  \VisualComposer\Modules\Vendors\GutenbergAttributeController::buildPage */
             $this->wpAddAction(
-                'vcv:settings:initAdmin:page:' . $this->getSlug(),
+                'vcv:settings:initAdmin:page:' . 'vcv-settings',
                 'buildPage',
                 90
             );
@@ -73,7 +68,7 @@ class GutenbergAttributeController extends Container implements Module
         $this->addSection(
             [
                 'title' => __('Gutenberg Editor', 'vcwb'),
-                'page' => $this->getSlug(),
+                'page' => 'vcv-settings',
                 'callback' => $sectionCallback,
             ]
         );
@@ -85,7 +80,7 @@ class GutenbergAttributeController extends Container implements Module
 
         $this->addField(
             [
-                'page' => $this->getSlug(),
+                'page' => 'vcv-settings',
                 'title' => __('Editor', 'vcwb'),
                 'name' => 'settings',
                 'id' => 'vcv-settings-gutenberg-editor',

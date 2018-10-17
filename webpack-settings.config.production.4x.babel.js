@@ -25,6 +25,9 @@ module.exports = Object.assign({}, webpackConfig, {
         uglifyOptions: {
           output: {
             comments: false
+          },
+          mangle: {
+            safari10: true
           }
           // compress: {
           //   // unsafe_comps: true,

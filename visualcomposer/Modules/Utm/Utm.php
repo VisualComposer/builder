@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Utm;
+namespace VisualComposer\Modules\Utm;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -19,6 +19,7 @@ class Utm extends Container implements Module
 
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Utm\Utm::outputUtm */
         $this->addFilter(
             'vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput vcv:backend:settings:extraOutput',
             'outputUtm'

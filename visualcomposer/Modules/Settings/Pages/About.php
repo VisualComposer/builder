@@ -13,7 +13,9 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
+use VisualComposer\Modules\Settings\Traits\SubMenu;
 
 /**
  * Class About.
@@ -21,6 +23,8 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class About extends Container implements Module
 {
     use Page;
+    use SubMenu;
+    use WpFiltersActions;
     use EventsFilters;
 
     /**
@@ -38,22 +42,18 @@ class About extends Container implements Module
      */
     public function __construct()
     {
-        $this->addEvent(
-            'vcv:inited',
+        $this->wpAddAction(
+            'admin_menu',
             function (Token $tokenHelper, Request $requestHelper) {
                 if (!$tokenHelper->isSiteAuthorized()) {
                     if ($requestHelper->input('page') === $this->getSlug()) {
-                        $activationPageModule = vcapp('AccountPagesActivationPage');
+                        $activationPageModule = vcapp('LicensePagesActivationPage');
                         wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
                         exit;
                     }
                 } else {
                     /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
-                    $this->addFilter(
-                        'vcv:settings:getPages',
-                        'addPage',
-                        70
-                    );
+                    $this->call('addPage');
                 }
             }
         );
@@ -64,18 +64,29 @@ class About extends Container implements Module
      */
     protected function beforeRender()
     {
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:settings:script',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_style(
+            'vcv:settings:style',
+            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+            [],
+            VCV_VERSION
+        );
         wp_enqueue_script('vcv:settings:script');
         wp_enqueue_style('vcv:settings:style');
     }
 
     /**
-     * @param array $pages
      *
-     * @return array
      */
-    protected function addPage($pages)
+    protected function addPage()
     {
-        $pages[] = [
+        $page = [
             'slug' => $this->getSlug(),
             'title' => __('About', 'vcwb'),
             'layout' => 'standalone',
@@ -83,8 +94,7 @@ class About extends Container implements Module
             'controller' => $this,
             'capability' => 'edit_posts',
         ];
-
-        return $pages;
+        $this->addSubmenuPage($page);
     }
 
     public function getActivePage()

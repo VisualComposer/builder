@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Account;
+namespace VisualComposer\Modules\License;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -21,10 +21,10 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
- * Class ActivationController
- * @package VisualComposer\Modules\Account
+ * Class UpdateControllerRedesign
+ * @package VisualComposer\Modules\License
  */
-class ActivationController extends Container implements Module
+class UpdateControllerRedesign extends Container implements Module
 {
     use WpFiltersActions;
     use EventsFilters;
@@ -34,9 +34,12 @@ class ActivationController extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
+        /** @see \VisualComposer\Modules\License\ActivationController::requestActivation */
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
-        /** @see \VisualComposer\Modules\Account\ActivationController::checkActivationError */
+        /** @see \VisualComposer\Modules\License\ActivationController::checkActivationError */
         $this->addFilter(
             'vcv:ajax:account:activation:adminNonce vcv:hub:download:bundle:*',
             'checkActivationError',
@@ -82,12 +85,10 @@ class ActivationController extends Container implements Module
 
             if ($licenseHelper->isActivated()) {
                 $id = VCV_PLUGIN_URL . $licenseHelper->getKey();
-            } elseif (vcvenv('VCV_ENV_ADDONS_ID') === 'account') {
-                $id = VCV_PLUGIN_URL . trim($requestHelper->input('vcv-email'));
-                $optionsHelper->set('hubTokenId', $id);
             } else {
-                $id = vcvenv('ENV_VCV_SITE_ID', '');
+                $id = VCV_PLUGIN_URL;
             }
+            $optionsHelper->set('hubTokenId', $id);
 
             $token = $tokenHelper->createToken($id);
             if (!vcIsBadResponse($token)) {
@@ -116,7 +117,10 @@ class ActivationController extends Container implements Module
             $expiresAfter = $expirationTime - time();
             $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
             $loggerHelper->log(
-                sprintf(__('Activation failed. Please wait %1$s seconds before you try again', 'vcwb') . ' #10016', $expiresAfter),
+                sprintf(
+                    __('Activation failed. Please wait %1$s seconds before you try again', 'vcwb') . ' #10016',
+                    $expiresAfter
+                ),
                 [
                     'getTransient' => $optionsHelper->getTransient('vcv:activation:request'),
                     'expiresAfter' => $expiresAfter,

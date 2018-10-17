@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * @var \VisualComposer\Modules\Account\Pages\ActivationPage $controller
+ * @var \VisualComposer\Modules\License\Pages\ActivationPage $controller
  * @var array $page
  */
 $expirationTime = get_option('_transient_timeout_vcv-' . VCV_VERSION . 'vcv:activation:request');

@@ -8,12 +8,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Autoload;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Application as ApplicationVc;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-class AddonsAutoload extends ElementsAutoload implements Module
+class AddonsAutoload extends Autoload implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
@@ -60,6 +61,6 @@ class AddonsAutoload extends ElementsAutoload implements Module
     {
         $components = $addon['phpFiles'];
 
-        return $this->checkElementController($components);
+        return $this->tokenizeComponents($components);
     }
 }

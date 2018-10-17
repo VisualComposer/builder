@@ -20,6 +20,9 @@ class AssetsShared extends Container implements Helper
 
     public function getSharedAssets()
     {
+        if (vcvenv('VCV_FT_ASSETS_INSIDE_PLUGIN')) {
+            return $this->getMergedSharedAssets();
+        }
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             $optionsHelper = vchelper('Options');
             $assets = $optionsHelper->get('assetsLibrary', []);
@@ -59,6 +62,44 @@ class AssetsShared extends Container implements Helper
 
             return $assetsLibraries;
         }
+    }
+
+    protected function getMergedSharedAssets()
+    {
+        $assetsLibraries = [];
+        $json = vchelper('File')->getContents(
+            VCV_PLUGIN_DIR_PATH . 'public/sources/assetsLibrary/assetsLibraries.json'
+        );
+        $data = json_decode($json);
+        if (isset($data->assetsLibrary) && is_array($data->assetsLibrary)) {
+            foreach ($data->assetsLibrary as $asset) {
+                if (isset($asset->name)) {
+                    $name = $asset->name;
+                    $assetsLibraries[ $name ] = [
+                        'dependencies' => $asset->dependencies,
+                        'jsBundle' => isset($asset->jsBundle) ? $this->parsePath($name, $asset->jsBundle) : '',
+                        'cssBundle' => isset($asset->cssBundle) ? $this->parsePath($name, $asset->cssBundle)
+                            : '',
+                    ];
+                }
+            }
+        }
+        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
+            $optionsHelper = vchelper('Options');
+            $assets = $optionsHelper->get('assetsLibrary', []);
+            $assetsHelper = vchelper('Assets');
+            foreach ($assets as $key => $value) {
+                if (isset($value['jsBundle'])) {
+                    $value['jsBundle'] = $assetsHelper->getAssetUrl($value['jsBundle']);
+                }
+                if (isset($value['cssBundle'])) {
+                    $value['cssBundle'] = $assetsHelper->getAssetUrl($value['cssBundle']);
+                }
+                $assetsLibraries[ $key ] = $value;
+            }
+        }
+
+        return $assetsLibraries;
     }
 
     public function setSharedAssets($assets)
