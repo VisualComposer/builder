@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Settings;
+namespace VisualComposer\Modules\Settings\Fields;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -18,8 +18,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
-use VisualComposer\Modules\Account\Pages\ActivationPage;
-use VisualComposer\Modules\Settings\Pages\Settings;
+use VisualComposer\Modules\License\Pages\ActivationPage;
 use VisualComposer\Modules\Settings\Traits\Fields;
 
 class FactoryResetController extends Container implements Module
@@ -28,28 +27,27 @@ class FactoryResetController extends Container implements Module
     use EventsFilters;
     use Fields;
 
-    public function getSlug()
-    {
-        /** @var Settings $settings */
-        $settings = vcapp('SettingsPagesSettings');
-
-        return $settings->getSlug();
-    }
-
     public function __construct()
     {
-        $this->optionGroup = $this->getSlug();
+        $this->optionGroup = 'vcv-settings';
         $this->optionSlug = 'vcv-factory';
-        /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::buildPage */
+        /** @see \VisualComposer\Modules\Settings\Fields\FactoryResetController::buildPage */
         $this->wpAddAction(
-            'vcv:settings:initAdmin:page:' . $this->getSlug(),
+            'admin_init',
             'buildPage',
-            100
+            11
         );
 
         $this->addFilter('vcv:ajax:vcv:settings:factoryReset:adminNonce', 'initiateFactoryReset');
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     * @param \VisualComposer\Helpers\Nonce $nonceHelper
+     */
     protected function buildPage(
         Options $optionsHelper,
         Request $requestHelper,
@@ -71,7 +69,7 @@ class FactoryResetController extends Container implements Module
             $link = sprintf(
                 '<a href="%s" onclick="return confirm(\'%s\')">%s</a>',
                 // @codingStandardsIgnoreLine
-                $url,
+                esc_url($url),
                 esc_attr($confirm),
                 esc_html($linkTitle)
             );
@@ -90,12 +88,20 @@ class FactoryResetController extends Container implements Module
         $this->addSection(
             [
                 'title' => __('Reset', 'vcwb'),
-                'page' => $this->getSlug(),
+                'page' => 'vcv-settings',
                 'callback' => $sectionCallback,
             ]
         );
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
+     * @param \VisualComposer\Helpers\Logger $loggerHelper
+     * @param \VisualComposer\Modules\License\Pages\ActivationPage $activationPageModule
+     *
+     * @return bool
+     */
     protected function initiateFactoryReset(
         Options $optionsHelper,
         CurrentUser $currentUserAccess,
@@ -104,7 +110,7 @@ class FactoryResetController extends Container implements Module
     ) {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             $loggerHelper->log(__('Wrong permissions', 'vcwb') . ' #10072');
-            wp_redirect(admin_url('admin.php?page=' . rawurlencode($this->getSlug()) . '&reset=false'));
+            wp_redirect(admin_url('admin.php?page=vcv-settings&reset=false'));
             die;
         }
         if (!$optionsHelper->getTransient('vcv:settings:factoryReset:allow')) {
@@ -113,7 +119,6 @@ class FactoryResetController extends Container implements Module
             return false;
         }
         $optionsHelper->deleteTransient('vcv:settings:factoryReset:allow');
-        $optionsHelper->set('version', VCV_VERSION);
         vcevent('vcv:system:factory:reset');
         wp_cache_flush();
         wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));

@@ -22,6 +22,9 @@ class UpdateFePage extends Container implements Module
 
     public function __construct(Token $tokenHelper)
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
         if (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized()) {
             $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', -1);
             $this->addFilter('vcv:frontend:update:head:extraOutput', 'addUpdateAssets', 10);

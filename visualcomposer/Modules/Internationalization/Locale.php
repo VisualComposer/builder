@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Internationalization;
+namespace VisualComposer\Modules\Internationalization;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -11,10 +11,8 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
-use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Localizations;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -27,7 +25,7 @@ class Locale extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\Internationalization\Locale::outputLocalizations */
+        /** @see \VisualComposer\Modules\Internationalization\Locale::outputLocalizations */
         $this->addFilter(
             'vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput vcv:backend:settings:extraOutput',
             'outputLocalizations'

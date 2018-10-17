@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Account;
+namespace VisualComposer\Modules\License;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -22,6 +22,9 @@ class ErrorReportingController extends Container implements Module
 
     public function __construct()
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
         $this->addFilter('vcv:ajax:account:error:report:adminNonce', 'sendReport');
         $this->addFilter('vcv:backend:settings:extraOutput', 'addReportDetails');
         $this->addFilter('vcv:frontend:update:head:extraOutput', 'addReportDetails');
@@ -29,6 +32,7 @@ class ErrorReportingController extends Container implements Module
 
     protected function addReportDetails($response, $payload)
     {
+        /** @see \VisualComposer\Modules\License\ErrorReportingController::getDetails */
         $data = $this->call('getDetails');
         $variable = 'window.vcvErrorReportDetails=' . json_encode($data);
         $response[] = sprintf('<script>%s</script>', $variable);
@@ -43,10 +47,8 @@ class ErrorReportingController extends Container implements Module
         Request $requestHelper
     ) {
         if ($currentUserAccessHelper->wpAll('manage_options')->get()) {
-            $licenseHelper = vchelper('License');
-            $optionsHelper = vchelper('Options');
-
-            $data = $this->getDetails($licenseHelper, $optionsHelper);
+            /** @see \VisualComposer\Modules\License\ErrorReportingController::getDetails */
+            $data = $this->call('getDetails');
             $data['request'] = $requestHelper->all();
 
             $request = wp_remote_post(
@@ -87,13 +89,10 @@ class ErrorReportingController extends Container implements Module
         $data['url'] = VCV_PLUGIN_URL;
         $data['version'] = VCV_VERSION;
         $data['multisite'] = is_multisite();
-        $data['category'] = $optionsHelper->get('activation-category');
-        $data['email'] = $optionsHelper->get('activation-email');
         $data['admin-email'] = get_option('admin_email');
         $currentUser = wp_get_current_user();
         // @codingStandardsIgnoreLine
         $data['current-email'] = $currentUser->user_email;
-        $data['agreement'] = $optionsHelper->get('activation-agreement');
         $data['siteAuthState'] = $optionsHelper->get('siteAuthState');
         $theme = wp_get_theme();
         $data['active-theme'] = [];
