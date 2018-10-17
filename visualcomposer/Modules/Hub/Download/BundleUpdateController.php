@@ -21,7 +21,7 @@ class BundleUpdateController extends Container implements Module
 
     public function __construct(Token $tokenHelper)
     {
-        if (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized()) {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN') || (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized())) {
             $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
             /** @see \VisualComposer\Modules\Hub\Download\BundleUpdateController::checkVersion */
             $this->addFilter('vcv:hub:update:checkVersion', 'checkVersion');

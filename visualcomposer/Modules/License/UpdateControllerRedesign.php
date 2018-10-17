@@ -118,7 +118,7 @@ class UpdateControllerRedesign extends Container implements Module
             $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
             $loggerHelper->log(
                 sprintf(
-                    __('Activation failed. Please wait %1$s seconds before you try again', 'vcwb') . ' #10016',
+                    __('Activation already in process. Please wait %1$s seconds before you try again', 'vcwb') . ' #10016',
                     $expiresAfter
                 ),
                 [
