@@ -96,10 +96,40 @@
   justify-content: center;
   align-items: center;
 
+  .vcv-loading-dots-container {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    animation: vcvDotsRotate 2s infinite linear;
+  }
+
   .vcv-loading-dots-container .vcv-loading-dot {
-    background: #BDBDBD;
+    width: 60%;
+    height: 60%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background-color: #BDBDBD;
+    border-radius: 100%;
+    animation: vcvDotsBounce 2s infinite ease-in-out;
+  }
+
+  .vcv-loading-dots-container .vcv-loading-dot-2 {
+    top: auto;
+    bottom: 0;
+    animation-delay: -1s;
   }
 }
+
+@keyframes vcvDotsRotate {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes vcvDotsBounce {
+  0%, 100% { transform: scale(0); }
+  50% { transform: scale(1); }
+}
+
 
 .vcv-activation-loading-screen .vcv-activation-loading-text {
   text-align: center;
