@@ -187,7 +187,7 @@ class HubCategories extends Container implements Module
                 ],
                 'Misc' => [
                     'title' => 'Misc',
-                    'elements' => ['rawHtml', 'rawJs', 'demoElement', 'syntaxHighlighter', 'globalTemplate', 'timelineWithIcons'],
+                    'elements' => ['rawHtml', 'rawJs', 'demoElement', 'syntaxHighlighter', 'globalTemplate', 'timelineWithIcons', 'bannerElement'],
                     'icon' => $urlHelper->to('devCategories/categories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('devCategories/categories/iconsDark/Misc.svg'),
                 ],
