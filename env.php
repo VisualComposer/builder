@@ -273,7 +273,6 @@ if (!defined('VCV_FT_TEMPLATE_DATA_ASYNC')) {
     );
 }
 
-
 if (!defined('VCV_FT_ACTIVATION_REDESIGN')) {
     define(
         'VCV_FT_ACTIVATION_REDESIGN',
@@ -281,3 +280,9 @@ if (!defined('VCV_FT_ACTIVATION_REDESIGN')) {
     );
 }
 
+if (!defined('VCV_FT_ASSETS_INSIDE_PLUGIN')) {
+    define(
+        'VCV_FT_ASSETS_INSIDE_PLUGIN',
+        false
+    );
+}
