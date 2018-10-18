@@ -153,6 +153,23 @@ class UpgradeRedesign extends Container implements Module
             'value' => intval($_SERVER['REQUEST_TIME']),
             'type' => 'constant',
         ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_WP_BUNDLE_URL',
+            'value' => $urlHelper->to('public/dist/wp.bundle.js'),
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_VENDOR_URL',
+            'value' => $urlHelper->to('public/dist/vendor.bundle.js'),
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_GLOBAL_VARIABLES_URL',
+            'value' => $urlHelper->adminAjax(
+                ['vcv-action' => 'elements:globalVariables:adminNonce']
+            ),
+            'type' => 'constant',
+        ];
 
         return $variables;
     }
