@@ -49,7 +49,13 @@ if ('nav-bar' === $requestHelper->input('vcv-ref')) {
         <?php echo esc_html__('Get Premium Elements, Templates, and Support.', 'vcwb'); ?>
     </div>
     <a href="<?php echo $utmHelper->get($utm); ?>" class="vcv-purchase-premium vcv-popup-button" target="_blank"><?php echo esc_html__('About Premium', 'vcwb'); ?></a>
-    <a href="#" class="vcv-activate-premium vcv-popup-button vcv-about-button-premium"><?php echo esc_html__('Activate Premium', 'vcwb'); ?></a>
+	<?php if (vcvenv('VCV_FT_ACTIVATION_FIELDS_MOVE')) : ?>
+		<form class="vcv-popup-form vcv-popup-form-light-theme" id="vcv-premium-activation-form" method="post" action="<?php echo esc_url(admin_url('admin.php?page=vcv-upgrade')); ?>">
+			<input type="submit" value="<?php echo esc_html__('Activate Premium', 'vcwb'); ?>" class="vcv-activate-premium vcv-popup-button" id="vcv-activate-premium-button">
+		</form>
+	<?php else : ?>
+		<a href="#" class="vcv-activate-premium vcv-popup-button vcv-about-button-premium"><?php echo esc_html__('Activate Premium', 'vcwb'); ?></a>
+	<?php endif; ?>
     <span class="vcv-popup-slider-item-text"><?php echo esc_html__('Unlock the most powerful and simplest way to create a professional website for your business.', 'vcwb'); ?></span>
     <div class="vcv-popup-go-premium-container"></div>
 </div>
