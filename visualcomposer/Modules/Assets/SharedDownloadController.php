@@ -26,7 +26,7 @@ class SharedDownloadController extends Container implements Module
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
             /** @see \VisualComposer\Modules\Assets\SharedDownloadController::updateSharedLibraries */
             $this->addFilter(
-                'vcv:hub:download:bundle vcv:hub:download:bundle:assets',
+                'vcv:hub:download:bundle vcv:hub:download:bundle:assets vcv:hub:download:bundle:asset/*',
                 'updateSharedLibraries',
                 70
             );
