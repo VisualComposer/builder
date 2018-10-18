@@ -68,7 +68,11 @@ class SharedDownloadController extends Container implements Module
             }
             $differ = vchelper('Differ');
             // Set old
-            $differ->set($assetsSharedHelper->getSharedAssets());
+            if (vcvenv('VCV_FT_ASSETS_INSIDE_PLUGIN')) {
+                $differ->set($optionsHelper->get('assetsLibrary', []));
+            } else {
+                $differ->set($assetsSharedHelper->getSharedAssets());
+            }
             // Merge new
             $differ->set($toSaveAssetsLibrary);
             $optionsHelper->set('assetsLibrary', $differ->get());
