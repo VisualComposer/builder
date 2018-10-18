@@ -1,18 +1,29 @@
 import React from 'react'
-// import { processActions } from './actions'
 
 const $ = window.jQuery
 
 export default class LoadingScreen extends React.Component {
   static actionRequestFailed = false
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static texts = {
+    downloadingAssetsText: LoadingScreen.localizations ? LoadingScreen.localizations.downloadingAssets : 'Downloading assets {i} of {cnt}: {name}',
+    downloadingInitialExtensionsText: LoadingScreen.localizations ? LoadingScreen.localizations.downloadingInitialExtensions : 'Downloading initial extensions',
+    savingResultsText: LoadingScreen.localizations ? LoadingScreen.localizations.savingResults : 'Saving Results',
+    postUpdateText: LoadingScreen.localizations ? LoadingScreen.localizations.postUpdateText : 'Update posts {i} in {cnt}: {name}',
+    doNotCloseWhileUpdateText: LoadingScreen.localizations ? LoadingScreen.localizations.doNotCloseWhileUpdateText : 'Don\'t close this window while download is in the progress.',
+    skipThisPostText: LoadingScreen.localizations ? LoadingScreen.localizations.skipThisPostText : 'Skip this post'
+  }
 
   constructor (props) {
     super(props)
 
     this.state = {
-      actions: [],
-      activeAction: 0,
-      error: null
+      assetsActions: [],
+      activeAssetsAction: 0,
+      activePostUpdate: 0,
+      error: null,
+      showSkipPostButton: false,
+      doneActions: false
     }
 
     this.setActions = this.setActions.bind(this)
@@ -35,7 +46,8 @@ export default class LoadingScreen extends React.Component {
         })
         .done(function (json) {
           if (json && json.status && json.actions) {
-            _this.setState({ actions: json.actions })
+            const assetsActions = json.actions.filter(item => item.action !== 'updatePosts')
+            _this.setState({ assetsActions: assetsActions })
             _this.processActions()
           } else {
             console.log('error')
@@ -85,16 +97,23 @@ export default class LoadingScreen extends React.Component {
   }
 
   getDownloadText () {
-    if (this.state.actions.length) {
-      const activeActionData = this.state.actions[ this.state.activeAction ]
-      return <p className='vcv-activation-loading-text'>Downloading bundle {this.state.activeAction + 1} of {this.state.actions.length}: {activeActionData.name}</p>
+    const { assetsActions, activeAssetsAction, doneActions } = this.state
+
+    if (doneActions) {
+      return <p className='vcv-activation-loading-text'>{LoadingScreen.texts.savingResultsText}</p>
+    }
+
+    if (assetsActions.length) {
+      const activeActionData = assetsActions[ activeAssetsAction ]
+      const loadingText = LoadingScreen.texts.downloadingAssetsText.replace('{i}', activeAssetsAction + 1).replace('{cnt}', assetsActions.length).replace('{name}', activeActionData.name)
+      return <p className='vcv-activation-loading-text'>{loadingText}</p>
     } else {
-      return <p className='vcv-activation-loading-text'>Downloading initial something</p>
+      return <p className='vcv-activation-loading-text'>{LoadingScreen.texts.downloadingInitialExtensionsText}</p>
     }
   }
 
   processActions () {
-    let cnt = this.state.actions.length
+    let cnt = this.state.assetsActions.length
 
     if (!cnt) {
       this.doneActions()
@@ -104,8 +123,8 @@ export default class LoadingScreen extends React.Component {
   }
 
   doAction () {
-    let cnt = this.state.actions.length
-    let action = this.state.actions[ this.state.activeAction ]
+    let cnt = this.state.assetsActions.length
+    let action = this.state.assetsActions[ this.state.activeAssetsAction ]
 
     if (action.action && action.action === 'updatePosts') {
       console.log('updatePosts')
@@ -126,10 +145,10 @@ export default class LoadingScreen extends React.Component {
       if (json && json.status) {
         LoadingScreen.actionRequestFailed = false
 
-        if (_this.state.activeAction === cnt - 1) {
+        if (_this.state.activeAssetsAction === cnt - 1) {
           _this.doneActions(false)
         } else {
-          _this.setState({ activeAction: _this.state.activeAction + 1 })
+          _this.setState({ activeAssetsAction: _this.state.activeAssetsAction + 1 })
           _this.doAction()
         }
       } else {
@@ -175,6 +194,7 @@ export default class LoadingScreen extends React.Component {
   }
 
   doneActions (requestFailed) {
+    this.setState({ doneActions: true })
     const _this = this
     $.ajax(window.VCV_UPDATE_FINISH_URL(),
       {
@@ -185,7 +205,6 @@ export default class LoadingScreen extends React.Component {
         }
       }
     ).done(function (json) {
-      console.log('done')
       if (json && json.status) {
         _this.props.setActiveScreen('finalScreen')
       } else {
@@ -224,6 +243,10 @@ export default class LoadingScreen extends React.Component {
     })
   }
 
+  skipPostUpdate () {
+    console.log('skip post update')
+  }
+
   render () {
     return (
       <div className='vcv-activation-loading-screen'>
@@ -233,8 +256,13 @@ export default class LoadingScreen extends React.Component {
         </div>
         {this.getDownloadText()}
         <p className='vcv-activation-loading-helper-text'>
-          Don't close this window while download is in the progress.
+          {LoadingScreen.texts.doNotCloseWhileUpdateText}
         </p>
+        {this.state.showSkipPostButton && (
+          <div className='vcv-activation-button-container'>
+            <button onClick={this.skipPostUpdate} className='vcv-activation-button'>Skip this post</button>
+          </div>
+        )}
       </div>
     )
   }

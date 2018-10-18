@@ -352,6 +352,10 @@ class Localizations extends Container implements Helper
             'addonWpbMigration_note' => __('Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element.', 'vcwb'),
             'addonWpbMigration_download_button' => __('Download Migration Addon', 'vcwb'),
             'addonWpbMigration_backToWordpress' => __('Back to WordPress', 'vcwb'),
+            'doNotCloseWhileUpdateText' => __('Don\'t close this window while download is in the progress.', 'vcwb'),
+            'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'vcwb'),
+            'anyLayoutFastAndEasy' => __('Any Layout. Fast and Easy.', 'vcwb'),
+            'skipThisPostText' => __('Skip this post', 'vcwb'),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
