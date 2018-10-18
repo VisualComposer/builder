@@ -1,4 +1,5 @@
 import React from 'react'
+import PostUpdater from '../../editor/modules/backendSettings/postUpdate'
 
 const $ = window.jQuery
 
@@ -19,17 +20,22 @@ export default class LoadingScreen extends React.Component {
 
     this.state = {
       assetsActions: [],
+      postUpdateData: null,
       activeAssetsAction: 0,
       activePostUpdate: 0,
       error: null,
       showSkipPostButton: false,
-      doneActions: false
+      assetsActionsDone: false,
+      postUpdateDone: false,
+      actionsStarted: false
     }
 
     this.setActions = this.setActions.bind(this)
     this.processActions = this.processActions.bind(this)
     this.doAction = this.doAction.bind(this)
     this.doneActions = this.doneActions.bind(this)
+    this.doPostUpdate = this.doPostUpdate.bind(this)
+    this.doUpdatePostAction = this.doUpdatePostAction.bind(this)
   }
 
   componentDidMount () {
@@ -47,7 +53,14 @@ export default class LoadingScreen extends React.Component {
         .done(function (json) {
           if (json && json.status && json.actions) {
             const assetsActions = json.actions.filter(item => item.action !== 'updatePosts')
-            _this.setState({ assetsActions: assetsActions })
+            const postUpdateActions = json.actions.filter(item => item.action === 'updatePosts')
+
+            _this.setState({
+              assetsActions: assetsActions,
+              postUpdateData: postUpdateActions.length ? postUpdateActions[ 0 ] : null,
+              actionsStarted: true,
+              assetsActionsDone: !assetsActions.length
+            })
             _this.processActions()
           } else {
             console.log('error')
@@ -97,18 +110,28 @@ export default class LoadingScreen extends React.Component {
   }
 
   getDownloadText () {
-    const { assetsActions, activeAssetsAction, doneActions } = this.state
+    const { assetsActions, activeAssetsAction, postUpdateData, activePostUpdate, assetsActionsDone, postUpdateDone, actionsStarted } = this.state
 
-    if (doneActions) {
-      return <p className='vcv-activation-loading-text'>{LoadingScreen.texts.savingResultsText}</p>
+    if (!actionsStarted) {
+      return <p className='vcv-activation-loading-text'>{LoadingScreen.texts.downloadingInitialExtensionsText}</p>
     }
 
-    if (assetsActions.length) {
+    // Show default actions if they are not finished
+    if (!assetsActionsDone) {
       const activeActionData = assetsActions[ activeAssetsAction ]
       const loadingText = LoadingScreen.texts.downloadingAssetsText.replace('{i}', activeAssetsAction + 1).replace('{cnt}', assetsActions.length).replace('{name}', activeActionData.name)
       return <p className='vcv-activation-loading-text'>{loadingText}</p>
-    } else {
-      return <p className='vcv-activation-loading-text'>{LoadingScreen.texts.downloadingInitialExtensionsText}</p>
+    }
+
+    // Show default actions if they are not finished
+    if (!postUpdateDone) {
+      const activePostUpdateData = postUpdateData.data[ activePostUpdate ]
+      const loadingText = LoadingScreen.texts.postUpdateText.replace('{i}', activePostUpdate + 1).replace('{cnt}', postUpdateData.data.length).replace('{name}', activePostUpdateData.name || 'No name')
+      return <p className='vcv-activation-loading-text'>{loadingText}</p>
+    }
+
+    if (assetsActionsDone && postUpdateDone) {
+      return <p className='vcv-activation-loading-text'>{LoadingScreen.texts.savingResultsText}</p>
     }
   }
 
@@ -116,20 +139,19 @@ export default class LoadingScreen extends React.Component {
     let cnt = this.state.assetsActions.length
 
     if (!cnt) {
-      this.doneActions()
+      if (this.state.postUpdateData) {
+        this.doPostUpdate()
+      } else {
+        this.doneActions(false)
+      }
     } else {
       this.doAction()
     }
   }
 
   doAction () {
-    let cnt = this.state.assetsActions.length
-    let action = this.state.assetsActions[ this.state.activeAssetsAction ]
-
-    if (action.action && action.action === 'updatePosts') {
-      console.log('updatePosts')
-    }
-
+    const cnt = this.state.assetsActions.length
+    const action = this.state.assetsActions[ this.state.activeAssetsAction ]
     const _this = this
 
     $.ajax(window.VCV_UPDATE_PROCESS_ACTION_URL(),
@@ -146,7 +168,12 @@ export default class LoadingScreen extends React.Component {
         LoadingScreen.actionRequestFailed = false
 
         if (_this.state.activeAssetsAction === cnt - 1) {
-          _this.doneActions(false)
+          _this.setState({ assetsActionsDone: true })
+          if (_this.state.postUpdateData) {
+            _this.doPostUpdate()
+          } else {
+            _this.doneActions(false)
+          }
         } else {
           _this.setState({ activeAssetsAction: _this.state.activeAssetsAction + 1 })
           _this.doAction()
@@ -193,8 +220,46 @@ export default class LoadingScreen extends React.Component {
     })
   }
 
+  doPostUpdate () {
+    const postUpdater = new PostUpdater(window.VCV_UPDATE_GLOBAL_VARIABLES_URL(), window.VCV_UPDATE_VENDOR_URL(), window.VCV_UPDATE_WP_BUNDLE_URL())
+
+    return this.doUpdatePostAction(postUpdater)
+  }
+
+  doUpdatePostAction = async (postUpdater) => {
+    const { postUpdateData, activePostUpdate } = this.state
+    const postData = postUpdateData.data[ activePostUpdate ]
+    const posts = postUpdateData.data
+
+    let ready = false
+    const to = window.setTimeout(() => {
+      console.log('skip button show')
+    }, 60 * 1000)
+
+    try {
+      await postUpdater.update(postData)
+      ready = true
+    } catch (e) {
+      console.log('log error')
+      console.log('show oops screen')
+    }
+    window.clearTimeout(to)
+    console.log('skip button hide')
+
+    if (ready === false) {
+      return
+    }
+
+    if (activePostUpdate + 1 < posts.length) {
+      this.setState({ activePostUpdate: activePostUpdate + 1 })
+      return this.doUpdatePostAction(postUpdater)
+    } else {
+      this.doneActions(false)
+    }
+  }
+
   doneActions (requestFailed) {
-    this.setState({ doneActions: true })
+    this.setState({ postUpdateDone: true })
     const _this = this
     $.ajax(window.VCV_UPDATE_FINISH_URL(),
       {
