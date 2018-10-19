@@ -102,6 +102,40 @@ class GetPremiumRedesign extends Container implements Module
             'type' => 'constant',
         ];
 
+        if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
+            $variables[] = [
+                'key' => 'VCV_CREATE_NEW_URL',
+                'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend'),
+                'type' => 'constant',
+            ];
+            $variables[] = [
+                'key' => 'VCV_CREATE_NEW_TEXT',
+                'value' => __('Create a blank page', 'vcwb'),
+                'type' => 'constant',
+            ];
+        } elseif ($currentUserAccessHelper->wpAll('edit_posts')->get()
+            && $editorPostTypeHelper->isEditorEnabled(
+                'post'
+            )) {
+            $variables[] = [
+                'key' => 'VCV_CREATE_NEW_URL',
+                'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend'),
+                'type' => 'constant',
+            ];
+
+            $variables[] = [
+                'key' => 'VCV_CREATE_NEW_TEXT',
+                'value' => __('Create a blank post', 'vcwb'),
+                'type' => 'constant',
+            ];
+        }
+        $variables[] = [
+            'key' => 'VCV_ACTIVATION_PREMIUM_URL',
+            'value' => admin_url('admin.php?page=vcv-upgrade'),
+            'type' => 'constant',
+        ];
+
+
         return $variables;
     }
 
