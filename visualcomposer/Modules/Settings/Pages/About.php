@@ -55,7 +55,8 @@ class About extends Container implements Module
                     /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
                     $this->call('addPage');
                 }
-            }
+            },
+            11
         );
     }
 
