@@ -286,3 +286,10 @@ if (!defined('VCV_FT_ASSETS_INSIDE_PLUGIN')) {
         false
     );
 }
+
+if (!defined('VCV_FT_ACTIVATION_FIELDS_MOVE')) {
+    define(
+        'VCV_FT_ACTIVATION_FIELDS_MOVE',
+        false
+    );
+}
