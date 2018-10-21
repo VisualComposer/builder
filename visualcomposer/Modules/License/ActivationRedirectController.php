@@ -16,6 +16,7 @@ use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\License\Pages\ActivationPage;
+use VisualComposer\Modules\License\Pages\GetPremiumRedesign;
 
 class ActivationRedirectController extends Container implements Module
 {
@@ -24,9 +25,6 @@ class ActivationRedirectController extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            return;
-        }
         /** @see \VisualComposer\Modules\License\ActivationRedirectController::setRedirect */
         $this->addEvent('vcv:system:activation:hook', 'setRedirect');
         /** @see \VisualComposer\Modules\License\ActivationRedirectController::doRedirect */
@@ -57,17 +55,22 @@ class ActivationRedirectController extends Container implements Module
      * Do redirect if required on welcome page
      *
      * @param $response
+     * @param \VisualComposer\Modules\License\Pages\GetPremiumRedesign $getPremiumRedesignPageModule
      * @param \VisualComposer\Modules\License\Pages\ActivationPage $activationWelcomePageModule
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return
      */
-    protected function doRedirect($response, ActivationPage $activationWelcomePageModule, Options $optionsHelper)
+    protected function doRedirect($response, GetPremiumRedesign $getPremiumRedesignPageModule, ActivationPage $activationWelcomePageModule, Options $optionsHelper)
     {
         $redirect = $optionsHelper->getTransient('_vcv_activation_page_redirect');
         $optionsHelper->deleteTransient('_vcv_activation_page_redirect');
         if ($redirect) {
-            wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationWelcomePageModule->getSlug())));
+            $url = $activationWelcomePageModule->getSlug();
+            if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+                $url = $getPremiumRedesignPageModule->getSlug();
+            }
+            wp_redirect(admin_url('admin.php?page=' . rawurlencode($url)));
         }
 
         return $response;
