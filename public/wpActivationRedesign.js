@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ActivationSection from './resources/account/activationSection'
+import InitialScreen from './resources/account/initialScreen'
 import './sources/less/wpsettings-update/init.less'
 
 ReactDOM.render(
-  <ActivationSection />,
+  <InitialScreen />,
   document.querySelector('.vcv-settings')
 )

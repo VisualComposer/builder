@@ -12,7 +12,7 @@ export default class InitialScreen extends React.Component {
   }
   render () {
     return (
-      <React.Fragment>
+      <div className='vcv-activation-section'>
         <VCVLogo />
         <VersionBox />
         <p className='vcv-activation-heading'>
@@ -23,7 +23,7 @@ export default class InitialScreen extends React.Component {
           <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
           <a href={window.VCV_ACTIVATION_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{InitialScreen.texts.goPremium}</a>
         </div>
-      </React.Fragment>
+      </div>
     )
   }
 }
