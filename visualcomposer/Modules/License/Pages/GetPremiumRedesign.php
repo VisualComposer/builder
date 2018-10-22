@@ -110,7 +110,7 @@ class GetPremiumRedesign extends Container implements Module
             ];
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_TEXT',
-                'value' => __('Create a blank page', 'vcwb'),
+                'value' => __('Create new page', 'vcwb'),
                 'type' => 'constant',
             ];
         } elseif ($currentUserAccessHelper->wpAll('edit_posts')->get()
