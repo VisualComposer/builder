@@ -1,5 +1,5 @@
 import React from 'react'
-import PostUpdater from '../../editor/modules/backendSettings/postUpdate'
+import PostUpdater from './postUpdate'
 
 const $ = window.jQuery
 
@@ -44,24 +44,24 @@ export default class LoadingScreen extends React.Component {
 
   setActions () {
     if (window.vcvActivationRequest !== 1) {
-      let _this = this
       $.getJSON(window.VCV_UPDATE_ACTIONS_URL(),
         {
           'vcv-nonce': window.vcvNonce,
           'vcv-time': window.VCV_UPDATE_AJAX_TIME()
         })
-        .done(function (json) {
+        .done((json) => {
           if (json && json.status && json.actions) {
             const assetsActions = json.actions.filter(item => item.action !== 'updatePosts')
             const postUpdateActions = json.actions.filter(item => item.action === 'updatePosts')
 
-            _this.setState({
+            this.setState({
               assetsActions: assetsActions,
               postUpdateData: postUpdateActions.length ? postUpdateActions[ 0 ] : null,
               actionsStarted: true,
-              assetsActionsDone: !assetsActions.length
+              assetsActionsDone: !assetsActions.length,
+              postUpdateDone: !postUpdateActions.length
             })
-            _this.processActions()
+            this.processActions()
           } else {
             console.log('error')
 
@@ -82,7 +82,7 @@ export default class LoadingScreen extends React.Component {
             console.log('show first screen')
           }
         })
-        .fail(function (jqxhr, textStatus, error) {
+        .fail((jqxhr, textStatus, error) => {
           console.log('fail error')
           if (jqxhr.responseJSON) {
             let json = jqxhr.responseJSON
@@ -136,7 +136,7 @@ export default class LoadingScreen extends React.Component {
   }
 
   processActions () {
-    let cnt = this.state.assetsActions.length
+    const cnt = this.state.assetsActions.length
 
     if (!cnt) {
       if (this.state.postUpdateData) {
@@ -152,7 +152,6 @@ export default class LoadingScreen extends React.Component {
   doAction () {
     const cnt = this.state.assetsActions.length
     const action = this.state.assetsActions[ this.state.activeAssetsAction ]
-    const _this = this
 
     $.ajax(window.VCV_UPDATE_PROCESS_ACTION_URL(),
       {
@@ -163,20 +162,20 @@ export default class LoadingScreen extends React.Component {
           'vcv-time': window.VCV_UPDATE_AJAX_TIME()
         }
       }
-    ).done(function (json) {
+    ).done((json) => {
       if (json && json.status) {
         LoadingScreen.actionRequestFailed = false
 
-        if (_this.state.activeAssetsAction === cnt - 1) {
-          _this.setState({ assetsActionsDone: true })
-          if (_this.state.postUpdateData) {
-            _this.doPostUpdate()
+        if (this.state.activeAssetsAction === cnt - 1) {
+          this.setState({ assetsActionsDone: true })
+          if (this.state.postUpdateData) {
+            this.doPostUpdate()
           } else {
-            _this.doneActions(false)
+            this.doneActions(false)
           }
         } else {
-          _this.setState({ activeAssetsAction: _this.state.activeAssetsAction + 1 })
-          _this.doAction()
+          this.setState({ activeAssetsAction: this.state.activeAssetsAction + 1 })
+          this.doAction()
         }
       } else {
         if (LoadingScreen.actionRequestFailed) {
@@ -193,10 +192,10 @@ export default class LoadingScreen extends React.Component {
           }
         } else {
           LoadingScreen.actionRequestFailed = true
-          _this.doAction()
+          this.doAction()
         }
       }
-    }).fail(function (jqxhr, textStatus, error) {
+    }).fail((jqxhr, textStatus, error) => {
       console.log('error')
       if (LoadingScreen.actionRequestFailed) {
         console.log('log error')
@@ -215,7 +214,7 @@ export default class LoadingScreen extends React.Component {
       } else {
         // Try again one more time.
         LoadingScreen.actionRequestFailed = true
-        _this.doAction()
+        this.doAction()
       }
     })
   }
@@ -233,7 +232,7 @@ export default class LoadingScreen extends React.Component {
 
     let ready = false
     const to = window.setTimeout(() => {
-      console.log('skip button show')
+      this.setState({ showSkipPostButton: true })
     }, 60 * 1000)
 
     try {
@@ -244,7 +243,7 @@ export default class LoadingScreen extends React.Component {
       console.log('show oops screen')
     }
     window.clearTimeout(to)
-    console.log('skip button hide')
+    this.setState({ showSkipPostButton: false })
 
     if (ready === false) {
       return
@@ -260,7 +259,6 @@ export default class LoadingScreen extends React.Component {
 
   doneActions (requestFailed) {
     this.setState({ postUpdateDone: true })
-    const _this = this
     $.ajax(window.VCV_UPDATE_FINISH_URL(),
       {
         dataType: 'json',
@@ -269,9 +267,9 @@ export default class LoadingScreen extends React.Component {
           'vcv-time': window.VCV_UPDATE_AJAX_TIME()
         }
       }
-    ).done(function (json) {
+    ).done((json) => {
       if (json && json.status) {
-        _this.props.setActiveScreen('finalScreen')
+        this.props.setActiveScreen('finalScreen')
       } else {
         if (requestFailed) {
           console.warn(json)
@@ -289,10 +287,10 @@ export default class LoadingScreen extends React.Component {
           }
         } else {
           // Try again one more time.
-          _this.doneActions()
+          this.doneActions()
         }
       }
-    }).fail(function (jqxhr, textStatus, error) {
+    }).fail((jqxhr, textStatus, error) => {
       console.log('fail')
       if (requestFailed) {
         console.warn(jqxhr.responseText, textStatus, error)
@@ -303,18 +301,19 @@ export default class LoadingScreen extends React.Component {
         }
       } else {
         // Try again one more time.
-        _this.doneActions()
+        this.doneActions()
       }
     })
   }
 
   skipPostUpdate () {
-    console.log('skip post update')
+    window.vcvRebuildPostSkipPost && window.vcvSourceID && window.vcvRebuildPostSkipPost(window.vcvSourceID)
   }
 
   render () {
     return (
       <div className='vcv-activation-loading-screen'>
+        <div id='vcv-posts-update-wrapper' />
         <div className='vcv-loading-dots-container'>
           <div className='vcv-loading-dot vcv-loading-dot-1' />
           <div className='vcv-loading-dot vcv-loading-dot-2' />
