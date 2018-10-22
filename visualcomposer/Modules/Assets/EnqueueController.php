@@ -95,8 +95,6 @@ class EnqueueController extends Container implements Module
             && (!empty($this->lastEnqueueIdAssetsAll)
                 || (in_array($sourceId, $this->lastEnqueueIdAssetsAll)))) {
             $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
-
-            return;
         } elseif (is_home() || is_archive() || is_category() || is_tag()) {
             // @codingStandardsIgnoreStart
             global $wp_query;
