@@ -7,6 +7,11 @@ if (!defined('ABSPATH')) {
 
 evcview('settings/partials/admin-nonce');
 ?>
+
+<script>
+  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
+  window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
+</script>
 <div class="wrap vcv-settings">
     <?php
     // @codingStandardsIgnoreLine
