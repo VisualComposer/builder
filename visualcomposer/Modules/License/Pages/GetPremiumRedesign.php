@@ -101,6 +101,11 @@ class GetPremiumRedesign extends Container implements Module
             'value' => '',
             'type' => 'constant',
         ];
+        $variables[] = [
+            'key' => 'VCV_PLUGIN_VERSION',
+            'value' => VCV_VERSION,
+            'type' => 'constant',
+        ];
 
         if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
             $variables[] = [
