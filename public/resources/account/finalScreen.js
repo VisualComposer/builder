@@ -26,12 +26,22 @@ export default class FinalScreen extends React.Component {
   }
 
   doMouseMoveParallax (e) {
-    const width = document.body.getBoundingClientRect().width
-    const height = document.body.getBoundingClientRect().height
-    const offsetX = 0.5 - e.pageX / width
-    const offsetY = 0.5 - e.pageY / height
-    const offset = 90
-    this.parallaxLayer.current.style.transform = `translate3d(${Math.round(offsetX * offset)}px, ${Math.round(offsetY * offset)}px, 0px`
+    const blockClientReact = this.getElementOffset(this.parallaxBlock.current)
+    const offsetX = e.pageX - (blockClientReact.left + blockClientReact.width / 2)
+    const offsetY = e.pageY - (blockClientReact.top + blockClientReact.height / 2)
+    const allowedOffsetX = 30
+    const allowedOffsetY = 20
+    const percentageOffsetX = offsetX / (blockClientReact.width / 2)
+    const percentageOffsetY = offsetY / (blockClientReact.height / 2)
+
+    this.parallaxLayer.current.style.transform = `translate3d(${Math.round(-allowedOffsetX * percentageOffsetX)}px, ${Math.round(-allowedOffsetY * percentageOffsetY)}px, 0px`
+  }
+
+  getElementOffset (el) {
+    const rect = el.getBoundingClientRect()
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+    return { top: rect.top + scrollTop, left: rect.left + scrollLeft, width: rect.width, height: rect.height }
   }
 
   render () {
