@@ -54,7 +54,7 @@ export default class FinalScreen extends React.Component {
         </p>
         <div className='vcv-activation-parallax-block' ref={this.parallaxBlock}>
           <div className='vcv-activation-parallax-inner' ref={this.parallaxLayer} />
-          <img className='vcv-activation-parallax-fixed' src='https://i.imgur.com/mYtrplp.png' alt='Visual Composer Navbar' />
+          <div className='vcv-activation-parallax-fixed' />
         </div>
         <div className='vcv-activation-button-container'>
           <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>

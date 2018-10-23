@@ -17,6 +17,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
+use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
@@ -94,7 +95,8 @@ class GetPremiumRedesign extends Container implements Module
     protected function addActivationVariables(
         $variables,
         CurrentUser $currentUserAccessHelper,
-        EditorPostType $editorPostTypeHelper
+        EditorPostType $editorPostTypeHelper,
+        Url $urlHelper
     ) {
         $variables[] = [
             'key' => 'VCV_ACTIVATION_CURRENT_PAGE',
@@ -104,6 +106,40 @@ class GetPremiumRedesign extends Container implements Module
         $variables[] = [
             'key' => 'VCV_PLUGIN_VERSION',
             'value' => VCV_VERSION,
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_ACTIVATION_SLIDES',
+            'value' => [
+                [
+                    'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-01.png')),
+                    'title' => esc_js(__(
+                        'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.',
+                        'vcwb'
+                    )),
+                ],
+                [
+                    'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-02.png')),
+                    'title' => esc_js(__(
+                        'Get more elements and templates from the Visual Composer Hub - a free online marketplace.',
+                        'vcwb'
+                    )),
+                ],
+                [
+                    'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-03.png')),
+                    'title' => esc_js(__(
+                        'Unparallel performance for you and your website to rank higher and deliver faster.',
+                        'vcwb'
+                    )),
+                ],
+                [
+                    'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-04.png')),
+                    'title' => esc_js(__(
+                        'Control every detail of your website with flexible design options and customization tools.',
+                        'vcwb'
+                    )),
+                ],
+            ],
             'type' => 'constant',
         ];
 
