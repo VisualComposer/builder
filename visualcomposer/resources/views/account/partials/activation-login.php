@@ -42,21 +42,6 @@ $loginCategories = $loginCategoryHelper->all();
                 <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($loginCategory); ?></option>
             <?php } ?>
         </select>
-        <div class="vcv-popup-form-checkbox">
-           <span class="vcv-popup-form-checkbox-inner">
-              <input type="checkbox" value="<?php
-              // @codingStandardsIgnoreLine
-              echo time();
-                ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-agreement" />
-                <label for="vcv-account-activation-agreement"></label>
-           </span>
-            <span class="vcv-popup-form-checkbox-label"><?php printf(
-                // @codingStandardsIgnoreLine
-                    __('I have read and agree to the <a href="%1$s" target="_blank">Terms of Use</a> and <a href="%2$s"" target="_blank">Cloud Access Terms</a>', 'vcwb'),
-                    'https://visualcomposer.io/terms-of-use',
-                    'http://visualcomposer.io/cloud-access-terms'
-                ); ?></span>
-        </div>
         <input type="submit" value="<?php echo esc_attr__(
             'Activate Now',
             'vcwb'
