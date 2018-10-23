@@ -13,6 +13,17 @@ export default class LoadingScreen extends React.Component {
     skipThisPostText: LoadingScreen.localizations ? LoadingScreen.localizations.skipThisPostText : 'Skip this post'
   }
 
+  constructor (props) {
+    super(props)
+    this.activationContent = React.createRef()
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.activationContent.current.classList.add('vcv-activation-content--active')
+    }, 0)
+  }
+
   getDownloadText (data) {
     const { assetsActions, activeAssetsAction, postUpdateData, activePostUpdate, assetsActionsDone, postUpdateDone, actionsStarted } = data
 
@@ -47,7 +58,7 @@ export default class LoadingScreen extends React.Component {
     return (
       <ActivationSectionConsumer>
         {({ assetsActions, postUpdateData, activeAssetsAction, activePostUpdate, showSkipPostButton, assetsActionsDone, postUpdateDone, actionsStarted }) => (
-          <div className='vcv-activation-loading-screen'>
+          <div className='vcv-activation-loading-screen vcv-activation-content' ref={this.activationContent}>
             <div id='vcv-posts-update-wrapper' />
             <div className='vcv-loading-dots-container'>
               <div className='vcv-loading-dot vcv-loading-dot-1' />

@@ -18,6 +18,15 @@
   }
 }
 
+.vcv-activation-content {
+  opacity: 0;
+  transition: opacity .5s;
+
+  &.vcv-activation-content--active {
+    opacity: 1;
+  }
+}
+
 .vcv-activation-plugin-version-box {
   position: absolute;
   top: 20px;
@@ -151,9 +160,9 @@
 }
 
 .vcv-activation-parallax-block {
-  min-height: 410px;
-  max-width: 940px;
-  margin: 20px auto;
+  min-height: 450px;
+  padding: 20px 0;
+  margin: 20px -20px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -162,12 +171,10 @@
 }
 
 .vcv-activation-parallax-inner {
-  background: url('https://i.imgur.com/rK1TmHG.png') center;
+  background: url('../../../sources/images/account/hub.png') center;
   background-size: cover;
   width: 940px;
   height: 410px;
-
-
   position: absolute;
   top: calc(50% - 205px);
   left: calc(50% - 470px);

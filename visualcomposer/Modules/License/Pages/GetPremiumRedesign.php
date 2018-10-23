@@ -101,6 +101,11 @@ class GetPremiumRedesign extends Container implements Module
             'value' => '',
             'type' => 'constant',
         ];
+        $variables[] = [
+            'key' => 'VCV_PLUGIN_VERSION',
+            'value' => VCV_VERSION,
+            'type' => 'constant',
+        ];
 
         if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
             $variables[] = [
@@ -125,7 +130,7 @@ class GetPremiumRedesign extends Container implements Module
 
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_TEXT',
-                'value' => __('Create a blank post', 'vcwb'),
+                'value' => __('Create new post', 'vcwb'),
                 'type' => 'constant',
             ];
         }

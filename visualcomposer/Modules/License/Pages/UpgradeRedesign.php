@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -127,8 +128,12 @@ class UpgradeRedesign extends Container implements Module
         $this->addFilter('vcv:license:variables', 'addActivationVariables');
     }
 
-    protected function addActivationVariables($variables, Url $urlHelper)
-    {
+    protected function addActivationVariables(
+        $variables,
+        Url $urlHelper,
+        CurrentUser $currentUserAccessHelper,
+        EditorPostType $editorPostTypeHelper
+    ) {
         $variables[] = [
             'key' => 'VCV_UPDATE_ACTIONS_URL',
             'value' => $urlHelper->adminAjax(
@@ -170,6 +175,38 @@ class UpgradeRedesign extends Container implements Module
             ),
             'type' => 'constant',
         ];
+        $variables[] = [
+            'key' => 'VCV_PLUGIN_VERSION',
+            'value' => VCV_VERSION,
+            'type' => 'constant',
+        ];
+        if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
+            $variables[] = [
+                'key' => 'VCV_CREATE_NEW_URL',
+                'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend'),
+                'type' => 'constant',
+            ];
+            $variables[] = [
+                'key' => 'VCV_CREATE_NEW_TEXT',
+                'value' => __('Create new page', 'vcwb'),
+                'type' => 'constant',
+            ];
+        } elseif ($currentUserAccessHelper->wpAll('edit_posts')->get()
+            && $editorPostTypeHelper->isEditorEnabled(
+                'post'
+            )) {
+            $variables[] = [
+                'key' => 'VCV_CREATE_NEW_URL',
+                'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend'),
+                'type' => 'constant',
+            ];
+
+            $variables[] = [
+                'key' => 'VCV_CREATE_NEW_TEXT',
+                'value' => __('Create new post', 'vcwb'),
+                'type' => 'constant',
+            ];
+        }
 
         return $variables;
     }
