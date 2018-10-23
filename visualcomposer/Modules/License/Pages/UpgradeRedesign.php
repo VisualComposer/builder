@@ -170,6 +170,11 @@ class UpgradeRedesign extends Container implements Module
             ),
             'type' => 'constant',
         ];
+        $variables[] = [
+            'key' => 'VCV_PLUGIN_VERSION',
+            'value' => VCV_VERSION,
+            'type' => 'constant',
+        ];
 
         return $variables;
     }
