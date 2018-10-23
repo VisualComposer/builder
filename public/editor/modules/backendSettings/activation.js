@@ -18,7 +18,7 @@ import { env } from 'vc-cake'
   $(() => {
     let $popup = $('.vcv-popup-container')
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const readAndAgreeTermsText = localizations ? localizations.readAndAgreeTerms : 'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer Website Builder.'
+    // const readAndAgreeTermsText = localizations ? localizations.readAndAgreeTerms : 'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer Website Builder.'
     const incorrectEmailFormatText = localizations ? localizations.incorrectEmailFormat : 'Activation request failed. Invalid e-mail. Please check your e-mail and try again.'
     const mustAgreeToActivateText = localizations ? localizations.mustAgreeToActivate : 'To activate and use Visual Composer Website Builder, you must read and agree to the terms of service.'
     const activationFailedText = localizations ? localizations.activationFailed : 'Your activation request failed. Please try again.'
