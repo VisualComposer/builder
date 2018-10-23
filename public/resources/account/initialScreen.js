@@ -10,9 +10,21 @@ export default class InitialScreen extends React.Component {
     anyLayoutFastAndEasy: InitialScreen.localizations ? InitialScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.',
     goPremium: InitialScreen.localizations ? InitialScreen.localizations.goPremium : 'Go Premium'
   }
+
+  constructor (props) {
+    super(props)
+    this.activationContent = React.createRef()
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.activationContent.current.classList.add('vcv-activation-content--active')
+    }, 0)
+  }
+
   render () {
     return (
-      <div className='vcv-activation-section'>
+      <div className='vcv-activation-section vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
         <VersionBox />
         <p className='vcv-activation-heading'>
