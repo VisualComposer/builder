@@ -12,6 +12,7 @@ import {
 } from './screens'
 import { loadSlider } from './slider'
 import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-screens'
+import { env } from 'vc-cake'
 
 (($) => {
   $(() => {
@@ -56,12 +57,6 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
       $('#vcv-account-login-form').on('submit', (e) => {
         e.preventDefault()
 
-        let checkbox = $agreementCheckbox.is(':checked')
-        if (!checkbox) {
-          showError(readAndAgreeTermsText)
-          return
-        }
-
         if (window.vcvActivationType !== 'download') {
           let email = $inputEmail.val()
           let category = $selectCategory.val()
@@ -69,7 +64,11 @@ import { showDownloadScreen, showDownloadWithLicenseScreen } from './download-sc
             email = 'standalone'
           }
           if (email) {
-            showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox.val(), downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category)
+            if (!env('VCV_FT_ACTIVATION_FIELDS_MOVE')) {
+              showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, '', downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category)
+            } else {
+              showDownloadScreen($popup, $heading, downloadingInitialExtensionsText, email, $agreementCheckbox.val(), downloadingAssetsText, $errorPopup, activationFailedText, savingResultsText, loadAnimation, incorrectEmailFormatText, mustAgreeToActivateText, category)
+            }
           } else {
             // error shows\
             showError($errorPopup, provideCorrectEmailText)

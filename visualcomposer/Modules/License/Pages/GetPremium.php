@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Nonce;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
@@ -99,6 +100,25 @@ class GetPremium extends Container implements Module
         wp_enqueue_style('vcv:settings:style');
     }
 
+    protected function getPremiumUrl(License $licenseHelper)
+    {
+        $urlHelper = vchelper('Url');
+        $nonceHelper = vchelper('Nonce');
+
+        $url =
+                VCV_LICENSE_ACTIVATE_URL .
+                '/?redirect=' . rawurlencode(
+                    $urlHelper->adminAjax(
+                        ['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
+                    )
+                ) .
+                '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
+                '&url=' . VCV_PLUGIN_URL .
+                '&domain=' . get_site_url() .
+                '&vcv-version=' . VCV_VERSION;
+        return $url;
+    }
+
     /**
      *
      */
@@ -111,6 +131,7 @@ class GetPremium extends Container implements Module
             'showTab' => false,
             'controller' => $this,
             'capability' => 'manage_options',
+            'external' => $this->call('getPremiumUrl')
         ];
         $this->addSubmenuPage($page);
     }

@@ -29,18 +29,25 @@ trait SubMenu
         }
 
         if ($hasAccess) {
-            add_submenu_page(
-                isset($page['hidePage']) && $page['hidePage'] ? null : $parentSlug,
-                $page['title'],
-                $page['title'],
-                isset($page['capability']) ? $page['capability'] : 'manage_options',
-                $page['slug'],
-                function () use ($page) {
-                    /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
-                    // @codingStandardsIgnoreLine
-                    echo $this->call('renderPage', ['page' => $page]);
-                }
-            );
+            global $submenu;
+            $capability = isset($page['capability']) ? $page['capability'] : 'manage_options';
+
+            if (isset($page['external'])) {
+                $submenu[$parentSlug][] = array($page['title'], $capability, $page['external']);
+            } else {
+                add_submenu_page(
+                    isset($page['hidePage']) && $page['hidePage'] ? null : $parentSlug,
+                    $page['title'],
+                    $page['title'],
+                    $capability,
+                    $page['slug'],
+                    function () use ($page) {
+                        /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
+                        // @codingStandardsIgnoreLine
+                        echo $this->call('renderPage', ['page' => $page]);
+                    }
+                );
+            }
         }
     }
 
