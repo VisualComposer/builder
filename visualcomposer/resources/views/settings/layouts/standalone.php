@@ -7,14 +7,14 @@ if (!defined('ABSPATH')) {
 
 evcview('settings/partials/admin-nonce');
 if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-  $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
-  if (is_array($extraOutput)) {
-      foreach ($extraOutput as $output) {
-          // @codingStandardsIgnoreLine
-          echo $output;
-      }
-      unset($output);
-  }
+    $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
+    if (is_array($extraOutput)) {
+        foreach ($extraOutput as $output) {
+            // @codingStandardsIgnoreLine
+            echo $output;
+        }
+        unset($output);
+    }
 }
 ?>
 

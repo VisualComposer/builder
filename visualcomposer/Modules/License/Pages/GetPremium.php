@@ -45,14 +45,6 @@ class GetPremium extends Container implements Module
             return;
         }
 
-        if ($request->input('vcv-ref') && $request->input('page') === $this->getSlug()) {
-            $this->wpAddAction(
-                'admin_menu',
-                'redirectPremiumRef'
-            );
-            return;
-        }
-
         if (!$licenseHelper->isActivated()) {
             $this->wpAddAction(
                 'in_admin_footer',
@@ -84,11 +76,6 @@ class GetPremium extends Container implements Module
                 'pluginsPageLink'
             );
         }
-    }
-
-    protected function redirectPremiumRef()
-    {
-        wp_redirect($this->call('getPremiumUrl'));
     }
 
     /**
@@ -143,8 +130,7 @@ class GetPremium extends Container implements Module
             'layout' => 'standalone',
             'showTab' => false,
             'controller' => $this,
-            'capability' => 'manage_options',
-            'external' => $this->call('getPremiumUrl')
+            'capability' => 'manage_options'
         ];
         $this->addSubmenuPage($page);
     }
