@@ -78,7 +78,7 @@ class UpgradeRedesign extends Container implements Module
             'title' => __('Go Premium', 'vcwb'),
             'layout' => 'standalone',
             'showTab' => false,
-            'hidePage' => false, // TODO: check
+            'hidePage' => true,
             'controller' => $this,
             'capability' => 'manage_options',
             'type' => 'premium',
