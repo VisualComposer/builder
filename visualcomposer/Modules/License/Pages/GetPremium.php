@@ -39,9 +39,17 @@ class GetPremium extends Container implements Module
      */
     protected $templatePath = 'account/partials/activation-layout';
 
-    public function __construct(License $licenseHelper, Token $tokenHelper)
+    public function __construct(License $licenseHelper, Token $tokenHelper, Request $request)
     {
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
+
+        if ($request->input('vcv-ref') && $request->input('page') === $this->getSlug()) {
+            $this->wpAddAction(
+                'admin_menu',
+                'redirectPremiumRef'
+            );
             return;
         }
 
@@ -76,6 +84,11 @@ class GetPremium extends Container implements Module
                 'pluginsPageLink'
             );
         }
+    }
+
+    protected function redirectPremiumRef()
+    {
+        wp_redirect($this->call('getPremiumUrl'));
     }
 
     /**
