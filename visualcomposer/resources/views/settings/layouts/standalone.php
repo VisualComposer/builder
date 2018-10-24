@@ -6,14 +6,15 @@ if (!defined('ABSPATH')) {
 }
 
 evcview('settings/partials/admin-nonce');
-
-$extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
-if (is_array($extraOutput)) {
-    foreach ($extraOutput as $output) {
-        // @codingStandardsIgnoreLine
-        echo $output;
-    }
-    unset($output);
+if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+  $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
+  if (is_array($extraOutput)) {
+      foreach ($extraOutput as $output) {
+          // @codingStandardsIgnoreLine
+          echo $output;
+      }
+      unset($output);
+  }
 }
 ?>
 
