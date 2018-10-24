@@ -47,6 +47,10 @@ class GetPremiumRedesign extends Container implements Module
             return;
         }
 
+        // Setting site authorized for new activation
+        $tokenHelper = vchelper('Token');
+        $tokenHelper->setSiteAuthorized();
+
         $this->wpAddAction(
             'admin_menu',
             function (License $licenseHelper, Request $requestHelper) {
