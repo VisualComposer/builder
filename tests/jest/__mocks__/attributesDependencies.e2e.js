@@ -10,7 +10,7 @@ describe('Edit form dependencies tests', () => {
   let browser
   let page
 
-  jest.setTimeout(30000)
+  jest.setTimeout(100000)
 
   beforeAll(async () => {
     browser = await Puppeteer.launch({ headless: isHeadless, devtools: withDevTools })
@@ -31,8 +31,8 @@ describe('Edit form dependencies tests', () => {
     await page.mainFrame().waitForSelector('[title="Add Element"].vcv-ui-navbar-control')
   })
   test('Add button and enable custom hover colors', async () => {
-    await expect(page).toClick('[title="Add Element"].vcv-ui-navbar-control', {timeout: 30000})
-    await expect(page).toClick('[title="Basic Button"].vcv-ui-item-element', {timeout: 30000})
+    await expect(page).toClick('[title="Add Element"].vcv-ui-navbar-control', { timeout: 30000 })
+    await expect(page).toClick('[title="Basic Button"].vcv-ui-item-element', { timeout: 30000 })
 
     await page.mainFrame().waitForSelector('#toggleCustomHover_input')
 
@@ -41,23 +41,23 @@ describe('Edit form dependencies tests', () => {
     await expect(page).toMatchElement('span.vcv-ui-form-group-heading', { text: 'Background hover color' })
   })
   test('Add Vimeo Player and enable custom size', async () => {
-    await expect(page).toClick('[title="Add Element"].vcv-ui-navbar-control', {timeout: 30000})
-    await expect(page).toClick('[title="Vimeo Player"].vcv-ui-item-element', {timeout: 30000})
-    await page.mainFrame().waitForSelector('option[value="custom"]', {text: 'Custom size'})
+    await expect(page).toClick('[title="Add Element"].vcv-ui-navbar-control', { timeout: 30000 })
+    await expect(page).toClick('[title="Vimeo Player"].vcv-ui-item-element', { timeout: 30000 })
+    await page.mainFrame().waitForSelector('option[value="custom"]', { text: 'Custom size' })
     await page.mainFrame().select('.vcv-ui-edit-form-section-content select.vcv-ui-form-dropdown', 'custom')
     await expect(page).toMatchElement('span.vcv-ui-form-group-heading', { text: 'Custom width' })
   })
   test('Add Youtube Player and enable custom size', async () => {
-    await expect(page).toClick('[title="Add Element"].vcv-ui-navbar-control', {timeout: 30000})
-    await expect(page).toClick('[title="Youtube Player"].vcv-ui-item-element', {timeout: 30000})
-    await page.mainFrame().waitForSelector('option[value="custom"]', {text: 'Custom size'})
+    await expect(page).toClick('[title="Add Element"].vcv-ui-navbar-control', { timeout: 30000 })
+    await expect(page).toClick('[title="Youtube Player"].vcv-ui-item-element', { timeout: 30000 })
+    await page.mainFrame().waitForSelector('option[value="custom"]', { text: 'Custom size' })
     await page.mainFrame().select('.vcv-ui-edit-form-section-content select.vcv-ui-form-dropdown', 'custom')
     await expect(page).toMatchElement('span.vcv-ui-form-group-heading', { text: 'Custom width' })
   })
   test('Add Empty Space and enable custom devices', async () => {
-    await expect(page).toClick('[title="Add Element"].vcv-ui-navbar-control', {timeout: 30000})
-    await expect(page).toClick('[title="Empty Space"].vcv-ui-item-element', {timeout: 30000})
-    await page.mainFrame().waitForSelector('option[value="custom"]', {text: 'Custom size'})
+    await expect(page).toClick('[title="Add Element"].vcv-ui-navbar-control', { timeout: 30000 })
+    await expect(page).toClick('[title="Empty Space"].vcv-ui-item-element', { timeout: 30000 })
+    await page.mainFrame().waitForSelector('option[value="custom"]', { text: 'Custom size' })
     await page.mainFrame().select('.vcv-ui-edit-form-section-content select.vcv-ui-form-dropdown', 'custom')
     await expect(page).toMatchElement('span.vcv-ui-form-group-heading', { text: 'Height on desktop' })
   })
