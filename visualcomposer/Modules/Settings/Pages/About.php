@@ -93,6 +93,11 @@ class About extends Container implements Module
         CurrentUser $currentUserAccessHelper,
         EditorPostType $editorPostTypeHelper
     ) {
+        $variables[] = [
+            'key' => 'VCV_PLUGIN_VERSION',
+            'value' => VCV_VERSION,
+            'type' => 'constant',
+        ];
         if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_URL',
