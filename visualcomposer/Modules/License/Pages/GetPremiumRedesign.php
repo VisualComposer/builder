@@ -41,14 +41,13 @@ class GetPremiumRedesign extends Container implements Module
      */
     protected $templatePath = 'license/activation/layout';
 
-    public function __construct(License $licenseHelper)
+    public function __construct(License $licenseHelper, Token $tokenHelper)
     {
         if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
 
         // Setting site authorized for new activation
-        $tokenHelper = vchelper('Token');
         $tokenHelper->setSiteAuthorized();
 
         $this->wpAddAction(
