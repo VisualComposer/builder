@@ -4,6 +4,6 @@ import ActivationSection from './resources/account/activationSection'
 import './sources/less/wpsettings-update/init.less'
 
 ReactDOM.render(
-  <ActivationSection activeScreen='loadingScreen' />,
+  <ActivationSection />,
   document.querySelector('.vcv-settings')
 )
