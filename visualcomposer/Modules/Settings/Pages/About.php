@@ -65,16 +65,20 @@ class About extends Container implements Module
      */
     protected function beforeRender()
     {
+        $bundleName = 'wpUpdateRedesign';
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            $bundleName = 'wpsettings';
+        }
         $urlHelper = vchelper('Url');
         wp_register_script(
             'vcv:settings:script',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+            $urlHelper->assetUrl('dist/'.$bundleName.'.bundle.js'),
             [],
             VCV_VERSION
         );
         wp_register_style(
             'vcv:settings:style',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+            $urlHelper->assetUrl('dist/'.$bundleName.'.bundle.css'),
             [],
             VCV_VERSION
         );
