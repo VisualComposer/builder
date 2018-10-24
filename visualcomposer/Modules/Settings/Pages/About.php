@@ -14,8 +14,11 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
+use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Access\EditorPostType;
 
 /**
  * Class About.
@@ -84,15 +87,56 @@ class About extends Container implements Module
         );
         wp_enqueue_script('vcv:settings:script');
         wp_enqueue_style('vcv:settings:style');
-        $this->addFilter('vcv:license:variables', 'addActivationVariables');
+        $this->addFilter('vcv:about:variables', 'addVariables');
     }
 
-    protected function addActivationVariables(
+    protected function addVariables(
         $variables,
         Url $urlHelper,
         CurrentUser $currentUserAccessHelper,
         EditorPostType $editorPostTypeHelper
     ) {
+        $variables[] = [
+            'key' => 'VCV_UPDATE_ACTIONS_URL',
+            'value' => $urlHelper->adminAjax(
+                ['vcv-action' => 'account:activation:adminNonce']
+            ),
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_PROCESS_ACTION_URL',
+            'value' => $urlHelper->adminAjax(['vcv-action' => 'hub:action:adminNonce']),
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_FINISH_URL',
+            'value' => $urlHelper->adminAjax(
+                ['vcv-action' => 'bundle:update:finished:adminNonce']
+            ),
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_AJAX_TIME',
+            'value' => intval($_SERVER['REQUEST_TIME']),
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_WP_BUNDLE_URL',
+            'value' => $urlHelper->to('public/dist/wp.bundle.js'),
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_VENDOR_URL',
+            'value' => $urlHelper->to('public/dist/vendor.bundle.js'),
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_GLOBAL_VARIABLES_URL',
+            'value' => $urlHelper->adminAjax(
+                ['vcv-action' => 'elements:globalVariables:adminNonce']
+            ),
+            'type' => 'constant',
+        ];
         $variables[] = [
             'key' => 'VCV_PLUGIN_VERSION',
             'value' => VCV_VERSION,

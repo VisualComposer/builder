@@ -15,6 +15,16 @@ if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
         }
         unset($output);
     }
+    $variables = vcfilter('vcv:about:variables', []);
+    if (is_array($variables)) {
+        foreach ($variables as $variable) {
+            if (is_array($variable) && isset($variable['key'], $variable['value'])) {
+                $type = isset($variable['type']) ? $variable['type'] : 'variable';
+                evcview('partials/variableTypes/' . $type, $variable);
+            }
+        }
+        unset($variable);
+    }
 }
 ?>
 
