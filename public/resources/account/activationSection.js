@@ -22,7 +22,7 @@ export default class ActivationSectionProvider extends React.Component {
       assetsActionsDone: false,
       postUpdateDone: false,
       actionsStarted: false,
-      isLoadingFinished: window.vcvActivationActivePage === 'last-go-premium'
+      isLoadingFinished: window.vcvActivationActivePage === 'last-go-premium' || window.vcvActivationActivePage === 'last'
     }
 
     this.setActions = this.setActions.bind(this)
