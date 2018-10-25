@@ -87,7 +87,7 @@ class About extends Container implements Module
         );
         wp_enqueue_script('vcv:settings:script');
         wp_enqueue_style('vcv:settings:style');
-        $this->addFilter('vcv:about:variables', 'addVariables');
+        $this->addFilter('vcv:upgrade:variables', 'addVariables');
     }
 
     protected function addVariables(

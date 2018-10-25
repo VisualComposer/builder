@@ -15,7 +15,7 @@ if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
         }
         unset($output);
     }
-    $variables = vcfilter('vcv:about:variables', []);
+    $variables = vcfilter('vcv:upgrade:variables', []);
     if (is_array($variables)) {
         foreach ($variables as $variable) {
             if (is_array($variable) && isset($variable['key'], $variable['value'])) {
