@@ -155,35 +155,20 @@ class Upgrade extends Container implements Module
             return false;
         }
 
-        if (vcvenv('VCV_FT_ACTIVATION_FIELDS_MOVE')) {
-            wp_redirect(
-                VCV_LICENSE_ACTIVATE_URL .
-                '/?redirect=' . rawurlencode(
-                    $urlHelper->adminAjax(
-                        ['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
-                    )
-                ) .
-                '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
-                '&url=' . VCV_PLUGIN_URL .
-                '&domain=' . get_site_url() .
-                '&vcv-version=' . VCV_VERSION
-            );
-        } else {
-            wp_redirect(
-                VCV_LICENSE_ACTIVATE_URL .
-                '/?redirect=' . rawurlencode(
-                    $urlHelper->adminAjax(
-                        ['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
-                    )
-                ) .
-                '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
-                '&url=' . VCV_PLUGIN_URL .
-                '&domain=' . get_site_url() .
-                '&agreement=' . $agreement .
-                '&category=' . rawurlencode($category) .
-                '&vcv-version=' . VCV_VERSION
-            );
-        }
+        wp_redirect(
+            VCV_LICENSE_ACTIVATE_URL .
+            '/?redirect=' . rawurlencode(
+                $urlHelper->adminAjax(
+                    ['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
+                )
+            ) .
+            '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
+            '&url=' . VCV_PLUGIN_URL .
+            '&domain=' . get_site_url() .
+            '&agreement=' . $agreement .
+            '&category=' . rawurlencode($category) .
+            '&vcv-version=' . VCV_VERSION
+        );
 
         exit;
     }
