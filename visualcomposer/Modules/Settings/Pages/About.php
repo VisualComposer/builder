@@ -38,7 +38,7 @@ class About extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = 'account/partials/activation-layout';
+    protected $templatePath = 'account/partials/activation-go-premium';
 
     /**
      * About constructor.
