@@ -20,7 +20,7 @@ import PostBuilder from './postBuilder'
     }
 
     window.vcvRebuildPostSkipPost = (id) => {
-      vcCake.getStorage('wordpressRebuildPostData').trigger('skipPost', id)
+      vcCake.getStorage('wordpressData').trigger('skipPost', id)
     }
     window.vcv = vcCake.getService('api').publicEvents
     return
