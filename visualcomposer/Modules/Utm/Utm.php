@@ -30,9 +30,6 @@ class Utm extends Container implements Module
 
     protected function outputUtm($response, $payload, UtmHelper $utmHelper)
     {
-        if ($this->skipAddUtm) {
-            return $response;
-        }
         $response = array_merge(
             $response,
             [
@@ -45,7 +42,6 @@ class Utm extends Container implements Module
                 ),
             ]
         );
-        $this->skipAddUtm = true;
 
         return $response;
     }
