@@ -2,6 +2,7 @@ import React from 'react'
 import LoadingScreen from './loadingScreen'
 import FinalScreen from './finalScreen'
 import PostUpdater from './postUpdate'
+import OopsScreen from './oopsScreen'
 
 const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
@@ -277,6 +278,18 @@ export default class ActivationSectionProvider extends React.Component {
     })
   }
 
+  getActiveScreen () {
+    if (this.state.error) {
+      return <OopsScreen />
+    }
+
+    if (this.state.isLoadingFinished) {
+      return <FinalScreen />
+    } else {
+      return <LoadingScreen />
+    }
+  }
+
   render () {
     return (
       <ActivationSectionContext.Provider
@@ -285,7 +298,7 @@ export default class ActivationSectionProvider extends React.Component {
         }}
       >
         <div className='vcv-activation-section'>
-          {this.state.isLoadingFinished ? <FinalScreen /> : <LoadingScreen />}
+          {this.getActiveScreen()}
         </div>
       </ActivationSectionContext.Provider>
     )
