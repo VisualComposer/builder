@@ -103,6 +103,8 @@ class UpgradeRedesign extends Container implements Module
             exit;
         } elseif (!$licenseHelper->getKeyToken()) {
             $this->redirectToAbout();
+        } elseif ($licenseHelper->isActivated() && $licenseHelper->getKeyToken()) {
+            $licenseHelper->setKeyToken('');
         }
     }
 
