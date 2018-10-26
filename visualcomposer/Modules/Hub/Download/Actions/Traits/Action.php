@@ -55,8 +55,7 @@ trait Action
             $loggerHelper = vchelper('Logger');
 
             // If zip is less than 2kb something wrong (our smallest bundle is 7.9kb - separator)
-            $kbCount = vcvenv('VCV_FT_ASSETS_INSIDE_PLUGIN', false) ? 2 : 1;
-            if (filesize($archive) < $kbCount * 1024) {
+            if (!vcvenv('VCV_FT_ASSETS_INSIDE_PLUGIN') && filesize($archive) < 2 * 1024) {
                 $loggerHelper->log(
                     __('Bundle size is too small', 'vcwb') . ' #10062',
                     [
