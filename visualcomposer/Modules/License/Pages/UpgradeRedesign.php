@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\License;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Token;
@@ -100,7 +101,7 @@ class UpgradeRedesign extends Container implements Module
             /** @see \VisualComposer\Modules\License\Pages\Upgrade::activateInAccount */
             $this->call('activateInAccount');
             exit;
-        } elseif (!$licenseHelper->getKeyToken() || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())) {
+        } elseif (!$licenseHelper->getKeyToken()) {
             $this->redirectToAbout();
         }
     }
