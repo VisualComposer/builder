@@ -100,7 +100,7 @@ class UpgradeRedesign extends Container implements Module
             /** @see \VisualComposer\Modules\License\Pages\Upgrade::activateInAccount */
             $this->call('activateInAccount');
             exit;
-        } elseif (!$licenseHelper->getKeyToken()) {
+        } elseif (!$licenseHelper->getKeyToken() || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())) {
             $this->redirectToAbout();
         }
     }
