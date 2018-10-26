@@ -38,7 +38,7 @@ class About extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = 'account/partials/activation-layout';
+    protected $templatePath = '';
 
     /**
      * About constructor.
@@ -140,6 +140,11 @@ class About extends Container implements Module
         $variables[] = [
             'key' => 'VCV_PLUGIN_VERSION',
             'value' => VCV_VERSION,
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_ACTIVATION_ACTIVE_PAGE',
+            'value' => 'last',
             'type' => 'constant',
         ];
         if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
