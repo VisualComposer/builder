@@ -2,7 +2,6 @@ import React from 'react'
 import { ActivationSectionConsumer } from './activationSection'
 
 export default class LoadingScreen extends React.Component {
-  static actionRequestFailed = false
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static texts = {
     downloadingAssetsText: LoadingScreen.localizations ? LoadingScreen.localizations.downloadingAssets : 'Downloading assets {i} of {cnt}: {name}',
