@@ -91,7 +91,7 @@ class UpgradeRedesign extends Container implements Module
      *
      * @throws \ReflectionException
      */
-    protected function beforePageRender()
+    protected function beforePageRender(Options $optionsHelper)
     {
         if (!vchelper('AccessCurrentUser')->wpAll('manage_options')->get()) {
             return;
@@ -103,8 +103,6 @@ class UpgradeRedesign extends Container implements Module
             exit;
         } elseif (!$licenseHelper->getKeyToken()) {
             $this->redirectToAbout();
-        } elseif ($licenseHelper->isActivated() && $licenseHelper->getKeyToken()) {
-            $licenseHelper->setKeyToken('');
         }
     }
 
