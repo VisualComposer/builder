@@ -186,6 +186,11 @@ class Update implements Helper
                 'type' => 'constant',
             ];
         }
+        $variables[] = [
+            'key' => 'VCV_PREMIUM_URL',
+            'value' => admin_url('admin.php?page=vcv-upgrade'),
+            'type' => 'constant',
+        ];
 
         return $variables;
     }

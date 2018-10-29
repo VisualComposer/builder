@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Url;
 
 class UpdateVariablesController extends Container implements Module
 {
@@ -26,13 +27,56 @@ class UpdateVariablesController extends Container implements Module
         $this->addFilter('vcv:license:variables', 'addVariables');
     }
 
-    protected function addVariables($variables, $payload, Update $updateHelper)
+    protected function addVariables($variables, $payload, Update $updateHelper, Url $urlHelper)
     {
         $variables = array_merge($variables, $updateHelper->getVariables());
-        if($payload['slug'] === 'vcv-about') {
+        if ($payload['slug'] === 'vcv-about') {
             $variables[] = [
                 'key' => 'VCV_ACTIVE_PAGE',
                 'value' => 'last',
+                'type' => 'constant',
+            ];
+        } else if ($payload['slug'] === 'vcv-go-premium') {
+            $variables[] = [
+                'key' => 'VCV_ACTIVATION_SLIDES',
+                'value' => [
+                    [
+                        'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-01.png')),
+                        'title' => esc_js(
+                            __(
+                                'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.',
+                                'vcwb'
+                            )
+                        ),
+                    ],
+                    [
+                        'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-02.png')),
+                        'title' => esc_js(
+                            __(
+                                'Get more elements and templates from the Visual Composer Hub - a free online marketplace.',
+                                'vcwb'
+                            )
+                        ),
+                    ],
+                    [
+                        'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-03.png')),
+                        'title' => esc_js(
+                            __(
+                                'Unparallel performance for you and your website to rank higher and deliver faster.',
+                                'vcwb'
+                            )
+                        ),
+                    ],
+                    [
+                        'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-04.png')),
+                        'title' => esc_js(
+                            __(
+                                'Control every detail of your website with flexible design options and customization tools.',
+                                'vcwb'
+                            )
+                        ),
+                    ],
+                ],
                 'type' => 'constant',
             ];
         }
