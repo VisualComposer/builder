@@ -36,7 +36,7 @@ class UpdateVariablesController extends Container implements Module
                 'value' => 'last',
                 'type' => 'constant',
             ];
-        } else if ($payload['slug'] === 'vcv-go-premium') {
+        } elseif ($payload['slug'] === 'vcv-go-premium') {
             $variables[] = [
                 'key' => 'VCV_ACTIVATION_SLIDES',
                 'value' => [
