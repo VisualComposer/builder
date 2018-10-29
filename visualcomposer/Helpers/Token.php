@@ -148,7 +148,7 @@ class Token extends Container implements Helper
      */
     public function isSiteAuthorized()
     {
-        return (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
+        return vcvenv('VCV_FT_ACTIVATION_REDESIGN') || (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
     }
 
     /**

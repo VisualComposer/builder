@@ -13,7 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\License;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Token;
@@ -59,8 +58,7 @@ class UpgradeRedesign extends Container implements Module
             $this->addEvent('vcv:inited', 'beforePageRender');
         }
 
-        if (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
-            || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())) {
+        if (!$licenseHelper->getKey() || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())) {
             $this->wpAddAction(
                 'admin_menu',
                 'addPage',
@@ -91,7 +89,7 @@ class UpgradeRedesign extends Container implements Module
      *
      * @throws \ReflectionException
      */
-    protected function beforePageRender(Options $optionsHelper)
+    protected function beforePageRender()
     {
         if (!vchelper('AccessCurrentUser')->wpAll('manage_options')->get()) {
             return;

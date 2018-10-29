@@ -48,7 +48,7 @@ class GetPremiumRedesign extends Container implements Module
         }
 
         // Setting site authorized for new activation
-        $tokenHelper->setSiteAuthorized();
+        //$tokenHelper->setSiteAuthorized();
 
         $this->wpAddAction(
             'admin_menu',

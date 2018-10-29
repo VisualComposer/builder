@@ -17,8 +17,6 @@ class Utm extends Container implements Module
 {
     use EventsFilters;
 
-    protected $skipAddUtm;
-
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Utm\Utm::outputUtm */
