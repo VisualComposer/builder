@@ -98,7 +98,6 @@ class AssetsShared extends Container implements Helper
                     }
                     $assetsLibraries[ $key ] = $value;
                 }
-
             }
         }
 
