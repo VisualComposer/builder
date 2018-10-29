@@ -62,7 +62,7 @@ vcCake.add('contentModernLayout', (api) => {
           name: 'vcv-update-notice',
           expireInDays: 1
         },
-        time: 10000
+        time: 5000
       })
 
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
