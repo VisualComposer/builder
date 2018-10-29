@@ -35,7 +35,7 @@ class UpdateFePageRedesign extends Container implements Module
             $content = vcview(
                 'license/layout',
                 [
-                    'slug' => 'vcv-update',
+                    'slug' => 'vcv-update-fe',
                 ]
             );
             vcvdie(

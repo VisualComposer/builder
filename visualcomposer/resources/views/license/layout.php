@@ -1,11 +1,24 @@
 <?php
+/**
+ * @var string $slug - current page slug
+ */
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
 
-$variables = vcfilter('vcv:license:variables', [], ['slug' => $slug]);
+$variables = vcfilter(
+    'vcv:license:variables',
+    [
+        [
+            'key' => 'VCV_SLUG',
+            'value' => $slug,
+            'type' => 'constant',
+        ],
+    ],
+    ['slug' => $slug]
+);
 if (is_array($variables)) {
     foreach ($variables as $variable) {
         if (is_array($variable) && isset($variable['key'], $variable['value'])) {
