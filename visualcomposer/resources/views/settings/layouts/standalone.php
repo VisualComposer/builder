@@ -31,6 +31,9 @@ if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
 <script>
   window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
   window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
+  window.vcvActivationFinishedUrl = '<?php echo vchelper('Url')->adminAjax(
+      ['vcv-action' => 'account:activation:finished:adminNonce']
+  ); ?>';
 </script>
 <div class="wrap vcv-settings">
     <?php

@@ -231,7 +231,7 @@ export default class ActivationSectionProvider extends React.Component {
 
   doneActions (requestFailed) {
     this.setState({ postUpdateDone: true })
-    $.ajax(window.VCV_UPDATE_FINISH_URL(),
+    $.ajax(window.vcvActivationFinishedUrl,
       {
         dataType: 'json',
         data: {
