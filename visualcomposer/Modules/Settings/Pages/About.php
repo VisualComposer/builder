@@ -97,6 +97,13 @@ class About extends Container implements Module
         EditorPostType $editorPostTypeHelper
     ) {
         $variables[] = [
+            'key' => 'VCV_ACTIVATION_FINISHED_URL',
+            'value' => $urlHelper->adminAjax(
+                ['vcv-action' => 'account:activation:finished:adminNonce']
+            ),
+            'type' => 'constant',
+        ];
+        $variables[] = [
             'key' => 'VCV_UPDATE_ACTIONS_URL',
             'value' => $urlHelper->adminAjax(
                 ['vcv-action' => 'account:activation:adminNonce']
