@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -47,8 +48,14 @@ class About extends Container implements Module
     {
         $this->wpAddAction(
             'admin_menu',
-            function (Token $tokenHelper, Request $requestHelper) {
-                if (!$tokenHelper->isSiteAuthorized()) {
+            function (Token $tokenHelper, Request $requestHelper, License $licenseHelper) {
+                if (
+                    (
+                        vcvenv('VCV_FT_ACTIVATION_REDESIGN') && !$licenseHelper->getKey())
+                    || (
+                        !vcvenv('VCV_FT_ACTIVATION_REDESIGN') && !$tokenHelper->isSiteAuthorized()
+                    )
+                ) {
                     if ($requestHelper->input('page') === $this->getSlug()) {
                         $activationPageModule = vcapp('LicensePagesActivationPage');
                         wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
@@ -75,13 +82,13 @@ class About extends Container implements Module
         $urlHelper = vchelper('Url');
         wp_register_script(
             'vcv:settings:script',
-            $urlHelper->assetUrl('dist/'.$bundleName.'.bundle.js'),
+            $urlHelper->assetUrl('dist/' . $bundleName . '.bundle.js'),
             [],
             VCV_VERSION
         );
         wp_register_style(
             'vcv:settings:style',
-            $urlHelper->assetUrl('dist/'.$bundleName.'.bundle.css'),
+            $urlHelper->assetUrl('dist/' . $bundleName . '.bundle.css'),
             [],
             VCV_VERSION
         );
@@ -186,7 +193,7 @@ class About extends Container implements Module
     }
 
     /**
-     *
+     * @throws \Exception
      */
     protected function addPage()
     {
