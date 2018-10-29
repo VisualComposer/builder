@@ -131,9 +131,4 @@ class FactoryResetController extends Container implements Module
         wp_redirect(admin_url('admin.php?page=vcv-settings'));
         die;
     }
-
-    protected function renderFactoryResetNotice()
-    {
-
-    }
 }
