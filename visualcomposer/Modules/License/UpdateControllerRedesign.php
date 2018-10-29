@@ -74,12 +74,8 @@ class UpdateControllerRedesign extends Container implements Module
         License $licenseHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
-            && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
-            || ($tokenHelper->isSiteAuthorized() && $licenseHelper->isActivated()
-                && !$optionsHelper->getTransient(
-                    'vcv:activation:request'
-                ))
+            || ($licenseHelper->isActivated() && !$optionsHelper->getTransient('vcv:activation:request'))
         ) {
             $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
 
@@ -118,7 +114,8 @@ class UpdateControllerRedesign extends Container implements Module
             $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
             $loggerHelper->log(
                 sprintf(
-                    __('Activation already in process. Please wait %1$s seconds before you try again', 'vcwb') . ' #10016',
+                    __('Activation already in process. Please wait %1$s seconds before you try again', 'vcwb')
+                    . ' #10016',
                     $expiresAfter
                 ),
                 [

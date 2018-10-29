@@ -23,7 +23,7 @@ export default class ActivationSectionProvider extends React.Component {
       assetsActionsDone: false,
       postUpdateDone: false,
       actionsStarted: false,
-      isLoadingFinished: window.vcvActivationActivePage === 'last-go-premium' || (window.VCV_ACTIVATION_ACTIVE_PAGE && window.VCV_ACTIVATION_ACTIVE_PAGE() === 'last')
+      isLoadingFinished: window.VCV_ACTIVE_PAGE && window.VCV_ACTIVE_PAGE() === 'last'
     }
 
     this.setActions = this.setActions.bind(this)
@@ -231,7 +231,7 @@ export default class ActivationSectionProvider extends React.Component {
 
   doneActions (requestFailed) {
     this.setState({ postUpdateDone: true })
-    $.ajax(window.VCV_ACTIVATION_FINISHED_URL(),
+    $.ajax(window.VCV_UPDATE_FINISH_URL(),
       {
         dataType: 'json',
         data: {

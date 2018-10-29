@@ -6,26 +6,6 @@ if (!defined('ABSPATH')) {
 }
 
 evcview('settings/partials/admin-nonce');
-if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-    $extraOutput = vcfilter('vcv:frontend:update:head:extraOutput', []);
-    if (is_array($extraOutput)) {
-        foreach ($extraOutput as $output) {
-            // @codingStandardsIgnoreLine
-            echo $output;
-        }
-        unset($output);
-    }
-    $variables = vcfilter('vcv:upgrade:variables', []);
-    if (is_array($variables)) {
-        foreach ($variables as $variable) {
-            if (is_array($variable) && isset($variable['key'], $variable['value'])) {
-                $type = isset($variable['type']) ? $variable['type'] : 'variable';
-                evcview('partials/variableTypes/' . $type, $variable);
-            }
-        }
-        unset($variable);
-    }
-}
 ?>
 
 <script>

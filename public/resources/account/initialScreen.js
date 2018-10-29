@@ -33,7 +33,7 @@ export default class InitialScreen extends React.Component {
         <SliderComponent />
         <div className='vcv-activation-button-container'>
           <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
-          <a href={window.VCV_ACTIVATION_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{InitialScreen.texts.goPremium}</a>
+          <a href={window.VCV_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{InitialScreen.texts.goPremium}</a>
         </div>
       </div>
     )

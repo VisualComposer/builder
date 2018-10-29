@@ -10,14 +10,10 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Token;
-use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
@@ -39,16 +35,13 @@ class GetPremiumRedesign extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = 'license/activation/layout';
+    protected $templatePath = 'license/layout';
 
-    public function __construct(License $licenseHelper, Token $tokenHelper)
+    public function __construct(License $licenseHelper)
     {
         if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
-
-        // Setting site authorized for new activation
-        //$tokenHelper->setSiteAuthorized();
 
         $this->wpAddAction(
             'admin_menu',
@@ -92,99 +85,10 @@ class GetPremiumRedesign extends Container implements Module
         );
         wp_enqueue_script('vcv:wpActivationRedesign:script');
         wp_enqueue_style('vcv:wpActivationRedesign:style');
-        $this->addFilter('vcv:license:variables', 'addActivationVariables');
-    }
-
-    protected function addActivationVariables(
-        $variables,
-        CurrentUser $currentUserAccessHelper,
-        EditorPostType $editorPostTypeHelper,
-        Url $urlHelper
-    ) {
-        $variables[] = [
-            'key' => 'VCV_ACTIVATION_CURRENT_PAGE',
-            'value' => '',
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_PLUGIN_VERSION',
-            'value' => VCV_VERSION,
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_ACTIVATION_SLIDES',
-            'value' => [
-                [
-                    'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-01.png')),
-                    'title' => esc_js(__(
-                        'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.',
-                        'vcwb'
-                    )),
-                ],
-                [
-                    'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-02.png')),
-                    'title' => esc_js(__(
-                        'Get more elements and templates from the Visual Composer Hub - a free online marketplace.',
-                        'vcwb'
-                    )),
-                ],
-                [
-                    'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-03.png')),
-                    'title' => esc_js(__(
-                        'Unparallel performance for you and your website to rank higher and deliver faster.',
-                        'vcwb'
-                    )),
-                ],
-                [
-                    'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-04.png')),
-                    'title' => esc_js(__(
-                        'Control every detail of your website with flexible design options and customization tools.',
-                        'vcwb'
-                    )),
-                ],
-            ],
-            'type' => 'constant',
-        ];
-
-        if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
-            $variables[] = [
-                'key' => 'VCV_CREATE_NEW_URL',
-                'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend'),
-                'type' => 'constant',
-            ];
-            $variables[] = [
-                'key' => 'VCV_CREATE_NEW_TEXT',
-                'value' => __('Create new page', 'vcwb'),
-                'type' => 'constant',
-            ];
-        } elseif ($currentUserAccessHelper->wpAll('edit_posts')->get()
-            && $editorPostTypeHelper->isEditorEnabled(
-                'post'
-            )) {
-            $variables[] = [
-                'key' => 'VCV_CREATE_NEW_URL',
-                'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend'),
-                'type' => 'constant',
-            ];
-
-            $variables[] = [
-                'key' => 'VCV_CREATE_NEW_TEXT',
-                'value' => __('Create new post', 'vcwb'),
-                'type' => 'constant',
-            ];
-        }
-        $variables[] = [
-            'key' => 'VCV_ACTIVATION_PREMIUM_URL',
-            'value' => admin_url('admin.php?page=vcv-upgrade'),
-            'type' => 'constant',
-        ];
-
-
-        return $variables;
     }
 
     /**
-     *
+     * @throws \Exception
      */
     protected function addPage()
     {
@@ -216,6 +120,7 @@ class GetPremiumRedesign extends Container implements Module
      */
     protected function pluginsPageLink($links)
     {
+        /** @noinspection HtmlUnknownTarget */
         $goPremiumLink = sprintf(
             '<a href="%s">%s</a>',
             esc_url(admin_url('admin.php?page=vcv-go-premium')) . '&vcv-ref=plugins-page',

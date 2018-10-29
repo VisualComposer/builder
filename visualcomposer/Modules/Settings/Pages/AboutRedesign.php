@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub\Download\Pages;
+namespace VisualComposer\Modules\Settings\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -10,15 +10,17 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
-class UpdateBePage extends Container implements Module
+/**
+ * Class AboutRedesign.
+ */
+class AboutRedesign extends Container implements Module
 {
     use Page;
     use SubMenu;
@@ -28,31 +30,37 @@ class UpdateBePage extends Container implements Module
     /**
      * @var string
      */
-    protected $slug = 'vcv-update';
+    protected $slug = 'vcv-about';
 
     /**
      * @var string
      */
-    protected $templatePath = 'hub/updating-layout';
+    protected $templatePath = 'license/layout';
 
+    /**
+     * About constructor.
+     */
     public function __construct()
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
 
         $this->wpAddAction(
             'admin_menu',
-            function (Options $optionsHelper, Request $requestHelper, Token $tokenHelper) {
-                if ($tokenHelper->isSiteAuthorized() && $optionsHelper->get('bundleUpdateRequired')) {
+            function (Request $requestHelper, License $licenseHelper) {
+                if (!$licenseHelper->getKey()) {
+                    if ($requestHelper->input('page') === $this->getSlug()) {
+                        $url = vcapp('LicensePagesGetPremiumRedesign')->getSlug();
+                        wp_redirect(admin_url('admin.php?page=' . rawurlencode($url)));
+                        exit;
+                    }
+                } else {
+                    /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
                     $this->call('addPage');
-                } elseif ($requestHelper->input('page') === $this->getSlug()) {
-                    $aboutPage = vcapp('SettingsPagesAbout');
-                    wp_redirect(admin_url('admin.php?page=' . rawurlencode($aboutPage->getSlug())));
-                    exit;
                 }
             },
-            40
+            11
         );
     }
 
@@ -63,31 +71,31 @@ class UpdateBePage extends Container implements Module
     {
         $urlHelper = vchelper('Url');
         wp_register_script(
-            'vcv:settings:script',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+            'vcv:wpUpdateRedesign:script',
+            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.js'),
             [],
             VCV_VERSION
         );
         wp_register_style(
-            'vcv:settings:style',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+            'vcv:wpUpdateRedesign:style',
+            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.css'),
             [],
             VCV_VERSION
         );
-        wp_enqueue_script('vcv:settings:script');
-        wp_enqueue_style('vcv:settings:style');
+        wp_enqueue_script('vcv:wpUpdateRedesign:script');
+        wp_enqueue_style('vcv:wpUpdateRedesign:style');
     }
 
     /**
-     *
+     * @throws \Exception
      */
     protected function addPage()
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => __('Update', 'vcwb'),
-            'showTab' => false,
+            'title' => __('About', 'vcwb'),
             'layout' => 'standalone',
+            'showTab' => false,
             'controller' => $this,
             'capability' => 'edit_posts',
         ];

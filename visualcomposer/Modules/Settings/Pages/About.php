@@ -15,11 +15,8 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
-use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Access\EditorPostType;
 
 /**
  * Class About.
@@ -39,26 +36,24 @@ class About extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = '';
+    protected $templatePath = 'account/partials/activation-layout';
 
     /**
      * About constructor.
      */
     public function __construct()
     {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            return;
+        }
         $this->wpAddAction(
             'admin_menu',
             function (Token $tokenHelper, Request $requestHelper, License $licenseHelper) {
-                if (
-                    (
-                        vcvenv('VCV_FT_ACTIVATION_REDESIGN') && !$licenseHelper->getKey())
-                    || (
-                        !vcvenv('VCV_FT_ACTIVATION_REDESIGN') && !$tokenHelper->isSiteAuthorized()
-                    )
-                ) {
+                if (($tokenHelper->isSiteAuthorized() && !$licenseHelper->getKey())
+                    || !$tokenHelper->isSiteAuthorized()) {
                     if ($requestHelper->input('page') === $this->getSlug()) {
-                        $activationPageModule = vcapp('LicensePagesActivationPage');
-                        wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
+                        $url = vcapp('LicensePagesActivationPage')->getSlug();
+                        wp_redirect(admin_url('admin.php?page=' . rawurlencode($url)));
                         exit;
                     }
                 } else {
@@ -75,10 +70,7 @@ class About extends Container implements Module
      */
     protected function beforeRender()
     {
-        $bundleName = 'wpUpdateRedesign';
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            $bundleName = 'wpsettings';
-        }
+        $bundleName = 'wpsettings';
         $urlHelper = vchelper('Url');
         wp_register_script(
             'vcv:settings:script',
@@ -94,102 +86,6 @@ class About extends Container implements Module
         );
         wp_enqueue_script('vcv:settings:script');
         wp_enqueue_style('vcv:settings:style');
-        $this->addFilter('vcv:upgrade:variables', 'addVariables');
-    }
-
-    protected function addVariables(
-        $variables,
-        Url $urlHelper,
-        CurrentUser $currentUserAccessHelper,
-        EditorPostType $editorPostTypeHelper
-    ) {
-        $variables[] = [
-            'key' => 'VCV_ACTIVATION_FINISHED_URL',
-            'value' => $urlHelper->adminAjax(
-                ['vcv-action' => 'account:activation:finished:adminNonce']
-            ),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_ACTIONS_URL',
-            'value' => $urlHelper->adminAjax(
-                ['vcv-action' => 'account:activation:adminNonce']
-            ),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_PROCESS_ACTION_URL',
-            'value' => $urlHelper->adminAjax(['vcv-action' => 'hub:action:adminNonce']),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_FINISH_URL',
-            'value' => $urlHelper->adminAjax(
-                ['vcv-action' => 'bundle:update:finished:adminNonce']
-            ),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_AJAX_TIME',
-            'value' => intval($_SERVER['REQUEST_TIME']),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_WP_BUNDLE_URL',
-            'value' => $urlHelper->to('public/dist/wp.bundle.js'),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_VENDOR_URL',
-            'value' => $urlHelper->to('public/dist/vendor.bundle.js'),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_GLOBAL_VARIABLES_URL',
-            'value' => $urlHelper->adminAjax(
-                ['vcv-action' => 'elements:globalVariables:adminNonce']
-            ),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_PLUGIN_VERSION',
-            'value' => VCV_VERSION,
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_ACTIVATION_ACTIVE_PAGE',
-            'value' => 'last',
-            'type' => 'constant',
-        ];
-        if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
-            $variables[] = [
-                'key' => 'VCV_CREATE_NEW_URL',
-                'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend'),
-                'type' => 'constant',
-            ];
-            $variables[] = [
-                'key' => 'VCV_CREATE_NEW_TEXT',
-                'value' => __('Create new page', 'vcwb'),
-                'type' => 'constant',
-            ];
-        } elseif ($currentUserAccessHelper->wpAll('edit_posts')->get()
-            && $editorPostTypeHelper->isEditorEnabled(
-                'post'
-            )) {
-            $variables[] = [
-                'key' => 'VCV_CREATE_NEW_URL',
-                'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend'),
-                'type' => 'constant',
-            ];
-
-            $variables[] = [
-                'key' => 'VCV_CREATE_NEW_TEXT',
-                'value' => __('Create new post', 'vcwb'),
-                'type' => 'constant',
-            ];
-        }
-
-        return $variables;
     }
 
     /**
