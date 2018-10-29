@@ -1,6 +1,7 @@
 import React from 'react'
 import LoadingScreen from './loadingScreen'
 import FinalScreen from './finalScreen'
+import InitialScreen from './initialScreen'
 import PostUpdater from './postUpdate'
 import OopsScreen from './oopsScreen'
 
@@ -9,6 +10,8 @@ const ActivationSectionContext = React.createContext()
 
 export default class ActivationSectionProvider extends React.Component {
   static actionRequestFailed = false
+  static activePage = window.VCV_SLUG && window.VCV_SLUG()
+  static shouldDoUpdate = ActivationSectionProvider.activePage === 'vcv-update' || ActivationSectionProvider.activePage === 'vcv-upgrade' || ActivationSectionProvider.activePage === 'vcv-update-fe'
 
   constructor (props) {
     super(props)
@@ -23,7 +26,7 @@ export default class ActivationSectionProvider extends React.Component {
       assetsActionsDone: false,
       postUpdateDone: false,
       actionsStarted: false,
-      isLoadingFinished: window.VCV_ACTIVE_PAGE && window.VCV_ACTIVE_PAGE() === 'last'
+      isLoadingFinished: false
     }
 
     this.setActions = this.setActions.bind(this)
@@ -35,7 +38,8 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   componentDidMount () {
-    if (!this.state.isLoadingFinished) {
+    const { shouldDoUpdate } = ActivationSectionProvider
+    if (shouldDoUpdate) {
       this.setActions()
     }
   }
@@ -136,7 +140,7 @@ export default class ActivationSectionProvider extends React.Component {
       }
     ).done((json) => {
       if (json && json.status) {
-        LoadingScreen.actionRequestFailed = false
+        ActivationSectionProvider.actionRequestFailed = false
 
         if (this.state.activeAssetsAction === cnt - 1) {
           this.setState({ assetsActionsDone: true })
@@ -150,7 +154,7 @@ export default class ActivationSectionProvider extends React.Component {
           this.doAction()
         }
       } else {
-        if (LoadingScreen.actionRequestFailed) {
+        if (ActivationSectionProvider.actionRequestFailed) {
           try {
             // let messageJson = JSON.parse(json && json.message ? json.message : '""')
             if (window.vcvActivationType !== 'premium') {
@@ -163,13 +167,13 @@ export default class ActivationSectionProvider extends React.Component {
             console.log('show oops screen')
           }
         } else {
-          LoadingScreen.actionRequestFailed = true
+          ActivationSectionProvider.actionRequestFailed = true
           this.doAction()
         }
       }
     }).fail((jqxhr, textStatus, error) => {
       console.log('error')
-      if (LoadingScreen.actionRequestFailed) {
+      if (ActivationSectionProvider.actionRequestFailed) {
         console.log('log error')
         try {
           // let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
@@ -185,7 +189,7 @@ export default class ActivationSectionProvider extends React.Component {
         }
       } else {
         // Try again one more time.
-        LoadingScreen.actionRequestFailed = true
+        ActivationSectionProvider.actionRequestFailed = true
         this.doAction()
       }
     })
@@ -278,15 +282,35 @@ export default class ActivationSectionProvider extends React.Component {
     })
   }
 
+  redirect () {
+    if (window.vcvPageBack && window.vcvPageBack.length) {
+      window.location.href = window.vcvPageBack
+    } else {
+      window.location.reload()
+    }
+  }
+
   getActiveScreen () {
+    const { activePage, shouldDoUpdate } = ActivationSectionProvider
+
     if (this.state.error) {
       return <OopsScreen />
     }
 
-    if (this.state.isLoadingFinished) {
+    if (shouldDoUpdate) {
+      if (this.state.isLoadingFinished) {
+        if (activePage === 'vcv-update-fe') { // Redirect to frontend editor after update is finished
+          this.redirect()
+        } else { // Show final screen if backend update
+          return <FinalScreen />
+        }
+      } else {
+        return <LoadingScreen />
+      }
+    } else if (activePage === 'vcv-about') {
       return <FinalScreen />
-    } else {
-      return <LoadingScreen />
+    } else if (activePage === 'vcv-go-premium') {
+      return <InitialScreen />
     }
   }
 
