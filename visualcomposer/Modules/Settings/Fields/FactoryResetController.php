@@ -13,12 +13,12 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Nonce;
+use VisualComposer\Helpers\Notice;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
-use VisualComposer\Modules\License\Pages\ActivationPage;
 use VisualComposer\Modules\Settings\Traits\Fields;
 
 class FactoryResetController extends Container implements Module
@@ -98,7 +98,8 @@ class FactoryResetController extends Container implements Module
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Helpers\Logger $loggerHelper
-     * @param \VisualComposer\Modules\License\Pages\ActivationPage $activationPageModule
+     *
+     * @param \VisualComposer\Helpers\Notice $noticeHelper
      *
      * @return bool
      */
@@ -106,7 +107,7 @@ class FactoryResetController extends Container implements Module
         Options $optionsHelper,
         CurrentUser $currentUserAccess,
         Logger $loggerHelper,
-        ActivationPage $activationPageModule
+        Notice $noticeHelper
     ) {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             $loggerHelper->log(__('Wrong permissions', 'vcwb') . ' #10072');
@@ -121,7 +122,13 @@ class FactoryResetController extends Container implements Module
         $optionsHelper->deleteTransient('vcv:settings:factoryReset:allow');
         vcevent('vcv:system:factory:reset');
         wp_cache_flush();
-        wp_redirect(admin_url('admin.php?page=' . rawurlencode($activationPageModule->getSlug())));
+        $noticeHelper->addNotice('vcv-reset-success', __('Visual Composer asset reset was successful.', 'vcwb'), 'success', true);
+        wp_redirect(admin_url('admin.php?page=vcv-settings'));
         die;
+    }
+
+    protected function renderFactoryResetNotice()
+    {
+
     }
 }
