@@ -89,13 +89,15 @@ class AssetsShared extends Container implements Helper
             $assets = $optionsHelper->get('assetsLibrary', []);
             $assetsHelper = vchelper('Assets');
             foreach ($assets as $key => $value) {
-                if (isset($value['jsBundle'])) {
-                    $value['jsBundle'] = $assetsHelper->getAssetUrl($value['jsBundle']);
+                if (!isset($assetsLibraries[ $key ])) {
+                    if (isset($value['jsBundle'])) {
+                        $value['jsBundle'] = $assetsHelper->getAssetUrl($value['jsBundle']);
+                    }
+                    if (isset($value['cssBundle'])) {
+                        $value['cssBundle'] = $assetsHelper->getAssetUrl($value['cssBundle']);
+                    }
+                    $assetsLibraries[ $key ] = $value;
                 }
-                if (isset($value['cssBundle'])) {
-                    $value['cssBundle'] = $assetsHelper->getAssetUrl($value['cssBundle']);
-                }
-                $assetsLibraries[ $key ] = $value;
             }
         }
 
