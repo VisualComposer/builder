@@ -2,11 +2,11 @@
 import Puppeteer from 'puppeteer'
 
 describe('Edit form dependencies tests', () => {
-  const DOMAIN = process.env.DOMAIN || 'https://www.visualcomposer.io'
+  const DOMAIN = process.env.DOMAIN || 'https://localhost:8080'
   const WP_USERNAME = process.env.WP_USERNAME || 'admin'
   const WP_PASSWORD = process.env.WP_PASSWORD || 'admin'
-  const isHeadless = false
-  const withDevTools = false
+  const isHeadless = process.env.IS_HEADLESS === 'true'
+  const withDevTools = process.env.DEVTOOLS === 'true'
   let browser
   let page
 
