@@ -7,7 +7,6 @@ module.exports = Object.assign({}, webpackConfig, {
   entry: {
     wpsettings: './public/wp-settings-main', // todo: remove after redesign
     wpupdate: './public/bundle-update-main', // todo: redesign post update?
-    wpActivationRedesign: './public/wpActivationRedesign',
     wpUpdateRedesign: './public/wpUpdateRedesign'
   },
   output: {
