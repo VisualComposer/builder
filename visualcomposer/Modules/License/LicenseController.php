@@ -85,7 +85,11 @@ class LicenseController extends Container implements Module
                     }
                     $noticeHelper->removeNotice('premium:deactivated');
                     $optionsHelper->deleteTransient('lastBundleUpdate');
-                    wp_redirect(admin_url('admin.php?page=vcv-update'));
+                    if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+                        wp_redirect(admin_url('admin.php?page=vcv-update'));
+                    } else {
+                        wp_redirect(admin_url('admin.php?page=vcv-upgrade'));
+                    }
                     exit;
                 } else {
                     $loggerHelper->logNotice('activation:failed', __('License activation failed', 'vcwb'));
