@@ -72,19 +72,19 @@ class GetPremiumRedesign extends Container implements Module
     {
         $urlHelper = vchelper('Url');
         wp_register_script(
-            'vcv:wpActivationRedesign:script',
-            $urlHelper->assetUrl('dist/wpActivationRedesign.bundle.js'),
+            'vcv:wpUpdateRedesign:script',
+            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.js'),
             [],
             VCV_VERSION
         );
         wp_register_style(
-            'vcv:wpActivationRedesign:style',
-            $urlHelper->assetUrl('dist/wpActivationRedesign.bundle.css'),
+            'vcv:wpUpdateRedesign:style',
+            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.css'),
             [],
             VCV_VERSION
         );
-        wp_enqueue_script('vcv:wpActivationRedesign:script');
-        wp_enqueue_style('vcv:wpActivationRedesign:style');
+        wp_enqueue_script('vcv:wpUpdateRedesign:script');
+        wp_enqueue_style('vcv:wpUpdateRedesign:style');
     }
 
     /**

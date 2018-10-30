@@ -24,7 +24,7 @@ export default class InitialScreen extends React.Component {
 
   render () {
     return (
-      <div className='vcv-activation-section vcv-activation-content' ref={this.activationContent}>
+      <div className='vcv-initial-screen vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
         <VersionBox />
         <p className='vcv-activation-heading'>
