@@ -14,15 +14,18 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class BundleUpdateController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     public function __construct(Token $tokenHelper)
     {
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN') || (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized())) {
             $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
+            $this->wpAddAction('admin_menu', 'checkForUpdate', 9);
             /** @see \VisualComposer\Modules\Hub\Download\BundleUpdateController::checkVersion */
             $this->addFilter('vcv:hub:update:checkVersion', 'checkVersion');
             $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);

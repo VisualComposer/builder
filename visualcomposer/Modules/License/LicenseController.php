@@ -27,17 +27,6 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 class LicenseController extends Container implements Module
 {
     use EventsFilters;
-    use WpFiltersActions;
-
-    /**
-     * LicenseController constructor.
-     */
-    public function __construct()
-    {
-        $this->addFilter('vcv:ajax:license:activate:adminNonce', 'getLicenseKey');
-        $this->addFilter('vcv:ajax:license:deactivate:adminNonce', 'unsetLicenseKey');
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
-    }
 
     /**
      * Receive licence key and store it in DB
@@ -48,8 +37,8 @@ class LicenseController extends Container implements Module
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Logger $loggerHelper
      * @param \VisualComposer\Helpers\Notice $noticeHelper
-     * @param \VisualComposer\Modules\License\Pages\Upgrade $premiumPageModule
      * @param Token $tokenHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return bool|void
      */
@@ -60,7 +49,8 @@ class LicenseController extends Container implements Module
         License $licenseHelper,
         Logger $loggerHelper,
         Notice $noticeHelper,
-        Token $tokenHelper
+        Token $tokenHelper,
+        Options $optionsHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
             return $response;
@@ -94,7 +84,8 @@ class LicenseController extends Container implements Module
                         $tokenHelper->setToken($result['auth_token']);
                     }
                     $noticeHelper->removeNotice('premium:deactivated');
-                    wp_redirect(admin_url('admin.php?page=vcv-upgrade'));
+                    $optionsHelper->deleteTransient('lastBundleUpdate');
+                    wp_redirect(admin_url('admin.php?page=vcv-update'));
                     exit;
                 } else {
                     $loggerHelper->logNotice('activation:failed', __('License activation failed', 'vcwb'));
@@ -111,6 +102,18 @@ class LicenseController extends Container implements Module
         exit;
     }
 
+    use WpFiltersActions;
+
+    /**
+     * LicenseController constructor.
+     */
+    public function __construct()
+    {
+        $this->addFilter('vcv:ajax:license:activate:adminNonce', 'getLicenseKey');
+        $this->addFilter('vcv:ajax:license:deactivate:adminNonce', 'unsetLicenseKey');
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+    }
+
     /**
      * Receive licence key and store it in DB
      *
@@ -119,6 +122,7 @@ class LicenseController extends Container implements Module
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Logger $loggerHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return bool|void
      */
@@ -127,7 +131,8 @@ class LicenseController extends Container implements Module
         Request $requestHelper,
         CurrentUser $currentUserHelper,
         License $licenseHelper,
-        Logger $loggerHelper
+        Logger $loggerHelper,
+        Options $optionsHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
             return $response;
@@ -157,6 +162,7 @@ class LicenseController extends Container implements Module
                     // $result = json_decode($result['body'], true);
                     $licenseHelper->setKey('');
                     $licenseHelper->setKeyToken('');
+                    $optionsHelper->deleteTransient('lastBundleUpdate');
                     wp_redirect(admin_url('index.php'));
                     exit;
                 } else {

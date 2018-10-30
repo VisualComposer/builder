@@ -47,7 +47,7 @@ class UpdateBePageRedesign extends Container implements Module
                 if ($optionsHelper->get('bundleUpdateRequired')) {
                     $this->call('addPage');
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
-                    wp_redirect(admin_url('admin.php?page=vcv-settings'));
+                    wp_redirect(admin_url('admin.php?page=vcv-about'));
                     exit;
                 }
             },

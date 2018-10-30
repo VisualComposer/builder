@@ -56,7 +56,7 @@ class UpgradeRedesign extends Container implements Module
         }
         /** @see \VisualComposer\Modules\License\Pages\Upgrade::addPage */
         if ($requestHelper->input('page') === 'vcv-upgrade') {
-            $this->addEvent('vcv:inited', 'beforePageRender');
+            $this->addEvent('vcv:admin:inited', 'beforePageRender', 10);
         }
 
         if (!$licenseHelper->getKey() || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())) {
@@ -96,11 +96,12 @@ class UpgradeRedesign extends Container implements Module
             return;
         }
         $licenseHelper = vchelper('License');
+        $optionsHelper = vchelper('Options');
         if (!$licenseHelper->getKey()) {
             /** @see \VisualComposer\Modules\License\Pages\Upgrade::activateInAccount */
             $this->call('activateInAccount');
             exit;
-        } elseif (!$licenseHelper->getKeyToken()) {
+        } elseif (!$licenseHelper->getKeyToken() || !$optionsHelper->get('bundleUpdateRequired')) {
             $this->redirectToAbout();
         }
     }
