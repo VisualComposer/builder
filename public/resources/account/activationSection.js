@@ -35,6 +35,10 @@ export default class ActivationSectionProvider extends React.Component {
     this.doneActions = this.doneActions.bind(this)
     this.doPostUpdate = this.doPostUpdate.bind(this)
     this.doUpdatePostAction = this.doUpdatePostAction.bind(this)
+    this.setError = this.setError.bind(this)
+    this.retryErrorAction = this.retryErrorAction.bind(this)
+    this.setError = this.setError.bind(this)
+    this.sendErrorReport = this.sendErrorReport.bind(this)
   }
 
   componentDidMount () {
@@ -251,11 +255,11 @@ export default class ActivationSectionProvider extends React.Component {
           console.warn(json)
 
           try {
-            // let messageJson = JSON.parse(json && json.message ? json.message : '""')
+            let messageJson = JSON.parse(json && json.message ? json.message : '""')
             if (window.vcvActivationType !== 'premium') {
-              console.log('show error and first screen')
+              console.log(messageJson, 'show error and first screen')
             } else {
-              console.log('show oops screen')
+              console.log(messageJson, 'show oops screen')
             }
           } catch (e) {
             console.warn(e)
@@ -263,7 +267,7 @@ export default class ActivationSectionProvider extends React.Component {
           }
         } else {
           // Try again one more time.
-          this.doneActions()
+          this.doneActions(true)
         }
       }
     }).fail((jqxhr, textStatus, error) => {
@@ -277,7 +281,7 @@ export default class ActivationSectionProvider extends React.Component {
         }
       } else {
         // Try again one more time.
-        this.doneActions()
+        this.doneActions(true)
       }
     })
   }
@@ -312,6 +316,18 @@ export default class ActivationSectionProvider extends React.Component {
     } else if (activePage === 'vcv-go-premium') {
       return <InitialScreen />
     }
+  }
+
+  sendErrorReport () {
+    console.log('send error report')
+  }
+
+  retryErrorAction () {
+    console.log('retry action')
+  }
+
+  setError (errorData) { // message, errorAction, errorReportAction
+    this.setState({ error: errorData })
   }
 
   render () {

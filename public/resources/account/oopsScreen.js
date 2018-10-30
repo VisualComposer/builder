@@ -18,29 +18,27 @@ export default class OopsScreen extends React.Component {
     }, 0)
   }
 
-  sendErrorReport () {
-
-  }
-
   render () {
     return (
       <ActivationSectionConsumer>
-        {({ error, errorAction }) => (
-          <div className='vcv-activation-loading-screen vcv-activation-content' ref={this.activationContent}>
+        {({ error }) => (
+          <div className='vcv-activation-error-screen vcv-activation-content' ref={this.activationContent}>
             <VCVLogo />
             <p className='vcv-activation-loading-text'>Oops!</p>
             <p className='vcv-activation-loading-helper-text'>
               {(error && error.message) || OopsScreen.localizations.feOopsMessageDefault}
             </p>
             <div className='vcv-activation-button-container'>
-              {errorAction && (
-                <button onClick={errorAction} className='vcv-activation-button'>
+              {error && error.errorAction && (
+                <button onClick={error.errorAction} className='vcv-activation-button'>
                   Try Again
                 </button>
               )}
-              <button onClick={this.sendErrorReport} className='vcv-activation-button vcv-activation-button--dark'>
-                Send error report
-              </button>
+              {error && error.errorReportAction && (
+                <button onClick={error.errorReportAction} className='vcv-activation-button vcv-activation-button--dark'>
+                  Send error report
+                </button>
+              )}
             </div>
           </div>
         )}
