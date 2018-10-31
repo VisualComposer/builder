@@ -29,9 +29,6 @@ class GutenbergAttributeController extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            return;
-        }
         $this->wpAddAction('init', 'initialize');
 
         $this->optionGroup = 'vcv-settings';
@@ -40,9 +37,9 @@ class GutenbergAttributeController extends Container implements Module
             $this->addFilter('vcv:helpers:settingsDefault', 'defaultSettings');
             /** @see  \VisualComposer\Modules\Vendors\GutenbergAttributeController::buildPage */
             $this->wpAddAction(
-                'vcv:settings:initAdmin:page:' . 'vcv-settings',
+                'admin_init',
                 'buildPage',
-                90
+                11
             );
             $this->call('disableGutenberg');
         }
