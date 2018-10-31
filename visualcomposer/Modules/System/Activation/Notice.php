@@ -21,11 +21,12 @@ class Notice extends Container implements Module
     public function __construct()
     {
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            return;
+            $this->wpAddAction('pre_current_active_plugins', 'renderPluginNoticeTemplateRedesign');
+        } else {
+            $this->wpAddAction('pre_current_active_plugins', 'renderPluginsNameVariable');
+            $this->wpAddAction('pre_current_active_plugins', 'enqueueScripts');
+            $this->wpAddAction('pre_current_active_plugins', 'renderPluginNoticeTemplate');
         }
-        $this->wpAddAction('pre_current_active_plugins', 'renderPluginsNameVariable');
-        $this->wpAddAction('pre_current_active_plugins', 'enqueueScripts');
-        $this->wpAddAction('pre_current_active_plugins', 'renderPluginNoticeTemplate');
     }
 
     protected function enqueueScripts()
@@ -41,5 +42,10 @@ class Notice extends Container implements Module
     protected function renderPluginNoticeTemplate()
     {
         evcview('settings/pages/plugins/notice.php');
+    }
+
+    protected function renderPluginNoticeTemplateRedesign()
+    {
+        evcview('settings/pages/plugins/noticeRedesign.php');
     }
 }

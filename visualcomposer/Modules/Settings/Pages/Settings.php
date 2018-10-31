@@ -54,20 +54,30 @@ class Settings extends Container implements Module
     protected function beforeRender()
     {
         $urlHelper = vchelper('Url');
-        wp_register_script(
-            'vcv:settings:script',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
-            [],
-            VCV_VERSION
-        );
-        wp_register_style(
-            'vcv:settings:style',
-            $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_script('vcv:settings:script');
-        wp_enqueue_style('vcv:settings:style');
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+            wp_register_style(
+                'vcv:wpUpdateRedesign:style',
+                $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.css'),
+                [],
+                VCV_VERSION
+            );
+            wp_enqueue_style('vcv:wpUpdateRedesign:style');
+        } else {
+            wp_register_script(
+                'vcv:settings:script',
+                $urlHelper->assetUrl('dist/wpsettings.bundle.js'),
+                [],
+                VCV_VERSION
+            );
+            wp_register_style(
+                'vcv:settings:style',
+                $urlHelper->assetUrl('dist/wpsettings.bundle.css'),
+                [],
+                VCV_VERSION
+            );
+            wp_enqueue_script('vcv:settings:script');
+            wp_enqueue_style('vcv:settings:style');
+        }
     }
 
     /**
