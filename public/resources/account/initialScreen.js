@@ -18,7 +18,7 @@ export default class InitialScreen extends React.Component {
 
   componentDidMount () {
     setTimeout(() => {
-      this.activationContent.current.classList.add('vcv-activation-content--active')
+      this.activationContent.current && this.activationContent.current.classList.add('vcv-activation-content--active')
     }, 0)
   }
 

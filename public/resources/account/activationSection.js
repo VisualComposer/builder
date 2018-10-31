@@ -49,6 +49,7 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   setActions () {
+    this.setState({ error: null })
     if (window.vcvActivationRequest !== 1) {
       $.getJSON(window.VCV_UPDATE_ACTIONS_URL(),
         {
@@ -69,47 +70,75 @@ export default class ActivationSectionProvider extends React.Component {
             })
             this.processActions()
           } else {
-            console.log('error')
+            console.log('log error')
 
             if (json.message) {
               try {
                 let messageJson = JSON.parse(json.message)
                 if (messageJson) {
-                  console.log('messageJson', messageJson)
+                  this.setError({
+                    message: messageJson,
+                    errorAction: this.setActions,
+                    errorReportAction: this.sendErrorReport
+                  })
                 } else {
-                  console.log('activationFailedText')
+                  this.setError({
+                    errorAction: this.setActions,
+                    errorReportAction: this.sendErrorReport
+                  })
                 }
               } catch (e) {
                 console.warn(e, json.message)
+                this.setError({
+                  errorAction: this.setActions,
+                  errorReportAction: this.sendErrorReport
+                })
               }
             } else {
-              console.log('activationFailedText')
+              this.setError({
+                errorAction: this.setActions,
+                errorReportAction: this.sendErrorReport
+              })
             }
-            console.log('show first screen')
           }
         })
         .fail((jqxhr, textStatus, error) => {
-          console.log('fail error')
           if (jqxhr.responseJSON) {
             let json = jqxhr.responseJSON
             if (json.message) {
               try {
                 let messageJson = JSON.parse(json.message)
                 if (messageJson) {
-                  console.log('messageJson', messageJson)
+                  this.setError({
+                    message: messageJson,
+                    errorAction: this.setActions,
+                    errorReportAction: this.sendErrorReport
+                  })
                 } else {
-                  console.log('activationFailedText')
+                  this.setError({
+                    errorAction: this.setActions,
+                    errorReportAction: this.sendErrorReport
+                  })
                 }
               } catch (e) {
                 console.warn(e, json.message)
+                this.setError({
+                  errorAction: this.setActions,
+                  errorReportAction: this.sendErrorReport
+                })
               }
             } else {
-              console.log('activationFailedText')
+              this.setError({
+                errorAction: this.setActions,
+                errorReportAction: this.sendErrorReport
+              })
             }
           } else {
-            console.log('activationFailedText')
+            this.setError({
+              errorAction: this.setActions,
+              errorReportAction: this.sendErrorReport
+            })
           }
-          console.log('show first screen')
           console.warn(jqxhr.responseText, textStatus, error)
         })
     }
@@ -132,6 +161,7 @@ export default class ActivationSectionProvider extends React.Component {
   doAction () {
     const cnt = this.state.assetsActions.length
     const action = this.state.assetsActions[ this.state.activeAssetsAction ]
+    this.setState({ error: null })
 
     $.ajax(window.VCV_UPDATE_PROCESS_ACTION_URL(),
       {
@@ -160,15 +190,18 @@ export default class ActivationSectionProvider extends React.Component {
       } else {
         if (ActivationSectionProvider.actionRequestFailed) {
           try {
-            // let messageJson = JSON.parse(json && json.message ? json.message : '""')
-            if (window.vcvActivationType !== 'premium') {
-              console.log('show error and first screen')
-            } else {
-              console.log('show oops screen')
-            }
+            let messageJson = JSON.parse(json && json.message ? json.message : '""')
+            this.setError({
+              message: messageJson,
+              errorAction: this.doAction,
+              errorReportAction: this.sendErrorReport
+            })
           } catch (e) {
+            this.setError({
+              errorAction: this.doAction,
+              errorReportAction: this.sendErrorReport
+            })
             console.warn(e)
-            console.log('show oops screen')
           }
         } else {
           ActivationSectionProvider.actionRequestFailed = true
@@ -176,20 +209,22 @@ export default class ActivationSectionProvider extends React.Component {
         }
       }
     }).fail((jqxhr, textStatus, error) => {
-      console.log('error')
       if (ActivationSectionProvider.actionRequestFailed) {
         console.log('log error')
         try {
-          // let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
-          // let messageJson = JSON.parse(responseJson && responseJson.message ? responseJson.message : '""')
-          if (window.vcvActivationType !== 'premium') {
-            console.log('show error and first screen')
-          } else {
-            console.log('show oops screen')
-          }
+          let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
+          let messageJson = JSON.parse(responseJson && responseJson.message ? responseJson.message : '""')
+          this.setError({
+            message: messageJson,
+            errorAction: this.doAction,
+            errorReportAction: this.sendErrorReport
+          })
         } catch (e) {
+          this.setError({
+            errorAction: this.doAction,
+            errorReportAction: this.sendErrorReport
+          })
           console.warn(e)
-          console.log('show oops screen')
         }
       } else {
         // Try again one more time.
@@ -201,7 +236,7 @@ export default class ActivationSectionProvider extends React.Component {
 
   doPostUpdate () {
     const postUpdater = new PostUpdater(window.VCV_UPDATE_GLOBAL_VARIABLES_URL(), window.VCV_UPDATE_VENDOR_URL(), window.VCV_UPDATE_WP_BUNDLE_URL())
-
+    this.setState({ error: null })
     return this.doUpdatePostAction(postUpdater)
   }
 
@@ -220,7 +255,11 @@ export default class ActivationSectionProvider extends React.Component {
       ready = true
     } catch (e) {
       console.log('log error')
-      console.log('show oops screen')
+      this.setError({
+        errorAction: this.doPostUpdate,
+        errorReportAction: this.sendErrorReport
+      })
+      console.warn(e)
     }
     window.clearTimeout(to)
     this.setState({ showSkipPostButton: false })
@@ -256,14 +295,17 @@ export default class ActivationSectionProvider extends React.Component {
 
           try {
             let messageJson = JSON.parse(json && json.message ? json.message : '""')
-            if (window.vcvActivationType !== 'premium') {
-              console.log(messageJson, 'show error and first screen')
-            } else {
-              console.log(messageJson, 'show oops screen')
-            }
+            this.setError({
+              message: messageJson,
+              errorAction: this.doneActions.bind(this, true),
+              errorReportAction: this.sendErrorReport
+            })
           } catch (e) {
+            this.setError({
+              errorAction: this.doneActions.bind(this, true),
+              errorReportAction: this.sendErrorReport
+            })
             console.warn(e)
-            console.log('show oops screen')
           }
         } else {
           // Try again one more time.
@@ -271,14 +313,13 @@ export default class ActivationSectionProvider extends React.Component {
         }
       }
     }).fail((jqxhr, textStatus, error) => {
-      console.log('fail')
       if (requestFailed) {
+        console.log('log error')
+        this.setError({
+          errorAction: this.doneActions.bind(this, true),
+          errorReportAction: this.sendErrorReport
+        })
         console.warn(jqxhr.responseText, textStatus, error)
-        if (window.vcvActivationType !== 'premium') {
-          console.log('show error and first screen')
-        } else {
-          console.log('show oops screen')
-        }
       } else {
         // Try again one more time.
         this.doneActions(true)
