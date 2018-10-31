@@ -5,7 +5,7 @@ import VCVLogo from './vcvLogo'
 export default class OopsScreen extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static texts = {
-    oops: OopsScreen.localizations ? OopsScreen.localizations.feOopsMessageDefault : 'It seems that something went wrong with loading content. Please make sure you are loading correct content and try again.'
+    failedDefault: OopsScreen.localizations ? OopsScreen.localizations.activationFailed : 'Your activation request failed. Please try again.'
   }
   constructor (props) {
     super(props)
@@ -14,7 +14,7 @@ export default class OopsScreen extends React.Component {
 
   componentDidMount () {
     setTimeout(() => {
-      this.activationContent.current.classList.add('vcv-activation-content--active')
+      this.activationContent.current && this.activationContent.current.classList.add('vcv-activation-content--active')
     }, 0)
   }
 
@@ -22,11 +22,11 @@ export default class OopsScreen extends React.Component {
     return (
       <ActivationSectionConsumer>
         {({ error }) => (
-          <div className='vcv-activation-error-screen vcv-activation-content' ref={this.activationContent}>
+          <div className='vcv-activation-loading-screen vcv-activation-content' ref={this.activationContent}>
             <VCVLogo />
             <p className='vcv-activation-loading-text'>Oops!</p>
             <p className='vcv-activation-loading-helper-text'>
-              {(error && error.message) || OopsScreen.localizations.feOopsMessageDefault}
+              {(error && error.message) || OopsScreen.texts.failedDefault}
             </p>
             <div className='vcv-activation-button-container'>
               {error && error.errorAction && (
