@@ -10,7 +10,8 @@ export default class SearchElement extends React.Component {
     changeActive: PropTypes.func.isRequired,
     changeTerm: PropTypes.func.isRequired,
     changeInput: PropTypes.func.isRequired,
-    applyFirstElement: PropTypes.func
+    applyFirstElement: PropTypes.func,
+    disableSelect: PropTypes.bool
   }
   inputTimeout = 0
   dropdownTimeout = 0
@@ -189,13 +190,15 @@ export default class SearchElement extends React.Component {
     let autoFocus = !this.mobileDetect.mobile()
 
     return <div className='vcv-ui-editor-search-container'>
-      <div
-        className={dropdownContainerClasses}
-        data-content={this.state.content}
-        onClick={this.handleCategoryClick}
-      >
-        {this.getCategorySelect()}
-      </div>
+      {!this.props.disableSelect && (
+        <div
+          className={dropdownContainerClasses}
+          data-content={this.state.content}
+          onClick={this.handleCategoryClick}
+        >
+          {this.getCategorySelect()}
+        </div>
+      )}
       <div className={inputContainerClasses}>
         <label className='vcv-ui-editor-search-icon-container' htmlFor='add-element-search'>
           <i className='vcv-ui-icon vcv-ui-icon-search' />

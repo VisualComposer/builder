@@ -203,6 +203,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       changeInput: this.changeInput,
       inputPlaceholder: 'elements and templates',
       activeFilter: this.state.filterId,
+      disableSelect: vcCake.env('FT_EDITOR_HUB_REDESIGN'),
       selectEvent: (active) => {
         let activeId = active && active.constructor === String && active.split('-')[ 0 ]
         let result = this.state
