@@ -33,6 +33,7 @@
 
     .vcv-ui-form-button-group-dropdown {
       border: 0;
+      z-index: 2;
     }
 
     .vcv-ui-form-button-group-dropdown-item {
@@ -124,4 +125,91 @@
 .vcv-ui-hub-dropdown-container {
   margin: 0 0 20px;
   display: none;
+}
+
+.vcv-hub-banner {
+  height: 300px;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  background: #2D3036;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8388px;
+    opacity: .3;
+    background: url('../../../images/hub-banner.png');
+    animation: vcv-slide-image-left infinite 100s linear;
+  }
+}
+
+.vcv-hub-banner-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+}
+
+.vcv-hub-banner-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 1.12px;
+  margin: 0;
+}
+
+.vcv-hub-banner-subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .5px;
+}
+
+.vcv-hub-banner .vcv-hub-banner-button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: .92px;
+  font-size: 12px;
+  width: 315px;
+  max-width: 100%;
+  background: #EBAF4B;
+  text-decoration: none;
+  padding: 15px 20px;
+  color: #fff;
+  margin-top: 26px;
+  transition: background .2s;
+  box-shadow: none;
+  outline: none;
+  text-transform: uppercase;
+
+  &:hover {
+    background: #bb8c3d
+  }
+}
+
+@media (min-width: @vcv-grid-breakpoint-md-min) {
+  .vcv-hub-banner-title {
+    font-size: 36px;
+    line-height: 42px;
+  }
+}
+
+@keyframes vcv-slide-image-left {
+  0%{
+    transform: translate3d(0, 0, 0);
+  }
+  100%{
+    transform: translate3d(-2796px, 0, 0);
+  }
 }

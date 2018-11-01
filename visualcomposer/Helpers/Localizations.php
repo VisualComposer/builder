@@ -356,6 +356,9 @@ class Localizations extends Container implements Helper
             'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'vcwb'),
             'anyLayoutFastAndEasy' => __('Any Layout. Fast and Easy.', 'vcwb'),
             'skipThisPostText' => __('Skip this post', 'vcwb'),
+            'getMoreText' => __('Get More Elements, Templates, and Extensions', 'vcwb'),
+            'downloadFromHubText' => __('Download additional content from the Visual Composer Hub - right in your editor instantly.', 'vcwb'),
+            'getStartedText' => __('Get Started', 'vcwb'),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

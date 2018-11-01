@@ -63,6 +63,7 @@ const categories = (() => {
 })()
 
 export default class TeaserAddElementCategories extends AddElementCategories {
+  static localizations = window.VCV_I18N && window.VCV_I18N()
   allCategories = null
 
   constructor (props) {
@@ -161,8 +162,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   getNoResultsElement () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing found'
+    const nothingFoundText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.nothingFound : 'Nothing found'
 
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
@@ -283,16 +283,27 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return <TeaserTypeControl {...this.getTypeControlProps()} />
   }
 
-  render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+  getHubBanner () {
+    const titleText = TeaserAddElementCategories.localizations ?TeaserAddElementCategories.localizations.getMoreText : 'Get More Elements, Templates, and Extensions'
+    const subtitleText = TeaserAddElementCategories.localizations ?TeaserAddElementCategories.localizations.downloadFromHubText : 'Download additional content from the Visual Composer Hub - right in your editor instantly.'
+    const buttonText = TeaserAddElementCategories.localizations ?TeaserAddElementCategories.localizations.getStartedText : 'Get Started'
+    return <div className='vcv-hub-banner'>
+      <div className='vcv-hub-banner-content'>
+        <p className='vcv-hub-banner-title'>{titleText}</p>
+        <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
+        <a className='vcv-hub-banner-button' href='#'>{buttonText}</a>
+      </div>
+    </div>
+  }
 
+  render () {
     let itemsOutput = this.filterResult()
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
-    const buttonText = localizations ? localizations.premiumHubButton : 'Go Premium'
-    const helperText = localizations ? localizations.hubHelperText : 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more'
+    const buttonText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.premiumHubButton : 'Go Premium'
+    const helperText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.hubHelperText : 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more'
 
     let buttonUrl = window.VCV_UTM().feHubTeaserPremiumVersion
     let premium = null
@@ -319,6 +330,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
             <div className='vcv-ui-tree-content-section'>
               <Scrollbar>
                 <div className={innerSectionClasses}>
+                  {this.getHubBanner()}
                   <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                     <div className='vcv-ui-editor-plates'>
                       <div className='vcv-ui-editor-plate vcv-ui-state--active'>
