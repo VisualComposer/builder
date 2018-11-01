@@ -118,6 +118,11 @@ class TemplatesUpdater extends Container implements Module
                         'value' => $template['id'],
                         'compare' => '=',
                     ],
+                    [
+                        'key' => '_' . VCV_PREFIX . 'type',
+                        'value' => 'custom',
+                        'compare' => '!='
+                    ]
                 ],
             ]
         );
