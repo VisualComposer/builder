@@ -73,7 +73,7 @@ export default class TeaserDropdown extends React.Component {
   render () {
     const { categories, filterType, bundleType } = this.props
     const activeCategory = categories[ filterType ]
-    const { subIndex, index, type} = activeCategory
+    const { subIndex, index, type } = activeCategory
     const newIndex = subIndex !== undefined ? `${index}-${subIndex}` : index
     const value = bundleType ? `${type}_${newIndex}_${bundleType}` : `${type}_${newIndex}`
 
