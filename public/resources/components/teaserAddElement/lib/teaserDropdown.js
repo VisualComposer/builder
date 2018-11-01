@@ -1,0 +1,86 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+
+export default class TeaserDropdown extends React.Component {
+  static propTypes = {
+    categories: PropTypes.object.isRequired,
+    filterType: PropTypes.string.isRequired,
+    setFilterType: PropTypes.func.isRequired,
+    bundleType: PropTypes.string
+  }
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+
+  constructor (props) {
+    super(props)
+
+    this.handleDropdownChange = this.handleDropdownChange.bind(this)
+    this.getSelectOptions = this.getSelectOptions.bind(this)
+  }
+
+  createGroup (bundleTypes, type, index, name) {
+    let optionElements = []
+
+    optionElements.push(this.createOptions(type, index, `All ${name}`))
+
+    bundleTypes.forEach((bundleType) => {
+      let subName = TeaserDropdown.localizations[ bundleType ]
+
+      if (!subName && bundleType === 'free') {
+        subName = 'Free'
+      }
+      if (!subName && bundleType === 'premium') {
+        subName = 'Premium'
+      }
+
+      optionElements.push(this.createOptions(type, index, subName, bundleType))
+    })
+
+    return <optgroup key={`hub-dropdown-optGroup-${type}-${index}`} label={name}>{optionElements}</optgroup>
+  }
+
+  createOptions (type, index, name, bundleType) {
+    const value = bundleType ? `${type}_${index}_${bundleType}` : `${type}_${index}`
+    const key = bundleType ? `hub-dropdown-option-${type}-${index}-${bundleType}` : `hub-dropdown-option-${type}-${index}`
+    return <option key={key} value={value}>{name}</option>
+  }
+
+  getSelectOptions () {
+    const { categories } = this.props
+    let controls = Object.values(categories)
+
+    return controls.map((control) => {
+      const { type, name, bundleTypes } = control
+
+      let index = control.index
+      if (control.subIndex !== undefined) {
+        index = `${control.index}-${control.subIndex}`
+      }
+
+      if (bundleTypes && bundleTypes.length) {
+        return this.createGroup(bundleTypes, type, index, name)
+      } else {
+        return this.createOptions(type, index, name)
+      }
+    })
+  }
+
+  handleDropdownChange (event) {
+    const value = event.target.value
+    const splitValue = value.split('_')
+    this.props.setFilterType(splitValue[0], splitValue[1], splitValue[2])
+  }
+
+  render () {
+    const { categories, filterType, bundleType } = this.props
+    const activeCategory = categories[ filterType ]
+    const { subIndex, index, type} = activeCategory
+    const newIndex = subIndex !== undefined ? `${index}-${subIndex}` : index
+    const value = bundleType ? `${type}_${newIndex}_${bundleType}` : `${type}_${newIndex}`
+
+    return (
+      <select className='vcv-ui-form-dropdown' value={value} onChange={this.handleDropdownChange}>
+        {this.getSelectOptions()}
+      </select>
+    )
+  }
+}

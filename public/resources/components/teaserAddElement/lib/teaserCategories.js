@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import TeaserElementControl from './teaserElementControl'
 import TeaserTypeControl from './teaserTypeControl'
+import TeaserDropdown from './teaserDropdown'
 import AddElementCategories from '../../addElement/lib/categories'
 import Scrollbar from '../../../scrollbar/scrollbar.js'
 import SearchElement from '../../addElement/lib/searchElement'
@@ -313,6 +314,11 @@ export default class TeaserAddElementCategories extends AddElementCategories {
           <Scrollbar>
             <div className={innerSectionClasses}>
               {this.getHubPanelControls()}
+              {vcCake.env('FT_EDITOR_HUB_REDESIGN') && (
+                <div className='vcv-ui-hub-dropdown-container'>
+                  <TeaserDropdown {...this.getTypeControlProps()} />
+                </div>
+              )}
               <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                 <div className='vcv-ui-editor-plates'>
                   <div className='vcv-ui-editor-plate vcv-ui-state--active'>
