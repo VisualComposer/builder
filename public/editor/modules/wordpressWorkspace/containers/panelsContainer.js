@@ -59,9 +59,7 @@ export default class PanelsContainer extends React.Component {
       return <AddElementPanel options={settings || {}} />
     } else if (content === 'addHubElement') {
       return (
-        <AddElementPanel options={settings || {}}>
-          <TeaserAddElementCategories parent={{}} />
-        </AddElementPanel>
+        <TeaserAddElementCategories parent={{}} />
       )
     } else if (content === 'addTemplate') {
       return <AddTemplatePanel />

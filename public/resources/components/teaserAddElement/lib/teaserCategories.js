@@ -307,30 +307,55 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       </div>)
     }
 
-    return (
-      <div className='vcv-ui-tree-content'>
-        {this.getSearchElement()}
-        <div className='vcv-ui-tree-content-section'>
-          <Scrollbar>
-            <div className={innerSectionClasses}>
-              {this.getHubPanelControls()}
-              {vcCake.env('FT_EDITOR_HUB_REDESIGN') && (
-                <div className='vcv-ui-hub-dropdown-container'>
-                  <TeaserDropdown {...this.getTypeControlProps()} />
-                </div>
-              )}
-              <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
-                <div className='vcv-ui-editor-plates'>
-                  <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                    {this.getElementListContainer(itemsOutput)}
-                    {premium}
+    if (vcCake.env('FT_EDITOR_HUB_REDESIGN')) {
+      return (
+        <div className='vcv-ui-tree-view-content vcv-ui-teaser-add-element-content'>
+          <div className='vcv-ui-tree-content'>
+            {this.getSearchElement()}
+            {this.getHubPanelControls()}
+            <div className='vcv-ui-hub-dropdown-container'>
+              <TeaserDropdown {...this.getTypeControlProps()} />
+            </div>
+            <div className='vcv-ui-tree-content-section'>
+              <Scrollbar>
+                <div className={innerSectionClasses}>
+                  <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
+                    <div className='vcv-ui-editor-plates'>
+                      <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+                        {this.getElementListContainer(itemsOutput)}
+                        {premium}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Scrollbar>
             </div>
-          </Scrollbar>
+          </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div className='vcv-ui-tree-view-content vcv-ui-add-element-content'>
+          <div className='vcv-ui-tree-content'>
+            {this.getSearchElement()}
+            <div className='vcv-ui-tree-content-section'>
+              <Scrollbar>
+                <div className={innerSectionClasses}>
+                  {this.getHubPanelControls()}
+                  <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
+                    <div className='vcv-ui-editor-plates'>
+                      <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+                        {this.getElementListContainer(itemsOutput)}
+                        {premium}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Scrollbar>
+            </div>
+          </div>
+        </div>
+      )
+    }
   }
 }
