@@ -120,8 +120,8 @@ class TemplatesUpdater extends Container implements Module
                     ],
                     [
                         'key' => '_' . VCV_PREFIX . 'type',
-                        'value' => 'hub',
-                        'compare' => '='
+                        'value' => 'custom',
+                        'compare' => '!='
                     ]
                 ],
             ]
