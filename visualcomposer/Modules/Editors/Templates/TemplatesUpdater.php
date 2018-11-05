@@ -56,6 +56,7 @@ class TemplatesUpdater extends Container implements Module
             $hubTemplatesHelper->getTemplatesPath()
         );
         $template = $bundleJson;
+        $template['id'] = $payload['actionData']['data']['id'];
         // File is locally available
         $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder('templates/' . $template['id']);
         if (is_dir($tempTemplatePath)) {
