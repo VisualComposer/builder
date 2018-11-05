@@ -38,7 +38,7 @@ class JsonActionsController extends Container implements Module
                 list($needUpdatePost, $requiredActions) = $hubBundle->loopActions($payload['json']);
                 $reRenderPosts = array_unique($needUpdatePost);
                 $response['actions'] = $requiredActions;
-                if (count($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
+                if (count($reRenderPosts) > 0) {
                     $postsActions = $hubUpdateHelper->createPostUpdateObjects($reRenderPosts);
                     $response['actions'] = array_merge($response['actions'], $postsActions);
                 }
@@ -162,7 +162,8 @@ class JsonActionsController extends Container implements Module
         global $wpdb;
         $wpdb->query(
             $wpdb->prepare(
-                'UPDATE ' . $wpdb->options . ' SET option_value="0.0.1" WHERE option_name LIKE "%s" AND NOT option_name = "%s"',
+                'UPDATE ' . $wpdb->options
+                . ' SET option_value="0.0.1" WHERE option_name LIKE "%s" AND NOT option_name = "%s"',
                 VCV_PREFIX . 'hubAction:%',
                 VCV_PREFIX . 'hubAction:updatePosts'
             )

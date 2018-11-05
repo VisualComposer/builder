@@ -104,13 +104,6 @@ if (!defined('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
     );
 }
 
-if (!defined('VCV_ENV_LICENSES')) {
-    define(
-        'VCV_ENV_LICENSES',
-        isset($_SERVER['ENV_VCV_ENV_LICENSES']) ? $_SERVER['ENV_VCV_ENV_LICENSES'] : true
-    );
-}
-
 if (!defined('VCV_ENV_HUB_TEASER')) {
     define(
         'VCV_ENV_HUB_TEASER',
@@ -122,20 +115,6 @@ if (!defined('VCV_ENV_HUB_TEMPLATES_TEASER')) {
     define(
         'VCV_ENV_HUB_TEMPLATES_TEASER',
         isset($_SERVER['ENV_VCV_ENV_HUB_TEMPLATES_TEASER']) ? $_SERVER['ENV_VCV_ENV_HUB_TEMPLATES_TEASER'] : true
-    );
-}
-
-if (!defined('VCV_ENV_UPGRADE')) {
-    define(
-        'VCV_ENV_UPGRADE',
-        isset($_SERVER['ENV_VCV_ENV_UPGRADE']) ? $_SERVER['ENV_VCV_ENV_UPGRADE'] : true
-    );
-}
-
-if (!defined('VCV_TF_POSTS_RERENDER')) {
-    define(
-        'VCV_TF_POSTS_RERENDER',
-        isset($_SERVER['ENV_VCV_TF_POSTS_RERENDER']) ? $_SERVER['ENV_VCV_TF_POSTS_RERENDER'] : true
     );
 }
 
@@ -234,13 +213,6 @@ if (!defined('VCV_ENV_TEMPLATES_LOAD_ASYNC')) {
     define(
         'VCV_ENV_TEMPLATES_LOAD_ASYNC',
         isset($_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC']) ? $_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC'] : true
-    );
-}
-
-if (!defined('VCV_FT_POST_UPDATE')) {
-    define(
-        'VCV_FT_POST_UPDATE',
-        true
     );
 }
 

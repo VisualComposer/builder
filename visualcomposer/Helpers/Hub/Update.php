@@ -20,6 +20,10 @@ class Update implements Helper
     public function getRequiredActions($json = [])
     {
         $optionsHelper = vchelper('Options');
+        $requiredActions = $optionsHelper->getTransient('updateRequiredActions');
+        if (is_array($requiredActions) && !empty($requiredActions)) {
+            return $requiredActions;
+        }
         $loggerHelper = vchelper('Logger');
         if (empty($json) || !isset($json['actions'])) {
             $json = $optionsHelper->getTransient('bundleUpdateJson');
@@ -39,13 +43,12 @@ class Update implements Helper
         list($needUpdatePost, $requiredActions) = vchelper('HubBundle')->loopActions($json);
         $reRenderPosts = array_unique($needUpdatePost);
         $requiredActions = vchelper('Data')->arrayDeepUnique($requiredActions);
-        $response['actions'] = $requiredActions;
-        if (count($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
+        if (count($reRenderPosts) > 0) {
             $postsActions = $this->createPostUpdateObjects($reRenderPosts);
             $requiredActions = array_merge($requiredActions, $postsActions);
         }
-        $optionsHelper->set('bundleUpdateActions', $requiredActions);
         $optionsHelper->set('bundleUpdatePosts', array_unique($needUpdatePost));
+        $optionsHelper->setTransient('updateRequiredActions', $requiredActions, 1800);
 
         return $requiredActions;
     }
