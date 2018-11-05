@@ -24,15 +24,22 @@ global $status, $page, $s, $totals;
                 </p>
                 <p>
                     <a href="<?php
+                    $url = sprintf(
+                        'plugins.php?action=deactivate&plugin=%s&plugin_status=%s&paged=%s&s=%s',
+                        esc_attr(VCV_PLUGIN_BASE_NAME),
+                        esc_attr($status),
+                        esc_attr($page),
+                        esc_attr($s)
+                    );
                     echo wp_nonce_url(
-                        'plugins.php?action=deactivate&plugin=' . VCV_PLUGIN_BASE_NAME . '&plugin_status='
-                        . esc_attr($status) . '&paged=' . esc_attr($page) . '&s=' . esc_attr($s),
+                        $url,
                         'deactivate-plugin_' . esc_attr(VCV_PLUGIN_BASE_NAME)
                     );
-                    ?>" class="vcv-deactivation-submit-button button button-primary"><?php echo esc_html__(
+                    ?>" class="vcv-deactivation-submit-button button button-primary"><?php
+                        echo esc_html__(
                             'Deactivate Visual Composer',
                             'vcwb'
-                        ) ?></a>
+                        ); ?></a>
                 </p>
             </div>
         </td>

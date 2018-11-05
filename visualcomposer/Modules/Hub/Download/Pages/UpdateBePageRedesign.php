@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Hub\Update;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -44,7 +43,7 @@ class UpdateBePageRedesign extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             function (Options $optionsHelper, Request $requestHelper) {
-                if ($optionsHelper->get('bundleUpdateRequired') ) {
+                if ($optionsHelper->get('bundleUpdateRequired')) {
                     $this->call('addPage');
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
                     wp_redirect(admin_url('admin.php?page=vcv-about'));

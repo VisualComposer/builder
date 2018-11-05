@@ -19,11 +19,14 @@ export default class ActivationSectionProvider extends React.Component {
     const updateActions = window.VCV_UPDATE_ACTIONS()
     const assetsActions = updateActions.filter(item => item.action !== 'updatePosts')
     const postUpdateActions = updateActions.filter(item => item.action === 'updatePosts')
+    const postUpdateData = postUpdateActions.length ? postUpdateActions[ 0 ] : null
     const { shouldDoUpdate } = ActivationSectionProvider
+
+    const isLoadingFinished = !assetsActions.length && !postUpdateData
 
     this.state = {
       assetsActions: assetsActions,
-      postUpdateData: postUpdateActions.length ? postUpdateActions[ 0 ] : null,
+      postUpdateData: postUpdateData,
       activeAssetsAction: 0,
       activePostUpdate: 0,
       error: null,
@@ -31,14 +34,21 @@ export default class ActivationSectionProvider extends React.Component {
       assetsActionsDone: !assetsActions.length,
       postUpdateDone: !postUpdateActions.length,
       actionsStarted: shouldDoUpdate,
-      isLoadingFinished: false
+      isLoadingFinished: isLoadingFinished
     }
 
-    if (shouldDoUpdate) {
-      this.processActions()
+    if (shouldDoUpdate && !isLoadingFinished) {
+      const cnt = assetsActions.length
+
+      if (!cnt) {
+        if (postUpdateData) {
+          this.doPostUpdate()
+        }
+      } else {
+        this.doAction()
+      }
     }
 
-    this.processActions = this.processActions.bind(this)
     this.doAction = this.doAction.bind(this)
     this.doneActions = this.doneActions.bind(this)
     this.doPostUpdate = this.doPostUpdate.bind(this)
@@ -49,31 +59,17 @@ export default class ActivationSectionProvider extends React.Component {
     this.sendErrorReport = this.sendErrorReport.bind(this)
   }
 
-  processActions () {
-    const cnt = this.state.assetsActions.length
-
-    if (!cnt) {
-      if (this.state.postUpdateData) {
-        this.doPostUpdate()
-      } else {
-        this.doneActions()
-      }
-    } else {
-      this.doAction()
-    }
-  }
-
   doAction () {
     const cnt = this.state.assetsActions.length
     const action = this.state.assetsActions[ this.state.activeAssetsAction ]
-    this.setState({ error: null })
 
     $.ajax(window.VCV_UPDATE_PROCESS_ACTION_URL(),
       {
         dataType: 'json',
         data: {
           'vcv-hub-action': action,
-          'vcv-nonce': window.vcvNonce
+          'vcv-nonce': window.vcvNonce,
+          'vcv-time': window.VCV_UPDATE_AJAX_TIME()
         }
       }
     ).done((json) => {
@@ -140,7 +136,7 @@ export default class ActivationSectionProvider extends React.Component {
 
   doPostUpdate () {
     const postUpdater = new PostUpdater(window.VCV_UPDATE_GLOBAL_VARIABLES_URL(), window.VCV_UPDATE_VENDOR_URL(), window.VCV_UPDATE_WP_BUNDLE_URL())
-    this.setState({ error: null })
+
     return this.doUpdatePostAction(postUpdater)
   }
 
