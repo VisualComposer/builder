@@ -73,6 +73,8 @@ export default class Component extends Attribute {
       editor.autosave = () => {}
     }
     editor.setupEditor(newPost, editorSettings)
+    const postTitle = window.document.querySelector('.editor-post-title')
+    postTitle.classList.add('hidden')
     this.setState({ loadingEditor: false })
   }
 
