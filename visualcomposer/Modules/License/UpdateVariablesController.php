@@ -80,6 +80,7 @@ class UpdateVariablesController extends Container implements Module
                 'type' => 'constant',
             ];
         }
+        //dd($variables);
 
         return $variables;
     }

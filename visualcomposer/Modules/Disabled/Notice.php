@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\System\Activation;
+namespace VisualComposer\Modules\Disabled;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -10,23 +10,20 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class Notice extends Container implements Module
 {
     use WpFiltersActions;
-    use EventsFilters;
 
     public function __construct()
     {
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            $this->wpAddAction('pre_current_active_plugins', 'renderPluginNoticeTemplateRedesign');
-        } else {
-            $this->wpAddAction('pre_current_active_plugins', 'renderPluginsNameVariable');
-            $this->wpAddAction('pre_current_active_plugins', 'enqueueScripts');
-            $this->wpAddAction('pre_current_active_plugins', 'renderPluginNoticeTemplate');
+            return;
         }
+        $this->wpAddAction('pre_current_active_plugins', 'renderPluginsNameVariable');
+        $this->wpAddAction('pre_current_active_plugins', 'enqueueScripts');
+        $this->wpAddAction('pre_current_active_plugins', 'renderPluginNoticeTemplate');
     }
 
     protected function enqueueScripts()
@@ -42,10 +39,5 @@ class Notice extends Container implements Module
     protected function renderPluginNoticeTemplate()
     {
         evcview('settings/pages/plugins/notice.php');
-    }
-
-    protected function renderPluginNoticeTemplateRedesign()
-    {
-        evcview('settings/pages/plugins/noticeRedesign.php');
     }
 }

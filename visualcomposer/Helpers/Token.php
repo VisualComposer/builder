@@ -171,6 +171,7 @@ class Token extends Container implements Helper
         $loggerHelper = vchelper('Logger');
         $licenseHelper = vchelper('License');
         $noticeHelper = vchelper('Notice');
+        // TODO: errors
         if (!vcIsBadResponse($result)) {
             $body = json_decode($result['body'], true);
             if (is_array($body) && $body['success']) {

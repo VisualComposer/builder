@@ -113,11 +113,16 @@ class Update implements Helper
         $editorPostTypeHelper = vchelper('AccessEditorPostType');
 
         $variables = [];
+        //        $variables[] = [
+        //            'key' => 'VCV_UPDATE_ACTIONS_URL',
+        //            'value' => $urlHelper->adminAjax(
+        //                ['vcv-action' => 'account:activation:adminNonce']
+        //            ),
+        //            'type' => 'constant',
+        //        ];
         $variables[] = [
-            'key' => 'VCV_UPDATE_ACTIONS_URL',
-            'value' => $urlHelper->adminAjax(
-                ['vcv-action' => 'account:activation:adminNonce']
-            ),
+            'key' => 'VCV_UPDATE_ACTIONS',
+            'value' => vchelper('HubUpdate')->getRequiredActions(),
             'type' => 'constant',
         ];
         $variables[] = [
@@ -125,13 +130,13 @@ class Update implements Helper
             'value' => $urlHelper->adminAjax(['vcv-action' => 'hub:action:adminNonce']),
             'type' => 'constant',
         ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_FINISH_URL',
-            'value' => $urlHelper->adminAjax(
-                ['vcv-action' => 'bundle:update:finished:adminNonce']
-            ),
-            'type' => 'constant',
-        ];
+        //        $variables[] = [
+        //            'key' => 'VCV_UPDATE_FINISH_URL',
+        //            'value' => $urlHelper->adminAjax(
+        //                ['vcv-action' => 'bundle:update:finished:adminNonce']
+        //            ),
+        //            'type' => 'constant',
+        //        ];
         $variables[] = [
             'key' => 'VCV_UPDATE_AJAX_TIME',
             'value' => intval($_SERVER['REQUEST_TIME']),

@@ -22,6 +22,7 @@ class ErrorReportingController extends Container implements Module
 
     public function __construct()
     {
+        // TODO!
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }

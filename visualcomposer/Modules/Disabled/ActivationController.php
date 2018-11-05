@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\License;
+namespace VisualComposer\Modules\Disabled;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -21,10 +21,10 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
- * Class UpdateControllerRedesign
+ * Class ActivationController
  * @package VisualComposer\Modules\License
  */
-class UpdateControllerRedesign extends Container implements Module
+class ActivationController extends Container implements Module
 {
     use WpFiltersActions;
     use EventsFilters;
@@ -34,7 +34,7 @@ class UpdateControllerRedesign extends Container implements Module
      */
     public function __construct()
     {
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
         /** @see \VisualComposer\Modules\License\ActivationController::requestActivation */
@@ -45,7 +45,9 @@ class UpdateControllerRedesign extends Container implements Module
             'checkActivationError',
             100
         );
+
         $this->addFilter('vcv:ajax:account:activation:finished:adminNonce', 'finishActivation');
+
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
@@ -74,17 +76,23 @@ class UpdateControllerRedesign extends Container implements Module
         License $licenseHelper
     ) {
         if ($currentUserHelper->wpAll('manage_options')->get()
+            && !$tokenHelper->isSiteAuthorized()
             && !$optionsHelper->getTransient('vcv:activation:request')
-            || ($licenseHelper->isActivated() && !$optionsHelper->getTransient('vcv:activation:request'))
+            || ($tokenHelper->isSiteAuthorized() && $licenseHelper->isActivated()
+                && !$optionsHelper->getTransient(
+                    'vcv:activation:request'
+                ))
         ) {
             $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
 
             if ($licenseHelper->isActivated()) {
                 $id = VCV_PLUGIN_URL . $licenseHelper->getKey();
+            } elseif (vcvenv('VCV_ENV_ADDONS_ID') === 'account') {
+                $id = VCV_PLUGIN_URL . trim($requestHelper->input('vcv-email'));
+                $optionsHelper->set('hubTokenId', $id);
             } else {
-                $id = VCV_PLUGIN_URL;
+                $id = vcvenv('ENV_VCV_SITE_ID', '');
             }
-            $optionsHelper->set('hubTokenId', $id);
 
             $token = $tokenHelper->createToken($id);
             if (!vcIsBadResponse($token)) {
@@ -114,8 +122,7 @@ class UpdateControllerRedesign extends Container implements Module
             $expiresAfter = $expiresAfter < 0 ? 60 : $expiresAfter;
             $loggerHelper->log(
                 sprintf(
-                    __('Activation already in process. Please wait %1$s seconds before you try again', 'vcwb')
-                    . ' #10016',
+                    __('Activation failed. Please wait %1$s seconds before you try again', 'vcwb') . ' #10016',
                     $expiresAfter
                 ),
                 [

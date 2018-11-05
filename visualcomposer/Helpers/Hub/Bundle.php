@@ -154,6 +154,7 @@ class Bundle implements Helper
                         'timeout' => 30,
                     ]
                 );
+                // TODO: errors
                 if (!vcIsBadResponse($response)) {
                     $result = json_decode($response['body'], true);
                 } else {

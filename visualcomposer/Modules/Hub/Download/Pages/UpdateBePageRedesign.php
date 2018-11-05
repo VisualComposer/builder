@@ -60,6 +60,7 @@ class UpdateBePageRedesign extends Container implements Module
      */
     protected function beforeRender()
     {
+        return;
         $urlHelper = vchelper('Url');
         wp_register_script(
             'vcv:wpUpdateRedesign:script',

@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub\Download\Pages;
+namespace VisualComposer\Modules\Disabled;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');

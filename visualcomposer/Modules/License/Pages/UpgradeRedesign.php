@@ -11,14 +11,9 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Access\EditorPostType;
-use VisualComposer\Helpers\Hub\Update;
 use VisualComposer\Helpers\License;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
@@ -40,23 +35,17 @@ class UpgradeRedesign extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = 'license/layout';
+    protected $templatePath = '';
 
     /**
      * UpgradeRedesign constructor.
      *
-     * @param \VisualComposer\Helpers\Token $tokenHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Request $requestHelper
      */
-    public function __construct(Token $tokenHelper, License $licenseHelper, Request $requestHelper)
+    public function __construct(License $licenseHelper)
     {
         if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
-        }
-        /** @see \VisualComposer\Modules\License\Pages\Upgrade::addPage */
-        if ($requestHelper->input('page') === 'vcv-upgrade') {
-            $this->addEvent('vcv:admin:inited', 'beforePageRender', 10);
         }
 
         if (!$licenseHelper->getKey() || ($licenseHelper->getKey() && $licenseHelper->getKeyToken())) {
@@ -102,36 +91,9 @@ class UpgradeRedesign extends Container implements Module
             $this->call('activateInAccount');
             exit;
         } elseif (!$licenseHelper->getKeyToken() || !$optionsHelper->get('bundleUpdateRequired')) {
-            $this->redirectToAbout();
+            wp_redirect(admin_url('admin.php?page=vcv-about'));
+            exit;
         }
-    }
-
-    /**
-     *
-     */
-    protected function beforeRender()
-    {
-        $urlHelper = vchelper('Url');
-        wp_register_script(
-            'vcv:wpUpdateRedesign:script',
-            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.js'),
-            [],
-            VCV_VERSION
-        );
-        wp_register_style(
-            'vcv:wpUpdateRedesign:style',
-            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_script('vcv:wpUpdateRedesign:script');
-        wp_enqueue_style('vcv:wpUpdateRedesign:style');
-    }
-
-    protected function redirectToAbout()
-    {
-        wp_redirect(admin_url('admin.php?page=vcv-about'));
-        exit;
     }
 
     /**

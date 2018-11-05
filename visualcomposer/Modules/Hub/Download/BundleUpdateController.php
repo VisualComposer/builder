@@ -23,13 +23,15 @@ class BundleUpdateController extends Container implements Module
 
     public function __construct(Token $tokenHelper)
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN') || (vcvenv('VCV_ENV_HUB_DOWNLOAD') && $tokenHelper->isSiteAuthorized())) {
+        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')
+            || (vcvenv('VCV_ENV_HUB_DOWNLOAD')
+                && $tokenHelper->isSiteAuthorized())) {
             $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
             $this->wpAddAction('admin_menu', 'checkForUpdate', 9);
             /** @see \VisualComposer\Modules\Hub\Download\BundleUpdateController::checkVersion */
             $this->addFilter('vcv:hub:update:checkVersion', 'checkVersion');
             $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);
-            $this->addFilter('vcv:ajax:bundle:update:finished:adminNonce', 'finishUpdate');
+            //            $this->addFilter('vcv:ajax:bundle:update:finished:adminNonce', 'finishUpdate');
         }
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
@@ -37,7 +39,7 @@ class BundleUpdateController extends Container implements Module
     protected function checkForUpdate(Options $optionsHelper, $response = '')
     {
         if ($optionsHelper->getTransient('lastBundleUpdate') < time()) {
-            $result = $this->checkVersion();
+            $result = vcfilter('vcv:hub:update:checkVersion', '');
             if (!vcIsBadResponse($result)) {
                 $optionsHelper->setTransient('lastBundleUpdate', time() + DAY_IN_SECONDS);
             } else {
@@ -49,14 +51,18 @@ class BundleUpdateController extends Container implements Module
         return $response;
     }
 
-    protected function checkVersion()
+    protected function checkVersion($response, $payload)
     {
         $optionsHelper = vchelper('Options');
+        if ($optionsHelper->getTransient('bundleUpdateJson')) {
+            return ['status' => true, 'json' => $optionsHelper->getTransient('bundleUpdateJson')];
+        }
         $hubBundleHelper = vchelper('HubBundle');
         $licenseHelper = vchelper('License');
         $tokenHelper = vchelper('Token');
         $noticeHelper = vchelper('Notice');
-        $token = $tokenHelper->createToken($optionsHelper->get('hubTokenId'));
+        $token = $tokenHelper->createToken();
+        // TODO: Errors
         if (!vcIsBadResponse($token)) {
             $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
             $json = $hubBundleHelper->getRemoteBundleJson($url);
@@ -75,6 +81,7 @@ class BundleUpdateController extends Container implements Module
 
     protected function finishUpdate($response, $payload, Request $requestHelper, Options $optionsHelper)
     {
+        // TODO: another transient
         $currentTransient = $optionsHelper->getTransient('vcv:activation:request');
         if ($currentTransient) {
             if ($currentTransient !== $requestHelper->input('vcv-time')) {
