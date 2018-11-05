@@ -11,7 +11,7 @@ const ActivationSectionContext = React.createContext()
 export default class ActivationSectionProvider extends React.Component {
   static actionRequestFailed = false
   static activePage = window.VCV_SLUG && window.VCV_SLUG()
-  static shouldDoUpdate = ActivationSectionProvider.activePage === 'vcv-update' || ActivationSectionProvider.activePage === 'vcv-upgrade' || ActivationSectionProvider.activePage === 'vcv-update-fe'
+  static shouldDoUpdate = ActivationSectionProvider.activePage === 'vcv-update' || ActivationSectionProvider.activePage === 'vcv-update-fe'
 
   constructor (props) {
     super(props)
