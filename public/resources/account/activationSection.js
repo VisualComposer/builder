@@ -16,20 +16,28 @@ export default class ActivationSectionProvider extends React.Component {
   constructor (props) {
     super(props)
 
+    const updateActions = window.VCV_UPDATE_ACTIONS()
+    const assetsActions = updateActions.filter(item => item.action !== 'updatePosts')
+    const postUpdateActions = updateActions.filter(item => item.action === 'updatePosts')
+    const { shouldDoUpdate } = ActivationSectionProvider
+
     this.state = {
-      assetsActions: [],
-      postUpdateData: null,
+      assetsActions: assetsActions,
+      postUpdateData: postUpdateActions.length ? postUpdateActions[ 0 ] : null,
       activeAssetsAction: 0,
       activePostUpdate: 0,
       error: null,
       showSkipPostButton: false,
-      assetsActionsDone: false,
-      postUpdateDone: false,
-      actionsStarted: false,
+      assetsActionsDone: !assetsActions.length,
+      postUpdateDone: !postUpdateActions.length,
+      actionsStarted: shouldDoUpdate,
       isLoadingFinished: false
     }
 
-    this.setActions = this.setActions.bind(this)
+    if (shouldDoUpdate) {
+      this.processActions()
+    }
+
     this.processActions = this.processActions.bind(this)
     this.doAction = this.doAction.bind(this)
     this.doneActions = this.doneActions.bind(this)
@@ -41,109 +49,6 @@ export default class ActivationSectionProvider extends React.Component {
     this.sendErrorReport = this.sendErrorReport.bind(this)
   }
 
-  componentDidMount () {
-    const { shouldDoUpdate } = ActivationSectionProvider
-    if (shouldDoUpdate) {
-      this.setActions()
-    }
-  }
-
-  setActions () {
-    this.setState({ error: null })
-    if (window.vcvActivationRequest !== 1) {
-      $.getJSON(window.VCV_UPDATE_ACTIONS_URL(),
-        {
-          'vcv-nonce': window.vcvNonce,
-          'vcv-time': window.VCV_UPDATE_AJAX_TIME()
-        })
-        .done((json) => {
-          if (json && json.status && json.actions) {
-            const assetsActions = json.actions.filter(item => item.action !== 'updatePosts')
-            const postUpdateActions = json.actions.filter(item => item.action === 'updatePosts')
-
-            this.setState({
-              assetsActions: assetsActions,
-              postUpdateData: postUpdateActions.length ? postUpdateActions[ 0 ] : null,
-              actionsStarted: true,
-              assetsActionsDone: !assetsActions.length,
-              postUpdateDone: !postUpdateActions.length
-            })
-            this.processActions()
-          } else {
-            console.log('log error')
-
-            if (json.message) {
-              try {
-                let messageJson = JSON.parse(json.message)
-                if (messageJson) {
-                  this.setError({
-                    message: messageJson,
-                    errorAction: this.setActions,
-                    errorReportAction: this.sendErrorReport
-                  })
-                } else {
-                  this.setError({
-                    errorAction: this.setActions,
-                    errorReportAction: this.sendErrorReport
-                  })
-                }
-              } catch (e) {
-                console.warn(e, json.message)
-                this.setError({
-                  errorAction: this.setActions,
-                  errorReportAction: this.sendErrorReport
-                })
-              }
-            } else {
-              this.setError({
-                errorAction: this.setActions,
-                errorReportAction: this.sendErrorReport
-              })
-            }
-          }
-        })
-        .fail((jqxhr, textStatus, error) => {
-          if (jqxhr.responseJSON) {
-            let json = jqxhr.responseJSON
-            if (json.message) {
-              try {
-                let messageJson = JSON.parse(json.message)
-                if (messageJson) {
-                  this.setError({
-                    message: messageJson,
-                    errorAction: this.setActions,
-                    errorReportAction: this.sendErrorReport
-                  })
-                } else {
-                  this.setError({
-                    errorAction: this.setActions,
-                    errorReportAction: this.sendErrorReport
-                  })
-                }
-              } catch (e) {
-                console.warn(e, json.message)
-                this.setError({
-                  errorAction: this.setActions,
-                  errorReportAction: this.sendErrorReport
-                })
-              }
-            } else {
-              this.setError({
-                errorAction: this.setActions,
-                errorReportAction: this.sendErrorReport
-              })
-            }
-          } else {
-            this.setError({
-              errorAction: this.setActions,
-              errorReportAction: this.sendErrorReport
-            })
-          }
-          console.warn(jqxhr.responseText, textStatus, error)
-        })
-    }
-  }
-
   processActions () {
     const cnt = this.state.assetsActions.length
 
@@ -151,7 +56,7 @@ export default class ActivationSectionProvider extends React.Component {
       if (this.state.postUpdateData) {
         this.doPostUpdate()
       } else {
-        this.doneActions(false)
+        this.doneActions()
       }
     } else {
       this.doAction()
@@ -168,8 +73,7 @@ export default class ActivationSectionProvider extends React.Component {
         dataType: 'json',
         data: {
           'vcv-hub-action': action,
-          'vcv-nonce': window.vcvNonce,
-          'vcv-time': window.VCV_UPDATE_AJAX_TIME()
+          'vcv-nonce': window.vcvNonce
         }
       }
     ).done((json) => {
@@ -181,7 +85,7 @@ export default class ActivationSectionProvider extends React.Component {
           if (this.state.postUpdateData) {
             this.doPostUpdate()
           } else {
-            this.doneActions(false)
+            this.doneActions()
           }
         } else {
           this.setState({ activeAssetsAction: this.state.activeAssetsAction + 1 })
@@ -272,58 +176,14 @@ export default class ActivationSectionProvider extends React.Component {
       this.setState({ activePostUpdate: activePostUpdate + 1 })
       return this.doUpdatePostAction(postUpdater)
     } else {
-      this.doneActions(false)
+      this.doneActions()
     }
   }
 
-  doneActions (requestFailed) {
-    this.setState({ postUpdateDone: true })
-    $.ajax(window.VCV_UPDATE_FINISH_URL(),
-      {
-        dataType: 'json',
-        data: {
-          'vcv-nonce': window.vcvNonce,
-          'vcv-time': window.VCV_UPDATE_AJAX_TIME()
-        }
-      }
-    ).done((json) => {
-      if (json && json.status) {
-        this.setState({ isLoadingFinished: true })
-      } else {
-        if (requestFailed) {
-          console.warn(json)
-
-          try {
-            let messageJson = JSON.parse(json && json.message ? json.message : '""')
-            this.setError({
-              message: messageJson,
-              errorAction: this.doneActions.bind(this, true),
-              errorReportAction: this.sendErrorReport
-            })
-          } catch (e) {
-            this.setError({
-              errorAction: this.doneActions.bind(this, true),
-              errorReportAction: this.sendErrorReport
-            })
-            console.warn(e)
-          }
-        } else {
-          // Try again one more time.
-          this.doneActions(true)
-        }
-      }
-    }).fail((jqxhr, textStatus, error) => {
-      if (requestFailed) {
-        console.log('log error')
-        this.setError({
-          errorAction: this.doneActions.bind(this, true),
-          errorReportAction: this.sendErrorReport
-        })
-        console.warn(jqxhr.responseText, textStatus, error)
-      } else {
-        // Try again one more time.
-        this.doneActions(true)
-      }
+  doneActions () {
+    this.setState({
+      postUpdateDone: true,
+      isLoadingFinished: true
     })
   }
 

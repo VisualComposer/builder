@@ -29,9 +29,10 @@ class UpdateFePageRedesign extends Container implements Module
         $this->addFilter('vcv:frontend:update:extraOutput', 'addUpdateAssets', 10);
     }
 
-    protected function setUpdatingViewFe($response, Options $optionsHelper, Update $updateHelper)
+    protected function setUpdatingViewFe($response, Update $updateHelper)
     {
-        if ($optionsHelper->get('bundleUpdateRequired')) {
+        $requiredActions = $updateHelper->getRequiredActions();
+        if (!empty($requiredActions)) {
             $content = vcview(
                 'license/layout',
                 [
