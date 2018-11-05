@@ -57,6 +57,7 @@ class EditorFilesDownloadController extends Container implements Module
         EditorBundle $hubBundleHelper,
         Logger $loggerHelper
     ) {
+        // TODO: Check this
         $bundleJson = $payload['archive'];
         if (vcIsBadResponse($response) || is_wp_error($bundleJson)) {
             $messages = [];

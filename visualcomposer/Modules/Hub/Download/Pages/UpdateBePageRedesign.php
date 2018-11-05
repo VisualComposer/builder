@@ -45,7 +45,14 @@ class UpdateBePageRedesign extends Container implements Module
             'admin_menu',
             function (Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
                 if ($optionsHelper->get('bundleUpdateRequired')) {
-                    $this->call('addPage');
+                    $actions = $updateHelper->getRequiredActions();
+                    if(!empty($actions)) {
+                        $this->call('addPage');
+                    } else {
+                        $optionsHelper->
+                        wp_redirect(admin_url('admin.php?page=vcv-about'));
+                        exit;
+                    }
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
                     wp_redirect(admin_url('admin.php?page=vcv-about'));
                     exit;
