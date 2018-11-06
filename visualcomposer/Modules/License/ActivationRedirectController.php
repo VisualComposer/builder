@@ -55,6 +55,7 @@ class ActivationRedirectController extends Container implements Module
         $optionsHelper->deleteTransient('_vcv_activation_page_redirect');
         if ($redirect) {
             wp_redirect(admin_url('admin.php?page=vcv-go-premium'));
+            exit;
         }
 
         return $response;
