@@ -24,22 +24,6 @@ trait Fields
     protected $optionSlug = 'vcv-settings';
 
     /**
-     * @return string
-     */
-    public function getOptionGroup()
-    {
-        return $this->optionGroup;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOptionSlug()
-    {
-        return $this->optionSlug;
-    }
-
-    /**
      * @param $sectionData
      *
      * @return $this

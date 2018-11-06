@@ -136,7 +136,7 @@ class JsonActionsController extends Container implements Module
         } else {
             $loggerHelper = vchelper('Logger');
             $loggerHelper->log(
-                sprintf(__('Failed to download %1$s', 'vcwb') . ' #10058', $name),
+                sprintf(__('Failed to download %1$s', 'vcwb') . ' #10058', esc_attr($name)),
                 [
                     'version' => $version,
                     'action' => $action,
