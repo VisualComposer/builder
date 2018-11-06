@@ -54,7 +54,7 @@ export default class Field extends React.Component {
     let { fieldKey, tab, fieldType, element } = this.props
     let { value } = this.state
 
-    if (env('FT_FIX_ELEMENT_STRETCH_BUTTON') && fieldKey && element) {
+    if (fieldKey && element) {
       value = element[ fieldKey ]
     }
     let { type, settings } = element.cook().settings(fieldKey)

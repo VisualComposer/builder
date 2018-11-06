@@ -24,6 +24,9 @@ $typenow = get_post_type();
 $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
+/** @var \VisualComposer\Helpers\Token $nonceHelper */
+$tokenHelper = vchelper('Token');
+
 wp_enqueue_style('wp-admin');
 wp_enqueue_media();
 $licenseHelper = vchelper('License');
@@ -85,6 +88,7 @@ $postTypeHelper = vchelper('PostType');
   window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(
       admin_url('post-new.php?post_type=vcv_gutenberg_attr')
   ); ?>';
+  window.vcvIsActivated = Boolean(<?php echo $tokenHelper->isSiteAuthorized(); ?>);
   <?php if (isset($feError) && $feError) : ?>
   window.vcvFeError = '<?php echo $feError; ?>'
   <?php endif; ?>
