@@ -12,7 +12,6 @@ env('THEME_EDITOR', false)
 // END OF DO NOT MODIFY
 env('SAVE_ZIP', true)
 env('TF_PARAM_GROUP_CSS_MIXINS', false)
-env('FT_FIX_ELEMENT_STRETCH_BUTTON', true)
 env('FT_PARAM_GROUP_IN_EDIT_FORM', true)
 env('FT_TEASER_DROPDOWN', true)
 env('FT_DISABLE_ITEM_PREVIEW', true)
