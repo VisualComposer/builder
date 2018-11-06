@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class JsonActionsController extends Container implements Module
@@ -61,51 +62,61 @@ class JsonActionsController extends Container implements Module
         $payload,
         Request $requestHelper,
         Options $optionsHelper,
-        Logger $loggerHelper
+        Logger $loggerHelper,
+        Str $strHelper
     ) {
-        if (empty($response)) {
-            $response = [
-                'status' => true,
-            ];
+
+        $requestAction = $requestHelper->input('vcv-hub-action');
+        //if (!isset($action['key']) && isset($action['data'])) {
+        //    $savedAction = $action;
+        //} else {
+        if (!isset($requestAction['key'])) {
+            // TODO: Check HOW?!
+            xdebug_break();
         }
-        if (!vcIsBadResponse($response)) {
-            // TODO: Transient
-            $optionsHelper->setTransient('vcv:activation:request', $requestHelper->input('vcv-time'), 60);
-            $action = $requestHelper->input('vcv-hub-action');
-            if (!isset($action['key']) && isset($action['data'])) {
-                $savedAction = $action;
-            } else {
-                $savedAction = $optionsHelper->get('hubA:d:' . md5($action['key']), false);
-            }
-            if (!$savedAction) {
-                $loggerHelper->log('The update action does not exists #10057');
 
-                return ['status' => false];
-            }
+        $newActionData = $optionsHelper->get('hubA:d:' . md5($requestAction['key']), false);
+        $actionName = $newActionData['action'];
 
-            $previousVersion = $optionsHelper->get('hubAction:' . $savedAction['action'], '0');
-            // FIX: For cases when hubElements wasnt updated but hubAction already exists
-            if (vchelper('Str')->contains($savedAction['action'], 'element/')) {
-                $elements = vchelper('HubElements')->getElements();
-                $elementTag = str_replace('element/', '', $savedAction['action']);
-                if (!array_key_exists($elementTag, $elements)) {
-                    $previousVersion = '0.0.1'; // In case if element still not exists then try to download again
-                }
-            }
+        $newActionVersion = $newActionData['version'];
+        $previousActionVersion = $optionsHelper->get('hubAction:' . $actionName, '0');
 
-            if (isset($savedAction['version']) && version_compare($savedAction['version'], $previousVersion, '>')
-                || !isset($savedAction['action'])
-                || !$savedAction['version']) {
-                $response = $this->processAction(
-                    $response,
-                    $savedAction['action'],
-                    $savedAction['data'],
-                    $savedAction['version'],
-                    isset($savedAction['checksum']) ? $savedAction['checksum'] : '',
-                    $savedAction['name']
-                );
+        // FIX: For cases when hubElements wasnt updated but hubAction already exists
+        if ($strHelper->contains($actionName, 'element/')) {
+            $elements = vchelper('HubElements')->getElements();
+            $elementTag = str_replace('element/', '', $actionName);
+            if (!array_key_exists($elementTag, $elements)) {
+                $previousActionVersion = '0.0.1'; // In case if element still not exists then try to download again
             }
         }
+
+        if ($newActionVersion === $previousActionVersion) {
+            sleep(5); // Just to avoid collisions
+
+            return ['status' => true];
+        }
+
+        $locked = $this->checkForLock($optionsHelper);
+        if ($locked) {
+            // Collision avoid
+
+            return ['status' => true];
+        }
+        if (!$newActionData) {
+            // TODO: How?!
+            $loggerHelper->log('The update action does not exists #10057');
+
+            return ['status' => true];
+        }
+
+        $response = $this->processAction(
+            $response,
+            $newActionData['action'],
+            $newActionData['data'],
+            $newActionData['version'],
+            isset($newActionData['checksum']) ? $newActionData['checksum'] : '',
+            $newActionData['name']
+        );
 
         return $response;
     }
@@ -158,8 +169,8 @@ class JsonActionsController extends Container implements Module
 
     protected function unsetOptions(Options $optionsHelper)
     {
-        $optionsHelper
-            ->deleteTransient('vcv:activation:request');
+        $optionsHelper->deleteTransient('vcv:activation:request');
+        $optionsHelper->deleteTransient('vcv:hub:action:request');
         global $wpdb;
         $wpdb->query(
             $wpdb->prepare(
@@ -182,5 +193,31 @@ class JsonActionsController extends Container implements Module
                 VCV_PREFIX . 'hubAction:download:%'
             )
         );
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return bool
+     */
+    protected function checkForLock(Options $optionsHelper)
+    {
+        $currentRequest = $optionsHelper->getTransient('vcv:hub:action:request');
+        if ($currentRequest) {
+            // We have parallel request
+            for ($tries = 0; $tries < 3; $tries++) {
+                sleep(10);
+                $newRequest = $optionsHelper->getTransient('vcv:hub:action:request');
+                if (!$newRequest || $currentRequest !== $newRequest) {
+                    // Process completed, we can return result
+                    break;
+                }
+            }
+
+            return true;
+        }
+        $optionsHelper->setTransient('vcv:hub:action:request', time(), 60);
+
+        return false;
     }
 }
