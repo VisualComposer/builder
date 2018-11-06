@@ -47,7 +47,7 @@ class ActivationRedirectController extends Container implements Module
      * @param $response
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
-     * @return
+     * @return mixed
      */
     protected function doRedirect($response, Options $optionsHelper)
     {

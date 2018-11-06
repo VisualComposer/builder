@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
     value: function () {
       return <?php
         // @codingStandardsIgnoreLine
-        echo json_encode($value);
+        echo json_encode($value, isset($options) ? $options : 0);
         ?> },
     writable: false
   });

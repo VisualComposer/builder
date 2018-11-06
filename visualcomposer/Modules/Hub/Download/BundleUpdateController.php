@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -21,7 +20,7 @@ class BundleUpdateController extends Container implements Module
     use EventsFilters;
     use WpFiltersActions;
 
-    public function __construct(Token $tokenHelper)
+    public function __construct()
     {
         $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
         $this->wpAddAction('admin_menu', 'checkForUpdate', 9);

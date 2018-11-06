@@ -28,7 +28,7 @@ class Addons extends Container implements Module
      */
     public function __construct()
     {
-        $this->addFilter('vcv:frontend:head:extraOutput', 'outputAddons');
+        $this->addFilter('vcv:editor:variables', 'outputAddons');
     }
 
     /**
@@ -40,18 +40,16 @@ class Addons extends Container implements Module
      */
     protected function outputAddons($response, $payload, HubAddons $hubHelper)
     {
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_HUB_GET_ADDONS',
-                        'value' => $hubHelper->getAddons(),
-                        'options' => JSON_FORCE_OBJECT
-                    ]
-                ),
-            ]
-        );
+        $key = 'VCV_HUB_GET_ADDONS';
+
+        $variables[] = [
+            'key' => $key,
+            'value' => $hubHelper->getAddons(),
+            'type' => 'constant',
+            'options' => JSON_FORCE_OBJECT | JSON_NUMERIC_CHECK,
+
+        ];
+
+        return $variables;
     }
 }
