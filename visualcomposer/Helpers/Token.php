@@ -59,24 +59,6 @@ class Token extends Container implements Helper
     }
 
     /**
-     * @return bool
-     */
-    public function isSiteRegistered()
-    {
-        return (bool)$this->optionsHelper->get(
-            'siteRegistered'
-        );
-    }
-
-    public function setIsSiteRegistered()
-    {
-        return $this->optionsHelper->set(
-            'siteRegistered',
-            1
-        );
-    }
-
-    /**
      * @param string $id
      *
      * @return bool|string|array
@@ -148,7 +130,7 @@ class Token extends Container implements Helper
      */
     public function isSiteAuthorized()
     {
-        return vcvenv('VCV_FT_ACTIVATION_REDESIGN') || (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
+        return (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
     }
 
     /**

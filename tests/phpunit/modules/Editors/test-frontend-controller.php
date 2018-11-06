@@ -7,6 +7,7 @@ class FrontendControllerTest extends WP_UnitTestCase
      */
     public function testRenderEditorBase()
     {
+        // TODO: Update tests
         wp_set_current_user(1);
         /** @var $module \VisualComposer\Modules\Editors\Frontend\Controller */
         $module = vc_create_module_mock('\VisualComposer\Modules\Editors\Frontend\Controller');
