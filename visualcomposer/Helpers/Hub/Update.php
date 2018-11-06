@@ -16,6 +16,7 @@ class Update implements Helper
      * @param array $json
      *
      * @return array
+     * @throws \ReflectionException
      */
     public function getRequiredActions($json = [])
     {
@@ -26,11 +27,12 @@ class Update implements Helper
             if (!$json) {
                 $json = [];
                 // Current json is expired, need to update actions
-                $savedJson = vcfilter('vcv:hub:update:checkVersion', ['status' => false]);
+                $savedJson = $this->checkVersion();
                 if (!vcIsBadResponse($savedJson)) {
                     // Everything is ok need to parse $requiredActions['actions']
                     $json = $savedJson['json'];
                 } else {
+                    // TODO: Errors
                     // Logger::add error
                     $loggerHelper->log('Failed to update required actions list #10012');
                 }
@@ -176,5 +178,70 @@ class Update implements Helper
         ];
 
         return $variables;
+    }
+
+    /**
+     * @return array|bool
+     * @throws \ReflectionException
+     */
+    public function checkVersion()
+    {
+        $hubBundleHelper = vchelper('HubBundle');
+        $licenseHelper = vchelper('License');
+        $tokenHelper = vchelper('Token');
+        $noticeHelper = vchelper('Notice');
+        $token = $tokenHelper->createToken();
+        // TODO: Errors
+        if (!vcIsBadResponse($token)) {
+            $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
+            $json = $hubBundleHelper->getRemoteBundleJson($url);
+            if ($json) {
+                return $this->processJson($json);
+            } else {
+                return ['status' => false];
+            }
+        } elseif ($licenseHelper->isActivated() && isset($token['code'])) {
+            $licenseHelper->setKey('');
+            $noticeHelper->addNotice('premium:deactivated', $licenseHelper->licenseErrorCodes($token['code']));
+        }
+
+        return ['status' => false];
+    }
+
+    /**
+     * @param $json
+     *
+     * @return bool|array
+     * @throws \ReflectionException
+     */
+    protected function processJson($json)
+    {
+        if (is_array($json) && isset($json['actions'])) {
+            $this->processTeasers($json['actions']);
+            $optionsHelper = vchelper('Options');
+            $hubUpdateHelper = vchelper('HubUpdate');
+            if ($hubUpdateHelper->checkIsUpdateRequired($json)) {
+                $optionsHelper->set('bundleUpdateRequired', true);
+                // Save in database cache for 30m
+                $optionsHelper->setTransient('bundleUpdateJson', $json, 1800);
+            }
+
+            return ['status' => true, 'json' => $json];
+        }
+
+        return false;
+    }
+
+    protected function processTeasers($actions)
+    {
+        if (isset($actions['hubTeaser'])) {
+            vcevent('vcv:hub:process:action:hubTeaser', ['teasers' => $actions['hubTeaser']]);
+        }
+        if (isset($actions['hubAddons'])) {
+            vcevent('vcv:hub:process:action:hubAddons', ['teasers' => $actions['hubAddons']]);
+        }
+        if (isset($actions['hubTemplates'])) {
+            vcevent('vcv:hub:process:action:hubTemplates', ['teasers' => $actions['hubTemplates']]);
+        }
     }
 }
