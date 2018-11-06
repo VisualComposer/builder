@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import { getStorage, getService } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -158,6 +158,20 @@ export default class DesignOptionsAdvanced extends Attribute {
         },
         angle: {
           value: 0
+        }
+      }
+    },
+    radialGradientMixin: {
+      src: require('raw-loader!./cssMixins/radialGradientColor.pcss'),
+      variables: {
+        device: {
+          value: `all`
+        },
+        startColor: {
+          value: `rgba(0, 0, 0, 0)`
+        },
+        endColor: {
+          value: `rgba(0, 0, 0, 0)`
         }
       }
     },
@@ -451,7 +465,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           }
 
           // gradient angle is not set
-          if (!newValue[ device ].gradientOverlay) {
+          if (!newValue[ device ].gradientOverlay && !newValue[ device ].gradientType === 'linear') {
             delete newValue[ device ].gradientAngle
             delete newValue[ device ].gradientEndColor
             delete newValue[ device ].gradientStartColor
@@ -610,7 +624,14 @@ export default class DesignOptionsAdvanced extends Attribute {
       if (newValue[ device ] && newValue[ device ].gradientOverlay) {
         let mixinName = `gradientMixin:${device}`
         newMixins[ mixinName ] = {}
-        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
+        if (env('FT_RADIAL_GRADIENT_IN_DOA') && newValue[ device ].gradientType === 'radial') {
+          newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.radialGradientMixin)
+        } else {
+          newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
+          newMixins[ mixinName ].variables.angle = {
+            value: newValue[ device ].gradientAngle || 0
+          }
+        }
         if (newValue[ device ].gradientStartColor) {
           newMixins[ mixinName ].variables.startColor = {
             value: newValue[ device ].gradientStartColor
@@ -620,9 +641,6 @@ export default class DesignOptionsAdvanced extends Attribute {
           newMixins[ mixinName ].variables.endColor = {
             value: newValue[ device ].gradientEndColor
           }
-        }
-        newMixins[ mixinName ].variables.angle = {
-          value: newValue[ device ].gradientAngle || 0
         }
         newMixins[ mixinName ].variables.device = {
           value: device
@@ -1379,6 +1397,44 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render gradient type dropdown
+   * @returns {XML}
+   */
+  getGradientTypeRender () {
+    if (!env('FT_RADIAL_GRADIENT_IN_DOA')) {
+      return null
+    }
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'Linear gradient',
+          value: 'linear'
+        },
+        {
+          label: 'Radial gradient',
+          value: 'radial'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].gradientType || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Gradient type
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='gradientType'
+        options={options}
+        updater={this.valueChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
    * Render color picker for gradient start color
    * @returns {*}
    */
@@ -1649,7 +1705,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getGradientAngleRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay || this.state.devices[ this.state.currentDevice ].gradientType === 'radial') {
       return null
     }
     let value = this.state.devices[ this.state.currentDevice ].gradientAngle || DesignOptionsAdvanced.deviceDefaults.gradientAngle
@@ -1907,6 +1963,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getBackgroundZoomReverseRender()}
             {this.getBackgroundColorRender()}
             {this.getGradientOverlayRender()}
+            {this.getGradientTypeRender()}
             {this.getGradientStartColorRender()}
             {this.getGradientEndColorRender()}
             {this.getGradientAngleRender()}
