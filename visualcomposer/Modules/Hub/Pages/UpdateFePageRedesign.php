@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
 use VisualComposer\Helpers\Options;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
 
@@ -20,7 +19,7 @@ class UpdateFePageRedesign extends Container implements Module
 {
     use EventsFilters;
 
-    public function __construct(Token $tokenHelper)
+    public function __construct()
     {
         if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
@@ -29,19 +28,31 @@ class UpdateFePageRedesign extends Container implements Module
         $this->addFilter('vcv:frontend:update:extraOutput', 'addUpdateAssets', 10);
     }
 
-    protected function setUpdatingViewFe($response, Update $updateHelper)
+    /**
+     * @param $response
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Hub\Update $updateHelper
+     *
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    protected function setUpdatingViewFe($response, Options $optionsHelper, Update $updateHelper)
     {
-        $requiredActions = $updateHelper->getRequiredActions();
-        if (!empty($requiredActions)) {
-            $content = vcview(
-                'license/layout',
-                [
-                    'slug' => 'vcv-update-fe',
-                ]
-            );
-            vcvdie(
-                vcview('license/fe-wrapper', ['content' => $content])
-            );
+        if ($optionsHelper->get('bundleUpdateRequired')) {
+            $requiredActions = $updateHelper->getRequiredActions();
+            if (!empty($requiredActions)) {
+                $content = vcview(
+                    'license/layout',
+                    [
+                        'slug' => 'vcv-update-fe',
+                    ]
+                );
+                vcvdie(
+                    vcview('license/fe-wrapper', ['content' => $content])
+                );
+            } else {
+                $optionsHelper->set('bundleUpdateRequired', false);
+            }
         }
 
         return $response;

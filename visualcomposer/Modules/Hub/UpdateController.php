@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
 use VisualComposer\Helpers\Options;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -52,12 +51,6 @@ class UpdateController extends Container implements Module
         }
 
         return $response;
-    }
-
-    protected function finishUpdate($response, $payload, Request $requestHelper, Options $optionsHelper)
-    {
-        // TODO: another transient
-        $optionsHelper->set('bundleUpdateRequired', false);
     }
 
     protected function unsetOptions(Options $optionsHelper)

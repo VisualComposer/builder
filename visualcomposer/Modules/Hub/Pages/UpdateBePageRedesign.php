@@ -48,13 +48,14 @@ class UpdateBePageRedesign extends Container implements Module
                     $actions = $updateHelper->getRequiredActions();
                     if (!empty($actions)) {
                         $this->call('addPage');
+
+                        return;
                     }
-                    //                    } else {
-                    //                        //
-                    //                        //    wp_redirect(admin_url('admin.php?page=vcv-about'));
-                    //                        //    exit;
-                    //                    }
-                } elseif ($requestHelper->input('page') === $this->getSlug()) {
+                }
+
+                // Bundle Update not required, or Actions was empty
+                if ($requestHelper->input('page') === $this->getSlug()) {
+                    $optionsHelper->set('bundleUpdateRequired', false);
                     wp_redirect(admin_url('admin.php?page=vcv-about'));
                     exit;
                 }
