@@ -5,8 +5,8 @@ import './sources/less/wpsettings/init.less'
 
 window.jQuery(() => {
   let $ = window.jQuery
-  let installationUrl = 'https://visualcomposer.com/article/installation/'
-  let faqUrl = 'https://visualcomposer.com/article/faq/'
+  let installationUrl = 'https://visualcomposer.com/help/installation/'
+  let faqUrl = 'https://visualcomposer.com/help/faq/'
   let descriptionSection = $('#section-description')
   let showDescription = (e) => {
     e.preventDefault()
