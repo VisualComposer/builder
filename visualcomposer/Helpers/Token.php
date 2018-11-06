@@ -49,8 +49,9 @@ class Token extends Container implements Helper
             ->delete('siteSecret')
             ->delete('siteAuthState')
             ->deleteTransient('siteAuthToken')
+            ->deleteTransient('vcv:activation:request')
+            ->deleteTransient('vcv:hub:action:request')
             ->delete('siteAuthRefreshToken')
-            ->delete('vcv:activation:request')
             ->delete('siteAuthTokenTtl')
             ->delete('license-key')
             ->delete('license-key-token');

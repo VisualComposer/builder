@@ -27,6 +27,17 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 class LicenseController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
+
+    /**
+     * LicenseController constructor.
+     */
+    public function __construct()
+    {
+        $this->addFilter('vcv:ajax:license:activate:adminNonce', 'getLicenseKey');
+        $this->addFilter('vcv:ajax:license:deactivate:adminNonce', 'unsetLicenseKey');
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+    }
 
     /**
      * Receive licence key and store it in DB
@@ -104,18 +115,6 @@ class LicenseController extends Container implements Module
 
         wp_redirect(admin_url('index.php'));
         exit;
-    }
-
-    use WpFiltersActions;
-
-    /**
-     * LicenseController constructor.
-     */
-    public function __construct()
-    {
-        $this->addFilter('vcv:ajax:license:activate:adminNonce', 'getLicenseKey');
-        $this->addFilter('vcv:ajax:license:deactivate:adminNonce', 'unsetLicenseKey');
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**
