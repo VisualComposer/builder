@@ -86,6 +86,7 @@ $postTypeHelper = vchelper('PostType');
   window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
   window.vcvGoPremiumUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=nav-bar')); ?>';
   window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium')); ?>';
+  window.vcvUpgradeUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-upgrade')); ?>';
   window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(
       admin_url('post-new.php?post_type=vcv_gutenberg_attr')
   ); ?>';

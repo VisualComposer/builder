@@ -291,7 +291,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       <div className='vcv-hub-banner-content'>
         <p className='vcv-hub-banner-title'>{titleText}</p>
         <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
-        <a className='vcv-hub-banner-button' href='#'>{buttonText}</a>
+        <a className='vcv-hub-banner-button' href={window.vcvUpgradeUrl}>{buttonText}</a>
       </div>
     </div>
   }
@@ -330,7 +330,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
             <div className='vcv-ui-tree-content-section'>
               <Scrollbar>
                 <div className={innerSectionClasses}>
-                  {this.getHubBanner()}
+                  {window.vcvIsActivated ? null : this.getHubBanner()}
                   <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
                     <div className='vcv-ui-editor-plates'>
                       <div className='vcv-ui-editor-plate vcv-ui-state--active'>
