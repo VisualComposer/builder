@@ -5,8 +5,6 @@ import webpackConfig from './webpack.config.4x.babel'
 
 module.exports = Object.assign({}, webpackConfig, {
   entry: {
-    wpsettings: './public/wp-settings-main', // todo: remove after redesign
-    wpupdate: './public/bundle-update-main', // todo: redesign post update?
     wpUpdateRedesign: './public/wpUpdateRedesign'
   },
   output: {
