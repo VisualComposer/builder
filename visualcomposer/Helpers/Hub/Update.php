@@ -45,7 +45,6 @@ class Update implements Helper
             $postsActions = $this->createPostUpdateObjects($reRenderPosts);
             $requiredActions = array_merge($requiredActions, $postsActions);
         }
-        $optionsHelper->set('bundleUpdatePosts', array_unique($needUpdatePost));
 
         return $requiredActions;
     }

@@ -65,11 +65,9 @@ class JsonActionsController extends Container implements Module
         Logger $loggerHelper,
         Str $strHelper
     ) {
-
+        //sleep(10);
         $requestAction = $requestHelper->input('vcv-hub-action');
-        //if (!isset($action['key']) && isset($action['data'])) {
-        //    $savedAction = $action;
-        //} else {
+
         if (!isset($requestAction['key'])) {
             // TODO: Check HOW?!
             xdebug_break();
@@ -98,7 +96,7 @@ class JsonActionsController extends Container implements Module
 
         $locked = $this->checkForLock($optionsHelper);
         if ($locked) {
-            // Collision avoid
+            sleep(5); // Just to avoid collisions
 
             return ['status' => true];
         }
@@ -110,7 +108,7 @@ class JsonActionsController extends Container implements Module
         }
 
         $response = $this->processAction(
-            $response,
+            ['status' => true],
             $newActionData['action'],
             $newActionData['data'],
             $newActionData['version'],

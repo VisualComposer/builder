@@ -56,17 +56,17 @@ trait Action
 
             // If zip is less than 2kb something wrong (our smallest bundle is 7.9kb - separator)
             // TODO: Zip Check
-            if (!vcvenv('VCV_FT_ASSETS_INSIDE_PLUGIN') && filesize($archive) < 2 * 1024) {
-                $loggerHelper->log(
-                    __('Bundle size is too small', 'vcwb') . ' #10062',
-                    [
-                        'fileSize' => filesize($archive),
-                        'contents' => htmlentities(file_get_contents($archive)),
-                    ]
-                );
-
-                return false;
-            }
+            //  if (!vcvenv('VCV_FT_ASSETS_INSIDE_PLUGIN') && filesize($archive) < 2 * 1024) {
+            //      $loggerHelper->log(
+            //          __('Bundle size is too small', 'vcwb') . ' #10062',
+            //          [
+            //              'fileSize' => filesize($archive),
+            //              'contents' => htmlentities(file_get_contents($archive)),
+            //          ]
+            //      );
+            //
+            //      return false;
+            //  }
             $result = $hubHelper->unzipDownloadedBundle($archive);
             if (is_wp_error($result)) {
                 /** @var \WP_Error $result */
