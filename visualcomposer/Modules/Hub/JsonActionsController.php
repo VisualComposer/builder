@@ -70,7 +70,7 @@ class JsonActionsController extends Container implements Module
 
         if (!isset($requestAction['key'])) {
             // TODO: Check HOW?!
-            xdebug_break();
+            return ['status' => true];
         }
 
         $newActionData = $optionsHelper->get('hubA:d:' . md5($requestAction['key']), false);
@@ -131,6 +131,7 @@ class JsonActionsController extends Container implements Module
         $response = $this->triggerAction($response, $action, $data, $version, $checksum);
         if (is_array($response) && $response['status']) {
             $optionsHelper->set('hubAction:' . $action, $version);
+            $optionsHelper->deleteTransient('vcv:hub:action:request');
         } else {
             $loggerHelper = vchelper('Logger');
             $loggerHelper->log(
