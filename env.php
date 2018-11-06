@@ -76,7 +76,7 @@ if (!defined('VCV_LICENSE_ACTIVATE_URL')) {
     define(
         'VCV_LICENSE_ACTIVATE_URL',
         isset($_SERVER['ENV_VCV_LICENSE_ACTIVATE_URL']) ? $_SERVER['ENV_VCV_LICENSE_ACTIVATE_URL']
-            : 'https://account.visualcomposer.io/activate-license'
+            : 'https://account.visualcomposer.io/activation'
     );
 }
 

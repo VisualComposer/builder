@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 
@@ -63,20 +62,16 @@ class MenuController extends Container implements Module
      * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
-     * @param \VisualComposer\Helpers\Token $tokenHelper
      *
      * @throws \Exception
      */
-    protected function addMenuPage(Url $urlHelper, CurrentUser $currentUserAccess, Token $tokenHelper)
+    protected function addMenuPage(Url $urlHelper, CurrentUser $currentUserAccess)
     {
         if (!is_network_admin()) {
             /** @var bool $hasAccess - User must have edit pages capability to see settings, otherwise only about page available */
             $hasAccess = $currentUserAccess->wpAll('edit_pages')->part('settings')->can('vcv-settings')->get();
 
             $mainPageSlug = $hasAccess ? 'vcv-settings' : 'vcv-about';
-            if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN') && !$tokenHelper->isSiteAuthorized() && $hasAccess) {
-                $mainPageSlug = 'vcv-activation';
-            }
             $title = __('Visual Composer ', 'vcwb');
             $iconUrl = $urlHelper->assetUrl('images/logo/16x16.png');
 

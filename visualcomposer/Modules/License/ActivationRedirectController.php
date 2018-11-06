@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -27,13 +26,6 @@ class ActivationRedirectController extends Container implements Module
         $this->addEvent('vcv:system:activation:hook', 'setRedirect');
         /** @see \VisualComposer\Modules\License\ActivationRedirectController::doRedirect */
         $this->wpAddAction('admin_init', 'doRedirect');
-
-        $this->addFilter(
-            'vcv:editors:frontend:render',
-            'setRedirectNotActivated',
-            100
-        );
-        $this->addFilter('vcv:editors:frontend:render', 'doRedirect', 110);
     }
 
     /**
@@ -62,28 +54,7 @@ class ActivationRedirectController extends Container implements Module
         $redirect = $optionsHelper->getTransient('_vcv_activation_page_redirect');
         $optionsHelper->deleteTransient('_vcv_activation_page_redirect');
         if ($redirect) {
-            $url = 'vcv-activation';
-            if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-                $url = 'vcv-go-premium';
-            }
-            wp_redirect(admin_url('admin.php?page=' . rawurlencode($url)));
-        }
-
-        return $response;
-    }
-
-    /**
-     * @param $response
-     * @param $payload
-     * @param \VisualComposer\Helpers\Token $tokenHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return mixed
-     */
-    protected function setRedirectNotActivated($response, $payload, Token $tokenHelper, Options $optionsHelper)
-    {
-        if (!$tokenHelper->isSiteAuthorized()) {
-            $optionsHelper->setTransient('_vcv_activation_page_redirect', 1, 30);
+            wp_redirect(admin_url('admin.php?page=vcv-go-premium'));
         }
 
         return $response;

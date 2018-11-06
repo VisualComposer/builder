@@ -68,8 +68,7 @@ export default class ActivationSectionProvider extends React.Component {
         dataType: 'json',
         data: {
           'vcv-hub-action': action,
-          'vcv-nonce': window.vcvNonce,
-          'vcv-time': window.VCV_UPDATE_AJAX_TIME()
+          'vcv-nonce': window.vcvNonce
         }
       }
     ).done((json) => {

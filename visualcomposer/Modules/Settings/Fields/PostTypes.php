@@ -13,7 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\PostType;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
@@ -28,20 +27,16 @@ class PostTypes extends Container implements Module
 
     /**
      * General constructor.
-     *
-     * @param \VisualComposer\Helpers\Token $tokenHelper
      */
-    public function __construct(Token $tokenHelper)
+    public function __construct()
     {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN') || $tokenHelper->isSiteAuthorized()) {
-            $this->optionGroup = $this->slug;
-            $this->optionSlug = 'vcv-post-types';
-            /** @see \VisualComposer\Modules\Settings\Fields\PostTypes::buildPage */
-            $this->wpAddAction(
-                'admin_init',
-                'buildPage'
-            );
-        }
+        $this->optionGroup = $this->slug;
+        $this->optionSlug = 'vcv-post-types';
+        /** @see \VisualComposer\Modules\Settings\Fields\PostTypes::buildPage */
+        $this->wpAddAction(
+            'admin_init',
+            'buildPage'
+        );
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 

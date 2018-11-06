@@ -2,38 +2,6 @@
 
 class TestUpdates extends WP_UnitTestCase
 {
-    public function testCheckCreateToken()
-    {
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            // TODO: Finish tests
-            return;
-        }
-        $loggerHelper = vchelper('Logger');
-        $messages = $loggerHelper->all();
-        $this->assertEmpty($messages, $messages);
-        $token = true;
-        add_filter(
-            'pre_http_request',
-            function ($response) use (&$token) {
-                $args = func_get_args();
-                if ($token) {
-                    $token = false;
-
-                    return '';
-                }
-
-                return $response;
-            },
-            10,
-            100
-        );
-        $tokenHelper = vchelper('Token');
-        $this->assertFalse($tokenHelper->isSiteAuthorized());
-        $this->assertFalse($tokenHelper->createToken(''));
-        $this->assertEquals('"Token generation failed."', $loggerHelper->all());
-        $loggerHelper->reset();
-    }
-
     public function testCheckCreateTokenSuccess()
     {
         if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
