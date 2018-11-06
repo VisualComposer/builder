@@ -18,7 +18,7 @@ global $status, $page, $s, $totals;
                     <a href="%s">this free plugin</a> that will load CSS styles automatically.',
                             'vcwb'
                         ),
-                        'https://visualcomposer.io/deactivate'
+                        'https://visualcomposer.com/deactivate'
                     );
                     ?>
                 </p>

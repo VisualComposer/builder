@@ -173,8 +173,8 @@ class UpdatesController extends Container implements Module
 </ul>',
             'vcwb'
         );
-        $information['sections']['Installation &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/installation/">Installation</a>';
-        $information['sections']['FAQ &#128279;'] = '<a target="_blank" href="https://visualcomposer.io/article/faq/">FAQ</a>';
+        $information['sections']['Installation &#128279;'] = '<a target="_blank" href="https://visualcomposer.com/article/installation/">Installation</a>';
+        $information['sections']['FAQ &#128279;'] = '<a target="_blank" href="https://visualcomposer.com/article/faq/">FAQ</a>';
 
         $urlHelper = vchelper('Url');
         $response = wp_remote_get(
@@ -213,8 +213,8 @@ HTML;
           // Code for Changelog
           (function ($) {
             $(function () {
-              var installationUrl = 'https://visualcomposer.io/article/installation/'
-              var faqUrl = 'https://visualcomposer.io/article/faq/'
+              var installationUrl = 'https://visualcomposer.com/article/installation/'
+              var faqUrl = 'https://visualcomposer.com/article/faq/'
               var descriptionSection = $('#section-description')
               var showDescription = function (e) {
                 e.preventDefault()

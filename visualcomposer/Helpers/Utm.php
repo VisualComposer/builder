@@ -18,19 +18,19 @@ class Utm implements Helper
     public function all()
     {
         $utm = [
-            'feNavbarLinkLogo' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo',
-            'updatesChangelogAuthorLink' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog-author',
-            'updatesChangelogHomepageLink' => 'https://visualcomposer.io/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog',
-            'goPremiumWpMenuSidebar' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=wp-menu&utm_campaign=gopremium',
-            'goPremiumNavBar' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=gopremium',
-            'goPremiumPluginsPage' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=gopremium',
-            'goPremiumDashboard' => 'https://visualcomposer.io/premium/?utm_medium=wp-dashboard&utm_source=plugin-activation&utm_campaign=gopremium',
-            'goPremiumLostRef' => 'https://visualcomposer.io/',
-            'feBlankPagePremiumTemplates' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
-            'feAddTemplateSearchPremiumTemplates' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=add-template&utm_campaign=gopremium&utm_content=search',
-            'feAddElementSearchPremiumVersion' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=add-element&utm_campaign=gopremium&utm_content=search',
-            'feHubTeaserPremiumVersion' => 'https://visualcomposer.io/premium/?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium',
-            'goPremiumElementDownload' => 'https://visualcomposer.io/premium?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium&utm_content=locked-item'
+            'feNavbarLinkLogo' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=vcwb&utm_content=logo',
+            'updatesChangelogAuthorLink' => 'https://visualcomposer.com/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog-author',
+            'updatesChangelogHomepageLink' => 'https://visualcomposer.com/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog',
+            'goPremiumWpMenuSidebar' => 'https://visualcomposer.com/premium/?utm_medium=wp-dashboard&utm_source=wp-menu&utm_campaign=gopremium',
+            'goPremiumNavBar' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=gopremium',
+            'goPremiumPluginsPage' => 'https://visualcomposer.com/premium/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=gopremium',
+            'goPremiumDashboard' => 'https://visualcomposer.com/premium/?utm_medium=wp-dashboard&utm_source=plugin-activation&utm_campaign=gopremium',
+            'goPremiumLostRef' => 'https://visualcomposer.com/',
+            'feBlankPagePremiumTemplates' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
+            'feAddTemplateSearchPremiumTemplates' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=add-template&utm_campaign=gopremium&utm_content=search',
+            'feAddElementSearchPremiumVersion' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=add-element&utm_campaign=gopremium&utm_content=search',
+            'feHubTeaserPremiumVersion' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium',
+            'goPremiumElementDownload' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium&utm_content=locked-item'
         ];
 
         return $utm;
