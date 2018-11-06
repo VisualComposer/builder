@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Differ;
-use VisualComposer\Helpers\Hub\Elements;
+use VisualComposer\Helpers\Hub\Elements as HubElements;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -26,7 +26,7 @@ class ElementsUpdater extends Container implements Module
         }
     }
 
-    protected function updateElements($response, $payload, Logger $loggerHelper, Elements $elementsHelper)
+    protected function updateElements($response, $payload, Logger $loggerHelper, HubElements $elementsHelper)
     {
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
         if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
