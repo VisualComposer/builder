@@ -58,9 +58,7 @@ class UpdatesController extends Container implements Module
 
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
 
-        if (vcvenv('VCV_ENV_PLUGIN_UPDATE_NOTICE')) {
-            $this->addFilter('vcv:editor:variables', 'addPluginUpdateNoticeVariable');
-        }
+        $this->addFilter('vcv:editor:variables', 'addPluginUpdateNoticeVariable');
     }
 
     /**
