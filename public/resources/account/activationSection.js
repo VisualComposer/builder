@@ -253,7 +253,7 @@ export default class ActivationSectionProvider extends React.Component {
       }
     } else if (activePage === 'vcv-about') {
       return <FinalScreen />
-    } else if (activePage === 'vcv-go-premium') {
+    } else if (activePage === 'vcv-getting-started') {
       return <InitialScreen />
     }
   }

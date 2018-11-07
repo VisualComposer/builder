@@ -18,10 +18,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
-/**
- * Class GetPremiumRedesign.
- */
-class GetPremiumRedesign extends Container implements Module
+class GoPremium extends Container implements Module
 {
     use Page;
     use SubMenu;
@@ -36,12 +33,23 @@ class GetPremiumRedesign extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = 'license/layout';
+    protected $templatePath = '';
 
     public function __construct(License $licenseHelper)
     {
         if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
+        }
+
+        if (!$licenseHelper->isActivated()) {
+            $this->wpAddAction(
+                'in_admin_footer',
+                'addJs'
+            );
+            $this->wpAddAction(
+                'in_admin_header',
+                'addCss'
+            );
         }
 
         $this->wpAddAction(
@@ -52,15 +60,15 @@ class GetPremiumRedesign extends Container implements Module
                 }
 
                 if (!$licenseHelper->isActivated()) {
-                    if ($requestHelper->exists('vcv-activate')) {
+                    $this->call('addPage');
+                }
+                if ($requestHelper->input('page') === $this->getSlug()) {
+                    if (!$licenseHelper->isActivated()) {
                         $this->call('activateInAccount');
-                        exit;
                     } else {
-                        $this->call('addPage');
+                        wp_redirect(admin_url('admin.php?page=vcv-about'));
+                        exit;
                     }
-                } elseif ($requestHelper->input('page') === $this->getSlug()) {
-                    wp_redirect(admin_url('admin.php?page=vcv-about'));
-                    exit;
                 }
             },
             70
@@ -72,28 +80,6 @@ class GetPremiumRedesign extends Container implements Module
                 'pluginsPageLink'
             );
         }
-    }
-
-    /**
-     *
-     */
-    protected function beforeRender()
-    {
-        $urlHelper = vchelper('Url');
-        wp_register_script(
-            'vcv:wpUpdateRedesign:script',
-            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.js'),
-            [],
-            VCV_VERSION
-        );
-        wp_register_style(
-            'vcv:wpUpdateRedesign:style',
-            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_script('vcv:wpUpdateRedesign:script');
-        wp_enqueue_style('vcv:wpUpdateRedesign:style');
     }
 
     /**
@@ -132,7 +118,7 @@ class GetPremiumRedesign extends Container implements Module
         /** @noinspection HtmlUnknownTarget */
         $goPremiumLink = sprintf(
             '<a href="%s">%s</a>',
-            esc_url(admin_url('admin.php?page=vcv-go-premium')) . '&vcv-ref=plugins-page',
+            esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
             __('Go Premium', 'vcwb')
         );
 
@@ -160,7 +146,10 @@ class GetPremiumRedesign extends Container implements Module
             VCV_LICENSE_ACTIVATE_URL .
             '/?redirect=' . rawurlencode(
                 $urlHelper->adminAjax(
-                    ['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
+                    [
+                        'vcv-action' => 'license:activate:adminNonce',
+                        'vcv-nonce' => $nonceHelper->admin(),
+                    ]
                 )
             ) .
             '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
@@ -168,5 +157,21 @@ class GetPremiumRedesign extends Container implements Module
             '&domain=' . get_site_url()
         );
         exit;
+    }
+
+    /**
+     * Add target _blank to external "Go Premium" link in sidebar
+     */
+    protected function addJs()
+    {
+        evcview('license/get-premium-js');
+    }
+
+    /**
+     * Add style to "Go Premium" link in sidebar
+     */
+    protected function addCss()
+    {
+        evcview('license/get-premium-css');
     }
 }

@@ -172,7 +172,7 @@ class Update implements Helper
         }
         $variables[] = [
             'key' => 'VCV_PREMIUM_URL',
-            'value' => admin_url('admin.php?page=vcv-go-premium&vcv-activate'),
+            'value' => admin_url('admin.php?page=vcv-go-premium'), // TODO: UTM
             'type' => 'constant',
         ];
 
