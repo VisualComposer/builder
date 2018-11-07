@@ -56,16 +56,16 @@ export default class LoadingScreen extends React.Component {
   render () {
     return (
       <ActivationSectionConsumer>
-        {({ assetsActions, postUpdateData, activeAssetsAction, activePostUpdate, showSkipPostButton, assetsActionsDone, postUpdateDone, actionsStarted }) => (
+        {({ assetsActions, postUpdateData, activeAssetsAction, activePostUpdate, showSkipPostButton, assetsActionsDone, postUpdateDone, actionsStarted, loadingText, loadingDescription }) => (
           <div className='vcv-activation-loading-screen vcv-activation-content' ref={this.activationContent}>
             <div id='vcv-posts-update-wrapper' />
             <div className='vcv-loading-dots-container'>
               <div className='vcv-loading-dot vcv-loading-dot-1' />
               <div className='vcv-loading-dot vcv-loading-dot-2' />
             </div>
-            {this.getDownloadText({ assetsActions, postUpdateData, activeAssetsAction, activePostUpdate, assetsActionsDone, postUpdateDone, actionsStarted })}
+            {loadingText ? <p className='vcv-activation-loading-text'>{loadingText}</p> : this.getDownloadText({ assetsActions, postUpdateData, activeAssetsAction, activePostUpdate, assetsActionsDone, postUpdateDone, actionsStarted })}
             <p className='vcv-activation-loading-helper-text'>
-              {LoadingScreen.texts.doNotCloseWhileUpdateText}
+              {loadingDescription || LoadingScreen.texts.doNotCloseWhileUpdateText}
             </p>
             {showSkipPostButton && (
               <div className='vcv-activation-button-container'>

@@ -4,6 +4,8 @@ import FinalScreen from './finalScreen'
 import InitialScreen from './initialScreen'
 import PostUpdater from './postUpdate'
 import OopsScreen from './oopsScreen'
+import ThankYouScreen from './thankYouScreen'
+import { log as logError, send as sendErrorReport } from './logger'
 
 const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
@@ -12,6 +14,11 @@ export default class ActivationSectionProvider extends React.Component {
   static actionRequestFailed = false
   static activePage = window.VCV_SLUG && window.VCV_SLUG()
   static shouldDoUpdate = ActivationSectionProvider.activePage === 'vcv-update' || ActivationSectionProvider.activePage === 'vcv-update-fe'
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static texts = {
+    sendingErrorReport: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.sendingErrorReport : 'Sending Error Report',
+    doNotCloseWhileSendingErrorReportText: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.doNotCloseWhileSendingErrorReportText : 'Don\'t close this window while sending error is in the progress.'
+  }
 
   constructor (props) {
     super(props)
@@ -21,7 +28,6 @@ export default class ActivationSectionProvider extends React.Component {
     const postUpdateActions = updateActions.filter(item => item.action === 'updatePosts')
     const postUpdateData = postUpdateActions.length ? postUpdateActions[ 0 ] : null
     const { shouldDoUpdate } = ActivationSectionProvider
-
     const isLoadingFinished = !assetsActions.length && !postUpdateData
 
     this.state = {
@@ -34,9 +40,25 @@ export default class ActivationSectionProvider extends React.Component {
       assetsActionsDone: !assetsActions.length,
       postUpdateDone: !postUpdateActions.length,
       actionsStarted: shouldDoUpdate,
-      isLoadingFinished: isLoadingFinished
+      isLoadingFinished: isLoadingFinished,
+      sendingErrorReport: false,
+      errorReported: false,
+      loadingText: null,
+      loadingDescription: null
     }
 
+    this.doAction = this.doAction.bind(this)
+    this.doneActions = this.doneActions.bind(this)
+    this.doPostUpdate = this.doPostUpdate.bind(this)
+    this.doUpdatePostAction = this.doUpdatePostAction.bind(this)
+    this.setError = this.setError.bind(this)
+    this.sendErrorReport = this.sendErrorReport.bind(this)
+    this.sendErrorCallback = this.sendErrorCallback.bind(this)
+  }
+
+  componentDidMount () {
+    const { isLoadingFinished, assetsActions, postUpdateData } = this.state
+    const { shouldDoUpdate } = ActivationSectionProvider
     if (shouldDoUpdate && !isLoadingFinished) {
       const cnt = assetsActions.length
 
@@ -48,20 +70,12 @@ export default class ActivationSectionProvider extends React.Component {
         this.doAction()
       }
     }
-
-    this.doAction = this.doAction.bind(this)
-    this.doneActions = this.doneActions.bind(this)
-    this.doPostUpdate = this.doPostUpdate.bind(this)
-    this.doUpdatePostAction = this.doUpdatePostAction.bind(this)
-    this.setError = this.setError.bind(this)
-    this.retryErrorAction = this.retryErrorAction.bind(this)
-    this.setError = this.setError.bind(this)
-    this.sendErrorReport = this.sendErrorReport.bind(this)
   }
 
   doAction () {
     const cnt = this.state.assetsActions.length
     const action = this.state.assetsActions[ this.state.activeAssetsAction ]
+    this.setState({ error: null })
 
     $.ajax(window.VCV_UPDATE_PROCESS_ACTION_URL(),
       {
@@ -88,6 +102,13 @@ export default class ActivationSectionProvider extends React.Component {
         }
       } else {
         if (ActivationSectionProvider.actionRequestFailed) {
+          logError('Failed Update Action', {
+            code: 'doAction-1',
+            codeNum: '000004',
+            action: action,
+            error: json
+          })
+
           try {
             let messageJson = JSON.parse(json && json.message ? json.message : '""')
             this.setError({
@@ -109,7 +130,15 @@ export default class ActivationSectionProvider extends React.Component {
       }
     }).fail((jqxhr, textStatus, error) => {
       if (ActivationSectionProvider.actionRequestFailed) {
-        console.log('log error')
+        logError('Failed Update Action', {
+          code: 'doAction-2',
+          codeNum: '000005',
+          action: action,
+          jqxhr: jqxhr,
+          textStatus: textStatus,
+          error: error
+        })
+
         try {
           let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
           let messageJson = JSON.parse(responseJson && responseJson.message ? responseJson.message : '""')
@@ -135,7 +164,7 @@ export default class ActivationSectionProvider extends React.Component {
 
   doPostUpdate () {
     const postUpdater = new PostUpdater(window.VCV_UPDATE_GLOBAL_VARIABLES_URL(), window.VCV_UPDATE_VENDOR_URL(), window.VCV_UPDATE_WP_BUNDLE_URL())
-
+    this.setState({ error: null })
     return this.doUpdatePostAction(postUpdater)
   }
 
@@ -153,7 +182,14 @@ export default class ActivationSectionProvider extends React.Component {
       await postUpdater.update(postData)
       ready = true
     } catch (e) {
-      console.log('log error')
+      logError('Failed Update Post', {
+        code: 'doAction-updatePosts-1',
+        codeNum: '000003',
+        action: postUpdateData,
+        postData: postData,
+        error: e
+      })
+
       this.setError({
         errorAction: this.doPostUpdate,
         errorReportAction: this.sendErrorReport
@@ -197,6 +233,14 @@ export default class ActivationSectionProvider extends React.Component {
       return <OopsScreen />
     }
 
+    if (this.state.sendingErrorReport) {
+      return <LoadingScreen />
+    }
+
+    if (this.state.errorReported) {
+      return <ThankYouScreen />
+    }
+
     if (shouldDoUpdate) {
       if (this.state.isLoadingFinished) {
         if (activePage === 'vcv-update-fe') { // Redirect to frontend editor after update is finished
@@ -214,12 +258,21 @@ export default class ActivationSectionProvider extends React.Component {
     }
   }
 
-  sendErrorReport () {
-    console.log('send error report')
+  sendErrorCallback () {
+    this.setState({
+      sendingErrorReport: false,
+      errorReported: true
+    })
   }
 
-  retryErrorAction () {
-    console.log('retry action')
+  sendErrorReport (e) {
+    this.setState({
+      error: null,
+      sendingErrorReport: true,
+      loadingText: ActivationSectionProvider.texts.sendingErrorReport,
+      loadingDescription: ActivationSectionProvider.texts.doNotCloseWhileSendingErrorReportText
+    })
+    sendErrorReport(e, this.sendErrorCallback)
   }
 
   setError (errorData) { // message, errorAction, errorReportAction

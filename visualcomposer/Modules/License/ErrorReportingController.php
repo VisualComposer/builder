@@ -15,6 +15,7 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Url;
 
 class ErrorReportingController extends Container implements Module
 {
@@ -22,23 +23,24 @@ class ErrorReportingController extends Container implements Module
 
     public function __construct()
     {
-        // TODO!
-        if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
+        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
             return;
         }
+
+        $this->addFilter('vcv:license:variables', 'addVariables');
         $this->addFilter('vcv:ajax:account:error:report:adminNonce', 'sendReport');
-        $this->addFilter('vcv:backend:settings:extraOutput', 'addReportDetails');
-        $this->addFilter('vcv:frontend:update:head:extraOutput', 'addReportDetails');
     }
 
-    protected function addReportDetails($response, $payload)
+    protected function addVariables($variables, $payload, Url $urlHelper)
     {
-        /** @see \VisualComposer\Modules\License\ErrorReportingController::getDetails */
-        $data = $this->call('getDetails');
-        $variable = 'window.vcvErrorReportDetails=' . json_encode($data);
-        $response[] = sprintf('<script>%s</script>', $variable);
 
-        return $response;
+        $variables[] = [
+            'key' => 'VCV_ERROR_REPORT_URL',
+            'value' => $urlHelper->adminAjax(['vcv-action' => 'account:error:report:adminNonce']),
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 
     protected function sendReport(
@@ -48,7 +50,6 @@ class ErrorReportingController extends Container implements Module
         Request $requestHelper
     ) {
         if ($currentUserAccessHelper->wpAll('manage_options')->get()) {
-            /** @see \VisualComposer\Modules\License\ErrorReportingController::getDetails */
             $data = $this->call('getDetails');
             $data['request'] = $requestHelper->all();
 

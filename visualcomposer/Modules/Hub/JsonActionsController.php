@@ -65,6 +65,8 @@ class JsonActionsController extends Container implements Module
         Logger $loggerHelper,
         Str $strHelper
     ) {
+        sleep(10);
+        return ['status'=>false];
         //sleep(10);
         $requestAction = $requestHelper->input('vcv-hub-action');
 

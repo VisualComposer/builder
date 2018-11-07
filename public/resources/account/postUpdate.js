@@ -25,8 +25,6 @@ export default class {
       logError('Error in rebuild process get json globalUrls', {
         code: 'postsUpdate-update-3',
         codeNum: '000012',
-        type: window.vcvActivationType,
-        activationFinishedUrl: window.window.VCV_UPDATE_FINISH_URL(),
         jqXHR: jqXHR,
         status: status,
         error: error,
@@ -39,8 +37,6 @@ export default class {
       logError('Error in rebuild process get json vendorUrl ', {
         code: 'postsUpdate-update-4',
         codeNum: '000013',
-        type: window.vcvActivationType,
-        activationFinishedUrl: window.window.VCV_UPDATE_FINISH_URL(),
         jqXHR: jqXHR,
         status: status,
         error: error,
@@ -53,8 +49,6 @@ export default class {
       logError('Error in rebuild process get json updaterUrl', {
         code: 'postsUpdate-update-5',
         codeNum: '000014',
-        type: window.vcvActivationType,
-        activationFinishedUrl: window.vcvActivationFinishedUrl,
         jqXHR: jqXHR,
         status: status,
         error: error,
@@ -84,8 +78,6 @@ export default class {
       logError('Error in rebuild process downloadElements', {
         code: 'postsUpdate-downloadElements-1',
         codeNum: '000015',
-        type: window.vcvActivationType,
-        activationFinishedUrl: window.vcvActivationFinishedUrl,
         error: e
       })
     })
@@ -124,8 +116,6 @@ export default class {
         logError(text, {
           code: 'postsUpdate-update-1',
           codeNum: '000010',
-          type: window.vcvActivationType,
-          activationFinishedUrl: window.vcvActivationFinishedUrl,
           error: e,
           data: data
         })
@@ -140,8 +130,6 @@ export default class {
       logError('Error in rebuild process', {
         code: 'postsUpdate-update-2',
         codeNum: '000011',
-        type: window.vcvActivationType,
-        activationFinishedUrl: window.vcvActivationFinishedUrl,
         error: e,
         data: data
       })
