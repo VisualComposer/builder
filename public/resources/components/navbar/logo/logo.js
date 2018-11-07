@@ -8,14 +8,9 @@ export default class Logo extends React.Component {
 
   render () {
     let output = null
-    /** @todo remove the backend **/
-    let url = window.vcvGoPremiumUrlLogo + '&vcv-ref=logoBackend'
-    if (this.props.editor === 'frontend') {
-      url = window.vcvGoPremiumUrlLogo + '&vcv-ref=logoFrontend'
-    }
 
     output = (
-      <a href={url} target='_blank' className='vcv-ui-navbar-logo' title='Visual Composer Website Builder'>
+      <a href={window.vcvGoPremiumUrlLogo} target='_blank' className='vcv-ui-navbar-logo' title='Visual Composer Website Builder'>
         <span className='vcv-ui-navbar-logo-title'>Visual Composer Website Builder</span>
       </a>
     )

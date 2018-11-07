@@ -84,11 +84,12 @@ $postTypeHelper = vchelper('PostType');
   window.vcvPostPermanentLink = '<?php echo set_url_scheme(get_permalink(get_the_ID())); ?>';
   window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
   window.vcvGoPremiumUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=nav-bar')); ?>';
-  window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium')); ?>';
+  window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=logoFrontend')); ?>';
   window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(
       admin_url('post-new.php?post_type=vcv_gutenberg_attr')
   ); ?>';
   window.vcvIsActivated = Boolean(<?php echo $tokenHelper->isSiteAuthorized(); ?>);
+  window.vcvUpgradeUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-activate=1&vcv-ref=hub-banner')); ?>';
   <?php if (isset($feError) && $feError) : ?>
   window.vcvFeError = '<?php echo $feError; ?>'
   <?php endif; ?>
