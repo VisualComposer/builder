@@ -41,6 +41,17 @@ class GoPremium extends Container implements Module
             return;
         }
 
+        if (!$licenseHelper->isActivated()) {
+            $this->wpAddAction(
+                'in_admin_footer',
+                'addJs'
+            );
+            $this->wpAddAction(
+                'in_admin_header',
+                'addCss'
+            );
+        }
+
         $this->wpAddAction(
             'admin_menu',
             function (License $licenseHelper, Request $requestHelper) {
@@ -146,5 +157,21 @@ class GoPremium extends Container implements Module
             '&domain=' . get_site_url()
         );
         exit;
+    }
+
+    /**
+     * Add target _blank to external "Go Premium" link in sidebar
+     */
+    protected function addJs()
+    {
+        evcview('license/get-premium-js');
+    }
+
+    /**
+     * Add style to "Go Premium" link in sidebar
+     */
+    protected function addCss()
+    {
+        evcview('license/get-premium-css');
     }
 }
