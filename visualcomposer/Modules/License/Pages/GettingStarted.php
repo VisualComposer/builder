@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
@@ -18,10 +17,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
-/**
- * Class GetPremiumRedesign.
- */
-class GetPremiumRedesign extends Container implements Module
+class GettingStarted extends Container implements Module
 {
     use Page;
     use SubMenu;
@@ -31,7 +27,7 @@ class GetPremiumRedesign extends Container implements Module
     /**
      * @var string
      */
-    protected $slug = 'vcv-go-premium';
+    protected $slug = 'vcv-getting-started';
 
     /**
      * @var string
@@ -52,12 +48,7 @@ class GetPremiumRedesign extends Container implements Module
                 }
 
                 if (!$licenseHelper->isActivated()) {
-                    if ($requestHelper->exists('vcv-activate')) {
-                        $this->call('activateInAccount');
-                        exit;
-                    } else {
-                        $this->call('addPage');
-                    }
+                    $this->call('addPage');
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
                     wp_redirect(admin_url('admin.php?page=vcv-about'));
                     exit;
@@ -65,13 +56,6 @@ class GetPremiumRedesign extends Container implements Module
             },
             70
         );
-
-        if (!$licenseHelper->isActivated()) {
-            $this->wpAddFilter(
-                'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
-                'pluginsPageLink'
-            );
-        }
     }
 
     /**
@@ -116,57 +100,7 @@ class GetPremiumRedesign extends Container implements Module
     {
         return sprintf(
             '<strong style="vertical-align: middle;font-weight:500;">%s</strong>',
-            __('Go Premium', 'vcwb')
+            __('Getting Started', 'vcwb')
         );
-    }
-
-    /**
-     * Add go premium link in plugins page
-     *
-     * @param $links
-     *
-     * @return mixed
-     */
-    protected function pluginsPageLink($links)
-    {
-        /** @noinspection HtmlUnknownTarget */
-        $goPremiumLink = sprintf(
-            '<a href="%s">%s</a>',
-            esc_url(admin_url('admin.php?page=vcv-go-premium')) . '&vcv-ref=plugins-page',
-            __('Go Premium', 'vcwb')
-        );
-
-        array_push($links, $goPremiumLink);
-
-        return $links;
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     *
-     * @return bool|void
-     * @throws \ReflectionException
-     */
-    protected function activateInAccount(CurrentUser $currentUserHelper, License $licenseHelper)
-    {
-        if (!$currentUserHelper->wpAll('manage_options')->get()) {
-            return;
-        }
-        $urlHelper = vchelper('Url');
-        $nonceHelper = vchelper('Nonce');
-
-        wp_redirect(
-            VCV_LICENSE_ACTIVATE_URL .
-            '/?redirect=' . rawurlencode(
-                $urlHelper->adminAjax(
-                    ['vcv-action' => 'license:activate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
-                )
-            ) .
-            '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
-            '&url=' . VCV_PLUGIN_URL .
-            '&domain=' . get_site_url()
-        );
-        exit;
     }
 }
