@@ -2,7 +2,6 @@ import React from 'react'
 import classnames from 'classnames'
 import Attribute from '../attribute'
 import GutenbergModal from './gutenbergModal'
-import lodash from 'lodash'
 /* Working prototype */
 export default class Component extends Attribute {
   constructor (props) {
