@@ -37,7 +37,7 @@ vcCake.add('contentModernLayout', (api) => {
     workspaceIFrame.set(false)
     let iframe = document.getElementById('vcv-editor-iframe')
     let iframeWindow = iframe ? iframe.contentWindow : null
-    let domContainer = null
+    let domContainer = iframeWindow ? iframeWindow.document.getElementById('vcv-editor') : null
     if (domContainer) {
       ReactDOM.render(
         <Editor api={api} />,
@@ -92,8 +92,15 @@ vcCake.add('contentModernLayout', (api) => {
         })
       }
     } else {
-      // alert('failed to render')
-      document.body.innerHTML = `<div id='vcv-oops-screen-container'></div>`
+      const postUpdateWrapper = document.querySelector('#vcv-posts-update-wrapper')
+      let wrapper = document.body
+
+      if (postUpdateWrapper) {
+        const postUpdateIframe = postUpdateWrapper.querySelector('.vcv-layout-iframe')
+        wrapper = postUpdateIframe && postUpdateIframe.contentWindow.document.body
+      }
+
+      wrapper.innerHTML = `<div id='vcv-oops-screen-container'></div>`
       let oopsContainer = document.getElementById('vcv-oops-screen-container')
       if (oopsContainer) {
         ReactDOM.render(
