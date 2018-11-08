@@ -80,7 +80,6 @@ export default class OopsScreen extends React.Component {
   }
 
   render () {
-    const { errorAction, errorReportAction } = this.props
     return (
       <div className='vcv-error-screen vcv-screen-content' ref={this.screenContent}>
         <VCVLogo />
