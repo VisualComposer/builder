@@ -70,22 +70,12 @@ class Token extends Container implements Helper
             $id = vchelper('Options')->get('hubTokenId');
         }
         $licenseHelper = vchelper('License');
-        $requestHelper = vchelper('Request');
         $body = [
             'hoster_id' => 'account',
             'id' => $id,
             'domain' => get_site_url(),
             'url' => VCV_PLUGIN_URL,
         ];
-        if ('account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
-            $body = apply_filters('vcv:create:token:attributes', $body);
-        }
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            if ($requestHelper->input('category') && 'account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
-                $body['category'] = $requestHelper->input('category');
-                vchelper('Options')->set('activation-category', $requestHelper->input('category'));
-            }
-        }
         if ($licenseHelper->isActivated()) {
             $body['license-key'] = $licenseHelper->getKey();
         }
@@ -107,7 +97,7 @@ class Token extends Container implements Helper
      *
      * @return bool|string
      */
-    public function getToken($id)
+    public function getToken($id = '')
     {
         $token = $this->optionsHelper->getTransient('siteAuthToken');
         if (!$token) {
@@ -141,7 +131,7 @@ class Token extends Container implements Helper
      */
     public function setToken($token)
     {
-        return $this->optionsHelper->setTransient('siteAuthToken', $token, 3600);
+        return $this->optionsHelper->setTransient('siteAuthToken', $token, 300);
     }
 
     /**
