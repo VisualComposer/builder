@@ -2,6 +2,7 @@
   margin: 0;
 }
 
+.vcv-screen-section,
 .vcv-activation-section {
   position: relative;
   padding: 20px 20px 0 0;
@@ -17,11 +18,12 @@
     box-sizing: border-box;
   }
 }
-
+.vcv-screen-content,
 .vcv-activation-content {
   opacity: 0;
   transition: opacity .5s;
 
+  &.vcv-screen-content--active,
   &.vcv-activation-content--active {
     opacity: 1;
   }
@@ -43,6 +45,7 @@
   line-height: 13px;
 }
 
+.vcv-screen-section .vcv-screen-heading,
 .vcv-activation-section .vcv-activation-heading {
   text-align: center;
   font-family: 'Montserrat', sans-serif;
@@ -53,6 +56,7 @@
   margin: 23px 0;
 }
 
+.vcv-screen-button-container,
 .vcv-activation-button-container {
   display: flex;
   justify-content: center;
@@ -60,6 +64,8 @@
   flex-wrap: wrap;
   margin-bottom: 20px;
 
+  a.vcv-screen-button,
+  button.vcv-screen-button,
   a.vcv-activation-button,
   button.vcv-activation-button {
     text-decoration: none;
@@ -96,6 +102,7 @@
   }
 }
 
+.vcv-error-screen,
 .vcv-activation-loading-screen {
   min-height: calc(100vh - 170px);
   display: flex;
@@ -128,16 +135,12 @@
     animation-delay: -1s;
   }
 
+  .vcv-screen-button-container,
   .vcv-activation-button-container {
     margin-top: 20px;
   }
 }
 
-.vcv-activation-error-screen {
-  .vcv-activation-button-container {
-    margin-top: 20px;
-  }
-}
 
 @keyframes vcvDotsRotate {
   100% { transform: rotate(360deg); }
@@ -149,6 +152,7 @@
 }
 
 
+.vcv-error-screen .vcv-screen-text,
 .vcv-activation-loading-screen .vcv-activation-loading-text {
   text-align: center;
   font-family: 'Montserrat', sans-serif;
@@ -159,6 +163,7 @@
   margin: 31px 0 6px;
 }
 
+.vcv-error-screen .vcv-screen-helper-text,
 .vcv-activation-loading-screen .vcv-activation-loading-helper-text {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;

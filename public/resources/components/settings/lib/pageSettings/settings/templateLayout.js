@@ -83,7 +83,7 @@ export default class TemplateLayout extends React.Component {
       let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
       if (
-        (lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type || (env('FT_ADD_STRETCHED_CONTENT_OPTION') && (lastLoadedPageTemplate.stretchedContent !== lastSavedPageTemplate.stretchedContent)))) ||
+        (lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type || (lastLoadedPageTemplate.stretchedContent !== lastSavedPageTemplate.stretchedContent))) ||
         (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) ||
         (lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate) ||
         (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate)
@@ -264,10 +264,6 @@ export default class TemplateLayout extends React.Component {
   }
 
   getStretchedToggle () {
-    if (!env('FT_ADD_STRETCHED_CONTENT_OPTION')) {
-      return null
-    }
-
     const { current } = this.state
     if (current.type === 'theme') {
       return null

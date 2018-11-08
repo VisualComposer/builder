@@ -12,11 +12,8 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Modules\License\Pages\ActivationPage;
-use VisualComposer\Modules\License\Pages\GetPremiumRedesign;
 
 class ActivationRedirectController extends Container implements Module
 {
@@ -29,13 +26,6 @@ class ActivationRedirectController extends Container implements Module
         $this->addEvent('vcv:system:activation:hook', 'setRedirect');
         /** @see \VisualComposer\Modules\License\ActivationRedirectController::doRedirect */
         $this->wpAddAction('admin_init', 'doRedirect');
-
-        $this->addFilter(
-            'vcv:editors:frontend:render',
-            'setRedirectNotActivated',
-            100
-        );
-        $this->addFilter('vcv:editors:frontend:render', 'doRedirect', 110);
     }
 
     /**
@@ -55,39 +45,17 @@ class ActivationRedirectController extends Container implements Module
      * Do redirect if required on welcome page
      *
      * @param $response
-     * @param \VisualComposer\Modules\License\Pages\GetPremiumRedesign $getPremiumRedesignPageModule
-     * @param \VisualComposer\Modules\License\Pages\ActivationPage $activationWelcomePageModule
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return
-     */
-    protected function doRedirect($response, GetPremiumRedesign $getPremiumRedesignPageModule, ActivationPage $activationWelcomePageModule, Options $optionsHelper)
-    {
-        $redirect = $optionsHelper->getTransient('_vcv_activation_page_redirect');
-        $optionsHelper->deleteTransient('_vcv_activation_page_redirect');
-        if ($redirect) {
-            $url = $activationWelcomePageModule->getSlug();
-            if (vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-                $url = $getPremiumRedesignPageModule->getSlug();
-            }
-            wp_redirect(admin_url('admin.php?page=' . rawurlencode($url)));
-        }
-
-        return $response;
-    }
-
-    /**
-     * @param $response
-     * @param $payload
-     * @param \VisualComposer\Helpers\Token $tokenHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return mixed
      */
-    protected function setRedirectNotActivated($response, $payload, Token $tokenHelper, Options $optionsHelper)
+    protected function doRedirect($response, Options $optionsHelper)
     {
-        if (!$tokenHelper->isSiteAuthorized()) {
-            $optionsHelper->setTransient('_vcv_activation_page_redirect', 1, 30);
+        $redirect = $optionsHelper->getTransient('_vcv_activation_page_redirect');
+        $optionsHelper->deleteTransient('_vcv_activation_page_redirect');
+        if ($redirect) {
+            wp_redirect(admin_url('admin.php?page=vcv-go-premium'));
+            exit;
         }
 
         return $response;

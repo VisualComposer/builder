@@ -49,31 +49,14 @@ class Token extends Container implements Helper
             ->delete('siteSecret')
             ->delete('siteAuthState')
             ->deleteTransient('siteAuthToken')
+            ->deleteTransient('vcv:activation:request')
+            ->deleteTransient('vcv:hub:action:request')
             ->delete('siteAuthRefreshToken')
-            ->delete('vcv:activation:request')
             ->delete('siteAuthTokenTtl')
             ->delete('license-key')
             ->delete('license-key-token');
 
         return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSiteRegistered()
-    {
-        return (bool)$this->optionsHelper->get(
-            'siteRegistered'
-        );
-    }
-
-    public function setIsSiteRegistered()
-    {
-        return $this->optionsHelper->set(
-            'siteRegistered',
-            1
-        );
     }
 
     /**
@@ -87,22 +70,12 @@ class Token extends Container implements Helper
             $id = vchelper('Options')->get('hubTokenId');
         }
         $licenseHelper = vchelper('License');
-        $requestHelper = vchelper('Request');
         $body = [
             'hoster_id' => 'account',
             'id' => $id,
             'domain' => get_site_url(),
             'url' => VCV_PLUGIN_URL,
         ];
-        if ('account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
-            $body = apply_filters('vcv:create:token:attributes', $body);
-        }
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            if ($requestHelper->input('category') && 'account' !== vcvenv('VCV_ENV_ADDONS_ID')) {
-                $body['category'] = $requestHelper->input('category');
-                vchelper('Options')->set('activation-category', $requestHelper->input('category'));
-            }
-        }
         if ($licenseHelper->isActivated()) {
             $body['license-key'] = $licenseHelper->getKey();
         }
@@ -124,7 +97,7 @@ class Token extends Container implements Helper
      *
      * @return bool|string
      */
-    public function getToken($id)
+    public function getToken($id = '')
     {
         $token = $this->optionsHelper->getTransient('siteAuthToken');
         if (!$token) {
@@ -148,7 +121,7 @@ class Token extends Container implements Helper
      */
     public function isSiteAuthorized()
     {
-        return vcvenv('VCV_FT_ACTIVATION_REDESIGN') || (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
+        return (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
     }
 
     /**
@@ -158,7 +131,7 @@ class Token extends Container implements Helper
      */
     public function setToken($token)
     {
-        return $this->optionsHelper->setTransient('siteAuthToken', $token, 3600);
+        return $this->optionsHelper->setTransient('siteAuthToken', $token, 300);
     }
 
     /**
@@ -171,6 +144,7 @@ class Token extends Container implements Helper
         $loggerHelper = vchelper('Logger');
         $licenseHelper = vchelper('License');
         $noticeHelper = vchelper('Notice');
+        // TODO: errors
         if (!vcIsBadResponse($result)) {
             $body = json_decode($result['body'], true);
             if (is_array($body) && $body['success']) {

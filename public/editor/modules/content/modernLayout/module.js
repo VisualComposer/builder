@@ -8,7 +8,7 @@ import ControlsManager from './lib/controlsIframe/controlsManager'
 import MobileControlsManager from './lib/controlsIframe/mobileControlsManager'
 import Notifications from './lib/notifications'
 import MobileDetect from 'mobile-detect'
-import OopsScreen from 'public/resources/components/oopsScreen/component'
+import OopsScreen from 'public/resources/account/oopsScreen'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -92,12 +92,21 @@ vcCake.add('contentModernLayout', (api) => {
         })
       }
     } else {
-      // alert('failed to render')
-      document.body.innerHTML = `<div id='vcv-oops-screen-container'></div>`
+      const postUpdateWrapper = document.querySelector('#vcv-posts-update-wrapper')
+      let wrapper = document.body
+
+      if (postUpdateWrapper) {
+        const postUpdateIframe = postUpdateWrapper.querySelector('.vcv-layout-iframe')
+        wrapper = postUpdateIframe && postUpdateIframe.contentWindow.document.body
+      }
+
+      wrapper.innerHTML = `<div id='vcv-oops-screen-container'></div>`
       let oopsContainer = document.getElementById('vcv-oops-screen-container')
       if (oopsContainer) {
         ReactDOM.render(
-          <OopsScreen error={window.vcvFeError || 'default'} />,
+          <div className='vcv-screen-section'>
+            <OopsScreen errorName={window.vcvFeError || 'default'} />
+          </div>,
           oopsContainer
         )
       }

@@ -40,7 +40,6 @@ class AssetsShared extends Container implements Helper
 
             return $assets;
         } else {
-            $urlHelper = vchelper('Url');
             $assetsLibraries = [];
             $json = vchelper('File')->getContents(
                 VCV_PLUGIN_DIR_PATH . 'public/sources/assetsLibrary/assetsLibraries.json'

@@ -76,7 +76,7 @@ if (!defined('VCV_LICENSE_ACTIVATE_URL')) {
     define(
         'VCV_LICENSE_ACTIVATE_URL',
         isset($_SERVER['ENV_VCV_LICENSE_ACTIVATE_URL']) ? $_SERVER['ENV_VCV_LICENSE_ACTIVATE_URL']
-            : 'https://account.visualcomposer.io/activate-license'
+            : 'https://account.visualcomposer.io/activation'
     );
 }
 
@@ -104,41 +104,6 @@ if (!defined('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
     );
 }
 
-if (!defined('VCV_ENV_LICENSES')) {
-    define(
-        'VCV_ENV_LICENSES',
-        isset($_SERVER['ENV_VCV_ENV_LICENSES']) ? $_SERVER['ENV_VCV_ENV_LICENSES'] : true
-    );
-}
-
-if (!defined('VCV_ENV_HUB_TEASER')) {
-    define(
-        'VCV_ENV_HUB_TEASER',
-        isset($_SERVER['ENV_VCV_ENV_HUB_TEASER']) ? $_SERVER['ENV_VCV_ENV_HUB_TEASER'] : true
-    );
-}
-
-if (!defined('VCV_ENV_HUB_TEMPLATES_TEASER')) {
-    define(
-        'VCV_ENV_HUB_TEMPLATES_TEASER',
-        isset($_SERVER['ENV_VCV_ENV_HUB_TEMPLATES_TEASER']) ? $_SERVER['ENV_VCV_ENV_HUB_TEMPLATES_TEASER'] : true
-    );
-}
-
-if (!defined('VCV_ENV_UPGRADE')) {
-    define(
-        'VCV_ENV_UPGRADE',
-        isset($_SERVER['ENV_VCV_ENV_UPGRADE']) ? $_SERVER['ENV_VCV_ENV_UPGRADE'] : true
-    );
-}
-
-if (!defined('VCV_TF_POSTS_RERENDER')) {
-    define(
-        'VCV_TF_POSTS_RERENDER',
-        isset($_SERVER['ENV_VCV_TF_POSTS_RERENDER']) ? $_SERVER['ENV_VCV_TF_POSTS_RERENDER'] : true
-    );
-}
-
 if (!defined('VCV_DEBUG')) {
     define('VCV_DEBUG', false);
 }
@@ -150,32 +115,10 @@ if (!defined('VCV_TF_JS_SETTINGS')) {
     );
 }
 
-if (!defined('VCV_HUB_DOWNLOAD_SINGLE_ELEMENT')) {
-    define(
-        'VCV_HUB_DOWNLOAD_SINGLE_ELEMENT',
-        isset($_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_ELEMENT']) ? $_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_ELEMENT'] : true
-    );
-}
-
-if (!defined('VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE')) {
-    define(
-        'VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE',
-        isset($_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE']) ? $_SERVER['ENV_VCV_HUB_DOWNLOAD_SINGLE_TEMPLATE']
-            : true
-    );
-}
-
 if (!defined('VCV_FIX_CURL_JSON_DOWNLOAD')) {
     define(
         'VCV_FIX_CURL_JSON_DOWNLOAD',
         isset($_SERVER['ENV_VCV_FIX_CURL_JSON_DOWNLOAD']) ? $_SERVER['ENV_VCV_FIX_CURL_JSON_DOWNLOAD'] : false
-    );
-}
-
-if (!defined('VCV_ENV_PLUGIN_UPDATE_NOTICE')) {
-    define(
-        'VCV_ENV_PLUGIN_UPDATE_NOTICE',
-        isset($_SERVER['ENV_VCV_ENV_PLUGIN_UPDATE_NOTICE']) ? $_SERVER['ENV_VCV_ENV_PLUGIN_UPDATE_NOTICE'] : true
     );
 }
 
@@ -201,27 +144,6 @@ if (!defined('VCV_TF_ADD_NEW_VC_IN_NAVBAR')) {
     );
 }
 
-if (!defined('VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE')) {
-    define(
-        'VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE',
-        isset($_SERVER['ENV_VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE'])
-            ? $_SERVER['ENV_VCV_ENV_HUB_DOWNLOAD_PREDEFINED_TEMPLATE'] : true
-    );
-}
-if (!defined('VCV_ENV_HUB_ADDON_TEASER')) {
-    define(
-        'VCV_ENV_HUB_ADDON_TEASER',
-        isset($_SERVER['ENV_VCV_ENV_HUB_ADDON_TEASER']) ? $_SERVER['ENV_VCV_ENV_HUB_ADDON_TEASER'] : true
-    );
-}
-
-if (!defined('VCV_ENV_TEMPLATES_FULL_SAVE')) {
-    define(
-        'VCV_ENV_TEMPLATES_FULL_SAVE',
-        isset($_SERVER['ENV_VCV_ENV_TEMPLATES_FULL_SAVE']) ? $_SERVER['ENV_VCV_ENV_TEMPLATES_FULL_SAVE'] : true
-    );
-}
-
 // Disabled until all php elements updated
 if (!defined('VCV_ENV_ELEMENTS_FILES_NOGLOB')) {
     define(
@@ -234,13 +156,6 @@ if (!defined('VCV_ENV_TEMPLATES_LOAD_ASYNC')) {
     define(
         'VCV_ENV_TEMPLATES_LOAD_ASYNC',
         isset($_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC']) ? $_SERVER['ENV_VCV_ENV_TEMPLATES_LOAD_ASYNC'] : true
-    );
-}
-
-if (!defined('VCV_FT_POST_UPDATE')) {
-    define(
-        'VCV_FT_POST_UPDATE',
-        true
     );
 }
 

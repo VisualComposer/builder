@@ -16,6 +16,7 @@ do {
   CNT=$(($CNT+1))
   if cd $EXECDIR/devElements/$i; then
     cd $EXECDIR/devElements/$i
+    git reset --hard
     git pull && ../../node_modules/.bin/webpack --config webpack.config.4x.babel.js --progress --colors & pid=$1
   fi
 

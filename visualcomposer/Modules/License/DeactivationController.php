@@ -33,7 +33,7 @@ class DeactivationController extends Container implements Module
         $this->addFilter('vcv:ajax:license:deactivation:ping', 'pingDeactivation');
 
         /** @see \VisualComposer\Modules\License\DeactivationController::unsetOptions */
-        $this->addEvent('vcv:system:deactivation:hook vcv:system:factory:reset', 'unsetOptions');
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**

@@ -51,8 +51,7 @@ class AboutRedesign extends Container implements Module
             function (Request $requestHelper, License $licenseHelper) {
                 if (!$licenseHelper->getKey()) {
                     if ($requestHelper->input('page') === $this->getSlug()) {
-                        $url = vcapp('LicensePagesGetPremiumRedesign')->getSlug();
-                        wp_redirect(admin_url('admin.php?page=' . rawurlencode($url)));
+                        wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
                         exit;
                     }
                 } else {

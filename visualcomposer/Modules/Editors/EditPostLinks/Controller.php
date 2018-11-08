@@ -91,7 +91,7 @@ class Controller extends Container implements Module
                 // @codingStandardsIgnoreLine
                 $url,
                 __('Edit with Visual Composer', 'vcwb')
-            ); // TODO: Change text https://app.asana.com/0/214854674604991/236487795091134
+            );
         }
 
         return $link;

@@ -1,6 +1,6 @@
 import React from 'react'
 import lodash from 'lodash'
-import { getService, env } from 'vc-cake'
+import { getService } from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const RulesManager = getService('rulesManager')
@@ -32,9 +32,6 @@ export default class ActivitiesManager extends React.Component {
     this.mountStack = {}
     this.initialStack = {}
     let element = elementAccessPoint.get(nextProps.element.id)
-    if (!env('FT_EDIT_FORM_PERFORMANCE_OPTIMIZATION')) {
-      this.setState({ element })
-    }
     this.listeners = this.initListeners(element.cook(), nextProps)
   }
 

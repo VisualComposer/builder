@@ -154,6 +154,7 @@ class Bundle implements Helper
                         'timeout' => 30,
                     ]
                 );
+                // TODO: errors
                 if (!vcIsBadResponse($response)) {
                     $result = json_decode($response['body'], true);
                 } else {
@@ -225,8 +226,7 @@ class Bundle implements Helper
                 }
             }
         }
-        $needUpdatePost = vcvenv('VCV_TF_POSTS_RERENDER', false) ? $hubUpdateHelper->getUpdatePosts()
-            : [];
+        $needUpdatePost = $hubUpdateHelper->getUpdatePosts();
         if (empty($needUpdatePost) || !is_array($needUpdatePost)) {
             $needUpdatePost = [];
         } else {
@@ -302,9 +302,7 @@ class Bundle implements Helper
             );
             $requiredActions = $this->checkActionDependencies($requiredActions, $allActions, $data);
         }
-        if (vcvenv('VCV_TF_POSTS_RERENDER', false)) {
-            $optionsHelper->set('hubAction:updatePosts', $needUpdatePost);
-        }
+        $optionsHelper->set('hubAction:updatePosts', $needUpdatePost);
 
         return $requiredActions;
     }

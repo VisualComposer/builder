@@ -178,30 +178,45 @@ class Controller extends Container implements Module
 
             /** @see \VisualComposer\Modules\System\Ajax\Controller::getResponse */
             return $this->call('getResponse', [$requestAction]);
-        } else {
+        }
+
+        return false;
+    }
+
+    protected function validateNonce(
+        $requestAction,
+        Request $requestHelper,
+        Str $strHelper,
+        Nonce $nonceHelper,
+        Logger $loggerHelper
+    ) {
+        if ($strHelper->endsWith(strtolower($requestAction), 'nonce') && !$requestHelper->exists('vcv-nonce')) {
             $loggerHelper->log(
-                'Nonce not validated #10075',
+                'Nonce not provided #3001',
+                [
+                    'request' => $requestHelper->all(),
+                ]
+            );
+
+            return false;
+        }
+
+        $result = true;
+        if ($strHelper->contains($requestAction, ':nonce')) {
+            $result = $nonceHelper->verifyUser($requestHelper->input('vcv-nonce'));
+        } elseif ($strHelper->contains($requestAction, ':adminNonce')) {
+            $result = $nonceHelper->verifyAdmin($requestHelper->input('vcv-nonce'));
+        }
+
+        if (!$result) {
+            $loggerHelper->log(
+                'Nonce not validated #3002',
                 [
                     'request' => $requestHelper->all(),
                 ]
             );
         }
 
-        return false;
-    }
-
-    protected function validateNonce($requestAction, Request $requestHelper, Str $strHelper, Nonce $nonceHelper)
-    {
-        if ($strHelper->contains($requestAction, ':nonce')) {
-            return $nonceHelper->verifyUser(
-                $requestHelper->input('vcv-nonce')
-            );
-        } elseif ($strHelper->contains($requestAction, ':adminNonce')) {
-            return $nonceHelper->verifyAdmin(
-                $requestHelper->input('vcv-nonce')
-            );
-        }
-
-        return true;
+        return $result;
     }
 }

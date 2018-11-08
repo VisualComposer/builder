@@ -82,16 +82,14 @@ $postTypeHelper = vchelper('PostType');
   window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
   window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
   window.vcvPostPermanentLink = '<?php echo set_url_scheme(get_permalink(get_the_ID())); ?>';
-  <?php if (vcvenv('VCV_ENV_LICENSES')) : ?>
   window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
   window.vcvGoPremiumUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=nav-bar')); ?>';
-  window.vcvGoPremiumUrlLogo = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium')); ?>';
-  window.vcvUpgradeUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-upgrade')); ?>';
+  window.vcvGettingStartedUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-getting-started&vcv-ref=logoFrontend')); ?>';
   window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(
       admin_url('post-new.php?post_type=vcv_gutenberg_attr')
   ); ?>';
   window.vcvIsActivated = Boolean(<?php echo $tokenHelper->isSiteAuthorized(); ?>);
-  <?php endif; ?>
+  window.vcvUpgradeUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=hub-banner')); ?>';
   <?php if (isset($feError) && $feError) : ?>
   window.vcvFeError = '<?php echo $feError; ?>'
   <?php endif; ?>

@@ -36,7 +36,7 @@ class UpdateVariablesController extends Container implements Module
                 'value' => 'last',
                 'type' => 'constant',
             ];
-        } elseif ($payload['slug'] === 'vcv-go-premium') {
+        } elseif ($payload['slug'] === 'vcv-getting-started') {
             $variables[] = [
                 'key' => 'VCV_ACTIVATION_SLIDES',
                 'value' => [
@@ -80,6 +80,7 @@ class UpdateVariablesController extends Container implements Module
                 'type' => 'constant',
             ];
         }
+        //dd($variables);
 
         return $variables;
     }

@@ -32,7 +32,7 @@ let sendErrors = (e, cb) => {
   window.jQuery.ajax(
     {
       type: 'POST',
-      url: window.vcvErrorReportUrl,
+      url: window.VCV_ERROR_REPORT_URL(),
       data: {
         'vcv-nonce': window.vcvNonce,
         errors: JSON.stringify(getErrors())

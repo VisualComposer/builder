@@ -16,6 +16,7 @@ class Update implements Helper
      * @param array $json
      *
      * @return array
+     * @throws \ReflectionException
      */
     public function getRequiredActions($json = [])
     {
@@ -26,11 +27,12 @@ class Update implements Helper
             if (!$json) {
                 $json = [];
                 // Current json is expired, need to update actions
-                $savedJson = vcfilter('vcv:hub:update:checkVersion', ['status' => false]);
+                $savedJson = $this->checkVersion();
                 if (!vcIsBadResponse($savedJson)) {
                     // Everything is ok need to parse $requiredActions['actions']
                     $json = $savedJson['json'];
                 } else {
+                    // TODO: Errors
                     // Logger::add error
                     $loggerHelper->log('Failed to update required actions list #10012');
                 }
@@ -39,13 +41,10 @@ class Update implements Helper
         list($needUpdatePost, $requiredActions) = vchelper('HubBundle')->loopActions($json);
         $reRenderPosts = array_unique($needUpdatePost);
         $requiredActions = vchelper('Data')->arrayDeepUnique($requiredActions);
-        $response['actions'] = $requiredActions;
-        if (count($reRenderPosts) > 0 && vcvenv('VCV_TF_POSTS_RERENDER', false)) {
+        if (count($reRenderPosts) > 0) {
             $postsActions = $this->createPostUpdateObjects($reRenderPosts);
             $requiredActions = array_merge($requiredActions, $postsActions);
         }
-        $optionsHelper->set('bundleUpdateActions', $requiredActions);
-        $optionsHelper->set('bundleUpdatePosts', array_unique($needUpdatePost));
 
         return $requiredActions;
     }
@@ -112,29 +111,14 @@ class Update implements Helper
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $editorPostTypeHelper = vchelper('AccessEditorPostType');
 
-        $variables = [];
         $variables[] = [
-            'key' => 'VCV_UPDATE_ACTIONS_URL',
-            'value' => $urlHelper->adminAjax(
-                ['vcv-action' => 'account:activation:adminNonce']
-            ),
+            'key' => 'VCV_UPDATE_ACTIONS',
+            'value' => vchelper('HubUpdate')->getRequiredActions(),
             'type' => 'constant',
         ];
         $variables[] = [
             'key' => 'VCV_UPDATE_PROCESS_ACTION_URL',
             'value' => $urlHelper->adminAjax(['vcv-action' => 'hub:action:adminNonce']),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_FINISH_URL',
-            'value' => $urlHelper->adminAjax(
-                ['vcv-action' => 'bundle:update:finished:adminNonce']
-            ),
-            'type' => 'constant',
-        ];
-        $variables[] = [
-            'key' => 'VCV_UPDATE_AJAX_TIME',
-            'value' => intval($_SERVER['REQUEST_TIME']),
             'type' => 'constant',
         ];
         $variables[] = [
@@ -188,10 +172,75 @@ class Update implements Helper
         }
         $variables[] = [
             'key' => 'VCV_PREMIUM_URL',
-            'value' => admin_url('admin.php?page=vcv-upgrade'),
+            'value' => admin_url('admin.php?page=vcv-go-premium'), // TODO: UTM
             'type' => 'constant',
         ];
 
         return $variables;
+    }
+
+    /**
+     * @return array|bool
+     * @throws \ReflectionException
+     */
+    public function checkVersion()
+    {
+        $hubBundleHelper = vchelper('HubBundle');
+        $licenseHelper = vchelper('License');
+        $tokenHelper = vchelper('Token');
+        $noticeHelper = vchelper('Notice');
+        $token = $tokenHelper->createToken();
+        // TODO: Errors
+        if (!vcIsBadResponse($token)) {
+            $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
+            $json = $hubBundleHelper->getRemoteBundleJson($url);
+            if ($json) {
+                return $this->processJson($json);
+            } else {
+                return ['status' => false];
+            }
+        } elseif ($licenseHelper->isActivated() && isset($token['code'])) {
+            $licenseHelper->setKey('');
+            $noticeHelper->addNotice('premium:deactivated', $licenseHelper->licenseErrorCodes($token['code']));
+        }
+
+        return ['status' => false];
+    }
+
+    /**
+     * @param $json
+     *
+     * @return bool|array
+     * @throws \ReflectionException
+     */
+    protected function processJson($json)
+    {
+        if (is_array($json) && isset($json['actions'])) {
+            $this->processTeasers($json['actions']);
+            $optionsHelper = vchelper('Options');
+            $hubUpdateHelper = vchelper('HubUpdate');
+            if ($hubUpdateHelper->checkIsUpdateRequired($json)) {
+                $optionsHelper->set('bundleUpdateRequired', true);
+                // Save in database cache for 30m
+                $optionsHelper->setTransient('bundleUpdateJson', $json, 1800);
+            }
+
+            return ['status' => true, 'json' => $json];
+        }
+
+        return false;
+    }
+
+    protected function processTeasers($actions)
+    {
+        if (isset($actions['hubTeaser'])) {
+            vcevent('vcv:hub:process:action:hubTeaser', ['teasers' => $actions['hubTeaser']]);
+        }
+        if (isset($actions['hubAddons'])) {
+            vcevent('vcv:hub:process:action:hubAddons', ['teasers' => $actions['hubAddons']]);
+        }
+        if (isset($actions['hubTemplates'])) {
+            vcevent('vcv:hub:process:action:hubTemplates', ['teasers' => $actions['hubTemplates']]);
+        }
     }
 }

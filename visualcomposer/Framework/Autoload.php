@@ -51,16 +51,23 @@ class Autoload extends Container
      * @param $all
      *
      * @return bool
+     * @throws \Exception
      */
     public function initComponents($all)
     {
         if (is_array($all) && is_array($all['helpers']) && is_array($all['modules'])) {
             foreach (array_merge($all['helpers'], $all['modules']) as $component) {
-                $this->app->addComponent(
-                    $component['name'],
-                    $component['abstract'],
-                    $component['singleton']
-                );
+                if (class_exists($component['abstract'])) {
+                    $this->app->addComponent(
+                        $component['name'],
+                        $component['abstract'],
+                        $component['singleton']
+                    );
+                } elseif (vcvenv('VCV_DEBUG')) {
+                    throw new \Exception(
+                        '[Failed to add] Class doesnt exists ' . $component['abstract'] . ' try composer update'
+                    );
+                }
             }
 
             return true;
@@ -73,14 +80,21 @@ class Autoload extends Container
      * @param $all
      *
      * @return bool
+     * @throws \Exception
      */
     public function bootComponents($all)
     {
         if (is_array($all) && is_array($all['helpers']) && is_array($all['modules'])) {
             foreach (array_merge($all['helpers'], $all['modules']) as $component) {
-                if ($component['make']) {
-                    $this->app->make(
-                        $component['abstract']
+                if (class_exists($component['abstract'])) {
+                    if ($component['make']) {
+                        $this->app->make(
+                            $component['abstract']
+                        );
+                    }
+                } elseif (vcvenv('VCV_DEBUG')) {
+                    throw new \Exception(
+                        '[Failed to Make] Class doesnt exists ' . $component['abstract'] . ' try composer update'
                     );
                 }
             }
@@ -93,6 +107,7 @@ class Autoload extends Container
 
     /**
      * @return bool
+     * @throws \Exception
      */
     public function useCache()
     {
@@ -154,16 +169,16 @@ class Autoload extends Container
      */
     protected static function isHelper($implements)
     {
-        return count(
-            array_intersect(
-                (array)$implements,
-                [
-                    'Helper',
-                    '\VisualComposer\Framework\Illuminate\Support\Helper',
-                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
-                ]
-            )
-        ) > 0;
+        $intersect = array_intersect(
+            (array)$implements,
+            [
+                'Helper',
+                '\VisualComposer\Framework\Illuminate\Support\Helper',
+                '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
+            ]
+        );
+
+        return count($intersect) > 0;
     }
 
     /**
@@ -173,16 +188,16 @@ class Autoload extends Container
      */
     protected static function isImmutable($implements)
     {
-        return count(
-            array_intersect(
-                (array)$implements,
-                [
-                    'Immutable',
-                    '\VisualComposer\Framework\Illuminate\Support\Immutable',
-                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Immutable',
-                ]
-            )
-        ) > 0;
+        $intersect = array_intersect(
+            (array)$implements,
+            [
+                'Immutable',
+                '\VisualComposer\Framework\Illuminate\Support\Immutable',
+                '\\VisualComposer\\Framework\\Illuminate\\Support\\Immutable',
+            ]
+        );
+
+        return count($intersect) > 0;
     }
 
     /**
@@ -192,16 +207,16 @@ class Autoload extends Container
      */
     protected function isModule($implements)
     {
-        return count(
-            array_intersect(
-                (array)$implements,
-                [
-                    'Module',
-                    '\VisualComposer\Framework\Illuminate\Support\Module',
-                    '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
-                ]
-            )
-        ) > 0;
+        $intersect = array_intersect(
+            (array)$implements,
+            [
+                'Module',
+                '\VisualComposer\Framework\Illuminate\Support\Module',
+                '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
+            ]
+        );
+
+        return count($intersect) > 0;
     }
 
     /**
@@ -348,6 +363,8 @@ class Autoload extends Container
 
     /**
      * @param $components
+     *
+     * @throws \Exception
      */
     protected function doComponents($components)
     {

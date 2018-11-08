@@ -14,6 +14,9 @@ if (!defined('ABSPATH')) {
 trait SubMenu
 {
     /**
+     * @param $page
+     * @param string $parentSlug
+     *
      * @throws \Exception
      */
     protected function addSubmenuPage($page, $parentSlug = 'vcv-settings')
@@ -22,11 +25,7 @@ trait SubMenu
         if (!$currentUserAccess->wpAll('edit_posts')->get()) {
             return;
         }
-        $tokenHelper = vchelper('Token');
         $hasAccess = $currentUserAccess->part('settings')->can($page['slug'] . '-tab')->get();
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN') && !$tokenHelper->isSiteAuthorized() && $hasAccess) {
-            $parentSlug = 'vcv-activation';
-        }
 
         if ($hasAccess) {
             global $submenu;

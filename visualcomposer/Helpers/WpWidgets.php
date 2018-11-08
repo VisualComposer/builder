@@ -104,22 +104,6 @@ class WpWidgets implements Helper
     }
 
     /**
-     * @return string
-     */
-    public function getWidgetsUrl()
-    {
-        // TODO: Check this function, remove obsolete
-        $url = vchelper('Url')->ajax(
-            [
-                'vcv-action' => 'elements:widget:script:adminNonce',
-                'vcv-nonce' => vchelper('Nonce')->admin(),
-            ]
-        );
-
-        return $url;
-    }
-
-    /**
      * @param $widgetClass
      *
      * @return bool
