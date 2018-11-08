@@ -3,7 +3,7 @@ import LoadingScreen from './loadingScreen'
 import FinalScreen from './finalScreen'
 import InitialScreen from './initialScreen'
 import PostUpdater from './postUpdate'
-import OopsScreen from './oopsScreen'
+import OopsScreenController from './oopsScreenController'
 import ThankYouScreen from './thankYouScreen'
 import { log as logError, send as sendErrorReport } from './logger'
 
@@ -230,7 +230,7 @@ export default class ActivationSectionProvider extends React.Component {
     const { activePage, shouldDoUpdate } = ActivationSectionProvider
 
     if (this.state.error) {
-      return <OopsScreen />
+      return <OopsScreenController />
     }
 
     if (this.state.sendingErrorReport) {
@@ -276,7 +276,12 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   setError (errorData) { // message, errorAction, errorReportAction
-    this.setState({ error: errorData })
+    this.setState({
+      error: {
+        ...errorData,
+        errorName: 'activation'
+      }
+    })
   }
 
   render () {
