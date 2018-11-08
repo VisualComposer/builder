@@ -72,7 +72,6 @@ class LicenseController extends Container implements Module
 
             if ($licenseHelper->isValidToken($token)) {
                 if ($requestHelper->exists('type') && $requestHelper->input('type') === 'free') {
-                    // TODO: Activate free
                     $tokenHelper->setSiteAuthorized();
                     $optionsHelper->deleteTransient('lastBundleUpdate');
                     wp_redirect(admin_url('admin.php?page=vcv-update'));

@@ -59,7 +59,7 @@ class AddonDownloadController extends ElementDownloadController implements Modul
                 } else {
                     $response = [
                         'status' => false,
-                        'message' => __('Failed to download bundle', 'vcwb'), // TODO add error codes
+                        'message' => __('Failed to download bundle', 'vcwb'), // TODO: add error codes
                     ];
                 }
                 $response = $this->initializeElementsAndAddons($response);
