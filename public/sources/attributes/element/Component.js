@@ -246,7 +246,7 @@ export default class ElementAttribute extends Attribute {
     const editableElement = vcCake.getStorage('workspace').state('settings').get().element.id
     const currentElement = this.props.element.get('id')
 
-    if (vcCake.env('FT_NESTED_ELEMENT_EDIT_FORM') && (editableElement !== currentElement)) {
+    if (editableElement !== currentElement) {
       const { options } = this.props
       let { isActive } = this.state
       let sectionClasses = classNames({

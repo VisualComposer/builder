@@ -94,9 +94,9 @@ export default class TeaserTypeControl extends React.Component {
       return <div key={`hub-control-${type}`} className='vcv-ui-form-button-group-item'>
         <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
           {name}
-          {!vcCake.env('FT_EDITOR_HUB_REDESIGN') && bundleTypes && bundleTypes.length && vcCake.env('FT_TEASER_DROPDOWN') ? <i className='vcv-ui-icon vcv-ui-icon-expand' /> : null}
+          {!vcCake.env('FT_EDITOR_HUB_REDESIGN') && bundleTypes && bundleTypes.length && <i className='vcv-ui-icon vcv-ui-icon-expand' />}
         </button>
-        {bundleTypes && bundleTypes.length && vcCake.env('FT_TEASER_DROPDOWN')
+        {bundleTypes && bundleTypes.length
           ? <div className='vcv-ui-form-button-group-dropdown'>
             {this.getDropdownItems(bundleTypes, type, index, isActive)}
           </div> : null}
