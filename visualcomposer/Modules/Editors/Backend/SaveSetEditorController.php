@@ -44,6 +44,7 @@ class SaveSetEditorController extends Container implements Module
         if ($requestHelper->input('vcv-be-editor') === 'be') {
             /** @var \WP_Post $post */
             $post = get_post();
+            // @codingStandardsIgnoreLine
             $data['post_content'] = $post->post_content;
         }
 
