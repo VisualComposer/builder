@@ -22,6 +22,7 @@ class HeartbeatController extends Container implements Module
     public function __construct()
     {
         $this->wpAddFilter('wp_refresh_nonces', 'addNonce', 11);
+        $this->wpAddFilter('heartbeat_settings', 'addMinimalInterval');
     }
 
     protected function addNonce($response, $data, Nonce $nonceHelper, CurrentUser $currentUser, Request $requestHelper)
@@ -34,5 +35,12 @@ class HeartbeatController extends Container implements Module
         }
 
         return $response;
+    }
+
+    protected function addMinimalInterval($settings)
+    {
+        $settings['minimalInterval'] = 30;
+
+        return $settings;
     }
 }
