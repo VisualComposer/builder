@@ -5,7 +5,7 @@
 @gutenberg-close-button-hover-color: rgba(0,0,0,.7);
 @gutenberg-close-button-size: 16px;
 @gutenberg-close-button-padding: 5px;
-@gutenberg-close-button-offset: 10px;
+@gutenberg-close-button-offset: 25px;
 
 .vcv-gutenberg-modal {
   position: fixed;
@@ -55,7 +55,7 @@ button.vcv-gutenberg-modal-close-button {
   font-size: @gutenberg-close-button-size;
   padding: @gutenberg-close-button-padding;
   cursor: pointer;
-
+  z-index: 2;
   &:hover,
   &:focus {
     background: transparent;

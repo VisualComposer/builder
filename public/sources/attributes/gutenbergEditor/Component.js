@@ -47,32 +47,31 @@ export default class Component extends Attribute {
       this.closeEditor()
     }
     // Subscribe to data change
-    const debounce = lodash.debounce(this.updateValueFromIframe.bind(this), 500)
     if (!window._wpGutenbergCodeEditorSettings) {
       return
     }
-    wpData.subscribe(debounce)
     // Set current content
     // Editor settings
-    const editorSettings = {
-      alignWide: false,
-      availableTemplates: [],
-      blockTypes: true,
-      disableCustomColors: false,
-      disablePostFormats: false,
-      titlePlaceholder: '',
-      bodyPlaceholder: 'Add content to apply to VCWB ;)'
+
+    const newPost = {
+      id: '',
+      guid: { raw: '/?', rendered: '/?' },
+      title: { raw: '' },
+      content: { raw: value, rendered: value },
+      type: 'post',
+      slug: '',
+      status: 'auto-draft',
+      link: '/?',
+      format: 'standard',
+      categories: []
     }
-    const newPost = Object.assign({ content: { raw: '', rendered: '' } }, window._wpGutenbergDefaultPost)
-    newPost.content.raw = value
-    newPost.content.rendered = value
     const editor = wpData.dispatch('core/editor')
     const selectEditor = wpData.select('core/edit-post')
     selectEditor.isPublishSidebarOpened = () => { return true }
     if (!!editor.autosave && typeof editor.autosave === 'function') {
       editor.autosave = () => {}
     }
-    editor.setupEditor(newPost, editorSettings)
+    editor.setupEditor(newPost)
     const postTitle = window.document.querySelector('.editor-post-title')
     postTitle.classList.add('hidden')
     this.setState({ loadingEditor: false })
@@ -114,11 +113,11 @@ export default class Component extends Attribute {
           <GutenbergModal>
             {loadingOverlay}
             <div className='vcv-gutenberg-modal-inner'>
-              <button className='vcv-gutenberg-modal-close-button' onClick={this.closeEditor}>
-                <i className={closeClasses} />
-              </button>
               <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} onLoad={this.iframeLoaded} />
             </div>
+            <button className='vcv-gutenberg-modal-close-button' onClick={this.closeEditor}>
+              <i className={closeClasses} />
+            </button>
           </GutenbergModal>
         )
       }
