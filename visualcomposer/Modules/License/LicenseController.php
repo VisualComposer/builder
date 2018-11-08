@@ -76,6 +76,7 @@ class LicenseController extends Container implements Module
                     $tokenHelper->setSiteAuthorized();
                     $optionsHelper->deleteTransient('lastBundleUpdate');
                     wp_redirect(admin_url('admin.php?page=vcv-update'));
+                    exit;
                 } else {
                     $body = [
                         'token' => $licenseHelper->getKeyToken(),
