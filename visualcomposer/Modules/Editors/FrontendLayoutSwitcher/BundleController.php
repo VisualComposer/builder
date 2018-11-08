@@ -25,34 +25,13 @@ class BundleController extends Container implements Module
         $this->wpAddAction('edit_form_top', 'addCurrentEditorField');
         $this->wpAddAction('admin_enqueue_scripts', 'addBundleStyle');
         $this->wpAddAction('admin_enqueue_scripts', 'addBundleScript');
-
-        /** @see \VisualComposer\Modules\Editors\FrontendLayoutSwitcher\BundleController::disableTinyMceContentRender */
-        $this->wpAddAction('edit_form_top', 'disableTinyMceContentRender');
-    }
-
-    /**
-     * Prevent p tag removal on WordPress "BE" editor
-     *
-     * @param $post
-     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
-     */
-    protected function disableTinyMceContentRender($post, EditorPostType $editorPostTypeHelper)
-    {
-        // @codingStandardsIgnoreLine
-        if ($editorPostTypeHelper->isEditorEnabled($post->post_type)
-            && in_array(
-                get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true),
-                ['fe', 'be']
-            )) {
-            remove_filter('the_editor_content', 'format_for_editor');
-        }
     }
 
     protected function addCurrentEditorField($post, EditorPostType $editorPostTypeHelper)
     {
         // @codingStandardsIgnoreLine
         if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
-            $beEditor = get_post_meta(get_the_ID(), 'vcv-be-editor', true);
+            $beEditor = get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true);
             if ($beEditor !== 'classic') {
                 $beEditor = 'be';
             }
@@ -63,8 +42,7 @@ class BundleController extends Container implements Module
     protected function addBundleStyle(
         Url $urlHelper,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper,
-        Assets $assetsHelper
+        EditorPostType $editorPostTypeHelper
     ) {
         $screen = get_current_screen();
         // @codingStandardsIgnoreLine
@@ -83,8 +61,7 @@ class BundleController extends Container implements Module
     protected function addBundleScript(
         Url $urlHelper,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper,
-        Assets $assetsHelper
+        EditorPostType $editorPostTypeHelper
     ) {
         $screen = get_current_screen();
         // @codingStandardsIgnoreLine
