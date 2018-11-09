@@ -102,7 +102,9 @@ class Token extends Container implements Helper
         $token = $this->optionsHelper->getTransient('siteAuthToken');
         if (!$token) {
             $token = $this->createToken($id);
-            $this->setToken($token);
+            if (is_string($token)) {
+                $this->setToken($token);
+            }
         }
 
         return $token;
@@ -202,7 +204,8 @@ class Token extends Container implements Helper
             if (is_array($result) && isset($result['body'])) {
                 $response = json_decode($result['body'], true);
                 if (is_array($response)
-                    && isset($response['error'], $response['error']['type'], $response['error']['code'])) {
+                    && isset($response['error'], $response['error']['type'], $response['error']['code'])
+                ) {
                     $licenseHelper->setKey('');
                     $loggerHelper->log(
                         $licenseHelper->licenseErrorCodes($response['error']['code']),

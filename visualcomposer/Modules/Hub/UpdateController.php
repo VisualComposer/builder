@@ -27,7 +27,7 @@ class UpdateController extends Container implements Module
         $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);
 
         // Factory reset
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+        $this->addEvent('vcv:system:activation:hook vcv:system:factory:reset', 'unsetOptions', -1);
     }
 
     /**

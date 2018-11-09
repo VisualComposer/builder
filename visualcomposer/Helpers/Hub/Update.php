@@ -41,12 +41,13 @@ class Update implements Helper
         list($needUpdatePost, $requiredActions) = vchelper('HubBundle')->loopActions($json);
         $reRenderPosts = array_unique($needUpdatePost);
         $requiredActions = vchelper('Data')->arrayDeepUnique($requiredActions);
+        $postsActions = [];
         if (count($reRenderPosts) > 0) {
             $postsActions = $this->createPostUpdateObjects($reRenderPosts);
-            $requiredActions = array_merge($requiredActions, $postsActions);
         }
 
-        return $requiredActions;
+        return array_merge($requiredActions, $postsActions);
+//        return ['actions' => $requiredActions, 'posts' => $postsActions];
     }
 
     public function createPostUpdateObjects(array $posts)
@@ -111,9 +112,10 @@ class Update implements Helper
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $editorPostTypeHelper = vchelper('AccessEditorPostType');
 
+        $requiredActions = vchelper('HubUpdate')->getRequiredActions();
         $variables[] = [
             'key' => 'VCV_UPDATE_ACTIONS',
-            'value' => vchelper('HubUpdate')->getRequiredActions(),
+            'value' => $requiredActions,
             'type' => 'constant',
         ];
         $variables[] = [
