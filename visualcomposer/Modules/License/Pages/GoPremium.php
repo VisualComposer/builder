@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
@@ -130,12 +131,15 @@ class GoPremium extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Token $tokenHelper
      *
      * @return bool|void
-     * @throws \ReflectionException
      */
-    protected function activateInAccount(CurrentUser $currentUserHelper, License $licenseHelper)
-    {
+    protected function activateInAccount(
+        CurrentUser $currentUserHelper,
+        License $licenseHelper,
+        Token $tokenHelper
+    ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
             return;
         }
@@ -154,6 +158,7 @@ class GoPremium extends Container implements Module
             ) .
             '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
             '&url=' . VCV_PLUGIN_URL .
+            '&siteAuthorized=' . $tokenHelper->isSiteAuthorized() .
             '&domain=' . get_site_url()
         );
         exit;
