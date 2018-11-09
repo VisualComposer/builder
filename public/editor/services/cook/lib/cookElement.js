@@ -90,7 +90,11 @@ export default class CookElement extends Element {
 
   getContentComponent () {
     if (!this[ elComponent ].has()) {
-      elementSettings.get(this[ elData ].tag) && elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
+      let elSettings = elementSettings.get(this[ elData ].tag)
+      if (vcCake.env('debug') === true && !elSettings) {
+        console.error('Component settings doesnt exists! Failed to get component', this[ elData ].tag, this[ elData ], elSettings, this[ elComponent ])
+      }
+      elSettings && elSettings.component(this[ elComponent ])
     }
     return this[ elComponent ].get()
   }
