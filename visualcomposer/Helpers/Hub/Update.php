@@ -44,10 +44,10 @@ class Update implements Helper
         $postsActions = [];
         if (count($reRenderPosts) > 0) {
             $postsActions = $this->createPostUpdateObjects($reRenderPosts);
+            $postsActions = $postsActions[0]['data'];
         }
 
-        return array_merge($requiredActions, $postsActions);
-//        return ['actions' => $requiredActions, 'posts' => $postsActions];
+        return ['actions' => $requiredActions, 'posts' => $postsActions];
     }
 
     public function createPostUpdateObjects(array $posts)
