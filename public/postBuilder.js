@@ -47,7 +47,7 @@ export default class PostBuilder {
       })
       wordpressDataStorage.on('skipPost', (id) => {
         if (id === this.settings.id) {
-          $.ajax(window.VCV_UPDATE_POST_SKIP_URL(),
+          $.ajax(window.VCV_UPDATE_SKIP_POST_URL(),
             {
               dataType: 'json',
               data: {
