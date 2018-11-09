@@ -211,6 +211,6 @@ if (!defined('VCV_FT_ACTIVATION_FIELDS_MOVE')) {
 if (!defined('VCV_FT_CATEGORIES_INSIDE_PLUGIN')) {
     define(
         'VCV_FT_CATEGORIES_INSIDE_PLUGIN',
-        false
+        true
     );
 }
