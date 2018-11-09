@@ -207,3 +207,10 @@ if (!defined('VCV_FT_CATEGORIES_INSIDE_PLUGIN')) {
         true
     );
 }
+
+if (!defined('VCV_FT_DEFAULT_ELEMENTS_INSIDE_PLUGIN')) {
+    define(
+        'VCV_FT_DEFAULT_ELEMENTS_INSIDE_PLUGIN',
+        false
+    );
+}

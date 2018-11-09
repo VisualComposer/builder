@@ -12,14 +12,36 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class Controller extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     public function __construct()
     {
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+        if (vcvenv('VCV_FT_DEFAULT_ELEMENTS_INSIDE_PLUGIN')) {
+            $this->wpAddAction('vcv:api', 'addDefaultElements');
+        }
+    }
+
+    protected function addDefaultElements($api)
+    {
+        $elementsToRegister = [
+            'row',
+            'column',
+            'textBlock',
+        ];
+        $pluginBaseUrl = rtrim(plugins_url(basename(__DIR__)), '\\/');
+        /** @var \VisualComposer\Modules\Elements\ApiController $elementsApi */
+        $elementsApi = $api->elements;
+        foreach ($elementsToRegister as $tag) {
+            $manifestPath = __DIR__ . '/elements/' . $tag . '/manifest.json';
+            $elementBaseUrl = $pluginBaseUrl . '/elements/' . $tag;
+            $elementsApi->add($manifestPath, $elementBaseUrl);
+        }
     }
 
     protected function unsetOptions(Options $optionsHelper)
@@ -27,7 +49,6 @@ class Controller extends Container implements Module
         $optionsHelper
             ->delete('hubElements')
             ->delete('hubCategories')
-            ->delete('hubGroups')
-            ->delete('resetAppliedV' . vcvenv('VCV_ENV_ELEMENT_DOWNLOAD_V'));
+            ->delete('hubGroups');
     }
 }
