@@ -124,6 +124,11 @@ class Update implements Helper
             'type' => 'constant',
         ];
         $variables[] = [
+            'key' => 'VCV_UPDATE_SKIP_POST_URL',
+            'value' => $urlHelper->adminAjax(['vcv-action' => 'hub:action:postUpdate:skipPost']),
+            'type' => 'constant',
+        ];
+        $variables[] = [
             'key' => 'VCV_UPDATE_WP_BUNDLE_URL',
             'value' => $urlHelper->to('public/dist/wp.bundle.js'),
             'type' => 'constant',
@@ -159,7 +164,8 @@ class Update implements Helper
         } elseif ($currentUserAccessHelper->wpAll('edit_posts')->get()
             && $editorPostTypeHelper->isEditorEnabled(
                 'post'
-            )) {
+            )
+        ) {
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_URL',
                 'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend'),
