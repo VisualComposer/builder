@@ -46,7 +46,7 @@ class UpdateBePageRedesign extends Container implements Module
             function (Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
                 if ($optionsHelper->get('bundleUpdateRequired')) {
                     $actions = $updateHelper->getRequiredActions();
-                    if (!empty($actions)) {
+                    if (!empty($actions['actions']) || !empty($actions['posts'])) {
                         $this->call('addPage');
 
                         return;

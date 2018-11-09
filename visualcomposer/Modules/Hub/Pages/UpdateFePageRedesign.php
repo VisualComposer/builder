@@ -40,7 +40,7 @@ class UpdateFePageRedesign extends Container implements Module
     {
         if ($optionsHelper->get('bundleUpdateRequired')) {
             $requiredActions = $updateHelper->getRequiredActions();
-            if (!empty($requiredActions)) {
+            if (!empty($requiredActions['actions']) || !empty($requiredActions['posts'])) {
                 $content = vcview(
                     'license/layout',
                     [
