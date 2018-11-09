@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
 
 const { env, getStorage } = vcCake
+const $ = window.jQuery
 
 export default class PostBuilder {
   /**
@@ -46,7 +47,17 @@ export default class PostBuilder {
       })
       wordpressDataStorage.on('skipPost', (id) => {
         if (id === this.settings.id) {
-          this.resolve && this.resolve()
+          $.ajax(window.VCV_UPDATE_POST_SKIP_URL(),
+            {
+              dataType: 'json',
+              data: {
+                'vcv-source-id': id,
+                'vcv-nonce': window.vcvNonce
+              }
+            }
+          ).done(() => {
+            this.resolve && this.resolve()
+          })
         }
       })
 
