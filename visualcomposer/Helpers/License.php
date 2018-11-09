@@ -36,7 +36,7 @@ class License extends Container implements Helper
     public function setKey($licenseKey)
     {
         $optionsHelper = vchelper('Options');
-        $optionsHelper->set('license-key', $licenseKey);
+        $optionsHelper->set('license-key', trim($licenseKey));
     }
 
     /**
@@ -82,7 +82,7 @@ class License extends Container implements Helper
     public function setKeyToken($token)
     {
         $optionsHelper = vchelper('Options');
-        $optionsHelper->set('license-key-token', $token);
+        $optionsHelper->set('license-key-token', trim($token));
     }
 
     /**

@@ -24,7 +24,7 @@ export default class LoadingScreen extends React.Component {
   }
 
   getDownloadText (data) {
-    const { assetsActions, activeAssetsAction, postUpdateData, activePostUpdate, assetsActionsDone, postUpdateDone, actionsStarted } = data
+    const { assetsActions, activeAssetsAction, postUpdateActions, activePostUpdate, assetsActionsDone, postUpdateDone, actionsStarted } = data
 
     if (!actionsStarted) {
       return <p className='vcv-activation-loading-text'>{LoadingScreen.texts.downloadingInitialExtensionsText}</p>
@@ -39,8 +39,8 @@ export default class LoadingScreen extends React.Component {
 
     // Show default actions if they are not finished
     if (!postUpdateDone) {
-      const activePostUpdateData = postUpdateData.data[ activePostUpdate ]
-      const loadingText = LoadingScreen.texts.postUpdateText.replace('{i}', activePostUpdate + 1).replace('{cnt}', postUpdateData.data.length).replace('{name}', activePostUpdateData.name || 'No name')
+      const activePostUpdateData = postUpdateActions[ activePostUpdate ]
+      const loadingText = LoadingScreen.texts.postUpdateText.replace('{i}', activePostUpdate + 1).replace('{cnt}', postUpdateActions.length).replace('{name}', activePostUpdateData.name || 'No name')
       return <p className='vcv-activation-loading-text'>{loadingText}</p>
     }
 
@@ -56,14 +56,14 @@ export default class LoadingScreen extends React.Component {
   render () {
     return (
       <ActivationSectionConsumer>
-        {({ assetsActions, postUpdateData, activeAssetsAction, activePostUpdate, showSkipPostButton, assetsActionsDone, postUpdateDone, actionsStarted, loadingText, loadingDescription }) => (
+        {({ assetsActions, postUpdateActions, activeAssetsAction, activePostUpdate, showSkipPostButton, assetsActionsDone, postUpdateDone, actionsStarted, loadingText, loadingDescription }) => (
           <div className='vcv-activation-loading-screen vcv-activation-content' ref={this.activationContent}>
             <div id='vcv-posts-update-wrapper' />
             <div className='vcv-loading-dots-container'>
               <div className='vcv-loading-dot vcv-loading-dot-1' />
               <div className='vcv-loading-dot vcv-loading-dot-2' />
             </div>
-            {loadingText ? <p className='vcv-activation-loading-text'>{loadingText}</p> : this.getDownloadText({ assetsActions, postUpdateData, activeAssetsAction, activePostUpdate, assetsActionsDone, postUpdateDone, actionsStarted })}
+            {loadingText ? <p className='vcv-activation-loading-text'>{loadingText}</p> : this.getDownloadText({ assetsActions, postUpdateActions, activeAssetsAction, activePostUpdate, assetsActionsDone, postUpdateDone, actionsStarted })}
             <p className='vcv-activation-loading-helper-text'>
               {loadingDescription || LoadingScreen.texts.doNotCloseWhileUpdateText}
             </p>

@@ -25,6 +25,7 @@ class SaveSetEditorController extends Container implements Module
     public function __construct()
     {
         $this->wpAddAction('save_post', 'setEditor');
+        $this->wpAddFilter('wp_insert_post_data', 'skipContentUpdate');
     }
 
     protected function setEditor(Request $requestHelper)
@@ -34,5 +35,19 @@ class SaveSetEditorController extends Container implements Module
         if ($post && $requestHelper->input('vcv-be-editor')) {
             update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $requestHelper->input('vcv-be-editor'));
         }
+    }
+
+    protected function skipContentUpdate($data)
+    {
+        $requestHelper = vchelper('Request');
+        //prevent p tag removing via backend save
+        if ($requestHelper->input('vcv-be-editor') === 'be') {
+            /** @var \WP_Post $post */
+            $post = get_post();
+            // @codingStandardsIgnoreLine
+            $data['post_content'] = $post->post_content;
+        }
+
+        return $data;
     }
 }
