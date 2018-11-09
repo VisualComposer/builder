@@ -24,15 +24,14 @@ export default class ActivationSectionProvider extends React.Component {
     super(props)
 
     const updateActions = window.VCV_UPDATE_ACTIONS()
-    const assetsActions = updateActions.filter(item => item.action !== 'updatePosts')
-    const postUpdateActions = updateActions.filter(item => item.action === 'updatePosts')
-    const postUpdateData = postUpdateActions.length ? postUpdateActions[ 0 ] : null
+    const assetsActions = updateActions && updateActions.actions
+    const postUpdateActions = updateActions && updateActions.posts
     const { shouldDoUpdate } = ActivationSectionProvider
-    const isLoadingFinished = !assetsActions.length && !postUpdateData
+    const isLoadingFinished = !assetsActions.length && !postUpdateActions.length
 
     this.state = {
       assetsActions: assetsActions,
-      postUpdateData: postUpdateData,
+      postUpdateActions: postUpdateActions,
       activeAssetsAction: 0,
       activePostUpdate: 0,
       error: null,
@@ -57,13 +56,13 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   componentDidMount () {
-    const { isLoadingFinished, assetsActions, postUpdateData } = this.state
+    const { isLoadingFinished, assetsActions, postUpdateActions } = this.state
     const { shouldDoUpdate } = ActivationSectionProvider
     if (shouldDoUpdate && !isLoadingFinished) {
       const cnt = assetsActions.length
 
       if (!cnt) {
-        if (postUpdateData) {
+        if (postUpdateActions) {
           this.doPostUpdate()
         }
       } else {
@@ -91,7 +90,7 @@ export default class ActivationSectionProvider extends React.Component {
 
         if (this.state.activeAssetsAction === cnt - 1) {
           this.setState({ assetsActionsDone: true })
-          if (this.state.postUpdateData) {
+          if (this.state.postUpdateActions) {
             this.doPostUpdate()
           } else {
             this.doneActions()
@@ -169,9 +168,9 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   doUpdatePostAction = async (postUpdater) => {
-    const { postUpdateData, activePostUpdate } = this.state
-    const postData = postUpdateData.data[ activePostUpdate ]
-    const posts = postUpdateData.data
+    const { postUpdateActions, activePostUpdate } = this.state
+    const postData = postUpdateActions[ activePostUpdate ]
+    const posts = postUpdateActions
 
     let ready = false
     const to = window.setTimeout(() => {
@@ -185,7 +184,7 @@ export default class ActivationSectionProvider extends React.Component {
       logError('Failed Update Post', {
         code: 'doAction-updatePosts-1',
         codeNum: '000003',
-        action: postUpdateData,
+        action: postUpdateActions,
         postData: postData,
         error: e
       })
