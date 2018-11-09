@@ -166,7 +166,6 @@ if (!defined('VCV_TF_BLANK_PAGE_BOXED')) {
     );
 }
 
-
 if (!defined('VCV_FT_INITIAL_CSS_LOAD')) {
     define(
         'VCV_FT_INITIAL_CSS_LOAD',
@@ -198,19 +197,13 @@ if (!defined('VCV_FT_ACTIVATION_REDESIGN')) {
 if (!defined('VCV_FT_ASSETS_INSIDE_PLUGIN')) {
     define(
         'VCV_FT_ASSETS_INSIDE_PLUGIN',
-        false
+        true
     );
 }
 
-if (!defined('VCV_FT_ACTIVATION_FIELDS_MOVE')) {
-    define(
-        'VCV_FT_ACTIVATION_FIELDS_MOVE',
-        false
-    );
-}
 if (!defined('VCV_FT_CATEGORIES_INSIDE_PLUGIN')) {
     define(
         'VCV_FT_CATEGORIES_INSIDE_PLUGIN',
-        false
+        true
     );
 }

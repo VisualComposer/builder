@@ -65,6 +65,11 @@ class JsonActionsController extends Container implements Module
         Logger $loggerHelper,
         Str $strHelper
     ) {
+        if (empty($response)) {
+            $response = [
+                'status' => true,
+            ];
+        }
         $requestAction = $requestHelper->input('vcv-hub-action');
 
         if (!isset($requestAction['key'])) {
@@ -90,7 +95,7 @@ class JsonActionsController extends Container implements Module
         if ($newActionVersion === $previousActionVersion) {
             sleep(5); // Just to avoid collisions
 
-            return ['status' => true];
+            return $response;
         }
 
         $locked = $this->checkForLock($optionsHelper);
@@ -103,11 +108,14 @@ class JsonActionsController extends Container implements Module
             // TODO: How?!
             $loggerHelper->log('The update action does not exists #10057');
 
-            return ['status' => true];
+            return $response;
+        }
+        if (vcIsBadResponse($response)) {
+            return $response;
         }
 
         $response = $this->processAction(
-            ['status' => true],
+            $response,
             $newActionData['action'],
             $newActionData['data'],
             $newActionData['version'],

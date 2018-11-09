@@ -48,7 +48,7 @@ class UpdateFePageRedesign extends Container implements Module
                     ]
                 );
                 vcvdie(
-                    vcview('license/fe-wrapper', ['content' => $content])
+                    vcview('license/fe-update-wrapper', ['content' => $content])
                 );
             } else {
                 $optionsHelper->set('bundleUpdateRequired', false);
