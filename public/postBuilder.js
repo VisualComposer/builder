@@ -1,4 +1,5 @@
 import vcCake from 'vc-cake'
+import { log as logError } from 'public/resources/account/logger'
 
 const { env, getStorage } = vcCake
 const $ = window.jQuery
@@ -55,7 +56,7 @@ export default class PostBuilder {
                 'vcv-nonce': window.vcvNonce
               }
             }
-          ).done(() => {
+          ).always(() => {
             this.resolve && this.resolve()
           })
         }
