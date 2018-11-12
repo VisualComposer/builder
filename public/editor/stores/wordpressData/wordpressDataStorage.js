@@ -176,7 +176,7 @@ addStorage('wordpressData', (storage) => {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1.entry-title'))
         }
         if (!titles.length) {
-          titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1[class*="title"'))
+          titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1[class*="title"]'))
         }
         setTitle()
       }
