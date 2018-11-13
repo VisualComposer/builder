@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\AssetsShared;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\SharedLibraries;
@@ -40,7 +41,8 @@ class SharedDownloadController extends Container implements Module
         File $fileHelper,
         SharedLibraries $sharedLibrariesHelper,
         AssetsShared $assetsSharedHelper,
-        Logger $loggerHelper
+        Logger $loggerHelper,
+        Assets $assetsHelper
     ) {
         $bundleJson = $payload['archive'];
         if (vcIsBadResponse($response) || is_wp_error($bundleJson)) {
@@ -82,6 +84,7 @@ class SharedDownloadController extends Container implements Module
             } else {
                 $response['sharedAssets'] = array_merge($response['sharedAssets'], $toSaveAssetsLibrary);
             }
+            $response['sharedAssetsUrl'] = $assetsHelper->getAssetUrl();
         }
 
         return $response;
