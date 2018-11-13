@@ -1,10 +1,11 @@
 import vcCake from 'vc-cake'
 
-const SharedAssets = window.VCV_GET_SHARED_ASSETS()
+const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
 
 const API = {
   getAssetsLibraryFiles: (library) => {
-    let data = typeof library === 'string' ? SharedAssets[ library ] : SharedAssets[ library.name ]
+    const sharedAssets = sharedAssetsStorage.state('sharedAssets').get()
+    let data = typeof library === 'string' ? sharedAssets[ library ] : sharedAssets[ library.name ]
     let files = {
       cssBundles: [],
       jsBundles: []

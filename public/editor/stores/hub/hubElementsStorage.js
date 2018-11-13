@@ -5,6 +5,7 @@ addStorage('hubElements', (storage) => {
   const workspaceNotifications = workspaceStorage.state('notifications')
   const hubElementsService = getService('hubElements')
   const utils = getService('utils')
+  const sharedAssetsStorage = getStorage('sharedAssets')
 
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
@@ -63,6 +64,18 @@ addStorage('hubElements', (storage) => {
                 element.tag = element.tag.replace('element/', '')
                 storage.trigger('add', element, true)
                 workspaceStorage.trigger('removeFromDownloading', tag)
+              })
+            }
+            if (jsonResponse.sharedAssets && jsonResponse.sharedAssetsUrl) {
+              Object.keys(jsonResponse.sharedAssets).forEach((assetName) => {
+                let assetData = jsonResponse.sharedAssets[ assetName ]
+                if (assetData.jsBundle) {
+                  assetData.jsBundle = jsonResponse.sharedAssetsUrl + assetData.jsBundle
+                }
+                if (assetData.cssBundle) {
+                  assetData.cssBundle = jsonResponse.sharedAssetsUrl + assetData.cssBundle
+                }
+                sharedAssetsStorage.trigger('add', assetData)
               })
             }
           } else {
