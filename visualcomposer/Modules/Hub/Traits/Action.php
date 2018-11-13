@@ -28,11 +28,7 @@ trait Action
             /** @var $hubHelper \VisualComposer\Helpers\Hub\Bundle */
             $hubHelper->removeTempBundleFolder();
             $archive = $hubHelper->requestBundleDownload($payload['data'], $payload['action']);
-            if (is_wp_error($archive)) {
-                /** @var \WP_Error $archive */
-                $loggerHelper->log(implode('. ', $archive->get_error_messages()) . ' #10061');
-                $response['status'] = false;
-            } else {
+            if ($archive){
                 $archive = $this->readBundleJson($archive, $payload);
                 $response['status'] = $archive !== false;
                 $response = $filterHelper->fire(

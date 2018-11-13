@@ -139,87 +139,43 @@ class Token extends Container implements Helper
     /**
      * @param $result
      *
-     * @return array|bool
+     * @return string|bool
      */
     protected function getTokenResponse($result)
     {
         $loggerHelper = vchelper('Logger');
-        $licenseHelper = vchelper('License');
         $noticeHelper = vchelper('Notice');
-        // TODO: errors
-        if (!vcIsBadResponse($result)) {
+        $licenseHelper = vchelper('License');
+
+        $body = [];
+        if (is_array($result) && isset($result['body'])) {
             $body = json_decode($result['body'], true);
-            if (is_array($body) && $body['success']) {
-                $token = $body['data']['token'];
-                $this->setToken($token);
+        }
 
-                $this->checkLicenseExpiration($body, $noticeHelper, $loggerHelper);
-
-                return $token;
-            }
-
-            if (is_array($body) && isset($body['error'], $body['error']['type'], $body['error']['code'])) {
-                $licenseHelper->setKey('');
-                $loggerHelper->log(
-                    $licenseHelper->licenseErrorCodes($body['error']['code']),
-                    [
-                        'result' => is_wp_error($body) ? 'wp error' : $body,
-                    ]
-                );
-
-                $loggerHelper->logNotice(
-                    'license:expiration',
-                    $licenseHelper->licenseErrorCodes($body['error']['code'])
-                );
-
-                return ['status' => false, 'code' => $body['error']['code']];
-            }
-        } else {
-            $message = __('Token generation failed', 'vcwb');
-            if (is_wp_error($result)) {
-                /** @var \WP_Error $result */
-                $resultDetails = $result->get_error_message();
-                $message .= '. ';
-                $message .= implode('. ', $result->get_error_messages());
-                if ("http_request_failed" === $result->get_error_code()) {
-                    $message .= '. ';
-                    $message .= __('Request timeout of 30 seconds exceeded', 'vcwb') . ' #10011';
-                }
-                $message .= ' #10004';
-            } else {
-                // @codingStandardsIgnoreLine
-                $resultDetails = @json_decode($result['body'], 1);
-                if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                    $message = $resultDetails['message'] . ' #10005';
-                }
-            }
-
+        if ($body && isset($body['error'], $body['error']['type'], $body['error']['code'])) {
+            $code = $body['error']['code'];
+            $licenseHelper->setKey('');
             $loggerHelper->log(
-                $message,
+                $licenseHelper->licenseErrorCodes($code),
                 [
-                    'result' => $resultDetails,
+                    'result' => $body,
                 ]
             );
+            $noticeHelper->addNotice(
+                'license:expiration',
+                $licenseHelper->licenseErrorCodes($code)
+            );
 
-            if (is_array($result) && isset($result['body'])) {
-                $response = json_decode($result['body'], true);
-                if (is_array($response)
-                    && isset($response['error'], $response['error']['type'], $response['error']['code'])
-                ) {
-                    $licenseHelper->setKey('');
-                    $loggerHelper->log(
-                        $licenseHelper->licenseErrorCodes($response['error']['code']),
-                        [
-                            'result' => $response,
-                        ]
-                    );
-                    $loggerHelper->logNotice(
-                        'license:expiration',
-                        $licenseHelper->licenseErrorCodes($response['error']['code'])
-                    );
+            return false;
+        }
 
-                    return ['status' => false, 'code' => $response['error']['code']];
-                }
+        if (!empty($body) && !vcIsBadResponse($result)) {
+            if (is_array($body) && isset($body['data'], $body['success']) && $body['success']) {
+                $token = $body['data']['token'];
+                $this->setToken($token);
+                $this->call('checkLicenseExpiration', ['data' => $body['data']]);
+
+                return $token;
             }
         }
 
@@ -227,25 +183,23 @@ class Token extends Container implements Helper
     }
 
     /**
-     * @param $body
+     * @param $data
      * @param \VisualComposer\Helpers\Notice $noticeHelper
-     * @param \VisualComposer\Helpers\Logger $loggerHelper
      */
-    protected function checkLicenseExpiration($body, $noticeHelper, $loggerHelper)
+    protected function checkLicenseExpiration($data, Notice $noticeHelper)
     {
-        if (isset($body['data']['license_expires_soon']) && $body['data']['license_expires_soon']) {
+        if (isset($data['license_expires_soon']) && $data['license_expires_soon']) {
             $message = sprintf(
                 __('Your Visual Composer Website Builder License will expire soon - %s', 'vcwb'),
                 date(
                     get_option('date_format') . ' ' . get_option('time_format'),
-                    strtotime($body['data']['license_expires_at']['date'])
+                    strtotime($data['license_expires_at']['date'])
                 )
             );
             $noticeHelper->addNotice('license:expiration', $message);
         } else {
-            if (isset($body['data']['license_expires_at'])) {
+            if (isset($data['license_expires_at'])) {
                 $noticeHelper->removeNotice('license:expiration');
-                $loggerHelper->removeLogNotice('license:expiration');
             }
         }
     }

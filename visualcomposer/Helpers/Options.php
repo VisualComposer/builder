@@ -68,13 +68,18 @@ class Options implements Helper
     /**
      * @param $transient
      *
-     * @return mixed
+     * @return $this
      */
     public function getTransient($transient)
     {
         return get_transient(VCV_PREFIX . VCV_VERSION . $transient);
     }
 
+    /**
+     * @param $transient
+     *
+     * @return $this
+     */
     public function deleteTransient($transient)
     {
         delete_transient(VCV_PREFIX . VCV_VERSION . $transient);
@@ -82,6 +87,12 @@ class Options implements Helper
         return $this;
     }
 
+    /**
+     * @param $optionName
+     * @param $value
+     *
+     * @return $this
+     */
     public function setUser($optionName, $value)
     {
         update_user_option(get_current_user_id(), VCV_PREFIX . $optionName, $value);
@@ -89,6 +100,12 @@ class Options implements Helper
         return $this;
     }
 
+    /**
+     * @param $optionName
+     * @param string $emptyResult
+     *
+     * @return mixed|string
+     */
     public function getUser($optionName, $emptyResult = '')
     {
         $result = get_user_option(VCV_PREFIX . $optionName);

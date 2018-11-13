@@ -112,7 +112,7 @@ class FactoryResetController extends Container implements Module
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             $loggerHelper->log(__('Wrong permissions', 'vcwb') . ' #10072');
             wp_redirect(admin_url('admin.php?page=vcv-settings&reset=false'));
-            die;
+            exit;
         }
         if (!$optionsHelper->getTransient('vcv:settings:factoryReset:allow')) {
             $loggerHelper->log(__('Session expired', 'vcwb') . ' #10073');
@@ -129,6 +129,6 @@ class FactoryResetController extends Container implements Module
             true
         );
         wp_redirect(admin_url('admin.php?page=vcv-settings'));
-        die;
+        exit;
     }
 }

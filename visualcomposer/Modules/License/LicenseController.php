@@ -105,13 +105,10 @@ class LicenseController extends Container implements Module
                         $optionsHelper->deleteTransient('lastBundleUpdate');
                         wp_redirect(admin_url('admin.php?page=vcv-update'));
                         exit;
-                    } else {
-                        // TODO: Error texts
-                        $loggerHelper->logNotice('activation:failed', __('License activation finish request failed', 'vcwb'));
                     }
                 }
             } else {
-                $loggerHelper->logNotice(
+                $noticeHelper->addNotice(
                     'activation:failed',
                     // TODO: Error texts
                     __('Invalid token -> Failed licence activation - Invalid token', 'vcwb')
@@ -168,32 +165,17 @@ class LicenseController extends Container implements Module
                 );
 
                 if (!vcIsBadResponse($result)) {
-                    // $result = json_decode($result['body'], true);
                     $licenseHelper->setKey('');
                     $licenseHelper->setKeyToken('');
                     $optionsHelper->deleteTransient('lastBundleUpdate');
                     wp_redirect(admin_url('index.php'));
                     exit;
-                } else {
-                    $loggerHelper->log(
-                        __('Failed licence de-activation', 'vcwb') . ' #10070',
-                        [
-                            'response' => is_wp_error($result) ? $result->get_error_message()
-                                : (is_array($result) && isset($result['body']) ? $result['body'] : ''),
-                        ]
-                    );
                 }
-            } else {
-                $loggerHelper->log(
-                    __('Invalid license deactivation token', 'vcwb') . ' #10071',
-                    [
-                        'token' => $token,
-                    ]
-                );
             }
         }
 
-        return false;
+        wp_redirect(admin_url('index.php'));
+        exit;
     }
 
     protected function unsetOptions(Options $optionsHelper)
