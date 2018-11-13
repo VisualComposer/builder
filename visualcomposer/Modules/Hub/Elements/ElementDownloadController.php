@@ -33,7 +33,7 @@ class ElementDownloadController extends Container implements Module
         }
         if (!vcIsBadResponse($response)) {
             $bundle = $requestHelper->input('vcv-bundle');
-            $token = $tokenHelper->createToken();
+            $token = $tokenHelper->getToken();
             if (!$token) {
                 return false;
             }

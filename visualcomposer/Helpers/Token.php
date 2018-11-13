@@ -64,7 +64,7 @@ class Token extends Container implements Helper
      *
      * @return bool|string|array
      */
-    public function createToken($id = '')
+    public function getToken($id = '')
     {
         if (!$id) {
             $id = vchelper('Options')->get('hubTokenId');
@@ -81,7 +81,7 @@ class Token extends Container implements Helper
             $body['license-key'] = $licenseHelper->getKey();
         } else {
             $token = 'free-token';
-            $this->setToken($token);
+
             return $token;
         }
 
@@ -95,24 +95,6 @@ class Token extends Container implements Helper
         );
 
         return $this->getTokenResponse($result);
-    }
-
-    /**
-     * @param $id
-     *
-     * @return bool|string
-     */
-    public function getToken($id = '')
-    {
-        $token = $this->optionsHelper->getTransient('siteAuthToken');
-        if (!$token) {
-            $token = $this->createToken($id);
-            if (is_string($token)) {
-                $this->setToken($token);
-            }
-        }
-
-        return $token;
     }
 
     public function setSiteAuthorized()
@@ -129,16 +111,6 @@ class Token extends Container implements Helper
     public function isSiteAuthorized()
     {
         return (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
-    }
-
-    /**
-     * @param $token
-     *
-     * @return string
-     */
-    public function setToken($token)
-    {
-        return $this->optionsHelper->setTransient('siteAuthToken', $token, 300);
     }
 
     /**
@@ -177,7 +149,6 @@ class Token extends Container implements Helper
         if (!empty($body) && !vcIsBadResponse($result)) {
             if (is_array($body) && isset($body['data'], $body['success']) && $body['success']) {
                 $token = $body['data']['token'];
-                $this->setToken($token);
                 $this->call('checkLicenseExpiration', ['data' => $body['data']]);
 
                 return $token;

@@ -194,7 +194,7 @@ class Update implements Helper
     {
         $hubBundleHelper = vchelper('HubBundle');
         $tokenHelper = vchelper('Token');
-        $token = $tokenHelper->createToken();
+        $token = $tokenHelper->getToken();
         if ($token) {
             $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
             $json = $hubBundleHelper->getRemoteBundleJson($url);

@@ -32,7 +32,7 @@ class AddonDownloadController extends ElementDownloadController implements Modul
         }
         if (!vcIsBadResponse($response)) {
             $bundle = $requestHelper->input('vcv-bundle');
-            $token = $tokenHelper->createToken();
+            $token = $tokenHelper->getToken();
             if (!$token) {
                 return false;
             }
