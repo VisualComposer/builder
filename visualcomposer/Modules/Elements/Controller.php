@@ -33,13 +33,15 @@ class Controller extends Container implements Module
             'row',
             'column',
             'textBlock',
+            'singleImage',
+            'basicButton',
         ];
-        $pluginBaseUrl = rtrim(plugins_url(basename(__DIR__)), '\\/');
+        $urlHelper = vchelper('Url');
         /** @var \VisualComposer\Modules\Elements\ApiController $elementsApi */
         $elementsApi = $api->elements;
         foreach ($elementsToRegister as $tag) {
-            $manifestPath = __DIR__ . '/elements/' . $tag . '/manifest.json';
-            $elementBaseUrl = $pluginBaseUrl . '/elements/' . $tag;
+            $manifestPath = VCV_PLUGIN_DIR_PATH . 'visualcomposer/resources/elements/' . $tag . '/manifest.json';
+            $elementBaseUrl = $urlHelper->assetUrl('elements/' . $tag);
             $elementsApi->add($manifestPath, $elementBaseUrl);
         }
     }

@@ -76,6 +76,12 @@ class SharedDownloadController extends Container implements Module
             // Merge new
             $differ->set($toSaveAssetsLibrary);
             $optionsHelper->set('assetsLibrary', $differ->get());
+
+            if (!isset($response['sharedAssets'])) {
+                $response['sharedAssets'] = $toSaveAssetsLibrary;
+            } else {
+                $response['sharedAssets'] = array_merge($response['sharedAssets'], $toSaveAssetsLibrary);
+            }
         }
 
         return $response;
