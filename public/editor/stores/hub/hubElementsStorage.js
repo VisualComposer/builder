@@ -65,6 +65,14 @@ addStorage('hubElements', (storage) => {
                 workspaceStorage.trigger('removeFromDownloading', tag)
               })
             }
+            if (jsonResponse.sharedAssets && jsonResponse.sharedAssetsUrl) {
+              Object.keys(jsonResponse.sharedAssets).forEach((assetName) => {
+                let assetData = jsonResponse.sharedAssets[ assetName ]
+                assetData.jsBundle = jsonResponse.sharedAssetsUrl + assetData.jsBundle
+                assetData.cssBundle = jsonResponse.sharedAssetsUrl + assetData.cssBundle
+                sharedAssetsStorage.trigger('add', assetData)
+              })
+            }
           } else {
             tries++
             console.warn('failed to download element status is false', jsonResponse, response)
