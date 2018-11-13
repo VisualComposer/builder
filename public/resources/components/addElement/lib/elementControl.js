@@ -360,6 +360,7 @@ export default class ElementControl extends React.Component {
     let { name, element } = this.props
     let { previewVisible, previewStyle } = this.state
     const dragState = workspaceStorage.state('drag').get()
+    const localizations = window.VCV_I18N && window.VCV_I18N()
 
     let cookElement = cook.get(element)
     let listItemClasses = classNames({
@@ -382,9 +383,10 @@ export default class ElementControl extends React.Component {
     const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
     let previewBox = ''
     if (!disablePreview) {
+      const addOnTitle = localizations ? localizations.addOn : 'Add-on'
       previewBox = (
         <figure className={previewClasses} style={previewStyle}>
-          {this.props.hubElement.thirdParty}
+          {this.props.hubElement.thirdParty ? <span className='vcv-ui-item-preview-addon-tag'>{addOnTitle}</span> : null}
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
