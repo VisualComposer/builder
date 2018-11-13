@@ -36,16 +36,6 @@
   position: relative;
   opacity: 0;
   transition: opacity @editor-layout-start-blank-fade-in-time @transition-timing-function;
-
-  &::after {
-    content: '';
-    height: @editor-layout-start-blank-bottom-image-height;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: url('../../images/start-blank-page-img.png') no-repeat center 100%;
-  }
 }
 
 .vcv-start-blank-close {
