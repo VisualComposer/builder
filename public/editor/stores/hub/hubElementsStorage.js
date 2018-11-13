@@ -5,6 +5,7 @@ addStorage('hubElements', (storage) => {
   const workspaceNotifications = workspaceStorage.state('notifications')
   const hubElementsService = getService('hubElements')
   const utils = getService('utils')
+  const sharedAssetsStorage = getStorage('sharedAssets')
 
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
