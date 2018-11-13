@@ -69,8 +69,12 @@ addStorage('hubElements', (storage) => {
             if (jsonResponse.sharedAssets && jsonResponse.sharedAssetsUrl) {
               Object.keys(jsonResponse.sharedAssets).forEach((assetName) => {
                 let assetData = jsonResponse.sharedAssets[ assetName ]
-                assetData.jsBundle = jsonResponse.sharedAssetsUrl + assetData.jsBundle
-                assetData.cssBundle = jsonResponse.sharedAssetsUrl + assetData.cssBundle
+                if (assetData.jsBundle) {
+                  assetData.jsBundle = jsonResponse.sharedAssetsUrl + assetData.jsBundle
+                }
+                if (assetData.cssBundle) {
+                  assetData.cssBundle = jsonResponse.sharedAssetsUrl + assetData.cssBundle
+                }
                 sharedAssetsStorage.trigger('add', assetData)
               })
             }
