@@ -152,7 +152,7 @@ class UpdatesController extends Container implements Module
         $information['slug'] = VCV_PLUGIN_DIRNAME;
         $information['banners'] = [
             'high' => vchelper('Url')->assetUrl(
-                'images/logo/visualcomposer-changelog-cover.jpg'
+                'images/logo/vcwb-changelog-img.png'
             ),
         ];
         $information['homepage'] = $utmHelper->get('updatesChangelogHomepageLink');
