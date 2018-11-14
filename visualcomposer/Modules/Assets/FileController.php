@@ -223,7 +223,12 @@ class FileController extends Container implements Module
     {
         $sourcePost = $postTypeHelper->get();
         if ($sourcePost && $sourcePost->ID) {
-            if (!get_post_meta($sourcePost->ID, VCV_PREFIX . 'globalElementsCssDataMigration', true)) {
+            if (!get_post_meta($sourcePost->ID, VCV_PREFIX . 'globalElementsCssDataMigration', true)
+                && get_post_meta(
+                    $sourcePost->ID,
+                    VCV_PREFIX . 'generateSourceCssFile',
+                    true
+                )) {
                 /** @see \VisualComposer\Modules\Assets\FileController::generateSourceCssFile */
                 $this->call(
                     'generateSourceCssFile',

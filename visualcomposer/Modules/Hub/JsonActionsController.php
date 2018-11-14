@@ -29,8 +29,7 @@ class JsonActionsController extends Container implements Module
 
     protected function ajaxGetRequiredActions(
         $response,
-        $payload,
-        Logger $loggerHelper
+        $payload
     ) {
         if (!vcIsBadResponse($response)) {
             if ($payload['json'] && !empty($payload['json']['actions'])) {
@@ -43,14 +42,6 @@ class JsonActionsController extends Container implements Module
                     $postsActions = $hubUpdateHelper->createPostUpdateObjects($reRenderPosts);
                     $response['actions'] = array_merge($response['actions'], $postsActions);
                 }
-            } else {
-                $loggerHelper->log(
-                    __('Failed to process required actions', 'vcwb') . ' #10056',
-                    [
-                        'payload' => $payload,
-                        'response' => $response,
-                    ]
-                );
             }
         }
 
@@ -139,19 +130,6 @@ class JsonActionsController extends Container implements Module
         if (is_array($response) && $response['status']) {
             $optionsHelper->set('hubAction:' . $action, $version);
             $optionsHelper->deleteTransient('vcv:hub:action:request');
-        } else {
-            $loggerHelper = vchelper('Logger');
-            $loggerHelper->log(
-                sprintf(__('Failed to download %1$s', 'vcwb') . ' #10058', esc_attr($name)),
-                [
-                    'version' => $version,
-                    'action' => $action,
-                    'data' => $data,
-                    'checksum' => $checksum,
-                ]
-            );
-
-            return false;
         }
 
         return $response;

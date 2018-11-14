@@ -53,27 +53,16 @@ class ErrorReportingController extends Container implements Module
             $data = $this->call('getDetails');
             $data['request'] = $requestHelper->all();
 
-            $request = wp_remote_post(
+            wp_remote_post(
                 VCV_API_URL . '/api/report/error',
                 [
                     'timeout' => 30,
                     'body' => $data,
                 ]
             );
-            if (!vcIsBadResponse($request)) {
-                $response = ['status' => true];
-            } else {
-                $message['#10076'] = is_wp_error($request) ?
-                    implode(
-                        ';',
-                        $request->get_error_messages()
-                    ) : '';
-
-                $response = ['status' => false, 'messages' => $data];
-            }
         }
 
-        return $response;
+        return ['status' => true];
     }
 
     /**

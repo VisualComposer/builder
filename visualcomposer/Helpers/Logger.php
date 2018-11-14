@@ -22,18 +22,6 @@ class Logger implements Helper
         ];
     }
 
-    public function logNotice($name, $message)
-    {
-        $noticeHelper = vchelper('Notice');
-        $noticeHelper->addNotice('log:' . $name, $message, 'warning', true);
-    }
-
-    public function removeLogNotice($name)
-    {
-        $noticeHelper = vchelper('Notice');
-        $noticeHelper->removeNotice('log:' . $name);
-    }
-
     public function all()
     {
         $dataHelper = vchelper('Data');
