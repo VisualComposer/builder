@@ -51,7 +51,7 @@ class AssetsEnqueue extends Container implements Helper
             foreach ($assetsFiles['jsBundles'] as $asset) {
                 $asset = $assetsSharedHelper->findLocalAssetsPath($asset);
                 foreach ((array)$asset as $single) {
-                    if (strpos($asset, 'assetsLibrary') !== false) {
+                    if (strpos($single, 'assetsLibrary') !== false) {
                         $url = $assetsSharedHelper->getPluginsAssetUrl($single);
                         $version = VCV_VERSION;
                     } else {
