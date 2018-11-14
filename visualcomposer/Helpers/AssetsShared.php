@@ -110,6 +110,45 @@ class AssetsShared extends Container implements Helper
         return $optionsHelper->set('assetsLibrary', $assets);
     }
 
+    public function getPluginsAssetUrl($filePath = '')
+    {
+        if (preg_match('/^http/', $filePath)) {
+            return set_url_scheme($filePath);
+        }
+
+        $url = set_url_scheme(VCV_PLUGIN_URL . 'public/sources/' . ltrim($filePath, '/\\'));
+
+        return $url;
+    }
+
+    /**
+     * Get relative path from absolute url
+     *
+     * @param $path
+     *
+     * @return mixed
+     */
+    public function relative($path)
+    {
+        $bundleUrl = $path;
+
+        if (preg_match('/\/public\/sources\/assetsLibrary\//', $path)) {
+            $url = $this->getPluginsAssetUrl();
+            $url = str_replace(['http://', 'https://'], '', $url);
+            $contentUrl = content_url() . '/public/sources/assetsLibrary/';
+            $contentUrl = str_replace(['http://', 'https://'], '', $contentUrl);
+            $path = str_replace(['http://', 'https://'], '', $path);
+
+            if (strpos($path, $url) !== false) {
+                $bundleUrl = str_replace($url, '', $path);
+            } elseif (strpos($path, $contentUrl) !== false) {
+                $bundleUrl = str_replace($contentUrl, '', $path);
+            }
+        }
+
+        return $bundleUrl;
+    }
+
     /**
      * Find new local assets path. Needed for BC
      *

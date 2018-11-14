@@ -61,13 +61,16 @@ class DataController extends Container implements Module
     {
         $requestHelper = vchelper('Request');
         $assetsHelper = vchelper('Assets');
+        $assetsSharedHelper = vchelper('AssetsShared');
         $assetsFiles = $requestHelper->inputJson('vcv-source-assets-files');
         if (!empty($assetsFiles) && is_array($assetsFiles)) {
             if (!empty($assetsFiles['jsBundles'])) {
                 $assetsFiles['jsBundles'] = array_map([$assetsHelper, 'relative'], $assetsFiles['jsBundles']);
+                $assetsFiles['jsBundles'] = array_map([$assetsSharedHelper, 'relative'], $assetsFiles['jsBundles']);
             }
             if (!empty($assetsFiles['cssBundles'])) {
                 $assetsFiles['cssBundles'] = array_map([$assetsHelper, 'relative'], $assetsFiles['cssBundles']);
+                $assetsFiles['cssBundles'] = array_map([$assetsSharedHelper, 'relative'], $assetsFiles['cssBundles']);
             }
         }
         update_post_meta($sourceId, 'vcvSourceAssetsFiles', $assetsFiles);
