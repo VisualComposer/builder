@@ -144,56 +144,36 @@ class Bundle implements Helper
     {
         $result = false;
         $loggerHelper = vchelper('Logger');
-        if ($url && !is_wp_error($url)) {
-            if (vcvenv('VCV_FIX_CURL_JSON_DOWNLOAD')) {
-                $result = $this->downloadRemoteBundleJson($url, $result, $loggerHelper);
-            } else {
-                $response = wp_remote_get(
-                    $url,
-                    [
-                        'timeout' => 30,
-                    ]
-                );
-                // TODO: errors
-                if (!vcIsBadResponse($response)) {
-                    $result = json_decode($response['body'], true);
-                } else {
-                    $messages = [];
-                    $messages[] = __('Failed to read remote bundle json', 'vcwb') . ' #10006';
-                    if (is_wp_error($response)) {
-                        /** @var \WP_Error $result */
-                        $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
-                    } elseif (is_array($response) && isset($response['body'])) {
-                        // @codingStandardsIgnoreLine
-                        $resultDetails = @json_decode($result['body'], 1);
-                        if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                            $messages[] = $resultDetails['message'] . ' #10026';
-                        }
-                    }
 
-                    $loggerHelper->log(
-                        implode('. ', $messages),
-                        [
-                            'wp_error' => is_wp_error($response),
-                            'response' => is_array($response) && isset($response['body']) ? $response['body']
-                                : 'not array or no body available',
-                        ]
-                    );
-                }
-            }
+        $response = wp_remote_get(
+            $url,
+            [
+                'timeout' => 30,
+            ]
+        );
+        // TODO: errors
+        if (!vcIsBadResponse($response)) {
+            $result = json_decode($response['body'], true);
         } else {
             $messages = [];
-            $messages[] = __('Failed to fetch remote bundle json', 'vcwb') . ' #10008';
-            if (is_wp_error($url)) {
-                /** @var \WP_Error $url */
-                $messages[] = implode('. ', $url->get_error_messages()) . '  #10009';
+            $messages[] = __('Failed to read remote bundle json', 'vcwb') . ' #10006';
+            if (is_wp_error($response)) {
+                /** @var \WP_Error $result */
+                $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
+            } elseif (is_array($response) && isset($response['body'])) {
+                // @codingStandardsIgnoreLine
+                $resultDetails = @json_decode($result['body'], 1);
+                if (is_array($resultDetails) && isset($resultDetails['message'])) {
+                    $messages[] = $resultDetails['message'] . ' #10026';
+                }
             }
 
             $loggerHelper->log(
                 implode('. ', $messages),
                 [
-                    'wp_error' => is_wp_error($url),
-                    'url' => is_string($url) ? $url : 'not a string',
+                    'wp_error' => is_wp_error($response),
+                    'response' => is_array($response) && isset($response['body']) ? $response['body']
+                        : 'not array or no body available',
                 ]
             );
         }
@@ -217,7 +197,8 @@ class Bundle implements Helper
                     && !in_array(
                         $value['action'],
                         ['hubTeaser', 'hubTemplates', 'hubAddons']
-                    )) {
+                    )
+                ) {
                     $requiredActions = $this->loopActionIterator(
                         $value,
                         $requiredActions,

@@ -43,8 +43,8 @@ class Update implements Helper
         $requiredActions = vchelper('Data')->arrayDeepUnique($requiredActions);
         $postsActions = [];
         if (count($reRenderPosts) > 0) {
-            $postsActions = $this->createPostUpdateObjects($reRenderPosts);
-            $postsActions = $postsActions[0]['data'];
+            $tempPosts = $this->createPostUpdateObjects($reRenderPosts);
+            $postsActions = $tempPosts[0]['data'];
         }
 
         return ['actions' => $requiredActions, 'posts' => $postsActions];
@@ -52,7 +52,6 @@ class Update implements Helper
 
     public function createPostUpdateObjects(array $posts)
     {
-
         $result = [];
         $frontendHelper = vchelper('Frontend');
         foreach ($posts as $id) {
@@ -194,22 +193,14 @@ class Update implements Helper
     public function checkVersion()
     {
         $hubBundleHelper = vchelper('HubBundle');
-        $licenseHelper = vchelper('License');
         $tokenHelper = vchelper('Token');
-        $noticeHelper = vchelper('Notice');
-        $token = $tokenHelper->createToken();
-        // TODO: Errors
-        if (!vcIsBadResponse($token)) {
+        $token = $tokenHelper->getToken();
+        if ($token) {
             $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
             $json = $hubBundleHelper->getRemoteBundleJson($url);
             if ($json) {
                 return $this->processJson($json);
-            } else {
-                return ['status' => false];
             }
-        } elseif ($licenseHelper->isActivated() && isset($token['code'])) {
-            $licenseHelper->setKey('');
-            $noticeHelper->addNotice('premium:deactivated', $licenseHelper->licenseErrorCodes($token['code']));
         }
 
         return ['status' => false];

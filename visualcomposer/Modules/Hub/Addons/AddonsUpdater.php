@@ -27,8 +27,6 @@ class AddonsUpdater extends Container implements Module
     {
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
         if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
-            $this->logErrors($response, $loggerHelper, $bundleJson);
-
             return ['status' => false];
         }
         $hubHelper = vchelper('HubAddons');
@@ -69,45 +67,5 @@ class AddonsUpdater extends Container implements Module
         }
 
         return $response;
-    }
-
-    /**
-     * @param $response
-     * @param \VisualComposer\Helpers\Logger $loggerHelper
-     * @param $bundleJson
-     */
-    protected function logErrors($response, Logger $loggerHelper, $bundleJson)
-    {
-        $messages = [];
-        $messages[] = __('Failed to update addons', 'vcwb') . ' #10080';
-
-        if (is_wp_error($response)) {
-            /** @var \WP_Error $response */
-            $messages[] = implode('. ', $response->get_error_messages()) . ' #10081';
-        } elseif (is_array($response) && isset($response['body'])) {
-            // @codingStandardsIgnoreLine
-            $resultDetails = @json_decode($response['body'], 1);
-            if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                $messages[] = $resultDetails['message'] . ' #10082';
-            }
-        }
-        if (is_wp_error($bundleJson)) {
-            /** @var \WP_Error $bundleJson */
-            $messages[] = implode('. ', $bundleJson->get_error_messages()) . ' #10083';
-        } elseif (is_array($bundleJson) && isset($bundleJson['body'])) {
-            // @codingStandardsIgnoreLine
-            $resultDetails = @json_decode($bundleJson['body'], 1);
-            if (is_array($resultDetails) && isset($resultDetails['message'])) {
-                $messages[] = $resultDetails['message'] . ' #10084';
-            }
-        }
-
-        $loggerHelper->log(
-            implode('. ', $messages),
-            [
-                'response' => is_wp_error($response) ? 'wp error' : $response,
-                'bundleJson' => is_wp_error($bundleJson) ? 'wp error' : $bundleJson,
-            ]
-        );
     }
 }

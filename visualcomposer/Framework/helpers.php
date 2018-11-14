@@ -160,25 +160,91 @@ function vcvadmininit()
 
 function vcIsBadResponse($response)
 {
-    $bad = false;
-    if (is_array($response) && isset($response['body'])) {
-        $body = $response['body'];
-        if (is_string($body)) {
-            // @codingStandardsIgnoreLine
-            $bodyJson = @json_decode($body, true);
-            $bad = $bodyJson && isset($bodyJson['status']) && !$bodyJson['status'];
-        } else {
-            $bad = isset($body['status']) && !$body['status'];
+    $loggerHelper = vchelper('Logger');
+    $isWpError = is_wp_error($response);
+    if ($isWpError) {
+        /** @var \WP_Error $response */
+        $loggerHelper->log(
+            implode('. ', $response->get_error_messages()),
+            [
+                'codes' => $response->get_error_codes(),
+            ]
+        );
+
+        return true;
+    }
+
+    if (is_array($response)) {
+        if (isset($response['body'])) {
+            $body = $response['body'];
+            // Check that body is correct JSON
+            if (is_string($body)) {
+                // @codingStandardsIgnoreLine
+                $arr = @json_decode($body, true);
+                $isBodyErr = (is_array($arr) && isset($arr['status']) && !$arr['status']) || !is_array($arr);
+
+                if ($isBodyErr) {
+                    // Wrong JSON response
+                    $loggerHelper->log(
+                        __('Wrong response body received.', 'vcwb'),
+                        [
+                            'body' => $body,
+                        ]
+                    );
+
+                    return true;
+                }
+            } else {
+                $isBodyErr = isset($body['status']) && !$body['status'];
+
+                if ($isBodyErr) {
+                    // Wrong Response status
+                    $additionalMessage = isset($body['message']) ? ' ' . $body['message'] : '';
+                    $message = __('Bad status code received.', 'vcwb') . $additionalMessage;
+                    $loggerHelper->log(
+                        $message,
+                        [
+                            'body' => $body,
+                        ]
+                    );
+
+                    return true;
+                }
+            }
+            if (isset($response['response'])) {
+                // Remote Request check
+                $responseCode = wp_remote_retrieve_response_code($response);
+                $isRequestError = $responseCode !== 200;
+                if ($isRequestError) {
+                    $message = sprintf(__('Bad response status code %d received.', 'vcwb'), $responseCode);
+                    $loggerHelper->log(
+                        $message,
+                        [
+                            'body' => $response['body'],
+                            'response' => $response['response'],
+                        ]
+                    );
+
+                    return true;
+                }
+            }
+        }
+        $isFilterError = isset($response['status']) && !$response['status'];
+        if ($isFilterError) {
+            $additionalMessage = isset($response['message']) ? ' ' . $response['message'] : '';
+            $message = __('Failed to process action.', 'vcwb') . $additionalMessage;
+            $loggerHelper->log(
+                $message,
+                [
+                    '$response' => $response,
+                ]
+            );
+
+            return true;
         }
     }
 
-    return !$response ||
-        $response === 'false' ||
-        is_wp_error($response) ||
-        (is_array($response) && isset($response['status']) && !$response['status']) ||
-        (is_object($response) && isset($response->status) && !$response->status) ||
-        (is_array($response) && isset($response['body'], $response['response']) && wp_remote_retrieve_response_code($response) !== 200) ||
-        $bad;
+    return !$response || $response === 'false';
 }
 
 /**

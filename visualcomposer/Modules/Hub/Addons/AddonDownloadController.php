@@ -32,7 +32,10 @@ class AddonDownloadController extends ElementDownloadController implements Modul
         }
         if (!vcIsBadResponse($response)) {
             $bundle = $requestHelper->input('vcv-bundle');
-            $token = $tokenHelper->createToken();
+            $token = $tokenHelper->getToken();
+            if (!$token) {
+                return false;
+            }
 
             $json = $this->sendRequestJson($bundle, $token);
             if (!vcIsBadResponse($json)) {
@@ -41,26 +44,11 @@ class AddonDownloadController extends ElementDownloadController implements Modul
                     foreach ($json['actions'] as $action) {
                         $requestHelper->setData(
                             [
-                                'vcv-hub-action' => $action, // element/row
+                                'vcv-hub-action' => $action,
                             ]
                         );
                         $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
-                        if (vcIsBadResponse($response)) {
-                            vchelper('Logger')->log(
-                                __('Bad response from hub:action', 'vcwb') . ' #10078',
-                                ['response' => $response]
-                            );
-                            $response = [
-                                'status' => false,
-                                'message' => __('Failed to download bundle', 'vcwb') . ' #10079',
-                            ];
-                        }
                     }
-                } else {
-                    $response = [
-                        'status' => false,
-                        'message' => __('Failed to download bundle', 'vcwb'), // TODO: add error codes
-                    ];
                 }
                 $response = $this->initializeElementsAndAddons($response);
                 $response = vcfilter('vcv:hub:addonDownloadController:download:response', $response);
@@ -116,42 +104,9 @@ class AddonDownloadController extends ElementDownloadController implements Modul
                             $response['actions'] = [];
                         }
                         $response['actions'][] = $actionData;
-                    } else {
-                        $loggerHelper->log(
-                            __('Failed to find addon in hub', 'vcwb') . ' #10042',
-                            [
-                                'result' => $action,
-                            ]
-                        );
                     }
                 }
             }
-        } else {
-            if (is_wp_error($response)) {
-                /** @var \WP_Error $response */
-                $resultDetails = $response->get_error_message();
-            } else {
-                $resultDetails = $response['body'];
-            }
-            $messages = [];
-            $messages[] = __('Failed to read remote addon bundle json', 'vcwb') . ' #10043';
-            if (is_wp_error($response)) {
-                /** @var \WP_Error $response */
-                $messages[] = implode('. ', $response->get_error_messages()) . ' #10044';
-            } elseif (is_array($response) && isset($response['body'])) {
-                // @codingStandardsIgnoreLine
-                $json = @json_decode($response['body'], 1);
-                if (is_array($json) && isset($json['message'])) {
-                    $messages[] = $json['message'] . ' #10045';
-                }
-            }
-
-            $loggerHelper->log(
-                implode('. ', $messages),
-                [
-                    'result' => $resultDetails,
-                ]
-            );
         }
 
         return $response;
@@ -164,8 +119,10 @@ class AddonDownloadController extends ElementDownloadController implements Modul
      */
     protected function initializeElementsAndAddons($response)
     {
-        if (isset($response['addons'])) {
+        if (isset($response['variables'])) {
             $response['variables'] = [];
+        }
+        if (isset($response['addons'])) {
             foreach ($response['addons'] as $addon) {
                 vcevent('vcv:hub:addons:autoload', ['addon' => $addon]);
                 $response['variables'] = vcfilter(
@@ -175,7 +132,6 @@ class AddonDownloadController extends ElementDownloadController implements Modul
             }
         }
         if (isset($response['elements'])) {
-            $response['variables'] = [];
             foreach ($response['elements'] as $element) {
                 // Try to initialize PHP in element via autoloader
                 vcevent('vcv:hub:elements:autoload', ['element' => $element]);
