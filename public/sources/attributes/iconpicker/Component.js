@@ -20,6 +20,9 @@ let setList = {
   },
   newShapes: {
     all: require('./lib/dividerShapes-2.0')
+  },
+  socials: {
+    all: require('./lib/socials')
   }
 }
 

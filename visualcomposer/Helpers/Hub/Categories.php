@@ -285,6 +285,7 @@ class Categories implements Helper
                     'facebookEmbeddedVideo',
                     'facebookEmbeddedComments',
                     'facebookEmbeddedPosts',
+                    'socialProfileIcons',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Social.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Social.svg'),
