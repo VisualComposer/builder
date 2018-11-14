@@ -96,6 +96,7 @@ class NoticeController extends Container implements Module
     {
         $name = $requestHelper->input('vcv-notice-name');
         $noticeHelper->dismissNotice($name);
+        // TODO: Check https://app.asana.com/0/356196207854892/868627110533984
         wp_redirect($_SERVER['HTTP_REFERER']);
         exit;
     }

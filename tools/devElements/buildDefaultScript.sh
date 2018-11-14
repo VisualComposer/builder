@@ -8,7 +8,7 @@ declare -a arr=($(cat "$DIR/defaultElements.list"))
 
 TOTAL=0
 CNT=0
-PARALLELS_COUNT=10
+PARALLELS_COUNT=0
 for i in "${arr[@]}";
 do {
   i=${i//[$'\t\r\n']}

@@ -25,6 +25,7 @@ class ElementDownloadController extends Container implements Module
 
     protected function ajaxDownloadElement($response, $payload, Request $requestHelper, Token $tokenHelper)
     {
+        // TODO: Fix default
         if (empty($response)) {
             $response = [
                 'status' => true,
@@ -32,7 +33,10 @@ class ElementDownloadController extends Container implements Module
         }
         if (!vcIsBadResponse($response)) {
             $bundle = $requestHelper->input('vcv-bundle');
-            $token = $tokenHelper->createToken();
+            $token = $tokenHelper->getToken();
+            if (!$token) {
+                return false;
+            }
 
             $json = $this->sendRequestJson($bundle, $token);
             if (!vcIsBadResponse($json)) {
@@ -45,22 +49,7 @@ class ElementDownloadController extends Container implements Module
                             ]
                         );
                         $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
-                        if (vcIsBadResponse($response)) {
-                            vchelper('Logger')->log(
-                                __('Bad response from hub:action', 'vcwb') . ' #10078',
-                                ['response' => $response]
-                            );
-                            $response = [
-                                'status' => false,
-                                'message' => __('Failed to download bundle', 'vcwb') . ' #10079',
-                            ];
-                        }
                     }
-                } else {
-                    $response = [
-                        'status' => false,
-                        'message' => __('Failed to download bundle', 'vcwb'), // TODO add error codes
-                    ];
                 }
                 if (isset($response['elements'])) {
                     $response['variables'] = [];
@@ -73,14 +62,18 @@ class ElementDownloadController extends Container implements Module
                         );
                     }
                 }
-            } else {
-                return $json;
             }
         }
 
         return $response;
     }
 
+    /**
+     * @param $bundle
+     * @param string $token
+     *
+     * @return array|\WP_Error
+     */
     protected function sendRequestJson($bundle, $token)
     {
         $hubBundleHelper = vchelper('HubBundle');
@@ -126,42 +119,9 @@ class ElementDownloadController extends Container implements Module
                             $response['actions'] = [];
                         }
                         $response['actions'][] = $actionData;
-                    } else {
-                        $loggerHelper->log(
-                            __('Failed to find element in hub', 'vcwb') . ' #10042',
-                            [
-                                'result' => $action,
-                            ]
-                        );
                     }
                 }
             }
-        } else {
-            if (is_wp_error($response)) {
-                /** @var \WP_Error $response */
-                $resultDetails = $response->get_error_message();
-            } else {
-                $resultDetails = $response['body'];
-            }
-            $messages = [];
-            $messages[] = __('Failed to read remote element bundle json', 'vcwb') . ' #10043';
-            if (is_wp_error($response)) {
-                /** @var \WP_Error $response */
-                $messages[] = implode('. ', $response->get_error_messages()) . ' #10044';
-            } elseif (is_array($response) && isset($response['body'])) {
-                // @codingStandardsIgnoreLine
-                $json = @json_decode($response['body'], 1);
-                if (is_array($json) && isset($json['message'])) {
-                    $messages[] = $json['message'] . ' #10045';
-                }
-            }
-
-            $loggerHelper->log(
-                implode('. ', $messages),
-                [
-                    'result' => $resultDetails,
-                ]
-            );
         }
 
         return $response;

@@ -39,26 +39,7 @@ class JsonDownloadController extends Container implements Module
             // if json is empty array it means that no release yet available!
             if (!vcIsBadResponse($json)) {
                 $response = $filterHelper->fire('vcv:hub:download:json', $response, ['json' => $json]);
-            } else {
-                $loggerHelper->log(
-                    __('Failed to download json', 'vcwb') . ' #10059',
-                    [
-                        'url' => isset($url) ? $url : 'url not set',
-                    ]
-                );
-
-                return false;
             }
-        } else {
-            /** @var $response \WP_Error */
-            $loggerHelper->log(
-                __('Failed to prepare json download', 'vcwb') . ' #10060',
-                [
-                    'response' => is_wp_error($response) ? $response->get_error_message() : $response,
-                ]
-            );
-
-            return false;
         }
 
         return $response;

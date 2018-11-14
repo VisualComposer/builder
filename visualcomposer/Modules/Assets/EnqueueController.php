@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
+use VisualComposer\Helpers\AssetsEnqueue;
 use VisualComposer\Helpers\AssetsShared;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
@@ -147,57 +148,21 @@ class EnqueueController extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Str $strHelper
-     * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     * @param \VisualComposer\Helpers\Assets $assetsHelper
-     * @param \VisualComposer\Helpers\AssetsShared $assetsSharedHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\AssetsEnqueue $assetsEnqueueHelper
      * @param $sourceId
+     *
+     * @throws \ReflectionException
      */
     protected function enqueueAssetsBySourceId(
-        Str $strHelper,
-        Assets $assetsHelper,
-        AssetsShared $assetsSharedHelper,
-        Options $optionsHelper,
+        AssetsEnqueue $assetsEnqueueHelper,
         $sourceId = null
     ) {
         if (!$sourceId) {
             $sourceId = get_the_ID();
         }
         $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
-        $assetsFiles = get_post_meta($sourceId, 'vcvSourceAssetsFiles', true);
-        $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
-        if (!is_array($assetsFiles)) {
-            return;
-        }
 
-        if (isset($assetsFiles['cssBundles']) && is_array($assetsFiles['cssBundles'])) {
-            foreach ($assetsFiles['cssBundles'] as $asset) {
-                wp_enqueue_style(
-                    'vcv:assets:source:styles:' . $strHelper->slugify($asset),
-                    $assetsHelper->getAssetUrl($asset),
-                    [],
-                    $assetsVersion
-                );
-            }
-            unset($asset);
-        }
-
-        if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
-            foreach ($assetsFiles['jsBundles'] as $asset) {
-                $asset = $assetsSharedHelper->findLocalAssetsPath($asset);
-                foreach ((array)$asset as $single) {
-                    wp_enqueue_script(
-                        'vcv:assets:source:scripts:' . $strHelper->slugify($single),
-                        $assetsHelper->getAssetUrl($single),
-                        [],
-                        $assetsVersion,
-                        true
-                    );
-                }
-            }
-            unset($asset);
-        }
+        $assetsEnqueueHelper->enqueueAssets($sourceId);
     }
 
     /**
