@@ -223,7 +223,7 @@ export default class AddTemplatePanel extends React.Component {
         <div className='vcv-ui-editor-no-items-content'>
           <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
             {buttonText}
-            </button>
+          </button>
         </div>
         <div className='vcv-ui-editor-no-items-content'>
           <p className='vcv-start-blank-helper'>{helperText}</p>

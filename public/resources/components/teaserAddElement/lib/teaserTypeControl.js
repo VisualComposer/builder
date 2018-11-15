@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import vcCake from 'vc-cake'
 
 export default class TeaserTypeControl extends React.Component {
   buttonsGroup = null
