@@ -13,12 +13,12 @@ for i in "${arr[@]}";
 do {
   i=${i//[$'\t\r\n']}
   TOTAL=$(($TOTAL+1))
-  echo $EXECDIR/visualcomposer/resources/elements/$i
+  echo $EXECDIR/elements/$i
   CNT=$(($CNT+1))
-  if cd $EXECDIR/visualcomposer/resources/elements/$i; then
-    cd $EXECDIR/visualcomposer/resources/elements/$i && git pull & pid=$1;
+  if cd $EXECDIR/elements/$i; then
+    cd $EXECDIR/elements/$i && git pull & pid=$1;
   else
-    git clone --depth 1 git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/visualcomposer/resources/elements/$i & pid=$1;
+    git clone --depth 1 git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/elements/$i & pid=$1;
   fi
 
   PID_LIST+=" $pid";

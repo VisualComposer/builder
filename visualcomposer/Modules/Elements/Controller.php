@@ -40,8 +40,8 @@ class Controller extends Container implements Module
         /** @var \VisualComposer\Modules\Elements\ApiController $elementsApi */
         $elementsApi = $api->elements;
         foreach ($elementsToRegister as $tag) {
-            $manifestPath = VCV_PLUGIN_DIR_PATH . 'visualcomposer/resources/elements/' . $tag . '/manifest.json';
-            $elementBaseUrl = $urlHelper->assetUrl('elements/' . $tag);
+            $manifestPath = VCV_PLUGIN_DIR_PATH . 'elements/' . $tag . '/manifest.json';
+            $elementBaseUrl = $urlHelper->to('elements/' . $tag);
             $elementsApi->add($manifestPath, $elementBaseUrl);
         }
     }

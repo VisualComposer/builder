@@ -14,9 +14,9 @@ do {
   i=${i//[$'\t\r\n']}
   TOTAL=$(($TOTAL+1))
   CNT=$(($CNT+1))
-  if cd $EXECDIR/visualcomposer/resources/elements/$i; then
-    cd $EXECDIR/visualcomposer/resources/elements/$i
-    ../../../../node_modules/.bin/webpack --config webpack.config.4x.production.babel.js -p --silent & pid=$1
+  if cd $EXECDIR/elements/$i; then
+    cd $EXECDIR/elements/$i
+    ../../node_modules/.bin/webpack --config webpack.config.4x.production.babel.js -p --silent & pid=$1
   fi
 
   PID_LIST+=" $pid";
