@@ -284,6 +284,7 @@ function vcIsBadResponse($response)
 
 function vcCheckResponse($response)
 {
+    $loggerHelper = vchelper('Logger');
     if (isset($response['body'])) {
         $body = $response['body'];
         // Check that body is correct JSON
