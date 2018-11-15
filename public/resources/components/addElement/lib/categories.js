@@ -159,24 +159,11 @@ export default class Categories extends React.Component {
 
   getNoResultsElement () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const premiumButtonText = localizations ? localizations.noResultOpenHub : 'Open Visual Composer Hub'
-    const premiumHelperText = localizations ? localizations.notRightElementsFound : 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.'
     const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing found'
-    const freeButtonText = localizations ? localizations.premiumElementsButton : 'Go Premium'
-    const freeHelperText = localizations ? localizations.addElementHelperText : 'Didn\'t find an element? Get a Premium license to download the right content element in Visual Composer Hub.'
-
+    const buttonText = localizations ? localizations.getMoreElements : 'Get More Elements'
+    const helperText = localizations ? localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - to download additional elements, templates and extensions.'
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
-    let buttonUrl = window.VCV_UTM().feAddElementSearchPremiumVersion
-
-    let helperText = premiumHelperText
-    let buttonText = premiumButtonText
-    let button = (<button className='vcv-start-blank-button' onClick={this.handleGoToHub}>{buttonText}</button>)
-    if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
-      helperText = freeHelperText
-      buttonText = freeButtonText
-      button = (<a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>)
-    }
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
         <img
@@ -187,7 +174,9 @@ export default class Categories extends React.Component {
       </div>
       <div>
         <div className='vcv-ui-editor-no-items-content'>
-          {button}
+          <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
+            {buttonText}
+          </button>
         </div>
         <div className='vcv-ui-editor-no-items-content'>
           <p className='vcv-start-blank-helper'>{helperText}</p>

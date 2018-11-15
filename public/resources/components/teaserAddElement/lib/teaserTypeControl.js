@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import vcCake from 'vc-cake'
 
 export default class TeaserTypeControl extends React.Component {
   buttonsGroup = null
@@ -94,7 +93,6 @@ export default class TeaserTypeControl extends React.Component {
       return <div key={`hub-control-${type}`} className='vcv-ui-form-button-group-item'>
         <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
           {name}
-          {!vcCake.env('FT_EDITOR_HUB_REDESIGN') && bundleTypes && bundleTypes.length && <i className='vcv-ui-icon vcv-ui-icon-expand' />}
         </button>
         {bundleTypes && bundleTypes.length
           ? <div className='vcv-ui-form-button-group-dropdown'>

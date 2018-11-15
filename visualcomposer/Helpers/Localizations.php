@@ -69,6 +69,8 @@ class Localizations extends Container implements Helper
             'removeTemplate' => __('Remove Template', 'vcwb'),
             'templateSaveFailed' => __('Template save failed', 'vcwb'),
             'downloadMoreTemplates' => __('Download More Templates', 'vcwb'),
+            'getMoreElements' => __('Get More Elements', 'vcwb'),
+            'getMoreTemplates' => __('Get More Templates', 'vcwb'),
             'noTemplatesFound' => __(
             // @codingStandardsIgnoreLine
                 'You don\'t have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.',
@@ -78,6 +80,7 @@ class Localizations extends Container implements Helper
                 'Didn\'t find the right template? Check out Visual Composer Hub for more layout templates.',
                 'vcwb'
             ),
+            'accessVisualComposerHubToDownload' => __('Access Visual Composer Hub - to download additional elements, templates and extensions.', 'vcwb'),
             'removeTemplateWarning' => __('Do you want to remove this template?', 'vcwb'),
             'templateRemoveFailed' => __('Failed to remove template', 'vcwb'),
             'blankPageHeadingPart1' => __('Select Blank Page', 'vcwb'),

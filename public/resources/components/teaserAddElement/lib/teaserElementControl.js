@@ -98,7 +98,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadAddon (e) {
-    if (!this.props.element.allowDownload) {
+    if (!this.props.element.allowDownload || !window.vcvIsActivated) {
       return
     }
 
@@ -120,7 +120,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadElement (e) {
-    if (!this.props.element.allowDownload) {
+    if (!this.props.element.allowDownload || !window.vcvIsActivated) {
       return
     }
 
@@ -142,7 +142,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadTemplate (e) {
-    if (!this.props.element.allowDownload) {
+    if (!this.props.element.allowDownload || !window.vcvIsActivated) {
       return
     }
 
@@ -242,8 +242,7 @@ export default class TeaserElementControl extends ElementControl {
 
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
-    let overlayOutput = <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-lock' />
-    let lockIcon = !element.allowDownload && elementState === 'inactive'
+    let lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsActivated
 
     let iconClasses = classNames({
       'vcv-ui-item-add': true,
@@ -294,7 +293,7 @@ export default class TeaserElementControl extends ElementControl {
         action = this.handleAddonClick
       }
     }
-    overlayOutput = <span className={iconClasses} onClick={action} />
+    let overlayOutput = <span className={iconClasses} onClick={action} />
 
     return (
       <li className={listItemClasses}>
