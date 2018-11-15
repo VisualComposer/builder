@@ -30,7 +30,8 @@ class Utm implements Helper
             'activation-page' => '&utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=gopremium',
             'logoFrontend' => '&utm_medium=frontend-editor&utm_source=vcv-logo&utm_campaign=gopremium',
             'hub-banner' => '&utm_medium=frontend-editor&utm_source=hub&utm_campaign=hub-banner',
-            'plugins-page' => '&utm_medium=wp-dashboard&utm_source=plugin-activation&utm_campaign=gopremium'
+            'plugins-page' => '&utm_medium=wp-dashboard&utm_source=plugin-activation&utm_campaign=gopremium',
+            'start-blank' => '&utm_medium=frontend-editor&utm_source=start-blank&utm_campaign=gopremium',
         ];
 
         return $utm;
