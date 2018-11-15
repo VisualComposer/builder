@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "### Build Default Script v1.0 12.11.2018 ### $(date)"
+echo "Clone script is running."
 
 EXECDIR=`pwd`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -8,15 +8,17 @@ declare -a arr=($(cat "$DIR/defaultElements.list"))
 
 TOTAL=0
 CNT=0
-PARALLELS_COUNT=1
+PARALLELS_COUNT=0
 for i in "${arr[@]}";
 do {
   i=${i//[$'\t\r\n']}
   TOTAL=$(($TOTAL+1))
+  echo $EXECDIR/visualcomposer/resources/elements/$i
   CNT=$(($CNT+1))
   if cd $EXECDIR/visualcomposer/resources/elements/$i; then
-    cd $EXECDIR/visualcomposer/resources/elements/$i
-    ../../../../node_modules/.bin/webpack --config webpack.config.4x.babel.js --progress --colors & pid=$1
+    cd $EXECDIR/visualcomposer/resources/elements/$i && git pull & pid=$1;
+  else
+    git clone --depth 1 git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/visualcomposer/resources/elements/$i & pid=$1;
   fi
 
   PID_LIST+=" $pid";

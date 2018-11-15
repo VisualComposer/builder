@@ -8,7 +8,7 @@ declare -a arr=($(cat "$DIR/defaultElements.list"))
 
 TOTAL=0
 CNT=0
-PARALLELS_COUNT=1
+PARALLELS_COUNT=0
 for i in "${arr[@]}";
 do {
   i=${i//[$'\t\r\n']}
@@ -16,7 +16,7 @@ do {
   CNT=$(($CNT+1))
   if cd $EXECDIR/visualcomposer/resources/elements/$i; then
     cd $EXECDIR/visualcomposer/resources/elements/$i
-    ../../../../node_modules/.bin/webpack --config webpack.config.4x.babel.js --progress --colors & pid=$1
+    ../../../../node_modules/.bin/webpack --config webpack.config.4x.production.babel.js -p --silent & pid=$1
   fi
 
   PID_LIST+=" $pid";
