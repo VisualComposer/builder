@@ -8,7 +8,7 @@ declare -a arr=($(cat "$DIR/defaultElements.list"))
 
 TOTAL=0
 CNT=0
-PARALLELS_COUNT=1
+PARALLELS_COUNT=0
 for i in "${arr[@]}";
 do {
   i=${i//[$'\t\r\n']}
@@ -18,7 +18,7 @@ do {
   if cd $EXECDIR/elements/$i; then
     cd $EXECDIR/elements/$i && git pull & pid=$1;
   else
-    git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/elements/$i & pid=$1;
+    git clone --depth 1 git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/elements/$i & pid=$1;
   fi
 
   PID_LIST+=" $pid";

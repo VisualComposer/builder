@@ -75,4 +75,4 @@ devAddons/*
 tools/vcwb-builder/temp/**/
 ci/CodeSniffer.conf
 tests/jest/devElements/**/
-visualcomposer/resources/elements/**/
+elements/**/
