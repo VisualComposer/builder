@@ -25,11 +25,7 @@ class EditorPostType implements Helper
         }
         if ($post) {
             $forPostsId = (int)get_option('page_for_posts');
-            $forPagesId = (int)get_option('page_on_front');
             if ($forPostsId && $post->ID === $forPostsId) {
-                $check = false;
-            }
-            if ($forPagesId && $post->ID === $forPagesId) {
                 $check = false;
             }
         }
