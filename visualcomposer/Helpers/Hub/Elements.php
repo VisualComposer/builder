@@ -173,9 +173,6 @@ class Elements implements Helper
         if (preg_match($pattern, $path)) {
             return $path;
         }
-        if (strpos($path, ABSPATH) !== false) {
-            return $path;
-        }
         if (strpos($path, '[thirdPartyFullPath]') !== false) {
             return str_replace('[thirdPartyFullPath]', '', $path);
         }
