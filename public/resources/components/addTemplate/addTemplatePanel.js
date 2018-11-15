@@ -200,35 +200,17 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getNoResultsElement () {
-    const premiumButtonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.downloadMoreTemplates : 'Download More Templates'
-    // const noTemplatesText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.noTemplatesFound : `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
-    const premiumNotRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.notRightTemplatesFound : `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
-    const freeButtonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Go Premium'
-    const freeNotRightTemplatesFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.addTemplateHelperText : 'Didn\'t find a perfect template? Get a Premium license to download it from Visual Composer Hub.'
+    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
+    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - to download additional elements, templates and extensions.'
     const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
-    // let source, btnText, helper, button
+
     let source
     if (!this.state.categories[ 0 ].templates.length && !this.state.isSearching) {
-      // btnText = buttonText
-      // helper = noTemplatesText
-      // button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       source = sharedAssetsLibraryService.getSourcePath('images/add-item.png')
     } else {
-      // btnText = buttonText
-      // helper = notRightTemplatesFoundText
-      // button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
     }
 
-    let buttonUrl = window.VCV_UTM().feAddTemplateSearchPremiumTemplates
-    let buttonText = premiumButtonText
-    let helperText = premiumNotRightTemplatesFoundText
-    let button = <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>{buttonText}</button>
-    if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
-      buttonText = freeButtonText
-      helperText = freeNotRightTemplatesFoundText
-      button = <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
-    }
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
         <img
@@ -239,7 +221,9 @@ export default class AddTemplatePanel extends React.Component {
       </div>
       <div>
         <div className='vcv-ui-editor-no-items-content'>
-          {button}
+          <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
+            {buttonText}
+            </button>
         </div>
         <div className='vcv-ui-editor-no-items-content'>
           <p className='vcv-start-blank-helper'>{helperText}</p>

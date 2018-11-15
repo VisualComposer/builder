@@ -59,7 +59,7 @@ export default class startBlank extends React.Component {
     let headingPart1
     let headingPart2
 
-    let buttonUrl = window.VCV_UTM().feBlankPagePremiumTemplates
+    let buttonUrl = `${window.vcvGoPremiumUrl}&vcv-ref=start-blank`
     let premium = null
     if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
       premium = (

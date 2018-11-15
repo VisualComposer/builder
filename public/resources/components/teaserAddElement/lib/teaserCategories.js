@@ -204,7 +204,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       changeInput: this.changeInput,
       inputPlaceholder: 'elements and templates',
       activeFilter: this.state.filterId,
-      disableSelect: vcCake.env('FT_EDITOR_HUB_REDESIGN'),
+      disableSelect: true,
       selectEvent: (active) => {
         let activeId = active && active.constructor === String && active.split('-')[ 0 ]
         let result = this.state
@@ -286,7 +286,10 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   getHubBanner () {
     const titleText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.getMoreText : 'Get More Elements, Templates, and Extensions'
     const subtitleText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.downloadFromHubText : 'Download additional content from the Visual Composer Hub - right in your editor instantly.'
-    const buttonText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.getStartedText : 'Get Started'
+    const getStartedText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.getStartedText : 'Get Started'
+    const goPremiumText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.goPremium : 'Go Premium'
+    const buttonText = window.vcvIsActivated ? goPremiumText : getStartedText
+
     return <div className='vcv-hub-banner'>
       <div className='vcv-hub-banner-content'>
         <p className='vcv-hub-banner-title'>{titleText}</p>
@@ -302,72 +305,31 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
-    const buttonText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.premiumHubButton : 'Go Premium'
-    const helperText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.hubHelperText : 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more'
 
-    let buttonUrl = window.VCV_UTM().feHubTeaserPremiumVersion
-    let premium = null
-    if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
-      premium = (<div className='vcv-ui-editor-no-items-container'>
-        <div className='vcv-ui-editor-no-items-content'>
-          <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
-        </div>
-        <div className='vcv-ui-editor-no-items-content'>
-          <p className='vcv-start-blank-helper'>{helperText}</p>
-        </div>
-      </div>)
-    }
-
-    if (vcCake.env('FT_EDITOR_HUB_REDESIGN')) {
-      return (
-        <div className='vcv-ui-tree-view-content vcv-ui-teaser-add-element-content'>
-          <div className='vcv-ui-tree-content'>
-            {this.getSearchElement()}
-            {this.getHubPanelControls()}
-            <div className='vcv-ui-hub-dropdown-container'>
-              <TeaserDropdown {...this.getTypeControlProps()} />
-            </div>
-            <div className='vcv-ui-tree-content-section'>
-              <Scrollbar>
-                <div className={innerSectionClasses}>
-                  {window.vcvIsActivated ? null : this.getHubBanner()}
-                  <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
-                    <div className='vcv-ui-editor-plates'>
-                      <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                        {this.getElementListContainer(itemsOutput)}
-                        {premium}
-                      </div>
+    return (
+      <div className='vcv-ui-tree-view-content vcv-ui-teaser-add-element-content'>
+        <div className='vcv-ui-tree-content'>
+          {this.getSearchElement()}
+          {this.getHubPanelControls()}
+          <div className='vcv-ui-hub-dropdown-container'>
+            <TeaserDropdown {...this.getTypeControlProps()} />
+          </div>
+          <div className='vcv-ui-tree-content-section'>
+            <Scrollbar>
+              <div className={innerSectionClasses}>
+                {(typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) ? this.getHubBanner() : null}
+                <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
+                  <div className='vcv-ui-editor-plates'>
+                    <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+                      {this.getElementListContainer(itemsOutput)}
                     </div>
                   </div>
                 </div>
-              </Scrollbar>
-            </div>
+              </div>
+            </Scrollbar>
           </div>
         </div>
-      )
-    } else {
-      return (
-        <div className='vcv-ui-tree-view-content vcv-ui-add-element-content'>
-          <div className='vcv-ui-tree-content'>
-            {this.getSearchElement()}
-            <div className='vcv-ui-tree-content-section'>
-              <Scrollbar>
-                <div className={innerSectionClasses}>
-                  {this.getHubPanelControls()}
-                  <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
-                    <div className='vcv-ui-editor-plates'>
-                      <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                        {this.getElementListContainer(itemsOutput)}
-                        {premium}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Scrollbar>
-            </div>
-          </div>
-        </div>
-      )
-    }
+      </div>
+    )
   }
 }

@@ -12,12 +12,13 @@ export default class GoPremiumControl extends NavbarContent {
     if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
       const localizations = window.VCV_I18N && window.VCV_I18N()
       const goPremium = localizations ? localizations.goPremium : 'Go Premium'
+      const goPremiumUrl = `${window.vcvGoPremiumUrl}&vcv-ref=nav-bar`
       return (
         <span
           className='vcv-ui-navbar-control vcv-go-premium'
           onClick={this.goPremium}
           title={goPremium}
-          data-href={window.vcvGoPremiumUrl}
+          data-href={goPremiumUrl}
         >
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-star' />
           <span className='vcv-ui-navbar-control-content'>{goPremium}</span>
