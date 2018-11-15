@@ -7,6 +7,7 @@ declare -a arr=(
 'globalTemplate'
 'exportImport'
 'wpbMigration'
+'templateWidget'
 )
 
 EXECDIR=`pwd`
