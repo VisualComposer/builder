@@ -165,8 +165,6 @@ class Elements implements Helper
             if (preg_match('/devElements\//', $path)) {
                 return $path;
             }
-
-            return vcapp()->path() . 'devElements/' . $path;
         }
         if (file_exists($path) || is_dir($path)) {
             return $path;
