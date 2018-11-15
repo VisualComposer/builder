@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Hub\Bundle;
-use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class JsonDownloadController extends Container implements Module
@@ -30,15 +29,14 @@ class JsonDownloadController extends Container implements Module
         $response,
         $payload,
         Bundle $hubHelper,
-        Filters $filterHelper,
-        Logger $loggerHelper
+        Filters $filterHelper
     ) {
         if (!vcIsBadResponse($response)) {
             $url = $hubHelper->getJsonDownloadUrl(['token' => $payload['token']]);
             $json = $hubHelper->getRemoteBundleJson($url);
             // if json is empty array it means that no release yet available!
             if (!vcIsBadResponse($json)) {
-                $response = $filterHelper->fire('vcv:hub:download:json', $response, ['json' => $json]);
+                $response = $filterHelper->fire('vcv:hub:download:json', $response, ['json' => $json], true);
             }
         }
 

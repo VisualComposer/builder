@@ -13,7 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\Actions\HubTemplatesBundle;
 use VisualComposer\Helpers\Hub\Templates;
-use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\WpMedia;
 use WP_Query;
@@ -34,7 +33,6 @@ class TemplatesUpdater extends Container implements Module
     protected function updateTemplate(
         $response,
         $payload,
-        Logger $loggerHelper,
         File $fileHelper,
         Templates $hubTemplatesHelper,
         HubTemplatesBundle $hubTemplatesBundleHelper,
@@ -50,20 +48,29 @@ class TemplatesUpdater extends Container implements Module
             $response['templates'] = [];
         }
 
-        $fileHelper->createDirectory(
+        $createDirResult = $fileHelper->createDirectory(
             $hubTemplatesHelper->getTemplatesPath()
         );
+        if (vcIsBadResponse($createDirResult)) {
+            return false;
+        }
         $template = $bundleJson;
         $template['id'] = $payload['actionData']['data']['id'];
         // File is locally available
         $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder('templates/' . $template['id']);
         if (is_dir($tempTemplatePath)) {
             // We have local assets for template, so we need to copy them to real templates folder
-            $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
-            $fileHelper->copyDirectory(
+            $createDirResult = $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
+            if (vcIsBadResponse($createDirResult)) {
+                return false;
+            }
+            $copyDirResult = $fileHelper->copyDirectory(
                 $tempTemplatePath,
                 $hubTemplatesHelper->getTemplatesPath($template['id'])
             );
+            if (vcIsBadResponse($copyDirResult)) {
+                return false;
+            }
         }
 
         $templateMeta = $this->processTemplateMetaImages(
@@ -92,7 +99,7 @@ class TemplatesUpdater extends Container implements Module
                         $element['elementId'] . '-' . $media['key'] . '-'
                     );
                 }
-                if (!is_wp_error($imageData) && $imageData) {
+                if ($imageData) {
                     $templateElements[ $element['elementId'] ][ $media['key'] ] = $imageData;
                 }
             }
@@ -120,8 +127,8 @@ class TemplatesUpdater extends Container implements Module
                     [
                         'key' => '_' . VCV_PREFIX . 'type',
                         'value' => 'custom',
-                        'compare' => '!='
-                    ]
+                        'compare' => '!=',
+                    ],
                 ],
             ]
         );
@@ -196,7 +203,7 @@ class TemplatesUpdater extends Container implements Module
             }
 
             $preview = $this->processSimple($url, $template);
-            if (!is_wp_error($preview) && $preview) {
+            if ($preview) {
                 $template['preview'] = $preview;
             }
         }
@@ -208,7 +215,7 @@ class TemplatesUpdater extends Container implements Module
             }
 
             $thumbnail = $this->processSimple($url, $template);
-            if (!is_wp_error($thumbnail) && $thumbnail) {
+            if ($thumbnail) {
                 $template['thumbnail'] = $thumbnail;
             }
         }
@@ -233,10 +240,13 @@ class TemplatesUpdater extends Container implements Module
         if ($urlHelper->isUrl($url)) {
             $imageFile = $fileHelper->download($url);
             $localImagePath = $template['id'] . '/' . strtolower($prefix . '' . basename($url));
-            if (!is_wp_error($imageFile)) {
-                $fileHelper->createDirectory(
+            if (!vcIsBadResponse($imageFile)) {
+                $createDirResult = $fileHelper->createDirectory(
                     $hubTemplatesHelper->getTemplatesPath($template['id'])
                 );
+                if (vcIsBadResponse($createDirResult)) {
+                    return false;
+                }
 
                 if (rename(
                     $imageFile,
@@ -249,7 +259,7 @@ class TemplatesUpdater extends Container implements Module
                     );
                 }
             } else {
-                return $imageFile;
+                return false;
             }
         } else {
             // File located locally
@@ -292,7 +302,7 @@ class TemplatesUpdater extends Container implements Module
                 } else {
                     $newUrl = $this->processSimple($image['full'], $template, $prefix . $key . '-');
                 }
-                if ($newUrl && !is_wp_error($newUrl)) {
+                if ($newUrl) {
                     $newImages[] = $newUrl;
                 }
             }

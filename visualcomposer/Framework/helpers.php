@@ -64,13 +64,14 @@ function vcevent($event, $payload = [])
  * @param  string $filter
  * @param  string $body
  * @param  mixed $payload
+ * @param bool $haltable
  *
  * @return array|null
  */
-function vcfilter($filter, $body = '', $payload = [])
+function vcfilter($filter, $body = '', $payload = [], $haltable = false)
 {
     /** @see \VisualComposer\Framework\Illuminate\Filters\Dispatcher::fire */
-    return vchelper('Filters')->fire($filter, $body, $payload);
+    return vchelper('Filters')->fire($filter, $body, $payload, $haltable);
 }
 
 /**
@@ -158,18 +159,104 @@ function vcvadmininit()
     vcapp()->adminInit();
 }
 
+function vcLogWpErrorByCode($code, $errorMessage)
+{
+    $message = '';
+    switch ($code) {
+        case 'http_no_url': {
+            $message = __(
+                'An error occurred while retrieving the download URL for Visual Composer extensions. Please deactivate other plugins, re-install Visual Composer and try again.',
+                'vcwb'
+            );
+            break;
+        }
+        case 'http_no_file': {
+            $message = __(
+                'An error occurred when creating temporary installation files. Please verify that WP_TEMP_DIR exists and is writable.',
+                'vcwb'
+            );
+            break;
+        }
+        case 'http_404': {
+            $message = __(
+                'An error occurred during the Visual Composer extension download process. 
+<ul><li>Check if your server has a connection to the Internet</li><li>Check your server proxy configuration settings</li><li>Check your server firewall settings and access to https://account.visualcomposer.io</li><li>Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg">Amazon AWS</a></li></ul>',
+                'vcwb'
+            );
+            break;
+        }
+        case 'fs_unavailable': {
+            $message = __(
+                'An error occurred when extracting Visual Composer extension files. Visual Composer requires a direct access to the file system of your server. Check if FS_METHOD is defined in wp-config.php and disable it.',
+                'vcwb'
+            );
+            break;
+        }
+        case 'incompatible_archive':
+        case 'stat_failed_ziparchive': {
+            $message = __(
+                'A zip file of Visual Composer extension is broken. Please check your Internet connection, run Reset in Visual Composer Settings and try again.',
+                'vcwb'
+            );
+            break;
+        }
+        case 'disk_full_unzip_file': {
+            $message = __(
+                'We could not copy files to your server. It seems that you have run out of the disk space. Please increase your server disk space and try again.',
+                'vcwb'
+            );
+            break;
+        }
+        case 'mkdir_failed_ziparchive':
+        case 'mkdir_failed_copy_dir': {
+            $message = __(
+                'We could not create a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
+                'vcwb'
+            );
+            break;
+        }
+        case 'copy_failed_ziparchive': {
+            $message = __(
+                'We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
+                'vcwb'
+            );
+            break;
+        }
+        case 'copy_failed_copy_dir': {
+            $message = __(
+                'We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
+                'vcwb'
+            );
+            break;
+        }
+        case 'http_request_failed': {
+            $message = __(
+                'An HTTP requests failed during the download process of the plugin.
+<ul><li>Check if your server has a connection to the Internet</li><li>Check your server proxy configuration settings</li><li>Check your server firewall settings and access to <a href="https://account.visualcomposer.io">https://account.visualcomposer.io</a></li><li>Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg">Amazon AWS</a></li></ul>',
+                'vcwb'
+            );
+            break;
+        }
+    }
+    if (!empty($message)) {
+        $message .= PHP_EOL
+            . '<span style="font-style: italic;">You may need to contact your hosting provider for assistance. If the problem still occurs, visit <a href="https://support.visualcomposer.io/">support.visualcomposer.io</a> for technical assistance</span>';
+    }
+    $message .= PHP_EOL . sprintf(__('WordPress Error: %s', 'vcwb'), $errorMessage);
+    vchelper('Logger')->log($message);
+
+    return true;
+}
+
 function vcIsBadResponse($response)
 {
     $loggerHelper = vchelper('Logger');
     $isWpError = is_wp_error($response);
     if ($isWpError) {
         /** @var \WP_Error $response */
-        $loggerHelper->log(
-            implode('. ', $response->get_error_messages()),
-            [
-                'codes' => $response->get_error_codes(),
-            ]
-        );
+        foreach ($response->errors as $code => $messages) {
+            vcLogWpErrorByCode($code, implode('. ', $messages));
+        }
 
         return true;
     }

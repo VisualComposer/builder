@@ -48,10 +48,10 @@ class ElementDownloadController extends Container implements Module
                                 'vcv-hub-action' => $action, // element/row
                             ]
                         );
-                        $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
+                        $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response, [], true);
                     }
                 }
-                if (isset($response['elements'])) {
+                if ($response && isset($response['elements'])) {
                     $response['variables'] = [];
                     foreach ($response['elements'] as $element) {
                         // Try to initialize PHP in element via autoloader
@@ -62,6 +62,8 @@ class ElementDownloadController extends Container implements Module
                         );
                     }
                 }
+            } else {
+                return false;
             }
         }
 
@@ -96,7 +98,6 @@ class ElementDownloadController extends Container implements Module
      */
     protected function checkResponse($response)
     {
-        // TODO: Errors
         $loggerHelper = vchelper('Logger');
         $optionsHelper = vchelper('Options');
         $downloadHelper = vchelper('HubDownload');
@@ -122,6 +123,8 @@ class ElementDownloadController extends Container implements Module
                     }
                 }
             }
+        } else {
+            return false;
         }
 
         return $response;

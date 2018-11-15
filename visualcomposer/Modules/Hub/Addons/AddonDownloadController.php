@@ -47,13 +47,13 @@ class AddonDownloadController extends ElementDownloadController implements Modul
                                 'vcv-hub-action' => $action,
                             ]
                         );
-                        $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response);
+                        $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response, [], true);
                     }
                 }
                 $response = $this->initializeElementsAndAddons($response);
                 $response = vcfilter('vcv:hub:addonDownloadController:download:response', $response);
             } else {
-                return $json;
+                return false;
             }
         }
 
@@ -82,7 +82,6 @@ class AddonDownloadController extends ElementDownloadController implements Modul
      */
     protected function checkResponse($response)
     {
-        $loggerHelper = vchelper('Logger');
         $optionsHelper = vchelper('Options');
         $downloadHelper = vchelper('HubDownload');
         if (!vcIsBadResponse($response)) {
@@ -107,6 +106,8 @@ class AddonDownloadController extends ElementDownloadController implements Modul
                     }
                 }
             }
+        } else {
+            return false;
         }
 
         return $response;

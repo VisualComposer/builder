@@ -145,8 +145,12 @@ class JsonActionsController extends Container implements Module
                 'data' => $data,
                 'version' => $version,
                 'checksum' => $checksum,
-            ]
+            ],
+            true
         );
+        if (!$response) {
+            vchelper('Options')->deleteTransient('vcv:hub:action:request');
+        }
 
         return $response;
     }

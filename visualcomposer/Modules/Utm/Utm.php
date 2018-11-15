@@ -21,7 +21,7 @@ class Utm extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Utm\Utm::outputUtm */
         $this->addFilter(
-            'vcv:frontend:head:extraOutput vcv:frontend:update:head:extraOutput vcv:backend:settings:extraOutput',
+            'vcv:frontend:head:extraOutput vcv:update:extraOutput',
             'outputUtm'
         );
     }
