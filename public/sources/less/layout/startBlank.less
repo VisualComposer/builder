@@ -168,17 +168,14 @@
 }
 
 .vcv-start-blank-button {
-  background: transparent;
-  border-width: @editor-layout-start-blank-button-border-width;
-  border-style: solid;
-  border-color: @editor-layout-start-blank-button-border-color;
+  background: @editor-layout-start-blank-button-border-hover-color;
   padding: @editor-layout-start-blank-button-spacing;
   font-family: @editor-layout-start-blank-button-font-family;
   font-weight: @editor-layout-start-blank-button-font-weight;
   font-size: @editor-layout-start-blank-button-font-size;
   letter-spacing: @editor-layout-start-blank-button-letter-spacing;
   text-transform: uppercase;
-  color: @editor-layout-start-blank-button-color;
+  color: @editor-layout-start-blank-button-color-hover;
   -webkit-font-smoothing: antialiased;
   margin-bottom: @editor-layout-start-blank-button-margin-bottom;
   max-width: 100%;
@@ -189,32 +186,13 @@
   cursor: pointer;
 
   &:hover, &:focus {
-    border-color: @editor-layout-start-blank-button-border-hover-color;
-    background: @editor-layout-start-blank-button-border-hover-color;
+    background: #274473;
     color: @editor-layout-start-blank-button-color-hover;
   }
 
   &:hover, &:focus, &:visited, &:active {
     text-decoration: none;
     box-shadow: none;
-  }
-}
-
-.vcv-ui-editor-no-items-container {
-  .vcv-start-blank-button {
-    border-color: @editor-layout-start-blank-button-border-color-light-blue;
-    color: @editor-layout-start-blank-button-color-light-blue;
-
-    &:hover, &:focus {
-      border-color: @editor-layout-start-blank-button-border-hover-color;
-      background: @editor-layout-start-blank-button-border-hover-color;
-      color: @editor-layout-start-blank-button-color-hover;
-    }
-
-    &:hover, &:focus, &:visited, &:active {
-      text-decoration: none;
-      box-shadow: none;
-    }
   }
 }
 

@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\AssetsEnqueue;
-use VisualComposer\Helpers\AssetsShared;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Str;

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Clone script is running."
+echo "### Build Default Script v1.0 12.11.2018 ### $(date)"
 
 EXECDIR=`pwd`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -8,17 +8,15 @@ declare -a arr=($(cat "$DIR/defaultElements.list"))
 
 TOTAL=0
 CNT=0
-PARALLELS_COUNT=1
+PARALLELS_COUNT=0
 for i in "${arr[@]}";
 do {
   i=${i//[$'\t\r\n']}
   TOTAL=$(($TOTAL+1))
-  echo $EXECDIR/elements/$i
   CNT=$(($CNT+1))
   if cd $EXECDIR/elements/$i; then
-    cd $EXECDIR/elements/$i && git pull & pid=$1;
-  else
-    git clone git@gitlab.com:visualcomposer-hub/$i.git $EXECDIR/elements/$i & pid=$1;
+    cd $EXECDIR/elements/$i
+    ../../node_modules/.bin/webpack --config webpack.config.4x.production.babel.js -p --silent & pid=$1
   fi
 
   PID_LIST+=" $pid";

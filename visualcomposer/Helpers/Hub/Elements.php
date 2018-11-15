@@ -165,17 +165,12 @@ class Elements implements Helper
             if (preg_match('/devElements\//', $path)) {
                 return $path;
             }
-
-            return vcapp()->path() . 'devElements/' . $path;
         }
         if (file_exists($path) || is_dir($path)) {
             return $path;
         }
         $pattern = '/' . VCV_PLUGIN_ASSETS_DIRNAME . '\//';
         if (preg_match($pattern, $path)) {
-            return $path;
-        }
-        if (strpos($path, ABSPATH) !== false) {
             return $path;
         }
         if (strpos($path, '[thirdPartyFullPath]') !== false) {
