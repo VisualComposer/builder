@@ -242,7 +242,7 @@ export default class TeaserElementControl extends ElementControl {
 
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
-    let lockIcon = !element.allowDownload && elementState === 'inactive' || !window.vcvIsActivated
+    let lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsActivated
 
     let iconClasses = classNames({
       'vcv-ui-item-add': true,
