@@ -159,84 +159,83 @@ function vcvadmininit()
     vcapp()->adminInit();
 }
 
-function vcLogWpErrorByCode($code, $errorMessage)
+function vcLogWpHttpCodes($code)
 {
     $message = '';
     switch ($code) {
-        case 'http_no_url': {
+        case 'http_no_url':
             $message = __(
                 'An error occurred while retrieving the download URL for Visual Composer extensions. Please deactivate other plugins, re-install Visual Composer and try again.',
                 'vcwb'
             );
             break;
-        }
-        case 'http_no_file': {
+        case 'http_no_file':
             $message = __(
                 'An error occurred when creating temporary installation files. Please verify that WP_TEMP_DIR exists and is writable.',
                 'vcwb'
             );
             break;
-        }
-        case 'http_404': {
+        case 'http_404':
             $message = __(
                 'An error occurred during the Visual Composer extension download process. 
 <ul><li>Check if your server has a connection to the Internet</li><li>Check your server proxy configuration settings</li><li>Check your server firewall settings and access to https://account.visualcomposer.io</li><li>Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg">Amazon AWS</a></li></ul>',
                 'vcwb'
             );
             break;
-        }
-        case 'fs_unavailable': {
-            $message = __(
-                'An error occurred when extracting Visual Composer extension files. Visual Composer requires a direct access to the file system of your server. Check if FS_METHOD is defined in wp-config.php and disable it.',
-                'vcwb'
-            );
-            break;
-        }
-        case 'incompatible_archive':
-        case 'stat_failed_ziparchive': {
-            $message = __(
-                'A zip file of Visual Composer extension is broken. Please check your Internet connection, run Reset in Visual Composer Settings and try again.',
-                'vcwb'
-            );
-            break;
-        }
-        case 'disk_full_unzip_file': {
-            $message = __(
-                'We could not copy files to your server. It seems that you have run out of the disk space. Please increase your server disk space and try again.',
-                'vcwb'
-            );
-            break;
-        }
-        case 'mkdir_failed_ziparchive':
-        case 'mkdir_failed_copy_dir': {
-            $message = __(
-                'We could not create a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
-                'vcwb'
-            );
-            break;
-        }
-        case 'copy_failed_ziparchive': {
-            $message = __(
-                'We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
-                'vcwb'
-            );
-            break;
-        }
-        case 'copy_failed_copy_dir': {
-            $message = __(
-                'We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
-                'vcwb'
-            );
-            break;
-        }
-        case 'http_request_failed': {
+        case 'http_request_failed':
             $message = __(
                 'An HTTP requests failed during the download process of the plugin.
 <ul><li>Check if your server has a connection to the Internet</li><li>Check your server proxy configuration settings</li><li>Check your server firewall settings and access to <a href="https://account.visualcomposer.io">https://account.visualcomposer.io</a></li><li>Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg">Amazon AWS</a></li></ul>',
                 'vcwb'
             );
             break;
-        }
+    }
+
+    return $message;
+}
+
+function vcLogWpErrorByCode($code, $errorMessage)
+{
+    $message = vcLogWpHttpCodes($code);
+    switch ($code) {
+        case 'fs_unavailable':
+            $message = __(
+                'An error occurred when extracting Visual Composer extension files. Visual Composer requires a direct access to the file system of your server. Check if FS_METHOD is defined in wp-config.php and disable it.',
+                'vcwb'
+            );
+            break;
+        case 'incompatible_archive':
+        case 'stat_failed_ziparchive':
+            $message = __(
+                'A zip file of Visual Composer extension is broken. Please check your Internet connection, run Reset in Visual Composer Settings and try again.',
+                'vcwb'
+            );
+            break;
+        case 'disk_full_unzip_file':
+            $message = __(
+                'We could not copy files to your server. It seems that you have run out of the disk space. Please increase your server disk space and try again.',
+                'vcwb'
+            );
+            break;
+        case 'mkdir_failed_ziparchive':
+        case 'mkdir_failed_copy_dir':
+            $message = __(
+                'We could not create a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
+                'vcwb'
+            );
+            break;
+        case 'copy_failed_ziparchive':
+            $message = __(
+                'We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
+                'vcwb'
+            );
+            break;
+        case 'copy_failed_copy_dir':
+            $message = __(
+                'We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
+                'vcwb'
+            );
+            break;
     }
     if (!empty($message)) {
         $message .= PHP_EOL
@@ -262,76 +261,83 @@ function vcIsBadResponse($response)
     }
 
     if (is_array($response)) {
-        if (isset($response['body'])) {
-            $body = $response['body'];
-            // Check that body is correct JSON
-            if (is_string($body)) {
-                // @codingStandardsIgnoreLine
-                $arr = @json_decode($body, true);
-                $isBodyErr = (is_array($arr) && isset($arr['status']) && !$arr['status']) || !is_array($arr);
-
-                if ($isBodyErr) {
-                    // Wrong JSON response
-                    $loggerHelper->log(
-                        __('Wrong response body received.', 'vcwb'),
-                        [
-                            'body' => $body,
-                        ]
-                    );
-
-                    return true;
-                }
-            } else {
-                $isBodyErr = isset($body['status']) && !$body['status'];
-
-                if ($isBodyErr) {
-                    // Wrong Response status
-                    $additionalMessage = isset($body['message']) ? ' ' . $body['message'] : '';
-                    $message = __('Bad status code received.', 'vcwb') . $additionalMessage;
-                    $loggerHelper->log(
-                        $message,
-                        [
-                            'body' => $body,
-                        ]
-                    );
-
-                    return true;
-                }
-            }
-            if (isset($response['response'])) {
-                // Remote Request check
-                $responseCode = wp_remote_retrieve_response_code($response);
-                $isRequestError = $responseCode !== 200;
-                if ($isRequestError) {
-                    $message = sprintf(__('Bad response status code %d received.', 'vcwb'), $responseCode);
-                    $loggerHelper->log(
-                        $message,
-                        [
-                            'body' => $response['body'],
-                            'response' => $response['response'],
-                        ]
-                    );
-
-                    return true;
-                }
-            }
-        }
-        $isFilterError = isset($response['status']) && !$response['status'];
-        if ($isFilterError) {
-            $additionalMessage = isset($response['message']) ? ' ' . $response['message'] : '';
-            $message = __('Failed to process action.', 'vcwb') . $additionalMessage;
-            $loggerHelper->log(
-                $message,
-                [
-                    '$response' => $response,
-                ]
-            );
-
-            return true;
-        }
+        $response = vcCheckResponse($response);
     }
 
     return !$response || $response === 'false';
+}
+
+function vcCheckResponse($response)
+{
+    if (isset($response['body'])) {
+        $body = $response['body'];
+        // Check that body is correct JSON
+        if (is_string($body)) {
+            // @codingStandardsIgnoreLine
+            $arr = @json_decode($body, true);
+            $isBodyErr = (is_array($arr) && isset($arr['status']) && !$arr['status']) || !is_array($arr);
+
+            if ($isBodyErr) {
+                // Wrong JSON response
+                $loggerHelper->log(
+                    __('Wrong response body received.', 'vcwb'),
+                    [
+                        'body' => $body,
+                    ]
+                );
+
+                return true;
+            }
+        } else {
+            $isBodyErr = isset($body['status']) && !$body['status'];
+
+            if ($isBodyErr) {
+                // Wrong Response status
+                $additionalMessage = isset($body['message']) ? ' ' . $body['message'] : '';
+                $message = __('Bad status code received.', 'vcwb') . $additionalMessage;
+                $loggerHelper->log(
+                    $message,
+                    [
+                        'body' => $body,
+                    ]
+                );
+
+                return true;
+            }
+        }
+        if (isset($response['response'])) {
+            // Remote Request check
+            $responseCode = wp_remote_retrieve_response_code($response);
+            $isRequestError = $responseCode !== 200;
+            if ($isRequestError) {
+                $message = sprintf(__('Bad response status code %d received.', 'vcwb'), $responseCode);
+                $loggerHelper->log(
+                    $message,
+                    [
+                        'body' => $response['body'],
+                        'response' => $response['response'],
+                    ]
+                );
+
+                return true;
+            }
+        }
+    }
+    $isFilterError = isset($response['status']) && !$response['status'];
+    if ($isFilterError) {
+        $additionalMessage = isset($response['message']) ? ' ' . $response['message'] : '';
+        $message = __('Failed to process action.', 'vcwb') . $additionalMessage;
+        $loggerHelper->log(
+            $message,
+            [
+                '$response' => $response,
+            ]
+        );
+
+        return true;
+    }
+
+    return $response;
 }
 
 /**

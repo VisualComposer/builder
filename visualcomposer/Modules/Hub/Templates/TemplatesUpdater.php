@@ -83,27 +83,7 @@ class TemplatesUpdater extends Container implements Module
         $template['name'] = $payload['actionData']['data']['name'];
         $templateElements = $template['data'];
         $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
-        foreach ($elementsImages as $element) {
-            foreach ($element['media'] as $media) {
-                if (isset($media['complex']) && $media['complex']) {
-                    $imageData = $this->processWpMedia(
-                        $media,
-                        $template,
-                        $element['elementId'] . '-' . $media['key'] . '-'
-                    );
-                } else {
-                    // it is simple url
-                    $imageData = $this->processSimple(
-                        $media['url'],
-                        $template,
-                        $element['elementId'] . '-' . $media['key'] . '-'
-                    );
-                }
-                if ($imageData) {
-                    $templateElements[ $element['elementId'] ][ $media['key'] ] = $imageData;
-                }
-            }
-        }
+        $templateElements = $this->processTemplateImages($elementsImages, $template, $templateElements);
         $templateElements = $this->processDesignOptions($templateElements, $template);
         $templateElements = json_decode(
             str_replace(
@@ -345,5 +325,39 @@ class TemplatesUpdater extends Container implements Module
         }
 
         return $recursiveIterator->getArrayCopy();
+    }
+
+    /**
+     * @param $elementsImages
+     * @param $template
+     * @param $templateElements
+     *
+     * @return mixed
+     */
+    protected function processTemplateImages($elementsImages, $template, $templateElements)
+    {
+        foreach ($elementsImages as $element) {
+            foreach ($element['media'] as $media) {
+                if (isset($media['complex']) && $media['complex']) {
+                    $imageData = $this->processWpMedia(
+                        $media,
+                        $template,
+                        $element['elementId'] . '-' . $media['key'] . '-'
+                    );
+                } else {
+                    // it is simple url
+                    $imageData = $this->processSimple(
+                        $media['url'],
+                        $template,
+                        $element['elementId'] . '-' . $media['key'] . '-'
+                    );
+                }
+                if ($imageData) {
+                    $templateElements[ $element['elementId'] ][ $media['key'] ] = $imageData;
+                }
+            }
+        }
+
+        return $templateElements;
     }
 }
