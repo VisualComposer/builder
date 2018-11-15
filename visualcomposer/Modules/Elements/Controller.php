@@ -35,6 +35,14 @@ class Controller extends Container implements Module
             'textBlock',
             'singleImage',
             'basicButton',
+            'googleFontsHeading',
+            'youtubePlayer',
+            'vimeoPlayer',
+            'separator',
+            'wpWidgetsCustom',
+            'wpWidgetsDefault',
+            'shortcode',
+            'outlineButton',
         ];
         $urlHelper = vchelper('Url');
         /** @var \VisualComposer\Modules\Elements\ApiController $elementsApi */
