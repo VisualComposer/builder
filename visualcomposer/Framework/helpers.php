@@ -159,6 +159,13 @@ function vcvadmininit()
     vcapp()->adminInit();
 }
 
+/**
+ * @internal
+ *
+ * @param $code
+ *
+ * @return string
+ */
 function vcLogWpHttpCodes($code)
 {
     $message = '';
@@ -194,6 +201,14 @@ function vcLogWpHttpCodes($code)
     return $message;
 }
 
+/**
+ * @internal
+ *
+ * @param $code
+ * @param $errorMessage
+ *
+ * @return bool
+ */
 function vcLogWpErrorByCode($code, $errorMessage)
 {
     $message = vcLogWpHttpCodes($code);
