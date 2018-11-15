@@ -37,7 +37,7 @@ class Controller extends Container implements Module
             'basicButton',
             'googleFontsHeading',
             'youtubePlayer',
-            'videoPlayer',
+            'vimeoPlayer',
             'separator',
             'wpWidgetsCustom',
             'wpWidgetsDefault',
