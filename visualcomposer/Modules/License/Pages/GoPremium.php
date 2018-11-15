@@ -16,6 +16,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Utm;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
@@ -133,18 +134,32 @@ class GoPremium extends Container implements Module
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Token $tokenHelper
      *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     *
+     * @param \VisualComposer\Helpers\Utm $utmHelper
+     *
      * @return bool|void
+     * @throws \ReflectionException
      */
     protected function activateInAccount(
         CurrentUser $currentUserHelper,
         License $licenseHelper,
-        Token $tokenHelper
+        Token $tokenHelper,
+        Request $requestHelper,
+        Utm $utmHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
             return;
         }
         $urlHelper = vchelper('Url');
         $nonceHelper = vchelper('Nonce');
+
+        $vcvRef = $requestHelper->input('vcv-ref');
+        $utm = $utmHelper->get($vcvRef);
+
+        if (!$utm) {
+            $utm = '&utm_medium=wp-dashboard&utm_source=wp-menu&utm_campaign=gopremium';
+        }
 
         wp_redirect(
             VCV_LICENSE_ACTIVATE_URL .
@@ -159,7 +174,8 @@ class GoPremium extends Container implements Module
             '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
             '&url=' . VCV_PLUGIN_URL .
             '&siteAuthorized=' . $tokenHelper->isSiteAuthorized() .
-            '&domain=' . get_site_url()
+            '&domain=' . get_site_url() .
+            $utm
         );
         exit;
     }

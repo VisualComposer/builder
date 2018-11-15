@@ -54,7 +54,7 @@ class ActivationRedirectController extends Container implements Module
         $redirect = $optionsHelper->getTransient('_vcv_activation_page_redirect');
         $optionsHelper->deleteTransient('_vcv_activation_page_redirect');
         if ($redirect) {
-            wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+            wp_redirect(admin_url('admin.php?page=vcv-getting-started&vcv-ref=activation-page'));
             exit;
         }
 

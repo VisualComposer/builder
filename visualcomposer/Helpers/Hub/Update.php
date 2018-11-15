@@ -110,6 +110,7 @@ class Update implements Helper
         $urlHelper = vchelper('Url');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $editorPostTypeHelper = vchelper('AccessEditorPostType');
+        $requiredHelper = vchelper('Request');
 
         $requiredActions = vchelper('HubUpdate')->getRequiredActions();
         $variables[] = [
@@ -177,9 +178,15 @@ class Update implements Helper
                 'type' => 'constant',
             ];
         }
+
+        $vcvRef = $requiredHelper->input('vcv-ref');
+        if (!$vcvRef) {
+            $vcvRef = 'getting-started';
+        }
+
         $variables[] = [
             'key' => 'VCV_PREMIUM_URL',
-            'value' => admin_url('admin.php?page=vcv-go-premium'), // TODO: UTM
+            'value' => admin_url('admin.php?page=vcv-go-premium&vcv-ref=' . $vcvRef),
             'type' => 'constant',
         ];
 
