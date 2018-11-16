@@ -18,9 +18,6 @@ let setList = {
     feather: require('./lib/feather-163'),
     linearicons: require('./lib/linearicons-1.0-170')
   },
-  newShapes: {
-    all: require('./lib/dividerShapes-2.0')
-  },
   socials: {
     all: require('./lib/socials')
   }
