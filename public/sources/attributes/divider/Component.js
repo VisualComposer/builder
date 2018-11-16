@@ -10,7 +10,7 @@ import AttachVideo from '../attachvideo/Component'
 import Color from '../color/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import Range from '../range/Component'
-import IconPicker from '../iconpicker/Component'
+import Dividerpicker from '../dividerpicker/Component'
 import String from '../string/Component'
 
 export default class Divider extends Attribute {
@@ -45,7 +45,7 @@ export default class Divider extends Attribute {
     dividerTopFlipHorizontal: 'horizontally-left',
     dividerTopFlipVertical: 'vertically-down',
     dividerTopBackgroundType: 'color',
-    dividerTopShape: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'all' },
+    dividerTopShape: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'dividers' },
     dividerTopBackgroundColor: '#6567DF',
     dividerTopBackgroundGradientStartColor: 'rgb(226, 135, 135)',
     dividerTopBackgroundGradientEndColor: 'rgb(93, 55, 216)',
@@ -55,7 +55,7 @@ export default class Divider extends Attribute {
     dividerBottomFlipHorizontal: 'horizontally-left',
     dividerBottomFlipVertical: 'vertically-down',
     dividerBottomBackgroundType: 'color',
-    dividerBottomShape: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'all' },
+    dividerBottomShape: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'dividers' },
     dividerBottomBackgroundColor: '#6567DF',
     dividerBottomBackgroundGradientStartColor: 'rgb(226, 135, 135)',
     dividerBottomBackgroundGradientEndColor: 'rgb(93, 55, 216)',
@@ -510,26 +510,24 @@ export default class Divider extends Attribute {
    * @returns {XML}
    */
   getDividerShapeRender (type) {
-    let dividerType = `divider${type}`
-    let dividerShapeName = `${dividerType}Shape`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const dividerType = `divider${type}`
+    const dividerShapeName = `${dividerType}Shape`
+    const deviceData = this.state.devices[ this.state.currentDevice ]
 
     if (!deviceData[ dividerType ]) {
       return null
     }
 
-    let value = deviceData[ dividerShapeName ] || Divider.deviceDefaults[ dividerShapeName ]
-    const iconType = 'newShapes'
+    const value = deviceData[ dividerShapeName ] || Divider.deviceDefaults[ dividerShapeName ]
 
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
           Divider shape
         </span>
-        <IconPicker
+        <Dividerpicker
           api={this.props.api}
           fieldKey={dividerShapeName}
-          options={{ iconType: iconType }}
           updater={this.valueChangeHandler}
           value={value}
         />
