@@ -139,6 +139,11 @@
       "name": "menuToggle",
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/menuToggle.bundle.js"
+    },
+    {
+      "name": "dividerpicker",
+      "dependencies": [],
+      "cssBundle": "[publicPath]/dist/dividerpicker.bundle.css"
     }
   ]
 }
