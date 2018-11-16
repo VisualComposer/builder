@@ -152,22 +152,8 @@ class Localizations extends Container implements Helper
                 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.',
                 'vcwb'
             ),
-            'readAndAgreeTerms' => __(
-            // @codingStandardsIgnoreLine
-                'Please make sure to read and agree to our terms of service in order to activate and use Visual Composer Website Builder.',
-                'vcwb'
-            ),
-            'incorrectEmailFormat' => __(
-            // @codingStandardsIgnoreLine
-                'Activation request failed. Invalid e-mail. Please check your e-mail and try again.',
-                'vcwb'
-            ),
-            'mustAgreeToActivate' => __(
-                'To activate and use Visual Composer Website Builder, you must read and agree to the terms of service.',
-                'vcwb'
-            ),
-            'activationFailed' => __('Your activation request failed. Please try again.', 'vcwb'),
-            'provideCorrectEmail' => __('Please provide valid e-mail address', 'vcwb'),
+            'activationFailed' => __('An error occurred during the Visual Composer extension download process. 
+<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>', 'vcwb'),
             'nothingFound' => __('Nothing found', 'vcwb'),
             'addImage' => __('Add Image', 'vcwb'),
             'removeImage' => __('Remove Image', 'vcwb'),
@@ -365,6 +351,7 @@ class Localizations extends Container implements Helper
             'sendingErrorReport' => __('Sending Error Report', 'vcwb'),
             'getStartedText' => __('Get Started', 'vcwb'),
             'doNotCloseWhileSendingErrorReportText' => __('Don\'t close this window while sending error is in the progress.', 'vcwb'),
+            'somethingWentWrong' => __('Oops ... Something Went Wrong', 'vcwb'),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

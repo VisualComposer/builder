@@ -11,7 +11,6 @@ const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
 
 export default class ActivationSectionProvider extends React.Component {
-  static actionRequestFailed = false
   static activePage = window.VCV_SLUG && window.VCV_SLUG()
   static shouldDoUpdate = ActivationSectionProvider.activePage === 'vcv-update' || ActivationSectionProvider.activePage === 'vcv-update-fe'
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -86,11 +85,9 @@ export default class ActivationSectionProvider extends React.Component {
       }
     ).done((json) => {
       if (json && json.status) {
-        ActivationSectionProvider.actionRequestFailed = false
-
         if (this.state.activeAssetsAction === cnt - 1) {
           this.setState({ assetsActionsDone: true })
-          if (this.state.postUpdateActions) {
+          if (this.state.postUpdateActions && this.state.postUpdateActions.length) {
             this.doPostUpdate()
           } else {
             this.doneActions()
@@ -100,63 +97,42 @@ export default class ActivationSectionProvider extends React.Component {
           this.doAction()
         }
       } else {
-        if (ActivationSectionProvider.actionRequestFailed) {
-          logError('Failed Update Action', {
-            code: 'doAction-1',
-            codeNum: '000004',
-            action: action,
-            error: json
-          })
-
-          try {
-            let messageJson = JSON.parse(json && json.message ? json.message : '""')
-            this.setError({
-              message: messageJson,
-              errorAction: this.doAction,
-              errorReportAction: this.sendErrorReport
-            })
-          } catch (e) {
-            this.setError({
-              errorAction: this.doAction,
-              errorReportAction: this.sendErrorReport
-            })
-            console.warn(e)
-          }
-        } else {
-          ActivationSectionProvider.actionRequestFailed = true
-          this.doAction()
-        }
-      }
-    }).fail((jqxhr, textStatus, error) => {
-      if (ActivationSectionProvider.actionRequestFailed) {
         logError('Failed Update Action', {
-          code: 'doAction-2',
-          codeNum: '000005',
+          code: 'doAction-1',
+          codeNum: '000004',
           action: action,
-          jqxhr: jqxhr,
-          textStatus: textStatus,
-          error: error
+          error: json
         })
 
-        try {
-          let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
-          let messageJson = JSON.parse(responseJson && responseJson.message ? responseJson.message : '""')
-          this.setError({
-            message: messageJson,
-            errorAction: this.doAction,
-            errorReportAction: this.sendErrorReport
-          })
-        } catch (e) {
-          this.setError({
-            errorAction: this.doAction,
-            errorReportAction: this.sendErrorReport
-          })
-          console.warn(e)
-        }
-      } else {
-        // Try again one more time.
-        ActivationSectionProvider.actionRequestFailed = true
-        this.doAction()
+        this.setError({
+          message: json && json.message ? json.message : '',
+          errorAction: this.doAction,
+          errorReportAction: this.sendErrorReport
+        })
+      }
+    }).fail((jqxhr, textStatus, error) => {
+      logError('Failed Update Action', {
+        code: 'doAction-2',
+        codeNum: '000005',
+        action: action,
+        jqxhr: jqxhr,
+        textStatus: textStatus,
+        error: error
+      })
+
+      try {
+        let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
+        this.setError({
+          message: responseJson && responseJson.message ? responseJson.message : '',
+          errorAction: this.doAction,
+          errorReportAction: this.sendErrorReport
+        })
+      } catch (e) {
+        this.setError({
+          errorAction: this.doAction,
+          errorReportAction: this.sendErrorReport
+        })
+        console.warn(e)
       }
     })
   }

@@ -28,3 +28,5 @@ if (is_array($variables)) {
     }
     unset($variable);
 }
+
+echo implode('', vcfilter('vcv:update:extraOutput', []));

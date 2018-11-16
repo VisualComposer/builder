@@ -17,7 +17,7 @@ class Logger implements Helper
     public function log($message, $details = [])
     {
         $this->logs[] = [
-            'message' => $message,
+            'message' => nl2br($message),
             'details' => $details,
         ];
     }
@@ -33,7 +33,7 @@ class Logger implements Helper
         );
 
         if ($message) {
-            return strip_tags(json_encode($message . '.'));
+            return strip_tags($message, '<a><ul><li><br><span>');
         }
 
         return false;
