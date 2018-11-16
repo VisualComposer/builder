@@ -43,5 +43,16 @@ class Controller extends Container implements Module
                 $assetsVersion
             );
         }
+
+        if (is_array($libraries) && isset($libraries['dividerpicker'])) {
+            $asset = $libraries['dividerpicker']['cssBundle'];
+            $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
+            wp_enqueue_style(
+                'vcv:assets:source:styles:' . $strHelper->slugify($asset),
+                $assetsHelper->getAssetUrl($asset),
+                [],
+                $assetsVersion
+            );
+        }
     }
 }
