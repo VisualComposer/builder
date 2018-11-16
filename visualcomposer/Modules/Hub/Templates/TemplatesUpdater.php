@@ -48,12 +48,10 @@ class TemplatesUpdater extends Container implements Module
             $response['templates'] = [];
         }
 
-        $createDirResult = $fileHelper->createDirectory(
+        $fileHelper->createDirectory(
             $hubTemplatesHelper->getTemplatesPath()
         );
-        if (vcIsBadResponse($createDirResult)) {
-            return false;
-        }
+
         $template = $bundleJson;
         $template['id'] = $payload['actionData']['data']['id'];
         // File is locally available
