@@ -61,7 +61,7 @@ class TemplatesUpdater extends Container implements Module
         if (is_dir($tempTemplatePath)) {
             // We have local assets for template, so we need to copy them to real templates folder
             $createDirResult = $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
-            if (vcIsBadResponse($createDirResult)) {
+            if (vcIsBadResponse($createDirResult) && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath($template['id']))) {
                 return false;
             }
             $copyDirResult = $fileHelper->copyDirectory(
