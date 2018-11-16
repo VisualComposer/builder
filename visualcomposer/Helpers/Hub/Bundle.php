@@ -151,16 +151,12 @@ class Bundle implements Helper
                 'timeout' => 30,
             ]
         );
-        // TODO: errors
         if (!vcIsBadResponse($response)) {
             $result = json_decode($response['body'], true);
         } else {
             $messages = [];
             $messages[] = __('Failed to read remote bundle json', 'vcwb') . ' #10006';
-            if (is_wp_error($response)) {
-                /** @var \WP_Error $result */
-                $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
-            } elseif (is_array($response) && isset($response['body'])) {
+            if (is_array($response) && isset($response['body'])) {
                 // @codingStandardsIgnoreLine
                 $resultDetails = @json_decode($result['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {

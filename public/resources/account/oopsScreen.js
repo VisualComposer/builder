@@ -5,17 +5,17 @@ import PropTypes from 'prop-types'
 const localizations = window.VCV_I18N && window.VCV_I18N()
 const Errors = {
   default: {
-    message: (localizations && localizations.feOopsMessageDefault) || 'It seems that something went wrong with loading content. Please make sure you are loading correct content and try again.',
-    buttonText: (localizations && localizations.feOopsButtonTextDefault) || 'Return to WordPress dashboard',
+    message: localizations.feOopsMessageDefault,
+    buttonText: localizations.feOopsButtonTextDefault,
     buttonLink: window.location.href.replace(/&vcv-action=frontend.*/i, '')
   },
   page_for_posts: {
-    message: (localizations && localizations.feOopsMessagePageForPosts) || 'It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it to a static page via your WordPress admin',
-    buttonText: (localizations && localizations.feOopsButtonTextPageForPosts) || 'Return to WordPress dashboard',
+    message: localizations.feOopsMessagePageForPosts,
+    buttonText: localizations.feOopsButtonTextPageForPosts,
     buttonLink: window.location.href.replace(/&vcv-action=frontend.*/i, '')
   },
   activation: {
-    message: (localizations && localizations.activationFailed) || 'Your activation request failed. Please try again.'
+    message: localizations.updateFailed
   }
 }
 
@@ -45,12 +45,6 @@ export default class OopsScreen extends React.Component {
     }
 
     return errorText
-  }
-
-  clickButton () {
-    if (this.state.buttonLink) {
-      window.location = this.state.buttonLink
-    }
   }
 
   getActionButtons () {
@@ -84,9 +78,7 @@ export default class OopsScreen extends React.Component {
       <div className='vcv-error-screen vcv-screen-content' ref={this.screenContent}>
         <VCVLogo />
         <p className='vcv-screen-text'>Oops</p>
-        <p className='vcv-screen-helper-text'>
-          {this.getErrorMessage()}
-        </p>
+        <p className='vcv-screen-helper-text' dangerouslySetInnerHTML={{ __html: this.getErrorMessage() }} />
         <div className='vcv-screen-button-container'>
           {this.getActionButtons()}
         </div>

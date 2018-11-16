@@ -34,7 +34,7 @@ class Elements extends Container implements Module
     public function __construct()
     {
         $this->addFilter(
-            'vcv:frontend:head:extraOutput vcv:backend:settings:extraOutput vcv:frontend:update:head:extraOutput',
+            'vcv:frontend:head:extraOutput vcv:update:extraOutput',
             'outputWebpackBc'
         );
         $this->addFilter('vcv:frontend:head:extraOutput', 'outputElements');

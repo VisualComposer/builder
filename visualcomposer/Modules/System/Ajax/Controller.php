@@ -53,6 +53,8 @@ class Controller extends Container implements Module
     {
         if (is_string($response)) {
             return $response;
+        } elseif ($response === false) {
+            return json_encode(['status' => false]);
         }
 
         return json_encode($response);
@@ -106,10 +108,10 @@ class Controller extends Container implements Module
         if (vcIsBadResponse($rawResponse)) {
             $loggerHelper = vchelper('Logger');
             $messages = [];
-            if (is_wp_error($rawResponse)) {
-                /** @var $rawResponse \WP_Error */
-                $messages[] = implode('. ', $rawResponse->get_error_messages());
-            } elseif (is_array($rawResponse)) {
+            if ($loggerHelper->all()) {
+                $messages[] = $loggerHelper->all();
+            }
+            if (is_array($rawResponse)) {
                 if (isset($rawResponse['body'])) {
                     $messages[] = $rawResponse['body'];
                 }
@@ -117,9 +119,6 @@ class Controller extends Container implements Module
                     $messages[] = is_array($rawResponse['message']) ? implode('. ', $rawResponse['message'])
                         : $rawResponse['message'];
                 }
-            }
-            if ($loggerHelper->all()) {
-                $messages[] = $loggerHelper->all();
             }
             if (count($messages) > 0) {
                 echo json_encode(

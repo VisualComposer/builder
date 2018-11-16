@@ -22,10 +22,11 @@ class Dispatcher extends EventsDispatcher implements DispatcherContract
      * @param  string|object $filter
      * @param string $body
      * @param  mixed $payload
+     * @param bool $haltable
      *
      * @return array|null
      */
-    public function fire($filter, $body = '', $payload = [])
+    public function fire($filter, $body = '', $payload = [], $haltable = false)
     {
         $response = $body;
         /** @var \VisualComposer\Framework\Application $vcapp */
@@ -33,7 +34,7 @@ class Dispatcher extends EventsDispatcher implements DispatcherContract
         $this->firing[] = $filter;
         foreach ($this->getListeners($filter) as $listener) {
             $response = $vcapp->call($listener, ['response' => $response, 'payload' => $payload]);
-            if (strpos($filter, ':haltable') !== false) {
+            if ($haltable || strpos($filter, ':haltable') !== false) {
                 if (!$response) {
                     return $response;
                 }
