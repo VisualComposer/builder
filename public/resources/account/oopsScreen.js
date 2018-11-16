@@ -74,10 +74,11 @@ export default class OopsScreen extends React.Component {
   }
 
   render () {
+    const oopsText = localizations.somethingWentWrong || 'Oops ... Something Went Wrong'
     return (
       <div className='vcv-error-screen vcv-screen-content' ref={this.screenContent}>
         <VCVLogo />
-        <p className='vcv-screen-text'>Oops</p>
+        <p className='vcv-screen-text'>{oopsText}</p>
         <p className='vcv-screen-helper-text' dangerouslySetInnerHTML={{ __html: this.getErrorMessage() }} />
         <div className='vcv-screen-button-container'>
           {this.getActionButtons()}

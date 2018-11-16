@@ -71,10 +71,6 @@ class ApiController extends Container implements Module
     protected function processElements($manifestPath, $elementBaseUrl, Elements $hubElements, $manifestData, $elements)
     {
         foreach ($manifestData['elements'] as $tag => $elementSettings) {
-            if (array_key_exists($tag, $elements)) {
-                // warning: Element with $tag already exists
-                continue;
-            }
             $elementSettings['key'] = $tag;
             $elementSettings['bundlePath'] = $elementBaseUrl . '/public/dist/element.bundle.js';
             $elementSettings['elementPath'] = $elementBaseUrl . '/' . $tag . '/';

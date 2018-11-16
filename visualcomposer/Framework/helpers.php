@@ -185,14 +185,14 @@ function vcLogWpHttpCodes($code)
         case 'http_404':
             $message = __(
                 'An error occurred during the Visual Composer extension download process. 
-<ul><li>Check if your server has a connection to the Internet</li><li>Check your server proxy configuration settings</li><li>Check your server firewall settings and access to https://account.visualcomposer.io</li><li>Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg">Amazon AWS</a></li></ul>',
+<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
                 'vcwb'
             );
             break;
         case 'http_request_failed':
             $message = __(
                 'An HTTP requests failed during the download process of the plugin.
-<ul><li>Check if your server has a connection to the Internet</li><li>Check your server proxy configuration settings</li><li>Check your server firewall settings and access to <a href="https://account.visualcomposer.io">https://account.visualcomposer.io</a></li><li>Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg">Amazon AWS</a></li></ul>',
+<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to <a href="https://account.visualcomposer.io" target="_blank">https://account.visualcomposer.io</a></li><li>- Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
                 'vcwb'
             );
             break;
@@ -254,7 +254,7 @@ function vcLogWpErrorByCode($code, $errorMessage)
     }
     if (!empty($message)) {
         $message .= PHP_EOL
-            . '<span style="font-style: italic;">You may need to contact your hosting provider for assistance. If the problem still occurs, visit <a href="https://support.visualcomposer.io/">support.visualcomposer.io</a> for technical assistance</span>';
+            . '<span class="vcv-error-screen-text-default">You may need to contact your hosting provider for assistance. If the problem still occurs, visit <a href="https://support.visualcomposer.io/" target="_blank">support.visualcomposer.io</a> for technical assistance</span>';
     }
     $message .= PHP_EOL . sprintf(__('WordPress Error: %s', 'vcwb'), $errorMessage);
     vchelper('Logger')->log($message);

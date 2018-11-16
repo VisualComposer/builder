@@ -13,14 +13,16 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 class Elements implements Helper
 {
     protected $thirdPartyElements = [];
-
+    protected $defaultElements = [];
     public function addElement($key, $data)
     {
         if (!array_key_exists($key, $this->thirdPartyElements)) {
             if (strpos($data['elementRealPath'], VCV_PLUGIN_DIR_PATH) === false) {
                 $data['thirdParty'] = true;
+                $this->thirdPartyElements[ $key ] = $data;
+            } else {
+                $this->defaultElements[$key] = $data;
             }
-            $this->thirdPartyElements[ $key ] = $data;
 
             return true;
         }
@@ -31,9 +33,8 @@ class Elements implements Helper
     public function getElements($raw = false, $elementRealPath = true)
     {
         $optionHelper = vchelper('Options');
-
         $elements = $optionHelper->get('hubElements', []);
-        $elements = $elements + $this->thirdPartyElements;
+        $elements = $this->defaultElements + $elements + $this->thirdPartyElements;
         $outputElements = [];
         foreach ($elements as $tag => $element) {
             $data = $element;
