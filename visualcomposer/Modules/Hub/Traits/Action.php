@@ -66,12 +66,16 @@ trait Action
             $mdOriginalFile = md5_file($archive);
             if ($mdOriginalFile !== $payload['checksum']) {
                 $loggerHelper->log(
-                    __(
-                        'A zip file of Visual Composer extension is broken. Checksum check failed. Please check your Internet connection, run Reset in Visual Composer Settings and try again.
+                    sprintf(
+                        __(
+                            'A zip file of Visual Composer extension is broken. Checksum check failed. Please check your Internet connection, run Reset in Visual Composer Settings and try again.
 
-If the problem still occurs, visit support.visualcomposer.io for technical assistance.
+If the problem still occurs, visit %ssupport.visualcomposer.io%s for technical assistance.
 ',
-                        'vcwb'
+                            'vcwb'
+                        ),
+                        '<a href="https://support.visualcomposer.io/" target="_blank">',
+                        '</a>'
                     )
                 );
 

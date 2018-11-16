@@ -153,7 +153,7 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'activationFailed' => __('An error occurred during the Visual Composer extension download process. 
-<ul><li>Check if your server has a connection to the Internet</li><li>Check your server proxy configuration settings</li><li>Check your server firewall settings and access to https://account.visualcomposer.io</li><li>Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg">Amazon AWS</a></li></ul>', 'vcwb'),
+<ul><li>Check if your server has a connection to the Internet</li><li>Check your server proxy configuration settings</li><li>Check your server firewall settings and access to https://account.visualcomposer.io</li><li>Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>', 'vcwb'),
             'nothingFound' => __('Nothing found', 'vcwb'),
             'addImage' => __('Add Image', 'vcwb'),
             'removeImage' => __('Remove Image', 'vcwb'),
