@@ -136,7 +136,7 @@ class GutenbergAttributeController extends Container implements Module
     {
         $sourceId = get_the_id();
         $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
-        if (!empty($postContent)) {
+        if (!empty($postContent) && !$this->overrideDisableGutenberg()) {
              return true;
         }
         return false;
@@ -273,6 +273,15 @@ class GutenbergAttributeController extends Container implements Module
         if ($this->removeGutenberg) {
             $this->wpRemoveFilter('gutenberg_can_edit_post_type', $this->removeGutenberg);
         }
+    }
+
+    protected function overrideDisableGutenberg()
+    {
+    	$isoverrideDisableGutenberg = false;
+    	if ($isoverrideDisableGutenberg) {
+    		return true;
+	    }
+	    return false;
     }
 
     protected function unsetOptions(Options $optionsHelper)
