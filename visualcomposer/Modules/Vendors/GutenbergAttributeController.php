@@ -106,11 +106,11 @@ class GutenbergAttributeController extends Container implements Module
     {
         $settings = $settingsHelper->getAll();
         if (!in_array('gutenberg-editor', $settings)) {
-        	if (version_compare($this->wpVersion, '5.0-beta', '>=')) {
-        		$this->removeGutenberg = $this->wpAddFilter('use_block_editor_for_post', '__return_false');
-	        } else {
+            if (version_compare($this->wpVersion, '5.0-beta', '>=')) {
+                $this->removeGutenberg = $this->wpAddFilter('use_block_editor_for_post', '__return_false');
+            } else {
                 $this->removeGutenberg = $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
-	        }
+            }
         }
     }
 
