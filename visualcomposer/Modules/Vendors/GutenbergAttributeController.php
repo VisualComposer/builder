@@ -277,11 +277,11 @@ class GutenbergAttributeController extends Container implements Module
 
     protected function overrideDisableGutenberg()
     {
-    	$isoverrideDisableGutenberg = false;
-    	if ($isoverrideDisableGutenberg) {
-    		return true;
-	    }
-	    return false;
+        $isoverrideDisableGutenberg = false;
+        if ($isoverrideDisableGutenberg) {
+            return true;
+        }
+        return false;
     }
 
     protected function unsetOptions(Options $optionsHelper)
