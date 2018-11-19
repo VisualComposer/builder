@@ -46,7 +46,6 @@ class GutenbergAttributeController extends Container implements Module
                 'buildPage',
                 11
             );
-            $this->call('disableGutenberg');
         }
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
@@ -56,6 +55,9 @@ class GutenbergAttributeController extends Container implements Module
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             return;
         }
+
+        /** Moved from constructor because get_the_id() was empty **/
+        $this->call('disableGutenberg');
 
         $sectionCallback = function () {
             echo sprintf(
@@ -105,7 +107,7 @@ class GutenbergAttributeController extends Container implements Module
     protected function disableGutenberg(SettingsHelper $settingsHelper)
     {
         $settings = $settingsHelper->getAll();
-        if (!in_array('gutenberg-editor', $settings)) {
+        if (!in_array('gutenberg-editor', $settings) || $this->isVcwbPage()) {
             if (version_compare($this->wpVersion, '5.0-beta', '>=')) {
                 $this->removeGutenberg = $this->wpAddFilter('use_block_editor_for_post', '__return_false');
             } else {
@@ -128,6 +130,16 @@ class GutenbergAttributeController extends Container implements Module
             $this->wpAddAction('admin_print_styles', 'removeAdminUi');
             // $this->wpAddFilter('replace_editor', 'getGutenberg', 9, 2);
         }
+    }
+
+    protected function isVcwbPage()
+    {
+        $sourceId = get_the_id();
+        $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
+        if (!empty($postContent)) {
+             return true;
+        }
+        return false;
     }
 
     protected function removeAdminUi()
