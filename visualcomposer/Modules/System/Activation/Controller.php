@@ -42,6 +42,7 @@ class Controller extends Container implements Module
      */
     protected function activationHook()
     {
+        vchelper('Options')->deleteTransient('lastBundleUpdate');
         vcevent('vcv:system:activation:hook');
     }
 
@@ -50,6 +51,7 @@ class Controller extends Container implements Module
      */
     protected function deactivationHook()
     {
+        vchelper('Options')->deleteTransient('lastBundleUpdate');
         vcevent('vcv:system:deactivation:hook');
     }
 }
