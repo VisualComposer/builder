@@ -136,7 +136,7 @@ class GutenbergAttributeController extends Container implements Module
     {
         $sourceId = get_the_id();
         $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
-        if (!empty($postContent) && !$this->overrideDisableGutenberg()) {
+        if (!empty($postContent) && !$this->call('overrideDisableGutenberg')) {
              return true;
         }
         return false;
