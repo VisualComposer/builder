@@ -42,9 +42,9 @@ export default class FrontendClassicSwitcher extends React.Component {
     const confirmMessage = localizations && localizations.enableGutenbergEditorConfirmMessage ? localizations.enableGutenbergEditorConfirmMessage : 'Gutenberg will overwrite your content created in Visual Composer Website Builder. Do you want to continue?'
     if (window.confirm(confirmMessage)) {
       this.setState({ editor: editor })
-      let url = window.location.href;
-      url += ( url.match( /[\?]/g ) ? '&' : '?' ) + 'vcv-set-editor=gutenberg';
-      window.location = url;
+      let url = window.location.href
+      url += (url.match(/[?]/g) ? '&' : '?') + 'vcv-set-editor=gutenberg'
+      window.location = url
     }
   }
 
