@@ -24,8 +24,6 @@ class GutenbergAttributeController extends Container implements Module
 
     protected $removeGutenberg = null;
 
-    protected $wpVersion = null;
-
     protected $printed = false;
 
     use WpFiltersActions;
@@ -38,37 +36,34 @@ class GutenbergAttributeController extends Container implements Module
 
         $this->optionGroup = 'vcv-settings';
         $this->optionSlug = 'vcv-gutenberg-editor';
-        // @codingStandardsIgnoreStart
-        global $wp_version;
-        $this->wpVersion = $wp_version;
-        // @codingStandardsIgnoreEnd
-        if (function_exists('the_gutenberg_project') || version_compare($this->wpVersion, '5.0-beta', '>=')) {
-            //$this->addFilter('vcv:helpers:settingsDefault', 'defaultSettings');
-            /**
-             * @see  \VisualComposer\Modules\Vendors\GutenbergAttributeController::buildPage
-             */
-            $this->wpAddAction(
-                'admin_init',
-                'buildPage',
-                11
-            );
-            $this->wpAddAction('admin_print_scripts', 'outputGutenberg');
-        }
+
+        //$this->addFilter('vcv:helpers:settingsDefault', 'defaultSettings');
+        /**
+         * @see  \VisualComposer\Modules\Vendors\GutenbergAttributeController::buildPage
+         */
+        $this->wpAddAction(
+            'admin_init',
+            'buildPage',
+            11
+        );
+
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     protected function buildPage(CurrentUser $currentUserAccess)
     {
+        if (!function_exists('the_gutenberg_project') && !function_exists('use_block_editor_for_post')) {
+        	return;
+        }
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             return;
         }
 
-        /**
-         * Moved from constructor because get_the_id() was empty
-         **/
         $this->call('disableGutenberg');
 
         $this->call('setEditor');
+
+        $this->wpAddAction('admin_print_scripts', 'outputGutenberg');
 
         $sectionCallback = function () {
             echo sprintf(
@@ -132,7 +127,7 @@ class GutenbergAttributeController extends Container implements Module
     {
         $settings = $settingsHelper->getAll();
         if (!in_array('gutenberg-editor', $settings) || $this->isVcwbPage()) {
-            if (version_compare($this->wpVersion, '5.0-beta', '>=')) {
+            if (function_exists('use_block_editor_for_post')) {
                 $this->removeGutenberg = $this->wpAddFilter('use_block_editor_for_post', '__return_false');
             } elseif (function_exists('the_gutenberg_project')) {
                 $this->removeGutenberg = $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
@@ -185,7 +180,7 @@ class GutenbergAttributeController extends Container implements Module
         global $pagenow;
         $requestHelper = vchelper('Request');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        if ((function_exists('gutenberg_pre_init') || version_compare($this->wpVersion, '5.0-beta', '>='))
+        if ((function_exists('gutenberg_pre_init') || function_exists('use_block_editor_for_post'))
             && 'post-new.php' === $pagenow
             && $currentUserAccessHelper->wpAll(
                 'edit_posts'
@@ -370,7 +365,7 @@ class GutenbergAttributeController extends Container implements Module
 
         $settings = $settingsHelper->getAll();
         $available = false;
-        if ((function_exists('the_gutenberg_project') || version_compare($this->wpVersion, '5.0-beta', '>='))
+        if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
             && (in_array('gutenberg-editor', $settings))
         ) {
             $available = true;
