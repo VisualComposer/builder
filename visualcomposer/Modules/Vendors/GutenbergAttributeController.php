@@ -53,7 +53,7 @@ class GutenbergAttributeController extends Container implements Module
     protected function buildPage(CurrentUser $currentUserAccess)
     {
         if (!function_exists('the_gutenberg_project') && !function_exists('use_block_editor_for_post')) {
-        	return;
+            return;
         }
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             return;
