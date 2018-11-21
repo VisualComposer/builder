@@ -32,7 +32,8 @@ class GutenbergAttributeController extends Container implements Module
 
     public function __construct()
     {
-        $this->wpAddAction('init', 'initialize');
+        $this->addEvent('vcv:system:activation:hook', 'setGutenbergEditor');
+        $this->wpAddAction('admin_init', 'initialize');
 
         $this->optionGroup = 'vcv-settings';
         $this->optionSlug = 'vcv-gutenberg-editor';
@@ -113,9 +114,15 @@ class GutenbergAttributeController extends Container implements Module
             'settings/option-toggle',
             [
                 'value' => $value,
-                'enabledOptions' => (array)$optionsHelper->get('settings', []),
+                'enabledOptions' => (array)$optionsHelper->get('settings', ['gutenberg-editor']),
             ]
         );
+    }
+
+    protected function setGutenbergEditor(Options $optionsHelper)
+    {
+        $settings = $optionsHelper->get('settings', ['gutenberg-editor']);
+        $optionsHelper->set('settings', $settings);
     }
 
     /**
