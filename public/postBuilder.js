@@ -40,6 +40,10 @@ export default class PostBuilder {
       // require('./editor/modules/content/updateContent/module.js')
       const wordpressDataStorage = getStorage('wordpressData')
 
+      require('./editor/stores/sharedAssets/storage')
+      const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
+      sharedAssetsStorage.trigger('start')
+
       wordpressDataStorage.state('status').onChange((state) => {
         if (state && state.status === 'success') {
           this.resolve && this.resolve(this.settings)
