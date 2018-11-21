@@ -16,13 +16,15 @@ use VisualComposer\Helpers\Settings\SettingsHelper;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
+use VisualComposer\Helpers\Request;
 
 class GutenbergAttributeController extends Container implements Module
 {
     protected $postTypeSlug = 'vcv_gutenberg_attr';
 
     protected $removeGutenberg = null;
-    protected $wpVersion = null;
+
+    protected $printed = false;
 
     use WpFiltersActions;
     use EventsFilters;
@@ -34,30 +36,34 @@ class GutenbergAttributeController extends Container implements Module
 
         $this->optionGroup = 'vcv-settings';
         $this->optionSlug = 'vcv-gutenberg-editor';
-        // @codingStandardsIgnoreStart
-        global $wp_version;
-        $this->wpVersion = $wp_version;
-        // @codingStandardsIgnoreEnd
-        if (function_exists('the_gutenberg_project') || version_compare($this->wpVersion, '5.0-beta', '>=')) {
-            $this->addFilter('vcv:helpers:settingsDefault', 'defaultSettings');
-            /** @see  \VisualComposer\Modules\Vendors\GutenbergAttributeController::buildPage */
-            $this->wpAddAction(
-                'admin_init',
-                'buildPage',
-                11
-            );
-        }
+
+        //$this->addFilter('vcv:helpers:settingsDefault', 'defaultSettings');
+        /**
+         * @see  \VisualComposer\Modules\Vendors\GutenbergAttributeController::buildPage
+         */
+        $this->wpAddAction(
+            'admin_init',
+            'buildPage',
+            11
+        );
+
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     protected function buildPage(CurrentUser $currentUserAccess)
     {
+        if (!function_exists('the_gutenberg_project') && !function_exists('use_block_editor_for_post')) {
+        	return;
+        }
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
             return;
         }
 
-        /** Moved from constructor because get_the_id() was empty **/
         $this->call('disableGutenberg');
+
+        $this->call('setEditor');
+
+        $this->wpAddAction('admin_print_scripts', 'outputGutenberg');
 
         $sectionCallback = function () {
             echo sprintf(
@@ -78,7 +84,9 @@ class GutenbergAttributeController extends Container implements Module
         );
 
         $fieldCallback = function () {
-            /** @see \VisualComposer\Modules\Vendors\GutenbergAttributeController::renderToggle */
+            /**
+             * @see \VisualComposer\Modules\Vendors\GutenbergAttributeController::renderToggle
+             */
             echo $this->call('renderToggle', ['value' => 'gutenberg-editor']);
         };
 
@@ -93,6 +101,12 @@ class GutenbergAttributeController extends Container implements Module
         );
     }
 
+    /**
+     * @param $value
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return mixed|string
+     */
     protected function renderToggle($value, Options $optionsHelper)
     {
         return vcview(
@@ -104,14 +118,59 @@ class GutenbergAttributeController extends Container implements Module
         );
     }
 
+    /**
+     * Disable the gutenberg
+     *
+     * @param \VisualComposer\Helpers\Settings\SettingsHelper $settingsHelper
+     */
     protected function disableGutenberg(SettingsHelper $settingsHelper)
     {
         $settings = $settingsHelper->getAll();
         if (!in_array('gutenberg-editor', $settings) || $this->isVcwbPage()) {
-            if (version_compare($this->wpVersion, '5.0-beta', '>=')) {
+            if (function_exists('use_block_editor_for_post')) {
                 $this->removeGutenberg = $this->wpAddFilter('use_block_editor_for_post', '__return_false');
-            } else {
+            } elseif (function_exists('the_gutenberg_project')) {
                 $this->removeGutenberg = $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
+            }
+        }
+    }
+
+    /**
+     * Check if page build by VCWB
+     *
+     * @return bool
+     */
+    protected function isVcwbPage()
+    {
+        $sourceId = get_the_id();
+        $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
+        if (!empty($postContent) && !$this->call('overrideDisableGutenberg', ['sourceId' => $sourceId])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Set editor to gutenberg, handled by vcv-set-editor parameter
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     */
+    protected function setEditor(Request $requestHelper)
+    {
+        if ($requestHelper->exists(VCV_PREFIX . 'set-editor')) {
+            /**
+             * @var \WP_Post $post
+             */
+            $post = get_post(get_the_ID());
+            $editor = $requestHelper->input(VCV_PREFIX . 'set-editor');
+            if ($post && $editor) {
+                update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $editor);
+                $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')
+                    || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+                $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+                $url = remove_query_arg(VCV_PREFIX . 'set-editor', $url);
+                wp_redirect($url);
             }
         }
     }
@@ -121,70 +180,17 @@ class GutenbergAttributeController extends Container implements Module
         global $pagenow;
         $requestHelper = vchelper('Request');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        if ((function_exists('gutenberg_pre_init') || version_compare($this->wpVersion, '5.0-beta', '>=')) && 'post-new.php' === $pagenow
+        if ((function_exists('gutenberg_pre_init') || function_exists('use_block_editor_for_post'))
+            && 'post-new.php' === $pagenow
             && $currentUserAccessHelper->wpAll(
                 'edit_posts'
             )->get()
-            && $requestHelper->input('post_type') === $this->postTypeSlug) {
+            && $requestHelper->input('post_type') === $this->postTypeSlug
+        ) {
             $this->registerGutenbergAttributeType();
             $this->wpAddAction('admin_print_styles', 'removeAdminUi');
             // $this->wpAddFilter('replace_editor', 'getGutenberg', 9, 2);
         }
-    }
-
-    protected function isVcwbPage()
-    {
-        $sourceId = get_the_id();
-        $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
-        if (!empty($postContent) && !$this->call('overrideDisableGutenberg')) {
-             return true;
-        }
-        return false;
-    }
-
-    protected function removeAdminUi()
-    {
-        ?>
-        <style>
-            #adminmenumain, #wpadminbar {
-                display: none;
-            }
-
-            html.wp-toolbar {
-                padding: 0 !important;
-            }
-
-            .wp-toolbar #wpcontent {
-                margin: 0;
-            }
-
-            .wp-toolbar #wpbody {
-                padding-top: 0;
-            }
-
-            .gutenberg .gutenberg__editor .edit-post-layout .edit-post-header {
-                top: 0;
-                left: 0;
-            }
-
-            .gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
-                margin-right: 0;
-            }
-
-            .gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel {
-                display: none;
-            }
-        </style>
-        <?php
-    }
-
-    protected function getGutenberg()
-    {
-        add_action('admin_enqueue_scripts', 'gutenberg_editor_scripts_and_styles');
-        add_filter('screen_options_show_screen', '__return_false');
-        add_filter('admin_body_class', 'gutenberg_add_admin_body_class');
-        require_once ABSPATH . 'wp-admin/admin-header.php';
-        the_gutenberg_project();
     }
 
     protected function registerGutenbergAttributeType()
@@ -272,20 +278,106 @@ class GutenbergAttributeController extends Container implements Module
         register_post_type($this->postTypeSlug, $args);
         if ($this->removeGutenberg) {
             $this->wpRemoveFilter('gutenberg_can_edit_post_type', $this->removeGutenberg);
+            $this->wpRemoveFilter('use_block_editor_for_post', $this->removeGutenberg);
         }
     }
 
-    protected function overrideDisableGutenberg()
+    protected function removeAdminUi()
     {
-        $isoverrideDisableGutenberg = false;
-        if ($isoverrideDisableGutenberg) {
+        ?>
+        <style>
+            #adminmenumain, #wpadminbar {
+                display: none;
+            }
+
+            html.wp-toolbar {
+                padding: 0 !important;
+            }
+
+            .wp-toolbar #wpcontent {
+                margin: 0;
+            }
+
+            .wp-toolbar #wpbody {
+                padding-top: 0;
+            }
+
+            .gutenberg .gutenberg__editor .edit-post-layout .edit-post-header {
+                top: 0;
+                left: 0;
+            }
+
+            .gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
+                margin-right: 0;
+            }
+
+            .gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel {
+                display: none;
+            }
+        </style>
+        <?php
+    }
+
+    protected function getGutenberg()
+    {
+        add_action('admin_enqueue_scripts', 'gutenberg_editor_scripts_and_styles');
+        add_filter('screen_options_show_screen', '__return_false');
+        add_filter('admin_body_class', 'gutenberg_add_admin_body_class');
+        include_once ABSPATH . 'wp-admin/admin-header.php';
+        the_gutenberg_project();
+    }
+
+    /**
+     * To override the disabled gutenberg setting
+     *
+     * @param $sourceId
+     *
+     * @return bool
+     */
+    protected function overrideDisableGutenberg($sourceId)
+    {
+        if (!$sourceId) {
+            $sourceId = get_the_ID();
+        }
+        $isoverrideDisableGutenberg = get_post_meta($sourceId, VCV_PREFIX . 'be-editor', true);
+        if ($isoverrideDisableGutenberg === 'gutenberg') {
             return true;
         }
+
         return false;
     }
 
     protected function unsetOptions(Options $optionsHelper)
     {
         $optionsHelper->delete('settings');
+    }
+
+    /**
+     * Output global variables
+     *
+     * @param \VisualComposer\Helpers\Settings\SettingsHelper $settingsHelper
+     */
+    protected function outputGutenberg(SettingsHelper $settingsHelper)
+    {
+        if ($this->printed) {
+            return;
+        }
+
+        $settings = $settingsHelper->getAll();
+        $available = false;
+        if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
+            && (in_array('gutenberg-editor', $settings))
+        ) {
+            $available = true;
+        }
+        evcview(
+            'partials/constant-script',
+            [
+                'key' => 'VCV_GUTENBERG',
+                'value' => $available,
+                'type' => 'constant',
+            ]
+        );
+        $this->printed = true;
     }
 }
