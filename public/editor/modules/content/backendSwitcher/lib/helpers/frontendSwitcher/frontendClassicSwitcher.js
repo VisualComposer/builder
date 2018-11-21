@@ -4,8 +4,12 @@ export default class FrontendClassicSwitcher extends React.Component {
   constructor (props) {
     super(props)
     let editor = 'classic'
+    let gutenberg = window.VCV_GUTENBERG()
     this.enableClassicEditor = this.enableClassicEditor.bind(this)
     this.openFrontendEditor = this.openFrontendEditor.bind(this)
+    if (gutenberg) {
+      this.enableGutenbergEditor = this.enableGutenbergEditor.bind(this)
+    }
 
     const beEditorInput = document.getElementById('vcv-be-editor')
     if (beEditorInput && beEditorInput.value !== 'classic') {
@@ -28,6 +32,19 @@ export default class FrontendClassicSwitcher extends React.Component {
     if (window.confirm(confirmMessage)) {
       this.setState({ editor: editor })
       this.showClassicEditor()
+    }
+  }
+
+  enableGutenbergEditor (e) {
+    e.preventDefault()
+    const editor = 'gutenberg'
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const confirmMessage = localizations && localizations.enableGutenbergEditorConfirmMessage ? localizations.enableGutenbergEditorConfirmMessage : 'Gutenberg will overwrite your content created in Visual Composer Website Builder. Do you want to continue?'
+    if (window.confirm(confirmMessage)) {
+      this.setState({ editor: editor })
+      let url = window.location.href;
+      url += ( url.match( /[\?]/g ) ? '&' : '?' ) + 'vcv-set-editor=gutenberg';
+      window.location = url;
     }
   }
 
@@ -61,7 +78,9 @@ export default class FrontendClassicSwitcher extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const buttonFEText = localizations ? localizations.frontendEditor : 'Edit with Visual Composer Website Builder'
     const buttonClassictext = localizations && localizations.classicEditor ? localizations.classicEditor : 'Classic Editor'
+    const buttonGutenbergtext = localizations && localizations.gutenbergEditor ? localizations.gutenbergEditor : 'Gutenberg Editor'
     const { editor } = this.state
+    const gutenberg = window.VCV_GUTENBERG()
     if (this.state.editor === 'be' && this.wpb === true) {
       this.showClassicEditor()
     }
@@ -78,7 +97,11 @@ export default class FrontendClassicSwitcher extends React.Component {
             onClick={this.enableClassicEditor}>{buttonClassictext}</button>
         </div>
       })() : ''}
-
+      {gutenberg ? (() => {
+        return <div className='vcv-wpbackend-switcher--type-gutenberg as'>
+          <button className='vcv-wpbackend-switcher-option' onClick={this.enableGutenbergEditor}>{buttonGutenbergtext}</button>
+        </div>
+      })() : ''}
     </div>
     return output
   }
