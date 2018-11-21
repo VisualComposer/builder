@@ -32,7 +32,7 @@ class UpdatesController extends Container implements Module
 
     protected $updatePackageUrl;
 
-    protected $logoUrl = 'http://updates.visualcomposer.io/visual-composer-website-builder/vc-logo.svg';
+    protected $logoUrl = 'http://updates.visualcomposer.io/visual-composer-website-builder/logo.svg';
 
     public function __construct()
     {
