@@ -21,12 +21,11 @@ class EditorTemplates implements Helper
      */
     public function all()
     {
-        $args =
-            [
-                'posts_per_page' => '-1',
-                'post_type' => 'vcv_templates',
-                'order' => 'asc',
-            ];
+        $args = [
+            'posts_per_page' => '-1',
+            'post_type' => 'vcv_templates',
+            'order' => 'asc',
+        ];
 
         $templatesGroups = vchelper('PostType')->queryGroupByMetaKey(
             $args,

@@ -36,6 +36,9 @@
     <rule ref="Generic.PHP.LowerCaseConstant"/>
     <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
     <rule ref="Generic.WhiteSpace.ScopeIndent"/>
+    <rule ref="MySource.PHP.EvalObjectFactory"/>
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
+    <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
     <rule ref="PSR1.Classes.ClassDeclaration"/>
     <rule ref="PSR2.Classes.ClassDeclaration"/>
     <rule ref="PSR2.Classes.PropertyDeclaration"/>
@@ -52,9 +55,13 @@
     <rule ref="Squiz.Scope.MethodScope"/>
     <rule ref="Squiz.Scope.StaticThisUsage"/>
     <rule ref="Squiz.WhiteSpace.CastSpacing"/>
+    <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
     <rule ref="Generic.PHP.NoSilencedErrors"/>
     <rule ref="Squiz.PHP.Eval"/>
+    <rule ref="Squiz.PHP.DisallowObEndFlush"/>
     <rule ref="Zend.Files.ClosingTag"/>
+    <rule ref="Squiz.PHP.NonExecutableCode"/>
     <rule ref="Zend.NamingConventions.ValidVariableName">
         <exclude name="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>
     </rule>

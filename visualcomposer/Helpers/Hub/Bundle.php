@@ -164,12 +164,16 @@ class Bundle implements Helper
                 }
             }
 
+            if (is_array($response) && isset($response['body'])) {
+                $responseMsg = $response['body'];
+            } else {
+                $responseMsg = 'not array or no body available';
+            }
             $loggerHelper->log(
                 implode('. ', $messages),
                 [
                     'wp_error' => is_wp_error($response),
-                    'response' => is_array($response) && isset($response['body']) ? $response['body']
-                        : 'not array or no body available',
+                    'response' => $responseMsg,
                 ]
             );
         }
@@ -315,9 +319,13 @@ class Bundle implements Helper
                 $needUpdatePost = $posts + $needUpdatePost;
             }
         }
+        if (isset($value['name']) && !empty($value['name'])) {
+            $actionName = $value['name'];
+        } else {
+            $actionName = $downloadHelper->getActionName($action);
+        }
         $actionData = [
-            'name' => isset($value['name']) && !empty($value['name']) ? $value['name']
-                : $downloadHelper->getActionName($action),
+            'name' => $actionName,
             'action' => $action,
             'data' => $data,
             'checksum' => $checksum,
@@ -361,12 +369,16 @@ class Bundle implements Helper
                 }
             }
 
+            if (is_array($response) && isset($response['body'])) {
+                $responseMsg = $response['body'];
+            } else {
+                $responseMsg = 'not array or no body available';
+            }
             $loggerHelper->log(
                 implode('. ', $messages),
                 [
                     'wp_error' => is_wp_error($response),
-                    'response' => is_array($response) && isset($response['body']) ? $response['body']
-                        : 'not array or no body available',
+                    'response' => $responseMsg,
                 ]
             );
         }

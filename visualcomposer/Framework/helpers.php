@@ -359,7 +359,7 @@ function _vcCheckIsResponseBad($response)
         return true;
     }
 
-    return $response;
+    return false;
 }
 
 /**

@@ -23,7 +23,7 @@ class TemplatesControllerTest extends WP_UnitTestCase
         $postTypeHelper->setupPost($postId);
         // 2.nd let's test it
         $data = vcfilter('vcv:dataAjax:getData', ['status' => true], ['sourceId' => $postId]);
-        $this->assertArrayHasKey('templates', $data);
+        $this->assertArrayHasKey('templates', $data, 'Data:' . json_encode($data));
         $templates = $data['templates'];
         $this->assertArrayHasKey('custom', $templates);
         $customTemplates = $templates['custom']['templates'];

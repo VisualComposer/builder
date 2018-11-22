@@ -52,8 +52,7 @@ class AssetsShared extends Container implements Helper
                         $assetsLibraries[ $name ] = [
                             'dependencies' => $asset->dependencies,
                             'jsBundle' => isset($asset->jsBundle) ? $this->parsePath($name, $asset->jsBundle) : '',
-                            'cssBundle' => isset($asset->cssBundle) ? $this->parsePath($name, $asset->cssBundle)
-                                : '',
+                            'cssBundle' => isset($asset->cssBundle) ? $this->parsePath($name, $asset->cssBundle) : '',
                         ];
                     }
                 }
@@ -77,8 +76,7 @@ class AssetsShared extends Container implements Helper
                     $assetsLibraries[ $name ] = [
                         'dependencies' => $asset->dependencies,
                         'jsBundle' => isset($asset->jsBundle) ? $this->parsePath($name, $asset->jsBundle) : '',
-                        'cssBundle' => isset($asset->cssBundle) ? $this->parsePath($name, $asset->cssBundle)
-                            : '',
+                        'cssBundle' => isset($asset->cssBundle) ? $this->parsePath($name, $asset->cssBundle) : '',
                     ];
                 }
             }

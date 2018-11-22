@@ -61,7 +61,11 @@ class TemplatesUpdater extends Container implements Module
         if (is_dir($tempTemplatePath)) {
             // We have local assets for template, so we need to copy them to real templates folder
             $createDirResult = $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
-            if (vcIsBadResponse($createDirResult) && !$fileHelper->isDir($hubTemplatesHelper->getTemplatesPath($template['id']))) {
+            if (vcIsBadResponse($createDirResult)
+                && !$fileHelper->isDir(
+                    $hubTemplatesHelper->getTemplatesPath($template['id'])
+                )
+            ) {
                 return false;
             }
             $copyDirResult = $fileHelper->copyDirectory(
@@ -312,13 +316,16 @@ class TemplatesUpdater extends Container implements Module
                     $subIterator = $recursiveIterator->getSubIterator($subDepth);
                     // If we are on the level we want to change
                     // use the replacements ($value) other wise set the key to the parent iterators value
+                    if ($subDepth === $currentDepth) {
+                        $val = $newValue;
+                    } else {
+                        $val = $recursiveIterator->getSubIterator(
+                            ($subDepth + 1)
+                        )->getArrayCopy();
+                    }
                     $subIterator->offsetSet(
                         $subIterator->key(),
-                        ($subDepth === $currentDepth
-                            ? $newValue
-                            : $recursiveIterator->getSubIterator(
-                                ($subDepth + 1)
-                            )->getArrayCopy())
+                        $val
                     );
                 }
             }

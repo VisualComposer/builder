@@ -76,7 +76,7 @@ class Token extends Container implements Helper
             'id' => $id,
             'domain' => get_site_url(),
             'url' => VCV_PLUGIN_URL,
-            'vcv-version' => VCV_VERSION
+            'vcv-version' => VCV_VERSION,
         ];
         if ($licenseHelper->isActivated()) {
             $body['license-key'] = $licenseHelper->getKey();

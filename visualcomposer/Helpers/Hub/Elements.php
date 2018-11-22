@@ -40,16 +40,19 @@ class Elements implements Helper
         $outputElements = [];
         foreach ($elements as $tag => $element) {
             $data = $element;
+            if ($raw) {
+                $elementRealPath = str_replace('[thirdPartyFullPath]', '', $element['elementRealPath']);
+            } else {
+                $elementRealPath = $this->getElementPath(
+                    $element['elementRealPath']
+                );
+            }
             $data = array_merge(
                 $data,
                 [
                     'bundlePath' => $raw ? $element['bundlePath'] : $this->getElementUrl($element['bundlePath']),
                     'elementPath' => $raw ? $element['elementPath'] : $this->getElementUrl($element['elementPath']),
-                    'elementRealPath' => $raw
-                        ? str_replace('[thirdPartyFullPath]', '', $element['elementRealPath'])
-                        : $this->getElementPath(
-                            $element['elementRealPath']
-                        ),
+                    'elementRealPath' => $elementRealPath,
                     'assetsPath' => $raw ? $element['assetsPath'] : $this->getElementUrl($element['assetsPath']),
                 ]
             );
@@ -61,18 +64,22 @@ class Elements implements Helper
 
             $metaData = [];
             if (isset($element['settings']['metaThumbnailUrl'])) {
-                $metaData['metaThumbnailUrl'] = $raw
-                    ? $element['settings']['metaThumbnailUrl']
-                    : $this->getElementUrl(
+                if ($raw) {
+                    $metaData['metaThumbnailUrl'] = $element['settings']['metaThumbnailUrl'];
+                } else {
+                    $metaData['metaThumbnailUrl'] = $this->getElementUrl(
                         $element['settings']['metaThumbnailUrl']
                     );
+                }
             }
             if (isset($element['settings']['metaPreviewUrl'])) {
-                $metaData['metaPreviewUrl'] = $raw
-                    ? $element['settings']['metaPreviewUrl']
-                    : $this->getElementUrl(
+                if ($raw) {
+                    $metaData['metaPreviewUrl'] = $element['settings']['metaPreviewUrl'];
+                } else {
+                    $metaData['metaPreviewUrl'] = $this->getElementUrl(
                         $element['settings']['metaPreviewUrl']
                     );
+                }
             }
 
             if (!empty($metaData)) {

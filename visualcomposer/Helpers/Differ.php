@@ -52,11 +52,13 @@ class Differ extends Container implements Helper, Immutable
             if (array_key_exists($key, $this->data)) {
                 if (is_array($this->data[ $key ])) {
                     $unionValue = (array)$newValue[ $key ] + $this->data[ $key ];
-                    $mergedValue = $this->hasStringKeys($unionValue)
-                        ? $unionValue
-                        : $dataHelper->arrayDeepUnique(
+                    if ($this->hasStringKeys($unionValue)) {
+                        $mergedValue = $unionValue;
+                    } else {
+                        $mergedValue = $dataHelper->arrayDeepUnique(
                             $unionValue
                         );
+                    }
                 }
             }
             if (!empty($this->updateCallback)) {

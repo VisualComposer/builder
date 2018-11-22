@@ -116,8 +116,12 @@ class Controller extends Container implements Module
                     $messages[] = $rawResponse['body'];
                 }
                 if (isset($rawResponse['message'])) {
-                    $messages[] = is_array($rawResponse['message']) ? implode('. ', $rawResponse['message'])
-                        : $rawResponse['message'];
+                    if (is_array($rawResponse['message'])) {
+                        $responseMsg = implode('. ', $rawResponse['message']);
+                    } else {
+                        $responseMsg = $rawResponse['message'];
+                    }
+                    $messages[] = $responseMsg;
                 }
             }
             if (count($messages) > 0) {

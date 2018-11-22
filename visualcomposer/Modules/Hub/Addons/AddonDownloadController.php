@@ -93,11 +93,15 @@ class AddonDownloadController extends ElementDownloadController implements Modul
                         $optionNameKey = $action['action'] . $action['version'];
                         // Saving in database the downloading information
                         $optionsHelper->set('hubA:d:' . md5($optionNameKey), $action);
+                        if (isset($action['name']) && !empty($action['name'])) {
+                            $actionName = $action['name'];
+                        } else {
+                            $actionName = $downloadHelper->getActionName($action['name']);
+                        }
                         $actionData = [
                             'action' => $action['action'],
                             'key' => $optionNameKey,
-                            'name' => isset($action['name']) && !empty($action['name']) ? $action['name']
-                                : $downloadHelper->getActionName($action['name']),
+                            'name' => $actionName,
                         ];
                         if (!isset($response['actions']) || !is_array($response['actions'])) {
                             $response['actions'] = [];

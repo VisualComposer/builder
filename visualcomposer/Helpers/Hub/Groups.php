@@ -19,12 +19,11 @@ class Groups implements Helper
         return $optionHelper->get(
             'hubGroups',
             [
-                'All' =>
-                    [
-                        'title' => 'All',
-                        'categories' => true,
-                        'metaOrder' => 1,
-                    ],
+                'All' => [
+                    'title' => 'All',
+                    'categories' => true,
+                    'metaOrder' => 1,
+                ],
             ]
         );
     }

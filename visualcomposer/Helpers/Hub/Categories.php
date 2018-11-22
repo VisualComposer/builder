@@ -29,8 +29,11 @@ class Categories implements Helper
     {
         $optionHelper = vchelper('Options');
         $categoriesDiffer = vchelper('Differ');
-        $hubCategories = vcvenv('VCV_FT_CATEGORIES_INSIDE_PLUGIN') || vcvenv('VCV_ENV_DEV_CATEGORIES')
-            ? $this->getHubCategories() : $optionHelper->get('hubCategories', []);
+        if (vcvenv('VCV_FT_CATEGORIES_INSIDE_PLUGIN') || vcvenv('VCV_ENV_DEV_CATEGORIES')) {
+            $hubCategories = $this->getHubCategories();
+        } else {
+            $hubCategories = $optionHelper->get('hubCategories', []);
+        }
         $categoriesDiffer->set($hubCategories);
 
         $categoriesDiffer->onUpdate(
@@ -103,6 +106,7 @@ class Categories implements Helper
     public function getHubCategories()
     {
         $urlHelper = vchelper('Url');
+
         return [
             'Row' => [
                 'title' => 'Row/Column',

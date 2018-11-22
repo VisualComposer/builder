@@ -112,12 +112,14 @@ class Update implements Helper
         $editorPostTypeHelper = vchelper('AccessEditorPostType');
         $requiredHelper = vchelper('Request');
 
-        $requiredActions = vchelper('Options')->get('bundleUpdateRequired')
-            ? vchelper('HubUpdate')->getRequiredActions()
-            : [
+        if (vchelper('Options')->get('bundleUpdateRequired')) {
+            $requiredActions = vchelper('HubUpdate')->getRequiredActions();
+        } else {
+            $requiredActions = [
                 'actions' => [],
                 'posts' => [],
             ];
+        }
         $variables[] = [
             'key' => 'VCV_UPDATE_ACTIONS',
             'value' => $requiredActions,
