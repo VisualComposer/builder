@@ -127,18 +127,19 @@ class GutenbergAttributeController extends Container implements Module
 
     /**
      * Disable the gutenberg
-     *
-     * @param \VisualComposer\Helpers\Settings\SettingsHelper $settingsHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      */
-    protected function disableGutenberg(SettingsHelper $settingsHelper)
+    protected function disableGutenberg(Options $optionsHelper)
     {
-        $settings = $settingsHelper->getAll();
-        if (!in_array('gutenberg-editor', $settings) || $this->isVcwbPage()) {
-            if (function_exists('use_block_editor_for_post')) {
-                $this->removeGutenberg = $this->wpAddFilter('use_block_editor_for_post', '__return_false');
-            } elseif (function_exists('the_gutenberg_project')) {
-                $this->removeGutenberg = $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
-            }
+        $settings = $optionsHelper->get('settings', ['gutenberg-editor']);
+        if (!$this->isVcwbPage() && (!empty($settings) && in_array('gutenberg-editor', $settings))) {
+            return;
+        }
+
+        if (function_exists('use_block_editor_for_post')) {
+            $this->removeGutenberg = $this->wpAddFilter('use_block_editor_for_post', '__return_false');
+        } elseif (function_exists('the_gutenberg_project')) {
+            $this->removeGutenberg = $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
         }
     }
 
@@ -361,19 +362,18 @@ class GutenbergAttributeController extends Container implements Module
 
     /**
      * Output global variables
-     *
-     * @param \VisualComposer\Helpers\Settings\SettingsHelper $settingsHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      */
-    protected function outputGutenberg(SettingsHelper $settingsHelper)
+    protected function outputGutenberg(Options $optionsHelper)
     {
         if ($this->printed) {
             return;
         }
 
-        $settings = $settingsHelper->getAll();
+        $settings = $optionsHelper->get('settings', ['gutenberg-editor']);
         $available = false;
         if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
-            && (in_array('gutenberg-editor', $settings))
+            && (!empty($settings) && in_array('gutenberg-editor', $settings))
         ) {
             $available = true;
         }
