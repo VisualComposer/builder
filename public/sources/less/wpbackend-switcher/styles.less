@@ -2,23 +2,32 @@
  * Visual Composer Website Builder wp backend switcher
  * =================================== */
 
+#poststuff {
+  .vcv-wpbackend-switcher-container {
+    margin: 2px 2px 2px 8px;
+  }
+
+  .vcv-wpbackend-switcher,
+  .vcv-wpbackend-switcher--type-classic,
+  .vcv-wpbackend-switcher--type-gutenberg {
+    margin-top: @vcv-wpbackend-switcher-spacing;
+  }
+
+  .vcv-wpbackend-switcher-wrapper {
+    flex-wrap: wrap;
+  }
+}
+
 .vcv-wpbackend-switcher-wrapper {
-  margin-bottom: @vcv-wpbackend-switcher-wrapper-margin-top;
+  display: flex;
 }
 
 .vcv-wpbackend-switcher {
   box-sizing: border-box;
   display: inline-block;
-  margin-top: @vcv-wpbackend-switcher-margin-top;
   margin-right: @vcv-wpbackend-switcher-spacing;
-  line-height: @vcv-wpbackend-switcher-size;
   font-size: @vcv-wpbackend-switcher-font-size;
   font-family: @text-family-base;
-
-  .vcv-wpbackend-switcher-option:last-child {
-    border-top-right-radius: @vcv-wpbackend-switcher-border-radius;
-    border-bottom-right-radius: @vcv-wpbackend-switcher-border-radius;
-  }
 
   .vcv-wpbackend-switcher-option {
     &[disabled] {
@@ -28,14 +37,15 @@
 }
 
 
-.vcv-wpbackend-switcher--type-classic {
+.vcv-wpbackend-switcher--type-classic,
+.vcv-wpbackend-switcher--type-gutenberg {
   box-sizing: border-box;
   display: inline-block;
-  margin-top: @vcv-wpbackend-switcher-margin-top;
   margin-right: @vcv-wpbackend-switcher-spacing;
-  line-height: @vcv-wpbackend-switcher-size;
   font-size: @vcv-wpbackend-switcher-font-size;
   .vcv-wpbackend-switcher-option {
+    padding: 10px;
+    line-height: 1;
     border: 0;
     border-radius: @vcv-wpbackend-switcher-border-radius;
     background-color: @vcv-wpbackend-switcher-classic-background-color;
@@ -50,17 +60,6 @@
   display: inline-block;
 }
 
-.vcv-wpbackend-switcher-logo {
-  display: inline-block;
-  vertical-align: top;
-  background: @vcv-wpbackend-switcher-background-color data-uri('image/svg+xml;charset=UTF-8', @vcv-wpbackend-switcher-logo-path) 50% 50% no-repeat;
-  background-size: @vcv-wpbackend-switcher-logo-background-size;
-  min-width: @vcv-wpbackend-switcher-size;
-  min-height: @vcv-wpbackend-switcher-size;
-  border-top-left-radius: @vcv-wpbackend-switcher-border-radius;
-  border-bottom-left-radius: @vcv-wpbackend-switcher-border-radius;
-}
-
 .vcv-wpbackend-switcher-option {
   font: inherit;
   margin: 0;
@@ -70,16 +69,15 @@
   cursor: pointer;
   display: inline-block;
   vertical-align: top;
-  background-color: @vcv-wpbackend-switcher-background-color;
   color: @vcv-wpbackend-switcher-font-color;
   border: 0;
   border-style: solid;
   border-left-width: @vcv-wpbackend-switcher-spacer-width;
   border-left-color: @vcv-wpbackend-switcher-spacer-color;
-  padding: 0 @vcv-wpbackend-swithcer-options-padding;
+  padding: 0;
   transition: background-color @vcv-wpbackend-switcher-transition-duration @vcv-wpbackend-switcher-transition-timing-function;
   text-decoration: none;
-  border-radius: 0;
+  border-radius: @vcv-wpbackend-switcher-border-radius;
 
   &:hover,
   &:active,
@@ -94,28 +92,20 @@
   }
 }
 
+.vcv-wpbackend-switcher-option--vceditor {
+  width: 180px;
+  height: 34px;
+  background: @vcv-wpbackend-switcher-background-color url(@vcv-wpbackend-switcher-image-path) 50% 50% no-repeat;
+}
+
 .composer-switch {
     margin-right: 10px;
 }
 
 .rtl {
-  .vcv-wpbackend-switcher {
-    .vcv-wpbackend-switcher-option:last-child {;
-      border-radius: 0;
-      border-top-left-radius: @vcv-wpbackend-switcher-border-radius;
-      border-bottom-left-radius: @vcv-wpbackend-switcher-border-radius;
-    }
-  }
-
   .vcv-wpbackend-switcher--type-classic {
     margin-left: 0;
     margin-right: @vcv-wpbackend-switcher-spacing;
-  }
-
-  .vcv-wpbackend-switcher-logo {
-    border-radius: 0;
-    border-top-right-radius: @vcv-wpbackend-switcher-border-radius;
-    border-bottom-right-radius: @vcv-wpbackend-switcher-border-radius;
   }
 }
 

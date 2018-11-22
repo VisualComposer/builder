@@ -73,7 +73,7 @@ class MenuController extends Container implements Module
 
             $mainPageSlug = $hasAccess ? 'vcv-settings' : 'vcv-about';
             $title = __('Visual Composer ', 'vcwb');
-            $iconUrl = $urlHelper->assetUrl('images/logo/16x16.png');
+            $iconUrl = $urlHelper->assetUrl('images/logo/20x14.png');
 
             add_menu_page($title, $title, 'edit_posts', $mainPageSlug, null, $iconUrl, 76);
         }
