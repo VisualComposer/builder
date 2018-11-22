@@ -264,7 +264,6 @@ function vcLogWpErrorByCode($code, $errorMessage)
 
 function vcIsBadResponse($response)
 {
-    $loggerHelper = vchelper('Logger');
     $isWpError = is_wp_error($response);
     if ($isWpError) {
         /** @var \WP_Error $response */
@@ -275,14 +274,21 @@ function vcIsBadResponse($response)
         return true;
     }
 
+    $isResponseBad = false;
     if (is_array($response)) {
-        $response = vcCheckResponse($response);
+        $isResponseBad = _vcCheckIsResponseBad($response);
     }
 
-    return !$response || $response === 'false';
+    return !$response || $response === 'false' || $isResponseBad;
 }
 
-function vcCheckResponse($response)
+/**
+ * @internal
+ * @param $response
+ *
+ * @return bool
+ */
+function _vcCheckIsResponseBad($response)
 {
     $loggerHelper = vchelper('Logger');
     if (isset($response['body'])) {

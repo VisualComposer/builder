@@ -19,8 +19,10 @@ trait EventsFilters
         $filterHelper = vchelper('Filters');
         $filterHelper->listen(
             $filterName,
-            function () use ($methodCallback) {
+            function () use ($methodCallback, $filterName) {
                 $args = func_get_args();
+                $args[] = $filterName;
+
                 /**
                  * @var $this \VisualComposer\Application|\VisualComposer\Framework\Container
                  * @see \VisualComposer\Framework\Container::call
@@ -37,8 +39,9 @@ trait EventsFilters
         $eventHelper = vchelper('Events');
         $eventHelper->listen(
             $eventName,
-            function () use ($methodCallback) {
+            function () use ($methodCallback, $eventName) {
                 $args = func_get_args();
+                $args[] = $eventName;
 
                 /**
                  * @var $this \VisualComposer\Application|\VisualComposer\Framework\Container

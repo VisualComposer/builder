@@ -34,12 +34,6 @@ class AdminController extends Controller implements Module
             'listenAjax',
             100
         );
-        /** @see \VisualComposer\Modules\System\Ajax\Controller::listenAjax */
-        $this->wpAddAction(
-            'vcv:boot',
-            'disableAjaxErrors',
-            10
-        );
     }
 
     protected function listenAjax(Request $requestHelper)

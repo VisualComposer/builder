@@ -45,7 +45,6 @@ class Frontend implements Helper
      */
     public function getEditableUrl($sourceId)
     {
-
         $link = set_url_scheme(get_permalink($sourceId), 'admin');
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [

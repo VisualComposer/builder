@@ -12,8 +12,9 @@ trait WpFiltersActions
 {
     protected function wpAddFilter($filterName, $methodCallback, $weight = 10, $argsCount = 100)
     {
-        $callback = function () use ($methodCallback) {
+        $callback = function () use ($methodCallback, $filterName) {
             $args = func_get_args();
+            $args[] = $filterName;
 
             /**
              * @var $this \VisualComposer\Application|\VisualComposer\Framework\Container
@@ -34,8 +35,9 @@ trait WpFiltersActions
 
     protected function wpAddAction($actionName, $methodCallback, $priority = 10, $argsCount = 100)
     {
-        $callback = function () use ($methodCallback) {
+        $callback = function () use ($methodCallback, $actionName) {
             $args = func_get_args();
+            $args[] = $actionName;
 
             /**
              * @var $this \VisualComposer\Application|\VisualComposer\Framework\Container
