@@ -108,7 +108,6 @@ export default class Component extends Attribute {
           'vcv-ui-icon-close-thin': true
         })
         const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
-        console.log(window.wp)
         return (
           <GutenbergModal>
             {loadingOverlay}
