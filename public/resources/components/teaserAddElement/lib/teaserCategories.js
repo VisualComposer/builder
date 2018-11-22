@@ -283,6 +283,12 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return <TeaserTypeControl {...this.getTypeControlProps()} />
   }
 
+  goPremium (e) {
+    e && e.preventDefault && e.preventDefault()
+    const target = e.currentTarget
+    window.location.replace(target.dataset.href)
+  }
+
   getHubBanner () {
     const titleText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.getMoreText : 'Get More Elements, Templates, and Extensions'
     const subtitleText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.downloadFromHubText : 'Download additional content from the Visual Composer Hub - right in your editor instantly.'
@@ -294,7 +300,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       <div className='vcv-hub-banner-content'>
         <p className='vcv-hub-banner-title'>{titleText}</p>
         <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
-        <a className='vcv-hub-banner-button' href={window.vcvUpgradeUrl}>{buttonText}</a>
+        <span className='vcv-hub-banner-button' data-href={window.vcvUpgradeUrl} onClick={this.goPremium}>
+          {buttonText}
+        </span>
       </div>
     </div>
   }
