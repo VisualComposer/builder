@@ -4,13 +4,28 @@ import React from 'react'
 import FrontendClassicSwitcher from './lib/helpers/frontendSwitcher/frontendClassicSwitcher'
 
 vcCake.add('backendSwitcher', (api) => {
-  let titleDiv = document.querySelector('div#titlediv')
-  let switcherContainer = document.createElement('div')
+  const titleDiv = document.querySelector('div#titlediv')
+  const gutenbergEditor = document.getElementById('editor')
+  const switcherContainer = document.createElement('div')
   switcherContainer.className = 'vcv-wpbackend-switcher-container'
   let render = false
+  const renderSwitcher = (switcherContainer) => {
+    ReactDOM.render(
+      <FrontendClassicSwitcher />,
+      switcherContainer
+    )
+  }
   if (titleDiv) {
     titleDiv.parentNode.insertBefore(switcherContainer, titleDiv.nextSibling)
     render = true
+  } else if (gutenbergEditor) {
+    setTimeout(() => {
+      const gutenbergEditorHeader = gutenbergEditor ? gutenbergEditor.querySelector('.edit-post-header-toolbar') : null
+      if (gutenbergEditorHeader) {
+        gutenbergEditorHeader.appendChild(switcherContainer)
+        renderSwitcher(switcherContainer)
+      }
+    }, 1)
   } else {
     let postBodyContent = document.getElementById('post-body-content')
     if (postBodyContent) {
@@ -23,9 +38,6 @@ vcCake.add('backendSwitcher', (api) => {
     }
   }
   if (render) {
-    ReactDOM.render(
-      <FrontendClassicSwitcher />,
-      switcherContainer
-    )
+    renderSwitcher(switcherContainer)
   }
 })

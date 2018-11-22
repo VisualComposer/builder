@@ -32,7 +32,6 @@ class TeasersDownloadController extends Container implements Module
 
     protected function getTeaserTemplates($teasers)
     {
-
         $allTemplates = [];
         $dataHelper = vchelper('Data');
         foreach ($teasers as $template) {

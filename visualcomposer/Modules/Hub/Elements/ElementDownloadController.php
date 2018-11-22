@@ -98,7 +98,6 @@ class ElementDownloadController extends Container implements Module
      */
     protected function checkResponse($response)
     {
-        $loggerHelper = vchelper('Logger');
         $optionsHelper = vchelper('Options');
         $downloadHelper = vchelper('HubDownload');
         if (!vcIsBadResponse($response)) {

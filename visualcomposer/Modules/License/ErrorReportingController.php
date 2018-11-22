@@ -33,7 +33,6 @@ class ErrorReportingController extends Container implements Module
 
     protected function addVariables($variables, $payload, Url $urlHelper)
     {
-
         $variables[] = [
             'key' => 'VCV_ERROR_REPORT_URL',
             'value' => $urlHelper->adminAjax(['vcv-action' => 'account:error:report:adminNonce']),

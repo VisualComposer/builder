@@ -62,7 +62,7 @@ class Controller extends Container implements Module
 
     protected function disableAjaxErrors(Request $requestHelper)
     {
-        if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
+        if ($requestHelper->isAjax()) {
             if (!vcvenv('VCV_DEBUG')) {
                 ini_set('display_errors', 'Off');
                 ini_set('error_reporting', 0);
@@ -73,7 +73,7 @@ class Controller extends Container implements Module
 
     protected function listenAjax(Request $requestHelper)
     {
-        if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
+        if ($requestHelper->isAjax()) {
             $this->setGlobals();
             /** @see \VisualComposer\Modules\System\Ajax\Controller::parseRequest */
             $rawResponse = $this->call('parseRequest');

@@ -13,7 +13,9 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 class Elements implements Helper
 {
     protected $thirdPartyElements = [];
+
     protected $defaultElements = [];
+
     public function addElement($key, $data)
     {
         if (!array_key_exists($key, $this->thirdPartyElements)) {
@@ -21,7 +23,7 @@ class Elements implements Helper
                 $data['thirdParty'] = true;
                 $this->thirdPartyElements[ $key ] = $data;
             } else {
-                $this->defaultElements[$key] = $data;
+                $this->defaultElements[ $key ] = $data;
             }
 
             return true;
@@ -82,8 +84,6 @@ class Elements implements Helper
 
             $outputElements[ $tag ] = $data;
         }
-
-        //        dd($outputElements);
 
         return $outputElements;
     }
@@ -167,15 +167,15 @@ class Elements implements Helper
                 return $path;
             }
         }
+        if (strpos($path, '[thirdPartyFullPath]') !== false) {
+            return str_replace('[thirdPartyFullPath]', '', $path);
+        }
         if (file_exists($path) || is_dir($path)) {
             return $path;
         }
         $pattern = '/' . VCV_PLUGIN_ASSETS_DIRNAME . '\//';
         if (preg_match($pattern, $path)) {
             return $path;
-        }
-        if (strpos($path, '[thirdPartyFullPath]') !== false) {
-            return str_replace('[thirdPartyFullPath]', '', $path);
         }
 
         return VCV_PLUGIN_ASSETS_DIR_PATH . '/elements/' . ltrim($path, '\\/');
