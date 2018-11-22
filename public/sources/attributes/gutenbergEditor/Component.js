@@ -45,13 +45,8 @@ export default class Component extends Attribute {
       window.alert(alertNotice)
       this.closeEditor()
     }
-    // Subscribe to data change
-    if (!window._wpGutenbergCodeEditorSettings) {
-      return
-    }
     // Set current content
     // Editor settings
-
     const newPost = {
       id: '',
       guid: { raw: '/?', rendered: '/?' },

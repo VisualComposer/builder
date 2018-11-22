@@ -33,7 +33,7 @@ class GutenbergAttributeController extends Container implements Module
     public function __construct()
     {
         $this->addEvent('vcv:system:activation:hook', 'setGutenbergEditor');
-        $this->wpAddAction('admin_init', 'initialize');
+        $this->wpAddAction('init', 'initialize');
 
         $this->optionGroup = 'vcv-settings';
         $this->optionSlug = 'vcv-gutenberg-editor';
@@ -188,8 +188,7 @@ class GutenbergAttributeController extends Container implements Module
         global $pagenow;
         $requestHelper = vchelper('Request');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        if ((function_exists('gutenberg_pre_init') || function_exists('use_block_editor_for_post'))
-            && 'post-new.php' === $pagenow
+        if ('post-new.php' === $pagenow
             && $currentUserAccessHelper->wpAll(
                 'edit_posts'
             )->get()
@@ -271,8 +270,8 @@ class GutenbergAttributeController extends Container implements Module
         ];
         $args = [
             'labels' => $labels,
-            'public' => false,
-            'publicly_queryable' => false,
+            'public' => true,
+            'publicly_queryable' => true,
             'show_ui' => true,
             'show_in_menu' => false,
             'query_var' => false,
@@ -280,8 +279,7 @@ class GutenbergAttributeController extends Container implements Module
             'has_archive' => false,
             'hierarchical' => false,
             'menu_position' => null,
-            'show_in_rest' => true,
-            'supports' => ['editor'],
+            'show_in_rest' => true
         ];
         register_post_type($this->postTypeSlug, $args);
         if ($this->removeGutenberg) {
