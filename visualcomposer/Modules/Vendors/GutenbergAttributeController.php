@@ -208,7 +208,7 @@ class GutenbergAttributeController extends Container implements Module
             global $wp_version;
             $wpVersion = $wp_version;
             // @codingStandardsIgnoreEnd
-            if (version_compare($wpVersion, '4.9.8', '==') && function_exists('the_gutenberg_project')) {
+            if (version_compare($wpVersion, '4.9.8', '<=') && function_exists('the_gutenberg_project')) {
                 $this->wpAddFilter('replace_editor', 'getGutenberg', 9, 2);
             }
             // Always enable the gutenberg block editor through vcwb editor
