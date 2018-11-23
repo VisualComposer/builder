@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Options;
-use VisualComposer\Helpers\Settings\SettingsHelper;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
@@ -196,7 +195,13 @@ class GutenbergAttributeController extends Container implements Module
         ) {
             $this->registerGutenbergAttributeType();
             $this->wpAddAction('admin_print_styles', 'removeAdminUi');
-            // $this->wpAddFilter('replace_editor', 'getGutenberg', 9, 2);
+            // @codingStandardsIgnoreStart
+            global $wp_version;
+            $wpVersion = $wp_version;
+            // @codingStandardsIgnoreEnd
+            if (version_compare($wpVersion, '4.9.8', '==') && function_exists('the_gutenberg_project')) {
+                $this->wpAddFilter('replace_editor', 'getGutenberg', 9, 2);
+            }
         }
     }
 
@@ -279,7 +284,8 @@ class GutenbergAttributeController extends Container implements Module
             'has_archive' => false,
             'hierarchical' => false,
             'menu_position' => null,
-            'show_in_rest' => true
+            'show_in_rest' => true,
+            'supports' => array('editor')
         ];
         register_post_type($this->postTypeSlug, $args);
         if ($this->removeGutenberg) {
@@ -308,16 +314,16 @@ class GutenbergAttributeController extends Container implements Module
                 padding-top: 0;
             }
 
-            .gutenberg .gutenberg__editor .edit-post-layout .edit-post-header {
+            .gutenberg .gutenberg__editor .edit-post-layout .edit-post-header, html .block-editor-page .edit-post-header {
                 top: 0;
                 left: 0;
             }
 
-            .gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
+            .gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content, html .block-editor-page .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
                 margin-right: 0;
             }
 
-            .gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel {
+            .gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel, html .block-editor-page .edit-post-layout .editor-post-publish-panel, html .block-editor-page .edit-post-header__settings {
                 display: none;
             }
         </style>

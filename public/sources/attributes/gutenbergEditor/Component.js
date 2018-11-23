@@ -10,6 +10,7 @@ export default class Component extends Attribute {
     this.iframeLoaded = this.iframeLoaded.bind(this)
     this.updateValueFromIframe = this.updateValueFromIframe.bind(this)
     this.closeEditor = this.closeEditor.bind(this)
+    this.updateEditor = this.updateEditor.bind(this)
 
     this.state = {
       showEditor: false,
@@ -26,12 +27,15 @@ export default class Component extends Attribute {
   }
 
   closeEditor () {
-    this.updateValueFromIframe()
-
     this.setState({
       showEditor: false,
       loadingEditor: false
     })
+  }
+
+  updateEditor () {
+    this.updateValueFromIframe()
+    this.closeEditor()
   }
 
   iframeLoaded () {
@@ -102,6 +106,9 @@ export default class Component extends Attribute {
           'vcv-ui-icon': true,
           'vcv-ui-icon-close-thin': true
         })
+        const localizations = window.VCV_I18N && window.VCV_I18N()
+
+        const gutenbergEditorUpdateButton = localizations.gutenbergEditorUpdateButton ? localizations.gutenbergEditorUpdateButton : 'Update'
         const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
         return (
           <GutenbergModal>
@@ -109,6 +116,9 @@ export default class Component extends Attribute {
             <div className='vcv-gutenberg-modal-inner'>
               <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} onLoad={this.iframeLoaded} />
             </div>
+            <button className='vcv-gutenberg-modal-update-button vcv-ui-editor-no-items-action' onClick={this.updateEditor}>
+              {gutenbergEditorUpdateButton}
+            </button>
             <button className='vcv-gutenberg-modal-close-button' onClick={this.closeEditor}>
               <i className={closeClasses} />
             </button>
