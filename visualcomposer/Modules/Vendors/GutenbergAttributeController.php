@@ -72,7 +72,7 @@ class GutenbergAttributeController extends Container implements Module
             }
         }
 
-        if($showSettings) {
+        if ($showSettings) {
             $sectionCallback = function () {
                 echo sprintf(
                     '<p class="description">%s</p>',
@@ -211,6 +211,9 @@ class GutenbergAttributeController extends Container implements Module
             if (version_compare($wpVersion, '4.9.8', '==') && function_exists('the_gutenberg_project')) {
                 $this->wpAddFilter('replace_editor', 'getGutenberg', 9, 2);
             }
+            // Always enable the gutenberg block editor through vcwb editor
+            $this->wpAddFilter('use_block_editor_for_post', '__return_true');
+            $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_true');
         }
     }
 
