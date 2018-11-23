@@ -140,7 +140,6 @@ addStorage('hubElements', (storage) => {
   })
 
   storage.on('addCssAssetInEditor', (asset) => {
-    debugger
     if (!asset.cssBundle) {
       return
     }
