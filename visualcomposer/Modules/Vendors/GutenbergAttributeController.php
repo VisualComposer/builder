@@ -195,7 +195,13 @@ class GutenbergAttributeController extends Container implements Module
         ) {
             $this->registerGutenbergAttributeType();
             $this->wpAddAction('admin_print_styles', 'removeAdminUi');
-            // $this->wpAddFilter('replace_editor', 'getGutenberg', 9, 2);
+            // @codingStandardsIgnoreStart
+            global $wp_version;
+            $wpVersion = $wp_version;
+            // @codingStandardsIgnoreEnd
+            if (version_compare($wpVersion, '4.9.8', '==') && function_exists('the_gutenberg_project')) {
+                $this->wpAddFilter('replace_editor', 'getGutenberg', 9, 2);
+            }
         }
     }
 
