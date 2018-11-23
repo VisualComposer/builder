@@ -314,16 +314,16 @@ class GutenbergAttributeController extends Container implements Module
                 padding-top: 0;
             }
 
-            .gutenberg .gutenberg__editor .edit-post-layout .edit-post-header {
+            .gutenberg .gutenberg__editor .edit-post-layout .edit-post-header, html .block-editor-page .edit-post-header {
                 top: 0;
                 left: 0;
             }
 
-            .gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
+            .gutenberg .gutenberg__editor .edit-post-layout.is-sidebar-opened .edit-post-layout__content, html .block-editor-page .edit-post-layout.is-sidebar-opened .edit-post-layout__content {
                 margin-right: 0;
             }
 
-            .gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel {
+            .gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel, html .block-editor-page .edit-post-layout .editor-post-publish-panel, html .block-editor-page .edit-post-header__settings {
                 display: none;
             }
         </style>
