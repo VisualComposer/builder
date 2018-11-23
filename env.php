@@ -9,12 +9,6 @@ if (!defined('VCV_ENV_ADDONS_ID')) {
 if (!defined('VCV_ENV_HUB_DOWNLOAD')) {
     define('VCV_ENV_HUB_DOWNLOAD', true);
 }
-if (!defined('VCV_ENV_TEMPLATES_DOWNLOAD')) {
-    define('VCV_ENV_TEMPLATES_DOWNLOAD', true);
-}
-if (!defined('VCV_ENV_ELEMENT_DOWNLOAD')) {
-    define('VCV_ENV_ELEMENT_DOWNLOAD', true);
-}
 if (!defined('VCV_ENV_EXTENSION_DOWNLOAD')) {
     define('VCV_ENV_EXTENSION_DOWNLOAD', true);
 }

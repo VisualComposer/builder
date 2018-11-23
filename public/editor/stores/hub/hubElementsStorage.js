@@ -76,6 +76,7 @@ addStorage('hubElements', (storage) => {
                   assetData.cssBundle = jsonResponse.sharedAssetsUrl + assetData.cssBundle
                 }
                 sharedAssetsStorage.trigger('add', assetData)
+                storage.trigger('addCssAssetInEditor', assetData)
               })
             }
           } else {
@@ -136,5 +137,33 @@ addStorage('hubElements', (storage) => {
       utils.startDownload(tag, data, successCallback, errorCallback)
     }
     tryDownload()
+  })
+
+  storage.on('addCssAssetInEditor', (asset) => {
+    if (!asset.cssBundle) {
+      return
+    }
+
+    const slugify = (text) => {
+      return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w-]+/g, '')
+        .replace(/--+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '')
+    }
+
+    const id = `${slugify(asset.cssBundle)}-css`
+    const styleElement = document.querySelector(`#vcv\\:assets\\:source\\:style\\:${id}`)
+
+    if (!styleElement) {
+      let link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = asset.cssBundle
+      link.type = 'text/css'
+      link.media = 'all'
+      link.id = `vcv:assets:source:style:${id}`
+      document.head.appendChild(link)
+    }
   })
 })
