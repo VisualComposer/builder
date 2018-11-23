@@ -71,7 +71,11 @@ export default class Component extends Attribute {
     }
     editor.setupEditor(newPost)
     const postTitle = window.document.querySelector('.editor-post-title')
+    const notice = window.document.querySelector('.components-notice-list')
     postTitle.classList.add('hidden')
+    if (notice) {
+      notice.classList.add('hidden')
+    }
     this.setState({ loadingEditor: false })
   }
 
