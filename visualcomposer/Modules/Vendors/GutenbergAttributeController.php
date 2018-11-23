@@ -378,9 +378,11 @@ class GutenbergAttributeController extends Container implements Module
 
     /**
      * Output global variables
+     *
      * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
      */
-    protected function outputGutenberg(Options $optionsHelper)
+    protected function outputGutenberg(Options $optionsHelper, Request $requestHelper)
     {
         if ($this->printed) {
             return;
@@ -391,7 +393,9 @@ class GutenbergAttributeController extends Container implements Module
         if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
             && (!empty($settings) && in_array('gutenberg-editor', $settings))
             && (!function_exists('classic_editor_init_actions'))
-            || (function_exists('classic_editor_init_actions') && get_option('classic-editor-replace') === 'no-replace')
+            || (function_exists('classic_editor_init_actions')
+                && get_option('classic-editor-replace') === 'no-replace'
+                && !$requestHelper->exists('classic-editor'))
         ) {
             $available = true;
         }
