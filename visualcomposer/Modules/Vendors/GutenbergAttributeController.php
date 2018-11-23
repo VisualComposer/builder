@@ -284,7 +284,8 @@ class GutenbergAttributeController extends Container implements Module
             'has_archive' => false,
             'hierarchical' => false,
             'menu_position' => null,
-            'show_in_rest' => true
+            'show_in_rest' => true,
+            'supports' => array('editor')
         ];
         register_post_type($this->postTypeSlug, $args);
         if ($this->removeGutenberg) {
