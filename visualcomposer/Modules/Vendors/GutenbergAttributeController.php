@@ -65,40 +65,49 @@ class GutenbergAttributeController extends Container implements Module
 
         $this->wpAddAction('admin_print_scripts', 'outputGutenberg');
 
-        $sectionCallback = function () {
-            echo sprintf(
-                '<p class="description">%s</p>',
-                esc_html__(
-                    'Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable Classic WordPress editor. In both cases, you can still use Visual Composer.',
-                    'vcwb'
-                )
+        $showSettings = true;
+        if (function_exists('classic_editor_init_actions')) {
+            if (get_option('classic-editor-replace') !== 'no-replace') {
+                $showSettings = false;
+            }
+        }
+
+        if($showSettings) {
+            $sectionCallback = function () {
+                echo sprintf(
+                    '<p class="description">%s</p>',
+                    esc_html__(
+                        'Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable Classic WordPress editor. In both cases, you can still use Visual Composer.',
+                        'vcwb'
+                    )
+                );
+            };
+
+            $this->addSection(
+                [
+                    'title' => __('Gutenberg Editor', 'vcwb'),
+                    'page' => 'vcv-settings',
+                    'callback' => $sectionCallback,
+                ]
             );
-        };
 
-        $this->addSection(
-            [
-                'title' => __('Gutenberg Editor', 'vcwb'),
-                'page' => 'vcv-settings',
-                'callback' => $sectionCallback,
-            ]
-        );
+            $fieldCallback = function () {
+                /**
+                 * @see \VisualComposer\Modules\Vendors\GutenbergAttributeController::renderToggle
+                 */
+                echo $this->call('renderToggle', ['value' => 'gutenberg-editor']);
+            };
 
-        $fieldCallback = function () {
-            /**
-             * @see \VisualComposer\Modules\Vendors\GutenbergAttributeController::renderToggle
-             */
-            echo $this->call('renderToggle', ['value' => 'gutenberg-editor']);
-        };
-
-        $this->addField(
-            [
-                'page' => 'vcv-settings',
-                'title' => __('Editor', 'vcwb'),
-                'name' => 'settings',
-                'id' => 'vcv-settings-gutenberg-editor',
-                'fieldCallback' => $fieldCallback,
-            ]
-        );
+            $this->addField(
+                [
+                    'page' => 'vcv-settings',
+                    'title' => __('Editor', 'vcwb'),
+                    'name' => 'settings',
+                    'id' => 'vcv-settings-gutenberg-editor',
+                    'fieldCallback' => $fieldCallback,
+                ]
+            );
+        }
     }
 
     /**
@@ -378,6 +387,7 @@ class GutenbergAttributeController extends Container implements Module
         $available = false;
         if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
             && (!empty($settings) && in_array('gutenberg-editor', $settings))
+            && (!function_exists('classic_editor_init_actions'))
         ) {
             $available = true;
         }
