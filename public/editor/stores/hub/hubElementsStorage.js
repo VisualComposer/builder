@@ -140,6 +140,7 @@ addStorage('hubElements', (storage) => {
   })
 
   storage.on('addCssAssetInEditor', (asset) => {
+    debugger
     if (!asset.cssBundle) {
       return
     }
@@ -147,8 +148,8 @@ addStorage('hubElements', (storage) => {
     const slugify = (text) => {
       return text.toString().toLowerCase()
         .replace(/\s+/g, '-')
-        .replace(/[^\w\-]+/g, '')
-        .replace(/\-\-+/g, '-')
+        .replace(/[^\w-]+/g, '')
+        .replace(/--+/g, '-')
         .replace(/^-+/, '')
         .replace(/-+$/, '')
     }
