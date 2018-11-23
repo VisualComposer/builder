@@ -72,18 +72,44 @@ bash tools/devAddons/buildScript.sh
 ```php
 <?php
 
-define('VCV_ENV_ADDONS_ID', 'account');
-define('VCV_ENV_DEV_ELEMENTS', true);
+if (!defined('VCV_DEBUG')) {
+    define('VCV_DEBUG', true);
+}
+
+//DEV
+define('VCV_ENV_DEV_ADDONS', false);
+define('VCV_ENV_DEV_ELEMENTS', false);
 define('VCV_ENV_DEV_CATEGORIES', true);
-define('VCV_ENV_DEV_ADDONS', true);
-define('VCV_ENV_HUB_DOWNLOAD', false);
-define('VCV_ENV_TEMPLATES_DOWNLOAD', false);
-define('VCV_ENV_ELEMENT_DOWNLOAD', false);
-define('VCV_ENV_EXTENSION_DOWNLOAD', false);
-define('VCV_TOKEN_URL', 'http://test.account.visualcomposer.io/authorization-token');
-define('VCV_ACCOUNT_URL', 'http://test.account.visualcomposer.io');
-define('VCV_HUB_URL', 'http://test.account.visualcomposer.io');
-define('VCV_PREMIUM_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
+define('VCV_ENV_EXTENSION_DOWNLOAD', true);
+
+
+if (!defined('VCV_LICENSE_ACTIVATE_URL')) {
+    define('VCV_LICENSE_ACTIVATE_URL', 'https://test.account.visualcomposer.io/activation');
+}
+if (!defined('VCV_LICENSE_ACTIVATE_FINISH_URL')) {
+    define('VCV_LICENSE_ACTIVATE_FINISH_URL', 'https://test.account.visualcomposer.io/finish-license-activation');
+}
+if (!defined('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
+    define('VCV_LICENSE_DEACTIVATE_FINISH_URL', 'https://test.account.visualcomposer.io/finish-license-deactivation');
+}
+if (!defined('VCV_LICENSE_DEACTIVATE_URL')) {
+    define('VCV_LICENSE_DEACTIVATE_URL', 'https://test.account.visualcomposer.io/deactivate-license');
+}
+if (!defined('VCV_API_URL')) {
+    define('VCV_API_URL', 'https://test.account.visualcomposer.io');
+}
+if (!defined('VCV_TOKEN_URL')) {
+    define('VCV_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
+}
+if (!defined('VCV_PREMIUM_TOKEN_URL')) {
+    define('VCV_PREMIUM_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
+}
+if (!defined('VCV_ACCOUNT_URL')) {
+    define('VCV_ACCOUNT_URL', 'https://test.account.visualcomposer.io');
+}
+if (!defined('VCV_HUB_URL')) {
+    define('VCV_HUB_URL', 'https://test.account.visualcomposer.io');
+}
 
 require_once "env.php";
 ```
