@@ -391,6 +391,7 @@ class GutenbergAttributeController extends Container implements Module
         if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
             && (!empty($settings) && in_array('gutenberg-editor', $settings))
             && (!function_exists('classic_editor_init_actions'))
+            || (function_exists('classic_editor_init_actions') && get_option('classic-editor-replace') === 'no-replace')
         ) {
             $available = true;
         }
