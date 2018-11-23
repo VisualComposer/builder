@@ -41,7 +41,7 @@ class UpdateVariablesController extends Container implements Module
                 'key' => 'VCV_ACTIVATION_SLIDES',
                 'value' => [
                     [
-                        'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-01.png')),
+                        'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-01.png'),
                         'title' => esc_js(
                             __(
                                 'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.',
@@ -50,7 +50,7 @@ class UpdateVariablesController extends Container implements Module
                         ),
                     ],
                     [
-                        'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-02.png')),
+                        'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-02.png'),
                         'title' => esc_js(
                             __(
                                 'Get more elements and templates from the Visual Composer Hub - a free online marketplace.',
@@ -59,7 +59,7 @@ class UpdateVariablesController extends Container implements Module
                         ),
                     ],
                     [
-                        'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-03.png')),
+                        'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-03.png'),
                         'title' => esc_js(
                             __(
                                 'Unparallel performance for you and your website to rank higher and deliver faster.',
@@ -68,7 +68,7 @@ class UpdateVariablesController extends Container implements Module
                         ),
                     ],
                     [
-                        'url' => esc_js($urlHelper->assetUrl('images/account/slideshow-04.png')),
+                        'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-04.png'),
                         'title' => esc_js(
                             __(
                                 'Control every detail of your website with flexible design options and customization tools.',
