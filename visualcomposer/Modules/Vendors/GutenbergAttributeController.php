@@ -101,7 +101,7 @@ class GutenbergAttributeController extends Container implements Module
             $this->addField(
                 [
                     'page' => 'vcv-settings',
-                    'title' => __('Editor', 'vcwb'),
+                    'title' => __('Gutenberg', 'vcwb'),
                     'name' => 'settings',
                     'id' => 'vcv-settings-gutenberg-editor',
                     'fieldCallback' => $fieldCallback,
