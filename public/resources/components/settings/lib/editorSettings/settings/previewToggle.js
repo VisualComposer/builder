@@ -35,12 +35,12 @@ export default class PreviewToggle extends React.Component {
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <div className='vcv-ui-form-switch-container'>
           <label className='vcv-ui-form-switch'>
-            <input type='checkbox' onChange={this.updateTitleToggle} id='vcv-page-title-disable' checked={checked} />
+            <input type='checkbox' onChange={this.updateTitleToggle} id='vcv-page-element-preview-disable' checked={checked} />
             <span className='vcv-ui-form-switch-indicator' />
             <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
             <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
           </label>
-          <label htmlFor='vcv-page-title-disable'
+          <label htmlFor='vcv-page-element-preview-disable'
             className='vcv-ui-form-switch-trigger-label'>{disablePreviewText}</label>
         </div>
         <p className='vcv-ui-form-helper'>{disablePreviewDescription}</p>
