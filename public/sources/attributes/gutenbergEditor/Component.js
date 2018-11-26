@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 import Attribute from '../attribute'
 import GutenbergModal from './gutenbergModal'
