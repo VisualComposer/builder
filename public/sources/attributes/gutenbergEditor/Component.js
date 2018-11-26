@@ -95,9 +95,7 @@ export default class Component extends Attribute {
 
   renderGutenbergControls (iframe) {
     const postToolbar = iframe.document.querySelector('.edit-post-header-toolbar')
-    const controlsContainer = iframe.document.createElement('div')
     const controlHTML = this.getControlsHTML()
-    controlsContainer.classList.add('vcv-gutenberg-controls-container')
     postToolbar.insertAdjacentHTML('afterend', controlHTML)
     const updateButton = iframe.document.querySelector('.vcv-gutenberg-modal-update-button')
     const closeButton = iframe.document.querySelector('.vcv-gutenberg-modal-close-button')
