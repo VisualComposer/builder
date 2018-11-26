@@ -2,6 +2,7 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
+use VcvCoreRequirements;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -24,6 +25,9 @@ class SystemStatus extends Container implements Module
      */
     protected $templatePath = 'settings/pages/system-status';
 
+    /** @var \VcvCoreRequirements */
+    private $requirements;
+
     public function __construct()
     {
         if (!vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
@@ -35,6 +39,65 @@ class SystemStatus extends Container implements Module
             'addPage',
             10
         );
+
+        $this->requirements = new VcvCoreRequirements();
+    }
+
+    protected function getStatusCSSClass($status)
+    {
+        return $status ? 'good' : 'bad';
+    }
+
+    protected function getWPVersionResponse()
+    {
+        $checkVersion = $this->requirements->checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'));
+
+        $textResponse = $checkVersion
+            ? 'OK'
+            : sprintf(
+                'WordPress version %s or greater',
+                VCV_REQUIRED_BLOG_VERSION
+            );
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCSSClass($checkVersion)];
+    }
+
+    protected function getPHPVersionResponse()
+    {
+        $checkVersion = $this->requirements->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
+
+        $textResponse = $checkVersion
+            ? 'OK'
+            : sprintf(
+                'PHP version %s or greater (recommended 7 or greater)',
+                VCV_REQUIRED_PHP_VERSION
+            );
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCSSClass($checkVersion)];
+    }
+
+    protected function getVCVersionResponse()
+    {
+        return VCV_VERSION;
+    }
+
+    protected function getWPDebugResponse()
+    {
+        $check = !WP_DEBUG;
+
+        $textResponse = $check ? 'OK' : 'WP_DEBUG is TRUE';
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCSSClass($check)];
+    }
+
+    protected function getRenderArgs()
+    {
+        return [
+            'PHP_version' => $this->getPHPVersionResponse(),
+            'WP_version' => $this->getWPVersionResponse(),
+            'VC_version' => $this->getVCVersionResponse(),
+            'WP_debug' => $this->getWPDebugResponse(),
+        ];
     }
 
     /**
