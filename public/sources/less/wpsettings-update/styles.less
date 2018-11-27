@@ -238,3 +238,43 @@
   z-index: -9999;
   pointer-events: none;
 }
+.vcv-ui-settings-status-table {
+  background-color: #fff;
+  border: @editor-border-color;
+  border-spacing: 0;
+  border-radius: @settings-border-radius;
+
+  width: 98%;
+
+  font-size: 14px;
+
+  th {
+    text-align: left;
+    padding: 9px;
+    border-bottom: 1px solid @editor-border-color;
+  }
+
+  tr {
+    &:nth-child(2n) {
+      td {
+        background: #fcfcfc;
+      }
+    }
+  }
+
+  td {
+    padding: 8px 10px;
+
+    &:first-child {
+      width: 33%;
+    }
+  }
+
+  .bad {
+    color: @red;
+  }
+
+  .good {
+    color: @green;
+  }
+}
