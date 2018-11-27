@@ -39,23 +39,23 @@ if (!defined('ABSPATH')) {
     </tr>
     <tr>
         <td><?php echo esc_html__('Memory Limit', 'vcwb') ?></td>
-        <td><?php echo $memoryLimit; ?></td>
+        <td class="<?php echo $memoryLimit['status'] ?>"><?php echo $memoryLimit['text']; ?></td>
     </tr>
     <tr>
         <td><?php echo esc_html__('Timeout', 'vcwb') ?></td>
-        <td><?php echo $timeout; ?></td>
+        <td class="<?php echo $timeout['status'] ?>"><?php echo $timeout['text']; ?></td>
     </tr>
     <tr>
         <td><?php echo esc_html__('Upload Max Filesize', 'vcwb') ?></td>
-        <td><?php echo $fileUploadSize; ?></td>
+        <td class="<?php echo $fileUploadSize['status'] ?>"><?php echo $fileUploadSize['text']; ?></td>
     </tr>
     <tr>
         <td><?php echo esc_html__('Access to Uploads Directory', 'vcwb') ?></td>
-        <td><?php echo $uploadDirAccess; ?></td>
+        <td class="<?php echo $uploadDirAccess['status'] ?>"><?php echo $uploadDirAccess['text']; ?></td>
     </tr>
     <tr>
         <td><?php echo esc_html__('File System Method', 'vcwb') ?></td>
-        <td><?php echo $fsMethod; ?></td>
+        <td class="<?php echo $fsMethod['status'] ?>"><?php echo $fsMethod['text']; ?></td>
     </tr>
     <tr>
         <td>Test</td>

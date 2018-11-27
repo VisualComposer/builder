@@ -28,7 +28,7 @@ class SystemStatus extends Container implements Module
     /** @var \VcvCoreRequirements */
     private $requirements;
 
-    protected $defaultExecutionTime = 30;
+    protected $defaultExecutionTime = 30; //In seconds
     protected $defaultMemoryLimit = 256; //In MB
     protected $defaultFileUploadSize = 5; //In MB
 
@@ -101,45 +101,62 @@ class SystemStatus extends Container implements Module
     protected function getMemoryLimit()
     {
         $memoryLimit = ini_get('memory_limit');
-        $memoryLimit = $this->call('convertMbToBytes', [$memoryLimit]);
+        $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
 
-        return ($memoryLimit >= $this->defaultMemoryLimit * 1024 * 1024);
+        $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
+        $textResponse = $check ? 'OK' : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
     protected function getTimeout()
     {
         $maxExecutionTime = (int)ini_get('max_execution_time');
+        $check = false;
         if ($maxExecutionTime >= $this->defaultExecutionTime) {
-            return true;
+            $check = true;
         }
 
-        return false;
+        $textResponse = $check ? 'OK' : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->defaultExecutionTime, $maxExecutionTime);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
     protected function getUploadMaxFilesize()
     {
         $maxFileSize = ini_get('upload_max_filesize');
-        $maxFileSize = $this->call('convertMbToBytes', [$maxFileSize]);
-        if ($maxFileSize >= $this->defaultFileUploadSize) {
-            return true;
+        $maxFileSizeToBytes = $this->call('convertMbToBytes', [$maxFileSize]);
+        $check = false;
+
+        if ($maxFileSizeToBytes >= $this->defaultFileUploadSize) {
+            $check = true;
         }
 
-        return false;
+        $textResponse = $check ? 'OK' : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->defaultFileUploadSize, $maxFileSize);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
     protected function getUploadDirAccess()
     {
         $wpUploadDir = wp_upload_dir()['basedir'];
-        return is_writable($wpUploadDir);
+        $check = is_writable($wpUploadDir);
+
+        $textResponse = $check ? 'OK' : __('Uploads directory is not writable', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
     protected function getFileSystemMethod()
     {
+        $check = true;
         if (defined('FS_METHOD') && FS_METHOD !== 'direct') {
-            return false;
+            $check = false;
         }
 
-        return true;
+        $textResponse = $check ? 'OK' : __('FS_METHOD should be direct', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
     protected function getRenderArgs()
