@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import vcCake, { env } from 'vc-cake'
+import vcCake from 'vc-cake'
 import YoutubeBackground from './youtubeBackground'
 import VimeoBackground from './vimeoBackground'
 import ImageSimpleBackground from './imageSimpleBackground'
@@ -40,17 +40,15 @@ export default class ElementComponent extends React.Component {
     if (this.ajax) {
       this.ajax.cancelled = true
     }
+
+    if (vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
+      elementsStorage.off(`element:${this.props.element.id}`, this.updateElementAssets)
+    }
   }
 
   componentDidMount () {
     if (vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
       elementsStorage.on(`element:${this.props.element.id}`, this.updateElementAssets)
-    }
-  }
-
-  componentWillUnmount () {
-    if (vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
-      elementsStorage.off(`element:${this.props.element.id}`, this.updateElementAssets)
     }
   }
 
