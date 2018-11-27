@@ -16,8 +16,8 @@ if (!defined('ABSPATH')) {
 <table class="vcv-ui-settings-status-table">
     <thead>
     <tr>
-        <th>Check</th>
-        <th>Status</th>
+        <th><?php echo esc_html__('Check', 'vcwb') ?></th>
+        <th><?php echo esc_html__('Status', 'vcwb') ?></th>
     </tr>
     </thead>
     <tbody>

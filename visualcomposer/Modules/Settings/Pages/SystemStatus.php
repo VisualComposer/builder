@@ -2,7 +2,12 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VcvCoreRequirements;
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -25,9 +30,6 @@ class SystemStatus extends Container implements Module
      */
     protected $templatePath = 'settings/pages/system-status';
 
-    /** @var \VcvCoreRequirements */
-    private $requirements;
-
     protected $defaultExecutionTime = 30; //In seconds
     protected $defaultMemoryLimit = 256; //In MB
     protected $defaultFileUploadSize = 5; //In MB
@@ -43,8 +45,11 @@ class SystemStatus extends Container implements Module
             'addPage',
             10
         );
+    }
 
-        $this->requirements = new VcvCoreRequirements();
+    protected function checkVersion($mustHaveVersion, $versionToCheck)
+    {
+        return !version_compare($mustHaveVersion, $versionToCheck, '>');
     }
 
     protected function getStatusCssClass($status)
@@ -54,7 +59,7 @@ class SystemStatus extends Container implements Module
 
     protected function getWpVersionResponse()
     {
-        $checkVersion = $this->requirements->checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'));
+        $checkVersion = $this->checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'));
 
         $textResponse = $checkVersion ? 'OK' : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
 
@@ -63,7 +68,7 @@ class SystemStatus extends Container implements Module
 
     protected function getPhpVersionResponse()
     {
-        $checkVersion = $this->requirements->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
+        $checkVersion = $this->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
 
         $textResponse = $checkVersion ? 'OK' : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
 
@@ -98,6 +103,7 @@ class SystemStatus extends Container implements Module
 
         return $size;
     }
+
     protected function getMemoryLimit()
     {
         $memoryLimit = ini_get('memory_limit');
@@ -170,7 +176,7 @@ class SystemStatus extends Container implements Module
             'timeout' => $this->call('gettimeout'),
             'fileUploadSize' => $this->call('getUploadMaxFilesize'),
             'uploadDirAccess' => $this->call('getUploadDirAccess'),
-            'fsMethod' => $this->call('getFileSystemMethod')
+            'fsMethod' => $this->call('getFileSystemMethod'),
         ];
     }
 
