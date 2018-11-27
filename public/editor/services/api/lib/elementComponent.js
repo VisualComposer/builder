@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import vcCake from 'vc-cake'
+import vcCake, { env } from 'vc-cake'
 import YoutubeBackground from './youtubeBackground'
 import VimeoBackground from './vimeoBackground'
 import ImageSimpleBackground from './imageSimpleBackground'
@@ -14,6 +14,8 @@ import Divider from './divider'
 import PropTypes from 'prop-types'
 
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
+const elementsStorage = vcCake.getStorage('elements')
+const assetsStorage = vcCake.getStorage('assets')
 
 let dataProcessor = null
 
@@ -37,6 +39,30 @@ export default class ElementComponent extends React.Component {
   componentWillUnmount () {
     if (this.ajax) {
       this.ajax.cancelled = true
+    }
+  }
+
+  componentDidMount () {
+    if (vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
+      elementsStorage.on(`element:${this.props.element.id}`, this.updateElementAssets)
+    }
+  }
+
+  componentWillUnmount () {
+    if (vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
+      elementsStorage.off(`element:${this.props.element.id}`, this.updateElementAssets)
+    }
+  }
+
+  updateElementAssets (data, source, options) {
+    this.updateElementAssetsWithExclusion(this.state.element.id, options)
+  }
+
+  updateElementAssetsWithExclusion (id, options, excludedAttributes) {
+    if (!excludedAttributes.length) {
+      assetsStorage.trigger('updateElement', id, options)
+    } else if (options && excludedAttributes.indexOf(options.changedAttribute) < 0) {
+      assetsStorage.trigger('updateElement', id, options)
     }
   }
 

@@ -60,7 +60,9 @@ export default class Element extends React.Component {
 
   dataUpdate (data, source, options) {
     this.setState({ element: data || this.props.element })
-    assetsStorage.trigger('updateElement', this.state.element.id, options)
+    if (!vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
+      assetsStorage.trigger('updateElement', this.state.element.id, options)
+    }
   }
 
   cssJobsUpdate (data) {
