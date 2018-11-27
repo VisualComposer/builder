@@ -28,6 +28,10 @@ class SystemStatus extends Container implements Module
     /** @var \VcvCoreRequirements */
     private $requirements;
 
+    protected $defaultExecutionTime = 30; //In seconds
+    protected $defaultMemoryLimit = 256; //In MB
+    protected $defaultFileUploadSize = 5; //In MB
+
     public function __construct()
     {
         if (!vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
@@ -80,6 +84,81 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
+    protected function convertMbToBytes($size)
+    {
+        if (preg_match('/^(\d+)(.)$/', $size, $matches)) {
+            if ($matches[2] == 'G') {
+                $size = (int)$matches[1] * 1024 * 1024 * 1024;
+            } elseif ($matches[2] == 'M') {
+                $size = (int)$matches[1] * 1024 * 1024;
+            } elseif ($matches[2] == 'K') {
+                $size = (int)$matches[1] * 1024;
+            }
+        }
+
+        return $size;
+    }
+    protected function getMemoryLimit()
+    {
+        $memoryLimit = ini_get('memory_limit');
+        $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
+
+        $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
+        $textResponse = $check ? 'OK' : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getTimeout()
+    {
+        $maxExecutionTime = (int)ini_get('max_execution_time');
+        $check = false;
+        if ($maxExecutionTime >= $this->defaultExecutionTime) {
+            $check = true;
+        }
+
+        $textResponse = $check ? 'OK' : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->defaultExecutionTime, $maxExecutionTime);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getUploadMaxFilesize()
+    {
+        $maxFileSize = ini_get('upload_max_filesize');
+        $maxFileSizeToBytes = $this->call('convertMbToBytes', [$maxFileSize]);
+        $check = false;
+
+        if ($maxFileSizeToBytes >= $this->defaultFileUploadSize) {
+            $check = true;
+        }
+
+        $textResponse = $check ? 'OK' : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->defaultFileUploadSize, $maxFileSize);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getUploadDirAccess()
+    {
+        $wpUploadDir = wp_upload_dir()['basedir'];
+        $check = is_writable($wpUploadDir);
+
+        $textResponse = $check ? 'OK' : __('Uploads directory is not writable', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getFileSystemMethod()
+    {
+        $check = true;
+        if (defined('FS_METHOD') && FS_METHOD !== 'direct') {
+            $check = false;
+        }
+
+        $textResponse = $check ? 'OK' : __('FS_METHOD should be direct', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
     protected function getRenderArgs()
     {
         return [
@@ -87,6 +166,11 @@ class SystemStatus extends Container implements Module
             'wpVersion' => $this->getWpVersionResponse(),
             'vcVersion' => $this->getVersionResponse(),
             'wpDebug' => $this->getWpDebugResponse(),
+            'memoryLimit' => $this->call('getMemoryLimit'),
+            'timeout' => $this->call('gettimeout'),
+            'fileUploadSize' => $this->call('getUploadMaxFilesize'),
+            'uploadDirAccess' => $this->call('getUploadDirAccess'),
+            'fsMethod' => $this->call('getFileSystemMethod')
         ];
     }
 
