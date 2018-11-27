@@ -29,9 +29,11 @@ class SystemStatusControllerTest extends WP_UnitTestCase
         $transientTime = time();
 
         $optionsHelper->setTransient('lastBundleUpdate', $transientTime);
-
         $this->assertEquals($transientTime, $optionsHelper->getTransient('lastBundleUpdate'));
-        $this->assertEquals(true, $module->call('checkVersion', [''])['status']);
+
+        $checkResult = $module->call('checkVersion', ['', $updateHelperMock]);
+
+        $this->assertEquals(true, $checkResult['status']);
         $this->assertEquals(1, $optionsHelper->getTransient('lastBundleUpdate'));
     }
 
