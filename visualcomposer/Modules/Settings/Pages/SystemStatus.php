@@ -43,60 +43,50 @@ class SystemStatus extends Container implements Module
         $this->requirements = new VcvCoreRequirements();
     }
 
-    protected function getStatusCSSClass($status)
+    protected function getStatusCssClass($status)
     {
         return $status ? 'good' : 'bad';
     }
 
-    protected function getWPVersionResponse()
+    protected function getWpVersionResponse()
     {
         $checkVersion = $this->requirements->checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'));
 
-        $textResponse = $checkVersion
-            ? 'OK'
-            : sprintf(
-                'WordPress version %s or greater',
-                VCV_REQUIRED_BLOG_VERSION
-            );
+        $textResponse = $checkVersion ? 'OK' : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
 
-        return ['text' => $textResponse, 'status' => $this->getStatusCSSClass($checkVersion)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
 
-    protected function getPHPVersionResponse()
+    protected function getPhpVersionResponse()
     {
         $checkVersion = $this->requirements->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
 
-        $textResponse = $checkVersion
-            ? 'OK'
-            : sprintf(
-                'PHP version %s or greater (recommended 7 or greater)',
-                VCV_REQUIRED_PHP_VERSION
-            );
+        $textResponse = $checkVersion ? 'OK' : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
 
-        return ['text' => $textResponse, 'status' => $this->getStatusCSSClass($checkVersion)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
 
-    protected function getVCVersionResponse()
+    protected function getVersionResponse()
     {
         return VCV_VERSION;
     }
 
-    protected function getWPDebugResponse()
+    protected function getWpDebugResponse()
     {
         $check = !WP_DEBUG;
 
         $textResponse = $check ? 'OK' : 'WP_DEBUG is TRUE';
 
-        return ['text' => $textResponse, 'status' => $this->getStatusCSSClass($check)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
     protected function getRenderArgs()
     {
         return [
-            'PHP_version' => $this->getPHPVersionResponse(),
-            'WP_version' => $this->getWPVersionResponse(),
-            'VC_version' => $this->getVCVersionResponse(),
-            'WP_debug' => $this->getWPDebugResponse(),
+            'phpVersion' => $this->getPhpVersionResponse(),
+            'wpVersion' => $this->getWpVersionResponse(),
+            'vcVersion' => $this->getVersionResponse(),
+            'wpDebug' => $this->getWpDebugResponse(),
         ];
     }
 
