@@ -28,6 +28,10 @@ class SystemStatus extends Container implements Module
     /** @var \VcvCoreRequirements */
     private $requirements;
 
+    protected $defaultExecutionTime = 30;
+    protected $defaultMemoryLimit = 256; //In MB
+    protected $defaultFileUploadSize = 5; //In MB
+
     public function __construct()
     {
         if (!vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
@@ -80,6 +84,64 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
+    protected function convertMbToBytes($size)
+    {
+        if (preg_match('/^(\d+)(.)$/', $size, $matches)) {
+            if ($matches[2] == 'G') {
+                $size = (int)$matches[1] * 1024 * 1024 * 1024;
+            } elseif ($matches[2] == 'M') {
+                $size = (int)$matches[1] * 1024 * 1024;
+            } elseif ($matches[2] == 'K') {
+                $size = (int)$matches[1] * 1024;
+            }
+        }
+
+        return $size;
+    }
+    protected function getMemoryLimit()
+    {
+        $memoryLimit = ini_get('memory_limit');
+        $memoryLimit = $this->call('convertMbToBytes', [$memoryLimit]);
+
+        return ($memoryLimit >= $this->defaultMemoryLimit * 1024 * 1024);
+    }
+
+    protected function getTimeout()
+    {
+        $maxExecutionTime = (int)ini_get('max_execution_time');
+        if ($maxExecutionTime >= $this->defaultExecutionTime) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function getUploadMaxFilesize()
+    {
+        $maxFileSize = ini_get('upload_max_filesize');
+        $maxFileSize = $this->call('convertMbToBytes', [$maxFileSize]);
+        if ($maxFileSize >= $this->defaultFileUploadSize) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function getUploadDirAccess()
+    {
+        $wpUploadDir = wp_upload_dir()['basedir'];
+        return is_writable($wpUploadDir);
+    }
+
+    protected function getFileSystemMethod()
+    {
+        if (defined('FS_METHOD') && FS_METHOD !== 'direct') {
+            return false;
+        }
+
+        return true;
+    }
+
     protected function getRenderArgs()
     {
         return [
@@ -87,6 +149,11 @@ class SystemStatus extends Container implements Module
             'wpVersion' => $this->getWpVersionResponse(),
             'vcVersion' => $this->getVersionResponse(),
             'wpDebug' => $this->getWpDebugResponse(),
+            'memoryLimit' => $this->call('getMemoryLimit'),
+            'timeout' => $this->call('gettimeout'),
+            'fileUploadSize' => $this->call('getUploadMaxFilesize'),
+            'uploadDirAccess' => $this->call('getUploadDirAccess'),
+            'fsMethod' => $this->call('getFileSystemMethod')
         ];
     }
 

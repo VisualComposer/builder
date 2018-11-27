@@ -38,6 +38,26 @@ if (!defined('ABSPATH')) {
         <td><?php echo $vcVersion; ?></td>
     </tr>
     <tr>
+        <td><?php echo esc_html__('Memory Limit', 'vcwb') ?></td>
+        <td><?php echo $memoryLimit; ?></td>
+    </tr>
+    <tr>
+        <td><?php echo esc_html__('Timeout', 'vcwb') ?></td>
+        <td><?php echo $timeout; ?></td>
+    </tr>
+    <tr>
+        <td><?php echo esc_html__('Upload Max Filesize', 'vcwb') ?></td>
+        <td><?php echo $fileUploadSize; ?></td>
+    </tr>
+    <tr>
+        <td><?php echo esc_html__('Access to Uploads Directory', 'vcwb') ?></td>
+        <td><?php echo $uploadDirAccess; ?></td>
+    </tr>
+    <tr>
+        <td><?php echo esc_html__('File System Method', 'vcwb') ?></td>
+        <td><?php echo $fsMethod; ?></td>
+    </tr>
+    <tr>
         <td>Test</td>
         <td>Test</td>
     </tr>
