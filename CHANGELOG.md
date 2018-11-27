@@ -1,3 +1,34 @@
+## ver 10.0 - 26.11.2018
+* New: Basic editor elements added to the plugin .zip file
+* New: Radial gradient added to the Design Options
+* Update: New Visual Composer logo added
+* Update: Visual Composer Hub UI update
+* Update: User Interface for element and template search results
+* Update: Simplified plugin activation mechanism
+* Update: Compatibility with Wordpress 5.0
+* Update: Compatibility with Gutenberg editor in WordPress 5.0
+* Update: Optimized plugin .zip file
+* Update: Authorization token removed for the Free version to simplify activation
+* Update: Activation of the plugin available via Visual Composer Hub
+* Update: Amount of activation related requests minimized for better performance
+* Update: Error handling mechanism improvements to track possible activation failures
+* Fix: Template can be added to the page after update
+* Fix: BeTheme compatibility improvements for editor loading in Safari
+* Fix: Template update renew media files within the template if necessary
+* Fix: Visual Composer Hub teaser is updated after Premium activation
+* Fix: Styles of the editor are applied correctly
+* Fix: Basic menu works properly without sandwich menu element download
+* Fix: TinyMCE display external plugin options in Frontend editor
+* Fix: Global template preview contains assets
+* Fix: Global Gallery works properly in Visual Composer
+* Fix: Custom CSS/JS in Settings not missing border
+* Fix: Console error for Safari fixed
+* Fix: Controls border is rounded
+* Fix: Template can be added to the page right after download
+* Content Elements: Side Post Grid element added to the Visual Composer Hub
+* Content Element: News Post Grid element added to the Visual Composer Hub
+* Content Element: Grow Shadow Button element added to the Visual Composer Hub
+* Content Element: Social Profile Icons added to the Visual Composer Hub
 ## ver 2.12.1 - 16.10.2018
 * Fix: Single Image does not remove all elements
 * Fix: Page builder detection disabled
