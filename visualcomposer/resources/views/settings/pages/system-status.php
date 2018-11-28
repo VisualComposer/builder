@@ -112,7 +112,7 @@ if (!defined('ABSPATH')) {
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('File System Method', 'vcwb') ?>
+                        <?php echo esc_html__('The File System method should be direct', 'vcwb') ?>
                     </span>
                 </td>
                 <td class="<?php echo $fsMethod['status'] ?>"><?php echo $fsMethod['text']; ?></td>
@@ -122,7 +122,7 @@ if (!defined('ABSPATH')) {
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('Zip Extension', 'vcwb') ?>
+                        <?php echo esc_html__('The Zip Extension should be enabled on your server', 'vcwb') ?>
                     </span>
                 </td>
                 <td class="<?php echo $zipExt['status'] ?>"><?php echo $zipExt['text']; ?></td>
@@ -132,7 +132,7 @@ if (!defined('ABSPATH')) {
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('Curl Extension', 'vcwb') ?>
+                        <?php echo esc_html__('The version of cURL installed on your server', 'vcwb') ?>
                     </span>
                 </td>
                 <td class="<?php echo $curlExt['status'] ?>"><?php echo $curlExt['text']; ?></td>
