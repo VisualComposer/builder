@@ -238,20 +238,28 @@
   z-index: -9999;
   pointer-events: none;
 }
+
+.vcv-ui-settings-status-table-container {
+  margin: 0 20px 0 0;
+}
+
 .vcv-ui-settings-status-table {
   background-color: #fff;
-  border: @editor-border-color;
+  border: 1px solid @vcv-status-table-border-color;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
   border-spacing: 0;
-  border-radius: @settings-border-radius;
-
-  width: 98%;
-
+  width: 100%;
   font-size: 14px;
+
+  th,
+  td {
+    font-size: inherit;
+  }
 
   th {
     text-align: left;
     padding: 9px;
-    border-bottom: 1px solid @editor-border-color;
+    border-bottom: 1px solid @vcv-status-table-border-color;
   }
 
   tr {
@@ -263,6 +271,7 @@
   }
 
   td {
+    line-height: 1.5em;
     padding: 8px 10px;
 
     &:first-child {
@@ -270,11 +279,113 @@
     }
   }
 
+  .vcv-help {
+    width: 1em;
+    position: relative;
+  }
+
+  .vcv-help-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -74px;
+    width: 150px;
+    max-width: 200px;
+    z-index: 0;
+    color: @vcv-status-color-tooltip;
+    background: @vcv-status-background-color-tooltip;
+    font-size: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -3px;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 4px solid @vcv-status-background-color-tooltip;
+    }
+  }
+
+  .vcv-help-tooltip-icon {
+    color: #666;
+    display: inline-block;
+    font-size: 1.1em;
+    font-style: normal;
+    height: 16px;
+    line-height: 16px;
+    position: relative;
+    vertical-align: middle;
+    width: 16px;
+
+    &::after {
+      font-family: Dashicons;
+      speak: none;
+      font-weight: 400;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      text-indent: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      content: "\f223";
+      cursor: help;
+      font-variant: normal;
+      margin: 0;
+    }
+
+    &:hover {
+      + .vcv-help-tooltip {
+        display: block;
+        z-index: 2;
+      }
+    }
+  }
+
+  .good,
   .bad {
-    color: @red;
+    position: relative;
+    padding-left: 35px;
+    &::before {
+      font-family: 'VC-Icons';
+      position: absolute;
+      top: 50%;
+      left: 13px;
+      margin-top: -10px;
+    }
+  }
+
+  .bad {
+    color: @vcv-status-color-invalid;
+    &::before {
+      content: '\2717';
+    }
   }
 
   .good {
-    color: @green;
+    color: @vcv-status-color-valid;
+    &::before {
+      content: '\2714';
+    }
   }
+}
+
+@media screen and (max-width: 782px) {
+  .vcv-ui-settings-status-table-container {
+    margin: 0 10px 0 0;
+  }
+}
+
+#adminmenu .wp-submenu a[href*='page=vcv-system-status'] {
+  display: none;
 }

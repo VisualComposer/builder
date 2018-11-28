@@ -2,7 +2,12 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VcvCoreRequirements;
+if (!defined('ABSPATH')) {
+    header('Status: 403 Forbidden');
+    header('HTTP/1.1 403 Forbidden');
+    exit;
+}
+
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -25,11 +30,10 @@ class SystemStatus extends Container implements Module
      */
     protected $templatePath = 'settings/pages/system-status';
 
-    /** @var \VcvCoreRequirements */
-    private $requirements;
-
     protected $defaultExecutionTime = 30; //In seconds
+
     protected $defaultMemoryLimit = 256; //In MB
+
     protected $defaultFileUploadSize = 5; //In MB
 
     public function __construct()
@@ -44,7 +48,22 @@ class SystemStatus extends Container implements Module
             10
         );
 
-        $this->requirements = new VcvCoreRequirements();
+        $this->wpAddFilter('submenu_file', 'subMenuHighlight');
+    }
+
+    protected function subMenuHighlight($submenuFile)
+    {
+        $screen = get_current_screen();
+        if (strpos($screen->id, $this->slug)) {
+            $submenuFile = 'vcv-settings';
+        }
+
+        return $submenuFile;
+    }
+
+    protected function checkVersion($mustHaveVersion, $versionToCheck)
+    {
+        return !version_compare($mustHaveVersion, $versionToCheck, '>');
     }
 
     protected function getStatusCssClass($status)
@@ -54,18 +73,19 @@ class SystemStatus extends Container implements Module
 
     protected function getWpVersionResponse()
     {
-        $checkVersion = $this->requirements->checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'));
+        $wpVersion = get_bloginfo('version');
+        $checkVersion = $this->checkVersion(VCV_REQUIRED_BLOG_VERSION, $wpVersion);
 
-        $textResponse = $checkVersion ? 'OK' : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
+        $textResponse = $checkVersion ? $wpVersion : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
 
     protected function getPhpVersionResponse()
     {
-        $checkVersion = $this->requirements->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
+        $checkVersion = $this->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
 
-        $textResponse = $checkVersion ? 'OK' : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
+        $textResponse = $checkVersion ? PHP_VERSION : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
@@ -79,7 +99,7 @@ class SystemStatus extends Container implements Module
     {
         $check = !WP_DEBUG;
 
-        $textResponse = $check ? 'OK' : 'WP_DEBUG is TRUE';
+        $textResponse = $check ? 'Enabled' : 'WP_DEBUG is TRUE';
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -87,24 +107,29 @@ class SystemStatus extends Container implements Module
     protected function convertMbToBytes($size)
     {
         if (preg_match('/^(\d+)(.)$/', $size, $matches)) {
-            if ($matches[2] == 'G') {
+            if ($matches[2] === 'G') {
                 $size = (int)$matches[1] * 1024 * 1024 * 1024;
-            } elseif ($matches[2] == 'M') {
+            } elseif ($matches[2] === 'M') {
                 $size = (int)$matches[1] * 1024 * 1024;
-            } elseif ($matches[2] == 'K') {
+            } elseif ($matches[2] === 'K') {
                 $size = (int)$matches[1] * 1024;
             }
         }
 
         return $size;
     }
+
     protected function getMemoryLimit()
     {
         $memoryLimit = ini_get('memory_limit');
-        $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
+        if ($memoryLimit === -1) {
+            $check = true;
+        } else {
+            $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
+            $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
+        }
 
-        $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
-        $textResponse = $check ? 'OK' : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
+        $textResponse = $check ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -117,7 +142,7 @@ class SystemStatus extends Container implements Module
             $check = true;
         }
 
-        $textResponse = $check ? 'OK' : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->defaultExecutionTime, $maxExecutionTime);
+        $textResponse = $check ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->defaultExecutionTime, $maxExecutionTime);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -132,7 +157,7 @@ class SystemStatus extends Container implements Module
             $check = true;
         }
 
-        $textResponse = $check ? 'OK' : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->defaultFileUploadSize, $maxFileSize);
+        $textResponse = $check ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->defaultFileUploadSize, $maxFileSize);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -142,7 +167,7 @@ class SystemStatus extends Container implements Module
         $wpUploadDir = wp_upload_dir()['basedir'];
         $check = is_writable($wpUploadDir);
 
-        $textResponse = $check ? 'OK' : __('Uploads directory is not writable', 'vcwb');
+        $textResponse = $check ? 'Writable' : __('Uploads directory is not writable', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -154,7 +179,31 @@ class SystemStatus extends Container implements Module
             $check = false;
         }
 
-        $textResponse = $check ? 'OK' : __('FS_METHOD should be direct', 'vcwb');
+        $textResponse = $check ? 'Direct' : __('FS_METHOD should be direct', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getZipExtension()
+    {
+        $check = false;
+        if (class_exists('ZipArchive') || class_exists('PclZip')) {
+            $check = true;
+        }
+
+        $textResponse = $check ? 'Enabled' : __('Zip extension is not installed', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getCurlExtension()
+    {
+        $check = false;
+        if (extension_loaded('curl')) {
+            $check = true;
+        }
+
+        $textResponse = $check ? curl_version()['version'] : __('Curl extension is not installed', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -167,10 +216,12 @@ class SystemStatus extends Container implements Module
             'vcVersion' => $this->getVersionResponse(),
             'wpDebug' => $this->getWpDebugResponse(),
             'memoryLimit' => $this->call('getMemoryLimit'),
-            'timeout' => $this->call('gettimeout'),
+            'timeout' => $this->call('getTimeout'),
             'fileUploadSize' => $this->call('getUploadMaxFilesize'),
             'uploadDirAccess' => $this->call('getUploadDirAccess'),
-            'fsMethod' => $this->call('getFileSystemMethod')
+            'fsMethod' => $this->call('getFileSystemMethod'),
+            'zipExt' => $this->call('getZipExtension'),
+            'curlExt' => $this->call('getCurlExtension'),
         ];
     }
 
@@ -197,7 +248,7 @@ class SystemStatus extends Container implements Module
         $page = [
             'slug' => $this->getSlug(),
             'title' => __('System status', 'vcwb'),
-            'layout' => 'standalone',
+            'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
             'controller' => $this,
         ];
