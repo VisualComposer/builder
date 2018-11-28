@@ -108,7 +108,7 @@ class SystemStatus extends Container implements Module
     {
         $memoryLimit = ini_get('memory_limit');
         if ($memoryLimit === -1) {
-           $check = true;
+            $check = true;
         } else {
             $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
             $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
