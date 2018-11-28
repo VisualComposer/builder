@@ -61,20 +61,110 @@ class SystemStatus extends Container implements Module
         return $submenuFile;
     }
 
+    protected function getStatusCssClass($status)
+    {
+        return $status ? 'good' : 'bad';
+    }
+
+    public function getPhpVersionStatusForView()
+    {
+        $checkVersion = $this->statusHelper->getPhpVersionStatus();
+        $textResponse = $checkVersion ? PHP_VERSION : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
+    }
+
+    public function getWpVersionStatusForView()
+    {
+        $wpVersionCheck = $this->statusHelper->getWpVersionStatus();
+        $textResponse = $wpVersionCheck ? get_bloginfo('version') : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($wpVersionCheck)];
+    }
+
+    public function getWpDebugStatusForView()
+    {
+        $check = $this->statusHelper->getWpDebugStatus();
+
+        $textResponse = $check ? 'Enabled' : 'WP_DEBUG is TRUE';
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    public function getMemoryLimitStatusForView()
+    {
+        $memoryLimit = $this->statusHelper->getMemoryLimit();
+        $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
+
+        $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
+    }
+
+    public function getTimeoutStatusForView()
+    {
+        $maxExecutionTime = $this->statusHelper->getMaxExecutionTime();
+        $maxExecutionTimeCheck = $this->statusHelper->getTimeoutStatus();
+        $textResponse = $maxExecutionTimeCheck ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->statusHelper->getDefaultExecutionTime(), $maxExecutionTime);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxExecutionTimeCheck)];
+    }
+
+    public function getUploadMaxFileSizeStatusForView()
+    {
+        $maxFileSize = $this->statusHelper->getMaxUploadFileSize();
+        $maxFileSizeCheck = $this->statusHelper->getUploadMaxFileSizeStatus();
+        $textResponse = $maxFileSizeCheck ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultFileUploadSize(), $maxFileSize);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxFileSizeCheck)];
+    }
+
+    protected function getUploadDirAccessStatusForView()
+    {
+        $accessCheck = $this->statusHelper->getUploadDirAccessStatus();
+        $textResponse = $accessCheck ? 'Writable' : __('Uploads directory is not writable', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($accessCheck)];
+    }
+
+    protected function getFileSystemStatusForView()
+    {
+        $fsStatus = $this->statusHelper->getFileSystemStatus();
+        $textResponse = $fsStatus ? 'Direct' : __('FS_METHOD should be direct', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($fsStatus)];
+    }
+
+    protected function getZipStatusForView()
+    {
+        $zipStatus = $this->statusHelper->getZipStatus();
+        $textResponse = $zipStatus ? 'Enabled' : __('Zip extension is not installed', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($zipStatus)];
+    }
+
+    protected function getCurlStatusForView()
+    {
+        $curlStatus = $this->statusHelper->getCurlStatus();
+        $textResponse = $curlStatus ? curl_version()['version'] : __('Curl extension is not installed', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($curlStatus)];
+    }
+
     protected function getRenderArgs()
     {
         return [
-            'phpVersion' => $this->statusHelper->getPhpVersionResponse(),
-            'wpVersion' => $this->statusHelper->getWpVersionResponse(),
-            'vcVersion' => $this->statusHelper->getVersionResponse(),
-            'wpDebug' => $this->statusHelper->getWpDebugResponse(),
-            'memoryLimit' => $this->statusHelper->getMemoryLimit(),
-            'timeout' => $this->statusHelper->getTimeout(),
-            'fileUploadSize' => $this->statusHelper->getUploadMaxFilesize(),
-            'uploadDirAccess' => $this->statusHelper->getUploadDirAccess(),
-            'fsMethod' => $this->statusHelper->getFileSystemMethod(),
-            'zipExt' => $this->statusHelper->getZipExtension(),
-            'curlExt' => $this->statusHelper->getCurlExtension(),
+            'phpVersion' => $this->getPhpVersionStatusForView(),
+            'wpVersion' => $this->getWpVersionStatusForView(),
+            'vcVersion' => $this->statusHelper->getVcvVersion(),
+            'wpDebug' => $this->getWpDebugStatusForView(),
+            'memoryLimit' => $this->getMemoryLimitStatusForView(),
+            'timeout' => $this->getTimeoutStatusForView(),
+            'fileUploadSize' => $this->getUploadMaxFileSizeStatusForView(),
+            'uploadDirAccess' => $this->getUploadDirAccessStatusForView(),
+            'fsMethod' => $this->getFileSystemStatusForView(),
+            'zipExt' => $this->getZipStatusForView(),
+            'curlExt' => $this->getCurlStatusForView(),
         ];
     }
 

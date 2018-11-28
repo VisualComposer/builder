@@ -18,28 +18,41 @@ class Status implements Helper
 
     protected $defaultFileUploadSize = 5; //In MB
 
+    /**
+     * @return int
+     */
+    public function getDefaultExecutionTime()
+    {
+        return $this->defaultExecutionTime;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultMemoryLimit()
+    {
+        return $this->defaultMemoryLimit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultFileUploadSize()
+    {
+        return $this->defaultFileUploadSize;
+    }
+
     public function checkVersion($mustHaveVersion, $versionToCheck)
     {
         return !version_compare($mustHaveVersion, $versionToCheck, '>');
     }
 
-    public function getPhpVersionResponse()
+    /**
+     * @return bool
+     */
+    public function getPhpVersionStatus()
     {
-        $checkVersion = $this->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
-
-        $textResponse = $checkVersion ? PHP_VERSION : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
-    }
-
-    public function getWpVersionResponse()
-    {
-        $wpVersion = get_bloginfo('version');
-        $checkVersion = $this->checkVersion(VCV_REQUIRED_BLOG_VERSION, $wpVersion);
-
-        $textResponse = $checkVersion ? $wpVersion : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
+        return $this->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
     }
 
     public function getStatusCssClass($status)
@@ -47,107 +60,76 @@ class Status implements Helper
         return $status ? 'good' : 'bad';
     }
 
-    public function getVersionResponse()
+    public function getWpVersionStatus()
+    {
+        return $this->checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'));
+    }
+
+    public function getVcvVersion()
     {
         return VCV_VERSION;
     }
 
-    public function getWpDebugResponse()
+    public function getWpDebugStatus()
     {
-        $check = !WP_DEBUG;
-
-        $textResponse = $check ? 'Enabled' : 'WP_DEBUG is TRUE';
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return !WP_DEBUG;
     }
 
     public function getMemoryLimit()
     {
-        $memoryLimit = ini_get('memory_limit');
+        return ini_get('memory_limit');
+    }
+
+    public function getMemoryLimitStatus()
+    {
+        $memoryLimit = $this->getMemoryLimit();
         if ($memoryLimit === -1) {
-            $check = true;
-        } else {
-            $memoryLimitToBytes = $this->convertMbToBytes($memoryLimit);
-            $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
+            return true;
         }
 
-        $textResponse = $check ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return ($this->convertMbToBytes($memoryLimit) >= $this->defaultMemoryLimit * 1024 * 1024);
     }
 
-    public function getTimeout()
+    public function getMaxExecutionTime()
     {
-        $maxExecutionTime = (int)ini_get('max_execution_time');
-        $check = false;
-        if ($maxExecutionTime >= $this->defaultExecutionTime) {
-            $check = true;
-        }
-
-        $textResponse = $check ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->defaultExecutionTime, $maxExecutionTime);
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return (int)ini_get('max_execution_time');
     }
 
-    public function getUploadMaxFilesize()
+    public function getTimeoutStatus()
     {
-        $maxFileSize = ini_get('upload_max_filesize');
-        $maxFileSizeToBytes = $this->convertMbToBytes($maxFileSize);
-        $check = false;
-
-        if ($maxFileSizeToBytes >= $this->defaultFileUploadSize) {
-            $check = true;
-        }
-
-        $textResponse = $check ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->defaultFileUploadSize, $maxFileSize);
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return $this->getMaxExecutionTime() >= $this->defaultExecutionTime;
     }
 
-    public function getUploadDirAccess()
+    public function getMaxUploadFileSize()
     {
-        $wpUploadDir = wp_upload_dir()['basedir'];
-        $check = is_writable($wpUploadDir);
-
-        $textResponse = $check ? 'Writable' : __('Uploads directory is not writable', 'vcwb');
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return ini_get('upload_max_filesize');
     }
 
-    public function getFileSystemMethod()
+    public function getUploadMaxFileSizeStatus()
     {
-        $check = true;
-        if (defined('FS_METHOD') && FS_METHOD !== 'direct') {
-            $check = false;
-        }
+        $maxFileSize = $this->getMaxUploadFileSize();
 
-        $textResponse = $check ? 'Direct' : __('FS_METHOD should be direct', 'vcwb');
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return $this->convertMbToBytes($maxFileSize) >= $this->defaultFileUploadSize;
     }
 
-    public function getZipExtension()
+    public function getUploadDirAccessStatus()
     {
-        $check = false;
-        if (class_exists('ZipArchive') || class_exists('PclZip')) {
-            $check = true;
-        }
-
-        $textResponse = $check ? 'Enabled' : __('Zip extension is not installed', 'vcwb');
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return is_writable(wp_upload_dir()['basedir']);
     }
 
-    public function getCurlExtension()
+    public function getFileSystemStatus()
     {
-        $check = false;
-        if (extension_loaded('curl')) {
-            $check = true;
-        }
+        return !(defined('FS_METHOD') && FS_METHOD !== 'direct');
+    }
 
-        $textResponse = $check ? curl_version()['version'] : __('Curl extension is not installed', 'vcwb');
+    public function getZipStatus()
+    {
+        return class_exists('ZipArchive') || class_exists('PclZip');
+    }
 
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    public function getCurlStatus()
+    {
+        return extension_loaded('curl');
     }
 
     public function convertMbToBytes($size)
