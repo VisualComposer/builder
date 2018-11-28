@@ -107,9 +107,13 @@ class SystemStatus extends Container implements Module
     protected function getMemoryLimit()
     {
         $memoryLimit = ini_get('memory_limit');
-        $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
+        if ($memoryLimit === -1) {
+           $check = true;
+        } else {
+            $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
+            $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
+        }
 
-        $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
         $textResponse = $check ? 'OK' : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
