@@ -169,6 +169,30 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
+    protected function getZipExtension()
+    {
+        $check = false;
+        if (class_exists('ZipArchive') || class_exists('PclZip')) {
+            $check = true;
+        }
+
+        $textResponse = $check ? 'OK' : __('Zip extension is not installed', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getCurlExtension()
+    {
+        $check = false;
+        if (extension_loaded('curl')) {
+            $check = true;
+        }
+
+        $textResponse = $check ? 'OK' : __('Curl extension is not installed', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
     protected function getRenderArgs()
     {
         return [
@@ -181,6 +205,8 @@ class SystemStatus extends Container implements Module
             'fileUploadSize' => $this->call('getUploadMaxFilesize'),
             'uploadDirAccess' => $this->call('getUploadDirAccess'),
             'fsMethod' => $this->call('getFileSystemMethod'),
+            'zipExt' => $this->call('getZipExtension'),
+            'curlExt' => $this->call('getCurlExtension'),
         ];
     }
 
