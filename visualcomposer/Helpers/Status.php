@@ -184,12 +184,14 @@ class Status implements Helper
      */
     public function convertMbToBytes($size)
     {
+        $size = strtolower($size);
+
         if (preg_match('/^(\d+)(.)$/', $size, $matches)) {
-            if ($matches[2] === 'G') {
+            if ($matches[2] === 'g') {
                 $size = (int)$matches[1] * 1024 * 1024 * 1024;
-            } elseif ($matches[2] === 'M') {
+            } elseif ($matches[2] === 'm') {
                 $size = (int)$matches[1] * 1024 * 1024;
-            } elseif ($matches[2] === 'K') {
+            } elseif ($matches[2] === 'k') {
                 $size = (int)$matches[1] * 1024;
             }
         }
