@@ -59,9 +59,10 @@ class SystemStatus extends Container implements Module
 
     protected function getWpVersionResponse()
     {
-        $checkVersion = $this->checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'));
+        $wpVersion = get_bloginfo('version');
+        $checkVersion = $this->checkVersion(VCV_REQUIRED_BLOG_VERSION, $wpVersion);
 
-        $textResponse = $checkVersion ? 'OK' : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
+        $textResponse = $checkVersion ? $wpVersion : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
@@ -70,7 +71,7 @@ class SystemStatus extends Container implements Module
     {
         $checkVersion = $this->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
 
-        $textResponse = $checkVersion ? 'OK' : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
+        $textResponse = $checkVersion ? PHP_VERSION : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
@@ -84,7 +85,7 @@ class SystemStatus extends Container implements Module
     {
         $check = !WP_DEBUG;
 
-        $textResponse = $check ? 'OK' : 'WP_DEBUG is TRUE';
+        $textResponse = $check ? 'Enabled' : 'WP_DEBUG is TRUE';
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -114,7 +115,7 @@ class SystemStatus extends Container implements Module
             $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
         }
 
-        $textResponse = $check ? 'OK' : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
+        $textResponse = $check ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -127,7 +128,7 @@ class SystemStatus extends Container implements Module
             $check = true;
         }
 
-        $textResponse = $check ? 'OK' : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->defaultExecutionTime, $maxExecutionTime);
+        $textResponse = $check ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->defaultExecutionTime, $maxExecutionTime);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -142,7 +143,7 @@ class SystemStatus extends Container implements Module
             $check = true;
         }
 
-        $textResponse = $check ? 'OK' : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->defaultFileUploadSize, $maxFileSize);
+        $textResponse = $check ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->defaultFileUploadSize, $maxFileSize);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -152,7 +153,7 @@ class SystemStatus extends Container implements Module
         $wpUploadDir = wp_upload_dir()['basedir'];
         $check = is_writable($wpUploadDir);
 
-        $textResponse = $check ? 'OK' : __('Uploads directory is not writable', 'vcwb');
+        $textResponse = $check ? 'Writable' : __('Uploads directory is not writable', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -164,7 +165,7 @@ class SystemStatus extends Container implements Module
             $check = false;
         }
 
-        $textResponse = $check ? 'OK' : __('FS_METHOD should be direct', 'vcwb');
+        $textResponse = $check ? 'Direct' : __('FS_METHOD should be direct', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -176,7 +177,7 @@ class SystemStatus extends Container implements Module
             $check = true;
         }
 
-        $textResponse = $check ? 'OK' : __('Zip extension is not installed', 'vcwb');
+        $textResponse = $check ? 'Enabled' : __('Zip extension is not installed', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -188,7 +189,7 @@ class SystemStatus extends Container implements Module
             $check = true;
         }
 
-        $textResponse = $check ? 'OK' : __('Curl extension is not installed', 'vcwb');
+        $textResponse = $check ? curl_version()['version'] : __('Curl extension is not installed', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
