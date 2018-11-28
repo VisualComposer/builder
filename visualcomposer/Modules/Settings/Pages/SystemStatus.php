@@ -36,7 +36,7 @@ class SystemStatus extends Container implements Module
     /** @var \VisualComposer\Helpers\Status */
     protected $statusHelper;
 
-    /** @var \VisualComposer\Helpers\Options  */
+    /** @var \VisualComposer\Helpers\Options */
     protected $optionsHelper;
 
     public function __construct(Status $statusHelper, Options $optionsHelper)
@@ -58,6 +58,11 @@ class SystemStatus extends Container implements Module
         $this->wpAddAction('admin_init', 'addWarningNotice');
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
+
+        $this->wpAddAction(
+            'in_admin_header',
+            'addCss'
+        );
 
         $this->statusHelper = $statusHelper;
         $this->optionsHelper = $optionsHelper;
@@ -96,7 +101,12 @@ class SystemStatus extends Container implements Module
     public function getPhpVersionStatusForView()
     {
         $checkVersion = $this->statusHelper->getPhpVersionStatus();
-        $textResponse = $checkVersion ? PHP_VERSION : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
+        $textResponse = $checkVersion
+            ? PHP_VERSION
+            : sprintf(
+                'PHP version %s or greater (recommended 7 or greater)',
+                VCV_REQUIRED_PHP_VERSION
+            );
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
@@ -104,7 +114,12 @@ class SystemStatus extends Container implements Module
     public function getWpVersionStatusForView()
     {
         $wpVersionCheck = $this->statusHelper->getWpVersionStatus();
-        $textResponse = $wpVersionCheck ? get_bloginfo('version') : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
+        $textResponse = $wpVersionCheck
+            ? get_bloginfo('version')
+            : sprintf(
+                'WordPress version %s or greater',
+                VCV_REQUIRED_BLOG_VERSION
+            );
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($wpVersionCheck)];
     }
@@ -123,7 +138,13 @@ class SystemStatus extends Container implements Module
         $memoryLimit = $this->statusHelper->getMemoryLimit();
         $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
 
-        $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
+        $textResponse = $memoryLimitCheck
+            ? $memoryLimit
+            : sprintf(
+                __('Memory limit should be %sM, currently it is %s', 'vcwb'),
+                $this->statusHelper->getDefaultMemoryLimit(),
+                $memoryLimit
+            );
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
     }
@@ -132,7 +153,13 @@ class SystemStatus extends Container implements Module
     {
         $maxExecutionTime = $this->statusHelper->getMaxExecutionTime();
         $maxExecutionTimeCheck = $this->statusHelper->getTimeoutStatus();
-        $textResponse = $maxExecutionTimeCheck ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->statusHelper->getDefaultExecutionTime(), $maxExecutionTime);
+        $textResponse = $maxExecutionTimeCheck
+            ? $maxExecutionTime
+            : sprintf(
+                __('Max execution time should be %sS, currently it is %sS', 'vcwb'),
+                $this->statusHelper->getDefaultExecutionTime(),
+                $maxExecutionTime
+            );
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxExecutionTimeCheck)];
     }
@@ -141,7 +168,13 @@ class SystemStatus extends Container implements Module
     {
         $maxFileSize = $this->statusHelper->getMaxUploadFileSize();
         $maxFileSizeCheck = $this->statusHelper->getUploadMaxFileSizeStatus();
-        $textResponse = $maxFileSizeCheck ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultFileUploadSize(), $maxFileSize);
+        $textResponse = $maxFileSizeCheck
+            ? $maxFileSize
+            : sprintf(
+                __('File max upload size should be %sM, currently it is %s', 'vcwb'),
+                $this->statusHelper->getDefaultFileUploadSize(),
+                $maxFileSize
+            );
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxFileSizeCheck)];
     }
@@ -249,5 +282,10 @@ class SystemStatus extends Container implements Module
         } else {
             $noticeHelper->removeNotice('systemCheckStatus');
         }
+    }
+
+    protected function addCss()
+    {
+        evcview('settings/partials/system-status-css');
     }
 }
