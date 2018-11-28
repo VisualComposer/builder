@@ -56,6 +56,11 @@ class SystemStatus extends Container implements Module
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
 
+        $this->wpAddAction(
+            'in_admin_header',
+            'addCss'
+        );
+
         $this->statusHelper = $statusHelper;
         $this->optionsHelper = $optionsHelper;
     }
@@ -220,5 +225,13 @@ class SystemStatus extends Container implements Module
             'controller' => $this,
         ];
         $this->addSubmenuPage($page);
+    }
+
+    /**
+     * Add style to hide System Status link in menu
+     */
+    protected function addCss()
+    {
+        evcview('settings/partials/system-status-css');
     }
 }
