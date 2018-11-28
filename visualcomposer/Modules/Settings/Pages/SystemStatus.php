@@ -31,7 +31,9 @@ class SystemStatus extends Container implements Module
     protected $templatePath = 'settings/pages/system-status';
 
     protected $defaultExecutionTime = 30; //In seconds
+
     protected $defaultMemoryLimit = 256; //In MB
+
     protected $defaultFileUploadSize = 5; //In MB
 
     public function __construct()
@@ -45,6 +47,18 @@ class SystemStatus extends Container implements Module
             'addPage',
             10
         );
+
+        $this->wpAddFilter('submenu_file', 'subMenuHighlight');
+    }
+
+    protected function subMenuHighlight($submenuFile)
+    {
+        $screen = get_current_screen();
+        if (strpos($screen->id, $this->slug)) {
+            $submenuFile = 'vcv-settings';
+        }
+
+        return $submenuFile;
     }
 
     protected function checkVersion($mustHaveVersion, $versionToCheck)
@@ -234,7 +248,7 @@ class SystemStatus extends Container implements Module
         $page = [
             'slug' => $this->getSlug(),
             'title' => __('System status', 'vcwb'),
-            'layout' => 'standalone',
+            'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
             'controller' => $this,
         ];
