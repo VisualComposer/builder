@@ -86,11 +86,17 @@ class Settings extends Container implements Module
      */
     protected function addPage()
     {
+        $layout = 'settings-standalone';
+
+        if (vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
+            $layout = 'settings-standalone-with-tabs';
+        }
+
         $page = [
             'slug' => $this->slug,
             'title' => __('Settings', 'vcwb'),
             'showTab' => false,
-            'layout' => 'settings-standalone',
+            'layout' => $layout,
             'controller' => $this,
             'capability' => 'manage_options',
         ];
