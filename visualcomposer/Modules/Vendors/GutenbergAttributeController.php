@@ -158,7 +158,7 @@ class GutenbergAttributeController extends Container implements Module
      */
     protected function isVcwbPage()
     {
-        $sourceId = get_the_id();
+        $sourceId = get_the_ID();
         $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
         if (!empty($postContent) && !$this->call('overrideDisableGutenberg', ['sourceId' => $sourceId])) {
             return true;

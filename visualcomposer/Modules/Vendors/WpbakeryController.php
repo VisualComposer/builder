@@ -55,7 +55,7 @@ class WpbakeryController extends Container implements Module
 
     protected function disableWpbakery($isValid)
     {
-        $sourceId = get_the_id();
+        $sourceId = get_the_ID();
         $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
         if (!empty($postContent)) {
             return false;
