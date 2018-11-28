@@ -92,11 +92,11 @@ class SystemStatus extends Container implements Module
     protected function convertMbToBytes($size)
     {
         if (preg_match('/^(\d+)(.)$/', $size, $matches)) {
-            if ($matches[2] == 'G') {
+            if ($matches[2] === 'G') {
                 $size = (int)$matches[1] * 1024 * 1024 * 1024;
-            } elseif ($matches[2] == 'M') {
+            } elseif ($matches[2] === 'M') {
                 $size = (int)$matches[1] * 1024 * 1024;
-            } elseif ($matches[2] == 'K') {
+            } elseif ($matches[2] === 'K') {
                 $size = (int)$matches[1] * 1024;
             }
         }
@@ -107,9 +107,13 @@ class SystemStatus extends Container implements Module
     protected function getMemoryLimit()
     {
         $memoryLimit = ini_get('memory_limit');
-        $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
+        if ($memoryLimit === -1) {
+            $check = true;
+        } else {
+            $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
+            $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
+        }
 
-        $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
         $textResponse = $check ? 'OK' : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
@@ -165,6 +169,30 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
+    protected function getZipExtension()
+    {
+        $check = false;
+        if (class_exists('ZipArchive') || class_exists('PclZip')) {
+            $check = true;
+        }
+
+        $textResponse = $check ? 'OK' : __('Zip extension is not installed', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getCurlExtension()
+    {
+        $check = false;
+        if (extension_loaded('curl')) {
+            $check = true;
+        }
+
+        $textResponse = $check ? 'OK' : __('Curl extension is not installed', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
     protected function getRenderArgs()
     {
         return [
@@ -173,10 +201,12 @@ class SystemStatus extends Container implements Module
             'vcVersion' => $this->getVersionResponse(),
             'wpDebug' => $this->getWpDebugResponse(),
             'memoryLimit' => $this->call('getMemoryLimit'),
-            'timeout' => $this->call('gettimeout'),
+            'timeout' => $this->call('getTimeout'),
             'fileUploadSize' => $this->call('getUploadMaxFilesize'),
             'uploadDirAccess' => $this->call('getUploadDirAccess'),
             'fsMethod' => $this->call('getFileSystemMethod'),
+            'zipExt' => $this->call('getZipExtension'),
+            'curlExt' => $this->call('getCurlExtension'),
         ];
     }
 

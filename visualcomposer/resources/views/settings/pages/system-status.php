@@ -10,6 +10,13 @@ if (!defined('ABSPATH')) {
 /** @var array $phpVersion */
 /** @var array $wpDebug */
 /** @var string $vcVersion */
+/** @var array $memoryLimit */
+/** @var array $timeout */
+/** @var array $fileUploadSize */
+/** @var array $uploadDirAccess */
+/** @var array $fsMethod */
+/** @var array $zipExt */
+/** @var array $curlExt */
 ?>
 <div class="vcv-ui-settings-status-table-container">
     <h2><?php echo esc_html__('System status', 'vcwb') ?></h2>
@@ -109,6 +116,26 @@ if (!defined('ABSPATH')) {
                     </span>
                 </td>
                 <td class="<?php echo $fsMethod['status'] ?>"><?php echo $fsMethod['text']; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo esc_html__('Zip Extension', 'vcwb') ?>:</td>
+                <td class="vcv-help">
+                    <span class="vcv-help-tooltip-icon"></span>
+                    <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('Zip Extension', 'vcwb') ?>
+                    </span>
+                </td>
+                <td class="<?php echo $zipExt['status'] ?>"><?php echo $zipExt['text']; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo esc_html__('Curl Extension', 'vcwb') ?>:</td>
+                <td class="vcv-help">
+                    <span class="vcv-help-tooltip-icon"></span>
+                    <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('Curl Extension', 'vcwb') ?>
+                    </span>
+                </td>
+                <td class="<?php echo $curlExt['status'] ?>"><?php echo $curlExt['text']; ?></td>
             </tr>
             <tr>
                 <td>Test:</td>
