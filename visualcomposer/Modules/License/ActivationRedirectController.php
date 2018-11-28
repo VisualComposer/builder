@@ -40,6 +40,7 @@ class ActivationRedirectController extends Container implements Module
     {
         if (vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
             $statusHelper->checkSystemStatusAndSetFlag();
+            $optionsHelper->setTransient('lastSystemCheck', time() + DAY_IN_SECONDS);
         }
 
         if (!is_network_admin() && !$requestHelper->exists('activate-multi')) {

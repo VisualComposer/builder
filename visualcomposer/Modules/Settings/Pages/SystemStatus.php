@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -34,7 +35,10 @@ class SystemStatus extends Container implements Module
     /** @var \VisualComposer\Helpers\Status */
     protected $statusHelper;
 
-    public function __construct(Status $statusHelper)
+    /** @var \VisualComposer\Helpers\Options  */
+    protected $optionsHelper;
+
+    public function __construct(Status $statusHelper, Options $optionsHelper)
     {
         if (!vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
             return;
@@ -42,13 +46,18 @@ class SystemStatus extends Container implements Module
 
         $this->wpAddAction(
             'admin_menu',
-            'addPage',
-            10
+            'addPage'
+        );
+
+        $this->wpAddAction(
+            'admin_menu',
+            'systemCheck'
         );
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
 
         $this->statusHelper = $statusHelper;
+        $this->optionsHelper = $optionsHelper;
     }
 
     protected function subMenuHighlight($submenuFile)
@@ -59,6 +68,21 @@ class SystemStatus extends Container implements Module
         }
 
         return $submenuFile;
+    }
+
+    /**
+     * @param $response
+     *
+     * @return mixed
+     */
+    protected function systemCheck($response)
+    {
+        if ($this->optionsHelper->getTransient('lastSystemCheck') < time()) {
+            $this->statusHelper->checkSystemStatusAndSetFlag();
+            $this->optionsHelper->setTransient('lastSystemCheck', time() + DAY_IN_SECONDS);
+        }
+
+        return $response;
     }
 
     protected function getStatusCssClass($status)
