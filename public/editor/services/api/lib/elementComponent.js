@@ -27,6 +27,11 @@ export default class ElementComponent extends React.Component {
     editor: PropTypes.object
   }
 
+  constructor (props) {
+    super(props)
+    this.updateElementAssets = this.updateElementAssets.bind(this)
+  }
+
   spinnerHTML () {
     return '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
   }
@@ -53,10 +58,10 @@ export default class ElementComponent extends React.Component {
   }
 
   updateElementAssets (data, source, options) {
-    this.updateElementAssetsWithExclusion(this.state.element.id, options)
+    this.updateElementAssetsWithExclusion(this.props.element.id, options)
   }
 
-  updateElementAssetsWithExclusion (id, options, excludedAttributes) {
+  updateElementAssetsWithExclusion (id, options, excludedAttributes = []) {
     if (!excludedAttributes.length) {
       assetsStorage.trigger('updateElement', id, options)
     } else if (options && excludedAttributes.indexOf(options.changedAttribute) < 0) {
