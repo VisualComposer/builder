@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
     <table class="vcv-ui-settings-status-table">
         <thead>
             <tr>
-                <th colspan="3">WordPress environment</th>
+                <th colspan="3"><?php echo esc_html__('WordPress environment', 'vcwb') ?></th>
             </tr>
         </thead>
         <tbody>
