@@ -36,7 +36,10 @@ class SystemStatus extends Container implements Module
     /** @var \VisualComposer\Helpers\Status */
     protected $statusHelper;
 
-    public function __construct(Status $statusHelper)
+    /** @var \VisualComposer\Helpers\Options  */
+    protected $optionsHelper;
+
+    public function __construct(Status $statusHelper, Options $optionsHelper)
     {
         if (!vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
             return;
@@ -44,8 +47,12 @@ class SystemStatus extends Container implements Module
 
         $this->wpAddAction(
             'admin_menu',
-            'addPage',
-            10
+            'addPage'
+        );
+
+        $this->wpAddAction(
+            'admin_menu',
+            'systemCheck'
         );
 
         $this->wpAddAction('admin_init', 'addWarningNotice');
@@ -53,6 +60,7 @@ class SystemStatus extends Container implements Module
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
 
         $this->statusHelper = $statusHelper;
+        $this->optionsHelper = $optionsHelper;
     }
 
     protected function subMenuHighlight($submenuFile)
@@ -63,6 +71,21 @@ class SystemStatus extends Container implements Module
         }
 
         return $submenuFile;
+    }
+
+    /**
+     * @param $response
+     *
+     * @return mixed
+     */
+    protected function systemCheck($response)
+    {
+        if ($this->optionsHelper->getTransient('lastSystemCheck') < time()) {
+            $this->statusHelper->checkSystemStatusAndSetFlag();
+            $this->optionsHelper->setTransient('lastSystemCheck', time() + DAY_IN_SECONDS);
+        }
+
+        return $response;
     }
 
     protected function getStatusCssClass($status)
@@ -206,12 +229,11 @@ class SystemStatus extends Container implements Module
      * If something fails, show a error message for that
      *
      * @param \VisualComposer\Helpers\Notice $noticeHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Modules\Settings\Pages\SystemStatus $systemStatus
      */
-    protected function addWarningNotice(Notice $noticeHelper, Options $optionsHelper, SystemStatus $systemStatus)
+    protected function addWarningNotice(Notice $noticeHelper, SystemStatus $systemStatus)
     {
-        if ($optionsHelper->get('systemCheckFailing')) {
+        if ($this->optionsHelper->get('systemCheckFailing')) {
             $noticeHelper->addNotice(
                 'systemCheckStatus',
                 sprintf(
