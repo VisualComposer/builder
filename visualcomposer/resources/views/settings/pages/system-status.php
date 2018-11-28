@@ -10,6 +10,11 @@ if (!defined('ABSPATH')) {
 /** @var array $phpVersion */
 /** @var array $wpDebug */
 /** @var string $vcVersion */
+/** @var array $memoryLimit */
+/** @var array $timeout */
+/** @var array $fileUploadSize */
+/** @var array $uploadDirAccess */
+/** @var array $fsMethod */
 ?>
 <div class="vcv-ui-settings-status-table-container">
 <h2><?php echo esc_html__('System status', 'vcwb') ?></h2>

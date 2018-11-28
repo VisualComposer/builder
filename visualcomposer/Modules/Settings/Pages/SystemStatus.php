@@ -92,11 +92,11 @@ class SystemStatus extends Container implements Module
     protected function convertMbToBytes($size)
     {
         if (preg_match('/^(\d+)(.)$/', $size, $matches)) {
-            if ($matches[2] == 'G') {
+            if ($matches[2] === 'G') {
                 $size = (int)$matches[1] * 1024 * 1024 * 1024;
-            } elseif ($matches[2] == 'M') {
+            } elseif ($matches[2] === 'M') {
                 $size = (int)$matches[1] * 1024 * 1024;
-            } elseif ($matches[2] == 'K') {
+            } elseif ($matches[2] === 'K') {
                 $size = (int)$matches[1] * 1024;
             }
         }
@@ -173,7 +173,7 @@ class SystemStatus extends Container implements Module
             'vcVersion' => $this->getVersionResponse(),
             'wpDebug' => $this->getWpDebugResponse(),
             'memoryLimit' => $this->call('getMemoryLimit'),
-            'timeout' => $this->call('gettimeout'),
+            'timeout' => $this->call('getTimeout'),
             'fileUploadSize' => $this->call('getUploadMaxFilesize'),
             'uploadDirAccess' => $this->call('getUploadDirAccess'),
             'fsMethod' => $this->call('getFileSystemMethod'),
