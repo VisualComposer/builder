@@ -22,10 +22,10 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="vcv-ui-settings-status-table-container">
     <h2><?php echo esc_html__('System status', 'vcwb') ?></h2>
-	<p class="vcv-description">
-		<?php echo esc_html__('Check system status and WordPress configuration for compliance with Visual Composer requirements.', 'vcwb');?>
+	<div class="vcv-description">
+		<p><?php echo esc_html__('Check system status and WordPress configuration for compliance with Visual Composer requirements.', 'vcwb');?></p>
 		<a href="<?php echo esc_url($refreshUrl); ?>" class="button vcv-system-refresh"><?php echo esc_html__('Refresh', 'vcwb'); ?></a>
-	</p>
+	</div>
 
     <table class="vcv-ui-settings-status-table">
         <thead>
