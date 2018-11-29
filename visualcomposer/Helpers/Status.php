@@ -103,7 +103,7 @@ class Status implements Helper
     public function getMemoryLimitStatus()
     {
         $memoryLimit = $this->getMemoryLimit();
-        if ($memoryLimit === -1 || $memoryLimit === '-1') {
+        if ($memoryLimit === '-1') {
             return true;
         }
 
