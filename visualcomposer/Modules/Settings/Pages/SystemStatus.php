@@ -128,6 +128,10 @@ class SystemStatus extends Container implements Module
         $memoryLimit = $this->statusHelper->getMemoryLimit();
         $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
 
+        if ($memoryLimit === -1 || $memoryLimit === '-1') {
+            $memoryLimit = 'Infinite';
+        }
+
         $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
