@@ -18,14 +18,6 @@ class Status implements Helper
 
     protected $defaultFileUploadSize = 5;  //In MB
 
-    /** @var \VisualComposer\Helpers\Options */
-    private $optionsHelper;
-
-    public function __construct(Options $optionsHelper)
-    {
-        $this->optionsHelper = $optionsHelper;
-    }
-
     /**
      * @return int
      */
@@ -224,16 +216,18 @@ class Status implements Helper
     }
 
     /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
      * @return void
      */
-    public function checkSystemStatusAndSetFlag()
+    public function checkSystemStatusAndSetFlag(Options $optionsHelper)
     {
         $systemStatus = $this->getSystemStatus();
 
         if (!$systemStatus) {
-            $this->optionsHelper->set('systemCheckFailing', true);
+            $optionsHelper->set('systemCheckFailing', true);
         } else {
-            $this->optionsHelper->delete('systemCheckFailing');
+            $optionsHelper->delete('systemCheckFailing');
         }
     }
 }
