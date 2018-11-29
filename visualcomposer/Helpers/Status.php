@@ -215,13 +215,9 @@ class Status implements Helper
         return true;
     }
 
-    /**
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return void
-     */
-    public function checkSystemStatusAndSetFlag(Options $optionsHelper)
+    public function checkSystemStatusAndSetFlag()
     {
+        $optionsHelper = vchelper('Options');
         $systemStatus = $this->getSystemStatus();
 
         if (!$systemStatus) {

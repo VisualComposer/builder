@@ -59,13 +59,11 @@ class SystemStatusController extends Container implements Module
      * @param $response
      * @param \VisualComposer\Helpers\Status $statusHelper
      *
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
      * @return mixed
      */
-    protected function checkSystem($response, Status $statusHelper, Options $optionsHelper)
+    protected function checkSystem($response, Status $statusHelper)
     {
-        $statusHelper->checkSystemStatusAndSetFlag($optionsHelper);
+        $statusHelper->checkSystemStatusAndSetFlag();
 
         return $response;
     }

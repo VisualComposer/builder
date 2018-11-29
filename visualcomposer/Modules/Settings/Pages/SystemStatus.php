@@ -16,12 +16,14 @@ use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class SystemStatus extends Container implements Module
 {
     use Page;
     use SubMenu;
     use WpFiltersActions;
+    use EventsFilters;
 
     /**
      * @var string
@@ -64,6 +66,8 @@ class SystemStatus extends Container implements Module
             'addCss'
         );
 
+        $this->addFilter('vcv:ajax:vcv:settings:systemStatus:refresh:adminNonce', 'refreshStatusPage');
+
         $this->statusHelper = $statusHelper;
         $this->optionsHelper = $optionsHelper;
     }
@@ -86,7 +90,7 @@ class SystemStatus extends Container implements Module
     protected function systemCheck($response)
     {
         if ($this->optionsHelper->getTransient('lastSystemCheck') < time()) {
-            $this->statusHelper->checkSystemStatusAndSetFlag($this->optionsHelper);
+            $this->statusHelper->checkSystemStatusAndSetFlag();
             $this->optionsHelper->setTransient('lastSystemCheck', time() + DAY_IN_SECONDS);
         }
 
@@ -186,6 +190,7 @@ class SystemStatus extends Container implements Module
     protected function getRenderArgs()
     {
         return [
+            'refreshUrl' => $this->getRefreshUrl(),
             'phpVersion' => $this->getPhpVersionStatusForView(),
             'wpVersion' => $this->getWpVersionStatusForView(),
             'vcVersion' => $this->statusHelper->getVcvVersion(),
@@ -270,5 +275,22 @@ class SystemStatus extends Container implements Module
     protected function addCss()
     {
         evcview('settings/partials/system-status-css');
+    }
+
+    protected function refreshStatusPage(Status $statusHelper)
+    {
+        $statusHelper->checkSystemStatusAndSetFlag();
+        wp_redirect(admin_url('admin.php?page=' . $this->slug));
+        exit;
+    }
+
+    protected function getRefreshUrl()
+    {
+        $urlHelper = vchelper('Url');
+        $nonceHelper = vchelper('Nonce');
+
+        return $urlHelper->adminAjax(
+            ['vcv-action' => 'vcv:settings:systemStatus:refresh:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
+        );
     }
 }

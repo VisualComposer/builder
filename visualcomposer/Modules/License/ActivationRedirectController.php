@@ -39,7 +39,7 @@ class ActivationRedirectController extends Container implements Module
     protected function checkStatusAndSetRedirect(Request $requestHelper, Options $optionsHelper, Status $statusHelper)
     {
         if (vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
-            $statusHelper->checkSystemStatusAndSetFlag($optionsHelper);
+            $statusHelper->checkSystemStatusAndSetFlag();
             $optionsHelper->setTransient('lastSystemCheck', time() + DAY_IN_SECONDS);
         }
 
