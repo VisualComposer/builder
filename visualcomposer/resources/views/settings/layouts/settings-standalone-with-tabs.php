@@ -26,6 +26,7 @@ foreach ($tabs as $tabKey => $tab) {
 evcview('settings/partials/admin-nonce');
 ?>
 <div class="wrap vcv-settings">
+    <h1 /> <!--DONT REMOVE, WP SHOWS NOTICES AFTER FIRST Hx TAG-->
     <h2 class="nav-tab-wrapper">
         <?php echo $tabsHtml ?>
     </h2>
