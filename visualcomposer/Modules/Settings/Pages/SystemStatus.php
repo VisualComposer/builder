@@ -240,14 +240,6 @@ class SystemStatus extends Container implements Module
             VCV_VERSION
         );
         wp_enqueue_style('vcv:wpUpdateRedesign:style');
-
-        wp_register_script(
-            'vcv:wpVcSettings:script',
-            $urlHelper->assetUrl('dist/wpVcSettings.bundle.js'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_script('vcv:wpVcSettings:script');
     }
 
     /**
