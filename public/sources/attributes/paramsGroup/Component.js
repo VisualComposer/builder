@@ -211,6 +211,22 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   getChildControls (index) {
+    const { value } = this.state
+    const { options } = this.props
+    let maximum = false
+    let minimum = false
+    if (options.max && value && value.value && value.value.length >= options.max) {
+      maximum = true
+    }
+
+    if (options.min && value && value.value && value.value.length <= options.min) {
+      minimum = true
+    }
+
+    if (value && value.value && value.value.length <= 1) {
+      minimum = true
+    }
+
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const cloneText = localizations ? localizations.clone : 'Clone'
     const removeText = localizations ? localizations.remove : 'Remove'
@@ -221,28 +237,36 @@ export default class ParamsGroupAttribute extends Attribute {
           <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={() => { this.clickEdit(index) }}>
             <i className='vcv-ui-icon vcv-ui-icon-edit' />
           </span>
+          {!maximum &&
           <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={() => { this.clickClone(index) }}>
             <i className='vcv-ui-icon vcv-ui-icon-copy' />
-          </span>
-          <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={() => { this.clickDelete(index) }}>
+          </span>}
+          {!minimum && <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={() => { this.clickDelete(index) }}>
             <i className='vcv-ui-icon vcv-ui-icon-trash' />
-          </span>
+          </span>}
         </span>
       </div>
     )
   }
 
   render () {
+    const { value } = this.state
+    const { options } = this.props
+    let maximum = false
+    if (options.max && value && value.value && value.value.length >= options.max) {
+      maximum = true
+    }
+
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addText = localizations ? localizations.add : 'Add'
     return (
       <React.Fragment>
-        {this.state.value.value && this.state.value.value.length ? null : (
-          <div className='vcv-ui-form-group-heading'>{this.props.options.title}</div>
+        {value.value && value.value.length ? null : (
+          <div className='vcv-ui-form-group-heading'>{options.title}</div>
         )}
         <div className='vcv-ui-form-params-group'>
           {this.getSortableList()}
-          <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.clickAdd} title={addText} />
+          {!maximum && <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.clickAdd} title={addText} />}
         </div>
       </React.Fragment>
     )
