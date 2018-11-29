@@ -67,12 +67,25 @@ if (!defined('ABSPATH')) {
                 </td>
                 <td><?php echo $vcVersion; ?></td>
             </tr>
+        </tbody>
+    </table>
+
+    <table class="vcv-ui-settings-status-table">
+        <thead>
+            <tr>
+                <th colspan="3"><?php echo esc_html__('Configurations', 'vcwb') ?></th>
+            </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td><?php echo esc_html__('Memory Limit', 'vcwb') ?>:</td>
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('The maximum amout of memory (RAM) that your site can use at one time', 'vcwb') ?>
+                        <?php echo esc_html__(
+                            'The maximum amout of memory (RAM) that your site can use at one time',
+                            'vcwb'
+                        ) ?>
                     </span>
                 </td>
                 <td class="<?php echo $memoryLimit['status'] ?>"><?php echo $memoryLimit['text']; ?></td>
@@ -92,7 +105,10 @@ if (!defined('ABSPATH')) {
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('The largest filesize that can be uploaded to your WordPress installation', 'vcwb') ?>
+                        <?php echo esc_html__(
+                            'The largest filesize that can be uploaded to your WordPress installation',
+                            'vcwb'
+                        ) ?>
                     </span>
                 </td>
                 <td class="<?php echo $fileUploadSize['status'] ?>"><?php echo $fileUploadSize['text']; ?></td>
@@ -102,7 +118,10 @@ if (!defined('ABSPATH')) {
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('Visual Composer stores assets in the WordPress uploads directory. The directory must be writable for this to happen.', 'vcwb') ?>
+                        <?php echo esc_html__(
+                            'Visual Composer stores assets in the WordPress uploads directory. The directory must be writable for this to happen.',
+                            'vcwb'
+                        ) ?>
                     </span>
                 </td>
                 <td class="<?php echo $uploadDirAccess['status'] ?>"><?php echo $uploadDirAccess['text']; ?></td>
@@ -117,6 +136,16 @@ if (!defined('ABSPATH')) {
                 </td>
                 <td class="<?php echo $fsMethod['status'] ?>"><?php echo $fsMethod['text']; ?></td>
             </tr>
+        </tbody>
+    </table>
+
+    <table class="vcv-ui-settings-status-table">
+        <thead>
+            <tr>
+                <th colspan="3"><?php echo esc_html__('Extensions', 'vcwb') ?></th>
+            </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td><?php echo esc_html__('Zip Extension', 'vcwb') ?>:</td>
                 <td class="vcv-help">
@@ -136,16 +165,6 @@ if (!defined('ABSPATH')) {
                     </span>
                 </td>
                 <td class="<?php echo $curlExt['status'] ?>"><?php echo $curlExt['text']; ?></td>
-            </tr>
-            <tr>
-                <td>Test:</td>
-                <td class="vcv-help">
-                    <span class="vcv-help-tooltip-icon"></span>
-                    <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('Test', 'vcwb') ?>
-                    </span>
-                </td>
-                <td>Test</td>
             </tr>
         </tbody>
     </table>

@@ -10,6 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Notice;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
@@ -30,13 +33,13 @@ class SystemStatus extends Container implements Module
      */
     protected $templatePath = 'settings/pages/system-status';
 
-    protected $defaultExecutionTime = 30; //In seconds
+    /** @var \VisualComposer\Helpers\Status */
+    protected $statusHelper;
 
-    protected $defaultMemoryLimit = 256; //In MB
+    /** @var \VisualComposer\Helpers\Options */
+    protected $optionsHelper;
 
-    protected $defaultFileUploadSize = 5; //In MB
-
-    public function __construct()
+    public function __construct(Status $statusHelper, Options $optionsHelper)
     {
         if (!vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
             return;
@@ -44,11 +47,25 @@ class SystemStatus extends Container implements Module
 
         $this->wpAddAction(
             'admin_menu',
-            'addPage',
-            10
+            'addPage'
         );
 
+        $this->wpAddAction(
+            'admin_menu',
+            'systemCheck'
+        );
+
+        $this->wpAddAction('admin_init', 'addWarningNotice');
+
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
+
+        $this->wpAddAction(
+            'in_admin_header',
+            'addCss'
+        );
+
+        $this->statusHelper = $statusHelper;
+        $this->optionsHelper = $optionsHelper;
     }
 
     protected function subMenuHighlight($submenuFile)
@@ -61,9 +78,19 @@ class SystemStatus extends Container implements Module
         return $submenuFile;
     }
 
-    protected function checkVersion($mustHaveVersion, $versionToCheck)
+    /**
+     * @param $response
+     *
+     * @return mixed
+     */
+    protected function systemCheck($response)
     {
-        return !version_compare($mustHaveVersion, $versionToCheck, '>');
+        if ($this->optionsHelper->getTransient('lastSystemCheck') < time()) {
+            $this->statusHelper->checkSystemStatusAndSetFlag($this->optionsHelper);
+            $this->optionsHelper->setTransient('lastSystemCheck', time() + DAY_IN_SECONDS);
+        }
+
+        return $response;
     }
 
     protected function getStatusCssClass($status)
@@ -71,157 +98,105 @@ class SystemStatus extends Container implements Module
         return $status ? 'good' : 'bad';
     }
 
-    protected function getWpVersionResponse()
+    public function getPhpVersionStatusForView()
     {
-        $wpVersion = get_bloginfo('version');
-        $checkVersion = $this->checkVersion(VCV_REQUIRED_BLOG_VERSION, $wpVersion);
-
-        $textResponse = $checkVersion ? $wpVersion : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
-    }
-
-    protected function getPhpVersionResponse()
-    {
-        $checkVersion = $this->checkVersion(VCV_REQUIRED_PHP_VERSION, PHP_VERSION);
-
+        $checkVersion = $this->statusHelper->getPhpVersionStatus();
         $textResponse = $checkVersion ? PHP_VERSION : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
 
-    protected function getVersionResponse()
+    public function getWpVersionStatusForView()
     {
-        return VCV_VERSION;
+        $wpVersionCheck = $this->statusHelper->getWpVersionStatus();
+        $textResponse = $wpVersionCheck ? get_bloginfo('version') : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($wpVersionCheck)];
     }
 
-    protected function getWpDebugResponse()
+    public function getWpDebugStatusForView()
     {
-        $check = !WP_DEBUG;
+        $check = $this->statusHelper->getWpDebugStatus();
 
         $textResponse = $check ? 'Enabled' : 'WP_DEBUG is TRUE';
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
-    protected function convertMbToBytes($size)
+    public function getMemoryLimitStatusForView()
     {
-        if (preg_match('/^(\d+)(.)$/', $size, $matches)) {
-            if ($matches[2] === 'G') {
-                $size = (int)$matches[1] * 1024 * 1024 * 1024;
-            } elseif ($matches[2] === 'M') {
-                $size = (int)$matches[1] * 1024 * 1024;
-            } elseif ($matches[2] === 'K') {
-                $size = (int)$matches[1] * 1024;
-            }
-        }
+        $memoryLimit = $this->statusHelper->getMemoryLimit();
+        $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
 
-        return $size;
+        $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
     }
 
-    protected function getMemoryLimit()
+    public function getTimeoutStatusForView()
     {
-        $memoryLimit = ini_get('memory_limit');
-        if ($memoryLimit === -1) {
-            $check = true;
-        } else {
-            $memoryLimitToBytes = $this->call('convertMbToBytes', [$memoryLimit]);
-            $check = ($memoryLimitToBytes >= $this->defaultMemoryLimit * 1024 * 1024);
-        }
+        $maxExecutionTime = $this->statusHelper->getMaxExecutionTime();
+        $maxExecutionTimeCheck = $this->statusHelper->getTimeoutStatus();
+        $textResponse = $maxExecutionTimeCheck ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->statusHelper->getDefaultExecutionTime(), $maxExecutionTime);
 
-        $textResponse = $check ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->defaultMemoryLimit, $memoryLimit);
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxExecutionTimeCheck)];
     }
 
-    protected function getTimeout()
+    public function getUploadMaxFileSizeStatusForView()
     {
-        $maxExecutionTime = (int)ini_get('max_execution_time');
-        $check = false;
-        if ($maxExecutionTime >= $this->defaultExecutionTime) {
-            $check = true;
-        }
+        $maxFileSize = $this->statusHelper->getMaxUploadFileSize();
+        $maxFileSizeCheck = $this->statusHelper->getUploadMaxFileSizeStatus();
+        $textResponse = $maxFileSizeCheck ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultFileUploadSize(), $maxFileSize);
 
-        $textResponse = $check ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->defaultExecutionTime, $maxExecutionTime);
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxFileSizeCheck)];
     }
 
-    protected function getUploadMaxFilesize()
+    protected function getUploadDirAccessStatusForView()
     {
-        $maxFileSize = ini_get('upload_max_filesize');
-        $maxFileSizeToBytes = $this->call('convertMbToBytes', [$maxFileSize]);
-        $check = false;
+        $accessCheck = $this->statusHelper->getUploadDirAccessStatus();
+        $textResponse = $accessCheck ? 'Writable' : __('Uploads directory is not writable', 'vcwb');
 
-        if ($maxFileSizeToBytes >= $this->defaultFileUploadSize) {
-            $check = true;
-        }
-
-        $textResponse = $check ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->defaultFileUploadSize, $maxFileSize);
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($accessCheck)];
     }
 
-    protected function getUploadDirAccess()
+    protected function getFileSystemStatusForView()
     {
-        $wpUploadDir = wp_upload_dir()['basedir'];
-        $check = is_writable($wpUploadDir);
+        $fsStatus = $this->statusHelper->getFileSystemStatus();
+        $textResponse = $fsStatus ? 'Direct' : __('FS_METHOD should be direct', 'vcwb');
 
-        $textResponse = $check ? 'Writable' : __('Uploads directory is not writable', 'vcwb');
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($fsStatus)];
     }
 
-    protected function getFileSystemMethod()
+    protected function getZipStatusForView()
     {
-        $check = true;
-        if (defined('FS_METHOD') && FS_METHOD !== 'direct') {
-            $check = false;
-        }
+        $zipStatus = $this->statusHelper->getZipStatus();
+        $textResponse = $zipStatus ? 'Enabled' : __('Zip extension is not installed', 'vcwb');
 
-        $textResponse = $check ? 'Direct' : __('FS_METHOD should be direct', 'vcwb');
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($zipStatus)];
     }
 
-    protected function getZipExtension()
+    protected function getCurlStatusForView()
     {
-        $check = false;
-        if (class_exists('ZipArchive') || class_exists('PclZip')) {
-            $check = true;
-        }
+        $curlStatus = $this->statusHelper->getCurlStatus();
+        $textResponse = $curlStatus ? curl_version()['version'] : __('Curl extension is not installed', 'vcwb');
 
-        $textResponse = $check ? 'Enabled' : __('Zip extension is not installed', 'vcwb');
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
-    }
-
-    protected function getCurlExtension()
-    {
-        $check = false;
-        if (extension_loaded('curl')) {
-            $check = true;
-        }
-
-        $textResponse = $check ? curl_version()['version'] : __('Curl extension is not installed', 'vcwb');
-
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($curlStatus)];
     }
 
     protected function getRenderArgs()
     {
         return [
-            'phpVersion' => $this->getPhpVersionResponse(),
-            'wpVersion' => $this->getWpVersionResponse(),
-            'vcVersion' => $this->getVersionResponse(),
-            'wpDebug' => $this->getWpDebugResponse(),
-            'memoryLimit' => $this->call('getMemoryLimit'),
-            'timeout' => $this->call('getTimeout'),
-            'fileUploadSize' => $this->call('getUploadMaxFilesize'),
-            'uploadDirAccess' => $this->call('getUploadDirAccess'),
-            'fsMethod' => $this->call('getFileSystemMethod'),
-            'zipExt' => $this->call('getZipExtension'),
-            'curlExt' => $this->call('getCurlExtension'),
+            'phpVersion' => $this->getPhpVersionStatusForView(),
+            'wpVersion' => $this->getWpVersionStatusForView(),
+            'vcVersion' => $this->statusHelper->getVcvVersion(),
+            'wpDebug' => $this->getWpDebugStatusForView(),
+            'memoryLimit' => $this->getMemoryLimitStatusForView(),
+            'timeout' => $this->getTimeoutStatusForView(),
+            'fileUploadSize' => $this->getUploadMaxFileSizeStatusForView(),
+            'uploadDirAccess' => $this->getUploadDirAccessStatusForView(),
+            'fsMethod' => $this->getFileSystemStatusForView(),
+            'zipExt' => $this->getZipStatusForView(),
+            'curlExt' => $this->getCurlStatusForView(),
         ];
     }
 
@@ -238,6 +213,14 @@ class SystemStatus extends Container implements Module
             VCV_VERSION
         );
         wp_enqueue_style('vcv:wpUpdateRedesign:style');
+
+        wp_register_script(
+            'vcv:wpVcSettings:script',
+            $urlHelper->assetUrl('dist/wpVcSettings.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_enqueue_script('vcv:wpVcSettings:script');
     }
 
     /**
@@ -253,5 +236,36 @@ class SystemStatus extends Container implements Module
             'controller' => $this,
         ];
         $this->addSubmenuPage($page);
+    }
+
+    /**
+     * If something fails, show a error message for that
+     *
+     * @param \VisualComposer\Helpers\Notice $noticeHelper
+     * @param \VisualComposer\Modules\Settings\Pages\SystemStatus $systemStatus
+     */
+    protected function addWarningNotice(Notice $noticeHelper, SystemStatus $systemStatus)
+    {
+        if ($this->optionsHelper->get('systemCheckFailing')) {
+            $noticeHelper->addNotice(
+                'systemCheckStatus',
+                sprintf(
+                    __(
+                        'It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href="%s">system status</a> page.',
+                        'vcwb'
+                    ),
+                    admin_url('admin.php?page=' . $systemStatus->slug)
+                ),
+                'error',
+                true
+            );
+        } else {
+            $noticeHelper->removeNotice('systemCheckStatus');
+        }
+    }
+
+    protected function addCss()
+    {
+        evcview('settings/partials/system-status-css');
     }
 }

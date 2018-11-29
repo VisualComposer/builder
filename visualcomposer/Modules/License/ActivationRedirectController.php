@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -22,8 +23,8 @@ class ActivationRedirectController extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\License\ActivationRedirectController::setRedirect */
-        $this->addEvent('vcv:system:activation:hook', 'setRedirect');
+        /** @see \VisualComposer\Modules\License\ActivationRedirectController::checkStatusAndSetRedirect */
+        $this->addEvent('vcv:system:activation:hook', 'checkStatusAndSetRedirect');
         /** @see \VisualComposer\Modules\License\ActivationRedirectController::doRedirect */
         $this->wpAddAction('admin_init', 'doRedirect');
     }
@@ -33,9 +34,15 @@ class ActivationRedirectController extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Status $statusHelper
      */
-    protected function setRedirect(Request $requestHelper, Options $optionsHelper)
+    protected function checkStatusAndSetRedirect(Request $requestHelper, Options $optionsHelper, Status $statusHelper)
     {
+        if (vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
+            $statusHelper->checkSystemStatusAndSetFlag($optionsHelper);
+            $optionsHelper->setTransient('lastSystemCheck', time() + DAY_IN_SECONDS);
+        }
+
         if (!is_network_admin() && !$requestHelper->exists('activate-multi')) {
             $optionsHelper->setTransient('_vcv_activation_page_redirect', 1, 30);
         }

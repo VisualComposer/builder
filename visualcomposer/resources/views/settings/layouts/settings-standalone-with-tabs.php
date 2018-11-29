@@ -25,7 +25,12 @@ foreach ($tabs as $tabKey => $tab) {
 
 evcview('settings/partials/admin-nonce');
 ?>
+<script>
+  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
+  window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
+</script>
 <div class="wrap vcv-settings">
+    <h1 /> <!--DONT REMOVE, WP SHOWS NOTICES AFTER FIRST Hx TAG-->
     <h2 class="nav-tab-wrapper">
         <?php echo $tabsHtml ?>
     </h2>

@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class SystemStatusController extends Container implements Module
@@ -24,6 +25,12 @@ class SystemStatusController extends Container implements Module
         $this->addFilter(
             'vcv:ajax:checkVersion:adminNonce',
             'checkVersion'
+        );
+
+        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::runAllChecks */
+        $this->addFilter(
+            'vcv:ajax:checkSystem:adminNonce',
+            'checkSystem'
         );
     }
 
@@ -44,6 +51,21 @@ class SystemStatusController extends Container implements Module
         if ($response['status'] === true) {
             $optionsHelper->setTransient('lastBundleUpdate', 1);
         }
+
+        return $response;
+    }
+
+    /**
+     * @param $response
+     * @param \VisualComposer\Helpers\Status $statusHelper
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return mixed
+     */
+    protected function checkSystem($response, Status $statusHelper, Options $optionsHelper)
+    {
+        $statusHelper->checkSystemStatusAndSetFlag($optionsHelper);
 
         return $response;
     }
