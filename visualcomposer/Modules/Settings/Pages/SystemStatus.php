@@ -86,7 +86,7 @@ class SystemStatus extends Container implements Module
     protected function systemCheck($response)
     {
         if ($this->optionsHelper->getTransient('lastSystemCheck') < time()) {
-            $this->statusHelper->checkSystemStatusAndSetFlag();
+            $this->statusHelper->checkSystemStatusAndSetFlag($this->optionsHelper);
             $this->optionsHelper->setTransient('lastSystemCheck', time() + DAY_IN_SECONDS);
         }
 
