@@ -66,13 +66,14 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   clickAdd () {
-    let { value } = this.state.value
-    let { settings } = this.props.options
+    const { value } = this.state.value
+    const { options } = this.props
+    const { settings } = options
     let newValue = {}
     Object.keys(settings).forEach((setting) => {
       newValue[ setting ] = settings[ setting ].value
     })
-    newValue.title = 'Group title'
+    newValue.title = options.title || 'Group title'
     value.push(lodash.defaultsDeep({}, newValue))
     let newState = {
       value: value
