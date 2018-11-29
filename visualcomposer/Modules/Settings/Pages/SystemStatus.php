@@ -118,7 +118,7 @@ class SystemStatus extends Container implements Module
     {
         $check = $this->statusHelper->getWpDebugStatus();
 
-        $textResponse = $check ? 'Enabled' : 'WP_DEBUG is TRUE';
+        $textResponse = $check ? 'WP_DEBUG is FALSE' : 'WP_DEBUG is TRUE';
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }

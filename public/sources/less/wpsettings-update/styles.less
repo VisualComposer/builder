@@ -367,6 +367,13 @@
   }
 
   .bad {
+    &.vcv-no-icon {
+      padding-left: 10px;
+      &::before {
+        content: '';
+      }
+    }
+
     color: @vcv-status-color-invalid;
     &::before {
       content: '\2717';
