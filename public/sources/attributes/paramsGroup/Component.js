@@ -67,7 +67,7 @@ export default class ParamsGroupAttribute extends Attribute {
 
   clickAdd () {
     const { value } = this.state.value
-    const { options, title } = this.props
+    const { options } = this.props
     const { settings } = options
     let newValue = {}
     Object.keys(settings).forEach((setting) => {
