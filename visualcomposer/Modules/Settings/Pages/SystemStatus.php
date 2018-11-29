@@ -132,6 +132,10 @@ class SystemStatus extends Container implements Module
         $memoryLimit = $this->statusHelper->getMemoryLimit();
         $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
 
+        if ($memoryLimit === -1 || $memoryLimit === '-1') {
+            $memoryLimit = 'Infinite';
+        }
+
         $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
@@ -187,6 +191,22 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($curlStatus)];
     }
 
+    protected function getAwsConnectionStatusForView()
+    {
+        $check = $this->statusHelper->getAwsConnection();
+        $textResponse = $check ? 'Success' : __('Connection with AWS was unsuccessful', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getAccountConnectionStatusForView()
+    {
+        $check = $this->statusHelper->getAccountConnection();
+        $textResponse = $check ? 'Success' : __('Connection with Account was unsuccessful', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
     protected function getRenderArgs()
     {
         return [
@@ -202,6 +222,8 @@ class SystemStatus extends Container implements Module
             'fsMethod' => $this->getFileSystemStatusForView(),
             'zipExt' => $this->getZipStatusForView(),
             'curlExt' => $this->getCurlStatusForView(),
+            'account' => $this->getAccountConnectionStatusForView(),
+            'aws' => $this->getAwsConnectionStatusForView(),
         ];
     }
 
