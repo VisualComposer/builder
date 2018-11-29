@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Notice;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -35,7 +36,7 @@ class SystemStatus extends Container implements Module
     /** @var \VisualComposer\Helpers\Status */
     protected $statusHelper;
 
-    /** @var \VisualComposer\Helpers\Options  */
+    /** @var \VisualComposer\Helpers\Options */
     protected $optionsHelper;
 
     public function __construct(Status $statusHelper, Options $optionsHelper)
@@ -53,6 +54,8 @@ class SystemStatus extends Container implements Module
             'admin_menu',
             'systemCheck'
         );
+
+        $this->wpAddAction('admin_init', 'addWarningNotice');
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
 
@@ -210,6 +213,14 @@ class SystemStatus extends Container implements Module
             VCV_VERSION
         );
         wp_enqueue_style('vcv:wpUpdateRedesign:style');
+
+        wp_register_script(
+            'vcv:wpVcSettings:script',
+            $urlHelper->assetUrl('dist/wpVcSettings.bundle.js'),
+            [],
+            VCV_VERSION
+        );
+        wp_enqueue_script('vcv:wpVcSettings:script');
     }
 
     /**
@@ -228,8 +239,31 @@ class SystemStatus extends Container implements Module
     }
 
     /**
-     * Add style to hide System Status link in menu
+     * If something fails, show a error message for that
+     *
+     * @param \VisualComposer\Helpers\Notice $noticeHelper
+     * @param \VisualComposer\Modules\Settings\Pages\SystemStatus $systemStatus
      */
+    protected function addWarningNotice(Notice $noticeHelper, SystemStatus $systemStatus)
+    {
+        if ($this->optionsHelper->get('systemCheckFailing')) {
+            $noticeHelper->addNotice(
+                'systemCheckStatus',
+                sprintf(
+                    __(
+                        'It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href="%s">system status</a> page.',
+                        'vcwb'
+                    ),
+                    admin_url('admin.php?page=' . $systemStatus->slug)
+                ),
+                'error',
+                true
+            );
+        } else {
+            $noticeHelper->removeNotice('systemCheckStatus');
+        }
+    }
+
     protected function addCss()
     {
         evcview('settings/partials/system-status-css');
