@@ -246,19 +246,22 @@ class SystemStatus extends Container implements Module
      */
     protected function addWarningNotice(Notice $noticeHelper, SystemStatus $systemStatus)
     {
+        $notices = $noticeHelper->all();
         if ($this->optionsHelper->get('systemCheckFailing')) {
-            $noticeHelper->addNotice(
-                'systemCheckStatus',
-                sprintf(
-                    __(
-                        'It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href="%s">system status</a> page.',
-                        'vcwb'
+            if (!isset($notices['systemCheckStatus'])) {
+                $noticeHelper->addNotice(
+                    'systemCheckStatus',
+                    sprintf(
+                        __(
+                            'It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href="%s">system status</a> page.',
+                            'vcwb'
+                        ),
+                        admin_url('admin.php?page=' . $systemStatus->slug)
                     ),
-                    admin_url('admin.php?page=' . $systemStatus->slug)
-                ),
-                'error',
-                true
-            );
+                    'error',
+                    true
+                );
+            }
         } else {
             $noticeHelper->removeNotice('systemCheckStatus');
         }
