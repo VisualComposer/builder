@@ -69,11 +69,31 @@ if (!defined('ABSPATH')) {
             <td class="vcv-help">
                 <span class="vcv-help-tooltip-icon"></span>
                 <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('The version of Visual Composer installed on your site', 'vcwb') ?>
-                    </span>
+	                <?php echo esc_html__('The version of Visual Composer installed on your site', 'vcwb') ?>
+                </span>
             </td>
-            <td><?php echo $vcVersion; ?></td>
+            <td>
+                <?php echo $vcVersion; ?>
+            </td>
         </tr>
+        <?php if (vchelper('Options')->getTransient('pluginUpdateAvailable')) { ?>
+        <tr>
+	        <td colspan="3">
+		        <div class="update-message notice inline notice-warning notice-alt">
+			        <p>
+                        <?php echo esc_html__(
+                            'There is a new version of Visual Composer Website Builder available.',
+                            'vcwb'
+                        ); ?>
+				        <a href="<?php echo self_admin_url('plugins.php'); ?>" class="update-link"><?php echo esc_html(
+                                'Update',
+                                'vcwb'
+                            ); ?></a>.
+			        </p>
+		        </div>
+	        </td>
+        </tr>
+        <?php } ?>
         </tbody>
     </table>
 
