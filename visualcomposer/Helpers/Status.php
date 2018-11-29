@@ -18,6 +18,16 @@ class Status implements Helper
 
     protected $defaultFileUploadSize = 5;  //In MB
 
+    protected $updateVersionUrl;
+
+    public function __construct()
+    {
+        $this->updateVersionUrl = vcvenv(
+            'VCV_ENV_PLUGIN_UPDATE_VERSION_URL',
+            'http://updates.visualcomposer.io/visual-composer-website-builder/index.html'
+        );
+    }
+
     /**
      * @return int
      */
@@ -93,7 +103,7 @@ class Status implements Helper
     public function getMemoryLimitStatus()
     {
         $memoryLimit = $this->getMemoryLimit();
-        if ($memoryLimit === -1) {
+        if ($memoryLimit === -1 || $memoryLimit === '-1') {
             return true;
         }
 
@@ -191,6 +201,57 @@ class Status implements Helper
         return $size;
     }
 
+    /**
+     * @return bool
+     */
+    public function getAwsConnection()
+    {
+        $request = wp_remote_get(
+            $this->updateVersionUrl,
+            [
+                'timeout' => 30,
+            ]
+        );
+        if (!vcIsBadResponse($request)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAccountConnection()
+    {
+        $id = vchelper('Options')->get('hubTokenId');
+        $body = [
+            'hoster_id' => 'account',
+            'id' => $id,
+            'domain' => get_site_url(),
+            'url' => VCV_PLUGIN_URL,
+            'vcv-version' => VCV_VERSION,
+        ];
+        $url = VCV_TOKEN_URL;
+        $url = vchelper('Url')->query($url, $body);
+        $result = wp_remote_get(
+            $url,
+            [
+                'timeout' => 30,
+            ]
+        );
+
+        if (is_array($result) && isset($result['body'])) {
+            $json = json_decode($result['body']);
+            if ($json->success) {
+                return true;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
     public function getSystemStatus()
     {
         $results = [
@@ -204,6 +265,8 @@ class Status implements Helper
             $this->getWpVersionStatus(),
             $this->getUploadDirAccessStatus(),
             $this->getUploadMaxFileSizeStatus(),
+            $this->getAwsConnection(),
+            $this->getAccountConnection(),
         ];
 
         foreach ($results as $result) {
