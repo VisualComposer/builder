@@ -149,4 +149,64 @@ if (!defined('ABSPATH')) {
             </tr>
         </tbody>
     </table>
+
+    <table class="vcv-ui-settings-status-table">
+        <thead>
+        <tr>
+            <th colspan="3"><?php echo esc_html__('Configurations', 'vcwb') ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><?php echo esc_html__('Memory Limit', 'vcwb') ?>:</td>
+            <td class="vcv-help">
+                <span class="vcv-help-tooltip-icon"></span>
+                <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('The maximum amout of memory (RAM) that your site can use at one time', 'vcwb') ?>
+                    </span>
+            </td>
+            <td class="<?php echo $memoryLimit['status'] ?>"><?php echo $memoryLimit['text']; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo esc_html__('Timeout', 'vcwb') ?>:</td>
+            <td class="vcv-help">
+                <span class="vcv-help-tooltip-icon"></span>
+                <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('Amount of max execution time', 'vcwb') ?>
+                    </span>
+            </td>
+            <td class="<?php echo $timeout['status'] ?>"><?php echo $timeout['text']; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo esc_html__('Upload Max Filesize', 'vcwb') ?>:</td>
+            <td class="vcv-help">
+                <span class="vcv-help-tooltip-icon"></span>
+                <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('The largest filesize that can be uploaded to your WordPress installation', 'vcwb') ?>
+                    </span>
+            </td>
+            <td class="<?php echo $fileUploadSize['status'] ?>"><?php echo $fileUploadSize['text']; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo esc_html__('Access to Uploads Directory', 'vcwb') ?>:</td>
+            <td class="vcv-help">
+                <span class="vcv-help-tooltip-icon"></span>
+                <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('Visual Composer stores assets in the WordPress uploads directory. The directory must be writable for this to happen.', 'vcwb') ?>
+                    </span>
+            </td>
+            <td class="<?php echo $uploadDirAccess['status'] ?>"><?php echo $uploadDirAccess['text']; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo esc_html__('File System Method', 'vcwb') ?>:</td>
+            <td class="vcv-help">
+                <span class="vcv-help-tooltip-icon"></span>
+                <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('The File System method should be direct', 'vcwb') ?>
+                    </span>
+            </td>
+            <td class="<?php echo $fsMethod['status'] ?>"><?php echo $fsMethod['text']; ?></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
