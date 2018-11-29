@@ -1,7 +1,16 @@
 (() => {
   class CheckVersion {
+    getUpdateNotice () {
+      const currentUrl = window.location.href
+      const search = window.location.search
+      const updateUrl = currentUrl.replace(search, '?page=vcv-update')
+      return `<div class="notice notice-warning is-dismissible">
+        <p>A new version of Visual Composer is available. <a href="${updateUrl}">Update.</a></p>
+      </div>`
+    }
+
     ajax () {
-      const url = window.ajaxurl
+      const url = window.vcvAdminAjaxUrl
       const request = new window.XMLHttpRequest()
       const requestData = {
         'vcv-action': 'checkVersion:adminNonce',
@@ -10,10 +19,10 @@
       }
       request.onreadystatechange = () => {
         if (request.readyState === 4) {
-          console.log('request', request)
-          this.successCallback(request.response)
-        } else {
-          this.errorCallback(request.response)
+          const response = JSON.parse(request.response)
+          if (response && response.status) {
+            this.successCallback(request.response)
+          }
         }
       }
       request.open('GET', url, true)
@@ -21,11 +30,13 @@
     }
 
     successCallback (response) {
-      console.log('success response', response)
+      const heading = document.querySelector('.vcv-settings h1')
+      const notice = this.getUpdateNotice()
+      heading.insertAdjacentHTML('afterend', notice)
     }
 
     errorCallback (response) {
-      console.log('fail response', response)
+      console.warn('Request failed: ', response.details)
     }
   }
 

@@ -47,13 +47,17 @@ export default class ElementComponent extends React.Component {
     }
 
     if (vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
-      elementsStorage.off(`element:${this.props.element.id}`, this.updateElementAssets)
+      if (this.props.element && this.props.element.id) {
+        elementsStorage.off(`element:${this.props.element.id}`, this.updateElementAssets)
+      }
     }
   }
 
   componentDidMount () {
     if (vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
-      elementsStorage.on(`element:${this.props.element.id}`, this.updateElementAssets)
+      if (this.props.element && this.props.element.id) {
+        elementsStorage.on(`element:${this.props.element.id}`, this.updateElementAssets)
+      }
     }
   }
 

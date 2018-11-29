@@ -57,7 +57,7 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('Displays whether of not WordPress is in Debug Mode', 'vcwb') ?>
                     </span>
             </td>
-            <td class="<?php echo $wpDebug['status'] ?>"><?php echo $wpDebug['text'] ?></td>
+            <td class="<?php echo $wpDebug['status'] ?> vcv-no-icon"><?php echo $wpDebug['text'] ?></td>
         </tr>
         <tr>
             <td><?php echo esc_html__('Visual Composer Version', 'vcwb') ?>:</td>

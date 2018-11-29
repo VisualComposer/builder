@@ -289,7 +289,7 @@
     display: none;
     position: absolute;
     top: 100%;
-    left: -74px;
+    left: -70px;
     width: 150px;
     max-width: 200px;
     z-index: 0;
@@ -367,6 +367,13 @@
   }
 
   .bad {
+    &.vcv-no-icon {
+      padding-left: 10px;
+      &::before {
+        content: '';
+      }
+    }
+
     color: @vcv-status-color-invalid;
     &::before {
       content: '\2717';
