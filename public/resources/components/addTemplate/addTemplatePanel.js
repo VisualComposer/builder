@@ -359,6 +359,7 @@ export default class AddTemplatePanel extends React.Component {
     // const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.premiumTemplatesButton : 'Go Premium'
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
+    const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
 
     let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
 
@@ -378,6 +379,13 @@ export default class AddTemplatePanel extends React.Component {
       'vcv-ui-tree-content-error-message': true,
       'vcv-ui-tree-content-error-message--visible': this.state.error
     })
+
+    const moreButton = itemsOutput.length
+      ? <div className='vcv-ui-editor-get-more'>
+        {this.getMoreButton()}
+        <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
+      </div>
+      : null
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
@@ -422,9 +430,7 @@ export default class AddTemplatePanel extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className='vcv-ui-editor-get-more'>
-                  {itemsOutput.length ? this.getMoreButton() : null}
-                </div>
+                {moreButton}
               </div>
             </Scrollbar>
           </div>

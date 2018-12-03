@@ -352,6 +352,7 @@ class Localizations extends Container implements Helper
             'getStartedText' => __('Get Started', 'vcwb'),
             'doNotCloseWhileSendingErrorReportText' => __('Don\'t close this window while sending error is in the progress.', 'vcwb'),
             'somethingWentWrong' => __('Oops ... Something Went Wrong', 'vcwb'),
+            'goToHubButtonDescription' => __('Access Visual Composer Hub - download additional elements, templates and extensions.', 'vcwb'),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

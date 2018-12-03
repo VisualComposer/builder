@@ -313,11 +313,19 @@ export default class Categories extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const hubButtonDescriptionText = localizations ? localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
     let itemsOutput = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
+    const moreButton = itemsOutput.length
+      ? <div className='vcv-ui-editor-get-more'>
+        {this.getMoreButton()}
+        <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
+      </div>
+      : null
 
     return <div className='vcv-ui-tree-content'>
       {this.getSearchElement()}
@@ -331,9 +339,7 @@ export default class Categories extends React.Component {
                 </div>
               </div>
             </div>
-            <div className='vcv-ui-editor-get-more'>
-              {itemsOutput.length ? this.getMoreButton() : null}
-            </div>
+            {moreButton}
           </div>
         </Scrollbar>
       </div>
