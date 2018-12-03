@@ -273,7 +273,7 @@ if (!defined('ABSPATH')) {
             <td class="<?php echo $aws['status'] ?>"><?php echo $aws['text']; ?></td>
         </tr>
         <tr>
-            <td><?php echo esc_html__('Large data transfer', 'vcwb') ?>:</td>
+            <td><?php echo esc_html__('Large Data Transfer', 'vcwb') ?>:</td>
             <td class="vcv-help">
                 <span class="vcv-help-tooltip-icon"></span>
                 <span class="vcv-help-tooltip">
