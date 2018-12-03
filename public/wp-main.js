@@ -170,6 +170,20 @@ import PostBuilder from './postBuilder'
           settingsStorage.state('skipBlank').set(true)
           isIframeLoaded = false
         }
+
+        const mobileDetect = new MobileDetect(window.navigator.userAgent)
+        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+          $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
+
+          const $layoutContainer = $('.vcv-layout-container')
+          if ($layoutContainer) {
+            $layoutContainer.height(window.innerHeight)
+            window.addEventListener('resize', () => {
+              let height = window.innerHeight
+              $layoutContainer.height(height)
+            })
+          }
+        }
       }
     }
 
@@ -186,25 +200,13 @@ import PostBuilder from './postBuilder'
 
         if (iframeDoc && iframeDoc.readyState === 'complete' && isContentLoaded) {
           iframeLoadEvent()
+          return
         }
 
-        const mobileDetect = new MobileDetect(window.navigator.userAgent)
-        if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-          $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
-
-          const $layoutContainer = $('.vcv-layout-container')
-          if ($layoutContainer) {
-            $layoutContainer.height(window.innerHeight)
-            window.addEventListener('resize', () => {
-              let height = window.innerHeight
-              $layoutContainer.height(height)
-            })
-          }
-        }
+        window.setTimeout(() => {
+          checkForLoad()
+        }, 1000)
       }
-      window.setTimeout(() => {
-        checkForLoad()
-      }, 1000)
     }
 
     window.setTimeout(() => {
