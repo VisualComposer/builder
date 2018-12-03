@@ -423,7 +423,7 @@ export default class AddTemplatePanel extends React.Component {
                   </div>
                 </div>
                 <div className='vcv-ui-editor-get-more'>
-                  {this.getMoreButton()}
+                  {itemsOutput.length ? this.getMoreButton() : null}
                 </div>
               </div>
             </Scrollbar>
