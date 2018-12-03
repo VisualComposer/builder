@@ -200,7 +200,6 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getNoResultsElement () {
-    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
     const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - to download additional elements, templates and extensions.'
     const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
 
@@ -221,15 +220,20 @@ export default class AddTemplatePanel extends React.Component {
       </div>
       <div>
         <div className='vcv-ui-editor-no-items-content'>
-          <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
-            {buttonText}
-          </button>
+          {this.getMoreButton()}
         </div>
         <div className='vcv-ui-editor-no-items-content'>
           <p className='vcv-start-blank-helper'>{helperText}</p>
         </div>
       </div>
     </div>
+  }
+
+  getMoreButton () {
+    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
+    return <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
+      {buttonText}
+    </button>
   }
 
   getTemplateControl (template) {
@@ -417,6 +421,9 @@ export default class AddTemplatePanel extends React.Component {
                       {this.getTemplateListContainer(itemsOutput)}
                     </div>
                   </div>
+                </div>
+                <div className='vcv-ui-editor-get-more'>
+                  {itemsOutput.length ? this.getMoreButton() : null}
                 </div>
               </div>
             </Scrollbar>
