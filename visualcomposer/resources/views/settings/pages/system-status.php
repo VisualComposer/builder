@@ -17,16 +17,70 @@ if (!defined('ABSPATH')) {
 /** @var array $fsMethod */
 /** @var array $zipExt */
 /** @var array $curlExt */
+/** @var array $account */
+/** @var array $aws */
 ?>
 <div class="vcv-ui-settings-status-table-container">
     <h2><?php echo esc_html__('System status', 'vcwb') ?></h2>
-    <table class="vcv-ui-settings-status-table">
-        <thead>
+    <div class="vcv-description">
+        <p><?php echo esc_html__(
+                'Check system status and WordPress configuration for compliance with Visual Composer requirements.',
+                'vcwb'
+            ); ?></p>
+        <a href="<?php echo esc_url($refreshUrl); ?>" class="button vcv-system-refresh"><?php echo esc_html__(
+                'Refresh',
+                'vcwb'
+            ); ?></a>
+    </div>
+    <style>
+        .vcv-ui-settings-status-table {
+            visibility: hidden;
+        }
+
+        .vcv-ui-settings-status-tables-wrapper {
+            position: relative;
+        }
+
+        .vcv-table-loader {
+            position: absolute;
+            height: 16px;
+            width: 16px;
+            left: 50%;
+            top: 10%;
+            transform: translate(-50%, -50%);
+            animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
+        }
+
+        @keyframes vcv-ui-wp-spinner-animation {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+    </style>
+
+    <div class="vcv-ui-settings-status-tables-wrapper">
+        <div class="vcv-table-loader">
+            <svg version="1.1" id="vc_wp-spinner" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    x="0px" y="0px" width="16px" height="16px">
+                <defs>
+                    <mask id="hole">
+                        <rect width="100%" height="100%" fill="white" />
+                        <circle r="2px" cx="50%" cy="25%" />
+                    </mask>
+                </defs>
+                <circle r="8px" cx="50%" cy="50%" mask="url(#hole)" fill="#808080" />
+            </svg>
+        </div>
+        <table class="vcv-ui-settings-status-table">
+            <thead>
             <tr>
                 <th colspan="3"><?php echo esc_html__('WordPress environment', 'vcwb') ?></th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr>
                 <td><?php echo esc_html__('WordPress Version', 'vcwb') ?>:</td>
                 <td class="vcv-help">
@@ -55,28 +109,50 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__('Displays whether of not WordPress is in Debug Mode', 'vcwb') ?>
                     </span>
                 </td>
-                <td class="<?php echo $wpDebug['status'] ?>"><?php echo $wpDebug['text'] ?></td>
+                <td class="<?php echo $wpDebug['status'] ?> vcv-no-icon"><?php echo $wpDebug['text'] ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Visual Composer Version', 'vcwb') ?>:</td>
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('The version of Visual Composer installed on your site', 'vcwb') ?>
-                    </span>
+	                <?php echo esc_html__('The version of Visual Composer installed on your site', 'vcwb') ?>
+                </span>
                 </td>
-                <td><?php echo $vcVersion; ?></td>
+                <td>
+                    <?php echo $vcVersion; ?>
+                </td>
             </tr>
-        </tbody>
-    </table>
+            <?php if (vchelper('Options')->getTransient('pluginUpdateAvailable')) { ?>
+                <tr>
+                    <td colspan="3">
+                        <div class="update-message notice inline notice-warning notice-alt">
+                            <p>
+                                <?php echo esc_html__(
+                                    'There is a new version of Visual Composer Website Builder available.',
+                                    'vcwb'
+                                ); ?>
+                                <a href="<?php echo self_admin_url(
+                                    'plugins.php'
+                                ); ?>" class="update-link"><?php echo esc_html(
+                                        'Update',
+                                        'vcwb'
+                                    ); ?></a>.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
 
-    <table class="vcv-ui-settings-status-table">
-        <thead>
+        <table class="vcv-ui-settings-status-table">
+            <thead>
             <tr>
                 <th colspan="3"><?php echo esc_html__('Configurations', 'vcwb') ?></th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr>
                 <td><?php echo esc_html__('Memory Limit', 'vcwb') ?>:</td>
                 <td class="vcv-help">
@@ -136,16 +212,16 @@ if (!defined('ABSPATH')) {
                 </td>
                 <td class="<?php echo $fsMethod['status'] ?>"><?php echo $fsMethod['text']; ?></td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <table class="vcv-ui-settings-status-table">
-        <thead>
+        <table class="vcv-ui-settings-status-table">
+            <thead>
             <tr>
                 <th colspan="3"><?php echo esc_html__('Extensions', 'vcwb') ?></th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr>
                 <td><?php echo esc_html__('Zip Extension', 'vcwb') ?>:</td>
                 <td class="vcv-help">
@@ -166,6 +242,37 @@ if (!defined('ABSPATH')) {
                 </td>
                 <td class="<?php echo $curlExt['status'] ?>"><?php echo $curlExt['text']; ?></td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+
+        <table class="vcv-ui-settings-status-table">
+            <thead>
+            <tr>
+                <th colspan="3"><?php echo esc_html__('Connections', 'vcwb') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><?php echo esc_html__('Account', 'vcwb') ?>:</td>
+                <td class="vcv-help">
+                    <span class="vcv-help-tooltip-icon"></span>
+                    <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('Connection with the Account', 'vcwb') ?>
+                    </span>
+                </td>
+                <td class="<?php echo $account['status'] ?>"><?php echo $account['text']; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo esc_html__('AWS', 'vcwb') ?>:</td>
+                <td class="vcv-help">
+                    <span class="vcv-help-tooltip-icon"></span>
+                    <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('The connection with the AWS', 'vcwb') ?>
+                    </span>
+                </td>
+                <td class="<?php echo $aws['status'] ?>"><?php echo $aws['text']; ?></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -31,6 +32,12 @@ class SystemStatusController extends Container implements Module
         $this->addFilter(
             'vcv:ajax:checkSystem:adminNonce',
             'checkSystem'
+        );
+
+        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::runAllChecks */
+        $this->addFilter(
+            'vcv:ajax:checkPayloadProcessing:adminNonce',
+            'checkPayloadProcessing'
         );
     }
 
@@ -59,13 +66,35 @@ class SystemStatusController extends Container implements Module
      * @param $response
      * @param \VisualComposer\Helpers\Status $statusHelper
      *
-     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @return mixed
+     */
+    protected function checkSystem($response, Status $statusHelper)
+    {
+        $statusHelper->checkSystemStatusAndSetFlag();
+
+        return $response;
+    }
+
+    /**
+     * This check can only be triggered from frontend, as the idea is to pass A LOT OF DATA, and let server handle it
+     *
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return mixed
      */
-    protected function checkSystem($response, Status $statusHelper, Options $optionsHelper)
+    protected function checkPayloadProcessing($response, $payload, Request $requestHelper)
     {
-        $statusHelper->checkSystemStatusAndSetFlag($optionsHelper);
+        $response['status'] = true;
+        $checkPayload = $requestHelper->input('vcv-check-payload');
+        $checkPayloadDecoded = json_decode($checkPayload, true);
+
+        if ($checkPayloadDecoded['data1']['data2']['data3']['checkNode'] === 'checkMe') {
+            return $response;
+        }
+
+        $response['status'] = false;
 
         return $response;
     }

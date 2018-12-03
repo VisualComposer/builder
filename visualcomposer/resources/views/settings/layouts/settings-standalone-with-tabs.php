@@ -13,7 +13,7 @@ if (isset($_GET['page'])) {
 
 $tabs = [
     'vcv-settings' => ['name' => 'General'],
-    'vcv-system-status' => ['name' => 'System status'],
+    'vcv-system-status' => ['name' => 'System Status'],
 ];
 
 $tabsHtml = '';

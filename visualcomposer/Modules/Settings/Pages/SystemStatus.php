@@ -16,12 +16,14 @@ use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class SystemStatus extends Container implements Module
 {
     use Page;
     use SubMenu;
     use WpFiltersActions;
+    use EventsFilters;
 
     /**
      * @var string
@@ -64,6 +66,8 @@ class SystemStatus extends Container implements Module
             'addCss'
         );
 
+        $this->addFilter('vcv:ajax:vcv:settings:systemStatus:refresh:adminNonce', 'refreshStatusPage');
+
         $this->statusHelper = $statusHelper;
         $this->optionsHelper = $optionsHelper;
     }
@@ -86,7 +90,7 @@ class SystemStatus extends Container implements Module
     protected function systemCheck($response)
     {
         if ($this->optionsHelper->getTransient('lastSystemCheck') < time()) {
-            $this->statusHelper->checkSystemStatusAndSetFlag($this->optionsHelper);
+            $this->statusHelper->checkSystemStatusAndSetFlag();
             $this->optionsHelper->setTransient('lastSystemCheck', time() + DAY_IN_SECONDS);
         }
 
@@ -101,7 +105,7 @@ class SystemStatus extends Container implements Module
     public function getPhpVersionStatusForView()
     {
         $checkVersion = $this->statusHelper->getPhpVersionStatus();
-        $textResponse = $checkVersion ? PHP_VERSION : sprintf('PHP version %s or greater (recommended 7 or greater)', VCV_REQUIRED_PHP_VERSION);
+        $textResponse = $checkVersion ? PHP_VERSION : sprintf(__('PHP version %s or greater (recommended 7 or greater)', 'vcwb'), VCV_REQUIRED_PHP_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
@@ -109,7 +113,7 @@ class SystemStatus extends Container implements Module
     public function getWpVersionStatusForView()
     {
         $wpVersionCheck = $this->statusHelper->getWpVersionStatus();
-        $textResponse = $wpVersionCheck ? get_bloginfo('version') : sprintf('WordPress version %s or greater', VCV_REQUIRED_BLOG_VERSION);
+        $textResponse = $wpVersionCheck ? get_bloginfo('version') : sprintf(__('WordPress version %s or greater', 'vcwb'), VCV_REQUIRED_BLOG_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($wpVersionCheck)];
     }
@@ -118,7 +122,7 @@ class SystemStatus extends Container implements Module
     {
         $check = $this->statusHelper->getWpDebugStatus();
 
-        $textResponse = $check ? 'Enabled' : 'WP_DEBUG is TRUE';
+        $textResponse = $check ? __('WP_DEBUG is FALSE', 'vcwb') : __('WP_DEBUG is TRUE', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -127,6 +131,10 @@ class SystemStatus extends Container implements Module
     {
         $memoryLimit = $this->statusHelper->getMemoryLimit();
         $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
+
+        if ($memoryLimit === '-1') {
+            $memoryLimit = __('Unlimited', 'vcwb');
+        }
 
         $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
 
@@ -154,7 +162,7 @@ class SystemStatus extends Container implements Module
     protected function getUploadDirAccessStatusForView()
     {
         $accessCheck = $this->statusHelper->getUploadDirAccessStatus();
-        $textResponse = $accessCheck ? 'Writable' : __('Uploads directory is not writable', 'vcwb');
+        $textResponse = $accessCheck ? __('Writable', 'vcwb') : __('Uploads directory is not writable', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($accessCheck)];
     }
@@ -162,7 +170,7 @@ class SystemStatus extends Container implements Module
     protected function getFileSystemStatusForView()
     {
         $fsStatus = $this->statusHelper->getFileSystemStatus();
-        $textResponse = $fsStatus ? 'Direct' : __('FS_METHOD should be direct', 'vcwb');
+        $textResponse = $fsStatus ? __('Direct', 'vcwb') : __('FS_METHOD should be direct', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($fsStatus)];
     }
@@ -170,7 +178,7 @@ class SystemStatus extends Container implements Module
     protected function getZipStatusForView()
     {
         $zipStatus = $this->statusHelper->getZipStatus();
-        $textResponse = $zipStatus ? 'Enabled' : __('Zip extension is not installed', 'vcwb');
+        $textResponse = $zipStatus ? __('Enabled', 'vcwb') : __('Zip extension is not installed', 'vcwb');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($zipStatus)];
     }
@@ -183,9 +191,26 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($curlStatus)];
     }
 
+    protected function getAwsConnectionStatusForView()
+    {
+        $check = $this->statusHelper->getAwsConnection();
+        $textResponse = $check ? __('Success', 'vcwb') : __('Connection with AWS was unsuccessful', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
+    protected function getAccountConnectionStatusForView()
+    {
+        $check = $this->statusHelper->getAccountConnection();
+        $textResponse = $check ? __('Success', 'vcwb') : __('Connection with Account was unsuccessful', 'vcwb');
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
     protected function getRenderArgs()
     {
         return [
+            'refreshUrl' => $this->getRefreshUrl(),
             'phpVersion' => $this->getPhpVersionStatusForView(),
             'wpVersion' => $this->getWpVersionStatusForView(),
             'vcVersion' => $this->statusHelper->getVcvVersion(),
@@ -197,6 +222,8 @@ class SystemStatus extends Container implements Module
             'fsMethod' => $this->getFileSystemStatusForView(),
             'zipExt' => $this->getZipStatusForView(),
             'curlExt' => $this->getCurlStatusForView(),
+            'account' => $this->getAccountConnectionStatusForView(),
+            'aws' => $this->getAwsConnectionStatusForView(),
         ];
     }
 
@@ -213,14 +240,6 @@ class SystemStatus extends Container implements Module
             VCV_VERSION
         );
         wp_enqueue_style('vcv:wpUpdateRedesign:style');
-
-        wp_register_script(
-            'vcv:wpVcSettings:script',
-            $urlHelper->assetUrl('dist/wpVcSettings.bundle.js'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_script('vcv:wpVcSettings:script');
     }
 
     /**
@@ -270,5 +289,22 @@ class SystemStatus extends Container implements Module
     protected function addCss()
     {
         evcview('settings/partials/system-status-css');
+    }
+
+    protected function refreshStatusPage(Status $statusHelper)
+    {
+        $statusHelper->checkSystemStatusAndSetFlag();
+        wp_redirect(admin_url('admin.php?page=' . $this->slug));
+        exit;
+    }
+
+    protected function getRefreshUrl()
+    {
+        $urlHelper = vchelper('Url');
+        $nonceHelper = vchelper('Nonce');
+
+        return $urlHelper->adminAjax(
+            ['vcv-action' => 'vcv:settings:systemStatus:refresh:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
+        );
     }
 }
