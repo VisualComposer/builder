@@ -92,8 +92,9 @@ class SystemStatusController extends Container implements Module
             ];
         }
         $checkPayload = $requestHelper->input('vcv-check-payload');
-        if (is_array($checkPayload)) {
-            $response['status'] = true;
+        if (is_array($checkPayload)
+            && isset($checkPayload['toTest'], $checkPayload['toTest']['toTest2'], $checkPayload['toTest']['toTest2']['toTest3'])) {
+            $response['status'] = $checkPayload['toTest']['toTest2']['toTest3'] === 1;
         }
 
         return $response;
