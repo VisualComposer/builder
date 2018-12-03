@@ -29,6 +29,11 @@ import base64 from 'base-64'
         }
       }
     }
+    data[ 'toTest' ] = {
+      'toTest2': {
+        'toTest3': 1
+      }
+    }
     return data
   }
 
