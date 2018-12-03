@@ -311,16 +311,26 @@
   .vcv-help {
     width: 1%;
     position: relative;
+    overflow: hidden;
+
+    &.vcv-help-tooltip--active {
+      overflow: visible;
+
+      .vcv-help-tooltip {
+        opacity: 1;
+        z-index: 2;
+      }
+    }
   }
 
   .vcv-help-tooltip {
-    display: none;
+    opacity: 0;
+    z-index: -9999;
     position: absolute;
     top: 100%;
     left: -70px;
     width: 150px;
     max-width: 200px;
-    z-index: 0;
     color: @vcv-status-color-tooltip;
     background: @vcv-status-background-color-tooltip;
     font-size: 10px;
@@ -339,6 +349,18 @@
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
       border-bottom: 4px solid @vcv-status-background-color-tooltip;
+    }
+
+    &.vcv-help-tooltip-position--top {
+      top: auto;
+      bottom: 100%;
+
+      &::before {
+        top: 100%;
+        bottom: auto;
+        border-top: 4px solid @vcv-status-background-color-tooltip;
+        border-bottom: 0;
+      }
     }
   }
 
@@ -371,13 +393,6 @@
       cursor: help;
       font-variant: normal;
       margin: 0;
-    }
-
-    &:hover {
-      + .vcv-help-tooltip {
-        display: block;
-        z-index: 2;
-      }
     }
   }
 
