@@ -160,7 +160,6 @@ export default class Categories extends React.Component {
   getNoResultsElement () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing found'
-    const buttonText = localizations ? localizations.getMoreElements : 'Get More Elements'
     const helperText = localizations ? localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - to download additional elements, templates and extensions.'
     let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
@@ -174,9 +173,7 @@ export default class Categories extends React.Component {
       </div>
       <div>
         <div className='vcv-ui-editor-no-items-content'>
-          <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
-            {buttonText}
-          </button>
+          {this.getMoreButton()}
         </div>
         <div className='vcv-ui-editor-no-items-content'>
           <p className='vcv-start-blank-helper'>{helperText}</p>
@@ -303,6 +300,14 @@ export default class Categories extends React.Component {
     }
   }
 
+  getMoreButton () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const buttonText = localizations ? localizations.getMoreElements : 'Get More Elements'
+    return <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
+      {buttonText}
+    </button>
+  }
+
   setFocusedElement (tag) {
     this.setState({ focusedElement: tag })
   }
@@ -325,6 +330,9 @@ export default class Categories extends React.Component {
                   {this.getElementListContainer(itemsOutput)}
                 </div>
               </div>
+            </div>
+            <div className='vcv-ui-editor-get-more'>
+              {this.getMoreButton()}
             </div>
           </div>
         </Scrollbar>
