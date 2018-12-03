@@ -14,6 +14,7 @@ if (isset($_GET['page'])) {
 $tabs = [
     'vcv-settings' => ['name' => 'General'],
     'vcv-system-status' => ['name' => 'System Status'],
+    'vcv-global-css-js' => ['name' => 'CSS and JavaScript'],
 ];
 
 $tabsHtml = '';
