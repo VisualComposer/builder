@@ -154,7 +154,17 @@ export default class Categories extends React.Component {
   }
 
   handleGoToHub () {
-    document.querySelector('.vcv-ui-navbar-control[title="Hub"]').click()
+    const settings = {
+      action: 'addHub',
+      element: {},
+      tag: '',
+      options: {
+        filterType: 'element',
+        id: '1-0',
+        bundleType: undefined
+      }
+    }
+    workspaceStorage.state('settings').set(settings)
   }
 
   getNoResultsElement () {

@@ -314,7 +314,17 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   handleGoToHub () {
-    document.querySelector('.vcv-ui-navbar-control[title="Hub"]').click()
+    const settings = {
+      action: 'addHub',
+      element: {},
+      tag: '',
+      options: {
+        filterType: 'template',
+        id: '2',
+        bundleType: undefined
+      }
+    }
+    workspaceSettings.set(settings)
   }
 
   handleApplyTemplate (data) {

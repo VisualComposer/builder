@@ -71,6 +71,10 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     this.setFilterType = this.setFilterType.bind(this)
   }
 
+  componentDidMount () {
+    this.setInitialFilterType()
+  }
+
   getAllCategories () {
     if (!this.allCategories) {
       const elementGroup = this.getElementGroup()
@@ -218,6 +222,14 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   getSearchElement () {
     let searchProps = this.getSearchProps()
     return <SearchElement {...searchProps} />
+  }
+
+  setInitialFilterType () {
+    const workspaceState = workspaceStorage.state('settings').get()
+    if (workspaceState.options && workspaceState.options.filterType) {
+      const { filterType, id, bundleType } = workspaceState.options
+      this.setFilterType(filterType, id, bundleType)
+    }
   }
 
   setFilterType (value, id, bundleType) {
