@@ -86,15 +86,15 @@ class SystemStatusController extends Container implements Module
      */
     protected function checkPayloadProcessing($response, $payload, Request $requestHelper)
     {
-        $response['status'] = true;
-        $checkPayload = $requestHelper->input('vcv-check-payload');
-        $checkPayloadDecoded = json_decode($checkPayload, true);
-
-        if ($checkPayloadDecoded['data1']['data2']['data3']['checkNode'] === 'checkMe') {
-            return $response;
+        if (!is_array($response)) {
+            $response = [
+                'status' => false,
+            ];
         }
-
-        $response['status'] = false;
+        $checkPayload = $requestHelper->input('vcv-check-payload');
+        if (is_array($checkPayload)) {
+            $response['status'] = true;
+        }
 
         return $response;
     }

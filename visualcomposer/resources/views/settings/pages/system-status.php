@@ -203,6 +203,16 @@ if (!defined('ABSPATH')) {
             </td>
             <td class="<?php echo $aws['status'] ?>"><?php echo $aws['text']; ?></td>
         </tr>
+        <tr>
+            <td><?php echo esc_html__('Large data transfer', 'vcwb') ?>:</td>
+            <td class="vcv-help">
+                <span class="vcv-help-tooltip-icon"></span>
+                <span class="vcv-help-tooltip">
+                        <?php echo esc_html__('Ability to send large data. In case if failed - adjust your php.ini file to increase memory limit and execution time.', 'vcwb') ?>
+                </span>
+            </td>
+            <td id="vcv-large-content-status" class="vcv-ui-wp-spinner"></td>
+        </tr>
         </tbody>
     </table>
 </div>
