@@ -29,7 +29,7 @@ class JsEditor extends Container implements Module
     public function __construct()
     {
         $this->optionGroup = $this->slug;
-        $this->optionSlug = 'vcv-global-js';
+        $this->optionSlug = $this->slug;
         $this->wpAddAction(
             'admin_enqueue_scripts',
             'beforeRender'
@@ -84,7 +84,8 @@ class JsEditor extends Container implements Module
             $this->addField(
                 [
                     'page' => $this->slug,
-                    'slug' => $globalSetting['slug'],
+                    'slug' => 'settingsGlobalJs',
+                    'name' => $globalSetting['slug'],
                     'id' => $globalSetting['slug'],
                     'fieldCallback' => $fieldCallback,
                     'args' => [

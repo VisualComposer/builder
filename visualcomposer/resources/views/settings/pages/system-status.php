@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 /** @var array $phpVersion */
 /** @var array $wpDebug */
 /** @var string $vcVersion */
+/** @var string $refreshUrl */
 /** @var array $memoryLimit */
 /** @var array $timeout */
 /** @var array $fileUploadSize */
@@ -23,14 +24,8 @@ if (!defined('ABSPATH')) {
 <div class="vcv-ui-settings-status-table-container">
     <h2><?php echo esc_html__('System status', 'vcwb') ?></h2>
     <div class="vcv-description">
-        <p><?php echo esc_html__(
-                'Check system status and WordPress configuration for compliance with Visual Composer requirements.',
-                'vcwb'
-            ); ?></p>
-        <a href="<?php echo esc_url($refreshUrl); ?>" class="button vcv-system-refresh"><?php echo esc_html__(
-                'Refresh',
-                'vcwb'
-            ); ?></a>
+        <p><?php echo esc_html__('Check system status and WordPress configuration for compliance with Visual Composer requirements.', 'vcwb'); ?></p>
+        <a href="<?php echo esc_url($refreshUrl); ?>" class="button vcv-system-refresh"><?php echo esc_html__('Refresh', 'vcwb'); ?></a>
     </div>
     <style>
         .vcv-ui-settings-status-table {
@@ -86,7 +81,7 @@ if (!defined('ABSPATH')) {
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('The version of WordPress installed on your site', 'vcwb') ?>
+                        <?php echo esc_html__('The version of WordPress installed on your site', 'vcwb'); ?>
                     </span>
                 </td>
                 <td class="<?php echo $wpVersion['status'] ?>"><?php echo $wpVersion['text']; ?></td>
@@ -96,7 +91,7 @@ if (!defined('ABSPATH')) {
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('The version of PHP installed on your hosting server', 'vcwb') ?>
+                        <?php echo esc_html__('The version of PHP installed on your hosting server', 'vcwb'); ?>
                     </span>
                 </td>
                 <td class="<?php echo $phpVersion['status'] ?>"><?php echo $phpVersion['text']; ?></td>
@@ -106,7 +101,7 @@ if (!defined('ABSPATH')) {
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('Displays whether of not WordPress is in Debug Mode', 'vcwb') ?>
+                        <?php echo esc_html__('Displays whether of not WordPress is in Debug Mode', 'vcwb'); ?>
                     </span>
                 </td>
                 <td class="<?php echo $wpDebug['status'] ?> vcv-no-icon"><?php echo $wpDebug['text'] ?></td>
@@ -115,8 +110,7 @@ if (!defined('ABSPATH')) {
                 <td><?php echo esc_html__('Visual Composer Version', 'vcwb') ?>:</td>
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
-                    <span class="vcv-help-tooltip">
-	                <?php echo esc_html__('The version of Visual Composer installed on your site', 'vcwb') ?>
+                    <span class="vcv-help-tooltip"><?php echo esc_html__('The version of Visual Composer installed on your site', 'vcwb'); ?>
                 </span>
                 </td>
                 <td>
@@ -132,12 +126,7 @@ if (!defined('ABSPATH')) {
                                     'There is a new version of Visual Composer Website Builder available.',
                                     'vcwb'
                                 ); ?>
-                                <a href="<?php echo self_admin_url(
-                                    'plugins.php'
-                                ); ?>" class="update-link"><?php echo esc_html(
-                                        'Update',
-                                        'vcwb'
-                                    ); ?></a>.
+                                <a href="<?php echo self_admin_url('plugins.php'); ?>" class="update-link"><?php echo esc_html('Update', 'vcwb'); ?></a>.
                             </p>
                         </div>
                     </td>
@@ -149,7 +138,7 @@ if (!defined('ABSPATH')) {
         <table class="vcv-ui-settings-status-table">
             <thead>
             <tr>
-                <th colspan="3"><?php echo esc_html__('Configurations', 'vcwb') ?></th>
+                <th colspan="3"><?php echo esc_html__('Configurations', 'vcwb'); ?></th>
             </tr>
             </thead>
             <tbody>
@@ -161,10 +150,49 @@ if (!defined('ABSPATH')) {
                         <?php echo esc_html__(
                             'The maximum amout of memory (RAM) that your site can use at one time',
                             'vcwb'
-                        ) ?>
+                        ); ?>
                     </span>
                 </td>
                 <td class="<?php echo $memoryLimit['status'] ?>"><?php echo $memoryLimit['text']; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo esc_html__('Post Max Size', 'vcwb') ?>:</td>
+                <td class="vcv-help">
+                    <span class="vcv-help-tooltip-icon"></span>
+                    <span class="vcv-help-tooltip">
+                        <?php echo esc_html__(
+                            'Sets max size of post data allowed. This setting also affects file upload.',
+                            'vcwb'
+                        ) ?>
+                    </span>
+                </td>
+                <td class="<?php echo $postMaxSize['status'] ?>"><?php echo $postMaxSize['text']; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo esc_html__('Max Input Nesting Level', 'vcwb') ?>:</td>
+                <td class="vcv-help">
+                    <span class="vcv-help-tooltip-icon"></span>
+                    <span class="vcv-help-tooltip">
+                        <?php echo esc_html__(
+                            'Sets the max nesting depth of input variables (i.e. $_GET, $_POST.)',
+                            'vcwb'
+                        ) ?>
+                    </span>
+                </td>
+                <td class="<?php echo $maxInputNestingLevel['status']; ?>"><?php echo $maxInputNestingLevel['text']; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo esc_html__('Max Input Vars', 'vcwb'); ?>:</td>
+                <td class="vcv-help">
+                    <span class="vcv-help-tooltip-icon"></span>
+                    <span class="vcv-help-tooltip">
+                        <?php echo esc_html__(
+                            'How many input variables may be accepted (limit is applied to $_GET, $_POST and $_COOKIE superglobal separately)',
+                            'vcwb'
+                        ); ?>
+                    </span>
+                </td>
+                <td class="<?php echo $maxInputVars['status']; ?>"><?php echo $maxInputVars['text']; ?></td>
             </tr>
             <tr>
                 <td><?php echo esc_html__('Timeout', 'vcwb') ?>:</td>
@@ -269,19 +297,22 @@ if (!defined('ABSPATH')) {
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__('The connection with the AWS', 'vcwb') ?>
                     </span>
-            </td>
-            <td class="<?php echo $aws['status'] ?>"><?php echo $aws['text']; ?></td>
-        </tr>
-        <tr>
-            <td><?php echo esc_html__('Large Data Transfer', 'vcwb') ?>:</td>
-            <td class="vcv-help">
-                <span class="vcv-help-tooltip-icon"></span>
-                <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('Ability to send large data. In case if failed - adjust your php.ini file to increase memory limit and execution time.', 'vcwb') ?>
+                </td>
+                <td class="<?php echo $aws['status'] ?>"><?php echo $aws['text']; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo esc_html__('Large Data Transfer', 'vcwb') ?>:</td>
+                <td class="vcv-help">
+                    <span class="vcv-help-tooltip-icon"></span>
+                    <span class="vcv-help-tooltip">
+                        <?php echo esc_html__(
+                            'Ability to send large data. In case if failed - adjust your php.ini file to increase memory_limit, post_max_size and execution time.',
+                            'vcwb'
+                        ) ?>
                 </span>
-            </td>
-            <td id="vcv-large-content-status" class="vcv-ui-wp-spinner"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+                </td>
+                <td id="vcv-large-content-status" class="vcv-ui-wp-spinner"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>

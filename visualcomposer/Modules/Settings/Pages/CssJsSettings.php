@@ -46,6 +46,11 @@ class CssJsSettings extends Container implements Module
         );
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
+
+        $this->wpAddAction(
+            'in_admin_header',
+            'addCss'
+        );
     }
 
     protected function subMenuHighlight($submenuFile)
@@ -111,9 +116,13 @@ class CssJsSettings extends Container implements Module
             'title' => __('CSS and JavaScript', 'vcwb'),
             'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
-            'hidePage' => true,
             'controller' => $this,
         ];
         $this->addSubmenuPage($page);
+    }
+
+    protected function addCss()
+    {
+        evcview('settings/partials/global-css-js-settings-css');
     }
 }
