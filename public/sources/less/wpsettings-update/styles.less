@@ -437,6 +437,50 @@
   }
 }
 
+.vcv-settings-tab-content .description {
+  margin: 1.3em 0;
+  font-style: normal;
+  color: #333;
+}
+
+.vcv-css-js-editor th[scope=row] {
+  display: none;
+}
+
+.vcv-css-js-editor td {
+  padding: 0;
+}
+
+.vcv-css-js-editor .vcv-ui-form-editor-container:before,
+.vcv-css-js-editor .vcv-ui-form-editor-container:after {
+  letter-spacing: 0.5px;
+  color: #797979;
+  font: italic 400 14px/1 Roboto, Arial, sans-serif;
+  background: #E3E1E1;
+  border-radius: 3px;
+  padding: 4px 5px;
+  margin: 10px 0;
+  display: inline-block;
+}
+
+.vcv-css-js-editor.vcv-js-editor-settingsGlobalJsHead .vcv-ui-form-editor-container:before {
+  content:'<head>';
+  margin-top: 0;
+}
+
+.vcv-css-js-editor.vcv-js-editor-settingsGlobalJsHead .vcv-ui-form-editor-container:after {
+  content:'</head>';
+}
+
+.vcv-css-js-editor.vcv-js-editor-settingsGlobalJs .vcv-ui-form-editor-container:before {
+  content:'<footer>';
+  margin-top: 15px;
+}
+
+.vcv-css-js-editor.vcv-js-editor-settingsGlobalJs .vcv-ui-form-editor-container:after {
+  content:'</footer>';
+}
+
 @media screen and (max-width: 782px) {
   .vcv-ui-settings-status-table-container {
     margin: 0 10px 0 0;
