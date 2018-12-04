@@ -122,7 +122,7 @@ import base64 from 'base-64'
   hoverTooltip()
 
   let vcvCssEditor = document.getElementsByClassName('vcv-css-code-editor')
-  window.wp.codeEditor.initialize(vcvCssEditor)
+  window.wp.codeEditor.initialize(vcvCssEditor, { codemirror: window.jQuery.extend({}, window.wp.codeEditor.defaultSettings.codemirror, { mode: 'text/css' }) })
 
   let vcvJsEditor = document.getElementsByClassName('vcv-js-code-editor')
   window.wp.codeEditor.initialize(vcvJsEditor)
