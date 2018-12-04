@@ -30,7 +30,10 @@ class JsEditor extends Container implements Module
     {
         $this->optionGroup = $this->slug;
         $this->optionSlug = 'vcv-global-js';
-        /** @see \VisualComposer\Modules\Settings\Fields\PostTypes::buildPage */
+        $this->wpAddAction(
+            'admin_enqueue_scripts',
+            'beforeRender'
+        );
         $this->wpAddAction(
             'admin_init',
             'buildPage'
@@ -64,7 +67,7 @@ class JsEditor extends Container implements Module
             ]
         );
 
-        $globalJsSettings = array(
+        $globalJsSettings = [
             [
                 'slug' => 'settingsGlobalJsHead',
                 'value' => $optionsHelper->get('settingsGlobalJsHead', false),
@@ -72,8 +75,8 @@ class JsEditor extends Container implements Module
             [
                 'slug' => 'settingsGlobalJs',
                 'value' => $optionsHelper->get('settingsGlobalJs', false),
-            ]
-        );
+            ],
+        ];
 
         foreach ($globalJsSettings as $globalSetting) {
             $fieldCallback = function ($data) use ($globalSetting) {
@@ -98,6 +101,17 @@ class JsEditor extends Container implements Module
             [
                 'globalSetting' => $globalSetting,
             ]
+        );
+    }
+
+    protected function beforeRender()
+    {
+        if (function_exists('wp_enqueue_code_editor')) {
+            wp_enqueue_code_editor(['type' => 'text/javascript']);
+        }
+        wp_add_inline_script(
+            'code-editor',
+            'var vcvJsEditor = document.getElementsByClassName("vcv-js-code-editor");window.onload = function(e){wp.codeEditor.initialize(vcvJsEditor)};'
         );
     }
 

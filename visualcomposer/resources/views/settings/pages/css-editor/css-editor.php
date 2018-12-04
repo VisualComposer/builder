@@ -9,5 +9,5 @@ if (!defined('ABSPATH')) {
 ?>
 
 <div class="vcv-ui-form-editor-container">
-    <textarea name="vcv-<?php echo $globalSetting['slug']; ?>"><?php echo (isset($globalSetting['value'])) ? $globalSetting['value'] : ''; ?></textarea>
+    <textarea id="vcv-<?php echo $globalSetting['slug']; ?>" class="vcv-css-code-editor" name="vcv-<?php echo $globalSetting['slug']; ?>"><?php echo (isset($globalSetting['value'])) ? $globalSetting['value'] : ''; ?></textarea>
 </div>

@@ -30,7 +30,10 @@ class CssEditor extends Container implements Module
     {
         $this->optionGroup = $this->slug;
         $this->optionSlug = 'vcv-global-css';
-        /** @see \VisualComposer\Modules\Settings\Fields\PostTypes::buildPage */
+        $this->wpAddAction(
+            'admin_enqueue_scripts',
+            'beforeRender'
+        );
         $this->wpAddAction(
             'admin_init',
             'buildPage'
@@ -39,9 +42,7 @@ class CssEditor extends Container implements Module
     }
 
     /**
-     * Page: Post Types Settings.
-     *
-     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      */
     protected function buildPage(Options $optionsHelper)
     {
@@ -88,6 +89,17 @@ class CssEditor extends Container implements Module
             [
                 'globalSetting' => $globalSetting,
             ]
+        );
+    }
+
+    protected function beforeRender()
+    {
+        if (function_exists('wp_enqueue_code_editor')) {
+            $settings = wp_enqueue_code_editor(['type' => 'text/css']);
+        }
+        wp_add_inline_script(
+            'code-editor',
+            'var vcvCssEditor = document.getElementsByClassName("vcv-css-code-editor");window.onload = function(e){wp.codeEditor.initialize(vcvCssEditor)};'
         );
     }
 
