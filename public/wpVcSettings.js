@@ -121,9 +121,19 @@ import base64 from 'base-64'
 
   hoverTooltip()
 
-  let vcvCssEditor = document.getElementsByClassName('vcv-css-code-editor')
-  window.wp.codeEditor.initialize(vcvCssEditor, { codemirror: window.jQuery.extend({}, window.wp.codeEditor.defaultSettings.codemirror, { mode: 'text/css' }) })
+  /**
+   * Initialise CSS code editor
+   * See more @/Modules/Settings/Fields/CssEditor.php
+   */
+  document.querySelectorAll('.vcv-css-code-editor').forEach(function (item) {
+    window.wp.codeEditor.initialize(item, { codemirror: window.jQuery.extend({}, window.wp.codeEditor.defaultSettings.codemirror, { mode: 'text/css' }) })
+  })
 
-  let vcvJsEditor = document.getElementsByClassName('vcv-js-code-editor')
-  window.wp.codeEditor.initialize(vcvJsEditor)
+  /**
+   * Initialise JS code editor
+   * See more @/Modules/Settings/Fields/JsEditor.php
+   */
+  document.querySelectorAll('.vcv-js-code-editor').forEach(function (item) {
+    window.wp.codeEditor.initialize(item)
+  })
 })(window.jQuery)
