@@ -18,6 +18,12 @@ class Status implements Helper
 
     protected $defaultFileUploadSize = 5;  //In MB
 
+    protected $defaultPostMaxSize = 8;  //In MB
+
+    protected $defaultMaxInputVarsStatus = 1000;
+
+    protected $defaultMaxInputNestingLevel = 64;
+
     protected $updateVersionUrl;
 
     public function __construct()
@@ -42,6 +48,29 @@ class Status implements Helper
     public function getDefaultMemoryLimit()
     {
         return $this->defaultMemoryLimit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultPostMaxSize()
+    {
+        return $this->defaultPostMaxSize;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultMaxInputVarsStatus()
+    {
+        return $this->defaultMaxInputVarsStatus;
+    }
+    /**
+     * @return int
+     */
+    public function getDefaultMaxInputNestingLevel()
+    {
+        return $this->defaultMaxInputNestingLevel;
     }
 
     /**
@@ -90,11 +119,13 @@ class Status implements Helper
     }
 
     /**
+     * @param $name
+     *
      * @return string
      */
-    public function getMemoryLimit()
+    public function getPhpVariable($name)
     {
-        return ini_get('memory_limit');
+        return ini_get($name);
     }
 
     /**
@@ -102,7 +133,7 @@ class Status implements Helper
      */
     public function getMemoryLimitStatus()
     {
-        $memoryLimit = $this->getMemoryLimit();
+        $memoryLimit = $this->getPhpVariable('memory_limit');
         if ($memoryLimit === '-1') {
             return true;
         }
@@ -111,19 +142,11 @@ class Status implements Helper
     }
 
     /**
-     * @return int
-     */
-    public function getMaxExecutionTime()
-    {
-        return (int)ini_get('max_execution_time');
-    }
-
-    /**
      * @return bool
      */
     public function getTimeoutStatus()
     {
-        $maxExecutionTime = $this->getMaxExecutionTime();
+        $maxExecutionTime = (int)$this->getPhpVariable('max_execution_time');
         if ($maxExecutionTime === 0) {
             return true;
         }
@@ -132,19 +155,49 @@ class Status implements Helper
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getMaxUploadFileSize()
+    public function getUploadMaxFileSizeStatus()
     {
-        return ini_get('upload_max_filesize');
+        return $this->convertMbToBytes($this->getPhpVariable('upload_max_filesize')) >= $this->defaultFileUploadSize;
     }
 
     /**
      * @return bool
      */
-    public function getUploadMaxFileSizeStatus()
+    public function getPostMaxSizeStatus()
     {
-        return $this->convertMbToBytes($this->getMaxUploadFileSize()) >= $this->defaultFileUploadSize;
+        $postMaxSize = $this->getPhpVariable('post_max_size');
+        if ($postMaxSize === '0') {
+            return true;
+        }
+
+        return ($this->convertMbToBytes($postMaxSize) >= $this->defaultPostMaxSize * 1024 * 1024);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getMaxInputNestingLevelStatus()
+    {
+        $maxInputNestingLevel = (int)$this->getPhpVariable('max_input_nesting_level');
+        if ($maxInputNestingLevel >= $this->defaultMaxInputNestingLevel) {
+            return true;
+        }
+
+        return false;
+    }
+    /**
+     * @return bool
+     */
+    public function getMaxInputVarsStatus()
+    {
+        $maxInputNestingLevel = (int)$this->getPhpVariable('max_input_vars');
+        if ($maxInputNestingLevel >= $this->defaultMaxInputVarsStatus) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -267,6 +320,9 @@ class Status implements Helper
             $this->getUploadMaxFileSizeStatus(),
             $this->getAwsConnection(),
             $this->getAccountConnection(),
+            $this->getPostMaxSizeStatus(),
+            $this->getMaxInputNestingLevelStatus(),
+            $this->getMaxInputVarsStatus(),
         ];
 
         foreach ($results as $result) {

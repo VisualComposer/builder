@@ -127,9 +127,23 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
+    public function getPostMaxSize()
+    {
+        $postMaxSize = $this->statusHelper->postMaxSize();
+        $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
+
+        if ($postMaxSize === '-1') {
+            $postMaxSize = __('Unlimited', 'vcwb');
+        }
+
+        $textResponse = $memoryLimitCheck ? $postMaxSize : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMemoryLimit(), $postMaxSize);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
+    }
+
     public function getMemoryLimitStatusForView()
     {
-        $memoryLimit = $this->statusHelper->getMemoryLimit();
+        $memoryLimit = $this->statusHelper->getPhpVariable('memory_limit');
         $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
 
         if ($memoryLimit === '-1') {
@@ -141,9 +155,45 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
     }
 
+    public function getPostMaxSizeStatusForView()
+    {
+        $postMaxSize = $this->statusHelper->getPhpVariable('post_max_size');
+        $postMaxSizeCheck = $this->statusHelper->getPostMaxSizeStatus();
+
+        if ($postMaxSize === '0') {
+            $postMaxSize = __('Unlimited', 'vcwb');
+        }
+
+        $textResponse = $postMaxSizeCheck ? $postMaxSize : sprintf(__('post_max_size limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($postMaxSizeCheck)];
+    }
+
+    public function getMaxInputNestingLevelStatusForView()
+    {
+        $maxInputNestingLevel = (int)$this->statusHelper->getPhpVariable('max_input_nesting_level');
+        $maxInputNestingLevelCheck = $this->statusHelper->getMaxInputNestingLevelStatus();
+
+
+        $textResponse = $maxInputNestingLevelCheck ? $maxInputNestingLevel : sprintf(__('max_input_nesting_level should be %s, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMaxInputNestingLevel(), $maxInputNestingLevel);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxInputNestingLevelCheck)];
+    }
+
+    public function getMaxInputVarsStatusForView()
+    {
+        $maxInputVars = (int)$this->statusHelper->getPhpVariable('max_input_vars');
+        $maxInputVarsCheck = $this->statusHelper->getMaxInputVarsStatus();
+
+
+        $textResponse = $maxInputVarsCheck ? $maxInputVars : sprintf(__('max_input_vars should be %s, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMaxInputVars(), $maxInputVars);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxInputVarsCheck)];
+    }
+
     public function getTimeoutStatusForView()
     {
-        $maxExecutionTime = $this->statusHelper->getMaxExecutionTime();
+        $maxExecutionTime = (int)$this->statusHelper->getPhpVariable('max_execution_time');
         $maxExecutionTimeCheck = $this->statusHelper->getTimeoutStatus();
         $textResponse = $maxExecutionTimeCheck ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->statusHelper->getDefaultExecutionTime(), $maxExecutionTime);
 
@@ -152,7 +202,7 @@ class SystemStatus extends Container implements Module
 
     public function getUploadMaxFileSizeStatusForView()
     {
-        $maxFileSize = $this->statusHelper->getMaxUploadFileSize();
+        $maxFileSize = $this->statusHelper->getPhpVariable('upload_max_filesize');
         $maxFileSizeCheck = $this->statusHelper->getUploadMaxFileSizeStatus();
         $textResponse = $maxFileSizeCheck ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultFileUploadSize(), $maxFileSize);
 
@@ -216,6 +266,9 @@ class SystemStatus extends Container implements Module
             'vcVersion' => $this->statusHelper->getVcvVersion(),
             'wpDebug' => $this->getWpDebugStatusForView(),
             'memoryLimit' => $this->getMemoryLimitStatusForView(),
+            'postMaxSize' => $this->getPostMaxSizeStatusForView(),
+            'maxInputNestingLevel' => $this->getMaxInputNestingLevelStatusForView(),
+            'maxInputVars' => $this->getMaxInputVarsStatusForView(),
             'timeout' => $this->getTimeoutStatusForView(),
             'fileUploadSize' => $this->getUploadMaxFileSizeStatusForView(),
             'uploadDirAccess' => $this->getUploadDirAccessStatusForView(),

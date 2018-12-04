@@ -42,9 +42,7 @@ class JsEditor extends Container implements Module
     }
 
     /**
-     * Page: Post Types Settings.
-     *
-     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      */
     protected function buildPage(Options $optionsHelper)
     {
@@ -89,6 +87,9 @@ class JsEditor extends Container implements Module
                     'slug' => $globalSetting['slug'],
                     'id' => $globalSetting['slug'],
                     'fieldCallback' => $fieldCallback,
+                    'args' => [
+                        'class' => 'vcv-css-js-editor vcv-js-editor-' . $globalSetting['slug']
+                    ]
                 ]
             );
         }
