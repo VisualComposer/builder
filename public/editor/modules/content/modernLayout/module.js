@@ -114,15 +114,21 @@ vcCake.add('contentModernLayout', (api) => {
   }
 
   const createLoadingScreen = () => {
-    ReactDOM.unmountComponentAtNode(iframeContent)
-    iframeContent.innerHTML = `<div class='vcv-loading-overlay'>
-        <div class='vcv-loading-overlay-inner'>
-          <div class='vcv-loading-dots-container'>
-            <div class='vcv-loading-dot vcv-loading-dot-1'></div>
-            <div class='vcv-loading-dot vcv-loading-dot-2'></div>
-          </div>
+    iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+    const loadingOverlay = document.createElement('div')
+    loadingOverlay.classList.add('vcv-loading-overlay')
+    loadingOverlay.innerHTML = `<div class='vcv-loading-overlay-inner'>
+        <div class='vcv-loading-dots-container'>
+          <div class='vcv-loading-dot vcv-loading-dot-1'></div>
+          <div class='vcv-loading-dot vcv-loading-dot-2'></div>
         </div>
       </div>`
+    const startBlank = iframeContent.querySelector('.vcv-start-blank-container')
+    if (startBlank) {
+      iframeContent.insertBefore(loadingOverlay, startBlank)
+    } else {
+      iframeContent.appendChild(loadingOverlay)
+    }
   }
 
   const reloadLayout = ({ type, template, header, sidebar, footer }) => {

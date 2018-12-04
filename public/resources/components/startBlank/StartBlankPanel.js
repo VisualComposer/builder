@@ -54,24 +54,11 @@ export default class startBlank extends React.Component {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const buttonText = localizations ? localizations.premiumTemplatesButton : 'Go Premium'
-    const helperText = localizations ? localizations.blankPageHelperText : 'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more.'
     let headingPart1
     let headingPart2
 
-    let buttonUrl = `${window.vcvGoPremiumUrl}&vcv-ref=start-blank`
-    let premium = null
-    if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
-      premium = (
-        <div>
-          <a href={buttonUrl} target='_blank' className='vcv-start-blank-button' disabled>{buttonText}</a>
-          <p className='vcv-start-blank-helper'>{helperText}</p>
-        </div>
-      )
-    }
     let startBlankContent
     if (window.VCV_EDITOR_TYPE) {
-      premium = null
       let type = window.VCV_EDITOR_TYPE()
       type = type.charAt(0).toUpperCase() + type.slice(1)
       headingPart1 = `${localizations ? localizations.blankPageTitleHeadingPart1 : 'Name Your '} ${type}`
@@ -87,10 +74,7 @@ export default class startBlank extends React.Component {
       headingPart1 = localizations ? localizations.blankPageHeadingPart1 : 'Select Blank Page'
       headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'or Start With a template'
       startBlankContent = (
-        <PagePanelContent
-          unmountStartBlank={this.props.unmountStartBlank}
-          handleCloseClick={this.handleCloseClick}
-        />
+        <PagePanelContent />
       )
     }
 
@@ -103,7 +87,6 @@ export default class startBlank extends React.Component {
               <div className='vcv-start-blank-page-heading'>{headingPart2}</div>
             </div>
             {startBlankContent}
-            {premium}
           </div>
         </div>
       </div>

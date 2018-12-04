@@ -6,7 +6,6 @@ import LayoutIcons from './layoutIcons'
 
 const templateManager = vcCake.getService('myTemplates')
 const settingsStorage = vcCake.getStorage('settings')
-const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
@@ -17,27 +16,24 @@ export default class PagePanelContent extends React.Component {
   elementsContainer = null
   initialSetControlsLayoutTimeout = null
 
-  static propTypes = {
-    unmountStartBlank: PropTypes.func.isRequired,
-    handleCloseClick: PropTypes.func.isRequired
-  }
-
   constructor (props) {
     super(props)
-    this.state = {
-      templates: templateManager.predefined()
-    }
 
     let currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
     if (currentTemplate && currentTemplate.type && currentTemplate.value) {
       settingsStorage.state('pageTemplate').set(currentTemplate)
     }
 
-    this.currentLayout = currentTemplate || { type: 'theme', value: 'default' }
+    this.state = {
+      templates: templateManager.predefined(),
+      current: currentTemplate
+    }
 
-    this.handleControlClick = this.handleControlClick.bind(this)
     this.handleLayoutClick = this.handleLayoutClick.bind(this)
     this.setControlsLayout = this.setControlsLayout.bind(this)
+    this.updateState = this.updateState.bind(this)
+    this.handleAddElementClick = this.handleAddElementClick.bind(this)
+    this.handleAddTemplateClick = this.handleAddTemplateClick.bind(this)
   }
 
   componentDidMount () {
@@ -47,6 +43,7 @@ export default class PagePanelContent extends React.Component {
       this.setControlsLayout()
     }, 1)
     this.addResizeListener(this.rowContainer, this.setControlsLayout)
+    settingsStorage.state('pageTemplate').onChange(this.updateState)
   }
 
   componentWillUnmount () {
@@ -54,6 +51,15 @@ export default class PagePanelContent extends React.Component {
     if (this.initialSetControlsLayoutTimeout) {
       window.clearTimeout(this.initialSetControlsLayoutTimeout)
       this.initialSetControlsLayoutTimeout = null
+    }
+    settingsStorage.state('pageTemplate').ignoreChange(this.updateState)
+  }
+
+  updateState (data) {
+    if (data) {
+      this.setState({
+        current: data
+      })
     }
   }
 
@@ -108,34 +114,6 @@ export default class PagePanelContent extends React.Component {
     })
   }
 
-  handleControlClick (props) {
-    const { blank, data } = props
-    if (!blank) {
-      elementsStorage.trigger('merge', data)
-    }
-    this.props.handleCloseClick(blank)
-  }
-
-  getTemplateControlProps (template) {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const blankText = localizations ? localizations.blankPage : 'Blank Page'
-
-    if (template !== 'blank') {
-      return {
-        key: 'vcv-element-control-' + template.id,
-        addClick: this.handleControlClick,
-        ...template
-      }
-    } else {
-      return {
-        key: 'vcv-element-control-blank',
-        addClick: this.handleControlClick,
-        name: blankText,
-        blank: true
-      }
-    }
-  }
-
   getLayoutControls () {
     let layouts = []
     let inactiveIcons = Object.assign({}, LayoutIcons)
@@ -148,6 +126,10 @@ export default class PagePanelContent extends React.Component {
             let templateName = `${templatesList.type}__${template.value}`
             let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].icon.default
             delete inactiveIcons[ templateName ]
+            let active = false
+            if (this.state.current.type === templatesList.type && this.state.current.value === template.value) {
+              active = true
+            }
             layouts.push(
               <TemplatePreview key={`layout-${key}-${index}`}
                 click={this.handleLayoutClick}
@@ -155,6 +137,7 @@ export default class PagePanelContent extends React.Component {
                 templateValue={template.value}
                 templateName={templateName}
                 icon={Icon}
+                active={active}
                 name={template.label}
               />
             )
@@ -187,6 +170,10 @@ export default class PagePanelContent extends React.Component {
     }
 
     let Icon = LayoutIcons[ 'theme-default' ] && LayoutIcons[ 'theme-default' ].icon.default
+    let active = false
+    if (this.state.current.type === 'theme') {
+      active = true
+    }
     layouts.push(
       <TemplatePreview key={`layout-theme-default`}
         click={this.handleLayoutClick}
@@ -194,6 +181,7 @@ export default class PagePanelContent extends React.Component {
         blank
         name={'Theme default'}
         templateName={'theme-default'}
+        active={active}
       />
     )
     return layouts
@@ -211,8 +199,7 @@ export default class PagePanelContent extends React.Component {
       settingsStorage.state('pageTemplate').set(newLayout)
       workspaceIFrame.set({ type: 'reload', template: newLayout })
     }
-
-    this.props.unmountStartBlank()
+    this.updateState(newLayout)
   }
 
   /**
@@ -229,7 +216,30 @@ export default class PagePanelContent extends React.Component {
     }
   }
 
+  handleAddElementClick (e) {
+    e && e.preventDefault()
+    workspaceStorage.state('settings').set({
+      action: 'add',
+      element: {},
+      tag: '',
+      options: {}
+    })
+  }
+
+  handleAddTemplateClick (e) {
+    e && e.preventDefault()
+    workspaceStorage.state('settings').set({
+      action: 'addTemplate',
+      element: {},
+      tag: '',
+      options: {}
+    })
+  }
+
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const addElementText = localizations ? localizations.addElement : 'Add Element'
+    const addTemplatText = localizations ? localizations.addTemplate : 'Add Template'
     let containerWidth = {}
     if (this.state && this.state.containerWidth) {
       containerWidth.width = `${this.state.containerWidth}px`
@@ -251,6 +261,10 @@ export default class PagePanelContent extends React.Component {
         </ul>
       </div>
       <div className='vcv-start-blank-description'>You can change layout of your page later on at any time via Visual Composer Settings</div>
+      <div className='vcv-start-blank-button-container'>
+        <button className='vcv-start-blank-button' onClick={this.handleAddElementClick}>{addElementText}</button>
+        <button className='vcv-start-blank-button' onClick={this.handleAddTemplateClick}>{addTemplatText}</button>
+      </div>
     </div>
   }
 }
