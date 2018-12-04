@@ -55,35 +55,40 @@ class JsEditor extends Container implements Module
             );
         };
 
-        $globalSetting = [
-            'label' => __('Custom Javascript', 'vcwb'),
-            'slug' => 'settingsGlobalJs',
-            'value' => $optionsHelper->get('settingsGlobalJs', true),
-        ];
-
         $this->addSection(
             [
-                'title' => $globalSetting['label'],
-                'slug' => $globalSetting['slug'],
+                'title' => __('Custom Javascript', 'vcwb'),
+                'slug' => 'settingsGlobalJs',
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]
         );
 
-        $fieldCallback = function ($data) use ($globalSetting) {
-            echo $this->call('renderEditor', ['data' => $data, 'globalSetting' => $globalSetting]);
-        };
-
-        $this->addField(
+        $globalJsSettings = array(
             [
-                'page' => $this->slug,
-                'slug' => $globalSetting['slug'],
-                'title' => $globalSetting['label'],
-                'name' => $globalSetting['slug'],
-                'id' => $globalSetting['slug'],
-                'fieldCallback' => $fieldCallback,
+                'slug' => 'settingsGlobalJsHead',
+                'value' => $optionsHelper->get('settingsGlobalJsHead', false),
+            ],
+            [
+                'slug' => 'settingsGlobalJs',
+                'value' => $optionsHelper->get('settingsGlobalJs', false),
             ]
         );
+
+        foreach ($globalJsSettings as $globalSetting) {
+            $fieldCallback = function ($data) use ($globalSetting) {
+                echo $this->call('renderEditor', ['data' => $data, 'globalSetting' => $globalSetting]);
+            };
+
+            $this->addField(
+                [
+                    'page' => $this->slug,
+                    'slug' => $globalSetting['slug'],
+                    'id' => $globalSetting['slug'],
+                    'fieldCallback' => $fieldCallback,
+                ]
+            );
+        }
     }
 
     protected function renderEditor($data, $globalSetting)

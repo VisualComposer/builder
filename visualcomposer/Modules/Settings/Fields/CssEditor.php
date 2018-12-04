@@ -75,8 +75,6 @@ class CssEditor extends Container implements Module
             [
                 'page' => $this->slug,
                 'slug' => $globalSetting['slug'],
-                'title' => $globalSetting['label'],
-                'name' => $globalSetting['slug'],
                 'id' => $globalSetting['slug'],
                 'fieldCallback' => $fieldCallback,
             ]
