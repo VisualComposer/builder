@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
 import TemplatePreview from './templatePreview'
 import LayoutIcons from './layoutIcons'
