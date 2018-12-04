@@ -111,6 +111,7 @@ class CssJsSettings extends Container implements Module
             'title' => __('CSS and JavaScript', 'vcwb'),
             'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
+            'hidePage' => true,
             'controller' => $this,
         ];
         $this->addSubmenuPage($page);
