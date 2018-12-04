@@ -78,6 +78,9 @@ class CssEditor extends Container implements Module
                 'slug' => $globalSetting['slug'],
                 'id' => $globalSetting['slug'],
                 'fieldCallback' => $fieldCallback,
+                'args' => [
+                    'class' => 'vcv-css-js-editor vcv-js-editor-' . $globalSetting['slug']
+                ]
             ]
         );
     }

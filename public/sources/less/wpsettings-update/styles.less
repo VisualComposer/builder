@@ -266,6 +266,32 @@
   }
 }
 
+.vcv-css-js-editor th[scope=row] {
+  display: none;
+}
+
+.vcv-css-js-editor .vcv-ui-form-editor-container:before,
+.vcv-css-js-editor .vcv-ui-form-editor-container:after {
+  background: #E3E1E1;
+  border-radius: 3px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin: 8px 0;
+}
+.vcv-css-js-editor.vcv-js-editor-settingsGlobalJsHead .vcv-ui-form-editor-container:before {
+  content:'<head>';
+}
+.vcv-css-js-editor.vcv-js-editor-settingsGlobalJsHead .vcv-ui-form-editor-container:after {
+  content:'</head>';
+}
+
+.vcv-css-js-editor.vcv-js-editor-settingsGlobalJs .vcv-ui-form-editor-container:before {
+  content:'<footer>';
+}
+.vcv-css-js-editor.vcv-js-editor-settingsGlobalJs .vcv-ui-form-editor-container:after {
+  content:'</footer>';
+}
+
 .vcv-table-loader {
   display: none;
 }
