@@ -68,11 +68,16 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
   constructor (props) {
     super(props)
+    const workspaceState = workspaceStorage.state('settings').get()
+    if (workspaceState.options && workspaceState.options.filterType) {
+      const { filterType, id, bundleType } = workspaceState.options
+      this.state = {
+        filterType: filterType,
+        activeCategoryIndex: id,
+        bundleType: bundleType
+      }
+    }
     this.setFilterType = this.setFilterType.bind(this)
-  }
-
-  componentDidMount () {
-    this.setInitialFilterType()
   }
 
   getAllCategories () {
@@ -222,14 +227,6 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   getSearchElement () {
     let searchProps = this.getSearchProps()
     return <SearchElement {...searchProps} />
-  }
-
-  setInitialFilterType () {
-    const workspaceState = workspaceStorage.state('settings').get()
-    if (workspaceState.options && workspaceState.options.filterType) {
-      const { filterType, id, bundleType } = workspaceState.options
-      this.setFilterType(filterType, id, bundleType)
-    }
   }
 
   setFilterType (value, id, bundleType) {
