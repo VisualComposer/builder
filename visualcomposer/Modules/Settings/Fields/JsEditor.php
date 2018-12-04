@@ -57,8 +57,8 @@ class JsEditor extends Container implements Module
 
         $globalSetting = [
             'label' => __('Custom Javascript', 'vcwb'),
-            'slug' => VCV_PREFIX . 'settingsGlobalJs',
-            'value' => $optionsHelper->get('settingsGlobalJs'),
+            'slug' => 'settingsGlobalJs',
+            'value' => $optionsHelper->get('settingsGlobalJs', true),
         ];
 
         $this->addSection(
