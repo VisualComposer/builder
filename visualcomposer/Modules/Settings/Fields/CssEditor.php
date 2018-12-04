@@ -97,10 +97,6 @@ class CssEditor extends Container implements Module
         if (function_exists('wp_enqueue_code_editor')) {
             $settings = wp_enqueue_code_editor(['type' => 'text/css']);
         }
-        wp_add_inline_script(
-            'code-editor',
-            'var vcvCssEditor = document.getElementsByClassName("vcv-css-code-editor");window.onload = function(e){wp.codeEditor.initialize(vcvCssEditor)};'
-        );
     }
 
     protected function unsetOptions(Options $optionsHelper)

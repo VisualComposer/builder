@@ -109,10 +109,6 @@ class JsEditor extends Container implements Module
         if (function_exists('wp_enqueue_code_editor')) {
             wp_enqueue_code_editor(['type' => 'text/javascript']);
         }
-        wp_add_inline_script(
-            'code-editor',
-            'var vcvJsEditor = document.getElementsByClassName("vcv-js-code-editor");window.onload = function(e){wp.codeEditor.initialize(vcvJsEditor)};'
-        );
     }
 
     protected function unsetOptions(Options $optionsHelper)
