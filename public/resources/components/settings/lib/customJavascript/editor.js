@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import CodeEditor from '../../../../codeEditor/codeEditor'
-import { getData, getStorage } from 'vc-cake'
+import { getData, getStorage, env } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 
@@ -51,7 +51,7 @@ export default class ScriptEditor extends React.Component {
     })
     return <div className={controlClass}>
       <textarea className='vcv-ui-script-ace-container' ref={editor => (this.editorWrapper = editor)} />
-      <p className='vcv-ui-form-helper'>{this.props.editorLabel}</p>
+      { env('FT_JS_SETTINGS') ? null : <p className='vcv-ui-form-helper'>{ this.props.editorLabel }</p> }
     </div>
   }
 }

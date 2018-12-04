@@ -1,7 +1,7 @@
 import React from 'react'
 import ScriptControl from './control'
 import ScriptEditor from './editor'
-import { setData, getStorage } from 'vc-cake'
+import { setData, getStorage, env } from 'vc-cake'
 import PropTypes from 'prop-types'
 const settingsStorage = getStorage('settings')
 
@@ -103,6 +103,33 @@ export default class CustomJavascript extends React.Component {
   render () {
     let button = this.getButtons()
     let editor = this.getEditor()
+
+    if (env('FT_JS_SETTINGS')) {
+      return (
+        <div className='vcv-ui-custom-scripts vcv-ui-custom-scripts-areas'>
+          <div className='vcv-ui-script-control-container'>
+            <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
+              {button}
+            </div>
+          </div>
+          <p className='vcv-ui-form-helper'>
+            Add custom JavaScript code to insert it globally on every page in &lt;header&gt; or &lt;footer&gt;. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.
+          </p>
+          <div className='vcv-ui-script-editor-container'>
+            <div className='vcv-ui-script-editor-container-type'>
+              <span className='vcv-ui-script-editor-tag'>&lt;head&gt;</span>
+              {editor}
+              <span className='vcv-ui-script-editor-tag'>&lt;/head&gt;</span>
+            </div>
+            <div className='vcv-ui-script-editor-container-type'>
+              <span className='vcv-ui-script-editor-tag'>&lt;footer&gt;</span>
+              {editor}
+              <span className='vcv-ui-script-editor-tag'>&lt;/footer&gt;</span>
+            </div>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className='vcv-ui-custom-scripts'>
         <div className='vcv-ui-script-control-container'>
