@@ -15,7 +15,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
 
-class GlobalCssJs extends Container implements Module
+class CssEditor extends Container implements Module
 {
     use Fields;
     use WpFiltersActions;
@@ -29,7 +29,7 @@ class GlobalCssJs extends Container implements Module
     public function __construct()
     {
         $this->optionGroup = $this->slug;
-        $this->optionSlug = 'vcv-global-css-js';
+        $this->optionSlug = 'vcv-global-css';
         /** @see \VisualComposer\Modules\Settings\Fields\PostTypes::buildPage */
         $this->wpAddAction(
             'admin_init',
@@ -43,13 +43,7 @@ class GlobalCssJs extends Container implements Module
      *
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      */
-    protected function buildPage()
-    {
-        $this->call('createCustomCssSection');
-        $this->call('createCustomJsSection');
-    }
-
-    protected function createCustomCssSection(Options $optionsHelper)
+    protected function buildPage(Options $optionsHelper)
     {
         $sectionCallback = function () {
             echo sprintf(
@@ -89,53 +83,10 @@ class GlobalCssJs extends Container implements Module
         );
     }
 
-    protected function createCustomJsSection(Options $optionsHelper)
-    {
-        $sectionCallback = function () {
-            echo sprintf(
-                '<p class="description">%s</p>',
-                esc_html__(
-                    'Add custom Javascript code to insert it globally on every page in <header> and <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other Javascript code snippets.',
-                    'vcwb'
-                )
-            );
-        };
-
-        $globalSetting = [
-            'label' => __('Custom Javascript', 'vcwb'),
-            'slug' => VCV_PREFIX . 'settingsGlobalJs',
-            'value' => $optionsHelper->get('settingsGlobalJs'),
-        ];
-
-        $this->addSection(
-            [
-                'title' => $globalSetting['label'],
-                'slug' => $globalSetting['slug'],
-                'page' => $this->slug,
-                'callback' => $sectionCallback,
-            ]
-        );
-
-        $fieldCallback = function ($data) use ($globalSetting) {
-            echo $this->call('renderEditor', ['data' => $data, 'globalSetting' => $globalSetting]);
-        };
-
-        $this->addField(
-            [
-                'page' => $this->slug,
-                'slug' => $globalSetting['slug'],
-                'title' => $globalSetting['label'],
-                'name' => $globalSetting['slug'],
-                'id' => $globalSetting['slug'],
-                'fieldCallback' => $fieldCallback,
-            ]
-        );
-    }
-
     protected function renderEditor($data, $globalSetting)
     {
         return vcview(
-            'settings/pages/css-js-editor/css-js-editor',
+            'settings/pages/css-editor/css-editor',
             [
                 'globalSetting' => $globalSetting,
             ]
@@ -144,6 +95,6 @@ class GlobalCssJs extends Container implements Module
 
     protected function unsetOptions(Options $optionsHelper)
     {
-        $optionsHelper->delete('vcv-global-css-js');
+        $optionsHelper->delete('vcv-global-css');
     }
 }
