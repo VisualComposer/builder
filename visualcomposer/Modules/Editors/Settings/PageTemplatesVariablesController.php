@@ -32,8 +32,8 @@ class PageTemplatesVariablesController extends Container implements Module
             'value' => vcfilter(
                 'vcv:editor:settings:pageTemplatesLayouts:current',
                 [
-                    'type' => 'theme',
-                    'value' => 'default',
+                    'type' => 'vc',
+                    'value' => 'blank',
                 ]
             ),
             'type' => 'constant',
