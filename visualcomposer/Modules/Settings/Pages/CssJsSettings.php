@@ -63,7 +63,7 @@ class CssJsSettings extends Container implements Module
     protected function addSettingsTab($tabs)
     {
         $tabs['vcv-global-css-js'] = [
-            'name' => 'CSS and JavaScript',
+            'name' => __('CSS and JavaScript', 'vcwb'),
         ];
 
         return $tabs;
