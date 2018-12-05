@@ -11,17 +11,14 @@ if (isset($_GET['page'])) {
     $activeTab = $_GET['page'];
 }
 
-$tabs = [
-    'vcv-settings' => ['name' => 'General'],
-    'vcv-system-status' => ['name' => 'System Status'],
-    'vcv-global-css-js' => ['name' => 'CSS and JavaScript'],
-];
+$tabsHelper = vchelper('Tabs');
+$tabs = $tabsHelper->getTabs();
 
 $tabsHtml = '';
 
 foreach ($tabs as $tabKey => $tab) {
     $activeClass = $tabKey === $activeTab ? ' nav-tab-active' : '';
-    $tabsHtml .= '<a href="?page='.$tabKey.'" class="nav-tab'.$activeClass.'">'.esc_html__($tab['name'], 'vcwb').'</a>';
+    $tabsHtml .= '<a href="?page=' . $tabKey . '" class="nav-tab' . $activeClass . '">' . esc_html__($tab['name'], 'vcwb') . '</a>';
 }
 
 evcview('settings/partials/admin-nonce');

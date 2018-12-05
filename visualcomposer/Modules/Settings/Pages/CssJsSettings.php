@@ -51,6 +51,22 @@ class CssJsSettings extends Container implements Module
             'in_admin_header',
             'addCss'
         );
+
+        $this->addFilter('vcv:settings:tabs', 'addSettingsTab');
+    }
+
+    /**
+     * @param $tabs
+     *
+     * @return mixed
+     */
+    protected function addSettingsTab($tabs)
+    {
+        $tabs['vcv-global-css-js'] = [
+            'name' => 'CSS and JavaScript',
+        ];
+
+        return $tabs;
     }
 
     protected function subMenuHighlight($submenuFile)
@@ -62,26 +78,6 @@ class CssJsSettings extends Container implements Module
 
         return $submenuFile;
     }
-
-    /*protected function getRenderArgs()
-    {
-        return [
-            'refreshUrl' => $this->getRefreshUrl(),
-            'phpVersion' => $this->getPhpVersionStatusForView(),
-            'wpVersion' => $this->getWpVersionStatusForView(),
-            'vcVersion' => $this->statusHelper->getVcvVersion(),
-            'wpDebug' => $this->getWpDebugStatusForView(),
-            'memoryLimit' => $this->getMemoryLimitStatusForView(),
-            'timeout' => $this->getTimeoutStatusForView(),
-            'fileUploadSize' => $this->getUploadMaxFileSizeStatusForView(),
-            'uploadDirAccess' => $this->getUploadDirAccessStatusForView(),
-            'fsMethod' => $this->getFileSystemStatusForView(),
-            'zipExt' => $this->getZipStatusForView(),
-            'curlExt' => $this->getCurlStatusForView(),
-            'account' => $this->getAccountConnectionStatusForView(),
-            'aws' => $this->getAwsConnectionStatusForView(),
-        ];
-    }*/
 
     /**
      *
