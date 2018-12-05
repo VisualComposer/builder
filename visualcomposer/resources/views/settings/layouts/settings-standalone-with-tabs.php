@@ -11,16 +11,8 @@ if (isset($_GET['page'])) {
     $activeTab = $_GET['page'];
 }
 
-$tabs = [
-    'vcv-settings' => ['name' => 'General'],
-    'vcv-system-status' => ['name' => 'System Status'],
-];
-
-if (vcvenv('VCV_ENV_FT_GLOBAL_CSS_JS_SETTINGS')) {
-    $tabs['vcv-global-css-js'] = [
-        'name' => 'CSS and JavaScript',
-    ];
-}
+$tabsHelper = vchelper('Tabs');
+$tabs = $tabsHelper->getTabs();
 
 $tabsHtml = '';
 
