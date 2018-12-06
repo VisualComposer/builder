@@ -76,8 +76,8 @@ class PageTemplatesController extends Container implements Module
                 ];
             } else {
                 $output = [
-                    'type' => 'vc',
-                    'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'blank',
+                    'type' => 'theme',
+                    'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'default',
                 ];
             }
         }
