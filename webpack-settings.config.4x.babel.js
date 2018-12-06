@@ -33,5 +33,8 @@ module.exports = Object.assign({}, webpackConfig, {
   plugins: [
     new ExtractTextPlugin('[name].bundle.css'),
     new webpack.NamedModulesPlugin()
-  ]
+  ],
+  resolve: {
+    alias: { 'public': path.resolve(__dirname, 'public') }
+  }
 })

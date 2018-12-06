@@ -53,16 +53,17 @@ class CssEditor extends Container implements Module
             );
         };
 
+        $fieldSlug = 'settingsGlobalCss';
         $globalSetting = [
             'label' => __('Custom CSS', 'vcwb'),
-            'slug' => 'settingsGlobalCss',
-            'value' => $optionsHelper->get('settingsGlobalCss', true),
+            'slug' => $fieldSlug,
+            'value' => $optionsHelper->get($fieldSlug, true),
         ];
 
         $this->addSection(
             [
                 'title' => $globalSetting['label'],
-                'slug' => $globalSetting['slug'],
+                'slug' => $fieldSlug,
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]
@@ -75,12 +76,13 @@ class CssEditor extends Container implements Module
         $this->addField(
             [
                 'page' => $this->slug,
-                'slug' => $globalSetting['slug'],
-                'id' => $globalSetting['slug'],
+                'slug' => $fieldSlug,
+                'name' => $fieldSlug,
+                'id' => $fieldSlug,
                 'fieldCallback' => $fieldCallback,
                 'args' => [
-                    'class' => 'vcv-css-js-editor vcv-js-editor-' . $globalSetting['slug']
-                ]
+                    'class' => 'vcv-css-js-editor vcv-js-editor-' . $fieldSlug,
+                ],
             ]
         );
     }
@@ -98,7 +100,7 @@ class CssEditor extends Container implements Module
     protected function beforeRender()
     {
         if (function_exists('wp_enqueue_code_editor')) {
-            $settings = wp_enqueue_code_editor(['type' => 'text/css']);
+            wp_enqueue_code_editor(['type' => 'text/css']);
         }
     }
 

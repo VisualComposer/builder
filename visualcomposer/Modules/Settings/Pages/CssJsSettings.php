@@ -63,7 +63,7 @@ class CssJsSettings extends Container implements Module
     protected function addSettingsTab($tabs)
     {
         $tabs['vcv-global-css-js'] = [
-            'name' => __('CSS and JavaScript', 'vcwb'),
+            'name' => __('CSS, HTML & JavaScript', 'vcwb'),
         ];
 
         return $tabs;
@@ -109,7 +109,7 @@ class CssJsSettings extends Container implements Module
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => __('CSS and JavaScript', 'vcwb'),
+            'title' => __('CSS, HTML & JavaScript', 'vcwb'),
             'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
             'controller' => $this,

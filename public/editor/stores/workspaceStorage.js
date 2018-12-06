@@ -6,7 +6,6 @@ const cacheStorage = getStorage('cache')
 
 addStorage('workspace', (storage) => {
   const elementsStorage = getStorage('elements')
-  const localStorage = getStorage('localStorage')
   const documentManager = getService('document')
   const cook = getService('cook')
   const isElementOneRelation = (parent) => {
@@ -211,7 +210,6 @@ addStorage('workspace', (storage) => {
     storage.trigger('edit', data.toJS().id, '')
   })
   storage.on('start', () => {
-    localStorage.trigger('start')
     storage.state('app').set('started')
   })
   storage.on('addTemplate', () => {

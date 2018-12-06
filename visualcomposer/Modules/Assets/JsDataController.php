@@ -35,10 +35,13 @@ class JsDataController extends Container implements Module
     protected function getData($response, $payload, Options $optionsHelper)
     {
         $sourceId = $payload['sourceId'];
-        $sourceLocalJs = get_post_meta($sourceId, VCV_PREFIX . 'settingsLocalJs', true);
+        $sourceLocalJsHead = get_post_meta($sourceId, VCV_PREFIX . 'settingsLocalJsHead', true);
+        $sourceLocalJsFooter = get_post_meta($sourceId, VCV_PREFIX . 'settingsLocalJsFooter', true);
         $response['jsSettings'] = [
-            'local' => $sourceLocalJs ? $sourceLocalJs : '',
-            'global' => $optionsHelper->get('settingsGlobalJs', ''),
+            'localJsHead' => $sourceLocalJsHead ? $sourceLocalJsHead : '',
+            'localJsFooter' => $sourceLocalJsFooter ? $sourceLocalJsFooter : '',
+            'globalJsHead' => $optionsHelper->get('settingsGlobalJsHead', ''),
+            'globalJsFooter' => $optionsHelper->get('settingsGlobalJsFooter', ''),
         ];
 
         return $response;
@@ -56,8 +59,10 @@ class JsDataController extends Container implements Module
     protected function setSourceJs($sourceId)
     {
         $requestHelper = vchelper('Request');
-        $jsInput = $requestHelper->input('vcv-settings-source-local-js', '');
-        update_post_meta($sourceId, VCV_PREFIX . 'settingsLocalJs', $jsInput);
+        $jsInputHead = $requestHelper->input('vcv-settings-source-local-head-js', '');
+        update_post_meta($sourceId, VCV_PREFIX . 'settingsLocalJsHead', $jsInputHead);
+        $jsInputFooter = $requestHelper->input('vcv-settings-source-local-footer-js', '');
+        update_post_meta($sourceId, VCV_PREFIX . 'settingsLocalJsFooter', $jsInputFooter);
     }
 
     protected function setGlobalJs()
@@ -65,7 +70,10 @@ class JsDataController extends Container implements Module
         // save global options
         $requestHelper = vchelper('Request');
         $optionsHelper = vchelper('Options');
-        $jsInput = $requestHelper->input('vcv-settings-global-js', '');
-        $optionsHelper->set('settingsGlobalJs', $jsInput);
+        $jsInputHead = $requestHelper->input('vcv-settings-global-head-js', '');
+        $optionsHelper->set('settingsGlobalJsHead', $jsInputHead);
+
+        $jsInputFooter = $requestHelper->input('vcv-settings-global-footer-js', '');
+        $optionsHelper->set('settingsGlobalJsFooter', $jsInputFooter);
     }
 }

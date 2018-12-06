@@ -29,7 +29,12 @@ class FileController extends Container implements Module
         if (!$frontendHelper->isPreview()) {
             /** @see \VisualComposer\Modules\Assets\FileController::generateGlobalElementsCssFile */
             $this->addFilter(
-                'vcv:dataAjax:setData vcv:assets:file:generate',
+                'vcv:dataAjax:setData',
+                'generateGlobalElementsCssFile'
+            );
+            /** @see \VisualComposer\Modules\Assets\FileController::generateGlobalElementsCssFile */
+            $this->addEvent(
+                'vcv:assets:file:generate',
                 'generateGlobalElementsCssFile'
             );
 
@@ -57,7 +62,6 @@ class FileController extends Container implements Module
      * Generate (save to fs and update db) styles bundle.
      *
      * @param $response
-     * @param $payload
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Assets $assetsHelper
      *
@@ -67,13 +71,11 @@ class FileController extends Container implements Module
      */
     protected function generateGlobalElementsCssFile(
         $response,
-        $payload,
         Options $optionsHelper,
         Assets $assetsHelper,
         File $fileHelper
     ) {
         $globalElementsBaseCss = [];
-        $globalElementsAttributesCss = [];
         $globalElementsMixinsCss = [];
         $additionalPostTypes = vcfilter('vcv:assets:postTypes', ['vcv_templates']);
         $vcvPosts = new WP_Query(
@@ -253,7 +255,8 @@ class FileController extends Container implements Module
         $extension = $sourceChecksum . '.source.css';
         $assetsHelper->deleteAssetsBundles($extension);
 
-        vcfilter('vcv:assets:file:generate', []);
+        /** @see \VisualComposer\Modules\Assets\FileController::generateGlobalElementsCssFile */
+        $this->call('generateGlobalElementsCssFile', ['response' => []]);
 
         return true;
     }

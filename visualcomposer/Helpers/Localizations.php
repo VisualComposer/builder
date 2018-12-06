@@ -353,6 +353,8 @@ class Localizations extends Container implements Helper
             'doNotCloseWhileSendingErrorReportText' => __('Don\'t close this window while sending error is in the progress.', 'vcwb'),
             'somethingWentWrong' => __('Oops ... Something Went Wrong', 'vcwb'),
             'goToHubButtonDescription' => __('Access Visual Composer Hub - download additional elements, templates and extensions.', 'vcwb'),
+            'settingsCustomJsLocal' => __('Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.', 'vcwb'),
+            'settingsCustomJsGlobal' => __('Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.', 'vcwb'),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

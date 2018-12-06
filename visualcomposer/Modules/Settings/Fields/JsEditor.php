@@ -50,7 +50,7 @@ class JsEditor extends Container implements Module
             echo sprintf(
                 '<p class="description">%s</p>',
                 esc_html__(
-                    'Add custom Javascript code to insert it globally on every page in <header> and <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other Javascript code snippets.',
+                    'Add custom HTML or JavaScript code to insert it globally on every page in <header> and <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.',
                     'vcwb'
                 )
             );
@@ -58,7 +58,7 @@ class JsEditor extends Container implements Module
 
         $this->addSection(
             [
-                'title' => __('Custom Javascript', 'vcwb'),
+                'title' => __('Custom HTML and JavaScript', 'vcwb'),
                 'slug' => 'settingsGlobalJs',
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
@@ -68,11 +68,11 @@ class JsEditor extends Container implements Module
         $globalJsSettings = [
             [
                 'slug' => 'settingsGlobalJsHead',
-                'value' => $optionsHelper->get('settingsGlobalJsHead', false),
+                'value' => $optionsHelper->get('settingsGlobalJsHead'),
             ],
             [
-                'slug' => 'settingsGlobalJs',
-                'value' => $optionsHelper->get('settingsGlobalJs', false),
+                'slug' => 'settingsGlobalJsFooter',
+                'value' => $optionsHelper->get('settingsGlobalJsFooter'),
             ],
         ];
 
@@ -89,8 +89,8 @@ class JsEditor extends Container implements Module
                     'id' => $globalSetting['slug'],
                     'fieldCallback' => $fieldCallback,
                     'args' => [
-                        'class' => 'vcv-css-js-editor vcv-js-editor-' . $globalSetting['slug']
-                    ]
+                        'class' => 'vcv-css-js-editor vcv-js-editor-' . $globalSetting['slug'],
+                    ],
                 ]
             );
         }
@@ -110,6 +110,9 @@ class JsEditor extends Container implements Module
     {
         if (function_exists('wp_enqueue_code_editor')) {
             wp_enqueue_code_editor(['type' => 'text/javascript']);
+            wp_enqueue_script('htmlhint');
+            wp_enqueue_script('csslint');
+            wp_enqueue_script('jshint');
         }
     }
 
