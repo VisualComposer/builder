@@ -75,10 +75,17 @@ class PageTemplatesController extends Container implements Module
                     'stretchedContent' => intval($templateStretch),
                 ];
             } else {
-                $output = [
-                    'type' => 'theme',
-                    'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'default',
-                ];
+                if ($frontendHelper->isFrontend()) {
+                    $output = [
+                        'type' => 'vc',
+                        'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'blank',
+                    ];
+                } else {
+                    $output = [
+                        'type' => 'theme',
+                        'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'default',
+                    ];
+                }
             }
         }
 

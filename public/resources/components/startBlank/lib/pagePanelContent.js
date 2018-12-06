@@ -239,6 +239,7 @@ export default class PagePanelContent extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const addTemplatText = localizations ? localizations.addTemplate : 'Add Template'
+    const descriptionText = localizations ? localizations.blankPageHelperText : 'Start by adding an element to your layout or select one of the pre-defined templates.'
     let containerWidth = {}
     if (this.state && this.state.containerWidth) {
       containerWidth.width = `${this.state.containerWidth}px`
@@ -259,7 +260,7 @@ export default class PagePanelContent extends React.Component {
           {this.getLayoutControls()}
         </ul>
       </div>
-      <div className='vcv-start-blank-description'>You can change layout of your page later on at any time via Visual Composer Settings</div>
+      <div className='vcv-start-blank-description'>{descriptionText}</div>
       <div className='vcv-start-blank-button-container'>
         <button className='vcv-start-blank-button' onClick={this.handleAddElementClick}>{addElementText}</button>
         <button className='vcv-start-blank-button' onClick={this.handleAddTemplateClick}>{addTemplatText}</button>

@@ -80,7 +80,7 @@ add('wordpressWorkspace', (api) => {
       if (data.length === 0) {
         let showBlank = true
         let currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
-        if (currentTemplate && currentTemplate.type !== 'theme' && currentTemplate.value !== 'default') {
+        if (currentTemplate && currentTemplate.type !== 'vc' && currentTemplate.value !== 'blank') {
           showBlank = false
         }
 

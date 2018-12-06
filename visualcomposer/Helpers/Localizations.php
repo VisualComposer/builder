@@ -89,7 +89,7 @@ class Localizations extends Container implements Helper
             'blankPageTitleHeadingPart2' => __('and Start Building', 'vcwb'),
             'blankPageHelperText' => __(
             // @codingStandardsIgnoreLine
-                'Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more.',
+                'Start by adding an element to your layout or select one of the pre-defined templates.',
                 'vcwb'
             ),
             'addTemplateHelperText' => __(
