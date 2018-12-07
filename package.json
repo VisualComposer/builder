@@ -17,7 +17,8 @@
     "watch-assets-and-elements": "vc watch-elements-and-assets",
     "build-settings": "webpack --version && webpack --config webpack-settings.config.4x.babel.js --progress --colors",
     "build-settings-production": "webpack --version && webpack --config webpack-settings.config.production.4x.babel.js -p --silent",
-    "watch-settings": "webpack --version && webpack --config webpack-settings.config.4x.babel.js --progress --colors --watch"
+    "watch-settings": "webpack --version && webpack --config webpack-settings.config.4x.babel.js --progress --colors --watch",
+    "testcafe-live": "testcafe-live chrome tests/testcafe"
   },
   "author": "@wpb",
   "license": "GPL-2.0+",
@@ -63,6 +64,8 @@
     "standard": "12.0.1",
     "string-replace-webpack-plugin": "0.1.3",
     "style-loader": "0.23.1",
+    "testcafe": "0.23.2",
+    "testcafe-live": "0.1.4",
     "tinycolor2": "1.4.1",
     "uglifyjs-webpack-plugin": "1.3.0",
     "url-loader": "1.1.2",
