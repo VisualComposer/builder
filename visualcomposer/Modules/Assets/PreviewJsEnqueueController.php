@@ -10,12 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class PreviewJsEnqueueController extends JsEnqueueController implements Module
 {
-    use WpFiltersActions;
-
     /** @noinspection PhpMissingParentConstructorInspection
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
@@ -38,8 +35,16 @@ class PreviewJsEnqueueController extends JsEnqueueController implements Module
         if (is_object($preview)) {
             $sourceId = $preview->ID;
         }
-        $globalJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsGlobalJsHead', true);
-        $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJsHead', true);
+        $globalJs = '';
+        $localJs = '';
+        if (!$this->globalJSHeadAdded) {
+            $globalJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsGlobalJsHead', true);
+            $this->globalJSHeadAdded = true;
+        }
+        if (!in_array($sourceId, $this->localJsHeadEnqueueList)) {
+            $this->localJsHeadEnqueueList[] = $sourceId;
+            $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJsHead', true);
+        }
 
         $this->printJs($globalJs, $localJs);
     }
@@ -54,8 +59,16 @@ class PreviewJsEnqueueController extends JsEnqueueController implements Module
         if (is_object($preview)) {
             $sourceId = $preview->ID;
         }
-        $globalJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsGlobalJsFooter', true);
-        $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJsFooter', true);
+        $globalJs = '';
+        $localJs = '';
+        if (!$this->globalJSFooterAdded) {
+            $globalJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsGlobalJsFooter', true);
+            $this->globalJSFooterAdded = true;
+        }
+        if (!in_array($sourceId, $this->localJsFooterEnqueueList)) {
+            $this->localJsFooterEnqueueList[] = $sourceId;
+            $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJsFooter', true);
+        }
 
         $this->printJs($globalJs, $localJs);
     }

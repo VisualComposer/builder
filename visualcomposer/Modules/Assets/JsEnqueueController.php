@@ -70,13 +70,13 @@ class JsEnqueueController extends Container implements Module
         $sourceId = get_the_ID();
         $globalJs = '';
         $localJs = '';
-        if (!in_array($sourceId, $this->localJsHeadEnqueueList)) {
-            $this->localJsHeadEnqueueList[] = $sourceId;
-            $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsHead', true);
-        }
         if (!$this->globalJSHeadAdded) {
             $globalJs = $optionsHelper->get('settingsGlobalJsHead');
             $this->globalJSHeadAdded = true;
+        }
+        if (!in_array($sourceId, $this->localJsHeadEnqueueList)) {
+            $this->localJsHeadEnqueueList[] = $sourceId;
+            $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsHead', true);
         }
 
         $this->printJs($globalJs, $localJs);
@@ -92,13 +92,13 @@ class JsEnqueueController extends Container implements Module
         $sourceId = get_the_ID();
         $globalJs = '';
         $localJs = '';
-        if (!in_array($sourceId, $this->localJsFooterEnqueueList)) {
-            $this->localJsFooterEnqueueList[] = $sourceId;
-            $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsFooter', true);
-        }
         if (!$this->globalJSFooterAdded) {
             $globalJs = $optionsHelper->get('settingsGlobalJsFooter');
             $this->globalJSFooterAdded = true;
+        }
+        if (!in_array($sourceId, $this->localJsFooterEnqueueList)) {
+            $this->localJsFooterEnqueueList[] = $sourceId;
+            $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsFooter', true);
         }
 
         $this->printJs($globalJs, $localJs);
@@ -107,7 +107,6 @@ class JsEnqueueController extends Container implements Module
     /**
      * @param $globalJs
      * @param $localJs
-     * @param string
      */
     protected function printJs($globalJs, $localJs)
     {
