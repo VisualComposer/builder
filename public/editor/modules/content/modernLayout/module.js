@@ -113,8 +113,16 @@ vcCake.add('contentModernLayout', (api) => {
     }
   }
 
+  const removeLoadingScreen = () => {
+    let loadingOverlays = iframeContent.querySelectorAll('.vcv-loading-overlay')
+    loadingOverlays = [].slice.call(loadingOverlays)
+    loadingOverlays.forEach((loadingOverlay) => {
+      loadingOverlay.remove()
+    })
+  }
+
   const createLoadingScreen = () => {
-    iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+    removeLoadingScreen()
     const loadingOverlay = document.createElement('div')
     loadingOverlay.classList.add('vcv-loading-overlay')
     loadingOverlay.innerHTML = `<div class='vcv-loading-overlay-inner'>
@@ -202,6 +210,7 @@ vcCake.add('contentModernLayout', (api) => {
       iframe.src = url.join('?')
     } else if (type === 'loaded') {
       renderLayout(true)
+      removeLoadingScreen()
     }
   }
 

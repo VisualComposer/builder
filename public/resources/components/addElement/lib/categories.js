@@ -300,7 +300,7 @@ export default class Categories extends React.Component {
 
     let iframe = document.getElementById('vcv-editor-iframe')
     this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
-    this.iframeWindow.vcv.on('ready', this.openEditForm)
+    this.iframeWindow.vcv && this.iframeWindow.vcv.on('ready', this.openEditForm)
   }
 
   openEditForm (action, id) {
