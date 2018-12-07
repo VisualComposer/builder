@@ -145,23 +145,6 @@ vcCake.add('contentModernLayout', (api) => {
         workspaceIFrame.set({ type: 'loaded' })
         elementsStorage.trigger('updateAll', data)
         assetsStorage.trigger('updateAllElements', visibleElements)
-        const settingsStorage = vcCake.getStorage('settings')
-        const customCssState = settingsStorage.state('customCss')
-        const globalCssState = settingsStorage.state('globalCss')
-        const localJsState = settingsStorage.state('localJs')
-        const globalJsState = settingsStorage.state('globalJs')
-        if (customCssState.get()) {
-          customCssState.set(customCssState.get())
-        }
-        if (globalCssState.get()) {
-          globalCssState.set(globalCssState.get())
-        }
-        if (localJsState.get()) {
-          localJsState.set(localJsState.get())
-        }
-        if (globalJsState.get()) {
-          globalJsState.set(globalJsState.get())
-        }
       }
       let url = iframe.src.split('?')
       let params = url[ 1 ].split('&')

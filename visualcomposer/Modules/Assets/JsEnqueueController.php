@@ -12,62 +12,100 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class JsEnqueueController extends Container implements Module
 {
     use WpFiltersActions;
+    use EventsFilters;
 
-    protected $globalJSAdded = false;
+    protected $globalJSHeadAdded = false;
 
-    public function __construct(Frontend $frontendHelper)
+    protected $globalJSFooterAdded = false;
+
+    public function __construct()
     {
-        if (!$frontendHelper->isPreview()) {
-            $this->wpAddAction('wp_print_footer_scripts', 'enqueueJs', 60);
+        $this->wpAddAction('init', 'initialize');
+    }
+
+    protected function initialize(Frontend $frontendHelper)
+    {
+        if (!$frontendHelper->isPreview() && !$frontendHelper->isPageEditable()) {
+            /** @see \VisualComposer\Modules\Assets\JsEnqueueController::enqueueHeadHtml */
+            $this->wpAddAction('wp_print_scripts', 'migrateSourceJs', 1);
+            if ($frontendHelper->isFrontend()) {
+                $this->addEvent('vcv:frontend:render', 'enqueueHeadHtml');
+            } else {
+                $this->wpAddAction('wp_print_scripts', 'enqueueHeadHtml', 60);
+            }
+
+            /** @see \VisualComposer\Modules\Assets\JsEnqueueController::enqueueFooterHtml */
+            $this->wpAddAction('wp_print_footer_scripts', 'enqueueFooterHtml', 60);
+        }
+    }
+
+    protected function migrateSourceJs()
+    {
+        $sourceId = get_the_ID();
+        $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJs', true);
+        if (!empty($localJs)) {
+            $localJs = '<script type="text/javascript">' . $localJs . '</script>';
+            update_post_meta($sourceId, 'vcv-settingsLocalJsFooter', $localJs);
+            delete_post_meta($sourceId, 'vcv-settingsLocalJs');
         }
     }
 
     /**
-     * Enqueue JS.
+     * Enqueue HTML or JS snippets in head.
      *
      * @param \VisualComposer\Helpers\Options $optionsHelper
      */
-    protected function enqueueJs(Options $optionsHelper)
+    protected function enqueueHeadHtml(Options $optionsHelper)
     {
         $sourceId = get_the_ID();
-        $globalJs = $optionsHelper->get('settingsGlobalJs');
-        $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJs', true);
+        $globalJs = '';
+        $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsHead', true);
+        if (!$this->globalJSHeadAdded) {
+            $globalJs = $optionsHelper->get('settingsGlobalJsHead');
+            $this->globalJSHeadAdded = true;
+        }
 
-        $this->printJs($globalJs, $localJs, $sourceId);
+        $this->printJs($globalJs, $localJs);
+    }
+
+    /**
+     * Enqueue HTML or JS snippets in footer.
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     */
+    protected function enqueueFooterHtml(Options $optionsHelper)
+    {
+        $sourceId = get_the_ID();
+        $globalJs = '';
+        $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsFooter', true);
+        if (!$this->globalJSFooterAdded) {
+            $globalJs = $optionsHelper->get('settingsGlobalJsFooter');
+            $this->globalJSFooterAdded = true;
+        }
+
+        $this->printJs($globalJs, $localJs);
     }
 
     /**
      * @param $globalJs
      * @param $localJs
-     * @param string $prefix
+     * @param string
      */
-    protected function printJs($globalJs, $localJs, $prefix = '')
+    protected function printJs($globalJs, $localJs)
     {
         $frontendHelper = vchelper('Frontend');
         if (!$frontendHelper->isPageEditable()) {
-            if (!empty($globalJs) && !$this->globalJSAdded) {
-                $this->globalJSAdded = true;
-                evcview(
-                    'partials/script',
-                    [
-                        'key' => $prefix . '-global-js',
-                        'value' => $globalJs,
-                    ]
-                );
+            if (!empty($globalJs)) {
+                echo $globalJs;
             }
             if (!empty($localJs)) {
-                evcview(
-                    'partials/script',
-                    [
-                        'key' => $prefix . '-local-js',
-                        'value' => $localJs,
-                    ]
-                );
+                echo $localJs;
             }
         }
     }

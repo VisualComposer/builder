@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 export default class ScriptControl extends React.Component {
   static propTypes = {
     changeActive: PropTypes.func,
-    index: PropTypes.number.isRequired,
+    index: PropTypes.any.isRequired,
     title: PropTypes.string,
     active: PropTypes.bool
   }

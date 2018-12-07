@@ -32,7 +32,7 @@
 
         if (typeof Vimeo === 'undefined' || Vimeo.Player === 'undefined') {
           if (attempts > 100) {
-            console.log('Too many attempts to load Vimeo Player API');
+            console.warn('Too many attempts to load Vimeo Player API');
             return;
           }
           var _this = this;

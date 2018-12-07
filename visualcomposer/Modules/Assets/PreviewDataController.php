@@ -54,13 +54,7 @@ class PreviewDataController extends Container implements Module
             'post',
             $previewId,
             '_' . VCV_PREFIX . 'previewSourceCss',
-            $requestHelper->input('vcv-source-css')
-        );
-        update_metadata(
-            'post',
-            $previewId,
-            '_' . VCV_PREFIX . 'previewSettingsSourceCustomCss',
-            $requestHelper->input('vcv-settings-source-custom-css')
+            $requestHelper->input('vcv-source-css-compiled')
         );
     }
 
@@ -78,13 +72,7 @@ class PreviewDataController extends Container implements Module
             'post',
             $sourceId,
             '_' . VCV_PREFIX . 'previewGlobalElementsCss',
-            $requestHelper->input('vcv-global-elements-css', '')
-        );
-        update_metadata(
-            'post',
-            $sourceId,
-            '_' . VCV_PREFIX . 'previewSettingsGlobalCss',
-            $requestHelper->input('vcv-settings-global-css', '')
+            $requestHelper->input('vcv-global-css-compiled', '')
         );
     }
 }

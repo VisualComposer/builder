@@ -12,11 +12,14 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class DataController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     public function __construct()
     {
@@ -30,6 +33,8 @@ class DataController extends Container implements Module
             'vcv:dataAjax:setData',
             'setData'
         );
+
+        $this->wpAddAction('update_option_' . VCV_PREFIX . 'settingsGlobalCss', 'updateGlobalCssFromSettings');
     }
 
     protected function getData($response, $payload, Options $optionsHelper)
@@ -74,7 +79,7 @@ class DataController extends Container implements Module
             }
         }
         update_post_meta($sourceId, 'vcvSourceAssetsFiles', $assetsFiles);
-        update_post_meta($sourceId, 'vcvSourceCss', wp_slash($requestHelper->input('vcv-source-css')));
+        update_post_meta($sourceId, 'vcvSourceCss', wp_slash($requestHelper->input('vcv-source-css-compiled')));
         update_post_meta(
             $sourceId,
             'vcvSettingsSourceCustomCss',
@@ -91,7 +96,20 @@ class DataController extends Container implements Module
 
         update_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', wp_slash($elementsCssData));
         // Other data
-        $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
+        $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-css-compiled'));
         $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
+    }
+
+    protected function updateGlobalCssFromSettings(Request $requestHelper, Options $optionsHelper)
+    {
+        if ($GLOBALS['this_file'] === 'options.php'
+            && $requestHelper->input(
+                'vcv-settingsGlobalCss-compiled',
+                'not-changed'
+            ) !== 'not-changed') {
+            // Save Request from vcv-settings page custom-css tab
+            $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-settingsGlobalCss-compiled'));
+            vcevent('vcv:assets:file:generate', ['response' => [], 'payload' => []]);
+        }
     }
 }

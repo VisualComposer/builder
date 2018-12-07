@@ -43,14 +43,19 @@ class PreviewJsDataController extends Container implements Module
     protected function setPreviewLocalJs($previewId)
     {
         $requestHelper = vchelper('Request');
-        $localJsInput = $requestHelper->input('vcv-settings-source-local-js', '');
-        update_metadata('post', $previewId, '_' . VCV_PREFIX . 'preview-settingsLocalJs', $localJsInput);
+        $localJsInputHead = $requestHelper->input('vcv-settings-source-local-head-js', '');
+        update_metadata('post', $previewId, '_' . VCV_PREFIX . 'preview-settingsLocalJsHead', $localJsInputHead);
+        $localJsInputFooter = $requestHelper->input('vcv-settings-source-local-footer-js', '');
+        update_metadata('post', $previewId, '_' . VCV_PREFIX . 'preview-settingsLocalJsFooter', $localJsInputFooter);
     }
 
     protected function setPreviewGlobalJs($previewId)
     {
         $requestHelper = vchelper('Request');
-        $globalJsInput = $requestHelper->input('vcv-settings-global-js', '');
-        update_metadata('post', $previewId, '_' . VCV_PREFIX . 'preview-settingsGlobalJs', $globalJsInput);
+        $globalJsInputHead = $requestHelper->input('vcv-settings-global-head-js', '');
+        update_metadata('post', $previewId, '_' . VCV_PREFIX . 'preview-settingsGlobalJsHead', $globalJsInputHead);
+
+        $globalJsInputFooter = $requestHelper->input('vcv-settings-global-footer-js', '');
+        update_metadata('post', $previewId, '_' . VCV_PREFIX . 'preview-settingsGlobalJsFooter', $globalJsInputFooter);
     }
 }

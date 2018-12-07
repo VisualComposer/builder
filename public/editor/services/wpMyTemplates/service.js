@@ -35,7 +35,7 @@ addService('myTemplates', {
         try {
           let response = JSON.parse(responseText)
           if (!response.status || !response.postData || !response.postData.id) {
-            console.log('Failed to save template, no ID', responseText)
+            console.warn('Failed to save template, no ID', responseText)
             errorCallback && typeof errorCallback === 'function' && errorCallback()
           } else {
             let id = response.postData.id
@@ -44,7 +44,7 @@ addService('myTemplates', {
             successCallback && typeof successCallback === 'function' && successCallback()
           }
         } catch (e) {
-          console.log('Failed to save template', e, responseText)
+          console.warn('Failed to save template', e, responseText)
           errorCallback && typeof errorCallback === 'function' && errorCallback()
         }
       },

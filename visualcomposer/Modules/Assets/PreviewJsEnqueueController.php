@@ -22,23 +22,41 @@ class PreviewJsEnqueueController extends JsEnqueueController implements Module
     public function __construct(Frontend $frontendHelper)
     {
         if ($frontendHelper->isPreview()) {
-            $this->wpAddAction('wp_print_footer_scripts', 'enqueuePreviewJs', 60);
+            $this->wpAddAction('wp_print_scripts', 'enqueuePreviewHeadHtml', 60);
+
+            $this->wpAddAction('wp_print_footer_scripts', 'enqueuePreviewFooterHtml', 60);
         }
     }
 
     /**
-     * Enqueue JS for post preview.
+     * Enqueue JS for post preview head part.
      */
-    protected function enqueuePreviewJs()
+    protected function enqueuePreviewHeadHtml()
     {
         $sourceId = get_the_ID();
         $preview = wp_get_post_autosave($sourceId);
         if (is_object($preview)) {
             $sourceId = $preview->ID;
         }
-        $globalJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsGlobalJs', true);
-        $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJs', true);
+        $globalJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsGlobalJsHead', true);
+        $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJsHead', true);
 
-        $this->printJs($globalJs, $localJs, 'preview' . $sourceId);
+        $this->printJs($globalJs, $localJs);
+    }
+
+    /**
+     * Enqueue JS for post preview.
+     */
+    protected function enqueuePreviewFooterHtml()
+    {
+        $sourceId = get_the_ID();
+        $preview = wp_get_post_autosave($sourceId);
+        if (is_object($preview)) {
+            $sourceId = $preview->ID;
+        }
+        $globalJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsGlobalJsFooter', true);
+        $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJsFooter', true);
+
+        $this->printJs($globalJs, $localJs);
     }
 }

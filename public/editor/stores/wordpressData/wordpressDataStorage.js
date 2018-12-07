@@ -68,12 +68,6 @@ addStorage('wordpressData', (storage) => {
     if (status === 'loadSuccess') {
       // setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
       const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
-      const customCssState = settingsStorage.state('customCss')
-      const globalCssState = settingsStorage.state('globalCss')
-      const pageTemplate = settingsStorage.state('pageTemplate')
-      const itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled')
-      const localJsState = settingsStorage.state('localJs')
-      const globalJsState = settingsStorage.state('globalJs')
       /**
        * @typedef {Object} responseData parsed data from JSON
        * @property {Array} globalElements list of global elements
@@ -82,7 +76,6 @@ addStorage('wordpressData', (storage) => {
       let responseData = JSON.parse(request || '{}')
       const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
       const pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
-      const itemPreviewData = responseData.itemPreviewDisabled ? responseData.itemPreviewDisabled : false
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
         globalElements && globalAssetsStorage.setElements(globalElements)
@@ -108,16 +101,23 @@ addStorage('wordpressData', (storage) => {
         elementsStorage.trigger('reset', {})
       }
       if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('custom')) {
-        customCssState.set(responseData.cssSettings.custom || '')
+        settingsStorage.state('customCss').set(responseData.cssSettings.custom || '')
       }
       if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('global')) {
-        globalCssState.set(responseData.cssSettings.global || '')
+        settingsStorage.state('globalCss').set(responseData.cssSettings.global || '')
       }
-      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('local')) {
-        localJsState.set(responseData.jsSettings.local || '')
+      // JS Settings local/global @since v11 splitted into two parts
+      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('localJsHead')) {
+        settingsStorage.state('localJsHead').set(responseData.jsSettings.localJsHead || '')
       }
-      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('global')) {
-        globalJsState.set(responseData.jsSettings.global || '')
+      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('localJsFooter')) {
+        settingsStorage.state('localJsFooter').set(responseData.jsSettings.localJsFooter || '')
+      }
+      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('globalJsHead')) {
+        settingsStorage.state('globalJsHead').set(responseData.jsSettings.globalJsHead || '')
+      }
+      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('globalJsFooter')) {
+        settingsStorage.state('globalJsFooter').set(responseData.jsSettings.globalJsFooter || '')
       }
       if (responseData.templates) {
         hubTemplatesStorage.state('templates').set(responseData.templates)
@@ -128,12 +128,13 @@ addStorage('wordpressData', (storage) => {
       if (pageTitleData.hasOwnProperty('disabled')) {
         settingsStorage.state('pageTitleDisabled').set(pageTitleData.disabled)
       }
-      if (pageTemplateData.current) {
-        pageTemplate.set(pageTemplateData.current)
+      if (pageTemplateData && pageTemplateData.current) {
+        settingsStorage.state('pageTemplate').set(pageTemplateData.current)
       }
-      if (itemPreviewData) {
-        itemPreviewDisabled.set(itemPreviewData)
+      if (responseData.hasOwnProperty('itemPreviewDisabled')) {
+        settingsStorage.state('itemPreviewDisabled').set(!!responseData.itemPreviewDisabled)
       }
+
       storage.state('status').set({ status: 'loaded' })
       settingsStorage.state('status').set({ status: 'ready' })
       workspaceStorage.state('app').set('started')
@@ -201,6 +202,7 @@ addStorage('wordpressData', (storage) => {
       }
     })
   }
+
   // postUpdate event
   storage.on('rebuild', (postId) => {
     storage.state('id').set(postId)

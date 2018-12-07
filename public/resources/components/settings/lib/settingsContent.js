@@ -1,6 +1,6 @@
 import React from 'react'
 import SettingsSection from './settingsSection'
-import Scrollbar from '../../../../resources/scrollbar/scrollbar.js'
+import Scrollbar from 'public/resources/scrollbar/scrollbar'
 
 export default class SettingsContent extends React.Component {
   getSections () {
@@ -8,7 +8,7 @@ export default class SettingsContent extends React.Component {
       let Component = section.content
       return (
         <SettingsSection title={section.title} key={`vcv-settings-section-content-${key}`}>
-          <Component />
+          <Component key={`vcv-settings-section-content-child-${key}`} />
         </SettingsSection>
       )
     })

@@ -60,7 +60,6 @@ export default class {
       const elements = window.VCV_HUB_GET_ELEMENTS()
       Object.keys(elements).forEach((key) => {
         const element = elements[ key ]
-        console.log(element.bundlePath)
         elementBundles.push($.getScript(element.bundlePath))
       })
     }

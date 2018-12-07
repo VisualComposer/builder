@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 $activeTab = '';
 
 if (isset($_GET['page'])) {
-    $activeTab = $_GET['page'];
+    $activeTab = esc_attr($_GET['page']);
 }
 
 $tabsHelper = vchelper('Tabs');
@@ -18,7 +18,7 @@ $tabsHtml = '';
 
 foreach ($tabs as $tabKey => $tab) {
     $activeClass = $tabKey === $activeTab ? ' nav-tab-active' : '';
-    $tabsHtml .= '<a href="?page=' . $tabKey . '" class="nav-tab' . $activeClass . '">' . esc_html__($tab['name'], 'vcwb') . '</a>';
+    $tabsHtml .= '<a href="?page=' . esc_attr($tabKey) . '" class="nav-tab' . esc_attr($activeClass) . '">' . esc_html__($tab['name'], 'vcwb') . '</a>';
 }
 
 evcview('settings/partials/admin-nonce');
