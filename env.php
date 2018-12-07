@@ -105,3 +105,7 @@ if (!defined('VCV_FT_DEFAULT_ELEMENTS_INSIDE_PLUGIN')) {
 if (!defined('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
     define('VCV_ENV_FT_SYSTEM_CHECK_LIST', true);
 }
+
+if (!defined('VCV_ENV_FT_GLOBAL_CSS_JS_SETTINGS')) {
+    define('VCV_ENV_FT_GLOBAL_CSS_JS_SETTINGS', true);
+}

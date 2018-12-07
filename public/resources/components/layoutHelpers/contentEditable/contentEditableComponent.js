@@ -53,7 +53,6 @@ export default class ContentEditableComponent extends React.Component {
     }
     this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
     this.handleGlobalClick = this.handleGlobalClick.bind(this)
-    this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
@@ -112,8 +111,6 @@ export default class ContentEditableComponent extends React.Component {
     this.medium = new MediumEditor(dom, editorSettings)
     this.medium.destroy()
     this.debouncedUpdateHtmlWithServer(this.props.children)
-
-    vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
   }
 
   updateInlineData (html) {
@@ -134,7 +131,6 @@ export default class ContentEditableComponent extends React.Component {
       this.medium.destroy()
       this.removeOverlay()
     }
-    vcCake.ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
     vcCake.setData('vcv:layoutCustomMode', null)
   }
 
@@ -142,17 +138,6 @@ export default class ContentEditableComponent extends React.Component {
     if (this.state.contentEditable !== true && nextProps.children !== this.state.realContent) {
       this.setState({ realContent: nextProps.children })
       this.debouncedUpdateHtmlWithServer(nextProps.children)
-    }
-  }
-
-  /**
-   * Hide inline editor, save changes
-   * @param data
-   */
-  handleLayoutCustomModeChange (data) {
-    if (this.state.contentEditable && data !== 'contentEditable') {
-      this.handleLayoutModeChange(null)
-      this.debouncedUpdateHtmlWithServer(this.state.realContent)
     }
   }
 
@@ -174,8 +159,11 @@ export default class ContentEditableComponent extends React.Component {
       element.set(this.props.field, contentToSave)
       elementsStorage.trigger('update', element.get('id'), element.toJS())
       const workspaceStorageState = workspaceStorage.state('settings').get()
-      if (workspaceStorageState && workspaceStorageState.action === 'edit') {
-        workspaceStorage.trigger('edit', this.props.id, '')
+      const isSameElement = this.props.id === (workspaceStorageState && workspaceStorageState.element.id)
+      if (isSameElement && workspaceStorageState && workspaceStorageState.action === 'edit') {
+        const options = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options : ''
+        const tag = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options.tag : ''
+        workspaceStorage.trigger('edit', this.props.id, tag, options)
       }
       // this.props.api.request('data:update', element.get('id'), element.toJS())
     }
