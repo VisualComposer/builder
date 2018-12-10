@@ -2,9 +2,8 @@ import React from 'react'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import WpbakeryModal from './lib/wpbakeryModal'
-import './lib/styles/init.less'
 
-class WpbakeryEditForm extends Attribute {
+export default class WpbakeryEditForm extends Attribute {
   static defaultState = {
     showEditor: false,
     loadingEditor: false
@@ -22,9 +21,11 @@ class WpbakeryEditForm extends Attribute {
   }
 
   editorIframeLoaded (e) {
-    let ifrWin = this.refs.iframeRef.contentWindow
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const wpbakeryAttrError = localizations ? localizations.wpbakeryAttrError : 'Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin.'
+    const ifrWin = this.refs.iframeRef.contentWindow
     if (!ifrWin.vc) {
-      window.alert('Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin.')
+      window.alert(wpbakeryAttrError)
       this.close()
     }
     let preModel = ifrWin.vc.storage.parseContent([], this.state.value)
@@ -76,7 +77,10 @@ class WpbakeryEditForm extends Attribute {
   }
 
   render () {
-    let { value, loadingEditor } = this.state
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const openEditForm = localizations ? localizations.openEditForm : 'Open Edit Form'
+    const wpbakeryAttrDescription = localizations ? localizations.wpbakeryAttrDescription : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.'
+    const { value, loadingEditor } = this.state
     let loadingOverlay = null
     if (loadingEditor) {
       loadingOverlay = (
@@ -94,18 +98,16 @@ class WpbakeryEditForm extends Attribute {
         {this.state.showEditor ? <WpbakeryModal>
           <div className='vcv-wpbakery-edit-form-modal-inner'>
             {loadingOverlay}
-            <iframe ref='iframeRef' src='https://vcwb.ngrok.thq.lv/wp-admin/post-new.php?post_type=vcv-wpb-attribute' onLoad={this.editorIframeLoaded.bind(this)} />
+            <iframe ref='iframeRef' src={window.VCV_WPBAKERY_EDIT_FORM_URL()} onLoad={this.editorIframeLoaded.bind(this)} />
           </div>
         </WpbakeryModal> : null}
-        <p className='vcv-ui-form-helper'>WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.</p>
+        <p className='vcv-ui-form-helper'>{wpbakeryAttrDescription}</p>
         <button
-          className='vcv-ui-form-input'
+          className='vcv-ui-form-button vcv-ui-form-button--default'
           onClick={this.showEditor.bind(this)}
-          value={value}>Open Edit Form
+          value={value}>{openEditForm}
         </button>
       </React.Fragment>
     )
   }
 }
-
-export default WpbakeryEditForm
