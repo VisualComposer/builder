@@ -1,5 +1,5 @@
 import vcCake from 'vc-cake'
-import publicAPI from '../../../resources/api/publicAPI'
+import publicAPI from '../../../components/api/publicAPI'
 import ElementComponent from './lib/elementComponent'
 
 const Service = {

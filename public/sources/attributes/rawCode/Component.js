@@ -1,7 +1,7 @@
 import React from 'react'
 import Attribute from '../attribute'
 import PropTypes from 'prop-types'
-import CodeEditor from '../../../resources/codeEditor/codeEditor'
+import CodeEditor from '../../../components/codeEditor/codeEditor'
 
 export default class RawCode extends Attribute {
   editorWrapper = null

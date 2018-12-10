@@ -1,6 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
-import TreeViewLayout from 'public/resources/components/treeView/treeViewLayout'
+import TreeViewLayout from 'public/components/treeView/treeViewLayout'
 
 export default class TreeViewAttribute extends Attribute {
   render () {

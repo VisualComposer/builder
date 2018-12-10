@@ -1,8 +1,8 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import vcCake from 'vc-cake'
 
-import { start } from './resources/editorInit/start'
-import { rebuildPosts } from './resources/editorInit/rebuildPosts'
+import { start } from './components/editorInit/start'
+import { rebuildPosts } from './components/editorInit/rebuildPosts'
 
 (($) => {
   let started = false

@@ -1,7 +1,7 @@
 import { addStorage, getStorage, getService, env } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PopupComponent from 'public/resources/components/migrationNotice/popupComponent'
+import PopupComponent from 'public/components/migrationNotice/popupComponent'
 
 addStorage('migration', (storage) => {
   const cook = getService('cook')
