@@ -14,9 +14,9 @@ import { rebuildPosts } from './resources/editorInit/rebuildPosts'
   }
 
   // Need to wait while ALL Elements will be initialized otherwise can break layout
-  $.ready(function () {
+  window.onload = () => {
     start(setStarted)
-  })
+  }
   // In case if jQuery.ready fails try to load manually
   window.setTimeout(() => {
     if (!started) {
