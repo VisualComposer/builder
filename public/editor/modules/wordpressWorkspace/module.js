@@ -72,6 +72,10 @@ add('wordpressWorkspace', (api) => {
         iframeContent
       )
     }
+    const removeOverlay = () => {
+      iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+      document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
+    }
     let documentElements
     let isBlank = true
 
@@ -87,13 +91,14 @@ add('wordpressWorkspace', (api) => {
         if (showBlank && !settingsStorage.state('skipBlank').get()) {
           addStartBlank()
           isBlank = true
+          removeOverlay()
         } else {
-          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+          removeOverlay()
         }
       } else if (data.length && isBlank) {
         let visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
-          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+          removeOverlay()
         }
         removeStartBlank()
         isBlank = false
@@ -111,7 +116,7 @@ add('wordpressWorkspace', (api) => {
           if (jobsInprogress) {
             return
           }
-          iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
+          removeOverlay()
         }
       }
     })

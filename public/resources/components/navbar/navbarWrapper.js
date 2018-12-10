@@ -87,7 +87,7 @@ export default class NavbarWrapper extends React.Component {
     }
 
     return (
-      <div ref={this.props.wrapperRef} className='vcv-layout-bar-header' id='vcv-editor-header'>
+      <div ref={this.props.wrapperRef} className='vcv-layout-bar-header vcv-layout-bar-header--loading' id='vcv-editor-header'>
         <div id='vc-navbar-container'>
           {draggingContent}
           {this.props.children}
