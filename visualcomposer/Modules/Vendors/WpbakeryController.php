@@ -270,6 +270,12 @@ class WpbakeryController extends Container implements Module
             'type' => 'constant',
         ];
 
+        $variables[] = [
+            'key' => 'VCV_WPBAKERY_EDIT_FORM_URL',
+            'value' => set_url_scheme(admin_url('post-new.php?post_type=vcv_gutenberg_attr')),
+            'type' => 'constant',
+        ];
+
         return $variables;
     }
 }
