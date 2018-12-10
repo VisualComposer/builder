@@ -49,7 +49,7 @@ class ApiController extends Container implements Module
     ) {
         $manifestContents = $fileHelper->getContents($manifestPath);
         $manifestData = json_decode($manifestContents, true);
-        if (is_array($manifestData) && isset($manifestData['elements']) && isset($manifestData['categories'])) {
+        if (is_array($manifestData) && isset($manifestData['elements'])) {
             $elements = $optionsHelper->get('hubElements', []);
             $elementBaseUrl = rtrim($elementBaseUrl, '\\/');
             $this->processElements($manifestPath, $elementBaseUrl, $hubElements, $manifestData, $elements);
@@ -104,8 +104,10 @@ class ApiController extends Container implements Module
      */
     protected function processCategories(Categories $hubCategories, $manifestData)
     {
-        foreach ($manifestData['categories'] as $category => $categoryElements) {
-            $hubCategories->addCategoryElements($category, $categoryElements['elements']);
+        if (isset($manifestData['categories']) && is_array($manifestData['categories'])) {
+            foreach ($manifestData['categories'] as $category => $categoryElements) {
+                $hubCategories->addCategoryElements($category, $categoryElements['elements']);
+            }
         }
     }
 }
