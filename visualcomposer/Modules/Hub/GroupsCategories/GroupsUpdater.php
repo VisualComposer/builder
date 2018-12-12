@@ -20,7 +20,7 @@ class GroupsUpdater extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:categories', 'updateGroups');
+        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:*', 'updateGroups');
     }
 
     protected function updateGroups($response, $payload, Logger $loggerHelper)
