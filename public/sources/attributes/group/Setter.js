@@ -1,6 +1,6 @@
 import ElementGroup from './lib/element-group'
 
-module.exports = (data, key, value) => {
+export default (data, key, value) => {
   let group = new ElementGroup(key, value)
   data[ key ] = group.update(value)
   return data
