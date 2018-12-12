@@ -38,12 +38,14 @@ class GroupsUpdater extends Container implements Module
             $groupsDiffer->set($hubGroups);
         }
 
-        $groupsDiffer->onUpdate(
-            [$hubHelper, 'updateGroup']
-        )->set(
-            $bundleJson['groups']
-        );
-        $hubHelper->setGroups($groupsDiffer->get());
+        if (isset($bundleJson['groups']) && is_array($bundleJson['groups'])) {
+            $groupsDiffer->onUpdate(
+                [$hubHelper, 'updateGroup']
+            )->set(
+                $bundleJson['groups']
+            );
+            $hubHelper->setGroups($groupsDiffer->get());
+        }
 
         return $response;
     }
