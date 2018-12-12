@@ -57,7 +57,7 @@ class CssEditor extends Container implements Module
         $globalSetting = [
             'label' => __('Custom CSS', 'vcwb'),
             'slug' => $fieldSlug,
-            'value' => $optionsHelper->get($fieldSlug, true),
+            'value' => $optionsHelper->get($fieldSlug),
         ];
 
         $this->addSection(

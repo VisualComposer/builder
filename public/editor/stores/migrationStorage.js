@@ -44,7 +44,7 @@ addStorage('migration', (storage) => {
           elementsStorage.trigger('add', element.element, element.wrap, element.options)
         })
       }
-    }, 15)
+    }, 150)
     // Timeout needed to be last in the call-stack
   })
 

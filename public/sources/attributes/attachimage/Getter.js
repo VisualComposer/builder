@@ -1,5 +1,6 @@
 import lodash from 'lodash'
-module.exports = (data, key, settings) => {
+
+export default (data, key, settings) => {
   let isMultiple = settings.options && settings.options.multiple
   let value = data[ key ]
   let returnValue = value

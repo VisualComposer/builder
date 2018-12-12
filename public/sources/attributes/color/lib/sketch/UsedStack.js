@@ -10,14 +10,14 @@ export class UsedStack extends React.Component {
     return shallowCompare.bind(this, this, nextProps, nextState)
   }
 
-  handleClick = (hex: any) => {
+  handleClick = (hex) => {
     this.props.onClick({
       hex,
       source: 'hex'
     })
   }
 
-  render (): any {
+  render () {
     const styles = reactCSS({
       'default': {
         swatchWrap: {

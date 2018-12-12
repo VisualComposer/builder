@@ -25,15 +25,17 @@ class Categories implements Helper
         );
     }
 
-    public function getCategories()
+    public function getCategories($type = false)
     {
-        $optionHelper = vchelper('Options');
         $categoriesDiffer = vchelper('Differ');
-        if (vcvenv('VCV_FT_CATEGORIES_INSIDE_PLUGIN') || vcvenv('VCV_ENV_DEV_CATEGORIES')) {
-            $hubCategories = $this->getHubCategories();
-        } else {
+        $optionHelper = vchelper('Options');
+
+        if ($type) {
             $hubCategories = $optionHelper->get('hubCategories', []);
+        } else {
+            $hubCategories = $this->getHubCategories();
         }
+
         $categoriesDiffer->set($hubCategories);
 
         $categoriesDiffer->onUpdate(
@@ -55,9 +57,6 @@ class Categories implements Helper
 
     public function setCategories($categories = [])
     {
-        if (vcvenv('VCV_FT_CATEGORIES_INSIDE_PLUGIN')) {
-            return true;
-        }
         $optionHelper = vchelper('Options');
 
         return $optionHelper->set('hubCategories', $categories);
@@ -65,10 +64,8 @@ class Categories implements Helper
 
     public function updateCategory($key, $prev, $new, $merged)
     {
-        if (vcvenv('VCV_FT_CATEGORIES_INSIDE_PLUGIN')) {
-            return true;
-        }
         $categoryUrl = rtrim($this->getCategoriesUrl(), '\\/');
+        $dataHelper = vchelper('Data');
         if (isset($merged['icon'])) {
             $merged['icon'] = str_replace(
                 '[publicPath]',
@@ -82,6 +79,14 @@ class Categories implements Helper
                 $categoryUrl,
                 $merged['iconDark']
             );
+        }
+
+        if (!empty($prev)) {
+            if (isset($new['elements']) && is_array($new['elements']) && isset($prev['elements'])) {
+                $merged['elements'] = array_values(
+                    $dataHelper->arrayDeepUnique(array_merge($prev['elements'], $new['elements']))
+                );
+            }
         }
 
         return $merged;
@@ -105,9 +110,12 @@ class Categories implements Helper
      */
     public function getHubCategories()
     {
+        $optionHelper = vchelper('Options');
         $urlHelper = vchelper('Url');
+        $categoriesDiffer = vchelper('Differ');
+        $hubCategoriesHelper = vchelper('HubCategories');
 
-        return [
+        $defaultCategories = [
             'Row' => [
                 'title' => 'Row/Column',
                 'elements' => ['row', 'grid'],
@@ -399,6 +407,7 @@ class Categories implements Helper
                 'elements' => [
                     'shortcode',
                     'wpbakeryElement',
+                    'wpbakeryElementContainer',
                     'wpWidgetsCustom',
                     'wpWidgetsDefault',
                     'widgetizedSidebar',
@@ -466,5 +475,19 @@ class Categories implements Helper
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Chart.svg'),
             ],
         ];
+
+        $hubCategories = $optionHelper->get('hubCategories', []);
+        if (!empty($hubCategories)) {
+            $categoriesDiffer->set($hubCategories);
+        }
+
+        $categoriesDiffer->onUpdate(
+            [
+                $hubCategoriesHelper,
+                'updateCategory',
+            ]
+        )->set($defaultCategories);
+
+        return $categoriesDiffer->get();
     }
 }
