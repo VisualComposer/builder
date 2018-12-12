@@ -1,6 +1,6 @@
 import React from 'react'
 import Element from './element'
-import BlankRowPlaceholder from 'public/resources/components/layoutHelpers/blankRowPlaceholder/component'
+import BlankRowPlaceholder from 'public/components/layoutHelpers/blankRowPlaceholder/component'
 import PropTypes from 'prop-types'
 import { getStorage } from 'vc-cake'
 

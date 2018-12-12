@@ -406,6 +406,8 @@ class Categories implements Helper
                 'title' => 'WordPress',
                 'elements' => [
                     'shortcode',
+                    'wpbakeryElement',
+                    'wpbakeryElementContainer',
                     'wpWidgetsCustom',
                     'wpWidgetsDefault',
                     'widgetizedSidebar',

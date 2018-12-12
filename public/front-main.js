@@ -1,6 +1,6 @@
 import './polyfills'
 /* global jQuery */
-import publicAPI from './resources/api/publicAPI'
+import publicAPI from './components/api/publicAPI'
 import './sources/less/front/init.less'
 
 if (!window.hasOwnProperty('vcv')) {

@@ -1,5 +1,5 @@
 import vcCake from 'vc-cake'
-import DndDataSet from 'public/resources/dnd/dndDataSet'
+import DndDataSet from 'public/components/dnd/dndDataSet'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')

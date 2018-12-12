@@ -8,7 +8,7 @@ import ControlsManager from './lib/controlsIframe/controlsManager'
 import MobileControlsManager from './lib/controlsIframe/mobileControlsManager'
 import Notifications from './lib/notifications'
 import MobileDetect from 'mobile-detect'
-import OopsScreen from 'public/resources/account/oopsScreen'
+import OopsScreen from 'public/components/account/oopsScreen'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')

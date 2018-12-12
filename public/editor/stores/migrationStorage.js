@@ -1,7 +1,7 @@
 import { addStorage, getStorage, getService, env } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PopupComponent from 'public/resources/components/migrationNotice/popupComponent'
+import PopupComponent from 'public/components/migrationNotice/popupComponent'
 
 addStorage('migration', (storage) => {
   const cook = getService('cook')
@@ -44,7 +44,7 @@ addStorage('migration', (storage) => {
           elementsStorage.trigger('add', element.element, element.wrap, element.options)
         })
       }
-    }, 15)
+    }, 150)
     // Timeout needed to be last in the call-stack
   })
 

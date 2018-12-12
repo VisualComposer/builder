@@ -355,6 +355,9 @@ class Localizations extends Container implements Helper
             'goToHubButtonDescription' => __('Access Visual Composer Hub - download additional elements, templates and extensions.', 'vcwb'),
             'settingsCustomJsLocal' => __('Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.', 'vcwb'),
             'settingsCustomJsGlobal' => __('Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.', 'vcwb'),
+            'openEditForm' => __('Open Edit Form', 'vcwb'),
+            'wpbakeryAttrDescription' => __('WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.', 'vcwb'),
+            'wpbakeryAttrError' => __('Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin.', 'vcwb'),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -2,7 +2,7 @@ import React from 'react'
 
 import PanelsContainer from './panelsContainer'
 import NavbarContainer from './navbarContainer'
-import Workspace from 'public/resources/components/workspace'
+import Workspace from 'public/components/workspace/workspace'
 import { getStorage } from 'vc-cake'
 
 const workspace = getStorage('workspace')

@@ -11,7 +11,7 @@ export class SketchFields extends React.Component {
     return shallowCompare.bind(this, this, nextProps, nextState)
   }
 
-  handleChange = (data: any) => {
+  handleChange = (data) => {
     if (data.hex) {
       color.isValidHex(data.hex) && this.props.onChange({
         hex: data.hex,
@@ -43,7 +43,7 @@ export class SketchFields extends React.Component {
     }
   }
 
-  render (): any {
+  render () {
     const styles = reactCSS({
       'default': {
         fields: {

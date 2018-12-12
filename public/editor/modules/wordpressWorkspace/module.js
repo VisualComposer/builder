@@ -2,7 +2,7 @@ import { add, getStorage, getService, env } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
-import StartBlankPanel from 'public/resources/components/startBlank/StartBlankPanel'
+import StartBlankPanel from 'public/components/startBlank/StartBlankPanel'
 
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')

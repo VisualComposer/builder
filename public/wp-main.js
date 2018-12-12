@@ -1,8 +1,8 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import vcCake from 'vc-cake'
 
-import { start } from './resources/editorInit/start'
-import { rebuildPosts } from './resources/editorInit/rebuildPosts'
+import { start } from './components/editorInit/start'
+import { rebuildPosts } from './components/editorInit/rebuildPosts'
 
 (($) => {
   let started = false
@@ -14,9 +14,9 @@ import { rebuildPosts } from './resources/editorInit/rebuildPosts'
   }
 
   // Need to wait while ALL Elements will be initialized otherwise can break layout
-  $.ready(function () {
+  window.onload = () => {
     start(setStarted)
-  })
+  }
   // In case if jQuery.ready fails try to load manually
   window.setTimeout(() => {
     if (!started) {
