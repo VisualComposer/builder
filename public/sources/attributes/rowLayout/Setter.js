@@ -1,4 +1,4 @@
-module.exports = (data, key, value) => {
+export default (data, key, value) => {
   if (data && data[key]) {
     data[key] = value
   }
