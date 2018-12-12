@@ -2,6 +2,7 @@ import React from 'react'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import WpbakeryModal from './lib/wpbakeryModal'
+import TreeViewContainer from './lib/treeViewContainer'
 
 export default class WpbakeryEditForm extends Attribute {
   static defaultState = {
@@ -81,6 +82,11 @@ export default class WpbakeryEditForm extends Attribute {
     const openEditForm = localizations ? localizations.openEditForm : 'Open Edit Form'
     const wpbakeryAttrDescription = localizations ? localizations.wpbakeryAttrDescription : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.'
     const { value, loadingEditor } = this.state
+    const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
+    const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
+    const data = value.match(localShortcodesRegex)
+    const innerValue = data[ 5 ] || ''
+
     let loadingOverlay = null
     if (loadingEditor) {
       loadingOverlay = (
@@ -107,6 +113,7 @@ export default class WpbakeryEditForm extends Attribute {
           onClick={this.showEditor.bind(this)}
           value={value}>{openEditForm}
         </button>
+        <TreeViewContainer value={innerValue} />
       </React.Fragment>
     )
   }
