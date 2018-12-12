@@ -20,7 +20,7 @@ class CategoriesUpdater extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:categories', 'updateCategories');
+        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:*', 'updateCategories');
     }
 
     protected function updateCategories($response, $payload, Logger $loggerHelper)
@@ -32,7 +32,7 @@ class CategoriesUpdater extends Container implements Module
         $hubBundleHelper = vchelper('HubActionsCategoriesBundle');
         $hubHelper = vchelper('HubCategories');
         /** @var Differ $categoriesDiffer */
-        $hubCategories = $hubHelper->getCategories();
+        $hubCategories = $hubHelper->getCategories('hub');
 
         $categoriesDiffer = vchelper('Differ');
         if (!empty($hubCategories)) {
@@ -53,6 +53,6 @@ class CategoriesUpdater extends Container implements Module
         );
         $hubHelper->setCategories($categoriesDiffer->get());
 
-        return $response;
+        return array_merge($response, ['category' => $bundleJson['categories']]);
     }
 }

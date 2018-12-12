@@ -1,4 +1,4 @@
-module.exports = (data, key, settings) => {
+export default (data, key, settings) => {
   const value = data[ key ]
   const fieldValue = settings.value
   const isCSSMixin = settings.options && settings.options.cssMixin

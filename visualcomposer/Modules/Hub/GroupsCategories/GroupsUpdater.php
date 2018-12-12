@@ -20,7 +20,7 @@ class GroupsUpdater extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:categories', 'updateGroups');
+        $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:*', 'updateGroups');
     }
 
     protected function updateGroups($response, $payload, Logger $loggerHelper)
@@ -38,12 +38,14 @@ class GroupsUpdater extends Container implements Module
             $groupsDiffer->set($hubGroups);
         }
 
-        $groupsDiffer->onUpdate(
-            [$hubHelper, 'updateGroup']
-        )->set(
-            $bundleJson['groups']
-        );
-        $hubHelper->setGroups($groupsDiffer->get());
+        if (isset($bundleJson['groups']) && is_array($bundleJson['groups'])) {
+            $groupsDiffer->onUpdate(
+                [$hubHelper, 'updateGroup']
+            )->set(
+                $bundleJson['groups']
+            );
+            $hubHelper->setGroups($groupsDiffer->get());
+        }
 
         return $response;
     }
