@@ -18,6 +18,9 @@ const initEditors = () => {
    */
   const globalCssTextarea = document.querySelector('#vcv-settingsGlobalCss')
   const globalCssTextareaCompiled = document.querySelector('#vcv-settingsGlobalCss-compiled')
+  if (globalCssTextarea === null) {
+    return
+  }
   /**
    * Initialise JS code editor
    * See more @/Modules/Settings/Fields/JsEditor.php
