@@ -14,18 +14,74 @@ class Groups implements Helper
 {
     public function getGroups()
     {
-        $optionHelper = vchelper('Options');
-
-        return $optionHelper->get(
-            'hubGroups',
-            [
-                'All' => [
-                    'title' => 'All',
-                    'categories' => true,
-                    'metaOrder' => 1,
+        return [
+            'All' => [
+                'title' => 'All',
+                'metaOrder' => 1,
+                'categories' => true,
+            ],
+            'Basic' => [
+                'title' => 'Basic',
+                'categories' => [
+                    'Row',
+                    'Column',
+                    'Section',
+                    'Text block',
+                    'Single image',
+                    'Button',
                 ],
-            ]
-        );
+            ],
+            'Media' => [
+                'title' => 'Media',
+                'categories' => [
+                    'Image gallery',
+                    'Image sliders',
+                    'Single image',
+                    'Videos',
+                ],
+            ],
+            'Containers' => [
+                'title' => 'Containers',
+                'categories' => [
+                    'Tabs',
+                    'Tours',
+                    'Accordions',
+                    'Row',
+                    'Section',
+                ],
+            ],
+            'Social' => [
+                'title' => 'Social',
+                'categories' => ['Social'],
+            ],
+            'Wordpress' => [
+                'title' => 'Wordpress',
+                'categories' => ['Wordpress'],
+            ],
+            'Content' => [
+                'title' => 'Content',
+                'categories' => [
+                    'Hero section',
+                    'Icon',
+                    'Single image',
+                    'Text Block',
+                    'Feature',
+                    'Maps',
+                    'Separators',
+                    'Grids',
+                    'Feature section',
+                    'Feature Description'
+                ],
+            ],
+            'WooCommerce' => [
+                'title' => 'WooCommerce',
+                'categories' => ['WooCommerce'],
+            ],
+            'WP Widgets' => [
+                'title' => 'WP Widgets',
+                'categories' => ['WP Widgets'],
+            ],
+        ];
     }
 
     public function setGroups($groups = [])
