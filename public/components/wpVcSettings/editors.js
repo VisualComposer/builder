@@ -18,20 +18,15 @@ const initEditors = () => {
    */
   const globalCssTextarea = document.querySelector('#vcv-settingsGlobalCss')
   const globalCssTextareaCompiled = document.querySelector('#vcv-settingsGlobalCss-compiled')
-  if (globalCssTextarea === null) {
-    return
+  if (globalCssTextarea !== null) {
+    const globalCssEditor = codeEditor.getEditor(globalCssTextarea, 'text/css', globalCssTextarea.value)
+    globalCssEditor.on('change', async () => {
+      const newValue = globalCssEditor.getValue()
+      setStatus('compiling')
+      await build(newValue)
+      setStatus('ready')
+    })
   }
-  /**
-   * Initialise JS code editor
-   * See more @/Modules/Settings/Fields/JsEditor.php
-   */
-  const globalCssEditor = codeEditor.getEditor(globalCssTextarea, 'text/css', globalCssTextarea.value)
-  globalCssEditor.on('change', async () => {
-    const newValue = globalCssEditor.getValue()
-    setStatus('compiling')
-    await build(newValue)
-    setStatus('ready')
-  })
 
   let build = (css) => {
     const stylesManagerService = getService('stylesManager')
@@ -44,13 +39,19 @@ const initEditors = () => {
     })
   }
 
-  // JS/HTML
-
+  /**
+   * Initialise JS code editor
+   * See more @/Modules/Settings/Fields/JsEditor.php
+   */
   const globalJsHead = document.querySelector('#vcv-settingsGlobalJsHead')
-  codeEditor.getEditor(globalJsHead, 'text/html', globalJsHead.value)
+  if (globalJsHead !== null) {
+    codeEditor.getEditor(globalJsHead, 'text/html', globalJsHead.value)
+  }
 
   const globalJsFooter = document.querySelector('#vcv-settingsGlobalJsFooter')
-  codeEditor.getEditor(globalJsFooter, 'text/html', globalJsFooter.value)
+  if (globalJsFooter !== null) {
+    codeEditor.getEditor(globalJsFooter, 'text/html', globalJsFooter.value)
+  }
 }
 
 module.exports = {
