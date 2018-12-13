@@ -13,7 +13,7 @@ export default class TreeViewContainerProvider extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      value: this.parseShortcode(props.value, 'content')
+      value: this.parseShortcode(props.value, 'content')[ 0 ]
     }
     this.getContent = this.getContent.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
@@ -93,7 +93,7 @@ export default class TreeViewContainerProvider extends React.Component {
             </span>
             <div className='vcv-ui-form-tree-view--attribute'>
               <div className='vcv-ui-tree-layout-container'>
-                {this.getContent(this.state.value, 0)}
+                {this.getContent(this.state.value.content, 0)}
               </div>
             </div>
           </div>
