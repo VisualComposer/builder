@@ -43,7 +43,6 @@ class Controller extends Container implements Module
             'wpWidgetsDefault',
             'shortcode',
             'wpbakeryElement',
-            'wpbakeryElementContainer',
             'outlineButton',
         ];
         $urlHelper = vchelper('Url');
