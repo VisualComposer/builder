@@ -9,8 +9,34 @@ export default class TreeViewContainer extends React.Component {
 
   constructor (props) {
     super(props)
-
+    // this.state = {
+    //   value: this.parseShortcode(props.value, 'content')
+    // }
     this.getContent = this.getContent.bind(this)
+  }
+
+  parseShortcode (shortcode, level) {
+    if (!shortcode) {
+      return ''
+    }
+    const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
+    const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
+    const shortcodes = shortcode.match(multipleShortcodesRegex)
+    if (shortcodes) {
+      let returnValue = []
+      shortcodes.forEach((item, i) => {
+        const parseItem = item.match(localShortcodesRegex)
+        let shortcodeData = {
+          tag: parseItem[ 2 ],
+          params: parseItem[ 3 ],
+          content: this.parseShortcode(parseItem[ 5 ], `${level}[${i}].content`),
+          index: `${level}[${i}]`
+        }
+        returnValue.push(shortcodeData)
+      })
+      return returnValue
+    }
+    return shortcode
   }
 
   getContent (value, level) {
