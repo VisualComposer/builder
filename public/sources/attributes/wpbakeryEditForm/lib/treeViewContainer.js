@@ -15,7 +15,7 @@ export default class TreeViewContainerProvider extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      value: this.parseShortcode(props.value, ''),
+      value: this.parseShortcode(props.value, '', 'root', 'content'),
       showEditor: false,
       editorValue: null,
       editorIndex: null
@@ -27,7 +27,16 @@ export default class TreeViewContainerProvider extends React.Component {
     this.save = this.save.bind(this)
   }
 
-  parseShortcode (shortcode, level) {
+  componentWillReceiveProps (newProps, prevProps) {
+    this.setState({
+      value: this.parseShortcode(newProps.value, '', 'root', 'content'),
+      showEditor: false,
+      editorValue: null,
+      editorIndex: null
+    })
+  }
+
+  parseShortcode (shortcode, level, rootLevel, rootLevelChild) {
     if (!shortcode) {
       return ''
     }
@@ -42,10 +51,10 @@ export default class TreeViewContainerProvider extends React.Component {
           tag: parseItem[ 2 ],
           params: (parseItem[ 3 ] || '').trim(),
           shortcode: item,
-          content: this.parseShortcode((parseItem[ 5 ] || ''), (level ? (`${level}[${innerIndex}].content`) : 'content')),
-          index: level ? `${level}[${innerIndex}]` : 'root'
+          content: this.parseShortcode((parseItem[ 5 ] || ''), (!rootLevelChild ? (`${level}[${innerIndex}].content`) : rootLevelChild)),
+          index: !rootLevel ? `${level}[${innerIndex}]` : rootLevel
         }
-        if (!level) {
+        if (rootLevel) {
           returnValue = shortcodeData
         } else {
           returnValue.push(shortcodeData)
@@ -81,6 +90,8 @@ export default class TreeViewContainerProvider extends React.Component {
   deleteItem (index) {
     const newValue = index === 'root' ? {} : lodash.omit(this.state.value, index)
     this.setState({ value: newValue })
+    let mainContent = this.getContentForSaveMain(newValue)
+    this.props.updater(mainContent)
   }
 
   editItem (index, shortcode) {
@@ -94,17 +105,44 @@ export default class TreeViewContainerProvider extends React.Component {
   }
 
   save (shortcode) {
-    const childObj = this.parseShortcode(shortcode, this.state.editorIndex)
-    console.log('save', childObj)
+    const childObj = this.parseShortcode(shortcode, `${this.state.editorIndex}`, `${this.state.editorIndex}`, `${this.state.editorIndex}.content`)
+    lodash.set(this.state.value, this.state.editorIndex, childObj)
+
+    let mainContent = this.getContentForSaveMain(this.state.value)
+    this.props.updater(mainContent)
+    this.close()
   }
 
   getContentForSaveMain = (obj) => {
-    return obj && obj.tag ? (obj.content ? `[${obj.tag}]${obj.content.map((i) => {
-      return this.getContentForSaveMain(i)
-    }).join('')}[/${obj.tag}]` : `[${obj.tag}]`) : obj
+    let getContent = (obj) => {
+      if (obj && obj.tag) {
+        if (obj.content) {
+          if (obj.content instanceof Array) {
+            return `[${obj.tag} ${obj.params}]${obj.content.map(getContent).join('')}[/${obj.tag}]`
+          } else {
+            return `[${obj.tag} ${obj.params}]${obj.content}[/${obj.tag}]`
+          }
+        } else {
+          return `[${obj.tag} ${obj.params}]`
+        }
+      }
+
+      return ''
+    }
+
+    return getContent(obj)
   }
 
   render () {
+    if (lodash.isEmpty(this.state.value)) {
+      return null
+    }
+
+    let content = this.getContent([ this.state.value ], 0)
+    if (!content) {
+      return null
+    }
+
     return (
       <TreeViewContainerContext.Provider
         value={{
@@ -118,12 +156,9 @@ export default class TreeViewContainerProvider extends React.Component {
         </WpbakeryModal> : null}
         <div className='vcv-ui-form-dependency'>
           <div className='vcv-ui-form-group'>
-            <span className='vcv-ui-form-group-heading'>
-              WPB inner elements
-            </span>
             <div className='vcv-ui-form-tree-view--attribute'>
               <div className='vcv-ui-tree-layout-container'>
-                {this.getContent([ this.state.value ], 0)}
+                {content}
               </div>
             </div>
           </div>
