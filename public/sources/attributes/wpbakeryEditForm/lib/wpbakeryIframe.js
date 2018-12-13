@@ -32,10 +32,17 @@ export default class wpbakeryIframe extends React.Component {
 
     const isContainer = ifrWin._.isObject(mapped) && ((ifrWin._.isBoolean(mapped.is_container) && mapped.is_container === true) || !ifrWin._.isEmpty(
       mapped.as_parent))
+
+    const type = ifrWin._.isUndefined(ifrWin.vc.getParamSettings(tag, 'content')) && !isContainer ? 'single' : ''
+    let content = ''
+    if (type !== 'single') {
+      content = mergedParams.content
+      delete mergedParams.content
+    }
     const data = {
       tag: tag,
       attrs: mergedParams,
-      content: mergedParams.content || '',
+      content: content || '',
       type: ifrWin._.isUndefined(ifrWin.vc.getParamSettings(tag, 'content')) && !isContainer ? 'single' : ''
     }
     this.props.save(ifrWin.wp.shortcode.string(data))
@@ -49,9 +56,26 @@ export default class wpbakeryIframe extends React.Component {
       window.alert(wpbakeryAttrError)
       this.props.close()
     }
-    let preModel = ifrWin.vc.storage.parseContent([], this.state.value)
+    let parsedModels = ifrWin.vc.storage.parseContent([], this.state.value)
+    const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
+    const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
+    let preModelData = this.state.value.match(localShortcodesRegex)
+
+    const tag = preModelData[ 2 ]
+    const mapped = ifrWin.vc.getMapped(tag)
+    const isContainer = ifrWin._.isObject(mapped) && ((ifrWin._.isBoolean(mapped.is_container) && mapped.is_container === true) || !ifrWin._.isEmpty(
+      mapped.as_parent))
+    const hasContent = !(ifrWin._.isUndefined(ifrWin.vc.getParamSettings(tag, 'content')) && !isContainer)
+
+    let preModel = parsedModels[ 0 ]
+    if (hasContent) {
+      preModel.params.content = ''
+    }
+    if (preModelData && preModelData[ 5 ]) {
+      preModel.params.content = preModelData[ 5 ]
+    }
     // eslint-disable-next-line new-cap
-    let model = new ifrWin.vc.shortcode(preModel[ 0 ])
+    let model = new ifrWin.vc.shortcode(preModel)
     ifrWin.vc.edit_element_block_view.on('afterRender', () => {
       let $saveBtn = ifrWin.vc.edit_element_block_view.$el.find('[data-vc-ui-element="button-save"]').hide()
       let $newSaveBtn = ifrWin.jQuery(`<span class="vc_general vc_ui-button vc_ui-button-action vc_ui-button-shape-rounded vc_ui-button-fw" data-vc-ui-element="button-save-custom"></span>`)

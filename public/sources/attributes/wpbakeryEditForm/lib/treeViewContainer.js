@@ -96,6 +96,12 @@ export default class TreeViewContainerProvider extends React.Component {
     console.log('save', newValue)
   }
 
+  getContentForSaveMain = (obj) => {
+    return obj && obj.tag ? (obj.content ? `[${obj.tag}]${obj.content.map((i) => {
+      return this.getContentForSaveMain(i)
+    }).join('')}[/${obj.tag}]` : `[${obj.tag}]`) : obj
+  }
+
   render () {
     return (
       <TreeViewContainerContext.Provider
