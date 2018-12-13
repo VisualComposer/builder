@@ -10,6 +10,12 @@ export default class WpbakeryEditForm extends Attribute {
     loadingEditor: false
   }
 
+  constructor (props) {
+    super(props)
+
+    this.showEditor = this.showEditor.bind(this)
+  }
+
   updateState (props) {
     let newState = lodash.defaultsDeep({}, props, WpbakeryEditForm.defaultState)
 
@@ -82,10 +88,6 @@ export default class WpbakeryEditForm extends Attribute {
     const openEditForm = localizations ? localizations.openEditForm : 'Open Edit Form'
     const wpbakeryAttrDescription = localizations ? localizations.wpbakeryAttrDescription : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.'
     const { value, loadingEditor } = this.state
-    const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
-    const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
-    const data = value.match(localShortcodesRegex)
-    const innerValue = data[ 5 ] || ''
 
     let loadingOverlay = null
     if (loadingEditor) {
@@ -110,10 +112,10 @@ export default class WpbakeryEditForm extends Attribute {
         <p className='vcv-ui-form-helper'>{wpbakeryAttrDescription}</p>
         <button
           className='vcv-ui-form-button vcv-ui-form-button--default'
-          onClick={this.showEditor.bind(this)}
+          onClick={this.showEditor}
           value={value}>{openEditForm}
         </button>
-        <TreeViewContainer value={innerValue} />
+        <TreeViewContainer value={value} />
       </React.Fragment>
     )
   }
