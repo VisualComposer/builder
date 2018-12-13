@@ -16,7 +16,7 @@ export default class TreeViewItem extends React.Component {
   }
 
   render () {
-    let { tag, content, index, level } = this.props
+    let { tag, content, index, level, shortcode } = this.props
     let space = 0.8
     let isRTL = utils.isRTL()
     let defaultSpace = isRTL ? 1.5 : 0.5
@@ -35,7 +35,7 @@ export default class TreeViewItem extends React.Component {
                 </i>
                 <span className='vcv-ui-tree-layout-control-label'>{tag}</span>
                 <div className='vcv-ui-tree-layout-control-actions'>
-                  <span className='vcv-ui-tree-layout-control-action' onClick={editItem.bind(this, index)}>
+                  <span className='vcv-ui-tree-layout-control-action' onClick={editItem.bind(this, index, shortcode)}>
                     <i className='vcv-ui-icon vcv-ui-icon-edit' />
                   </span>
                   <span className='vcv-ui-tree-layout-control-action' onClick={deleteItem.bind(this, index)}>
