@@ -11,8 +11,7 @@ export default class TreeViewItem extends React.Component {
     tag: PropTypes.string.isRequired,
     content: PropTypes.any.isRequired,
     level: PropTypes.number.isRequired,
-    index: PropTypes.string.isRequired,
-    getContent: PropTypes.func.isRequired
+    index: PropTypes.string.isRequired
   }
 
   render () {

@@ -15,7 +15,7 @@ export default class TreeViewContainerProvider extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      value: this.parseShortcode(props.value, 'content')[ 0 ],
+      value: this.parseShortcode(props.value, ''),
       showEditor: false,
       editorValue: null
     }
@@ -35,16 +35,20 @@ export default class TreeViewContainerProvider extends React.Component {
     const shortcodes = shortcode.match(multipleShortcodesRegex)
     if (shortcodes) {
       let returnValue = []
-      shortcodes.forEach((item, i) => {
+      shortcodes.forEach((item, innerIndex) => {
         const parseItem = item.match(localShortcodesRegex)
         let shortcodeData = {
           tag: parseItem[ 2 ],
-          params: parseItem[ 3 ],
+          params: (parseItem[ 3 ] || '').trim(),
           shortcode: item,
-          content: this.parseShortcode(parseItem[ 5 ], `${level}[${i}].content`),
-          index: `${level}[${i}]`
+          content: this.parseShortcode((parseItem[ 5 ] || ''), (level ? (`${level}[${innerIndex}].content`) : 'content')),
+          index: level ? `${level}[${innerIndex}]` : 'root'
         }
-        returnValue.push(shortcodeData)
+        if (!level) {
+          returnValue = shortcodeData
+        } else {
+          returnValue.push(shortcodeData)
+        }
       })
       return returnValue
     }
@@ -55,16 +59,17 @@ export default class TreeViewContainerProvider extends React.Component {
     let childComponents = []
     if (content instanceof Array && content && content.length) {
       content.forEach((child, index) => {
-        let childProps = {
-          tag: child.tag,
-          content: child.content,
-          index: child.index,
-          level: level,
-          getContent: this.getContent,
-          shortcode: child.shortcode,
-          key: `wpbakery-edit-form-childs-${level}-${index}`
+        if (child.tag && child.index) {
+          let childProps = {
+            tag: child.tag,
+            content: child.content,
+            index: child.index,
+            level: level,
+            shortcode: child.shortcode,
+            key: `wpbakery-edit-form-childs-${level}-${index}`
+          }
+          childComponents.push(<TreeViewItem {...childProps} />)
         }
-        childComponents.push(<TreeViewItem {...childProps} />)
       })
       return (<ul className='vcv-ui-tree-layout'>{childComponents}</ul>)
     }
@@ -73,7 +78,7 @@ export default class TreeViewContainerProvider extends React.Component {
   }
 
   deleteItem (index) {
-    const newValue = lodash.omit(this.state.value, index)
+    const newValue = index === 'root' ? {} : lodash.omit(this.state.value, index)
     this.setState({ value: newValue })
   }
 
@@ -110,7 +115,7 @@ export default class TreeViewContainerProvider extends React.Component {
             </span>
             <div className='vcv-ui-form-tree-view--attribute'>
               <div className='vcv-ui-tree-layout-container'>
-                {this.getContent(this.state.value.content, 0)}
+                {this.getContent([ this.state.value ], 0)}
               </div>
             </div>
           </div>
