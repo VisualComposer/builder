@@ -17,7 +17,8 @@ export default class TreeViewContainerProvider extends React.Component {
     this.state = {
       value: this.parseShortcode(props.value, ''),
       showEditor: false,
-      editorValue: null
+      editorValue: null,
+      editorIndex: null
     }
     this.getContent = this.getContent.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
@@ -83,7 +84,7 @@ export default class TreeViewContainerProvider extends React.Component {
   }
 
   editItem (index, shortcode) {
-    this.setState({ showEditor: true, editorValue: shortcode })
+    this.setState({ showEditor: true, editorValue: shortcode, editorIndex: index })
   }
 
   close () {
@@ -92,8 +93,9 @@ export default class TreeViewContainerProvider extends React.Component {
     })
   }
 
-  save (newValue) {
-    console.log('save', newValue)
+  save (shortcode) {
+    const childObj = this.parseShortcode(shortcode, this.state.editorIndex)
+    console.log('save', childObj)
   }
 
   getContentForSaveMain = (obj) => {
