@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default class wpbakeryIframe extends React.Component {
+export default class WpbakeryIframe extends React.Component {
   static propTypes = {
     close: PropTypes.func.isRequired,
     save: PropTypes.func.isRequired,
@@ -17,6 +17,56 @@ export default class wpbakeryIframe extends React.Component {
 
     this.editorIframeLoaded = this.editorIframeLoaded.bind(this)
     this.handleSaveClick = this.handleSaveClick.bind(this)
+  }
+
+  editorIframeLoaded () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const wpbakeryAttrError = localizations ? localizations.wpbakeryAttrError : 'Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin.'
+    const ifrWin = this.refs.iframeRef.contentWindow
+    if (!ifrWin.vc) {
+      window.alert(wpbakeryAttrError)
+      this.props.close()
+    }
+
+    // Set value
+    let parsedModels = ifrWin.vc.storage.parseContent([], this.state.value)
+    const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
+    const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
+    let preModelData = this.state.value.match(localShortcodesRegex)
+
+    const tag = preModelData[ 2 ]
+    const mapped = ifrWin.vc.getMapped(tag)
+    const isContainer = ifrWin._.isObject(mapped) && ((ifrWin._.isBoolean(mapped.is_container) && mapped.is_container === true) || !ifrWin._.isEmpty(
+      mapped.as_parent))
+    const hasContent = !(ifrWin._.isUndefined(ifrWin.vc.getParamSettings(tag, 'content')) && !isContainer)
+
+    let preModel = parsedModels[ 0 ]
+    // Set params.content
+    if (hasContent) {
+      preModel.params.content = ''
+    }
+    if (preModelData && preModelData[ 5 ]) {
+      preModel.params.content = preModelData[ 5 ]
+    }
+    // eslint-disable-next-line new-cap
+    let model = new ifrWin.vc.shortcode(preModel)
+
+    // Prepare for render event and replace save button with custom
+    ifrWin.vc.edit_element_block_view.on('afterRender', () => {
+      // Create custom save button and hide loading
+      let $saveBtn = ifrWin.vc.edit_element_block_view.$el.find('[data-vc-ui-element="button-save"]').hide()
+      let $newSaveBtn = ifrWin.jQuery(`<span class="vc_general vc_ui-button vc_ui-button-action vc_ui-button-shape-rounded vc_ui-button-fw" data-vc-ui-element="button-save-custom"></span>`)
+      $newSaveBtn.text($saveBtn.text())
+      $newSaveBtn.insertAfter($saveBtn)
+      // Bind save event for custom save button
+      $newSaveBtn.click(this.handleSaveClick)
+      this.setState({
+        loadingEditor: false
+      })
+    })
+    ifrWin.vc.edit_element_block_view.on('save', this.handleSaveClick)
+    ifrWin.vc.edit_element_block_view.on('hide', this.props.close)
+    ifrWin.vc.edit_element_block_view.render(model)
   }
 
   handleSaveClick () {
@@ -43,58 +93,15 @@ export default class wpbakeryIframe extends React.Component {
       tag: tag,
       attrs: mergedParams,
       content: content || '',
-      type: ifrWin._.isUndefined(ifrWin.vc.getParamSettings(tag, 'content')) && !isContainer ? 'single' : ''
+      type: type
     }
+
     this.props.save(ifrWin.wp.shortcode.string(data))
   }
 
-  editorIframeLoaded () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const wpbakeryAttrError = localizations ? localizations.wpbakeryAttrError : 'Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin.'
-    const ifrWin = this.refs.iframeRef.contentWindow
-    if (!ifrWin.vc) {
-      window.alert(wpbakeryAttrError)
-      this.props.close()
-    }
-    let parsedModels = ifrWin.vc.storage.parseContent([], this.state.value)
-    const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
-    const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
-    let preModelData = this.state.value.match(localShortcodesRegex)
-
-    const tag = preModelData[ 2 ]
-    const mapped = ifrWin.vc.getMapped(tag)
-    const isContainer = ifrWin._.isObject(mapped) && ((ifrWin._.isBoolean(mapped.is_container) && mapped.is_container === true) || !ifrWin._.isEmpty(
-      mapped.as_parent))
-    const hasContent = !(ifrWin._.isUndefined(ifrWin.vc.getParamSettings(tag, 'content')) && !isContainer)
-
-    let preModel = parsedModels[ 0 ]
-    if (hasContent) {
-      preModel.params.content = ''
-    }
-    if (preModelData && preModelData[ 5 ]) {
-      preModel.params.content = preModelData[ 5 ]
-    }
-    // eslint-disable-next-line new-cap
-    let model = new ifrWin.vc.shortcode(preModel)
-    ifrWin.vc.edit_element_block_view.on('afterRender', () => {
-      let $saveBtn = ifrWin.vc.edit_element_block_view.$el.find('[data-vc-ui-element="button-save"]').hide()
-      let $newSaveBtn = ifrWin.jQuery(`<span class="vc_general vc_ui-button vc_ui-button-action vc_ui-button-shape-rounded vc_ui-button-fw" data-vc-ui-element="button-save-custom"></span>`)
-      $newSaveBtn.text($saveBtn.text())
-      $newSaveBtn.insertAfter($saveBtn)
-      $newSaveBtn.click(this.handleSaveClick)
-      this.setState({
-        loadingEditor: false
-      })
-    })
-    ifrWin.vc.edit_element_block_view.on('save', this.handleSaveClick)
-    ifrWin.vc.edit_element_block_view.on('hide', this.props.close)
-    ifrWin.vc.edit_element_block_view.render(model)
-  }
-
   render () {
-    const { loadingEditor } = this.state
     let loadingOverlay = null
-    if (loadingEditor) {
+    if (this.state.loadingEditor) {
       loadingOverlay = (
         <div className='vcv-loading-overlay'>
           <div className='vcv-loading-dots-container'>
@@ -104,6 +111,7 @@ export default class wpbakeryIframe extends React.Component {
         </div>
       )
     }
+
     return (
       <div className='vcv-wpbakery-edit-form-modal-inner'>
         {loadingOverlay}

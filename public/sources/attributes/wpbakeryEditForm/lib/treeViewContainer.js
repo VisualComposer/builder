@@ -9,8 +9,11 @@ const TreeViewContainerContext = React.createContext()
 
 export default class TreeViewContainerProvider extends React.Component {
   static propTypes = {
-    value: PropTypes.string.isRequired
+    value: PropTypes.string.isRequired,
+    updater: PropTypes.func.isRequired
   }
+  static multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
+  static localShortcodesRegex = new RegExp(TreeViewContainerProvider.multipleShortcodesRegex.source)
 
   constructor (props) {
     super(props)
@@ -40,19 +43,17 @@ export default class TreeViewContainerProvider extends React.Component {
     if (!shortcode) {
       return ''
     }
-    const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
-    const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
-    const shortcodes = shortcode.match(multipleShortcodesRegex)
+    const shortcodes = shortcode.match(TreeViewContainerProvider.multipleShortcodesRegex)
     if (shortcodes) {
       let returnValue = []
       shortcodes.forEach((item, innerIndex) => {
-        const parseItem = item.match(localShortcodesRegex)
+        const parseItem = item.match(TreeViewContainerProvider.localShortcodesRegex)
         let shortcodeData = {
           tag: parseItem[ 2 ],
           params: (parseItem[ 3 ] || '').trim(),
           shortcode: item,
-          content: this.parseShortcode((parseItem[ 5 ] || ''), (!rootLevelChild ? (`${level}[${innerIndex}].content`) : rootLevelChild)),
-          index: !rootLevel ? `${level}[${innerIndex}]` : rootLevel
+          content: this.parseShortcode((parseItem[ 5 ] || ''), rootLevelChild || `${level}[${innerIndex}].content`),
+          index: rootLevel || `${level}[${innerIndex}]`
         }
         if (rootLevel) {
           returnValue = shortcodeData
@@ -60,8 +61,10 @@ export default class TreeViewContainerProvider extends React.Component {
           returnValue.push(shortcodeData)
         }
       })
+
       return returnValue
     }
+
     return shortcode
   }
 
@@ -81,7 +84,7 @@ export default class TreeViewContainerProvider extends React.Component {
           childComponents.push(<TreeViewItem {...childProps} />)
         }
       })
-      return (<ul className='vcv-ui-tree-layout'>{childComponents}</ul>)
+      return childComponents.length ? <ul className='vcv-ui-tree-layout'>{childComponents}</ul> : null
     }
 
     return null
@@ -105,7 +108,7 @@ export default class TreeViewContainerProvider extends React.Component {
   }
 
   save (shortcode) {
-    const childObj = this.parseShortcode(shortcode, `${this.state.editorIndex}`, `${this.state.editorIndex}`, `${this.state.editorIndex}.content`)
+    const childObj = this.parseShortcode(shortcode, '', this.state.editorIndex, `${this.state.editorIndex}.content`)
     lodash.set(this.state.value, this.state.editorIndex, childObj)
 
     let mainContent = this.getContentForSaveMain(this.state.value)
