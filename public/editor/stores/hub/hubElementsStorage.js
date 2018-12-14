@@ -1,4 +1,24 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
+import lodash from 'lodash'
+
+const getCategory = (tag, categories) => {
+  return categories ? categories.find(category => Object.values(category).find(value => value.elements.indexOf(tag) > -1)) : 'All'
+}
+
+const setCategoryState = (categoryData, storageState) => {
+  const categoryName = Object.keys(categoryData)[0]
+  const stateCategories = storageState.get()
+  const isCategoryExists = Object.keys(stateCategories).find(category => category === categoryName)
+  let newState
+  if (isCategoryExists) {
+    const mergedElements = lodash.union(stateCategories[categoryName].elements, categoryData[categoryName].elements)
+    newState = stateCategories
+    newState[categoryName].elements = mergedElements
+  } else {
+    newState = Object.assign(categoryData, stateCategories)
+  }
+  storageState.set(newState)
+}
 
 addStorage('hubElements', (storage) => {
   const workspaceStorage = getStorage('workspace')
@@ -9,13 +29,15 @@ addStorage('hubElements', (storage) => {
 
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
+    storage.state('categories').set(window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {})
   })
 
-  storage.on('add', (elementData, addBundle) => {
+  storage.on('add', (elementData, categoryData, addBundle) => {
     let elements = storage.state('elements').get() || {}
     elements[ elementData.tag ] = elementData
     hubElementsService.add(elementData)
     storage.state('elements').set(elements)
+    setCategoryState(categoryData, storage.state('categories'))
     if (addBundle) {
       Promise.all([ window.jQuery.getScript(elementData.bundlePath) ])
     }
@@ -50,6 +72,7 @@ addStorage('hubElements', (storage) => {
       let successCallback = (response) => {
         try {
           let jsonResponse = window.JSON.parse(response)
+          // console.log('jsonResponse', jsonResponse)
           if (jsonResponse && jsonResponse.status) {
             workspaceNotifications.set({
               position: 'bottom',
@@ -62,7 +85,8 @@ addStorage('hubElements', (storage) => {
             if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
               jsonResponse.elements.forEach((element) => {
                 element.tag = element.tag.replace('element/', '')
-                storage.trigger('add', element, true)
+                const category = getCategory(element.tag, jsonResponse.categories)
+                storage.trigger('add', element, category, true)
                 workspaceStorage.trigger('removeFromDownloading', tag)
               })
             }
