@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import lodash from 'lodash'
 import WpbakeryModal from 'public/sources/attributes/wpbakeryEditForm/lib/wpbakeryModal'
 import WpbakeryIframe from 'public/sources/attributes/wpbakeryEditForm/lib/wpbakeryIframe'
+import { getStorage } from 'vc-cake'
 
 const TreeViewContainerContext = React.createContext()
 
@@ -16,10 +17,13 @@ export default class TreeViewContainerProvider extends React.Component {
   constructor (props) {
     super(props)
 
+    const localizations = window.VCV_I18N && window.VCV_I18N()
     if (!window.wp || !window.wp.shortcode || !window.VCV_API_WPBAKERY_WPB_MAP) {
-      console.warn('WPBakery and migration addon must be activated to use this attribute')
+      let errorMessage = localizations.wpbakeryAttrPluginAndAddonRequired || 'WPBakery plugin and migration addon is required to use this attribute'
+      console.warn(errorMessage)
       return
     }
+
     this.multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
     this.localShortcodesRegex = new RegExp(this.multipleShortcodesRegex.source)
 
@@ -143,8 +147,19 @@ export default class TreeViewContainerProvider extends React.Component {
   }
 
   render () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
     if (!this.multipleShortcodesRegex || !this.localShortcodesRegex) {
-      window.alert('WPBakery plugin and migration addon is required to use this attribute')
+      const workspaceStorage = getStorage('workspace')
+      const workspaceNotifications = workspaceStorage.state('notifications')
+      let errorMessage = localizations.wpbakeryAttrPluginAndAddonRequired || 'WPBakery plugin and migration addon is required to use this attribute'
+      workspaceNotifications.set({
+        type: 'error',
+        text: errorMessage,
+        showCloseButton: 'true',
+        icon: 'vcv-ui-icon vcv-ui-icon-error',
+        id: 'wpbakeryAttrPluginAndAddonRequired',
+        time: 5000
+      })
       return null
     }
     if (lodash.isEmpty(this.state.value)) {

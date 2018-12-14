@@ -50,6 +50,11 @@ export default class Notifications {
       }
     }
     const pos = data.position && [ 'top', 'bottom' ].indexOf(data.position) >= 0 ? data.position : 'top'
+
+    if (data.id && this[ pos ].find((i) => {return i.id && i.id === data.id})) {
+      // Already added notification
+      return
+    }
     if (this[ pos ].length >= this.limit) {
       this.close(pos, this[ pos ][ 0 ].item, this[ pos ][ 0 ].timeout)
     }
@@ -58,8 +63,8 @@ export default class Notifications {
     const time = parseInt(data.time) || 3000
     const item = document.createElement('div')
     const classes = classNames({
-      [`vcv-layout-notifications-position--${pos}`]: true,
-      [`vcv-layout-notifications-type--${type}`]: true,
+      [ `vcv-layout-notifications-position--${pos}` ]: true,
+      [ `vcv-layout-notifications-type--${type}` ]: true,
       'vcv-layout-notifications-style--transparent': data.transparent,
       'vcv-layout-notifications-shape--rounded': data.rounded
     })
@@ -103,7 +108,11 @@ export default class Notifications {
 
     parent.appendChild(item)
 
-    this[ pos ].push({ item, timeout })
+    let itemPosData = { item, timeout }
+    if (data.id) {
+      itemPosData.id = data.id
+    }
+    this[ pos ].push(itemPosData)
   }
 
   close (pos, item, timeout = null, cookie = null) {
