@@ -17,7 +17,7 @@ export default class TreeViewContainerProvider extends React.Component {
     super(props)
 
     if (!window.wp || !window.wp.shortcode || !window.VCV_API_WPBAKERY_WPB_MAP) {
-      console.warn('WPBakery must be activated to use this attribute')
+      console.warn('WPBakery and migration addon must be activated to use this attribute')
       return
     }
     this.multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
@@ -143,6 +143,10 @@ export default class TreeViewContainerProvider extends React.Component {
   }
 
   render () {
+    if (!this.multipleShortcodesRegex || !this.localShortcodesRegex) {
+      window.alert('WPBakery plugin and migration addon is required to use this attribute')
+      return null
+    }
     if (lodash.isEmpty(this.state.value)) {
       return null
     }
