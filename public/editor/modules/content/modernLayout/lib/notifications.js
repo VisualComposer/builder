@@ -51,7 +51,7 @@ export default class Notifications {
     }
     const pos = data.position && [ 'top', 'bottom' ].indexOf(data.position) >= 0 ? data.position : 'top'
 
-    if (data.id && this[ pos ].find((i) => {return i.id && i.id === data.id})) {
+    if (data.id && this[ pos ].find((i) => { return i.id && i.id === data.id })) {
       // Already added notification
       return
     }
