@@ -72,7 +72,6 @@ addStorage('hubElements', (storage) => {
       let successCallback = (response) => {
         try {
           let jsonResponse = window.JSON.parse(response)
-          // console.log('jsonResponse', jsonResponse)
           if (jsonResponse && jsonResponse.status) {
             workspaceNotifications.set({
               position: 'bottom',
