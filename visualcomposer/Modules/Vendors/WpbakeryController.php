@@ -204,6 +204,7 @@ class WpbakeryController extends Container implements Module
                 padding: 0 !important;
                 max-height: inherit !important;
                 top: 0 !important;
+                left: 0 !important;
             }
 
             body {
