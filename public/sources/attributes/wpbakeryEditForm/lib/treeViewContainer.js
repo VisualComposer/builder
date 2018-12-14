@@ -5,16 +5,54 @@ import lodash from 'lodash'
 import WpbakeryModal from 'public/sources/attributes/wpbakeryEditForm/lib/wpbakeryModal'
 import WpbakeryIframe from 'public/sources/attributes/wpbakeryEditForm/lib/wpbakeryIframe'
 import { getStorage } from 'vc-cake'
+import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 
+let wpbakeryMapFull = {}
+if (!(!window.wp || !window.wp.shortcode || !window.VCV_API_WPBAKERY_WPB_MAP)) {
+  wpbakeryMapFull = window.VCV_API_WPBAKERY_WPB_MAP_FULL()
+}
 const TreeViewContainerContext = React.createContext()
+
+const DragHandle = SortableHandle(() => {
+  let dragHelperClasses = 'vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'
+  return (
+    <div className={dragHelperClasses}>
+      <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+    </div>
+  )
+})
+
+const SortableItem = SortableElement((props) => {
+  return <TreeViewItem {...props}><DragHandle /></TreeViewItem>
+})
+
+const SortableList = SortableContainer(({ items }) => {
+  return (
+    <ul className='vcv-ui-tree-layout'>
+      {items.map((child, index) => {
+        if (child.tag) {
+          const itemName = wpbakeryMapFull[ child.tag ] && wpbakeryMapFull[ child.tag ].name
+          let childProps = {
+            tag: itemName || child.tag,
+            content: child.content,
+            editorIndex: child.editorIndex,
+            level: child.level,
+            shortcode: child.shortcode,
+            key: `wpbakery-edit-form-childs-${index}`,
+            index: index
+          }
+          return <SortableItem {...childProps} />
+        }
+      })}
+    </ul>
+  )
+})
 
 export default class TreeViewContainerProvider extends React.Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     updater: PropTypes.func.isRequired
   }
-
-  static wpbakeryMapFull = window.VCV_API_WPBAKERY_WPB_MAP_FULL()
 
   constructor (props) {
     super(props)
@@ -25,15 +63,15 @@ export default class TreeViewContainerProvider extends React.Component {
       console.warn(errorMessage)
       return
     }
-    this.wpbakeryMapFull = window.VCV_API_WPBAKERY_WPB_MAP_FULL()
     this.multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
     this.localShortcodesRegex = new RegExp(this.multipleShortcodesRegex.source)
 
     this.state = {
-      value: this.parseShortcode(props.value, '', 'root', 'content'),
+      value: this.parseShortcode(props.value, 0, '', 'root', 'content'),
       showEditor: false,
       editorValue: null,
-      editorIndex: null
+      editorIndex: null,
+      editorLevel: 0
     }
     this.getContent = this.getContent.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
@@ -44,14 +82,15 @@ export default class TreeViewContainerProvider extends React.Component {
 
   componentWillReceiveProps (newProps, prevProps) {
     this.setState({
-      value: this.parseShortcode(newProps.value, '', 'root', 'content'),
+      value: this.parseShortcode(newProps.value, 0, '', 'root', 'content'),
       showEditor: false,
       editorValue: null,
-      editorIndex: null
+      editorIndex: null,
+      editorLevel: 0
     })
   }
 
-  parseShortcode (shortcode, level, rootLevel, rootLevelChild) {
+  parseShortcode (shortcode, numLevel, level, rootLevel, rootLevelChild) {
     if (!shortcode) {
       return ''
     }
@@ -60,12 +99,14 @@ export default class TreeViewContainerProvider extends React.Component {
       let returnValue = []
       shortcodes.forEach((item, innerIndex) => {
         const parseItem = item.match(this.localShortcodesRegex)
+
         let shortcodeData = {
           tag: parseItem[ 2 ],
           params: (parseItem[ 3 ] || '').trim(),
           shortcode: item,
-          content: this.parseShortcode((parseItem[ 5 ] || ''), rootLevelChild || `${level}[${innerIndex}].content`),
-          index: rootLevel || `${level}[${innerIndex}]`
+          level: numLevel,
+          content: this.parseShortcode((parseItem[ 5 ] || ''), numLevel + 1, rootLevelChild || `${level}[${innerIndex}].content`),
+          editorIndex: rootLevel || `${level}[${innerIndex}]`
         }
         if (rootLevel) {
           returnValue = shortcodeData
@@ -80,24 +121,9 @@ export default class TreeViewContainerProvider extends React.Component {
     return shortcode
   }
 
-  getContent (content, level) {
-    let childComponents = []
+  getContent (content, level, index) {
     if (content instanceof Array && content && content.length) {
-      content.forEach((child, index) => {
-        if (child.tag && child.index) {
-          const itemName = this.wpbakeryMapFull[child.tag] && this.wpbakeryMapFull[child.tag].name
-          let childProps = {
-            tag: itemName || child.tag,
-            content: child.content,
-            index: child.index,
-            level: level,
-            shortcode: child.shortcode,
-            key: `wpbakery-edit-form-childs-${level}-${index}`
-          }
-          childComponents.push(<TreeViewItem {...childProps} />)
-        }
-      })
-      return childComponents.length ? <ul className='vcv-ui-tree-layout'>{childComponents}</ul> : null
+      return <SortableList items={content} onSortEnd={this.onSortEnd.bind(this, index)} useDragHandle />
     }
 
     return null
@@ -110,8 +136,8 @@ export default class TreeViewContainerProvider extends React.Component {
     this.props.updater(mainContent)
   }
 
-  editItem (index, shortcode) {
-    this.setState({ showEditor: true, editorValue: shortcode, editorIndex: index })
+  editItem (level, index, shortcode) {
+    this.setState({ showEditor: true, editorValue: shortcode, editorIndex: index, editorLevel: level })
   }
 
   close () {
@@ -127,7 +153,7 @@ export default class TreeViewContainerProvider extends React.Component {
       childIndex = 'content'
     }
 
-    const childObj = this.parseShortcode(shortcode, '', editorIndex, childIndex)
+    const childObj = this.parseShortcode(shortcode, this.state.editorLevel, '', editorIndex, childIndex)
 
     if (editorIndex === 'root') {
       value = childObj
@@ -161,6 +187,25 @@ export default class TreeViewContainerProvider extends React.Component {
     return getContent(obj)
   }
 
+  onSortEnd = (editorIndex, { oldIndex, newIndex }) => {
+    let { value } = this.state
+    let innerValue
+    if (editorIndex === 'root') {
+      innerValue = value
+    } else {
+      innerValue = lodash.get(value, editorIndex)
+    }
+    innerValue.content = arrayMove(innerValue.content, oldIndex, newIndex)
+    if (editorIndex === 'root') {
+      value = innerValue
+    } else {
+      lodash.set(value, editorIndex, innerValue)
+    }
+    this.setState({ value: value })
+    let mainContent = this.getContentForSaveMain(value)
+    this.props.updater(mainContent)
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (!this.multipleShortcodesRegex || !this.localShortcodesRegex) {
@@ -180,10 +225,19 @@ export default class TreeViewContainerProvider extends React.Component {
     if (lodash.isEmpty(this.state.value)) {
       return null
     }
-
-    let content = this.getContent([ this.state.value ], 0)
-    if (!content) {
-      return null
+    let mainParent = this.state.value
+    let parentComponent
+    if (mainParent.tag) {
+      const itemName = wpbakeryMapFull[ mainParent.tag ] && wpbakeryMapFull[ mainParent.tag ].name
+      let childProps = {
+        tag: itemName || mainParent.tag,
+        content: mainParent.content,
+        editorIndex: mainParent.index || 'root',
+        level: 0,
+        shortcode: mainParent.shortcode,
+        key: `wpbakery-edit-form-parent`
+      }
+      parentComponent = <ul className='vcv-ui-tree-layout'><TreeViewItem {...childProps} /></ul>
     }
 
     return (
@@ -200,8 +254,8 @@ export default class TreeViewContainerProvider extends React.Component {
         <div className='vcv-ui-form-dependency'>
           <div className='vcv-ui-form-group'>
             <div className='vcv-ui-form-tree-view--attribute'>
-              <div className='vcv-ui-tree-layout-container'>
-                {content}
+              <div className='vcv-ui-tree-layout-container' data-vcv-wbpakery-tree-view>
+                {parentComponent}
               </div>
             </div>
           </div>
