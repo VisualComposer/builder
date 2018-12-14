@@ -4,7 +4,7 @@ import vcCake from 'vc-cake'
 import { start } from './components/editorInit/start'
 import { rebuildPosts } from './components/editorInit/rebuildPosts'
 
-(($) => {
+(() => {
   let started = false
   if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
     rebuildPosts()
@@ -23,7 +23,7 @@ import { rebuildPosts } from './components/editorInit/rebuildPosts'
       start(setStarted)
     }
   }, 10000)
-})(window.jQuery)
+})()
 
 if (vcCake.env('debug') === true) {
   window.app = vcCake
