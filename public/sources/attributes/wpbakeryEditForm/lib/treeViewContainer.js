@@ -118,10 +118,22 @@ export default class TreeViewContainerProvider extends React.Component {
   }
 
   save (shortcode) {
-    const childObj = this.parseShortcode(shortcode, '', this.state.editorIndex, `${this.state.editorIndex}.content`)
-    lodash.set(this.state.value, this.state.editorIndex, childObj)
+    let { value, editorIndex } = this.state
+    let childIndex = `${editorIndex}.content`
+    if (editorIndex === 'root') {
+      childIndex = 'content'
+    }
 
-    let mainContent = this.getContentForSaveMain(this.state.value)
+    const childObj = this.parseShortcode(shortcode, '', editorIndex, childIndex)
+
+    if (editorIndex === 'root') {
+      value = childObj
+    } else {
+      lodash.set(value, editorIndex, childObj)
+    }
+    this.setState({ value: value })
+
+    let mainContent = this.getContentForSaveMain(value)
     this.props.updater(mainContent)
     this.close()
   }
