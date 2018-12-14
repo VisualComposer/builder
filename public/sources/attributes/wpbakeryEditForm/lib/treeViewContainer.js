@@ -12,11 +12,17 @@ export default class TreeViewContainerProvider extends React.Component {
     value: PropTypes.string.isRequired,
     updater: PropTypes.func.isRequired
   }
-  static multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
-  static localShortcodesRegex = new RegExp(TreeViewContainerProvider.multipleShortcodesRegex.source)
 
   constructor (props) {
     super(props)
+
+    if (!window.wp || !window.wp.shortcode || !window.VCV_API_WPBAKERY_WPB_MAP) {
+      console.warn('WPBakery must be activated to use this attribute')
+      return
+    }
+    this.multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
+    this.localShortcodesRegex = new RegExp(this.multipleShortcodesRegex.source)
+
     this.state = {
       value: this.parseShortcode(props.value, '', 'root', 'content'),
       showEditor: false,
@@ -43,11 +49,11 @@ export default class TreeViewContainerProvider extends React.Component {
     if (!shortcode) {
       return ''
     }
-    const shortcodes = shortcode.match(TreeViewContainerProvider.multipleShortcodesRegex)
+    const shortcodes = shortcode.match(this.multipleShortcodesRegex)
     if (shortcodes) {
       let returnValue = []
       shortcodes.forEach((item, innerIndex) => {
-        const parseItem = item.match(TreeViewContainerProvider.localShortcodesRegex)
+        const parseItem = item.match(this.localShortcodesRegex)
         let shortcodeData = {
           tag: parseItem[ 2 ],
           params: (parseItem[ 3 ] || '').trim(),
