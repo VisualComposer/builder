@@ -14,6 +14,8 @@ export default class TreeViewContainerProvider extends React.Component {
     updater: PropTypes.func.isRequired
   }
 
+  static wpbakeryMapFull = window.VCV_API_WPBAKERY_WPB_MAP_FULL()
+
   constructor (props) {
     super(props)
 
@@ -83,8 +85,9 @@ export default class TreeViewContainerProvider extends React.Component {
     if (content instanceof Array && content && content.length) {
       content.forEach((child, index) => {
         if (child.tag && child.index) {
+          const itemName = TreeViewContainerProvider.wpbakeryMapFull[child.tag] && TreeViewContainerProvider.wpbakeryMapFull[child.tag].name
           let childProps = {
-            tag: child.tag,
+            tag: itemName || child.tag,
             content: child.content,
             index: child.index,
             level: level,
