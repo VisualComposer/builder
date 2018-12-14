@@ -25,7 +25,7 @@ export default class TreeViewContainerProvider extends React.Component {
       console.warn(errorMessage)
       return
     }
-
+    this.wpbakeryMapFull = window.VCV_API_WPBAKERY_WPB_MAP_FULL()
     this.multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
     this.localShortcodesRegex = new RegExp(this.multipleShortcodesRegex.source)
 
@@ -85,7 +85,7 @@ export default class TreeViewContainerProvider extends React.Component {
     if (content instanceof Array && content && content.length) {
       content.forEach((child, index) => {
         if (child.tag && child.index) {
-          const itemName = TreeViewContainerProvider.wpbakeryMapFull[child.tag] && TreeViewContainerProvider.wpbakeryMapFull[child.tag].name
+          const itemName = this.wpbakeryMapFull[child.tag] && this.wpbakeryMapFull[child.tag].name
           let childProps = {
             tag: itemName || child.tag,
             content: child.content,
