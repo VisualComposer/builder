@@ -14,8 +14,6 @@ export default class TreeViewContainerProvider extends React.Component {
     updater: PropTypes.func.isRequired
   }
 
-  static wpbakeryMapFull = window.VCV_API_WPBAKERY_WPB_MAP_FULL()
-
   constructor (props) {
     super(props)
 
