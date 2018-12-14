@@ -56,6 +56,8 @@ class JsonActionsController extends Container implements Module
         Logger $loggerHelper,
         Str $strHelper
     ) {
+        // @codingStandardsIgnoreLine
+        @ini_set('display_errors', 0); //override any disaplay_errors to avoid corrupted response
         if (empty($response)) {
             $response = [
                 'status' => true,
