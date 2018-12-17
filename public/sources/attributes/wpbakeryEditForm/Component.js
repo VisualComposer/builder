@@ -8,6 +8,7 @@ import WpbakeryIframe from './lib/wpbakeryIframe'
 export default class WpbakeryEditForm extends Attribute {
   constructor (props) {
     super(props)
+    this.localizations = window.VCV_I18N && window.VCV_I18N()
     this.handleToggleTextarea = this.handleToggleTextarea.bind(this)
     this.showEditor = this.showEditor.bind(this)
     this.close = this.close.bind(this)
@@ -53,20 +54,29 @@ export default class WpbakeryEditForm extends Attribute {
         const mapped = window.VCV_API_WPBAKERY_WPB_MAP_FULL()[ rootData[ 2 ] ]
         const isContainer = mapped && (mapped.is_container === true || mapped.as_parent)
         if (isContainer) {
-          content = <TreeViewContainer value={value} updater={this.setFieldValue} />
+          const wpbakeryTreeViewAttrDescription = this.localizations ? this.localizations.wpbakeryTreeViewAttrDescription : 'Complex element structures (ex. tabs with content) are represented with the Tree view. Use the Tree view to access and edit individual elements.'
+          const wpbakeryStructureTitle = this.localizations ? this.localizations.wpbakeryStructureTitle : 'WPBakery element structure'
+          content = <React.Fragment>
+            <span className='vcv-ui-form-group-heading'>{wpbakeryStructureTitle}</span>
+            <p className='vcv-ui-form-helper'>{wpbakeryTreeViewAttrDescription}</p>
+            <TreeViewContainer value={value} updater={this.setFieldValue} />
+          </React.Fragment>
         } else {
           const wpbakeryModal = this.state.showRootEditor ? <WpbakeryModal>
             <WpbakeryIframe close={this.close} save={this.save} value={value} />
           </WpbakeryModal> : null
-
+          const wpbakeryTitle = this.localizations ? this.localizations.wpbakeryTitle : 'WPBakery element'
           content = (
             <React.Fragment>
               {wpbakeryModal}
-              <button
-                className='vcv-ui-form-button vcv-ui-form-button--default'
-                onClick={this.showEditor}
-                value={value}>{openEditForm}
-              </button>
+              <span className='vcv-ui-form-group-heading'>{wpbakeryTitle}</span>
+              <div className='vcv-ui-form-group'>
+                <button
+                  className='vcv-ui-form-button vcv-ui-form-button--default'
+                  onClick={this.showEditor}
+                  value={value}>{openEditForm}
+                </button>
+              </div>
             </React.Fragment>
           )
         }
@@ -77,10 +87,9 @@ export default class WpbakeryEditForm extends Attribute {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const wpbakeryAttrDescription = localizations ? localizations.wpbakeryAttrDescription : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.'
-    const openEditForm = localizations ? localizations.openEditForm : 'Open Edit Form'
-    const wpbakeryToggleDescription = localizations ? localizations.wpbakeryAttrToggleDescription : 'View WPBakery element/s as shortcodes'
+    const wpbakeryAttrDescription = this.localizations ? this.localizations.wpbakeryAttrDescription : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.'
+    const openEditForm = this.localizations ? this.localizations.openEditForm : 'Open Edit Form'
+    const wpbakeryToggleDescription = this.localizations ? this.localizations.wpbakeryAttrToggleDescription : 'View WPBakery element/s as shortcodes'
     const TextArea = this.state.toggleTextarea
       ? <div>
         <textarea className='vcv-ui-form-input' value={this.state.value} onChange={this.handleChange} />
