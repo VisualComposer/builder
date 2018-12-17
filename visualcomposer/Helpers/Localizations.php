@@ -391,6 +391,22 @@ class Localizations extends Container implements Helper
                 'WPBakery plugin and migration addon is required to use this attribute',
                 'vcwb'
             ),
+            'wpbakeryAttrToggleDescription' => __(
+                'View WPBakery element/s as shortcodes',
+                'vcwb'
+            ),
+            'wpbakeryTreeViewAttrDescription' => __(
+                'Complex element structures (ex. tabs with content) are represented with the Tree view. Use the Tree view to access and edit individual elements.',
+                'vcwb'
+            ),
+            'wpbakeryStructureTitle' => __(
+                'WPBakery element structure',
+                'vcwb'
+            ),
+            'wpbakeryTitle' => __(
+                'WPBakery element',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
