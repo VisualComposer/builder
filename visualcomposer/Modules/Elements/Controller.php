@@ -29,23 +29,7 @@ class Controller extends Container implements Module
 
     protected function addDefaultElements($api)
     {
-        $elementsToRegister = [
-            'row',
-            'column',
-            'textBlock',
-            'singleImage',
-            'basicButton',
-            'googleFontsHeading',
-            'youtubePlayer',
-            'vimeoPlayer',
-            'separator',
-            'wpWidgetsCustom',
-            'wpWidgetsDefault',
-            'shortcode',
-            'wpbakeryElement',
-            'wpbakeryElementContainer',
-            'outlineButton',
-        ];
+        $elementsToRegister = vchelper('DefaultElements')->all();
         $urlHelper = vchelper('Url');
         /** @var \VisualComposer\Modules\Elements\ApiController $elementsApi */
         $elementsApi = $api->elements;

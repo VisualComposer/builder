@@ -1,5 +1,9 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
 
+const getCategory = (tag, categories) => {
+  return categories ? categories.find(category => Object.values(category).find(value => value.elements.indexOf(tag) > -1)) : 'All'
+}
+
 addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const workspaceNotifications = workspaceStorage.state('notifications')
@@ -54,7 +58,8 @@ addStorage('hubTemplates', (storage) => {
             if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
               jsonResponse.elements.forEach((element) => {
                 element.tag = element.tag.replace('element/', '')
-                getStorage('hubElements').trigger('add', element, true)
+                const category = getCategory(element.tag, jsonResponse.categories)
+                getStorage('hubElements').trigger('add', element, category, true)
               })
             }
             if (jsonResponse.templates) {

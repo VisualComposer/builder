@@ -58,3 +58,14 @@ button.vcv-wpbakery-edit-form-modal-close-button {
     color: @wpbakery-edit-form-close-button-hover-color;
   }
 }
+
+/** Disable user-select for sortable **/
+[data-vcv-wbpakery-tree-view] {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently supported by Chrome and Opera */
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-export default class wpbakeryModal extends React.Component {
+export default class WpbakeryModal extends React.Component {
   constructor (props) {
     super(props)
     this.el = document.createElement('div')

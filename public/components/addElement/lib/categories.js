@@ -57,7 +57,7 @@ export default class Categories extends React.Component {
     Categories.allElementsTags = []
     Categories.hubElements = hubElementsStorage.state('elements').get()
 
-    vcCake.getService('hubCategories').getSortedElements.cache.clear()
+    categoriesService.getSortedElements.cache.clear()
   }
 
   getAllElements () {

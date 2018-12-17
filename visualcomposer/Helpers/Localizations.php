@@ -80,7 +80,10 @@ class Localizations extends Container implements Helper
                 'Didn\'t find the right template? Check out Visual Composer Hub for more layout templates.',
                 'vcwb'
             ),
-            'accessVisualComposerHubToDownload' => __('Access Visual Composer Hub - to download additional elements, templates and extensions.', 'vcwb'),
+            'accessVisualComposerHubToDownload' => __(
+                'Access Visual Composer Hub - to download additional elements, templates and extensions.',
+                'vcwb'
+            ),
             'removeTemplateWarning' => __('Do you want to remove this template?', 'vcwb'),
             'templateRemoveFailed' => __('Failed to remove template', 'vcwb'),
             'blankPageHeadingPart1' => __('Select Blank Page', 'vcwb'),
@@ -152,8 +155,11 @@ class Localizations extends Container implements Helper
                 'Didn\'t find the right element? Check out Visual Composer Hub for more content elements.',
                 'vcwb'
             ),
-            'activationFailed' => __('An error occurred during the Visual Composer extension download process. 
-<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>', 'vcwb'),
+            'activationFailed' => __(
+                'An error occurred during the Visual Composer extension download process. 
+<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
+                'vcwb'
+            ),
             'nothingFound' => __('Nothing found', 'vcwb'),
             'addImage' => __('Add Image', 'vcwb'),
             'removeImage' => __('Remove Image', 'vcwb'),
@@ -338,7 +344,10 @@ class Localizations extends Container implements Helper
             ),
             'addonWpbMigration_checkAddon' => __('Download Migration addon from the Hub', 'vcwb'),
             'addonWpbMigration_checkWpb' => __('Keep WPBakery Page Builder plugin activated', 'vcwb'),
-            'addonWpbMigration_note' => __('Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element.', 'vcwb'),
+            'addonWpbMigration_note' => __(
+                'Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element.',
+                'vcwb'
+            ),
             'addonWpbMigration_download_button' => __('Download Migration Addon', 'vcwb'),
             'addonWpbMigration_backToWordpress' => __('Back to WordPress', 'vcwb'),
             'doNotCloseWhileUpdateText' => __('Don\'t close this window while download is in the progress.', 'vcwb'),
@@ -346,18 +355,42 @@ class Localizations extends Container implements Helper
             'anyLayoutFastAndEasy' => __('Any Layout. Fast and Easy.', 'vcwb'),
             'skipThisPostText' => __('Skip this post', 'vcwb'),
             'getMoreText' => __('Get More Elements, Templates, and Extensions', 'vcwb'),
-            'downloadFromHubText' => __('Download additional content from the Visual Composer Hub - right in your editor instantly.', 'vcwb'),
+            'downloadFromHubText' => __(
+                'Download additional content from the Visual Composer Hub - right in your editor instantly.',
+                'vcwb'
+            ),
             'getStartedText' => __('Get Started', 'vcwb'),
             'sendingErrorReport' => __('Sending Error Report', 'vcwb'),
-            'getStartedText' => __('Get Started', 'vcwb'),
-            'doNotCloseWhileSendingErrorReportText' => __('Don\'t close this window while sending error is in the progress.', 'vcwb'),
+            'doNotCloseWhileSendingErrorReportText' => __(
+                'Don\'t close this window while sending error is in the progress.',
+                'vcwb'
+            ),
             'somethingWentWrong' => __('Oops ... Something Went Wrong', 'vcwb'),
-            'goToHubButtonDescription' => __('Access Visual Composer Hub - download additional elements, templates and extensions.', 'vcwb'),
-            'settingsCustomJsLocal' => __('Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.', 'vcwb'),
-            'settingsCustomJsGlobal' => __('Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.', 'vcwb'),
+            'goToHubButtonDescription' => __(
+                'Access Visual Composer Hub - download additional elements, templates and extensions.',
+                'vcwb'
+            ),
+            'settingsCustomJsLocal' => __(
+                'Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.',
+                'vcwb'
+            ),
+            'settingsCustomJsGlobal' => __(
+                'Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.',
+                'vcwb'
+            ),
             'openEditForm' => __('Open Edit Form', 'vcwb'),
-            'wpbakeryAttrDescription' => __('WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.', 'vcwb'),
-            'wpbakeryAttrError' => __('Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin.', 'vcwb'),
+            'wpbakeryAttrDescription' => __(
+                'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.',
+                'vcwb'
+            ),
+            'wpbakeryAttrError' => __(
+                'Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin.',
+                'vcwb'
+            ),
+            'wpbakeryAttrPluginAndAddonRequired' => __(
+                'WPBakery plugin and migration addon is required to use this attribute',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

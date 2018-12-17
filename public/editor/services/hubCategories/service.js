@@ -2,18 +2,21 @@ import vcCake from 'vc-cake'
 import { sortingTool } from './lib/tools'
 import lodash from 'lodash'
 
+const hubElementsStorage = vcCake.getStorage('hubElements')
+
 // TODO: Fix if element is in many categories
 let categoryByTag = (tag) => {
-  let key = Object.keys(window.VCV_HUB_GET_CATEGORIES()).find((cat) => {
-    let category = window.VCV_HUB_GET_CATEGORIES()[ cat ]
+  const categories = hubElementsStorage.state('categories').get()
+  const key = Object.keys(categories).find((cat) => {
+    const category = categories[ cat ]
     return category.elements && category.elements.indexOf(tag) > -1
   })
-  return window.VCV_HUB_GET_CATEGORIES()[ key ]
+  return categories[ key ]
 }
 
 const API = {
   all: () => {
-    return window.VCV_HUB_GET_CATEGORIES()
+    return hubElementsStorage.state('categories').get()
   },
   get: (key) => {
     return API.all()[ key ]
@@ -54,8 +57,9 @@ const API = {
     return category && category.icon ? category.icon : ''
   },
   getElementCategoryName: (tag) => {
-    return Object.keys(window.VCV_HUB_GET_CATEGORIES()).find((cat) => {
-      let category = window.VCV_HUB_GET_CATEGORIES()[ cat ]
+    const categories = hubElementsStorage.state('categories').get()
+    return Object.keys(categories).find((cat) => {
+      const category = categories[ cat ]
       return category.elements && category.elements.includes(tag)
     })
   }

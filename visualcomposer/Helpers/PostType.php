@@ -176,6 +176,7 @@ class PostType implements Helper
             /** @var \WP_Query $wp_query */
             $wp_query->queried_object = $post;
             $wp_query->queried_object_id = $post->ID;
+            $wp_query->is_singular = true;
             $post_type = $post->post_type;
             $post_type_object = get_post_type_object($post_type);
 

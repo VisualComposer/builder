@@ -104,8 +104,6 @@ class EnqueueController extends Container implements Module
                 $this->call('enqueueAssetsBySourceId', ['sourceId' => $post->ID]);
                 $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID]);
             }
-
-            return;
         }
         vcevent('vcv:assets:enqueueVendorAssets');
         $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);

@@ -56,6 +56,8 @@ class JsonActionsController extends Container implements Module
         Logger $loggerHelper,
         Str $strHelper
     ) {
+        // @codingStandardsIgnoreLine
+        @ini_set('display_errors', 0); //override any disaplay_errors to avoid corrupted response
         if (empty($response)) {
             $response = [
                 'status' => true,
@@ -73,17 +75,19 @@ class JsonActionsController extends Container implements Module
 
         $newActionVersion = $newActionData['version'];
         $previousActionVersion = $optionsHelper->get('hubAction:' . $actionName, '0');
+        $elementTag = str_replace('element/', '', $actionName);
 
         // FIX: For cases when hubElements wasnt updated but hubAction already exists
         if ($strHelper->contains($actionName, 'element/')) {
             $elements = vchelper('HubElements')->getElements();
-            $elementTag = str_replace('element/', '', $actionName);
+
             if (!array_key_exists($elementTag, $elements)) {
                 $previousActionVersion = '0.0.1'; // In case if element still not exists then try to download again
             }
         }
 
-        if ($newActionVersion === $previousActionVersion) {
+        $elementsToRegister = vchelper('DefaultElements')->all();
+        if ($newActionVersion === $previousActionVersion || in_array($elementTag, $elementsToRegister)) {
             sleep(5); // Just to avoid collisions
 
             return $response;

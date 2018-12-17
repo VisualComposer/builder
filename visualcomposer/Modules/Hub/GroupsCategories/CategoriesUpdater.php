@@ -53,6 +53,10 @@ class CategoriesUpdater extends Container implements Module
         );
         $hubHelper->setCategories($categoriesDiffer->get());
 
-        return array_merge($response, ['category' => $bundleJson['categories']]);
+        if (isset($bundleJson['categories'])) {
+            $response['categories'][] = $bundleJson['categories'];
+        }
+
+        return $response;
     }
 }
