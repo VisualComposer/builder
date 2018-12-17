@@ -12,7 +12,7 @@ module.exports = {
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    wpbackendswitch: './public/wpbackend-switch',
+    wpbackendswitch: './public/backendSwitch.js',
     wpbase: './public/wp-base',
     vendor: [
       'react',
@@ -105,9 +105,7 @@ module.exports = {
       },
       'wpbackend-switcher': {
         services: [],
-        modules: [
-          'content/backendSwitcher'
-        ]
+        modules: []
       }
     }),
     new ExtractTextPlugin('[name].bundle.css'),

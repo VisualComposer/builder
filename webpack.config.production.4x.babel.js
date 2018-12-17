@@ -123,9 +123,7 @@ module.exports = Object.assign({}, config, {
       },
       'wpbackend-switcher': {
         services: [],
-        modules: [
-          'content/backendSwitcher'
-        ]
+        modules: []
       }
     }),
     new ExtractTextPlugin('[name].bundle.css'),
