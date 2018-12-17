@@ -24,6 +24,8 @@ export default class TreeViewItem extends React.Component {
     const controlStyle = isRTL ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
     const publicPath = hubCategoriesService.getElementIcon('wpbakeryElement')
 
+    console.log(this.props)
+
     return (
       <TreeViewContainerConsumer>
         {({ getContent, deleteItem, editItem }) => (
@@ -39,9 +41,9 @@ export default class TreeViewItem extends React.Component {
                   <span className='vcv-ui-tree-layout-control-action' onClick={editItem.bind(this, level, editorIndex, shortcode)}>
                     <i className='vcv-ui-icon vcv-ui-icon-edit' />
                   </span>
-                  <span className='vcv-ui-tree-layout-control-action' onClick={deleteItem.bind(this, editorIndex)}>
+                  {editorIndex !== 'root' ? <span className='vcv-ui-tree-layout-control-action' onClick={deleteItem.bind(this, editorIndex)}>
                     <i className='vcv-ui-icon vcv-ui-icon-trash' />
-                  </span>
+                  </span> : null}
                 </div>
               </div>
             </div>
