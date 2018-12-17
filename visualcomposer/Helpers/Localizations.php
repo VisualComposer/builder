@@ -391,6 +391,10 @@ class Localizations extends Container implements Helper
                 'WPBakery plugin and migration addon is required to use this attribute',
                 'vcwb'
             ),
+            'wpbakeryAttrToggleDescription' => __(
+                'View WPBakery element/s as shortcodes',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

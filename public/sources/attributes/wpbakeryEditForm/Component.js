@@ -80,7 +80,7 @@ export default class WpbakeryEditForm extends Attribute {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const wpbakeryAttrDescription = localizations ? localizations.wpbakeryAttrDescription : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.'
     const openEditForm = localizations ? localizations.openEditForm : 'Open Edit Form'
-
+    const wpbakeryToggleDescription = localizations ? localizations.wpbakeryAttrToggleDescription : 'View WPBakery element/s as shortcodes'
     const TextArea = this.state.toggleTextarea
       ? <div>
         <textarea className='vcv-ui-form-input' value={this.state.value} onChange={this.handleChange} />
@@ -95,7 +95,10 @@ export default class WpbakeryEditForm extends Attribute {
     return (
       <React.Fragment>
         {content}
-        <Toggle value={this.state.toggleTextarea} fieldKey='toggleTextarea' updater={this.handleToggleTextarea} />
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-form-group-heading'>{wpbakeryToggleDescription}</span>
+          <Toggle value={this.state.toggleTextarea} fieldKey='toggleTextarea' updater={this.handleToggleTextarea} />
+        </div>
         {TextArea}
       </React.Fragment>
     )
