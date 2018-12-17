@@ -123,7 +123,7 @@ export default class TreeViewContainerProvider extends React.Component {
 
   getContent (content, level, index) {
     if (content instanceof Array && content && content.length) {
-      return <SortableList items={content} onSortEnd={this.onSortEnd.bind(this, index)} useDragHandle />
+      return <SortableList items={content} onSortEnd={this.onSortEnd.bind(this, index)} useDragHandle helperClass={'vcv-ui-tree-layout-node-child--drag-item'} />
     }
 
     return null
