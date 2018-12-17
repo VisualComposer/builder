@@ -123,7 +123,7 @@ export default class TreeViewContainerProvider extends React.Component {
 
   getContent (content, level, index) {
     if (content instanceof Array && content && content.length) {
-      return <SortableList items={content} onSortEnd={this.onSortEnd.bind(this, index)} useDragHandle />
+      return <SortableList items={content} onSortEnd={this.onSortEnd.bind(this, index)} useDragHandle helperClass={'vcv-ui-tree-layout-node-child--drag-item'} />
     }
 
     return null
@@ -229,7 +229,7 @@ export default class TreeViewContainerProvider extends React.Component {
     let parentComponent
     if (mainParent.tag) {
       const itemName = wpbakeryMapFull[ mainParent.tag ] && wpbakeryMapFull[ mainParent.tag ].name
-      let childProps = {
+      let parentProps = {
         tag: itemName || mainParent.tag,
         content: mainParent.content,
         editorIndex: mainParent.index || 'root',
@@ -237,7 +237,10 @@ export default class TreeViewContainerProvider extends React.Component {
         shortcode: mainParent.shortcode,
         key: `wpbakery-edit-form-parent`
       }
-      parentComponent = <ul className='vcv-ui-tree-layout'><TreeViewItem {...childProps} /></ul>
+      parentComponent = <ul className='vcv-ui-tree-layout'><TreeViewItem {...parentProps} /></ul>
+    }
+    if (!parentComponent) {
+      return null
     }
 
     return (
