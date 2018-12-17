@@ -24,8 +24,6 @@ export default class TreeViewItem extends React.Component {
     const controlStyle = isRTL ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
     const publicPath = hubCategoriesService.getElementIcon('wpbakeryElement')
 
-    console.log(this.props)
-
     return (
       <TreeViewContainerConsumer>
         {({ getContent, deleteItem, editItem }) => (
