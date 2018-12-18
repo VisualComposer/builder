@@ -18,13 +18,14 @@ export default () => {
     titleDiv.parentNode.insertBefore(switcherContainer, titleDiv.nextSibling)
     render = true
   } else if (gutenbergEditor) {
+    let timeout = (window.WPML_core) ? 2500 : 1
     setTimeout(() => {
       const gutenbergEditorHeader = gutenbergEditor ? gutenbergEditor.querySelector('.edit-post-header-toolbar') : null
       if (gutenbergEditorHeader) {
         gutenbergEditorHeader.appendChild(switcherContainer)
         renderSwitcher(switcherContainer)
       }
-    }, 1)
+    }, timeout)
   } else {
     let postBodyContent = document.getElementById('post-body-content')
     if (postBodyContent) {

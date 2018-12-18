@@ -143,7 +143,7 @@ export default class Component extends Attribute {
     }
     return (
       <React.Fragment>
-        <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.openEditor}>
+        <button className='vcv-ui-form-button vcv-ui-form-button--action' onClick={this.openEditor}>
           Open Gutenberg
         </button>
         {editor()}
