@@ -75,7 +75,15 @@ class PageTemplatesController extends Container implements Module
                     'stretchedContent' => intval($templateStretch),
                 ];
             } else {
-                if ($frontendHelper->isFrontend()) {
+                if (($frontendHelper->isFrontend() || $frontendHelper->isPageEditable())
+                    && !get_post(
+                        $post->ID
+                    )->post_content
+                    && !get_post_meta(
+                        $post->ID,
+                        VCV_PREFIX . 'pageContent',
+                        true
+                    )) {
                     $output = [
                         'type' => 'vc',
                         'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'blank',

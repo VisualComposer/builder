@@ -1,0 +1,4 @@
+{
+  "baseUrl": "http://wp.localhost/wordpress-staging",
+  "chromeWebSecurity": false
+}
