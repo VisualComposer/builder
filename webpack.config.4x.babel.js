@@ -9,7 +9,7 @@ module.exports = {
   devtool: 'eval',
   mode: 'development',
   entry: {
-    wp: './public/wp-main',
+    wp: './public/editor',
     pe: './public/pe-main',
     front: './public/front-main',
     wpbackendswitch: './public/backendSwitch.js',
@@ -78,8 +78,7 @@ module.exports = {
         modules: [
           'content/updateContent',
           'content/modernLayout',
-          'wordpressWorkspace',
-          'heartbeat'
+          'wordpressWorkspace'
         ],
         services: [
           'utils',
