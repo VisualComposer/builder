@@ -128,6 +128,28 @@ export default class ActivationSectionProvider extends React.Component {
           errorReportAction: this.sendErrorReport
         })
       } catch (e) {
+        var Str = jqxhr.responseText
+        var tmpStr = Str.match('{"status(.*)}')
+        var newStr = '{"status' + tmpStr[1] + '}'
+        try {
+          let json = JSON.parse(newStr)
+          if (json && json.status) {
+            if (this.state.activeAssetsAction === cnt - 1) {
+              this.setState({ assetsActionsDone: true })
+              if (this.state.postUpdateActions && this.state.postUpdateActions.length) {
+                this.doPostUpdate()
+              } else {
+                this.doneActions()
+              }
+            } else {
+              this.setState({ activeAssetsAction: this.state.activeAssetsAction + 1 })
+              this.doAction()
+            }
+            return
+          }
+        } catch (pe) {
+          console.warn('Parse error')
+        }
         this.setError({
           errorAction: this.doAction,
           errorReportAction: this.sendErrorReport
