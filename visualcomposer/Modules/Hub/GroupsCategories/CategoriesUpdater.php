@@ -58,7 +58,7 @@ class CategoriesUpdater extends Container implements Module
         $hubHelper->setCategories($categoriesDiffer->get());
 
         if (isset($bundleJson['categories'])) {
-            if (!is_array($response['categories'])) {
+            if (!isset($response['categories']) || !is_array($response['categories'])) {
                 $response['categories'] = [];
             }
             $response['categories'][] = $bundleJson['categories'];
