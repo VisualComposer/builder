@@ -128,7 +128,7 @@ export default class Component extends Attribute {
       )
     }
 
-    const editor = () => {g
+    const editor = () => {
       if (showEditor) {
         const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
         return (
