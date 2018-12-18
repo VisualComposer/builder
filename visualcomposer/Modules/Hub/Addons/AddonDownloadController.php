@@ -124,7 +124,7 @@ class AddonDownloadController extends ElementDownloadController implements Modul
      */
     protected function initializeElementsAndAddons($response)
     {
-        if (isset($response['variables'])) {
+        if (!isset($response['variables'])) {
             $response['variables'] = [];
         }
         if (isset($response['addons'])) {
