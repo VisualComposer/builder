@@ -76,7 +76,7 @@ class PageEditableTemplatesController extends Container implements Module
     {
         if ($data && $data['type'] === 'vc') {
             if ($data['value'] === 'blank') {
-                $stretched = $data['stretchedContent'];
+                $stretched = isset($data['stretchedContent']) ? $data['stretchedContent'] : 0;
                 $template = 'blank' . ($stretched ? '-stretched' : '') . '-template.php';
 
                 return vcapp()->path('visualcomposer/resources/views/editor/templates/' . $template);
