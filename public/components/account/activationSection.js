@@ -128,9 +128,9 @@ export default class ActivationSectionProvider extends React.Component {
           errorReportAction: this.sendErrorReport
         })
       } catch (e) {
-        var Str = jqxhr.responseText
-        var tmpStr = Str.match('{"status(.*)}')
-        var newStr = '{"status' + tmpStr[1] + '}'
+        let Str = jqxhr.responseText
+        let tmpStr = Str.match('{"status(.*)}')
+        let newStr = '{"status' + tmpStr[1] + '}'
         try {
           let json = JSON.parse(newStr)
           if (json && json.status) {
@@ -148,7 +148,7 @@ export default class ActivationSectionProvider extends React.Component {
             return
           }
         } catch (pe) {
-          console.warn('Parse error')
+          console.warn(pe)
         }
         this.setError({
           errorAction: this.doAction,
