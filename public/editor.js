@@ -3,6 +3,7 @@ import vcCake from 'vc-cake'
 
 import { start } from './components/editorInit/start'
 import { rebuildPosts } from './components/editorInit/rebuildPosts'
+import heartbeat from './components/heartbeat/index'
 
 (() => {
   let started = false
@@ -15,6 +16,7 @@ import { rebuildPosts } from './components/editorInit/rebuildPosts'
 
   // Need to wait while ALL Elements will be initialized otherwise can break layout
   window.onload = () => {
+    heartbeat(window.jQuery)
     start(setStarted)
   }
   // In case if jQuery.ready fails try to load manually
