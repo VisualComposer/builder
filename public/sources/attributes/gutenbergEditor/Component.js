@@ -128,7 +128,7 @@ export default class Component extends Attribute {
       )
     }
 
-    const editor = () => {
+    const editor = () => {g
       if (showEditor) {
         const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
         return (
@@ -143,7 +143,7 @@ export default class Component extends Attribute {
     }
     return (
       <React.Fragment>
-        <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.openEditor}>
+        <button className='vcv-ui-form-button vcv-ui-form-button--action' onClick={this.openEditor}>
           Open Gutenberg
         </button>
         {editor()}
