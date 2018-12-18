@@ -1,5 +1,5 @@
 /* eslint-disable import/no-webpack-loader-syntax */
-import './polyfills'
+import './components/polyfills/index'
 import 'medium-editor/dist/css/medium-editor.css'
 import './sources/less/states/comon.less'
 import publicAPI from './components/api/publicAPI'

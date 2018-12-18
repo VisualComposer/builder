@@ -1,4 +1,4 @@
-import './polyfills'
+import './components/polyfills/'
 /* global jQuery */
 import publicAPI from './components/api/publicAPI'
 import './sources/less/front/init.less'
