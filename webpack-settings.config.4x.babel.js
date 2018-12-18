@@ -5,8 +5,8 @@ import webpackConfig from './webpack.config.4x.babel'
 
 module.exports = Object.assign({}, webpackConfig, {
   entry: {
-    wpUpdateRedesign: './public/wpUpdateRedesign',
-    wpVcSettings: './public/wpVcSettings'
+    wpUpdateRedesign: './public/activation',
+    wpVcSettings: './public/wordpressSettings'
   },
   output: {
     path: path.resolve(__dirname, 'visualcomposer/resources/dist/'), // Assets dist path

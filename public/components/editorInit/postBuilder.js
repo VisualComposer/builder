@@ -28,19 +28,19 @@ export default class PostBuilder {
    */
   setupCake () {
     vcCake.env('platform', 'wordpress').start(() => {
-      require('./editor/stores/hub/hubElementsStorage')
-      require('./editor/stores/hub/hubTemplatesStorage')
+      require('../../editor/stores/hub/hubElementsStorage')
+      require('../../editor/stores/hub/hubTemplatesStorage')
       const hubElementsStorage = getStorage('hubElements')
       hubElementsStorage.trigger('start')
-      require('./editor/stores/settingsStorage')
-      require('./editor/stores/elements/elementsStorage')
-      require('./editor/stores/assets/assetsStorage')
-      require('./editor/stores/wordpressData/wordpressDataStorage.js')
-      require('./editor/modules/content/modernLayout/module.js')
+      require('../../editor/stores/settingsStorage')
+      require('../../editor/stores/elements/elementsStorage')
+      require('../../editor/stores/assets/assetsStorage')
+      require('../../editor/stores/wordpressData/wordpressDataStorage.js')
+      require('../../editor/modules/content/modernLayout/module.js')
       // require('./editor/modules/content/updateContent/module.js')
       const wordpressDataStorage = getStorage('wordpressData')
 
-      require('./editor/stores/sharedAssets/storage')
+      require('../../editor/stores/sharedAssets/storage')
       const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
       sharedAssetsStorage.trigger('start')
 
