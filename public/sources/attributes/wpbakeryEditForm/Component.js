@@ -65,14 +65,12 @@ export default class WpbakeryEditForm extends Attribute {
           const wpbakeryModal = this.state.showRootEditor ? <WpbakeryModal>
             <WpbakeryIframe close={this.close} save={this.save} value={value} />
           </WpbakeryModal> : null
-          const wpbakeryTitle = this.localizations ? this.localizations.wpbakeryTitle : 'WPBakery element'
           content = (
             <React.Fragment>
               {wpbakeryModal}
-              <span className='vcv-ui-form-group-heading'>{wpbakeryTitle}</span>
               <div className='vcv-ui-form-group'>
                 <button
-                  className='vcv-ui-form-button vcv-ui-form-button--default'
+                  className='vcv-ui-form-button vcv-ui-form-button--action'
                   onClick={this.showEditor}
                   value={value}>{openEditForm}
                 </button>
@@ -105,8 +103,8 @@ export default class WpbakeryEditForm extends Attribute {
       <React.Fragment>
         {content}
         <div className='vcv-ui-form-group'>
-          <span className='vcv-ui-form-group-heading'>{wpbakeryToggleDescription}</span>
           <Toggle value={this.state.toggleTextarea} fieldKey='toggleTextarea' updater={this.handleToggleTextarea} />
+          <span className='vcv-ui-form-group-heading vcv-ui-form-group-heading--inline'>{wpbakeryToggleDescription}</span>
         </div>
         {TextArea}
       </React.Fragment>
