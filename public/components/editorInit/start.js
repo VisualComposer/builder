@@ -1,11 +1,11 @@
 import vcCake from 'vc-cake'
 import MobileDetect from 'mobile-detect'
-import '../../polyfills'
-import '../../sources/less/bootstrap/init.less'
-import '../../sources/css/wordpress.less'
-import '../../config/variables'
-import '../../config/wp-services'
-import '../../config/wp-attributes'
+import '../polyfills/index'
+import 'public/sources/less/bootstrap/init.less'
+import 'public/sources/css/wordpress.less'
+import 'public/config/variables'
+import 'public/config/wp-services'
+import 'public/config/wp-attributes'
 
 const $ = window.jQuery
 

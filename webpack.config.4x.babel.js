@@ -10,10 +10,10 @@ module.exports = {
   mode: 'development',
   entry: {
     wp: './public/editor',
-    pe: './public/pe-main',
-    front: './public/front-main',
+    pe: './public/pageEditable',
+    front: './public/frontView',
     wpbackendswitch: './public/backendSwitch.js',
-    wpbase: './public/wp-base',
+    wpbase: './public/base',
     vendor: [
       'react',
       './oldlibs-bc.js',

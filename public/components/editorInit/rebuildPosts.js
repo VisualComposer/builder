@@ -1,5 +1,5 @@
 import vcCake from 'vc-cake'
-import PostBuilder from '../../postBuilder'
+import PostBuilder from './postBuilder'
 
 export const rebuildPosts = () => {
   const builder = new PostBuilder()
