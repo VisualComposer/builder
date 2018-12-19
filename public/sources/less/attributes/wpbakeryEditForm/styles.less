@@ -7,6 +7,9 @@
   bottom: 0;
   background: @wpbakery-edit-form-modal-overlay;
   z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .vcv-loading-overlay {
     background: @wpbakery-edit-form-modal-background;
@@ -19,13 +22,10 @@
 
 .vcv-wpbakery-edit-form-modal-inner {
   position: fixed;
-  padding-left: 20%;
-  padding-right: 20%;
-  padding-bottom: 20%;
   top: @wpbakery-edit-form-modal-spacing;
-  left: @wpbakery-edit-form-modal-spacing;
-  right: @wpbakery-edit-form-modal-spacing;
-  bottom: @wpbakery-edit-form-modal-spacing;
+  height: 80%;
+  width: 70%;
+  max-width: 600px;
 
   .vcv-loading-overlay + iframe {
     visibility: hidden;
