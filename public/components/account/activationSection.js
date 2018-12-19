@@ -18,6 +18,48 @@ export default class ActivationSectionProvider extends React.Component {
     sendingErrorReport: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.sendingErrorReport : 'Sending Error Report',
     doNotCloseWhileSendingErrorReportText: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.doNotCloseWhileSendingErrorReportText : 'Don\'t close this window while sending error is in the progress.'
   }
+  doUpdatePostAction = async (postUpdater) => {
+    const { postUpdateActions, activePostUpdate } = this.state
+    const postData = postUpdateActions[ activePostUpdate ]
+    const posts = postUpdateActions
+
+    let ready = false
+    const to = window.setTimeout(() => {
+      this.setState({ showSkipPostButton: true })
+    }, 60 * 1000)
+
+    try {
+      await postUpdater.update(postData)
+      ready = true
+    } catch (e) {
+      logError('Failed Update Post', {
+        code: 'doAction-updatePosts-1',
+        codeNum: '000003',
+        action: postUpdateActions,
+        postData: postData,
+        error: e
+      })
+
+      this.setError({
+        errorAction: this.doPostUpdate,
+        errorReportAction: this.sendErrorReport
+      })
+      console.warn(e)
+    }
+    window.clearTimeout(to)
+    this.setState({ showSkipPostButton: false })
+
+    if (ready === false) {
+      return
+    }
+
+    if (activePostUpdate + 1 < posts.length) {
+      this.setState({ activePostUpdate: activePostUpdate + 1 })
+      return this.doUpdatePostAction(postUpdater)
+    } else {
+      this.doneActions()
+    }
+  }
 
   constructor (props) {
     super(props)
@@ -129,10 +171,25 @@ export default class ActivationSectionProvider extends React.Component {
         })
       } catch (e) {
         let Str = jqxhr.responseText
-        let tmpStr = Str.match('{"status(.*)}')
-        let newStr = '{"status' + tmpStr[1] + '}'
-        try {
-          let json = JSON.parse(newStr)
+        let matches = this.getJsonFromString(Str, 1)
+        let validJsonFound = false
+        let json = null
+        if (matches.length > 0) {
+          matches.forEach(function (item, index) {
+            try {
+              json = JSON.parse(item)
+              if (typeof json.status !== 'undefined') {
+                validJsonFound = true
+                return
+              }
+            } catch (pe) {
+              console.warn(pe)
+              console.warn('Skip ' + item)
+            }
+          })
+        }
+
+        if (validJsonFound) {
           if (json && json.status) {
             if (this.state.activeAssetsAction === cnt - 1) {
               this.setState({ assetsActionsDone: true })
@@ -147,8 +204,6 @@ export default class ActivationSectionProvider extends React.Component {
             }
             return
           }
-        } catch (pe) {
-          console.warn(pe)
         }
         this.setError({
           errorAction: this.doAction,
@@ -165,47 +220,16 @@ export default class ActivationSectionProvider extends React.Component {
     return this.doUpdatePostAction(postUpdater)
   }
 
-  doUpdatePostAction = async (postUpdater) => {
-    const { postUpdateActions, activePostUpdate } = this.state
-    const postData = postUpdateActions[ activePostUpdate ]
-    const posts = postUpdateActions
-
-    let ready = false
-    const to = window.setTimeout(() => {
-      this.setState({ showSkipPostButton: true })
-    }, 60 * 1000)
-
-    try {
-      await postUpdater.update(postData)
-      ready = true
-    } catch (e) {
-      logError('Failed Update Post', {
-        code: 'doAction-updatePosts-1',
-        codeNum: '000003',
-        action: postUpdateActions,
-        postData: postData,
-        error: e
-      })
-
-      this.setError({
-        errorAction: this.doPostUpdate,
-        errorReportAction: this.sendErrorReport
-      })
-      console.warn(e)
+  getJsonFromString (string, index) {
+    let regex = /(\{"\w+".*\})/g
+    index || (index = 1)
+    let matches = []
+    let match = regex.exec(string)
+    while (match !== null) {
+      matches.push(match[ index ])
+      match = regex.exec(string)
     }
-    window.clearTimeout(to)
-    this.setState({ showSkipPostButton: false })
-
-    if (ready === false) {
-      return
-    }
-
-    if (activePostUpdate + 1 < posts.length) {
-      this.setState({ activePostUpdate: activePostUpdate + 1 })
-      return this.doUpdatePostAction(postUpdater)
-    } else {
-      this.doneActions()
-    }
+    return matches
   }
 
   doneActions () {
