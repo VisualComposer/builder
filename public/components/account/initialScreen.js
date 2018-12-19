@@ -8,7 +8,7 @@ export default class InitialScreen extends React.Component {
   static texts = {
     createYourWordpressWebsite: InitialScreen.localizations ? InitialScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website.',
     anyLayoutFastAndEasy: InitialScreen.localizations ? InitialScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.',
-    goPremium: InitialScreen.localizations ? InitialScreen.localizations.goPremium : 'Go Premium'
+    unlockHub: InitialScreen.localizations ? InitialScreen.localizations.unlockHub : 'Unlock Visual Composer Hub'
   }
 
   constructor (props) {
@@ -33,7 +33,7 @@ export default class InitialScreen extends React.Component {
         <SliderComponent />
         <div className='vcv-activation-button-container'>
           <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
-          <a href={window.VCV_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{InitialScreen.texts.goPremium}</a>
+          <a href={window.VCV_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{InitialScreen.texts.unlockHub}</a>
         </div>
       </div>
     )
