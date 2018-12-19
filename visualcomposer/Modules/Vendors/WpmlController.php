@@ -22,6 +22,7 @@ class WpmlController extends Container implements Module
     public function __construct()
     {
         $this->wpAddAction('plugins_loaded', 'initialize', 16);
+        $this->wpAddAction('admin_print_scripts', 'outputWpml');
     }
 
     protected function initialize(Request $requestHelper)
@@ -100,5 +101,18 @@ class WpmlController extends Container implements Module
         }
 
         return $url;
+    }
+
+    protected function outputWpml()
+    {
+        $available = (defined('ICL_SITEPRESS_VERSION')) ? true : false;
+        evcview(
+            'partials/constant-script',
+            [
+                'key' => 'VCV_WPML',
+                'value' => $available,
+                'type' => 'constant',
+            ]
+        );
     }
 }
