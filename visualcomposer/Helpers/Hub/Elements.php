@@ -35,8 +35,11 @@ class Elements implements Helper
     public function getElements($raw = false, $elementRealPath = true)
     {
         $optionHelper = vchelper('Options');
-        $elements = $optionHelper->get('hubElements', []);
-        $elements = $this->defaultElements + $elements + $this->thirdPartyElements;
+        $dbElements = $optionHelper->get('hubElements', []);
+        if (!is_array($dbElements)) {
+            $dbElements = [];
+        }
+        $elements = array_merge($this->thirdPartyElements, $this->defaultElements, $dbElements);
         $outputElements = [];
         foreach ($elements as $tag => $element) {
             $data = $element;

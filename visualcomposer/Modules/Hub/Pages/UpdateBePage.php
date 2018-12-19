@@ -18,7 +18,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
-class UpdateBePageRedesign extends Container implements Module
+class UpdateBePage extends Container implements Module
 {
     use Page;
     use SubMenu;
@@ -37,10 +37,6 @@ class UpdateBePageRedesign extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            return;
-        }
-
         $this->wpAddAction(
             'admin_menu',
             function (Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
@@ -71,19 +67,19 @@ class UpdateBePageRedesign extends Container implements Module
     {
         $urlHelper = vchelper('Url');
         wp_register_script(
-            'vcv:wpUpdateRedesign:script',
-            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.js'),
+            'vcv:wpUpdate:script',
+            $urlHelper->assetUrl('dist/wpUpdate.bundle.js'),
             [],
             VCV_VERSION
         );
         wp_register_style(
-            'vcv:wpUpdateRedesign:style',
-            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.css'),
+            'vcv:wpUpdate:style',
+            $urlHelper->assetUrl('dist/wpUpdate.bundle.css'),
             [],
             VCV_VERSION
         );
-        wp_enqueue_script('vcv:wpUpdateRedesign:script');
-        wp_enqueue_style('vcv:wpUpdateRedesign:style');
+        wp_enqueue_script('vcv:wpUpdate:script');
+        wp_enqueue_style('vcv:wpUpdate:style');
     }
 
     /**

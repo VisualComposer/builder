@@ -12,20 +12,17 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-class NoticeRedesign extends Container implements Module
+class Notice extends Container implements Module
 {
     use WpFiltersActions;
 
     public function __construct()
     {
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            return;
-        }
-        $this->wpAddAction('pre_current_active_plugins', 'renderPluginNoticeTemplateRedesign');
+        $this->wpAddAction('pre_current_active_plugins', 'renderPluginNoticeTemplate');
     }
 
-    protected function renderPluginNoticeTemplateRedesign()
+    protected function renderPluginNoticeTemplate()
     {
-        evcview('settings/pages/plugins/noticeRedesign.php');
+        evcview('settings/pages/plugins/notice.php');
     }
 }

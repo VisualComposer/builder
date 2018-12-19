@@ -20,10 +20,6 @@ class UpdateVariablesController extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            return;
-        }
-
         $this->addFilter('vcv:license:variables', 'addVariables');
     }
 
