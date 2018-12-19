@@ -5,6 +5,40 @@
   position: relative;
 }
 
+.vcv-ui-blank-row-drag-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .2s;
+
+  svg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: .15;
+  }
+}
+
+.vcv-drag-helper-over-blank-row {
+  .vcv-ui-blank-row-drag-overlay {
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .vcv-ui-blank-row-controls-container {
+    opacity: 0;
+  }
+}
+
 .vcv-layouts-html {
   position: relative;
 
@@ -24,12 +58,14 @@
   align-items: center;
   flex: 1 0 auto;
   border: @vcv-blank-row-border;
+  position: relative;
 }
 
 .vcv-ui-blank-row-controls-container {
   display: flex;
   flex-flow: row wrap;
   padding: @vcv-blank-row-controls-container-padding;
+  transition: opacity .2s;
 }
 
 .vcv-ui-blank-row-element-control {

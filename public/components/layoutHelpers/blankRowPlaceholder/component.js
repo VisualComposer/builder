@@ -330,12 +330,15 @@ export default class BlankRowPlaceholder extends React.Component {
       containerWidth.width = `${this.state.containerWidth}px`
     }
 
+    const dragOverlayIcon = BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? addElementIcon : addElementIconLight
+
     return (
       <div
         className='vcvhelper vcv-ui-blank-row-container vcv-is-disabled-outline'
         ref={(container) => { this.rowContainer = container }}
       >
-        <div className='vcv-ui-blank-row'>
+        <div className='vcv-ui-blank-row' id='vcv-ui-blank-row'>
+          <div className='vcv-ui-blank-row-drag-overlay' dangerouslySetInnerHTML={{ __html: dragOverlayIcon }} />
           <div
             className='vcv-ui-blank-row-controls-container'
             style={containerWidth}

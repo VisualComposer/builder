@@ -146,6 +146,8 @@ export default class DndDataSet {
       }
     })
 
+    this.setMouseOverStartBlank = this.setMouseOverStartBlank.bind(this)
+    this.removeMouseOverStartBlank = this.removeMouseOverStartBlank.bind(this)
     this.api = new Api(this)
   }
 
@@ -305,9 +307,22 @@ export default class DndDataSet {
     return null
   }
 
+  checkBlankRow ({ x, y }) {
+    const domNode = this.options.document.elementFromPoint(x, y)
+    return domNode && window.jQuery(domNode).closest('#vcv-ui-blank-row').get(0)
+  }
+
   checkItems (point) {
     let trashBin = this.checkTrashBin(point)
-    if (trashBin) {
+    let blankRow = this.checkBlankRow(point)
+
+    if (blankRow) {
+      let position = this.placeholder && this.placeholder.redraw(blankRow, point)
+      if (position) {
+        this.setPosition(position)
+      }
+      this.currentElement = 'vcv-ui-blank-row'
+    } else if (trashBin) {
       this.trash && this.trash.setActive()
       this.placeholder && this.placeholder.clearStyle()
       this.placeholder && this.placeholder.setPoint(point)
@@ -374,7 +389,33 @@ export default class DndDataSet {
     this.position = position
   }
 
+  setMouseOverStartBlank () {
+    this.options.document.querySelector('#vcv-ui-blank-row').classList.add('vcv-drag-helper-over-blank-row')
+  }
+
+  removeMouseOverStartBlank () {
+    this.options.document.querySelector('#vcv-ui-blank-row').classList.remove('vcv-drag-helper-over-blank-row')
+  }
+
+  setStartBlankListeners () {
+    const blankRowElement = this.options.document.querySelector('#vcv-ui-blank-row')
+    if (blankRowElement) {
+      blankRowElement.addEventListener('mouseenter', this.setMouseOverStartBlank)
+      blankRowElement.addEventListener('mouseleave', this.removeMouseOverStartBlank)
+    }
+  }
+
+  removeStartBlankListeners () {
+    const blankRowElement = this.options.document.querySelector('#vcv-ui-blank-row')
+    if (blankRowElement) {
+      blankRowElement.removeEventListener('mouseenter', this.setMouseOverStartBlank)
+      blankRowElement.removeEventListener('mouseleave', this.removeMouseOverStartBlank)
+      blankRowElement.classList.remove('vcv-drag-helper-over-blank-row')
+    }
+  }
+
   start (id, point, tag, domNode, disableTrashBin = false) {
+    this.setStartBlankListeners()
     if (!disableTrashBin) {
       this.trashBinTimeout = setTimeout(() => {
         this.trashBinTimeout = null
@@ -473,6 +514,8 @@ export default class DndDataSet {
       this.options.endCallback(this.draggingElement)
     }
     const isValidLayoutCustomMode = getData('vcv:layoutCustomMode') === 'dnd'
+
+    this.removeStartBlankListeners()
 
     // prevent quick multiple click
     if (dragEndedAt - dragStartedAt > 250) {

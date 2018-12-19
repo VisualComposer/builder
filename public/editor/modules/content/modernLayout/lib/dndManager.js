@@ -3,6 +3,9 @@ import DndDataSet from 'public/components/dnd/dndDataSet'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
+const cook = vcCake.getService('cook')
+const elementsStorage = vcCake.getStorage('elements')
+const documentManager = vcCake.getService('document')
 
 export default class DndManager {
   constructor (api) {
@@ -88,6 +91,11 @@ export default class DndManager {
     }
   }
 
+  rebuildItems () {
+    this.items = null
+    this.buildItems()
+  }
+
   removeItems () {
     this.items = null
     workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
@@ -110,6 +118,7 @@ export default class DndManager {
       .on('element:mount', this.add.bind(this))
       .on('element:unmount', this.remove.bind(this))
       .on('element:didUpdate', this.update.bind(this))
+      .on('editor:mount', this.rebuildItems.bind(this))
   }
 
   unSubscribe ({ type }) {
@@ -119,6 +128,7 @@ export default class DndManager {
         .off('element:mount', this.add.bind(this))
         .off('element:unmount', this.remove.bind(this))
         .off('element:didUpdate', this.update.bind(this))
+        .off('editor:mount', this.rebuildItems.bind(this))
       vcCake.ignoreDataChange('draggingElement', this.apiDnD.start)
       vcCake.ignoreDataChange('dropNewElement', this.apiDnD.addNew)
       workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
@@ -147,7 +157,9 @@ export default class DndManager {
 
   move (id, action, related) {
     if (id && related) {
-      if (related === 'vcv-dnd-trash-bin') {
+      if (related === 'vcv-ui-blank-row') {
+        DndManager.handleBlankRowDrop(id, action)
+      } else if (related === 'vcv-dnd-trash-bin') {
         workspaceStorage.trigger('remove', id)
       } else {
         workspaceStorage.trigger('move', id, { action: action, related: related })
@@ -157,7 +169,9 @@ export default class DndManager {
 
   drop (id, action, related, element) {
     if (id && related) {
-      if (related === 'vcv-dnd-trash-bin') {
+      if (related === 'vcv-ui-blank-row') {
+        DndManager.handleBlankRowDrop(id, action, element.tag)
+      } else if (related === 'vcv-dnd-trash-bin') {
         workspaceStorage.trigger('remove', id)
       } else {
         workspaceStorage.trigger('drop', id, { action: action, related: related, element: element })
@@ -173,5 +187,27 @@ export default class DndManager {
   static end () {
     vcCake.setData('elementControls:disable', false)
     document.body.classList.remove('vcv-is-no-selection')
+  }
+
+  static handleBlankRowDrop (id, action, elementTag) {
+    if (elementTag) { // Drop from addElement window
+      const element = cook.get({ tag: elementTag }).toJS()
+      elementsStorage.trigger('add', element)
+      workspaceStorage.trigger('edit', element.id, '')
+    } else if (id) { // Drop existing element
+      const elementSettings = documentManager.get(id)
+      const parentWrapper = cook.get(elementSettings).get('parentWrapper')
+      const wrapperTag = parentWrapper === undefined ? 'column' : parentWrapper
+
+      if (wrapperTag) { // Add wrapper and insert dragging element into this wrapper
+        const wrapper = cook.get({ tag: wrapperTag }).toJS()
+        elementsStorage.trigger('add', wrapper, true, { skipInitialExtraElements: true })
+        workspaceStorage.trigger('move', id, { action: 'append', related: wrapper.id })
+      } else { // Move dragging element at the end without creating wrapper
+        const rootElements = documentManager.children(false)
+        const lastRootElement = rootElements[rootElements.length - 1]
+        workspaceStorage.trigger('move', id, { action: 'after', related: lastRootElement.id })
+      }
+    }
   }
 }
