@@ -52,6 +52,9 @@ class SystemStatusController extends Container implements Module
      */
     protected function checkVersion($response, Update $hubUpdateHelper, Options $optionsHelper)
     {
+        if (!is_array($response)) {
+            $response = [];
+        }
         $checkVersion = $hubUpdateHelper->checkVersion();
         $response['status'] = $checkVersion['status'];
 

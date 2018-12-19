@@ -36,6 +36,7 @@ class WpmlController extends Container implements Module
                 'save_post',
                 'insertTrid'
             );
+            $this->wpAddAction('admin_print_scripts', 'outputWpml');
 
             if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
                 global $sitepress;
@@ -100,5 +101,18 @@ class WpmlController extends Container implements Module
         }
 
         return $url;
+    }
+
+    protected function outputWpml()
+    {
+        $available = (defined('ICL_SITEPRESS_VERSION')) ? true : false;
+        evcview(
+            'partials/constant-script',
+            [
+                'key' => 'VCV_WPML',
+                'value' => $available,
+                'type' => 'constant',
+            ]
+        );
     }
 }

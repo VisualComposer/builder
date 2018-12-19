@@ -18,7 +18,8 @@ export default () => {
     titleDiv.parentNode.insertBefore(switcherContainer, titleDiv.nextSibling)
     render = true
   } else if (gutenbergEditor) {
-    let timeout = (window.WPML_core) ? 2500 : 1
+    let isWpml = window.VCV_WPML ? window.VCV_WPML() : false
+    let timeout = (isWpml) ? 2500 : 1
     setTimeout(() => {
       const gutenbergEditorHeader = gutenbergEditor ? gutenbergEditor.querySelector('.edit-post-header-toolbar') : null
       if (gutenbergEditorHeader) {

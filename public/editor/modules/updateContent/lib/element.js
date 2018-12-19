@@ -1,8 +1,8 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-import ContentControls from '../../../../../components/layoutHelpers/contentControls/component'
-import ContentEditableComponent from '../../../../../components/layoutHelpers/contentEditable/contentEditableComponent'
-import ColumnResizer from '../../../../../components/columnResizer/columnResizer'
+import ContentControls from '../../../../components/layoutHelpers/contentControls/component'
+import ContentEditableComponent from '../../../../components/layoutHelpers/contentEditable/contentEditableComponent'
+import ColumnResizer from '../../../../components/columnResizer/columnResizer'
 import PropTypes from 'prop-types'
 
 const elementsStorage = vcCake.getStorage('elements')

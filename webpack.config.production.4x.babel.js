@@ -71,7 +71,7 @@ module.exports = Object.assign({}, config, {
     new Collector({
       wp: {
         modules: [
-          'content/modernLayout',
+          'layout',
           'wordpressWorkspace'
         ],
         services: [
@@ -98,7 +98,7 @@ module.exports = Object.assign({}, config, {
       },
       wpupdate: {
         modules: [
-          'content/updateContent'
+          'updateContent'
         ],
         services: [
           'utils',

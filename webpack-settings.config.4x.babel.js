@@ -5,7 +5,7 @@ import webpackConfig from './webpack.config.4x.babel'
 
 module.exports = Object.assign({}, webpackConfig, {
   entry: {
-    wpUpdateRedesign: './public/activation',
+    wpUpdate: './public/activation',
     wpVcSettings: './public/wordpressSettings'
   },
   output: {

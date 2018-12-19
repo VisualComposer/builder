@@ -36,7 +36,7 @@ export default class PostBuilder {
       require('../../editor/stores/elements/elementsStorage')
       require('../../editor/stores/assets/assetsStorage')
       require('../../editor/stores/wordpressData/wordpressDataStorage.js')
-      require('../../editor/modules/content/modernLayout/module.js')
+      require('../../editor/modules/layout/module.js')
       // require('./editor/modules/content/updateContent/module.js')
       const wordpressDataStorage = getStorage('wordpressData')
 

@@ -301,9 +301,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   getHubBanner () {
     const titleText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.getMoreText : 'Get More Elements, Templates, and Extensions'
     const subtitleText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.downloadFromHubText : 'Download additional content from the Visual Composer Hub - right in your editor instantly.'
-    const getStartedText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.getStartedText : 'Get Started'
     const goPremiumText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.goPremium : 'Go Premium'
-    const buttonText = window.vcvIsActivated ? goPremiumText : getStartedText
+    const unlockHubText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.unlockHub : 'Unlock Visual Composer Hub'
+    const buttonText = window.vcvIsActivated ? goPremiumText : unlockHubText
 
     return <div className='vcv-hub-banner'>
       <div className='vcv-hub-banner-content'>

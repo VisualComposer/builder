@@ -407,6 +407,10 @@ class Localizations extends Container implements Helper
                 'WPBakery element',
                 'vcwb'
             ),
+            'unlockHub' => __(
+                'Unlock Visual Composer Hub',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
