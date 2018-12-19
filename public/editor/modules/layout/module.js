@@ -8,7 +8,7 @@ import ControlsManager from './lib/controlsIframe/controlsManager'
 import MobileControlsManager from './lib/controlsIframe/mobileControlsManager'
 import Notifications from './lib/notifications'
 import MobileDetect from 'mobile-detect'
-import OopsScreen from 'public/components/account/oopsScreen'
+import OopsScreen from '../../../components/account/oopsScreen'
 
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -18,7 +18,7 @@ const workspaceIFrame = workspaceStorage.state('iframe')
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 
-vcCake.add('contentModernLayout', (api) => {
+vcCake.add('contentLayout', (api) => {
   let iframeContent = document.getElementById('vcv-layout-iframe-content')
   let dnd = new DndManager(api)
   let controls = new ControlsManager(api)

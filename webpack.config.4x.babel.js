@@ -76,8 +76,8 @@ module.exports = {
     new Collector({
       wp: {
         modules: [
-          'content/updateContent',
-          'content/modernLayout',
+          'updateContent',
+          'layout',
           'wordpressWorkspace'
         ],
         services: [
