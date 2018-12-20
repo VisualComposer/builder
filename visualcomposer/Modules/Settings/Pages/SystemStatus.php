@@ -287,12 +287,12 @@ class SystemStatus extends Container implements Module
     {
         $urlHelper = vchelper('Url');
         wp_register_style(
-            'vcv:wpUpdateRedesign:style',
-            $urlHelper->assetUrl('dist/wpUpdateRedesign.bundle.css'),
+            'vcv:wpUpdate:style',
+            $urlHelper->assetUrl('dist/wpUpdate.bundle.css'),
             [],
             VCV_VERSION
         );
-        wp_enqueue_style('vcv:wpUpdateRedesign:style');
+        wp_enqueue_style('vcv:wpUpdate:style');
 
         wp_register_script(
             'vcv:wpVcSettings:script',

@@ -52,7 +52,7 @@ class VendorBundleController extends Container implements Module
             'vcv:assets:front:script',
             $urlHelper->to('public/dist/front.bundle.js'),
             [
-                // 'vcv:assets:vendor:script',
+                'jquery',
             ],
             $editorVersion,
             true
@@ -89,6 +89,7 @@ class VendorBundleController extends Container implements Module
 
     protected function enqueueFrontScripts()
     {
+        wp_enqueue_script('jquery');
         wp_enqueue_style('vcv:assets:front:style');
         wp_enqueue_script('vcv:assets:front:script');
     }

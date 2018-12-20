@@ -15,15 +15,12 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
 
-class UpdateFePageRedesign extends Container implements Module
+class UpdateFePage extends Container implements Module
 {
     use EventsFilters;
 
     public function __construct()
     {
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            return;
-        }
         $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', -1);
         $this->addFilter('vcv:frontend:update:extraOutput', 'addUpdateAssets', 10);
     }
@@ -67,13 +64,13 @@ class UpdateFePageRedesign extends Container implements Module
                 sprintf(
                     '<link rel="stylesheet" href="%s"></link>',
                     $urlHelper->assetUrl(
-                        'dist/wpUpdateRedesign.bundle.css?v=' . VCV_VERSION
+                        'dist/wpUpdate.bundle.css?v=' . VCV_VERSION
                     )
                 ),
                 sprintf(
                     '<script id="vcv-script-vendor-bundle-update" type="text/javascript" src="%s"></script>',
                     $urlHelper->assetUrl(
-                        'dist/wpUpdateRedesign.bundle.js?v=' . VCV_VERSION
+                        'dist/wpUpdate.bundle.js?v=' . VCV_VERSION
                     )
                 ),
             ]

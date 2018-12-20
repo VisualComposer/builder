@@ -32,6 +32,7 @@ export default class LayoutEditor extends React.Component {
 
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateState)
+    this.props.api.notify('editor:mount')
 
     this.editor = new Combokeys(this.document)
     this.editor.bind([ 'command+z', 'ctrl+z' ], (e) => {

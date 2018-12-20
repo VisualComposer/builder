@@ -93,7 +93,14 @@ export default class AjaxForm extends Attribute {
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, (result) => {
-      let response = JSON.parse(result.response)
+      let response
+      try {
+        response = JSON.parse(result.response)
+      } catch (e) {
+        console.warn('Failed to parse, no valid json.', e)
+        let jsonString = this.getJsonFromString(result.response)
+        response = JSON.parse(jsonString)
+      }
       if (response && response.status) {
         this.setState({
           formContent: response.html || 'There are no options for this widget.',
@@ -108,6 +115,15 @@ export default class AjaxForm extends Attribute {
         })
       }
     })
+  }
+
+  getJsonFromString = (string) => {
+    let regex = /(\{"\w+".*\})/g
+    var result = string.match(regex)
+    if (result) {
+      return result[0]
+    }
+    return false
   }
 
   render () {

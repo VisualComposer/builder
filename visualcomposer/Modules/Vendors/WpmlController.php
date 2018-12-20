@@ -22,7 +22,6 @@ class WpmlController extends Container implements Module
     public function __construct()
     {
         $this->wpAddAction('plugins_loaded', 'initialize', 16);
-        $this->wpAddAction('admin_print_scripts', 'outputWpml');
     }
 
     protected function initialize(Request $requestHelper)
@@ -37,6 +36,7 @@ class WpmlController extends Container implements Module
                 'save_post',
                 'insertTrid'
             );
+            $this->wpAddAction('admin_print_scripts', 'outputWpml');
 
             if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
                 global $sitepress;

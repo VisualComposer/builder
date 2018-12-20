@@ -39,10 +39,6 @@ class GoPremium extends Container implements Module
 
     public function __construct(License $licenseHelper)
     {
-        if (!vcvenv('VCV_FT_ACTIVATION_REDESIGN')) {
-            return;
-        }
-
         if (!$licenseHelper->isActivated()) {
             $this->wpAddAction(
                 'in_admin_footer',

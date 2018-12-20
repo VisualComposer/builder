@@ -18,6 +18,48 @@ export default class ActivationSectionProvider extends React.Component {
     sendingErrorReport: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.sendingErrorReport : 'Sending Error Report',
     doNotCloseWhileSendingErrorReportText: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.doNotCloseWhileSendingErrorReportText : 'Don\'t close this window while sending error is in the progress.'
   }
+  doUpdatePostAction = async (postUpdater) => {
+    const { postUpdateActions, activePostUpdate } = this.state
+    const postData = postUpdateActions[ activePostUpdate ]
+    const posts = postUpdateActions
+
+    let ready = false
+    const to = window.setTimeout(() => {
+      this.setState({ showSkipPostButton: true })
+    }, 60 * 1000)
+
+    try {
+      await postUpdater.update(postData)
+      ready = true
+    } catch (e) {
+      logError('Failed Update Post', {
+        code: 'doAction-updatePosts-1',
+        codeNum: '000003',
+        action: postUpdateActions,
+        postData: postData,
+        error: e
+      })
+
+      this.setError({
+        errorAction: this.doPostUpdate,
+        errorReportAction: this.sendErrorReport
+      })
+      console.warn(e)
+    }
+    window.clearTimeout(to)
+    this.setState({ showSkipPostButton: false })
+
+    if (ready === false) {
+      return
+    }
+
+    if (activePostUpdate + 1 < posts.length) {
+      this.setState({ activePostUpdate: activePostUpdate + 1 })
+      return this.doUpdatePostAction(postUpdater)
+    } else {
+      this.doneActions()
+    }
+  }
 
   constructor (props) {
     super(props)
@@ -129,10 +171,10 @@ export default class ActivationSectionProvider extends React.Component {
         })
       } catch (e) {
         let Str = jqxhr.responseText
-        let tmpStr = Str.match('{"status(.*)}')
-        let newStr = '{"status' + tmpStr[1] + '}'
+        let jsonString = this.getJsonFromString(Str)
+        let json = null
         try {
-          let json = JSON.parse(newStr)
+          json = JSON.parse(jsonString)
           if (json && json.status) {
             if (this.state.activeAssetsAction === cnt - 1) {
               this.setState({ assetsActionsDone: true })
@@ -165,47 +207,13 @@ export default class ActivationSectionProvider extends React.Component {
     return this.doUpdatePostAction(postUpdater)
   }
 
-  doUpdatePostAction = async (postUpdater) => {
-    const { postUpdateActions, activePostUpdate } = this.state
-    const postData = postUpdateActions[ activePostUpdate ]
-    const posts = postUpdateActions
-
-    let ready = false
-    const to = window.setTimeout(() => {
-      this.setState({ showSkipPostButton: true })
-    }, 60 * 1000)
-
-    try {
-      await postUpdater.update(postData)
-      ready = true
-    } catch (e) {
-      logError('Failed Update Post', {
-        code: 'doAction-updatePosts-1',
-        codeNum: '000003',
-        action: postUpdateActions,
-        postData: postData,
-        error: e
-      })
-
-      this.setError({
-        errorAction: this.doPostUpdate,
-        errorReportAction: this.sendErrorReport
-      })
-      console.warn(e)
+  getJsonFromString = (string) => {
+    let regex = /(\{"\w+".*\})/g
+    var result = string.match(regex)
+    if (result) {
+      return result[0]
     }
-    window.clearTimeout(to)
-    this.setState({ showSkipPostButton: false })
-
-    if (ready === false) {
-      return
-    }
-
-    if (activePostUpdate + 1 < posts.length) {
-      this.setState({ activePostUpdate: activePostUpdate + 1 })
-      return this.doUpdatePostAction(postUpdater)
-    } else {
-      this.doneActions()
-    }
+    return false
   }
 
   doneActions () {

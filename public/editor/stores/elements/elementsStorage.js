@@ -15,8 +15,6 @@ addStorage('elements', (storage) => {
     historyStorage.trigger('add', documentManager.all())
   }
   let substituteIds = {}
-  const defaultWrapper = 'column'
-
   const recursiveElementsRebuild = (cookElement) => {
     if (!cookElement) {
       return cookElement
@@ -100,14 +98,9 @@ addStorage('elements', (storage) => {
     elementData = recursiveElementsRebuild(cookElement)
     if (wrap && !cookElement.get('parent')) {
       const parentWrapper = cookElement.get('parentWrapper')
-      if (parentWrapper === undefined) {
-        const wrapperData = cook.get({ tag: defaultWrapper })
-        elementData.parent = wrapperData.toJS().id
-        if (wrapperData) {
-          storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true, silent: true })
-        }
-      } else if (parentWrapper) {
-        const wrapperData = cook.get({ tag: parentWrapper })
+      const wrapperTag = parentWrapper === undefined ? 'column' : parentWrapper
+      if (wrapperTag) {
+        const wrapperData = cook.get({ tag: wrapperTag })
         elementData.parent = wrapperData.toJS().id
         if (wrapperData) {
           storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true, silent: true })
@@ -267,7 +260,7 @@ addStorage('elements', (storage) => {
       let newRowElement = documentManager.get(newElement.parent)
       addRowColumnBackground(newElement.id, newElement, documentManager)
       if (!env('FT_ROW_COLUMN_LOGIC_REFACTOR')) {
-        rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout.disableStacking }, documentManager)
+        rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout && newRowElement.layout.disableStacking }, documentManager)
       }
     }
     const updatedElement = documentManager.get(id)

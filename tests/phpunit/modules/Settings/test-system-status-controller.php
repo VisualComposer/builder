@@ -9,7 +9,7 @@ class SystemStatusControllerTest extends WP_UnitTestCase
 
         /** @var \VisualComposer\Helpers\Filters $filterHelper */
         $filterHelper = vchelper('Filters');
-        $result = $filterHelper->fire('vcv:ajax:checkVersion:adminNonce');
+        $result = $filterHelper->fire('vcv:ajax:checkVersion:adminNonce', []);
         $this->assertInternalType('bool', $result['status']);
     }
 
@@ -31,7 +31,7 @@ class SystemStatusControllerTest extends WP_UnitTestCase
         $optionsHelper->setTransient('lastBundleUpdate', $transientTime);
         $this->assertEquals($transientTime, $optionsHelper->getTransient('lastBundleUpdate'));
 
-        $checkResult = $module->call('checkVersion', ['', $updateHelperMock]);
+        $checkResult = $module->call('checkVersion', [[], $updateHelperMock]);
 
         $this->assertEquals(true, $checkResult['status']);
         $this->assertEquals(1, $optionsHelper->getTransient('lastBundleUpdate'));
@@ -54,8 +54,7 @@ class SystemStatusControllerTest extends WP_UnitTestCase
         $optionsHelper->setTransient('lastBundleUpdate', $transientTime);
 
         $this->assertEquals($transientTime, $optionsHelper->getTransient('lastBundleUpdate'));
-        $this->assertEquals(false, $module->call('checkVersion', ['', $updateHelperMock])['status']);
+        $this->assertEquals(false, $module->call('checkVersion', [[], $updateHelperMock])['status']);
         $this->assertEquals($transientTime, $optionsHelper->getTransient('lastBundleUpdate'));
     }
-
 }

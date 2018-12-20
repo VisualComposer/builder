@@ -200,10 +200,14 @@ addStorage('workspace', (storage) => {
   })
   storage.on('drop', (id, settings) => {
     const relatedElement = settings.related ? cook.get(documentManager.get(settings.related)) : false
-    const data = cook.get({ tag: settings.element.tag, parent: relatedElement.get('parent') })
+    let elementSettings = { tag: settings.element.tag }
+    if (relatedElement) {
+      elementSettings.parent = relatedElement.get('parent')
+    }
+    const data = cook.get(elementSettings)
     elementsStorage.trigger('add', data.toJS())
     let movingID = data.get('id')
-    if (settings.action !== 'append' && relatedElement.relatedTo([ 'RootElements' ]) && !data.relatedTo([ 'RootElements' ])) {
+    if (settings.action !== 'append' && relatedElement && relatedElement.relatedTo([ 'RootElements' ]) && !data.relatedTo([ 'RootElements' ])) {
       movingID = documentManager.getTopParent(movingID)
     }
     elementsStorage.trigger('move', movingID, settings)

@@ -114,7 +114,39 @@ export default class ElementComponent extends React.Component {
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
           })(iframe, iframe.document))
         } catch (e) {
-          console.warn('failed to parse json', e, data)
+          let isValidJsonFound = false
+          let jsonString = this.getJsonFromString(data)
+          if (jsonString) {
+            try {
+              ((function (window, document) {
+                let jsonData = JSON.parse(jsonString)
+                let { headerContent, shortcodeContent, footerContent } = jsonData
+                ref && (ref.innerHTML = '')
+
+                let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+                headerDom.context = document
+                shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
+
+                let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+                shortcodeDom.context = document
+                if (shortcodeDom.children().length) {
+                  shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.contents(), addToDocument: true })
+                } else if (shortcodeDom.text()) {
+                  window.jQuery(ref).append(document.createTextNode(shortcodeDom.text()))
+                }
+
+                let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+                footerDom.context = document
+                shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
+                isValidJsonFound = true
+              })(iframe, iframe.document))
+            } catch (pe) {
+              console.warn(pe)
+            }
+          }
+          if (!isValidJsonFound) {
+            console.warn('failed to parse json', e, data)
+          }
         }
         this.ajax = null
         cb && cb.constructor === Function && cb()
@@ -122,6 +154,15 @@ export default class ElementComponent extends React.Component {
     } else {
       ref && (ref.innerHTML = content)
     }
+  }
+
+  getJsonFromString = (string) => {
+    let regex = /(\{"\w+".*\})/g
+    var result = string.match(regex)
+    if (result) {
+      return result[0]
+    }
+    return false
   }
 
   updateInlineHtml (elementWrapper, html = '', tagString = '') {

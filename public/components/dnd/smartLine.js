@@ -37,7 +37,7 @@ SmartLine.prototype.setPoint = function (x, y) {
   this.point.y = y
 }
 SmartLine.prototype.remove = function () {
-  this.options.container.removeChild(this.elContainer)
+  this.options.container && this.options.container.removeChild(this.elContainer)
   this.prevElement = null
 }
 SmartLine.prototype.setCurrentElement = function (element) {
