@@ -95,7 +95,7 @@ class PreviewEnqueueController extends Container implements Module
                 wp_enqueue_script(
                     'vcv:assets:source:scripts:' . $strHelper->slugify($asset),
                     $asset,
-                    [],
+                    ['jquery'],
                     VCV_VERSION,
                     true
                 );
