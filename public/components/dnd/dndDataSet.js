@@ -148,6 +148,8 @@ export default class DndDataSet {
 
     this.setMouseOverStartBlank = this.setMouseOverStartBlank.bind(this)
     this.removeMouseOverStartBlank = this.removeMouseOverStartBlank.bind(this)
+    this.setMouseOverHFS = this.setMouseOverHFS.bind(this)
+    this.removeMouseOverHFS = this.removeMouseOverHFS.bind(this)
     this.api = new Api(this)
   }
 
@@ -397,6 +399,14 @@ export default class DndDataSet {
     this.options.document.querySelector('#vcv-ui-blank-row').classList.remove('vcv-drag-helper-over-blank-row')
   }
 
+  setMouseOverHFS (e) {
+    e.currentTarget.classList.add('vcv-drag-helper-over-hfs')
+  }
+
+  removeMouseOverHFS (e) {
+    e.currentTarget.classList.remove('vcv-drag-helper-over-hfs')
+  }
+
   setStartBlankListeners () {
     const blankRowElement = this.options.document.querySelector('#vcv-ui-blank-row')
     if (blankRowElement) {
@@ -414,8 +424,30 @@ export default class DndDataSet {
     }
   }
 
+  setHFSListeners () {
+    const hfsElements = [].slice.call(this.options.document.querySelectorAll('[data-vcv-layout-zone]'))
+    if (hfsElements.length) {
+      hfsElements.forEach((item) => {
+        item.addEventListener('mouseenter', this.setMouseOverHFS)
+        item.addEventListener('mouseleave', this.removeMouseOverHFS)
+      })
+    }
+  }
+
+  removeHFSListeners () {
+    const hfsElements = [].slice.call(this.options.document.querySelectorAll('[data-vcv-layout-zone]'))
+    if (hfsElements.length) {
+      hfsElements.forEach((item) => {
+        item.removeEventListener('mouseenter', this.setMouseOverHFS)
+        item.removeEventListener('mouseleave', this.removeMouseOverHFS)
+        item.classList.remove('vcv-drag-helper-over-blank-row')
+      })
+    }
+  }
+
   start (id, point, tag, domNode, disableTrashBin = false) {
     this.setStartBlankListeners()
+    this.setHFSListeners()
     if (!disableTrashBin) {
       this.trashBinTimeout = setTimeout(() => {
         this.trashBinTimeout = null
@@ -516,6 +548,7 @@ export default class DndDataSet {
     const isValidLayoutCustomMode = getData('vcv:layoutCustomMode') === 'dnd'
 
     this.removeStartBlankListeners()
+    this.removeHFSListeners()
 
     // prevent quick multiple click
     if (dragEndedAt - dragStartedAt > 250) {
