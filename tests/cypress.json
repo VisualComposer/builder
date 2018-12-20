@@ -1,4 +1,9 @@
 {
   "baseUrl": "http://wp.localhost/wordpress-staging",
-  "chromeWebSecurity": false
+  "chromeWebSecurity": false,
+  "env": {
+    "wpUserName": "admin",
+    "wpPassword": "nokia28",
+    "slug": "visual-composer-website-builder"
+  }
 }
