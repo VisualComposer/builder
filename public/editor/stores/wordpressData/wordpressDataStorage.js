@@ -73,7 +73,18 @@ addStorage('wordpressData', (storage) => {
        * @property {Array} globalElements list of global elements
        * @property {string} data saved data
        */
-      let responseData = JSON.parse(request || '{}')
+      let responseData
+      try {
+        responseData = JSON.parse(request || '{}')
+      } catch (e) {
+        console.warn(e)
+        let jsonString = getJsonFromString(request || '')
+        try {
+          responseData = JSON.parse(jsonString || '{}')
+        } catch (pe) {
+          console.warn(pe)
+        }
+      }
       const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
       const pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
       if (responseData.globalElements && responseData.globalElements.length) {
@@ -166,6 +177,15 @@ addStorage('wordpressData', (storage) => {
   settingsStorage.state('pageTitleDisabled').onChange(setTitle)
   workspaceIFrame.onChange(onIframeChange)
   let titles = []
+
+  function getJsonFromString (string) {
+    let regex = /(\{"\w+".*\})/g
+    var result = string.match(regex)
+    if (result) {
+      return result[0]
+    }
+    return false
+  }
 
   function onIframeChange (data = {}) {
     let { type = 'loaded' } = data
