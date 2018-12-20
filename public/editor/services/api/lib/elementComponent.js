@@ -115,11 +115,11 @@ export default class ElementComponent extends React.Component {
           })(iframe, iframe.document))
         } catch (e) {
           let isValidJsonFound = false
-          let matches = this.getJsonFromString(data, 1)
-          matches.forEach(function (item, index) {
+          let jsonString = this.getJsonFromString(data, 1)
+          if (jsonString) {
             try {
               ((function (window, document) {
-                let jsonData = JSON.parse(item)
+                let jsonData = JSON.parse(jsonString)
                 let { headerContent, shortcodeContent, footerContent } = jsonData
                 ref && (ref.innerHTML = '')
 
@@ -141,9 +141,9 @@ export default class ElementComponent extends React.Component {
                 isValidJsonFound = true
               })(iframe, iframe.document))
             } catch (pe) {
-              console.warn('Parse error ' + item)
+              console.warn(pe)
             }
-          })
+          }
           if (!isValidJsonFound) {
             console.warn('failed to parse json', e, data)
           }
@@ -156,16 +156,13 @@ export default class ElementComponent extends React.Component {
     }
   }
 
-  getJsonFromString (string, index) {
+  getJsonFromString = (string) => {
     let regex = /(\{"\w+".*\})/g
-    index || (index = 1)
-    let matches = []
-    let match = regex.exec(string)
-    while (match !== null) {
-      matches.push(match[ index ])
-      match = regex.exec(string)
+    var result = string.match(regex)
+    if (result) {
+      return result[0]
     }
-    return matches
+    return false
   }
 
   updateInlineHtml (elementWrapper, html = '', tagString = '') {
