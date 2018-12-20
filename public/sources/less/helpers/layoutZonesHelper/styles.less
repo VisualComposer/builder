@@ -2,6 +2,15 @@
   position: relative;
   min-height: 40px;
 
+  &.vcv-drag-helper-over-hfs {
+    cursor: not-allowed;
+
+    .vcv-zone-overlay {
+      visibility: hidden;
+      z-index: -1;
+    }
+  }
+
   .vcv-zone-overlay {
     position: absolute;
     top: 0;
