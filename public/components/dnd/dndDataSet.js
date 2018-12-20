@@ -146,10 +146,6 @@ export default class DndDataSet {
       }
     })
 
-    this.setMouseOverStartBlank = this.setMouseOverStartBlank.bind(this)
-    this.removeMouseOverStartBlank = this.removeMouseOverStartBlank.bind(this)
-    this.setMouseOverHFS = this.setMouseOverHFS.bind(this)
-    this.removeMouseOverHFS = this.removeMouseOverHFS.bind(this)
     this.api = new Api(this)
   }
 
@@ -314,9 +310,15 @@ export default class DndDataSet {
     return domNode && window.jQuery(domNode).closest('#vcv-ui-blank-row').get(0)
   }
 
+  checkHFS ({ x, y }) {
+    const domNode = this.options.document.elementFromPoint(x, y)
+    return domNode && window.jQuery(domNode).closest('[data-vcv-layout-zone]').get(0)
+  }
+
   checkItems (point) {
     let trashBin = this.checkTrashBin(point)
     let blankRow = this.checkBlankRow(point)
+    let hfs = this.checkHFS(point)
 
     if (blankRow) {
       let position = this.placeholder && this.placeholder.redraw(blankRow, point)
@@ -324,12 +326,19 @@ export default class DndDataSet {
         this.setPosition(position)
       }
       this.currentElement = 'vcv-ui-blank-row'
+      this.removeHFSActive()
+      this.setMouseOverStartBlank()
     } else if (trashBin) {
       this.trash && this.trash.setActive()
       this.placeholder && this.placeholder.clearStyle()
       this.placeholder && this.placeholder.setPoint(point)
       this.helper && this.helper.setOverTrash && this.helper.setOverTrash()
       this.currentElement = 'vcv-dnd-trash-bin'
+      this.removeHFSActive()
+      this.removeMouseOverStartBlank()
+    } else if (hfs) {
+      hfs.classList.add('vcv-drag-helper-over-hfs')
+      this.removeMouseOverStartBlank()
     } else {
       this.trash && this.trash.removeActive()
 
@@ -355,6 +364,9 @@ export default class DndDataSet {
       if (!allowApend && domElement.node && domElement.node.classList && domElement.node.dataset.vcvDndElementExpandStatus === 'closed') {
         allowApend = true
       }
+
+      this.removeHFSActive()
+      this.removeMouseOverStartBlank()
 
       if (domElement.id === this.options.rootID) {
         const lastContainerElementId = domElement.$node.children('[data-vcv-dnd-element]').last().attr('data-vcv-dnd-element')
@@ -399,55 +411,16 @@ export default class DndDataSet {
     this.options.document.querySelector('#vcv-ui-blank-row').classList.remove('vcv-drag-helper-over-blank-row')
   }
 
-  setMouseOverHFS (e) {
-    e.currentTarget.classList.add('vcv-drag-helper-over-hfs')
-  }
-
-  removeMouseOverHFS (e) {
-    e.currentTarget.classList.remove('vcv-drag-helper-over-hfs')
-  }
-
-  setStartBlankListeners () {
-    const blankRowElement = this.options.document.querySelector('#vcv-ui-blank-row')
-    if (blankRowElement) {
-      blankRowElement.addEventListener('mouseenter', this.setMouseOverStartBlank)
-      blankRowElement.addEventListener('mouseleave', this.removeMouseOverStartBlank)
-    }
-  }
-
-  removeStartBlankListeners () {
-    const blankRowElement = this.options.document.querySelector('#vcv-ui-blank-row')
-    if (blankRowElement) {
-      blankRowElement.removeEventListener('mouseenter', this.setMouseOverStartBlank)
-      blankRowElement.removeEventListener('mouseleave', this.removeMouseOverStartBlank)
-      blankRowElement.classList.remove('vcv-drag-helper-over-blank-row')
-    }
-  }
-
-  setHFSListeners () {
+  removeHFSActive () {
     const hfsElements = [].slice.call(this.options.document.querySelectorAll('[data-vcv-layout-zone]'))
     if (hfsElements.length) {
       hfsElements.forEach((item) => {
-        item.addEventListener('mouseenter', this.setMouseOverHFS)
-        item.addEventListener('mouseleave', this.removeMouseOverHFS)
-      })
-    }
-  }
-
-  removeHFSListeners () {
-    const hfsElements = [].slice.call(this.options.document.querySelectorAll('[data-vcv-layout-zone]'))
-    if (hfsElements.length) {
-      hfsElements.forEach((item) => {
-        item.removeEventListener('mouseenter', this.setMouseOverHFS)
-        item.removeEventListener('mouseleave', this.removeMouseOverHFS)
-        item.classList.remove('vcv-drag-helper-over-blank-row')
+        item.classList.remove('vcv-drag-helper-over-hfs')
       })
     }
   }
 
   start (id, point, tag, domNode, disableTrashBin = false) {
-    this.setStartBlankListeners()
-    this.setHFSListeners()
     if (!disableTrashBin) {
       this.trashBinTimeout = setTimeout(() => {
         this.trashBinTimeout = null
@@ -546,9 +519,6 @@ export default class DndDataSet {
       this.options.endCallback(this.draggingElement)
     }
     const isValidLayoutCustomMode = getData('vcv:layoutCustomMode') === 'dnd'
-
-    this.removeStartBlankListeners()
-    this.removeHFSListeners()
 
     // prevent quick multiple click
     if (dragEndedAt - dragStartedAt > 250) {
