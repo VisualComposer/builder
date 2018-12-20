@@ -171,25 +171,10 @@ export default class ActivationSectionProvider extends React.Component {
         })
       } catch (e) {
         let Str = jqxhr.responseText
-        let matches = this.getJsonFromString(Str, 1)
-        let validJsonFound = false
+        let jsonString = this.getJsonFromString(Str, 1)
         let json = null
-        if (matches.length > 0) {
-          matches.forEach(function (item, index) {
-            try {
-              json = JSON.parse(item)
-              if (typeof json.status !== 'undefined') {
-                validJsonFound = true
-                return
-              }
-            } catch (pe) {
-              console.warn(pe)
-              console.warn('Skip ' + item)
-            }
-          })
-        }
-
-        if (validJsonFound) {
+        try {
+          json = JSON.parse(jsonString)
           if (json && json.status) {
             if (this.state.activeAssetsAction === cnt - 1) {
               this.setState({ assetsActionsDone: true })
@@ -204,6 +189,8 @@ export default class ActivationSectionProvider extends React.Component {
             }
             return
           }
+        } catch (pe) {
+          console.warn(pe)
         }
         this.setError({
           errorAction: this.doAction,
@@ -220,16 +207,13 @@ export default class ActivationSectionProvider extends React.Component {
     return this.doUpdatePostAction(postUpdater)
   }
 
-  getJsonFromString (string, index) {
+  getJsonFromString = (string) => {
     let regex = /(\{"\w+".*\})/g
-    index || (index = 1)
-    let matches = []
-    let match = regex.exec(string)
-    while (match !== null) {
-      matches.push(match[ index ])
-      match = regex.exec(string)
+    var result = string.match(regex)
+    if (result) {
+      return result[0]
     }
-    return matches
+    return false
   }
 
   doneActions () {
