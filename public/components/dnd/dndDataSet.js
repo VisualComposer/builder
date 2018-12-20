@@ -520,6 +520,9 @@ export default class DndDataSet {
     }
     const isValidLayoutCustomMode = getData('vcv:layoutCustomMode') === 'dnd'
 
+    this.removeMouseOverStartBlank()
+    this.removeHFSActive()
+
     // prevent quick multiple click
     if (dragEndedAt - dragStartedAt > 250) {
       if (this.options.drop === true && this.draggingElement && typeof this.options.dropCallback === 'function') {
