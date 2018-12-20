@@ -115,7 +115,7 @@ export default class ElementComponent extends React.Component {
           })(iframe, iframe.document))
         } catch (e) {
           let isValidJsonFound = false
-          let jsonString = this.getJsonFromString(data, 1)
+          let jsonString = this.getJsonFromString(data)
           if (jsonString) {
             try {
               ((function (window, document) {

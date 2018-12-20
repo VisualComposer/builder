@@ -171,7 +171,7 @@ export default class ActivationSectionProvider extends React.Component {
         })
       } catch (e) {
         let Str = jqxhr.responseText
-        let jsonString = this.getJsonFromString(Str, 1)
+        let jsonString = this.getJsonFromString(Str)
         let json = null
         try {
           json = JSON.parse(jsonString)
