@@ -474,6 +474,12 @@ class Categories implements Helper
                 'icon' => $urlHelper->to('public/categories/icons/Chart.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Chart.svg'),
             ],
+            'Counter' => [
+                'title' => 'Counter',
+                'elements' => [],
+                'icon' => $urlHelper->to('public/categories/icons/Counter.svg'),
+                'iconDark' => $urlHelper->to('public/categories/iconsDark/Counter.svg'),
+            ],
         ];
 
         $hubCategories = $optionHelper->get('hubCategories', []);
