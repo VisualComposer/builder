@@ -12,7 +12,7 @@ import ColorGradientBackground from './colorGradientBackground'
 import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
-import { getResponse } from '../../../../tools/response'
+import { getResponse } from 'public/tools/response'
 
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
 const elementsStorage = vcCake.getStorage('elements')
@@ -115,7 +115,7 @@ export default class ElementComponent extends React.Component {
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
           })(iframe, iframe.document))
         } catch (e) {
-          let jsonData = getResponse(data)
+          let jsonData = this.getResponse(data)
           if (jsonData) {
             try {
               ((function (window, document) {
@@ -523,6 +523,10 @@ export default class ElementComponent extends React.Component {
       })
     }
     return attributes
+  }
+
+  getResponse (result) {
+    return getResponse(result)
   }
 
   render () {
