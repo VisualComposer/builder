@@ -188,6 +188,7 @@ class Categories implements Helper
                     'basicMenu',
                     'sidebarMenu',
                     'verticalSandwichMenu',
+                    'sandwichSideMenu',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Header-Footer.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Header-Footer.svg'),
