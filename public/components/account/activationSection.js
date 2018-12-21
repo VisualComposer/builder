@@ -6,6 +6,7 @@ import PostUpdater from './postUpdate'
 import OopsScreenController from './oopsScreenController'
 import ThankYouScreen from './thankYouScreen'
 import { log as logError, send as sendErrorReport } from './logger'
+import { getResponse } from '../../tools/response'
 
 const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
@@ -171,10 +172,8 @@ export default class ActivationSectionProvider extends React.Component {
         })
       } catch (e) {
         let Str = jqxhr.responseText
-        let jsonString = this.getJsonFromString(Str)
-        let json = null
         try {
-          json = JSON.parse(jsonString)
+          let json = getResponse(Str)
           if (json && json.status) {
             if (this.state.activeAssetsAction === cnt - 1) {
               this.setState({ assetsActionsDone: true })
@@ -190,13 +189,13 @@ export default class ActivationSectionProvider extends React.Component {
             return
           }
         } catch (pe) {
-          console.warn(pe)
+          console.warn('Actions failed', pe, jqxhr.responseText)
         }
         this.setError({
           errorAction: this.doAction,
           errorReportAction: this.sendErrorReport
         })
-        console.warn(e)
+        console.warn('Update action failed', e, jqxhr.responseText)
       }
     })
   }
@@ -205,15 +204,6 @@ export default class ActivationSectionProvider extends React.Component {
     const postUpdater = new PostUpdater(window.VCV_UPDATE_GLOBAL_VARIABLES_URL(), window.VCV_UPDATE_VENDOR_URL(), window.VCV_UPDATE_WP_BUNDLE_URL())
     this.setState({ error: null })
     return this.doUpdatePostAction(postUpdater)
-  }
-
-  getJsonFromString = (string) => {
-    let regex = /(\{"\w+".*\})/g
-    var result = string.match(regex)
-    if (result) {
-      return result[0]
-    }
-    return false
   }
 
   doneActions () {
