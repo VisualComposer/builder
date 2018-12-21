@@ -6,7 +6,7 @@ import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
 import classNames from 'classnames'
 import UrlDropdownInput from './UrlDropdownInput'
-import { getResponse } from '../../../tools/response'
+import { getResponse } from 'public/tools/response'
 
 let pagePosts = {
   data: [],

@@ -2,7 +2,7 @@ import React from 'react'
 import Attribute from '../attribute'
 import { getService } from 'vc-cake'
 import serialize from 'form-serialize'
-import { getResponse } from '../../../tools/response'
+import { getResponse } from 'public/tools/response'
 
 export default class AjaxForm extends Attribute {
   fieldContainer = null

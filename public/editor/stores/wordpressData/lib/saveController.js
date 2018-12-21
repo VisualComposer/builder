@@ -1,5 +1,5 @@
 import vcCake from 'vc-cake'
-import { getResponse } from '../../../../tools/response'
+import { getResponse } from 'public/tools/response'
 
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
