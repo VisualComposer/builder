@@ -1,4 +1,5 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
+import { getResponse } from 'public/tools/response'
 
 const getCategory = (tag, categories) => {
   return categories ? categories.find(category => Object.values(category).find(value => value.elements.indexOf(tag) > -1)) : 'All'
@@ -44,7 +45,7 @@ addStorage('hubTemplates', (storage) => {
     let tryDownload = () => {
       let successCallback = (response) => {
         try {
-          let jsonResponse = window.JSON.parse(response)
+          let jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             workspaceNotifications.set({
               position: 'bottom',

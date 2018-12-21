@@ -129,7 +129,7 @@ export default class SaveController {
 
   saveSuccess (status, responseText) {
     try {
-      let data = JSON.parse(responseText || '{}')
+      let data = getResponse(responseText || '{}')
       if (!data || !data.status) {
         console.warn('save failed, no status')
         this.saveFailed(status, responseText)

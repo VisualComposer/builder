@@ -75,7 +75,7 @@ export default class ElementComponent extends React.Component {
   }
 
   updateShortcodeToHtml (content, ref, cb) {
-    if (content.match(this.getShortcodesRegexp())) {
+    if (content && content.match(this.getShortcodesRegexp())) {
       ref && (ref.innerHTML = this.spinnerHTML())
       if (!dataProcessor) {
         dataProcessor = vcCake.getService('dataProcessor')

@@ -1,4 +1,5 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
+import { getResponse } from 'public/tools/response'
 
 addStorage('hubAddons', (storage) => {
   const workspaceStorage = getStorage('workspace')
@@ -49,7 +50,7 @@ addStorage('hubAddons', (storage) => {
     const tryDownload = () => {
       let successCallback = (response) => {
         try {
-          let jsonResponse = window.JSON.parse(response)
+          let jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             workspaceNotifications.set({
               position: 'bottom',

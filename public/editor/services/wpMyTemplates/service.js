@@ -1,4 +1,5 @@
 import { addService, getService, getStorage, env } from 'vc-cake'
+import { getResponse } from 'public/tools/response'
 
 const utils = getService('utils')
 const documentManager = getService('document')
@@ -13,7 +14,7 @@ let processRequest = (action, key, data, successCallback, errorCallback) => {
     'vcv-template-type': (window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE()) || 'default',
     [ key ]: data
   }, (result) => {
-    let response = JSON.parse(result.response)
+    let response = getResponse(result.response)
     if (response && response.status) {
       successCallback && typeof successCallback === 'function' && successCallback(response)
     } else {
@@ -33,7 +34,7 @@ addService('myTemplates', {
       status: false,
       successCallback: (responseText) => {
         try {
-          let response = JSON.parse(responseText)
+          let response = getResponse(responseText)
           if (!response.status || !response.postData || !response.postData.id) {
             console.warn('Failed to save template, no ID', responseText)
             errorCallback && typeof errorCallback === 'function' && errorCallback()
