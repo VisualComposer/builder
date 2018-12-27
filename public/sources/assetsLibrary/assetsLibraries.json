@@ -144,6 +144,11 @@
       "name": "dividerpicker",
       "dependencies": [],
       "cssBundle": "[publicPath]/dist/dividerpicker.bundle.css"
+    },
+    {
+      "name": "countUp",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/countUp.bundle.js"
     }
   ]
 }
