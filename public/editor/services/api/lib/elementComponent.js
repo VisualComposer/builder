@@ -12,6 +12,7 @@ import ColorGradientBackground from './colorGradientBackground'
 import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
+import { getResponse } from 'public/tools/response'
 
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
 const elementsStorage = vcCake.getStorage('elements')
@@ -74,7 +75,7 @@ export default class ElementComponent extends React.Component {
   }
 
   updateShortcodeToHtml (content, ref, cb) {
-    if (content.match(this.getShortcodesRegexp())) {
+    if (content && content.match(this.getShortcodesRegexp())) {
       ref && (ref.innerHTML = this.spinnerHTML())
       if (!dataProcessor) {
         dataProcessor = vcCake.getService('dataProcessor')
@@ -114,12 +115,10 @@ export default class ElementComponent extends React.Component {
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
           })(iframe, iframe.document))
         } catch (e) {
-          let isValidJsonFound = false
-          let jsonString = this.getJsonFromString(data)
-          if (jsonString) {
+          let jsonData = this.getResponse(data)
+          if (jsonData) {
             try {
               ((function (window, document) {
-                let jsonData = JSON.parse(jsonString)
                 let { headerContent, shortcodeContent, footerContent } = jsonData
                 ref && (ref.innerHTML = '')
 
@@ -138,13 +137,11 @@ export default class ElementComponent extends React.Component {
                 let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
                 footerDom.context = document
                 shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
-                isValidJsonFound = true
               })(iframe, iframe.document))
             } catch (pe) {
               console.warn(pe)
             }
-          }
-          if (!isValidJsonFound) {
+          } else {
             console.warn('failed to parse json', e, data)
           }
         }
@@ -154,15 +151,6 @@ export default class ElementComponent extends React.Component {
     } else {
       ref && (ref.innerHTML = content)
     }
-  }
-
-  getJsonFromString = (string) => {
-    let regex = /(\{"\w+".*\})/g
-    var result = string.match(regex)
-    if (result) {
-      return result[0]
-    }
-    return false
   }
 
   updateInlineHtml (elementWrapper, html = '', tagString = '') {
@@ -535,6 +523,10 @@ export default class ElementComponent extends React.Component {
       })
     }
     return attributes
+  }
+
+  getResponse (result) {
+    return getResponse(result)
   }
 
   render () {

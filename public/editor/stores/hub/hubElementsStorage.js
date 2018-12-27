@@ -1,19 +1,20 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
 import lodash from 'lodash'
+import { getResponse } from 'public/tools/response'
 
 const getCategory = (tag, categories) => {
   return categories ? categories.find(category => Object.values(category).find(value => value.elements.indexOf(tag) > -1)) : 'All'
 }
 
 const setCategoryState = (categoryData, storageState) => {
-  const categoryName = Object.keys(categoryData)[0]
+  const categoryName = Object.keys(categoryData)[ 0 ]
   const stateCategories = storageState.get()
   const isCategoryExists = Object.keys(stateCategories).find(category => category === categoryName)
   let newState
   if (isCategoryExists) {
-    const mergedElements = lodash.union(stateCategories[categoryName].elements, categoryData[categoryName].elements)
+    const mergedElements = lodash.union(stateCategories[ categoryName ].elements, categoryData[ categoryName ].elements)
     newState = stateCategories
-    newState[categoryName].elements = mergedElements
+    newState[ categoryName ].elements = mergedElements
   } else {
     newState = Object.assign(categoryData, stateCategories)
   }
@@ -71,7 +72,7 @@ addStorage('hubElements', (storage) => {
     const tryDownload = () => {
       let successCallback = (response) => {
         try {
-          let jsonResponse = window.JSON.parse(response)
+          let jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             workspaceNotifications.set({
               position: 'bottom',

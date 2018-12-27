@@ -77,6 +77,7 @@ class WpbakeryController extends Container implements Module
             $this->wpAddAction('admin_print_styles', 'removeAdminUi');
             // Always disable the gutenberg block editor through vcwb editor in WPB attribute
             $this->wpAddFilter('use_block_editor_for_post', '__return_false');
+            $this->wpAddFilter('vc_check_post_type_validation', '__return_true');
             $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
 
             // Enable WPB by default
@@ -217,7 +218,18 @@ class WpbakeryController extends Container implements Module
                 }
             }
         </style>
+        <script>
+          window.vc_api_version = <?php echo (int)$this->getApiVersion(); ?>;
+        </script>
         <?php
+    }
+
+    protected function getApiVersion()
+    {
+        // Related to ifrWin.vc.storage.parseContent({}, this.state.value)
+        $compare = version_compare(WPB_VC_VERSION, '5.5', '<');
+
+        return $compare ? 1 : 2;
     }
 
     protected function disableWpbakery($isValid)

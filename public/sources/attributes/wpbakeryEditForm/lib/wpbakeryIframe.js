@@ -29,7 +29,14 @@ export default class WpbakeryIframe extends React.Component {
     }
 
     // Set value
-    let parsedModels = ifrWin.vc.storage.parseContent([], this.state.value)
+    let preModel
+    if (!ifrWin.vc_api_version < 2) {
+      let parsedModels = ifrWin.vc.storage.parseContent({}, this.state.value)
+      preModel = Object.values(parsedModels)[ 0 ]
+    } else {
+      let parsedModels = ifrWin.vc.storage.parseContent([], this.state.value)
+      preModel = parsedModels[ 0 ]
+    }
     const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
     const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
     let preModelData = this.state.value.match(localShortcodesRegex)
@@ -40,7 +47,6 @@ export default class WpbakeryIframe extends React.Component {
       mapped.as_parent))
     const hasContent = !(ifrWin._.isUndefined(ifrWin.vc.getParamSettings(tag, 'content')) && !isContainer)
 
-    let preModel = parsedModels[ 0 ]
     // Set params.content
     if (hasContent) {
       preModel.params.content = ''

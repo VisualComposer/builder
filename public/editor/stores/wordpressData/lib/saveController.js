@@ -1,4 +1,5 @@
 import vcCake from 'vc-cake'
+import { getResponse } from 'public/tools/response'
 
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
@@ -128,7 +129,7 @@ export default class SaveController {
 
   saveSuccess (status, responseText) {
     try {
-      let data = JSON.parse(responseText || '{}')
+      let data = getResponse(responseText || '{}')
       if (!data || !data.status) {
         console.warn('save failed, no status')
         this.saveFailed(status, responseText)
@@ -153,14 +154,13 @@ export default class SaveController {
 
   saveFailed (status, request) {
     try {
-      let jsonString = this.getJsonFromString(request || '')
-      let data = JSON.parse(jsonString || '{}')
+      let data = getResponse(request)
       if (data && data.postData) {
         window.vcvPostData = data.postData
       }
       status && status.set({
         status: 'success',
-        request: jsonString
+        request: request
       })
       return
     } catch (e) {
@@ -174,15 +174,6 @@ export default class SaveController {
     //   status: 'failed',
     //   request: request
     // })
-  }
-
-  getJsonFromString = (string) => {
-    let regex = /(\{"\w+".*\})/g
-    var result = string.match(regex)
-    if (result) {
-      return result[0]
-    }
-    return false
   }
 
   load = (id, data, status) => {

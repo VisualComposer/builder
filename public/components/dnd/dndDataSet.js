@@ -408,7 +408,7 @@ export default class DndDataSet {
   }
 
   removeMouseOverStartBlank () {
-    this.options.document.querySelector('#vcv-ui-blank-row').classList.remove('vcv-drag-helper-over-blank-row')
+    this.options.document.querySelector('#vcv-ui-blank-row') && this.options.document.querySelector('#vcv-ui-blank-row').classList.remove('vcv-drag-helper-over-blank-row')
   }
 
   removeHFSActive () {

@@ -6,6 +6,7 @@ import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
 import classNames from 'classnames'
 import UrlDropdownInput from './UrlDropdownInput'
+import { getResponse } from 'public/tools/response'
 
 let pagePosts = {
   data: [],
@@ -96,26 +97,12 @@ export default class Url extends Attribute {
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, (request) => {
-      let posts
-      try {
-        posts = JSON.parse(request.response || '{}')
-      } catch (e) {
-        console.warn(e)
-        let jsonString = this.getJsonFromString(request.response)
-        posts = JSON.parse(jsonString)
+      let posts = getResponse(request.response)
+      if (posts) {
+        pagePosts.set(posts)
+        this.setState({ updateState: !this.state.updateState })
       }
-      pagePosts.set(posts)
-      this.setState({ updateState: !this.state.updateState })
     })
-  }
-
-  getJsonFromString = (string) => {
-    let regex = /(\{"\w+".*\})/g
-    var result = string.match(regex)
-    if (result) {
-      return result[0]
-    }
-    return false
   }
 
   open (e) {

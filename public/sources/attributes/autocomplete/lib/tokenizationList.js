@@ -8,6 +8,7 @@ import Textarea from 'react-textarea-autosize'
 import 'jquery.caret'
 
 import Token from './token'
+import { getResponse } from 'public/tools/response'
 
 export default class TokenizationList extends React.Component {
   static propTypes = {
@@ -250,7 +251,7 @@ export default class TokenizationList extends React.Component {
       'vcv-source-id': window.vcvSourceID,
       'vcv-return-value': this.props.returnValue
     }, (request) => {
-      let response = JSON.parse(request.response)
+      let response = getResponse(request.response)
       if (response.status) {
         this.setState({ suggestedItems: response.results, callSuggestionAjax: false, loading: false })
       }
@@ -334,7 +335,10 @@ export default class TokenizationList extends React.Component {
       'vcv-element': this.props.element.toJS()
     }, (request) => {
       if (request.response) {
-        this.setState({ loadTokenLabels: JSON.parse(request.response), validating: false })
+        let labels = getResponse(request.response)
+        if (labels) {
+          this.setState({ loadTokenLabels: JSON.parse(request.response), validating: false })
+        }
       }
     })
   }
