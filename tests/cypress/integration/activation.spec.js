@@ -1,4 +1,4 @@
-/* global describe, it, cy */
+/* global describe, it, cy, Cypress */
 
 describe('VCWB Activation test', function () {
   /*
