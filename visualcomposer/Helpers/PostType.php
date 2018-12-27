@@ -175,6 +175,10 @@ class PostType implements Helper
             setup_postdata($post);
             /** @var \WP_Query $wp_query */
             $wp_query->queried_object = $post;
+            if (!isset($wp_query->posts)) {
+                $wp_query->posts = [];
+            }
+            $wp_query->posts[0] = $post;
             $wp_query->queried_object_id = $post->ID;
             $wp_query->is_singular = true;
             $post_type = $post->post_type;
