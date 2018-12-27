@@ -49,6 +49,7 @@ class JetPack extends Container implements Module
             'wpcomMarkdownTransformPost',
             12
         );
+
         return $content;
     }
 
@@ -60,6 +61,7 @@ class JetPack extends Container implements Module
     protected function wpcomMarkdownTransformPre($text)
     {
         $this->postContent = $text;
+
         return $text;
     }
 
