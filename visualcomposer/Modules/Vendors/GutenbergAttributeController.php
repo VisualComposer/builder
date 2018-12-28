@@ -55,7 +55,7 @@ class GutenbergAttributeController extends Container implements Module
         if (!function_exists('the_gutenberg_project') && !function_exists('use_block_editor_for_post')) {
             return;
         }
-        if (!$currentUserAccess->wpAll('manage_options')->get()) {
+        if (!$currentUserAccess->wpAll('edit_posts')->get()) {
             return;
         }
 
