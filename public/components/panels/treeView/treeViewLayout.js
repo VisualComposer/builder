@@ -113,6 +113,17 @@ export default class TreeViewLayout extends React.Component {
     }
   }
 
+  getExistingParent (id) {
+    const parentId = documentManager.get(id).parent
+    const parentElement = this.layoutContainer.querySelector(`[data-vcv-element="${parentId}"]`)
+
+    if (parentElement) {
+      return parentElement
+    } else {
+      return this.getExistingParent(parentId)
+    }
+  }
+
   scrollBarMounted (scrollbar) {
     this.scrollbar = scrollbar
     this.handleScrollToElement(this.props.contentStartId || this.props.contentId)
@@ -121,7 +132,11 @@ export default class TreeViewLayout extends React.Component {
   handleScrollToElement (scrollToElement) {
     if (scrollToElement && this.scrollbar && this.layoutContainer) {
       const container = this.layoutContainer.querySelector('.vcv-ui-tree-layout').getBoundingClientRect()
-      const target = this.layoutContainer.querySelector(`[data-vcv-element="${scrollToElement}"]`)
+      let target = this.layoutContainer.querySelector(`[data-vcv-element="${scrollToElement}"]`)
+      if (!target) {
+        this.expandTree(this.getExistingParent(scrollToElement))
+        target = this.layoutContainer.querySelector(`[data-vcv-element="${scrollToElement}"]`)
+      }
       this.expandTree(target)
       const targetTop = target.getBoundingClientRect().top
       const offset = targetTop - container.top
