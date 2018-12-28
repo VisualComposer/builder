@@ -4,6 +4,7 @@
   "env": {
     "wpUserName": "admin",
     "wpPassword": "nokia28",
-    "slug": "visual-composer-website-builder"
+    "slug": "visual-composer-website-builder",
+    "newPage": "/wp-admin/post-new.php?post_type=page&vcv-action=frontend"
   }
 }
