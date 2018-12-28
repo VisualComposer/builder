@@ -2,7 +2,7 @@
 // Basic values
 //=========================================
 @editor-layout-zindex: 1000;
-@editor-zindex: 11000; // 11000 to prevent element controls and dnd smartline (10999) from overlapping
+@editor-zindex: @editor-layout-zindex + 130; // 1130 to prevent element controls from overlapping
 @editor-layout-inline-edit-overlay-zindex: 3000;
 @editor-layout-inline-edit-overlay-background: rgba(0,0,0,.6);
 @editor-content-zindex: @editor-layout-zindex;
