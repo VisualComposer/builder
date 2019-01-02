@@ -232,6 +232,10 @@
   color: @editor-layout-content-toggle-color;
   transition: all @transition-duration @transition-timing-function;
   cursor: pointer;
+
+  &:hover .vcv-layout-bar-content-hide-icon::before {
+    opacity: .5;
+  }
 }
 
 .vcv-layout-bar-content-aligned {
@@ -250,6 +254,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    transition: opacity @transition-duration @transition-timing-function;
   }
 }
 
