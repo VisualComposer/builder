@@ -11,8 +11,8 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
+use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Url;
 
 class UpdateVariablesController extends Container implements Module
 {
@@ -23,7 +23,7 @@ class UpdateVariablesController extends Container implements Module
         $this->addFilter('vcv:license:variables', 'addVariables');
     }
 
-    protected function addVariables($variables, $payload, Update $updateHelper, Url $urlHelper)
+    protected function addVariables($variables, $payload, Update $updateHelper, Token $tokenHelper)
     {
         $variables = array_merge($variables, $updateHelper->getVariables());
         if ($payload['slug'] === 'vcv-about') {
@@ -73,6 +73,12 @@ class UpdateVariablesController extends Container implements Module
                         ),
                     ],
                 ],
+                'type' => 'constant',
+            ];
+
+            $variables[] = [
+                'key' => 'VCV_IS_ACTIVATED',
+                'value' => $tokenHelper->isSiteAuthorized(),
                 'type' => 'constant',
             ];
         }
