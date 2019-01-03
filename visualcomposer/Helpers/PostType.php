@@ -284,21 +284,23 @@ class PostType implements Helper
     public function getCustomPostCategories($postType)
     {
         $categories = [];
-        $taxonomy_objects = get_object_taxonomies($postType, 'objects');
+        // @codingStandardsIgnoreLine
+        $taxonomyObjects = get_object_taxonomies($postType, 'objects');
 
         $categories[] = [
             'label' => __('Select category', 'vcwb'),
             'value' => '',
         ];
 
-        if(!empty($taxonomy_objects)) {
-            $taxonomy_objects = array_keys($taxonomy_objects);
-            foreach ($taxonomy_objects as $taxonomy) {
+        if (!empty($taxonomyObjects)) {
+            $taxonomyObjects = array_keys($taxonomyObjects);
+            foreach ($taxonomyObjects as $taxonomy) {
                 $terms = get_terms($taxonomy);
-                if(!empty($terms)) {
+                if (!empty($terms)) {
                     foreach ($terms as $term) {
                         $categories[] = [
                             'label' => $term->name,
+                            // @codingStandardsIgnoreLine
                             'value' => $term->term_id,
                         ];
                     }
