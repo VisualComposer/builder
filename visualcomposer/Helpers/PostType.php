@@ -171,7 +171,10 @@ class PostType implements Helper
 
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
-        if (isset($post->post_type) && post_type_exists($post->post_type) &&  $currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()) {
+        if (isset($post->post_type) && post_type_exists($post->post_type)
+            && $currentUserAccessHelper->wpAll(
+                [get_post_type_object($post->post_type)->cap->read, $post->ID]
+            )->get()) {
             setup_postdata($post);
             /** @var \WP_Query $wp_query */
             $wp_query->queried_object = $post;
@@ -276,5 +279,33 @@ class PostType implements Helper
         */
 
         return $postTypesList;
+    }
+
+    public function getCustomPostCategories($postType)
+    {
+        $categories = [];
+        $taxonomy_objects = get_object_taxonomies($postType, 'objects');
+
+        $categories[] = [
+            'label' => __('Select category', 'vcwb'),
+            'value' => '',
+        ];
+
+        if(!empty($taxonomy_objects)) {
+            $taxonomy_objects = array_keys($taxonomy_objects);
+            foreach ($taxonomy_objects as $taxonomy) {
+                $terms = get_terms($taxonomy);
+                if(!empty($terms)) {
+                    foreach ($terms as $term) {
+                        $categories[] = [
+                            'label' => $term->name,
+                            'value' => $term->term_id,
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $categories;
     }
 }
