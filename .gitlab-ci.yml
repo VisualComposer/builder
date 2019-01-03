@@ -162,19 +162,3 @@ test:js:build:
     - if [ $? -eq 0 ]; then echo "good"; exit 0; else echo "fail"; exit 1; fi
   tags:
     - docker
-
-deployEditorsBundle:
-  image: wpbakery/standardjs
-  stage: deploy
-  script:
-    - bash ci/deploy-editors-bundle.sh
-  tags:
-    - docker
-
-deployAssetsBundle:
-  image: wpbakery/standardjs
-  stage: deploy
-  script:
-    - bash ci/deploy-assets-bundle.sh
-  tags:
-    - docker
