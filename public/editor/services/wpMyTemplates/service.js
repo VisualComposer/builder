@@ -89,7 +89,13 @@ addService('myTemplates', {
     })
   },
   all (filter = null, sort = null, data) {
-    let custom = data && data.custom
+    const storageData = getStorage('hubTemplates').state('templates').get()
+    let custom
+    if (data && data.custom) {
+      custom = data.custom
+    } else {
+      custom = storageData && storageData.custom ? storageData.custom : false
+    }
     let myTemplates
     if (env('THEME_EDITOR')) {
       let customTemplates = custom && custom.templates ? custom.templates : []
@@ -160,7 +166,7 @@ addService('myTemplates', {
     return hubSidebarTemplates && hubSidebarTemplates.templates ? hubSidebarTemplates.templates : []
   },
   customHeader (data) {
-    let customHeaderTemplates = data && data.customHeaders
+    let customHeaderTemplates = data && data.customHeader
     return customHeaderTemplates && customHeaderTemplates.templates ? customHeaderTemplates.templates : []
   },
   customFooter (data) {
@@ -172,7 +178,7 @@ addService('myTemplates', {
     return customSidebaremplates && customSidebaremplates.templates ? customSidebaremplates.templates : []
   },
   getAllTemplates (filter = null, sort = null, data) {
-    let allTemplatesGroups = data || {}
+    let allTemplatesGroups = data || getStorage('hubTemplates').state('templates').get()
     let allTemplates = []
     for (let key in allTemplatesGroups) {
       allTemplates = allTemplates.concat(allTemplatesGroups[ key ].templates)
