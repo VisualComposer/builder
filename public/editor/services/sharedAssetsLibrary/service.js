@@ -31,6 +31,13 @@ const API = {
       if (data.jsBundle) {
         files.jsBundles = files.jsBundles.concat(data.jsBundle)
       }
+
+      if (library.subset && data.cssSubsetBundles) {
+        const subsetBundle = data.cssSubsetBundles[library.subset]
+        if (subsetBundle) {
+          files.cssBundles = files.cssBundles.concat(subsetBundle)
+        }
+      }
     }
     // Remove duplicates
     files.cssBundles = [ ...new Set(files.cssBundles) ]
