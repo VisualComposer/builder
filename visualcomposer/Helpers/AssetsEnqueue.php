@@ -29,20 +29,23 @@ class AssetsEnqueue extends Container implements Helper
 
         if (isset($assetsFiles['cssBundles']) && is_array($assetsFiles['cssBundles'])) {
             foreach ($assetsFiles['cssBundles'] as $asset) {
-                if (strpos($asset, 'assetsLibrary') !== false) {
-                    $url = $assetsSharedHelper->getPluginsAssetUrl($asset);
-                    $version = VCV_VERSION;
-                } else {
-                    $url = $assetsHelper->getAssetUrl($asset);
-                    $version = $assetsVersion;
-                }
+                $asset = $assetsSharedHelper->findLocalAssetsPath($asset);
+                foreach ((array)$asset as $single) {
+                    if (strpos($single, 'assetsLibrary') !== false) {
+                        $url = $assetsSharedHelper->getPluginsAssetUrl($single);
+                        $version = VCV_VERSION;
+                    } else {
+                        $url = $assetsHelper->getAssetUrl($single);
+                        $version = $assetsVersion;
+                    }
 
-                wp_enqueue_style(
-                    'vcv:assets:source:styles:' . $strHelper->slugify($asset),
-                    $url,
-                    [],
-                    $version
-                );
+                    wp_enqueue_style(
+                        'vcv:assets:source:styles:' . $strHelper->slugify($single),
+                        $url,
+                        [],
+                        $version
+                    );
+                }
             }
             unset($asset);
         }
@@ -62,7 +65,7 @@ class AssetsEnqueue extends Container implements Helper
                     wp_enqueue_script(
                         'vcv:assets:source:scripts:' . $strHelper->slugify($single),
                         $url,
-                        [],
+                        ['jquery'],
                         $version,
                         true
                     );
