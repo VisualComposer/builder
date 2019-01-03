@@ -23,43 +23,6 @@ class AssetsShared extends Container implements Helper
         if (vcvenv('VCV_FT_ASSETS_INSIDE_PLUGIN')) {
             return $this->getMergedSharedAssets();
         }
-        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
-            $optionsHelper = vchelper('Options');
-            $assets = $optionsHelper->get('assetsLibrary', []);
-            $assetsHelper = vchelper('Assets');
-            foreach ($assets as $key => $value) {
-                if (isset($value['jsBundle'])) {
-                    $value['jsBundle'] = $assetsHelper->getAssetUrl($value['jsBundle']);
-                    $assets[ $key ] = $value;
-                }
-                if (isset($value['cssBundle'])) {
-                    $value['cssBundle'] = $assetsHelper->getAssetUrl($value['cssBundle']);
-                    $assets[ $key ] = $value;
-                }
-            }
-
-            return $assets;
-        } else {
-            $assetsLibraries = [];
-            $json = vchelper('File')->getContents(
-                VCV_PLUGIN_DIR_PATH . 'public/sources/assetsLibrary/assetsLibraries.json'
-            );
-            $data = json_decode($json);
-            if (isset($data->assetsLibrary) && is_array($data->assetsLibrary)) {
-                foreach ($data->assetsLibrary as $asset) {
-                    if (isset($asset->name)) {
-                        $name = $asset->name;
-                        $assetsLibraries[ $name ] = [
-                            'dependencies' => $asset->dependencies,
-                            'jsBundle' => isset($asset->jsBundle) ? $this->parsePath($name, $asset->jsBundle) : '',
-                            'cssBundle' => isset($asset->cssBundle) ? $this->parsePath($name, $asset->cssBundle) : '',
-                        ];
-                    }
-                }
-            }
-
-            return $assetsLibraries;
-        }
     }
 
     protected function getMergedSharedAssets()
@@ -78,6 +41,14 @@ class AssetsShared extends Container implements Helper
                         'jsBundle' => isset($asset->jsBundle) ? $this->parsePath($name, $asset->jsBundle) : '',
                         'cssBundle' => isset($asset->cssBundle) ? $this->parsePath($name, $asset->cssBundle) : '',
                     ];
+
+                    if (isset($asset->cssSubsetBundles)) {
+                        $cssSubsetBundles = [];
+                        foreach ($asset->cssSubsetBundles as $singleKey => $single) {
+                            $cssSubsetBundles[ $singleKey ] = $this->parsePath($name, $single);
+                        }
+                        $assetsLibraries[ $name ]['cssSubsetBundles'] = $cssSubsetBundles;
+                    }
                 }
             }
         }
@@ -223,6 +194,22 @@ class AssetsShared extends Container implements Helper
             'elements/sandwichMenu/sandwichMenu/public/dist/sandwichMenu.min.js' => [
                 'sharedLibraries/menuToggle/dist/menuToggle.bundle.js', // shared-library
                 'elements/sandwichMenu/sandwichMenu/public/dist/sandwichMenu.min.js' // initializator
+            ],
+            'assetsLibrary/iconpicker/dist/iconpicker.bundle.css' => [
+                'assetsLibrary/iconpicker/dist/batch.bundle.css',
+                'assetsLibrary/iconpicker/dist/dripicons.bundle.css',
+                'assetsLibrary/iconpicker/dist/entypo.bundle.css',
+                'assetsLibrary/iconpicker/dist/feather.bundle.css',
+                'assetsLibrary/iconpicker/dist/fontawesome.bundle.css',
+                'assetsLibrary/iconpicker/dist/linearicons.bundle.css',
+                'assetsLibrary/iconpicker/dist/lineicons.bundle.css',
+                'assetsLibrary/iconpicker/dist/material.bundle.css',
+                'assetsLibrary/iconpicker/dist/metrize.bundle.css',
+                'assetsLibrary/iconpicker/dist/mfglabs.bundle.css',
+                'assetsLibrary/iconpicker/dist/monosocial.bundle.css',
+                'assetsLibrary/iconpicker/dist/openiconic.bundle.css',
+                'assetsLibrary/iconpicker/dist/socials.bundle.css',
+                'assetsLibrary/iconpicker/dist/typicons.bundle.css',
             ],
         ];
 
