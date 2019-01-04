@@ -13,7 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class AssetsShared extends Container implements Helper
 {
-    protected function parsePath($name, $path)
+    protected function renameLocalPath($name, $path)
     {
         return vchelper('Url')->to(str_replace('[publicPath]/', 'public/sources/assetsLibrary/' . $name . '/', $path));
     }
@@ -150,20 +150,20 @@ class AssetsShared extends Container implements Helper
                 'elements/sandwichMenu/sandwichMenu/public/dist/sandwichMenu.min.js' // initializator
             ],
             'assetsLibrary/iconpicker/dist/iconpicker.bundle.css' => [
-                'assetsLibrary/iconpicker/dist/batch.bundle.css',
-                'assetsLibrary/iconpicker/dist/dripicons.bundle.css',
-                'assetsLibrary/iconpicker/dist/entypo.bundle.css',
-                'assetsLibrary/iconpicker/dist/feather.bundle.css',
-                'assetsLibrary/iconpicker/dist/fontawesome.bundle.css',
-                'assetsLibrary/iconpicker/dist/linearicons.bundle.css',
-                'assetsLibrary/iconpicker/dist/lineicons.bundle.css',
-                'assetsLibrary/iconpicker/dist/material.bundle.css',
-                'assetsLibrary/iconpicker/dist/metrize.bundle.css',
-                'assetsLibrary/iconpicker/dist/mfglabs.bundle.css',
-                'assetsLibrary/iconpicker/dist/monosocial.bundle.css',
-                'assetsLibrary/iconpicker/dist/openiconic.bundle.css',
-                'assetsLibrary/iconpicker/dist/socials.bundle.css',
-                'assetsLibrary/iconpicker/dist/typicons.bundle.css',
+                'sharedLibraries/iconpicker/dist/batch.bundle.css',
+                'sharedLibraries/iconpicker/dist/dripicons.bundle.css',
+                'sharedLibraries/iconpicker/dist/entypo.bundle.css',
+                'sharedLibraries/iconpicker/dist/feather.bundle.css',
+                'sharedLibraries/iconpicker/dist/fontawesome.bundle.css',
+                'sharedLibraries/iconpicker/dist/linearicons.bundle.css',
+                'sharedLibraries/iconpicker/dist/lineicons.bundle.css',
+                'sharedLibraries/iconpicker/dist/material.bundle.css',
+                'sharedLibraries/iconpicker/dist/metrize.bundle.css',
+                'sharedLibraries/iconpicker/dist/mfglabs.bundle.css',
+                'sharedLibraries/iconpicker/dist/monosocial.bundle.css',
+                'sharedLibraries/iconpicker/dist/openiconic.bundle.css',
+                'sharedLibraries/iconpicker/dist/socials.bundle.css',
+                'sharedLibraries/iconpicker/dist/typicons.bundle.css',
             ],
         ];
 
@@ -195,14 +195,14 @@ class AssetsShared extends Container implements Helper
                     $name = $asset->name;
                     $assetsLibraries[ $name ] = [
                         'dependencies' => $asset->dependencies,
-                        'jsBundle' => isset($asset->jsBundle) ? $this->parsePath($name, $asset->jsBundle) : '',
-                        'cssBundle' => isset($asset->cssBundle) ? $this->parsePath($name, $asset->cssBundle) : '',
+                        'jsBundle' => isset($asset->jsBundle) ? $this->renameLocalPath($name, $asset->jsBundle) : '',
+                        'cssBundle' => isset($asset->cssBundle) ? $this->renameLocalPath($name, $asset->cssBundle) : '',
                     ];
 
                     if (isset($asset->cssSubsetBundles)) {
                         $cssSubsetBundles = [];
                         foreach ($asset->cssSubsetBundles as $singleKey => $single) {
-                            $cssSubsetBundles[ $singleKey ] = $this->parsePath($name, $single);
+                            $cssSubsetBundles[ $singleKey ] = $this->renameLocalPath($name, $single);
                         }
                         $assetsLibraries[ $name ]['cssSubsetBundles'] = $cssSubsetBundles;
                     }
@@ -237,7 +237,7 @@ class AssetsShared extends Container implements Helper
                     if (isset($value['cssSubsetBundles'])) {
                         $cssSubsetBundles = [];
                         foreach ($value['cssSubsetBundles'] as $singleKey => $single) {
-                            $cssSubsetBundles[ $singleKey ] = $this->parsePath($key, $single);
+                            $cssSubsetBundles[ $singleKey ] = $assetsHelper->getAssetUrl($single);
                         }
                         $assetsLibraries[ $key ]['cssSubsetBundles'] = $cssSubsetBundles;
                     }
