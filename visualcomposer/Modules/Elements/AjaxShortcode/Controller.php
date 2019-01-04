@@ -51,8 +51,9 @@ class Controller extends Container implements Module
             !defined('CONCATENATE_SCRIPTS') && define('CONCATENATE_SCRIPTS', false);
             $postTypeHelper->setupPost($sourceId);
             global $post;
+            $content = $requestHelper->input('vcv-shortcode-string');
             // @codingStandardsIgnoreLine
-            $post->post_content = $requestHelper->input('vcv-shortcode-string');
+            $post->post_content = $content;
             $this->wpAddFilter(
                 'print_scripts_array',
                 function ($list) {
@@ -84,7 +85,10 @@ class Controller extends Container implements Module
             wp_head();
             $headContents = ob_get_clean();
             ob_start();
-            echo do_shortcode($requestHelper->input('vcv-shortcode-string'));
+            echo apply_filters(
+                'the_content',
+                $content
+            ); // The_content fixes wp [embed] shortcode case. cannot use do_shortcode() in this case
             $shortcodeContents = ob_get_clean();
             ob_start();
             wp_footer();
