@@ -88,17 +88,40 @@ export default class PopupComponent extends React.Component {
     }
   }
 
+  clickStartMigration (e) {
+    this.props.close()
+  }
+
+  clickUnlockHub (e) {
+    window.location.href = window.VCV_WPBAKERY_ACTIVATE_URL && window.VCV_WPBAKERY_ACTIVATE_URL()
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
+    const hasWpb = window.VCV_WPBAKERY_ACTIVE && window.VCV_WPBAKERY_ACTIVE()
+    const allowMigration = window.VCV_WPBAKERY_ALLOW_MIGRATION && window.VCV_WPBAKERY_ALLOW_MIGRATION()
+    const pluginsURL = window.VCV_WPBAKERY_PLUGINS_URL && window.VCV_WPBAKERY_PLUGINS_URL()
+    const hubAccess = window.VCV_WPBAKERY_HUB_ACCESS && window.VCV_WPBAKERY_HUB_ACCESS()
+    const hasAddon = window.VCV_HUB_GET_ADDONS().hasOwnProperty('wpbMigration')
+
     if (this.state.elementState === 'downloading') {
       return <LoadingOverlayComponent />
     }
 
+    let buttonTitle = localizations.addonWpbMigration_startMigration
+    let buttonAction = this.clickStartMigration.bind(this)
+    if (!hubAccess) {
+      buttonTitle = localizations.addonWpbMigration_unlockHub
+      buttonAction = this.clickUnlockHub.bind(this)
+    } else if (!hasAddon) {
+      buttonTitle = localizations.addonWpbMigration_download_button
+      buttonAction = this.clickDownloadAddon.bind(this)
+    }
+
     let buttonHtml = (
-      <button className='vcv-migration-button vcv-migration-button--start' onClick={this.clickDownloadAddon.bind(this)}>{localizations.addonWpbMigration_download_button}</button>
+      <button className='vcv-migration-button vcv-migration-button--start' onClick={buttonAction}>{buttonTitle}</button>
     )
-    const hasAddon = window.VCV_HUB_GET_ADDONS().hasOwnProperty('wpbMigration')
-    const hasWpb = window.VCV_WPBAKERY_ACTIVE && window.VCV_WPBAKERY_ACTIVE()
+
     if (hasAddon) {
       // addons exists but no WPB activated
       buttonHtml = null
@@ -120,6 +143,14 @@ export default class PopupComponent extends React.Component {
       'vcv-ui-state--error': !hasWpb
     }
 
+    let thirdCheckClasses = {
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-save': allowMigration,
+      'vcv-ui-icon-close-thin': !allowMigration,
+      'vcv-ui-state--success': allowMigration,
+      'vcv-ui-state--error': !allowMigration
+    }
+
     return ReactDOM.createPortal(
       <div className='vcv-migration-notice'>
         <img className='vcv-migration-image' src={migrationStorage.state('icon').get()} alt='Migrate' />
@@ -128,12 +159,21 @@ export default class PopupComponent extends React.Component {
         <div className='vcv-migration-notes'>
           <div className='vcv-migration-note'>
             <i className={classNames(firstCheckClasses)} />
-            <p className='vcv-migration-description'>{localizations.addonWpbMigration_checkAddon}</p>
+            <p className='vcv-migration-description'>{localizations.addonWpbMigration_authorize}</p>
           </div>
+          {!hasWpb &&
           <div className='vcv-migration-note'>
             <i className={classNames(secondCheckClasses)} />
             <p className='vcv-migration-description'>{localizations.addonWpbMigration_checkWpb}</p>
           </div>
+          }
+          {hasWpb && !allowMigration &&
+          <div className='vcv-migration-note'>
+            <i className={classNames(thirdCheckClasses)} />
+            <p className='vcv-migration-description'>{localizations.addonWpbMigration_minRequirementFail},&nbsp;
+              <a href={pluginsURL}>{localizations.addonWpbMigration_minRequirementFailAction}</a></p>
+          </div>
+          }
         </div>
         <p className='vcv-migration-description vcv-migration-description--emphasized'>{localizations.addonWpbMigration_note}</p>
         {buttonHtml}
