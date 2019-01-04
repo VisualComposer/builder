@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import { addService, getService, env } from 'vc-cake'
+import { addService, getService } from 'vc-cake'
 
 import { buildSettingsObject } from './lib/tools'
 import elementSettings from './lib/element-settings'
