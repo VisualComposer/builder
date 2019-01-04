@@ -19,7 +19,7 @@ let setList = {
     linearicons: require('./lib/linearicons-1.0-170')
   },
   socials: {
-    all: require('./lib/socials')
+    socials: require('./lib/socials')
   }
 }
 

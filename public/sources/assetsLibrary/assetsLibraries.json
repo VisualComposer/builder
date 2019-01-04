@@ -79,7 +79,22 @@
     {
       "name": "iconpicker",
       "dependencies": [],
-      "cssBundle": "[publicPath]/dist/iconpicker.bundle.css"
+      "cssSubsetBundles": {
+        "batch": "[publicPath]/dist/batch.bundle.css",
+        "dripicons": "[publicPath]/dist/dripicons.bundle.css",
+        "entypo": "[publicPath]/dist/entypo.bundle.css",
+        "feather": "[publicPath]/dist/feather.bundle.css",
+        "fontawesome": "[publicPath]/dist/fontawesome.bundle.css",
+        "linearicons": "[publicPath]/dist/linearicons.bundle.css",
+        "lineicons": "[publicPath]/dist/lineicons.bundle.css",
+        "material": "[publicPath]/dist/material.bundle.css",
+        "metrize": "[publicPath]/dist/metrize.bundle.css",
+        "mfglabs": "[publicPath]/dist/mfglabs.bundle.css",
+        "monosocial": "[publicPath]/dist/monosocial.bundle.css",
+        "openiconic": "[publicPath]/dist/openiconic.bundle.css",
+        "socials": "[publicPath]/dist/socials.bundle.css",
+        "typicons": "[publicPath]/dist/typicons.bundle.css"
+      }
     },
     {
       "name": "divider",
