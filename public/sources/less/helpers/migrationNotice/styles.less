@@ -30,6 +30,11 @@
   letter-spacing: 1px;
 }
 
+.vcv-migration-description {
+  text-align: left;
+  font: normal normal 400 12px 'Nunito Sans', sans-serif;
+}
+
 .vcv-migration-description,
 .vcv-migration-label {
   color: #717171;
@@ -41,7 +46,7 @@
 
 .vcv-migration-description.vcv-migration-description--emphasized {
   margin: 5px 0 2em;
-  font: italic normal 400 12px 'Roboto', sans-serif;
+  font-style: italic;
   letter-spacing: 0.15em;
   color: #a6a6a6;
   line-height: 1.6;
@@ -126,11 +131,12 @@
   max-width: 100%;
   border-radius: 0;
   cursor: pointer;
+  font: @vcv-migration-font;
 }
 
 .vcv-migration-button--start {
   border-color: @vcv-migration-startButtonColor;
-  background:@vcv-migration-startButtonColor;
+  background: @vcv-migration-startButtonColor;
   color: @vcv-color-white;
 
   &:hover {
@@ -172,7 +178,7 @@
     }
 
     &.vcv-ui-state--error {
-      color: #ff4444;
+      color: #f44;
     }
   }
 
