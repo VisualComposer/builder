@@ -178,16 +178,22 @@ export default class {
       if (elementSettings.settings[ key ].type === 'element') {
         if (lodash.isEmpty(data) || lodash.isEmpty(data[ key ])) {
           // get tag from default value
-          tags = this.getElementTagsByTagName(elementSettings.settings[ key ].value.tag, tags)
+          if (elementSettings.settings[ key ].value.tag) {
+            tags = this.getElementTagsByTagName(elementSettings.settings[ key ].value.tag, tags)
+          }
         } else {
           // get tag from data
-          tags = this.getElementTagsByTagName(data[ key ].tag, tags, data[ key ])
+          if (data[ key ].tag) {
+            tags = this.getElementTagsByTagName(data[ key ].tag, tags, data[ key ])
+          }
         }
       } else if (elementSettings.settings[ key ].type === 'paramsGroup') {
         let paramsGroupValue = data[ key ]
         if (paramsGroupValue && paramsGroupValue.value && paramsGroupValue.value.length) {
           paramsGroupValue.value.forEach((value, i) => {
-            tags = this.getElementTagsByTagName(value.tag, tags, value)
+            if (value.tag) {
+              tags = this.getElementTagsByTagName(value.tag, tags, value)
+            }
           })
         }
       }
@@ -255,7 +261,7 @@ export default class {
                 if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
                   let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value ? DO.attributeMixins[ deviceMixin ].variables.device.value : 'all'
                   let properties = {
-                    [device]: {
+                    [ device ]: {
                       value: true
                     }
                   }
@@ -376,7 +382,7 @@ export default class {
               if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
                 let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value ? DO.attributeMixins[ deviceMixin ].variables.device.value : 'all'
                 let properties = {
-                  [device]: {
+                  [ device ]: {
                     value: true
                   }
                 }
@@ -483,8 +489,8 @@ export default class {
             const cssSettings = element.get('cssSettings')
             let mixinData = this.getCssMixinsByData(value, paramGroupSettings, cssSettings)
             mixins[ element.data.tag ] = mixins[ element.data.tag ] || {}
-            mixins[ element.data.tag ][key] = mixins[ element.data.tag ][key] || {}
-            mixins[ element.data.tag ][key][i] = mixinData
+            mixins[ element.data.tag ][ key ] = mixins[ element.data.tag ][ key ] || {}
+            mixins[ element.data.tag ][ key ][ i ] = mixinData
           })
         }
       } else {
@@ -526,7 +532,7 @@ export default class {
                 if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
                   let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value ? DO.attributeMixins[ deviceMixin ].variables.device.value : 'all'
                   let properties = {
-                    [device]: {
+                    [ device ]: {
                       value: true
                     }
                   }
@@ -950,10 +956,10 @@ export default class {
   getNestedMixinsStyles (cssSettings, cssMixins, elementObject) {
     let styles = []
     for (let itemMixins in cssMixins) {
-      for (let mixin in cssMixins[itemMixins]) {
+      for (let mixin in cssMixins[ itemMixins ]) {
         if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
           styles.push({
-            variables: cssMixins[itemMixins][ mixin ],
+            variables: cssMixins[ itemMixins ][ mixin ],
             src: cssSettings.mixins[ mixin ].mixin,
             path: elementObject.get('metaElementPath')
           })
