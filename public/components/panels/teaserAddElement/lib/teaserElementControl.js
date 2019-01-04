@@ -68,6 +68,8 @@ export default class TeaserElementControl extends ElementControl {
     if (this.state.elementState === 'downloading') {
       workspaceStorage.state('downloadingItems').onChange(this.downloadingItemOnChange)
     }
+    this.ellipsize('.vcv-ui-item-element-name')
+    this.ellipsize('.vcv-ui-item-preview-text')
   }
 
   componentWillUnmount () {

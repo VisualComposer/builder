@@ -31,7 +31,8 @@ export default class AddTemplatePanel extends React.Component {
       errorName: '',
       showSpinner: false,
       categories: this.templatesCategories,
-      showLoading: false
+      showLoading: false,
+      removing: false
     }
 
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
@@ -182,7 +183,10 @@ export default class AddTemplatePanel extends React.Component {
 
   getTemplateControlProps (template) {
     template = Object.assign({}, template)
-    if (env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading === template.id) {
+    if (
+      (env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading === template.id) ||
+      (this.state.removing && template.name === this.state.showSpinner)
+    ) {
       template.spinner = true
     }
     return {
@@ -347,22 +351,28 @@ export default class AddTemplatePanel extends React.Component {
   handleRemoveTemplate (id) {
     const removeTemplateWarning = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.removeTemplateWarning : 'Do you want to remove this template?'
     if (window.confirm(removeTemplateWarning)) {
+      this.setState({
+        showSpinner: myTemplatesService.get(id).name,
+        removing: true
+      })
       myTemplatesService.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
     }
   }
 
   onRemoveSuccess () {
-    if (!this.state.categories[ this.state.activeCategoryIndex ].templates.length) {
-      this.setState({ activeCategoryIndex: 0 })
-    } else {
-      this.setState({ activeCategoryIndex: this.state.activeCategoryIndex })
-    }
+    const index = !this.state.categories[ this.state.activeCategoryIndex ].templates.length ? 0 : this.state.activeCategoryIndex
+    this.setState({
+      activeCategoryIndex: index,
+      showSpinner: false,
+      removing: false
+    })
   }
 
   onRemoveFailed () {
     const templateRemoveFailed = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoveFailed : 'Failed to remove template'
 
     this.displayError(templateRemoveFailed)
+    this.setState({ showSpinner: false })
   }
 
   render () {
@@ -373,7 +383,7 @@ export default class AddTemplatePanel extends React.Component {
 
     let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
 
-    if (this.state.showSpinner) {
+    if (this.state.showSpinner && !this.state.removing) {
       itemsOutput.unshift(this.getTemplateControl({
         name: this.state.showSpinner,
         data: {},

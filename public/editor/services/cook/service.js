@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import { addService, getService, env } from 'vc-cake'
+import { addService, getService } from 'vc-cake'
 
 import { buildSettingsObject } from './lib/tools'
 import elementSettings from './lib/element-settings'
@@ -27,11 +27,8 @@ const API = {
     let data = DocumentData.get(id)
     return data !== null ? this.get(data) : null
   },
-  add (settings, componentCallback, cssSettings, __deprecated) {
-    if (typeof __deprecated !== 'undefined' && env('DEBUG')) {
-      console.warn('// javascript callback is deprecated for element registration')
-    }
-    elementSettings.add(settings, componentCallback, cssSettings)
+  add (settings, componentCallback, cssSettings, modifierOnCreate) {
+    elementSettings.add(settings, componentCallback, cssSettings, typeof modifierOnCreate === 'function' ? modifierOnCreate : undefined)
   },
   getTagByName (name) {
     return elementSettings.findTagByName(name)

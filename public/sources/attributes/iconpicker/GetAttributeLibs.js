@@ -4,6 +4,7 @@ export default (value) => {
   if (value && value.icon && value.iconSet) {
     let libData = {
       name: 'iconpicker',
+      subset: value.iconSet,
       dependencies: []
     }
 

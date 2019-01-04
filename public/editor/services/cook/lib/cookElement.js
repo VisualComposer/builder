@@ -36,7 +36,7 @@ export default class CookElement extends Element {
     let element = elements ? elements[ tag ] : null
 
     if (!element) {
-      vcCake.env('debug') === true && console.warn(`Element ${tag} is not registered in system`)
+      vcCake.env('debug') === true && console.warn(`Element ${tag} is not registered in system`, data)
       element = {
         settings: {
           metaDescription: '',
@@ -49,6 +49,10 @@ export default class CookElement extends Element {
     let metaSettings = element.settings
     let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
     // Split on separate symbols
+
+    if (elSettings.modifierOnCreate) {
+      attr = elSettings.modifierOnCreate(lodash.defaultsDeep({}, attr))
+    }
     Object.defineProperty(this, elData, {
       writable: true,
       value: {

@@ -50,12 +50,18 @@
 }
 
 @keyframes vcvDotsRotate {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes vcvDotsBounce {
-  0%, 100% { transform: scale(0); }
-  50% { transform: scale(1); }
+  0%, 100% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
 }
 
 .vcv-loading-text {
@@ -127,6 +133,7 @@
     box-sizing: border-box;
   }
 }
+
 .vcv-screen-content {
   opacity: 0;
   transition: opacity .5s;
@@ -154,16 +161,15 @@
 }
 
 .vcv-error-screen .vcv-screen-helper-text {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
   font-weight: 500;
   font-style: italic;
-  color: #999999;
+  color: #999;
   font-size: 13px;
   letter-spacing: 0.82px;
   margin: 0;
   line-height: 24px;
 }
-
 
 .vcv-screen-button-container {
   display: flex;
@@ -185,7 +191,7 @@
     border: 0;
     padding: 18px 38px;
     border-radius: 0;
-    background: #294A82;
+    background: #294a82;
     text-transform: uppercase;
     min-width: 210px;
     margin: 10px 20px;
@@ -195,7 +201,7 @@
 
     &:hover,
     &:focus {
-      background: #1F3152;
+      background: #1f3152;
     }
 
     &--dark {

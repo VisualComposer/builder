@@ -6,7 +6,6 @@ import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
 module.exports = {
   mode: 'production',
   entry: {
-    iconpicker: ['./src/css/styles.less'],
     fontawesome: ['./src/css/font-awesome-4.7.0/less/font-awesome.less'],
     lineicons: ['./src/css/vcv-linecons/font.less'],
     entypo: ['./src/css/vcv-entypo/font.less'],

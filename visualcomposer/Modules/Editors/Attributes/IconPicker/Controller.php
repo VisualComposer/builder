@@ -34,19 +34,23 @@ class Controller extends Container implements Module
         $libraries = $assetsSharedHelper->getSharedAssets();
 
         if (is_array($libraries) && isset($libraries['iconpicker'])) {
-            $asset = $libraries['iconpicker']['cssBundle'];
-            $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
-            wp_enqueue_style(
-                'vcv:assets:source:styles:' . $strHelper->slugify($asset),
-                $assetsHelper->getAssetUrl($asset),
-                [],
-                $assetsVersion
-            );
+            $asset = $libraries['iconpicker'];
+            $assetsVersion = $optionsHelper->get('hubAction:asset/iconpicker', VCV_VERSION);
+            if (isset($asset['cssSubsetBundles'])) {
+                foreach ($asset['cssSubsetBundles'] as $single) {
+                    wp_enqueue_style(
+                        'vcv:assets:source:styles:' . $strHelper->slugify($single),
+                        $assetsHelper->getAssetUrl($single),
+                        [],
+                        $assetsVersion
+                    );
+                }
+            }
         }
 
         if (is_array($libraries) && isset($libraries['dividerpicker'])) {
             $asset = $libraries['dividerpicker']['cssBundle'];
-            $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
+            $assetsVersion = VCV_VERSION;
             wp_enqueue_style(
                 'vcv:assets:source:styles:' . $strHelper->slugify($asset),
                 $assetsHelper->getAssetUrl($asset),
