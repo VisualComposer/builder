@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Assets;
+namespace VisualComposer\Modules\Hub\Assets;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -107,12 +107,19 @@ class SharedDownloadController extends Container implements Module
         } else {
             $assetUrl = $hubSharedLibrariesHelper->getLibraryUrl($asset['name']);
         }
-        if (!is_wp_error($result)) {
+        if (!vcIsBadResponse($result)) {
             if (isset($asset['jsBundle'])) {
                 $asset['jsBundle'] = str_replace('[publicPath]', $assetUrl, $asset['jsBundle']);
             }
             if (isset($asset['cssBundle'])) {
                 $asset['cssBundle'] = str_replace('[publicPath]', $assetUrl, $asset['cssBundle']);
+            }
+            if (isset($asset['cssSubsetBundles'])) {
+                $cssSubsetBundles = [];
+                foreach ($asset['cssSubsetBundles'] as $singleKey => $single) {
+                    $cssSubsetBundles[ $singleKey ] = str_replace('[publicPath]', $assetUrl, $single);
+                }
+                $asset['cssSubsetBundles'] = $cssSubsetBundles;
             }
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub\Actions;
+namespace VisualComposer\Modules\Hub\Assets;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
