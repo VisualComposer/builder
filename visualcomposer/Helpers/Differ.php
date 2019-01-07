@@ -18,11 +18,18 @@ class Differ extends Container implements Helper, Immutable
 
     protected $updateCallback;
 
+    protected $mergeByReplace = false;
+
     public function onUpdate(callable $callback)
     {
         $this->updateCallback = $callback;
 
         return $this;
+    }
+
+    public function optionMergeByReplace($bool)
+    {
+        $this->mergeByReplace = $bool;
     }
 
     public function set($newValue)
@@ -49,7 +56,7 @@ class Differ extends Container implements Helper, Immutable
         $dataHelper = vchelper('Data');
         foreach ($newKeys as $key) {
             $mergedValue = $newValue[ $key ];
-            if (array_key_exists($key, $this->data)) {
+            if (array_key_exists($key, $this->data) && !$this->mergeByReplace) {
                 if (is_array($this->data[ $key ])) {
                     $unionValue = (array)$newValue[ $key ] + $this->data[ $key ];
                     if ($this->hasStringKeys($unionValue)) {
