@@ -28,7 +28,7 @@ class WpbakeryController extends Container implements Module
 
         // Not dependant on WPB activated
         $this->addFilter('vcv:helpers:localizations:i18n', 'addI18n');
-        $this->wpAddAction('admin_print_scripts', 'outputWpb');
+        $this->addFilter('vcv:editor:variables', 'outputWpb');
     }
 
     protected function initialize()
@@ -315,52 +315,37 @@ class WpbakeryController extends Container implements Module
 
         return $locale;
     }
-    
-    protected function outputWpb()
+
+    protected function outputWpb($variables)
     {
-        if ($this->printed) {
-            return;
-        }
         $licenseHelper = vchelper('License');
 
         if (defined('WPB_VC_VERSION')) {
-            evcview(
-                'partials/constant-script',
-                [
-                    'key' => 'VCV_WPBAKERY_ALLOW_MIGRATION',
-                    'value' => version_compare(WPB_VC_VERSION, '5.0', '>='),
-                    'type' => 'constant',
-                ]
-            );
+            $variables[] = [
+                'key' => 'VCV_WPBAKERY_ALLOW_MIGRATION',
+                'value' => version_compare(WPB_VC_VERSION, '5.0', '>='),
+                'type' => 'constant',
+            ];
         }
 
-        evcview(
-            'partials/constant-script',
-            [
-                'key' => 'VCV_WPBAKERY_PLUGINS_URL',
-                'value' => (is_multisite()) ? network_admin_url('plugins.php') : admin_url('plugins.php'),
-                'type' => 'constant',
-            ]
-        );
+        $variables[] = [
+            'key' => 'VCV_WPBAKERY_PLUGINS_URL',
+            'value' => (is_multisite()) ? network_admin_url('plugins.php') : admin_url('plugins.php'),
+            'type' => 'constant',
+        ];
 
-        evcview(
-            'partials/constant-script',
-            [
-                'key' => 'VCV_WPBAKERY_HUB_ACCESS',
-                'value' => $licenseHelper->isActivated(),
-                'type' => 'constant',
-            ]
-        );
+        $variables[] = [
+            'key' => 'VCV_WPBAKERY_HUB_ACCESS',
+            'value' => $licenseHelper->isActivated(),
+            'type' => 'constant',
+        ];
 
-        evcview(
-            'partials/constant-script',
-            [
-                'key' => 'VCV_WPBAKERY_ACTIVATE_URL',
-                'value' => esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
-                'type' => 'constant',
-            ]
-        );
+        $variables[] = [
+            'key' => 'VCV_WPBAKERY_ACTIVATE_URL',
+            'value' => esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
+            'type' => 'constant',
+        ];
 
-        $this->printed = true;
+        return $variables;
     }
 }
