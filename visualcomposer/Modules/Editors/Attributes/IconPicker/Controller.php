@@ -35,8 +35,8 @@ class Controller extends Container implements Module
 
         if (is_array($libraries) && isset($libraries['iconpicker'])) {
             $asset = $libraries['iconpicker'];
-            $assetsVersion = $optionsHelper->get('hubAction:asset/iconpicker', VCV_VERSION);
             if (isset($asset['cssSubsetBundles'])) {
+                $assetsVersion = $optionsHelper->get('hubAction:asset/iconpicker', VCV_VERSION);
                 foreach ($asset['cssSubsetBundles'] as $single) {
                     wp_enqueue_style(
                         'vcv:assets:source:styles:' . $strHelper->slugify($single),

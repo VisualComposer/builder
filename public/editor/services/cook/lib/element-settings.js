@@ -22,7 +22,7 @@ export default {
     delete items[ tag ]
   },
   get (tag) {
-    return defaultsDeep({}, items[ tag ]) || null
+    return items[ tag ] ? defaultsDeep({}, items[ tag ]) : null
   },
   findTagByName (name) {
     return Object.keys(items).find((key) => {

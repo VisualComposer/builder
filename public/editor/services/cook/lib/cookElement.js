@@ -50,7 +50,7 @@ export default class CookElement extends Element {
     let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
     // Split on separate symbols
 
-    if (elSettings.modifierOnCreate) {
+    if (elSettings && elSettings.modifierOnCreate) {
       attr = elSettings.modifierOnCreate(lodash.defaultsDeep({}, attr))
     }
     Object.defineProperty(this, elData, {
@@ -95,10 +95,10 @@ export default class CookElement extends Element {
   getContentComponent () {
     if (!this[ elComponent ].has()) {
       let elSettings = elementSettings.get(this[ elData ].tag)
-      if (vcCake.env('debug') === true && !elSettings) {
+      if (vcCake.env('debug') === true && (!elSettings || !elSettings.component)) {
         console.error('Component settings doesnt exists! Failed to get component', this[ elData ].tag, this[ elData ], elSettings, this[ elComponent ])
       }
-      elSettings && elSettings.component(this[ elComponent ])
+      elSettings && elSettings.component && elSettings.component(this[ elComponent ])
     }
     return this[ elComponent ].get()
   }
