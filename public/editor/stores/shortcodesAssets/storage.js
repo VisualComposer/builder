@@ -67,8 +67,8 @@ addStorage('shortcodeAssets', (storage) => {
           })
         }
 
-        if (!cached) {
-          let ignoreCache = type === 'template' ? false : data.ignoreCache
+        let ignoreCache = type === 'template' ? false : data.ignoreCache
+        if (!cached || ignoreCache) {
           !ignoreCache && slug && loadedFiles.push(slug)
           if (data.addToDocument) {
             try {
