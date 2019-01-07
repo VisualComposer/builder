@@ -19,11 +19,16 @@ class WpbakeryController extends Container implements Module
     use EventsFilters;
 
     protected $postTypeSlug = 'vcv-wpb-attribute';
+    protected $printed = false;
 
     public function __construct()
     {
         $this->wpAddAction('init', 'initialize');
         $this->wpAddAction('admin_init', 'adminInitialize', 100);
+
+        // Not dependant on WPB activated
+        $this->addFilter('vcv:helpers:localizations:i18n', 'addI18n');
+        $this->addFilter('vcv:editor:variables', 'outputWpb');
     }
 
     protected function initialize()
@@ -182,6 +187,9 @@ class WpbakeryController extends Container implements Module
             }
 
             .vc_ui-panel-header-controls > :not([data-vc-ui-element="button-close"]) {
+                /*display: none !important;*/
+            }
+            .vc_ui-panel-header-controls > [data-vc-ui-element="settings-dropdown"] {
                 display: none !important;
             }
 
@@ -286,6 +294,58 @@ class WpbakeryController extends Container implements Module
         $variables[] = [
             'key' => 'VCV_WPBAKERY_EDIT_FORM_URL',
             'value' => set_url_scheme(admin_url('post-new.php?post_type=vcv-wpb-attribute')),
+            'type' => 'constant',
+        ];
+
+        return $variables;
+    }
+
+    protected function addI18n($locale)
+    {
+        $locale['addonWpbMigration_minRequirement'] = __('WPBakery Page Builder version is 5.0 or newer', 'vcwb');
+        if (defined('WPB_VC_VERSION')) {
+            $locale['addonWpbMigration_minRequirementFail'] = sprintf(
+                __('WPBakery Page Builder version is 5.0 or newer - your version is %s', 'vcwb'),
+                WPB_VC_VERSION
+            );
+            $locale['addonWpbMigration_minRequirementFailAction'] = __('please update', 'vcwb');
+        }
+        $locale['addonWpbMigration_authorize'] = __(
+            'Visual Composer Hub access to download migration add-on - Free or Premium',
+            'vcwb'
+        );
+        $locale['addonWpbMigration_unlockHub'] = __('Unlock Visual Composer Hub', 'vcwb');
+
+        return $locale;
+    }
+
+    protected function outputWpb($variables)
+    {
+        $licenseHelper = vchelper('License');
+
+        if (defined('WPB_VC_VERSION')) {
+            $variables[] = [
+                'key' => 'VCV_WPBAKERY_ALLOW_MIGRATION',
+                'value' => version_compare(WPB_VC_VERSION, '5.0', '>='),
+                'type' => 'constant',
+            ];
+        }
+
+        $variables[] = [
+            'key' => 'VCV_WPBAKERY_PLUGINS_URL',
+            'value' => (is_multisite()) ? network_admin_url('plugins.php') : admin_url('plugins.php'),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_WPBAKERY_HUB_ACCESS',
+            'value' => $licenseHelper->isActivated(),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_WPBAKERY_ACTIVATE_URL',
+            'value' => esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
             'type' => 'constant',
         ];
 

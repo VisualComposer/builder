@@ -48,9 +48,11 @@ class FrontViewController extends Container implements Module
                 function ($matches) {
                     return '<p>' . $matches[2] .
                         base64_encode(
-                            (string)vcfilter(
-                                'vcv:frontend:content:encode',
-                                do_shortcode($matches[3])
+                            do_shortcode(
+                                (string)vcfilter(
+                                    'vcv:frontend:content:encode',
+                                    (string)$matches[3]
+                                )
                             )
                         ) .
                         $matches[4]
