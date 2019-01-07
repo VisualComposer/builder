@@ -38,11 +38,9 @@ class UpdateVariablesController extends Container implements Module
                 'value' => [
                     [
                         'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-01.png'),
-                        'title' => esc_js(
-                            __(
-                                'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.',
-                                'vcwb'
-                            )
+                        'title' => __(
+                            'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.',
+                            'vcwb'
                         ),
                     ],
                     [
