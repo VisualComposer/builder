@@ -187,6 +187,9 @@ class WpbakeryController extends Container implements Module
             }
 
             .vc_ui-panel-header-controls > :not([data-vc-ui-element="button-close"]) {
+                /*display: none !important;*/
+            }
+            .vc_ui-panel-header-controls > [data-vc-ui-element="settings-dropdown"] {
                 display: none !important;
             }
 
