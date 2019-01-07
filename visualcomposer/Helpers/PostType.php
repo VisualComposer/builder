@@ -288,7 +288,7 @@ class PostType implements Helper
         $taxonomyObjects = get_object_taxonomies($postType, 'objects');
 
         $categories[] = [
-            'label' => __('Select category', 'vcwb'),
+            'label' => __('All', 'vcwb'),
             'value' => '',
         ];
 
