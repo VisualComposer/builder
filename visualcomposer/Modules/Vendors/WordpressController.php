@@ -26,6 +26,7 @@ class WordpressController extends Container implements Module
         // @codingStandardsIgnoreStart
         global $wp_embed;
         $embedContent = $wp_embed->run_shortcode($content);
+        $embedContent = $wp_embed->autoembed($embedContent);
 
         // @codingStandardsIgnoreEnd
 
