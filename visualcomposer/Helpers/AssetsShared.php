@@ -165,6 +165,22 @@ class AssetsShared extends Container implements Helper
                 'sharedLibraries/iconpicker/dist/socials.bundle.css',
                 'sharedLibraries/iconpicker/dist/typicons.bundle.css',
             ],
+            'sharedLibraries/iconpicker/dist/iconpicker.bundle.css' => [
+                'sharedLibraries/iconpicker/dist/batch.bundle.css',
+                'sharedLibraries/iconpicker/dist/dripicons.bundle.css',
+                'sharedLibraries/iconpicker/dist/entypo.bundle.css',
+                'sharedLibraries/iconpicker/dist/feather.bundle.css',
+                'sharedLibraries/iconpicker/dist/fontawesome.bundle.css',
+                'sharedLibraries/iconpicker/dist/linearicons.bundle.css',
+                'sharedLibraries/iconpicker/dist/lineicons.bundle.css',
+                'sharedLibraries/iconpicker/dist/material.bundle.css',
+                'sharedLibraries/iconpicker/dist/metrize.bundle.css',
+                'sharedLibraries/iconpicker/dist/mfglabs.bundle.css',
+                'sharedLibraries/iconpicker/dist/monosocial.bundle.css',
+                'sharedLibraries/iconpicker/dist/openiconic.bundle.css',
+                'sharedLibraries/iconpicker/dist/socials.bundle.css',
+                'sharedLibraries/iconpicker/dist/typicons.bundle.css',
+            ],
         ];
 
         $output = $assetsPath;
