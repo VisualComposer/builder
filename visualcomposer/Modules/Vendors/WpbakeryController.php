@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Token;
 
 class WpbakeryController extends Container implements Module
 {
@@ -280,7 +281,7 @@ class WpbakeryController extends Container implements Module
         }
     }
 
-    protected function outputWpbakery($variables)
+    protected function outputWpbakery($variables, Token $tokenHelper)
     {
         if (defined('WPB_VC_VERSION')) {
             $variables[] = [
@@ -302,8 +303,6 @@ class WpbakeryController extends Container implements Module
             ];
         }
 
-        $licenseHelper = vchelper('License');
-
         $variables[] = [
             'key' => 'VCV_WPBAKERY_PLUGINS_URL',
             'value' => (is_multisite()) ? network_admin_url('plugins.php') : admin_url('plugins.php'),
@@ -312,7 +311,7 @@ class WpbakeryController extends Container implements Module
 
         $variables[] = [
             'key' => 'VCV_WPBAKERY_HUB_ACCESS',
-            'value' => $licenseHelper->isActivated(),
+            'value' => $tokenHelper->isSiteAuthorized(),
             'type' => 'constant',
         ];
 
