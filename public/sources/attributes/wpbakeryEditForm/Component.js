@@ -8,6 +8,7 @@ import WpbakeryIframe from './lib/wpbakeryIframe'
 export default class WpbakeryEditForm extends Attribute {
   constructor (props) {
     super(props)
+    this.isParsed = this.getShortcodeData(props.value)
     this.localizations = window.VCV_I18N && window.VCV_I18N()
     this.handleToggleTextarea = this.handleToggleTextarea.bind(this)
     this.showEditor = this.showEditor.bind(this)
@@ -18,7 +19,7 @@ export default class WpbakeryEditForm extends Attribute {
   updateState (props) {
     return {
       value: props.value,
-      toggleTextarea: false,
+      toggleTextarea: !this.isParsed,
       showRootEditor: false
     }
   }
@@ -43,13 +44,17 @@ export default class WpbakeryEditForm extends Attribute {
     this.setState({ toggleTextarea: !this.state.toggleTextarea })
   }
 
+  getShortcodeData (value) {
+    const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
+    const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
+    return value.match(localShortcodesRegex)
+  }
+
   getEditContent (isWpbAvailable, value, openEditForm) {
     let content = null
 
     if (isWpbAvailable) {
-      const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
-      const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
-      const rootData = value.match(localShortcodesRegex)
+      const rootData = this.getShortcodeData(value)
       if (rootData) {
         const mapped = window.VCV_API_WPBAKERY_WPB_MAP_FULL()[ rootData[ 2 ] ]
         const isContainer = mapped && (mapped.is_container === true || mapped.as_parent)
@@ -78,6 +83,8 @@ export default class WpbakeryEditForm extends Attribute {
             </React.Fragment>
           )
         }
+      } else {
+
       }
     }
 
@@ -86,12 +93,15 @@ export default class WpbakeryEditForm extends Attribute {
 
   render () {
     const wpbakeryAttrDescription = this.localizations ? this.localizations.wpbakeryAttrDescription : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.'
+    const wpbakeryAttrDescriptionNoEditForm = this.localizations ? this.localizations.wpbakeryAttrDescriptionNoEditForm : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters.'
+    const shortcodeTitle = this.localizations ? this.localizations.shortcode : 'Shortcode'
     const openEditForm = this.localizations ? this.localizations.openEditForm : 'Open Edit Form'
     const wpbakeryToggleDescription = this.localizations ? this.localizations.wpbakeryAttrToggleDescription : 'View WPBakery element/s as shortcodes'
     const TextArea = this.state.toggleTextarea
       ? <div>
+        {!this.isParsed && <span className='vcv-ui-form-group-heading'>{shortcodeTitle}</span>}
         <textarea className='vcv-ui-form-input' value={this.state.value} onChange={this.handleChange} />
-        <p className='vcv-ui-form-helper'>{wpbakeryAttrDescription}</p>
+        <p className='vcv-ui-form-helper'>{this.isParsed ? wpbakeryAttrDescription : wpbakeryAttrDescriptionNoEditForm}</p>
       </div>
       : null
 
@@ -102,10 +112,10 @@ export default class WpbakeryEditForm extends Attribute {
     return (
       <React.Fragment>
         {content}
-        <div className='vcv-ui-form-group'>
+        {this.isParsed ? <div className='vcv-ui-form-group'>
           <Toggle value={this.state.toggleTextarea} fieldKey='toggleTextarea' updater={this.handleToggleTextarea} />
           <span className='vcv-ui-form-group-heading vcv-ui-form-group-heading--inline'>{wpbakeryToggleDescription}</span>
-        </div>
+        </div> : null}
         {TextArea}
       </React.Fragment>
     )
