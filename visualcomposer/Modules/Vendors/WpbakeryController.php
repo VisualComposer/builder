@@ -19,20 +19,18 @@ class WpbakeryController extends Container implements Module
     use EventsFilters;
 
     protected $postTypeSlug = 'vcv-wpb-attribute';
-    protected $printed = false;
 
     public function __construct()
     {
         $this->wpAddAction('init', 'initialize');
         $this->wpAddAction('admin_init', 'adminInitialize', 100);
-
-        // Not dependant on WPB activated
         $this->addFilter('vcv:helpers:localizations:i18n', 'addI18n');
-        $this->addFilter('vcv:editor:variables', 'outputWpb');
     }
 
     protected function initialize()
     {
+        $this->addFilter('vcv:editor:variables', 'outputWpbakery');
+
         if (!defined('WPB_VC_VERSION')) {
             return;
         }
@@ -57,8 +55,6 @@ class WpbakeryController extends Container implements Module
             'hideWpbakeryAdminBarLink',
             1001
         );
-
-        $this->addFilter('vcv:editor:variables', 'outputWpbakery');
     }
 
     protected function adminInitialize()
@@ -189,6 +185,7 @@ class WpbakeryController extends Container implements Module
             .vc_ui-panel-header-controls > :not([data-vc-ui-element="button-close"]) {
                 /*display: none !important;*/
             }
+
             .vc_ui-panel-header-controls > [data-vc-ui-element="settings-dropdown"] {
                 display: none !important;
             }
@@ -285,15 +282,43 @@ class WpbakeryController extends Container implements Module
 
     protected function outputWpbakery($variables)
     {
+        if (defined('WPB_VC_VERSION')) {
+            $variables[] = [
+                'key' => 'VCV_WPBAKERY_ACTIVE',
+                'value' => true,
+                'type' => 'constant',
+            ];
+
+            $variables[] = [
+                'key' => 'VCV_WPBAKERY_EDIT_FORM_URL',
+                'value' => set_url_scheme(admin_url('post-new.php?post_type=vcv-wpb-attribute')),
+                'type' => 'constant',
+            ];
+
+            $variables[] = [
+                'key' => 'VCV_WPBAKERY_ALLOW_MIGRATION',
+                'value' => version_compare(WPB_VC_VERSION, '5.0', '>='),
+                'type' => 'constant',
+            ];
+        }
+
+        $licenseHelper = vchelper('License');
+
         $variables[] = [
-            'key' => 'VCV_WPBAKERY_ACTIVE',
-            'value' => true,
+            'key' => 'VCV_WPBAKERY_PLUGINS_URL',
+            'value' => (is_multisite()) ? network_admin_url('plugins.php') : admin_url('plugins.php'),
             'type' => 'constant',
         ];
 
         $variables[] = [
-            'key' => 'VCV_WPBAKERY_EDIT_FORM_URL',
-            'value' => set_url_scheme(admin_url('post-new.php?post_type=vcv-wpb-attribute')),
+            'key' => 'VCV_WPBAKERY_HUB_ACCESS',
+            'value' => $licenseHelper->isActivated(),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_WPBAKERY_ACTIVATE_URL',
+            'value' => esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
             'type' => 'constant',
         ];
 
@@ -317,38 +342,5 @@ class WpbakeryController extends Container implements Module
         $locale['addonWpbMigration_unlockHub'] = __('Unlock Visual Composer Hub', 'vcwb');
 
         return $locale;
-    }
-
-    protected function outputWpb($variables)
-    {
-        $licenseHelper = vchelper('License');
-
-        if (defined('WPB_VC_VERSION')) {
-            $variables[] = [
-                'key' => 'VCV_WPBAKERY_ALLOW_MIGRATION',
-                'value' => version_compare(WPB_VC_VERSION, '5.0', '>='),
-                'type' => 'constant',
-            ];
-        }
-
-        $variables[] = [
-            'key' => 'VCV_WPBAKERY_PLUGINS_URL',
-            'value' => (is_multisite()) ? network_admin_url('plugins.php') : admin_url('plugins.php'),
-            'type' => 'constant',
-        ];
-
-        $variables[] = [
-            'key' => 'VCV_WPBAKERY_HUB_ACCESS',
-            'value' => $licenseHelper->isActivated(),
-            'type' => 'constant',
-        ];
-
-        $variables[] = [
-            'key' => 'VCV_WPBAKERY_ACTIVATE_URL',
-            'value' => esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
-            'type' => 'constant',
-        ];
-
-        return $variables;
     }
 }
