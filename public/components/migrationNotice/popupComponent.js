@@ -122,8 +122,7 @@ export default class PopupComponent extends React.Component {
       <button className='vcv-migration-button vcv-migration-button--start' onClick={buttonAction}>{buttonTitle}</button>
     )
 
-    if (hasAddon) {
-      // addons exists but no WPB activated
+    if (hasWpb && !allowMigration) {
       buttonHtml = null
     }
 
