@@ -411,6 +411,14 @@ class Localizations extends Container implements Helper
                 'Unlock Visual Composer Hub',
                 'vcwb'
             ),
+            'wpbakeryAttrDescriptionNoEditForm' => __(
+                'WPBakery element is displayed as shortcode. Adjust shortcode parameters.',
+                'vcwb'
+            ),
+            'shortcode' => __(
+                'Shortcode',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
