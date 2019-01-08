@@ -150,6 +150,14 @@ export default class PopupComponent extends React.Component {
       'vcv-ui-state--error': !allowMigration
     }
 
+    let fourthCheckClasses = {
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-save': hubAccess,
+      'vcv-ui-icon-close-thin': !hubAccess,
+      'vcv-ui-state--success': hubAccess,
+      'vcv-ui-state--error': !hubAccess
+    }
+
     return ReactDOM.createPortal(
       <div className='vcv-migration-notice'>
         <img className='vcv-migration-image' src={migrationStorage.state('icon').get()} alt='Migrate' />
@@ -157,8 +165,12 @@ export default class PopupComponent extends React.Component {
         <p className='vcv-migration-description'>{localizations.addonWpbMigration_intro}</p>
         <div className='vcv-migration-notes'>
           <div className='vcv-migration-note'>
-            <i className={classNames(firstCheckClasses)} />
+            <i className={classNames(fourthCheckClasses)} />
             <p className='vcv-migration-description'>{localizations.addonWpbMigration_authorize}</p>
+          </div>
+          <div className='vcv-migration-note'>
+            <i className={classNames(firstCheckClasses)} />
+            <p className='vcv-migration-description'>{localizations.addonWpbMigration_checkAddon}</p>
           </div>
           {!hasWpb &&
           <div className='vcv-migration-note'>
