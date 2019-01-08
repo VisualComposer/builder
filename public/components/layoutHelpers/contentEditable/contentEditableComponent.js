@@ -346,7 +346,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateHtmlWithServer (content) {
-    if (content.match(this.getShortcodesRegexp())) {
+    if (content && (content.match(this.getShortcodesRegexp()) || content.match(/https?:\/\//))) {
       this.ref && (this.ref.innerHTML = ContentEditableComponent.spinnerHTML)
       dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
