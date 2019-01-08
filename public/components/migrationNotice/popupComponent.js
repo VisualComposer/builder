@@ -164,14 +164,18 @@ export default class PopupComponent extends React.Component {
         <h1 className='vcv-migration-title'>{localizations.addonWpbMigration_title}</h1>
         <p className='vcv-migration-description'>{localizations.addonWpbMigration_intro}</p>
         <div className='vcv-migration-notes'>
+          {hasWpb && allowMigration &&
           <div className='vcv-migration-note'>
             <i className={classNames(fourthCheckClasses)} />
             <p className='vcv-migration-description'>{localizations.addonWpbMigration_authorize}</p>
           </div>
+          }
+          {hasWpb && allowMigration &&
           <div className='vcv-migration-note'>
             <i className={classNames(firstCheckClasses)} />
             <p className='vcv-migration-description'>{localizations.addonWpbMigration_checkAddon}</p>
           </div>
+          }
           {!hasWpb &&
           <div className='vcv-migration-note'>
             <i className={classNames(secondCheckClasses)} />

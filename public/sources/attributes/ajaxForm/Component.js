@@ -89,7 +89,7 @@ export default class AjaxForm extends Attribute {
     this.serverRequest = ajax({
       'vcv-action': `attribute:ajaxForm:render:adminNonce`,
       'vcv-form-action': action,
-      'vcv-form-element': getService('document').get(this.props.element.get('id')),
+      'vcv-form-element': getService('document').get(this.props.element.get('id')) || this.props.element.toJS(),
       'vcv-form-value': value,
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
