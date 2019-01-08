@@ -99,6 +99,11 @@ addStorage('hubElements', (storage) => {
                 if (assetData.cssBundle) {
                   assetData.cssBundle = jsonResponse.sharedAssetsUrl + assetData.cssBundle
                 }
+                if (assetData.cssSubsetBundles) {
+                  Object.keys(assetData.cssSubsetBundles).forEach((key) => {
+                    assetData.cssSubsetBundles[ key ] = jsonResponse.sharedAssetsUrl + assetData.cssSubsetBundles[ key ]
+                  })
+                }
                 sharedAssetsStorage.trigger('add', assetData)
                 storage.trigger('addCssAssetInEditor', assetData)
               })
@@ -164,7 +169,7 @@ addStorage('hubElements', (storage) => {
   })
 
   storage.on('addCssAssetInEditor', (asset) => {
-    if (!asset.cssBundle) {
+    if (!asset.cssBundle && !asset.cssSubsetBundles) {
       return
     }
 
@@ -177,17 +182,27 @@ addStorage('hubElements', (storage) => {
         .replace(/-+$/, '')
     }
 
-    const id = `${slugify(asset.cssBundle)}-css`
-    const styleElement = document.querySelector(`#vcv\\:assets\\:source\\:style\\:${id}`)
+    let add = (bundle) => {
+      const id = `${slugify(bundle)}-css`
+      const styleElement = document.querySelector(`#vcv\\:assets\\:source\\:style\\:${id}`)
 
-    if (!styleElement) {
-      let link = document.createElement('link')
-      link.rel = 'stylesheet'
-      link.href = asset.cssBundle
-      link.type = 'text/css'
-      link.media = 'all'
-      link.id = `vcv:assets:source:style:${id}`
-      document.head.appendChild(link)
+      if (!styleElement) {
+        let link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = bundle
+        link.type = 'text/css'
+        link.media = 'all'
+        link.id = `vcv:assets:source:style:${id}`
+        document.head.appendChild(link)
+      }
+    }
+    if (asset.cssBundle) {
+      add(asset.cssBundle)
+    }
+    if (asset.cssSubsetBundles) {
+      Object.keys(asset.cssSubsetBundles).forEach((key) => {
+        add(asset.cssSubsetBundles[ key ])
+      })
     }
   })
 })
