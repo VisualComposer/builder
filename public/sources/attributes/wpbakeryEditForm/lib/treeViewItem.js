@@ -22,7 +22,7 @@ export default class TreeViewItem extends React.Component {
     const defaultSpace = isRTL ? 1.5 : 0.5
     const controlPadding = (space * level + defaultSpace) + 'rem'
     const controlStyle = isRTL ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
-    const publicPath = hubCategoriesService.getElementIcon('wpbakeryElement')
+    const publicPath = hubCategoriesService.getElementIcon('shortcode')
 
     return (
       <TreeViewContainerConsumer>

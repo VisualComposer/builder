@@ -28,7 +28,6 @@ class DefaultElements extends Container implements Helper
             'wpWidgetsCustom',
             'wpWidgetsDefault',
             'shortcode',
-            'wpbakeryElement',
             'outlineButton',
         ];
 
