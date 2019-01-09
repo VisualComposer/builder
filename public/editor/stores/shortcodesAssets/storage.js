@@ -119,7 +119,6 @@ addStorage('shortcodeAssets', (storage) => {
       }
       timer = window.setTimeout(() => {
         collectLoadFiles()
-
       }, 100)
     }
   })
