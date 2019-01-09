@@ -288,10 +288,7 @@ class PostType implements Helper
 
     public function getCustomPostCategories($taxonomy)
     {
-        $categories[] = [
-            'label' => __('All', 'vcwb'),
-            'value' => '',
-        ];
+        $categories = [];
 
         $terms = get_terms($taxonomy);
         if (!is_wp_error($terms) && !empty($terms)) {
