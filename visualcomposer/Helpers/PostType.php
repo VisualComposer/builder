@@ -281,30 +281,26 @@ class PostType implements Helper
         return $postTypesList;
     }
 
-    public function getCustomPostCategories($postType)
+    public function getCustomPostTaxonomies($postType)
     {
-        $categories = [];
-        // @codingStandardsIgnoreLine
-        $taxonomyObjects = get_object_taxonomies($postType, 'objects');
+        return get_object_taxonomies($postType, 'objects');
+    }
 
+    public function getCustomPostCategories($taxonomy)
+    {
         $categories[] = [
             'label' => __('All', 'vcwb'),
             'value' => '',
         ];
 
-        if (!empty($taxonomyObjects)) {
-            $taxonomyObjects = array_keys($taxonomyObjects);
-            foreach ($taxonomyObjects as $taxonomy) {
-                $terms = get_terms($taxonomy);
-                if (!empty($terms)) {
-                    foreach ($terms as $term) {
-                        $categories[] = [
-                            'label' => $term->name,
-                            // @codingStandardsIgnoreLine
-                            'value' => $term->term_id,
-                        ];
-                    }
-                }
+        $terms = get_terms($taxonomy);
+        if (!is_wp_error($terms) && !empty($terms)) {
+            foreach ($terms as $term) {
+                $categories[] = [
+                    'label' => $term->name,
+                    // @codingStandardsIgnoreLine
+                    'value' => $term->term_id,
+                ];
             }
         }
 
