@@ -45,9 +45,13 @@ export default class WpbakeryEditForm extends Attribute {
   }
 
   getShortcodeData (value) {
-    const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
-    const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
-    return value.match(localShortcodesRegex)
+    if (window.wp && window.wp.shortcode && window.VCV_API_WPBAKERY_WPB_MAP && window.VCV_API_WPBAKERY_WPB_MAP_FULL) {
+      const multipleShortcodesRegex = window.wp.shortcode.regexp(window.VCV_API_WPBAKERY_WPB_MAP().join('|'))
+      const localShortcodesRegex = new RegExp(multipleShortcodesRegex.source)
+      return value.match(localShortcodesRegex)
+    }
+
+    return false
   }
 
   getEditContent (isWpbAvailable, value, openEditForm) {
