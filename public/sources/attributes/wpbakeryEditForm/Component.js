@@ -97,7 +97,7 @@ export default class WpbakeryEditForm extends Attribute {
 
   render () {
     const wpbakeryAttrDescription = this.localizations ? this.localizations.wpbakeryAttrDescription : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.'
-    const wpbakeryAttrDescriptionNoEditForm = this.localizations ? this.localizations.wpbakeryAttrDescriptionNoEditForm : 'WPBakery element is displayed as shortcode. Adjust shortcode parameters.'
+    const shortcodeElementAttrDescription = this.localizations ? this.localizations.shortcodeElementAttrDescription : 'Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme.'
     const shortcodeTitle = this.localizations ? this.localizations.shortcode : 'Shortcode'
     const openEditForm = this.localizations ? this.localizations.openEditForm : 'Open Edit Form'
     const wpbakeryToggleDescription = this.localizations ? this.localizations.wpbakeryAttrToggleDescription : 'View WPBakery element/s as shortcodes'
@@ -105,7 +105,7 @@ export default class WpbakeryEditForm extends Attribute {
       ? <div>
         {!this.isParsed && <span className='vcv-ui-form-group-heading'>{shortcodeTitle}</span>}
         <textarea className='vcv-ui-form-input' value={this.state.value} onChange={this.handleChange} />
-        <p className='vcv-ui-form-helper'>{this.isParsed ? wpbakeryAttrDescription : wpbakeryAttrDescriptionNoEditForm}</p>
+        <p className='vcv-ui-form-helper'>{this.isParsed ? wpbakeryAttrDescription : shortcodeElementAttrDescription}</p>
       </div>
       : null
 

@@ -419,6 +419,10 @@ class Localizations extends Container implements Helper
                 'Shortcode',
                 'vcwb'
             ),
+            'shortcodeElementAttrDescription' => __(
+                'Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme.',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
