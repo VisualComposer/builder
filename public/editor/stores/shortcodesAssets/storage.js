@@ -97,9 +97,6 @@ addStorage('shortcodeAssets', (storage) => {
       scriptsLoader.loadNext(assetsWindow)
     }
     assetsWindow.window.vcv && assetsWindow.window.vcv.trigger('ready')
-    if (env('FT_IGNORE_ELEMENTS_DOM_CACHE')) {
-      assetsWindow.jQuery(assetsWindow.window).trigger('load')
-    }
   }
 
   // Collecting
