@@ -6,10 +6,25 @@ export default class Radio extends Attribute {
     this.setFieldValue(event.currentTarget.value)
   }
 
+  getValues () {
+    const { props } = this
+    let { values } = props.options || {}
+    let { global } = props.options || {}
+    if (global && (!values || !values.length)) {
+      if (typeof window[ global ] === 'function') {
+        values = window[ global ]()
+      } else {
+        values = window[ global ] || []
+      }
+    }
+
+    return values
+  }
+
   render () {
     let { fieldKey } = this.props
     let optionElements = []
-    let values = this.props.options.values
+    let values = this.getValues()
     let currentValues = this.state.value
     for (let key in values) {
       let value = values[ key ].value
