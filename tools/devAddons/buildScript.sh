@@ -4,12 +4,7 @@ echo "### Build Script v2.0 6.04.2018 ### $(date)"
 
 EXECDIR=`pwd`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-declare -a arr=(
-'themeEditor'
-'globalTemplate'
-'exportImport'
-'templateWidget'
-)
+declare -a arr=($(cat "$DIR/addons.list"))
 
 TOTAL=0
 CNT=0
