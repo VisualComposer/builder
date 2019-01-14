@@ -37,8 +37,13 @@ export default class Radio extends Attribute {
         </label>
       )
     }
+
+    let classNames = 'vcv-ui-form-radio-buttons'
+    if (this.props.options && this.props.options.listView) {
+      classNames += ' vcv-ui-form-radio-buttons--list'
+    }
     return (
-      <div className='vcv-ui-form-radio-buttons'>
+      <div className={classNames}>
         {optionElements}
       </div>)
   }

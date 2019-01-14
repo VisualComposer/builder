@@ -44,8 +44,13 @@ export default class Checkbox extends Attribute {
         </label>
       )
     }
+
+    let classNames = 'vcv-ui-form-checkboxes'
+    if (this.props.options && this.props.options.listView) {
+      classNames += ' vcv-ui-form-checkboxes--list'
+    }
     return (
-      <div className='vcv-ui-form-checkboxes'>
+      <div className={classNames}>
         {optionElements}
       </div>)
   }

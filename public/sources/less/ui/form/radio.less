@@ -1,6 +1,11 @@
 .vcv-ui-form-radio-buttons {
   margin: @vcui-form-radio-buttons-margin;
 }
+
+.vcv-ui-form-radio-buttons--list .vcv-ui-form-radio {
+  display: block;
+}
+
 .vcv-ui-form-radio {
   cursor: pointer;
   display: inline-block;
@@ -8,6 +13,9 @@
   padding-left: @vcui-form-radio-content-padding;
   padding-right: @vcui-form-radio-content-padding/2;
   position: relative;
+  margin: 0 0 10px;
+  font-weight: 700;
+  font-size: 12px;
 
   .vcv-ui-form-radio-indicator {
     position: absolute;
@@ -47,14 +55,11 @@
 
     + .vcv-ui-form-radio-indicator {
       &::before {
-        opacity: 0;
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%) scale(0, 0);
-        transition-property: transform, opacity;
-        transition-duration: @vcui-form-transition-duration;
-        transition-timing-function: ease-in-out;
+        transition: transform @vcui-form-transition-duration ease-in-out;
 
         content: '';
         border-radius: inherit;
@@ -64,8 +69,8 @@
         text-transform: none;
         speak: none;
         line-height: 1;
-        height: 1em;
-        width: 1em;
+        height: 8px;
+        width: 8px;
         box-sizing: border-box;
         font-size: @vcui-form-radio-indicator-size;
         background-color: @vcui-form-radio-color;
@@ -74,8 +79,8 @@
     &:checked {
       + .vcv-ui-form-radio-indicator {
         &::before {
-          opacity: 1;
           transform: translate(-50%, -50%) scale(1, 1);
+          transition: transform @vcui-form-transition-duration ease-in-out;
         }
       }
     }
