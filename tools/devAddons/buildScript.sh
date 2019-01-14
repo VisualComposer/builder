@@ -8,7 +8,7 @@ declare -a arr=(
 'themeEditor'
 'globalTemplate'
 'exportImport'
-'wpbMigration'
+'templateWidget'
 )
 
 TOTAL=0
