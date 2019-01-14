@@ -6,7 +6,6 @@ declare -a arr=(
 'themeEditor'
 'globalTemplate'
 'exportImport'
-'wpbMigration'
 'templateWidget'
 )
 
