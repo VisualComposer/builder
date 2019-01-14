@@ -35,7 +35,8 @@ export default class ButtonGroup extends Attribute {
    * @return array
    */
   getItems () {
-    return this.props.options.values.map((value, i) => {
+    const values = this.getValues()
+    return values.map((value, i) => {
       let content = value.icon ? this.getIcon(value) : value.text
       let buttonClasses = ['vcv-ui-form-button']
       if (value.value === this.state.value) {
@@ -52,6 +53,21 @@ export default class ButtonGroup extends Attribute {
         {content}
       </span>
     })
+  }
+
+  getValues () {
+    const { props } = this
+    let { values } = props.options || {}
+    let { global } = props.options || {}
+    if (global && (!values || !values.length)) {
+      if (typeof window[ global ] === 'function') {
+        values = window[ global ]()
+      } else {
+        values = window[ global ] || []
+      }
+    }
+
+    return values
   }
 
   render () {
