@@ -1,6 +1,0 @@
-node_modules/
-public/dist/
-!public/dist/.gitkeep
-.idea
-package-lock.json
-yarn.lock

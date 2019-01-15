@@ -1,3 +1,19 @@
+## [Unreleased]
+- New: System Status page and requirement auto-check added to the plugin
+- New: Global Javascript can be added for the header and footer
+- Update: Elements can be added to page by dragging them from Add Element window to the bottom placeholder
+- Update: Blank Page update with template selection option
+- Update: TinyMCE full controls are opened by default for elements
+- Update: Performance improvements for initial editor load
+- Update: Editor UI font update for better readability
+- Update: Optimized icon library loading
+- Update: Checkbox and Radio buttons added as an attribute option for the API
+- Fix: Video background with parallax works properly in Preview mode
+- Fix: Compatibility improved with WPML
+- Fix: Disable 'Gutenberg' option works for all WordPress user roles
+- Fix: Compatibility with plugin Contact Form 7 Style
+- Fix: Video embed works with copy/paste within TinyMCE editor
+- Fix: Progress bar element values are displayed properly
 ## ver 10.0 - 26.11.2018
 * New: Basic editor elements added to the plugin .zip file
 * New: Radial gradient added to the Design Options

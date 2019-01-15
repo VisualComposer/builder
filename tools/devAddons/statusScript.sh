@@ -2,14 +2,9 @@
 
 echo "My script is running."
 
-declare -a arr=(
-'themeEditor'
-'globalTemplate'
-'exportImport'
-'templateWidget'
-)
-
 EXECDIR=`pwd`
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+declare -a arr=($(cat "$DIR/addons.list"))
 
 for i in "${arr[@]}"
 do
