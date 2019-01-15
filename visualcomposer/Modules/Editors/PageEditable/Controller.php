@@ -142,34 +142,44 @@ class Controller extends Container implements Module
     protected function pejQueryReady(Frontend $frontendHelper)
     {
         if (!$this->jQueryDefined && $frontendHelper->isPageEditable()) {
-            $warn = vcvenv('VCV_DEBUG') ? 'console.warn(\'jquery ready failed\', e, param)' : '';
+            $warn = vcvenv('VCV_DEBUG') ? 'console.warn(\'jquery ready failed\', e, param);' : '';
 
-            $script = 'jQuery.fn.ready = function (param) {
-                try {
-                  window.setTimeout(function () {
-                    param.call(this, jQuery)
-                  }, 300)
-                } catch (e) {
-                   ' . $warn . '
+            $script = '
+            (function() {
+                var isFrozen = {};
+                window.vcvFreezeReady = function (freezeId, freezeValue) {
+                    if(!freezeValue) {
+                      delete isFrozen[freezeId];
+                    } else {
+                      isFrozen[freezeId] = true;
+                   }
+                }      
+                
+                var callback = function (that, param) {
+                    try {
+                          window.setTimeout(function () {
+                            if(Object.keys(isFrozen).length) {
+                                callback(that, param);
+                            } else {                    
+                                param.call(that, jQuery);
+                            }
+                          }, 300)
+                    } catch (e) {
+                       ' . $warn . '
+                    }
                 }
-            
-                return this
-               }
-              ';
-            $script .= '
-            window.setTimeout(function() {
-            jQuery.fn.load = function (param) {
-                try {
-                  window.setTimeout(function () {
-                    param.call(this, jQuery)
-                  }, 300)
-                } catch (e) {
-                   ' . $warn . '
+                jQuery.fn.ready = function (param) {
+                    callback(this, param);
+                    return this;
                 }
-            
-                return this
-               }}, 1)
-              ';
+                
+                window.setTimeout(function() {
+                    jQuery.fn.load = function (param) {
+                        callback(this, param);
+                        return this;
+                   }
+                }, 1)
+            })();';
 
             wp_add_inline_script('jquery-core', $script);
 

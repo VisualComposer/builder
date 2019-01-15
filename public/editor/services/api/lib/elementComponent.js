@@ -80,6 +80,7 @@ export default class ElementComponent extends React.Component {
       if (!dataProcessor) {
         dataProcessor = vcCake.getService('dataProcessor')
       }
+      let that = this
       this.ajax = dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
         'vcv-shortcode-string': content,
@@ -97,7 +98,7 @@ export default class ElementComponent extends React.Component {
             let jsonData = JSON.parse(data)
             let { headerContent, shortcodeContent, footerContent } = jsonData
             ref && (ref.innerHTML = '')
-
+            window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, true)
             let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
             headerDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
@@ -112,7 +113,12 @@ export default class ElementComponent extends React.Component {
 
             let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
             footerDom.context = document
-            shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
+            shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
+              window.setTimeout(() => {
+                window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, false)
+                window.vcv && window.vcv.trigger('ready')
+              }, 150)
+            })
           })(iframe, iframe.document))
         } catch (e) {
           let jsonData = this.getResponse(data)
@@ -121,7 +127,7 @@ export default class ElementComponent extends React.Component {
               ((function (window, document) {
                 let { headerContent, shortcodeContent, footerContent } = jsonData
                 ref && (ref.innerHTML = '')
-
+                window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, true)
                 let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
                 headerDom.context = document
                 shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
@@ -136,7 +142,12 @@ export default class ElementComponent extends React.Component {
 
                 let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
                 footerDom.context = document
-                shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
+                shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
+                  window.setTimeout(() => {
+                    window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, false)
+                    window.vcv && window.vcv.trigger('ready')
+                  }, 150)
+                })
               })(iframe, iframe.document))
             } catch (pe) {
               console.warn(pe)

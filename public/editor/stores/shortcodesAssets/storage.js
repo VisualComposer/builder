@@ -21,17 +21,20 @@ addStorage('shortcodeAssets', (storage) => {
     add: (src) => {
       scriptsLoader.src.push(src)
     },
-    loadNext: (assetsWindow) => {
+    loadNext: (assetsWindow, finishCb) => {
       if (scriptsLoader.src.length) {
         let tmpSrc = scriptsLoader.src.splice(0, 1)
         assetsWindow.jQuery.getScript(tmpSrc).always(() => {
-          scriptsLoader.loadNext(assetsWindow)
+          scriptsLoader.loadNext(assetsWindow, finishCb)
         })
+      } else {
+        finishCb && finishCb()
       }
     }
   }
-  let loadFiles = (data) => {
+  let loadFiles = (data, finishCb) => {
     const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
+
     if (data.domNodes && data.domNodes.length) {
       const allowedHeadTags = [ 'META', 'LINK', 'STYLE', 'SCRIPT' ]
       Array.from(data.domNodes).forEach(domNode => {
@@ -94,17 +97,18 @@ addStorage('shortcodeAssets', (storage) => {
           }
         }
       })
-      scriptsLoader.loadNext(assetsWindow)
+      scriptsLoader.loadNext(assetsWindow, finishCb)
+    } else {
+      finishCb && finishCb()
     }
-    assetsWindow.window.vcv && assetsWindow.window.vcv.trigger('ready')
   }
 
   // Collecting
   collectLoadFiles()
 
   // Event listen
-  storage.on('add', (data) => {
-    loadFiles(data)
+  storage.on('add', (data, finishCb) => {
+    loadFiles(data, finishCb)
   })
 
   let timer = null
