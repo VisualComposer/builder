@@ -1,6 +1,11 @@
 .vcv-ui-form-checkboxes {
   margin: @vcui-form-checkboxes-margin;
 }
+
+.vcv-ui-form-checkboxes--list .vcv-ui-form-checkbox {
+  display: block;
+}
+
 .vcv-ui-form-checkbox {
   cursor: pointer;
   display: inline-block;
@@ -10,6 +15,7 @@
   position: relative;
   font-weight: 700;
   font-size: 12px;
+  margin: 0 0 10px;
 
   .vcv-ui-form-checkbox-indicator {
     position: absolute;
@@ -49,24 +55,20 @@
     &:checked {
       + .vcv-ui-form-checkbox-indicator {
         &::before {
-          opacity: 1;
+          transform: translate(-50%, -50%) scale(1, 1);
         }
       }
     }
 
     + .vcv-ui-form-checkbox-indicator {
       &::before {
-        opacity: 0;
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
-        transition-property: opacity;
-        transition-duration: @vcui-form-transition-duration;
-        transition-timing-function: ease-in-out;
+        transform: translate(-50%, -50%) scale(0, 0);
+        transition: transform @vcui-form-transition-duration ease-in-out;
 
-        content: @vcui-form-checkbox-symbox;
-        font-family: "VC-Icons";
+        content: '';
         font-style: normal;
         font-weight: normal;
         font-variant: normal;
@@ -76,6 +78,9 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         font-size: @vcui-form-checkbox-indicator-size;
+        height: 8px;
+        width: 8px;
+        background-color: @vcui-form-radio-color;
       }
     }
 
