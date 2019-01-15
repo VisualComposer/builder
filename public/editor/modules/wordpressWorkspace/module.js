@@ -91,7 +91,7 @@ add('wordpressWorkspace', (api) => {
         if (showBlank && !settingsStorage.state('skipBlank').get()) {
           addStartBlank()
           isBlank = true
-          removeOverlay()
+          document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
         } else {
           removeOverlay()
         }
