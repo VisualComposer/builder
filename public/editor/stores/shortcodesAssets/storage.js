@@ -17,21 +17,24 @@ addStorage('shortcodeAssets', (storage) => {
   }
 
   let scriptsLoader = {
-    getScript: async (contentWindow, src) => {
-      return new Promise((resolve, reject) => {
-        contentWindow.jQuery.getScript(src).always(() => {
-          resolve()
+    src: [],
+    add: (src) => {
+      scriptsLoader.src.push(src)
+    },
+    loadNext: (assetsWindow) => {
+      if (scriptsLoader.src.length) {
+        let tmpSrc = scriptsLoader.src.splice(0, 1)
+        assetsWindow.jQuery.getScript(tmpSrc).always(() => {
+          scriptsLoader.loadNext(assetsWindow)
         })
-      })
+      }
     }
   }
   let loadFiles = (data) => {
     const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
-    let scriptsPromises = []
-    let scriptsInline = []
     if (data.domNodes && data.domNodes.length) {
       const allowedHeadTags = [ 'META', 'LINK', 'STYLE', 'SCRIPT' ]
-      Array.from(data.domNodes).forEach((domNode) => {
+      Array.from(data.domNodes).forEach(domNode => {
         let slug = ''
         let position = ''
         let type = ''
@@ -74,16 +77,15 @@ addStorage('shortcodeAssets', (storage) => {
             try {
               if (domNode.tagName === 'SCRIPT') {
                 if (domNode.src) {
-                  scriptsPromises.push(scriptsLoader.getScript(assetsWindow, domNode.src))
+                  scriptsLoader.add(domNode.src)
                 } else {
-                  // data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
-                  data.ref && assetsWindow.jQuery(data.ref) && scriptsInline.push(domNode)
+                  data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
                 }
               } else {
                 if (position) {
                   assetsWindow.document[ position ] && assetsWindow.jQuery(assetsWindow.document[ position ]).append(domNode)
                 } else {
-                  data.ref && assetsWindow.jQuery(data.ref) && scriptsInline.push(domNode)
+                  data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
                 }
               }
             } catch (e) {
@@ -92,9 +94,7 @@ addStorage('shortcodeAssets', (storage) => {
           }
         }
       })
-      Promise.all(scriptsPromises).then(() => {
-        scriptsInline.forEach(domNode => assetsWindow.jQuery(data.ref).append(domNode))
-      })
+      scriptsLoader.loadNext(assetsWindow)
     }
     assetsWindow.window.vcv && assetsWindow.window.vcv.trigger('ready')
   }
