@@ -2,6 +2,7 @@ import React from 'react'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
 import { env } from 'vc-cake'
+import classNames from 'classnames'
 
 export default class Field extends React.Component {
   static propTypes = {
@@ -17,7 +18,8 @@ export default class Field extends React.Component {
       value = props.options.activeParamGroup[ props.fieldKey ]
     }
     this.state = {
-      value: value
+      value: value,
+      dependenciesClasses: []
     }
     this.updateElement = this.updateElement.bind(this)
     this.updateValue = this.updateValue.bind(this)
@@ -25,10 +27,16 @@ export default class Field extends React.Component {
 
   componentDidMount () {
     this.props.element.onAttributeChange(this.props.fieldKey, this.updateValue)
+    this.props.setFieldMount(this.props.fieldKey, {
+      ref: this.refs.field,
+      refComponent: this,
+      refDomComponent: this.refs.domComponent
+    }, 'field')
   }
 
   componentWillUnmount () {
     this.props.element.ignoreAttributeChange(this.props.fieldKey, this.updateValue)
+    this.props.setFieldUnmount(this.props.fieldKey, 'field')
   }
 
   updateValue (data) {
@@ -54,6 +62,10 @@ export default class Field extends React.Component {
     let { fieldKey, tab, fieldType, element } = this.props
     let { value } = this.state
 
+    let classes = classNames({
+      'vcv-ui-form-dependency': true
+    }, this.state.dependenciesClasses)
+
     if (fieldKey && element) {
       value = element[ fieldKey ]
     }
@@ -63,7 +75,7 @@ export default class Field extends React.Component {
       let elSettings = element.cook().settings(fieldKey, attrSettings)
       type = elSettings.type
       settings = elSettings.settings
-      value = element[ this.props.options.fieldKey ].value[this.props.options.activeParamGroupIndex][fieldKey]
+      value = element[ this.props.options.fieldKey ].value[ this.props.options.activeParamGroupIndex ][ fieldKey ]
     }
     let AttributeComponent = type.component
     if (!AttributeComponent) {
@@ -97,20 +109,22 @@ export default class Field extends React.Component {
       defaultValue = settings.value
     }
     return (
-      <div className='vcv-ui-form-group' key={`form-group-field-${element.id}-${fieldKey}`}>
-        {label}
-        <AttributeComponent
-          key={'attribute-' + fieldKey + element.id}
-          options={options}
-          value={value}
-          defaultValue={defaultValue}
-          fieldKey={fieldKey}
-          updater={this.updateElement}
-          element={element.cook()}
-          fieldType={fieldType}
-          ref='domComponent'
-        />
-        {description}
+      <div ref='field' className={classes}>
+        <div className='vcv-ui-form-group' key={`form-group-field-${element.id}-${fieldKey}`}>
+          {label}
+          <AttributeComponent
+            key={'attribute-' + fieldKey + element.id}
+            options={options}
+            value={value}
+            defaultValue={defaultValue}
+            fieldKey={fieldKey}
+            updater={this.updateElement}
+            element={element.cook()}
+            fieldType={fieldType}
+            ref='domComponent'
+          />
+          {description}
+        </div>
       </div>
     )
   }

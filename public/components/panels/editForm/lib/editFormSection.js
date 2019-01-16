@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import FieldDependencyManager from './fieldDependencyManager'
+import Field from './field'
 import EditFormReplaceElement from './editFormReplaceElement'
 
 export default class EditFormSection extends React.Component {
@@ -88,7 +88,7 @@ export default class EditFormSection extends React.Component {
       const removeDependencies = fieldOptions && fieldOptions.removeDependencies
 
       return (
-        <FieldDependencyManager
+        <Field
           {...this.props}
           key={`edit-form-field-${param.key}`}
           fieldKey={param.key}

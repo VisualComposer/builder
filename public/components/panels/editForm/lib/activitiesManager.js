@@ -2,6 +2,7 @@ import React from 'react'
 import lodash from 'lodash'
 import { getService } from 'vc-cake'
 import PropTypes from 'prop-types'
+import EditForm from 'public/components/panels/editForm/lib/editForm'
 
 const RulesManager = getService('rulesManager')
 const ActionsManager = getService('actionsManager')
@@ -232,6 +233,19 @@ export default class ActivitiesManager extends React.Component {
   }
 
   render () {
-    return null
+    const { activeTabId, options } = this.props
+    const { element } = this.state
+    return (
+      <EditForm
+        activeTabId={activeTabId}
+        element={element}
+        setFieldMount={this.setFieldMount}
+        setFieldUnmount={this.setFieldUnmount}
+        onAttributeChange={this.onAttributeChange}
+        callFieldActivities={this.callFieldActivities}
+        ref={ref => { this.formWrapper = ref }}
+        options={options}
+      />
+    )
   }
 }

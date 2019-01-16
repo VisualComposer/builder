@@ -3,7 +3,7 @@ import EditFormHeader from './editFormHeader'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import EditFormSection from './editFormSection'
-import Scrollbar from '../../../scrollbar/scrollbar.js'
+import Scrollbar from 'public/components/scrollbar/scrollbar.js'
 
 export default class EditForm extends React.Component {
   static propTypes = {

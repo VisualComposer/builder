@@ -6,7 +6,7 @@ import TeaserAddElementCategories from './teaserAddElement/lib/teaserCategories'
 import AddTemplatePanel from './addTemplate/addTemplatePanel'
 import TreeViewLayout from './treeView/treeViewLayout'
 import SettingsPanel from './settings/settingsPanel'
-import EditFormPanel from './editForm/editFormPanel'
+import EditFormPanel from './editForm/lib/activitiesManager'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
