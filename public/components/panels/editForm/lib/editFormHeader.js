@@ -82,7 +82,8 @@ export default class EditFormHeader extends React.Component {
   updateContent (value) {
     const { element } = this.props
     if (!value) {
-      this.span.innerText = element.get('name')
+      let tempelement = element.services.cook.get({ tag: element.get('id').tag })
+      this.span.innerText = tempelement.get('name')
     }
     element.customHeaderTitle = value
     this.setState({
@@ -131,7 +132,7 @@ export default class EditFormHeader extends React.Component {
 
     const sectionImageSrc = hubCategories.getElementIcon(element.tag)
     const sectionImage = sectionImageSrc ? (
-      <img src={sectionImageSrc} title={content} />) : null
+      <img className='vcv-ui-edit-form-header-image' src={sectionImageSrc} title={content} />) : null
 
     let headerTitle = isNested && options.activeParamGroup
       ? (<span className={headerTitleClasses}
@@ -150,9 +151,7 @@ export default class EditFormHeader extends React.Component {
         {content}
       </span>)
 
-    let editIcon = isNested && options.activeParamGroup
-      ? null
-      : <i className='vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title' onClick={this.editTitle} />
+    let editIcon = null
 
     return (
       <div className='vcv-ui-edit-form-header'>

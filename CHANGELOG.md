@@ -1,4 +1,4 @@
-## [Unreleased]
+## ver 11.0 - 16.01.2019
 - New: System Status page and requirement auto-check added to the plugin
 - New: Global Javascript can be added for the header and footer
 - Update: Elements can be added to page by dragging them from Add Element window to the bottom placeholder
@@ -14,6 +14,7 @@
 - Fix: Compatibility with plugin Contact Form 7 Style
 - Fix: Video embed works with copy/paste within TinyMCE editor
 - Fix: Progress bar element values are displayed properly
+- Fix: Envira Gallery compatibility improved for the latest versions
 ## ver 10.0 - 26.11.2018
 * New: Basic editor elements added to the plugin .zip file
 * New: Radial gradient added to the Design Options
