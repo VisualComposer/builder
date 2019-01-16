@@ -147,9 +147,9 @@ vcCake.add('contentLayout', (api) => {
       if (domContainer) {
         ReactDOM.unmountComponentAtNode(domContainer)
       }
-      let data = vcCake.getService('document').all()
       iframe.onload = () => {
-        let visibleElements = Utils.getVisibleElements(data)
+        const data = vcCake.getService('document').all()
+        const visibleElements = Utils.getVisibleElements(data)
         workspaceIFrame.set({ type: 'loaded' })
         elementsStorage.trigger('updateAll', data)
         assetsStorage.trigger('updateAllElements', visibleElements)
