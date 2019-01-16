@@ -1,4 +1,4 @@
-## ver 11.0 - 15.01.2019
+## ver 11.0 - 16.01.2019
 - New: System Status page and requirement auto-check added to the plugin
 - New: Global Javascript can be added for the header and footer
 - Update: Elements can be added to page by dragging them from Add Element window to the bottom placeholder
