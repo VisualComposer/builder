@@ -131,7 +131,7 @@ export default class EditFormHeader extends React.Component {
 
     const sectionImageSrc = hubCategories.getElementIcon(element.tag)
     const sectionImage = sectionImageSrc ? (
-      <img src={sectionImageSrc} title={content} />) : null
+      <img className='vcv-ui-edit-form-header-image' src={sectionImageSrc} title={content} />) : null
 
     let headerTitle = isNested && options.activeParamGroup
       ? (<span className={headerTitleClasses}
