@@ -239,7 +239,14 @@
   white-space: nowrap;
   outline: none;
   letter-spacing: @edit-form-text-title-letter-spacing;
-
+  border-width: @edit-form-header-title-border-width;
+  border-style: solid;
+  border-radius: @edit-form-header-title-border-radius;
+  border-color: transparent;
+  &:hover,
+  &:focus {
+    border-color: @edit-form-header-title-border-hover-color;
+  }
   &.active {
     text-overflow: clip;
     white-space: normal;

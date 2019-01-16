@@ -150,9 +150,7 @@ export default class EditFormHeader extends React.Component {
         {content}
       </span>)
 
-    let editIcon = isNested && options.activeParamGroup
-      ? null
-      : <i className='vcv-ui-icon vcv-ui-icon-edit vcv-ui-icon-edit-form-header-title' onClick={this.editTitle} />
+    let editIcon = null
 
     return (
       <div className='vcv-ui-edit-form-header'>
