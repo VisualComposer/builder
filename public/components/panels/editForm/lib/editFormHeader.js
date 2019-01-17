@@ -84,7 +84,7 @@ export default class EditFormHeader extends React.Component {
     if (!value) {
       this.span.innerText = elementAccessPoint.cook().getName()
     }
-    // elementAccessPoint.customHeaderTitle = value // TODO: SET
+    elementAccessPoint.set('customHeaderTitle', value)
     this.setState({
       editable: false
     })
