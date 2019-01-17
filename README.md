@@ -114,7 +114,7 @@ if (!defined('VCV_HUB_URL')) {
 require_once "env.php";
 ```
 
-## Build Wordpress plugin package(zip archive)
+## Build Wordpress plugin package (zip archive)
 ```sh
 git clone account-project
 node [account-project]_infrastructure/vcwb-builder/builder plugin2 -p <directoryWhereToPlaceZipArchive>
