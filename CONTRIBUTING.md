@@ -36,7 +36,7 @@ If you already have repo just follow the instructions
 $ git remote rename origin upstream
 $ git remote add origin git@gitlab.com:<Username>/builder.git
 $ git remote -v
-$ git push --set-upstream origin master
+$ git push -u origin master
 origin	git@gitlab.com:<Username>/builder.git (fetch)
 origin	git@gitlab.com:<Username>/builder.git (push)
 upstream	git@gitlab.com:visual-composer-website-builder/builder.git (fetch)
