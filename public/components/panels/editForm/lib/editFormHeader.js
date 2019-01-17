@@ -82,8 +82,7 @@ export default class EditFormHeader extends React.Component {
   updateContent (value) {
     const { element } = this.props
     if (!value) {
-      let tempelement = element.services.cook.get({ tag: element.get('id').tag })
-      this.span.innerText = tempelement.get('name')
+      this.span.innerText = element.cook().getName()
     }
     element.customHeaderTitle = value
     this.setState({
@@ -151,14 +150,11 @@ export default class EditFormHeader extends React.Component {
         {content}
       </span>)
 
-    let editIcon = null
-
     return (
       <div className='vcv-ui-edit-form-header'>
         {backButton}
         {sectionImage}
         {headerTitle}
-        {editIcon}
       </div>
     )
   }
