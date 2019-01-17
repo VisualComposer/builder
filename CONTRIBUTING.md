@@ -47,7 +47,6 @@ upstream	git@gitlab.com:visual-composer-website-builder/builder.git (push)
 
 ```sh
 $ git checkout master && git pull upstream master # checkout
-$ git merge upstream/master
 $ git push
 ```
 
