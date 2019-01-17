@@ -10,7 +10,6 @@ const workspaceSettings = getStorage('workspace').state('settings')
 export default class SettingsButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
-    console.log('SettingsButtonControl', workspaceContentState.get())
     this.state = {
       isActive: workspaceContentState.get() === 'settings',
       showWarning: false // !!assetsStorage.getCustomCss()

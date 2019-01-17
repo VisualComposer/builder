@@ -1,4 +1,3 @@
-import MobileDetect from 'mobile-detect'
 import { addStorage, getService, getStorage } from 'vc-cake'
 
 const createKey = getService('utils').createKey
@@ -61,7 +60,6 @@ addStorage('workspace', (storage) => {
     elementsStorage.trigger('remove', id)
 
     // Close editForm if edit form is opened and element doesnt exist anymore
-    debugger
     if (settings && settings.action === 'edit' && settings.elementAccessPoint) {
       if (!documentManager.get(settings.elementAccessPoint.id)) {
         storage.state('settings').set(false)

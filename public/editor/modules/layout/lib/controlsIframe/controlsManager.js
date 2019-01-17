@@ -398,7 +398,6 @@ export default class ControlsManager {
         }
         let elementId = el.dataset.vcvElementId
         if (event === 'treeView') {
-          console.log('controlsManager, event treeView set ID', elementId)
           workspaceContentState.set('treeView', elementId)
         } else if (event === 'edit') {
           workspaceContentState.set(false)
@@ -406,7 +405,6 @@ export default class ControlsManager {
           if (settings && settings.action === 'edit') {
             workspaceStorage.state('settings').set(false)
           }
-          console.log('Click control edit', event, elementId, tag, options, el.dataset) // TODO: TAG or TAB?
           workspaceStorage.trigger(event, elementId, tag, options)
         } else if (event === 'remove') {
           this.controls.hide()
@@ -659,9 +657,7 @@ export default class ControlsManager {
    */
   handleFrameContainerLeave () {
     let data = workspaceStorage.state('settings').get()
-    debugger
     // TODO: Check accessPoint?
-    console.log('HandleFrameContainerLeave', data)
     if (data && data.element) {
       if (data.element.tag === 'row') {
         this.editFormId = data.element.id

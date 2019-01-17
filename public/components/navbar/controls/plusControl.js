@@ -11,7 +11,6 @@ export default class PlusControl extends NavbarContent {
     super(props)
     this.toggleAddElement = this.toggleAddElement.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
-    console.log('PlusControl', workspaceContentState.get())
     this.state = {
       isActive: workspaceContentState.get() === 'addElement'
     }

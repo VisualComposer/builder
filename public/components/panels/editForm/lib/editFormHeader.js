@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 
 const hubCategories = getService('hubCategories')
 const workspaceStorage = getStorage('workspace')
-const cook = getService('cook')
 const elementsStorage = getStorage('elements')
 
 export default class EditFormHeader extends React.Component {
@@ -113,8 +112,6 @@ export default class EditFormHeader extends React.Component {
   render () {
     const { elementAccessPoint, options } = this.props
     let { content, editable } = this.state
-    console.log(options)
-    debugger;
     let isNested = options && (options.child || options.nestedAttr)
     let headerTitleClasses = classNames({
       'vcv-ui-edit-form-header-title': true,

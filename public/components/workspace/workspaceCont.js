@@ -33,8 +33,6 @@ export default class WorkspaceCont extends React.Component {
 
   setContent (value, treeViewId) {
     const content = value || false
-    console.log('setContent', value, treeViewId)
-    debugger
     this.setState({
       content: content,
       treeViewId: treeViewId || '',
@@ -86,7 +84,6 @@ export default class WorkspaceCont extends React.Component {
   render () {
     const { content, treeViewId, settings } = this.state
     this.updatePanel()
-    console.log('render workspaceCont', this.state, content, settings)
 
     return (
       <Workspace hasContent={!!content}>

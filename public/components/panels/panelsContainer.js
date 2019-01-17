@@ -67,7 +67,6 @@ export default class PanelsContainer extends React.Component {
       return <SettingsPanel />
     } else if (content === 'editElement') {
       // TODO: Check content = editElement
-      debugger
       if (settings && settings.elementAccessPoint) {
         const activeTabId = settings.activeTab || ''
         return <EditFormPanel key={`panels-container-edit-element-${settings.elementAccessPoint.id}`} elementAccessPoint={settings.elementAccessPoint} activeTabId={activeTabId} options={settings.options || {}} />
@@ -88,7 +87,6 @@ export default class PanelsContainer extends React.Component {
       layoutStyle.height = this.state.height
     }
 
-    console.log('Render panelsContainer', treeViewId, content)
     let treeViewLayout = <TreeViewLayout treeViewId={treeViewId} visible={content === 'treeView'} />
 
     return (
