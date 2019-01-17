@@ -1,5 +1,4 @@
 import './components/polyfills/'
-/* global jQuery */
 import publicAPI from './components/api/publicAPI'
 import './sources/less/front/init.less'
 
@@ -12,6 +11,6 @@ if (!window.hasOwnProperty('vcv')) {
   })
 }
 
-jQuery(document).ready(() => {
+window.jQuery(document).ready(() => {
   window.vcv.trigger('ready')
 }, false)

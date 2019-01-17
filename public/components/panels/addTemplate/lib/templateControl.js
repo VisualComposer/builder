@@ -27,7 +27,6 @@ export default class TemplateControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      letter: this.props.name.charAt(0).toUpperCase(),
       previewVisible: false,
       previewStyle: {}
     }

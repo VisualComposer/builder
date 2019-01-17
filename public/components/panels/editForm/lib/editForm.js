@@ -7,7 +7,7 @@ import Scrollbar from 'public/components/scrollbar/scrollbar.js'
 
 export default class EditForm extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired,
+    elementAccessPoint: PropTypes.object.isRequired,
     activeTabId: PropTypes.string,
     options: PropTypes.object
   }
@@ -49,7 +49,7 @@ export default class EditForm extends React.Component {
         isVisible: true,
         pinned: tab.data.settings && tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
         params: this.editFormTabParams(props, tab),
-        key: `edit-form-tab-${props.element.id}-${index}-${tab.key}`,
+        key: `edit-form-tab-${props.elementAccessPoint.id}-${index}-${tab.key}`,
         changeTab: this.onChangeActiveTab.bind(this, index),
         ref: (ref) => {
           if (this.allTabs[ index ]) {
@@ -61,10 +61,11 @@ export default class EditForm extends React.Component {
   }
 
   editFormTabs (props) {
-    const group = props.element.metaEditFormTabs
+    let cookElement = props.elementAccessPoint.cook()
+    const group = cookElement.get('metaEditFormTabs')
     if (props.options.nestedAttr) {
       let groups = []
-      let attributes = props.element.cook().settings(props.options.fieldKey)
+      let attributes = cookElement.settings(props.options.fieldKey)
       let iterator = {
         key: props.options.fieldKey,
         value: attributes.settings.options.settings._paramGroupEditFormTab1.value,
@@ -73,23 +74,25 @@ export default class EditForm extends React.Component {
       groups.push(iterator)
       return groups
     }
-    if (group && group.length) {
-      return group.map(item => (this.editFormTabsIterator(props, item)))
+    if (group && group.each) {
+      return group.each(item => (this.editFormTabsIterator(props, item)))
     }
     return []
   }
 
   editFormTabsIterator (props, item) {
+    let cookElement = props.elementAccessPoint.cook()
     return {
       key: item,
-      value: props.element[ item ],
-      data: props.element.cook().settings(item)
+      value: cookElement.get(item),
+      data: cookElement.settings(item)
     }
   }
 
   editFormTabParams (props, tab) {
+    let cookElement = props.elementAccessPoint.cook()
     if (props.options.nestedAttr) {
-      let groups = props.element.cook().toJS()[ tab.key ].value
+      let groups = cookElement.get(tab.key).value
       let currentGroup = groups.find((group, i) => {
         return i === props.options.activeParamGroupIndex
       })
@@ -97,12 +100,12 @@ export default class EditForm extends React.Component {
         return {
           key: item,
           value: currentGroup[ item ],
-          data: props.element.cook().settings(tab.key).settings.options.settings[ item ]
+          data: cookElement.settings(tab.key).settings.options.settings[ item ]
         }
       })
     }
-    if (tab.data.settings.type === 'group' && tab.value && tab.value.length) {
-      return tab.value.map(item => (this.editFormTabsIterator(props, item)))
+    if (tab.data.settings.type === 'group' && tab.value) {
+      return tab.value.each(item => (this.editFormTabsIterator(props, item)))
     }
     // In case if tab is single param holder
     return [ tab ]
@@ -139,7 +142,7 @@ export default class EditForm extends React.Component {
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
-        <EditFormHeader element={this.props.element} options={this.props.options} />
+        <EditFormHeader elementAccessPoint={this.props.elementAccessPoint} options={this.props.options} />
         <div className='vcv-ui-tree-content'>
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar ref={this.scrollBarMounted}>

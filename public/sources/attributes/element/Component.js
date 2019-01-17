@@ -8,6 +8,7 @@ import Dropdown from '../dropdown/Component'
 import PropTypes from 'prop-types'
 
 const Cook = vcCake.getService('cook')
+const elementAccessPointService = vcCake.getService('elementAccessPoint')
 const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class ElementAttribute extends Attribute {
@@ -16,7 +17,7 @@ export default class ElementAttribute extends Attribute {
     // api: PropTypes.object.isRequired,
     fieldKey: PropTypes.string.isRequired,
     value: PropTypes.object.isRequired,
-    element: PropTypes.object.isRequired,
+    elementAccessPoint: PropTypes.object.isRequired,
     options: PropTypes.any,
     id: PropTypes.string
   }
@@ -30,19 +31,20 @@ export default class ElementAttribute extends Attribute {
   }
 
   updateState (props) {
-    let element = Cook.get(props.value)
+    let valueElementAccessPoint = elementAccessPointService.getInstance(null, props.value)
 
     return {
       allValues: Object.assign({}, props.value),
       value: props.value,
       tag: props.value.tag,
-      element: element,
-      allTabs: ElementAttribute.updateTabs(element)
+      elementAccessPoint: valueElementAccessPoint,
+      allTabs: ElementAttribute.updateTabs(valueElementAccessPoint.cook())
     }
   }
 
   onClickReplacement (newElement) {
-    let cookElement = Cook.get(newElement)
+    let valueElementAccessPoint = elementAccessPointService.getInstance(null, newElement)
+    let cookElement = valueElementAccessPoint.cook()
     let allValues = Object.assign({}, this.state.allValues, this.state.value)
     if (this.props.options && this.props.options.merge) {
       Object.keys(cookElement.toJS()).forEach((key) => {
@@ -65,7 +67,7 @@ export default class ElementAttribute extends Attribute {
       allValues: Object.assign({}, this.state.value, newElement),
       value: values,
       tag: cookElement.get('tag'),
-      element: cookElement,
+      elementAccessPoint: valueElementAccessPoint,
       allTabs: ElementAttribute.updateTabs(cookElement)
     })
     this.setFieldValue(values)
@@ -126,7 +128,7 @@ export default class ElementAttribute extends Attribute {
   }
 
   onChange () {
-    this.setFieldValue(this.state.element.toJS())
+    this.setFieldValue(this.state.elementAccessPoint.cook().toJS())
   }
 
   toggleSection () {
@@ -243,8 +245,8 @@ export default class ElementAttribute extends Attribute {
       }
     }
 
-    const editableElement = vcCake.getStorage('workspace').state('settings').get().element.id
-    const currentElement = this.props.element.get('id')
+    const editableElement = vcCake.getStorage('workspace').state('settings').get().elementAccessPoint.id
+    const currentElement = this.props.elementAccessPoint.id
 
     if (editableElement !== currentElement) {
       const { options } = this.props
@@ -262,7 +264,7 @@ export default class ElementAttribute extends Attribute {
           {replacementBlock}
           <FieldWrapper
             onChange={this.onChange}
-            element={this.state.element}
+            elementAccessPoint={this.state.elementAccessPoint}
             allTabs={this.state.allTabs}
             exclude={exclude}
           />
@@ -273,7 +275,7 @@ export default class ElementAttribute extends Attribute {
         {replacementBlock}
         <FieldWrapper
           onChange={this.onChange}
-          element={this.state.element}
+          elementAccessPoint={this.state.elementAccessPoint}
           allTabs={this.state.allTabs}
           exclude={exclude}
         />

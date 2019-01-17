@@ -244,10 +244,10 @@ export default class TokenizationList extends React.Component {
       'vcv-action': 'autocomplete:findString:adminNonce',
       'vcv-search': search.trim(),
       'vcv-nonce': window.vcvNonce,
-      'vcv-tag': this.props.element.get('tag'),
+      'vcv-tag': this.props.elementAccessPoint.tag,
       'vcv-param': this.props.fieldKey,
       'vcv-autocomplete-action': this.props.action,
-      'vcv-element': this.props.element.toJS(),
+      'vcv-element': this.props.elementAccessPoint.cook().toJS(),
       'vcv-source-id': window.vcvSourceID,
       'vcv-return-value': this.props.returnValue
     }, (request) => {
@@ -332,7 +332,7 @@ export default class TokenizationList extends React.Component {
       'vcv-source-id': window.vcvSourceID,
       'vcv-label-action': this.props.labelAction,
       'vcv-return-value': this.props.returnValue,
-      'vcv-element': this.props.element.toJS()
+      'vcv-element': this.props.elementAccessPoint.cook().toJS()
     }, (request) => {
       if (request.response) {
         let labels = getResponse(request.response)

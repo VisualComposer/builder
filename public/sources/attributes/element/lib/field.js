@@ -4,14 +4,15 @@ import PropTypes from 'prop-types'
 
 export default class EditFromField extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired,
+    elementAccessPoint: PropTypes.object.isRequired,
     fieldKey: PropTypes.string.isRequired,
     updater: PropTypes.func.isRequired
   }
 
   render () {
-    let { element, fieldKey } = this.props
-    let { type, settings } = element.settings(fieldKey)
+    let { elementAccessPoint, fieldKey } = this.props
+    let cookElement = elementAccessPoint.cook()
+    let { type, settings } = cookElement.settings(fieldKey)
     let AttributeComponent = type.component
     if (!AttributeComponent) {
       return null
@@ -31,17 +32,17 @@ export default class EditFromField extends React.Component {
     if (options && typeof options.description === 'string') {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
     }
-    let rawValue = type.getRawValue(element.data, fieldKey)
+    let rawValue = type.getRawValue(cookElement.data, fieldKey)
     let defaultValue = settings.defaultValue
     if (typeof defaultValue === `undefined`) {
       defaultValue = settings.value
     }
 
     return (
-      <div className='vcv-ui-form-group' key={`form-group-field-${element.get('id')}-${fieldKey}`}>
+      <div className='vcv-ui-form-group' key={`form-group-field-${cookElement.get('id')}-${fieldKey}`}>
         {label}
         <AttributeComponent
-          key={'attribute-' + fieldKey + element.get('id')}
+          key={'attribute-' + fieldKey + cookElement.get('id')}
           options={options}
           value={rawValue}
           defaultValue={defaultValue}

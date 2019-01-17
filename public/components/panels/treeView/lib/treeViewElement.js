@@ -1,4 +1,4 @@
-import vcCake from 'vc-cake'
+import vcCake, { getService } from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
@@ -158,9 +158,10 @@ export default class TreeViewElement extends React.Component {
     }
     const options = {}
     if (this.props.isAttribute) {
-      const parentElement = documentManger.get(this.state.element.parent)
+      const elementAccessPointService = getService('elementAccessPoint')
+      const elementAccessPoint = elementAccessPointService.getInstance(this.state.element.parent)
       options.child = true
-      options.parentElement = parentElement
+      options.parentElementAccessPoint = elementAccessPoint
       options.parentElementOptions = {}
     }
     workspaceStorage.trigger('edit', this.state.element.id, tab, options)

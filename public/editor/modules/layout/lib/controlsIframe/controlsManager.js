@@ -258,13 +258,16 @@ export default class ControlsManager {
     workspaceStorage.state('contentEnd').onChange((action) => {
       this.editFormId = null
       this.frames.hide()
-      let data = workspaceStorage.state('settings').get()
-      if (action === 'editElement' && data.element) {
-        if (data.element.tag === 'row') {
-          this.editFormId = data.element.id
+      // TODO: Check elementAccessPoint for editElement
+      debugger
+      let workspaceSettings = workspaceStorage.state('settings').get()
+      console.log('contentEnd', workspaceSettings, action)
+      if (action === 'editElement' && workspaceSettings.elementAccessPoint) {
+        if (workspaceSettings.elementAccessPoint.tag === 'row') {
+          this.editFormId = workspaceSettings.elementAccessPoint.id
           this.showChildrenFramesWithDelay(this.editFormId)
-        } else if (data.element.tag === 'column') {
-          this.editFormId = data.element.id
+        } else if (workspaceSettings.elementAccessPoint.tag === 'column') {
+          this.editFormId = workspaceSettings.elementAccessPoint.id
           this.showFramesOnOneElement(this.editFormId)
         }
       }
@@ -273,7 +276,7 @@ export default class ControlsManager {
     elementsStorage.state('rebuildRow').onChange(() => {
       let settingsData = workspaceStorage.state('settings').get()
       let contentEndData = workspaceStorage.state('contentEnd').get()
-
+      console.log('RebuildRow', settingsData, contentEndData)
       if (contentEndData === 'editElement' && settingsData.element && settingsData.element.tag === 'row') {
         this.showChildrenFramesWithDelay(this.editFormId)
       }
@@ -429,6 +432,7 @@ export default class ControlsManager {
           if (settings && settings.action === 'edit') {
             workspaceStorage.state('settings').set(false)
           }
+          console.log('Click control edit', event, elementId, tag, options, el.dataset) // TODO: TAG or TAB?
           workspaceStorage.trigger(event, elementId, tag, options)
         } else if (event === 'remove') {
           this.controls.hide()
@@ -681,6 +685,8 @@ export default class ControlsManager {
    */
   handleFrameContainerLeave () {
     let data = workspaceStorage.state('settings').get()
+    debugger
+    console.log('HandleFrameContainerLeave', data)
     if (data && data.element) {
       if (data.element.tag === 'row') {
         this.editFormId = data.element.id

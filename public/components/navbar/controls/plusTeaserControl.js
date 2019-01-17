@@ -34,8 +34,8 @@ export default class PlusTeaserControl extends NavbarContent {
     e && e.preventDefault()
     const settings = this.state.isActive ? false : {
       action: 'addHub',
-      element: {},
-      tag: '',
+      elementAccessPoint: null,
+      activeTab: '',
       options: {}
     }
     workspaceSettings.set(settings)

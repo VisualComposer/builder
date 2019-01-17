@@ -291,6 +291,7 @@ export default class Categories extends React.Component {
 
   addElement (tag) {
     const workspace = workspaceStorage.state('settings').get() || {}
+    // TODO: Check elementAccessPoint
     const parentElementId = workspace.element ? workspace.element.id : false
     const data = cook.get({ tag: tag, parent: parentElementId })
     elementsStorage.trigger('add', data.toJS(), true, {

@@ -186,12 +186,12 @@ export default class DesignOptions extends Attribute {
   componentDidMount () {
     this.getDefaultStyles()
 
-    const id = this.props.element.get('id')
+    const id = this.props.elementAccessPoint.id
     elementsStorage.on(`element:${id}`, this.handleElementChange)
   }
 
   componentWillUnmount () {
-    const id = this.props.element.get('id')
+    const id = this.props.elementAccessPoint.id
     elementsStorage.off(`element:${id}`, this.handleElementChange)
   }
 
@@ -558,9 +558,12 @@ export default class DesignOptions extends Attribute {
    */
   getDeviceVisibilityRender () {
     if (this.state.currentDevice === 'all') {
-      let id = this.props.element.get('id')
+      let id = this.props.elementAccessPoint.id
+      // TODO: Maybe COOK.get() correct here?
       let element = documentManager.get(id)
       let checked = !element.hidden
+
+      // TODO: Use correct localization here
       return (
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <div className='vcv-ui-form-switch-container'>
@@ -592,7 +595,7 @@ export default class DesignOptions extends Attribute {
   }
 
   elementVisibilityChangeHandler () {
-    workspaceStorage.trigger('hide', this.props.element.get('id'))
+    workspaceStorage.trigger('hide', this.props.elementAccessPoint.id)
   }
 
   /**
@@ -647,12 +650,12 @@ export default class DesignOptions extends Attribute {
     let doAttribute = 'data-vce-do-apply'
     let frame = document.querySelector('#vcv-editor-iframe')
     let frameDocument = frame.contentDocument || frame.contentWindow.document
-    let elementIdSelector = `el-${this.props.element.data.id}`
-    let element = frameDocument.querySelector(`#${elementIdSelector}`)
+    let elementIdSelector = `el-${this.props.elementAccessPoint.id}`
+    let domElement = frameDocument.querySelector(`#${elementIdSelector}`)
     let styles = [ 'border', 'padding', 'margin' ]
 
-    if (element) {
-      let dolly = element.cloneNode(true)
+    if (domElement) {
+      let dolly = domElement.cloneNode(true)
       dolly.id = ''
       dolly.style.height = '0'
       dolly.style.width = '0'
@@ -660,10 +663,10 @@ export default class DesignOptions extends Attribute {
       dolly.style.position = 'fixed'
       dolly.style.bottom = '0'
       dolly.style.right = '0'
-      element.parentNode.appendChild(dolly)
+      domElement.parentNode.appendChild(dolly)
 
       setTimeout(() => {
-        let elementDOAttribute = element.getAttribute(doAttribute)
+        let elementDOAttribute = domElement.getAttribute(doAttribute)
 
         if (elementDOAttribute) {
           let allDefaultStyles = this.getElementStyles(dolly)
@@ -732,9 +735,9 @@ export default class DesignOptions extends Attribute {
     if (clonedElement) {
       let computedStyles = ''
       if (innerSelector) {
-        let element = clonedElement.querySelector(innerSelector)
-        if (element) {
-          computedStyles = window.getComputedStyle(element)
+        let domElement = clonedElement.querySelector(innerSelector)
+        if (domElement) {
+          computedStyles = window.getComputedStyle(domElement)
         }
       } else {
         computedStyles = clonedElement ? window.getComputedStyle(clonedElement) : ''
@@ -793,7 +796,9 @@ export default class DesignOptions extends Attribute {
           multiple: false
         }}
         updater={this.attachImageChangeHandler}
-        value={value} />
+        value={value}
+        elementAccessPoint={this.props.elementAccessPoint}
+      />
     </div>
   }
 

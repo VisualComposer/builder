@@ -15,9 +15,9 @@ export default class EditFormReplaceElement extends React.Component {
   }
 
   handleReplaceElement (tag) {
-    const element = this.props.element.cook()
-    const id = this.previousElementId = element.get('id')
-    let editFormTabSettings = element.settings('editFormTab1')
+    const cookElement = this.props.elementAccessPoint.cook()
+    const id = this.previousElementId = cookElement.get('id')
+    let editFormTabSettings = cookElement.settings('editFormTab1')
     let currentElementAttributes = [
       ...(editFormTabSettings && editFormTabSettings.settings && editFormTabSettings.settings.value),
       'parent'
@@ -26,7 +26,7 @@ export default class EditFormReplaceElement extends React.Component {
       tag
     }
     currentElementAttributes.forEach(key => {
-      replaceElementMergeData[ key ] = element.get(key)
+      replaceElementMergeData[ key ] = cookElement.get(key)
     })
     elementsStorage.state('elementReplace').onChange(this.openEditFormOnReplace)
     elementsStorage.trigger('replace', id, replaceElementMergeData)
@@ -40,32 +40,32 @@ export default class EditFormReplaceElement extends React.Component {
       if (settings && settings.action === 'edit') {
         workspaceStorage.state('settings').set(false)
       }
-      workspaceStorage.trigger('edit', data.id, data.tag, { insertAfter: false })
+      workspaceStorage.trigger('edit', data.id, data.activeTab, { insertAfter: false })
     }
   }
 
   render () {
-    let { element } = this.props
-    element = element.cook()
-    let tag = element.get('tag')
+    let { elementAccessPoint } = this.props
+    let cookElement = elementAccessPoint.cook()
+    let tag = cookElement.get('tag')
     let category = hubCategoriesService.getElementCategoryName(tag) || ''
     let options = {
       category: category || '*',
-      elementLabel: element.get('name') || category.toLowerCase() || 'element'
+      elementLabel: cookElement.get('name') || category.toLowerCase() || 'element'
     }
 
     let categorySettings = hubCategoriesService.get(category)
-    if (!categorySettings || !categorySettings.elements || categorySettings.elements.length <= 1 || element.relatedTo('RootElements') || !element.relatedTo('General')) {
+    if (!categorySettings || !categorySettings.elements || categorySettings.elements.length <= 1 || cookElement.relatedTo('RootElements') || !cookElement.relatedTo('General')) {
       return null
     }
 
     return (
-      <div className='vcv-ui-form-group' key={`form-group-field-${element.get('id')}-replaceElement`}>
+      <div className='vcv-ui-form-group' key={`form-group-field-${cookElement.get('id')}-replaceElement`}>
         <ReplaceElement
           options={options}
           tag={tag}
           updater={this.handleReplaceElement}
-          element={element}
+          element={cookElement}
         />
       </div>
     )

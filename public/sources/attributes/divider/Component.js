@@ -843,7 +843,9 @@ export default class Divider extends Attribute {
           multiple: false
         }}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+        elementAccessPoint={this.props.elementAccessPoint}
+      />
     </div>
   }
 

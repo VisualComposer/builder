@@ -66,9 +66,11 @@ export default class PanelsContainer extends React.Component {
     } else if (content === 'settings') {
       return <SettingsPanel />
     } else if (content === 'editElement') {
-      if (settings && settings.element) {
-        const activeTabId = settings.tag || ''
-        return <EditFormPanel key={`panels-container-edit-element-${settings.element.id}`} element={settings.element} activeTabId={activeTabId} options={settings.options || {}} />
+      // TODO: Check content = editElement
+      debugger
+      if (settings && settings.elementAccessPoint) {
+        const activeTabId = settings.activeTab || ''
+        return <EditFormPanel key={`panels-container-edit-element-${settings.elementAccessPoint.id}`} elementAccessPoint={settings.elementAccessPoint} activeTabId={activeTabId} options={settings.options || {}} />
       }
     }
   }

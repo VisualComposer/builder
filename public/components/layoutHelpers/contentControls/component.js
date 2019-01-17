@@ -38,6 +38,7 @@ export default class ContentControls extends React.Component {
   }
 
   handleClick () {
+    // TODO: Check this
     const element = vcCake.getService('document').get(this.props.id)
     let options = ''
     const children = vcCake.getService('cook').getChildren(element.tag)

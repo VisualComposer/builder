@@ -1,9 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import vcCake from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
-const settingsStorage = vcCake.getStorage('settings')
+const settingsStorage = getStorage('settings')
 
 export default class HubTemplateControl extends React.Component {
   static propTypes = {

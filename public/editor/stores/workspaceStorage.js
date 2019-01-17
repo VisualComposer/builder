@@ -39,26 +39,28 @@ addStorage('workspace', (storage) => {
       options: options
     })
   })
-  storage.on('edit', (id, tag, options) => {
+  storage.on('edit', (id, activeTab, options) => {
     if (!id) {
       return
     }
-    let element = documentManager.get(id)
-    if (!element) {
-      if (options && options.element) {
-        element = options.element
-      } else {
-        return
-      }
-    }
+    const elementAccessPointService = getService('elementAccessPoint')
+    let elementAccessPoint = elementAccessPointService.getInstance(id)
+    // TODO: Check options.element?
+    // if (!elementAccessPoint) {
+    //   if (options && options.element) {
+    //     element = options.element
+    //   } else {
+    //     return
+    //   }
+    // }
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
     if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
       storage.state('contentStart').set(false)
     }
     storage.state('settings').set({
       action: 'edit',
-      element: element,
-      tag: tag,
+      elementAccessPoint: elementAccessPoint,
+      activeTab: activeTab,
       options: options
     })
   })
@@ -67,8 +69,8 @@ addStorage('workspace', (storage) => {
     elementsStorage.trigger('remove', id)
 
     // Close editForm if edit form is opened and element doesnt exist anymore
-    if (settings && settings.action === 'edit' && settings.element) {
-      if (!documentManager.get(settings.element.id)) {
+    if (settings && settings.action === 'edit' && settings.elementAccessPoint) {
+      if (!documentManager.get(settings.elementAccessPoint.id)) {
         storage.state('settings').set({})
       }
     }

@@ -6,12 +6,12 @@ import EditForm from 'public/components/panels/editForm/lib/editForm'
 
 const RulesManager = getService('rulesManager')
 const ActionsManager = getService('actionsManager')
-const elementAccessPoint = getService('elementAccessPoint')
 
 export default class ActivitiesManager extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired,
-    activeState: PropTypes.string
+    elementAccessPoint: PropTypes.object.isRequired,
+    activeTabId: PropTypes.string,
+    options: PropTypes.object
   }
   mount = {}
   stack = {}
@@ -20,11 +20,7 @@ export default class ActivitiesManager extends React.Component {
 
   constructor (props) {
     super(props)
-    let element = elementAccessPoint.get(props.element.id)
-    this.state = {
-      element
-    }
-    this.listeners = this.initListeners(element.cook(), props)
+    this.listeners = this.initListeners(this.props.elementAccessPoint.cook(), props)
   }
 
   componentWillUpdate (nextProps) {
@@ -32,21 +28,20 @@ export default class ActivitiesManager extends React.Component {
     this.stack = {}
     this.mountStack = {}
     this.initialStack = {}
-    let element = elementAccessPoint.get(nextProps.element.id)
-    this.listeners = this.initListeners(element.cook(), nextProps)
+    this.listeners = this.initListeners(nextProps.elementAccessPoint.cook(), nextProps)
   }
 
-  initListeners (elementCook, props = false) {
+  initListeners (cookElement, props = false) {
     let listeners = []
-    let fields = Object.keys(elementCook.getAll(false))
+    let fields = Object.keys(cookElement.getAll(false))
     if (props.options.nestedAttr) {
-      fields = elementCook.settings(props.options.fieldKey).settings.options.settings._paramGroupEditFormTab1.value
+      fields = cookElement.settings(props.options.fieldKey).settings.options.settings._paramGroupEditFormTab1.value
     }
     fields.forEach(key => {
-      let onChange = this.getRules(elementCook.settings(key))
+      let onChange = this.getRules(cookElement.settings(key))
       if (props.options.nestedAttr) {
-        let attrSettings = elementCook.settings(props.options.fieldKey).settings.options.settings
-        onChange = this.getRules(elementCook.settings(key, attrSettings))
+        let attrSettings = cookElement.settings(props.options.fieldKey).settings.options.settings
+        onChange = this.getRules(cookElement.settings(key, attrSettings))
       }
       if (onChange) {
         Object.keys(onChange).forEach(keyOnChange => {
@@ -176,9 +171,12 @@ export default class ActivitiesManager extends React.Component {
       return true
     }
 
+    const { elementAccessPoint } = this.props
+    const cookElement = elementAccessPoint.cook()
+    const element = cookElement.toJS()
     let current = {
       key: listener.key,
-      value: this.state.element[ listener.key ]
+      value: element[ listener.key ]
     }
 
     if (this.mount[ listener.key ].field) {
@@ -192,10 +190,10 @@ export default class ActivitiesManager extends React.Component {
       current[ type ] = this.mount[ listener.key ][ type ]
     })
     let actionsCallback = (ruleState, listener) => {
-      let actions = this.getActions(this.state.element.cook().settings(listener.key))
+      let actions = this.getActions(cookElement.settings(listener.key))
       if (this.props.options.nestedAttr) {
-        let attrSettings = this.state.element.cook().settings(this.props.options.fieldKey).settings.options.settings
-        let elSettings = this.state.element.cook().settings(listener.key, attrSettings)
+        let attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
+        let elSettings = cookElement.settings(listener.key, attrSettings)
         actions = this.getActions(elSettings)
       }
       if (actions) {
@@ -207,22 +205,22 @@ export default class ActivitiesManager extends React.Component {
               [ type ]: current[ type ],
               value: current.value,
               key: current.key
-            }, this.state.element.cook())
+            }, cookElement)
           })
         })
       }
     }
 
-    let fieldSettings = this.state.element.cook().settings(listener.key)
+    let fieldSettings = cookElement.settings(listener.key)
     if (this.props.options.nestedAttr) {
-      let attrSettings = this.state.element.cook().settings(this.props.options.fieldKey).settings.options.settings
-      fieldSettings = this.state.element.cook().settings(listener.key, attrSettings)
+      let attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
+      fieldSettings = cookElement.settings(listener.key, attrSettings)
     }
     const rules = this.getRules(fieldSettings)
     const isNested = this.props.options && this.props.options.nestedAttr
-    let values = this.state.element.get()
+    let values = element
     if (isNested) {
-      values = values[ this.props.options.fieldKey ].value[ this.props.options.activeParamGroupIndex ]
+      values = element[ this.props.options.fieldKey ].value[ this.props.options.activeParamGroupIndex ]
     }
 
     RulesManager.check(values, rules, (status) => {
@@ -233,12 +231,12 @@ export default class ActivitiesManager extends React.Component {
   }
 
   render () {
-    const { activeTabId, options } = this.props
-    const { element } = this.state
+    const { activeTabId, options, elementAccessPoint } = this.props
+
     return (
       <EditForm
         activeTabId={activeTabId}
-        element={element}
+        elementAccessPoint={elementAccessPoint}
         setFieldMount={this.setFieldMount}
         setFieldUnmount={this.setFieldUnmount}
         onAttributeChange={this.onAttributeChange}

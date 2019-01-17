@@ -106,11 +106,14 @@ export default class ControlsManager {
     this.setup(options)
 
     workspaceStorage.state('contentEnd').onChange((action) => {
+      console.log('ContentEnd change again', action)
+      debugger
       this.editFormId = null
       this.frames.hide()
-      let data = workspaceStorage.state('settings').get()
-      if (data && action === 'editElement' && data.element) {
-        this.editFormId = data.element.id
+      // TODO: Check contentEnd and editElement
+      let workspaceSettings = workspaceStorage.state('settings').get()
+      if (workspaceSettings && action === 'editElement' && workspaceSettings.elementAccessPoint) {
+        this.editFormId = workspaceSettings.elementAccessPoint.id
       }
     })
   }

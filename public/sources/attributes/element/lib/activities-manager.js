@@ -7,7 +7,7 @@ const RulesManager = vcCake.getService('rulesManager')
 const ActionsManager = vcCake.getService('actionsManager')
 export default class ActivitiesManager extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired,
+    elementAccessPoint: PropTypes.object.isRequired,
     activeState: PropTypes.string,
     api: PropTypes.object.isRequired
   }
@@ -21,18 +21,18 @@ export default class ActivitiesManager extends React.Component {
     this.resetIfEditFormClosed = this.resetIfEditFormClosed.bind(this)
   }
 
-  listeners = this.initListeners(this.props.element)
+  listeners = this.initListeners(this.props.elementAccessPoint.cook())
 
   componentWillUpdate (nextProps) {
     this.mount = {}
     this.stack = {}
     this.mountStack = {}
     this.initialStack = {}
-    this.listeners = this.initListeners(nextProps.element)
+    this.listeners = this.initListeners(nextProps.elementAccessPoint.cook())
   }
 
   shouldComponentUpdate (nextProps) {
-    return nextProps.element.get('id') !== this.props.element.get('id') || nextProps.activeState !== this.props.activeState
+    return nextProps.elementAccessPoint.id !== this.props.elementAccessPoint.id || nextProps.activeState !== this.props.activeState
   }
 
   initListeners (element) {
@@ -88,21 +88,21 @@ export default class ActivitiesManager extends React.Component {
 
   onElementChange = (key, value) => {
     this.props.element.set(key, value)
-    const { element, api } = this.props
-    const elementData = element.toJS()
+    const { elementAccessPoint, api } = this.props
+    const elementData = elementAccessPoint.cook().toJS()
     if (!vcCake.getData('lockActivity')) {
       vcCake.setData('lockActivity', 'Are you sure?')
       vcCake.onDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
     }
-    vcCake.setData(`element:instantMutation:${element.get('id')}`, elementData)
+    vcCake.setData(`element:instantMutation:${elementAccessPoint.id}`, elementData)
     api.request('data:instantMutation', elementData, 'update')
     this.callFieldActivities(null, key)
   }
 
   resetIfEditFormClosed () {
-    const { element, api } = this.props
+    const { elementAccessPoint, api } = this.props
     vcCake.ignoreDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
-    vcCake.setData(`element:instantMutation:${element.get('id')}`, false)
+    vcCake.setData(`element:instantMutation:${elementAccessPoint.id}`, false)
     api.request('data:instantMutation', false, 'update')
   }
 
@@ -174,9 +174,10 @@ export default class ActivitiesManager extends React.Component {
       return true
     }
 
+    let cookElement = this.props.elementAccessPoint.cook()
     let current = {
       key: listener.key,
-      value: this.props.element.get(listener.key)
+      value: cookElement.get(listener.key)
     }
 
     if (this.mount[ listener.key ].field) {
@@ -190,22 +191,22 @@ export default class ActivitiesManager extends React.Component {
       current[ type ] = this.mount[ listener.key ][ type ]
     })
     let actionsCallback = (ruleState, listener) => {
-      let actions = this.getActions(this.props.element.settings(listener.key))
+      let actions = this.getActions(cookElement.settings(listener.key))
       if (actions) {
         keys.forEach((type) => {
           actions.forEach((action) => {
             ActionsManager.do(action, ruleState, {
               ref: current[ type ].ref,
               refComponent: current[ type ].refComponent,
-              [type]: current[ type ],
+              [ type ]: current[ type ],
               value: current.value,
               key: current.key
-            }, this.props.element)
+            }, cookElement)
           })
         })
       }
     }
-    RulesManager.check(this.props.element.toJS(), this.getRules(this.props.element.settings(listener.key)), (status) => {
+    RulesManager.check(cookElement.toJS(), this.getRules(cookElement.settings(listener.key)), (status) => {
       actionsCallback(status, listener)
     })
 

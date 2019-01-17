@@ -1,54 +1,34 @@
-class Element {
+const privateCookElementKey = Symbol(' _cookElement')
+
+export default class Element {
   constructor (data, services, storages) {
+    this.inner = data.inner
     this.id = data.id
+    this.tag = data.tag
     this.services = services
     this.storages = storages
-    const cooked = this.cook()
-    cooked.filter((key, value, settings) => {
-      Object.defineProperty(this, key, {
-        set: settings.access === 'public' ? (val) => {
-          storages.elements.trigger('update', this.id, {
-            ...this.get(),
-            [ key ]: val
-          }, 'editForm', {
-            changedAttribute: key,
-            changedAttributeType: settings.type
-          })
-        } : () => {
-          console.warn('protected key')
-        },
-        get: () => {
-          let value = this.get()[ key ]
-          if (!value) {
-            let cookKey = this.cook().get(key)
-            if (cookKey) {
-              value = cookKey.value
-            }
-          }
-          return value
-        }
+
+    Object.defineProperty(this, privateCookElementKey, {
+      writable: false,
+      value: this.services.cook.get(data)
+    })
+  }
+
+  set (key, value) {
+    this[ privateCookElementKey ].set(key, value)
+    if (!this.inner) {
+      this.storages.elements.trigger('update', this.id, {
+        ...this.cook().toJS(),
+        [ key ]: value
+      }, 'editForm', {
+        changedAttribute: key,
+        changedAttributeType: this[ privateCookElementKey ].settings(key).type
       })
-      return false
-    })
-    Object.defineProperty(this, 'customHeaderTitle', {
-      set: (val) => {
-        storages.elements.trigger('update', this.id, {
-          ...this.get(),
-          customHeaderTitle: val
-        })
-      },
-      get: () => {
-        return this.get().customHeaderTitle
-      }
-    })
+    }
   }
 
   cook () {
-    return this.services.cook.get(this.get())
-  }
-
-  get () {
-    return this.services.document.get(this.id)
+    return this[ privateCookElementKey ]
   }
 
   onChange (callback) {
@@ -69,5 +49,3 @@ class Element {
     // this.storages.elements.off(`element:${this.id}:attribute:${fieldKey}`, callback)
   }
 }
-
-export default Element

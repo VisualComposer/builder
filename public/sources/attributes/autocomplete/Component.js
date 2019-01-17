@@ -14,7 +14,7 @@ export default class AutoComplete extends Attribute {
         onChange={this.setFieldValue}
         value={this.props.value}
         fieldKey={this.props.fieldKey}
-        element={this.props.element}
+        elementAccessPoint={this.props.elementAccessPoint}
         validator={this.validate}
         validation={this.props.options.validation}
         action={this.props.options.action}

@@ -6,14 +6,14 @@ import classNames from 'classnames'
 
 export default class Field extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired,
+    elementAccessPoint: PropTypes.object.isRequired,
     fieldKey: PropTypes.string.isRequired,
     onAttributeChange: PropTypes.func.isRequired
   }
 
   constructor (props) {
     super(props)
-    let value = props.element[ props.fieldKey ]
+    let value = props.elementAccessPoint.cook().toJS()[ props.fieldKey ]
     if (props.options.nestedAttr) {
       value = props.options.activeParamGroup[ props.fieldKey ]
     }
@@ -26,7 +26,7 @@ export default class Field extends React.Component {
   }
 
   componentDidMount () {
-    this.props.element.onAttributeChange(this.props.fieldKey, this.updateValue)
+    this.props.elementAccessPoint.onAttributeChange(this.props.fieldKey, this.updateValue)
     this.props.setFieldMount(this.props.fieldKey, {
       ref: this.refs.field,
       refComponent: this,
@@ -35,7 +35,7 @@ export default class Field extends React.Component {
   }
 
   componentWillUnmount () {
-    this.props.element.ignoreAttributeChange(this.props.fieldKey, this.updateValue)
+    this.props.elementAccessPoint.ignoreAttributeChange(this.props.fieldKey, this.updateValue)
     this.props.setFieldUnmount(this.props.fieldKey, 'field')
   }
 
@@ -53,15 +53,17 @@ export default class Field extends React.Component {
       options.customUpdater(options.activeParamGroupIndex, element, fieldKey, value)
       this.props.onAttributeChange(fieldKey)
     } else {
-      this.props.element[ fieldKey ] = value
+      this.props.elementAccessPoint.set(fieldKey, value)
       this.props.onAttributeChange(fieldKey)
     }
   }
 
   render () {
-    let { fieldKey, tab, fieldType, element } = this.props
+    let { fieldKey, tab, fieldType, elementAccessPoint } = this.props
     let { value } = this.state
 
+    let cookElement = elementAccessPoint.cook()
+    let element = cookElement.toJS()
     let classes = classNames({
       'vcv-ui-form-dependency': true
     }, this.state.dependenciesClasses)
@@ -69,10 +71,10 @@ export default class Field extends React.Component {
     if (fieldKey && element) {
       value = element[ fieldKey ]
     }
-    let { type, settings } = element.cook().settings(fieldKey)
+    let { type, settings } = cookElement.settings(fieldKey)
     if (this.props.options.nestedAttr) {
-      let attrSettings = element.cook().settings(this.props.options.fieldKey).settings.options.settings
-      let elSettings = element.cook().settings(fieldKey, attrSettings)
+      let attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
+      let elSettings = cookElement.settings(fieldKey, attrSettings)
       type = elSettings.type
       settings = elSettings.settings
       value = element[ this.props.options.fieldKey ].value[ this.props.options.activeParamGroupIndex ][ fieldKey ]
@@ -108,6 +110,7 @@ export default class Field extends React.Component {
     if (typeof defaultValue === `undefined`) {
       defaultValue = settings.value
     }
+
     return (
       <div ref='field' className={classes}>
         <div className='vcv-ui-form-group' key={`form-group-field-${element.id}-${fieldKey}`}>
@@ -119,7 +122,7 @@ export default class Field extends React.Component {
             defaultValue={defaultValue}
             fieldKey={fieldKey}
             updater={this.updateElement}
-            element={element.cook()}
+            elementAccessPoint={elementAccessPoint}
             fieldType={fieldType}
             ref='domComponent'
           />

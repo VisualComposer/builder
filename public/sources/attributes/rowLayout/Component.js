@@ -245,7 +245,7 @@ export default class Layout extends Attribute {
     if (props.value && props.value.layoutData && (props.value.layoutData['all'] || props.value.layoutData['xs'])) {
       deviceLayoutData = props.value.layoutData
     } else {
-      deviceLayoutData = Layout.getLayoutData(props.element.get('id'), true)
+      deviceLayoutData = Layout.getLayoutData(props.elementAccessPoint.id, true)
     }
 
     const defaultLayoutData = deviceLayoutData.defaultSize ? deviceLayoutData.defaultSize : []

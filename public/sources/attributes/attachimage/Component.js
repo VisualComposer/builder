@@ -17,7 +17,8 @@ const SortableList = SortableContainer((props) => {
 export default class AttachImage extends Attribute {
   static propTypes = {
     value: PropTypes.oneOfType([ PropTypes.string, PropTypes.object, PropTypes.array ]).isRequired,
-    fieldKey: PropTypes.string.isRequired
+    fieldKey: PropTypes.string.isRequired,
+    elementAccessPoint: PropTypes.object.isRequired
   }
 
   constructor (props) {
@@ -243,7 +244,8 @@ export default class AttachImage extends Attribute {
     let { value, filter = false } = this.state
     let useDragHandle = true
     let dragClass = 'vcv-ui-form-attach-image-item--dragging'
-    let metaAssetsPath = this.props.element && this.props.element.data && this.props.element.data.metaAssetsPath
+    let cookElement = this.props.elementAccessPoint.cook()
+    let metaAssetsPath = cookElement.get('metaAssetsPath')
     let filterControl = (
       <div className='vcv-ui-form-attach-image-filter-toggle'>
         <Toggle value={filter} fieldKey='enableFilter' updater={this.toggleFilter}

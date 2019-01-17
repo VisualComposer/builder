@@ -22,11 +22,11 @@ export default class ParamsGroupAttribute extends Attribute {
     this.getSortableItems = this.getSortableItems.bind(this)
   }
 
-  onParamChange (index, element, paramFieldKey, newValue) {
+  onParamChange (index, elementAccessPoint, paramFieldKey, newValue) {
     let { updater, fieldKey, fieldType } = this.props
     let { value } = this.state
     value.value[ index ][ paramFieldKey ] = newValue
-    element.cook ? element.cook().set(fieldKey, value) : element.set(fieldKey, value)
+    elementAccessPoint.set(fieldKey, value)
     updater(fieldKey, value, null, fieldType)
   }
 
@@ -56,13 +56,14 @@ export default class ParamsGroupAttribute extends Attribute {
     let groupName = this.state.value.value[ index ]
     let options = {
       nestedAttr: true,
-      parentElement: this.props.element,
+      parentElementAccessPoint: this.props.elementAccessPoint,
       activeParamGroup: groupName,
       activeParamGroupIndex: index,
       fieldKey: this.props.fieldKey,
       customUpdater: this.onParamChange.bind(this)
     }
-    workspaceStorage.trigger('edit', this.props.element.get('id'), this.props.element.get('tag'), options)
+    // TODO: Improve nesting edit form opening
+    workspaceStorage.trigger('edit', this.props.elementAccessPoint.id, this.props.elementAccessPoint.tag, options)
   }
 
   clickAdd () {
@@ -159,13 +160,13 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   updateContent (value, groupIndex) {
-    const { element } = this.props
+    const { elementAccessPoint } = this.props
     if (!value) {
       value = this.props.options.title
       this[ `title${groupIndex}` ].innerText = value
     }
 
-    this.onParamChange(groupIndex, element, 'title', value)
+    this.onParamChange(groupIndex, elementAccessPoint, 'title', value)
 
     this.setState({
       editable: {}

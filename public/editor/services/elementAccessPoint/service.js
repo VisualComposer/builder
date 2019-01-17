@@ -11,13 +11,17 @@ const storages = {
 }
 
 const ElementAPI = {
-  get: (id) => {
-    let data = services.document.get(id)
-    if (data) {
-      return new Element(data, services, storages)
-    } else {
-      return null
+  getInstance: (id, elementData) => {
+    if (id) {
+      elementData = services.document.get(id)
+      if (elementData) {
+        return new Element(elementData, services, storages)
+      }
+    } else if (elementData) {
+      elementData.inner = true
+      return new Element(elementData, services, storages)
     }
+    return null
   }
 }
 

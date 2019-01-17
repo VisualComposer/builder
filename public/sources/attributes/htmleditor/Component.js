@@ -142,9 +142,11 @@ export default class Component extends Attribute {
   }
 
   getDarkTextSkinState () {
-    let { element, options } = this.props
+    let { elementAccessPoint, options } = this.props
     const toggleFieldKey = options && options.skinToggle
-    return !!(toggleFieldKey && element && element.data && element.data[ toggleFieldKey ])
+    const cookElement = elementAccessPoint.cook()
+    const element = cookElement.toJS()
+    return !!(toggleFieldKey && element && element[ toggleFieldKey ])
   }
 
   render () {

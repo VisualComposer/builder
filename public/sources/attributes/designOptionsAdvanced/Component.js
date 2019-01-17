@@ -234,13 +234,12 @@ export default class DesignOptionsAdvanced extends Attribute {
 
   componentDidMount () {
     this.getDefaultStyles()
-
-    const id = this.props.element.get('id')
+    const id = this.props.elementAccessPoint.id
     elementsStorage.on(`element:${id}`, this.handleElementChange)
   }
 
   componentWillUnmount () {
-    const id = this.props.element.get('id')
+    const id = this.props.elementAccessPoint.id
     elementsStorage.off(`element:${id}`, this.handleElementChange)
   }
 
@@ -765,13 +764,16 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getDeviceVisibilityRender () {
     if (this.state.currentDevice === 'all') {
-      let id = this.props.element.get('id')
+      let id = this.props.elementAccessPoint.id
       let element = documentManager.get(id)
 
+      // TODO: Check maybe elementAccessPoint.cook().get will be correct here, not the documentManager
       if (element.tag === 'column') {
         return null
       } else {
         let checked = !element.hidden
+        // TODO: Use correct localization here
+
         return (
           <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
             <div className='vcv-ui-form-switch-container'>
@@ -804,7 +806,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   elementVisibilityChangeHandler () {
-    workspaceStorage.trigger('hide', this.props.element.get('id'))
+    workspaceStorage.trigger('hide', this.props.elementAccessPoint.id)
   }
 
   /**
@@ -920,7 +922,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     let doAttribute = 'data-vce-do-apply'
     let frame = document.querySelector('#vcv-editor-iframe')
     let frameDocument = frame.contentDocument || frame.contentWindow.document
-    let elementIdSelector = `el-${this.props.element.data.id}`
+    let elementIdSelector = `el-${this.props.elementAccessPoint.id}`
     let element = frameDocument.querySelector(`#${elementIdSelector}`)
     let styles = [ 'border', 'padding', 'margin' ]
 
@@ -957,8 +959,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           let allStyleElement = (dolly).querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
 
           if (allStyleElement) {
-            let allDefaultStyles = this.getElementStyles(allStyleElement)
-            mainDefaultStyles.all = allDefaultStyles
+            mainDefaultStyles.all = this.getElementStyles(allStyleElement)
           } else {
             styles.forEach((style) => {
               let innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
@@ -1005,9 +1006,9 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (clonedElement) {
       let computedStyles = ''
       if (innerSelector) {
-        let element = clonedElement.querySelector(innerSelector)
-        if (element) {
-          computedStyles = window.getComputedStyle(element)
+        let domElement = clonedElement.querySelector(innerSelector)
+        if (domElement) {
+          computedStyles = window.getComputedStyle(domElement)
         }
       } else {
         computedStyles = clonedElement ? window.getComputedStyle(clonedElement) : ''
@@ -1076,7 +1077,9 @@ export default class DesignOptionsAdvanced extends Attribute {
           multiple: true
         }}
         updater={this.attachImageChangeHandler}
-        value={value} />
+        value={value}
+        elementAccessPoint={this.props.elementAccessPoint}
+      />
     </div>
   }
 

@@ -9,7 +9,7 @@ export default class TreeViewAttribute extends Attribute {
 
     return (
       <div className='vcv-ui-form-tree-view--attribute'>
-        <TreeViewLayout visible={isVisible} isAttribute={isAttribute} element={this.props.element} />
+        <TreeViewLayout visible={isVisible} isAttribute={isAttribute} element={this.props.elementAccessPoint.cook()} />
       </div>
     )
   }

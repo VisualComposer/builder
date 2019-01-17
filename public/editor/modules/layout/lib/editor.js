@@ -77,6 +77,9 @@ export default class LayoutEditor extends React.Component {
       let settings = workspaceStorage.state(contentState).get()
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+        // TODO: Check contentEnd
+        console.log('Check why whe should set contentEnd', e)
+        debugger
         workspaceStorage.state('contentEnd').set(false)
       }
       if (settings === 'treeView') {

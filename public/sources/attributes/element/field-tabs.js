@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 export default class AttributeElementFieldWrapper extends ActivitiesManager {
   static propTypes = {
-    element: PropTypes.object.isRequired,
+    elementAccessPoint: PropTypes.object.isRequired,
     exclude: PropTypes.array
   }
 
@@ -24,7 +24,7 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
         {...this.props}
         setFieldMount={this.setFieldMount}
         setFieldUnmount={this.setFieldUnmount}
-        key={`element-edit-form-field-${this.props.element.get('id')}-${field.key}`}
+        key={`element-edit-form-field-${this.props.elementAccessPoint.id}-${field.key}`}
         fieldKey={field.key}
         updater={this.onElementChange}
       />
@@ -32,7 +32,7 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
   }
 
   onElementChange = (key, value) => {
-    this.props.element.set(key, value)
+    this.props.elementAccessPoint.set(key, value)
     this.callFieldActivities(null, key)
     this.props.onChange()
   }
@@ -43,7 +43,7 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
     this.props.allTabs.forEach((tab) => {
       let plateClass = classNames({}, `vcv-ui-editor-plate-${tab.id}`)
       content.push(
-        <div key={`element-plate-visible-${this.props.element.get('id')}-${tab.id}`} className={plateClass}>
+        <div key={`element-plate-visible-${this.props.elementAccessPoint.id}-${tab.id}`} className={plateClass}>
           {tab.params.map(this.field)}
         </div>
       )

@@ -1,9 +1,9 @@
-import vcCake from 'vc-cake'
 import React from 'react'
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import { getService } from 'vc-cake'
 
-const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 
 export default class CustomTemplateControl extends React.Component {
   static propTypes = {
@@ -23,16 +23,9 @@ export default class CustomTemplateControl extends React.Component {
     removeTemplateText: PropTypes.string
   }
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      letter: this.props.name.charAt(0).toUpperCase()
-    }
-  }
-
   render () {
     const { name, spinner, addTemplateText, removeTemplateText, handleApplyTemplate, handleRemoveTemplate } = this.props
-    const { letter } = this.state
+    const letter = name.charAt(0).toUpperCase()
 
     let nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,

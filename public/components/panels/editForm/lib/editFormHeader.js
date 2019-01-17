@@ -10,14 +10,14 @@ const elementsStorage = getStorage('elements')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
-    element: PropTypes.object.isRequired,
+    elementAccessPoint: PropTypes.object.isRequired,
     options: PropTypes.object
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      content: props.element.cook().getName(),
+      content: props.elementAccessPoint.cook().getName(),
       editable: false
     }
 
@@ -30,18 +30,18 @@ export default class EditFormHeader extends React.Component {
   }
 
   componentDidMount () {
-    const { element } = this.props
-    element.onChange(this.updateElementOnChange)
+    const { elementAccessPoint } = this.props
+    elementAccessPoint.onChange(this.updateElementOnChange)
   }
 
   componentWillUnmount () {
-    const { element } = this.props
-    element.ignoreChange(this.updateElementOnChange)
+    const { elementAccessPoint } = this.props
+    elementAccessPoint.ignoreChange(this.updateElementOnChange)
   }
 
   updateElementOnChange () {
-    const { element } = this.props
-    let cookElement = element.cook()
+    const { elementAccessPoint } = this.props
+    let cookElement = elementAccessPoint.cook()
     let content = cookElement.getName()
     // Check element name field
     if (this.state.content !== content) {
@@ -80,12 +80,14 @@ export default class EditFormHeader extends React.Component {
   }
 
   updateContent (value) {
-    const { element } = this.props
+    const { elementAccessPoint } = this.props
     if (!value) {
-      let tempelement = element.services.cook.get({ tag: element.get('id').tag })
-      this.span.innerText = tempelement.get('name')
+      // TODO: Correct name
+      //let tempelement = element.services.cook.get({ tag: element.get('id').tag })
+      //this.span.innerText = tempelement.get('name')
+     // this.span.innerText = elementAccessPoint.get('name')
     }
-    element.customHeaderTitle = value
+    // elementAccessPoint.customHeaderTitle = value // TODO: SET
     this.setState({
       editable: false
     })
@@ -107,14 +109,15 @@ export default class EditFormHeader extends React.Component {
   }
 
   goBack () {
-    let { parentElement, options } = this.props.options
-    let element = cook.get(parentElement)
-    workspaceStorage.trigger('edit', element.get('id'), element.get('tag'), options)
+    let { parentElementAccessPoint, options } = this.props.options
+    workspaceStorage.trigger('edit', parentElementAccessPoint.id, parentElementAccessPoint.tag, options)
   }
 
   render () {
-    const { element, options } = this.props
+    const { elementAccessPoint, options } = this.props
     let { content, editable } = this.state
+    console.log(options)
+    debugger;
     let isNested = options && (options.child || options.nestedAttr)
     let headerTitleClasses = classNames({
       'vcv-ui-edit-form-header-title': true,
@@ -130,7 +133,7 @@ export default class EditFormHeader extends React.Component {
       content = options.activeParamGroup.title
     }
 
-    const sectionImageSrc = hubCategories.getElementIcon(element.tag)
+    const sectionImageSrc = hubCategories.getElementIcon(elementAccessPoint.tag)
     const sectionImage = sectionImageSrc ? (
       <img className='vcv-ui-edit-form-header-image' src={sectionImageSrc} title={content} />) : null
 
@@ -151,14 +154,11 @@ export default class EditFormHeader extends React.Component {
         {content}
       </span>)
 
-    let editIcon = null
-
     return (
       <div className='vcv-ui-edit-form-header'>
         {backButton}
         {sectionImage}
         {headerTitle}
-        {editIcon}
       </div>
     )
   }
