@@ -43,11 +43,15 @@ upstream	git@gitlab.com:visual-composer-website-builder/builder.git (fetch)
 upstream	git@gitlab.com:visual-composer-website-builder/builder.git (push)
 ```
 
+### Creating features
+
+Use Feature Branch workflow
+
+If you want to send you data to upstream you need to create merge request in Gitlab
+
 ### Bring builder up to date
 
 ```sh
 $ git checkout master && git pull upstream master # checkout
 $ git push
 ```
-
-If you want to send you data to upstream you need to create merge request in Gitlab
