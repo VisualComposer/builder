@@ -451,7 +451,7 @@ class Categories implements Helper
             ],
             'Testimonial' => [
                 'title' => 'Testimonial',
-                'elements' => ['testimonial'],
+                'elements' => ['testimonial', 'basicTestimonial'],
                 'icon' => $urlHelper->to('public/categories/icons/Testimonial.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Testimonial.svg'),
             ],

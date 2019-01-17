@@ -70,7 +70,8 @@ export default class TreeViewElement extends React.Component {
       this.props.updateElementsData(data || this.props.element, 'singleElement')
     }
     if (data && data.hasOwnProperty('customHeaderTitle')) {
-      let content = data.customHeaderTitle || data.name
+      let element = cook.get(this.props.element)
+      let content = data.customHeaderTitle || element.getName()
       if (this.state.content !== content) {
         this.setState({
           content
@@ -274,25 +275,23 @@ export default class TreeViewElement extends React.Component {
   }
 
   updateContent (value) {
-    let element = cook.get(this.props.element)
-    element.set('customHeaderTitle', value)
-    let elementData = element.toJS()
+    let cookElement = cook.get(this.props.element)
+    cookElement.set('customHeaderTitle', value)
+    let elementData = cookElement.toJS()
     elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
     this.setState({
-      content: value || element.get('name'),
+      content: value || cookElement.getName(),
       editable: false
     }, () => {
       if (!value && this.span) {
-        this.span.innerText = element.get('name')
+        this.span.innerText = cookElement.getName()
       }
     })
   }
 
   validateContent () {
-    let value = this.span && this.span.innerText.trim()
-    if (value) {
-      this.updateContent(value)
-    }
+    let value = this.span ? this.span.innerText.trim() : ''
+    this.updateContent(value)
   }
 
   preventNewLine (event) {
@@ -592,7 +591,7 @@ export default class TreeViewElement extends React.Component {
     let defaultSpace = utils.isRTL() ? 2 : 1
 
     if (!content) {
-      content = element.get('name')
+      content = element.getName()
     }
 
     let controlLabelClasses = 'vcv-ui-tree-layout-control-label'

@@ -82,10 +82,7 @@ export default class EditFormHeader extends React.Component {
   updateContent (value) {
     const { elementAccessPoint } = this.props
     if (!value) {
-      // TODO: Correct name
-      //let tempelement = element.services.cook.get({ tag: element.get('id').tag })
-      //this.span.innerText = tempelement.get('name')
-     // this.span.innerText = elementAccessPoint.get('name')
+      this.span.innerText = elementAccessPoint.cook().getName()
     }
     // elementAccessPoint.customHeaderTitle = value // TODO: SET
     this.setState({
