@@ -1,8 +1,8 @@
 import React from 'react'
-import Element from './element'
-import BlankRowPlaceholder from '../../../../components/layoutHelpers/blankRowPlaceholder/component'
 import PropTypes from 'prop-types'
 import { getStorage } from 'vc-cake'
+import Element from './element'
+import BlankRowPlaceholder from 'public/components/layoutHelpers/blankRowPlaceholder/component'
 
 const workspaceStorage = getStorage('workspace')
 
@@ -66,7 +66,7 @@ export default class HtmlLayout extends React.Component {
       })
     }
 
-    layoutsContent.push(elementsList)
+    elementsList && layoutsContent.push(elementsList)
     if (editorType === 'footer') {
       layoutsContent.unshift(<BlankRowPlaceholder api={this.props.api} key='blank-row-placeholder' />)
     } else {
