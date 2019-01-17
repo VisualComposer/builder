@@ -13,6 +13,7 @@ export default class WorkspaceCont extends React.Component {
     super(props)
     this.state = {
       content: false,
+      treeViewId: '',
       settings: {}
     }
     this.setContent = this.setContent.bind(this)
@@ -21,17 +22,22 @@ export default class WorkspaceCont extends React.Component {
     this.resetPanelSize = this.resetPanelSize.bind(this)
     this.updatePanel = this.updatePanel.bind(this)
   }
+
   componentDidMount () {
     workspace.state('content').onChange(this.setContent)
   }
+
   componentWillUnmount () {
     workspace.state('content').ignoreChange(this.setContent)
   }
-  setContent (value, id) {
+
+  setContent (value, treeViewId) {
     const content = value || false
+    console.log('setContent', value, treeViewId)
+    debugger
     this.setState({
       content: content,
-      contentId: id || '',
+      treeViewId: treeViewId || '',
       settings: workspace.state('settings').get() || {}
     })
   }
@@ -78,16 +84,17 @@ export default class WorkspaceCont extends React.Component {
   }
 
   render () {
-    const { content, contentId, settings } = this.state
+    const { content, treeViewId, settings } = this.state
     this.updatePanel()
+    console.log('render workspaceCont', this.state, content, settings)
 
     return (
-      <Workspace content={!!content}>
+      <Workspace hasContent={!!content}>
         <NavbarContainer getNavbarPosition={this.getNavbarPosition} wrapperRef={(navbar) => { this.navbar = navbar }} />
         <PanelsContainer
           content={content}
           settings={settings}
-          contentId={contentId}
+          treeViewId={treeViewId}
           wrapperRef={(panel) => {
             this.panel = panel
           }}

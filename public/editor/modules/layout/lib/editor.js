@@ -48,12 +48,8 @@ export default class LayoutEditor extends React.Component {
     this.editor.bind('a', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        workspaceStorage.state('contentStart').set(false)
-      }
       if (settings && settings.action === 'add') {
-        workspaceStorage.state('settings').set({})
+        workspaceStorage.state('settings').set(false)
       } else {
         workspaceStorage.trigger('add')
       }
@@ -61,27 +57,18 @@ export default class LayoutEditor extends React.Component {
     this.editor.bind('l', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        workspaceStorage.state('contentStart').set(false)
-      }
       if (settings && settings.action === 'addTemplate') {
-        workspaceStorage.state('settings').set({})
+        workspaceStorage.state('settings').set(false)
       } else {
         workspaceStorage.trigger('addTemplate')
       }
     })
     this.editor.bind('t', (e) => {
+      // TODO: Check same code!
+      console.log('Editor.bind t', e)
       e.preventDefault()
       let contentState = 'content'
       let settings = workspaceStorage.state(contentState).get()
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        // TODO: Check contentEnd
-        console.log('Check why whe should set contentEnd', e)
-        debugger
-        workspaceStorage.state('contentEnd').set(false)
-      }
       if (settings === 'treeView') {
         workspaceStorage.state(contentState).set(false)
       } else {
@@ -101,8 +88,8 @@ export default class LayoutEditor extends React.Component {
     })
     this.editor.bind('esc', (e) => {
       e.preventDefault()
-      workspaceStorage.state('contentStart').set(false)
-      workspaceStorage.state('settings').set({})
+      // workspaceStorage.state('contentStart').set(false)
+      workspaceStorage.state('settings').set(false)
     }, 'keyup')
   }
 

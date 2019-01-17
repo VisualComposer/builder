@@ -159,11 +159,13 @@ export default class ContentEditableComponent extends React.Component {
       element.set(this.props.field, contentToSave)
       elementsStorage.trigger('update', element.get('id'), element.toJS())
       const workspaceStorageState = workspaceStorage.state('settings').get()
-      const isSameElement = this.props.id === (workspaceStorageState && workspaceStorageState.elementAccessPoint.id)
-      if (isSameElement && workspaceStorageState && workspaceStorageState.action === 'edit') {
-        const options = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options : ''
-        const activeTab = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options.activeTab : ''
-        workspaceStorage.trigger('edit', this.props.id, activeTab, options)
+      if (workspaceStorageState && workspaceStorageState.action === 'edit') {
+        const isSameElement = workspaceStorageState.elementAccessPoint && workspaceStorageState.elementAccessPoint.id === this.props.id
+        if (isSameElement) {
+          const options = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options : ''
+          const activeTab = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options.activeTab : ''
+          workspaceStorage.trigger('edit', this.props.id, activeTab, options)
+        }
       }
       // this.props.api.request('data:update', element.get('id'), element.toJS())
     }
@@ -176,7 +178,7 @@ export default class ContentEditableComponent extends React.Component {
   getParamsGroupContent (element, content) {
     const attrValue = element.get(this.props.field)
     const newValue = lodash.defaultsDeep({}, attrValue)
-    newValue.value[this.props.paramIndex][this.props.paramField] = content
+    newValue.value[ this.props.paramIndex ][ this.props.paramField ] = content
     return newValue
   }
 
@@ -439,7 +441,7 @@ export default class ContentEditableComponent extends React.Component {
     let inlineMode = this.props.options && this.props.options.inlineMode
     if (this.props.paramField && this.props.paramIndex >= 0) {
       const { paramField } = this.props
-      inlineMode = this.props.options.settings[paramField].options && this.props.options.settings[paramField].options.inlineMode
+      inlineMode = this.props.options.settings[ paramField ].options && this.props.options.settings[ paramField ].options.inlineMode
     }
     return inlineMode
   }

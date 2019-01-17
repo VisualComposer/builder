@@ -69,7 +69,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   constructor (props) {
     super(props)
     const workspaceState = workspaceStorage.state('settings').get()
-    if (workspaceState.options && workspaceState.options.filterType) {
+    if (workspaceState && workspaceState.options && workspaceState.options.filterType) {
       const { filterType, id, bundleType } = workspaceState.options
       this.state = {
         filterType: filterType,
@@ -162,7 +162,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       key={'vcv-element-control-' + tag}
       element={elementData}
       tag={tag}
-      workspace={workspaceStorage.state('settings').get() || {}}
+      // workspace={workspaceStorage.state('settings').get() || {}}
       type={elementData.type ? elementData.type : 'element'}
       update={elementData.update ? elementData.update : false}
       name={elementData.name}

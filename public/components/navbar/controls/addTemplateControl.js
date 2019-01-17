@@ -9,6 +9,7 @@ const workspaceContentState = getStorage('workspace').state('content')
 export default class AddTemplateControl extends NavbarContent {
   constructor (props) {
     super(props)
+    console.log('AddTemplateControl', workspaceContentState.get())
     this.state = {
       isActive: workspaceContentState.get() === 'addTemplate'
     }

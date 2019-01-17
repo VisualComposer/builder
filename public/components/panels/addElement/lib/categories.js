@@ -201,7 +201,7 @@ export default class Categories extends React.Component {
       element={elementData}
       hubElement={Categories.hubElements[ tag ]}
       tag={tag}
-      workspace={workspaceStorage.state('settings').get() || {}}
+      // workspace={workspaceStorage.state('settings').get() || false}
       name={element.get('name')}
       addElement={this.addElement}
       setFocusedElement={this.setFocusedElement}
@@ -290,12 +290,12 @@ export default class Categories extends React.Component {
   }
 
   addElement (tag) {
-    const workspace = workspaceStorage.state('settings').get() || {}
+    const workspace = workspaceStorage.state('settings').get() || false
     // TODO: Check elementAccessPoint
-    const parentElementId = workspace.element ? workspace.element.id : false
+    const parentElementId = workspace && workspace.element ? workspace.element.id : false
     const data = cook.get({ tag: tag, parent: parentElementId })
     elementsStorage.trigger('add', data.toJS(), true, {
-      insertAfter: workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
+      insertAfter: workspace && workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
     })
     this.addedId = data.toJS().id
 

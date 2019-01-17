@@ -255,33 +255,6 @@ export default class ControlsManager {
       }
     })
 
-    workspaceStorage.state('contentEnd').onChange((action) => {
-      this.editFormId = null
-      this.frames.hide()
-      // TODO: Check elementAccessPoint for editElement
-      debugger
-      let workspaceSettings = workspaceStorage.state('settings').get()
-      console.log('contentEnd', workspaceSettings, action)
-      if (action === 'editElement' && workspaceSettings.elementAccessPoint) {
-        if (workspaceSettings.elementAccessPoint.tag === 'row') {
-          this.editFormId = workspaceSettings.elementAccessPoint.id
-          this.showChildrenFramesWithDelay(this.editFormId)
-        } else if (workspaceSettings.elementAccessPoint.tag === 'column') {
-          this.editFormId = workspaceSettings.elementAccessPoint.id
-          this.showFramesOnOneElement(this.editFormId)
-        }
-      }
-    })
-
-    elementsStorage.state('rebuildRow').onChange(() => {
-      let settingsData = workspaceStorage.state('settings').get()
-      let contentEndData = workspaceStorage.state('contentEnd').get()
-      console.log('RebuildRow', settingsData, contentEndData)
-      if (contentEndData === 'editElement' && settingsData.element && settingsData.element.tag === 'row') {
-        this.showChildrenFramesWithDelay(this.editFormId)
-      }
-    })
-
     elementsStorage.state('elementAdd').onChange((data) => {
       if (data && data.tag === 'row') {
         this.showChildrenFramesWithDelay(data.id)
@@ -425,6 +398,7 @@ export default class ControlsManager {
         }
         let elementId = el.dataset.vcvElementId
         if (event === 'treeView') {
+          console.log('controlsManager, event treeView set ID', elementId)
           workspaceContentState.set('treeView', elementId)
         } else if (event === 'edit') {
           workspaceContentState.set(false)
@@ -686,6 +660,7 @@ export default class ControlsManager {
   handleFrameContainerLeave () {
     let data = workspaceStorage.state('settings').get()
     debugger
+    // TODO: Check accessPoint?
     console.log('HandleFrameContainerLeave', data)
     if (data && data.element) {
       if (data.element.tag === 'row') {

@@ -201,7 +201,7 @@ addStorage('elements', (storage) => {
       // close editForm if deleted element is opened in edit form
       const settings = workspaceStorage.state('settings').get()
       if (settings && settings.action === 'edit' && settings.elementAccessPoint && (parent.id === settings.elementAccessPoint.id)) {
-        workspaceStorage.state('settings').set({})
+        workspaceStorage.state('settings').set(false)
       }
       parent = parent.parent ? documentManager.get(parent.parent) : false
     } else if (element.tag === 'column') {

@@ -17,8 +17,7 @@ const documentManager = getService('document')
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
     scrollValue: PropTypes.any,
-    contentStartId: PropTypes.string,
-    contentId: PropTypes.string,
+    treeViewId: PropTypes.string,
     visible: PropTypes.bool,
     isAttribute: PropTypes.bool,
     element: PropTypes.object
@@ -53,7 +52,7 @@ export default class TreeViewLayout extends React.Component {
     if (singleElement && singleElement === 'singleElement') {
       const currentData = this.state.data
       const newDataIndex = currentData.findIndex(element => element.id === data.id)
-      currentData[newDataIndex] = data
+      currentData[ newDataIndex ] = data
       newData = currentData
     } else {
       newData = data
@@ -77,20 +76,20 @@ export default class TreeViewLayout extends React.Component {
       data: data
     })
     this.scrollTimeout = setTimeout(() => {
-      this.handleScrollToElement(this.props.contentStartId || this.props.contentId)
+      this.handleScrollToElement(this.props.treeViewId)
     }, 1)
-    workspaceStorage.state('content').onChange((value, id) => {
-      this.handleScrollToElement(id)
-    })
-    workspaceStorage.state('contentStart').onChange((value, id) => {
-      this.handleScrollToElement(id)
-    })
+    workspaceStorage.state('content').onChange(this.onContentChangeHandleScroll)
+  }
+
+  onContentChangeHandleScroll = (value, treeViewId) => {
+    treeViewId && this.handleScrollToElement(treeViewId)
   }
 
   componentWillUnmount () {
     this.updateElementsData.cancel()
     elementsStorage.state('document').ignoreChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').ignoreChange(this.interactWithContent)
+    workspaceStorage.state('content').ignoreChange(this.onContentChangeHandleScroll)
     if (this.scrollTimeout) {
       window.clearTimeout(this.scrollTimeout)
       this.scrollTimeout = 0
@@ -126,7 +125,7 @@ export default class TreeViewLayout extends React.Component {
 
   scrollBarMounted (scrollbar) {
     this.scrollbar = scrollbar
-    this.handleScrollToElement(this.props.contentStartId || this.props.contentId)
+    this.handleScrollToElement(this.props.treeViewId)
   }
 
   handleScrollToElement (scrollToElement) {

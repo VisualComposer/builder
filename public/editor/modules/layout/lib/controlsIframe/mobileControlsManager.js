@@ -4,7 +4,6 @@ import MobileDetect from 'mobile-detect'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
-const workspaceContentStartState = workspaceStorage.state('contentStart')
 const documentManager = vcCake.getService('document')
 
 export default class ControlsManager {
@@ -105,17 +104,17 @@ export default class ControlsManager {
     options = Object.assign({}, defaultOptions, options)
     this.setup(options)
 
-    workspaceStorage.state('contentEnd').onChange((action) => {
-      console.log('ContentEnd change again', action)
-      debugger
-      this.editFormId = null
-      this.frames.hide()
-      // TODO: Check contentEnd and editElement
-      let workspaceSettings = workspaceStorage.state('settings').get()
-      if (workspaceSettings && action === 'editElement' && workspaceSettings.elementAccessPoint) {
-        this.editFormId = workspaceSettings.elementAccessPoint.id
-      }
-    })
+    // workspaceStorage.state('contentEnd').onChange((action) => {
+    //   console.log('ContentEnd change again', action)
+    //   debugger
+    //   this.editFormId = null
+    //   this.frames.hide()
+    //   // TODO: Check contentEnd and editElement
+    //   let workspaceSettings = workspaceStorage.state('settings').get()
+    //   if (workspaceSettings && action === 'editElement' && workspaceSettings.elementAccessPoint) {
+    //     this.editFormId = workspaceSettings.elementAccessPoint.id
+    //   }
+    // })
   }
 
   /**
@@ -362,9 +361,6 @@ export default class ControlsManager {
       if (elementData) {
         this.editFormId = element.dataset.vcvElement
         workspaceStorage.trigger('edit', element.dataset.vcvElement, elementData.tag)
-        if (workspaceContentStartState.get() === 'treeView') {
-          workspaceContentStartState.set('treeView', element.dataset.vcvElement)
-        }
       }
     }
     // remove treeView outline bug on mobile

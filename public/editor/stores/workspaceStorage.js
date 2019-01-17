@@ -28,10 +28,6 @@ addStorage('workspace', (storage) => {
         return
       }
     }
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      storage.state('contentStart').set(false)
-    }
     storage.state('settings').set({
       action: 'add',
       element: element,
@@ -53,10 +49,6 @@ addStorage('workspace', (storage) => {
     //     return
     //   }
     // }
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      storage.state('contentStart').set(false)
-    }
     storage.state('settings').set({
       action: 'edit',
       elementAccessPoint: elementAccessPoint,
@@ -69,9 +61,10 @@ addStorage('workspace', (storage) => {
     elementsStorage.trigger('remove', id)
 
     // Close editForm if edit form is opened and element doesnt exist anymore
+    debugger
     if (settings && settings.action === 'edit' && settings.elementAccessPoint) {
       if (!documentManager.get(settings.elementAccessPoint.id)) {
-        storage.state('settings').set({})
+        storage.state('settings').set(false)
       }
     }
   })
@@ -219,10 +212,6 @@ addStorage('workspace', (storage) => {
     storage.state('app').set('started')
   })
   storage.on('addTemplate', () => {
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      storage.state('contentStart').set(false)
-    }
     storage.state('settings').set({
       action: 'addTemplate',
       element: false,

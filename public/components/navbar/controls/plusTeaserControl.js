@@ -12,6 +12,7 @@ export default class PlusTeaserControl extends NavbarContent {
     super(props)
     this.toggleAddElement = this.toggleAddElement.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
+    console.log('PlusTeaserControl', workspaceContentState.get())
     this.state = {
       isActive: workspaceContentState.get() === 'addHubElement',
       showBadge: window.vcvHubTeaserShowBadge

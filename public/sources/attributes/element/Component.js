@@ -245,7 +245,8 @@ export default class ElementAttribute extends Attribute {
       }
     }
 
-    const editableElement = vcCake.getStorage('workspace').state('settings').get().elementAccessPoint.id
+    const workspaceSettings = vcCake.getStorage('workspace').state('settings').get()
+    const editableElement = workspaceSettings && workspaceSettings.elementAccessPoint ? workspaceSettings.elementAccessPoint.id : false
     const currentElement = this.props.elementAccessPoint.id
 
     if (editableElement !== currentElement) {

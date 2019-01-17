@@ -1,10 +1,8 @@
 import React from 'react'
 import ClassNames from 'classnames'
 import { getStorage, onDataChange, ignoreDataChange } from 'vc-cake'
-import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import Combokeys from 'combokeys'
-
 import Resizer from '../resizer/resizer'
 
 const workspaceStorage = getStorage('workspace')
@@ -14,9 +12,7 @@ const historyStorage = getStorage('history')
 
 export default class Workspace extends React.Component {
   static propTypes = {
-    contentStart: PropTypes.bool,
-    contentEnd: PropTypes.bool,
-    content: PropTypes.bool,
+    hasContent: PropTypes.bool,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node
@@ -50,12 +46,8 @@ export default class Workspace extends React.Component {
     this.workspace.bind('a', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        workspaceStorage.state('contentStart').set(false)
-      }
       if (settings && settings.action === 'add') {
-        workspaceStorage.state('settings').set({})
+        workspaceStorage.state('settings').set(false)
       } else {
         workspaceStorage.trigger('add')
       }
@@ -63,28 +55,21 @@ export default class Workspace extends React.Component {
     this.workspace.bind('l', (e) => {
       e.preventDefault()
       let settings = workspaceStorage.state('settings').get()
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        workspaceStorage.state('contentStart').set(false)
-      }
       if (settings && settings.action === 'addTemplate') {
-        workspaceStorage.state('settings').set({})
+        workspaceStorage.state('settings').set(false)
       } else {
         workspaceStorage.trigger('addTemplate')
       }
     })
     this.workspace.bind('t', (e) => {
       e.preventDefault()
-      let contentState = 'content'
-      let settings = workspaceStorage.state(contentState).get()
-      const mobileDetect = new MobileDetect(window.navigator.userAgent)
-      if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        workspaceStorage.state('contentEnd').set(false)
-      }
+      let settings = workspaceStorage.state('content').get()
+      // TODO: Check same code!
+      console.log('workspace.bind t', e)
       if (settings === 'treeView') {
-        workspaceStorage.state(contentState).set(false)
+        workspaceStorage.state('content').set(false)
       } else {
-        workspaceStorage.state(contentState).set('treeView')
+        workspaceStorage.state('content').set('treeView')
       }
     })
     this.workspace.bind([ 'command+s', 'ctrl+s' ], (e) => {
@@ -102,8 +87,7 @@ export default class Workspace extends React.Component {
       e = e || window.event
       if (e && (e.key === 'Esc' || e.keyCode === 27)) {
         e.preventDefault()
-        workspaceStorage.state('contentStart').set(false)
-        workspaceStorage.state('settings').set({})
+        workspaceStorage.state('settings').set(false)
       }
     }
   }
@@ -141,15 +125,14 @@ export default class Workspace extends React.Component {
   }
 
   render () {
-    const { contentStart, contentEnd, content, stickyBar } = this.props
+    const { hasContent, stickyBar } = this.props
     let layoutClasses = ClassNames({
       'vcv-layout-bar': true,
-      'vcv-ui-content--hidden': !(contentEnd || contentStart || content),
-      'vcv-ui-content-start--visible': contentStart,
-      'vcv-ui-content-end--visible': contentEnd,
-      'vcv-ui-content-all--visible': content,
+      'vcv-ui-content--hidden': !hasContent,
+      'vcv-ui-content-all--visible': hasContent,
       'vcv-inline-editor--active': this.state.contentEditableMode
     })
+
     return (
       <div className={layoutClasses} style={stickyBar} onMouseUp={this.handleMouseUp} ref={(workspace) => {
         if (workspace && workspace.ownerDocument) {

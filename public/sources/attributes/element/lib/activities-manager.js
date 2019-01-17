@@ -90,6 +90,7 @@ export default class ActivitiesManager extends React.Component {
     this.props.element.set(key, value)
     const { elementAccessPoint, api } = this.props
     const elementData = elementAccessPoint.cook().toJS()
+    // TODO: Check this code?!
     if (!vcCake.getData('lockActivity')) {
       vcCake.setData('lockActivity', 'Are you sure?')
       vcCake.onDataChange('barContentEnd:Show', this.resetIfEditFormClosed)

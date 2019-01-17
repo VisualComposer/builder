@@ -1,5 +1,4 @@
 import React from 'react'
-
 import Logo from './logo/logo'
 import PlusControl from './controls/plusControl'
 import PlusTeaserControl from './controls/plusTeaserControl'
@@ -14,50 +13,28 @@ import NavbarSeparator from './controls/navbarSeparator'
 import Navbar from './navbar'
 import NavbarWrapper from './navbarWrapper'
 import GoPremiumControl from './controls/goPremiumControl'
-import { getStorage } from 'vc-cake'
-
-const workspaceStorage = getStorage('workspace')
-const contentEndState = workspaceStorage.state('contentEnd')
 
 export default class NavbarContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      locked: false
-    }
-    this.updateLockedState = this.updateLockedState.bind(this)
-  }
-
-  componentDidMount () {
-    contentEndState.onChange(this.updateLockedState)
-  }
-
-  componentWillUnmount () {
-    contentEndState.ignoreChange(this.updateLockedState)
-  }
-
-  updateLockedState (data) {
-    this.setState({ locked: !!data })
-  }
-
   render () {
-    const { locked } = this.state
+    // TODO: Check Locked=locked will be never called due to "contentEnd"
 
-    return <NavbarWrapper wrapperRef={this.props.wrapperRef}>
-      <Navbar locked={locked} draggable getNavbarPosition={this.props.getNavbarPosition}>
-        <GoPremiumControl visibility='hidden' />
-        <Logo visibility='pinned' editor='frontend' />
-        <PlusControl visibility='pinned' />
-        <AddTemplateControl />
-        <TreeViewControl visibility='pinned' />
-        <UndoRedoControl />
-        <LayoutControl visibility='pinned' />
-        <SettingsButtonControl />
-        <PlusTeaserControl />
-        <NavbarSeparator visibility='pinned' />
-        <WordPressPostSaveControl visibility='pinned' />
-        <WordPressAdminControl visibility='hidden' />
-      </Navbar>
-    </NavbarWrapper>
+    return (
+      <NavbarWrapper wrapperRef={this.props.wrapperRef}>
+        <Navbar draggable getNavbarPosition={this.props.getNavbarPosition}>
+          <GoPremiumControl visibility='hidden' />
+          <Logo visibility='pinned' editor='frontend' />
+          <PlusControl visibility='pinned' />
+          <AddTemplateControl />
+          <TreeViewControl visibility='pinned' />
+          <UndoRedoControl />
+          <LayoutControl visibility='pinned' />
+          <SettingsButtonControl />
+          <PlusTeaserControl />
+          <NavbarSeparator visibility='pinned' />
+          <WordPressPostSaveControl visibility='pinned' />
+          <WordPressAdminControl visibility='hidden' />
+        </Navbar>
+      </NavbarWrapper>
+    )
   }
 }

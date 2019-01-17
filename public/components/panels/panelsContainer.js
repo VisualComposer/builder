@@ -17,7 +17,7 @@ export default class PanelsContainer extends React.Component {
       PropTypes.node
     ]),
     settings: PropTypes.object,
-    contentId: PropTypes.string
+    treeViewId: PropTypes.string
   }
 
   constructor (props) {
@@ -76,7 +76,7 @@ export default class PanelsContainer extends React.Component {
   }
 
   render () {
-    const { content, contentId } = this.props
+    const { content, treeViewId } = this.props
     let layoutClasses = classNames({
       'vcv-layout-bar-content': true,
       'vcv-ui-state--visible': !!content,
@@ -88,7 +88,8 @@ export default class PanelsContainer extends React.Component {
       layoutStyle.height = this.state.height
     }
 
-    let treeViewLayout = <TreeViewLayout contentId={contentId} visible={content === 'treeView'} />
+    console.log('Render panelsContainer', treeViewId, content)
+    let treeViewLayout = <TreeViewLayout treeViewId={treeViewId} visible={content === 'treeView'} />
 
     return (
       <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>
