@@ -49,8 +49,8 @@ export default class Field extends React.Component {
 
   updateElement (fieldKey, value) {
     if (this.props.options.nestedAttr) {
-      const { options, element } = this.props
-      options.customUpdater(options.activeParamGroupIndex, element, fieldKey, value)
+      const { options, elementAccessPoint } = this.props
+      options.customUpdater(options.activeParamGroupIndex, elementAccessPoint, fieldKey, value)
       this.props.onAttributeChange(fieldKey)
     } else {
       this.props.elementAccessPoint.set(fieldKey, value)
