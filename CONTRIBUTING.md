@@ -20,12 +20,12 @@ To setup repo with SSH from the scratch
 Go to your active Wordpress wp-plugin directory
 
 ```sh
-$ git clone git@gitlab.com:<BakerUsername>/builder.git
+$ git clone git@gitlab.com:<Username>/builder.git
 $ cd builder
 $ git remote add upstream git@gitlab.com:visual-composer-website-builder/builder.git
 $ git remote -v
-origin	git@gitlab.com:slavavasenin/builder.git (fetch)
-origin	git@gitlab.com:slavavasenin/builder.git (push)
+origin	git@gitlab.com:<Username>/builder.git (fetch)
+origin	git@gitlab.com:<Username>/builder.git (push)
 upstream	git@gitlab.com:visual-composer-website-builder/builder.git (fetch)
 upstream	git@gitlab.com:visual-composer-website-builder/builder.git (push)
 ```
@@ -34,19 +34,19 @@ If you already have repo just follow the instructions
 
 ```sh
 $ git remote rename origin upstream
-$ git remote add origin git@gitlab.com:<BakerUsername>/builder.git
+$ git remote add origin git@gitlab.com:<Username>/builder.git
 $ git remote -v
-origin	git@gitlab.com:<BakerUsername>/builder.git (fetch)
-origin	git@gitlab.com:<BakerUsername>/builder.git (push)
-upstream	git@gitlab.com:<BakerUsername>/builder.git (fetch)
-upstream	git@gitlab.com:<BakerUsername>/builder.git (push)
+$ git push -u origin master
+origin	git@gitlab.com:<Username>/builder.git (fetch)
+origin	git@gitlab.com:<Username>/builder.git (push)
+upstream	git@gitlab.com:visual-composer-website-builder/builder.git (fetch)
+upstream	git@gitlab.com:visual-composer-website-builder/builder.git (push)
 ```
 
 ### Bring builder up to date
 
 ```sh
 $ git checkout master && git pull upstream master # checkout
-$ git merge upstream/master
 $ git push
 ```
 
