@@ -1,14 +1,11 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 import HtmlLayout from './htmlLayout'
-import Combokeys from 'combokeys'
-import MobileDetect from 'mobile-detect'
+import { bindEditorKeys } from 'public/tools/comboKeys'
 import PropTypes from 'prop-types'
 
-const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
-const historyStorage = vcCake.getStorage('history')
 
 export default class LayoutEditor extends React.Component {
   static propTypes = {
@@ -33,64 +30,7 @@ export default class LayoutEditor extends React.Component {
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateState)
     this.props.api.notify('editor:mount')
-
-    this.editor = new Combokeys(this.document)
-    this.editor.bind([ 'command+z', 'ctrl+z' ], (e) => {
-      e.preventDefault()
-      historyStorage.state('canUndo').get() && historyStorage.trigger('undo')
-      return false
-    })
-    this.editor.bind([ 'command+shift+z', 'ctrl+shift+z' ], (e) => {
-      e.preventDefault()
-      historyStorage.state('canRedo').get() && historyStorage.trigger('redo')
-      return false
-    })
-    this.editor.bind('a', (e) => {
-      e.preventDefault()
-      let settings = workspaceStorage.state('settings').get()
-      if (settings && settings.action === 'add') {
-        workspaceStorage.state('settings').set(false)
-      } else {
-        workspaceStorage.trigger('add')
-      }
-    })
-    this.editor.bind('l', (e) => {
-      e.preventDefault()
-      let settings = workspaceStorage.state('settings').get()
-      if (settings && settings.action === 'addTemplate') {
-        workspaceStorage.state('settings').set(false)
-      } else {
-        workspaceStorage.trigger('addTemplate')
-      }
-    })
-    this.editor.bind('t', (e) => {
-      // TODO: Check same code!
-      console.log('Editor.bind t', e)
-      e.preventDefault()
-      let contentState = 'content'
-      let settings = workspaceStorage.state(contentState).get()
-      if (settings === 'treeView') {
-        workspaceStorage.state(contentState).set(false)
-      } else {
-        workspaceStorage.state(contentState).set('treeView')
-      }
-    })
-    this.editor.bind([ 'command+s', 'ctrl+s' ], (e) => {
-      e.preventDefault()
-      wordpressDataStorage.trigger('save', {
-        options: {}
-      }, 'postSaveControl')
-      return false
-    })
-    this.editor.bind([ 'command+shift+p', 'ctrl+shift+p' ], () => {
-      workspaceStorage.state('shortcutPreview').set(true)
-      return false
-    })
-    this.editor.bind('esc', (e) => {
-      e.preventDefault()
-      // workspaceStorage.state('contentStart').set(false)
-      workspaceStorage.state('settings').set(false)
-    }, 'keyup')
+    bindEditorKeys(this.document)
   }
 
   componentWillUnmount () {

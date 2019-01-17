@@ -2,13 +2,11 @@ import React from 'react'
 import ClassNames from 'classnames'
 import { getStorage, onDataChange, ignoreDataChange } from 'vc-cake'
 import PropTypes from 'prop-types'
-import Combokeys from 'combokeys'
 import Resizer from '../resizer/resizer'
+import { bindEditorKeys } from 'public/tools/comboKeys'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceStorageNavbarBoundingRectState = workspaceStorage.state('navbarBoundingRect')
-const wordpressDataStorage = getStorage('wordpressData')
-const historyStorage = getStorage('history')
 
 export default class Workspace extends React.Component {
   static propTypes = {
@@ -32,64 +30,7 @@ export default class Workspace extends React.Component {
   componentDidMount () {
     onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
     workspaceStorage.state('layoutBarMount').set({ layoutBarMounted: true })
-    this.workspace = new Combokeys(this.document)
-    this.workspace.bind([ 'command+z', 'ctrl+z' ], (e) => {
-      e.preventDefault()
-      historyStorage.state('canUndo').get() && historyStorage.trigger('undo')
-      return false
-    })
-    this.workspace.bind([ 'command+shift+z', 'ctrl+shift+z' ], (e) => {
-      e.preventDefault()
-      historyStorage.state('canRedo').get() && historyStorage.trigger('redo')
-      return false
-    })
-    this.workspace.bind('a', (e) => {
-      e.preventDefault()
-      let settings = workspaceStorage.state('settings').get()
-      if (settings && settings.action === 'add') {
-        workspaceStorage.state('settings').set(false)
-      } else {
-        workspaceStorage.trigger('add')
-      }
-    })
-    this.workspace.bind('l', (e) => {
-      e.preventDefault()
-      let settings = workspaceStorage.state('settings').get()
-      if (settings && settings.action === 'addTemplate') {
-        workspaceStorage.state('settings').set(false)
-      } else {
-        workspaceStorage.trigger('addTemplate')
-      }
-    })
-    this.workspace.bind('t', (e) => {
-      e.preventDefault()
-      let settings = workspaceStorage.state('content').get()
-      // TODO: Check same code!
-      console.log('workspace.bind t', e)
-      if (settings === 'treeView') {
-        workspaceStorage.state('content').set(false)
-      } else {
-        workspaceStorage.state('content').set('treeView')
-      }
-    })
-    this.workspace.bind([ 'command+s', 'ctrl+s' ], (e) => {
-      e.preventDefault()
-      wordpressDataStorage.trigger('save', {
-        options: {}
-      }, 'postSaveControl')
-      return false
-    })
-    this.workspace.bind([ 'command+shift+p', 'ctrl+shift+p' ], () => {
-      workspaceStorage.state('shortcutPreview').set(true)
-      return false
-    })
-    this.document.onkeyup = function (e) {
-      e = e || window.event
-      if (e && (e.key === 'Esc' || e.keyCode === 27)) {
-        e.preventDefault()
-        workspaceStorage.state('settings').set(false)
-      }
-    }
+    bindEditorKeys(this.document)
   }
 
   componentWillUnmount () {
