@@ -49,6 +49,13 @@ Use Feature Branch workflow
 
 If you want to send you data to upstream you need to create merge request in Gitlab
 
+```sh
+$ git checkout -b <feature-branch-in-kebab-case>
+# Edit some code
+$ git commit -m "Message for change"
+$ git push -u origin <feature-branch-in-kebab-case>
+```
+
 ### Bring builder up to date
 
 ```sh
