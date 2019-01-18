@@ -5,7 +5,7 @@
 
 
 ## Javascript Code Style
-* Use StandardJS to validate code-style. `yarn standard`
+* Use StandardJS to validate code-style `yarn standard`.
 
 ## Supported Language
 Use ES6 version for Javascript code. https://standardjs.com
