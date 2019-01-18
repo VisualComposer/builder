@@ -62,3 +62,10 @@ $ git push -u origin <feature-branch-in-kebab-case>
 $ git checkout master && git pull upstream master # checkout
 $ git push
 ```
+
+### Cleanup after Merge request
+
+```sh
+$ git branch -d <branch name>
+$ git push origin master
+```
