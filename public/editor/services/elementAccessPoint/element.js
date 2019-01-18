@@ -1,4 +1,5 @@
 const privateCookElementKey = Symbol(' _cookElement')
+const privateDataElementKey = Symbol(' _data')
 
 export default class Element {
   constructor (data, services, storages) {
@@ -8,27 +9,35 @@ export default class Element {
     this.services = services
     this.storages = storages
 
+    Object.defineProperty(this, privateDataElementKey, {
+      writable: false,
+      value: data
+    })
     Object.defineProperty(this, privateCookElementKey, {
       writable: false,
-      value: this.services.cook.get(data)
+      value: () => {
+        return this.services.cook.get(this[ privateDataElementKey ])
+      }
     })
   }
 
   set (key, value) {
-    this[ privateCookElementKey ].set(key, value)
+    const cookElement = this[ privateCookElementKey ]()
+    cookElement.set(key, value)
+    this[ privateDataElementKey ][ key ] = value
     if (!this.inner) {
       this.storages.elements.trigger('update', this.id, {
         ...this.cook().toJS(),
         [ key ]: value
       }, 'editForm', {
         changedAttribute: key,
-        changedAttributeType: this[ privateCookElementKey ].settings(key).type
+        changedAttributeType: cookElement.settings(key).type
       })
     }
   }
 
   cook () {
-    return this[ privateCookElementKey ]
+    return this[ privateCookElementKey ]()
   }
 
   onChange (callback) {
