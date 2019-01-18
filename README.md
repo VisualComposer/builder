@@ -5,7 +5,7 @@
 
 
 ## Javascript Code Style
-* Use StandardJS to validate code-style. `yarn standard`
+* Use StandardJS to validate code-style `yarn standard`.
 
 ## Supported Language
 Use ES6 version for Javascript code. https://standardjs.com
@@ -114,7 +114,7 @@ if (!defined('VCV_HUB_URL')) {
 require_once "env.php";
 ```
 
-## Build Wordpress plugin package(zip archive)
+## Build Wordpress plugin package (zip archive)
 ```sh
 git clone account-project
 node [account-project]_infrastructure/vcwb-builder/builder plugin2 -p <directoryWhereToPlaceZipArchive>
