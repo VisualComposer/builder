@@ -26,6 +26,8 @@ export default class Categories extends React.Component {
   static addedId = null
   static parentElementTag = null
 
+  updateElementsTimeout = 0
+
   constructor (props) {
     super(props)
 
@@ -35,7 +37,8 @@ export default class Categories extends React.Component {
       isSearching: '',
       centered: false,
       filterType: 'all',
-      focusedElement: null
+      focusedElement: null,
+      allElements: categoriesService.getSortedElements()
     }
 
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
@@ -51,6 +54,14 @@ export default class Categories extends React.Component {
     hubElementsStorage.state('elements').onChange(this.reset)
   }
 
+  componentWillUnmount () {
+    hubElementsStorage.state('elements').ignoreChange(this.reset)
+    if (this.updateElementsTimeout) {
+      window.clearTimeout(this.updateElementsTimeout)
+      this.updateElementsTimeout = 0
+    }
+  }
+
   reset () {
     Categories.allCategories = []
     Categories.allElements = []
@@ -58,6 +69,9 @@ export default class Categories extends React.Component {
     Categories.hubElements = hubElementsStorage.state('elements').get()
 
     categoriesService.getSortedElements.cache.clear()
+    this.updateElementsTimeout = setTimeout(() => {
+      this.setState({ allElements: categoriesService.getSortedElements() })
+    }, 100)
   }
 
   getAllElements () {
@@ -72,7 +86,7 @@ export default class Categories extends React.Component {
     }
     let isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
     if (isAllElements) {
-      let allElements = categoriesService.getSortedElements()
+      const { allElements } = this.state
       Categories.allElements = allElements.filter((elementData) => {
         let cookElement = cook.get(elementData)
         return cookElement ? cookElement.relatedTo(relatedTo) : false
