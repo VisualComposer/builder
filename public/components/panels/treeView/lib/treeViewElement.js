@@ -70,7 +70,7 @@ export default class TreeViewElement extends React.Component {
       this.props.updateElementsData(data || this.props.element, 'singleElement')
     }
     if (data && data.hasOwnProperty('customHeaderTitle')) {
-      let element = cook.get(this.props.element)
+      let element = cook.get(data || this.props.element)
       let content = data.customHeaderTitle || element.getName()
       if (this.state.content !== content) {
         this.setState({

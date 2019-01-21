@@ -47,6 +47,15 @@ export default class TreeViewLayout extends React.Component {
     }
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.visible !== prevProps.visible) {
+      let data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
+      this.setState({
+        data: data
+      })
+    }
+  }
+
   updateElementsData (data, singleElement = false) {
     let newData
     if (singleElement && singleElement === 'singleElement') {
