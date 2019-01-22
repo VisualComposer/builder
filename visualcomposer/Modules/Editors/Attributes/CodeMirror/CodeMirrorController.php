@@ -26,6 +26,9 @@ class CodeMirrorController extends Container implements Module
         if (function_exists('wp_enqueue_code_editor')) {
             wp_enqueue_code_editor(['type' => 'text/css']);
             wp_enqueue_code_editor(['type' => 'text/javascript']);
+            wp_enqueue_script('htmlhint');
+            wp_enqueue_script('csslint');
+            wp_enqueue_script('jshint');
         }
     }
 }
