@@ -87,7 +87,7 @@ class Localizations extends Container implements Helper
             'removeTemplateWarning' => __('Do you want to remove this template?', 'vcwb'),
             'templateRemoveFailed' => __('Failed to remove template', 'vcwb'),
             'blankPageHeadingPart1' => __('Select Blank Page', 'vcwb'),
-            'blankPageHeadingPart2' => __('or Start With a template', 'vcwb'),
+            'blankPageHeadingPart2' => __('or Start With a Template', 'vcwb'),
             'blankPageTitleHeadingPart1' => __('Name Your ', 'vcwb'),
             'blankPageTitleHeadingPart2' => __('and Start Building', 'vcwb'),
             'blankPageHelperText' => __(
