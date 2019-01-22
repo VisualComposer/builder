@@ -369,7 +369,7 @@ msgid "Select Blank Page"
 msgstr "Изберете празна страница"
 
 #: Helpers/Localizations.php:87
-msgid "or Start With a template"
+msgid "or Start With a Template"
 msgstr "или започнете с шаблон"
 
 #: Helpers/Localizations.php:88

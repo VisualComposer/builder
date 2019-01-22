@@ -381,7 +381,7 @@ msgid "Select Blank Page"
 msgstr "انتخاب صفحه خالی"
 
 #: Helpers/Localizations.php:87
-msgid "or Start With a template"
+msgid "or Start With a Template"
 msgstr "یا می خواهید با پوسته آغاز کنید"
 
 #: Helpers/Localizations.php:88

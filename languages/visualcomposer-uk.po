@@ -380,7 +380,7 @@ msgid "Select Blank Page"
 msgstr ""
 
 #: Helpers/Localizations.php:87
-msgid "or Start With a template"
+msgid "or Start With a Template"
 msgstr ""
 
 #: Helpers/Localizations.php:88
