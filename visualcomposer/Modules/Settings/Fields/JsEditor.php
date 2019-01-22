@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
@@ -25,15 +26,21 @@ class JsEditor extends Container implements Module
 
     /**
      * GlobalCssJs constructor.
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
      */
-    public function __construct()
+    public function __construct(Request $requestHelper)
     {
         $this->optionGroup = $this->slug;
         $this->optionSlug = $this->slug;
-        $this->wpAddAction(
-            'admin_enqueue_scripts',
-            'beforeRender'
-        );
+
+        if (($requestHelper->input('page') === $this->slug)) {
+            $this->wpAddAction(
+                'admin_enqueue_scripts',
+                'beforeRender'
+            );
+        }
+
         $this->wpAddAction(
             'admin_init',
             'buildPage'
