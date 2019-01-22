@@ -19,10 +19,14 @@ export default class Element {
         return this.services.cook.get(this[ privateDataElementKey ])
       }
     })
+
+    if (typeof this.id === 'undefined') {
+      this.id = this.cook().get('id')
+    }
   }
 
   set (key, value) {
-    const cookElement = this[ privateCookElementKey ]()
+    const cookElement = this.cook()
     cookElement.set(key, value)
     this[ privateDataElementKey ][ key ] = value
     if (!this.inner) {
