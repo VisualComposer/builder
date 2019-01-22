@@ -87,7 +87,7 @@ export default class TreeViewElement extends React.Component {
   componentWillReceiveProps (nextProps) {
     const newShowOutline = nextProps.showOutlineCallback(nextProps.element.id)
     newShowOutline !== this.state.showOutline && this.setState({ showOutline: newShowOutline })
-    this.dataUpdate(nextProps.element, true)
+    this.setState({ element: nextProps.element || this.props.element })
   }
 
   componentDidMount () {
