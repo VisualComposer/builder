@@ -1,6 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import MediumEditor from 'medium-editor'
 import vcCake from 'vc-cake'
 import striptags from 'striptags'
 import PropTypes from 'prop-types'
@@ -42,6 +40,7 @@ export default class ContentEditableComponent extends React.Component {
     this.layoutHeader = document.querySelector('#vcv-layout-header')
     this.iframeWindow = this.iframe && this.iframe.contentWindow
     this.iframeDocument = this.iframeWindow && this.iframeWindow.document
+    this.globalEditor = this.iframeWindow.tinymce
     this.state = {
       contentEditable: false,
       trackMouse: false,
@@ -56,79 +55,19 @@ export default class ContentEditableComponent extends React.Component {
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
+    this.updateElementData = this.updateElementData.bind(this)
     this.debouncedUpdateHtmlWithServer = lodash.debounce(this.updateHtmlWithServer, 500)
   }
 
   componentDidMount () {
-    const dom = ReactDOM.findDOMNode(this)
-    let editorSettings = {
-      delay: 1000,
-      toolbar: { buttons: [ 'bold', 'italic', 'underline' ] },
-      imageDragging: false,
-      paste: {
-        cleanPastedHTML: false,
-        cleanAttrs: [ 'style', 'dir' ],
-        cleanTags: [ 'label', 'meta' ],
-        unwrapTags: [ 'sub', 'sup' ],
-        forcePlainText: false
-      },
-      contentWindow: this.iframeWindow,
-      ownerDocument: this.iframeDocument,
-      elementsContainer: this.iframeDocument.body
-    }
-    if (this.getInlineMode() === 'text') {
-      editorSettings.toolbar = false
-      editorSettings.keyboardCommands = {
-        commands: [
-          {
-            command: function () {},
-            key: 'B',
-            meta: true,
-            shift: false,
-            alt: false
-          }, {
-            command: function () {},
-            key: 'I',
-            meta: true,
-            shift: false,
-            alt: false
-          }, {
-            command: function () {},
-            key: 'U',
-            meta: true,
-            shift: false,
-            alt: false
-          }
-        ]
-      }
-      editorSettings.disableReturn = true
-      editorSettings.paste = {
-        forcePlainText: false,
-        leanPastedHTML: true
-      }
-    }
-
-    this.medium = new MediumEditor(dom, editorSettings)
-    this.medium.destroy()
     this.debouncedUpdateHtmlWithServer(this.props.children)
-  }
-
-  updateInlineData (html) {
-    if (!html) {
-      return
-    }
-    const helper = ReactDOM.findDOMNode(this)
-    helper.innerHTML = ''
-    let range = document.createRange()
-    let documentFragment = range.createContextualFragment(html)
-    helper.appendChild(documentFragment)
   }
 
   componentWillUnmount () {
     if (this.state.contentEditable) {
       this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
       this.layoutHeader.removeEventListener('click', this.handleGlobalClick)
-      this.medium.destroy()
+      this.editor && this.editor.remove()
       this.removeOverlay()
     }
     vcCake.setData('vcv:layoutCustomMode', null)
@@ -146,13 +85,14 @@ export default class ContentEditableComponent extends React.Component {
     if (mode !== 'contentEditable') {
       this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
       this.layoutHeader.removeEventListener('click', this.handleGlobalClick)
-      this.medium.destroy()
+      this.editor && this.editor.remove()
       this.removeOverlay()
       // Save data to map to undo/Redo
       const data = documentManager.get(this.props.id)
       const element = cook.get(data)
+      const content = this.globalEditor ? this.state.realContent : this.ref.innerHTML
       let contentToSave = this.getInlineMode() === 'text'
-        ? striptags(this.state.realContent) : this.state.realContent
+        ? striptags(content) : content
       if (this.props.paramField && this.props.paramIndex >= 0) {
         contentToSave = this.getParamsGroupContent(element, contentToSave)
       }
@@ -167,7 +107,6 @@ export default class ContentEditableComponent extends React.Component {
           workspaceStorage.trigger('edit', this.props.id, activeTab, options)
         }
       }
-      // this.props.api.request('data:update', element.get('id'), element.toJS())
     }
     // add overlay
     if (this.state.contentEditable) {
@@ -238,7 +177,7 @@ export default class ContentEditableComponent extends React.Component {
     }
 
     let data = {
-      domElement: ReactDOM.findDOMNode(this),
+      domElement: this.ref,
       overlayContainer: elementOverlay,
       overlay: overlay,
       overlayShadow: overlayShadow
@@ -335,16 +274,37 @@ export default class ContentEditableComponent extends React.Component {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
   }
 
-  mediumSetup () {
-    this.medium.setup()
-    this.medium.subscribe('editableInput', () => {
-      this.updateElementData()
-      if (this.mediumSelection) {
-        this.medium.importSelection(this.mediumSelection)
-        this.mediumSelection = undefined
+  editorSetup (options) {
+    const editorSettings = {
+      target: this.ref,
+      menubar: false,
+      inline: true,
+      plugins: 'lists',
+      toolbar: [
+        'formatselect | fontselect | bold italic | numlist bullist | alignleft aligncenter alignright'
+      ],
+      powerpaste_word_import: 'clean',
+      powerpaste_html_import: 'clean',
+      init_instance_callback: (editor) => {
+        editor.on('Change', (e) => {
+          this.updateElementData(e.target.getContent())
+        })
+      },
+      setup: (editor) => {
+        editor.on('init', () => {
+          this.editor = editor
+          editor.fire('focusin')
+          if (options.caretPosition) {
+            this.setSelectionRange(this.ref, options.caretPosition)
+          }
+        })
       }
-    })
-    this.mediumSelection = this.medium.exportSelection()
+    }
+    if (this.globalEditor && this.globalEditor.init) {
+      this.globalEditor.init(editorSettings)
+    } else {
+      console.warn('TinyMCE editor is not enqueued')
+    }
   }
 
   updateHtmlWithServer (content) {
@@ -386,21 +346,16 @@ export default class ContentEditableComponent extends React.Component {
     }
   }
 
-  updateElementData () {
-    const dom = ReactDOM.findDOMNode(this)
-    let content = dom.innerHTML
+  updateElementData (content) {
     this.setState({ realContent: content })
     wordpressDataStorage.state('status').set({ status: 'changed' })
   }
 
-  handleChange () {
-    this.updateElementData()
-  }
-
   handleGlobalClick (e) {
     const $target = window.jQuery(e.target)
-    if (!$target.is('[data-vcv-element="' + this.props.id + '"]') && !$target.parents('[data-vcv-element="' + this.props.id + '"]').length) {
-      this.medium.destroy()
+    const inlineEditorClick = $target.is('.mce-container') || $target.parents('.mce-container').length
+    if (!inlineEditorClick && !$target.is('[data-vcv-element="' + this.props.id + '"]') && !$target.parents('[data-vcv-element="' + this.props.id + '"]').length) {
+      this.editor && this.editor.remove()
       if (vcCake.getData('vcv:layoutCustomMode') !== null) {
         vcCake.setData('vcv:layoutCustomMode', null)
         window.setTimeout(() => {
@@ -414,7 +369,7 @@ export default class ContentEditableComponent extends React.Component {
   handleMouseMove () {
     if (this.state.trackMouse === true) {
       this.setState({ trackMouse: false, contentEditable: false })
-      this.medium.destroy()
+      this.editor && this.editor.remove()
     }
   }
 
@@ -424,9 +379,10 @@ export default class ContentEditableComponent extends React.Component {
     }
   }
 
-  handleMouseUp () {
+  handleMouseUp (e) {
     if (this.state.trackMouse === true) {
-      this.mediumSetup()
+      const caretPosition = this.getCaretPosition(e.currentTarget)
+      this.editorSetup({ caretPosition })
       if (vcCake.getData('vcv:layoutCustomMode') !== 'contentEditable') {
         vcCake.setData('vcv:layoutCustomMode', 'contentEditable')
         this.handleLayoutModeChange('contentEditable')
@@ -446,6 +402,72 @@ export default class ContentEditableComponent extends React.Component {
     return inlineMode
   }
 
+  getCaretPosition (element) {
+    const doc = element.ownerDocument || element.document
+    const win = doc.defaultView || doc.parentWindow
+    let caretOffset = 0
+    if (typeof win.getSelection !== 'undefined') {
+      const sel = win.getSelection()
+      if (sel.rangeCount) {
+        const range = sel.getRangeAt(0)
+        let preCaretRange = range.cloneRange()
+        preCaretRange.selectNodeContents(element)
+        preCaretRange.setEnd(range.endContainer, range.endOffset)
+        const preCaretRangeString = preCaretRange.toString()
+        const matchNewlines = preCaretRangeString.match(/(\r\n\t|\n|\r\t)/gm)
+        caretOffset = preCaretRangeString.length
+        if (matchNewlines && matchNewlines.length) {
+          caretOffset -= matchNewlines.length
+        }
+      }
+    }
+    return caretOffset
+  }
+
+  setSelectionRange (element, start, end = start) {
+    const doc = element.ownerDocument || element.document
+    const win = doc.defaultView || doc.parentWindow
+    if (doc.createRange && win.getSelection) {
+      const range = doc.createRange()
+      range.selectNodeContents(element)
+      let textNodes = this.getTextNodesIn(element)
+      let foundStart = false
+      let charCount = 0
+      let endCharCount = null
+
+      for (let i = 0; i < textNodes.length; i++) {
+        let textNode = textNodes[i]
+        endCharCount = charCount + textNode.length
+        if (!foundStart && start >= charCount && (start < endCharCount || (start === endCharCount && i <= textNodes.length))) {
+          range.setStart(textNode, start - charCount)
+          foundStart = true
+        }
+        if (foundStart && end <= endCharCount) {
+          range.setEnd(textNode, end - charCount)
+          break
+        }
+        charCount = endCharCount
+      }
+
+      let sel = win.getSelection()
+      sel.removeAllRanges()
+      sel.addRange(range)
+    }
+  }
+
+  getTextNodesIn (node) {
+    let textNodes = []
+    if (node.nodeType === 3) {
+      textNodes.push(node)
+    } else {
+      const children = node.childNodes
+      for (let i = 0, len = children.length; i < len; ++i) {
+        textNodes.push.apply(textNodes, this.getTextNodesIn(children[i]))
+      }
+    }
+    return textNodes
+  }
+
   render () {
     const props = {
       className: this.props.className ? this.props.className + ' vcvhelper' : 'vcvhelper',
@@ -458,12 +480,6 @@ export default class ContentEditableComponent extends React.Component {
     }
     props.ref = (ref) => { this.ref = ref }
 
-    if (this.mediumSelection) {
-      window.setTimeout(() => {
-        this.medium && this.medium.importSelection(this.mediumSelection)
-        this.mediumSelection = undefined
-      }, 0)
-    }
-    return React.createElement('span', props)
+    return <div {...props} />
   }
 }
