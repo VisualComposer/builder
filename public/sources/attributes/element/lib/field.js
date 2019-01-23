@@ -12,6 +12,7 @@ export default class EditFromField extends React.Component {
   render () {
     let { elementAccessPoint, fieldKey } = this.props
     let cookElement = elementAccessPoint.cook()
+    let element = cookElement.toJS()
     let { type, settings } = cookElement.settings(fieldKey)
     let AttributeComponent = type.component
     if (!AttributeComponent) {
@@ -32,7 +33,10 @@ export default class EditFromField extends React.Component {
     if (options && typeof options.description === 'string') {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
     }
-    let rawValue = type.getRawValue(cookElement.data, fieldKey)
+    let rawValue
+    if (fieldKey && element) {
+      rawValue = element[ fieldKey ]
+    }
     let defaultValue = settings.defaultValue
     if (typeof defaultValue === `undefined`) {
       defaultValue = settings.value
