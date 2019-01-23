@@ -23,11 +23,12 @@ Go to your active Wordpress wp-plugin directory
 $ git clone git@gitlab.com:<Username>/builder.git
 $ cd builder
 $ git remote add upstream git@gitlab.com:visual-composer-website-builder/builder.git
+$ git remote set-url --push upstream no_push
 $ git remote -v
 origin	git@gitlab.com:<Username>/builder.git (fetch)
 origin	git@gitlab.com:<Username>/builder.git (push)
 upstream	git@gitlab.com:visual-composer-website-builder/builder.git (fetch)
-upstream	git@gitlab.com:visual-composer-website-builder/builder.git (push)
+upstream	no_push (push)
 ```
 
 If you already have repo just follow the instructions
@@ -35,12 +36,13 @@ If you already have repo just follow the instructions
 ```sh
 $ git remote rename origin upstream
 $ git remote add origin git@gitlab.com:<Username>/builder.git
-$ git remote -v
 $ git push -u origin master
+$ git remote set-url --push upstream no_push
+$ git remote -v
 origin	git@gitlab.com:<Username>/builder.git (fetch)
 origin	git@gitlab.com:<Username>/builder.git (push)
 upstream	git@gitlab.com:visual-composer-website-builder/builder.git (fetch)
-upstream	git@gitlab.com:visual-composer-website-builder/builder.git (push)
+upstream	no_push (push)
 ```
 
 ### Creating features
