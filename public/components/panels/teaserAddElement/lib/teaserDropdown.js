@@ -17,10 +17,10 @@ export default class TeaserDropdown extends React.Component {
     this.getSelectOptions = this.getSelectOptions.bind(this)
   }
 
-  createGroup (bundleTypes, type, index, name) {
+  createGroup (bundleTypes, type, index, title) {
     let optionElements = []
 
-    optionElements.push(this.createOptions(type, index, `All ${name}`))
+    optionElements.push(this.createOptions(type, index, `All ${title}`))
 
     bundleTypes.forEach((bundleType) => {
       let subName = TeaserDropdown.localizations[ bundleType ]
@@ -35,13 +35,13 @@ export default class TeaserDropdown extends React.Component {
       optionElements.push(this.createOptions(type, index, subName, bundleType))
     })
 
-    return <optgroup key={`hub-dropdown-optGroup-${type}-${index}`} label={name}>{optionElements}</optgroup>
+    return <optgroup key={`hub-dropdown-optGroup-${type}-${index}`} label={title}>{optionElements}</optgroup>
   }
 
-  createOptions (type, index, name, bundleType) {
+  createOptions (type, index, title, bundleType) {
     const value = bundleType ? `${type}_${index}_${bundleType}` : `${type}_${index}`
     const key = bundleType ? `hub-dropdown-option-${type}-${index}-${bundleType}` : `hub-dropdown-option-${type}-${index}`
-    return <option key={key} value={value}>{name}</option>
+    return <option key={key} value={value}>{title}</option>
   }
 
   getSelectOptions () {
@@ -49,7 +49,7 @@ export default class TeaserDropdown extends React.Component {
     let controls = Object.values(categories)
 
     return controls.map((control) => {
-      const { type, name, bundleTypes } = control
+      const { type, title, bundleTypes } = control
 
       let index = control.index
       if (control.subIndex !== undefined) {
@@ -57,9 +57,9 @@ export default class TeaserDropdown extends React.Component {
       }
 
       if (bundleTypes && bundleTypes.length) {
-        return this.createGroup(bundleTypes, type, index, name)
+        return this.createGroup(bundleTypes, type, index, title)
       } else {
-        return this.createOptions(type, index, name)
+        return this.createOptions(type, index, title)
       }
     })
   }
@@ -67,7 +67,7 @@ export default class TeaserDropdown extends React.Component {
   handleDropdownChange (event) {
     const value = event.target.value
     const splitValue = value.split('_')
-    this.props.setFilterType(splitValue[0], splitValue[1], splitValue[2])
+    this.props.setFilterType(splitValue[ 0 ], splitValue[ 1 ], splitValue[ 2 ])
   }
 
   render () {

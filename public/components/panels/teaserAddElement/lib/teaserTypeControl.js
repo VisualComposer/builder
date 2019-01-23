@@ -79,7 +79,7 @@ export default class TeaserTypeControl extends React.Component {
   getControls () {
     let controls = Object.values(this.props.categories)
     return controls.map((control, i) => {
-      const { type, name, bundleTypes } = control
+      const { type, title, bundleTypes } = control
       const isActive = type === this.props.filterType
       let controlClasses = classNames({
         'vcv-ui-form-button': true,
@@ -90,9 +90,9 @@ export default class TeaserTypeControl extends React.Component {
         index = `${control.index}-${control.subIndex}`
       }
 
-      return <div key={`hub-control-${type}`} className='vcv-ui-form-button-group-item'>
+      return <div key={`hub-control-${type}-${i}`} className='vcv-ui-form-button-group-item'>
         <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
-          {name}
+          {title}
         </button>
         {bundleTypes && bundleTypes.length
           ? <div className='vcv-ui-form-button-group-dropdown'>

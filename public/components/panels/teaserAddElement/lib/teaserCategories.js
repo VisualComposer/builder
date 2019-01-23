@@ -8,59 +8,10 @@ import Scrollbar from '../../../scrollbar/scrollbar.js'
 import SearchElement from '../../addElement/lib/searchElement'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
+import categories from './categoriesSettings.json'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
-
-const categories = (() => {
-  return {
-    all: {
-      index: 0,
-      type: 'all',
-      name: 'All'
-    },
-    element: {
-      index: 1,
-      subIndex: 0,
-      type: 'element',
-      name: 'Elements',
-      bundleTypes: [
-        'free', 'premium'
-      ]
-    },
-    template: {
-      index: 2,
-      type: 'template',
-      name: 'Templates',
-      bundleTypes: [
-        'free', 'premium'
-      ]
-    },
-    addon: {
-      index: 3,
-      type: 'addon',
-      name: 'Addons'
-    },
-    hubHeader: {
-      index: 4,
-      type: 'hubHeader',
-      name: 'Headers',
-      templateType: true
-    },
-    hubFooter: {
-      index: 5,
-      type: 'hubFooter',
-      name: 'Footers',
-      templateType: true
-    },
-    hubSidebar: {
-      index: 6,
-      type: 'hubSidebar',
-      name: 'Sidebars',
-      templateType: true
-    }
-  }
-})()
 
 export default class TeaserAddElementCategories extends AddElementCategories {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -82,20 +33,22 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
   getAllCategories () {
     if (!this.allCategories) {
-      const elementGroup = this.getElementGroup()
-      const templateGroup = this.getTemplateGroup()
-      const addonsGroup = this.getAddonsGroup()
+      const elementGroup = this.getElementGroup(categories.element)
+      const templateGroup = this.getTemplateGroup(categories.template)
+      const blockGroup = this.getBlockGroup(categories.block)
+      const addonsGroup = this.getAddonsGroup(categories.addon)
       const headerGroup = this.getHFSGroup(categories.hubHeader)
       const footerGroup = this.getHFSGroup(categories.hubFooter)
       const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
-      const allGroup = this.getAllGroup([ elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ])
+      const allGroup = this.getAllGroup(categories.all, [ elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ])
 
-      this.allCategories = [ allGroup, elementGroup, templateGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ]
+      this.allCategories = [ allGroup, elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ]
     }
     return this.allCategories
   }
 
-  getAllGroup (otherGroups) {
+  getAllGroup (category, otherGroups) {
+    const { title, index } = category
     let elements = []
 
     otherGroups.forEach((group) => {
@@ -104,16 +57,18 @@ export default class TeaserAddElementCategories extends AddElementCategories {
         elements.push(...groupAllElements)
       }
     })
-    return { elements: elements, id: 'All0', index: 0, title: 'All' }
+    return { elements: elements, id: `${title}${index}`, index: index, title: title }
   }
 
-  getAddonsGroup () {
-    let addonsCategories = window.VCV_HUB_GET_ADDON_TEASER()
-    return { elements: addonsCategories, id: 'Addons3', index: 3, title: 'Addons' }
+  getAddonsGroup (category) {
+    const { title, index } = category
+    const addonsCategories = window.VCV_HUB_GET_ADDON_TEASER()
+    return { elements: addonsCategories, id: `${title}${index}`, index: index, title: title }
   }
 
-  getElementGroup () {
-    let elementCategories = window.VCV_HUB_GET_TEASER()
+  getElementGroup (category) {
+    const { title, index } = category
+    const elementCategories = window.VCV_HUB_GET_TEASER()
     elementCategories.forEach((item, index) => {
       let elements = lodash.sortBy(item.elements, [ 'name' ])
       elements = elements.map((element) => {
@@ -124,32 +79,33 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       })
       elementCategories[ index ].elements = elements
     })
-    return { categories: elementCategories, id: 'Elements1', index: 1, title: 'Elements' }
+    return { categories: elementCategories, id: `${title}${index}`, index: index, title: title }
   }
 
-  getTemplateGroup () {
-    let elements = window.VCV_HUB_GET_TEMPLATES_TEASER().filter((element) => {
+  getTemplateGroup (category) {
+    const { title, index } = category
+    const elements = window.VCV_HUB_GET_TEMPLATES_TEASER().filter((element) => {
       return element.templateType === 'hub' || element.templateType === 'predefined'
     })
-    return { elements: elements, id: 'Templates2', index: 2, title: 'Templates' }
+    return { elements: elements, id: `${title}${index}`, index: index, title: title }
+  }
+
+  getBlockGroup (category) {
+    const { title, index, type } = category
+    const blocks = window.VCV_HUB_GET_TEMPLATES_TEASER().filter((block) => {
+      return block.templateType === type
+    })
+    return { elements: blocks, id: `${title}${index}`, index: index, title: title }
   }
 
   getHFSGroup (category) {
-    const { type, name } = category
-    let index
-    if (type === 'hubHeader') {
-      index = 4
-    } else if (type === 'hubFooter') {
-      index = 5
-    } else if (type === 'hubSidebar') {
-      index = 6
-    }
+    const { type, title, index } = category
     if (index) {
       let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()
       elements = elements.filter(element => {
         return element.templateType === type
       })
-      return { elements, id: `${name}${index}`, index, title: name }
+      return { elements, id: `${title}${index}`, index, title: title }
     }
     return {}
   }
@@ -162,7 +118,6 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       key={'vcv-element-control-' + tag}
       element={elementData}
       tag={tag}
-      // workspace={workspaceStorage.state('settings').get() || {}}
       type={elementData.type ? elementData.type : 'element'}
       update={elementData.update ? elementData.update : false}
       name={elementData.name}
@@ -170,6 +125,11 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     />
   }
 
+  /**
+   * This method is not unused it's used to
+   * override AddElementCategories component's original method
+   * @return {JSX}
+   */
   getNoResultsElement () {
     const nothingFoundText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.nothingFound : 'Nothing found'
 
@@ -235,10 +195,6 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       activeCategoryIndex: id,
       bundleType: bundleType
     })
-  }
-
-  activeFilterButton (value) {
-    return 'vcv-ui-form-button' + (value === this.state.filterType ? ' vcv-ui-form-button--active' : '')
   }
 
   filterResult () {
