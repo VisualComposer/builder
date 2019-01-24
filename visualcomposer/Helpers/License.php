@@ -60,7 +60,7 @@ class License extends Container implements Helper
         $urlHelper = vchelper('Url');
         $nonceHelper = vchelper('Nonce');
         wp_redirect(
-            VCV_LICENSE_DEACTIVATE_URL .
+            vcvenv('VCV_LICENSE_DEACTIVATE_URL') .
             '/?redirect=' . rawurlencode(
                 $urlHelper->adminAjax(
                     ['vcv-action' => 'license:deactivate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]

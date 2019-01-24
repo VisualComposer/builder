@@ -27,7 +27,7 @@ export default class TemplateSettings extends React.Component {
       current: value
     })
 
-    if (!env('THEME_EDITOR')) {
+    if (!env('VCV_JS_THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(value)
 
       const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current)

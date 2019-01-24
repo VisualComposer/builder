@@ -1,5 +1,5 @@
 import './sources/less/wpbackend-switcher/init.less'
-import './config/variables'
+import './variables'
 import start from './components/backendSwitcher/index'
 
 (($) => {

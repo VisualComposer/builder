@@ -31,7 +31,7 @@ add('wordpressWorkspace', (api) => {
     }
   })
 
-  if (env('THEME_LAYOUTS')) {
+  if (env('VCV_JS_THEME_LAYOUTS')) {
     settingsStorage.state('headerTemplate').onChange((value) => {
       // Add Header template ID to extra save args
       let args = settingsStorage.state('saveExtraArgs').get() || {}

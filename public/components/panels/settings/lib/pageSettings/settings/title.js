@@ -112,7 +112,7 @@ export default class TitleSettings extends React.Component {
         </div>
       )
     }
-    const disableTitleToggleControl = !env('THEME_EDITOR') ? toggleHTML : ''
+    const disableTitleToggleControl = !env('VCV_JS_THEME_EDITOR') ? toggleHTML : ''
 
     return (
       <React.Fragment>

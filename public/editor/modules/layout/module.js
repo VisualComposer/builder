@@ -82,7 +82,7 @@ vcCake.add('contentLayout', (api) => {
       }
 
       reload ? controls.updateIframeVariables() : controls.init()
-      if (vcCake.env('THEME_LAYOUTS')) {
+      if (vcCake.env('VCV_JS_THEME_LAYOUTS')) {
         iframeWindow.document.querySelectorAll('[data-vcv-layout-zone]').forEach((zone) => {
           let zoneButton = zone.querySelector('[data-vcv-action="settings"]')
           zoneButton && zoneButton.addEventListener('click', () => {
@@ -164,7 +164,7 @@ vcCake.add('contentLayout', (api) => {
         if (item.indexOf('vcv-nonce') >= 0) {
           write = false
         }
-        if (vcCake.env('THEME_LAYOUTS')) {
+        if (vcCake.env('VCV_JS_THEME_LAYOUTS')) {
           if (
             item.indexOf('vcv-header') >= 0 ||
             item.indexOf('vcv-sidebar') >= 0 ||
@@ -194,7 +194,7 @@ vcCake.add('contentLayout', (api) => {
             hasFooter = currentTemplate.footer
           }
         }
-        if (vcCake.env('THEME_LAYOUTS')) {
+        if (vcCake.env('VCV_JS_THEME_LAYOUTS')) {
           if (hasHeader && header) {
             params.push(`vcv-header=${header}`)
           }

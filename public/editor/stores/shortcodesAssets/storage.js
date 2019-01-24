@@ -1,4 +1,4 @@
-import { addStorage, getService, getStorage, env } from 'vc-cake'
+import { addStorage, getService, getStorage } from 'vc-cake'
 
 addStorage('shortcodeAssets', (storage) => {
   const utils = getService('utils')
@@ -71,9 +71,6 @@ addStorage('shortcodeAssets', (storage) => {
         }
 
         let ignoreCache = type === 'template' ? false : data.ignoreCache
-        if (env('FT_IGNORE_ELEMENTS_DOM_CACHE')) {
-          ignoreCache = true
-        }
         if (!cached || ignoreCache) {
           !ignoreCache && slug && loadedFiles.push(slug)
           if (data.addToDocument) {

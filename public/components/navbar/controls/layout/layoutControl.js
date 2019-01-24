@@ -74,7 +74,7 @@ export default class LayoutButtonControl extends React.Component {
       this.isMobile = true
     }
 
-    if (env('THEME_EDITOR')) {
+    if (env('VCV_JS_THEME_EDITOR')) {
       this.editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     }
 
@@ -141,7 +141,7 @@ export default class LayoutButtonControl extends React.Component {
       )
     })
 
-    if (this.isMobile || (env('THEME_EDITOR') && this.editorType === 'sidebar')) {
+    if (this.isMobile || (env('VCV_JS_THEME_EDITOR') && this.editorType === 'sidebar')) {
       return null
     }
 

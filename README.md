@@ -72,43 +72,46 @@ bash tools/devAddons/buildScript.sh
 ```php
 <?php
 
-if (!defined('VCV_DEBUG')) {
-    define('VCV_DEBUG', true);
-}
 
+if (!VcvEnv::has('VCV_DEBUG')) {
+    VcvEnv::set('VCV_DEBUG', true);
+}
 //DEV
-define('VCV_ENV_DEV_ADDONS', false);
-define('VCV_ENV_DEV_ELEMENTS', false);
-define('VCV_ENV_DEV_CATEGORIES', true);
-define('VCV_ENV_EXTENSION_DOWNLOAD', true);
+VcvEnv::set('VCV_ENV_DEV_ADDONS', true);
+VcvEnv::set('VCV_ENV_DEV_ELEMENTS', true);
+VcvEnv::set('VCV_ENV_DEV_CATEGORIES', true);
 
+VcvEnv::set('VCV_ENV_EXTENSION_DOWNLOAD', true);
 
-if (!defined('VCV_LICENSE_ACTIVATE_URL')) {
-    define('VCV_LICENSE_ACTIVATE_URL', 'https://test.account.visualcomposer.io/activation');
+VcvEnv::set('VCV_ENV_FT_GLOBAL_CSS_JS_SETTINGS', true);
+VcvEnv::set('VCV_ENV_FT_SYSTEM_CHECK_LIST', true);
+
+if (!VcvEnv::has('VCV_LICENSE_ACTIVATE_URL')) {
+    VcvEnv::set('VCV_LICENSE_ACTIVATE_URL', 'https://test.account.visualcomposer.io/activation');
 }
-if (!defined('VCV_LICENSE_ACTIVATE_FINISH_URL')) {
-    define('VCV_LICENSE_ACTIVATE_FINISH_URL', 'https://test.account.visualcomposer.io/finish-license-activation');
+if (!VcvEnv::has('VCV_LICENSE_ACTIVATE_FINISH_URL')) {
+    VcvEnv::set('VCV_LICENSE_ACTIVATE_FINISH_URL', 'https://test.account.visualcomposer.io/finish-license-activation');
 }
-if (!defined('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
-    define('VCV_LICENSE_DEACTIVATE_FINISH_URL', 'https://test.account.visualcomposer.io/finish-license-deactivation');
+if (!VcvEnv::has('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
+    VcvEnv::set(
+        'VCV_LICENSE_DEACTIVATE_FINISH_URL',
+        'https://test.account.visualcomposer.io/finish-license-deactivation'
+    );
 }
-if (!defined('VCV_LICENSE_DEACTIVATE_URL')) {
-    define('VCV_LICENSE_DEACTIVATE_URL', 'https://test.account.visualcomposer.io/deactivate-license');
+if (!VcvEnv::has('VCV_LICENSE_DEACTIVATE_URL')) {
+    VcvEnv::set('VCV_LICENSE_DEACTIVATE_URL', 'https://test.account.visualcomposer.io/deactivate-license');
 }
-if (!defined('VCV_API_URL')) {
-    define('VCV_API_URL', 'https://test.account.visualcomposer.io');
+if (!VcvEnv::has('VCV_API_URL')) {
+    VcvEnv::set('VCV_API_URL', 'https://test.account.visualcomposer.io');
 }
-if (!defined('VCV_TOKEN_URL')) {
-    define('VCV_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
+if (!VcvEnv::has('VCV_TOKEN_URL')) {
+    VcvEnv::set('VCV_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
 }
-if (!defined('VCV_PREMIUM_TOKEN_URL')) {
-    define('VCV_PREMIUM_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
+if (!VcvEnv::has('VCV_PREMIUM_TOKEN_URL')) {
+    VcvEnv::set('VCV_PREMIUM_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
 }
-if (!defined('VCV_ACCOUNT_URL')) {
-    define('VCV_ACCOUNT_URL', 'https://test.account.visualcomposer.io');
-}
-if (!defined('VCV_HUB_URL')) {
-    define('VCV_HUB_URL', 'https://test.account.visualcomposer.io');
+if (!VcvEnv::has('VCV_HUB_URL')) {
+    VcvEnv::set('VCV_HUB_URL', 'https://test.account.visualcomposer.io');
 }
 
 require_once "env.php";

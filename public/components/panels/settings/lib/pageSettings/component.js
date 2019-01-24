@@ -9,10 +9,10 @@ export default class PageSettings extends React.Component {
     const content = []
     content.push(<TitleSettings key={content.length} />)
 
-    if (!env('THEME_EDITOR')) {
+    if (!env('VCV_JS_THEME_EDITOR')) {
       content.push(<TemplateLayoutSettings key={content.length} />)
     }
-    if (env('THEME_LAYOUTS')) {
+    if (env('VCV_JS_THEME_LAYOUTS')) {
       content.push(<LayoutTemplates key={content.length} />)
     }
 

@@ -27,6 +27,6 @@ import heartbeat from './components/heartbeat/index'
   }, 10000)
 })()
 
-if (vcCake.env('debug') === true) {
+if (vcCake.env('VCV_DEBUG') === true) {
   window.app = vcCake
 }

@@ -3,7 +3,7 @@ import MobileDetect from 'mobile-detect'
 import '../polyfills/index'
 import 'public/sources/less/bootstrap/init.less'
 import 'public/sources/css/wordpress.less'
-import 'public/config/variables'
+import 'public/variables'
 import 'public/config/wp-services'
 import 'public/config/wp-attributes'
 
@@ -60,7 +60,7 @@ export const start = (callback) => {
       }`
       iframeDocument.head.appendChild(style)
     }
-    if (vcCake.env('THEME_EDITOR')) {
+    if (vcCake.env('VCV_JS_THEME_EDITOR')) {
       const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
       if (editorType === 'sidebar') {
         let style = iframeDocument.createElement('style')
@@ -131,7 +131,7 @@ export const start = (callback) => {
       const settingsStorage = vcCake.getStorage('settings')
       $iframe.get(0).contentWindow.onunload = function () {
         let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current)
-        if (!vcCake.env('THEME_EDITOR') && vcCake.env('THEME_LAYOUTS')) {
+        if (!vcCake.env('VCV_JS_THEME_EDITOR') && vcCake.env('VCV_JS_THEME_LAYOUTS')) {
           let lastSavedPageTemplate = window.vcvLastLoadedPageTemplate = settingsStorage.state('pageTemplate').get()
           let lastSavedHeaderTemplate = window.vcvLastLoadedHeaderTemplate = settingsStorage.state('headerTemplate').get()
           let lastSavedSidebarTemplate = window.vcvLastLoadedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
@@ -196,8 +196,4 @@ export const start = (callback) => {
   window.setTimeout(() => {
     checkForLoad()
   }, 100)
-
-  if (vcCake.env('TF_HEARTBEAT_HAS_CLASS_ERROR') && window.wp.heartbeat) {
-    window.wp.heartbeat.interval(120)
-  }
 }

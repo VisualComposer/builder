@@ -147,7 +147,7 @@ export default class TemplateControl extends React.Component {
 
   handleApplyTemplate (e) {
     e && e.preventDefault()
-    if (env('FT_TEMPLATE_DATA_ASYNC')) {
+    if (env('VCV_FT_TEMPLATE_DATA_ASYNC')) {
       this.props.applyTemplate(this.props.id)
     } else {
       this.props.applyTemplate(this.props.data || {})

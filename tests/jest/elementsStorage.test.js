@@ -1,6 +1,6 @@
 /* global describe, test, expect */
 import vcCake from 'vc-cake'
-import '../../public/default-variables'
+import '../../public/variables'
 
 // Services & Storages
 import '../../public/editor/services/utils/service.js'
@@ -26,7 +26,7 @@ describe('Test elementsStorage', () => {
   const id = '123456'
   const testText = 'This test text, it must work as expected!'
 
-  vcCake.env('debug', true)
+  vcCake.env('VCV_DEBUG', true)
   vcCake.start(() => {
     test('ElementStorage add textBlock', () => {
       elementsStorage.trigger('add', { tag: 'textBlock', id: id })

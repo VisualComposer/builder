@@ -158,7 +158,7 @@ class GoPremium extends Container implements Module
         }
 
         wp_redirect(
-            VCV_LICENSE_ACTIVATE_URL .
+            vcvenv('VCV_LICENSE_ACTIVATE_URL') .
             '/?redirect=' . rawurlencode(
                 $urlHelper->adminAjax(
                     [

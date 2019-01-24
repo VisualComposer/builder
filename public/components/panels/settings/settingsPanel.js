@@ -4,7 +4,6 @@ import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'
 import EditorSettings from './lib/editorSettings/component'
-import { env } from 'vc-cake'
 
 export default class SettingsPanel extends React.Component {
   constructor (props) {
@@ -37,12 +36,10 @@ export default class SettingsPanel extends React.Component {
       content: CustomScripts
     })
 
-    if (env('FT_DISABLE_ITEM_PREVIEW')) {
-      sections.push({
-        title: editorSettingsText,
-        content: EditorSettings
-      })
-    }
+    sections.push({
+      title: editorSettingsText,
+      content: EditorSettings
+    })
 
     this.state = {
       sections,
