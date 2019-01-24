@@ -8,11 +8,6 @@ describe('VCWB Activation test', function () {
   })
   */
   it('Activates VCWB plugin with free license', function () {
-    cy.on('window:confirm', str => true)
-    cy.visit('/wp-login.php')
-    cy.get('#user_login').type(Cypress.env('wpUserName'))
-    cy.get('#user_pass').type(`${Cypress.env('wpPassword')}{enter}`)
-
     cy.visit('/wp-admin/plugins.php')
 
     cy.get(`[data-slug="${Cypress.env('slug')}"]`).then(($block) => {
