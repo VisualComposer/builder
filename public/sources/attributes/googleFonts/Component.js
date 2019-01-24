@@ -38,7 +38,12 @@ export default class GoogleFonts extends Attribute {
   }
 
   componentWillMount () {
-    let mergedValue = lodash.defaultsDeep({}, this.state.value, GoogleFonts.defaultFontOptions)
+    let { value } = this.state
+    if (!googleFonts.find(font => font.family === this.state.value.fontFamily)) {
+      value.fontFamily = GoogleFonts.defaultFontOptions.fontFamily
+      value.fontStyle = GoogleFonts.defaultFontOptions.fontStyle
+    }
+    let mergedValue = lodash.defaultsDeep({}, value, GoogleFonts.defaultFontOptions)
     this.loadFonts(mergedValue.fontFamily, mergedValue.fontStyle, mergedValue.fontText)
   }
 
