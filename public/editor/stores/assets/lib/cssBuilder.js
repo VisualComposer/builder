@@ -87,7 +87,7 @@ export default class CssBuilder {
     const dataStorageState = getStorage('wordpressData').state('status').get().status
 
     this.updateStyleDomNodes(data)
-    if (dataStorageState === 'loadSuccess' && env('FT_INITIAL_CSS_LOAD')) {
+    if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD')) {
       this.addElementEditorFiles(data)
     } else {
       this.addCssElementBaseByElement(data)
@@ -118,7 +118,7 @@ export default class CssBuilder {
     const dataStorageState = getStorage('wordpressData').state('status').get().status
 
     this.updateStyleDomNodes(data)
-    if (dataStorageState === 'loadSuccess' && env('FT_INITIAL_CSS_LOAD')) {
+    if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD')) {
       this.addElementEditorFiles(data)
     } else {
       this.addCssElementBaseByElement(data)

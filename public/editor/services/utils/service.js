@@ -105,7 +105,7 @@ const API = {
       }
     }
 
-    if (env('SAVE_ZIP')) {
+    if (env('VCV_JS_SAVE_ZIP')) {
       let binaryString = deflate(JSON.stringify(data), { to: 'string' })
       let encodedString = base64.encode(binaryString)
       data = {

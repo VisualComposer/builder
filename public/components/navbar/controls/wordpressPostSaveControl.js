@@ -87,7 +87,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     window.setTimeout(() => {
       let url = window.location.href
       let captureType = /vcv-editor-type=([^&]+)/.exec(url)
-      if (vcCake.env('THEME_EDITOR') && captureType && captureType[ 1 ]) {
+      if (vcCake.env('VCV_JS_THEME_EDITOR') && captureType && captureType[ 1 ]) {
         window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}&vcv-editor-type=${captureType[ 1 ]}`)
       } else {
         window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)

@@ -184,7 +184,7 @@ export default class AddTemplatePanel extends React.Component {
   getTemplateControlProps (template) {
     template = Object.assign({}, template)
     if (
-      (env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading === template.id) ||
+      (env('VCV_FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading === template.id) ||
       (this.state.removing && template.name === this.state.showSpinner)
     ) {
       template.spinner = true
@@ -336,7 +336,7 @@ export default class AddTemplatePanel extends React.Component {
       elementsStorage.trigger('merge', elements)
       workspaceSettings.set(false)
     }
-    if (env('FT_TEMPLATE_DATA_ASYNC')) {
+    if (env('VCV_FT_TEMPLATE_DATA_ASYNC')) {
       let id = data
       this.setState({ showLoading: id })
       myTemplatesService.load(id, (response) => {
@@ -409,7 +409,7 @@ export default class AddTemplatePanel extends React.Component {
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
-        {env('FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading ? <TransparentOverlayComponent disableNavBar parent='.vcv-layout' /> : null}
+        {env('VCV_FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading ? <TransparentOverlayComponent disableNavBar parent='.vcv-layout' /> : null}
         <div className='vcv-ui-tree-content'>
           {this.getSearch()}
           <div className='vcv-ui-tree-content-section'>

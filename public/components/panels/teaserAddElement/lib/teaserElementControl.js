@@ -171,7 +171,7 @@ export default class TeaserElementControl extends ElementControl {
       elementsStorage.trigger('merge', elements)
       workspaceSettings.set(false)
     }
-    if (env('FT_TEMPLATE_DATA_ASYNC')) {
+    if (env('VCV_FT_TEMPLATE_DATA_ASYNC')) {
       const template = myTemplatesService.findTemplateByBundle(this.props.element.bundle)
       const id = template.id
       this.setState({ showLoading: true })

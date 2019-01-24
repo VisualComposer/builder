@@ -37,7 +37,7 @@ export default class SettingsFooter extends React.Component {
     actions.forEach(action => {
       settingsStorage.state(action.state).set(getData(action.getData))
     })
-    if (!env('THEME_EDITOR')) {
+    if (!env('VCV_JS_THEME_EDITOR')) {
       let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
       let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
 

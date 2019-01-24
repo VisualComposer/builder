@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import { getStorage, getService, env } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -623,7 +623,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       if (newValue[ device ] && newValue[ device ].gradientOverlay) {
         let mixinName = `gradientMixin:${device}`
         newMixins[ mixinName ] = {}
-        if (env('FT_RADIAL_GRADIENT_IN_DOA') && newValue[ device ].gradientType === 'radial') {
+        if (newValue[ device ].gradientType === 'radial') {
           newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.radialGradientMixin)
         } else {
           newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
@@ -1404,9 +1404,6 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getGradientTypeRender () {
-    if (!env('FT_RADIAL_GRADIENT_IN_DOA')) {
-      return null
-    }
     if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
       return null
     }

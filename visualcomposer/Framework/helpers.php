@@ -131,9 +131,7 @@ if (!function_exists('vcvenv')) {
      */
     function vcvenv($key, $default = null)
     {
-        $value = defined($key) ? constant($key) : $default;
-
-        return $value;
+        return VcvEnv::get($key, $default);
     }
 }
 
@@ -284,6 +282,7 @@ function vcIsBadResponse($response)
 
 /**
  * @internal
+ *
  * @param $response
  *
  * @return bool

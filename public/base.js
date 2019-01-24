@@ -1,6 +1,6 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import vcCake from 'vc-cake'
-import './config/variables'
+import './variables'
 import './editor/services/dataProcessor/service'
 
 const $ = require('expose-loader?$!jquery')
@@ -10,6 +10,6 @@ $(() => {
   })
 })
 
-if (vcCake.env('debug') === true) {
+if (vcCake.env('VCV_DEBUG') === true) {
   window.app = vcCake
 }

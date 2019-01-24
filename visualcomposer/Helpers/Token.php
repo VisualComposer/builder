@@ -86,7 +86,7 @@ class Token extends Container implements Helper
             return $token;
         }
 
-        $url = $licenseHelper->isActivated() ? VCV_PREMIUM_TOKEN_URL : VCV_TOKEN_URL;
+        $url = $licenseHelper->isActivated() ? vcvenv('VCV_PREMIUM_TOKEN_URL') : vcvenv('VCV_TOKEN_URL');
         $url = vchelper('Url')->query($url, $body);
         $result = wp_remote_get(
             $url,

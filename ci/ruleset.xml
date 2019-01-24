@@ -67,9 +67,11 @@
     </rule>
     <rule ref="Squiz.Classes.ValidClassName">
         <exclude-pattern>./visualcomposer/Requirements.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Env.php</exclude-pattern>
     </rule>
     <rule ref="PSR1.Classes.ClassDeclaration">
         <exclude-pattern>./visualcomposer/Requirements.php</exclude-pattern>
+        <exclude-pattern>./visualcomposer/Env.php</exclude-pattern>
     </rule>
 
     <file>./visualcomposer</file>

@@ -1,7 +1,6 @@
 import ServicesCollector from './lib/services-collector'
 import ModulesCollector from './lib/modules-collector'
 import AttributesCollector from './lib/attributes-collector'
-import EnvCollector from './lib/env-collector'
 
 class Collector {
   constructor (props) {
@@ -22,7 +21,6 @@ class Collector {
         }
         AttributesCollector.buildFile(prefix)
       })
-      EnvCollector.buildFile()
       callback()
     })
   }

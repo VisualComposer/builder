@@ -65,6 +65,7 @@ class Status implements Helper
     {
         return $this->defaultMaxInputVarsStatus;
     }
+
     /**
      * @return int
      */
@@ -187,6 +188,7 @@ class Status implements Helper
 
         return false;
     }
+
     /**
      * @return bool
      */
@@ -285,7 +287,7 @@ class Status implements Helper
             'url' => VCV_PLUGIN_URL,
             'vcv-version' => VCV_VERSION,
         ];
-        $url = VCV_TOKEN_URL;
+        $url = vcvenv('VCV_TOKEN_URL');
         $url = vchelper('Url')->query($url, $body);
         $result = wp_remote_get(
             $url,
@@ -299,6 +301,7 @@ class Status implements Helper
             if ($json->success) {
                 return true;
             }
+
             return true;
         }
 

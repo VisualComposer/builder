@@ -84,7 +84,7 @@ class LicenseController extends Container implements Module
                         'domain' => get_site_url(),
                         'url' => VCV_PLUGIN_URL,
                     ];
-                    $url = VCV_LICENSE_ACTIVATE_FINISH_URL;
+                    $url = vcvenv('VCV_LICENSE_ACTIVATE_FINISH_URL');
                     $url = vchelper('Url')->query($url, $body);
 
                     $result = wp_remote_get(
@@ -154,7 +154,7 @@ class LicenseController extends Container implements Module
                     'domain' => get_site_url(),
                 ];
 
-                $url = VCV_LICENSE_DEACTIVATE_FINISH_URL;
+                $url = vcvenv('VCV_LICENSE_DEACTIVATE_FINISH_URL');
                 $url = vchelper('Url')->query($url, $body);
 
                 $result = wp_remote_get(

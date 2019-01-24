@@ -15,7 +15,6 @@ import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
 
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
-const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 
 let dataProcessor = null
@@ -45,20 +44,6 @@ export default class ElementComponent extends React.Component {
   componentWillUnmount () {
     if (this.ajax) {
       this.ajax.cancelled = true
-    }
-
-    if (vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
-      if (this.props.element && this.props.element.id) {
-        elementsStorage.off(`element:${this.props.element.id}`, this.updateElementAssets)
-      }
-    }
-  }
-
-  componentDidMount () {
-    if (vcCake.env('FT_UPDATE_ASSETS_ONLY_WHEN_NEEDED')) {
-      if (this.props.element && this.props.element.id) {
-        elementsStorage.on(`element:${this.props.element.id}`, this.updateElementAssets)
-      }
     }
   }
 

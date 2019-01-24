@@ -97,7 +97,7 @@ addService('myTemplates', {
       custom = storageData && storageData.custom ? storageData.custom : false
     }
     let myTemplates
-    if (env('THEME_EDITOR')) {
+    if (env('VCV_JS_THEME_EDITOR')) {
       let customTemplates = custom && custom.templates ? custom.templates : []
       let customHeader = this.customHeader(data)
       let customFooter = this.customFooter(data)

@@ -26,7 +26,7 @@ class Bundle implements Helper
         $downloadUrl = $urlHelper->query(
             sprintf(
                 '%s/download/bundle/lite?plugin=%s',
-                VCV_HUB_URL,
+                vcvenv('VCV_HUB_URL'),
                 VCV_VERSION
             )
         );
@@ -42,7 +42,7 @@ class Bundle implements Helper
             $downloadUrl = $urlHelper->query(
                 sprintf(
                     '%s/download/json?plugin=%s',
-                    VCV_HUB_URL,
+                    vcvenv('VCV_HUB_URL'),
                     VCV_VERSION
                 ),
                 $requestedData
@@ -51,7 +51,7 @@ class Bundle implements Helper
             $downloadUrl = $urlHelper->query(
                 sprintf(
                     '%s/download/json/lite?plugin=%s',
-                    VCV_HUB_URL,
+                    vcvenv('VCV_HUB_URL'),
                     VCV_VERSION
                 ),
                 $requestedData
@@ -67,7 +67,7 @@ class Bundle implements Helper
         $downloadUrl = $urlHelper->query(
             sprintf(
                 '%s/download/element?plugin=%s',
-                VCV_HUB_URL,
+                vcvenv('VCV_HUB_URL'),
                 VCV_VERSION
             ),
             $requestedData
@@ -82,7 +82,7 @@ class Bundle implements Helper
         $downloadUrl = $urlHelper->query(
             sprintf(
                 '%s/download/addon?plugin=%s',
-                VCV_HUB_URL,
+                vcvenv('VCV_HUB_URL'),
                 VCV_VERSION
             ),
             $requestedData
@@ -97,7 +97,7 @@ class Bundle implements Helper
         $downloadUrl = $urlHelper->query(
             sprintf(
                 '%s/download/template?plugin=%s',
-                VCV_HUB_URL,
+                vcvenv('VCV_HUB_URL'),
                 VCV_VERSION
             ),
             $requestedData

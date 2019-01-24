@@ -36,7 +36,7 @@ export default class CookElement extends Element {
     let element = elements ? elements[ tag ] : null
 
     if (!element) {
-      vcCake.env('debug') === true && console.warn(`Element ${tag} is not registered in system`, data)
+      vcCake.env('VCV_DEBUG') === true && console.warn(`Element ${tag} is not registered in system`, data)
       element = {
         settings: {
           metaDescription: '',
@@ -95,7 +95,7 @@ export default class CookElement extends Element {
   getContentComponent () {
     if (!this[ elComponent ].has()) {
       let elSettings = elementSettings.get(this[ elData ].tag)
-      if (vcCake.env('debug') === true && (!elSettings || !elSettings.component)) {
+      if (vcCake.env('VCV_DEBUG') === true && (!elSettings || !elSettings.component)) {
         console.error('Component settings doesnt exists! Failed to get component', this[ elData ].tag, this[ elData ], elSettings, this[ elComponent ])
       }
       elSettings && elSettings.component && elSettings.component(this[ elComponent ])
