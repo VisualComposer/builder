@@ -185,7 +185,7 @@ export default class AddTemplatePanel extends React.Component {
     template = Object.assign({}, template)
     if (
       (env('VCV_FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading === template.id) ||
-      (this.state.removing && template.name === this.state.showSpinner)
+      (this.state.removing && template.id === this.state.showSpinner)
     ) {
       template.spinner = true
     }
@@ -352,7 +352,7 @@ export default class AddTemplatePanel extends React.Component {
     const removeTemplateWarning = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.removeTemplateWarning : 'Do you want to remove this template?'
     if (window.confirm(removeTemplateWarning)) {
       this.setState({
-        showSpinner: myTemplatesService.get(id).name,
+        showSpinner: id,
         removing: true
       })
       myTemplatesService.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
