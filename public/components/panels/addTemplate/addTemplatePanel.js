@@ -382,10 +382,9 @@ export default class AddTemplatePanel extends React.Component {
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
 
     let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
-
     if (this.state.showSpinner && !this.state.removing) {
       itemsOutput.unshift(this.getTemplateControl({
-        name: this.state.showSpinner,
+        name: this.state.templateName,
         data: {},
         spinner: true
       }))
