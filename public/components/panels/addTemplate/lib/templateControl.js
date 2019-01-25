@@ -5,7 +5,7 @@ import HubTemplateControl from './hubTemplateControl'
 import CustomTemplateControl from './customTemplateControl'
 import { env } from 'vc-cake'
 
-const hubTemplateTypes = [ 'predefined', 'hub', 'hubHeader', 'hubFooter', 'hubSidebar' ]
+const hubTemplateTypes = [ 'predefined', 'hub', 'hubHeader', 'hubFooter', 'hubSidebar', 'block' ]
 const localizations = window.VCV_I18N && window.VCV_I18N()
 const addTemplate = localizations ? localizations.addTemplate : 'Add Template'
 const removeTemplate = localizations ? localizations.removeTemplate : 'Remove Template'
