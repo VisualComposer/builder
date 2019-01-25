@@ -1,0 +1,91 @@
+// Override tinymce editor css
+body:not(.vcv-wb-editor) {
+  &[vcv-tinymce-active] {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .mce-content-body {
+    line-height: unset;
+  }
+
+  .mce-floatpanel {
+    box-shadow: none;
+  }
+
+  div.mce-panel.mce-tinymce-inline {
+    background: transparent;
+    border: none!important;
+  }
+
+  div.mce-toolbar-grp {
+    background: @control-background-color;
+    border-radius: @control-border-radius;
+    border: none;
+  }
+
+  .mce-btn-group:not(:first-child) {
+    border-left-color: @control-separator-color;
+    margin-left: 0;
+  }
+
+  .mce-flow-layout-item {
+    &.mce-first {
+      .mce-btn.mce-first {
+        border-top-left-radius: @control-border-radius;
+        border-bottom-left-radius: @control-border-radius;
+      }
+    }
+
+    &.mce-last {
+      margin: 0;
+
+      .mce-btn.mce-last {
+        border-top-right-radius: @control-border-radius;
+        border-bottom-right-radius: @control-border-radius;
+      }
+    }
+  }
+
+  .mce-toolbar .mce-btn-group {
+    padding: 0;
+  }
+
+  .mce-toolbar .mce-ico {
+    color: @control-font-color;
+    transition: none;
+  }
+
+  .mce-btn-group .mce-btn {
+    background: transparent;
+    border: none;
+    text-shadow: none;
+    padding: 5px 6px;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .mce-toolbar .mce-btn-group .mce-btn:focus,
+  .mce-toolbar .mce-btn-group .mce-btn:hover,
+  .qt-dfw:focus, .qt-dfw:hover,
+  .mce-toolbar .mce-btn-group .mce-btn.mce-active,
+  .mce-toolbar .mce-btn-group .mce-btn:active,
+  .qt-dfw.active {
+    background-color: @control-background-color-active;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .mce-btn:hover .mce-caret,
+  .mce-caret {
+    border-top-color: @control-font-color;
+  }
+
+  .mce-menubtn button {
+    color: @control-font-color;
+  }
+
+  .mce-container-body.mce-stack-layout > .mce-stack-layout-item:not(:first-child) {
+    border-top: 1px solid @control-separator-color;
+  }
+}

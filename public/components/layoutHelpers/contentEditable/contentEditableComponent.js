@@ -275,7 +275,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   editorSetup (options) {
-    const editorSettings = {
+    let editorSettings = {
       target: this.ref,
       menubar: false,
       inline: true,
@@ -293,12 +293,22 @@ export default class ContentEditableComponent extends React.Component {
       setup: (editor) => {
         editor.on('init', () => {
           this.editor = editor
+          this.iframeDocument.body.setAttribute('vcv-tinymce-active', true)
           editor.fire('focusin')
           if (options.caretPosition) {
             this.setSelectionRange(this.ref, options.caretPosition)
           }
         })
+        editor.on('remove', () => {
+          this.iframeDocument.body.removeAttribute('vcv-tinymce-active')
+        })
       }
+    }
+    if (this.iframeDocument.body && (this.iframeDocument.body.clientWidth < 768)) {
+      editorSettings.toolbar = [
+        'formatselect | fontselect',
+        'bold italic | numlist bullist | alignleft aligncenter alignright'
+      ]
     }
     if (this.globalEditor && this.globalEditor.init) {
       this.globalEditor.init(editorSettings)
