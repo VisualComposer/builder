@@ -36,18 +36,9 @@ class UpdatesController extends Container implements Module
 
     public function __construct()
     {
-        $this->updateVersionUrl = vcvenv(
-            'VCV_ENV_PLUGIN_UPDATE_VERSION_URL',
-            'http://updates.visualcomposer.io/visual-composer-website-builder/index.html'
-        );
-        $this->updateChangelogUrl = vcvenv(
-            'VCV_ENV_PLUGIN_UPDATE_CHANGELOG_URL',
-            'http://updates.visualcomposer.io/visual-composer-website-builder/changes.json'
-        );
-        $this->updatePackageUrl = vcvenv(
-            'VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL',
-            'http://updates.visualcomposer.io/visual-composer-website-builder/visualcomposer.zip'
-        );
+        $this->updateVersionUrl = vcvenv('VCV_ENV_PLUGIN_UPDATE_VERSION_URL');
+        $this->updateChangelogUrl = vcvenv('VCV_ENV_PLUGIN_UPDATE_CHANGELOG_URL');
+        $this->updatePackageUrl = vcvenv('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL');
         /** @see \VisualComposer\Modules\Updates\UpdatesController::checkForUpdates */
         $this->wpAddFilter(
             'pre_set_site_transient_update_plugins',

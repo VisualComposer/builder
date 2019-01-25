@@ -140,3 +140,14 @@ if (!VcvEnv::has('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
     VcvEnv::set('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR', false);
 }
 
+if (!VcvEnv::has('VCV_ENV_PLUGIN_UPDATE_VERSION_URL')) {
+    VcvEnv::set('VCV_ENV_PLUGIN_UPDATE_VERSION_URL', defined('VCV_ENV_PLUGIN_UPDATE_VERSION_URL') ? constant('VCV_ENV_PLUGIN_UPDATE_VERSION_URL') : 'http://updates.visualcomposer.io/visual-composer-website-builder/index.html');
+}
+
+if (!VcvEnv::has('VCV_ENV_PLUGIN_UPDATE_CHANGELOG_URL')) {
+    VcvEnv::set('VCV_ENV_PLUGIN_UPDATE_CHANGELOG_URL', defined('VCV_ENV_PLUGIN_UPDATE_CHANGELOG_URL') ? constant('VCV_ENV_PLUGIN_UPDATE_CHANGELOG_URL') : 'http://updates.visualcomposer.io/visual-composer-website-builder/changes.json');
+}
+
+if (!VcvEnv::has('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL')) {
+    VcvEnv::set('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL', defined('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL') ? constant('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL'): 'http://updates.visualcomposer.io/visual-composer-website-builder/visualcomposer.zip');
+}
