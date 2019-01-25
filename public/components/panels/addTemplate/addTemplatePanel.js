@@ -423,20 +423,20 @@ export default class AddTemplatePanel extends React.Component {
                     <form
                       className='vcv-ui-save-template-form'
                       onSubmit={this.handleSaveTemplate}
-                      disabled={this.state.showSpinner}
+                      disabled={!!this.state.showSpinner}
                     >
                       <input
                         className='vcv-ui-form-input'
                         type='text'
                         value={this.state.templateName}
                         onChange={this.changeTemplateName}
-                        disabled={this.state.showSpinner}
+                        disabled={!!this.state.showSpinner}
                       />
                       <button
                         className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
                         type='submit'
                         title={saveTemplateText}
-                        disabled={this.state.showSpinner}
+                        disabled={!!this.state.showSpinner}
                       >{saveTemplateText}
                       </button>
                     </form>
