@@ -56,6 +56,7 @@ export default class ContentEditableComponent extends React.Component {
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.updateElementData = this.updateElementData.bind(this)
+    this.handleMoreButtonClick = this.handleMoreButtonClick.bind(this)
     this.debouncedUpdateHtmlWithServer = lodash.debounce(this.updateHtmlWithServer, 500)
   }
 
@@ -281,7 +282,7 @@ export default class ContentEditableComponent extends React.Component {
       inline: true,
       plugins: 'lists',
       toolbar: [
-        'formatselect | fontselect | bold italic | numlist bullist | alignleft aligncenter alignright'
+        'formatselect | fontselect | bold italic | numlist bullist | alignleft aligncenter alignright | dotButton'
       ],
       powerpaste_word_import: 'clean',
       powerpaste_html_import: 'clean',
@@ -302,12 +303,17 @@ export default class ContentEditableComponent extends React.Component {
         editor.on('remove', () => {
           this.iframeDocument.body.removeAttribute('vcv-tinymce-active')
         })
+        editor.addButton('dotButton', {
+          icon: 'vcv-ui-icon-more-dots',
+          tooltip: 'Open Element in Edit Form',
+          onclick: this.handleMoreButtonClick
+        })
       }
     }
     if (this.iframeDocument.body && (this.iframeDocument.body.clientWidth < 768)) {
       editorSettings.toolbar = [
         'formatselect | fontselect',
-        'bold italic | numlist bullist | alignleft aligncenter alignright'
+        'bold italic | numlist bullist | alignleft aligncenter alignright | dotButton'
       ]
     }
     if (this.globalEditor && this.globalEditor.init) {
@@ -315,6 +321,19 @@ export default class ContentEditableComponent extends React.Component {
     } else {
       console.warn('TinyMCE editor is not enqueued')
     }
+  }
+
+  handleMoreButtonClick () {
+    this.editor && this.editor.remove()
+    if (vcCake.getData('vcv:layoutCustomMode') !== null) {
+      vcCake.setData('vcv:layoutCustomMode', null)
+      window.setTimeout(() => {
+        this.handleLayoutModeChange(null)
+      }, 0)
+    }
+    this.debouncedUpdateHtmlWithServer(this.state.realContent)
+
+    workspaceStorage.trigger('edit', this.props.id, '')
   }
 
   updateHtmlWithServer (content) {
