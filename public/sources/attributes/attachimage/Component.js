@@ -248,7 +248,7 @@ export default class AttachImage extends Attribute {
     let metaAssetsPath = cookElement.get('metaAssetsPath')
     let filterControl = (
       <div className='vcv-ui-form-attach-image-filter-toggle'>
-        <Toggle value={filter} fieldKey='enableFilter' updater={this.toggleFilter}
+        <Toggle value={filter} fieldKey={`enableFilter_${this.props.fieldKey}`} updater={this.toggleFilter}
           options={{ labelText: 'Enable Instagram-like filters' }} />
       </div>
     )
