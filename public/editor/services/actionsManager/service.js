@@ -61,8 +61,8 @@ const ActionsManager = {
       }
     },
     attachImageUrls: (state, target, options, element) => {
-      if (target.refComponent.refs.domComponent.refs.domComponent.updateExtraAttributesStates) {
-        target.refComponent.refs.domComponent.refs.domComponent.updateExtraAttributesStates('url', state)
+      if (target.refComponent.refs.domComponent.updateExtraAttributesStates) {
+        target.refComponent.refs.domComponent.updateExtraAttributesStates('url', state)
         return
       }
       if (element.settings(target.key).settings.options.url === state) {

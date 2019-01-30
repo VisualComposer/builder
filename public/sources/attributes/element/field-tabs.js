@@ -1,6 +1,6 @@
 import React from 'react'
 import ActivitiesManager from './lib/activities-manager'
-import EditFormFieldDependencies from './lib/field-dependencies'
+import EditFormField from './lib/field'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
@@ -20,7 +20,7 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
     }
 
     return (
-      <EditFormFieldDependencies
+      <EditFormField
         {...this.props}
         setFieldMount={this.setFieldMount}
         setFieldUnmount={this.setFieldUnmount}
