@@ -1,12 +1,39 @@
 import React from 'react'
 import { format } from 'util'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 export default class EditFromField extends React.Component {
   static propTypes = {
     elementAccessPoint: PropTypes.object.isRequired,
     fieldKey: PropTypes.string.isRequired,
-    updater: PropTypes.func.isRequired
+    updater: PropTypes.func.isRequired,
+    setFieldMount: PropTypes.func.isRequired,
+    setFieldUnmount: PropTypes.func.isRequired
+  }
+
+  state = {
+    dependenciesClasses: []
+  }
+
+  componentDidMount () {
+    this.props.setFieldMount(this.props.fieldKey, {
+      ref: this.refs[ 'field' ],
+      refComponent: this,
+      refDomComponent: this.refs[ 'domComponent' ]
+    }, 'field')
+  }
+
+  componentWillUnmount () {
+    this.props.setFieldUnmount(this.props.fieldKey, 'field')
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.props.setFieldMount(nextProps.fieldKey, {
+      ref: this.refs[ 'field' ],
+      refComponent: this,
+      refDomComponent: this.refs[ 'domComponent' ]
+    })
   }
 
   render () {
@@ -42,18 +69,24 @@ export default class EditFromField extends React.Component {
       defaultValue = settings.value
     }
 
+    let classes = classNames({
+      'vcv-ui-form-dependency': true
+    }, this.state.dependenciesClasses)
+
     return (
-      <div className='vcv-ui-form-group' key={`form-group-field-${cookElement.get('id')}-${fieldKey}`}>
-        {label}
-        <AttributeComponent
-          key={'attribute-' + fieldKey + cookElement.get('id')}
-          options={options}
-          value={rawValue}
-          defaultValue={defaultValue}
-          {...this.props}
-          ref='domComponent'
-        />
-        {description}
+      <div ref='field' className={classes}>
+        <div className='vcv-ui-form-group' key={`form-group-field-${cookElement.get('id')}-${fieldKey}`}>
+          {label}
+          <AttributeComponent
+            key={'attribute-' + fieldKey + cookElement.get('id')}
+            options={options}
+            value={rawValue}
+            defaultValue={defaultValue}
+            {...this.props}
+            ref='domComponent'
+          />
+          {description}
+        </div>
       </div>
     )
   }
