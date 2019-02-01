@@ -87,7 +87,10 @@ export default class CssBuilder {
     const dataStorageState = getStorage('wordpressData').state('status').get().status
 
     this.updateStyleDomNodes(data)
-    if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD')) {
+    let cssBuildTypes = ['template', 'header', 'footer', 'sidebar']
+    let editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : false
+    let allowCssBuild = (editorType && cssBuildTypes.indexOf(editorType) > -1)
+    if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD') && !allowCssBuild) {
       this.addElementEditorFiles(data)
     } else {
       this.addCssElementBaseByElement(data)
