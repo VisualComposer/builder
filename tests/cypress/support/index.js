@@ -12,7 +12,7 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-/* global cy, beforeEach */
+/* global Cypress, cy, beforeEach */
 
 // Import commands.js using ES2015 syntax:
 import './commands'
@@ -22,4 +22,10 @@ import './commands'
 
 beforeEach(function () {
   cy.login()
+})
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // returning false here prevents Cypress from
+  // failing the test
+  return false
 })
