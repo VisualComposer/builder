@@ -87,7 +87,7 @@ export default class CssBuilder {
     const dataStorageState = getStorage('wordpressData').state('status').get().status
 
     this.updateStyleDomNodes(data)
-    if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD')) {
+    if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD') && window.VCV_EDITOR_TYPE() !== 'template') {
       this.addElementEditorFiles(data)
     } else {
       this.addCssElementBaseByElement(data)
