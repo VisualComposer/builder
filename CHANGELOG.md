@@ -1,3 +1,13 @@
+## ver 12.0 - 04.02.2019
+- New: Blocks templates introduced in Visual Composer Hub
+- New: Category choice for custom post types in post grid element
+- Update: Element naming UI updated
+- Update: Element edit window section UI updated
+- Fix: Global templates work properly in the editor
+- Fix: Blank page title capitalization
+- Fix: Template Export/Import add-on working properly
+- Element: Testimonials element
+- Element: Hover image element
 ## ver 11.0 - 16.01.2019
 - New: System Status page and requirement auto-check added to the plugin
 - New: Global Javascript can be added for the header and footer
