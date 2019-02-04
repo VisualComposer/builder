@@ -17,25 +17,25 @@ class PreviewJsDataController extends Container implements Module
 {
     use EventsFilters;
 
-    public function __construct(Frontend $frontendHelper)
+    public function __construct()
     {
-        if ($frontendHelper->isPreview()) {
-            $this->addFilter(
-                'vcv:dataAjax:setData',
-                'setData'
-            );
-        }
+        $this->addFilter(
+            'vcv:dataAjax:setData',
+            'setData'
+        );
     }
 
-    protected function setData($response, $payload)
+    protected function setData($response, $payload, Frontend $frontendHelper)
     {
-        $sourceId = $payload['sourceId'];
-        $preview = wp_get_post_autosave($sourceId);
-        if (is_object($preview)) {
-            $sourceId = $preview->ID;
+        if ($frontendHelper->isPreview()) {
+            $sourceId = $payload['sourceId'];
+            $preview = wp_get_post_autosave($sourceId);
+            if (is_object($preview)) {
+                $sourceId = $preview->ID;
+            }
+            $this->setPreviewLocalJs($sourceId);
+            $this->setPreviewGlobalJs($sourceId);
         }
-        $this->setPreviewLocalJs($sourceId);
-        $this->setPreviewGlobalJs($sourceId);
 
         return $response;
     }
