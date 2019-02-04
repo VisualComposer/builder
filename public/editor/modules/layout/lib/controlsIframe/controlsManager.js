@@ -241,9 +241,6 @@ export default class ControlsManager {
       if (state === 'dnd') {
         this.state.showFrames = true
       }
-      if (state === 'contentEditable') {
-        this.frames.hide()
-      }
       this.state.showControls = !state
       this.findElement()
       this.controlElementFind()
