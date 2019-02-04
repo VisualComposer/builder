@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -18,18 +17,16 @@ class JsDataController extends Container implements Module
 {
     use EventsFilters;
 
-    public function __construct(Frontend $frontendHelper)
+    public function __construct()
     {
         $this->addFilter(
             'vcv:dataAjax:getData',
             'getData'
         );
-        if (!$frontendHelper->isPreview()) {
-            $this->addFilter(
-                'vcv:dataAjax:setData',
-                'setData'
-            );
-        }
+        $this->addFilter(
+            'vcv:dataAjax:setData',
+            'setData'
+        );
     }
 
     protected function getData($response, $payload, Options $optionsHelper)
@@ -49,9 +46,12 @@ class JsDataController extends Container implements Module
 
     protected function setData($response, $payload)
     {
-        $sourceId = $payload['sourceId'];
-        $this->setSourceJs($sourceId);
-        $this->setGlobalJs();
+        $frontendHelper = vchelper('Frontend');
+        if (!$frontendHelper->isPreview()) {
+            $sourceId = $payload['sourceId'];
+            $this->setSourceJs($sourceId);
+            $this->setGlobalJs();
+        }
 
         return $response;
     }
