@@ -163,27 +163,25 @@ test:js:build:
   tags:
     - docker
 
-# test:e2e:cypress:
-#   stage: test
-#   image:
-#     name: visualcomposer/ci-wordpress:lamp-php-7.0-chrome
-#     entrypoint: [""]
-#   script:
-#     - supervisord
-#     - echo "<?php VcvEnv::set('VCV_ENV_DEV_ELEMENTS', true); VcvEnv::set('VCV_ENV_DEV_ADDONS', true); VcvEnv::set('VCV_ENV_EXTENSION_DOWNLOAD', false); require_once(__DIR__ . '/env.php');" > env-dev.php
-#     - ln -s $CI_PROJECT_DIR /var/www/html/wp-content/plugins/builder
-#     - yarn install
-#     - yarn build
-#     - yarn build-settings
-#     - php ci/composer.phar install
-#     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-#     - chmod 700 ~/.ssh/id_rsa
-#    - bash tools/devElements/cloneDefaultScript.sh
-#    - bash tools/devElements/buildDefaultScript.sh
-#    - bash tools/devElements/cloneScript.sh
-#    - bash tools/devElements/buildScript.sh
-#    - bash tools/devAddons/cloneScript.sh
-#    - bash tools/devAddons/buildScript.sh
-#    - yarn run cypress run --project ./tests/
-#  tags:
-#    - cypress
+test:e2e:cypress:
+  stage: test
+  image:
+    name: visualcomposer/ci-wordpress:lamp-php-7.0-chrome
+    entrypoint: [""]
+  script:
+    - supervisord
+    - echo "<?php VcvEnv::set('VCV_ENV_DEV_ELEMENTS', true); VcvEnv::set('VCV_ENV_DEV_ADDONS', true); VcvEnv::set('VCV_ENV_EXTENSION_DOWNLOAD', false); require_once(__DIR__ . '/env.php');" > env-dev.php
+    - ln -s $CI_PROJECT_DIR /var/www/html/wp-content/plugins/builder
+    - ls -al /var/www/html/wp-content/plugins/builder
+    - yarn build
+    - yarn build-settings
+    - bash tools/devElements/cloneDefaultScript.sh
+    - bash tools/devElements/buildDefaultScript.sh
+    - bash tools/devElements/cloneScript.sh
+    - bash tools/devElements/buildScript.sh
+    - bash tools/devAddons/cloneScript.sh
+    - bash tools/devAddons/buildScript.sh
+    - php ci/composer.phar install
+    - yarn run cypress run --project ./tests/
+  tags:
+    - cypress
