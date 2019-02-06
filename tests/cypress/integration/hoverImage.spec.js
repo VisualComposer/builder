@@ -3,6 +3,7 @@
 const ELEMENT_NAME = 'Hover Image'
 
 describe(ELEMENT_NAME, function () {
+  return
   it('Adds element to the page and checks attributes', function () {
     cy.createPage()
     cy.addElement(ELEMENT_NAME)

@@ -1,9 +1,10 @@
 {
   "baseUrl": "http://localhost/",
   "env": {
+    "baseUrl": "http://localhost/",
     "wpUserName": "admin",
     "wpPassword": "12345",
-    "slug": "builder",
+    "slug": "visual-composer-website-builder",
     "newPage": "/wp-admin/post-new.php?post_type=page&vcv-action=frontend"
   },
   "video": false
