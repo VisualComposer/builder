@@ -5,7 +5,9 @@
     "wpUserName": "admin",
     "wpPassword": "12345",
     "slug": "visual-composer-website-builder",
-    "newPage": "/wp-admin/post-new.php?post_type=page&vcv-action=frontend"
+    "newPage": "/wp-admin/post-new.php?post_type=page&vcv-action=frontend",
+    "serverType": "ci"
   },
-  "video": false
+  "video": false,
+  "pageLoadTimeout": 70000
 }

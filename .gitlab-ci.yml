@@ -175,6 +175,7 @@ test:e2e:cypress:
     - ls -al /var/www/html/wp-content/plugins/builder
     - yarn build
     - yarn build-settings
+    - chmod 777 /var/www/html/wp-content/uploads
     - bash tools/devElements/cloneDefaultScript.sh
     - bash tools/devElements/buildDefaultScript.sh
     - bash tools/devElements/cloneScript.sh
