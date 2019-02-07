@@ -186,7 +186,10 @@ export default class ElementControl extends React.Component {
       return
     }
     let wordArray = element.innerHTML.split(' ')
-    while (element.scrollHeight > element.offsetHeight && wordArray.length > 0) {
+
+    // Check if difference is within a 3px threshold
+    // 3px is a safe value to cover the differences between the browsers
+    while (((element.scrollHeight - element.offsetHeight) > 3) && wordArray.length > 0) {
       wordArray.pop()
       element.innerHTML = wordArray.join(' ') + '...'
     }
