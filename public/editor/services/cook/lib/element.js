@@ -59,6 +59,7 @@ export default class Element {
         hidden: hidden,
         settings: settings,
         cssSettings: cssSettings || {},
+        metaElementAssets: {},
         getAttributeType: function (k) {
           return getAttributeType(k, this.settings)
         }
@@ -87,7 +88,7 @@ export default class Element {
   }
 
   set (k, v) {
-    if ([ 'customHeaderTitle', 'parent' ].indexOf(k) > -1) {
+    if ([ 'customHeaderTitle', 'parent', 'metaElementAssets' ].indexOf(k) > -1) {
       this[ elData ][ k ] = v
       return this[ elData ][ k ]
     }
@@ -115,6 +116,7 @@ export default class Element {
     data.metaAssetsPath = this[ elData ].metaAssetsPath
     data.metaElementPath = this[ elData ].metaElementPath
     data.metaBundlePath = this[ elData ].metaBundlePath
+    data.metaElementAssets = this[ elData ].metaElementAssets
     if (this[ elData ].customHeaderTitle !== undefined) {
       data.customHeaderTitle = this[ elData ].customHeaderTitle
     }
@@ -181,7 +183,7 @@ export default class Element {
   }
 
   getPublicKeys () {
-    return [ 'id', 'order', 'parent', 'tag', 'customHeaderTitle', 'metaAssetsPath', 'hidden' ].concat(this.filter((key, value, settings) => {
+    return [ 'id', 'order', 'parent', 'tag', 'customHeaderTitle', 'metaAssetsPath', 'hidden', 'metaElementAssets' ].concat(this.filter((key, value, settings) => {
       return settings.access === 'public'
     }))
   }

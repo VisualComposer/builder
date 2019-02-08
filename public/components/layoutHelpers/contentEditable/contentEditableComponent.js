@@ -3,6 +3,7 @@ import vcCake from 'vc-cake'
 import striptags from 'striptags'
 import PropTypes from 'prop-types'
 import lodash from 'lodash'
+import TinymceButtonsBuilder from './lib/tinymceButtonsBuilder'
 
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
@@ -97,6 +98,16 @@ export default class ContentEditableComponent extends React.Component {
       if (this.props.paramField && this.props.paramIndex >= 0) {
         contentToSave = this.getParamsGroupContent(element, contentToSave)
       }
+
+      const usedGoogleFonts = this.buttonBuilder.getUsedFonts(this.ref)
+      if (usedGoogleFonts) {
+        const sharedAssetsData = element.get('metaElementAssets')
+        let sharedGoogleFonts = sharedAssetsData.googleFonts || {}
+        sharedGoogleFonts[this.props.field] = usedGoogleFonts
+        sharedAssetsData.googleFonts = sharedGoogleFonts
+        element.set('metaElementAssets', sharedAssetsData)
+      }
+
       element.set(this.props.field, contentToSave)
       elementsStorage.trigger('update', element.get('id'), element.toJS())
       const workspaceStorageState = workspaceStorage.state('settings').get()
@@ -282,10 +293,24 @@ export default class ContentEditableComponent extends React.Component {
       inline: true,
       plugins: 'lists',
       toolbar: [
-        'formatselect | fontselect | bold italic | numlist bullist | alignleft aligncenter alignright | dotButton'
+        'formatselect | googleFonts | fontWeight | bold italic | numlist bullist | alignleft aligncenter alignright | dotButton'
       ],
       powerpaste_word_import: 'clean',
       powerpaste_html_import: 'clean',
+      formats: {
+        fontweight: {
+          inline: 'span',
+          toggle: false,
+          styles: { fontWeight: '%value' },
+          clear_child_styles: true
+        },
+        fontstyle: {
+          inline: 'span',
+          toggle: false,
+          styles: { fontStyle: '%value' },
+          clear_child_styles: true
+        }
+      },
       init_instance_callback: (editor) => {
         editor.on('Change', (e) => {
           this.updateElementData(e.target.getContent())
@@ -303,16 +328,34 @@ export default class ContentEditableComponent extends React.Component {
         editor.on('remove', () => {
           this.iframeDocument.body.removeAttribute('vcv-tinymce-active')
         })
-        editor.addButton('dotButton', {
+        this.buttonBuilder = new TinymceButtonsBuilder(editor, this.iframe)
+
+        this.buttonBuilder.addButton('dotButton', {
           icon: 'vcv-ui-icon-more-dots',
           tooltip: 'Open Element in Edit Form',
           onclick: this.handleMoreButtonClick
+        })
+
+        this.buttonBuilder.addButton('googleFonts', {
+          type: 'listbox',
+          text: 'Font Family',
+          tooltip: 'Font Family',
+          icon: false,
+          fixedWidth: true
+        })
+
+        this.buttonBuilder.addButton('fontWeight', {
+          type: 'listbox',
+          text: 'Font Weight',
+          tooltip: 'Font Weight',
+          icon: false,
+          fixedWidth: true
         })
       }
     }
     if (this.iframeDocument.body && (this.iframeDocument.body.clientWidth < 768)) {
       editorSettings.toolbar = [
-        'formatselect | fontselect',
+        'formatselect | googleFonts | fontWeight',
         'bold italic | numlist bullist | alignleft aligncenter alignright | dotButton'
       ]
     }
@@ -382,7 +425,7 @@ export default class ContentEditableComponent extends React.Component {
 
   handleGlobalClick (e) {
     const $target = window.jQuery(e.target)
-    const inlineEditorClick = $target.is('.mce-container') || $target.parents('.mce-container').length
+    const inlineEditorClick = $target.is('.mce-container') || $target.parents('.mce-container').length || ($target.attr('class') && ($target.attr('class').indexOf('mce-') > -1))
     if (!inlineEditorClick && !$target.is('[data-vcv-element="' + this.props.id + '"]') && !$target.parents('[data-vcv-element="' + this.props.id + '"]').length) {
       this.editor && this.editor.remove()
       if (vcCake.getData('vcv:layoutCustomMode') !== null) {
