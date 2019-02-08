@@ -1,6 +1,7 @@
 import React from 'react'
 import Attribute from '../attribute'
 import DatePicker from 'react-datepicker'
+import moment from 'moment'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -15,10 +16,19 @@ export default class CalendarAttribute extends Attribute {
     this.setFieldValue(date)
   }
 
+  handleChangeRaw = (date) => {
+    // Need to do a check when time is changed inside input
+    // DatePicker library doesn't handle this case at the moment
+    if (date.target && moment(date.target.value).isValid()) {
+      this.handleChange(new Date(date.target.value))
+    }
+  }
+
   getCalendarProps () {
     const props = {
       selected: this.state.value,
       onChange: this.handleChange,
+      onChangeRaw: this.handleChangeRaw,
       disabledKeyboardNavigation: true,
       calendarClassName: 'vcv-ui-form-datepicker',
       className: 'vcv-ui-form-input',
