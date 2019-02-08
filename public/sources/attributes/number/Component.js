@@ -1,7 +1,7 @@
 import React from 'react'
 import Attribute from '../attribute'
 
-class StringAttribute extends Attribute {
+export default class NumberAttribute extends Attribute {
   render () {
     let { value } = this.state
     let { min, max } = this.props.options
@@ -21,5 +21,3 @@ class StringAttribute extends Attribute {
     )
   }
 }
-
-export default StringAttribute
