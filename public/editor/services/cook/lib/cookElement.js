@@ -28,7 +28,7 @@ export default class CookElement extends Element {
   }
 
   init (data, dataSettings = {}) {
-    let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, ...attr } = data
+    let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, metaElementAssets, ...attr } = data
     attr.tag = tag
     attr.id = id
 
@@ -72,6 +72,7 @@ export default class CookElement extends Element {
         hidden: hidden,
         settings: elSettings && elSettings.settings ? elSettings.settings : {},
         cssSettings: elSettings && elSettings.cssSettings ? elSettings.cssSettings : {},
+        metaElementAssets: metaElementAssets || {},
         getAttributeType: function (k) {
           return getAttributeType(k, this.settings)
         }
@@ -143,6 +144,7 @@ export default class CookElement extends Element {
     data.metaAssetsPath = this[ elData ].metaAssetsPath
     data.metaElementPath = this[ elData ].metaElementPath
     data.metaBundlePath = this[ elData ].metaBundlePath
+    data.metaElementAssets = this[ elData ].metaElementAssets
     if (this[ elData ].customHeaderTitle !== undefined) {
       data.customHeaderTitle = this[ elData ].customHeaderTitle
     }

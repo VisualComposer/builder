@@ -193,6 +193,25 @@ const innerApi = {
       }
     })
 
+    const elementAssets = cookElement.get('metaElementAssets')
+    const googleFonts = elementAssets && elementAssets.googleFonts
+    if (googleFonts) {
+      Object.keys(googleFonts).forEach((field) => {
+        const fieldFonts = googleFonts[ field ]
+        Object.keys(fieldFonts).forEach((font) => {
+          const fontData = fieldFonts[ font ]
+          let fontHref = `${font}`
+          if (fontData.variants) {
+            fontHref += `:${fontData.variants.join(',')}`
+          }
+          if (fontData.subsets) {
+            fontHref += `&subset=${fontData.subsets}`
+          }
+          files.cssBundles.push(`https://fonts.googleapis.com/css?family=${fontHref}`)
+        })
+      })
+    }
+
     return files
   }
 }
