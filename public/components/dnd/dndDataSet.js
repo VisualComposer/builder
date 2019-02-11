@@ -320,15 +320,7 @@ export default class DndDataSet {
     let blankRow = this.checkBlankRow(point)
     let hfs = this.checkHFS(point)
 
-    if (blankRow) {
-      let position = this.placeholder && this.placeholder.redraw(blankRow, point)
-      if (position) {
-        this.setPosition(position)
-      }
-      this.currentElement = 'vcv-ui-blank-row'
-      this.removeHFSActive()
-      this.setMouseOverStartBlank()
-    } else if (trashBin) {
+    if (trashBin) {
       this.trash && this.trash.setActive()
       this.placeholder && this.placeholder.clearStyle()
       this.placeholder && this.placeholder.setPoint(point)
@@ -336,6 +328,15 @@ export default class DndDataSet {
       this.currentElement = 'vcv-dnd-trash-bin'
       this.removeHFSActive()
       this.removeMouseOverStartBlank()
+    } else if (blankRow) {
+      let position = this.placeholder && this.placeholder.redraw(blankRow, point)
+      if (position) {
+        this.setPosition(position)
+      }
+      this.currentElement = 'vcv-ui-blank-row'
+      this.removeHFSActive()
+      this.trash && this.trash.removeActive()
+      this.setMouseOverStartBlank()
     } else if (hfs) {
       hfs.classList.add('vcv-drag-helper-over-hfs')
       this.removeMouseOverStartBlank()
