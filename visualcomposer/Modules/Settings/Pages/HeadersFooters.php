@@ -17,7 +17,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class CssJsSettings extends Container implements Module
+class HeadersFooters extends Container implements Module
 {
     use Page;
     use SubMenu;
@@ -27,7 +27,7 @@ class CssJsSettings extends Container implements Module
     /**
      * @var string
      */
-    protected $slug = 'vcv-global-css-js';
+    protected $slug = 'vcv-headers-footers';
 
     /*
      * @var string
@@ -36,10 +36,6 @@ class CssJsSettings extends Container implements Module
 
     public function __construct(Status $statusHelper, Options $optionsHelper)
     {
-        if (!vcvenv('VCV_ENV_FT_GLOBAL_CSS_JS_SETTINGS')) {
-            return;
-        }
-
         $this->wpAddAction(
             'admin_menu',
             'addPage'
@@ -52,7 +48,19 @@ class CssJsSettings extends Container implements Module
             'addCss'
         );
 
-        $this->addFilter('vcv:settings:tabs', 'addSettingsTab', 3);
+        $this->addFilter('vcv:settings:tabs', 'addSettingsTab', 2);
+    }
+
+    protected function beforeRender()
+    {
+        $urlHelper = vchelper('Url');
+        wp_register_style(
+            'vcv:wpUpdate:style',
+            $urlHelper->assetUrl('dist/wpUpdate.bundle.css'),
+            [],
+            VCV_VERSION
+        );
+        wp_enqueue_style('vcv:wpUpdate:style');
     }
 
     /**
@@ -62,8 +70,8 @@ class CssJsSettings extends Container implements Module
      */
     protected function addSettingsTab($tabs)
     {
-        $tabs['vcv-global-css-js'] = [
-            'name' => __('CSS, HTML & JavaScript', 'vcwb'),
+        $tabs['vcv-headers-footers'] = [
+            'name' => __('Headers and Footers', 'vcwb'),
         ];
 
         return $tabs;
@@ -80,36 +88,13 @@ class CssJsSettings extends Container implements Module
     }
 
     /**
-     *
-     */
-    protected function beforeRender()
-    {
-        $urlHelper = vchelper('Url');
-        wp_register_style(
-            'vcv:wpUpdate:style',
-            $urlHelper->assetUrl('dist/wpUpdate.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_style('vcv:wpUpdate:style');
-
-        wp_register_script(
-            'vcv:wpVcSettings:script',
-            $urlHelper->assetUrl('dist/wpVcSettings.bundle.js'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_script('vcv:wpVcSettings:script');
-    }
-
-    /**
      * @throws \Exception
      */
     protected function addPage()
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => __('CSS, HTML & JavaScript', 'vcwb'),
+            'title' => __('Headers and Footers', 'vcwb'),
             'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
             'controller' => $this,
@@ -119,6 +104,6 @@ class CssJsSettings extends Container implements Module
 
     protected function addCss()
     {
-        evcview('settings/partials/global-css-js-settings-css');
+        evcview('settings/partials/headers-footers-settings');
     }
 }

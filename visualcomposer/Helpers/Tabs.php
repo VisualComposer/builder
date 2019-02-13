@@ -16,7 +16,6 @@ class Tabs implements Helper
     {
         $tabs = [
             'vcv-settings' => ['name' => 'General'],
-            'vcv-system-status' => ['name' => 'System Status'],
         ];
         $tabs = vcfilter('vcv:settings:tabs', $tabs);
 

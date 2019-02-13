@@ -47,6 +47,8 @@ class SystemStatus extends Container implements Module
             return;
         }
 
+        $this->addFilter('vcv:settings:tabs', 'addSettingsTab', 10);
+
         $this->wpAddAction(
             'admin_menu',
             'addPage'
@@ -70,6 +72,20 @@ class SystemStatus extends Container implements Module
 
         $this->statusHelper = $statusHelper;
         $this->optionsHelper = $optionsHelper;
+    }
+
+    /**
+     * @param $tabs
+     *
+     * @return mixed
+     */
+    protected function addSettingsTab($tabs)
+    {
+        $tabs['vcv-system-status'] = [
+            'name' => __('System Status', 'vcwb'),
+        ];
+
+        return $tabs;
     }
 
     protected function subMenuHighlight($submenuFile)
