@@ -47,10 +47,9 @@ before_script:
   # disable host key checking (NOTE: makes you susceptible to man-in-the-middle attacks)
   # WARNING: use only in docker container, if you use it with shell you will overwrite your user's ssh config
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-  - if [ $(type -t yarn) ]; then yarn install; fi;
 
 codestyle:js:
-  image: wpbakery/standardjs
+  image: wpbakery/vc-hub-docker
   stage: codestyle
   except:
     - refactor
@@ -61,7 +60,7 @@ codestyle:js:
     - docker
 
 codestyle:php:pluginFile:
-  image: wpbakery/phpcs
+  image: wpbakery/vc-hub-docker
   stage: codestyle
   script:
     - php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php
@@ -69,7 +68,7 @@ codestyle:php:pluginFile:
     - docker
 
 codestyle:php:bootstrap:
-  image: wpbakery/phpcs
+  image: wpbakery/vc-hub-docker
   stage: codestyle
   script:
     - php ci/phpcs.phar --standard=ci/ruleset.xml bootstrap
@@ -77,7 +76,7 @@ codestyle:php:bootstrap:
     - docker
 
 codestyle:php:framework:
-  image: wpbakery/phpcs
+  image: wpbakery/vc-hub-docker
   stage: codestyle
   script:
     - php ci/phpcs.phar --standard=ci/ruleset.xml visualcomposer/Framework
@@ -85,7 +84,7 @@ codestyle:php:framework:
     - docker
 
 codestyle:php:helpers:
-  image: wpbakery/phpcs
+  image: wpbakery/vc-hub-docker
   stage: codestyle
   script:
     - php ci/phpcs.phar --standard=ci/ruleset.xml visualcomposer/Helpers
@@ -93,7 +92,7 @@ codestyle:php:helpers:
     - docker
 
 codestyle:php:modules:
-  image: wpbakery/phpcs
+  image: wpbakery/vc-hub-docker
   stage: codestyle
   script:
     - php ci/phpcs.phar --standard=ci/ruleset.xml visualcomposer/Modules
@@ -101,7 +100,7 @@ codestyle:php:modules:
     - docker
 
 codestyle:php:application:
-  image: wpbakery/phpcs
+  image: wpbakery/vc-hub-docker
   stage: codestyle
   script:
     - php ci/phpcs.phar --standard=ci/ruleset.xml visualcomposer/Application.php visualcomposer/Requirements.php
@@ -140,7 +139,7 @@ test:php:modules:
 
 test:js:storages:
   stage: test
-  image: wpbakery/standardjs
+  image: wpbakery/vc-hub-docker
   script:
     - yarn install
     - yarn build
@@ -150,7 +149,7 @@ test:js:storages:
 
 test:js:build:
   stage: test
-  image: wpbakery/standardjs
+  image: wpbakery/vc-hub-docker
   script:
     - yarn install
     - yarn build
@@ -173,6 +172,7 @@ test:e2e:cypress:
     - echo "<?php VcvEnv::set('VCV_ENV_DEV_ELEMENTS', true); VcvEnv::set('VCV_ENV_DEV_ADDONS', true); VcvEnv::set('VCV_ENV_EXTENSION_DOWNLOAD', false); require_once(__DIR__ . '/env.php');" > env-dev.php
     - ln -s $CI_PROJECT_DIR /var/www/html/wp-content/plugins/builder
     - ls -al /var/www/html/wp-content/plugins/builder
+    - yarn install
     - yarn build
     - yarn build-settings
     - chmod 777 /var/www/html/wp-content/uploads
