@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import TinyMceEditor from 'react-tinymce'
+import TinyMceButtonsBuilder from 'public/components/layoutHelpers/contentEditable/lib/tinymceButtonsBuilder'
 // import './css/skin.css'
 import './css/content.css'
 import './css/wpEditor.css'
@@ -8,11 +9,15 @@ import Attribute from '../attribute'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
 import ToggleSmall from '../toggleSmall/Component'
+import webFontLoader from 'webfontloader'
 export default class Component extends Attribute {
   constructor (props) {
     super(props)
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
     this.handleSkinChange = this.handleSkinChange.bind(this)
+    this.addFontDropdowns = this.addFontDropdowns.bind(this)
+    this.handleFontChange = this.handleFontChange.bind(this)
+    this.handleFontWeightChange = this.handleFontWeightChange.bind(this)
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
     this.state.darkTextSkin = this.getDarkTextSkinState()
   }
@@ -22,6 +27,7 @@ export default class Component extends Attribute {
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
       window.tinymce.get(id).setContent(nextProps.value)
+      this.loadUsedFonts(nextProps)
       return false
     }
     return true
@@ -32,6 +38,88 @@ export default class Component extends Attribute {
       window.tinymce.EditorManager.get(this.id).setContent(nextProps.value)
     }
     // super.componentWillReceiveProps(nextProps)
+  }
+
+  loadUsedFonts (props) {
+    if (!this.editor) {
+      return
+    }
+    const element = props.elementAccessPoint.cook()
+    const sharedAssetsData = element.get('metaElementAssets')
+    let iframeSettings = {}
+    if (this.editor.getWin()) {
+      iframeSettings.context = this.editor.getWin()
+    }
+    const fieldPathKey = props.options.nestedAttrPath ? props.options.nestedAttrPath : props.fieldKey
+    if (sharedAssetsData && sharedAssetsData.googleFonts && sharedAssetsData.googleFonts[ fieldPathKey ]) {
+      const families = Object.keys(sharedAssetsData.googleFonts[ fieldPathKey ])
+      if (families) {
+        webFontLoader.load({
+          google: {
+            families: families
+          },
+          ...iframeSettings
+        })
+      }
+    }
+  }
+
+  addFontDropdowns (editor) {
+    editor.settings.toolbar1 += ',googleFonts,fontWeight'
+    this.buttonBuilder = new TinyMceButtonsBuilder(editor, window.tinymce, true)
+
+    this.buttonBuilder.addButton('googleFonts', {
+      type: 'listbox',
+      text: 'Font Family',
+      tooltip: 'Font Family',
+      icon: false,
+      fixedWidth: true,
+      onselect: this.handleFontChange
+    })
+
+    this.buttonBuilder.addButton('fontWeight', {
+      type: 'listbox',
+      text: 'Font Weight',
+      tooltip: 'Font Weight',
+      icon: false,
+      fixedWidth: true,
+      onselect: this.handleFontWeightChange
+    })
+
+    editor.on('init', () => {
+      editor.formatter.register('fontweight', {
+        inline: 'span',
+        toggle: false,
+        styles: { fontWeight: '%value' },
+        clear_child_styles: true
+      })
+      editor.formatter.register('fontstyle', {
+        inline: 'span',
+        toggle: false,
+        styles: { fontStyle: '%value' },
+        clear_child_styles: true
+      })
+    })
+  }
+
+  handleFontWeightChange () {
+    this.handleFontChange()
+    this.handleChangeWpEditor(this.editor)
+  }
+
+  handleFontChange () {
+    const { fieldKey, elementAccessPoint, options } = this.props
+    const usedGoogleFonts = this.buttonBuilder.getUsedFonts(this.editor.getBody())
+
+    if (usedGoogleFonts) {
+      const element = elementAccessPoint.cook()
+      const sharedAssetsData = element.get('metaElementAssets')
+      const fieldPathKey = options.nestedAttrPath ? options.nestedAttrPath : fieldKey
+      let sharedGoogleFonts = sharedAssetsData.googleFonts || {}
+      sharedGoogleFonts[ fieldPathKey ] = usedGoogleFonts
+      sharedAssetsData.googleFonts = sharedGoogleFonts
+      elementAccessPoint.set('metaElementAssets', sharedAssetsData)
+    }
   }
 
   handleChange (event, editor) {
@@ -85,9 +173,12 @@ export default class Component extends Attribute {
         id: id,
         selector: '#' + id,
         setup: (editor) => {
+          this.editor = editor
           editor.on('keyup change undo redo', this.handleChangeWpEditor.bind(this, editor))
+          this.addFontDropdowns(editor)
         },
         init_instance_callback: () => {
+          this.loadUsedFonts(this.props)
           this.setState({ editorLoaded: true })
         }
       })
