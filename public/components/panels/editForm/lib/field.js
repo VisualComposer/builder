@@ -77,6 +77,7 @@ export default class Field extends React.Component {
       let elSettings = cookElement.settings(fieldKey, attrSettings)
       type = elSettings.type
       settings = elSettings.settings
+      settings.options.nestedAttrPath = `${this.props.options.fieldKey}:${this.props.options.activeParamGroupIndex}:${fieldKey}`
       value = element[ this.props.options.fieldKey ].value[ this.props.options.activeParamGroupIndex ][ fieldKey ]
     }
     let AttributeComponent = type.component

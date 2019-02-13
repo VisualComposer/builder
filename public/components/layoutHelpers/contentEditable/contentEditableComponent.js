@@ -95,15 +95,17 @@ export default class ContentEditableComponent extends React.Component {
       const content = this.globalEditor ? this.state.realContent : this.ref.innerHTML
       let contentToSave = this.getInlineMode() === 'text'
         ? striptags(content) : content
+      let fieldPathKey = this.props.field
       if (this.props.paramField && this.props.paramIndex >= 0) {
         contentToSave = this.getParamsGroupContent(element, contentToSave)
+        fieldPathKey = `${this.props.field}:${this.props.paramIndex}:${this.props.paramField}`
       }
 
       const usedGoogleFonts = this.buttonBuilder.getUsedFonts(this.ref)
       if (usedGoogleFonts) {
         const sharedAssetsData = element.get('metaElementAssets')
         let sharedGoogleFonts = sharedAssetsData.googleFonts || {}
-        sharedGoogleFonts[this.props.field] = usedGoogleFonts
+        sharedGoogleFonts[ fieldPathKey ] = usedGoogleFonts
         sharedAssetsData.googleFonts = sharedGoogleFonts
         element.set('metaElementAssets', sharedAssetsData)
       }
@@ -328,7 +330,7 @@ export default class ContentEditableComponent extends React.Component {
         editor.on('remove', () => {
           this.iframeDocument.body.removeAttribute('vcv-tinymce-active')
         })
-        this.buttonBuilder = new TinymceButtonsBuilder(editor, this.iframe)
+        this.buttonBuilder = new TinymceButtonsBuilder(editor, this.globalEditor, false)
 
         this.buttonBuilder.addButton('dotButton', {
           icon: 'vcv-ui-icon-more-dots',

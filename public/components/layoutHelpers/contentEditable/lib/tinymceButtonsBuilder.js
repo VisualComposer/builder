@@ -101,7 +101,7 @@ export default class TinymceButtonsBuilder {
     return formats
   }
 
-  constructor (editor, iframe) {
+  constructor (editor, globalTinymce, loadFontsInTinymce) {
     Object.defineProperties(this, {
       editor: {
         configurable: false,
@@ -109,16 +109,16 @@ export default class TinymceButtonsBuilder {
         value: editor,
         writable: true
       },
-      iframe: {
-        configurable: false,
-        enumerable: false,
-        value: iframe,
-        writable: true
-      },
       global$2: {
         configurable: false,
         enumerable: false,
-        value: iframe.contentWindow.tinymce && iframe.contentWindow.tinymce.util.Tools.resolve('tinymce.util.Tools'),
+        value: globalTinymce.util.Tools.resolve('tinymce.util.Tools'),
+        writable: true
+      },
+      loadFontsInTinymce: {
+        configurable: false,
+        enumerable: false,
+        value: loadFontsInTinymce,
         writable: true
       }
     })
@@ -289,14 +289,35 @@ export default class TinymceButtonsBuilder {
     if (defaultFont) { // do not load default fonts
       return
     }
+    const iframe = document.querySelector('#vcv-editor-iframe')
+    const iframeWindow = iframe && iframe.contentWindow
+
     let iframeSettings = {}
-    this.iframe && this.iframe.contentWindow && (iframeSettings.context = this.iframe.contentWindow)
+    if (iframeWindow) {
+      iframeSettings.context = iframeWindow
+    }
+
     webFontLoader.load({
       google: {
         families: [ `${family}` ]
       },
       ...iframeSettings
     })
+
+    // Load fonts in tinyMce iframe
+    if (this.loadFontsInTinymce) {
+      iframeSettings = {}
+      if (this.editor.getWin()) {
+        iframeSettings.context = this.editor.getWin()
+      }
+
+      webFontLoader.load({
+        google: {
+          families: [ `${family}` ]
+        },
+        ...iframeSettings
+      })
+    }
   }
 
   getFontVariant (fontStyle, fontWeight, position) {
