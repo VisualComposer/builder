@@ -189,7 +189,7 @@
   "resolutions": {
     "postcss": "7.0.5",
     "css-loader": "1.0.0",
-    "eslint": "5.6.1"
+    "eslint": "5.13.0"
   },
   "--disabledResolutions": {
     "eslint": "5.6.0",
