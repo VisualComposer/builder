@@ -68,7 +68,6 @@ export default class Component extends Attribute {
     let toolbars = [ 'toolbar1', 'toolbar2', 'toolbar3', 'toolbar4' ]
     let overwrite = false
     let buttonsToAdd = 'googleFonts,fontWeight'
-    editor.settings.toolbar2 = 'fontselect,' + editor.settings.toolbar2
 
     // overwrite default fontselect dropdown
     toolbars.forEach((toolbar) => {
