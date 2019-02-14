@@ -183,8 +183,8 @@ class HeadersFootersField extends Container implements Module
         foreach ($enabledPostTypes as $postType) {
             $sectionCallback = function () use ($postType) {
                 echo sprintf(
-                    __('Define header and footer for %s.'),
-                    $postType
+                    '<p class="description">%s</p>',
+                    'Define header and footer for ' . $postType
                 );
             };
 
