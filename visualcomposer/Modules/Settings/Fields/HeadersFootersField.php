@@ -107,7 +107,7 @@ class HeadersFootersField extends Container implements Module
                 'options' => $availableHeaders,
                 'name' => 'vcv-headerFooterSettingsAllHeader',
                 'value' => $selectedAllHeader,
-                'emptyOptionTitle' => __('Select Header', 'vcwb'),
+                'emptyOptionTitle' => __('Default', 'vcwb'),
             ];
             echo $this->call('renderDropdown', $args);
         };
@@ -130,7 +130,7 @@ class HeadersFootersField extends Container implements Module
                 'options' => $availableFooters,
                 'name' => 'vcv-headerFooterSettingsAllFooter',
                 'value' => $selectedAllFooter,
-                'emptyOptionTitle' => __('Select Footer', 'vcwb'),
+                'emptyOptionTitle' => __('Default', 'vcwb'),
             ];
             echo $this->call('renderDropdown', $args);
         };
@@ -203,7 +203,7 @@ class HeadersFootersField extends Container implements Module
                     'options' => $availableHeaders,
                     'name' => 'vcv-headerFooterSettingsSeparateHeader-' . $postType,
                     'value' => $selectedSeparateHeader,
-                    'emptyOptionTitle' => __('Select Header', 'vcwb'),
+                    'emptyOptionTitle' => __('Default', 'vcwb'),
                 ];
                 echo $this->call('renderDropdown', $args);
             };
@@ -225,7 +225,7 @@ class HeadersFootersField extends Container implements Module
                     'options' => $availableFooters,
                     'name' => 'vcv-headerFooterSettingsSeparateFooter-' . $postType,
                     'value' => $selectedSeparateFooter,
-                    'emptyOptionTitle' => __('Select Footer', 'vcwb'),
+                    'emptyOptionTitle' => __('Default', 'vcwb'),
                 ];
                 echo $this->call('renderDropdown', $args);
             };
