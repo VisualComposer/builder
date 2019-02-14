@@ -107,7 +107,6 @@ class HeadersFootersField extends Container implements Module
                 'options' => $availableHeaders,
                 'name' => 'vcv-headerFooterSettingsAllHeader',
                 'value' => $selectedAllHeader,
-                'emptyOptionTitle' => __('Default', 'vcwb'),
             ];
             echo $this->call('renderDropdown', $args);
         };
@@ -130,7 +129,6 @@ class HeadersFootersField extends Container implements Module
                 'options' => $availableFooters,
                 'name' => 'vcv-headerFooterSettingsAllFooter',
                 'value' => $selectedAllFooter,
-                'emptyOptionTitle' => __('Default', 'vcwb'),
             ];
             echo $this->call('renderDropdown', $args);
         };
@@ -203,7 +201,6 @@ class HeadersFootersField extends Container implements Module
                     'options' => $availableHeaders,
                     'name' => 'vcv-headerFooterSettingsSeparateHeader-' . $postType,
                     'value' => $selectedSeparateHeader,
-                    'emptyOptionTitle' => __('Default', 'vcwb'),
                 ];
                 echo $this->call('renderDropdown', $args);
             };
@@ -225,7 +222,6 @@ class HeadersFootersField extends Container implements Module
                     'options' => $availableFooters,
                     'name' => 'vcv-headerFooterSettingsSeparateFooter-' . $postType,
                     'value' => $selectedSeparateFooter,
-                    'emptyOptionTitle' => __('Default', 'vcwb'),
                 ];
                 echo $this->call('renderDropdown', $args);
             };
@@ -267,11 +263,10 @@ class HeadersFootersField extends Container implements Module
      * @param $options
      * @param $value
      * @param $name
-     * @param $emptyOptionTitle
      *
      * @return mixed|string
      */
-    protected function renderDropdown($options, $value, $name, $emptyOptionTitle)
+    protected function renderDropdown($options, $value, $name)
     {
         return vcview(
             'settings/pages/headers-footers/headers-footers-dropdown',
@@ -279,7 +274,6 @@ class HeadersFootersField extends Container implements Module
                 'value' => $value,
                 'enabledOptions' => (array)$options,
                 'name' => $name,
-                'emptyOptionTitle' => $emptyOptionTitle,
             ]
         );
     }
