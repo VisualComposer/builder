@@ -50,6 +50,7 @@ class ApiController extends Container implements Module
         $manifestContents = $fileHelper->getContents($manifestPath);
         $manifestData = json_decode($manifestContents, true);
         if (is_array($manifestData) && isset($manifestData['elements'])) {
+            $this->parseDependencies($manifestData);
             $elements = $optionsHelper->get('hubElements', []);
             $elementBaseUrl = rtrim($elementBaseUrl, '\\/');
             $this->processElements($manifestPath, $elementBaseUrl, $hubElements, $manifestData, $elements);
@@ -107,6 +108,30 @@ class ApiController extends Container implements Module
         if (isset($manifestData['categories']) && is_array($manifestData['categories'])) {
             foreach ($manifestData['categories'] as $category => $categoryElements) {
                 $hubCategories->addCategoryElements($category, $categoryElements['elements']);
+            }
+        }
+    }
+
+    /**
+     * @param $manifestData
+     *
+     * @return mixed
+     */
+    protected function parseDependencies($manifestData)
+    {
+        $optionsHelper = vchelper('Options');
+        if (isset($manifestData['dependencies']) && is_array($manifestData['dependencies'])) {
+            $elementDependencies = $manifestData['dependencies'];
+            $actionAdded = false;
+            foreach ($elementDependencies as $elementDependency) {
+                if (!$optionsHelper->get('hubAction:' . $elementDependency)) {
+                    $actionAdded = $optionsHelper->set('hubAction:' . $elementDependency, '0.0.1');
+                }
+            }
+
+            if ($actionAdded) {
+                $optionsHelper->set('bundleUpdateRequired', 1);
+                $optionsHelper->deleteTransient('lastBundleUpdate');
             }
         }
     }
