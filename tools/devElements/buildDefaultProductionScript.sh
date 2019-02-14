@@ -4,7 +4,7 @@ echo "### Build Default Script v1.0 12.11.2018 ### $(date)"
 
 EXECDIR=`pwd`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-declare -a arr=($(cat "$DIR/defaultElements.list"))
+declare -a arr=($(find ${EXECDIR}/elements -mindepth 1 -maxdepth 1 -type d))
 
 TOTAL=0
 CNT=0
@@ -14,8 +14,8 @@ do {
   i=${i//[$'\t\r\n']}
   TOTAL=$(($TOTAL+1))
   CNT=$(($CNT+1))
-  if cd $EXECDIR/elements/$i; then
-    cd $EXECDIR/elements/$i
+  if cd $i; then
+    cd $i
     ../../node_modules/.bin/webpack --config webpack.config.4x.production.babel.js -p --silent & pid=$1
   fi
 
