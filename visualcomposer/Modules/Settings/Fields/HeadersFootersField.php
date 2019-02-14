@@ -195,6 +195,30 @@ class HeadersFootersField extends Container implements Module
                 ]
             );
 
+            $separateOptionPostType = (array)$optionsHelper->get('headerFooterSettingsSeparatePostType-' . $postType);
+            $fieldCallbackSeparateOption = function () use ($separateOptionPostType, $postType) {
+                $args = [
+                    'options' => $separateOptionPostType,
+                    'name' => 'vcv-headerFooterSettingsSeparatePostType-' . $postType,
+                    'value' => 'headers-footers-separate-' . $postType,
+                    'title' => esc_html__('Use custom headers and footers on the site.', 'vcwb'),
+                ];
+                echo $this->call('renderToggle', $args);
+            };
+
+            $this->addField(
+                [
+                    'page' => $this->slug,
+                    'name' => 'headerFooterSettingsSeparatePostType-' . $postType,
+                    'id' => 'vcv-headers-footers-separate-' . $postType,
+                    'slug' => 'headers-footers-separate-post-type-' . $postType,
+                    'fieldCallback' => $fieldCallbackSeparateOption,
+                    'args' => [
+                        'class' => 'vcv-no-title',
+                    ],
+                ]
+            );
+
             $selectedSeparateHeader = (int)$optionsHelper->get('headerFooterSettingsSeparateHeader-' . $postType);
             $fieldCallback = function () use ($availableHeaders, $selectedSeparateHeader, $postType) {
                 $args = [
