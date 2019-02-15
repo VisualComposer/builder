@@ -19,21 +19,21 @@ body:not(.vcv-wb-editor) {
   }
 
   div.mce-toolbar-grp {
-    background: @control-background-color;
-    border-radius: @control-border-radius;
+    background: @inline-editor-control-background-color;
+    border-radius: @inline-editor-control-border-radius;
     border: none;
   }
 
   .mce-btn-group:not(:first-child) {
-    border-left-color: @control-separator-color;
+    border-left-color: @inline-editor-control-separator-color;
     margin-left: 0;
   }
 
   .mce-flow-layout-item {
     &.mce-first {
       .mce-btn.mce-first {
-        border-top-left-radius: @control-border-radius;
-        border-bottom-left-radius: @control-border-radius;
+        border-top-left-radius: @inline-editor-control-border-radius;
+        border-bottom-left-radius: @inline-editor-control-border-radius;
       }
     }
 
@@ -41,8 +41,8 @@ body:not(.vcv-wb-editor) {
       margin: 0;
 
       .mce-btn.mce-last {
-        border-top-right-radius: @control-border-radius;
-        border-bottom-right-radius: @control-border-radius;
+        border-top-right-radius: @inline-editor-control-border-radius;
+        border-bottom-right-radius: @inline-editor-control-border-radius;
       }
     }
   }
@@ -52,7 +52,7 @@ body:not(.vcv-wb-editor) {
   }
 
   .mce-toolbar .mce-ico {
-    color: @control-font-color;
+    color: @inline-editor-control-font-color;
     transition: none;
   }
 
@@ -71,22 +71,22 @@ body:not(.vcv-wb-editor) {
   .mce-toolbar .mce-btn-group .mce-btn.mce-active,
   .mce-toolbar .mce-btn-group .mce-btn:active,
   .qt-dfw.active {
-    background-color: @control-background-color-active;
+    background-color: @inline-editor-control-background-color-active;
     border-color: transparent;
     box-shadow: none;
   }
 
   .mce-btn:hover .mce-caret,
   .mce-caret {
-    border-top-color: @control-font-color;
+    border-top-color: @inline-editor-control-font-color;
   }
 
   .mce-menubtn button {
-    color: @control-font-color;
+    color: @inline-editor-control-font-color;
   }
 
   .mce-container-body.mce-stack-layout > .mce-toolbar:not(:first-child) {
-    border-top: 1px solid @control-separator-color;
+    border-top: 1px solid @inline-editor-control-separator-color;
   }
 
   .mce-ico.mce-i-vcv-ui-icon-more-dots {

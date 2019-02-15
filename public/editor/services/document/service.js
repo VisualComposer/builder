@@ -11,11 +11,7 @@ const dataStore = {
         return el.get('parent') === id
       })
       .sortBy((el) => {
-        let order = el.get('order')
-        if (typeof order === 'string') {
-          order = parseInt(order)
-        }
-        return order
+        return el.get('order')
       })
   },
   getLastOrderIndex: function (id) {
@@ -179,6 +175,7 @@ const api = {
   },
   reset: function (data) {
     dataStore.data = Immutable.fromJS(data)
+    dataStore.data = dataStore.data.map(map => map.set('order', parseInt(map.get('order'))))
   },
   size: function () {
     return dataStore.data.size
