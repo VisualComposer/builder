@@ -65,7 +65,28 @@ export default class Component extends Attribute {
   }
 
   addFontDropdowns (editor) {
-    editor.settings.toolbar1 += ',googleFonts,fontWeight'
+    let toolbars = [ 'toolbar1', 'toolbar2', 'toolbar3', 'toolbar4' ]
+    let overwrite = false
+    let buttonsToAdd = 'googleFonts,fontWeight'
+
+    // overwrite default fontselect dropdown
+    toolbars.forEach((toolbar) => {
+      if (editor.settings.hasOwnProperty(toolbar)) {
+        if (editor.settings[ toolbar ].indexOf('fontselect') > -1) {
+          editor.settings[ toolbar ] = editor.settings[ toolbar ].replace('fontselect', buttonsToAdd)
+          overwrite = true
+        }
+      }
+    })
+
+    if (!overwrite) {
+      if (editor.settings.toolbar2) {
+        editor.settings.toolbar2 = buttonsToAdd + ',' + editor.settings.toolbar2
+      } else {
+        editor.settings.toolbar2 = buttonsToAdd
+      }
+    }
+
     this.buttonBuilder = new TinyMceButtonsBuilder(editor, window.tinymce, true)
 
     this.buttonBuilder.addButton('googleFonts', {
