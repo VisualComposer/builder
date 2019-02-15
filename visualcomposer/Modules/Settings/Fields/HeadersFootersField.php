@@ -96,6 +96,7 @@ class HeadersFootersField extends Container implements Module
                 'title' => __('All Site', 'vcwb'),
                 'slug' => 'headers-footers-all-site',
                 'callback' => $sectionCallbackAllSite,
+                'parent' => 'headers-footers-override'
             ]
         );
 
@@ -150,6 +151,7 @@ class HeadersFootersField extends Container implements Module
             [
                 'page' => $this->slug,
                 'slug' => 'headers-footers-separate-post-types',
+                'parent' => 'headers-footers-override',
             ]
         );
 
@@ -192,6 +194,7 @@ class HeadersFootersField extends Container implements Module
                     'title' => ucfirst($postType),
                     'slug' => 'headers-footers-separate-post-type-' . $postType,
                     'callback' => $sectionCallback,
+                    'parent' => 'headers-footers-override',
                 ]
             );
 

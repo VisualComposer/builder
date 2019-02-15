@@ -7,6 +7,38 @@ if (!defined('ABSPATH')) {
 }
 /** @var $controller \VisualComposer\Modules\Settings\Pages\Settings */
 /** @var string $slug */
+function doSection($section, $slug)
+{
+    global $wp_settings_fields;
+    echo '<div class="' . $slug . '-section ' . $section['id'] . '">';
+    if ($section['title']) {
+        echo "<h2>{$section['title']}</h2>\n";
+    }
+
+    if ($section['callback']) {
+        call_user_func($section['callback'], $section);
+    }
+
+    if (!isset($wp_settings_fields) || !isset($wp_settings_fields[ $slug ])
+        || !isset($wp_settings_fields[ $slug ][ $section['id'] ])) {
+        return;
+    }
+    echo '<table class="form-table">';
+    do_settings_fields($slug, $section['id']);
+    echo '</table>';
+    if (isset($section['children']) && !empty($section['children'])) {
+        ?>
+        <div class="vcv-child-section">
+        <?php
+        foreach ($section['children'] as $child) {
+            doSection($child, $slug);
+        }
+        ?>
+        </div>
+        <?php
+    }
+    echo '</div>';
+}
 ?>
 
 <form action="options.php"
@@ -28,24 +60,22 @@ if (!defined('ABSPATH')) {
         return;
     }
 
-    foreach ((array)$wp_settings_sections[ $slug ] as $section) {
-        echo '<div class="' . $slug . '-section ' . $section['id'] . '">';
-        if ($section['title']) {
-            echo "<h2>{$section['title']}</h2>\n";
+    $sections = (array)$wp_settings_sections[ $slug ];
+    $orderedSections = [];
+    foreach ($sections as $key => $section) {
+        if (isset($section['parent'])) {
+            $localFound = array_key_exists($section['parent'], $orderedSections);
+            if (!$localFound) {
+                $orderedSections[$key] = $section;
+            }
+            $orderedSections[$section['parent']]['children'][$key] = $section;
+        } else {
+            $orderedSections[$key] = $section;
         }
+    }
 
-        if ($section['callback']) {
-            call_user_func($section['callback'], $section);
-        }
-
-        if (!isset($wp_settings_fields) || !isset($wp_settings_fields[ $slug ])
-            || !isset($wp_settings_fields[ $slug ][ $section['id'] ])) {
-            continue;
-        }
-        echo '<table class="form-table">';
-        do_settings_fields($slug, $section['id']);
-        echo '</table>';
-        echo '</div>';
+    foreach ($orderedSections as $section) {
+        doSection($section, $slug);
     }
 
     $submitButtonAttributes = [];

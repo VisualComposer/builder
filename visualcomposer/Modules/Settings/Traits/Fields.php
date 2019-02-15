@@ -39,6 +39,7 @@ trait Fields
                 'callback' => function ($data) {
                     return $data;
                 },
+                'parent' => '',
             ],
             $sectionData
         );
@@ -49,6 +50,11 @@ trait Fields
             $sectionData['callback'],
             $sectionData['page']
         );
+
+        if (isset($sectionData['parent']) && !empty($sectionData['parent'])) {
+            global $wp_settings_sections;
+            $wp_settings_sections[$sectionData['group']][$sectionData['group'] . '_' . $sectionData['slug']]['parent'] = $sectionData['group'] . '_' . $sectionData['parent'];
+        }
 
         return $this;
     }
