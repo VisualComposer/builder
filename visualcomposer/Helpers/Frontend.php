@@ -112,4 +112,18 @@ class Frontend implements Helper
             || ($requestHelper->exists('wp-preview')
                 && $requestHelper->input('wp-preview') === 'dopreview');
     }
+
+
+    public function renderContent($sourceId)
+    {
+        global $post;
+        // @codingStandardsIgnoreStart
+        $post = get_post($sourceId);
+        setup_postdata($post);
+        the_content();
+        // TO DO: ENQUEUE assets
+        vcevent('vcv:assets:enqueueAssets', ['sourceIds' => [$sourceId]]);
+        wp_reset_postdata();
+        // @codingStandardsIgnoreEnd
+    }
 }
