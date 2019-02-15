@@ -9,7 +9,10 @@ if (!defined('ABSPATH')) {
 /** @var string $slug */
 function doSection($section, $slug)
 {
+    // @codingStandardsIgnoreStart
     global $wp_settings_fields;
+    $wpSettingsFields = $wp_settings_fields;
+    // @codingStandardsIgnoreEnd
     echo '<div class="' . $slug . '-section ' . $section['id'] . '">';
     if ($section['title']) {
         echo "<h2>{$section['title']}</h2>\n";
@@ -19,8 +22,8 @@ function doSection($section, $slug)
         call_user_func($section['callback'], $section);
     }
 
-    if (!isset($wp_settings_fields) || !isset($wp_settings_fields[ $slug ])
-        || !isset($wp_settings_fields[ $slug ][ $section['id'] ])) {
+    if (!isset($wpSettingsFields) || !isset($wpSettingsFields[ $slug ])
+        || !isset($wpSettingsFields[ $slug ][ $section['id'] ])) {
         return;
     }
     echo '<table class="form-table">';
@@ -54,13 +57,16 @@ function doSection($section, $slug)
 
     <?php
 
-    global $wp_settings_sections, $wp_settings_fields;
+    // @codingStandardsIgnoreStart
+    global $wp_settings_sections;
+    $wpSettingsSection = $wp_settings_sections;
+    // @codingStandardsIgnoreEnd
 
-    if (!isset($wp_settings_sections[ $slug ])) {
+    if (!isset($wpSettingsSection[ $slug ])) {
         return;
     }
 
-    $sections = (array)$wp_settings_sections[ $slug ];
+    $sections = (array)$wpSettingsSection[ $slug ];
     $orderedSections = [];
     foreach ($sections as $key => $section) {
         if (isset($section['parent'])) {
