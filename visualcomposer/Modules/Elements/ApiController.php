@@ -50,7 +50,7 @@ class ApiController extends Container implements Module
         $manifestContents = $fileHelper->getContents($manifestPath);
         $manifestData = json_decode($manifestContents, true);
         if (is_array($manifestData) && isset($manifestData['elements'])) {
-            $this->parseDependencies($manifestData);
+            $this->parseDependencies($manifestData['elements']);
             $elements = $optionsHelper->get('hubElements', []);
             $elementBaseUrl = rtrim($elementBaseUrl, '\\/');
             $this->processElements($manifestPath, $elementBaseUrl, $hubElements, $manifestData, $elements);
@@ -113,25 +113,27 @@ class ApiController extends Container implements Module
     }
 
     /**
-     * @param $manifestData
+     * @param $elements
      *
      * @return mixed
      */
-    protected function parseDependencies($manifestData)
+    protected function parseDependencies($elements)
     {
         $optionsHelper = vchelper('Options');
-        if (isset($manifestData['dependencies']) && is_array($manifestData['dependencies'])) {
-            $elementDependencies = $manifestData['dependencies'];
-            $actionAdded = false;
-            foreach ($elementDependencies as $elementDependency) {
-                if (!$optionsHelper->get('hubAction:' . $elementDependency)) {
-                    $actionAdded = $optionsHelper->set('hubAction:' . $elementDependency, '0.0.1');
+        foreach ($elements as $element) {
+            if (isset($element['dependencies']) && is_array($element['dependencies'])) {
+                $elementDependencies = $element['dependencies'];
+                $actionAdded = false;
+                foreach ($elementDependencies as $elementDependency) {
+                    if (!$optionsHelper->get('hubAction:' . $elementDependency)) {
+                        $actionAdded = $optionsHelper->set('hubAction:' . $elementDependency, '0.0.1');
+                    }
                 }
-            }
 
-            if ($actionAdded) {
-                $optionsHelper->set('bundleUpdateRequired', 1);
-                $optionsHelper->deleteTransient('lastBundleUpdate');
+                if ($actionAdded) {
+                    $optionsHelper->set('bundleUpdateRequired', 1);
+                    $optionsHelper->deleteTransient('lastBundleUpdate');
+                }
             }
         }
     }
