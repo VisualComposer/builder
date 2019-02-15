@@ -96,6 +96,7 @@ class HeadersFootersField extends Container implements Module
                 'title' => __('All Site', 'vcwb'),
                 'slug' => 'headers-footers-all-site',
                 'callback' => $sectionCallbackAllSite,
+                'parent' => 'headers-footers-override'
             ]
         );
 
@@ -107,7 +108,6 @@ class HeadersFootersField extends Container implements Module
                 'options' => $availableHeaders,
                 'name' => 'vcv-headerFooterSettingsAllHeader',
                 'value' => $selectedAllHeader,
-                'emptyOptionTitle' => __('Select Header', 'vcwb'),
             ];
             echo $this->call('renderDropdown', $args);
         };
@@ -130,7 +130,6 @@ class HeadersFootersField extends Container implements Module
                 'options' => $availableFooters,
                 'name' => 'vcv-headerFooterSettingsAllFooter',
                 'value' => $selectedAllFooter,
-                'emptyOptionTitle' => __('Select Footer', 'vcwb'),
             ];
             echo $this->call('renderDropdown', $args);
         };
@@ -152,6 +151,7 @@ class HeadersFootersField extends Container implements Module
             [
                 'page' => $this->slug,
                 'slug' => 'headers-footers-separate-post-types',
+                'parent' => 'headers-footers-override',
             ]
         );
 
@@ -183,8 +183,8 @@ class HeadersFootersField extends Container implements Module
         foreach ($enabledPostTypes as $postType) {
             $sectionCallback = function () use ($postType) {
                 echo sprintf(
-                    '<p class="description">%s</p>',
-                    'Define header and footer for ' . $postType
+                    __('Define header and footer for %s.'),
+                    $postType
                 );
             };
 
@@ -194,6 +194,31 @@ class HeadersFootersField extends Container implements Module
                     'title' => ucfirst($postType),
                     'slug' => 'headers-footers-separate-post-type-' . $postType,
                     'callback' => $sectionCallback,
+                    'parent' => 'headers-footers-override',
+                ]
+            );
+
+            $separateOptionPostType = (array)$optionsHelper->get('headerFooterSettingsSeparatePostType-' . $postType);
+            $fieldCallbackSeparateOption = function () use ($separateOptionPostType, $postType) {
+                $args = [
+                    'options' => $separateOptionPostType,
+                    'name' => 'vcv-headerFooterSettingsSeparatePostType-' . $postType,
+                    'value' => 'headers-footers-separate-' . $postType,
+                    'title' => esc_html__('Use custom headers and footers on the site.', 'vcwb'),
+                ];
+                echo $this->call('renderToggle', $args);
+            };
+
+            $this->addField(
+                [
+                    'page' => $this->slug,
+                    'name' => 'headerFooterSettingsSeparatePostType-' . $postType,
+                    'id' => 'vcv-headers-footers-separate-' . $postType,
+                    'slug' => 'headers-footers-separate-post-type-' . $postType,
+                    'fieldCallback' => $fieldCallbackSeparateOption,
+                    'args' => [
+                        'class' => 'vcv-no-title',
+                    ],
                 ]
             );
 
@@ -203,7 +228,6 @@ class HeadersFootersField extends Container implements Module
                     'options' => $availableHeaders,
                     'name' => 'vcv-headerFooterSettingsSeparateHeader-' . $postType,
                     'value' => $selectedSeparateHeader,
-                    'emptyOptionTitle' => __('Select Header', 'vcwb'),
                 ];
                 echo $this->call('renderDropdown', $args);
             };
@@ -225,7 +249,6 @@ class HeadersFootersField extends Container implements Module
                     'options' => $availableFooters,
                     'name' => 'vcv-headerFooterSettingsSeparateFooter-' . $postType,
                     'value' => $selectedSeparateFooter,
-                    'emptyOptionTitle' => __('Select Footer', 'vcwb'),
                 ];
                 echo $this->call('renderDropdown', $args);
             };
@@ -267,11 +290,10 @@ class HeadersFootersField extends Container implements Module
      * @param $options
      * @param $value
      * @param $name
-     * @param $emptyOptionTitle
      *
      * @return mixed|string
      */
-    protected function renderDropdown($options, $value, $name, $emptyOptionTitle)
+    protected function renderDropdown($options, $value, $name)
     {
         return vcview(
             'settings/pages/headers-footers/headers-footers-dropdown',
@@ -279,7 +301,6 @@ class HeadersFootersField extends Container implements Module
                 'value' => $value,
                 'enabledOptions' => (array)$options,
                 'name' => $name,
-                'emptyOptionTitle' => $emptyOptionTitle,
             ]
         );
     }
