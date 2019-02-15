@@ -18,7 +18,6 @@ const handleToggle = ($this, $target) => {
 }
 
 export const hfSectionToggle = () => {
-  console.log('test')
   $toggleCells.attr('colspan', '2')
   handleToggle($overrideToggle, $allSiteSection)
   handleToggle($separateToggle, $postTypesSections)
