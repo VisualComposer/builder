@@ -1,5 +1,6 @@
 #!/bin/bash
-
+echo "Clone script for default elements is disabled"
+exit
 echo "Clone script is running."
 
 EXECDIR=`pwd`

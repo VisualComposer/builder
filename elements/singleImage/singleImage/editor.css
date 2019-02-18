@@ -1,0 +1,13 @@
+.vce-single-image-container {
+  min-height: 1em;
+}
+
+.vce-single-image canvas {
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.vce-single-image.vcvhelper {
+  display: inline-block;
+  vertical-align: top;
+}

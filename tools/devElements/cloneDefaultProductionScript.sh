@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit
 echo "Clone script is running."
 
 EXECDIR=`pwd`

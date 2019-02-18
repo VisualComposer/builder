@@ -1,0 +1,26 @@
+.vce-row--col-gap-$gap {
+
+  @if $gap != false {
+    > .vce-row-content {
+      > .vce-col {
+        margin-right: $(gap)px;
+      }
+
+      > .vce-column-resizer .vce-column-resizer-handler {
+        width: $(gap)px;
+      }
+    }
+  }
+}
+
+.rtl .vce-row--col-gap-$gap,
+.rtl.vce-row--col-gap-$gap {
+  @if $gap != false {
+    > .vce-row-content {
+      > .vce-col {
+        margin-left: $(gap)px;
+        margin-right: 0;
+      }
+    }
+  }
+}
