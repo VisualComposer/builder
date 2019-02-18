@@ -96,7 +96,7 @@ class HeadersFootersField extends Container implements Module
                 'title' => __('All Site', 'vcwb'),
                 'slug' => 'headers-footers-all-site',
                 'callback' => $sectionCallbackAllSite,
-                'parent' => 'headers-footers-override'
+                'parent' => 'headers-footers-override',
             ]
         );
 
@@ -305,6 +305,7 @@ class HeadersFootersField extends Container implements Module
                     'title' => $pageType['title'],
                     'slug' => $pageType['slug'],
                     'callback' => $sectionCallback,
+                    'parent' => 'headers-footers-override',
                 ]
             );
 

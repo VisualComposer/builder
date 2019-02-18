@@ -1,16 +1,15 @@
 const $ = window.jQuery
 const $overrideToggle = $('input[value="headers-footers-override"]')
 const $separateToggle = $('input[value="headers-footers-separate"]')
-const $separatePostToggle = $('input[value="headers-footers-separate-post"]')
-const $separatePageToggle = $('input[value="headers-footers-separate-page"]')
+const $separatePostTypeToggle = $('input[name*="headerFooterSettingsSeparatePostType"]')
+const $separatePageTypeToggle = $('input[name*="headerFooterSettingsPageType"]')
 const $allSiteSection = $overrideToggle.closest('.form-table').next('.vcv-child-section')
 const $postTypesSections = $separateToggle.closest('.vcv-headers-footers-section').nextAll()
-const $separatePostToggleSections = $separatePostToggle.closest('.vcv-no-title').nextAll()
-const $separatePageToggleSections = $separatePageToggle.closest('.vcv-no-title').nextAll()
+
 const $toggleCells = $('.vcv-no-title td')
 
 const handleToggle = ($this, $target) => {
-  if ($this[0].checked) {
+  if ($this[ 0 ].checked) {
     $target.show()
   } else {
     $target.hide()
@@ -21,8 +20,16 @@ export const hfSectionToggle = () => {
   $toggleCells.attr('colspan', '2')
   handleToggle($overrideToggle, $allSiteSection)
   handleToggle($separateToggle, $postTypesSections)
-  handleToggle($separatePostToggle, $separatePostToggleSections)
-  handleToggle($separatePageToggle, $separatePageToggleSections)
+  $separatePostTypeToggle.each((index, item) => {
+    const $item = $(item)
+    const $separatePostTypeToggleSections = $item.closest('.vcv-no-title').nextAll()
+    handleToggle($item, $separatePostTypeToggleSections)
+  })
+  $separatePageTypeToggle.each((index, item) => {
+    const $item = $(item)
+    const $separatePageTypeToggleSections = $item.closest('.vcv-no-title').nextAll()
+    handleToggle($item, $separatePageTypeToggleSections)
+  })
   $overrideToggle.on('change', function () {
     const $this = $(this)
     handleToggle($this, $allSiteSection)
@@ -31,12 +38,14 @@ export const hfSectionToggle = () => {
     const $this = $(this)
     handleToggle($this, $postTypesSections)
   })
-  $separatePostToggle.on('change', function () {
+  $separatePostTypeToggle.on('change', function () {
     const $this = $(this)
-    handleToggle($this, $separatePostToggleSections)
+    const $separatePostTypeToggleSections = $this.closest('.vcv-no-title').nextAll()
+    handleToggle($this, $separatePostTypeToggleSections)
   })
-  $separatePageToggle.on('change', function () {
+  $separatePageTypeToggle.on('change', function () {
     const $this = $(this)
-    handleToggle($this, $separatePageToggleSections)
+    const $separatePageTypeToggleSections = $this.closest('.vcv-no-title').nextAll()
+    handleToggle($this, $separatePageTypeToggleSections)
   })
 }
