@@ -53,7 +53,7 @@ export default class Component extends Attribute {
     const fieldPathKey = props.options.nestedAttrPath ? props.options.nestedAttrPath : props.fieldKey
     if (sharedAssetsData && sharedAssetsData.googleFonts && sharedAssetsData.googleFonts[ fieldPathKey ]) {
       const families = Object.keys(sharedAssetsData.googleFonts[ fieldPathKey ])
-      if (families) {
+      if (families && families.length > 0) {
         webFontLoader.load({
           google: {
             families: families
