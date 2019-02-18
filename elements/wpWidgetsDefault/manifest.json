@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "wpWidgetsDefault": {
+      "settings": {
+        "name": "WordPress Default Widget",
+        "metaThumbnailUrl": "[publicPath]/wordpress-widgets-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]/wordpress-widgets-preview.png",
+        "metaDescription": "Choose, configure and add any of WordPress default widgets to your site."
+      }
+    }
+  },
+  "categories": {
+    "WordPress": {
+      "elements": [
+        "wpWidgetsDefault"
+      ]
+    }
+  }
+}

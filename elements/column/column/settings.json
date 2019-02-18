@@ -1,0 +1,119 @@
+{
+  "size": {
+    "type": "object",
+    "access": "public",
+    "value": { "all": "100%", "defaultSize": "100%" }
+  },
+  "disableStacking": {
+    "type": "string",
+    "access": "public",
+    "value": false
+  },
+  "lastInRow": {
+    "type": "object",
+    "access": "public",
+    "value": { "all": false }
+  },
+  "firstInRow": {
+    "type": "object",
+    "access": "public",
+    "value": { "all": false }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "designOptionsAdvanced": {
+    "type": "designOptionsAdvanced",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "sticky": {
+    "type": "sticky",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Sticky"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "dividers": {
+    "type": "divider",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Dividers"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptionsAdvanced",
+      "dividers",
+      "sticky"
+    ]
+  },
+  "containerFor": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "Column"
+    ]
+  },
+  "parentWrapper": {
+    "type": "string",
+    "access": "protected",
+    "value": "row"
+  },
+  "backendView": {
+    "type": "string",
+    "access": "protected",
+    "value": "frontend"
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "column"
+  },
+  "hidden": {
+    "type": "string",
+    "access": "public",
+    "value": false
+  }
+}

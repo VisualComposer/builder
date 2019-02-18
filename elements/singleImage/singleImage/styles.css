@@ -1,0 +1,94 @@
+a.vce-single-image-inner {
+  color: transparent;
+  border-bottom: 0;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+a.vce-single-image-inner:hover,
+a.vce-single-image-inner:focus {
+  text-decoration: none;
+  box-shadow: none;
+  border-bottom: 0;
+}
+
+.vce-single-image-inner {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 1;
+  max-width: 100%;
+}
+
+.vce-single-image-wrapper {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.vce-single-image-wrapper img {
+  vertical-align: top;
+  max-width: 100%;
+}
+
+.vce-single-image--border-rounded {
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.vce-single-image--border-round {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.vce-single-image--size-custom {
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+}
+
+.vce-single-image--size-custom::after {
+  content:'';
+  display: block;
+  padding-bottom: 66.66%;
+}
+
+.vce-single-image--border-round.vce-single-image--size-custom::after {
+  padding-bottom: 100%;
+}
+
+.vce-single-image--size-custom .vce-single-image {
+  opacity: 0;
+  position: absolute;
+  max-width: 100%;
+  height: auto;
+}
+
+.vce-single-image--align-center {
+  text-align: center;
+}
+
+.vce-single-image--align-right {
+  text-align: right;
+}
+
+.vce-single-image--align-left {
+  text-align: left;
+}
+
+.vce-single-image-wrapper figure {
+  margin: 0;
+}
+
+.vce-single-image-wrapper figcaption {
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.vce-single-image {
+  position: relative;
+}
+
+.vce-single-image-container .vce-single-image-inner .vce-single-image {
+  box-shadow: none;
+}

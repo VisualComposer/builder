@@ -1,0 +1,30 @@
+.vce-button {
+  &--style-outline--color-$selector {
+    a&,
+    button& {
+      color: $color;
+      &:hover {
+        color: $color;
+      }
+
+      &:hover, &:active, &:focus {
+        color: $hoverColorOutline;
+      }
+    }
+  }
+
+  &--style-outline-animated--color-$selector,
+  &--style-outline-animated-slidein--color-$selector {
+    a&,
+    button& {
+      color: $color;
+      &:hover {
+        color: $color;
+      }
+
+      &:hover, &:active, &:focus {
+        color: $hoverColorAnimated;
+      }
+    }
+  }
+}

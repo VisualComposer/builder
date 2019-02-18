@@ -1,0 +1,12 @@
+.full-width-row-has-background-padding() {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 30px;
+
+  &[data-vce-full-width="true"] {
+    &:not([data-vce-stretch-content="true"]) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
