@@ -88,29 +88,36 @@ export default class AddTemplatePanel extends React.Component {
         templates: data.hubAndPredefined
       },
       {
-        title: 'Header Templates',
+        title: 'Block Templates',
         index: 3,
+        id: 'block',
+        visible: data.block.length,
+        templates: data.block
+      },
+      {
+        title: 'Header Templates',
+        index: 4,
         id: 'hubHeader',
         visible: data.hubHeader.length,
         templates: data.hubHeader
       },
       {
         title: 'Footer Templates',
-        index: 4,
+        index: 5,
         id: 'hubFooter',
         visible: data.hubFooter.length,
         templates: data.hubFooter
       },
       {
         title: 'Sidebar Templates',
-        index: 5,
+        index: 6,
         id: 'hubSidebar',
         visible: data.hubSidebar.length,
         templates: data.hubSidebar
       },
       {
         title: 'Download More Templates',
-        index: 6,
+        index: 7,
         id: 'downloadMoreTemplates',
         visible: false,
         templates: null

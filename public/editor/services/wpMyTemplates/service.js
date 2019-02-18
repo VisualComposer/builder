@@ -165,6 +165,10 @@ addService('myTemplates', {
     let hubSidebarTemplates = data
     return hubSidebarTemplates && hubSidebarTemplates.templates ? hubSidebarTemplates.templates : []
   },
+  hubBlock (data) {
+    let hubBlockTemplates = data
+    return hubBlockTemplates && hubBlockTemplates.templates ? hubBlockTemplates.templates : []
+  },
   customHeader (data) {
     let customHeaderTemplates = data && data.customHeader
     return customHeaderTemplates && customHeaderTemplates.templates ? customHeaderTemplates.templates : []
@@ -205,6 +209,7 @@ addService('myTemplates', {
       data.hubHeader = this.hubHeader(storageData.hubHeader)
       data.hubFooter = this.hubFooter(storageData.hubFooter)
       data.hubSidebar = this.hubSidebar(storageData.hubSidebar)
+      data.block = this.hubBlock(storageData.block)
     }
     return data
   },
