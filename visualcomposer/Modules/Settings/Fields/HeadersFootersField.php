@@ -145,7 +145,7 @@ class HeadersFootersField extends Container implements Module
         );
 
         /**
-         * Separate post types headers and footers section
+         * Separate post types and page types headers and footers section
          */
         $this->addSection(
             [
@@ -161,7 +161,7 @@ class HeadersFootersField extends Container implements Module
                 'options' => $separateOption,
                 'name' => 'vcv-headerFooterSettingsSeparate',
                 'value' => 'headers-footers-separate',
-                'title' => esc_html__('Define headers and footers per post type.', 'vcwb'),
+                'title' => esc_html__('Apply custom headers and footer per post type and page types.', 'vcwb'),
             ];
             echo $this->call('renderToggle', $args);
         };
@@ -179,6 +179,9 @@ class HeadersFootersField extends Container implements Module
             ]
         );
 
+        /**
+         * Separate post types
+         */
         $enabledPostTypes = $this->call('getEnabledPostTypes');
         foreach ($enabledPostTypes as $postType) {
             $sectionCallback = function () use ($postType) {
@@ -260,6 +263,113 @@ class HeadersFootersField extends Container implements Module
                     'name' => 'headerFooterSettingsSeparateFooter-' . $postType,
                     'id' => 'vcv-header-footer-settings-separate-footer-' . $postType,
                     'slug' => 'headers-footers-separate-post-type-' . $postType,
+                    'fieldCallback' => $fieldCallback,
+                ]
+            );
+        }
+
+        /**
+         * Separate page types
+         */
+
+        $specificPages = [
+            [
+                'title' => __('404 Page', 'vcwb'),
+                'name' => 'notFound',
+            ],
+            [
+                'title' => __('Archive', 'vcwb'),
+                'name' => 'archive',
+            ],
+            [
+                'title' => __('Search', 'vcwb'),
+                'name' => 'search',
+            ],
+        ];
+        $specificPages = vcfilter('vcv:headersFootersSettings:addPages', $specificPages);
+        foreach ($specificPages as $pageType) {
+            $pageType['slug'] = 'headers-footers-page-type-' . $pageType['name'];
+            $pageType['optionKey'] = 'headerFooterSettingsPageType-' . $pageType['name'];
+            $pageType['optionKeyHeader'] = 'headerFooterSettingsPageTypeHeader-' . $pageType['name'];
+            $pageType['optionKeyFooter'] = 'headerFooterSettingsPageTypeFooter-' . $pageType['name'];
+
+            $sectionCallback = function () use ($pageType) {
+                echo sprintf(
+                    '<p class="description">%s</p>',
+                    'Define header and footer for ' . $pageType['title']
+                );
+            };
+            $this->addSection(
+                [
+                    'page' => $this->slug,
+                    'title' => $pageType['title'],
+                    'slug' => $pageType['slug'],
+                    'callback' => $sectionCallback,
+                ]
+            );
+
+            $separateOptionPageType = (array)$optionsHelper->get($pageType['optionKey']);
+            $fieldCallbackOption = function () use ($separateOptionPageType, $pageType) {
+                $args = [
+                    'options' => $separateOptionPageType,
+                    'name' => 'vcv-' . $pageType['optionKey'],
+                    'value' => $pageType['slug'],
+                    'title' => esc_html__('Use custom headers and footers on the site.', 'vcwb'),
+                ];
+                echo $this->call('renderToggle', $args);
+            };
+
+            $this->addField(
+                [
+                    'page' => $this->slug,
+                    'name' => $pageType['optionKey'],
+                    'id' => 'vcv-' . $pageType['slug'],
+                    'slug' => $pageType['slug'],
+                    'fieldCallback' => $fieldCallbackOption,
+                    'args' => [
+                        'class' => 'vcv-no-title',
+                    ],
+                ]
+            );
+
+            $selectedHeader = (int)$optionsHelper->get($pageType['optionKeyHeader']);
+            $fieldCallback = function () use ($availableHeaders, $selectedHeader, $pageType) {
+                $args = [
+                    'options' => $availableHeaders,
+                    'name' => 'vcv-' . $pageType['optionKeyHeader'],
+                    'value' => $selectedHeader,
+                ];
+                echo $this->call('renderDropdown', $args);
+            };
+
+            $this->addField(
+                [
+                    'page' => $this->slug,
+                    'title' => __('Header', 'vcwb'),
+                    'name' => $pageType['optionKeyHeader'],
+                    'id' => 'vcv-' . $pageType['slug'] . '-header',
+                    'slug' => $pageType['slug'],
+                    'fieldCallback' => $fieldCallback,
+                ]
+            );
+
+            $selectedFooter = (int)$optionsHelper->get($pageType['optionKeyFooter']);
+            $fieldCallback = function () use ($availableFooters, $selectedFooter, $pageType) {
+                $args = [
+                    'options' => $availableFooters,
+                    'name' => 'vcv-' . $pageType['optionKeyFooter'],
+                    'value' => $selectedFooter,
+                ];
+                echo $this->call('renderDropdown', $args);
+            };
+
+            $this->addField(
+                [
+                    'page' => $this->slug,
+                    'title' => __('Footer', 'vcwb'),
+                    'name' => $pageType['optionKeyFooter'],
+                    'id' => 'vcv-' . $pageType['slug'] . '-footer',
+                    'slug' => $pageType['slug'],
                     'fieldCallback' => $fieldCallback,
                 ]
             );
