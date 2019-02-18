@@ -7,41 +7,6 @@ if (!defined('ABSPATH')) {
 }
 /** @var $controller \VisualComposer\Modules\Settings\Pages\Settings */
 /** @var string $slug */
-function doSection($section, $slug)
-{
-    // @codingStandardsIgnoreStart
-    global $wp_settings_fields;
-    $wpSettingsFields = $wp_settings_fields;
-    // @codingStandardsIgnoreEnd
-    echo '<div class="' . $slug . '-section ' . $section['id'] . '">';
-    if ($section['title']) {
-        echo "<h2>{$section['title']}</h2>\n";
-    }
-
-    if ($section['callback']) {
-        call_user_func($section['callback'], $section);
-    }
-
-    if (!isset($wpSettingsFields) || !isset($wpSettingsFields[ $slug ])
-        || !isset($wpSettingsFields[ $slug ][ $section['id'] ])) {
-        return;
-    }
-    echo '<table class="form-table">';
-    do_settings_fields($slug, $section['id']);
-    echo '</table>';
-    if (isset($section['children']) && !empty($section['children'])) {
-        ?>
-        <div class="vcv-child-section">
-        <?php
-        foreach ($section['children'] as $child) {
-            doSection($child, $slug);
-        }
-        ?>
-        </div>
-        <?php
-    }
-    echo '</div>';
-}
 ?>
 
 <form action="options.php"
@@ -72,16 +37,16 @@ function doSection($section, $slug)
         if (isset($section['parent'])) {
             $localFound = array_key_exists($section['parent'], $orderedSections);
             if (!$localFound) {
-                $orderedSections[$key] = $section;
+                $orderedSections[ $key ] = $section;
             }
-            $orderedSections[$section['parent']]['children'][$key] = $section;
+            $orderedSections[ $section['parent'] ]['children'][ $key ] = $section;
         } else {
-            $orderedSections[$key] = $section;
+            $orderedSections[ $key ] = $section;
         }
     }
 
     foreach ($orderedSections as $section) {
-        doSection($section, $slug);
+        vchelper('Views')->doNestedSection($section, $slug);
     }
 
     $submitButtonAttributes = [];

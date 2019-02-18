@@ -54,9 +54,9 @@ trait Fields
         if (isset($sectionData['parent']) && !empty($sectionData['parent'])) {
             // @codingStandardsIgnoreStart
             global $wp_settings_sections;
-            $wpSettingsSections = $wp_settings_sections;
+            $wp_settings_sections[ $sectionData['group'] ][ $sectionData['group'] . '_'
+            . $sectionData['slug'] ]['parent'] = $sectionData['group'] . '_' . $sectionData['parent'];
             // @codingStandardsIgnoreEnd
-            $wpSettingsSections[$sectionData['group']][$sectionData['group'] . '_' . $sectionData['slug']]['parent'] = $sectionData['group'] . '_' . $sectionData['parent'];
         }
 
         return $this;
