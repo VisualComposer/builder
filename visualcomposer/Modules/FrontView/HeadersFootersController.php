@@ -99,19 +99,16 @@ class HeadersFootersController extends Container implements Module
             ]
         );
 
-        $templates = [];
-        $name = (string)$name;
-        if ('' !== $name) {
-            $templates[] = "header-{$name}.php";
+        $predefinedtemplates = [
+            'header.php',
+        ];
+        if ($name) {
+            $predefinedtemplates[] = "header-{$name}.php";
         }
 
-        $templates[] = 'header.php';
-
-        // Avoid running wp_head hooks again
         remove_all_actions('wp_head');
         ob_start();
-        // It cause a `require_once` so, in the get_header it self it will not be required again.
-        locate_template($templates, true);
+        locate_template($predefinedtemplates, true);
         ob_get_clean();
     }
 
@@ -134,17 +131,15 @@ class HeadersFootersController extends Container implements Module
             ]
         );
 
-        $templates = [];
-        $name = (string)$name;
-        if ('' !== $name) {
-            $templates[] = "footer-{$name}.php";
+        $predefinedtemplates = [
+            'footer.php',
+        ];
+        if ($name) {
+            $predefinedtemplates[] = "footer-{$name}.php";
         }
 
-        $templates[] = 'footer.php';
-
         ob_start();
-        // It cause a `require_once` so, in the get_header it self it will not be required again.
-        locate_template($templates, true);
+        locate_template($predefinedtemplates, true);
         ob_get_clean();
     }
 }
