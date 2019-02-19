@@ -30,7 +30,7 @@ class WooCommerceController extends Container implements Module
             return;
         }
 
-        $this->addFilter('vcv:headersFootersSettings:addPages', 'addPages');
+        $this->addFilter('vcv:themeEditor:headersFootersSettings:addPages', 'addPages');
     }
 
     /**
