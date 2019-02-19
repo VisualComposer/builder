@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "shortcode": {
+      "settings": {
+        "name": "Shortcode",
+        "metaThumbnailUrl": "[publicPath]/shortcode-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]/shortcode-preview.png",
+        "metaDescription": "Add any shortcode available on your WordPress site to the layout."
+      }
+    }
+  },
+  "categories": {
+    "Wordpress": {
+      "elements": [
+        "shortcode"
+      ]
+    }
+  }
+}

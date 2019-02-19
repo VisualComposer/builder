@@ -1,0 +1,22 @@
+{
+  "elements": {
+    "singleImage": {
+      "settings": {
+        "name": "Single Image",
+        "metaThumbnailUrl": "[publicPath]/thumbnail-single-image.png",
+        "metaPreviewUrl": "[publicPath]/preview-single-image.jpg",
+        "metaDescription": "Single image is a basic element for adding images from Media Library into the content area. Single image element includes controls for image manipulations."
+      },
+      "phpFiles": [
+        "ResizeController.php"
+      ]
+    }
+  },
+  "categories": {
+    "Single image": {
+      "elements": [
+        "singleImage"
+      ]
+    }
+  }
+}

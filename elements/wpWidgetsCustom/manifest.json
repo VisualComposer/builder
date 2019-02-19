@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "wpWidgetsCustom": {
+      "settings": {
+        "name": "WordPress Custom Widget",
+        "metaThumbnailUrl": "[publicPath]/custom-widgets-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]/custom-widgets-preview.png",
+        "metaDescription": "Choose, configure and add custom widgets to your site."
+      }
+    }
+  },
+  "categories": {
+    "WordPress": {
+      "elements": [
+        "wpWidgetsCustom"
+      ]
+    }
+  }
+}

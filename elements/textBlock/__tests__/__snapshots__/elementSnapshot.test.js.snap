@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="vce-text-block"
+>
+  <div
+    className="vce-text-block-wrapper vce"
+    data-vce-do-apply="all el-123456789"
+    id="el-123456789"
+  >
+    Hello jest &lt;b&gt;from&lt;/b&gt; react
+  </div>
+</div>
+`;

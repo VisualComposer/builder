@@ -1,0 +1,76 @@
+/* ----------------------------------------------
+ * Separator
+ * ---------------------------------------------- */
+.vce-separator-container {
+  line-height: 0;
+}
+.vce-separator {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  transition: color .3s ease;
+}
+.vce-separator::before {
+  display: block;
+  content: '';
+  box-sizing: content-box;
+  border-width: 1px;
+  border-top-style: solid;
+  width: 100%;
+}
+.vce-separator--align-left {
+  text-align: left;
+}
+.vce-separator--align-center {
+  text-align: center;
+}
+.vce-separator--align-right {
+  text-align: right;
+}
+.vce-separator--style-solid .vce-separator::before {
+  border-top-style: solid;
+}
+.vce-separator--style-dotted .vce-separator::before {
+  border-top-style: dotted;
+}
+.vce-separator--style-dashed .vce-separator::before {
+  border-top-style: dashed;
+}
+.vce-separator--style-double .vce-separator::before {
+  border-top-style: double;
+}
+.vce-separator--style-shadow .vce-separator {
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+}
+.vce-separator--style-shadow .vce-separator::before {
+  display: none;
+}
+.vce-separator-shadow {
+  position: relative;
+  min-height: 10px;
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+  min-width: 10%;
+  overflow: hidden;
+}
+.vce-separator-shadow::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: -20px;
+  right: 0;
+  height: 10px;
+  border-radius: 100%;
+}
+.vce-separator-shadow-left::before {
+  right: -100%;
+}
+.vce-separator-shadow-right::before {
+  left: -100%;
+}

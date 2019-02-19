@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "youtubePlayer": {
+      "settings": {
+        "name": "YouTube Player",
+        "metaThumbnailUrl": "[publicPath]/youtube-player-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]/youtube-player-preview.jpg",
+        "metaDescription": "YouTube player allows you to display video from YouTube on your website by simply copy/paste link to the video."
+      }
+    }
+  },
+  "categories": {
+    "Videos": {
+      "elements": [
+        "youtubePlayer"
+      ]
+    }
+  }
+}
