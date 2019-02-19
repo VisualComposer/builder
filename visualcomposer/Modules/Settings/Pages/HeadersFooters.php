@@ -34,7 +34,7 @@ class HeadersFooters extends Container implements Module
      */
     protected $templatePath = 'settings/pages/index';
 
-    public function __construct(Status $statusHelper, Options $optionsHelper)
+    public function __construct()
     {
         $this->wpAddAction(
             'admin_menu',

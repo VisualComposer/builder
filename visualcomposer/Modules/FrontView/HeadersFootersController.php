@@ -58,7 +58,7 @@ class HeadersFootersController extends Container implements Module
      */
     protected function initialize()
     {
-        if ($this->call('getSettings', ['overrideHeadersFooters'])) {
+        if ($this->getSettings('overrideHeadersFooters')) {
             $this->wpAddAction('get_header', 'getHeader');
             $this->wpAddAction('get_footer', 'getFooter');
         }
@@ -107,9 +107,7 @@ class HeadersFootersController extends Container implements Module
         }
 
         remove_all_actions('wp_head');
-        ob_start();
-        locate_template($predefinedtemplates, true);
-        ob_get_clean();
+        $this->extract($predefinedtemplates);
     }
 
     /**
@@ -138,8 +136,13 @@ class HeadersFootersController extends Container implements Module
             $predefinedtemplates[] = "footer-{$name}.php";
         }
 
+        $this->extract($predefinedtemplates);
+    }
+
+    protected function extract($templates)
+    {
         ob_start();
-        locate_template($predefinedtemplates, true);
+        locate_template($templates, true);
         ob_get_clean();
     }
 }

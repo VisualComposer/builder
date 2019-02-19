@@ -8,11 +8,15 @@ if (!defined('ABSPATH')) {
 /** @var array $enabledOptions */
 /** @var string $value */
 /** @var string $name */
+/** @var string $emptyTitle */
 ?>
 
 <div class="vcv-ui-form-switch-container">
     <label class="vcv-ui-form-dropdown">
         <select id="<?php echo $name; ?>" name="<?php echo $name; ?>">
+            <?php if (isset($emptyTitle)) : ?>
+                <option value=""><?php echo $emptyTitle; ?></option>
+            <?php endif; ?>
             <?php if (!empty($enabledOptions)) : ?>
                 <?php foreach ($enabledOptions as $option) : ?>
                     <?php $selected = ($option['id'] === $value) ? 'selected' : ''; ?>
