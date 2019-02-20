@@ -8,7 +8,54 @@ if (!defined('ABSPATH')) {
 /** @var $controller \VisualComposer\Modules\Settings\Pages\Settings */
 /** @var string $slug */
 ?>
+<?php if ($slug === 'vcv-headers-footers') { ?>
+    <style>
+        .vcv-settings-tab-content,
+        .vcv-headers-footers_headers-footers-all-site,
+        .vcv-headers-footers_headers-footers-separate-post-types {
+            visibility: hidden;
+        }
 
+        .vcv-table-loader-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .vcv-table-loader {
+            height: 16px;
+            width: 16px;
+            left: 50%;
+            top: 10%;
+            transform: translate(-50%, -50%);
+            animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
+        }
+
+        @keyframes vcv-ui-wp-spinner-animation {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+    </style>
+    <div class="vcv-table-loader-wrapper">
+        <div class="vcv-table-loader">
+            <svg version="1.1" id="vc_wp-spinner" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    x="0px" y="0px" width="16px" height="16px">
+                <defs>
+                    <mask id="hole">
+                        <rect width="100%" height="100%" fill="white" />
+                        <circle r="2px" cx="50%" cy="25%" />
+                    </mask>
+                </defs>
+                <circle r="8px" cx="50%" cy="50%" mask="url(#hole)" fill="#808080" />
+            </svg>
+        </div>
+    </div>
+<?php } ?>
 <form action="options.php"
         method="post"
         data-vcv-ui-element="settings-tab-<?php echo esc_attr($slug); ?>"
@@ -34,12 +81,12 @@ if (!defined('ABSPATH')) {
     $sections = (array)$wpSettingsSection[ $slug ];
     $orderedSections = [];
     foreach ($sections as $key => $section) {
-        if (isset($section['parent'])) {
-            $localFound = array_key_exists($section['parent'], $orderedSections);
+        if (isset($section['vcv-args']) & isset($section['vcv-args']['parent'])) {
+            $localFound = array_key_exists($section['vcv-args']['parent'], $orderedSections);
             if (!$localFound) {
                 $orderedSections[ $key ] = $section;
             }
-            $orderedSections[ $section['parent'] ]['children'][ $key ] = $section;
+            $orderedSections[ $section['vcv-args']['parent'] ]['children'][ $key ] = $section;
         } else {
             $orderedSections[ $key ] = $section;
         }

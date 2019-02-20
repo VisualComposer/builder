@@ -40,6 +40,7 @@ trait Fields
                     return $data;
                 },
                 'parent' => '',
+                'vcv-args' => '',
             ],
             $sectionData
         );
@@ -51,11 +52,16 @@ trait Fields
             $sectionData['page']
         );
 
-        if (isset($sectionData['parent']) && !empty($sectionData['parent'])) {
+        if (isset($sectionData['vcv-args']) && !empty($sectionData['vcv-args'])) {
             // @codingStandardsIgnoreStart
             global $wp_settings_sections;
+
+            if (isset($sectionData['vcv-args']['parent'])) {
+                $sectionData['vcv-args']['parent'] = $sectionData['group'] . '_' . $sectionData['vcv-args']['parent'];
+            }
+
             $wp_settings_sections[ $sectionData['group'] ][ $sectionData['group'] . '_'
-            . $sectionData['slug'] ]['parent'] = $sectionData['group'] . '_' . $sectionData['parent'];
+            . $sectionData['slug'] ]['vcv-args'] = $sectionData['vcv-args'];
             // @codingStandardsIgnoreEnd
         }
 
