@@ -92,7 +92,7 @@ export default class ContentEditableComponent extends React.Component {
       // Save data to map to undo/Redo
       const data = documentManager.get(this.props.id)
       const element = cook.get(data)
-      const content = this.globalEditor ? this.state.realContent : this.ref.innerHTML
+      const content = this.editor ? this.state.realContent : this.ref.innerHTML
       let contentToSave = this.getInlineMode() === 'text'
         ? striptags(content) : content
       let fieldPathKey = this.props.field
@@ -101,13 +101,15 @@ export default class ContentEditableComponent extends React.Component {
         fieldPathKey = `${this.props.field}:${this.props.paramIndex}:${this.props.paramField}`
       }
 
-      const usedGoogleFonts = this.buttonBuilder.getUsedFonts(this.ref)
-      if (usedGoogleFonts) {
-        const sharedAssetsData = element.get('metaElementAssets')
-        let sharedGoogleFonts = sharedAssetsData.googleFonts || {}
-        sharedGoogleFonts[ fieldPathKey ] = usedGoogleFonts
-        sharedAssetsData.googleFonts = sharedGoogleFonts
-        element.set('metaElementAssets', sharedAssetsData)
+      if (this.props.fieldType === 'htmleditor') {
+        const usedGoogleFonts = this.buttonBuilder.getUsedFonts(this.ref)
+        if (usedGoogleFonts) {
+          const sharedAssetsData = element.get('metaElementAssets')
+          let sharedGoogleFonts = sharedAssetsData.googleFonts || {}
+          sharedGoogleFonts[ fieldPathKey ] = usedGoogleFonts
+          sharedAssetsData.googleFonts = sharedGoogleFonts
+          element.set('metaElementAssets', sharedAssetsData)
+        }
       }
 
       element.set(this.props.field, contentToSave)
@@ -456,7 +458,10 @@ export default class ContentEditableComponent extends React.Component {
   handleMouseUp (e) {
     if (this.state.trackMouse === true) {
       const caretPosition = this.getCaretPosition(e.currentTarget)
-      this.editorSetup({ caretPosition })
+      const isHtmlEditor = this.props.fieldType === 'htmleditor'
+      if (isHtmlEditor) {
+        this.editorSetup({ caretPosition })
+      }
       if (vcCake.getData('vcv:layoutCustomMode') !== 'contentEditable') {
         vcCake.setData('vcv:layoutCustomMode', 'contentEditable')
         this.handleLayoutModeChange('contentEditable')
@@ -464,6 +469,10 @@ export default class ContentEditableComponent extends React.Component {
       this.iframeWindow.addEventListener('click', this.handleGlobalClick)
       this.layoutHeader.addEventListener('click', this.handleGlobalClick)
       this.ref && (this.ref.innerHTML = this.state.realContent)
+
+      if (!isHtmlEditor) {
+        this.setSelectionRange(this.ref, caretPosition)
+      }
     }
   }
 
