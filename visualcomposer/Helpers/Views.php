@@ -57,10 +57,12 @@ class Views extends container implements Helper
     }
 
     /**
+     * Helper function to display nested sections if any
+     *
      * @param $section
      * @param $slug
      *
-     * Helper function to display nested sections if any
+     * @throws \ReflectionException
      */
     public function doNestedSection($section, $slug)
     {
@@ -68,7 +70,9 @@ class Views extends container implements Helper
         global $wp_settings_fields;
         $wpSettingsFields = $wp_settings_fields;
         // @codingStandardsIgnoreEnd
-        echo '<div class="' . esc_attr($slug) . '-section ' . esc_attr($section['id']) . '">';
+        $class = isset($section['vcv-args']) && isset($section['vcv-args']['class']) ? ' ' . esc_attr($section['vcv-args']['class']) : '';
+
+        echo '<div class="' . esc_attr($slug) . '-section ' . esc_attr($section['id']) . $class . '">';
         if ($section['title']) {
             echo "<h2>{$section['title']}</h2>\n";
         }

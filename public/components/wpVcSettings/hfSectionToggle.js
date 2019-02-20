@@ -1,11 +1,7 @@
 const $ = window.jQuery
-const $overrideToggle = $('input[value="headers-footers-override"]')
-const $separateToggle = $('input[value="headers-footers-separate"]')
 const $separatePostTypeToggle = $('input[name*="headerFooterSettingsSeparatePostType"]')
 const $separatePageTypeToggle = $('input[name*="headerFooterSettingsPageType"]')
-const $allSiteSection = $overrideToggle.closest('.form-table').next('.vcv-child-section')
-const $postTypesSections = $separateToggle.closest('.vcv-headers-footers-section').nextAll()
-
+const $mainHFSDropdown = $('#vcv-headerFooterSettings')
 const $toggleCells = $('.vcv-no-title td')
 
 const handleToggle = ($this, $target) => {
@@ -16,10 +12,25 @@ const handleToggle = ($this, $target) => {
   }
 }
 
+const handleToggleSections = (value) => {
+  const $allSiteSection = $('.vcv-headers-footers_headers-footers-all-site')
+  const $separatePostSection = $('.vcv-headers-footers_headers-footers-separate-post-types')
+
+  if (!value) {
+    $allSiteSection.addClass('vcv-hidden')
+    $separatePostSection.addClass('vcv-hidden')
+  } else if (value === 'allSite') {
+    $allSiteSection.removeClass('vcv-hidden')
+    $separatePostSection.addClass('vcv-hidden')
+  } else if (value === 'customPostType') {
+    $allSiteSection.addClass('vcv-hidden')
+    $separatePostSection.removeClass('vcv-hidden')
+  }
+}
+
 export const hfSectionToggle = () => {
   $toggleCells.attr('colspan', '2')
-  handleToggle($overrideToggle, $allSiteSection)
-  handleToggle($separateToggle, $postTypesSections)
+  handleToggleSections($mainHFSDropdown.val())
   $separatePostTypeToggle.each((index, item) => {
     const $item = $(item)
     const $separatePostTypeToggleSections = $item.closest('.vcv-no-title').nextAll()
@@ -30,14 +41,6 @@ export const hfSectionToggle = () => {
     const $separatePageTypeToggleSections = $item.closest('.vcv-no-title').nextAll()
     handleToggle($item, $separatePageTypeToggleSections)
   })
-  $overrideToggle.on('change', function () {
-    const $this = $(this)
-    handleToggle($this, $allSiteSection)
-  })
-  $separateToggle.on('change', function () {
-    const $this = $(this)
-    handleToggle($this, $postTypesSections)
-  })
   $separatePostTypeToggle.on('change', function () {
     const $this = $(this)
     const $separatePostTypeToggleSections = $this.closest('.vcv-no-title').nextAll()
@@ -47,5 +50,11 @@ export const hfSectionToggle = () => {
     const $this = $(this)
     const $separatePageTypeToggleSections = $this.closest('.vcv-no-title').nextAll()
     handleToggle($this, $separatePageTypeToggleSections)
+  })
+
+  $mainHFSDropdown.on('change', function () {
+    const $this = $(this)
+    const value = $this.val()
+    handleToggleSections(value)
   })
 }
