@@ -36,11 +36,11 @@ Cypress.Commands.add('login', () => {
   // // Plugin activation
   if (Cypress.env('serverType') !== 'local') {
     cy.visit('/wp-admin/plugins.php')
-    cy.get(`[data-slug="${Cypress.env('slug')}"]`).then(($block) => {
+    cy.get(`[data-plugin="${Cypress.env('dataPlugin')}"]`).then(($block) => {
       if (!$block.hasClass('active')) {
         // cy.get(`[data-slug="${Cypress.env('slug')}"] .deactivate a`).click()
         // cy.get(`#vcv-visual-composer-website-builder a.vcv-deactivation-submit-button`).click()
-        cy.get(`[data-slug="${Cypress.env('slug')}"] .activate a`).click()
+        cy.get(`[data-plugin="${Cypress.env('dataPlugin')}"] .activate a`).click()
       }
     })
   }

@@ -11,7 +11,7 @@ Visual Composer follows semantic versioning. We release patch versions for bugfi
 Every significant change is documented in the changelog file.
 
 
-## From Mainline to Fork-based repository workflow
+## From Mainline to Forking workflow
 
 Make fork for of VCWB repo in Gitlab.
 
@@ -52,7 +52,7 @@ Use Feature Branch workflow
 If you want to send you data to upstream you need to create merge request in Gitlab
 
 ```sh
-$ git checkout -b <feature-branch-in-kebab-case>
+$ git checkout -b <VC-ID-feature-branch-in-kebab-case>
 # Edit some code
 $ git commit -m "Message for change"
 $ git push -u origin <feature-branch-in-kebab-case>
