@@ -59,67 +59,26 @@ $ yarn build-settings
 $ yarn watch
 ```
 
-###  Add dev elements/categories/addons ###
+###  Add elements ###
 ```sh
-bash tools/devElements/cloneScript.sh
-bash tools/devCategories/cloneScript.sh
-bash tools/devAddons/cloneScript.sh
-bash tools/devElements/buildScript.sh
-bash tools/devAddons/buildScript.sh
+$ bash tools/elements/buildScript.sh
+## or production version
+$ bash tools/elements/buildProductionScript.sh
 ```
 
 ### env-dev.php example
 ```php
 <?php
 
-
 if (!VcvEnv::has('VCV_DEBUG')) {
     VcvEnv::set('VCV_DEBUG', true);
 }
-//DEV
-VcvEnv::set('VCV_ENV_DEV_ADDONS', true);
-VcvEnv::set('VCV_ENV_DEV_ELEMENTS', true);
-VcvEnv::set('VCV_ENV_DEV_CATEGORIES', true);
-
-VcvEnv::set('VCV_ENV_EXTENSION_DOWNLOAD', true);
-
-VcvEnv::set('VCV_ENV_FT_GLOBAL_CSS_JS_SETTINGS', true);
-VcvEnv::set('VCV_ENV_FT_SYSTEM_CHECK_LIST', true);
-
-if (!VcvEnv::has('VCV_LICENSE_ACTIVATE_URL')) {
-    VcvEnv::set('VCV_LICENSE_ACTIVATE_URL', 'https://test.account.visualcomposer.io/activation');
-}
-if (!VcvEnv::has('VCV_LICENSE_ACTIVATE_FINISH_URL')) {
-    VcvEnv::set('VCV_LICENSE_ACTIVATE_FINISH_URL', 'https://test.account.visualcomposer.io/finish-license-activation');
-}
-if (!VcvEnv::has('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
-    VcvEnv::set(
-        'VCV_LICENSE_DEACTIVATE_FINISH_URL',
-        'https://test.account.visualcomposer.io/finish-license-deactivation'
-    );
-}
-if (!VcvEnv::has('VCV_LICENSE_DEACTIVATE_URL')) {
-    VcvEnv::set('VCV_LICENSE_DEACTIVATE_URL', 'https://test.account.visualcomposer.io/deactivate-license');
-}
-if (!VcvEnv::has('VCV_API_URL')) {
-    VcvEnv::set('VCV_API_URL', 'https://test.account.visualcomposer.io');
-}
-if (!VcvEnv::has('VCV_TOKEN_URL')) {
-    VcvEnv::set('VCV_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
-}
-if (!VcvEnv::has('VCV_PREMIUM_TOKEN_URL')) {
-    VcvEnv::set('VCV_PREMIUM_TOKEN_URL', 'https://test.account.visualcomposer.io/authorization-token');
-}
-if (!VcvEnv::has('VCV_HUB_URL')) {
-    VcvEnv::set('VCV_HUB_URL', 'https://test.account.visualcomposer.io');
-}
-
 require_once "env.php";
 ```
 
 ## Build Wordpress plugin package (zip archive)
 ```sh
 git clone account-project
-node [account-project]_infrastructure/vcwb-builder/builder plugin2 -p <directoryWhereToPlaceZipArchive>
-node [account-project]_infrastructure/vcwb-builder/builder plugin2 --help # for more info
+node [account-project]_infrastructure/vcwb-builder/builder plugin -p <directoryWhereToPlaceZipArchive>
+node [account-project]_infrastructure/vcwb-builder/builder plugin --help # for more info
 ```

@@ -1,4 +1,4 @@
-/* global describe, it, cy */
+/* global describe, it, cy, before */
 
 const ELEMENT_NAME = 'Row'
 

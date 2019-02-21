@@ -59,6 +59,7 @@ visualcomposer/resources/dist/
 env-dev.php
 composer.lock
 test-coverage.xml
+hubtools
 
 cache/*
 !cache/.gitkeep

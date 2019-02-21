@@ -1,8 +1,12 @@
-/* global describe, it, cy */
+/* global describe, it, cy, before */
 
 const ELEMENT_NAME = 'Sandwich Side Menu'
 
 describe(ELEMENT_NAME, function () {
+  before(() => {
+    cy.exec('cd .. && bash hubtools/elements/cloneScript.sh sandwichSideMenu')
+    cy.exec('cd .. && bash hubtools/elements/buildScript.sh sandwichSideMenu')
+  })
   it('Adds element to the page and checks attributes', function () {
     cy.createPage()
     cy.addElement(ELEMENT_NAME)

@@ -176,12 +176,8 @@ test:e2e:cypress:
     - yarn build
     - yarn build-settings
     - chmod 777 /var/www/html/wp-content/uploads
-    - bash tools/devElements/cloneDefaultScript.sh
-    - bash tools/devElements/buildDefaultScript.sh
-    - bash tools/devElements/cloneScript.sh
-    - bash tools/devElements/buildScript.sh
-    - bash tools/devAddons/cloneScript.sh
-    - bash tools/devAddons/buildScript.sh
+    - bash tools/elements/buildScript.sh
+    - git clone git@gitlab.com:visualcomposer-hub/hubtools.git
     - php ci/composer.phar install
     - yarn run cypress run --project ./tests/
   tags:
