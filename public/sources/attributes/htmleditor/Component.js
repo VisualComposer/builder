@@ -18,6 +18,7 @@ export default class Component extends Attribute {
     this.addFontDropdowns = this.addFontDropdowns.bind(this)
     this.handleFontChange = this.handleFontChange.bind(this)
     this.handleFontWeightChange = this.handleFontWeightChange.bind(this)
+    this.handleCustomDropdownChange = this.handleCustomDropdownChange.bind(this)
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
     this.state.darkTextSkin = this.getDarkTextSkinState()
   }
@@ -122,21 +123,24 @@ export default class Component extends Attribute {
       type: 'listbox',
       text: 'Font Sizes',
       tooltip: 'Font Sizes',
-      fixedWidth: true
+      fixedWidth: true,
+      onselect: this.handleCustomDropdownChange
     })
 
     this.buttonBuilder.addLineHeightDropdown('lineHeight', {
       type: 'listbox',
       text: 'Line Height',
       tooltip: 'Line Height',
-      fixedWidth: true
+      fixedWidth: true,
+      onselect: this.handleCustomDropdownChange
     })
 
     this.buttonBuilder.addLetterSpacingDropdown('letterSpacing', {
       type: 'listbox',
       text: 'Letter Spacing',
       tooltip: 'Letter Spacing',
-      fixedWidth: true
+      fixedWidth: true,
+      onselect: this.handleCustomDropdownChange
     })
 
     editor.on('init', () => {
@@ -165,6 +169,10 @@ export default class Component extends Attribute {
         clear_child_styles: true
       })
     })
+  }
+
+  handleCustomDropdownChange () {
+    this.handleChangeWpEditor(this.editor)
   }
 
   handleFontWeightChange () {

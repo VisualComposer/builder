@@ -174,10 +174,12 @@ export default class TinymceButtonsBuilder {
       ...buttonSettings,
       values: fontSizeItems,
       onPostRender: this.createFontSizeListBoxChangeHandler(this.editor, fontSizeItems),
-      onclick: (e) => {
-        if (e.control.settings.value) {
-          this.editor.execCommand('FontSize', false, e.control.settings.value)
+      onselect: (e) => {
+        const { value } = e.control.settings
+        if (value) {
+          this.editor.execCommand('FontSize', false, value)
         }
+        buttonSettings.onselect && buttonSettings.onselect(value)
       }
     })
   }
@@ -202,9 +204,11 @@ export default class TinymceButtonsBuilder {
       values: items,
       onPostRender: this.createLineHeightListBoxChangeHandler(this.editor, items),
       onselect: (e) => {
-        if (e.control.settings.value) {
-          this.editor.formatter.apply('lineheight', { value: e.control.settings.value })
+        const { value } = e.control.settings
+        if (value) {
+          this.editor.formatter.apply('lineheight', { value: value })
         }
+        buttonSettings.onselect && buttonSettings.onselect(value)
       }
     })
   }
@@ -216,9 +220,11 @@ export default class TinymceButtonsBuilder {
       values: items,
       onPostRender: this.createLetterSpacingListBoxChangeHandler(this.editor, items),
       onselect: (e) => {
-        if (e.control.settings.value) {
-          this.editor.formatter.apply('letterspacing', { value: e.control.settings.value })
+        const { value } = e.control.settings
+        if (value) {
+          this.editor.formatter.apply('letterspacing', { value: value })
         }
+        buttonSettings.onselect && buttonSettings.onselect(value)
       }
     })
   }
