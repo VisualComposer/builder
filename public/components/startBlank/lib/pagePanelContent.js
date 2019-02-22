@@ -188,7 +188,7 @@ export default class PagePanelContent extends React.Component {
 
   handleLayoutClick (layoutType, layoutValue) {
     settingsStorage.state('skipBlank').set(true)
-    let activeLayout = settingsStorage.state('pageTemplate').get() || { type: 'theme', value: 'default' }
+    let activeLayout = settingsStorage.state('pageTemplate').get() || { type: 'vc', value: 'blank' }
     let newLayout = {
       type: layoutType,
       value: layoutValue,
