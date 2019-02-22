@@ -267,7 +267,7 @@ class Localizations extends Container implements Helper
                 '</a>'
             ),
             'selectHFS' => __(
-                'Select {name} template',
+                'Default',
                 'vcwb'
             ),
             'elementDownloadRequiresUpdate' => __(
