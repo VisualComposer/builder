@@ -66,20 +66,26 @@ export default class Component extends Attribute {
 
   addFontDropdowns (editor) {
     let toolbars = [ 'toolbar1', 'toolbar2', 'toolbar3', 'toolbar4' ]
-    let overwrite = false
+    let overwriteGoogleFonts = false
+    let overwriteFontSize = false
     let buttonsToAdd = 'googleFonts,fontWeight'
+    let sizeButtons = 'fontSizeSelectAdvanced,lineHeight,letterSpacing'
 
     // overwrite default fontselect dropdown
     toolbars.forEach((toolbar) => {
       if (editor.settings.hasOwnProperty(toolbar)) {
         if (editor.settings[ toolbar ].indexOf('fontselect') > -1) {
           editor.settings[ toolbar ] = editor.settings[ toolbar ].replace('fontselect', buttonsToAdd)
-          overwrite = true
+          overwriteGoogleFonts = true
+        }
+        if (editor.settings[ toolbar ].indexOf('fontsizeselect') > -1) {
+          editor.settings[ toolbar ] = editor.settings[ toolbar ].replace('fontsizeselect', sizeButtons)
+          overwriteFontSize = true
         }
       }
     })
 
-    if (!overwrite) {
+    if (!overwriteGoogleFonts) {
       if (editor.settings.toolbar2) {
         editor.settings.toolbar2 = buttonsToAdd + ',' + editor.settings.toolbar2
       } else {
@@ -87,9 +93,14 @@ export default class Component extends Attribute {
       }
     }
 
+    if (!overwriteFontSize) {
+      let toolbar2 = editor.settings.toolbar2.split(buttonsToAdd)
+      editor.settings.toolbar2 = buttonsToAdd + `,${sizeButtons}` + toolbar2[ 1 ]
+    }
+
     this.buttonBuilder = new TinyMceButtonsBuilder(editor, window.tinymce, true)
 
-    this.buttonBuilder.addButton('googleFonts', {
+    this.buttonBuilder.addGoogleFontsDropdown('googleFonts', {
       type: 'listbox',
       text: 'Font Family',
       tooltip: 'Font Family',
@@ -98,13 +109,34 @@ export default class Component extends Attribute {
       onselect: this.handleFontChange
     })
 
-    this.buttonBuilder.addButton('fontWeight', {
+    this.buttonBuilder.addFontWeightDropdown('fontWeight', {
       type: 'listbox',
       text: 'Font Weight',
       tooltip: 'Font Weight',
       icon: false,
       fixedWidth: true,
       onselect: this.handleFontWeightChange
+    })
+
+    this.buttonBuilder.addFontSizeDropdown('fontSizeSelectAdvanced', {
+      type: 'listbox',
+      text: 'Font Sizes',
+      tooltip: 'Font Sizes',
+      fixedWidth: true
+    })
+
+    this.buttonBuilder.addLineHeightDropdown('lineHeight', {
+      type: 'listbox',
+      text: 'Line Height',
+      tooltip: 'Line Height',
+      fixedWidth: true
+    })
+
+    this.buttonBuilder.addLetterSpacingDropdown('letterSpacing', {
+      type: 'listbox',
+      text: 'Letter Spacing',
+      tooltip: 'Letter Spacing',
+      fixedWidth: true
     })
 
     editor.on('init', () => {
@@ -118,6 +150,18 @@ export default class Component extends Attribute {
         inline: 'span',
         toggle: false,
         styles: { fontStyle: '%value' },
+        clear_child_styles: true
+      })
+      editor.formatter.register('lineheight', {
+        selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
+        toggle: false,
+        styles: { lineHeight: '%value' },
+        clear_child_styles: true
+      })
+      editor.formatter.register('letterspacing', {
+        selector: 'span,figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
+        toggle: false,
+        styles: { letterSpacing: '%value' },
         clear_child_styles: true
       })
     })

@@ -125,13 +125,7 @@ export default class TinymceButtonsBuilder {
   }
 
   addButton (name, buttonSettings) {
-    if (name === 'googleFonts') {
-      this.addGoogleFontsDropdown(name, buttonSettings)
-    } else if (name === 'fontWeight') {
-      this.addFontWeightDropdown(name, buttonSettings)
-    } else {
-      this.editor.addButton(name, buttonSettings)
-    }
+    this.editor.addButton(name, buttonSettings)
   }
 
   addGoogleFontsDropdown (name, buttonSettings) {
@@ -171,6 +165,199 @@ export default class TinymceButtonsBuilder {
       },
       values: items,
       onPostRender: this.createFontWeightListBoxChangeHandler(this.editor, buttonSettings.onPostRender)
+    })
+  }
+
+  addFontSizeDropdown (name, buttonSettings) {
+    let fontSizeItems = this.getFontSizeItems()
+    this.editor.addButton(name, {
+      ...buttonSettings,
+      values: fontSizeItems,
+      onPostRender: this.createFontSizeListBoxChangeHandler(this.editor, fontSizeItems),
+      onclick: (e) => {
+        if (e.control.settings.value) {
+          this.editor.execCommand('FontSize', false, e.control.settings.value)
+        }
+      }
+    })
+  }
+
+  addLineHeightDropdown (name, buttonSettings) {
+    let items = []
+    let defaultLineHeightFormats = 'Default 0.5 0.75 1 1.25 1.5 1.75 2 2.25 2.5'
+    defaultLineHeightFormats.split(' ').forEach(function (item) {
+      let text = item
+      let value = item === 'Default' ? 'inherit' : item
+      // Allow text=value for line-height formats
+      let values = item.split('=')
+      if (values.length > 1) {
+        text = values[ 0 ]
+        value = values[ 1 ]
+      }
+      items.push({ text: text, value: value })
+    })
+
+    this.editor.addButton(name, {
+      ...buttonSettings,
+      values: items,
+      onPostRender: this.createLineHeightListBoxChangeHandler(this.editor, items),
+      onselect: (e) => {
+        if (e.control.settings.value) {
+          this.editor.formatter.apply('lineheight', { value: e.control.settings.value })
+        }
+      }
+    })
+  }
+
+  addLetterSpacingDropdown (name, buttonSettings) {
+    let items = this.getLetterSpacingItems()
+    this.editor.addButton(name, {
+      ...buttonSettings,
+      values: items,
+      onPostRender: this.createLetterSpacingListBoxChangeHandler(this.editor, items),
+      onselect: (e) => {
+        if (e.control.settings.value) {
+          this.editor.formatter.apply('letterspacing', { value: e.control.settings.value })
+        }
+      }
+    })
+  }
+
+  createLetterSpacingListBoxChangeHandler (editor, items) {
+    return function () {
+      let self = this
+      editor.on('nodeChange', (e) => {
+        let formatName = 'letterspacing'
+        let formatter = editor.formatter
+        let value = null
+        e.parents.forEach((node) => {
+          items.forEach((item) => {
+            if (formatName) {
+              if (formatter.matchNode(node, formatName, { value: item.value })) {
+                value = item.value
+              }
+            } else {
+              if (formatter.matchNode(node, item.value)) {
+                value = item.value
+              }
+            }
+            if (value) {
+              return false
+            }
+          })
+          if (value) {
+            return false
+          }
+        })
+        self.value(value)
+      })
+    }
+  }
+
+  createLineHeightListBoxChangeHandler (editor, items) {
+    return function () {
+      let self = this
+      editor.on('nodeChange', (e) => {
+        let formatName = 'lineheight'
+        let formatter = editor.formatter
+        let value = null
+        e.parents.forEach((node) => {
+          items.forEach((item) => {
+            if (formatName) {
+              if (formatter.matchNode(node, formatName, { value: item.value })) {
+                value = item.value
+              }
+            } else {
+              if (formatter.matchNode(node, item.value)) {
+                value = item.value
+              }
+            }
+            if (value) {
+              return false
+            }
+          })
+          if (value) {
+            return false
+          }
+        })
+        self.value(value)
+      })
+    }
+  }
+
+  createFontSizeListBoxChangeHandler (editor, items) {
+    let round = (number, precision) => {
+      let factor = Math.pow(10, precision)
+      return Math.round(number * factor) / factor
+    }
+    let toPt = (fontSize, precision) => {
+      if (/[0-9.]+px$/.test(fontSize)) {
+        return round(parseInt(fontSize, 10) * 72 / 96, precision || 0) + 'pt'
+      }
+      return fontSize
+    }
+    let findMatchingValue = (items, pt, px) => {
+      var value
+      this.global$2.each(items, function (item) {
+        if (item.value === px) {
+          value = px
+        } else if (item.value === pt) {
+          value = pt
+        }
+      })
+      return value
+    }
+
+    return function () {
+      let self = this
+      editor.on('init nodeChange', (e) => {
+        let px, pt, precision, match
+        px = editor.queryCommandValue('FontSize')
+        if (px) {
+          for (precision = 3; !match && precision >= 0; precision--) {
+            pt = toPt(px, precision)
+            match = findMatchingValue(items, pt, px)
+          }
+        }
+        self.value(match || null)
+        if (!match) {
+          self.text(pt)
+        }
+      })
+    }
+  }
+
+  getLetterSpacingItems () {
+    const fontSizeFormats = 'Default 1px 2px 3px 4px 5px 6px 7px 8px 9px 10px 15px 25px'
+    return this.global$2.map(fontSizeFormats.split(' '), (item) => {
+      let text = item
+      let value = item === 'Default' ? 'inherit' : item
+      let values = item.split('=')
+      if (values.length > 1) {
+        text = values[ 0 ]
+        value = values[ 1 ]
+      }
+      return {
+        text: text,
+        value: value
+      }
+    })
+  }
+
+  getFontSizeItems () {
+    const fontSizeFormats = '8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 42pt 48pt 56pt 64pt 80pt'
+    return this.global$2.map(fontSizeFormats.split(' '), (item) => {
+      let text = item
+      let value = item
+      let values = item.split('=')
+      if (values.length > 1) {
+        text = values[ 0 ]
+        value = values[ 1 ]
+      }
+      return {
+        text: text,
+        value: value
+      }
     })
   }
 

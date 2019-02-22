@@ -340,7 +340,7 @@ export default class ContentEditableComponent extends React.Component {
           onclick: this.handleMoreButtonClick
         })
 
-        this.buttonBuilder.addButton('googleFonts', {
+        this.buttonBuilder.addGoogleFontsDropdown('googleFonts', {
           type: 'listbox',
           text: 'Font Family',
           tooltip: 'Font Family',
@@ -348,7 +348,7 @@ export default class ContentEditableComponent extends React.Component {
           fixedWidth: true
         })
 
-        this.buttonBuilder.addButton('fontWeight', {
+        this.buttonBuilder.addFontWeightDropdown('fontWeight', {
           type: 'listbox',
           text: 'Font Weight',
           tooltip: 'Font Weight',
