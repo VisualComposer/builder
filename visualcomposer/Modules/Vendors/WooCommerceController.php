@@ -30,7 +30,7 @@ class WooCommerceController extends Container implements Module
         }
 
         $this->addFilter('vcv:themeEditor:headersFootersSettings:addPages', 'addPages');
-        $this->addFilter('vcv:themeEditor:headersFootersSettings:woocommerce:isShop', 'isShop');
+        $this->addFilter('vcv:themeEditor:headersFootersSettings:getTemplatePartId', 'getTemplatePartId');
     }
 
     /**
@@ -64,25 +64,24 @@ class WooCommerceController extends Container implements Module
         return $pages;
     }
 
-    public function getTemplatePartId($templatePart)
+    public function getTemplatePartId($response, $payload)
     {
-        if (!class_exists('WooCommerce')) {
-            return false;
+        $templatePart = $payload['templatePart'];
+        if (!$response['pageFound'] && $response['replaceTemplate']) {
+            if ($this->getShopTemplatePart($templatePart)) {
+                return $this->getShopTemplatePart($templatePart);
+            } elseif ($this->getAccountTemplatePart($templatePart)) {
+                return $this->getAccountTemplatePart($templatePart);
+            } elseif ($this->getCheckoutTemplatePart($templatePart)) {
+                return $this->getCheckoutTemplatePart($templatePart);
+            } elseif ($this->getCartTemplatePart($templatePart)) {
+                return $this->getCartTemplatePart($templatePart);
+            } elseif ($this->getTermsTemplatePart($templatePart)) {
+                return $this->getTermsTemplatePart($templatePart);
+            }
         }
 
-        if ($this->getShopTemplatePart($templatePart)) {
-            return $this->getShopTemplatePart($templatePart);
-        } elseif ($this->getAccountTemplatePart($templatePart)) {
-            return $this->getAccountTemplatePart($templatePart);
-        } elseif ($this->getCheckoutTemplatePart($templatePart)) {
-            return $this->getCheckoutTemplatePart($templatePart);
-        } elseif ($this->getCartTemplatePart($templatePart)) {
-            return $this->getCartTemplatePart($templatePart);
-        } elseif ($this->getTermsTemplatePart($templatePart)) {
-            return $this->getTermsTemplatePart($templatePart);
-        }
-
-        return false;
+        return $response;
     }
 
     /**
@@ -94,14 +93,14 @@ class WooCommerceController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         if ((is_cart()) && $optionsHelper->get('headerFooterSettingsPageType-woocommerce-cart')) {
-            $templatePart = $optionsHelper->get(
+            $templatePartId = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-cart'
             );
             if ($templatePart) {
-                return $templatePart;
+                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
             }
 
-            return true;
+            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
         }
     }
 
@@ -118,14 +117,14 @@ class WooCommerceController extends Container implements Module
             && $optionsHelper->get(
                 'headerFooterSettingsPageType-woocommerce-terms'
             )) {
-            $templatePart = $optionsHelper->get(
+            $templatePartId = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-terms'
             );
             if ($templatePart) {
-                return $templatePart;
+                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
             }
 
-            return true;
+            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
         }
     }
 
@@ -138,14 +137,14 @@ class WooCommerceController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         if ((is_checkout()) && $optionsHelper->get('headerFooterSettingsPageType-woocommerce-checkout')) {
-            $templatePart = $optionsHelper->get(
+            $templatePartId = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-checkout'
             );
             if ($templatePart) {
-                return $templatePart;
+                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
             }
 
-            return true;
+            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
         }
     }
 
@@ -158,14 +157,14 @@ class WooCommerceController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         if ((is_account_page()) && $optionsHelper->get('headerFooterSettingsPageType-woocommerce-account')) {
-            $templatePart = $optionsHelper->get(
+            $templatePartId = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-account'
             );
             if ($templatePart) {
-                return $templatePart;
+                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
             }
 
-            return true;
+            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
         }
     }
 
@@ -178,14 +177,14 @@ class WooCommerceController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         if (is_shop() && $optionsHelper->get('headerFooterSettingsPageType-woocommerce-shop')) {
-            $templatePart = $optionsHelper->get(
+            $templatePartId = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-shop'
             );
             if ($templatePart) {
-                return $templatePart;
+                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
             }
 
-            return true;
+            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
         }
     }
 }
