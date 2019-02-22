@@ -1,5 +1,5 @@
 import React from 'react'
-import { env, setData, getStorage } from 'vc-cake'
+import { env, getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
@@ -42,7 +42,6 @@ export default class LayoutDropdown extends React.Component {
     const layoutName = this.props.layoutName.toLowerCase()
     const layoutNameUppercase = this.props.layoutName.toUpperCase()
     const value = event.target.value
-    setData(`ui:settings:${layoutName}Template`, value)
     this.setState({
       current: value
     })
