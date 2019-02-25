@@ -1,4 +1,16 @@
-## ver 12.0 - 04.02.2019
+## ver 13.0 - 2019-02-25
+- New: New inline editor with more text formatting options
+- New: Calendar attribute added to the plugin
+- New: Google Fonts, font weight, letter spacing, and line height added to the TinyMCE editor
+- Update: ReactJs version updated to 16.8
+- Fix: Compatibility with WPForms
+- Fix: Adding row does not break row order
+- Fix: Assets are not missing for custom elements
+- Fix: Video Player autoplay works properly
+- Fix: Block template type added to template window drop-down
+- Fix: Instagram element works properly
+- Fix: CSS animation does not create horizontal scroll
+## ver 12.0 - 2019-02-04
 - New: Blocks templates introduced in Visual Composer Hub
 - New: Category choice for custom post types in post grid element
 - Update: Element naming UI updated
@@ -8,7 +20,7 @@
 - Fix: Template Export/Import add-on working properly
 - Element: Testimonials element
 - Element: Hover image element
-## ver 11.0 - 16.01.2019
+## ver 11.0 - 2019-01-16
 - New: System Status page and requirement auto-check added to the plugin
 - New: Global Javascript can be added for the header and footer
 - Update: Elements can be added to page by dragging them from Add Element window to the bottom placeholder
@@ -25,7 +37,7 @@
 - Fix: Video embed works with copy/paste within TinyMCE editor
 - Fix: Progress bar element values are displayed properly
 - Fix: Envira Gallery compatibility improved for the latest versions
-## ver 10.0 - 26.11.2018
+## ver 10.0 - 2018-11-26
 * New: Basic editor elements added to the plugin .zip file
 * New: Radial gradient added to the Design Options
 * Update: New Visual Composer logo added
@@ -56,10 +68,10 @@
 * Content Element: News Post Grid element added to the Visual Composer Hub
 * Content Element: Grow Shadow Button element added to the Visual Composer Hub
 * Content Element: Social Profile Icons added to the Visual Composer Hub
-## ver 2.12.1 - 16.10.2018
+## ver 2.12.1 - 2018-10-16
 * Fix: Single Image does not remove all elements
 * Fix: Page builder detection disabled
-## ver 2.12 - 11.10.2018
+## ver 2.12 - 2018-10-11
 * Update: Optimized the plugin by using default WordPress code editor
 * Update: SlideOut Post Grid element button is defined as a section
 * Update: CSS attributes are rebuilt on-demand
@@ -94,7 +106,7 @@
 * Fix: My Account property of WooCommerce has correct styles applied
 * Fix: Masonry Image Gallery with Icon displayed properly on mobile
 
-## ver 2.11 - 17.09.2018
+## ver 2.11 - 2018-09-17
 * Update: CSS-cache issues eliminated by adding checksum to asset URL
 * Update: Improved performance with editor style compilation on the initial editor load
 * Update: Notification about 3rd party elements added to the element preview
@@ -122,7 +134,7 @@
 * Fix: Compatibility with Contact Form 7 redirection plugin
 * Fix: Params group items work properly
 
-## ver 2.10 - 09.08.2018
+## ver 2.10 - 2018-08-09
 * Update: Page layout options updated to choose between boxed and stretched for all layouts
 * Fix: Theme editor width works properly
 * Fix: Checkbox attribute has proper styling
@@ -133,7 +145,7 @@
 * Fix: Element 'Hide' toggle is synchronized with the Tree View
 * Fix: Slick slider library initialize properly within Pageable Container element
 
-## ver 2.9 - 26.06.2018
+## ver 2.9 - 2018-06-26
 * New: Row layout responsive settings to control column width and appearance on various devices
 * New: Compatibility with wpDataTables plugin added
 * New: Option to display sticky elements only when they become sticky
@@ -141,7 +153,7 @@
 * Fix: Custom element name apply properly for element controls
 * Fix: Element hide option synchronised with the Tree view
 
-## ver 2.8 - 18.06.2018
+## ver 2.8 - 2018-06-18
 * New: Sticky row, column, and section option allows to fix on upon scroll and scroll the next row on top of it
 * New: Compatibility with Caldera Forms plugin added
 * New: API hooks added as a part of API implementation stage
@@ -153,7 +165,7 @@
 * Fix: Design Options applies to proper tag within Section element
 * Fix: Visual Composer works properly on Pantheon hosting
 
-## ver 2.7 - 27.05.2018
+## ver 2.7 - 2018-05-27
 * New: Import/Export Hub add-on for Visual Composer Premium to migrate templates between sites
 * New: Template Widget Hub add-on for Visual Composer Premium template display in sidebar
 * New: Button and Icon group elements to display buttons and icons inline
@@ -173,13 +185,13 @@
 * Fix: Featured Image Post Grid element properly applies text and category colors
 * Fix: Logo Slider element works properly with RTL
 
-## ver 2.6.1 - 22.05.2018
+## ver 2.6.1 - 2018-05-22
 * Fix: Tabs displayed properly in IE11
 * Fix: Global templates element compatibility with the latest version
 * Fix: Image gallery and Image masonry gallery downloaded with the template from the Hub
 * Fix: WooCommerce compatibility improvements
 
-## ver 2.6 - 21.05.2018
+## ver 2.6 - 2018-05-21
 * New: Gutenberg element allows to insert Gutenberg editor blocks within Visual Composer layout
 * New: Compatibility with Gutenberg editor introduced
 * New: Option to disable Gutenberg editor via Visual Composer Settings
@@ -188,7 +200,7 @@
 * Fix: Multiple posts selected in link selector with WPML
 * Fix: Full height Row works properly in Global Templates
 
-## ver 2.5 - 10.05.2018
+## ver 2.5 - 2018-05-10
 * New: Rows can be copied and pasted after row, on blank pages, and into other rows
 * New: Columns can be copied and pasted in rows
 * New: Visual Composer Hub templates can be modified via Global Templates and creates a new copy of the template
@@ -198,7 +210,7 @@
 * Fix: Max width added to the Single Image element wrapper for IE browser compatibility
 * Fix: Initial children settings moved to settings.json
 
-## ver 2.4 - 24.04.2018
+## ver 2.4 - 2018-04-24
 * New: Global Templates addon added to allow manage multiple instances of template from a single place
 * New: New category 'Addons' added to the Visual Composer Hub
 * Update: Post Grid elements instantly receive WordPress data after download from the Visual Composer Hub
@@ -215,7 +227,7 @@
 * Fix: Shape Divider apply to bottom correctly on FireFox
 * Fix: Featured Image Post Grid image apply properly
 
-## ver 2.3 - 05.04.2018
+## ver 2.3 - 2018-04-05
 * Update: Single Image Element rebuilt for performance
 * Update: Edit form inputs optimized in size for better usability
 * Improve: Add, Move, and Clone operations improved for performance
@@ -231,12 +243,12 @@
 * Fix: Row layout display for Edge 16
 * Fix: Disable Title toggle switch displayed properly
 
-## ver 2.2.1 - 23.03.2018
+## ver 2.2.1 - 2018-03-23
 * Fix: Source css files doesn't enqueue
 * Fix: Contributor role is allowed to create templates for Header, Footer, and Sidebar
 * Fix: Post Grid titles don't have clickable links
 
-## ver 2.2 - 22.03.2018
+## ver 2.2 - 2018-03-22
 * Update: Add New with Visual Composer added to the navigation bar
 * Update: Assets in multisite network are now independent
 * Update: Reset option in Settings extended to auto-configure site path after migration
@@ -247,7 +259,7 @@
 * Fix: Page title modifications affect page title display in menu
 * Fix: Radius for columns in Design Options assigned to wrong wrapper
 
-## ver 2.1 - 19.03.2018
+## ver 2.1 - 2018-03-19
 * Update: Editor loading happens on post_content rendering to improve compatibility with themes
 * Fix: Custom link selector search returns all results without number limits
 * Fix: Theme template dropdown display chosen template in page layout settings
@@ -262,7 +274,7 @@
 * Fix: Metabox output performed before HTML
 * Fix: Disabling page title in the editor does not affect menu title
 
-## ver 2.0 - 02.03.2018
+## ver 2.0 - 2018-03-02
 * Update now and check new content elements in the Hub.
 * New: Page layout selector to select from Visual Composer defined layouts or theme layout
 * New: Header, Footer, and Sidebar editor to create fully custom website
@@ -278,7 +290,7 @@
 * Fix: Outline button borders of normal state not visible on hover
 * Fix: Wrong response data fixed on editor loading
 
-## ver 1.14 - 09.02.2018
+## ver 1.14 - 2018-02-09
 * Update now and check new content elements in the Hub.
 * Update: Coding standard updates for better compatibility with WPEngine;
 * Update: Minimized package size for save content operations to increase performance;
@@ -286,7 +298,7 @@
 * Fix: Wrong image data URL in templates downloaded from the Visual Composer Hub;
 * Fix: Editor loading issue for body without classes;
 
-## ver 1.13.1 - 01.02.2018
+## ver 1.13.1 - 2018-02-01
 * Update now and check new content elements in the Hub.
 * New: Video Player - add self-hosted video from Media Library to your website and control 'Play' icon design
 * New: Typewriter Heading - add interactive heading with typewriter animation to drag your customer attention to specific title or keyword
@@ -295,7 +307,7 @@
 * Fix: Background zoom effect in Design Options
 * Fix: WPML integration improvements for Design Options
 
-## ver 1.13 - 18.01.2018
+## ver 1.13 - 2018-01-18
 * Update now and check new content elements in the Hub.
 * New: Featured Image Post Grid - show your portfolio to the whole world in a beautiful way
 * New: Centered Post Grid - classic layout to which is perfect for blog archives, news sections, and other structured content
@@ -306,7 +318,7 @@
 * Update: Notification system received a facelift and now system messages look better than ever
 * Fix: In some cases, CSS animation was fired two times instead of one
 
-## ver 1.12 - 12.01.2018
+## ver 1.12 - 2018-01-12
 * New: Added Backend editor represented for accordion style elements;
 * Update: Element controls code has been updated for performance;
 * Update: Visual Composer Hub window alignment for Safari improved;
@@ -317,7 +329,7 @@
 * Fix: Custom template placeholder image generation;
 * Fix: Template saving error message display;
 
-## ver 1.11 - 04.01.2018
+## ver 1.11 - 2018-01-04
 * New: Sorting for Visual Composer Hub allows to switch between elements and templates;
 * New: Photoswipe lightbox option added to image elements as an alternative to default lightbox;
 * New: Option to disable row/column stacking on mobile for a specific row;
@@ -326,7 +338,7 @@
 * Fix: Vimeo video scale improved to support full width in Firefox browser;
 * Fix: Compatibility with the latest Yoast SEO premium version;
 
-## ver 1.10 - 27.12.2017
+## ver 1.10 - 2017-12-27
 * New: Premium users can set category of their site so Visual Composer can focus on your industry
 * New: Create blank page template with boxed content by using Visual Composer page settings
 * New: Parallax effect that reacts on mouse movement added to Design Options of row and column
@@ -337,7 +349,7 @@
 * Fix: Faq toggle element glitch removed on resize
 * Fix: Bundle size has been optimized for proper download
 
-## ver 1.9 - 18.12.2017
+## ver 1.9 - 2017-12-18
 * Added: Upgrade to Visual Composer Premium
 * Added: Templates in Visual Composer Hub (elements for templates are downloaded automatically with template)
 * Update: Option to submit error automatically if activation failed
@@ -367,14 +379,14 @@
 * Fix: Revolution Slider render in Frontend editor
 * Fix: Ninja Forms render in Frontend editor
 
-## ver 1.8 - 01.11.2017
+## ver 1.8 - 2017-11-01
 * New: Edit your Visual Composer content from any mobile device with new UI/UX for Mobile Editing
 * New: Add video from YouTube or Vimeo as a background to your row shape dividers with simple URL copy/paste
 * New: Add custom Javascript to your page and site directly from Visual Composer Settings
 * New: Control your layout templates directly from Visual Composer Settings. Remove header, footer, and sidebar with a single click
 * Update: Tree View window now opens as a separate window for better visibility
 
-## ver 1.7 - 24.10.2017
+## ver 1.7 - 2017-10-24
 * New: Shape design update in divider
 * New: Shape divider bottom option for row
 * New: Post update mechanism for element updates
@@ -383,7 +395,7 @@
 * Update: CSS loading on Frontend editor
 * Fix: New attributes added to existing elements
 
-## ver 1.6 - 16.10.2017
+## ver 1.6 - 2017-10-16
 * New: Blank page option in Backend Page Attributes
 * Update: Size attribute for Basic and Outline button
 * Update: JS enqueue in Frontend editor
@@ -392,7 +404,7 @@
 * Fix: Paragraph bottom-margin for elements
 * Fix: Activation process improvements
 
-## ver 1.5 - 09.10.2017
+## ver 1.5 - 2017-10-09
 * Added: Recycle bin to delete elements with drag and drop
 * Added: Tel attribute for link selector
 * Added: Premium element teaser section
@@ -401,7 +413,7 @@
 * Fix: Image position in Design Options for predefined templates added
 * Fix: Faq Toggle element position
 
-## ver 1.4 - 29.09.2017
+## ver 1.4 - 2017-09-29
 * Added: Row and column shape divider with colors and images
 * Added: Keyboard shortcuts for basic operations
 * Added: Background image Zoom In/Out effects in Design Options
@@ -415,7 +427,7 @@
 * Fixed: Feature section left padding removed
 * Fixed: Tree view scroll to top removed
 
-## ver 1.3 - 08.09.2017
+## ver 1.3 - 2017-09-08
 * Added: Image position attribute in Design Options
 * Added: Image position attribute for Hero Section
 * Added: Range control attribute in Separator
@@ -423,19 +435,19 @@
 * Update: New icon libraries
 * Update: Extension download in editor on update
 
-## ver 1.2 - 31.08.2017
+## ver 1.2 - 2017-08-31
 * New: copy/paste elements across columns
 * New: option to name elements with custom titles
 * New: temporary hide elements with ‘eye’ control
 * Update: settings and custom css window user interface
 * Update: Faq Toggle element rename
 
-## ver 1.1.1 - 18.08.2017
+## ver 1.1.1 - 2017-08-18
 * Update: German translation. Credits to Hajo Hagelstein.
 * Fix: error on activation
 * Fix: file caching issues
 
-## ver 1.1 - 17.08.2017
+## ver 1.1 - 2017-08-17
 * New: attribute for content elements with icons and text
 * New: changelog with native WordPress design
 * Update: improved edit form design (reduced spaces and font size)
