@@ -113,17 +113,15 @@ class Frontend implements Helper
                 && $requestHelper->input('wp-preview') === 'dopreview');
     }
 
+
     public function renderContent($sourceId)
     {
-        if (!$sourceId || get_post_status($sourceId) !== 'publish') {
-            return false;
-        }
-
         global $post;
         // @codingStandardsIgnoreStart
         $post = get_post($sourceId);
         setup_postdata($post);
         the_content();
+        // TO DO: ENQUEUE assets
         vcevent('vcv:assets:enqueueAssets', ['sourceIds' => [$sourceId]]);
         wp_reset_postdata();
         // @codingStandardsIgnoreEnd
