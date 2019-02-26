@@ -234,6 +234,10 @@ export default class TemplateLayout extends React.Component {
 
   getThemeTemplateDropdown () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
+    if (this.state.current.type !== 'theme') {
+      return null
+    }
+
     if (!themeTemplates) {
       return ''
     }
