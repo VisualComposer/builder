@@ -29,8 +29,8 @@ class WooCommerceController extends Container implements Module
             return;
         }
 
-        $this->addFilter('vcv:themeEditor:headersFootersSettings:addPages', 'addPages');
-        $this->addFilter('vcv:themeEditor:headersFootersSettings:getTemplatePartId', 'getTemplatePartId');
+        $this->addFilter('vcv:themeEditor:settingsController:addPages', 'addPages');
+        $this->addFilter('vcv:themeEditor:layoutController:getTemplatePartId', 'getTemplatePartId');
     }
 
     /**
