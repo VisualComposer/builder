@@ -30,7 +30,7 @@ class WooCommerceController extends Container implements Module
         }
 
         $this->addFilter('vcv:themeEditor:headersFootersSettings:addPages', 'addPages');
-        $this->addFilter('vcv:themeEditor:headersFootersSettings:getTemplatePartId', 'getTemplatePartId');
+        $this->addFilter('vcv:themeEditor:headersFootersSettings:woocommerce:isShop', 'isShop');
     }
 
     /**
@@ -64,24 +64,25 @@ class WooCommerceController extends Container implements Module
         return $pages;
     }
 
-    public function getTemplatePartId($response, $payload)
+    public function getTemplatePartId($templatePart)
     {
-        $templatePart = $payload['templatePart'];
-        if (!$response['pageFound'] && $response['replaceTemplate']) {
-            if ($this->getShopTemplatePart($templatePart)) {
-                return $this->getShopTemplatePart($templatePart);
-            } elseif ($this->getAccountTemplatePart($templatePart)) {
-                return $this->getAccountTemplatePart($templatePart);
-            } elseif ($this->getCheckoutTemplatePart($templatePart)) {
-                return $this->getCheckoutTemplatePart($templatePart);
-            } elseif ($this->getCartTemplatePart($templatePart)) {
-                return $this->getCartTemplatePart($templatePart);
-            } elseif ($this->getTermsTemplatePart($templatePart)) {
-                return $this->getTermsTemplatePart($templatePart);
-            }
+        if (!class_exists('WooCommerce')) {
+            return false;
         }
 
-        return $response;
+        if ($this->getShopTemplatePart($templatePart)) {
+            return $this->getShopTemplatePart($templatePart);
+        } elseif ($this->getAccountTemplatePart($templatePart)) {
+            return $this->getAccountTemplatePart($templatePart);
+        } elseif ($this->getCheckoutTemplatePart($templatePart)) {
+            return $this->getCheckoutTemplatePart($templatePart);
+        } elseif ($this->getCartTemplatePart($templatePart)) {
+            return $this->getCartTemplatePart($templatePart);
+        } elseif ($this->getTermsTemplatePart($templatePart)) {
+            return $this->getTermsTemplatePart($templatePart);
+        }
+
+        return false;
     }
 
     /**
@@ -93,14 +94,14 @@ class WooCommerceController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         if ((is_cart()) && $optionsHelper->get('headerFooterSettingsPageType-woocommerce-cart')) {
-            $templatePartId = $optionsHelper->get(
+            $templatePart = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-cart'
             );
             if ($templatePart) {
-                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
+                return $templatePart;
             }
 
-            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
+            return true;
         }
     }
 
@@ -117,14 +118,14 @@ class WooCommerceController extends Container implements Module
             && $optionsHelper->get(
                 'headerFooterSettingsPageType-woocommerce-terms'
             )) {
-            $templatePartId = $optionsHelper->get(
+            $templatePart = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-terms'
             );
             if ($templatePart) {
-                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
+                return $templatePart;
             }
 
-            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
+            return true;
         }
     }
 
@@ -137,14 +138,14 @@ class WooCommerceController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         if ((is_checkout()) && $optionsHelper->get('headerFooterSettingsPageType-woocommerce-checkout')) {
-            $templatePartId = $optionsHelper->get(
+            $templatePart = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-checkout'
             );
             if ($templatePart) {
-                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
+                return $templatePart;
             }
 
-            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
+            return true;
         }
     }
 
@@ -157,14 +158,14 @@ class WooCommerceController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         if ((is_account_page()) && $optionsHelper->get('headerFooterSettingsPageType-woocommerce-account')) {
-            $templatePartId = $optionsHelper->get(
+            $templatePart = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-account'
             );
             if ($templatePart) {
-                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
+                return $templatePart;
             }
 
-            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
+            return true;
         }
     }
 
@@ -177,14 +178,14 @@ class WooCommerceController extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         if (is_shop() && $optionsHelper->get('headerFooterSettingsPageType-woocommerce-shop')) {
-            $templatePartId = $optionsHelper->get(
+            $templatePart = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-shop'
             );
             if ($templatePart) {
-                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
+                return $templatePart;
             }
 
-            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
+            return true;
         }
     }
 }
