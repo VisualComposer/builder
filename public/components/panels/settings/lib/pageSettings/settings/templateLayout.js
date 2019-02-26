@@ -1,6 +1,6 @@
 import React from 'react'
-import { getStorage, env } from 'vc-cake'
-import LayoutIcons from 'public/components/startBlank/lib/layoutIcons'
+import { setData, getStorage, env } from 'vc-cake'
+import LayoutIcons from '../../../../../startBlank/lib/layoutIcons'
 import lodash from 'lodash'
 
 const settingsStorage = getStorage('settings')
@@ -14,11 +14,13 @@ export default class TemplateLayout extends React.Component {
     super(props)
     let templateStorageData = settingsStorage.state('pageTemplate').get()
     let templateData = window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT ? window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT() : {
-      type: 'vc', value: 'blank'
+      type: 'theme', value: 'default'
     }
     let currentTemplate = templateStorageData || templateData
+    let showTheme = currentTemplate.type === 'theme'
     this.state = {
-      current: currentTemplate
+      current: currentTemplate,
+      showTheme: showTheme
     }
     settingsStorage.state('pageTemplate').set(currentTemplate)
     this.allowedTypes = [ 'vc', 'vc-theme', 'theme' ]
@@ -38,8 +40,10 @@ export default class TemplateLayout extends React.Component {
 
   updateState (data) {
     if (data) {
+      let showTheme = data.type === 'theme'
       this.setState({
-        current: data
+        current: data,
+        showTheme: showTheme
       })
     }
   }
@@ -56,8 +60,12 @@ export default class TemplateLayout extends React.Component {
   }
 
   updateTemplate (data) {
+    let showTheme = data.type === 'theme'
+
+    setData('ui:settings:pageTemplate', data)
     this.setState({
-      current: data
+      current: data,
+      showTheme: showTheme
     })
     if (!env('VCV_JS_THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(data)
@@ -117,22 +125,20 @@ export default class TemplateLayout extends React.Component {
           let templateName = `${templateList.type}__${template.value}`
           let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
           let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].icon.default
-          if (Icon) {
-            let iconProps = {
-              classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
-            }
-            if (this.state.current.type === templateList.type && this.state.current.value === template.value) {
-              classes += ' vcv-ui-start-layout-list-item-active'
-            }
-            icons.push(
-              <span className={classes}
-                title={template.label}
-                key={`settings-layout-${index}-${tIndex}`}
-                onClick={() => { this.handleTemplateChange(templateName) }}>
-                <Icon {...iconProps} />
-              </span>
-            )
+          let iconProps = {
+            classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
           }
+          if (this.state.current.type === templateList.type && this.state.current.value === template.value) {
+            classes += ' vcv-ui-start-layout-list-item-active'
+          }
+          icons.push(
+            <span className={classes}
+              title={template.label}
+              key={`settings-layout-${index}-${tIndex}`}
+              onClick={() => { this.handleTemplateChange(templateName) }}>
+              <Icon {...iconProps} />
+            </span>
+          )
         })
       })
     }
@@ -234,7 +240,7 @@ export default class TemplateLayout extends React.Component {
 
   getThemeTemplateDropdown () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    if (!themeTemplates) {
+    if (!this.state.showTheme || !themeTemplates) {
       return ''
     }
     let templateTxt = localizations ? localizations.template : 'Template'

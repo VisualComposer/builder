@@ -14,7 +14,7 @@ addStorage('settings', (storage) => {
   storage.on('start', () => {
     !storage.state('pageTemplate').get() && storage.state('pageTemplate').set(
       (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()) ||
-      { type: 'vc', value: 'blank' }
+      { type: 'theme', value: 'default' }
     )
     !storage.state('headerTemplate').get() && storage.state('headerTemplate').set(
       window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current

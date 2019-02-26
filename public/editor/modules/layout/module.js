@@ -194,10 +194,6 @@ vcCake.add('contentLayout', (api) => {
             hasFooter = currentTemplate.footer
           }
         }
-        if (template.type === 'theme') {
-          hasHeader = true
-          hasFooter = true
-        }
         if (vcCake.env('VCV_JS_THEME_LAYOUTS')) {
           if (hasHeader && header) {
             params.push(`vcv-header=${header}`)
