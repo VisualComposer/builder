@@ -475,7 +475,7 @@ class Categories implements Helper
             ],
             'Counter' => [
                 'title' => 'Counter',
-                'elements' => ['counterUp'],
+                'elements' => ['counterUp', 'countdownTimer'],
                 'icon' => $urlHelper->to('public/categories/icons/Counter.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Counter.svg'),
             ],
