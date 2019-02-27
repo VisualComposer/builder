@@ -101,6 +101,19 @@ export default class TinymceButtonsBuilder {
     return formats
   }
 
+  static isValidFonts (fonts) {
+    if (!Array.isArray(fonts)) {
+      return false
+    }
+    for (let i = 0; i < fonts.length; i++) {
+      let item = fonts[ i ]
+      if (!Array.isArray(item) || !item[ 0 ] || !item[ 1 ]) {
+        return false
+      }
+    }
+    return true
+  }
+
   constructor (editor, globalTinymce, loadFontsInTinymce) {
     Object.defineProperties(this, {
       editor: {
@@ -428,7 +441,16 @@ export default class TinymceButtonsBuilder {
 
   getFontItems () {
     let defaultFontsFormats = 'Andale Mono=andale mono,monospace;' + 'Arial=arial,helvetica,sans-serif;' + 'Arial Black=arial black,sans-serif;' + 'Book Antiqua=book antiqua,palatino,serif;' + 'Comic Sans MS=comic sans ms,sans-serif;' + 'Courier New=courier new,courier,monospace;' + 'Georgia=georgia,palatino,serif;' + 'Helvetica=helvetica,arial,sans-serif;' + 'Impact=impact,sans-serif;' + 'Symbol=symbol;' + 'Tahoma=tahoma,arial,helvetica,sans-serif;' + 'Terminal=terminal,monaco,monospace;' + 'Times New Roman=times new roman,times,serif;' + 'Trebuchet MS=trebuchet ms,geneva,sans-serif;' + 'Verdana=verdana,geneva,sans-serif;' + 'Webdings=webdings;' + 'Wingdings=wingdings,zapf dingbats'
-    let fonts = TinymceButtonsBuilder.createFormats(this.editor.settings.font_formats || defaultFontsFormats)
+    let fonts = []
+    if (this.editor.settings.font_formats) {
+      fonts = TinymceButtonsBuilder.createFormats(this.editor.settings.font_formats)
+      if (!TinymceButtonsBuilder.isValidFonts(fonts)) {
+        fonts = TinymceButtonsBuilder.createFormats(defaultFontsFormats)
+      }
+    } else {
+      fonts = TinymceButtonsBuilder.createFormats(defaultFontsFormats)
+    }
+
     return this.global$2.map(fonts, (font) => {
       return {
         text: { raw: font[ 0 ] },
