@@ -148,8 +148,13 @@ export default class TinymceButtonsBuilder {
       onselect: (e) => {
         const { value } = e.control.settings
         if (value) {
-          this.editor.execCommand('FontName', false, value.family)
-          this.loadFonts(value)
+          if (value.family === 'inherit') {
+            this.editor.formatter.toggle('defaultfont', { value: 'inherit' })
+            this.editor.nodeChanged()
+          } else {
+            this.editor.execCommand('FontName', false, value.family)
+            this.loadFonts(value)
+          }
         }
         buttonSettings.onselect && buttonSettings.onselect(value)
       },
@@ -436,7 +441,15 @@ export default class TinymceButtonsBuilder {
   }
 
   getFontValues () {
-    return [ ...this.getFontItems(), { text: '-' }, ...this.getGoogleFontValues() ]
+    const defaultItem = {
+      text: 'Default',
+      value: {
+        family: 'inherit',
+        defaultFont: true
+      },
+      textStyle: ''
+    }
+    return [ defaultItem, ...this.getFontItems(), { text: '-' }, ...this.getGoogleFontValues() ]
   }
 
   getFontItems () {
@@ -464,6 +477,18 @@ export default class TinymceButtonsBuilder {
   }
 
   createFontNameListBoxChangeHandler (editor, items, callback) {
+    const normalizeFontFamily = (fontFamily) => {
+      return fontFamily.replace(/['"\\]/g, '').replace(/,\s+/g, ',')
+    }
+
+    const getFontFamily = () => {
+      const node = TinymceButtonsBuilder.getSelectionStart(editor)
+      if (node && node.style && node.style.fontFamily) {
+        return normalizeFontFamily(node.style.fontFamily)
+      }
+      return 'inherit'
+    }
+
     const findMatchingValue = (items, fontFamily) => {
       let font = fontFamily ? fontFamily.toLowerCase() : ''
       let value
@@ -488,7 +513,7 @@ export default class TinymceButtonsBuilder {
       let self = this
       self.state.set('value', null)
       editor.on('init nodeChange', function (e) {
-        let fontFamily = editor.queryCommandValue('FontName')
+        let fontFamily = getFontFamily()
         let match = findMatchingValue(items, fontFamily)
         self.value(match || null)
         if (!match && fontFamily) {
