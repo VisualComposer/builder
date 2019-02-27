@@ -15,7 +15,7 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
       return
     }
 
-    if (this.props.exclude && this.props.exclude.length && field.key.indexOf(this.props.exclude) >= 0) {
+    if (this.props.exclude && this.props.exclude.length && this.props.exclude.indexOf(field.key) >= 0) {
       return
     }
 
