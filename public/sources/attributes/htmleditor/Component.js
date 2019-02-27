@@ -10,6 +10,7 @@ import lodash from 'lodash'
 import vcCake from 'vc-cake'
 import ToggleSmall from '../toggleSmall/Component'
 import webFontLoader from 'webfontloader'
+
 export default class Component extends Attribute {
   constructor (props) {
     super(props)
@@ -168,6 +169,12 @@ export default class Component extends Attribute {
         styles: { letterSpacing: '%value' },
         clear_child_styles: true
       })
+      editor.formatter.register('defaultfont', {
+        inline: 'span',
+        toggle: false,
+        styles: { fontFamily: '' },
+        clear_child_styles: true
+      })
     })
   }
 
@@ -193,6 +200,7 @@ export default class Component extends Attribute {
       sharedAssetsData.googleFonts = sharedGoogleFonts
       elementAccessPoint.set('metaElementAssets', sharedAssetsData)
     }
+    this.handleChangeWpEditor(this.editor)
   }
 
   handleChange (event, editor) {

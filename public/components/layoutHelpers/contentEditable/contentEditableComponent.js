@@ -313,6 +313,12 @@ export default class ContentEditableComponent extends React.Component {
           toggle: false,
           styles: { fontStyle: '%value' },
           clear_child_styles: true
+        },
+        defaultfont: {
+          inline: 'span',
+          toggle: false,
+          styles: { fontFamily: '' },
+          clear_child_styles: true
         }
       },
       init_instance_callback: (editor) => {
@@ -519,7 +525,7 @@ export default class ContentEditableComponent extends React.Component {
       let endCharCount = null
 
       for (let i = 0; i < textNodes.length; i++) {
-        let textNode = textNodes[i]
+        let textNode = textNodes[ i ]
         endCharCount = charCount + textNode.length
         if (!foundStart && start >= charCount && (start < endCharCount || (start === endCharCount && i <= textNodes.length))) {
           range.setStart(textNode, start - charCount)
@@ -545,7 +551,7 @@ export default class ContentEditableComponent extends React.Component {
     } else {
       const children = node.childNodes
       for (let i = 0, len = children.length; i < len; ++i) {
-        textNodes.push.apply(textNodes, this.getTextNodesIn(children[i]))
+        textNodes.push.apply(textNodes, this.getTextNodesIn(children[ i ]))
       }
     }
     return textNodes
