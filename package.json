@@ -1,11 +1,11 @@
 {
   "name": "vcwb",
-  "version": "2.3.0-dev",
-  "description": "VC Website Builder",
+  "version": "dev",
+  "description": "Visual Composer Website Builder",
   "main": "index.php",
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:visual-composer-website-builder/builder.git"
+    "url": "git@github.com:Visualcomposer/builder.git"
   },
   "scripts": {
     "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 bash ./tests/jest/devElements/_cloneScript.sh && jest --env=jsdom",
@@ -14,16 +14,15 @@
     "build-production": "webpack --version && webpack --config webpack.config.production.4x.babel.js -p",
     "build-production-silent": "webpack --version && webpack --config webpack.config.production.4x.babel.js -p --silent",
     "watch": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --colors --watch",
-    "watch-assets-and-elements": "vc watch-elements-and-assets",
     "build-settings": "webpack --version && webpack --config webpack-settings.config.4x.babel.js --progress --colors",
     "build-settings-production": "webpack --version && webpack --config webpack-settings.config.production.4x.babel.js -p --silent",
     "watch-settings": "webpack --version && webpack --config webpack-settings.config.4x.babel.js --progress --colors --watch",
     "testcafe-live": "testcafe-live chrome tests/testcafe"
   },
-  "author": "@wpb",
+  "author": "@visualcomposer",
   "license": "GPL-2.0+",
   "engines": {
-    "node": ">=9",
+    "node": ">=8",
     "npm": ">=5.8"
   },
   "devDependencies": {
