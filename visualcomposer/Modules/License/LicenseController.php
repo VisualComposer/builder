@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\License;
-use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Notice;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
@@ -46,7 +45,6 @@ class LicenseController extends Container implements Module
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Logger $loggerHelper
      * @param \VisualComposer\Helpers\Notice $noticeHelper
      * @param Token $tokenHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
@@ -58,7 +56,6 @@ class LicenseController extends Container implements Module
         Request $requestHelper,
         CurrentUser $currentUserHelper,
         License $licenseHelper,
-        Logger $loggerHelper,
         Notice $noticeHelper,
         Token $tokenHelper,
         Options $optionsHelper
@@ -98,9 +95,6 @@ class LicenseController extends Container implements Module
                         $result = json_decode($result['body'], true);
                         $licenseHelper->setKey($result['license_key']);
                         $tokenHelper->setSiteAuthorized();
-                        if (isset($result['auth_token'])) {
-                            $tokenHelper->setToken($result['auth_token']);
-                        }
                         $noticeHelper->removeNotice('premium:deactivated');
                         $optionsHelper->deleteTransient('lastBundleUpdate');
                         wp_redirect(admin_url('admin.php?page=vcv-update'));
@@ -127,7 +121,6 @@ class LicenseController extends Container implements Module
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Logger $loggerHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return mixed
@@ -137,7 +130,6 @@ class LicenseController extends Container implements Module
         Request $requestHelper,
         CurrentUser $currentUserHelper,
         License $licenseHelper,
-        Logger $loggerHelper,
         Options $optionsHelper
     ) {
         if (!$currentUserHelper->wpAll('manage_options')->get()) {
