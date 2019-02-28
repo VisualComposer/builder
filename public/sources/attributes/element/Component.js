@@ -3,7 +3,7 @@ import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
-import FieldWrapper from './field-tabs'
+import AttributeElementFieldWrapper from './AttributeElementFieldWrapper'
 import Dropdown from '../dropdown/Component'
 import PropTypes from 'prop-types'
 
@@ -263,7 +263,7 @@ export default class ElementAttribute extends Attribute {
         </div>
         <div className='vcv-ui-form-element vcv-ui-edit-form-section-content'>
           {replacementBlock}
-          <FieldWrapper
+          <AttributeElementFieldWrapper
             onChange={this.onChange}
             elementAccessPoint={this.state.elementAccessPoint}
             allTabs={this.state.allTabs}
@@ -274,7 +274,7 @@ export default class ElementAttribute extends Attribute {
     } else {
       return <div className='vcv-ui-form-element'>
         {replacementBlock}
-        <FieldWrapper
+        <AttributeElementFieldWrapper
           onChange={this.onChange}
           elementAccessPoint={this.state.elementAccessPoint}
           allTabs={this.state.allTabs}

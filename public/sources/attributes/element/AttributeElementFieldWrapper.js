@@ -1,5 +1,5 @@
 import React from 'react'
-import ActivitiesManager from './lib/activities-manager'
+import ActivitiesManager from 'public/components/panels/editForm/lib/activitiesManager'
 import EditFormField from './lib/field'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'

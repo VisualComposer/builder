@@ -14,7 +14,7 @@ export default class Field extends React.Component {
   constructor (props) {
     super(props)
     let value = props.elementAccessPoint.cook().toJS()[ props.fieldKey ]
-    if (props.options.nestedAttr) {
+    if (props.options && props.options.nestedAttr) {
       value = props.options.activeParamGroup[ props.fieldKey ]
     }
     this.state = {
@@ -28,9 +28,9 @@ export default class Field extends React.Component {
   componentDidMount () {
     this.props.elementAccessPoint.onAttributeChange(this.props.fieldKey, this.updateValue)
     this.props.setFieldMount(this.props.fieldKey, {
-      ref: this.refs.field,
-      refComponent: this,
-      refDomComponent: this.refs.domComponent
+      refWrapperComponent: this,
+      refWrapper: this.refs.fieldAttributeWrapper,
+      refAttributeComponent: this.refs.attributeComponent
     }, 'field')
   }
 
@@ -72,7 +72,7 @@ export default class Field extends React.Component {
       value = element[ fieldKey ]
     }
     let { type, settings } = cookElement.settings(fieldKey)
-    if (this.props.options.nestedAttr) {
+    if (this.props.options && this.props.options.nestedAttr) {
       let attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
       let elSettings = cookElement.settings(fieldKey, attrSettings)
       type = elSettings.type
@@ -113,7 +113,7 @@ export default class Field extends React.Component {
     }
 
     return (
-      <div ref='field' className={classes}>
+      <div ref='fieldAttributeWrapper' className={classes}>
         <div className='vcv-ui-form-group' key={`form-group-field-${element.id}-${fieldKey}`}>
           {label}
           <AttributeComponent
@@ -125,7 +125,7 @@ export default class Field extends React.Component {
             updater={this.updateElement}
             elementAccessPoint={elementAccessPoint}
             fieldType={fieldType}
-            ref='domComponent'
+            ref='attributeComponent'
           />
           {description}
         </div>
