@@ -427,6 +427,7 @@ class Categories implements Helper
                     'calderaForms',
                     'wpDataTables',
                     'captainForm',
+                    'simpleSearch',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/WordPress.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/WordPress.svg'),
