@@ -28,6 +28,11 @@ class EnvController extends Container implements Module
             'key' => 'VCV_ENV',
             'value' => \VcvEnv::all(),
         ];
+        $variables[] = [
+            'type' => 'constant',
+            'key' => 'VCV_SITE_URL',
+            'value' => get_site_url(),
+        ];
 
         return $variables;
     }
