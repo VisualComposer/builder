@@ -18,9 +18,9 @@ export default class EditFromField extends React.Component {
 
   componentDidMount () {
     this.props.setFieldMount(this.props.fieldKey, {
-      ref: this.refs[ 'field' ],
-      refComponent: this,
-      refDomComponent: this.refs[ 'domComponent' ]
+      refWrapper: this.refs.fieldAttributeWrapper,
+      refWrapperComponent: this,
+      refAttributeComponent: this.refs.attributeComponent
     }, 'field')
   }
 
@@ -30,10 +30,10 @@ export default class EditFromField extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.props.setFieldMount(nextProps.fieldKey, {
-      ref: this.refs[ 'field' ],
-      refComponent: this,
-      refDomComponent: this.refs[ 'domComponent' ]
-    })
+      refWrapper: this.refs.fieldAttributeWrapper,
+      refWrapperComponent: this,
+      refAttributeComponent: this.refs.attributeComponent
+    }, 'field')
   }
 
   render () {
@@ -51,6 +51,15 @@ export default class EditFromField extends React.Component {
     if (!type) {
       throw new Error(format('Wrong attribute type %s', fieldKey))
     }
+
+    let classes = classNames({
+      'vcv-ui-form-dependency': true
+    }, this.state.dependenciesClasses)
+
+    let value
+    if (fieldKey && element) {
+      value = element[ fieldKey ]
+    }
     const { options } = settings
     let label = ''
     if (options && typeof options.label === 'string') {
@@ -60,30 +69,25 @@ export default class EditFromField extends React.Component {
     if (options && typeof options.description === 'string') {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
     }
-    let rawValue
-    if (fieldKey && element) {
-      rawValue = element[ fieldKey ]
-    }
     let defaultValue = settings.defaultValue
     if (typeof defaultValue === `undefined`) {
       defaultValue = settings.value
     }
 
-    let classes = classNames({
-      'vcv-ui-form-dependency': true
-    }, this.state.dependenciesClasses)
-
     return (
-      <div ref='field' className={classes}>
-        <div className='vcv-ui-form-group' key={`form-group-field-${cookElement.get('id')}-${fieldKey}`}>
+      <div ref='fieldAttributeWrapper' className={classes}>
+        <div className='vcv-ui-form-group' key={`element-form-group-field-${cookElement.get('id')}-${fieldKey}`}>
           {label}
           <AttributeComponent
+            {...this.props}
             key={'attribute-' + fieldKey + cookElement.get('id')}
             options={options}
-            value={rawValue}
+            value={value}
+            fieldKey={fieldKey}
             defaultValue={defaultValue}
-            {...this.props}
-            ref='domComponent'
+            updater={this.props.updater}
+            elementAccessPoint={elementAccessPoint}
+            ref='attributeComponent'
           />
           {description}
         </div>

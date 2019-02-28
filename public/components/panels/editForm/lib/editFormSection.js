@@ -14,7 +14,7 @@ export default class EditFormSection extends React.Component {
     super(props)
     this.state = {
       isActive: true,
-      sectionDependenciesClasses: []
+      dependenciesClasses: []
     }
     this.toggleSection = this.toggleSection.bind(this)
   }
@@ -27,9 +27,8 @@ export default class EditFormSection extends React.Component {
     }
 
     this.props.setFieldMount(this.props.tab.fieldKey, {
-      ref: this.section,
-      refComponent: this,
-      refDomComponent: this.section
+      refWrapperComponent: this,
+      refWrapper: this.section
     }, 'section')
   }
 
@@ -53,7 +52,7 @@ export default class EditFormSection extends React.Component {
     const { isActive } = this.state
     if ((prevState && !prevState.isActive && isActive) || this.props.tab.index === this.props.activeTabIndex) {
       // will scroll to top
-      let scrollbar = this.props.sectionContentScrollbar
+      let scrollbar = this.props.getSectionContentScrollbar()
       if (scrollbar) {
         const headerRect = this.sectionHeader.getBoundingClientRect()
         const headerOffset = this.sectionHeader.offsetTop + headerRect.height
@@ -120,12 +119,12 @@ export default class EditFormSection extends React.Component {
 
   render () {
     let { tab } = this.props
-    let { isActive, sectionDependenciesClasses } = this.state
+    let { isActive, dependenciesClasses } = this.state
     let sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
       'vcv-ui-edit-form-section--opened': isActive,
       'vcv-ui-edit-form-section--closed': !isActive
-    }, sectionDependenciesClasses)
+    }, dependenciesClasses)
     let tabTitle
     if (this.props.options.nestedAttr) {
       tabTitle = tab.data.options.label

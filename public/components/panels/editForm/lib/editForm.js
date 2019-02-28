@@ -11,19 +11,19 @@ export default class EditForm extends React.Component {
     activeTabId: PropTypes.string,
     options: PropTypes.object
   }
+  scrollbar = false
 
   constructor (props) {
     super(props)
     this.allTabs = this.updateTabs(this.props)
     this.state = {
-      activeTabIndex: this.getActiveTabIndex(this.props.activeTabId),
-      scrollbar: null
+      activeTabIndex: this.getActiveTabIndex(this.props.activeTabId)
     }
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
   }
 
   scrollBarMounted (scrollbar) {
-    this.setState({ scrollbar: scrollbar })
+    this.scrollbar = scrollbar
   }
 
   getActiveTabIndex (activeTabKey) {
@@ -118,13 +118,13 @@ export default class EditForm extends React.Component {
   }
 
   getAccordionSections () {
-    const { activeTabIndex, scrollbar } = this.state
+    const { activeTabIndex } = this.state
     return this.allTabs.map(tab => {
       return (
         <EditFormSection
           {...this.props}
           activeTabIndex={activeTabIndex}
-          sectionContentScrollbar={scrollbar}
+          getSectionContentScrollbar={() => { return this.scrollbar }}
           key={tab.key}
           tab={tab}
         />

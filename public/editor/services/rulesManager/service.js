@@ -135,7 +135,7 @@ function createSync (ruleData, value) {
 
 const RulesManagerAPI = {
   check: (values, rules, resultCallback) => {
-    let keys = Object.keys(rules)
+    let keys = Object.keys(rules || {})
     let checks = []
     keys.forEach((key) => {
       let rulePromise = createPromise(rules[ key ], values[ key ], key)
