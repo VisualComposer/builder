@@ -195,8 +195,27 @@ class UpdatesController extends Container implements Module
             display: none !important;
         }
         </style>
+        <script>
+        (function($){
+          $(() => {
+            var $ = window.jQuery
+            var installationUrl = 'https://visualcomposer.com/help/'
+            var faqUrl = 'https://visualcomposer.com/help/faq/'
+            var descriptionSection = $('#section-description')
+            var showDescription = function (e) {
+                e.preventDefault()
+                e.stopPropagation()
+                setTimeout(() => {
+                    descriptionSection.show()
+                }, 100)
+                $('<a>').attr('href', e.currentTarget.href).attr('target', '_blank')[0].click()
+            }
+            $('[name*="Installation"]').attr('href', installationUrl).attr('target', '_blank').click(showDescription)
+            $('[name*="FAQ"]').attr('href', faqUrl).attr('target', '_blank').click(showDescription)
+          })
+        })(window.jQuery)
+        </script>
 HTML;
-        wp_enqueue_script('vcv:settings:script');
     }
 
     protected function unsetOptions(Options $optionsHelper)
