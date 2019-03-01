@@ -1,6 +1,7 @@
 import React from 'react'
 import { env, getStorage } from 'vc-cake'
 import PropTypes from 'prop-types'
+
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
@@ -40,7 +41,6 @@ export default class LayoutDropdown extends React.Component {
 
   updateLayout (event) {
     const layoutName = this.props.layoutName.toLowerCase()
-    const layoutNameUppercase = this.props.layoutName.toUpperCase()
     const value = event.target.value
     this.setState({
       current: value
@@ -50,37 +50,19 @@ export default class LayoutDropdown extends React.Component {
       if (env('VCV_JS_THEME_LAYOUTS')) {
         settingsStorage.state(`${layoutName}Template`).set(value)
       }
-      const globalLayoutName = `VCV_${layoutNameUppercase}_TEMPLATES`
-      const lastLoadedTemplate = window[`vcvLastLoaded${this.props.layoutName}Template`] || (window[globalLayoutName] && window[globalLayoutName]() && window[globalLayoutName]().current)
       const lastSavedTemplate = settingsStorage.state(`${layoutName}Template`).get()
-
-      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
       let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
-
-      let lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current)
       let lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
-
-      let lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current)
       let lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
-
-      let lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current)
       let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
-      if (
-        (lastLoadedPageTemplate && (!lastSavedPageTemplate || lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type)) ||
-        (lastLoadedHeaderTemplate && lastLoadedHeaderTemplate !== lastSavedHeaderTemplate) ||
-        (lastLoadedSidebarTemplate && lastLoadedSidebarTemplate !== lastSavedSidebarTemplate) ||
-        (lastLoadedFooterTemplate && lastLoadedFooterTemplate !== lastSavedFooterTemplate) ||
-        (lastLoadedTemplate && lastLoadedTemplate !== lastSavedTemplate)
-      ) {
-        this.reloadIframe(
-          lastSavedPageTemplate,
-          lastSavedHeaderTemplate,
-          lastSavedSidebarTemplate,
-          lastSavedFooterTemplate,
-          lastSavedTemplate
-        )
-      }
+      this.reloadIframe(
+        lastSavedPageTemplate,
+        lastSavedHeaderTemplate,
+        lastSavedSidebarTemplate,
+        lastSavedFooterTemplate,
+        lastSavedTemplate
+      )
     }
   }
 
@@ -97,7 +79,7 @@ export default class LayoutDropdown extends React.Component {
     window.vcvLastLoadedSidebarTemplate = lastSavedSidebarTemplate
     window.vcvLastLoadedFooterTemplate = lastSavedFooterTemplate
     const layoutName = this.props.layoutName.toLowerCase()
-    window[`vcvLastLoaded${layoutName}Template`] = lastSavedTemplate
+    window[ `vcvLastLoaded${layoutName}Template` ] = lastSavedTemplate
 
     workspaceIFrame.set({
       type: 'reload',
@@ -105,7 +87,7 @@ export default class LayoutDropdown extends React.Component {
       header: lastSavedHeaderTemplate,
       sidebar: lastSavedSidebarTemplate,
       footer: lastSavedFooterTemplate,
-      [layoutName]: lastSavedTemplate
+      [ layoutName ]: lastSavedTemplate
     })
     settingsStorage.state('skipBlank').set(true)
   }
