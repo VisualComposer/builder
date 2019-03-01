@@ -1,4 +1,6 @@
 # Visual Composer Website Builder
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+
 Visual Composer Website Builder is a drag and drop editor for WordPress. With an easy-to-use interface, it allows you to design layouts you always wanted. Coupled with premium templates, blocks, elements, and extensions - Visual Composer is all you need to create a website.
 
 ## Installation
