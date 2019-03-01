@@ -31,6 +31,7 @@ class WooCommerceController extends Container implements Module
 
         $this->addFilter('vcv:themeEditor:settingsController:addPages', 'addPages');
         $this->addFilter('vcv:themeEditor:layoutController:getTemplatePartId', 'getTemplatePartId');
+        $this->addFilter('vcv:editors:editPostLinks:adminRowLinks', 'isShop');
     }
 
     /**
@@ -186,5 +187,20 @@ class WooCommerceController extends Container implements Module
 
             return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
         }
+    }
+
+    /**
+     * @param $response
+     * @param $payload
+     *
+     * @return bool|mixed
+     */
+    protected function isShop($response, $payload)
+    {
+        if ($payload['sourceId'] === wc_get_page_id('shop')) {
+            return false;
+        }
+
+        return $response;
     }
 }
