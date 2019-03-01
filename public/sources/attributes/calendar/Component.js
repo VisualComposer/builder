@@ -7,8 +7,12 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 export default class CalendarAttribute extends Attribute {
   updateState (props) {
+    let newDate = new Date()
+    if (props.options.addDays) {
+      newDate = new Date(newDate.setDate(newDate.getDate() + props.options.addDays))
+    }
     return {
-      value: props.value ? new Date(props.value) : new Date()
+      value: props.value ? new Date(props.value) : newDate
     }
   }
 
