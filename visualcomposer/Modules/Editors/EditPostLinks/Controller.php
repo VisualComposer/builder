@@ -174,7 +174,8 @@ class Controller extends Container implements Module
             && $editorPostTypeHelper->isEditorEnabled(
                 get_post_type()
             )
-            && $userCapabilitiesHelper->canEdit(get_the_ID())) {
+            && $userCapabilitiesHelper->canEdit(get_the_ID())
+            && vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => get_the_ID()])) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vcwb'));
         }
