@@ -50,11 +50,12 @@ const API = {
   }),
   getElementIcon: (tag, dark = false) => {
     let category = categoryByTag(tag)
+    let allCategories = API.all()
     if (dark) {
-      return category && category.iconDark ? category.iconDark : ''
+      return category && category.iconDark ? category.iconDark : allCategories.Misc.iconDark
     }
 
-    return category && category.icon ? category.icon : ''
+    return category && category.icon ? category.icon : allCategories.Misc.icon
   },
   getElementCategoryName: (tag) => {
     const categories = hubElementsStorage.state('categories').get()
