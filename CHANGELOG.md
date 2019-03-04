@@ -8,7 +8,6 @@
 - Fix: Plugin update popup has a proper information
 - Fix: Element widget works properly with field method action
 - Fix: Radio button attribute works properly
-- Element: Countdown element
 - Element: Search Widget element
 ## ver 13.0 - 2019-02-25
 - New: New inline editor with more text formatting options
