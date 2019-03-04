@@ -1,3 +1,15 @@
+## ver 14.0 - 2019-03-04
+- New: Option to apply custom headers and footers to all site, specific post types, or default WordPress pages
+- New: Ability to activate Visual Composer Premium on staging and live environments with the same license
+- Update: Bulgarian translation added
+- Update: Theme default value added to the font family drop-down in TinyMCE
+- Update: Element attribute excluding mechanism added to the Visual Composer API
+- Update: Miscellaneous category is set as default category for elements
+- Fix: Plugin update popup has a proper information
+- Fix: Element widget works properly with field method action
+- Fix: Radio button attribute works properly
+- Element: Countdown element
+- Element: Search Widget element
 ## ver 13.0 - 2019-02-25
 - New: New inline editor with more text formatting options
 - New: Calendar attribute added to the plugin
