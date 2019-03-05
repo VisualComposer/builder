@@ -139,7 +139,7 @@ class UpdatesController extends Container implements Module
         $information = [];
         $information['name'] = 'Visual Composer Website Builder';
         $information['author'] = '<a target="_blank" href="' . $utmHelper->get('updatesChangelogAuthorLink')
-            . '">The Visual Composer Team</a>';
+            . '">Visual Composer Team</a>';
         $information['slug'] = VCV_PLUGIN_DIRNAME;
         $information['banners'] = [
             'high' => vchelper('Url')->assetUrl(
