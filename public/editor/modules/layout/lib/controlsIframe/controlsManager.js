@@ -36,6 +36,7 @@ export default class ControlsManager {
     }
 
     this.resizeColumns = false
+    this.isScrolling = false
 
     this.findElement = this.findElement.bind(this)
     this.controlElementFind = this.controlElementFind.bind(this)
@@ -44,6 +45,7 @@ export default class ControlsManager {
     this.handleOverlayMouseLeave = this.handleOverlayMouseLeave.bind(this)
     this.handleFrameContainerLeave = this.handleFrameContainerLeave.bind(this)
     this.updateIframeVariables = this.updateIframeVariables.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
   }
 
   /**
@@ -111,6 +113,8 @@ export default class ControlsManager {
     this.iframeDocument.body.addEventListener('mouseleave', this.handleFrameLeave)
     // show frames on mouseleave, if edit form for row is opened
     this.iframeContainer.addEventListener('mouseleave', this.handleFrameContainerLeave)
+    // handle scroll of iframe window
+    this.iframeWindow.addEventListener('scroll', this.handleScroll)
   }
 
   subscribeToControlsContainer () {
@@ -130,7 +134,7 @@ export default class ControlsManager {
         target: null
       }
     }
-    if (e.target !== this.state.prevTarget) {
+    if ((e.target !== this.state.prevTarget) || !layoutStorage.state('interactWithContent').get()) {
       this.state.prevTarget = e.target
       // get all vcv elements
       let path = this.getPath(e)
@@ -371,6 +375,23 @@ export default class ControlsManager {
         layoutStorage.state('userInteractWith').set(false)
       }
     })
+  }
+
+  handleScroll () {
+    const contentState = layoutStorage.state('interactWithContent')
+    if (!contentState.get() || !contentState.get().type || contentState.get().type !== 'scrolling') {
+      contentState.set({ type: 'scrolling' })
+      this.outline.hide()
+      this.frames.hide()
+      this.controls.hide()
+    }
+
+    window.clearTimeout(this.isScrolling)
+
+    this.isScrolling = setTimeout(() => {
+      contentState.set(false)
+      this.state.prevElement = null
+    }, 150)
   }
 
   /**

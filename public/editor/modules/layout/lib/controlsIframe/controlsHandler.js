@@ -109,6 +109,9 @@ export default class ControlsHandler {
    * @param rebuild
    */
   buildControls (data, rebuild = false) {
+    if (this.controlsContainer.children.length) {
+      return
+    }
     let elementIds = data.vcElementsPath
     let iframeRect = this.iframe.getBoundingClientRect()
 
@@ -275,6 +278,9 @@ export default class ControlsHandler {
    * @param data
    */
   createAppendControl (data) {
+    if (this.appendControlContainer.children.length) {
+      return
+    }
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     let elementIds = data.vcElementsPath
