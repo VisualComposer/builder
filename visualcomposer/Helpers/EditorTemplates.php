@@ -172,4 +172,40 @@ class EditorTemplates implements Helper
 
         return $templateElements;
     }
+
+    public function getCustomTemplateOptions()
+    {
+        $templateGroups = $this->all();
+        $options = [];
+        $options[] = [
+            'label' => __('Select your template', 'vcwb'),
+            'value' => '',
+        ];
+
+        if (!empty($templateGroups) && isset($templateGroups['custom']) && isset($templateGroups['custom']['name'])) {
+            $dataHelper = vchelper('Data');
+            $groupData = $templateGroups['custom'];
+            $name = $groupData['name'];
+            $templateNames = $dataHelper->arrayColumn($groupData['templates'], 'name');
+            $templateIds = $dataHelper->arrayColumn($groupData['templates'], 'id');
+
+            $options[] = [
+                'group' => [
+                    'label' => $name,
+                    'values' => array_map(
+                        function ($templateName, $templateId) {
+                            return [
+                                'label' => $templateName,
+                                'value' => $templateId,
+                            ];
+                        },
+                        $templateNames,
+                        $templateIds
+                    ),
+                ],
+            ];
+        }
+
+        return $options;
+    }
 }
