@@ -15,7 +15,8 @@ export default class Component extends Attribute {
 
     this.state = {
       showEditor: false,
-      loadingEditor: false
+      loadingEditor: false,
+      value: props.value
     }
   }
 
