@@ -1,7 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
 import DatePicker from 'react-datepicker'
-import moment from 'moment'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -21,10 +20,9 @@ export default class CalendarAttribute extends Attribute {
   }
 
   handleChangeRaw = (date) => {
-    // Need to do a check when time is changed inside input
-    // DatePicker library doesn't handle this case at the moment
-    if (date.target && moment(date.target.value).isValid()) {
-      this.handleChange(new Date(date.target.value))
+    const newDate = new Date(date.target.value)
+    if (date.target && !isNaN(newDate)) {
+      this.handleChange(newDate)
     }
   }
 
