@@ -1,7 +1,9 @@
 import path from 'path'
+import webpack from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import VirtualModulePlugin from 'virtual-module-webpack-plugin'
-import webpack from 'webpack'
+import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.customAlias'
+import webpackVendors from 'vc-webpack-vendors'
 
 import Collector from './tools/webpack-collector-4x'
 
@@ -14,38 +16,7 @@ module.exports = {
     front: './public/frontView',
     wpbackendswitch: './public/backendSwitch.js',
     wpbase: './public/base',
-    vendor: [
-      'react',
-      './oldlibs-bc.js',
-      'react-dom',
-      'create-react-class',
-      'classnames',
-      'lodash',
-      'vc-cake',
-      'pako',
-      'base-64',
-      'babel-runtime/core-js.js',
-      'babel-runtime/helpers/createClass.js',
-      'babel-runtime/helpers/inherits.js',
-      'babel-runtime/helpers/typeof.js',
-      'babel-runtime/helpers/possibleConstructorReturn.js',
-      'babel-runtime/helpers/classCallCheck.js',
-      'babel-runtime/helpers/extends.js',
-      'babel-runtime/core-js/symbol.js',
-      'babel-runtime/core-js/symbol/iterator.js',
-      'babel-runtime/core-js/object/set-prototype-of.js',
-      'babel-runtime/core-js/object/get-prototype-of.js',
-      'babel-runtime/core-js/object/define-property.js',
-      'babel-runtime/core-js/object/create.js',
-      'babel-runtime/core-js/object/assign.js',
-      'babel-runtime/core-js/object/keys.js',
-      'core-js/library/modules/web.dom.iterable.js',
-      'core-js/library/modules/es6.string.iterator.js',
-      'core-js/library/modules/core.is-iterable.js',
-      'core-js/library/modules/es7.object.values.js',
-      'core-js/library/fn/object/values.js',
-      'core-js/library/modules/_core.js'
-    ]
+    vendor: webpackVendors()
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
@@ -109,37 +80,10 @@ module.exports = {
     }),
     new ExtractTextPlugin('[name].bundle.css'),
     new VirtualModulePlugin({
-      moduleName: 'node_modules/react/react.js',
-      contents: `module.exports = require('react')`
-    }),
-    new VirtualModulePlugin({
       moduleName: 'node_modules/jquery/dist/jquery.js',
       contents: `module.exports = window.jQuery`
     }),
-    new VirtualModulePlugin({
-      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/web.dom.iterable.js',
-      contents: `module.exports = require('core-js/library/modules/web.dom.iterable.js')`
-    }),
-    new VirtualModulePlugin({
-      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/es6.string.iterator.js',
-      contents: `module.exports = require('core-js/library/modules/es6.string.iterator.js')`
-    }),
-    new VirtualModulePlugin({
-      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/core.is-iterable.js',
-      contents: `module.exports = require('core-js/library/modules/core.is-iterable.js')`
-    }),
-    new VirtualModulePlugin({
-      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/es7.object.values.js',
-      contents: `module.exports = require('core-js/library/modules/es7.object.values.js')`
-    }),
-    new VirtualModulePlugin({
-      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/fn/object/values.js',
-      contents: `module.exports = require('core-js/library/fn/object/values.js')`
-    }),
-    new VirtualModulePlugin({
-      moduleName: 'node_modules/babel-runtime/node_modules/core-js/library/modules/_core.js',
-      contents: `module.exports = require('core-js/library/modules/_core.js')`
-    }),
+    new VcWebpackCustomAliasPlugin(false, true),
     new webpack.NamedModulesPlugin()
   ],
   module: {

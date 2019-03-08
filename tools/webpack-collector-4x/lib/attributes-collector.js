@@ -15,7 +15,7 @@ var Collector = {
     var content = "" +
       "import {getService} from 'vc-cake'\n" +
       "const attributeService = getService('cook').attributes\n" + "\n"
-    files.forEach((attribute)=> {
+    files.forEach((attribute) => {
       var filePath = join(path, attribute)
       var stats = fs.lstatSync(filePath)
       var isDirectory = stats.isDirectory()
@@ -49,14 +49,14 @@ var Collector = {
           files.forEach((file) => {
             let filePath = join(representersDirPath, file)
             let stats = fs.lstatSync(filePath)
-            if (file[0] !== '_' && stats.isFile()) {
-              const representerContent = fs.existsSync(filePath) ? fs.readFileSync(filePath, {encoding: 'utf8'}) : false
+            if (file[ 0 ] !== '_' && stats.isFile()) {
+              const representerContent = fs.existsSync(filePath) ? fs.readFileSync(filePath, { encoding: 'utf8' }) : false
               if (representerContent) {
                 const componentName = representerContent.match(/(?:export.+class\s*)([^\s]+)/)
                 if (componentName) {
                   let attributeName = attribute.charAt(0).toUpperCase() + attribute.slice(1)
-                  let className = `Representer${componentName[1]}For${attributeName}`
-                  representers[componentName[1]] = className
+                  let className = `Representer${componentName[ 1 ]}For${attributeName}`
+                  representers[ componentName[ 1 ] ] = className
                   content += uf("import {default as %s} from '%s'\n", className, join(attributeRelativePath, 'representers', file).replace(/\\/g, '/'))
                 }
               }
@@ -82,7 +82,7 @@ var Collector = {
         if (Object.keys(representers).length) {
           content += uf("},{\n")
           const list = Object.keys(representers).map((name) => {
-            return uf(`${name}: ${representers[name]}`)
+            return uf(`${name}: ${representers[ name ]}`)
           })
           content += list.join(",\n")
         }
@@ -91,7 +91,7 @@ var Collector = {
     })
     return content
   },
-  writeToFile(prefix, content) {
+  writeToFile (prefix, content) {
     fs.writeFileSync(join(config.publicDir, config.configPath, uf('%s-attributes.js', prefix)), content)
   }
 }

@@ -1,4 +1,4 @@
-const _ = require('lodash')
+import _ from 'lodash'
 /**
  * From to highlight position
  * @constructor
@@ -172,4 +172,4 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   return position
 }
 
-module.exports = SmartLine
+export default SmartLine
