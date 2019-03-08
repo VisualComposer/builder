@@ -61,8 +61,5 @@ module.exports = Object.assign({}, {
         exclude: /node_modules/
       }
     ]
-  },
-  resolve: {
-    alias: { 'public': path.resolve(__dirname, 'public') }
   }
 })
