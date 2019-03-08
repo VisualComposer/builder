@@ -5,7 +5,6 @@ import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import _ from 'lodash'
 import Textarea from 'react-textarea-autosize'
-import 'jquery.caret'
 
 import Token from './token'
 import { getResponse } from 'public/tools/response'

@@ -55,7 +55,8 @@ codestyle:js:
     - refactor
     - headerFooter
   script:
-    - yarn install && yarn standard
+    - npm install standard@`node -p -e "require('./package.json').devDependencies.standard"` babel-eslint@`node -p -e "require('./package.json').devDependencies['babel-eslint']"`
+    - yarn standard
   tags:
     - docker
 

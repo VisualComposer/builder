@@ -18,17 +18,6 @@ module.exports = Object.assign({}, webpackConfig, {
   optimization: {
     minimize: false,
     runtimeChunk: false
-    // splitChunks: {
-    //   cacheGroups: {
-    //     default: false,
-    //     vendor: {
-    //       chunks: 'initial',
-    //       name: 'vendor',
-    //       test: 'vendor',
-    //       enforce: true
-    //     }
-    //   }
-    // }
   },
   plugins: [
     new ExtractTextPlugin('[name].bundle.css'),

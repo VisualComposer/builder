@@ -4,6 +4,7 @@ import vcCake from 'vc-cake'
 import { start } from './components/editorInit/start'
 import { rebuildPosts } from './components/editorInit/rebuildPosts'
 import heartbeat from './components/heartbeat/index'
+import 'public/tools/jqueryCaret' // used in tokenizationList.js
 
 (() => {
   let started = false
