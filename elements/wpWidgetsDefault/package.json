@@ -47,11 +47,15 @@
     "webpack-cli": "3.2.3"
   },
   "dependencies": {
+    "base-64": "0.1.0",
+    "lodash": "4.17.11",
     "prop-types": "15.7.2",
     "raw-loader": "1.0.0",
     "react": "16.8.4",
     "react-dom": "16.8.4",
-    "vc-cake": "0.8.0"
+    "vc-cake": "0.8.0",
+    "pako": "1.0.10",
+    "react-tinymce": "0.7.0"
   },
   "babel": {
     "presets": [
