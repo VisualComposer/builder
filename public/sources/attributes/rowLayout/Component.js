@@ -14,12 +14,12 @@ import LayoutResponsiveness from './lib/layoutResponsiveness'
 export default class Layout extends Attribute {
   static defaultProps = {
     layouts: [
-      [ '100%' ],
-      [ '50%', '50%' ],
-      [ '33.33%', '33.33%', '33.33%' ],
-      [ '25%', '25%', '25%', '25%' ],
-      [ '20%', '20%', '20%', '20%', '20%' ],
-      [ '16.66%', '16.66%', '16.66%', '16.66%', '16.66%', '16.66%' ],
+      [ 'auto' ],
+      [ 'auto', 'auto' ],
+      [ 'auto', 'auto', 'auto' ],
+      [ 'auto', 'auto', 'auto', 'auto' ],
+      [ 'auto', 'auto', 'auto', 'auto', 'auto' ],
+      [ 'auto', 'auto', 'auto', 'auto', 'auto', 'auto' ],
       [ '66.66%', '33.34%' ],
       [ '25%', '75%' ],
       [ '25%', '50%', '25%' ],

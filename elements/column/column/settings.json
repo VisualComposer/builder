@@ -2,7 +2,7 @@
   "size": {
     "type": "object",
     "access": "public",
-    "value": { "all": "100%", "defaultSize": "100%" }
+    "value": { "all": "auto", "defaultSize": "auto" }
   },
   "disableStacking": {
     "type": "string",

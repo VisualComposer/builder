@@ -132,7 +132,7 @@ addStorage('elements', (storage) => {
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (data.tag === 'column') {
         let rowElement = documentManager.get(data.parent)
-        rebuildRawLayout(rowElement.id, { action: options.action === 'merge' ? 'mergeColumn' : 'columnAdd', columnSize: data.size, disableStacking: rowElement.layout.disableStacking }, documentManager)
+        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
         storage.trigger('update', rowElement.id, rowElement, '', options)
       }
     }
@@ -207,7 +207,7 @@ addStorage('elements', (storage) => {
     } else if (element.tag === 'column') {
       let rowElement = documentManager.get(parent.id)
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
-        rebuildRawLayout(rowElement.id, { action: 'columnRemove', size: element.size, disableStacking: rowElement.layout.disableStacking }, documentManager)
+        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
       }
       addRowColumnBackground(id, element, documentManager)
       storage.trigger('update', rowElement.id, documentManager.get(parent.id))
@@ -225,7 +225,7 @@ addStorage('elements', (storage) => {
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (dolly.tag === 'column') {
         let rowElement = documentManager.get(dolly.parent)
-        rebuildRawLayout(rowElement.id, { action: 'columnClone', disableStacking: rowElement.layout.disableStacking }, documentManager)
+        rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
         storage.trigger('update', rowElement.id, rowElement)
       }
     }
