@@ -92,7 +92,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ '50%', '50%' ] },
+          layout: { all: [ 'auto', 'auto' ] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? twoColumnsIcon : twoColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTwoColumns : 'Add two columns'
         }
@@ -100,7 +100,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ '33.33%', '33.33%', '33.33%' ] },
+          layout: { all: [ 'auto', 'auto', 'auto' ] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? threeColumnsIcon : threeColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addThreeColumns : 'Add three columns'
         }
@@ -108,7 +108,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ '25%', '25%', '25%', '25%' ] },
+          layout: { all: [ 'auto', 'auto', 'auto', 'auto' ] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fourColumnsIcon : fourColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFourColumns : 'Add four columns'
         }
@@ -116,7 +116,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ '20%', '20%', '20%', '20%', '20%' ] },
+          layout: { all: [ 'auto', 'auto', 'auto', 'auto', 'auto' ] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fiveColumnsIcon : fiveColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFiveColumns : 'Add five columns'
         }

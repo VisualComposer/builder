@@ -74,46 +74,6 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
 
   Object.keys(layouts).forEach((device) => {
     let layout = layouts[device]
-    if (layout && layout.length) {
-      if (data.action === 'columnAdd' || data.action === 'columnClone') {
-        let prevLayout = layout.slice()
-        prevLayout.pop()
-        let rowData = getRowData(prevLayout)
-        if (data.columnSize && data.columnSize[ device ] !== '100%' && data.columnSize[ device ] !== undefined) {
-          layout = prevLayout
-          layout.push(data.columnSize[ device ])
-        } else if ((Math.round(rowData.rowValue * 100) / 100) < 1) {
-          if (data.action === 'columnAdd') {
-            let leftValue = 1 - rowData.rowValue
-            layout = prevLayout
-            layout.push(`${leftValue * 100}%`)
-          }
-        } else if (rowData.isColumnsEqual) {
-          let colCount = layout.length
-          let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
-          layout = []
-          for (let i = 0; i < colCount; i++) {
-            layout.push(colSize)
-          }
-        }
-      }
-
-      if (data.action === 'columnRemove' && data.size[ device ]) {
-        let prevLayout = layout.slice()
-        prevLayout.push(data.size[ device ])
-        let rowData = getRowData(prevLayout)
-
-        if (((Math.round(rowData.rowValue * 100) / 100) === 1) && rowData.isColumnsEqual) {
-          let colCount = layout.length
-          let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
-          layout = []
-          for (let i = 0; i < colCount; i++) {
-            layout.push(colSize)
-          }
-        }
-      }
-    }
-
     const lastColumns = getRowData(layout).lastColumnIndex
     let createdColCount = 0
     layout.forEach((size, i) => {
