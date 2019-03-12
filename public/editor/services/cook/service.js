@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import { addService, getService } from 'vc-cake'
+import { addService, getService, getStorage } from 'vc-cake'
 
 import { buildSettingsObject } from './lib/tools'
 import elementSettings from './lib/element-settings'
@@ -8,6 +8,7 @@ import CookElement from './lib/cookElement'
 import Element from './lib/element'
 
 const DocumentData = getService('document')
+const hubElementsStorage = getStorage('hubElements')
 
 const API = {
   get (data) {
@@ -60,14 +61,17 @@ const API = {
       }), sortSelector)
     }
   },
-  getChildren: function (tag) {
+  getChildrenTags: function (tag) {
+    const categories = hubElementsStorage.state('categories')
     const element = this.get({ tag: tag })
     let groups = element.containerFor()
-    let allElements = this.list.settings()
-    return allElements.filter((settings) => {
-      let element = API.get(settings)
-      return element ? element.relatedTo(groups) : false
+    let children = []
+    groups.forEach((group) => {
+      if (categories[ group ] && categories[ group ].elements) {
+        children = [ ...children, ...categories[ group ].elements ]
+      }
     })
+    return children
   }
 }
 addService('cook', API)
