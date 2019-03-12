@@ -42,11 +42,9 @@ export default class TemplateControl extends React.Component {
   }
 
   showPreview () {
-    if (this.updatePreviewPosition()) {
-      this.setState({
-        previewVisible: true
-      })
-    }
+    this.setState({
+      previewVisible: true
+    }, this.updatePreviewPosition())
   }
 
   hidePreview () {

@@ -77,10 +77,10 @@ export default class ElementControl extends React.Component {
     }
     const dragState = workspaceStorage.state('drag').get()
     const activeDragging = dragState && dragState.active
-    if (this.updatePreviewPosition() && !activeDragging) {
+    if (!activeDragging) {
       this.setState({
         previewVisible: true
-      })
+      }, this.updatePreviewPosition)
     }
   }
 
@@ -385,7 +385,7 @@ export default class ElementControl extends React.Component {
 
     const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
     let previewBox = ''
-    if (!disablePreview) {
+    if (!disablePreview && previewVisible) {
       const addOnTitle = localizations ? localizations.addOn : 'Add-on'
       previewBox = (
         <figure className={previewClasses} style={previewStyle}>

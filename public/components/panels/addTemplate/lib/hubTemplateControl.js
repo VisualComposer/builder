@@ -62,7 +62,7 @@ export default class HubTemplateControl extends React.Component {
 
     const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
     let previewBox = ''
-    if (!disablePreview) {
+    if (!disablePreview && previewVisible) {
       previewBox = (
         <figure className={previewClasses} style={previewStyle}>
           <img
