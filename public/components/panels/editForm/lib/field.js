@@ -19,10 +19,12 @@ export default class Field extends React.Component {
     }
     this.state = {
       value: value,
-      dependenciesClasses: []
+      dependenciesClasses: [],
+      hasInnerFields: false
     }
     this.updateElement = this.updateElement.bind(this)
     this.updateValue = this.updateValue.bind(this)
+    this.setInnerFieldStatus = this.setInnerFieldStatus.bind(this)
   }
 
   componentDidMount () {
@@ -58,6 +60,13 @@ export default class Field extends React.Component {
     }
   }
 
+  setInnerFieldStatus () {
+    // If field has other fields inside add class to remove margin from parent field
+    this.setState({
+      hasInnerFields: true
+    })
+  }
+
   render () {
     let { fieldKey, tab, fieldType, elementAccessPoint } = this.props
     let { value } = this.state
@@ -67,7 +76,10 @@ export default class Field extends React.Component {
     let classes = classNames({
       'vcv-ui-form-dependency': true
     }, this.state.dependenciesClasses)
-
+    let groupClasses = classNames({
+      'vcv-ui-form-group': true,
+      'vcv-ui-form-group--has-inner-fields': this.state.hasInnerFields
+    })
     if (fieldKey && element) {
       value = element[ fieldKey ]
     }
@@ -114,7 +126,7 @@ export default class Field extends React.Component {
 
     return (
       <div ref='fieldAttributeWrapper' className={classes}>
-        <div className='vcv-ui-form-group' key={`form-group-field-${element.id}-${fieldKey}`}>
+        <div className={groupClasses} key={`form-group-field-${element.id}-${fieldKey}`}>
           {label}
           <AttributeComponent
             key={'attribute-' + fieldKey + element.id}
@@ -125,6 +137,7 @@ export default class Field extends React.Component {
             updater={this.updateElement}
             elementAccessPoint={elementAccessPoint}
             fieldType={fieldType}
+            setInnerFieldStatus={this.setInnerFieldStatus}
             ref='attributeComponent'
           />
           {description}

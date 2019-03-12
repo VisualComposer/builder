@@ -31,6 +31,7 @@ export default class GoogleFonts extends Attribute {
 
   constructor (props) {
     super(props)
+    props.setInnerFieldStatus && props.setInnerFieldStatus()
     this.handleFontFamilyChange = this.handleFontFamilyChange.bind(this)
     this.handleFontStyleChange = this.handleFontStyleChange.bind(this)
     this.createFieldValue = this.createFieldValue.bind(this)
@@ -193,7 +194,7 @@ export default class GoogleFonts extends Attribute {
             {loadedFail}
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            <div className='vcv-ui-form-group vcv-ui-marginless'>
+            <div className='vcv-ui-form-group'>
               <span className='vcv-ui-form-group-heading'>
                 Font Style
               </span>

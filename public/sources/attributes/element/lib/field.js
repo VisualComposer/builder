@@ -12,8 +12,13 @@ export default class EditFromField extends React.Component {
     setFieldUnmount: PropTypes.func.isRequired
   }
 
-  state = {
-    dependenciesClasses: []
+  constructor (props) {
+    super(props)
+    this.state = {
+      dependenciesClasses: [],
+      hasInnerFields: false
+    }
+    this.setInnerFieldStatus = this.setInnerFieldStatus.bind(this)
   }
 
   componentDidMount () {
@@ -36,6 +41,13 @@ export default class EditFromField extends React.Component {
     }, 'field')
   }
 
+  setInnerFieldStatus () {
+    // If field has other fields inside add class to remove margin from parent field
+    this.setState({
+      hasInnerFields: true
+    })
+  }
+
   render () {
     let { elementAccessPoint, fieldKey } = this.props
     let cookElement = elementAccessPoint.cook()
@@ -55,7 +67,10 @@ export default class EditFromField extends React.Component {
     let classes = classNames({
       'vcv-ui-form-dependency': true
     }, this.state.dependenciesClasses)
-
+    let groupClasses = classNames({
+      'vcv-ui-form-group': true,
+      'vcv-ui-form-group--has-inner-fields': this.state.hasInnerFields
+    })
     let value
     if (fieldKey && element) {
       value = element[ fieldKey ]
@@ -76,7 +91,7 @@ export default class EditFromField extends React.Component {
 
     return (
       <div ref='fieldAttributeWrapper' className={classes}>
-        <div className='vcv-ui-form-group' key={`element-form-group-field-${cookElement.get('id')}-${fieldKey}`}>
+        <div className={groupClasses} key={`element-form-group-field-${cookElement.get('id')}-${fieldKey}`}>
           {label}
           <AttributeComponent
             {...this.props}
