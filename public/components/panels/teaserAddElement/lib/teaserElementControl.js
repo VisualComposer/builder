@@ -296,6 +296,20 @@ export default class TeaserElementControl extends ElementControl {
       }
     }
     let overlayOutput = <span className={iconClasses} onClick={action} />
+    let previewOutput = null
+
+    if (previewVisible) {
+      previewOutput = (
+        <figure className={previewClasses} style={previewStyle}>
+          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
+          <figcaption className='vcv-ui-item-preview-caption'>
+            <div className='vcv-ui-item-preview-text'>
+              {element.metaDescription}
+            </div>
+          </figcaption>
+        </figure>
+      )
+    }
 
     return (
       <li className={listItemClasses}>
@@ -314,14 +328,7 @@ export default class TeaserElementControl extends ElementControl {
               {name}
             </span>
           </span>
-          <figure className={previewClasses} style={previewStyle}>
-            <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
-            <figcaption className='vcv-ui-item-preview-caption'>
-              <div className='vcv-ui-item-preview-text'>
-                {element.metaDescription}
-              </div>
-            </figcaption>
-          </figure>
+          {previewOutput}
         </span>
       </li>
     )
