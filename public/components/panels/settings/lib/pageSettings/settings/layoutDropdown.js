@@ -73,6 +73,15 @@ export default class LayoutDropdown extends React.Component {
     ))
   }
 
+  getSelectedValue () {
+    const { data } = this.props
+    const current = this.state.current
+    if (current === 'default' || data.all.hasOwnProperty(current)) {
+      return current
+    }
+    return 'none'
+  }
+
   reloadIframe (lastSavedPageTemplate, lastSavedHeaderTemplate, lastSavedSidebarTemplate, lastSavedFooterTemplate, lastSavedTemplate) {
     window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
     window.vcvLastLoadedHeaderTemplate = lastSavedHeaderTemplate
@@ -103,7 +112,7 @@ export default class LayoutDropdown extends React.Component {
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>{this.props.layoutName}</span>
-        <select className='vcv-ui-form-dropdown' value={this.state.current} onChange={this.updateLayout}>
+        <select className='vcv-ui-form-dropdown' value={this.getSelectedValue()} onChange={this.updateLayout}>
           <option value='default'>
             {selectHFSText}
           </option>
