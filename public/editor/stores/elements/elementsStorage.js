@@ -159,7 +159,8 @@ addStorage('elements', (storage) => {
     }
   })
   storage.on('update', (id, element, source = '', options = {}) => {
-    const currentElement = cook.getById(id).toJS()
+    const cookElement = cook.getById(id)
+    const currentElement = cookElement.toJS()
     if (currentElement.customHeaderTitle !== element.customHeaderTitle) {
       cacheStorage.trigger('clear', 'controls')
     }
@@ -174,14 +175,12 @@ addStorage('elements', (storage) => {
     if (options && options.action === 'hide' && element.parent) {
       storage.trigger(`element:${element.parent}`, documentManager.get(element.parent), source, options)
     }
-    if (element.tag === 'column') {
-      addRowColumnBackground(id, element, documentManager)
-      let rowElement = documentManager.get(element.parent)
-      storage.trigger('update', rowElement.id, rowElement)
-    }
-    if (element.tag === 'tab') {
-      let tabParent = documentManager.get(element.parent)
-      storage.trigger('update', tabParent.id, tabParent)
+    if (cookElement.get('parentWrapper')) {
+      if (element.tag === 'column') {
+        addRowColumnBackground(id, element, documentManager)
+      }
+      let parent = documentManager.get(element.parent)
+      storage.trigger('update', parent.id, parent)
     }
     if (!options.silent) {
       updateTimeMachine(source || 'elements')
