@@ -451,11 +451,10 @@ export default class ControlsHandler {
       // tabs don't have advanced design options
       let label = addElementText
       let addElementTag = ''
-      let children = cook.getChildren(options.tag)
-      if (children.length === 1) {
-        let element = cook.get(children[ 0 ])
-        label = `${addText} ${element.get('name')}`
-        addElementTag = element.get('tag')
+      let childrenTags = cook.getChildrenTags(options.tag)
+      if (childrenTags.length === 1) {
+        addElementTag = childrenTags[ 0 ]
+        label = `${addText} ${addElementTag}`
       }
       if (options.tag === 'buttonGroup') {
         label = `${addText} Button`

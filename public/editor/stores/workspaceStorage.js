@@ -8,9 +8,9 @@ addStorage('workspace', (storage) => {
   const documentManager = getService('document')
   const cook = getService('cook')
   const isElementOneRelation = (parent) => {
-    let children = cook.getChildren(parent.tag)
-    if (children.length === 1) {
-      return children[ 0 ].tag
+    let childrenTags = cook.getChildrenTags(parent.tag)
+    if (childrenTags.length === 1) {
+      return childrenTags[ 0 ]
     }
     return false
   }

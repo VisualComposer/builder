@@ -41,11 +41,10 @@ export default class ContentControls extends React.Component {
     // TODO: Check this
     const element = vcCake.getService('document').get(this.props.id)
     let options = ''
-    const children = vcCake.getService('cook').getChildren(element.tag)
-    if (children.length === 1) {
-      options = children[0].tag
+    const childrenTags = vcCake.getService('cook').getChildrenTags(element.tag)
+    if (childrenTags.length === 1) {
+      options = childrenTags[ 0 ]
     }
-    // this.props.api.request('app:add', this.props.id, options)
     workspaceStorage.trigger('add', this.props.id, options)
   }
 
