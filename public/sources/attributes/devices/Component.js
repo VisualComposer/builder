@@ -6,6 +6,7 @@ import Dropdown from '../dropdown/Component'
 export default class Devices extends Attribute {
   constructor (props) {
     super(props)
+    props.setInnerFieldStatus && props.setInnerFieldStatus()
 
     this.devicesSettingsHandler = this.devicesSettingsHandler.bind(this)
     this.customDevicesHandler = this.customDevicesHandler.bind(this)
@@ -28,12 +29,14 @@ export default class Devices extends Attribute {
         }
       ]
     }
-    return <Dropdown
-      api={this.props.api}
-      fieldKey='settings'
-      options={options}
-      updater={this.devicesSettingsHandler}
-      value={this.state.value === 'all' ? 'all' : 'custom'} />
+    return <div className='vcv-ui-form-group'>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='settings'
+        options={options}
+        updater={this.devicesSettingsHandler}
+        value={this.state.value === 'all' ? 'all' : 'custom'} />
+    </div>
   }
 
   /**
@@ -115,7 +118,7 @@ export default class Devices extends Attribute {
 
       returnData = (
         <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-          <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--attribute vcv-ui-form-devices'>
+          <div className='vcv-ui-form-buttons-group vcv-ui-form-group vcv-ui-form-button-group--attribute vcv-ui-form-devices'>
             {devices}
           </div>
         </div>
@@ -136,7 +139,7 @@ export default class Devices extends Attribute {
   render () {
     return (
       <div className='vcv-ui-row vcv-ui-row-gap--md'>
-        <div className='vcv-ui-col vcv-ui-col--fixed-width vcv-ui-margin'>
+        <div className='vcv-ui-col vcv-ui-col--fixed-width'>
           {this.getDevicesSettings()}
         </div>
         {this.getCustomDevices()}

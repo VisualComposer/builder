@@ -18,7 +18,7 @@ export default class Sticky extends Attribute {
 
   constructor (props) {
     super(props)
-
+    props.setInnerFieldStatus && props.setInnerFieldStatus()
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
     this.getStickyOffset = this.getStickyOffset.bind(this)
   }

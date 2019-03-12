@@ -169,6 +169,7 @@ export default class DesignOptions extends Attribute {
 
   constructor (props) {
     super(props)
+    props.setInnerFieldStatus && props.setInnerFieldStatus()
 
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
@@ -516,7 +517,7 @@ export default class DesignOptions extends Attribute {
    * @returns {XML}
    */
   getDevicesRender () {
-    return <div className='vcv-ui-form-group vcv-ui-marginless'>
+    return <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
       <span className='vcv-ui-form-group-heading'>
         Device type
       </span>
