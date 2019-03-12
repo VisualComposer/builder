@@ -33,6 +33,7 @@ class GutenbergAttributeController extends Container implements Module
     {
         $this->addEvent('vcv:system:activation:hook', 'setGutenbergEditor');
         $this->wpAddAction('init', 'initialize');
+        $this->addFilter('vcv:frontend:content:encode', 'doGutenbergBlocks');
 
         $this->optionGroup = 'vcv-settings';
         $this->optionSlug = 'vcv-gutenberg-editor';
@@ -48,6 +49,15 @@ class GutenbergAttributeController extends Container implements Module
         );
 
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+    }
+
+    protected function doGutenbergBlocks($content, $payload)
+    {
+        if (function_exists('do_blocks')) {
+            $content = do_blocks($content);
+        }
+
+        return $content;
     }
 
     protected function buildPage(CurrentUser $currentUserAccess)
@@ -135,6 +145,7 @@ class GutenbergAttributeController extends Container implements Module
 
     /**
      * Disable the gutenberg
+     *
      * @param \VisualComposer\Helpers\Options $optionsHelper
      */
     protected function disableGutenberg(Options $optionsHelper)
@@ -203,6 +214,7 @@ class GutenbergAttributeController extends Container implements Module
             && $requestHelper->input('post_type') === $this->postTypeSlug
         ) {
             $this->registerGutenbergAttributeType();
+            $this->wpAddAction('add_meta_boxes', 'removeUiMetaboxes', 100);
             $this->wpAddAction('admin_print_styles', 'removeAdminUi');
             // @codingStandardsIgnoreStart
             global $wp_version;
@@ -297,7 +309,7 @@ class GutenbergAttributeController extends Container implements Module
             'hierarchical' => false,
             'menu_position' => null,
             'show_in_rest' => true,
-            'supports' => array('editor')
+            'supports' => ['editor'],
         ];
         register_post_type($this->postTypeSlug, $args);
         if ($this->removeGutenberg) {
@@ -338,6 +350,10 @@ class GutenbergAttributeController extends Container implements Module
             .gutenberg .gutenberg__editor .edit-post-layout .editor-post-publish-panel, html .block-editor-page .edit-post-layout .editor-post-publish-panel, html .block-editor-page .edit-post-header__settings {
                 display: none;
             }
+
+            .components-panel__header.edit-post-sidebar-header.edit-post-sidebar__panel-tabs li:first-child {
+                display: none;
+            }
         </style>
         <?php
     }
@@ -369,6 +385,14 @@ class GutenbergAttributeController extends Container implements Module
         }
 
         return false;
+    }
+
+    protected function removeUiMetaboxes()
+    {
+        // @codingStandardsIgnoreStart
+        global $wp_meta_boxes;
+        $wp_meta_boxes = [];
+        // @codingStandardsIgnoreEnd
     }
 
     protected function unsetOptions(Options $optionsHelper)
