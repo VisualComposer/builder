@@ -60,21 +60,33 @@ export default class Component extends Attribute {
       content: { raw: value, rendered: value },
       type: 'post',
       slug: '',
-      status: 'auto-draft',
+      status: 'publish',
       link: '/?',
       format: 'standard',
-      categories: []
+      categories: [],
+      _links: []
     }
     const editor = wpData.dispatch('core/editor')
-    const selectEditor = wpData.select('core/edit-post')
-    selectEditor.isPublishSidebarOpened = () => { return true }
+    const postEdit = wpData.dispatch('core/edit-post')
+    // selectEditor.isPublishSidebarOpened = () => { return true }
+    editor.setupEditor(newPost)
+    editor.disablePublishSidebar()
+    editor.lockPostSaving()
+    postEdit.closeGeneralSidebar()
     if (!!editor.autosave && typeof editor.autosave === 'function') {
       editor.autosave = () => {}
     }
-    editor.setupEditor(newPost)
+    let originalOpenGeneralSidebar = postEdit.openGeneralSidebar
+    postEdit.openGeneralSidebar = function (block) {
+      if (block !== 'edit-post/document') {
+        originalOpenGeneralSidebar(block)
+      }
+    }
     const postTitle = window.document.querySelector('.editor-post-title')
     const notice = window.document.querySelector('.components-notice-list')
-    postTitle.classList.add('hidden')
+    if (postTitle) {
+      postTitle.classList.add('hidden')
+    }
     if (notice) {
       notice.classList.add('hidden')
     }

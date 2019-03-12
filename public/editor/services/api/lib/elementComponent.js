@@ -60,7 +60,7 @@ export default class ElementComponent extends React.Component {
   }
 
   updateShortcodeToHtml (content, ref, cb) {
-    if (content && (content.match(this.getShortcodesRegexp()) || content.match(/https?:\/\//))) {
+    if (content && (content.match(this.getShortcodesRegexp()) || content.match(/https?:\/\//) || content.indexOf('<!-- wp') !== -1)) {
       ref && (ref.innerHTML = this.spinnerHTML())
       if (!dataProcessor) {
         dataProcessor = vcCake.getService('dataProcessor')
