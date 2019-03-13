@@ -229,9 +229,9 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
 
 export const isElementOneRelation = (parent, documentManager, cook) => {
   let element = documentManager.get(parent)
-  let childrenTags = cook.getChildrenTags(element.tag)
-  if (childrenTags.length === 1) {
-    return childrenTags[ 0 ]
+  let children = cook.getContainerChildren(element.tag)
+  if (children.length === 1) {
+    return children[ 0 ].tag
   }
   return false
 }
