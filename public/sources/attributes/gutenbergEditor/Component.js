@@ -82,6 +82,12 @@ export default class Component extends Attribute {
         originalOpenGeneralSidebar(block)
       }
     }
+
+    wpData.subscribe(() => {
+      if (!wpData.select('core/editor').getBlockSelectionStart()) {
+        postEdit.closeGeneralSidebar()
+      }
+    })
     const postTitle = window.document.querySelector('.editor-post-title')
     const notice = window.document.querySelector('.components-notice-list')
     if (postTitle) {
