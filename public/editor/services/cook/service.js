@@ -9,6 +9,7 @@ import Element from './lib/element'
 
 const DocumentData = getService('document')
 const hubElementsStorage = getStorage('hubElements')
+let containerRelations = {}
 
 const API = {
   get (data) {
@@ -61,17 +62,52 @@ const API = {
       }), sortSelector)
     }
   },
-  getChildrenTags: function (tag) {
-    const categories = hubElementsStorage.state('categories')
-    const element = this.get({ tag: tag })
-    let groups = element.containerFor()
-    let children = []
-    groups.forEach((group) => {
-      if (categories[ group ] && categories[ group ].elements) {
-        children = [ ...children, ...categories[ group ].elements ]
-      }
-    })
-    return children
+  getContainerChildren (tag) {
+    if (containerRelations.hasOwnProperty(tag)) {
+      return containerRelations[ tag ]
+    } else {
+      return []
+    }
   }
 }
+
+const getChildren = (groups) => {
+  let result = []
+  const allElements = API.list.settings()
+  allElements.forEach((settings) => {
+    let element = API.get(settings)
+    if (element && element.relatedTo(groups)) {
+      result.push({
+        tag: element.get('tag'),
+        name: element.getName()
+      })
+    }
+  })
+  return result
+}
+
+const setRelations = () => {
+  const allElements = API.list.settings()
+  allElements.forEach((settings) => {
+    const element = API.get(settings)
+    const containerFor = element.containerFor()
+    const tag = element.get('tag')
+    if (containerFor.length && containerFor.indexOf('General') < 0) {
+      containerRelations[ tag ] = getChildren(containerFor, allElements)
+    }
+  })
+}
+
+hubElementsStorage.on('start', () => {
+  setTimeout(() => {
+    setRelations()
+  }, 1)
+})
+
+hubElementsStorage.on('add', () => {
+  setTimeout(() => {
+    setRelations()
+  }, 1)
+})
+
 addService('cook', API)
