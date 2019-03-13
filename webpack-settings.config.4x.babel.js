@@ -17,7 +17,9 @@ module.exports = Object.assign({}, webpackConfig, {
   },
   optimization: {
     minimize: false,
-    runtimeChunk: false
+    runtimeChunk: false,
+    namedChunks: true, // MUST BE true even for production
+    namedModules: true // MUST BE true even for production
   },
   plugins: [
     new ExtractTextPlugin('[name].bundle.css'),

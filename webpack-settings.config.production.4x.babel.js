@@ -9,17 +9,8 @@ module.exports = Object.assign({}, webpackConfig, {
   optimization: {
     minimize: true,
     runtimeChunk: false,
-    splitChunks: {
-      cacheGroups: {
-        default: false,
-        vendor: {
-          chunks: 'initial',
-          name: 'vendor',
-          test: 'vendor',
-          enforce: true
-        }
-      }
-    },
+    namedChunks: true, // MUST BE true even for production
+    namedModules: true, // MUST BE true even for production
     minimizer: [
       new TerserPlugin({
         terserOptions: {

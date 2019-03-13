@@ -31,6 +31,8 @@ module.exports = {
   optimization: {
     minimize: false,
     runtimeChunk: false,
+    namedChunks: true, // MUST BE true even for production
+    namedModules: true, // MUST BE true even for production
     splitChunks: {
       cacheGroups: {
         default: false,

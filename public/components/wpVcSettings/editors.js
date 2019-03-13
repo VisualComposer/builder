@@ -2,7 +2,7 @@ import { getService } from 'vc-cake'
 import 'public/editor/services/stylesManager/service'
 import codeEditor from 'public/components/codeEditor/codeEditor'
 
-const initEditors = () => {
+export const initEditors = () => {
   // CSS PART
   const submitBtn = document.querySelector('#submit_btn[name=submit_btn]')
   const setStatus = (status) => {
@@ -52,8 +52,4 @@ const initEditors = () => {
   if (globalJsFooter !== null) {
     codeEditor.getEditor(globalJsFooter, 'text/html', globalJsFooter.value)
   }
-}
-
-module.exports = {
-  initEditors
 }

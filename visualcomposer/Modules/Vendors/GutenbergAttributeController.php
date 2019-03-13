@@ -354,6 +354,9 @@ class GutenbergAttributeController extends Container implements Module
             .components-panel__header.edit-post-sidebar-header.edit-post-sidebar__panel-tabs li:first-child {
                 display: none;
             }
+            .edit-post-sidebar .components-panel > :not(.edit-post-settings-sidebar__panel-block) {
+                display: none;
+            }
         </style>
         <?php
     }
@@ -391,7 +394,13 @@ class GutenbergAttributeController extends Container implements Module
     {
         // @codingStandardsIgnoreStart
         global $wp_meta_boxes;
-        $wp_meta_boxes = [];
+        $wp_meta_boxes = [
+            'vcv_gutenberg_attr' => [
+                'normal' => [
+                    'core' => [],
+                ],
+            ],
+        ];
         // @codingStandardsIgnoreEnd
     }
 

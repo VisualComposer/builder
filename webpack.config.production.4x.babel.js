@@ -14,6 +14,8 @@ module.exports = Object.assign({}, config, {
   optimization: {
     minimize: true,
     runtimeChunk: false,
+    namedChunks: true, // MUST BE true even for production
+    namedModules: true, // MUST BE true even for production
     splitChunks: {
       cacheGroups: {
         default: false,
