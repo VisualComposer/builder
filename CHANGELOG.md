@@ -1,3 +1,14 @@
+## ver 15.0 - 2019-03-14
+- New: Visual Composer Template block for Gutenberg
+- Update: Drag and drop functionality improved
+- Update: Editor performance improvements
+- Update: Assets storage removed after inline editing and drag and drop for performance
+- Update: The Persian language pack added to the editor
+- Fix: Row copy/paste doesn’t affect row layout
+- Fix: Gutenberg editor sidebar available in Visual Composer Gutenberg block
+- Fix: Device icons displayed properly in attribute
+- Fix: Tab title applied properly
+- Fix: Header and Footer global controls applied properly for backward compatibility
 ## ver 14.0 - 2019-03-04
 - New: Option to apply custom headers and footers to all site, specific post types, or default WordPress pages
 - New: Ability to activate Visual Composer Premium on staging and live environments with the same license
