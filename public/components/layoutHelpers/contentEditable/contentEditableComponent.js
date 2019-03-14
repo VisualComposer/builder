@@ -113,14 +113,17 @@ export default class ContentEditableComponent extends React.Component {
       }
 
       element.set(this.props.field, contentToSave)
-      elementsStorage.trigger('update', element.get('id'), element.toJS())
+      elementsStorage.trigger('update', element.get('id'), element.toJS(), `contentEditable:${element.get('tag')}:${this.props.field}`, { disableUpdateAssets: true })
       const workspaceStorageState = workspaceStorage.state('settings').get()
+
       if (workspaceStorageState && workspaceStorageState.action === 'edit') {
         const isSameElement = workspaceStorageState.elementAccessPoint && workspaceStorageState.elementAccessPoint.id === this.props.id
         if (isSameElement) {
           const options = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options : ''
           const activeTab = workspaceStorageState.options && workspaceStorageState.options.nestedAttr ? workspaceStorageState.options.activeTab : ''
-          workspaceStorage.trigger('edit', this.props.id, activeTab, options)
+          window.setTimeout(() => {
+            workspaceStorage.trigger('edit', this.props.id, activeTab, options)
+          }, 1)
         }
       }
     }
