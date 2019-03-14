@@ -561,6 +561,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   render () {
+    let CustomTag = this.props.fieldType === 'htmleditor' ? 'div' : 'span'
     const props = {
       className: this.props.className ? this.props.className + ' vcvhelper' : 'vcvhelper',
       contentEditable: this.state.contentEditable,
@@ -572,6 +573,6 @@ export default class ContentEditableComponent extends React.Component {
     }
     props.ref = (ref) => { this.ref = ref }
 
-    return <div {...props} />
+    return <CustomTag {...props} />
   }
 }
