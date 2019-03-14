@@ -159,6 +159,7 @@ addStorage('elements', (storage) => {
     }
   })
   storage.on('update', (id, element, source = '', options = {}) => {
+    options = Object.assign({ disableUpdateAssets: false, disableUpdateComponent: false }, options)
     const cookElement = cook.getById(id)
     const currentElement = cookElement.toJS()
     if (currentElement.customHeaderTitle !== element.customHeaderTitle) {

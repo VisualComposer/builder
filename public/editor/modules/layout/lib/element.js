@@ -43,7 +43,6 @@ export default class Element extends React.Component {
     assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
     assetsStorage.trigger('addElement', this.state.element.id)
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
-    // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
 
   componentWillUnmount () {
@@ -59,8 +58,13 @@ export default class Element extends React.Component {
   }
 
   dataUpdate (data, source, options) {
-    this.setState({ element: data || this.props.element })
-    assetsStorage.trigger('updateElement', this.state.element.id, options)
+    const { disableUpdateAssets, disableUpdateComponent } = options || {}
+    if (disableUpdateComponent !== true) {
+      this.setState({ element: data || this.props.element })
+    }
+    if (disableUpdateAssets !== true) {
+      assetsStorage.trigger('updateElement', this.state.element.id, options)
+    }
   }
 
   cssJobsUpdate (data) {

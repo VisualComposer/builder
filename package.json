@@ -1,6 +1,6 @@
 {
   "name": "vcwb",
-  "version": "dev",
+  "version": "1.0.0",
   "description": "Visual Composer Website Builder",
   "main": "index.php",
   "repository": {
