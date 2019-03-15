@@ -10,8 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Assets;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
@@ -36,16 +34,15 @@ class VendorBundleController extends Container implements Module
         $this->wpAddAction('admin_enqueue_scripts', 'enqueueJquery');
     }
 
-    protected function registerVendorScripts(Url $urlHelper, Assets $assetsHelper, Options $optionsHelper)
+    protected function registerVendorScripts(Url $urlHelper)
     {
-        $editorVersion = $optionsHelper->get('hubAction:editors', '0');
         wp_register_script(
             'vcv:assets:vendor:script',
             $urlHelper->to('public/dist/vendor.bundle.js'),
             [
                 'jquery',
             ],
-            $editorVersion,
+            VCV_VERSION,
             true
         );
         wp_register_script(
@@ -54,18 +51,18 @@ class VendorBundleController extends Container implements Module
             [
                 'jquery',
             ],
-            $editorVersion,
+            VCV_VERSION,
             true
         );
         wp_register_style(
             'vcv:assets:front:style',
             $urlHelper->to('public/dist/front.bundle.css'),
             [],
-            $editorVersion
+            VCV_VERSION
         );
     }
 
-    protected function addVendorScript($response, $payload, Url $urlHelper, Assets $assetsHelper)
+    protected function addVendorScript($response, $payload, Url $urlHelper)
     {
         // Add Vendor JS
         $response = array_merge(
