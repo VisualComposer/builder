@@ -73,42 +73,8 @@ class Assets22Migration extends MigrationsController implements Module
                 VCV_PLUGIN_ASSETS_DIR_PATH
             );
             $responseMove = !is_wp_error($resultMove) && $result;
-            if (vcvenv('VCV_DEBUG')) {
-                if (!$responseMove) {
-                    error_log(
-                        print_r(
-                            [
-                                'code' => 2,
-                                'is_wp_error' => is_wp_error($resultMove),
-                                /** @var $result \WP_Error */
-                                'data' => is_wp_error($result) ? $result->get_error_messages() : $result,
-                                'codes' => is_wp_error($result) ? $result->get_error_codes() : $result,
-                            ],
-                            true
-                        ),
-                        3,
-                        VCV_PLUGIN_DIR_PATH . 'not-ok.log'
-                    );
-                }
-            }
 
             return $responseMove;
-        } else {
-            if (vcvenv('VCV_DEBUG')) {
-                error_log(
-                    print_r(
-                        [
-                            'code' => 1,
-                            'is_wp_error' => is_wp_error($result),
-                            'data' => is_wp_error($result) ? $result->get_error_messages() : $result,
-                            'codes' => is_wp_error($result) ? $result->get_error_codes() : $result,
-                        ],
-                        true
-                    ),
-                    3,
-                    VCV_PLUGIN_DIR_PATH . 'not-ok.log'
-                );
-            }
         }
 
         return false;
