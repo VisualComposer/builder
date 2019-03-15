@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\DefaultElements;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
  * @since 11.0
@@ -22,9 +23,17 @@ use VisualComposer\Helpers\Options;
  */
 class DefaultElementsMigration extends MigrationsController implements Module
 {
-    protected $migrationId = 'defaultElementsMigration';
+    use EventsFilters;
+
+    protected $migrationId = 'defaultElementsMigration15'; // ID should be changed once defaultElements list is being changed
 
     protected $migrationPriority = 20;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->addEvent('vcv:system:factory:reset', 'run');
+    }
 
     protected function run(DefaultElements $defaultElementsHelper, Options $optionsHelper)
     {

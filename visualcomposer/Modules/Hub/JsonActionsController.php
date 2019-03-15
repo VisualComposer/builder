@@ -64,7 +64,8 @@ class JsonActionsController extends Container implements Module
         $requestAction = $requestHelper->input('vcv-hub-action');
 
         if (!isset($requestAction['key'])) {
-            // TODO: Check HOW?!
+            sleep(5);
+
             return ['status' => true];
         }
 
@@ -85,7 +86,12 @@ class JsonActionsController extends Container implements Module
         }
 
         $elementsToRegister = vchelper('DefaultElements')->all();
-        if ($newActionVersion === $previousActionVersion || in_array($elementTag, $elementsToRegister)) {
+        if (in_array($elementTag, $elementsToRegister)) {
+            $optionsHelper->delete('hubAction:' . $actionName);
+
+            return $response;
+        }
+        if ($newActionVersion === $previousActionVersion) {
             sleep(5); // Just to avoid collisions
 
             return $response;
@@ -98,6 +104,7 @@ class JsonActionsController extends Container implements Module
             return ['status' => true];
         }
         if (!$newActionData) {
+            sleep(5);
             // TODO: How?!
             $loggerHelper->log('The update action does not exists #10057');
 
@@ -112,8 +119,7 @@ class JsonActionsController extends Container implements Module
             $newActionData['action'],
             $newActionData['data'],
             $newActionData['version'],
-            isset($newActionData['checksum']) ? $newActionData['checksum'] : '',
-            $newActionData['name']
+            isset($newActionData['checksum']) ? $newActionData['checksum'] : ''
         );
 
         return $response;
@@ -124,8 +130,7 @@ class JsonActionsController extends Container implements Module
         $action,
         $data,
         $version,
-        $checksum,
-        $name
+        $checksum
     ) {
         $optionsHelper = vchelper('Options');
         $response = $this->triggerAction($response, $action, $data, $version, $checksum);
