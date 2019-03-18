@@ -1,11 +1,13 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
-import ControlsHandler from './controlsHandler'
 import OutlineHandler from './outlineHandler'
 import FramesHandler from './framesHandler'
+import { Controls } from './elementControls/controls'
+import { AppendControl } from './elementControls/appendControl'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
-const workspaceContentState = workspaceStorage.state('content')
 const elementsStorage = vcCake.getStorage('elements')
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
@@ -39,7 +41,6 @@ export default class ControlsManager {
     this.isScrolling = false
 
     this.findElement = this.findElement.bind(this)
-    this.controlElementFind = this.controlElementFind.bind(this)
     this.handleFrameLeave = this.handleFrameLeave.bind(this)
     this.handleFrameMousemoveOnce = this.handleFrameMousemoveOnce.bind(this)
     this.handleOverlayMouseLeave = this.handleOverlayMouseLeave.bind(this)
@@ -91,20 +92,30 @@ export default class ControlsManager {
         writable: false,
         enumerable: false,
         configurable: false
-      },
-      /**
-       * @memberOf! ControlsManager
-       */
-      controls: {
-        value: new ControlsHandler(systemData),
-        writable: false,
-        enumerable: false,
-        configurable: false
       }
     })
 
     this.subscribeToCurrentIframe()
-    this.subscribeToControlsContainer()
+    this.createControlsWrapper()
+  }
+
+  createControlsWrapper () {
+    this.controlsWrapper = document.createElement('div')
+    this.controlsWrapper.classList.add('vcv-ui-outline-controls-wrapper')
+    this.appendControlsWrapper = document.createElement('div')
+    this.appendControlsWrapper.classList.add('vcv-ui-append-control-wrapper')
+    this.iframeOverlay.appendChild(this.controlsWrapper)
+    this.iframeOverlay.appendChild(this.appendControlsWrapper)
+  }
+
+  toggleControls (data) {
+    if (data) {
+      ReactDOM.render(<Controls data={data} />, this.controlsWrapper)
+      ReactDOM.render(<AppendControl data={data} />, this.appendControlsWrapper)
+    } else {
+      ReactDOM.unmountComponentAtNode(this.controlsWrapper)
+      ReactDOM.unmountComponentAtNode(this.appendControlsWrapper)
+    }
   }
 
   subscribeToCurrentIframe () {
@@ -115,12 +126,6 @@ export default class ControlsManager {
     this.iframeContainer.addEventListener('mouseleave', this.handleFrameContainerLeave)
     // handle scroll of iframe window
     this.iframeWindow.addEventListener('scroll', this.handleScroll)
-  }
-
-  subscribeToControlsContainer () {
-    // add controls interaction with content
-    this.controls.getControlsContainer().addEventListener('mousemove', this.controlElementFind)
-    this.controls.getControlsContainer().addEventListener('mouseleave', this.controlElementFind)
   }
 
   /**
@@ -250,7 +255,6 @@ export default class ControlsManager {
       }
       this.state.showControls = !state
       this.findElement()
-      this.controlElementFind()
     })
 
     // check column resize
@@ -271,7 +275,6 @@ export default class ControlsManager {
     // check remove element
     this.api.on('element:unmount', () => {
       this.findElement()
-      this.controlElementFind()
       this.outline.hide()
     })
 
@@ -281,8 +284,17 @@ export default class ControlsManager {
     // Interact with tree
     this.interactWithTree()
 
-    // interact with controls
-    this.interactWithControls()
+    layoutStorage.state('interactWithControls').onChange((data) => {
+      if (data && data.type === 'mouseEnter') {
+        let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+        if (contentElement) {
+          this.outline.show(contentElement, data.vcElementId)
+        }
+      }
+      if (data && data.type === 'mouseLeave') {
+        this.outline.hide()
+      }
+    })
   }
 
   /**
@@ -308,7 +320,7 @@ export default class ControlsManager {
             return
           }
 
-          this.controls.hide()
+          this.toggleControls()
           if (this.state.showFrames) {
             this.frames.hide()
           }
@@ -325,7 +337,7 @@ export default class ControlsManager {
               data.elementInlineEdit = true
             }
           }
-          this.controls.show(data)
+          this.toggleControls(data)
         }
         if (this.state.showFrames) {
           this.showFrames(data)
@@ -339,7 +351,7 @@ export default class ControlsManager {
         }
         this.closingControlsInterval = setInterval(() => {
           if (this.closingControls) {
-            this.controls.hide()
+            this.toggleControls()
             if (this.state.showFrames) {
               this.frames.hide()
             }
@@ -366,15 +378,6 @@ export default class ControlsManager {
         this.outline.hide()
       }
     })
-    // Controls interaction
-    layoutStorage.state('interactWithControls').onChange((data) => {
-      if (data && data.type === 'mouseEnter') {
-        layoutStorage.state('userInteractWith').set(data.vcElementId)
-      }
-      if (data && data.type === 'mouseLeave') {
-        layoutStorage.state('userInteractWith').set(false)
-      }
-    })
   }
 
   handleScroll () {
@@ -383,7 +386,7 @@ export default class ControlsManager {
       contentState.set({ type: 'scrolling' })
       this.outline.hide()
       this.frames.hide()
-      this.controls.hide()
+      this.toggleControls()
     }
 
     window.clearTimeout(this.isScrolling)
@@ -392,184 +395,6 @@ export default class ControlsManager {
       contentState.set(false)
       this.state.prevElement = null
     }, 150)
-  }
-
-  /**
-   * Handle control click
-   */
-  handleControlClick (controlsContainer, e) {
-    e && e.button === 0 && e.preventDefault()
-    if (e.button === 0) {
-      let path = this.getPath(e)
-      // search for event
-      let i = 0
-      let el = null
-      while (i < path.length && path[ i ] !== controlsContainer) {
-        if (path[ i ].dataset && path[ i ].dataset.vcControlEvent) {
-          el = path[ i ]
-          i = path.length
-        }
-        i++
-      }
-      if (el) {
-        let event = el.dataset.vcControlEvent
-        let tag = el.dataset.vcControlEventOptions || false
-        if (el.dataset.vcControlEventDisabled) {
-          return
-        }
-        let options = {
-          insertAfter: el.dataset.vcControlEventOptionInsertAfter || false
-        }
-        let elementId = el.dataset.vcvElementId
-        if (event === 'treeView') {
-          workspaceContentState.set('treeView', elementId)
-        } else if (event === 'edit') {
-          workspaceContentState.set(false)
-          let settings = workspaceStorage.state('settings').get()
-          if (settings && settings.action === 'edit') {
-            workspaceStorage.state('settings').set(false)
-          }
-          workspaceStorage.trigger(event, elementId, tag, options)
-        } else if (event === 'remove') {
-          this.controls.hide()
-          this.findElement()
-          this.controlElementFind()
-          this.iframeDocument.body.removeEventListener('mousemove', this.findElement)
-          workspaceStorage.trigger(event, elementId, tag, options)
-          setTimeout(() => {
-            this.iframeDocument.body.addEventListener('mousemove', this.findElement)
-          }, 100)
-        } else if (event === 'copy') {
-          this.controls.hide()
-          workspaceStorage.trigger(event, elementId, tag, options)
-        } else if (event === 'hide') {
-          this.controls.hide()
-          workspaceStorage.trigger(event, elementId)
-        } else {
-          workspaceStorage.trigger(event, elementId, tag, options)
-        }
-      }
-    }
-  }
-
-  /**
-   * Interact with controls
-   */
-  interactWithControls () {
-    // click on action
-    this.controls.getControlsContainer().addEventListener('click',
-      this.handleControlClick.bind(this, this.controls.getControlsContainer())
-    )
-    this.controls.getAppendControlContainer().addEventListener('click',
-      this.handleControlClick.bind(this, this.controls.getAppendControlContainer())
-    )
-    // drag control
-    this.controls.getControlsContainer().addEventListener('mousedown',
-      (e) => {
-        e && e.button === 0 && e.preventDefault()
-        if (e.button === 0) {
-          let path = this.getPath(e)
-          // search for event
-          let i = 0
-          let el = null
-          while (i < path.length && path[ i ] !== this.controls.getControlsContainer()) {
-            if (path[ i ].dataset && path[ i ].dataset.vcDragHelper) {
-              el = path[ i ]
-              i = path.length
-            }
-            i++
-          }
-          if (el) {
-            this.outline.hide()
-            this.controls.hide()
-            vcCake.setData('draggingElement', { id: el.dataset.vcDragHelper, point: { x: e.clientX, y: e.clientY } })
-          }
-        }
-      }
-    )
-
-    // Controls interaction
-    layoutStorage.state('interactWithControls').onChange((data) => {
-      if (data && data.type === 'mouseEnter') {
-        if (this.closingControlsInterval) {
-          clearInterval(this.closingControlsInterval)
-          this.closingControlsInterval = null
-        }
-        if (this.state.showOutline) {
-          // show outline over content element
-          let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
-          if (contentElement) {
-            this.outline.show(contentElement, data.vcElementId)
-          }
-        }
-      }
-      if (data && data.type === 'mouseLeave') {
-        if (this.closingControlsInterval) {
-          clearInterval(this.closingControlsInterval)
-          this.closingControlsInterval = null
-        }
-        this.closingControlsInterval = setInterval(() => {
-          if (this.closingControls) {
-            this.controls.hide()
-            if (this.state.showFrames) {
-              this.frames.hide()
-            }
-            this.closingControls = null
-          }
-          clearInterval(this.closingControlsInterval)
-          this.closingControlsInterval = null
-        }, 400)
-        if (this.state.showOutline) {
-          this.outline.hide()
-        }
-      }
-    })
-  }
-
-  /**
-   * Find element in controls (needed for controls interaction)
-   * @param e
-   */
-  controlElementFind (e) {
-    // need to run all events, so creating fake event
-    if (!e) {
-      e = {
-        target: null
-      }
-    }
-    if (e.target !== this.state.controlsPrevTarget) {
-      this.state.controlsPrevTarget = e.target
-      // get all vcv elements
-      let path = this.getPath(e)
-      // search for event
-      let i = 0
-      let element = null
-      while (i < path.length && path[ i ] !== this.controls.getControlsContainer()) {
-        // select handler for draw outline trigger
-        if (path[ i ].dataset && path[ i ].dataset.vcvElementControls) {
-          element = path[ i ].dataset.vcvElementControls
-          i = path.length
-        }
-        i++
-      }
-      if (this.state.controlsPrevElement !== element) {
-        // unset prev element
-        if (this.state.controlsPrevElement) {
-          layoutStorage.state('interactWithControls').set({
-            type: 'mouseLeave',
-            vcElementId: this.state.controlsPrevElement
-          })
-        }
-        // set new element
-        if (element) {
-          layoutStorage.state('interactWithControls').set({
-            type: 'mouseEnter',
-            vcElementId: element
-          })
-        }
-        this.state.controlsPrevElement = element
-      }
-    }
   }
 
   /**
@@ -700,7 +525,6 @@ export default class ControlsManager {
     this.iframeDocument = DOMNodes.iframeDocument
     this.frames.updateIframeVariables(DOMNodes)
     this.outline.updateIframeVariables(DOMNodes)
-    this.controls.updateIframeVariables(DOMNodes)
     this.subscribeToCurrentIframe()
   }
 }

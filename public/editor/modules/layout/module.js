@@ -29,10 +29,6 @@ vcCake.add('contentLayout', (api) => {
   }
 
   const renderLayout = (reload = false) => {
-    /* 'REFACTOR_ELEMENT_ACCESS_POINT' uncomment to enable public ElementAPI in browser console */
-    // let elementAccessPoint = vcCake.getService('elementAccessPoint')
-    // elementAccessPoint && (window.elAP = elementAccessPoint)
-    /* */
     workspaceIFrame.ignoreChange(reloadLayout)
     workspaceIFrame.set(false)
     let iframe = document.getElementById('vcv-editor-iframe')

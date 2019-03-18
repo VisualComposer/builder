@@ -40,7 +40,6 @@
 .vcv-ui-outline-controls {
   font-size: @controls-text-size-base;
   line-height: @controls-text-size-base;
-  //z-index: @controls-z-index;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -53,19 +52,6 @@
   > * {
     flex-grow: 0;
     flex-shrink: 0;
-    /*&:first-child {
-      .vcv-ui-outline-control {
-        border-top-left-radius: @control-border-radius;
-        border-bottom-left-radius: @control-border-radius;
-      }
-    }
-    &:last-child {
-      .vcv-ui-outline-control {
-        border-top-right-radius: @control-border-radius;
-        border-bottom-right-radius: @control-border-radius;
-      }
-    }
-    */
     &:hover {
       .vcv-ui-outline-control {
         border-top-left-radius: @control-border-radius;
@@ -89,7 +75,6 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    /* margin-top: -0.5em; */
     opacity: 0.3;
     font-size: 14px;
     transform: translate(-50%, -50%);
@@ -102,7 +87,6 @@
   min-height: @control-size;
   text-decoration: none;
   color: @controls-text-color-base;
-  //  background-color: @controls-background-color-base;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -170,12 +154,7 @@
     flex-grow: 0;
     flex-shrink: 0;
   }
-  //&:not(:hover) {
-    .vcv-ui-outline-control-dropdown-content {
-      visibility: hidden;
-      opacity: 0;
-    }
-  //}
+
   &:not(.vcv-ui-outline-control-dropdown-o-drop-up):hover {
     .vcv-ui-outline-control-dropdown-trigger.vcv-ui-outline-control {
       border-bottom-left-radius: 0;
@@ -195,16 +174,15 @@
   display: block;
   line-height: inherit;
   margin: 0;
-  // margin: @controls-space-size 0 0 0;
   padding: 0;
   min-width: @controls-dropdown-size;
   position: fixed;
   top: 100%;
   left: 0;
   z-index: @controls-dropdown-zindex;
-  visibility: visible;
-  opacity: 1;
-  transition: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity @transition-duration @transition-timing-function;
 
   .vcv-ui-outline-control {
     border-radius: @control-border-radius;
@@ -251,17 +229,6 @@
 
 //== Options
 .vcv-ui-outline-controls-container {
-  //== inner controls
-  &.vcv-ui-controls-o-inset {
-    .vcv-ui-outline-controls {
-      //right: @controls-inset-space-size;
-      //bottom: auto;
-      //top: @controls-inset-space-size;
-      //margin: 0;
-      //padding-bottom: @controls-outline-size;
-    }
-  }
-
   //== controls from left side
   &.vcv-ui-controls-o-controls-left {
     .vcv-ui-outline-controls {
@@ -281,7 +248,6 @@
 
 //== Dropdown options
 .vcv-ui-outline-control-dropdown {
-  // background-color: @controls-background-color-base;
   //== dropdown from right side
   &.vcv-ui-outline-control-dropdown-o-drop-right {
     .vcv-ui-outline-control-dropdown-content {
