@@ -1,0 +1,54 @@
+.vcv-ui-search-container {
+  display: flex;
+  flex: 1 0 auto;
+  background: #fff;
+  border-radius: 5px;
+  height: 55px;
+
+  .vcv-ui-search-button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 60px;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .vcv-ui-icon-search {
+    color: #c5c5c5;
+    font-size: 19px;
+  }
+
+  .vcv-ui-search-field {
+    width: 0;
+    font-size: 14px;
+    padding: 8px 14px 8px 0;
+    background: transparent;
+    flex: 1 0 auto;
+    border: none;
+
+    &:focus, &:hover {
+      box-shadow: none;
+      animation: none;
+
+    }
+  }
+}
+
+.vcv-ui-search-field:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.vcv-ui-search-field:focus:-moz-placeholder {
+  color: transparent;
+}
+
+.vcv-ui-search-field:focus::-moz-placeholder {
+  color: transparent;
+}
+
+.vcv-ui-search-field:focus:-ms-input-placeholder {
+  color: transparent;
+}

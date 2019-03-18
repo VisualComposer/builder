@@ -90,6 +90,7 @@ $postTypeHelper = vchelper('PostType');
   ); ?>';
   window.vcvIsActivated = Boolean(<?php echo $tokenHelper->isSiteAuthorized(); ?>);
   window.vcvUpgradeUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=hub-banner')); ?>';
+  window.vcvUpgradeUrlUnsplash = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=unsplash')); ?>';
   <?php if (isset($feError) && $feError) : ?>
   window.vcvFeError = '<?php echo $feError; ?>'
   <?php endif; ?>

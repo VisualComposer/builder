@@ -51,5 +51,10 @@
     "type": "hubSidebar",
     "title": "Sidebars",
     "templateType": true
+  },
+  "stockImages": {
+    "index": 8,
+    "type": "stockImages",
+    "title": "Stock Images"
   }
 }
