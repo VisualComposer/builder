@@ -91,7 +91,10 @@ export default class TreeViewLayout extends React.Component {
   }
 
   onContentChangeHandleScroll = (value, treeViewId) => {
-    treeViewId && this.handleScrollToElement(treeViewId)
+    let timeout = setTimeout(() => {
+      treeViewId && this.handleScrollToElement(treeViewId)
+      clearTimeout(timeout)
+    }, 1)
   }
 
   componentWillUnmount () {
