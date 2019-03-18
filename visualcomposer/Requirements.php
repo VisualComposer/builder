@@ -66,12 +66,12 @@ class VcvCoreRequirements
         }
 
         if ($die) {
+            $this->deactivate(VCV_PLUGIN_FULL_PATH);
             wp_die(
             // @codingStandardsIgnoreLine
                 'To run Visual Composer Website Builder your host needs to have:<ul>' . $message . '</ul>' . '<a href="'
                 . esc_url(admin_url('plugins.php')) . '">Go back to dashboard</a>'
             );
-            $this->deactivate(VCV_PLUGIN_FULL_PATH);
         }
 
         return true;
