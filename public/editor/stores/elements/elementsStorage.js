@@ -120,11 +120,7 @@ addStorage('elements', (storage) => {
         initChild.parent = data.id
         const childData = cook.get(initChild)
         if (childData) {
-          if (data.tag === 'section') {
-            storage.trigger('add', childData.toJS(), true, { silent: true })
-          } else {
-            storage.trigger('add', childData.toJS(), false, { silent: true })
-          }
+          storage.trigger('add', childData.toJS(), true, { silent: true })
         }
       })
     }
@@ -194,10 +190,10 @@ addStorage('elements', (storage) => {
     }
     let parent = element && element.parent ? documentManager.get(element.parent) : false
     documentManager.delete(id)
-
+    let initChildren = parent && cook.get(parent).get('initChildren')
     // remove parent if it must have children by default (initChildren)
-    if (parent && parent.initChildren && parent.initChildren.length && !documentManager.children(parent.id).length) {
-      documentManager.delete(parent.id)
+    if (parent && initChildren && initChildren.length && !documentManager.children(parent.id).length) {
+      storage.trigger('remove', parent.id)
       // close editForm if deleted element is opened in edit form
       const settings = workspaceStorage.state('settings').get()
       if (settings && settings.action === 'edit' && settings.elementAccessPoint && (parent.id === settings.elementAccessPoint.id)) {
