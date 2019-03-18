@@ -423,6 +423,22 @@ class Localizations extends Container implements Helper
                 'Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme.',
                 'vcwb'
             ),
+            'activatePremium' => __(
+                'Activate Premium',
+                'vcwb'
+            ),
+            'searchPhotosOnUnsplash' => __(
+                'Search free high-resolution photos on Unsplash',
+                'vcwb'
+            ),
+            'getPhotosWithPremiumText' => __(
+                'Download and Add Free Beautiful Photos to Your Site With Visual Composer Premium',
+                'vcwb'
+            ),
+            'getPhotosText' => __(
+                'Download and Add Free Beautiful Photos to Your Site',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

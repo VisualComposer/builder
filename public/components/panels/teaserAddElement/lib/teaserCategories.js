@@ -9,9 +9,13 @@ import SearchElement from '../../addElement/lib/searchElement'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import categories from './categoriesSettings.json'
+import StockImages from './stockImages'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
+const panels = {
+  stockImages: <StockImages />
+}
 
 export default class TeaserAddElementCategories extends AddElementCategories {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -279,6 +283,24 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
 
+    let panelContent = ''
+    if (this.state.filterType && panels.hasOwnProperty(this.state.filterType)) {
+      panelContent = panels[ this.state.filterType ]
+    } else {
+      panelContent = (
+        <div className={innerSectionClasses}>
+          {(typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) ? this.getHubBanner() : null}
+          <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
+            <div className='vcv-ui-editor-plates'>
+              <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+                {this.getElementListContainer(itemsOutput)}
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-teaser-add-element-content'>
         <div className='vcv-ui-tree-content'>
@@ -289,16 +311,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
           </div>
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar>
-              <div className={innerSectionClasses}>
-                {(typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) ? this.getHubBanner() : null}
-                <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
-                  <div className='vcv-ui-editor-plates'>
-                    <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                      {this.getElementListContainer(itemsOutput)}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {panelContent}
             </Scrollbar>
           </div>
         </div>
