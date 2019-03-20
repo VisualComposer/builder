@@ -11,6 +11,9 @@ export function Control (props) {
   const [ hoverClasses, setHoverClasses ] = useState([])
 
   const vcElement = ControlHelpers.getVcElement(props.id)
+  if (!vcElement) {
+    return null
+  }
   const colorIndex = ControlHelpers.getElementColorIndex(vcElement)
   const title = vcElement.get('customHeaderTitle') || vcElement.get('name')
   const icon = hubCategoriesService.getElementIcon(vcElement.get('tag'))
