@@ -123,10 +123,10 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     customColProps[ 'data-vce-delete-attr' ] = 'style'
     innerProps[ 'data-vce-delete-attr' ] = 'style'
 
-    innerProps = { ...innerProps, ...stickyAttributes, ...boxShadowAttributes }
+    innerProps = { ...innerProps, ...stickyAttributes }
 
     // import template
-    return (<div className={className} {...customColProps} id={'el-' + id} {...editor} {...doBackground}>
+    return (<div className={className} {...customColProps} id={'el-' + id} {...editor} {...doBackground} {...boxShadowAttributes}>
       {this.getBackgroundTypeContent()}
       {this.getContainerDivider()}
       {this.getContent(doBoxModel, innerProps)}
