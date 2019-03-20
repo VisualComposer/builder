@@ -105,8 +105,8 @@ function getControls (elementIds, visibleControls) {
     if (i === 0) {
       const removeText = localizations ? localizations.remove : 'Remove'
       const editText = localizations ? localizations.edit : 'Edit'
-      controls.push(getAdditionalControl(id, 'edit', editText, `additional-element-edit-${id}-${i}`))
       controls.push(getAdditionalControl(id, 'remove', removeText, `additional-element-remove-${id}-${i}`))
+      controls.push(getAdditionalControl(id, 'edit', editText, `additional-element-edit-${id}-${i}`))
     }
     if (i === iterableControls.length - 1 && visibleControls) {
       const treeViewText = localizations ? localizations.treeView : 'Tree View'

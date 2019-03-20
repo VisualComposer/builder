@@ -529,7 +529,7 @@ export default class ElementComponent extends React.Component {
         // At the moment allow only for device "all"
         if (deviceKey === 'all') {
           let device = data.device[ deviceKey ]
-          if (device.boxShadow) {
+          if (device.boxShadowEnable) {
             attributes[ 'vce-box-shadow' ] = `el-${id}`
           }
         }
