@@ -49,7 +49,7 @@ class ErrorReportingController extends Container implements Module
             $data['request'] = $requestHelper->all();
 
             wp_remote_post(
-                vcvenv('VCV_API_URL') . '/api/report/error',
+                vcvenv('VCV_HUB_URL') . '/api/report/error',
                 [
                     'timeout' => 30,
                     'body' => $data,
