@@ -63,12 +63,21 @@
       "label": "Dividers"
     }
   },
+  "boxShadow": {
+    "type": "boxShadow",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Box Shadow"
+    }
+  },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
       "editFormTab1",
       "designOptionsAdvanced",
+      "boxShadow",
       "dividers",
       "sticky"
     ]
@@ -92,18 +101,13 @@
     "access": "protected",
     "value": "row"
   },
-  "backendView": {
-    "type": "string",
-    "access": "protected",
-    "value": "frontend"
-  },
   "metaCustomId": {
     "type": "customId",
     "access": "public",
     "value": "",
     "options": {
       "label": "Element ID",
-      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+      "description": "Apply unique ID to element to link directly to it by using #your_id (for element ID use lowercase input only)."
     }
   },
   "tag": {

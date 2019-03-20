@@ -1508,40 +1508,8 @@ export default class DesignOptionsAdvanced extends Attribute {
           value: 'dashed'
         },
         {
-          label: 'None',
-          value: 'none'
-        },
-        {
-          label: 'Hidden',
-          value: 'hidden'
-        },
-        {
           label: 'Double',
           value: 'double'
-        },
-        {
-          label: 'Groove',
-          value: 'groove'
-        },
-        {
-          label: 'Ridge',
-          value: 'ridge'
-        },
-        {
-          label: 'Inset',
-          value: 'inset'
-        },
-        {
-          label: 'Outset',
-          value: 'outset'
-        },
-        {
-          label: 'Initial',
-          value: 'initial'
-        },
-        {
-          label: 'Inherit',
-          value: 'inherit'
         }
       ]
     }

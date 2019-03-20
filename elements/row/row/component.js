@@ -336,7 +336,7 @@ export default class RowElement extends vcvAPI.elementComponent {
   render () {
     const classNames = require('classnames')
     let { id, atts, editor, isBackend } = this.props
-    let { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced, layout, columnBackground, hidden, sticky } = atts
+    let { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced, layout, columnBackground, hidden, sticky, boxShadow } = atts
     let content = this.props.children
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
@@ -415,6 +415,11 @@ export default class RowElement extends vcvAPI.elementComponent {
       classes.push(`vce-row-content--${contentPosition}`)
     }
 
+    let boxShadowAttributes = {}
+    if (boxShadow && boxShadow.device) {
+      boxShadowAttributes = this.getBoxShadowAttributes(boxShadow, id)
+    }
+
     let className = classNames(classes)
 
     if (metaCustomId) {
@@ -429,7 +434,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     let doAll = this.applyDO('all')
 
     return <div className={containerClasses} {...containerProps}>
-      <div className={className} {...customRowProps} {...stickyAttributes} {...editor} id={'el-' + id} {...doAll}>
+      <div className={className} {...customRowProps} {...stickyAttributes} {...boxShadowAttributes} {...editor} id={'el-' + id} {...doAll}>
         {this.getBackgroundTypeContent()}
         {this.getContainerDivider()}
         <div className='vce-row-content' {...customProps}>

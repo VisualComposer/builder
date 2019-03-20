@@ -30,7 +30,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
   render () {
     // import variables
     let { id, atts, editor, isBackend } = this.props
-    let { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow, hidden, disableStacking, sticky } = atts
+    let { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow, hidden, disableStacking, sticky, boxShadow } = atts
 
     // import template js
     const classNames = require('classnames')
@@ -115,10 +115,15 @@ export default class ColumnElement extends vcvAPI.elementComponent {
       stickyAttributes = this.getStickyAttributes(sticky)
     }
 
+    let boxShadowAttributes = {}
+    if (boxShadow && boxShadow.device) {
+      boxShadowAttributes = this.getBoxShadowAttributes(boxShadow, id)
+    }
+
     customColProps[ 'data-vce-delete-attr' ] = 'style'
     innerProps[ 'data-vce-delete-attr' ] = 'style'
 
-    innerProps = { ...innerProps, ...stickyAttributes }
+    innerProps = { ...innerProps, ...stickyAttributes, ...boxShadowAttributes }
 
     // import template
     return (<div className={className} {...customColProps} id={'el-' + id} {...editor} {...doBackground}>
