@@ -6,7 +6,7 @@ const documentManager = getService('document')
 
 export const ControlHelpers = {
   getVcElement: function (elementId) {
-    return cook.get(documentManager.get(elementId))
+    return documentManager.get(elementId) && cook.get(documentManager.get(elementId))
   },
   getElementColorIndex: function (vcElement) {
     let colorIndex = 2
