@@ -32,6 +32,14 @@
       "label": "Sticky"
     }
   },
+  "boxShadow": {
+    "type": "boxShadow",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Box Shadow"
+    }
+  },
   "designOptionsAdvanced": {
     "type": "designOptionsAdvanced",
     "access": "public",
@@ -65,6 +73,7 @@
       "editFormTab1",
       "layout",
       "designOptionsAdvanced",
+      "boxShadow",
       "dividers",
       "sticky"
     ]
@@ -257,11 +266,6 @@
         }
       ]
     }
-  },
-  "backendView": {
-    "type": "string",
-    "access": "protected",
-    "value": "frontend"
   },
   "size": {
     "type": "string",

@@ -521,6 +521,23 @@ export default class ElementComponent extends React.Component {
     return attributes
   }
 
+  getBoxShadowAttributes (data, id) {
+    const attributes = {}
+    if (Object.keys(data.device).length) {
+      let deviceKeys = Object.keys(data.device)
+      deviceKeys.forEach((deviceKey) => {
+        // At the moment allow only for device "all"
+        if (deviceKey === 'all') {
+          let device = data.device[ deviceKey ]
+          if (device.boxShadow) {
+            attributes[ 'vce-box-shadow' ] = `el-${id}`
+          }
+        }
+      })
+    }
+    return attributes
+  }
+
   getResponse (result) {
     return getResponse(result)
   }

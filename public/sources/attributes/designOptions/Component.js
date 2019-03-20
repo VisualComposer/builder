@@ -1018,10 +1018,6 @@ export default class DesignOptions extends Attribute {
     let options = {
       values: [
         {
-          label: 'Default',
-          value: ''
-        },
-        {
           label: 'Solid',
           value: 'solid'
         },
@@ -1034,44 +1030,12 @@ export default class DesignOptions extends Attribute {
           value: 'dashed'
         },
         {
-          label: 'None',
-          value: 'none'
-        },
-        {
-          label: 'Hidden',
-          value: 'hidden'
-        },
-        {
           label: 'Double',
           value: 'double'
-        },
-        {
-          label: 'Groove',
-          value: 'groove'
-        },
-        {
-          label: 'Ridge',
-          value: 'ridge'
-        },
-        {
-          label: 'Inset',
-          value: 'inset'
-        },
-        {
-          label: 'Outset',
-          value: 'outset'
-        },
-        {
-          label: 'Initial',
-          value: 'initial'
-        },
-        {
-          label: 'Inherit',
-          value: 'inherit'
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].borderStyle || ''
+    let value = this.state.devices[ this.state.currentDevice ].borderStyle || DesignOptions.deviceDefaults.borderStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Border style
