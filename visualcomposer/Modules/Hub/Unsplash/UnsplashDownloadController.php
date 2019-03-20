@@ -27,7 +27,7 @@ class UnsplashDownloadController extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::runAllChecks */
         $this->addFilter(
-            'vcv:ajax:hub:unsplash:download:adminAjax',
+            'vcv:ajax:hub:unsplash:download:adminNonce',
             'download'
         );
         $this->addFilter('vcv:editor:variables', 'addVariables');
