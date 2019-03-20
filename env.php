@@ -34,7 +34,7 @@ if (!VcvEnv::has('VCV_PREMIUM_TOKEN_URL')) {
 }
 
 if (!VcvEnv::has('VCV_API_URL')) {
-    VcvEnv::set('VCV_API_URL', 'https://account.visualcomposer.io');
+    VcvEnv::set('VCV_API_URL', 'https://api.visualcomposer.com');
 }
 
 if (!VcvEnv::has('VCV_LICENSE_ACTIVATE_URL')) {

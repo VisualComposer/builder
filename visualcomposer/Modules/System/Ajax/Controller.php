@@ -115,21 +115,13 @@ class Controller extends Container implements Module
                 if (isset($rawResponse['body'])) {
                     $messages[] = $rawResponse['body'];
                 }
-                if (isset($rawResponse['message'])) {
-                    if (is_array($rawResponse['message'])) {
-                        $responseMsg = implode('. ', $rawResponse['message']);
-                    } else {
-                        $responseMsg = $rawResponse['message'];
-                    }
-                    $messages[] = $responseMsg;
-                }
             }
             if (count($messages) > 0) {
                 echo json_encode(
                     [
                         'status' => false,
                         'response' => $rawResponse,
-                        'message' => implode('. ', $messages),
+                        'message' => implode('. ', array_unique($messages)),
                         'details' => $loggerHelper->details(),
                     ]
                 );
