@@ -94,7 +94,9 @@
 .vcv-start-blank-item-list-container {
   margin: 0 -15px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 
   .vcv-ui-item-overlay {
     display: flex;
@@ -221,29 +223,40 @@
   min-height: 1090px;
 }
 
+.vcv-start-blank-title-input-container {
+  width: 100%;
+  max-width: 650px;
+  padding: 0 15px;
+}
+
+.vcv-start-blank-inner .vcv-start-blank-title-input {
+  width: 90%;
+  border: 1px solid #e1e1e1;
+  box-shadow: none;
+  color: #000;
+  font: normal normal bold 14px 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding: 14px;
+  letter-spacing: 0.077em;
+  margin: 0 0 14px;
+
+  &::placeholder {
+    opacity: 1;
+    color: #bdbdbd;
+  }
+}
+
+.vcv-start-blank-controls .vcv-start-blank-title-input {
+  width: 100%;
+  margin: 0 0 50px;
+}
+
 .vcv-hfs-start-blank-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 50px 0 0;
-
-  .vcv-hfs-start-blank-name-input {
-    width: 90%;
-    border: 1px solid #e1e1e1;
-    box-shadow: none;
-    color: #000;
-    font: normal normal bold 14px 'Montserrat', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    padding: 14px;
-    letter-spacing: 0.077em;
-    margin: 0 0 14px;
-
-    &::placeholder {
-      opacity: 1;
-      color: #bdbdbd;
-    }
-  }
 
   .vcv-hfs-start-blank-start-button {
     width: 90%;
@@ -270,7 +283,7 @@
   }
 
   .vcv-start-blank-controls {
-    margin: @editor-layout-start-blank-controls-spacing-sm auto;
+    margin: 50px auto @editor-layout-start-blank-controls-spacing-sm;
   }
 
   .vcv-start-blank-inner {
@@ -278,7 +291,7 @@
   }
 
   .vcv-hfs-start-blank-container {
-    .vcv-hfs-start-blank-name-input,
+    .vcv-start-blank-title-input,
     .vcv-hfs-start-blank-start-button {
       width: 390px;
     }
@@ -287,7 +300,7 @@
 
 @media screen and (min-width: @vcv-grid-breakpoint-md-min) {
   .vcv-hfs-start-blank-container {
-    .vcv-hfs-start-blank-name-input,
+    .vcv-start-blank-title-input,
     .vcv-hfs-start-blank-start-button {
       width: 430px;
     }

@@ -35,7 +35,7 @@ export default class HfsPanelContent extends React.Component {
     return <div className='vcv-hfs-start-blank-container'>
       <form className='vcv-hfs-start-blank-form' onSubmit={this.handleSubmit}>
         <input
-          className='vcv-hfs-start-blank-name-input'
+          className='vcv-start-blank-title-input'
           type='text'
           placeholder={placeholder.replace('{name}', this.props.type)}
           onChange={this.handleChange}

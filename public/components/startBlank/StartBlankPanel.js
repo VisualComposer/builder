@@ -71,8 +71,8 @@ export default class startBlank extends React.Component {
         />
       )
     } else {
-      headingPart1 = localizations ? localizations.blankPageHeadingPart1 : 'Select Blank Page'
-      headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'or Start With a Template'
+      headingPart1 = localizations ? localizations.blankPageHeadingPart1 : 'Name Your Page, Select'
+      headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'Layout and Start Building'
       startBlankContent = (
         <PagePanelContent />
       )
