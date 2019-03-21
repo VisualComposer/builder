@@ -13,9 +13,6 @@ import StockImages from './stockImages'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
-const panels = {
-  stockImages: <StockImages />
-}
 
 export default class TeaserAddElementCategories extends AddElementCategories {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -33,6 +30,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       }
     }
     this.setFilterType = this.setFilterType.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
   }
 
   getAllCategories () {
@@ -276,6 +274,17 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     </div>
   }
 
+  handleScroll (e) {
+    const el = e.currentTarget
+    const clientRect = el.getBoundingClientRect()
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight
+    const scrolledToBottom = (el.scrollTop + clientRect.height + (windowHeight / 2)) >= el.scrollHeight
+    this.setState({
+      scrollTop: el.scrollTop,
+      scrolledToBottom: scrolledToBottom
+    })
+  }
+
   render () {
     let itemsOutput = this.filterResult()
     let innerSectionClasses = classNames({
@@ -284,8 +293,8 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     })
 
     let panelContent = ''
-    if (this.state.filterType && panels.hasOwnProperty(this.state.filterType)) {
-      panelContent = panels[ this.state.filterType ]
+    if (this.state.filterType && this.state.filterType === 'stockImages') {
+      panelContent = <StockImages scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
     } else {
       panelContent = (
         <div className={innerSectionClasses}>
@@ -310,7 +319,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
             <TeaserDropdown {...this.getTypeControlProps()} />
           </div>
           <div className='vcv-ui-tree-content-section'>
-            <Scrollbar>
+            <Scrollbar onScroll={lodash.throttle(this.handleScroll, 100)}>
               {panelContent}
             </Scrollbar>
           </div>

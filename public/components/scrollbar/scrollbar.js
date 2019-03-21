@@ -7,7 +7,8 @@ export default class Scrollbar extends React.Component {
   scrollbars = null
 
   static propTypes = {
-    content: PropTypes.number
+    content: PropTypes.number,
+    onScroll: PropTypes.func
   }
 
   constructor (props) {
@@ -35,6 +36,7 @@ export default class Scrollbar extends React.Component {
         renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}
         renderThumbVertical={props => <div {...props} className='vcv-ui-scroll-thumb--vertical' />}
         renderView={props => <div {...props} className='vcv-ui-scroll-content' />}
+        onScroll={this.props.onScroll}
         hideTracksWhenNotNeeded={this.state.showTracks}
       />
     )

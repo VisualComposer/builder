@@ -1,11 +1,17 @@
 import React from 'react'
 import unsplashLogo from 'public/sources/images/unsplashLogo.raw'
 import classNames from 'classnames'
+import StockImagesResultsPanel from './stockImagesResultsPanel'
+import PropTypes from 'prop-types'
 
 const unsplashImages = [ 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-1.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-2.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-3.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-4.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-5.jpg' ]
 
 export default class StockImages extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
+  static propTypes = {
+    scrolledToBottom: PropTypes.bool,
+    scrollTop: PropTypes.number
+  }
   inputTimeout = 0
   randomImage = this.getRandomImage()
 
@@ -13,7 +19,9 @@ export default class StockImages extends React.Component {
     super(props)
     this.state = {
       inputValue: '',
-      input: false
+      input: false,
+      searchValue: '',
+      isSearchUsed: false
     }
     this.handleValueChange = this.handleValueChange.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
@@ -42,7 +50,13 @@ export default class StockImages extends React.Component {
   }
 
   handleSearch () {
-    console.log('handle search for image -' + this.state.inputValue)
+    let newState = {
+      searchValue: this.state.inputValue
+    }
+    if (this.state.inputValue) {
+      newState.isSearchUsed = true
+    }
+    this.setState(newState)
   }
 
   handleValueChange (e) {
@@ -64,6 +78,7 @@ export default class StockImages extends React.Component {
       'vcv-ui-search-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
     })
+    const autoFocus = true
 
     return (
       <div className={inputContainerClasses}>
@@ -78,6 +93,7 @@ export default class StockImages extends React.Component {
           value={this.state.inputValue}
           placeholder={searchPhotosOnUnsplash}
           onKeyPress={this.handleKeyPress}
+          autoFocus={autoFocus}
         />
       </div>
     )
@@ -113,18 +129,32 @@ export default class StockImages extends React.Component {
       )
     }
 
-    let style = {
-      backgroundImage: `url(${this.randomImage})`
+    let style = {}
+    if (!this.state.isSearchUsed) {
+      style.backgroundImage = `url(${this.randomImage})`
     }
 
+    let stockImageContainerClasses = classNames({
+      'vcv-ui-editor-plates-container': true,
+      'vcv-ui-editor-plate--stock-images': true,
+      'vcv-ui-editor-plate--stock-images--search-is-used': this.state.isSearchUsed
+    })
+
     return (
-      <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--stock-images'>
-        <div className='vcv-stock-images-container' style={style}>
-          <div className='vcv-stock-images-inner'>
-            {content}
+      <React.Fragment>
+        <div className={stockImageContainerClasses}>
+          <div className='vcv-stock-images-container' style={style}>
+            <div className='vcv-stock-images-inner'>
+              {content}
+            </div>
           </div>
         </div>
-      </div>
+        <StockImagesResultsPanel
+          searchValue={this.state.searchValue}
+          scrolledToBottom={this.props.scrolledToBottom}
+          scrollTop={this.props.scrollTop}
+        />
+      </React.Fragment>
     )
   }
 }
