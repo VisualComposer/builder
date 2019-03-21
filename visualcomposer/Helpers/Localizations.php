@@ -86,8 +86,8 @@ class Localizations extends Container implements Helper
             ),
             'removeTemplateWarning' => __('Do you want to remove this template?', 'vcwb'),
             'templateRemoveFailed' => __('Failed to remove template', 'vcwb'),
-            'blankPageHeadingPart1' => __('Select Blank Page', 'vcwb'),
-            'blankPageHeadingPart2' => __('or Start With a Template', 'vcwb'),
+            'blankPageHeadingPart1' => __('Name Your Page, Select', 'vcwb'),
+            'blankPageHeadingPart2' => __('Layout and Start Building', 'vcwb'),
             'blankPageTitleHeadingPart1' => __('Name Your ', 'vcwb'),
             'blankPageTitleHeadingPart2' => __('and Start Building', 'vcwb'),
             'blankPageHelperText' => __(
@@ -95,6 +95,7 @@ class Localizations extends Container implements Helper
                 'Start by adding an element to your layout or select one of the pre-defined templates.',
                 'vcwb'
             ),
+            'blankPageInputPlaceholderText' => __('Page title', 'vcwb'),
             'addTemplateHelperText' => __(
             // @codingStandardsIgnoreLine
                 'Didn\'t find a perfect template? Get a Premium license to download it from Visual Composer Hub.',

@@ -25,7 +25,8 @@ export default class PagePanelContent extends React.Component {
 
     this.state = {
       templates: templateManager.predefined(),
-      current: currentTemplate
+      current: currentTemplate,
+      title: settingsStorage.state('pageTitle').get() || ''
     }
 
     this.handleLayoutClick = this.handleLayoutClick.bind(this)
@@ -33,6 +34,7 @@ export default class PagePanelContent extends React.Component {
     this.updateState = this.updateState.bind(this)
     this.handleAddElementClick = this.handleAddElementClick.bind(this)
     this.handleAddTemplateClick = this.handleAddTemplateClick.bind(this)
+    this.handleTitleChange = this.handleTitleChange.bind(this)
   }
 
   componentDidMount () {
@@ -235,11 +237,17 @@ export default class PagePanelContent extends React.Component {
     })
   }
 
+  handleTitleChange (e) {
+    this.setState({ title: e.currentTarget.value })
+    settingsStorage.state('pageTitle').set(e.currentTarget.value)
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const addTemplatText = localizations ? localizations.addTemplate : 'Add Template'
     const descriptionText = localizations ? localizations.blankPageHelperText : 'Start by adding an element to your layout or select one of the pre-defined templates.'
+    const placeholderText = localizations ? localizations.blankPageInputPlaceholderText : 'Page title'
     let containerWidth = {}
     if (this.state && this.state.containerWidth) {
       containerWidth.width = `${this.state.containerWidth}px`
@@ -252,6 +260,9 @@ export default class PagePanelContent extends React.Component {
         className='vcv-start-blank-item-list-container'
         ref={(container) => { this.rowContainer = container }}
       >
+        <div className='vcv-start-blank-title-input-container'>
+          <input className='vcv-start-blank-title-input' type='text' placeholder={placeholderText} value={this.state.title} onChange={this.handleTitleChange} />
+        </div>
         <ul
           className='vcv-ui-item-list vcv-start-blank-item-list'
           style={containerWidth}
