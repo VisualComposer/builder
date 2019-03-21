@@ -53,9 +53,7 @@ $ git push origin master
 
 ## Coding Rules
 
-### Javascript
-
-#### Code Style
+### Javascript Code Style
 Use StandardJS to validate code-style `yarn standard`.
 
 #### Supported Language
@@ -70,6 +68,31 @@ Exceptions to the rule:
 
 #### No jQuery
 Contributor should try not to use jQuery and jQuery-like libraries.
+
+### PHP Code Style
+We use PSR-2 Code style and CodeSniffer is configured in ruleset.xml to check PSR2 rules.
+[http://www.php-fig.org/psr/psr-2/]
+
+- You MUST use short array syntax ```[]```
+- You MUST never use php short open tag, even for ```<?=$something ?>```, use ```<?php echo $something; ?>```
+- Any statement MUST end with semicolon; even if it is single line method like ```<?php echo $something; ?>```
+- Spaces within brackets ONLY if key is variable or expression like ```$data[ $test ]```
+- Use spaces not tabs `PSR1`.
+- Use `phpcs` command to check for codeStyle issues in PHP files.
+- `php ci/phpcs.phar --standard=ci/ruleset.xml visualcomposer`
+
+#### Differences between Helpers and Modules
+- Helpers and Modules by default are __singletons__ [for performance]
+- Helpers doesn't have logic for action listeners (like WordPress actions/filters)
+- Helpers doesn't have events listeners
+- This is the reason Why `Access`, `CurrentUserAccess` and `RoleAccess` was Helpers
+- Helpers contains only API for processing some data or retreive some result
+- Helpers are __PUBLIC__, this means it __SHOULD__ be used by other theme/plugins developers
+- Helpers are __NOT__ automaticaly instatiated, but Modules does
+- Module can have own helper to process Public API
+- Module __SHOULD__ be __PROTECTED__ access, this means other theme/plugins developers __SHOULD NOT__ not use modules
+   as API, instead they __SHOULD__ use Modules __PUBLIC__ Api in
+    `\VisualComposer\Helpers\HelperName..`
 
 ## Installation instruction
 All javascript is build with webpack module builder. Install the plugin and checked that it works, you can make changes to it to get acquainted with the code.
