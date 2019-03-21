@@ -296,12 +296,7 @@ class Status implements Helper
             ]
         );
 
-        if (is_array($result) && isset($result['body'])) {
-            $json = json_decode($result['body']);
-            if ($json->success) {
-                return true;
-            }
-
+        if (!vcIsBadResponse($result)) {
             return true;
         }
 
