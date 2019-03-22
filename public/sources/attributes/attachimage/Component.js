@@ -59,6 +59,7 @@ export default class AttachImage extends Attribute {
     // Create a callback when the uploader is called
     this.mediaUploader.on('select', this.onMediaSelect)
     this.mediaUploader.on('open', this.onMediaOpen)
+    this.mediaUploader.on('uploader:ready', this.onMediaOpen)
   }
 
   updateState (props) {
@@ -202,6 +203,15 @@ export default class AttachImage extends Attribute {
   }
 
   onMediaOpen () {
+    if (
+      this.mediaUploader.content &&
+      this.mediaUploader.content.get('gallery') &&
+      this.mediaUploader.content.get('gallery').collection &&
+      this.mediaUploader.content.get('gallery').collection.props &&
+      this.mediaUploader.content.get('gallery').collection.props.set
+    ) {
+      this.mediaUploader.content.get('gallery').collection.props.set({ ignore: (+new Date()) })
+    }
     let selection = this.mediaUploader.state().get('selection')
     let ids = this.state.value.ids
     ids && ids.forEach(function (id) {
