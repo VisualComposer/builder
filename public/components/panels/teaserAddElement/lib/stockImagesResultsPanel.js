@@ -10,13 +10,16 @@ const workspaceNotifications = workspaceStorage.state('notifications')
 
 // TODO
 // translations and massages
+// search value null shows last searched images
 
 export default class StockImagesResultsPanel extends React.Component {
   static propTypes = {
     searchValue: PropTypes.string,
     scrolledToBottom: PropTypes.bool,
-    scrollTop: PropTypes.number
+    scrollTop: PropTypes.number,
+    isSearchUsed: PropTypes.bool
   }
+  static localizations = window.VCV_I18N && window.VCV_I18N()
   maxColumnCount = 5
   abortController = new window.AbortController()
 
@@ -30,7 +33,8 @@ export default class StockImagesResultsPanel extends React.Component {
       totalPages: 0,
       requestInProgress: false,
       hasError: false,
-      activeItem: null
+      activeItem: null,
+      downloadingItems: []
     }
     this.handleImageLoad = this.handleImageLoad.bind(this)
     this.downloadImage = this.downloadImage.bind(this)
@@ -128,7 +132,8 @@ export default class StockImagesResultsPanel extends React.Component {
     if (page > 1 && page > this.state.totalPages) {
       return
     }
-    const unsplashUrl = `https://api.visualcomposer.com/api/unsplash/${action}`
+    const vcvApiUrl = window.VCV_API_URL && window.VCV_API_URL()
+    const unsplashUrl = `${vcvApiUrl}/api/unsplash/${action}`
     const unsplashLicenseKey = window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY()
 
     if (!unsplashLicenseKey) {
@@ -136,7 +141,7 @@ export default class StockImagesResultsPanel extends React.Component {
         position: 'bottom',
         transparent: true,
         rounded: true,
-        text: 'No access, please check your license!',
+        text: `${StockImagesResultsPanel.localizations.noAccessCheckLicence} #10085` || 'No access, please check your license! #10085',
         time: 3000,
         type: 'error'
       })
@@ -175,7 +180,7 @@ export default class StockImagesResultsPanel extends React.Component {
             position: 'bottom',
             transparent: true,
             rounded: true,
-            text: `Could not connect to Unsplash Server`,
+            text: `${StockImagesResultsPanel.localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Unsplash Server! #10088',
             time: 3000,
             type: 'error'
           })
@@ -255,14 +260,20 @@ export default class StockImagesResultsPanel extends React.Component {
 
   downloadImage (e) {
     const target = e.currentTarget
-    const imgUrl = target && target.getAttribute('data-src')
+    const size = target && target.getAttribute('data-img-size')
     const wrapper = target && target.closest('.vcv-stock-image-inner')
-    if (imgUrl) {
-      wrapper && wrapper.classList.add('vcv-stock-image--downloading')
+    const imageId = wrapper && wrapper.id
+    if (imageId && size) {
+      let downloadingItems = this.state.downloadingItems
+      downloadingItems[ imageId ] = true
+      this.setState({
+        downloadingItems: downloadingItems
+      })
       dataProcessor.appServerRequest({
-        'vcv-action': 'hub:unsplash:download',
+        'vcv-action': 'hub:unsplash:download:adminNonce',
         'vcv-nonce': window.vcvNonce,
-        'vcv-image': imgUrl
+        'vcv-imageId': imageId,
+        'vcv-imageSize': size
       }).then((data) => {
         try {
           let jsonData = JSON.parse(data)
@@ -271,7 +282,7 @@ export default class StockImagesResultsPanel extends React.Component {
               position: 'bottom',
               transparent: true,
               rounded: true,
-              text: 'Image successfully downloaded.',
+              text: StockImagesResultsPanel.localizations.imageDownloadedToMediaLibrary || 'Image has been donwloaded to your Media Library.',
               time: 3000
             })
           } else {
@@ -280,7 +291,7 @@ export default class StockImagesResultsPanel extends React.Component {
               position: 'bottom',
               transparent: true,
               rounded: true,
-              text: errorMessage || 'No access, please check your license and make sure your capabilities allow to upload files! #10083',
+              text: errorMessage || `${StockImagesResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, please check your license! #10087',
               time: 3000,
               type: 'error'
             })
@@ -291,13 +302,20 @@ export default class StockImagesResultsPanel extends React.Component {
             position: 'bottom',
             transparent: true,
             rounded: true,
-            text: 'Could not download the image!',
+            text: `${StockImagesResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from server! #10086',
             time: 3000,
             type: 'error'
           })
           console.error('error', e)
         }
-        wrapper && wrapper.classList.remove('vcv-stock-image--downloading')
+        if (this.state.activeItem === imageId) {
+          this.setState({ activeItem: null })
+        }
+        let downloadingItems1 = this.state.downloadingItems
+        delete downloadingItems1[ imageId ]
+        this.setState({
+          downloadingItems: downloadingItems1
+        })
       })
     }
   }
@@ -307,37 +325,39 @@ export default class StockImagesResultsPanel extends React.Component {
     const id = clickedElement && clickedElement.parentElement.id
 
     if (id) {
-      this.setState({ activeItem: id })
-
-      document.addEventListener('click', this.handleClickOutside)
+      window.setTimeout(() => {
+        this.setState({ activeItem: id })
+        document.addEventListener('click', this.handleClickOutside)
+      }, 1)
     }
   }
 
   handleClickOutside (e) {
     const clickedElement = e.target
-    if (!clickedElement.closest('.vcv-stock-image-inner')) {
+    if (!clickedElement.closest('.vcv-stock-image-download-button')) {
       this.setState({ activeItem: null })
       document.removeEventListener('click', this.handleClickOutside)
     }
   }
 
   getItems () {
-    const { columnData, columnCount, activeItem } = this.state
+    const { columnData, columnCount, activeItem, downloadingItems } = this.state
     return columnData[ columnCount ].map((col, colIndex) => {
       return (
         <div className='vcv-stock-images-col' key={`vcv-stock-image-column-${columnCount}-${colIndex}`}>
           {col.images.map((image, imageIndex) => {
-            const { small, regular, raw } = image.urls
+            const { urls, user } = image
             const props = {
               className: 'vcv-stock-image vcv-stock-image-not-visible',
               alt: 'Unsplash image',
               onLoad: this.handleImageLoad,
               onError: this.handleImageLoad,
-              'data-src': small
+              'data-src': urls.small
             }
             const innerItemClasses = classNames({
               'vcv-stock-image-inner': true,
-              'vcv-stock-image-inner--active': image.id === activeItem
+              'vcv-stock-image-inner--active': image.id === activeItem,
+              'vcv-stock-image--downloading': downloadingItems[ image.id ]
             })
             const imageProportions = image.height / image.width
             return <div
@@ -353,35 +373,36 @@ export default class StockImagesResultsPanel extends React.Component {
                 <div className='vcv-stock-image-hover-download' onClick={this.showDownloadOptions}>
                   <span className='vcv-ui-icon vcv-ui-icon-download' />
                 </div>
+                <a href={user && user.url} target='_blank' className='vcv-stock-image-author'>
+                  <img src={user && user.image} alt={user && user.name} className='vcv-stock-image-author-image' />
+                  {user && user.name}
+                </a>
                 <div className='vcv-stock-image-download-container'>
                   <div className='vcv-stock-image-download-options'>
-                    {small && (
-                      <button
-                        className='vcv-stock-image-download-button'
-                        onClick={this.downloadImage}
-                        data-src={small}
-                      >
-                        Small <span>(400 x {Math.round(400 * imageProportions)})</span>
-                      </button>
-                    )}
-                    {regular && (
-                      <button
-                        className='vcv-stock-image-download-button'
-                        onClick={this.downloadImage}
-                        data-src={regular}
-                      >
-                        Medium <span>(1080 x {Math.round(1080 * imageProportions)})</span>
-                      </button>
-                    )}
-                    {raw && (
-                      <button
-                        className='vcv-stock-image-download-button'
-                        onClick={this.downloadImage}
-                        data-src={raw}
-                      >
-                        Large <span>({image.width} x {image.height})</span>
-                      </button>
-                    )}
+                    <button
+                      className='vcv-stock-image-download-button'
+                      onClick={this.downloadImage}
+                      data-img-size='400'
+                    >
+                      {StockImagesResultsPanel.localizations.small || 'Small'}
+                      <span>(400 x {Math.round(400 * imageProportions)})</span>
+                    </button>
+                    <button
+                      className='vcv-stock-image-download-button'
+                      onClick={this.downloadImage}
+                      data-img-size='800'
+                    >
+                      {StockImagesResultsPanel.localizations.medium || 'Medium'}
+                      <span>(800 x {Math.round(800 * imageProportions)})</span>
+                    </button>
+                    <button
+                      className='vcv-stock-image-download-button'
+                      onClick={this.downloadImage}
+                      data-img-size='1600'
+                    >
+                      {StockImagesResultsPanel.localizations.large || 'large'}
+                      <span>(1600 x {Math.round(1600 * imageProportions)})</span>
+                    </button>
                   </div>
                 </div>
                 <div className='vcv-stock-image-loading'>
@@ -397,8 +418,8 @@ export default class StockImagesResultsPanel extends React.Component {
 
   render () {
     const { total, columnCount, requestInProgress, page, hasError } = this.state
-    const { searchValue } = this.props
-    if (hasError) {
+    const { searchValue, isSearchUsed } = this.props
+    if (hasError || (isSearchUsed && !searchValue)) {
       return null
     }
     const loadingHtml = (
@@ -420,12 +441,15 @@ export default class StockImagesResultsPanel extends React.Component {
         </div>
       )
     }
+    let freeText = StockImagesResultsPanel.localizations.free && StockImagesResultsPanel.localizations.free.toLowerCase()
+    let pictureText = StockImagesResultsPanel.localizations.pictures
+    let downloadText = StockImagesResultsPanel.localizations.downloadImageFromUnsplash
     return (
       <React.Fragment>
         {searchValue && (
           <div className='vcv-stock-images-results-data'>
-            <span>{total} free {searchValue.toLowerCase()} pictures</span>
-            <span>Download any image to your Media Library</span>
+            <span>{total} {freeText || 'free'} {searchValue.toLowerCase()} {pictureText || 'pictures'}</span>
+            <span>{downloadText || 'Download any image from Unsplash to your Media Library'}</span>
           </div>
         )}
         {results}
