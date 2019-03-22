@@ -22,7 +22,7 @@ class ResizeController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:ajax:setData:updatePostData:content vcv:templates:create:content', 'parseContent');
+        $this->addFilter('setData:updatePostData:content vcv:templates:create:content', 'parseContent');
     }
 
     protected function parseContent($content)

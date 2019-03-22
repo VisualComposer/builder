@@ -23,7 +23,7 @@ class PostUpdateAction extends Container implements Module
     {
         $this->addFilter('vcv:hub:findUpdatePosts:element/*', 'getUpdateablePosts');
         $this->addEvent('vcv:hub:removePostUpdate:post/*', 'removePostFromUpdatesList');
-        $this->addFilter('vcv:ajax:hub:action:postUpdate:skipPost', 'ajaxSkipPost');
+        $this->addFilter('vcv:ajax:hub:action:postUpdate:skipPost:adminNonce', 'ajaxSkipPost');
     }
 
     protected function getUpdateablePosts($posts, $payload, CurrentUser $currentUserAccessHelper)
