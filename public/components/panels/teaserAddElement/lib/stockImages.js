@@ -153,6 +153,7 @@ export default class StockImages extends React.Component {
           searchValue={this.state.searchValue}
           scrolledToBottom={this.props.scrolledToBottom}
           scrollTop={this.props.scrollTop}
+          isSearchUsed={this.state.isSearchUsed}
         />
       </React.Fragment>
     )

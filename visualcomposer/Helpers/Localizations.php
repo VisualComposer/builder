@@ -440,6 +440,42 @@ class Localizations extends Container implements Helper
                 'Download and Add Free Beautiful Photos to Your Site',
                 'vcwb'
             ),
+            'noAccessCheckLicence' => __(
+                'No access, please check your license!',
+                'vcwb'
+            ),
+            'noConnectionToUnsplash' => __(
+                'Could not connect to Unsplash Server!',
+                'vcwb'
+            ),
+            'imageDownloadedToMediaLibrary' => __(
+                'Image has been donwloaded to your Media Library.',
+                'vcwb'
+            ),
+            'coundNotParseData' => __(
+                'Could not parse data from server!',
+                'vcwb'
+            ),
+            'small' => __(
+                'Small',
+                'vcwb'
+            ),
+            'medium' => __(
+                'Medium',
+                'vcwb'
+            ),
+            'large' => __(
+                'Large',
+                'vcwb'
+            ),
+            'pictures' => __(
+                'pictures',
+                'vcwb'
+            ),
+            'downloadImageFromUnsplash' => __(
+                'Download any image from Unsplash to your Media Library',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -8,7 +8,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use http\Exception\UnexpectedValueException;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
@@ -55,32 +54,41 @@ class UnsplashDownloadController extends Container implements Module
     ) {
         if ($currentUserHelper->wpAll($this->capability)->get() && $licenseHelper->isActivated()
             && $requestHelper->exists(
-                'vcv-image'
+                'vcv-imageId'
             )) {
-            $imageUrl = $requestHelper->input('vcv-image');
-            $parseUrl = parse_url($imageUrl);
-            $imageType = exif_imagetype($imageUrl);
-            if (preg_match('|(.*)(.unsplash.com)$|', $parseUrl['host'])
-                && in_array(
-                    $imageType,
-                    [IMAGETYPE_JPEG, IMAGETYPE_PNG]
-                )) {
-                $tempImage = $fileHelper->download($imageUrl);
+            $imageId = $requestHelper->input('vcv-imageId');
+            $imageSize = $requestHelper->input('vcv-imageSize');
+            $imageUrl = $this->getDownloadUrl($imageId);
 
-                if (!vcIsBadResponse($tempImage)) {
-                    $results = $this->moveTemporarilyToUploads($parseUrl, $imageType, $tempImage);
+            if ($imageUrl) {
+                $parseUrl = parse_url($imageUrl);
+                $imageType = exif_imagetype($imageUrl);
+                if (preg_match('|(.*)(.unsplash.com)$|', $parseUrl['host'])
+                    && in_array(
+                        $imageType,
+                        [IMAGETYPE_JPEG, IMAGETYPE_PNG]
+                    )) {
+                    $tempImage = $fileHelper->download($imageUrl . '&w=' . intval($imageSize));
 
-                    if (!isset($results['error']) && $this->addImageToMediaLibrary($results)) {
-                        return ['status' => true];
+                    if (!vcIsBadResponse($tempImage)) {
+                        $results = $this->moveTemporarilyToUploads($parseUrl, $imageType, $tempImage);
+
+                        if (!isset($results['error']) && $this->addImageToMediaLibrary($results)) {
+                            return ['status' => true];
+                        }
+
+                        $this->message = $this->setMessage(esc_html($results->get_error_message()) . ' #10080');
                     }
 
-                    $this->message = $this->setMessage(esc_html($results->get_error_message()) . ' #10080');
+                    $this->message = $this->setMessage(__('Failed to download image, make sure that your upload folder is writable and please try again!', 'vcwb') . ' #10081');
                 }
 
-                $this->message = $this->setMessage(__('Failed to download image, make sure that your upload folder is writable and please try again!', 'vcwb') . ' #10081');
+                $this->message = $this->setMessage(__('Unknown image provider or format!', 'vcwb') . ' #10082');
             }
 
-            $this->message = $this->setMessage(__('Unknown image provider or format.', 'vcwb') . ' #10082');
+            $this->message = $this->setMessage(
+                __('Failed to get the image id, please try again!', 'vcwb') . ' #10084'
+            );
         }
 
         $this->message = $this->setMessage(__('No access, please check your license and make sure your capabilities allow to upload files!', 'vcwb') . ' #10083');
@@ -116,6 +124,11 @@ class UnsplashDownloadController extends Container implements Module
             $variables[] = [
                 'key' => 'VCV_LICENSE_KEY',
                 'value' => $licenseHelper->getKey(),
+                'type' => 'constant',
+            ];
+            $variables[] = [
+                'key' => 'VCV_API_URL',
+                'value' => vcvenv('VCV_API_URL'),
                 'type' => 'constant',
             ];
         }
@@ -193,5 +206,31 @@ class UnsplashDownloadController extends Container implements Module
         $results = wp_handle_sideload($file, $overrides);
 
         return $results;
+    }
+
+    /**
+     * @param $imageId
+     *
+     * @return mixed
+     */
+    protected function getDownloadUrl($imageId)
+    {
+        $licenseHelper = vchelper('License');
+        $response = wp_remote_get(
+            rtrim(vcvenv('VCV_API_URL'), '\\/') . '/api/unsplash/download/' . $imageId . '?licenseKey='
+            . $licenseHelper->getKey(),
+            [
+                'timeout' => 30,
+            ]
+        );
+
+        if (!vcIsBadResponse($response)) {
+            $response = json_decode($response['body'], true);
+            if (isset($response['url'])) {
+                return $response['url'];
+            }
+        }
+
+        return false;
     }
 }
