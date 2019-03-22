@@ -78,7 +78,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     // make canvas high quality
     ctx.imageSmoothingQuality = 'high'
 
-    /// fill image in dest. rectangle
+    // fill image in dest. rectangle
     ctx.drawImage(img, cx, cy, cw, ch, x, y, w, h)
   }
 

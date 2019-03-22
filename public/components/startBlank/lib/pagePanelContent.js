@@ -35,6 +35,7 @@ export default class PagePanelContent extends React.Component {
     this.handleAddElementClick = this.handleAddElementClick.bind(this)
     this.handleAddTemplateClick = this.handleAddTemplateClick.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.updatePageTitle = this.updatePageTitle.bind(this)
   }
 
   componentDidMount () {
@@ -45,6 +46,7 @@ export default class PagePanelContent extends React.Component {
     }, 1)
     this.addResizeListener(this.rowContainer, this.setControlsLayout)
     settingsStorage.state('pageTemplate').onChange(this.updateState)
+    settingsStorage.state('pageTitle').onChange(this.updatePageTitle)
   }
 
   componentWillUnmount () {
@@ -54,6 +56,7 @@ export default class PagePanelContent extends React.Component {
       this.initialSetControlsLayoutTimeout = null
     }
     settingsStorage.state('pageTemplate').ignoreChange(this.updateState)
+    settingsStorage.state('pageTitle').ignoreChange(this.updatePageTitle)
   }
 
   updateState (data) {
@@ -62,6 +65,10 @@ export default class PagePanelContent extends React.Component {
         current: data
       })
     }
+  }
+
+  updatePageTitle (title) {
+    title && this.setState({ title: title })
   }
 
   /**
