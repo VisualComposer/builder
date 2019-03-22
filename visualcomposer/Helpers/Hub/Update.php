@@ -132,7 +132,7 @@ class Update implements Helper
         ];
         $variables[] = [
             'key' => 'VCV_UPDATE_SKIP_POST_URL',
-            'value' => $urlHelper->adminAjax(['vcv-action' => 'hub:action:postUpdate:skipPost']),
+            'value' => $urlHelper->adminAjax(['vcv-action' => 'hub:action:postUpdate:skipPost:adminNonce']),
             'type' => 'constant',
         ];
         $variables[] = [
