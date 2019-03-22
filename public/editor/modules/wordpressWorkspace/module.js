@@ -1,4 +1,4 @@
-import { add, getStorage, getService, env } from 'vc-cake'
+import { add, getStorage, getService, env, onDataChange, setData } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
@@ -51,8 +51,24 @@ add('wordpressWorkspace', (api) => {
     })
   }
 
+  let isDragging = false
+  const handleBodyMouseUp = () => {
+    setData('vcv:layoutCustomMode', 'headerDrop')
+    layoutHeader.removeEventListener('mouseup', handleBodyMouseUp)
+    isDragging = false
+  }
+
   let layoutHeader = document.getElementById('vcv-layout-header')
   if (layoutHeader) {
+    onDataChange('vcv:layoutCustomMode', (data) => {
+      if (data === 'dnd' && !isDragging) {
+        layoutHeader.addEventListener('mouseup', handleBodyMouseUp)
+        isDragging = true
+      } else if (isDragging && !data) {
+        layoutHeader.removeEventListener('mouseup', handleBodyMouseUp)
+        isDragging = false
+      }
+    })
     ReactDOM.render(
       <WorkspaceCont />,
       layoutHeader
