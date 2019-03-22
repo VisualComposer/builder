@@ -385,7 +385,7 @@ export default class StockImagesResultsPanel extends React.Component {
                       data-img-size='400'
                     >
                       {StockImagesResultsPanel.localizations.small || 'Small'}
-                      <span>(400 x {Math.round(400 * imageProportions)})</span>
+                      <span> (400 x {Math.round(400 * imageProportions)})</span>
                     </button>
                     <button
                       className='vcv-stock-image-download-button'
@@ -393,7 +393,7 @@ export default class StockImagesResultsPanel extends React.Component {
                       data-img-size='800'
                     >
                       {StockImagesResultsPanel.localizations.medium || 'Medium'}
-                      <span>(800 x {Math.round(800 * imageProportions)})</span>
+                      <span> (800 x {Math.round(800 * imageProportions)})</span>
                     </button>
                     <button
                       className='vcv-stock-image-download-button'
@@ -401,7 +401,7 @@ export default class StockImagesResultsPanel extends React.Component {
                       data-img-size='1600'
                     >
                       {StockImagesResultsPanel.localizations.large || 'large'}
-                      <span>(1600 x {Math.round(1600 * imageProportions)})</span>
+                      <span> (1600 x {Math.round(1600 * imageProportions)})</span>
                     </button>
                   </div>
                 </div>
