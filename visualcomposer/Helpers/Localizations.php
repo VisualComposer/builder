@@ -449,7 +449,7 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'imageDownloadedToMediaLibrary' => __(
-                'Image has been donwloaded to your Media Library.',
+                'Image has been downloaded to your Media Library.',
                 'vcwb'
             ),
             'coundNotParseData' => __(
