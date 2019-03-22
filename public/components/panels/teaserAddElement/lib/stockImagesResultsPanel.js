@@ -282,7 +282,7 @@ export default class StockImagesResultsPanel extends React.Component {
               position: 'bottom',
               transparent: true,
               rounded: true,
-              text: StockImagesResultsPanel.localizations.imageDownloadedToMediaLibrary || 'Image has been donwloaded to your Media Library.',
+              text: StockImagesResultsPanel.localizations.imageDownloadedToMediaLibrary || 'Image has been downloaded to your Media Library.',
               time: 3000
             })
           } else {
