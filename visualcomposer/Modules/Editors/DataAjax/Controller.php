@@ -207,7 +207,7 @@ class Controller extends Container implements Module
         $data = $requestHelper->input('vcv-data');
         $dataDecoded = $requestHelper->inputJson('vcv-data');
         $content = $requestHelper->input('vcv-content');
-        $content = $filterHelper->fire('vcv:ajax:setData:updatePostData:content', $content);
+        $content = $filterHelper->fire('setData:updatePostData:content', $content);
 
         // @codingStandardsIgnoreStart
         // ['vcvPublicUploadUrl'] == 'httpx://domain/wp-content/uploads/visualcomposer-assets/*
