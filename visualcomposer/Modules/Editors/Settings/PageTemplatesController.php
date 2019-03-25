@@ -49,7 +49,12 @@ class PageTemplatesController extends Container implements Module
                 }
             }
             // @codingStandardsIgnoreLine
-            $currentPostTemplate = $post->page_template;
+            if ($post->page_template === 'default' && isset($output['value'])) {
+                $currentPostTemplate = $output['value'];
+            } else {
+                // @codingStandardsIgnoreLine
+                $currentPostTemplate = $post->page_template;
+            }
             $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
             $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
             $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
