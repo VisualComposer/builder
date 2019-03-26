@@ -81,7 +81,7 @@ class Settings extends Container implements Module
             'showTab' => false,
             'layout' => $layout,
             'controller' => $this,
-            'capability' => 'manage_options',
+            'capability' => 'edit_pages',
         ];
         $this->addSubmenuPage($page);
     }
