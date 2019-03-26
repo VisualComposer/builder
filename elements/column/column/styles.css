@@ -38,6 +38,15 @@
 .vce-col.vce-col--all-hide {
   display: none;
 }
+.vce-col-inner > *:not(.vce-content-background-container):not(.vce-dividers-wrapper):not(.vce-col-content) {
+  position: relative;
+}
+.vce-col-content > *:not(.vce-content-background-container):not(.vce-dividers-wrapper) {
+  position: relative;
+}
+.vce-col-content {
+  border-radius: inherit;
+}
 /* styles for mobile-portrait */
 @media (min-width: 0) {
   .vce-col--xs-auto {
