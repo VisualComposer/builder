@@ -39,7 +39,7 @@ class GettingStarted extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             function (License $licenseHelper, Request $requestHelper) {
-                if (!vchelper('AccessCurrentUser')->wpAll('manage_options')->get()) {
+                if (!vchelper('AccessCurrentUser')->wpAll('edit_posts')->get()) {
                     return;
                 }
 
@@ -87,7 +87,7 @@ class GettingStarted extends Container implements Module
             'layout' => 'standalone',
             'showTab' => false,
             'controller' => $this,
-            'capability' => 'manage_options',
+            'capability' => 'edit_posts',
         ];
         $this->addSubmenuPage($page);
     }

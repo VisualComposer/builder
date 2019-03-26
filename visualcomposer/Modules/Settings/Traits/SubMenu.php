@@ -21,15 +21,20 @@ trait SubMenu
      */
     protected function addSubmenuPage($page, $parentSlug = 'vcv-settings')
     {
+        if (isset($page['capability'])) {
+            $capability = $page['capability'];
+        } else {
+            $capability = 'edit_posts';
+        }
+
         $currentUserAccess = vchelper('AccessCurrentUser');
-        if (!$currentUserAccess->wpAll('edit_posts')->get()) {
+        if (!$currentUserAccess->wpAll($capability)->get()) {
             return;
         }
         $hasAccess = $currentUserAccess->part('settings')->can($page['slug'] . '-tab')->get();
 
         if ($hasAccess) {
             global $submenu;
-            $capability = isset($page['capability']) ? $page['capability'] : 'manage_options';
 
             if (isset($page['external'])) {
                 $submenu[$parentSlug][] = array($page['title'], $capability, $page['external']);

@@ -10,9 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
+use VisualComposer\Modules\Settings\Pages\Settings;
 
 /**
  * Class MenuController.
@@ -61,21 +61,15 @@ class MenuController extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Url $urlHelper
      *
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
-     *
-     * @throws \Exception
+     * @param \VisualComposer\Modules\Settings\Pages\Settings $settingsController
      */
-    protected function addMenuPage(Url $urlHelper, CurrentUser $currentUserAccess)
+    protected function addMenuPage(Url $urlHelper, Settings $settingsController)
     {
         if (!is_network_admin()) {
-            /** @var bool $hasAccess - User must have edit pages capability to see settings, otherwise only about page available */
-            $hasAccess = $currentUserAccess->wpAll('edit_pages')->part('settings')->can('vcv-settings')->get();
-
-            $mainPageSlug = $hasAccess ? 'vcv-settings' : 'vcv-about';
             $title = __('Visual Composer ', 'vcwb');
             $iconUrl = $urlHelper->assetUrl('images/logo/20x14.png');
 
-            add_menu_page($title, $title, 'edit_posts', $mainPageSlug, null, $iconUrl, 76);
+            add_menu_page($title, $title, 'edit_posts', $settingsController->getMainPageSlug(), null, $iconUrl, 76);
         }
     }
 }

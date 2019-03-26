@@ -197,6 +197,12 @@ class Update implements Helper
             'type' => 'constant',
         ];
 
+        $variables[] = [
+            'key' => 'VCV_MANAGE_OPTIONS',
+            'value' => vchelper('AccessCurrentUser')->wpAll('manage_options')->get(),
+            'type' => 'constant',
+        ];
+
         return $variables;
     }
 
