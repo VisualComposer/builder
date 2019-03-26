@@ -1,3 +1,12 @@
+## ver 16.0 - 2019-03-27
+- New: Unsplash stock image library integration with Visual Composer Hub
+- New: Shadow Box option added to the container elements in Design Options
+- New: Blank Page allows specify the page title
+- Update: License re-activation for the same site simplified
+- Update: Editor controls updated for performance
+- Fix: Theme editor works properly with multisite
+- Fix: Column margin applied properly
+- Fix: Missing server extensions deactivate plugin to avoid errors
 ## ver 15.0 - 2019-03-14
 - New: Visual Composer Template block for Gutenberg
 - Update: Drag and drop functionality improved
