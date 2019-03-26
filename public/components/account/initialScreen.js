@@ -25,6 +25,13 @@ export default class InitialScreen extends React.Component {
 
   render () {
     const buttonText = window.VCV_IS_ACTIVATED() ? InitialScreen.texts.goPremium : InitialScreen.texts.unlockHub
+    let goPremiumButton = ''
+    if (window.VCV_MANAGE_OPTIONS()) {
+      goPremiumButton = (
+        <a href={window.VCV_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{buttonText}</a>
+      )
+    }
+
     return (
       <div className='vcv-initial-screen vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
@@ -35,7 +42,7 @@ export default class InitialScreen extends React.Component {
         <SliderComponent />
         <div className='vcv-activation-button-container'>
           <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
-          <a href={window.VCV_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{buttonText}</a>
+          { goPremiumButton }
         </div>
       </div>
     )
