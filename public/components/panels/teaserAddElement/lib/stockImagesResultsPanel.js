@@ -460,14 +460,14 @@ export default class StockImagesResultsPanel extends React.Component {
       results = this.getNoResultsElement()
     }
     let freeText = StockImagesResultsPanel.localizations.free && StockImagesResultsPanel.localizations.free.toLowerCase()
-    let pictureText = StockImagesResultsPanel.localizations.pictures
+    let pictureText = StockImagesResultsPanel.localizations.images
     let downloadText = StockImagesResultsPanel.localizations.downloadImageFromUnsplash
     return (
       <React.Fragment>
         {searchValue && (
           <div className='vcv-stock-images-results-data'>
-            <span>{total} {freeText || 'free'} {searchValue.toLowerCase()} {pictureText || 'pictures'}</span>
-            <span>{downloadText || 'Download any image from Unsplash to your Media Library'}</span>
+            <span>{total} {freeText || 'free'} {searchValue.toLowerCase()} {pictureText || 'images'}</span>
+            <span>{downloadText || 'Download images from Unsplash to your Media Library'}</span>
           </div>
         )}
         {results}
