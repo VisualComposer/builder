@@ -7,10 +7,7 @@ import classNames from 'classnames'
 const dataProcessor = getService('dataProcessor')
 const workspaceStorage = getStorage('workspace')
 const workspaceNotifications = workspaceStorage.state('notifications')
-
-// TODO
-// translations and massages
-// search value null shows last searched images
+const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 
 export default class StockImagesResultsPanel extends React.Component {
   static propTypes = {
@@ -416,11 +413,30 @@ export default class StockImagesResultsPanel extends React.Component {
     })
   }
 
+  getNoResultsElement () {
+    const nothingFoundText = StockImagesResultsPanel.localizations ? StockImagesResultsPanel.localizations.nothingFound : 'Nothing found'
+
+    let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
+
+    return <div className='vcv-ui-editor-no-items-container'>
+      <div className='vcv-ui-editor-no-items-content'>
+        <img
+          className='vcv-ui-editor-no-items-image'
+          src={source}
+          alt={nothingFoundText}
+        />
+      </div>
+    </div>
+  }
+
   render () {
     const { total, columnCount, requestInProgress, page, hasError } = this.state
     const { searchValue, isSearchUsed } = this.props
-    if (hasError || (isSearchUsed && !searchValue)) {
+    if (hasError) {
       return null
+    }
+    if (isSearchUsed && !searchValue) {
+      return this.getNoResultsElement()
     }
     const loadingHtml = (
       <div className='vcv-loading-dots-container'>
@@ -440,6 +456,8 @@ export default class StockImagesResultsPanel extends React.Component {
           {this.getItems()}
         </div>
       )
+    } else {
+      results = this.getNoResultsElement()
     }
     let freeText = StockImagesResultsPanel.localizations.free && StockImagesResultsPanel.localizations.free.toLowerCase()
     let pictureText = StockImagesResultsPanel.localizations.pictures
