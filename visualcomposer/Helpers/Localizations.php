@@ -468,12 +468,12 @@ class Localizations extends Container implements Helper
                 'Large',
                 'vcwb'
             ),
-            'pictures' => __(
-                'pictures',
+            'images' => __(
+                'images',
                 'vcwb'
             ),
             'downloadImageFromUnsplash' => __(
-                'Download any image from Unsplash to your Media Library',
+                'Download images from Unsplash to your Media Library',
                 'vcwb'
             ),
         ];
