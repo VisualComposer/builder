@@ -131,6 +131,10 @@ class Controller extends Container implements Module
         UserCapabilities $userCapabilitiesHelper
     ) {
         global $post;
+        if (!isset($post, $post->ID)) {
+            return false;
+        }
+
         $sourceId = $post->ID;
         if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
             $feError = intval(get_option('page_for_posts')) === $sourceId ? 'page_for_posts' : false;

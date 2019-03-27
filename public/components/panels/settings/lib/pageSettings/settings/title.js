@@ -22,11 +22,17 @@ export default class TitleSettings extends React.Component {
     this.getThemeType = this.getThemeType.bind(this)
     this.checkShowToggle = this.checkShowToggle.bind(this)
     this.updateShowToggle = this.updateShowToggle.bind(this)
+    this.updatePageTitle = this.updatePageTitle.bind(this)
     workspaceIFrame.onChange(this.onIframeChange)
+  }
+
+  componentDidMount () {
+    settingsStorage.state('pageTitle').onChange(this.updatePageTitle)
   }
 
   componentWillUnmount () {
     workspaceIFrame.ignoreChange(this.onIframeChange)
+    settingsStorage.state('pageTitle').ignoreChange(this.updatePageTitle)
   }
 
   checkShowToggle (themeType) {
@@ -78,6 +84,12 @@ export default class TitleSettings extends React.Component {
     }
     this.setState(newVar)
     settingsStorage.state('pageTitle').set(newValue)
+  }
+
+  updatePageTitle (title) {
+    if (title || title === '') {
+      this.setState({ current: title })
+    }
   }
 
   updateTitleToggle (event) {

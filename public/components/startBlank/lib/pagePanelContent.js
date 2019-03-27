@@ -68,7 +68,9 @@ export default class PagePanelContent extends React.Component {
   }
 
   updatePageTitle (title) {
-    title && this.setState({ title: title })
+    if (title || title === '') {
+      this.setState({ title: title })
+    }
   }
 
   /**
