@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import lodash from 'lodash'
-import { getStorage, getService } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import classNames from 'classnames'
 
 const dataProcessor = getService('dataProcessor')
@@ -19,6 +19,7 @@ export default class StockImagesResultsPanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
   maxColumnCount = 5
   abortController = new window.AbortController()
+  componentUnmounted = false
 
   constructor (props) {
     super(props)
@@ -48,6 +49,7 @@ export default class StockImagesResultsPanel extends React.Component {
   componentWillUnmount () {
     document.removeEventListener('click', this.handleClickOutside)
     window.removeEventListener('resize', this.setColumnCount)
+    this.componentUnmounted = true
     this.abortController.abort()
   }
 
@@ -140,7 +142,8 @@ export default class StockImagesResultsPanel extends React.Component {
         rounded: true,
         text: `${StockImagesResultsPanel.localizations.noAccessCheckLicence} #10085` || 'No access, please check your license! #10085',
         time: 3000,
-        type: 'error'
+        type: 'error',
+        id: 'unsplash-error'
       })
       this.setState({
         hasError: true
@@ -173,18 +176,25 @@ export default class StockImagesResultsPanel extends React.Component {
           }
         },
         (error) => {
+          if (this.componentUnmounted) {
+            return
+          }
+          const errorText = `${StockImagesResultsPanel.localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Unsplash Server! #10088'
           workspaceNotifications.set({
             position: 'bottom',
             transparent: true,
             rounded: true,
-            text: `${StockImagesResultsPanel.localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Unsplash Server! #10088',
+            text: errorText,
             time: 3000,
-            type: 'error'
+            type: 'error',
+            id: 'unsplash-error'
           })
           this.setState({
             hasError: true
           })
-          console.error(error)
+          if (env('VCV_DEBUG')) {
+            console.warn(errorText, error)
+          }
         }
       )
   }
@@ -283,27 +293,38 @@ export default class StockImagesResultsPanel extends React.Component {
               time: 3000
             })
           } else {
-            const errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
+            let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
+            errorMessage = errorMessage || `${StockImagesResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, please check your license! #10087'
             workspaceNotifications.set({
               position: 'bottom',
               transparent: true,
               rounded: true,
-              text: errorMessage || `${StockImagesResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, please check your license! #10087',
+              text: errorMessage,
               time: 3000,
-              type: 'error'
+              type: 'error',
+              id: 'unsplash-error'
             })
-            console.error(jsonData)
+            if (env('VCV_DEBUG')) {
+              console.warn(errorMessage, jsonData)
+            }
           }
         } catch (e) {
+          const exceptionErrorMessage = `${StockImagesResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from server! #10086'
           workspaceNotifications.set({
             position: 'bottom',
             transparent: true,
             rounded: true,
-            text: `${StockImagesResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from server! #10086',
+            text: exceptionErrorMessage,
             time: 3000,
-            type: 'error'
+            type: 'error',
+            id: 'unsplash-error'
           })
-          console.error('error', e)
+          if (env('VCV_DEBUG')) {
+            console.warn(exceptionErrorMessage, e)
+          }
+        }
+        if (this.componentUnmounted) {
+          return
         }
         if (this.state.activeItem === imageId) {
           this.setState({ activeItem: null })
