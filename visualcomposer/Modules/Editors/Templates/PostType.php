@@ -30,6 +30,8 @@ class PostType extends Container implements Module
      */
     protected function registerTemplatesPostType()
     {
+        $settings = vcapp('SettingsPagesSettings');
+
         register_post_type(
             $this->postType,
             [
@@ -38,7 +40,6 @@ class PostType extends Container implements Module
                 'publicly_queryable' => false,
                 'exclude_from_search' => true,
                 'show_ui' => false,
-                'show_in_menu' => false,
                 'menu_position' => 10,
                 'menu_icon' => 'dashicons-admin-page',
                 'hierarchical' => false,
@@ -47,7 +48,7 @@ class PostType extends Container implements Module
                 'rewrite' => false,
                 'query_var' => false,
                 'show_in_nav_menus' => false,
-                'capability_type' => $this->postType,
+                'capability_type' => [$this->postType, $this->postType . 's'],
                 'capabilities' => [
                     'edit_post' => 'edit_' . $this->postType,
                     'read_post' => 'read_' . $this->postType,
@@ -62,40 +63,66 @@ class PostType extends Container implements Module
                     'delete_others_posts' => 'delete_others_' . $this->postType . 's',
                     'read' => 'read_' . $this->postType,
                 ],
+                'show_in_menu' => $settings->getMainPageSlug(),
             ]
         );
     }
 
     protected function coreCapabilities()
     {
+        $optionsHelper = vchelper('Options');
+        if ($optionsHelper->get($this->postType . '-capabilities-set')) {
+            return;
+        }
+
         $roles = ['administrator', 'editor', 'author', 'contributor'];
 
         foreach ($roles as $role) {
-            $capabilities = [
-                "read_{$this->postType}",
-            ];
-
-            if (in_array($role, ['administrator', 'editor'])) {
-                $capabilities = [
-                    "edit_{$this->postType}",
-                    "read_{$this->postType}",
-                    "delete_{$this->postType}",
-                    "edit_{$this->postType}s",
-                    "edit_others_{$this->postType}s",
-                    "publish_{$this->postType}s",
-                    "create_{$this->postType}s",
-                    "delete_{$this->postType}s",
-                    "delete_published_{$this->postType}s",
-                    "delete_others_{$this->postType}s",
-                    "edit_published_{$this->postType}s",
-                ];
+            $roleObject = get_role($role);
+            if (!$roleObject) {
+                continue;
             }
 
-            $role = get_role($role);
-            if ($role) {
+            $capabilities = [
+                "read_{$this->postType}",
+                "edit_{$this->postType}",
+                "delete_{$this->postType}",
+                "edit_{$this->postType}s",
+                "delete_{$this->postType}s",
+            ];
+
+            if (in_array($role, ['administrator', 'editor', 'author'])) {
+                $capabilities = array_merge(
+                    $capabilities,
+                    [
+                        "delete_published_{$this->postType}s",
+                        "publish_{$this->postType}s",
+                        "edit_published_{$this->postType}s",
+                    ]
+                );
+            }
+
+            if (in_array($role, ['administrator', 'editor'])) {
+                $capabilities = array_merge(
+                    $capabilities,
+                    [
+                        "read_private_{$this->postType}s",
+                        "edit_private_{$this->postType}s",
+                        "delete_private_{$this->postType}s",
+                        "delete_others_{$this->postType}s",
+                        "delete_{$this->postType}",
+                        "edit_others_{$this->postType}s",
+                        "create_{$this->postType}s"
+                    ]
+                );
+            }
+
+            if ($roleObject) {
                 foreach ($capabilities as $cap) {
-                    $role->add_cap($cap);
+                    $roleObject->add_cap($cap);
                 }
+
+                $optionsHelper->set($this->postType . '-capabilities-set', 1);
             }
         }
     }

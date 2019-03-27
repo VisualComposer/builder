@@ -81,8 +81,29 @@ class Settings extends Container implements Module
             'showTab' => false,
             'layout' => $layout,
             'controller' => $this,
-            'capability' => 'manage_options',
+            'capability' => 'edit_pages',
         ];
         $this->addSubmenuPage($page);
+    }
+
+    public function getMainPageSlug()
+    {
+        $currentUserAccess = vchelper('AccessCurrentUser');
+        $aboutConroller = vcapp('SettingsPagesAbout');
+        $gettingStartedController = vcapp('LicensePagesGettingStarted');
+        $licenseHelper = vchelper('License');
+        $hasAccess = $currentUserAccess->wpAll('edit_pages')->part('settings')->can('vcv-settings')->get();
+
+        if ($hasAccess) {
+            $pageSlug = $this->getSlug();
+        } else {
+            if ($licenseHelper->isActivated()) {
+                $pageSlug = $aboutConroller->getSlug();
+            } else {
+                $pageSlug = $gettingStartedController->getSlug();
+            }
+        }
+
+        return $pageSlug;
     }
 }
