@@ -1,5 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import vcCake from 'vc-cake'
+
+const settingsStorage = vcCake.getStorage('settings')
 
 export default class HfsPanelContent extends React.Component {
   static propTypes = {
@@ -10,10 +13,19 @@ export default class HfsPanelContent extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputValue: props.value || ''
+      inputValue: settingsStorage.state('pageTitle').get() || ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.updatePageTitle = this.updatePageTitle.bind(this)
+  }
+
+  componentDidMount () {
+    settingsStorage.state('pageTitle').onChange(this.updatePageTitle)
+  }
+
+  componentWillUnmount () {
+    settingsStorage.state('pageTitle').ignoreChange(this.updatePageTitle)
   }
 
   handleSubmit (e) {
@@ -21,9 +33,17 @@ export default class HfsPanelContent extends React.Component {
     this.props.addClick(this.state.inputValue.trim())
   }
 
-  handleChange (e) {
+  handleTitleChange (e) {
     e && e.preventDefault()
-    this.setState({ inputValue: e.currentTarget.value })
+    const value = e.currentTarget.value
+    this.setState({ inputValue: value })
+    settingsStorage.state('pageTitle').set(value)
+  }
+
+  updatePageTitle (title) {
+    if (title || title === '') {
+      this.setState({ inputValue: title })
+    }
   }
 
   render () {
@@ -38,7 +58,7 @@ export default class HfsPanelContent extends React.Component {
           className='vcv-start-blank-title-input'
           type='text'
           placeholder={placeholder.replace('{name}', this.props.type)}
-          onChange={this.handleChange}
+          onChange={this.handleTitleChange}
           value={inputValue || ''}
           autoFocus
         />
