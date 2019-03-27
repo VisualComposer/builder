@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceSettings = workspaceStorage.state('settings')
-const settingsStorage = vcCake.getStorage('settings')
 
 export default class startBlank extends React.Component {
   static propTypes = {
@@ -16,9 +15,8 @@ export default class startBlank extends React.Component {
 
   constructor (props) {
     super(props)
-    this.handleCloseClick = this.handleCloseClick.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
-    this.handlePageNameClick = this.handlePageNameClick.bind(this)
+    this.handleStartClick = this.handleStartClick.bind(this)
   }
 
   componentDidMount () {
@@ -32,23 +30,14 @@ export default class startBlank extends React.Component {
     }
   }
 
-  handlePageNameClick (value) {
-    if (value) {
-      settingsStorage.state('pageTitle').set(value)
+  handleStartClick () {
+    const settings = {
+      action: 'add',
+      element: {},
+      tag: '',
+      options: {}
     }
-    this.handleCloseClick(true)
-  }
-
-  handleCloseClick (blank) {
-    if (blank) {
-      const settings = {
-        action: 'add',
-        element: {},
-        tag: '',
-        options: {}
-      }
-      workspaceSettings.set(settings)
-    }
+    workspaceSettings.set(settings)
     this.props.unmountStartBlank()
   }
 
@@ -66,8 +55,7 @@ export default class startBlank extends React.Component {
       startBlankContent = (
         <HfsPanelContent
           type={type}
-          addClick={this.handlePageNameClick}
-          value={settingsStorage.state('pageTitle').get()}
+          addClick={this.handleStartClick}
         />
       )
     } else {
