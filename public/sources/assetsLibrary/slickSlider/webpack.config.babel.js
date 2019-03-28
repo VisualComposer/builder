@@ -1,12 +1,12 @@
 import path from 'path'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import webpack from 'webpack'
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 
 module.exports = {
   mode: 'production',
   entry: {
-    slickCustom: [ './src/slickCustom.js', './src/slickCustom.css' ]
+    slickCustom: [ './src/slickCustom.js' ]
   },
   output: {
     path: path.resolve(__dirname, 'dist/'), // Assets dist path
@@ -20,41 +20,12 @@ module.exports = {
   optimization: {
     minimize: true,
     runtimeChunk: false,
+    namedChunks: true, // MUST BE true even for production
+    namedModules: true, // MUST BE true even for production
     minimizer: [
-      new UglifyJSPlugin({
-        cache: true,
-        parallel: true,
-        uglifyOptions: {
-          output: {
-            comments: false
-          },
-          compress: false,
-          ecma: 6,
-          mangle: true
-          // compress: {
-          //   // unsafe_comps: true,
-          //   // properties: true,
-          //   // keep_fargs: false,
-          //   // pure_getters: true,
-          //   // collapse_vars: true,
-          //   // unsafe: true,
-          //   // warnings: false,
-          //   // screw_ie8: true,
-          //   // sequences: true,
-          //   // dead_code: true,
-          //   // drop_debugger: true,
-          //   // comparisons: true,
-          //   // conditionals: true,
-          //   // evaluate: true,
-          //   // booleans: true,
-          //   // loops: true,
-          //   // unused: true,
-          //   // hoist_funs: true,
-          //   // if_return: true,
-          //   // join_vars: true,
-          //   // cascade: true,
-          //   // drop_console: true
-          // }
+      new TerserPlugin({
+        terserOptions: {
+          safari10: true
         }
       })
     ]
@@ -109,8 +80,8 @@ module.exports = {
                 browsers: [ 'ie >= 11', 'last 2 version' ]
               }) ]
             }
-          }, 'less-loader' ]
-        })
+          } ]
+        }, 'less-loader')
       },
       {
         test: /\.less$/,
