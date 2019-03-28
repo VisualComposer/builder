@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import vcCake from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import YoutubeBackground from './youtubeBackground'
 import VimeoBackground from './vimeoBackground'
 import ImageSimpleBackground from './imageSimpleBackground'
@@ -14,9 +14,9 @@ import Divider from './divider'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
 
-const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
-const assetsStorage = vcCake.getStorage('assets')
-
+const shortcodesAssetsStorage = getStorage('shortcodeAssets')
+const assetsStorage = getStorage('assets')
+const modernAssetsStorageInstance = getService('modernAssetsStorage').create()
 let dataProcessor = null
 
 export default class ElementComponent extends React.Component {
@@ -29,7 +29,12 @@ export default class ElementComponent extends React.Component {
 
   constructor (props) {
     super(props)
+    this.mixinData = modernAssetsStorageInstance.getCssMixinsByElement(this.props.atts)
     this.updateElementAssets = this.updateElementAssets.bind(this)
+  }
+
+  componentDidUpdate (prevProps) {
+    this.mixinData = modernAssetsStorageInstance.getCssMixinsByElement(this.props.atts)
   }
 
   spinnerHTML () {
@@ -63,7 +68,7 @@ export default class ElementComponent extends React.Component {
     if (content && (content.match(this.getShortcodesRegexp()) || content.match(/https?:\/\//) || content.indexOf('<!-- wp') !== -1)) {
       ref && (ref.innerHTML = this.spinnerHTML())
       if (!dataProcessor) {
-        dataProcessor = vcCake.getService('dataProcessor')
+        dataProcessor = getService('dataProcessor')
       }
       let that = this
       this.ajax = dataProcessor.appServerRequest({
@@ -76,7 +81,7 @@ export default class ElementComponent extends React.Component {
           this.ajax = null
           return
         }
-        let iframe = vcCake.env('iframe')
+        let iframe = env('iframe')
 
         try {
           ((function (window, document) {
@@ -270,33 +275,21 @@ export default class ElementComponent extends React.Component {
   }
 
   getMixinData (mixinName) {
-    const vcCake = require('vc-cake')
-    const assetsStorage = vcCake.getService('modernAssetsStorage').getGlobalInstance()
-    let returnData = null
-    let mixinData = assetsStorage.getCssMixinsByElement(this.props.atts)
+    if (!this.mixinData) {
+      return
+    }
     let { tag } = this.props.atts
-    if (mixinData[ tag ] && mixinData[ tag ][ mixinName ]) {
-      let mixin = Object.keys(mixinData[ tag ][ mixinName ])
+    let returnData = null
+    if (this.mixinData[ tag ] && this.mixinData[ tag ][ mixinName ]) {
+      let mixin = Object.keys(this.mixinData[ tag ][ mixinName ])
       mixin = mixin.length ? mixin.pop() : null
       if (mixin) {
-        returnData = mixinData[ tag ][ mixinName ][ mixin ]
+        returnData = this.mixinData[ tag ][ mixinName ][ mixin ]
       }
     } else {
-      returnData = mixinData[ tag ] || mixinData
+      returnData = this.mixinData[ tag ] || this.mixinData
     }
-    return returnData
-  }
 
-  // TODO: Unused method, consider removing?
-  getAttributeMixinData (attributeName) {
-    const vcCake = require('vc-cake')
-    const assetsStorage = vcCake.getService('modernAssetsStorage').getGlobalInstance()
-    let returnData = null
-    let mixinData = assetsStorage.getAttributesMixinsByElement(this.props.atts)
-    let { tag } = this.props.atts
-    if (mixinData[ tag ] && mixinData[ tag ][ attributeName ] && mixinData[ tag ][ attributeName ].variables) {
-      returnData = mixinData[ tag ][ attributeName ].variables
-    }
     return returnData
   }
 

@@ -4,7 +4,6 @@ import { getResponse } from 'public/tools/response'
 
 addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
-  const modernAssetsStorage = getService('modernAssetsStorage')
   const elementsStorage = getStorage('elements')
   const workspaceStorage = getStorage('workspace')
   const settingsStorage = getStorage('settings')
@@ -68,7 +67,6 @@ addStorage('wordpressData', (storage) => {
     const { status, request } = data
     if (status === 'loadSuccess') {
       // setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
-      const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
       /**
        * @typedef {Object} responseData parsed data from JSON
        * @property {Array} globalElements list of global elements
@@ -77,10 +75,6 @@ addStorage('wordpressData', (storage) => {
       let responseData = getResponse(request)
       const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
       const pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
-      if (responseData.globalElements && responseData.globalElements.length) {
-        let globalElements = JSON.parse(responseData.globalElements || '{}')
-        globalElements && globalAssetsStorage.setElements(globalElements)
-      }
       const initialContent = responseData.post_content
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         elementsStorage.trigger('reset', {})

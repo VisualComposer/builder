@@ -18,6 +18,24 @@ export default class CssBuilder {
       /**
        * @memberOf! CssBuilder
        */
+      addedEditorStylesTagList: {
+        configurable: false,
+        enumerable: false,
+        value: [],
+        writable: true
+      },
+      /**
+       * @memberOf! CssBuilder
+       */
+      addedBaseStylesTagList: {
+        configurable: false,
+        enumerable: false,
+        value: [],
+        writable: true
+      },
+      /**
+       * @memberOf! CssBuilder
+       */
       loadedCssFiles: {
         configurable: false,
         enumerable: false,
@@ -87,7 +105,7 @@ export default class CssBuilder {
     const dataStorageState = getStorage('wordpressData').state('status').get().status
 
     this.updateStyleDomNodes(data)
-    let cssBuildTypes = ['template', 'header', 'footer', 'sidebar']
+    let cssBuildTypes = [ 'template', 'header', 'footer', 'sidebar' ]
     let editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : false
     let allowCssBuild = (editorType && cssBuildTypes.indexOf(editorType) > -1)
     if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD') && !allowCssBuild) {
@@ -95,7 +113,6 @@ export default class CssBuilder {
     } else {
       this.addCssElementBaseByElement(data)
       this.addElementEditorFiles(data)
-      this.globalAssetsStorageService.addElement(data.id)
       this.addElementGlobalAttributesCssMixins(data) // designOptions!
       this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
       this.addElementFiles(data, force)
@@ -126,7 +143,6 @@ export default class CssBuilder {
     } else {
       this.addCssElementBaseByElement(data)
       this.addElementEditorFiles(data)
-      this.globalAssetsStorageService.updateElement(data.id)
       this.addElementGlobalAttributesCssMixins(data) // designOptions!
       this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
       this.addElementFiles(data)
@@ -138,8 +154,6 @@ export default class CssBuilder {
   }
 
   destroy (id, tag) {
-    this.globalAssetsStorageService.removeElement(id)
-    this.removeCssElementBaseByElement(tag)
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
     this.window.vcv.trigger('ready', 'destroy', id, {}, tag)
@@ -270,12 +284,12 @@ export default class CssBuilder {
   }
 
   addElementEditorFiles (data) {
-    const usedTags = this.globalAssetsStorageService.getElementsTagsList()
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
-      if (usedTags.indexOf(tag) === -1) {
+      if (this.addedEditorStylesTagList.indexOf(tag) === -1) {
         let elementEditorCss = this.globalAssetsStorageService.elementCssEditor(tag)
         if (elementEditorCss.length) {
+          this.addedEditorStylesTagList.push(tag)
           let styles = this.stylesManager.create()
           styles.add(elementEditorCss)
           this.addJob(styles.compile().then((result) => {
@@ -345,12 +359,12 @@ export default class CssBuilder {
   }
 
   addCssElementBaseByElement (data) {
-    const usedTags = this.globalAssetsStorageService.getElementsTagsList()
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
-      if (usedTags.indexOf(tag) === -1) {
+      if (this.addedBaseStylesTagList.indexOf(tag) === -1) {
         let elementCssBase = this.globalAssetsStorageService.elementCssBase(tag)
         if (elementCssBase.length) {
+          this.addedBaseStylesTagList.push(tag)
           let styles = this.stylesManager.create()
           styles.add(elementCssBase)
           let css = styles.compile().then((result) => {
@@ -363,14 +377,6 @@ export default class CssBuilder {
         }
       }
     })
-  }
-
-  removeCssElementBaseByElement (tag) {
-    const usedTags = this.globalAssetsStorageService.getElementsTagsList()
-    if (usedTags.indexOf(tag) === -1) {
-      const node = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
-      node && node.remove()
-    }
   }
 
   addElementGlobalAttributesCssMixins (data) {

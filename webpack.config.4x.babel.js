@@ -62,7 +62,6 @@ module.exports = {
           'elementAssetsLibrary',
           'actionsManager',
           'rulesManager',
-          'api',
           'dataProcessor',
           'modernAssetsStorage',
           'stylesManager',
@@ -72,12 +71,9 @@ module.exports = {
           'hubElements',
           'elementAccessPoint',
           'hubAddons',
-          'renderProcessor'
+          'renderProcessor',
+          'api'
         ]
-      },
-      'wpbackend-switcher': {
-        services: [],
-        modules: []
       }
     }),
     new ExtractTextPlugin('[name].bundle.css'),
