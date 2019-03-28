@@ -51,7 +51,6 @@ module.exports = Object.assign({}, config, {
           'elementAssetsLibrary',
           'actionsManager',
           'rulesManager',
-          'api',
           'dataProcessor',
           'modernAssetsStorage',
           'stylesManager',
@@ -61,36 +60,9 @@ module.exports = Object.assign({}, config, {
           'hubElements',
           'elementAccessPoint',
           'hubAddons',
-          'renderProcessor'
+          'renderProcessor',
+          'api'
         ]
-      },
-      wpupdate: {
-        modules: [
-          'updateContent'
-        ],
-        services: [
-          'utils',
-          'document',
-          'wordpress-post-data',
-          'cook',
-          'sharedAssetsLibrary',
-          'elementAssetsLibrary',
-          'actionsManager',
-          'rulesManager',
-          'api',
-          'dataProcessor',
-          'modernAssetsStorage',
-          'stylesManager',
-          'wpMyTemplates',
-          'hubCategories',
-          'hubGroups',
-          'hubElements',
-          'renderProcessor'
-        ]
-      },
-      'wpbackend-switcher': {
-        services: [],
-        modules: []
       }
     }),
     new ExtractTextPlugin('[name].bundle.css'),
