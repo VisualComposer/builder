@@ -1,88 +1,9 @@
-import vcCake from 'vc-cake'
+import { addService, env } from 'vc-cake'
 import AssetsStorage from './lib/assetsStorage'
 
 const storage = new AssetsStorage()
 
 class PublicApi {
-  constructor (elements = {}) {
-    storage.set(elements)
-  }
-
-  // ==== Elements
-  /**
-   * Set elements
-   * @param elements
-   */
-  setElements (elements) {
-    storage.set(elements)
-    return this
-  }
-
-  /**
-   * Add element by id
-   * @param id
-   */
-  addElement (id) {
-    storage.add(id)
-    return this
-  }
-
-  /**
-   * Reset elements list
-   * @param ids
-   * @returns {publicApi.resetElements}
-   */
-  resetElements (ids) {
-    storage.reset(ids)
-    return this
-  }
-
-  /**
-   * Update element by id
-   * @param id
-   * @returns {publicApi}
-   */
-  updateElement (id) {
-    storage.update(id)
-    return this
-  }
-
-  /**
-   * Remove element by id
-   * @param id
-   * @returns {publicApi}
-   */
-  removeElement (id) {
-    storage.remove(id)
-    return this
-  }
-
-  /**
-   * get element by id
-   * @param id
-   * @returns {*}
-   */
-  getElementById (id) {
-    return storage.get(id)
-  }
-
-  /**
-   * Get all elements
-   * @returns {*}
-   */
-  getElements () {
-    return storage.get()
-  }
-
-  // ==== Other getters
-  /**
-   * Get elements tags list
-   * @returns {*|Array}
-   */
-  getElementsTagsList () {
-    return storage.getTagsList()
-  }
-
   /**
    * Get element tags by data
    * @param data
@@ -98,6 +19,12 @@ class PublicApi {
    * @returns {*|{}}
    */
   getCssMixinsByElement (element) {
+    if (!element.tag) {
+      env('VCV_DEBUG') && console.warn('Assets.service no element tag provided', element)
+
+      return {}
+    }
+
     return storage.getCssMixinsByElement(element)
   }
 
@@ -110,105 +37,8 @@ class PublicApi {
     return storage.getAttributesMixinsByElement(element)
   }
 
-  // ==== Other css data
-  /**
-   * Set custom css styles
-   * @param styles
-   */
-  setCustomCss (styles) {
-    storage.setCustomCss(styles)
-    return this
-  }
-
-  /**
-   * Get custom css styles
-   * @returns {*}
-   */
-  getCustomCss () {
-    return storage.getCustomCss()
-  }
-
-  /**
-   * Set global css styles
-   * @param styles
-   */
-  setGlobalCss (styles) {
-    storage.setGlobalCss(styles)
-    return this
-  }
-
-  /**
-   * Get global css styles
-   * @returns {*}
-   */
-  getGlobalCss () {
-    return storage.getGlobalCss()
-  }
-
-  // ==== Get css data
-  getPageCssData () {
-    let styles = []
-    styles = styles.concat(
-      storage.getCustomCssData(),
-      storage.getAttributesMixinsCssData()
-    )
-    return styles
-  }
-
-  getPageCssDataNG () {
-    let styles = []
-    styles = styles.concat(
-      storage.getCustomCssData()
-    )
-    return styles
-  }
-
-  getSiteCssData (editor = false) {
-    let styles = []
-    styles = styles.concat(
-      storage.getElementsCssData(editor),
-      storage.getMixinsCssData(),
-      storage.getGlobalCssData()
-    )
-    return styles
-  }
-
-  getSiteCssDataNG () {
-    let styles = []
-    styles = styles.concat(
-      storage.getGlobalCssData()
-    )
-    return styles
-  }
-
   getCssDataByElement (element, options = {}) {
-    let styles = []
-    styles = styles.concat(
-      storage.getCssDataByElement(element, options)
-    )
-    return styles
-  }
-
-  // ==== Get css data for wordpress backend, doesn't include custom and global css
-  getWpBackendPageCssData () {
-    let styles = []
-    styles = styles.concat(
-      storage.getAttributesMixinsCssData()
-    )
-    return styles
-  }
-
-  getWpBackendSiteCssData (editor = false) {
-    let styles = []
-    styles = styles.concat(
-      storage.getElementsCssData(editor),
-      storage.getMixinsCssData()
-    )
-    return styles
-  }
-
-  getGoogleFontsData () {
-    return storage.getGoogleFontsData()
+    return storage.getCssDataByElement(element, options)
   }
 
   elementCssBase (tag) {
@@ -227,16 +57,11 @@ class PublicApi {
     return storage.elementCssEditor(tag)
   }
 }
-let singleton = false
+
+let singleton = new PublicApi()
 const service = {
-  create (elements = {}) {
-    return new PublicApi(elements = {})
-  },
-  getGlobalInstance () {
-    if (!singleton) {
-      singleton = this.create()
-    }
+  create () {
     return singleton
   }
 }
-vcCake.addService('modernAssetsStorage', service)
+addService('modernAssetsStorage', service)

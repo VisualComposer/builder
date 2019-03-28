@@ -26,19 +26,26 @@ export default class SaveController {
    * @private
    */
   save (id, data, status, options) {
-    let globalStyles = ''
-    let pageStyles = ''
+    let globalStylesCompiled = ''
+    let pageStylesCompiled = ''
     let promises = []
-    const globalAssetsStorageInstance = modernAssetsStorage.getGlobalInstance()
+    const assetsStorageInstance = modernAssetsStorage.create()
     let globalStylesManager = stylesManager.create()
-    globalStylesManager.add(globalAssetsStorageInstance.getSiteCssDataNG())
+    let globalCss = settingsStorage.state('globalCss').get() || ''
+    globalStylesManager.add([ {
+      src: globalCss
+    } ])
     promises.push(globalStylesManager.compile().then((result) => {
-      globalStyles = result
+      globalStylesCompiled = result
     }))
     const localStylesManager = stylesManager.create()
-    localStylesManager.add(globalAssetsStorageInstance.getPageCssDataNG())
+    let customCss = settingsStorage.state('customCss').get() || ''
+    localStylesManager.add([ {
+      src: customCss
+    } ])
+    // localStylesManager.add(globalAssetsStorageInstance.getPageCssDataNG())
     promises.push(localStylesManager.compile().then((result) => {
-      pageStyles = result
+      pageStylesCompiled = result
     }))
     let assetsFiles = {
       jsBundles: [],
@@ -57,16 +64,18 @@ export default class SaveController {
       const elementBaseStyleManager = stylesManager.create()
       const elementAttributesStyleManager = stylesManager.create()
       const elementMixinsStyleManager = stylesManager.create()
-      const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { attributeMixins: false, cssMixins: false })
-      const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { tags: false, cssMixins: false })
-      const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[ key ], { tags: false, attributeMixins: false })
+      const { tags: baseCss, attributeMixins, cssMixins } = assetsStorageInstance.getCssDataByElement(data.elements[ key ], {
+        tags: true,
+        attributeMixins: true,
+        cssMixins: true
+      })
       promises.push(elementBaseStyleManager.add(baseCss).compile().then((result) => {
         elementsCss[ key ].baseCss = result
       }))
-      promises.push(elementAttributesStyleManager.add(attributesCss).compile().then((result) => {
+      promises.push(elementAttributesStyleManager.add(attributeMixins).compile().then((result) => {
         elementsCss[ key ].attributesCss = result
       }))
-      promises.push(elementMixinsStyleManager.add(mixinsCss).compile().then((result) => {
+      promises.push(elementMixinsStyleManager.add(cssMixins).compile().then((result) => {
         elementsCss[ key ].mixinsCss = result
       }))
     })
@@ -86,12 +95,12 @@ export default class SaveController {
         'vcv-ready': '1', // Used for backend editor when post being saved
         'vcv-content': '<!--vcv no format-->' + content + '<!--vcv no format-->',
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
-        'vcv-global-css-compiled': globalStyles,
+        'vcv-global-css-compiled': globalStylesCompiled,
         'vcv-elements-css-data': encodeURIComponent(JSON.stringify(elementsCss)),
         'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
-        'vcv-source-css-compiled': pageStyles,
-        'vcv-settings-source-custom-css': settingsStorage.state('customCss').get() || '',
-        'vcv-settings-global-css': settingsStorage.state('globalCss').get() || '',
+        'vcv-source-css-compiled': pageStylesCompiled,
+        'vcv-settings-source-custom-css': customCss,
+        'vcv-settings-global-css': globalCss,
         'vcv-settings-source-local-head-js': settingsStorage.state('localJsHead').get() || '',
         'vcv-settings-source-local-footer-js': settingsStorage.state('localJsFooter').get() || '',
         'vcv-settings-global-head-js': settingsStorage.state('globalJsHead').get() || '',
