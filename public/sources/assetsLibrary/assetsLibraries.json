@@ -93,7 +93,8 @@
         "monosocial": "[publicPath]/dist/monosocial.bundle.css",
         "openiconic": "[publicPath]/dist/openiconic.bundle.css",
         "socials": "[publicPath]/dist/socials.bundle.css",
-        "typicons": "[publicPath]/dist/typicons.bundle.css"
+        "typicons": "[publicPath]/dist/typicons.bundle.css",
+        "cart": "[publicPath]/dist/cart.bundle.css"
       }
     },
     {

@@ -330,6 +330,7 @@ class Categories implements Helper
                     'woocommerceBestSellingProducts',
                     'woocommerceAddToCart',
                     'woocommerceProducts32',
+                    'cartIconWithCounter',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/WordPress.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/WordPress.svg'),
