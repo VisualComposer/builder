@@ -20,6 +20,9 @@ let setList = {
   },
   socials: {
     socials: require('./lib/socials')
+  },
+  cart: {
+    cart: require('./lib/cart')
   }
 }
 
