@@ -33,6 +33,7 @@ class FrontVariablesController extends Container implements Module
             foreach ($variables as $variable) {
                 if (is_array($variable) && isset($variable['key'], $variable['value'])) {
                     $type = isset($variable['type']) ? $variable['type'] : 'variable';
+                    $variable['addScript'] = false;
                     $scriptOutput .= vcview('partials/variableTypes/' . $type, $variable);
                 }
             }
