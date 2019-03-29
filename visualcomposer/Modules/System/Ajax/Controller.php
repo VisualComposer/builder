@@ -39,6 +39,12 @@ class Controller extends Container implements Module
             'disableAjaxErrors',
             10
         );
+        /** @see \VisualComposer\Modules\System\Ajax\Controller::listenAjax */
+        $this->wpAddAction(
+            'wp_loaded',
+            'listenLateAjax',
+            100
+        );
     }
 
     protected function getResponse($requestAction)
@@ -73,7 +79,18 @@ class Controller extends Container implements Module
 
     protected function listenAjax(Request $requestHelper)
     {
-        if ($requestHelper->isAjax()) {
+        if ($requestHelper->isAjax() && !$requestHelper->exists('vcv-late-request')) {
+            $this->setGlobals();
+            /** @see \VisualComposer\Modules\System\Ajax\Controller::parseRequest */
+            $rawResponse = $this->call('parseRequest');
+            $output = $this->renderResponse($rawResponse);
+            $this->output($output, $rawResponse);
+        }
+    }
+
+    protected function listenLateAjax(Request $requestHelper)
+    {
+        if ($requestHelper->isAjax() && $requestHelper->exists('vcv-late-request')) {
             $this->setGlobals();
             /** @see \VisualComposer\Modules\System\Ajax\Controller::parseRequest */
             $rawResponse = $this->call('parseRequest');
