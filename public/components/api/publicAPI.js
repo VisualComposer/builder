@@ -1,7 +1,11 @@
-import ee from 'event-emitter'
-const MyEventEmitter = function () {}
-ee(MyEventEmitter.prototype)
-const apiEventEmitter = new MyEventEmitter()
+import EventEmitter from 'events'
+import lodash from 'lodash'
+class MyEmitter extends EventEmitter {}
+const apiEventEmitter = new MyEmitter()
+apiEventEmitter.setMaxListeners(0)
+const emitter = lodash.debounce((event, args) => {
+  apiEventEmitter.emit.apply(apiEventEmitter, ['vcv:api:' + event].concat(args))
+}, 500)
 
 export default {
   on (event, callback) {
@@ -14,9 +18,10 @@ export default {
     apiEventEmitter.off('vcv:api:' + event, callback)
   },
   trigger (event) {
-    var args = Array.prototype.slice.call(arguments, 1)
-    apiEventEmitter.emit.apply(apiEventEmitter, ['vcv:api:' + event].concat(args))
+    const args = Array.prototype.slice.call(arguments, 1)
+    emitter(event, args)
   },
+
   ready (callback) {
     this.once('ready', callback)
   }
