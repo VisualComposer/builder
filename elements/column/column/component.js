@@ -20,9 +20,9 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     } else {
       contentContainer = (
         <div className='vce-col-inner' {...props}>
+          {this.getBackgroundTypeContent()}
+          {this.getContainerDivider()}
           <div className='vce-col-content'>
-            {this.getBackgroundTypeContent()}
-            {this.getContainerDivider()}
             {content}
           </div>
         </div>
