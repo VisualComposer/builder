@@ -64,7 +64,6 @@
     "base-64": "0.1.0",
     "combokeys": "3.0.0",
     "csslint": "1.0.5",
-    "event-emitter": "0.3.5",
     "form-serialize": "0.7.2",
     "identity-obj-proxy": "3.0.0",
     "immutable": "4.0.0-rc.12",
