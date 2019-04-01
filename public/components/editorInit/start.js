@@ -129,7 +129,15 @@ export const start = (callback) => {
     vcCake.env('iframe', iframe)
     if ($iframe && $iframe.get(0).contentWindow) {
       const settingsStorage = vcCake.getStorage('settings')
+      let beforeMainUnload = false
+      window.addEventListener('beforeunload', function () {
+        beforeMainUnload = true
+      })
       $iframe.get(0).contentWindow.onunload = function () {
+        if (beforeMainUnload) {
+          // Fixes performance drownback due to cssBuilder trigger vcv.ready destroy
+          return
+        }
         let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current)
         if (!vcCake.env('VCV_JS_THEME_EDITOR') && vcCake.env('VCV_JS_THEME_LAYOUTS')) {
           let lastSavedPageTemplate = window.vcvLastLoadedPageTemplate = settingsStorage.state('pageTemplate').get()
