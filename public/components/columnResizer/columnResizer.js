@@ -57,15 +57,24 @@ class ColumnResizer extends React.Component {
 
   componentDidUpdate (props, state) {
     let ifameDocument = document.querySelector('#vcv-editor-iframe').contentWindow
+    let data = {}
     if (this.state.dragging && !state.dragging) {
-      previousLayoutCustomMode = vcCake.getData('vcv:layoutCustomMode')
-      vcCake.setData('vcv:layoutCustomMode', 'columnResizer')
+      previousLayoutCustomMode = vcCake.getData('vcv:layoutCustomMode') && vcCake.getData('vcv:layoutCustomMode').mode
+      data = {
+        mode: 'columnResizer',
+        options: {}
+      }
+      vcCake.setData('vcv:layoutCustomMode', data)
       ifameDocument.addEventListener('mousemove', this.handleMouseMove)
       ifameDocument.addEventListener('mouseup', this.handleMouseUp)
       vcCake.setData('vcv:layoutColumnResize', this.resizerData.rowId)
     } else if (!this.state.dragging && state.dragging) {
-      const newLayoutModeState = previousLayoutCustomMode === 'contentEditable' ? previousLayoutCustomMode : null
-      vcCake.setData('vcv:layoutCustomMode', newLayoutModeState)
+      const newLayoutMode = previousLayoutCustomMode === 'contentEditable' ? previousLayoutCustomMode : null
+      data = {
+        mode: newLayoutMode,
+        options: {}
+      }
+      vcCake.setData('vcv:layoutCustomMode', data)
       vcCake.setData('vcv:layoutColumnResize', null)
       ifameDocument.removeEventListener('mousemove', this.handleMouseMove)
       ifameDocument.removeEventListener('mouseup', this.handleMouseUp)
@@ -356,8 +365,8 @@ class ColumnResizer extends React.Component {
 
     const device = layoutData.hasOwnProperty('all') ? 'all' : this.resizerData.currentDevice
 
-    layoutData[device][this.resizerData.leftColumnIndex] = `${leftSize}%`
-    layoutData[device][this.resizerData.rightColumnIndex] = `${rightSize}%`
+    layoutData[ device ][ this.resizerData.leftColumnIndex ] = `${leftSize}%`
+    layoutData[ device ][ this.resizerData.rightColumnIndex ] = `${rightSize}%`
     parentRow.layout.layoutData = layoutData
     elementsStorage.trigger('update', parentRow.id, parentRow, '', { changedAttributeType: 'rowLayout' })
   }
@@ -368,7 +377,7 @@ class ColumnResizer extends React.Component {
     let currentDevice = null
 
     Object.keys(ColumnResizer.deviceViewports).forEach((device) => {
-      const viewport = ColumnResizer.deviceViewports[device]
+      const viewport = ColumnResizer.deviceViewports[ device ]
 
       if (windowWidth >= viewport) {
         currentDevice = device
@@ -384,22 +393,22 @@ class ColumnResizer extends React.Component {
 
     // Get layout for 'all'
     rowChildren.forEach((element) => {
-      if (element.size['all']) {
+      if (element.size[ 'all' ]) {
         if (!deviceLayoutData.hasOwnProperty('all')) {
           deviceLayoutData.all = []
         }
-        deviceLayoutData['all'].push(element.size['all'])
+        deviceLayoutData[ 'all' ].push(element.size[ 'all' ])
       }
     })
 
     if (!deviceLayoutData.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
       Layout.devices.forEach((device) => {
         rowChildren.forEach((element) => {
-          if (element.size[device]) {
+          if (element.size[ device ]) {
             if (!deviceLayoutData.hasOwnProperty(device)) {
-              deviceLayoutData[device] = []
+              deviceLayoutData[ device ] = []
             }
-            deviceLayoutData[device].push(element.size[device])
+            deviceLayoutData[ device ].push(element.size[ device ])
           }
         })
       })

@@ -38,7 +38,7 @@ export default class Workspace extends React.Component {
   }
 
   handleLayoutCustomModeChange (data) {
-    if (data === 'contentEditable') {
+    if (data && data.mode === 'contentEditable') {
       this.setState({ contentEditableMode: true })
     } else {
       this.setState({ contentEditableMode: false })

@@ -519,7 +519,8 @@ export default class DndDataSet {
     if (typeof this.options.endCallback === 'function') {
       this.options.endCallback(this.draggingElement)
     }
-    const isValidLayoutCustomMode = getData('vcv:layoutCustomMode') === 'dnd'
+    const layoutCustomMode = getData('vcv:layoutCustomMode') && getData('vcv:layoutCustomMode').mode
+    const isValidLayoutCustomMode = layoutCustomMode === 'dnd'
 
     this.removeMouseOverStartBlank()
     this.removeHFSActive()
@@ -549,7 +550,7 @@ export default class DndDataSet {
     this.position = null
     this.helper = null
     this.startPoint = null
-    if (getData('vcv:layoutCustomMode') !== 'contentEditable' && getData('vcv:layoutCustomMode') !== 'columnResizer' && getData('vcv:layoutCustomMode') !== null) {
+    if (layoutCustomMode !== 'contentEditable' && layoutCustomMode !== 'columnResizer' && layoutCustomMode !== null) {
       setData('vcv:layoutCustomMode', null)
     }
     // Set callback on dragEnd
@@ -579,8 +580,13 @@ export default class DndDataSet {
       this.handleDragEnd()
       return
     }
-    if (this.draggingElement && getData('vcv:layoutCustomMode') !== 'dnd') {
-      setData('vcv:layoutCustomMode', 'dnd')
+    const layoutCustomMode = getData('vcv:layoutCustomMode') && getData('vcv:layoutCustomMode').mode
+    if (this.draggingElement && layoutCustomMode !== 'dnd') {
+      const data = {
+        mode: 'dnd',
+        options: this.options
+      }
+      setData('vcv:layoutCustomMode', data)
     }
     this.options.manualScroll && this.scrollManually(point)
     if (this.dragStartHandled) {

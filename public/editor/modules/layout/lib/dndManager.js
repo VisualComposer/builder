@@ -77,8 +77,8 @@ export default class DndManager {
         vcCake.onDataChange('draggingElement', this.apiDnD.start)
         vcCake.onDataChange('dropNewElement', this.apiDnD.addNew)
         workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
-        vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
-          if (value === 'contentEditable' || value === 'columnResizer') {
+        vcCake.onDataChange('vcv:layoutCustomMode', (data) => {
+          if (data && (data.mode === 'contentEditable' || data.mode === 'columnResizer' || data.mode === 'headerDrop')) {
             this.items.option('disabled', true)
             this.items.handleDragEnd()
           } else {
@@ -205,7 +205,7 @@ export default class DndManager {
         workspaceStorage.trigger('move', id, { action: 'append', related: wrapper.id })
       } else { // Move dragging element at the end without creating wrapper
         const rootElements = documentManager.children(false)
-        const lastRootElement = rootElements[rootElements.length - 1]
+        const lastRootElement = rootElements[ rootElements.length - 1 ]
         workspaceStorage.trigger('move', id, { action: 'after', related: lastRootElement.id })
       }
     }
