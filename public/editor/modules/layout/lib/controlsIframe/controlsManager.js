@@ -247,10 +247,10 @@ export default class ControlsManager {
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
       this.state.showOutline = !state
       this.state.showFrames = !state
-      if (state === 'dnd') {
+      if (state && state.mode === 'dnd') {
         this.state.showFrames = true
       }
-      if (state === 'contentEditable') {
+      if (state && state.mode === 'contentEditable') {
         this.frames.hide()
       }
       this.state.showControls = !state

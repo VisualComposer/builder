@@ -471,8 +471,13 @@ export default class ContentEditableComponent extends React.Component {
       if (isHtmlEditor) {
         this.editorSetup({ caretPosition })
       }
-      if (vcCake.getData('vcv:layoutCustomMode') !== 'contentEditable') {
-        vcCake.setData('vcv:layoutCustomMode', 'contentEditable')
+      const layoutCustomMode = vcCake.getData('vcv:layoutCustomMode') && vcCake.getData('vcv:layoutCustomMode').mode
+      if (layoutCustomMode && layoutCustomMode !== 'contentEditable') {
+        const data = {
+          mode: 'contentEditable',
+          options: {}
+        }
+        vcCake.setData('vcv:layoutCustomMode', data)
         this.handleLayoutModeChange('contentEditable')
       }
       this.iframeWindow.addEventListener('click', this.handleGlobalClick)

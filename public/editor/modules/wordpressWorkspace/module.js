@@ -1,4 +1,4 @@
-import { add, getStorage, getService, env } from 'vc-cake'
+import { add, getStorage, getService, env, setData, onDataChange } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
@@ -51,8 +51,37 @@ add('wordpressWorkspace', (api) => {
     })
   }
 
+  let isDragging = false
+  const handleBodyMouseUp = (data) => {
+    let newData
+    if (data.options.container && data.options.container.id === 'vcv-editor-iframe-overlay') {
+      newData = {
+        mode: 'headerDrop',
+        options: {}
+      }
+    } else {
+      newData = {
+        mode: 'dnd',
+        options: data
+      }
+    }
+    setData('vcv:layoutCustomMode', newData)
+    layoutHeader.removeEventListener('mouseup', handleBodyMouseUp.bind(this, data))
+    isDragging = false
+  }
+
   let layoutHeader = document.getElementById('vcv-layout-header')
   if (layoutHeader) {
+    onDataChange('vcv:layoutCustomMode', (data) => {
+      if (data && data.mode === 'dnd' && !isDragging) {
+        layoutHeader.addEventListener('mouseup', handleBodyMouseUp.bind(this, data))
+        isDragging = true
+      } else if (isDragging && !data) {
+        layoutHeader.removeEventListener('mouseup', handleBodyMouseUp.bind(this, data))
+        isDragging = false
+      }
+    })
+
     ReactDOM.render(
       <WorkspaceCont />,
       layoutHeader
