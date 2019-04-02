@@ -28,9 +28,7 @@
 .vce-col-direction--rtl {
   direction: rtl;
 }
-.vce-row-content--top > .vce-row-content > .vce-element--has-background > .vce-col-inner,
-.vce-row-content--middle > .vce-row-content > .vce-element--has-background > .vce-col-inner > .vce-col-content,
-.vce-row-content--bottom > .vce-row-content > .vce-element--has-background > .vce-col-inner > .vce-col-content {
+.vce-element--has-background > .vce-col-inner > .vce-col-content {
   padding-top: 30px;
   padding-left: 30px;
   padding-right: 30px;
@@ -38,15 +36,7 @@
 .vce-col.vce-col--all-hide {
   display: none;
 }
-.vce-col-inner > *:not(.vce-content-background-container):not(.vce-dividers-wrapper):not(.vce-col-content) {
-  position: relative;
-}
-.vce-col-content > *:not(.vce-content-background-container):not(.vce-dividers-wrapper) {
-  position: relative;
-}
-.vce-col-content {
-  border-radius: inherit;
-}
+
 /* styles for mobile-portrait */
 @media (min-width: 0) {
   .vce-col--xs-auto {
@@ -148,45 +138,35 @@
   }
 }
 @media (min-width: 0) and (max-width: 543px) {
-  .vce-row-content--top > .vce-row-content > .vce-element--xs--has-background > .vce-col-inner,
-  .vce-row-content--middle > .vce-row-content > .vce-element--xs--has-background > .vce-col-inner > .vce-col-content,
-  .vce-row-content--bottom > .vce-row-content > .vce-element--xs--has-background > .vce-col-inner > .vce-col-content {
+  .vce-element--xs--has-background > .vce-col-inner > .vce-col-content {
     padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;
   }
 }
 @media (min-width: 544px) and (max-width: 767px) {
-  .vce-row-content--top > .vce-row-content > .vce-element--sm--has-background > .vce-col-inner,
-  .vce-row-content--middle > .vce-row-content > .vce-element--sm--has-background > .vce-col-inner > .vce-col-content,
-  .vce-row-content--bottom > .vce-row-content > .vce-element--sm--has-background > .vce-col-inner > .vce-col-content {
+  .vce-element--sm--has-background > .vce-col-inner > .vce-col-content {
     padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  .vce-row-content--top > .vce-row-content > .vce-element--md--has-background > .vce-col-inner,
-  .vce-row-content--middle > .vce-row-content > .vce-element--md--has-background > .vce-col-inner > .vce-col-content,
-  .vce-row-content--bottom > .vce-row-content > .vce-element--md--has-background > .vce-col-inner > .vce-col-content {
+  .vce-element--md--has-background > .vce-col-inner > .vce-col-content {
     padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
-  .vce-row-content--top > .vce-row-content > .vce-element--lg--has-background > .vce-col-inner,
-  .vce-row-content--middle > .vce-row-content > .vce-element--lg--has-background > .vce-col-inner > .vce-col-content,
-  .vce-row-content--bottom > .vce-row-content > .vce-element--lg--has-background > .vce-col-inner > .vce-col-content {
+  .vce-element--lg--has-background > .vce-col-inner > .vce-col-content {
     padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;
   }
 }
 @media (min-width: 1200px) {
-  .vce-row-content--top > .vce-row-content > .vce-element--xl--has-background > .vce-col-inner,
-  .vce-row-content--middle > .vce-row-content > .vce-element--xl--has-background > .vce-col-inner > .vce-col-content,
-  .vce-row-content--bottom > .vce-row-content > .vce-element--xl--has-background > .vce-col-inner > .vce-col-content {
+  .vce-element--xl--has-background > .vce-col-inner > .vce-col-content {
     padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;

@@ -5,30 +5,19 @@ const vcvAPI = vcCake.getService('api')
 
 export default class ColumnElement extends vcvAPI.elementComponent {
   getContent (props) {
-    let rowProps = vcCake.getService('document').get(this.props.atts.parent)
     let content = this.props.children
-    let contentContainer = ''
+    let contentProps = {}
+    contentProps['data-vce-element-content'] = true
 
-    if (rowProps.contentPosition === 'top') {
-      contentContainer = (
-        <div className='vce-col-inner' {...props}>
-          {this.getBackgroundTypeContent()}
-          {this.getContainerDivider()}
+    return (
+      <div className='vce-col-inner' {...props}>
+        {this.getBackgroundTypeContent()}
+        {this.getContainerDivider()}
+        <div className='vce-col-content' {...contentProps}>
           {content}
         </div>
-      )
-    } else {
-      contentContainer = (
-        <div className='vce-col-inner' {...props}>
-          {this.getBackgroundTypeContent()}
-          {this.getContainerDivider()}
-          <div className='vce-col-content'>
-            {content}
-          </div>
-        </div>
-      )
-    }
-    return contentContainer
+      </div>
+    )
   }
 
   render () {
@@ -109,7 +98,6 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     if (metaCustomId) {
       innerProps.id = metaCustomId
     }
-    innerProps['data-vce-element-content'] = true
 
     // let doBackground = this.applyDO('')
     let doBoxModel = this.applyDO('all')
