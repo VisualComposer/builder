@@ -17,11 +17,15 @@
   -ms-flex-preferred-size: auto;
       flex-basis: auto;
 }
-.vce-col-content,
 .vce-col-inner {
   position: relative;
   overflow-wrap: break-word;
 }
+.vce-col-content {
+  position: static;
+  overflow-wrap: break-word;
+}
+
 .vce-col-inner {
   width: 100%;
 }
