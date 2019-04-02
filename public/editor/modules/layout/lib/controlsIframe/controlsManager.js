@@ -294,6 +294,11 @@ export default class ControlsManager {
       if (data && data.type === 'mouseLeave') {
         this.outline.hide()
       }
+      if (data && data.type === 'controlClick') {
+        this.toggleControls()
+        this.outline.hide()
+        this.frames.hide()
+      }
     })
   }
 
