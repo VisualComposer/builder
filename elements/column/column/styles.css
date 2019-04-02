@@ -57,6 +57,11 @@
     display: none;
   }
 }
+
+.vce-row-container > .vce-row > .vce-row-content > .vce-col > .vce-col-inner {
+  padding: 0;
+}
+
 /* styles for mobile-landscape */
 @media (min-width: 544px) {
   .vce-col--sm-auto {

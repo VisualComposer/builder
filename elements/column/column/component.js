@@ -4,22 +4,6 @@ import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
 export default class ColumnElement extends vcvAPI.elementComponent {
-  getContent (props) {
-    let content = this.props.children
-    let contentProps = {}
-    contentProps['data-vce-element-content'] = true
-
-    return (
-      <div className='vce-col-inner' {...props}>
-        {this.getBackgroundTypeContent()}
-        {this.getContainerDivider()}
-        <div className='vce-col-content' {...contentProps}>
-          {content}
-        </div>
-      </div>
-    )
-  }
-
   render () {
     // import variables
     let { id, atts, editor, isBackend } = this.props
@@ -29,7 +13,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     const classNames = require('classnames')
     let customColProps = {}
     let innerProps = {}
-    let classes = ['vce-col']
+    let classes = [ 'vce-col' ]
 
     classes.push(this.getBackgroundClass(designOptionsAdvanced))
 
@@ -38,34 +22,34 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     }
 
     if (disableStacking) {
-      classes.push('vce-col--xs-' + (size['all'] ? size['all'].replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+      classes.push('vce-col--xs-' + (size[ 'all' ] ? size[ 'all' ].replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
 
-      if (lastInRow['all']) {
+      if (lastInRow[ 'all' ]) {
         classes.push('vce-col--all-last')
       }
 
-      if (firstInRow['all']) {
+      if (firstInRow[ 'all' ]) {
         classes.push('vce-col--all-first')
       }
     } else {
-      if (size['all']) {
-        if (size['all'] === 'hide') {
+      if (size[ 'all' ]) {
+        if (size[ 'all' ] === 'hide') {
           classes.push('vce-col--all-hide')
         } else {
-          classes.push('vce-col--md-' + (size['all'] ? size['all'].replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+          classes.push('vce-col--md-' + (size[ 'all' ] ? size[ 'all' ].replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
           classes.push('vce-col--xs-1 vce-col--xs-last vce-col--xs-first vce-col--sm-last vce-col--sm-first')
 
-          if (lastInRow['all']) {
+          if (lastInRow[ 'all' ]) {
             classes.push('vce-col--md-last vce-col--lg-last vce-col--xl-last')
           }
 
-          if (firstInRow['all']) {
+          if (firstInRow[ 'all' ]) {
             classes.push('vce-col--md-first vce-col--lg-first vce-col--xl-first')
           }
         }
       } else { // Custom device column size
         Object.keys(size).forEach((device) => {
-          let deviceSize = size[device]
+          let deviceSize = size[ device ]
 
           if (deviceSize === '') {
             deviceSize = 'auto'
@@ -78,11 +62,11 @@ export default class ColumnElement extends vcvAPI.elementComponent {
               classes.push(`vce-col--${device}-visible`)
             }
 
-            if (lastInRow[device]) {
+            if (lastInRow[ device ]) {
               classes.push(`vce-col--${device}-last`)
             }
 
-            if (firstInRow[device]) {
+            if (firstInRow[ device ]) {
               classes.push(`vce-col--${device}-first`)
             }
           }
@@ -99,9 +83,6 @@ export default class ColumnElement extends vcvAPI.elementComponent {
       innerProps.id = metaCustomId
     }
 
-    // let doBackground = this.applyDO('')
-    let doBoxModel = this.applyDO('all')
-
     let stickyAttributes = {}
     if (sticky && sticky.device) {
       stickyAttributes = this.getStickyAttributes(sticky)
@@ -112,14 +93,25 @@ export default class ColumnElement extends vcvAPI.elementComponent {
       boxShadowAttributes = this.getBoxShadowAttributes(boxShadow, id)
     }
 
-    customColProps['data-vce-delete-attr'] = 'style'
-    innerProps['data-vce-delete-attr'] = 'style'
+    customColProps[ 'data-vce-delete-attr' ] = 'style'
+    innerProps[ 'data-vce-delete-attr' ] = 'style'
 
     innerProps = { ...innerProps, ...stickyAttributes }
 
-    // import template
+    let contentProps = {}
+    contentProps[ 'data-vce-element-content' ] = true
+
+    let doPadding = this.applyDO('padding')
+    let doRest = this.applyDO('border margin background animation')
+
     return (<div className={className} {...customColProps} id={'el-' + id} {...editor}>
-      {this.getContent({ ...doBoxModel, ...innerProps, ...boxShadowAttributes })}
+      <div className='vce-col-inner' {...doRest} {...innerProps} {...boxShadowAttributes}>
+        {this.getBackgroundTypeContent()}
+        {this.getContainerDivider()}
+        <div className='vce-col-content' {...contentProps} {...doPadding}>
+          {this.props.children}
+        </div>
+      </div>
     </div>)
   }
 }
