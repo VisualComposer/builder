@@ -19,16 +19,10 @@ export default class WordPressAdminControl extends NavbarContent {
     this.savePreview = this.savePreview.bind(this)
     this.triggerPreviewClick = this.triggerPreviewClick.bind(this)
     this.updateButtons = this.updateButtons.bind(this)
+    this.handleViewPageClick = this.handleViewPageClick.bind(this)
   }
 
   componentDidMount () {
-    // wordpressDataStorage.trigger('save')
-    /*
-     this.props.api.reply('wordpress:data:saved', (data) => {
-     // Call the forceUpdate when saved
-     this.forceUpdate()
-     })
-     */
     wordpressDataStorage.state('status').onChange(this.updateButtons)
     workspaceStorage.state('shortcutPreview').onChange(this.triggerPreviewClick)
   }
@@ -62,17 +56,17 @@ export default class WordPressAdminControl extends NavbarContent {
     e && e.preventDefault && e.preventDefault()
     setData('wp-preview', 'dopreview')
 
-    const target = e.currentTarget
     wordpressDataStorage.state('status').ignoreChange(this.afterSaveChangeUrl)
     wordpressDataStorage.state('status').onChange(this.afterSaveChangeUrl)
+    const previewUrl = PostData.previewUrl()
 
     if (!this.previewWindow || this.previewWindow.closed) {
       this.previewWindow = window.open(
         '',
-        target.dataset.href
+        previewUrl
       )
     }
-    this.previewWindowTarget = target.dataset.href
+    this.previewWindowTarget = previewUrl
 
     let loadingView = '<style>\n' +
       '.vcv-loading-overlay {\n' +
@@ -204,6 +198,12 @@ export default class WordPressAdminControl extends NavbarContent {
     }
   }
 
+  handleViewPageClick (e) {
+    e && e.preventDefault && e.preventDefault()
+    const viewUrl = PostData.permalink()
+    window.open(viewUrl, '_blank')
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const { backToWordpress, saveDraft, wordPressDashboard, preview, previewChanges } = localizations
@@ -228,9 +228,7 @@ export default class WordPressAdminControl extends NavbarContent {
         <span
           className='vcv-ui-navbar-control'
           title={PostData.viewText()}
-          onClick={this.handleClick}
-          data-href={PostData.permalink()}
-          data-target='_blank'
+          onClick={this.handleViewPageClick}
         >
           <span className='vcv-ui-navbar-control-content'>{PostData.viewText()}</span>
         </span>
@@ -243,8 +241,6 @@ export default class WordPressAdminControl extends NavbarContent {
         className='vcv-ui-navbar-control'
         title={previewText}
         onClick={this.savePreview}
-        data-href={PostData.previewUrl()}
-        data-target='_blank'
         ref={(previewBtn) => { this.previewBtn = previewBtn }}
       >
         <span className='vcv-ui-navbar-control-content'>{previewText}</span>

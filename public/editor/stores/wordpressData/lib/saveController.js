@@ -122,6 +122,7 @@ export default class SaveController {
       let title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
       requestData[ 'vcv-page-title' ] = title
       requestData[ 'vcv-page-title-disabled' ] = settingsStorage.state('pageTitleDisabled').get() || ''
+      requestData[ 'vcv-post-name' ] = settingsStorage.state('postName').get() || ''
 
       let extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
       requestData[ 'vcv-extra' ] = extraRequestData

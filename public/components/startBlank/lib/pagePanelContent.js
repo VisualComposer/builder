@@ -2,6 +2,7 @@ import React from 'react'
 import vcCake from 'vc-cake'
 import TemplatePreview from './templatePreview'
 import LayoutIcons from './layoutIcons/index'
+import Permalink from 'public/components/permalink/permalink'
 
 const templateManager = vcCake.getService('myTemplates')
 const settingsStorage = vcCake.getStorage('settings')
@@ -272,6 +273,7 @@ export default class PagePanelContent extends React.Component {
         <div className='vcv-start-blank-title-input-container'>
           <input className='vcv-start-blank-title-input' type='text' placeholder={placeholderText} value={this.state.title} onChange={this.handleTitleChange} />
         </div>
+        <Permalink />
         <ul
           className='vcv-ui-item-list vcv-start-blank-item-list'
           style={containerWidth}

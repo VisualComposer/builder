@@ -476,6 +476,10 @@ class Localizations extends Container implements Helper
                 'Download images from Unsplash to your Media Library',
                 'vcwb'
             ),
+            'permalink' => __(
+                'Permalink',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

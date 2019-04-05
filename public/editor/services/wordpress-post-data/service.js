@@ -1,4 +1,5 @@
 import vcCake from 'vc-cake'
+const settingsStorage = vcCake.getStorage('settings')
 
 const postData = {
   canPublish: () => {
@@ -19,11 +20,11 @@ const postData = {
   },
 
   permalink: () => {
-    return window.vcvPostData.permalink
+    return settingsStorage.state('permalink').get() || window.vcvPostData.permalink
   },
 
   previewUrl: () => {
-    return window.vcvPostData.previewUrl
+    return settingsStorage.state('previewUrl').get() || window.vcvPostData.previewUrl
   },
 
   isViewable: () => {
