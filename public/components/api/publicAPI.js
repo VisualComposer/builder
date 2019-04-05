@@ -7,7 +7,8 @@ const apiEventEmitter = new MyEventEmitter()
 
 const emitter = debounce((event, args) => {
   apiEventEmitter.emit.apply(apiEventEmitter, [ `vcv:api:${event}` ].concat(args))
-}, 500)
+}, 10)
+
 export default {
   on (event, callback) {
     apiEventEmitter.on('vcv:api:' + event, callback)

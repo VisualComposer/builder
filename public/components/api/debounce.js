@@ -1,49 +1,95 @@
-// Credit David Walsh (https://davidwalsh.name/javascript-debounce-function)
+export default function debounce (func, wait) {
+  let lastArgs
+  let lastThis
+  let timerId
+  let result
+  let lastCallTime
+  if (typeof func !== 'function') {
+    throw new TypeError('function must be passed as the first argument')
+  }
+  wait = Number(wait) || 0
 
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
-export default function debounce (func, wait, immediate) {
-  let timeout
+  function invokeFunc () {
+    let args = lastArgs
+    let thisArg = lastThis
 
-  // This is the function that is actually executed when
-  // the DOM event is triggered.
-  return function executedFunction () {
-    // Store the context of this and any
-    // parameters passed to executedFunction
-    let context = this
-    let args = arguments
-    // The function to be called after
-    // the debounce time has elapsed
-    const later = function () {
-      // null timeout to indicate the debounce ended
-      timeout = null
+    lastArgs = lastThis = undefined
+    result = func.apply(thisArg, args)
+    return result
+  }
 
-      // Call function now if you did not on the leading end
-      if (!immediate) {
-        func.apply(context, args)
+  function leadingEdge () {
+    // Reset any `maxWait` timer.
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired(), wait)
+    // Invoke the leading edge.
+    return result
+  }
+  function remainingWait (time) {
+    let timeSinceLastCall = time - lastCallTime
+    return wait - timeSinceLastCall
+  }
+
+  function shouldInvoke (time) {
+    let timeSinceLastCall = time - lastCallTime
+    // Either this is the first call, activity has stopped and we're at the trailing
+    // edge, the system time has gone backwards and we're treating it as the
+    // trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) || (timeSinceLastCall < 0))
+  }
+
+  function timerExpired () {
+    const time = Date.now()
+    if (shouldInvoke(time)) {
+      return trailingEdge(time)
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time))
+  }
+
+  function trailingEdge (time) {
+    timerId = undefined
+
+    // Only invoke if we have `lastArgs` which means `func` has been debounced at
+    // least once.
+    if (lastArgs) {
+      return invokeFunc(time)
+    }
+    lastArgs = lastThis = undefined
+    return result
+  }
+
+  function cancel () {
+    if (timerId !== undefined) {
+      clearTimeout(timerId)
+    }
+    lastArgs = lastCallTime = lastThis = timerId = undefined
+  }
+
+  function flush () {
+    return timerId === undefined
+      ? result
+      : trailingEdge(Date.now())
+  }
+
+  function debounced () {
+    let time = Date.now()
+    let isInvoking = shouldInvoke(time)
+    lastArgs = arguments
+    lastThis = this
+    lastCallTime = time
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime)
       }
     }
-
-    // Determine if you should call the function
-    // on the leading or trail end
-    const callNow = immediate && !timeout
-
-    // This will reset the waiting every function execution.
-    // This is the step that prevents the function from
-    // being executed because it will never reach the
-    // inside of the previous setTimeout
-    clearTimeout(timeout)
-
-    // Restart the debounce waiting period.
-    // setTimeout returns a truthy value (it differs in web vs node)
-    timeout = setTimeout(later, wait)
-
-    // Call immediately if you're dong a leading
-    // end execution
-    if (callNow) {
-      func.apply(context, args)
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait)
     }
+    return result
   }
+  debounced.cancel = cancel
+  debounced.flush = flush
+  return debounced
 }
