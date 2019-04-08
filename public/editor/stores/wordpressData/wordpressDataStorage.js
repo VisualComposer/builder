@@ -129,6 +129,9 @@ addStorage('wordpressData', (storage) => {
       if (responseData.hasOwnProperty('itemPreviewDisabled')) {
         settingsStorage.state('itemPreviewDisabled').set(!!responseData.itemPreviewDisabled)
       }
+      if (responseData.hasOwnProperty('permalinkHtml')) {
+        settingsStorage.state('permalinkHtml').set(responseData.permalinkHtml)
+      }
 
       storage.state('status').set({ status: 'loaded' })
       settingsStorage.state('status').set({ status: 'ready' })
@@ -146,6 +149,19 @@ addStorage('wordpressData', (storage) => {
     } else if (status === 'loadFailed') {
       storage.state('status').set({ status: 'loaded' })
       throw new Error('Failed to load loaded')
+    } else if (status === 'success') {
+      let responseData = getResponse(request)
+      if (responseData.postData) {
+        if (responseData.postData.hasOwnProperty('permalink')) {
+          settingsStorage.state('permalink').set(responseData.postData.permalink)
+        }
+        if (responseData.postData.hasOwnProperty('previewUrl')) {
+          settingsStorage.state('previewUrl').set(responseData.postData.previewUrl)
+        }
+        if (responseData.hasOwnProperty('permalinkHtml')) {
+          settingsStorage.state('permalinkHtml').set(responseData.permalinkHtml)
+        }
+      }
     }
   })
 

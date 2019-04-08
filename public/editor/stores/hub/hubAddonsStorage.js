@@ -1,6 +1,10 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 
+const getCategory = (tag, categories) => {
+  return categories ? categories.find(category => Object.values(category).find(value => value.elements.indexOf(tag) > -1)) : 'All'
+}
+
 addStorage('hubAddons', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const workspaceNotifications = workspaceStorage.state('notifications')
@@ -36,7 +40,7 @@ addStorage('hubAddons', (storage) => {
       'vcv-nonce': window.vcvNonce
     }
     let successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
-    if (downloadedAddons[tag]) {
+    if (downloadedAddons[ tag ]) {
       return
     }
 
@@ -64,7 +68,8 @@ addStorage('hubAddons', (storage) => {
             if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
               jsonResponse.elements.forEach((element) => {
                 element.tag = element.tag.replace('element/', '')
-                getStorage('hubElements').trigger('add', element, true)
+                const category = getCategory(element.tag, jsonResponse.categories)
+                getStorage('hubElements').trigger('add', element, category, true)
               })
             }
             if (jsonResponse.addons && Array.isArray(jsonResponse.addons)) {

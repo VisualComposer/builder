@@ -32,6 +32,10 @@ export function ControlAction (props) {
       }
       workspaceStorage.trigger(event, id, tag, eventOptions)
     }
+    layoutStorage.state('interactWithControls').set({
+      type: 'controlClick',
+      vcElementId: id
+    })
   }
 
   const handleMouseDown = (e) => {
