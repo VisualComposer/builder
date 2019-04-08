@@ -49,8 +49,7 @@ class Controller extends Container implements Module
 
     protected function getResponse($requestAction)
     {
-        $response = vcfilter('vcv:' . $this->scope, '');
-        $response = vcfilter('vcv:' . $this->scope . ':' . $requestAction, $response);
+        $response = vcfilter('vcv:' . $this->scope . ':' . $requestAction, '');
 
         return $response;
     }
