@@ -194,6 +194,7 @@ export default class DesignOptions extends Attribute {
   componentWillUnmount () {
     const id = this.props.elementAccessPoint.id
     elementsStorage.off(`element:${id}`, this.handleElementChange)
+    ReactDOM.unmountComponentAtNode(this.boxModelRef)
   }
 
   componentDidUpdate () {
@@ -699,6 +700,7 @@ export default class DesignOptions extends Attribute {
         }
 
         dolly.remove()
+        dolly = null
         let parsedStyles = this.parseStyles(mainDefaultStyles)
         this.renderBoxModel(parsedStyles)
       }, 0)
