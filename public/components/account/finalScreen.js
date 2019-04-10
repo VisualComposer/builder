@@ -1,6 +1,7 @@
 import React from 'react'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
+import ShareButtons from './shareButtons'
 
 export default class FinalScreen extends React.Component {
   constructor (props) {
@@ -59,6 +60,7 @@ export default class FinalScreen extends React.Component {
         <div className='vcv-activation-button-container'>
           <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
         </div>
+        <ShareButtons />
       </div>
     )
   }
