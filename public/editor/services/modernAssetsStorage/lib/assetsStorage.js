@@ -32,11 +32,14 @@ export default class {
           }
         }
       } else if (elementSettings.settings[ key ].type === 'paramsGroup') {
-        let paramsGroupValue = data[ key ]
-        if (paramsGroupValue && paramsGroupValue.value && paramsGroupValue.value.length) {
-          paramsGroupValue.value.forEach((value, i) => {
-            if (value.tag) {
-              tags = this.getElementTagsByTagName(value.tag, tags, value)
+        let paramsGroupValues = data[ key ]
+        if (paramsGroupValues && paramsGroupValues.value && paramsGroupValues.value.length) {
+          paramsGroupValues.value.forEach((paramsGroupValue) => {
+            for (let fieldKey in paramsGroupValue) {
+              const value = paramsGroupValue[ fieldKey ]
+              if (value.tag) {
+                tags = this.getElementTagsByTagName(value.tag, tags, value)
+              }
             }
           })
         }
@@ -49,146 +52,29 @@ export default class {
     return tags
   }
 
-  getCssMixinsByData (elData, settings, cssSettings) {
-    const foundMixins = {}
-    let mixins = {}
-    const element = cookService.buildSettingsElement(elData, settings, cssSettings)
-    for (let key in settings) {
-      // If found element then get actual data form element
-      if (settings[ key ].hasOwnProperty('options') && settings[ key ].options.hasOwnProperty('cssMixin')) {
-        let mixin = settings[ key ].options.cssMixin
-        let cssSettings = element.get('cssSettings')
-        if (!foundMixins[ mixin.mixin ] && cssSettings.mixins[ mixin.mixin ]) {
-          foundMixins[ mixin.mixin ] = {
-            variables: {},
-            src: cssSettings.mixins[ mixin.mixin ].mixin,
-            path: element.get('metaElementPath')
-          }
-        }
-        if (settings[ key ].type === 'designOptions' || settings[ key ].type === 'designOptionsAdvanced') {
-          let DO = element.get('designOptions')
-          if (DO && DO.attributeMixins) {
-            foundMixins[ mixin.mixin ].selector = mixin.selector
-            foundMixins[ mixin.mixin ].variables = {
-              all: {
-                value: false
-              },
-              xs: {
-                value: false
-              },
-              sm: {
-                value: false
-              },
-              md: {
-                value: false
-              },
-              lg: {
-                value: false
-              },
-              xl: {
-                value: false
-              }
-            }
-            for (let deviceMixin in DO.attributeMixins) {
-              if (DO.attributeMixins[ deviceMixin ] && DO.attributeMixins[ deviceMixin ].variables) {
-                let device = DO.attributeMixins[ deviceMixin ].variables.device && DO.attributeMixins[ deviceMixin ].variables.device.value ? DO.attributeMixins[ deviceMixin ].variables.device.value : 'all'
-                let properties = {
-                  [ device ]: {
-                    value: true
-                  }
-                }
-                if (mixin.property === 'all') {
-                  for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
-                    let variableName = device + variable
-                    if (variable !== 'device') {
-                      properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
-                    }
-                  }
-                } else {
-                  mixin.property.split(' ').forEach(property => {
-                    for (let variable in DO.attributeMixins[ deviceMixin ].variables) {
-                      if (variable.indexOf(property) >= 0) {
-                        let variableName = device + variable
-                        properties[ variableName ] = DO.attributeMixins[ deviceMixin ].variables[ variable ]
-                      }
-                    }
-                  })
-                }
-                foundMixins[ mixin.mixin ].variables = {
-                  ...foundMixins[ mixin.mixin ].variables,
-                  ...properties
-                }
-              }
-            }
-          }
-        } else {
-          let mixinValue = settings[ key ].value
-          let tempValue = element.get(key)
-          if (typeof tempValue === 'number') {
-            mixinValue = tempValue.toString()
-          }
-
-          if (typeof tempValue === 'string') {
-            mixinValue = tempValue
-          }
-          foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
-          if (mixin.namePattern) {
-            foundMixins[ mixin.mixin ].variables[ mixin.property ].namePattern = mixin.namePattern
-          }
-        }
-      }
-    }
-
-    for (let mixin in foundMixins) {
-      let names = []
-      let variables = {}
-      let useMixin = false
-      Object.keys(foundMixins[ mixin ].variables).sort().forEach((variable) => {
-        let name = foundMixins[ mixin ].variables[ variable ].value || 'empty' // must be string 'empty' for css selector
-        if (name !== 'empty' && foundMixins[ mixin ].variables[ variable ].namePattern) {
-          name = name.match(new RegExp(foundMixins[ mixin ].variables[ variable ].namePattern, 'gi'))
-          name = name.length ? name.join('-') : 'empty'
-        }
-        names.push(name)
-        variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value || false
-        // if any variable is set we can use mixin
-        if (variables[ variable ] && [ 'all', 'xs', 'sm', 'md', 'lg', 'xl' ].indexOf(variable) < 0) {
-          useMixin = true
-        }
-      })
-      let selector = foundMixins[ mixin ].selector || names.join('--')
-      if (selector && useMixin) {
-        variables[ 'selector' ] = selector
-        mixins[ mixin ] = mixins[ mixin ] || {}
-        mixins[ mixin ] = variables
-      }
-    }
-
-    return mixins
-  }
-
   /**
    * Get css mixins data by element
    * @param elData
    * @param mixins
-   * @param settings
-   * @param cssSettings
+   * @param elSettings
+   * @param elCssSettings
    * @returns {{}}
    */
-  getCssMixinsByElement (elData, mixins = {}, settings = false, cssSettings = false) {
+  getCssMixinsByElement (elData, mixins = {}, elSettings = false, elCssSettings = false) {
     let element
-    if (settings === false) {
+    if (elSettings === false) {
       element = cookService.get(elData)
     } else {
-      element = cookService.buildSettingsElement(elData, settings, cssSettings)
+      element = cookService.buildSettingsElement(elData, elSettings, elCssSettings)
     }
     if (!element) {
-      env('VCV_DEBUG') && console.warn('AssetsStorage no element found', elData, mixins, settings, cssSettings)
+      env('VCV_DEBUG') && console.warn('AssetsStorage no element found', elData, mixins, elSettings, elCssSettings)
       return mixins
     }
 
-    settings = element.get('settings')
+    let settings = element.get('settings')
     let foundMixins = {}
+    const tag = element.data.tag || 'innerTag'
     for (let key in settings) {
       // If found element then get actual data form element
       if (settings[ key ].type === 'element') {
@@ -196,18 +82,22 @@ export default class {
       } else if (settings[ key ].type === 'paramsGroup') {
         let paramsGroupValue = element.get(key)
         if (paramsGroupValue && paramsGroupValue.value && paramsGroupValue.value.length) {
-          paramsGroupValue.value.forEach((value, i) => {
+          const paramGroupSettingsList = settings[ key ].options.settings
+          const paramGroupSettings = {}
+          for (let paramKey in paramGroupSettingsList) {
+            paramGroupSettings[ paramKey ] = element.settings(paramKey, paramGroupSettingsList).settings
+          }
+          paramsGroupValue.value.forEach((value, paramGroupValueIndex) => {
             // here we need to add options
-            const paramGroupSettings = {}
-            const paramGroupSettingsList = settings[ key ].options.settings
-            for (let paramKey in paramGroupSettingsList) {
-              paramGroupSettings[ paramKey ] = element.settings(paramKey, paramGroupSettingsList).settings
-            }
             const cssSettings = element.get('cssSettings')
-            let mixinData = this.getCssMixinsByData(value, paramGroupSettings, cssSettings)
-            mixins[ element.data.tag ] = mixins[ element.data.tag ] || {}
-            mixins[ element.data.tag ][ key ] = mixins[ element.data.tag ][ key ] || {}
-            mixins[ element.data.tag ][ key ][ i ] = mixinData
+            let paramGroupItemMixins = this.getCssMixinsByElement(value, {}, paramGroupSettings, cssSettings)
+            if (typeof mixins[ tag ] === 'undefined') {
+              mixins[ tag ] = {}
+            }
+            if (typeof mixins[ tag ][ key ] === 'undefined') {
+              mixins[ tag ][ key ] = {}
+            }
+            mixins[ tag ][ key ][ paramGroupValueIndex ] = paramGroupItemMixins
           })
         }
       } else {
@@ -280,6 +170,9 @@ export default class {
           } else {
             let mixinValue = settings[ key ].value
             let tempValue = element.get(key)
+            if (typeof tempValue === 'number') {
+              mixinValue = tempValue.toString()
+            }
 
             if (typeof tempValue === 'string') {
               mixinValue = tempValue
@@ -299,11 +192,11 @@ export default class {
     }
 
     for (let mixin in foundMixins) {
-      if (!mixins[ element.data.tag ]) {
-        mixins[ element.data.tag ] = {}
+      if (!mixins[ tag ]) {
+        mixins[ tag ] = {}
       }
-      if (!mixins[ element.data.tag ][ mixin ]) {
-        mixins[ element.data.tag ][ mixin ] = {}
+      if (!mixins[ tag ][ mixin ]) {
+        mixins[ tag ][ mixin ] = {}
       }
       let names = []
       let variables = {}
@@ -332,11 +225,12 @@ export default class {
       if (selector && useMixin) {
         variables[ 'selector' ] = selector
         // Check if mixins exists, write only in empty object
-        if (!mixins[ element.data.tag ][ mixin ][ selector ]) {
-          mixins[ element.data.tag ][ mixin ][ selector ] = variables
+        if (!mixins[ tag ][ mixin ][ selector ]) {
+          mixins[ tag ][ mixin ][ selector ] = variables
         }
       }
     }
+
     return mixins
   }
 
@@ -534,17 +428,18 @@ export default class {
 
   getNestedMixinsStyles (cssSettings, cssMixins, elementObject) {
     let styles = []
-    for (let itemMixins in cssMixins) {
-      for (let mixin in cssMixins[ itemMixins ]) {
+    for (let mixin in cssMixins) {
+      for (let mixinSelector in cssMixins[ mixin ]) {
         if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
           styles.push({
-            variables: cssMixins[ itemMixins ][ mixin ],
+            variables: cssMixins[ mixin ][ mixinSelector ],
             src: cssSettings.mixins[ mixin ].mixin,
             path: elementObject.get('metaElementPath')
           })
         }
       }
     }
+
     return styles
   }
 
@@ -561,8 +456,19 @@ export default class {
 
       mixins.forEach((mixin) => {
         if (elementData.hasOwnProperty(mixin) && cssSettings.mixins && !cssSettings.mixins[ mixin ]) {
-          const mixinStyles = this.getNestedMixinsStyles(cssSettings, cssMixins[ tag ][ mixin ], elementObject)
-          styles = styles.concat(mixinStyles)
+          for (let itemMixinsIndex in cssMixins[ tag ][ mixin ]) {
+            for (let mixinElementTag in cssMixins[ tag ][ mixin ][ itemMixinsIndex ]) {
+              let mixinStyles = []
+              if (mixinElementTag === 'innerTag') {
+                mixinStyles = this.getNestedMixinsStyles(cssSettings, cssMixins[ tag ][ mixin ][ itemMixinsIndex ][ mixinElementTag ], elementObject)
+              } else {
+                let innerElement = cookService.get({ tag: mixinElementTag })
+                let innerElementCssSettings = innerElement.get('cssSettings')
+                mixinStyles = this.getNestedMixinsStyles(innerElementCssSettings, cssMixins[ tag ][ mixin ][ itemMixinsIndex ][ mixinElementTag ], innerElement)
+              }
+              styles = styles.concat(mixinStyles)
+            }
+          }
         } else {
           for (let selector in cssMixins[ tag ][ mixin ]) {
             if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {

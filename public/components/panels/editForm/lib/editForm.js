@@ -66,12 +66,15 @@ export default class EditForm extends React.Component {
     if (props.options.nestedAttr) {
       let groups = []
       let attributes = cookElement.settings(props.options.fieldKey)
-      let iterator = {
-        key: props.options.fieldKey,
-        value: attributes.settings.options.settings._paramGroupEditFormTab1.value,
-        data: attributes.settings.options.settings._paramGroupEditFormTab1
-      }
-      groups.push(iterator)
+      const metaEditFormTabs = attributes.settings.options.settings.metaEditFormTabs.value
+      metaEditFormTabs.forEach((tab) => {
+        let iterator = {
+          key: tab,
+          value: attributes.settings.options.settings[ tab ].value,
+          data: attributes.settings.options.settings[ tab ]
+        }
+        groups.push(iterator)
+      })
       return groups
     }
     if (group && group.each) {
@@ -92,17 +95,20 @@ export default class EditForm extends React.Component {
   editFormTabParams (props, tab) {
     let cookElement = props.elementAccessPoint.cook()
     if (props.options.nestedAttr) {
-      let groups = cookElement.get(tab.key).value
-      let currentGroup = groups.find((group, i) => {
-        return i === props.options.activeParamGroupIndex
-      })
-      return tab.value.map(item => {
-        return {
-          key: item,
-          value: currentGroup[ item ],
-          data: cookElement.settings(tab.key).settings.options.settings[ item ]
-        }
-      })
+      let paramGroupValues = cookElement.get(props.options.fieldKey).value
+      let currentParamGroupValue = paramGroupValues[ props.options.activeParamGroupIndex ]
+
+      if (tab.data.type === 'group') {
+        return tab.value.map((item) => {
+          return {
+            key: item,
+            value: currentParamGroupValue[ item ],
+            data: cookElement.settings(props.options.fieldKey).settings.options.settings[ item ]
+          }
+        })
+      } else {
+        return [ tab ]
+      }
     }
     if (tab.data.settings.type === 'group' && tab.value) {
       return tab.value.each(item => (this.editFormTabsIterator(props, item)))

@@ -192,29 +192,31 @@ export default class CssBuilder {
   updateStyleDomNodes (data) {
     const id = data.id
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data)
-    const settingStyles = this.window.document.getElementById('vcv-settings-css-styles')
+    const baseStylesDom = this.window.document.getElementById('vcv-element-css-styles--base')
+    const editorStylesDom = this.window.document.getElementById('vcv-element-css-styles--editor')
+    const mixinsStylesDom = this.window.document.getElementById('vcv-element-css-styles--mixins')
     elementTags.forEach((tag) => {
       if (!this.window.document.getElementById(`vcv-base-css-styles-${tag}`)) {
         let baseStyleElement = this.window.document.createElement('style')
         baseStyleElement.id = `vcv-base-css-styles-${tag}`
-        this.window.document.body.insertBefore(baseStyleElement, settingStyles)
+        this.window.document.body.insertBefore(baseStyleElement, baseStylesDom)
       }
       if (!this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)) {
         let editorStyleElement = this.window.document.createElement('style')
         editorStyleElement.id = `vcv-css-editor-styles-${tag}`
-        this.window.document.body.insertBefore(editorStyleElement, settingStyles)
+        this.window.document.body.insertBefore(editorStyleElement, editorStylesDom)
       }
     })
 
     if (!this.window.document.getElementById(`vcv-css-styles-${id}`)) {
       let styleElement = this.window.document.createElement('style')
       styleElement.id = `vcv-css-styles-${id}`
-      this.window.document.body.insertBefore(styleElement, settingStyles)
+      this.window.document.body.insertBefore(styleElement, mixinsStylesDom)
     }
     if (!this.window.document.getElementById(`vcv-do-styles-${id}`)) {
       let doStyleElement = this.window.document.createElement('style')
       doStyleElement.id = `vcv-do-styles-${id}`
-      this.window.document.body.insertBefore(doStyleElement, settingStyles)
+      this.window.document.body.insertBefore(doStyleElement, mixinsStylesDom)
     }
 
     // Inner element css-styles and do
@@ -229,12 +231,12 @@ export default class CssBuilder {
         if (!this.window.document.getElementById(`vcv-css-styles-${id}-${checksum}`)) {
           let innerCssStyleElement = this.window.document.createElement('style')
           innerCssStyleElement.id = `vcv-css-styles-${id}-${checksum}`
-          this.window.document.body.insertBefore(innerCssStyleElement, settingStyles)
+          this.window.document.body.insertBefore(innerCssStyleElement, mixinsStylesDom)
         }
         if (!this.window.document.getElementById(`vcv-do-styles-${id}-${checksum}`)) {
           let innerDoStyleElement = this.window.document.createElement('style')
           innerDoStyleElement.id = `vcv-do-styles-${id}-${checksum}`
-          this.window.document.body.insertBefore(innerDoStyleElement, settingStyles)
+          this.window.document.body.insertBefore(innerDoStyleElement, mixinsStylesDom)
         }
       }
     }
@@ -419,21 +421,24 @@ export default class CssBuilder {
     node && node.remove()
   }
 
-  getSettingsCssContainer () {
-    const id = 'vcv-settings-css-styles'
-    const container = this.window.document.getElementById(id)
-    if (container) {
-      return container
-    }
-    const styleElement = this.window.document.createElement('style')
-    styleElement.id = id
-    this.window.document.body.appendChild(styleElement)
-    return styleElement
+  buildStylesContainers () {
+    const ids = [ 'vcv-settings-css-styles', 'vcv-element-css-styles--base', 'vcv-element-css-styles--editor', 'vcv-element-css-styles--mixins' ]
+    ids.forEach(id => {
+      const container = this.window.document.getElementById(id)
+      if (container) {
+        return container
+      }
+      const styleElement = this.window.document.createElement('style')
+      styleElement.id = id
+      this.window.document.body.appendChild(styleElement)
+    })
+
+    return ids[ 0 ]
   }
 
-  buildSettingsCss (data) {
-    const container = this.getSettingsCssContainer()
-    container.innerHTML = data
+  updateSettingsStyles (cssStyles) {
+    const container = this.window.document.querySelector('#vcv-settings-css-styles')
+    container.innerHTML = cssStyles
   }
 
   addJob (job) {

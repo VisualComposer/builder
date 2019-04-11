@@ -127,7 +127,7 @@ export default class EditFormSection extends React.Component {
     }, dependenciesClasses)
     let tabTitle
     if (this.props.options.nestedAttr) {
-      tabTitle = tab.data.options.label
+      tabTitle = tab.data.options.label || tab.data.options.tabLabel
     } else {
       tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
     }
