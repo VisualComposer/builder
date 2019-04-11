@@ -1305,6 +1305,10 @@ import './slickCustom.less';
         return (val >= 0) && (val < _.slideCount);
       });
 
+    if (_.$slides === null) {
+      return
+    }
+
     _.$slides.add(_.$slideTrack.find('.slick-cloned')).attr({
       'aria-hidden': 'true',
       'tabindex': '-1'

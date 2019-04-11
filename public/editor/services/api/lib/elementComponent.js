@@ -106,7 +106,7 @@ export default class ElementComponent extends React.Component {
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
               window.setTimeout(() => {
                 window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, false)
-                window.vcv && window.vcv.trigger('ready')
+                window.vcv && window.vcv.trigger('ready', 'update', that.props.id)
               }, 150)
             })
           })(iframe, iframe.document))
@@ -135,7 +135,7 @@ export default class ElementComponent extends React.Component {
                 shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
                   window.setTimeout(() => {
                     window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, false)
-                    window.vcv && window.vcv.trigger('ready')
+                    window.vcv && window.vcv.trigger('ready', 'update', that.props.id)
                   }, 150)
                 })
               })(iframe, iframe.document))
