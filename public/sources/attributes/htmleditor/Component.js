@@ -314,8 +314,12 @@ export default class Component extends Attribute {
   }
 
   getDarkTextSkinState () {
-    let { elementAccessPoint, options } = this.props
+    let { elementAccessPoint, options, editFormOptions } = this.props
     const toggleFieldKey = options && options.skinToggle
+
+    if (editFormOptions && editFormOptions.nestedAttr && editFormOptions.activeParamGroup) {
+      return !!(toggleFieldKey && editFormOptions.activeParamGroup[ toggleFieldKey ])
+    }
     const cookElement = elementAccessPoint.cook()
     const element = cookElement.toJS()
     return !!(toggleFieldKey && element && element[ toggleFieldKey ])
@@ -329,7 +333,7 @@ export default class Component extends Attribute {
       if (this.state.editorLoaded) {
         const editor = window.tinymce.get(id)
         if (editor && editor.getBody()) {
-          editor.getBody().style.backgroundColor = this.state.darkTextSkin ? '#2F2F2F' : ''
+          editor.getBody().style.backgroundColor = this.state.darkTextSkin ? '#2f2f2f' : ''
         }
       }
       const template = document.getElementById('vcv-wpeditor-template').innerHTML
