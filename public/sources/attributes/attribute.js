@@ -34,8 +34,10 @@ export default class Attribute extends React.Component {
 
   setFieldValue (value) {
     let { updater, fieldKey, fieldType } = this.props
-    updater(fieldKey, value, null, fieldType)
     this.setState({ value: value })
+    window.setTimeout(() => {
+      updater(fieldKey, value, null, fieldType)
+    }, 0)
   }
 
   render () {
