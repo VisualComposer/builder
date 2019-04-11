@@ -1,3 +1,12 @@
+## ver 17.0 - 2019-04-12
+- New: Set and change slug (permalink) in Visual Composer
+- Update: Editor controls respond to clicks for a better user experience
+- Update: Editor loads faster for pages with a large amount of content
+- Update: Share buttons added to the Visual Composer About page
+- Fix: Column margins are applied correctly
+- Fix: Option to set custom header and footer for product categories available
+- Fix: Param group works properly with inner elements and nesting
+- Fix: Template import sends fewer requests
 ## ver 16.0 - 2019-03-27
 - New: Unsplash stock image library integration with Visual Composer Hub
 - New: Shadow Box option added to the container elements in Design Options
