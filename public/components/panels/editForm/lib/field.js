@@ -22,7 +22,7 @@ export default class Field extends React.Component {
       dependenciesClasses: [],
       hasInnerFields: false
     }
-    this.updateElement = this.updateElement.bind(this)
+    this.updateElement = lodash.debounce(this.updateElement.bind(this), 100)
     this.updateValue = this.updateValue.bind(this)
     this.setInnerFieldStatus = this.setInnerFieldStatus.bind(this)
   }

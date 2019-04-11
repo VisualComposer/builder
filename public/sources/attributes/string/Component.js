@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Attribute from '../attribute'
 
 class StringAttribute extends Attribute {
@@ -8,7 +9,6 @@ class StringAttribute extends Attribute {
     if (!placeholder && this.props.options && this.props.options.placeholder) {
       placeholder = this.props.options.placeholder
     }
-
     return (
       <input
         className='vcv-ui-form-input'
