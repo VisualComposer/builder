@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
@@ -91,7 +90,7 @@ class PageTemplatesController extends Container implements Module
                     )) {
                     $output = [
                         'type' => 'vc',
-                        'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'blank',
+                        'value' => 'blank',
                     ];
                 } else {
                     $output = [
@@ -105,7 +104,7 @@ class PageTemplatesController extends Container implements Module
         return $output;
     }
 
-    protected function viewPageTemplate($originalTemplate, Request $requestHelper, File $fileHelper)
+    protected function viewPageTemplate($originalTemplate, Request $requestHelper)
     {
         if ($requestHelper->input('vcv-template') === 'default') {
             return $originalTemplate;
