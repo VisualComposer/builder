@@ -2,9 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import Layout from '../../sources/attributes/rowLayout/Component'
+
 const elementsStorage = vcCake.getStorage('elements')
 const layoutStorage = vcCake.getStorage('layout')
 let previousLayoutCustomMode = false
+
 class ColumnResizer extends React.Component {
   static defaultGridPercentage = [ 20, 25, 33.33, 50, 66.66, 75 ]
 
@@ -74,7 +76,7 @@ class ColumnResizer extends React.Component {
         mode: newLayoutMode,
         options: {}
       }
-      vcCake.setData('vcv:layoutCustomMode', data)
+      vcCake.setData('vcv:layoutCustomMode', newLayoutMode ? data : null)
       vcCake.setData('vcv:layoutColumnResize', null)
       ifameDocument.removeEventListener('mousemove', this.handleMouseMove)
       ifameDocument.removeEventListener('mouseup', this.handleMouseUp)
