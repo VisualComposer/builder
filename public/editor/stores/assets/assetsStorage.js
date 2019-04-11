@@ -16,6 +16,8 @@ addStorage('assets', (storage) => {
   const assetsLibraryManager = new AssetsLibraryManager()
   const data = { elements: {} }
 
+  builder.buildStylesContainers()
+
   storage.on('addElement', (id) => {
     let ids = Array.isArray(id) ? id : [ id ]
     ids.forEach((id) => {
@@ -66,7 +68,7 @@ addStorage('assets', (storage) => {
   const updateSettingsCss = () => {
     const globalCss = settingsStorage.state('globalCss').get() || ''
     const customCss = settingsStorage.state('customCss').get() || ''
-    builder.buildSettingsCss(globalCss + customCss)
+    builder.updateSettingsStyles(globalCss + customCss)
   }
   settingsStorage.state('globalCss').onChange(updateSettingsCss)
   settingsStorage.state('customCss').onChange(updateSettingsCss)
