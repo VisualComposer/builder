@@ -91,7 +91,7 @@ class WpWidgetsController extends Container implements Module
             $response['shortcodeContent'] = $widgets->render($widgetKey, $args, $instance);
             $response['shortcode'] = $widgets->getShortcode(
                 $requestHelper->input('vcv-element-tag'),
-                $requestHelper->input('vcv-widget-key'),
+                urlencode($requestHelper->input('vcv-widget-key')),
                 rawurlencode(json_encode($requestHelper->input('vcv-widget-value'))),
                 rawurlencode(json_encode($requestHelper->input('vcv-atts')))
             );

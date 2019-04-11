@@ -32,6 +32,7 @@ class WooCommerceController extends Container implements Module
         $this->addFilter('vcv:themeEditor:settingsController:addPages', 'addPages');
         $this->addFilter('vcv:themeEditor:layoutController:getTemplatePartId', 'getTemplatePartId');
         $this->addFilter('vcv:editors:editPostLinks:adminRowLinks', 'isShop');
+        $this->addFilter('vcv:themeEditor:layoutController:getOtherPageTemplatePartData:isArchive', 'isCategory');
     }
 
     /**
@@ -58,6 +59,10 @@ class WooCommerceController extends Container implements Module
             'name' => 'woocommerce-account',
         ];
         $pages[] = [
+            'title' => __('Woocommerce Product Category', 'vcwb'),
+            'name' => 'woocommerce-category',
+        ];
+        $pages[] = [
             'title' => __('Woocommerce Terms', 'vcwb'),
             'name' => 'woocommerce-terms',
         ];
@@ -77,6 +82,8 @@ class WooCommerceController extends Container implements Module
                 return $this->getCheckoutTemplatePart($templatePart);
             } elseif ($this->getCartTemplatePart($templatePart)) {
                 return $this->getCartTemplatePart($templatePart);
+            } elseif ($this->getCategoryTemplatePart($templatePart)) {
+                return $this->getCategoryTemplatePart($templatePart);
             } elseif ($this->getTermsTemplatePart($templatePart)) {
                 return $this->getTermsTemplatePart($templatePart);
             }
@@ -120,6 +127,26 @@ class WooCommerceController extends Container implements Module
             )) {
             $templatePartId = $optionsHelper->get(
                 'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-terms'
+            );
+            if ($templatePart) {
+                return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
+            }
+
+            return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => false];
+        }
+    }
+
+    /**
+     * @param $templatePart
+     *
+     * @return bool|mixed
+     */
+    protected function getCategoryTemplatePart($templatePart)
+    {
+        $optionsHelper = vchelper('Options');
+        if (is_product_category() && $optionsHelper->get('headerFooterSettingsPageType-woocommerce-category')) {
+            $templatePartId = $optionsHelper->get(
+                'headerFooterSettingsPageType' . ucfirst($templatePart) . '-woocommerce-category'
             );
             if ($templatePart) {
                 return ['pageFound' => true, 'replaceTemplate' => true, 'sourceId' => $templatePartId];
@@ -202,5 +229,17 @@ class WooCommerceController extends Container implements Module
         }
 
         return $response;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isCategory()
+    {
+        if (is_archive() && is_product_category()) {
+            return false;
+        }
+
+        return true;
     }
 }

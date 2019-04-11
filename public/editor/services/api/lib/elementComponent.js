@@ -29,12 +29,17 @@ export default class ElementComponent extends React.Component {
 
   constructor (props) {
     super(props)
-    this.mixinData = modernAssetsStorageInstance.getCssMixinsByElement(this.props.atts)
+    this.mixinData = null
+    if (this.props.atts.tag) {
+      this.mixinData = modernAssetsStorageInstance.getCssMixinsByElement(this.props.atts)
+    }
     this.updateElementAssets = this.updateElementAssets.bind(this)
   }
 
   componentDidUpdate (prevProps) {
-    this.mixinData = modernAssetsStorageInstance.getCssMixinsByElement(this.props.atts)
+    if (this.props.atts.tag && (!lodash.isEqual(this.props.atts, prevProps.atts) || !this.mixinData)) {
+      this.mixinData = modernAssetsStorageInstance.getCssMixinsByElement(this.props.atts)
+    }
   }
 
   spinnerHTML () {
@@ -106,7 +111,7 @@ export default class ElementComponent extends React.Component {
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
               window.setTimeout(() => {
                 window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, false)
-                window.vcv && window.vcv.trigger('ready')
+                window.vcv && window.vcv.trigger('ready', 'update', that.props.id)
               }, 150)
             })
           })(iframe, iframe.document))
@@ -135,7 +140,7 @@ export default class ElementComponent extends React.Component {
                 shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
                   window.setTimeout(() => {
                     window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, false)
-                    window.vcv && window.vcv.trigger('ready')
+                    window.vcv && window.vcv.trigger('ready', 'update', that.props.id)
                   }, 150)
                 })
               })(iframe, iframe.document))
@@ -276,7 +281,7 @@ export default class ElementComponent extends React.Component {
 
   getMixinData (mixinName) {
     if (!this.mixinData) {
-      return
+      return null
     }
     let { tag } = this.props.atts
     let returnData = null
@@ -288,6 +293,26 @@ export default class ElementComponent extends React.Component {
       }
     } else {
       returnData = this.mixinData[ tag ] || this.mixinData
+    }
+
+    return returnData
+  }
+
+  getInnerMixinData (fieldKey, mixinName, i) {
+    let tag = this.props.atts.tag
+    if (!this.mixinData || !this.mixinData[ tag ] || !this.mixinData[ tag ][ fieldKey ] || !this.mixinData[ tag ][ fieldKey ][ i ]) {
+      return null
+    }
+    let mixinData = this.mixinData[ tag ][ fieldKey ][ i ]
+    let returnData = null
+    if (mixinData[ 'innerTag' ] && mixinData[ 'innerTag' ][ mixinName ]) {
+      let mixin = Object.keys(mixinData[ 'innerTag' ][ mixinName ])
+      mixin = mixin.length ? mixin.pop() : null
+      if (mixin) {
+        returnData = mixinData[ 'innerTag' ][ mixinName ][ mixin ]
+      }
+    } else {
+      returnData = mixinData[ 'innerTag' ] || mixinData
     }
 
     return returnData
@@ -469,6 +494,7 @@ export default class ElementComponent extends React.Component {
         imageUrl = image && image.full && image.id ? image.full : (image && image.hasOwnProperty('full') ? this.getPublicImage(image.full) : this.getPublicImage(image))
       }
     }
+
     return imageUrl
   }
 
@@ -478,7 +504,7 @@ export default class ElementComponent extends React.Component {
       return ''
     }
 
-    return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
+    return filename && filename.match && filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
   }
 
   getStickyAttributes (sticky) {

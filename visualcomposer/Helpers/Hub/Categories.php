@@ -225,7 +225,7 @@ class Categories implements Helper
             ],
             'Image Slider' => [
                 'title' => 'Image Slider',
-                'elements' => ['simpleImageSlider', 'logoSlider'],
+                'elements' => ['simpleImageSlider', 'logoSlider', 'timelineSlideshow'],
                 'icon' => $urlHelper->to('public/categories/icons/Image-Slider.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Image-Slider.svg'),
             ],

@@ -1,4 +1,4 @@
-import { add, getStorage, getService, env, setData, onDataChange } from 'vc-cake'
+import { add, getStorage, getService, env, setData, getData, onDataChange } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
@@ -52,7 +52,8 @@ add('wordpressWorkspace', (api) => {
   }
 
   let isDragging = false
-  const handleBodyMouseUp = (data) => {
+  const handleBodyMouseUp = () => {
+    const data = getData('vcv:layoutCustomMode')
     let newData
     if (data.options.container && data.options.container.id === 'vcv-editor-iframe-overlay') {
       newData = {
@@ -74,10 +75,10 @@ add('wordpressWorkspace', (api) => {
   if (layoutHeader) {
     onDataChange('vcv:layoutCustomMode', (data) => {
       if (data && data.mode === 'dnd' && !isDragging) {
-        layoutHeader.addEventListener('mouseup', handleBodyMouseUp.bind(this, data))
+        layoutHeader.addEventListener('mouseup', handleBodyMouseUp)
         isDragging = true
-      } else if (isDragging && !data) {
-        layoutHeader.removeEventListener('mouseup', handleBodyMouseUp.bind(this, data))
+      } else if (isDragging) {
+        layoutHeader.removeEventListener('mouseup', handleBodyMouseUp)
         isDragging = false
       }
     })

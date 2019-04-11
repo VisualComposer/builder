@@ -480,6 +480,10 @@ class Localizations extends Container implements Helper
                 'Permalink',
                 'vcwb'
             ),
+            'spreadTheWordText' => __(
+                'Enjoy Visual Composer Website Builder? Let your friends know about it - spread the word.',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

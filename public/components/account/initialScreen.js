@@ -2,6 +2,7 @@ import React from 'react'
 import SliderComponent from './slider'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
+import ShareButtons from './shareButtons'
 
 export default class InitialScreen extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -44,6 +45,7 @@ export default class InitialScreen extends React.Component {
           <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
           { goPremiumButton }
         </div>
+        <ShareButtons />
       </div>
     )
   }

@@ -35,7 +35,7 @@ export default class ActivitiesManager extends React.Component {
     let listeners = []
     let fields = Object.keys(cookElement.getAll(false))
     if (props.options && props.options.nestedAttr) {
-      fields = cookElement.settings(props.options.fieldKey).settings.options.settings._paramGroupEditFormTab1.value
+      fields = Object.keys(cookElement.settings(props.options.fieldKey).settings.options.settings)
     }
     fields.forEach(key => {
       let onChangeRules = this.getOnChange(cookElement.settings(key)).rules

@@ -582,3 +582,79 @@
     }
   }
 }
+
+.vcv-activation-share-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+
+  .vcv-activation-share-text {
+    margin: 4px 10px 12px;
+    display: inline-block;
+    color: #9a9a9a;
+    -webkit-font-smoothing: antialiased;
+    font: italic 700 12px/20px 'Nunito Sans', 'Arial', sans-serif;
+    flex-basis: 100%;
+  }
+
+  a.vcv-facebook-share-button {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    box-shadow: none;
+    background: #4267b2;
+    border: 1px solid #4267b2;
+    color: #fff;
+    border-radius: 3px;
+    padding: 5px 6px;
+    line-height: 13px;
+    text-decoration: none;
+    vertical-align: top;
+    margin: 0 10px;
+    transition: background .2s;
+    flex-shrink: 0;
+
+    &:hover {
+      background: #3060B2;
+    }
+  }
+
+  .vcv-facebook-share-logo {
+    display: inline-block;
+    width: 16px;
+    vertical-align: middle;
+  }
+
+  .vcv-facebook-share-text {
+    vertical-align: middle;
+    display: inline-block;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0 2px 0 3px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .vcv-twitter-share-button {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 10px;
+
+    iframe {
+      vertical-align: top;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .vcv-activation-share-buttons {
+    flex-wrap: nowrap;
+
+    .vcv-activation-share-text {
+      flex-basis: auto;
+      margin: 4px 10px;
+    }
+  }
+}
