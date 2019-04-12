@@ -12,9 +12,9 @@ addStorage('assets', (storage) => {
   const globalAssetsStorage = assetsStorage.create()
   const settingsStorage = getStorage('settings')
   const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
-  const builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
   const assetsLibraryManager = new AssetsLibraryManager()
   const data = { elements: {} }
+  let builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
 
   builder.buildStylesContainers()
 
@@ -45,12 +45,12 @@ addStorage('assets', (storage) => {
       storage.trigger('removeSharedLibrary', id)
     })
   })
-  storage.on('resetElements', () => {
+  storage.on('reset', () => {
+    // New instance required to reset all {CssBuilder} properties
+    builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
     builder.buildStylesContainers()
-    globalAssetsStorage.resetElements(Object.keys(documentManager.all()))
   })
   storage.on('updateAllElements', (data) => {
-    builder.buildStylesContainers()
     Object.values(data).forEach(element => {
       storage.trigger('addSharedLibrary', element)
       builder.add(element, true)
