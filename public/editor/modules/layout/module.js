@@ -144,11 +144,14 @@ vcCake.add('contentLayout', (api) => {
         ReactDOM.unmountComponentAtNode(domContainer)
       }
       iframe.onload = () => {
+        assetsStorage.trigger('reset')
         const data = vcCake.getService('document').all()
         const visibleElements = Utils.getVisibleElements(data)
         workspaceIFrame.set({ type: 'loaded' })
-        elementsStorage.trigger('updateAll', data)
-        assetsStorage.trigger('updateAllElements', visibleElements)
+        window.setTimeout(() => {
+          elementsStorage.trigger('updateAll', data)
+          assetsStorage.trigger('updateAllElements', visibleElements)
+        }, 1)
       }
       let url = iframe.src.split('?')
       let params = url[ 1 ].split('&')
