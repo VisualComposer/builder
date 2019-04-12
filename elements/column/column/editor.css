@@ -1,9 +1,7 @@
 .vce-col {
   min-height: 1em;
 }
-.vce-col .vce-col-inner > .vcvhelper.vcv-row-control-container {
-  position: static;
-}
-.vce-col .vce-col-content > .vcvhelper.vcv-row-control-container {
-  position: static;
+
+.vce-col-content > .vcv-row-control-container .vcv-ui-blank-row-element-control {
+  min-height: auto;
 }
