@@ -46,9 +46,11 @@ addStorage('assets', (storage) => {
     })
   })
   storage.on('resetElements', () => {
+    builder.buildStylesContainers()
     globalAssetsStorage.resetElements(Object.keys(documentManager.all()))
   })
   storage.on('updateAllElements', (data) => {
+    builder.buildStylesContainers()
     Object.values(data).forEach(element => {
       storage.trigger('addSharedLibrary', element)
       builder.add(element, true)
