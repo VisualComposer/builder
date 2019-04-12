@@ -17,12 +17,9 @@
   -ms-flex-preferred-size: auto;
       flex-basis: auto;
 }
-.vce-col-inner {
-  position: relative;
-  overflow-wrap: break-word;
-}
+.vce-col-inner,
 .vce-col-content {
-  position: static;
+  position: relative;
   overflow-wrap: break-word;
 }
 
