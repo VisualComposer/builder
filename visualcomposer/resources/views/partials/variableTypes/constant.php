@@ -14,14 +14,16 @@ if ($addScript) : ?>
     <script id="vcv-variable-<?php echo esc_attr(vchelper('Str')->slugify($key)); ?>">
         <?php endif; ?>
         // Read-Only data
-        Object.defineProperty(window, '<?php echo esc_js($key); ?>', {
-          value: function () {
-            return <?php
-              // @codingStandardsIgnoreLine
-              echo json_encode($value, isset($options) ? $options : 0);
+        if(typeof window['<?php echo esc_js($key); ?>'] === 'undefined') {
+          Object.defineProperty(window, '<?php echo esc_js($key); ?>', {
+            value: function () {
+              return <?php
+                // @codingStandardsIgnoreLine
+                echo json_encode($value, isset($options) ? $options : 0);
                 ?> },
-          writable: false
-        });
+            writable: false
+          });
+        }
         <?php if ($addScript) : ?>
     </script>
 <?php endif;

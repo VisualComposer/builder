@@ -141,6 +141,7 @@ export default class Field extends React.Component {
             elementAccessPoint={elementAccessPoint}
             fieldType={fieldType}
             setInnerFieldStatus={this.setInnerFieldStatus}
+            editFormOptions={this.props.options}
             ref='attributeComponent'
           />
           {description}

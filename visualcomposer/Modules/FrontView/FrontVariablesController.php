@@ -20,6 +20,8 @@ class FrontVariablesController extends Container implements Module
 {
     use WpFiltersActions;
 
+    protected $isAdded = false;
+
     public function __construct()
     {
         $this->wpAddAction('wp_enqueue_scripts', 'addVariables', 1);
@@ -27,6 +29,10 @@ class FrontVariablesController extends Container implements Module
 
     protected function addVariables()
     {
+        if ($this->isAdded) {
+            return;
+        }
+        $this->isAdded = true;
         $variables = vcfilter('vcv:frontView:variables', []);
         $scriptOutput = '';
         if (is_array($variables)) {
