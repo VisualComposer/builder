@@ -1,5 +1,7 @@
-## ver 17.0 - 2019-04-12
+## ver 17.0 - 2019-04-15
 - New: Set and change slug (permalink) in Visual Composer
+- New: Spanish translation added
+- New: Swedish translation added
 - Update: Editor controls respond to clicks for a better user experience
 - Update: Editor loads faster for pages with a large amount of content
 - Update: Share buttons added to the Visual Composer About page
