@@ -3024,7 +3024,7 @@ import './slickCustom.less';
       if (typeof opt == 'object' || typeof opt == 'undefined') {
         _[ i ].slick = new Slick(_[ i ], opt);
       } else {
-        ret = _[ i ].slick[ opt ].apply(_[ i ].slick, args);
+        ret = _[ i ].slick && _[ i ].slick[ opt ] && _[ i ].slick[ opt ].apply(_[ i ].slick, args);
       }
       if (typeof ret != 'undefined') {
         return ret;
