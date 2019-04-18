@@ -1,6 +1,7 @@
 import { addStorage, getStorage, getService, getData } from 'vc-cake'
 import SaveController from './lib/saveController'
 import { getResponse } from 'public/tools/response'
+import Permalink from 'public/components/permalink/permalink'
 
 addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
@@ -131,6 +132,11 @@ addStorage('wordpressData', (storage) => {
       }
       if (responseData.hasOwnProperty('permalinkHtml')) {
         settingsStorage.state('permalinkHtml').set(responseData.permalinkHtml)
+
+        const permalinkData = responseData.permalinkHtml ? Permalink.getPermalinkData(responseData.permalinkHtml) : null
+        if (permalinkData) {
+          settingsStorage.state('postName').set(permalinkData.permalinkFull)
+        }
       }
 
       storage.state('status').set({ status: 'loaded' })

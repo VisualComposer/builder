@@ -12,7 +12,7 @@ export default class Permalink extends React.Component {
     super(props)
 
     let permalinkHtml = settingsStorage.state('permalinkHtml').get()
-    let data = permalinkHtml ? this.getPermalinkData(permalinkHtml) : null
+    let data = permalinkHtml ? Permalink.getPermalinkData(permalinkHtml) : null
 
     this.state = {
       baseUrlFirst: (data && data.baseUrlFirst) || null,
@@ -79,7 +79,7 @@ export default class Permalink extends React.Component {
     }
   }
 
-  getPermalinkData (permalinkHtml) {
+  static getPermalinkData (permalinkHtml) {
     const range = document.createRange()
     const documentFragment = range.createContextualFragment(permalinkHtml)
     const editButtons = documentFragment.querySelector('#edit-slug-buttons')
@@ -116,7 +116,7 @@ export default class Permalink extends React.Component {
   }
 
   updatePermalinkHtml (permalinkHtml) {
-    const permalinkData = permalinkHtml ? this.getPermalinkData(permalinkHtml) : null
+    const permalinkData = permalinkHtml ? Permalink.getPermalinkData(permalinkHtml) : null
     if (permalinkData) {
       this.setState(permalinkData)
       settingsStorage.state('postName').set(permalinkData.permalinkFull)
