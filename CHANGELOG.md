@@ -1,3 +1,5 @@
+## ver 17.1 - 2019-04-24
+- Fix: Slug option controls doesn't overwrite the default slug
 ## ver 17.0 - 2019-04-15
 - New: Set and change slug (permalink) in Visual Composer
 - New: Spanish translation added
