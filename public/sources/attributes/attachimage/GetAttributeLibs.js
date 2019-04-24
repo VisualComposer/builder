@@ -1,12 +1,18 @@
 export default (value) => {
   let libs = []
+  let filterName = null
 
-  if (value && value.urls && value.urls[0] && value.urls[0].filter && value.urls[0].filter !== 'normal') {
+  if (value instanceof Array) { // For multiple images
+    filterName = value[ 0 ] && value[ 0 ] && value[ 0 ].filter
+  } else { // For single image
+    filterName = value && value.filter
+  }
+
+  if (filterName !== 'normal') {
     let libData = {
       name: 'imageFilter',
       dependencies: []
     }
-
     libs.push(libData)
   }
 
