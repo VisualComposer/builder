@@ -1,3 +1,5 @@
+import './animate.css';
+
 window.vcv.on('ready', function (action, id, options) {
   let enableAnimate = function (id, action, innerKey) {
     let selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'

@@ -1,3 +1,5 @@
+import './stickyElement.css';
+
 (function (window) {
   window.vcStickySettings = null;
 

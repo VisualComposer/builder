@@ -1,3 +1,5 @@
+import './parallax.css';
+
 window.vcv.on('ready', function (action, id) {
   if (action !== 'merge') {
     setTimeout(function() {
