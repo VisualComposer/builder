@@ -1,12 +1,12 @@
 import path from 'path'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import webpack from 'webpack'
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 
 module.exports = {
   mode: 'production',
   entry: {
-    parallaxBackground: ['./src/plugin.js', './src/parallax.js', './src/parallax.css']
+    parallaxBackground: [ './src/plugin.js', './src/parallax.js' ]
   },
   output: {
     path: path.resolve(__dirname, 'dist/'), // Assets dist path
@@ -20,41 +20,12 @@ module.exports = {
   optimization: {
     minimize: true,
     runtimeChunk: false,
+    namedChunks: true, // MUST BE true even for production
+    namedModules: true, // MUST BE true even for production
     minimizer: [
-      new UglifyJSPlugin({
-        cache: true,
-        parallel: true,
-        uglifyOptions: {
-          output: {
-            comments: false
-          },
-          compress: false,
-          ecma: 6,
-          mangle: true
-          // compress: {
-          //   // unsafe_comps: true,
-          //   // properties: true,
-          //   // keep_fargs: false,
-          //   // pure_getters: true,
-          //   // collapse_vars: true,
-          //   // unsafe: true,
-          //   // warnings: false,
-          //   // screw_ie8: true,
-          //   // sequences: true,
-          //   // dead_code: true,
-          //   // drop_debugger: true,
-          //   // comparisons: true,
-          //   // conditionals: true,
-          //   // evaluate: true,
-          //   // booleans: true,
-          //   // loops: true,
-          //   // unused: true,
-          //   // hoist_funs: true,
-          //   // if_return: true,
-          //   // join_vars: true,
-          //   // cascade: true,
-          //   // drop_console: true
-          // }
+      new TerserPlugin({
+        terserOptions: {
+          safari10: true
         }
       })
     ]
@@ -76,28 +47,6 @@ module.exports = {
         include: /node_modules/,
         type: 'javascript/auto'
       },
-      // {
-      //   test: /\.js$/,
-      //   use: { loader: 'babel-loader' },
-      //   exclude: /node_modules/
-      //   // exclude: new RegExp('node_modules\\' + path.sep + '(?!postcss-prefix-url)'),
-      //   // query: {
-      //   //   // https://github.com/babel/babel-loader#options
-      //   //   cacheDirectory: true
-      //   // }
-      // },
-      // {
-      //   test: /\.js$/,
-      //   include: /node_modules/,
-      //   loader: StringReplacePlugin.replace({ // from the 'string-replace-webpack-plugin'
-      //     replacements: [ {
-      //       pattern: /define\.amd/ig,
-      //       replacement: function () {
-      //         return false
-      //       }
-      //     } ]
-      //   })
-      // },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({

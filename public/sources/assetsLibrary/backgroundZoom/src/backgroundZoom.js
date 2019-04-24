@@ -1,3 +1,5 @@
+import './backgroundZoom.css';
+
 window.vcv.on('ready', function (action, id) {
   if (action !== 'merge') {
     let selector = id ? '[data-vcv-element="' + id + '"] [data-vce-assets-zoom]' : '[data-vce-assets-zoom]'

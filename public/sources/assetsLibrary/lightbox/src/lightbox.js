@@ -1,5 +1,7 @@
+import './lightbox.css';
+
 /*!
- * Lightbox v2.8.2
+ * Lightbox v2.8.2 - custom modified by Visual Composer Team
  * by Lokesh Dhakar
  *
  * More info:
@@ -10,15 +12,13 @@
  * https://github.com/lokesh/lightbox2/blob/master/LICENSE
  */
 
-// Uses Node, AMD or browser globals to create a module.
-(function (root, factory) {
-  root.lightbox = factory(root.jQuery);
-}(this, function () {
+(function () {
   if (window.lightbox01613445) {
     return false;
   }
   window.lightbox01613445 = true;
-  function Lightbox(options) {
+
+  function Lightbox (options) {
     this.album = [];
     this.currentImageIndex = void 0;
     window.jQuery(this.init.bind(this));
@@ -44,24 +44,24 @@
     disableScrolling: false
   };
 
-  Lightbox.prototype.option = function(options) {
+  Lightbox.prototype.option = function (options) {
     window.jQuery.extend(this.options, options);
   };
 
-  Lightbox.prototype.imageCountLabel = function(currentImageNum, totalImages) {
+  Lightbox.prototype.imageCountLabel = function (currentImageNum, totalImages) {
     return this.options.albumLabel.replace(/%1/g, currentImageNum).replace(/%2/g, totalImages);
   };
 
-  Lightbox.prototype.init = function() {
+  Lightbox.prototype.init = function () {
     this.enable();
     this.build();
   };
 
   // Loop through anchors and areamaps looking for either data-lightbox attributes or rel attributes
   // that contain 'lightbox'. When these are clicked, start lightbox.
-  Lightbox.prototype.enable = function() {
+  Lightbox.prototype.enable = function () {
     var self = this;
-    window.jQuery('body').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(event) {
+    window.jQuery('body').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function (event) {
       self.start(window.jQuery(event.currentTarget));
       return false;
     });
@@ -69,15 +69,15 @@
 
   // Build html for the lightbox and the overlay.
   // Attach event handlers to the new DOM elements. click click click
-  Lightbox.prototype.build = function() {
+  Lightbox.prototype.build = function () {
     var self = this;
     window.jQuery('<div id="vce-lightboxOverlay" class="vce-lightboxOverlay"></div><div id="vce-lightbox" class="vce-lightbox"><div class="vce-lb-outerContainer"><div class="vce-lb-container"><img class="vce-lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="vce-lb-nav"><a class="vce-lb-prev" href="" ></a><a class="vce-lb-next" href="" ></a></div><div class="vce-lb-loader"><a class="vce-lb-cancel"></a></div></div></div><div class="vce-lb-dataContainer"><div class="vce-lb-data"><div class="vce-lb-details"><span class="vce-lb-caption"></span><span class="vce-lb-number"></span></div><div class="vce-lb-closeContainer"><a class="vce-lb-close"></a></div></div></div></div>').appendTo(window.jQuery('body'));
 
     // Cache jQuery objects
-    this.$lightbox       = window.jQuery('#vce-lightbox');
-    this.$overlay        = window.jQuery('#vce-lightboxOverlay');
+    this.$lightbox = window.jQuery('#vce-lightbox');
+    this.$overlay = window.jQuery('#vce-lightboxOverlay');
     this.$outerContainer = this.$lightbox.find('.vce-lb-outerContainer');
-    this.$container      = this.$lightbox.find('.vce-lb-container');
+    this.$container = this.$lightbox.find('.vce-lb-container');
 
     // Store css values for future lookup
     this.containerTopPadding = parseInt(this.$container.css('padding-top'), 10);
@@ -86,26 +86,26 @@
     this.containerLeftPadding = parseInt(this.$container.css('padding-left'), 10);
 
     // Attach event handlers to the newly minted DOM elements
-    this.$overlay.hide().on('click', function() {
+    this.$overlay.hide().on('click', function () {
       self.end();
       return false;
     });
 
-    this.$lightbox.hide().on('click', function(event) {
+    this.$lightbox.hide().on('click', function (event) {
       if (window.jQuery(event.target).attr('id') === 'vce-lightbox') {
         self.end();
       }
       return false;
     });
 
-    this.$outerContainer.on('click', function(event) {
+    this.$outerContainer.on('click', function (event) {
       if (window.jQuery(event.target).attr('id') === 'vce-lightbox') {
         self.end();
       }
       return false;
     });
 
-    this.$lightbox.find('.vce-lb-prev').on('click', function() {
+    this.$lightbox.find('.vce-lb-prev').on('click', function () {
       if (self.currentImageIndex === 0) {
         self.changeImage(self.album.length - 1);
       } else {
@@ -114,7 +114,7 @@
       return false;
     });
 
-    this.$lightbox.find('.vce-lb-next').on('click', function() {
+    this.$lightbox.find('.vce-lb-next').on('click', function () {
       if (self.currentImageIndex === self.album.length - 1) {
         self.changeImage(0);
       } else {
@@ -123,15 +123,15 @@
       return false;
     });
 
-    this.$lightbox.find('.vce-lb-loader, .vce-lb-close').on('click', function() {
+    this.$lightbox.find('.vce-lb-loader, .vce-lb-close').on('click', function () {
       self.end();
       return false;
     });
   };
 
   // Show overlay and lightbox. If the image is part of a set, add siblings to album array.
-  Lightbox.prototype.start = function($link) {
-    var self    = this;
+  Lightbox.prototype.start = function ($link) {
+    var self = this;
     var $window = window.jQuery(window);
 
     $window.on('resize', window.jQuery.proxy(this.sizeOverlay, this));
@@ -161,8 +161,8 @@
     if (dataLightboxValue) {
       $links = window.jQuery($link.prop('tagName') + '[data-lightbox="' + dataLightboxValue + '"]');
       for (var i = 0; i < $links.length; i = ++i) {
-        addToAlbum(window.jQuery($links[i]));
-        if ($links[i] === $link[0]) {
+        addToAlbum(window.jQuery($links[ i ]));
+        if ($links[ i ] === $link[ 0 ]) {
           imageNumber = i;
         }
       }
@@ -174,8 +174,8 @@
         // If image is part of a set
         $links = window.jQuery($link.prop('tagName') + '[rel="' + $link.attr('rel') + '"]');
         for (var j = 0; j < $links.length; j = ++j) {
-          addToAlbum(window.jQuery($links[j]));
-          if ($links[j] === $link[0]) {
+          addToAlbum(window.jQuery($links[ j ]));
+          if ($links[ j ] === $link[ 0 ]) {
             imageNumber = j;
           }
         }
@@ -183,7 +183,7 @@
     }
 
     // Position Lightbox
-    var top  = $window.scrollTop() + this.options.positionFromTop;
+    var top = $window.scrollTop() + this.options.positionFromTop;
     var left = $window.scrollLeft();
     this.$lightbox.css({
       top: top + 'px',
@@ -199,7 +199,7 @@
   };
 
   // Hide most UI elements in preparation for the animated resizing of the lightbox.
-  Lightbox.prototype.changeImage = function(imageNumber) {
+  Lightbox.prototype.changeImage = function (imageNumber) {
     var self = this;
 
     this.disableKeyboardNav();
@@ -214,7 +214,7 @@
 
     // When image to show is preloaded, we send the width and height to sizeContainer()
     var preloader = new Image();
-    preloader.onload = function() {
+    preloader.onload = function () {
       var $preloader;
       var imageHeight;
       var imageWidth;
@@ -223,7 +223,7 @@
       var windowHeight;
       var windowWidth;
 
-      $image.attr('src', self.album[imageNumber].link);
+      $image.attr('src', self.album[ imageNumber ].link);
       var filterClass = Array.prototype.slice.call($image.get(0).classList).find(function (item) { return item.match(/vce\-image\-filter\-\-/) }) || ''
       filterClass && $image.removeClass(filterClass)
       self.album[ imageNumber ].filterClass && ($image.addClass(self.album[ imageNumber ].filterClass));
@@ -237,9 +237,9 @@
         // Fit image inside the viewport.
         // Take into account the border around the image and an additional 10px gutter on each side.
 
-        windowWidth    = window.jQuery(window).width();
-        windowHeight   = window.jQuery(window).height();
-        maxImageWidth  = windowWidth - self.containerLeftPadding - self.containerRightPadding - 20;
+        windowWidth = window.jQuery(window).width();
+        windowHeight = window.jQuery(window).height();
+        maxImageWidth = windowWidth - self.containerLeftPadding - self.containerRightPadding - 20;
         maxImageHeight = windowHeight - self.containerTopPadding - self.containerBottomPadding - 120;
 
         // Check if image size is larger then maxWidth|maxHeight in settings
@@ -253,7 +253,7 @@
         // Is there a fitting issue?
         if ((preloader.width > maxImageWidth) || (preloader.height > maxImageHeight)) {
           if ((preloader.width / maxImageWidth) > (preloader.height / maxImageHeight)) {
-            imageWidth  = maxImageWidth;
+            imageWidth = maxImageWidth;
             imageHeight = parseInt(preloader.height / (preloader.width / imageWidth), 10);
             $image.width(imageWidth);
             $image.height(imageHeight);
@@ -268,28 +268,28 @@
       self.sizeContainer($image.width(), $image.height());
     };
 
-    preloader.src          = this.album[imageNumber].link;
+    preloader.src = this.album[ imageNumber ].link;
     this.album[ imageNumber ].filterClass && (preloader.classList.add(this.album[ imageNumber ].filterClass));
     this.currentImageIndex = imageNumber;
   };
 
   // Stretch overlay to fit the viewport
-  Lightbox.prototype.sizeOverlay = function() {
+  Lightbox.prototype.sizeOverlay = function () {
     this.$overlay
       .width(window.jQuery(document).width())
       .height(window.jQuery(document).height());
   };
 
   // Animate the size of the lightbox to fit the image we are showing
-  Lightbox.prototype.sizeContainer = function(imageWidth, imageHeight) {
+  Lightbox.prototype.sizeContainer = function (imageWidth, imageHeight) {
     var self = this;
 
-    var oldWidth  = this.$outerContainer.outerWidth();
+    var oldWidth = this.$outerContainer.outerWidth();
     var oldHeight = this.$outerContainer.outerHeight();
-    var newWidth  = imageWidth + this.containerLeftPadding + this.containerRightPadding;
+    var newWidth = imageWidth + this.containerLeftPadding + this.containerRightPadding;
     var newHeight = imageHeight + this.containerTopPadding + this.containerBottomPadding;
 
-    function postResize() {
+    function postResize () {
       self.$lightbox.find('.vce-lb-dataContainer').width(newWidth);
       self.$lightbox.find('.vce-lb-prevLink').height(newHeight);
       self.$lightbox.find('.vce-lb-nextLink').height(newHeight);
@@ -300,7 +300,7 @@
       this.$outerContainer.animate({
         width: newWidth,
         height: newHeight
-      }, this.options.resizeDuration, 'swing', function() {
+      }, this.options.resizeDuration, 'swing', function () {
         postResize();
       });
     } else {
@@ -309,7 +309,7 @@
   };
 
   // Display the image and its details and begin preload neighboring images.
-  Lightbox.prototype.showImage = function() {
+  Lightbox.prototype.showImage = function () {
     this.$lightbox.find('.vce-lb-loader').stop(true).hide();
     this.$lightbox.find('.vce-lb-image').fadeIn('slow');
 
@@ -320,7 +320,7 @@
   };
 
   // Display previous and next navigation if appropriate.
-  Lightbox.prototype.updateNav = function() {
+  Lightbox.prototype.updateNav = function () {
     // Check to see if the browser supports touch events. If so, we take the conservative approach
     // and assume that mouse hover events are not supported and always show prev/next navigation
     // arrows in image sets.
@@ -356,17 +356,17 @@
   };
 
   // Display caption, image number, and closing button.
-  Lightbox.prototype.updateDetails = function() {
+  Lightbox.prototype.updateDetails = function () {
     var self = this;
 
     // Enable anchor clicks in the injected caption html.
     // Thanks Nate Wright for the fix. @https://github.com/NateWr
-    if (typeof this.album[this.currentImageIndex].title !== 'undefined' &&
-      this.album[this.currentImageIndex].title !== '') {
+    if (typeof this.album[ this.currentImageIndex ].title !== 'undefined' &&
+      this.album[ this.currentImageIndex ].title !== '') {
       this.$lightbox.find('.vce-lb-caption')
-        .html(this.album[this.currentImageIndex].title)
+        .html(this.album[ this.currentImageIndex ].title)
         .fadeIn('fast')
-        .find('a').on('click', function(event) {
+        .find('a').on('click', function (event) {
         if (window.jQuery(this).attr('target') !== undefined) {
           window.open(window.jQuery(this).attr('href'), window.jQuery(this).attr('target'));
         } else {
@@ -384,38 +384,38 @@
 
     this.$outerContainer.removeClass('animating');
 
-    this.$lightbox.find('.vce-lb-dataContainer').fadeIn(this.options.resizeDuration, function() {
+    this.$lightbox.find('.vce-lb-dataContainer').fadeIn(this.options.resizeDuration, function () {
       return self.sizeOverlay();
     });
   };
 
   // Preload previous and next images in set.
-  Lightbox.prototype.preloadNeighboringImages = function() {
+  Lightbox.prototype.preloadNeighboringImages = function () {
     if (this.album.length > this.currentImageIndex + 1) {
       var preloadNext = new Image();
-      preloadNext.src = this.album[this.currentImageIndex + 1].link;
+      preloadNext.src = this.album[ this.currentImageIndex + 1 ].link;
     }
     if (this.currentImageIndex > 0) {
       var preloadPrev = new Image();
-      preloadPrev.src = this.album[this.currentImageIndex - 1].link;
+      preloadPrev.src = this.album[ this.currentImageIndex - 1 ].link;
     }
   };
 
-  Lightbox.prototype.enableKeyboardNav = function() {
+  Lightbox.prototype.enableKeyboardNav = function () {
     window.jQuery(document).on('keyup.keyboard', window.jQuery.proxy(this.keyboardAction, this));
   };
 
-  Lightbox.prototype.disableKeyboardNav = function() {
+  Lightbox.prototype.disableKeyboardNav = function () {
     window.jQuery(document).off('.keyboard');
   };
 
-  Lightbox.prototype.keyboardAction = function(event) {
-    var KEYCODE_ESC        = 27;
-    var KEYCODE_LEFTARROW  = 37;
+  Lightbox.prototype.keyboardAction = function (event) {
+    var KEYCODE_ESC = 27;
+    var KEYCODE_LEFTARROW = 37;
     var KEYCODE_RIGHTARROW = 39;
 
     var keycode = event.keyCode;
-    var key     = String.fromCharCode(keycode).toLowerCase();
+    var key = String.fromCharCode(keycode).toLowerCase();
     if (keycode === KEYCODE_ESC || key.match(/x|o|c/)) {
       this.end();
     } else if (key === 'p' || keycode === KEYCODE_LEFTARROW) {
@@ -434,7 +434,7 @@
   };
 
   // Closing time. :-(
-  Lightbox.prototype.end = function() {
+  Lightbox.prototype.end = function () {
     this.disableKeyboardNav();
     window.jQuery(window).off('resize', this.sizeOverlay);
     this.$lightbox.fadeOut(this.options.fadeDuration);
@@ -448,4 +448,4 @@
   };
 
   return new Lightbox();
-}));
+})();

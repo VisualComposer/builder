@@ -1,5 +1,7 @@
 import PhotoSwipe from './photoswipe';
 import PhotoSwipeUI_Default from './photoswipe-ui-default';
+import './photoswipe.css';
+
 (function () {
   var openedPhotoswipe;
   window.vcv.on('ready', function () {
