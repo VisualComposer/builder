@@ -500,9 +500,6 @@ import './slickCustom.less';
 
     var _ = this;
 
-    // _.$slideTrack = (_.slideCount === 0) ?
-    //     $('<div class="slick-track"/>').appendTo(_.$slider) :
-    //     _.$slides.wrapAll('<div class="slick-track"/>').parent();
     _.$slideTrack = _.$slider.find('.slick-track').first();
     _.$slideTrack.removeAttr('style');
 
@@ -521,11 +518,7 @@ import './slickCustom.less';
 
     _.$slider.addClass('slick-slider');
 
-    // _.$list = _.$slideTrack.wrap(
-    //     '<div aria-live="polite" class="slick-list"/>').parent();
-    // _.$slideTrack.css('opacity', 0);
     _.$list = _.$slider.find('.slick-list').first();
-    // _.$list = _.$slider.find('.slick-list').first();
 
     if (_.options.centerMode === true || _.options.swipeToSlide === true) {
       _.options.slidesToScroll = 1;
@@ -777,12 +770,19 @@ import './slickCustom.less';
     }
 
     if (_.$list) {
-      _.$list.off('touchstart.slick mousedown.slick', _.swipeHandler);
-      _.$list.off('touchmove.slick mousemove.slick', _.swipeHandler);
-      _.$list.off('touchend.slick mouseup.slick', _.swipeHandler);
-      _.$list.off('touchcancel.slick mouseleave.slick', _.swipeHandler);
+      document.removeEventListener('touchstart', _.swipeHandler, true)
+      document.removeEventListener('mousedown', _.swipeHandler, true)
 
-      _.$list.off('click.slick', _.clickHandler);
+      document.removeEventListener('touchmove', _.swipeHandler, true)
+      document.removeEventListener('mousemove', _.swipeHandler, true)
+
+      document.removeEventListener('touchend', _.swipeHandler, true)
+      document.removeEventListener('mouseup', _.swipeHandler, true)
+
+      document.removeEventListener('touchcancel', _.swipeHandler, true)
+      document.removeEventListener('mouseleave', _.swipeHandler, true)
+
+      document.removeEventListener('click', _.clickHandler, true)
     }
 
     $(document).off(_.visibilityChange, _.visibility);
@@ -838,7 +838,6 @@ import './slickCustom.less';
     if (_.shouldClick === false) {
       event.stopImmediatePropagation();
       event.stopPropagation();
-      event.preventDefault();
     }
 
   };
@@ -893,13 +892,6 @@ import './slickCustom.less';
           $(this).attr('style', $(this).data('originalStyling'));
         });
 
-      // _.$slideTrack.children(this.options.slide).detach();
-      //
-      // _.$slideTrack.detach();
-      //
-      // _.$list.detach();
-      //
-      // _.$slider.append(_.$slides);
     }
 
     _.cleanUpRows();
@@ -909,10 +901,6 @@ import './slickCustom.less';
     _.$slider.removeClass('slick-dotted');
 
     _.unslicked = true;
-
-    // if (!refresh) {
-    //   _.$slider.trigger('destroy', [ _ ]);
-    // }
 
   };
 
@@ -1317,12 +1305,19 @@ import './slickCustom.less';
     });
 
     if (_.$dots !== null) {
+      var slidesData = [];
       _.$slides.not(_.$slideTrack.find('.slick-cloned')).each(function (i) {
         var slideControlIndex = tabControlIndexes.indexOf(i);
+        var slideId = $(this).attr('id') ? $(this).attr('id') : 'slick-slide' + _.instanceUid + i;
+        var slideData = {
+          id: slideId,
+          index: i
+        };
+        slidesData.push(slideData);
 
         $(this).attr({
           'role': 'tabpanel',
-          'id': 'slick-slide' + _.instanceUid + i,
+          'id': slideId,
           'tabindex': -1
         });
 
@@ -1337,16 +1332,19 @@ import './slickCustom.less';
       });
 
       _.$dots.attr('role', 'tablist').find('li').each(function (i) {
-        var mappedSlideIndex = tabControlIndexes[ i ];
 
         $(this).attr({
           'role': 'presentation'
         });
 
+        var slideData = slidesData.find(function (slide) {
+          return i === slide.index;
+        });
+
         $(this).find('button').first().attr({
           'role': 'tab',
           'id': 'slick-slide-control' + _.instanceUid + i,
-          'aria-controls': 'slick-slide' + _.instanceUid + mappedSlideIndex,
+          'aria-controls': slideData.id,
           'aria-label': (i + 1) + ' of ' + numDotGroups,
           'aria-selected': null,
           'tabindex': '-1'
@@ -1440,20 +1438,32 @@ import './slickCustom.less';
     _.initDotEvents();
     _.initSlideEvents();
 
-    _.$list.on('touchstart.slick mousedown.slick', {
-      action: 'start'
-    }, _.swipeHandler);
-    _.$list.on('touchmove.slick mousemove.slick', {
-      action: 'move'
-    }, _.swipeHandler);
-    _.$list.on('touchend.slick mouseup.slick', {
-      action: 'end'
-    }, _.swipeHandler);
-    _.$list.on('touchcancel.slick mouseleave.slick', {
-      action: 'end'
-    }, _.swipeHandler);
+    var supportsPassive = false;
+    try {
+      var opts = Object.defineProperty({}, 'passive', {
+        get: function () {
+          supportsPassive = true;
+        }
+      });
+      window.addEventListener('testPassive', null, opts);
+      window.removeEventListener('testPassive', null, opts);
+    } catch (e) {
+      console.warn('Passive event handling warn e: ', e)
+    }
 
-    _.$list.on('click.slick', _.clickHandler);
+    _.$list[0].addEventListener('touchstart', _.swipeHandler.bind(window, 'start'), supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('mousedown', _.swipeHandler.bind(window, 'start'), supportsPassive ? { passive: true } : false)
+
+    _.$list[0].addEventListener('touchmove ', _.swipeHandler.bind(window, 'move'), supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('mousemove', _.swipeHandler.bind(window, 'move'), supportsPassive ? { passive: true } : false)
+
+    _.$list[0].addEventListener('mouseup', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('touchend', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
+
+    _.$list[0].addEventListener('touchcancel', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
+    _.$list[0].addEventListener('mouseleave', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
+    //
+    _.$list[0].addEventListener('click', _.clickHandler, supportsPassive ? {passive: true} : false)
 
     $(document).on(_.visibilityChange, $.proxy(_.visibility, _));
 
@@ -1498,7 +1508,7 @@ import './slickCustom.less';
   Slick.prototype.keyHandler = function (event) {
 
     var _ = this;
-    //Dont slide if the cursor is inside the form fields and arrow keys are pressed
+    // Dont slide if the cursor is inside the form fields and arrow keys are pressed
     if (!event.target.tagName.match('TEXTAREA|INPUT|SELECT')) {
       if (event.keyCode === 37 && _.options.accessibility === true) {
         _.changeSlide({
@@ -2746,7 +2756,7 @@ import './slickCustom.less';
 
   };
 
-  Slick.prototype.swipeHandler = function (event) {
+  Slick.prototype.swipeHandler = function (action, event) {
 
     var _ = this;
 
@@ -2756,8 +2766,13 @@ import './slickCustom.less';
       return;
     }
 
-    _.touchObject.fingerCount = event.originalEvent && event.originalEvent.touches !== undefined ?
-      event.originalEvent.touches.length : 1;
+    if (event.originalEvent && event.originalEvent.touches !== undefined) {
+      _.touchObject.fingerCount = event.originalEvent.touches.length
+    } else if (event && event.touches !== undefined && event.type === 'touch') {
+      _.touchObject.fingerCount = event.touches.length
+    } else {
+      _.touchObject.fingerCount = 1
+    }
 
     _.touchObject.minSwipe = _.listWidth / _.options
       .touchThreshold;
@@ -2767,7 +2782,7 @@ import './slickCustom.less';
         .touchThreshold;
     }
 
-    switch (event.data.action) {
+    switch (action) {
 
       case 'start':
         _.swipeStart(event);
@@ -2791,7 +2806,13 @@ import './slickCustom.less';
       edgeWasHit = false,
       curLeft, swipeDirection, swipeLength, positionOffset, touches, verticalSwipeLength;
 
-    touches = event.originalEvent !== undefined ? event.originalEvent.touches : null;
+    if (event.originalEvent !== undefined) {
+      touches = event.originalEvent.touches
+    } else if (event) {
+      touches = event.touches
+    } else {
+      touches = null
+    }
 
     if (!_.dragging || _.scrolling || touches && touches.length !== 1) {
       return false;
@@ -2876,6 +2897,8 @@ import './slickCustom.less';
 
     if (event.originalEvent !== undefined && event.originalEvent.touches !== undefined) {
       touches = event.originalEvent.touches[ 0 ];
+    } else if (event !== undefined && event.touches !== undefined && event.type === 'touch') {
+      touches = event.touches[ 0 ];
     }
 
     _.touchObject.startX = _.touchObject.curX = touches !== undefined ? touches.pageX : event.clientX;
