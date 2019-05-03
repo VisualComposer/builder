@@ -35,8 +35,8 @@ $typenow = get_post_type();
       window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
     </script>
     <?php
-    // @codingStandardsIgnoreLine
     evcview('settings/partials/admin-nonce');
+    // @codingStandardsIgnoreLine
     do_action('admin_enqueue_scripts', $hook_suffix);
     do_action('admin_print_scripts');
     do_action('admin_head');
