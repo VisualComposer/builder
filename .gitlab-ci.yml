@@ -175,7 +175,6 @@ test:js:build:
 #    - ls -al /var/www/html/wp-content/plugins/builder
 #    - yarn install
 #    - yarn build
-#    - yarn build-settings
 #    - chmod 777 /var/www/html/wp-content/uploads
 #    - bash tools/elements/buildScript.sh
 #    - git clone git@gitlab.com:visualcomposer-hub/hubtools.git

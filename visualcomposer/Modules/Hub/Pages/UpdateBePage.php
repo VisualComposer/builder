@@ -68,13 +68,13 @@ class UpdateBePage extends Container implements Module
         $urlHelper = vchelper('Url');
         wp_register_script(
             'vcv:wpUpdate:script',
-            $urlHelper->assetUrl('dist/wpUpdate.bundle.js'),
-            [],
+            $urlHelper->to('public/dist/wpUpdate.bundle.js'),
+            ['vcv:assets:vendor:script'],
             VCV_VERSION
         );
         wp_register_style(
             'vcv:wpUpdate:style',
-            $urlHelper->assetUrl('dist/wpUpdate.bundle.css'),
+            $urlHelper->to('public/dist/wpUpdate.bundle.css'),
             [],
             VCV_VERSION
         );

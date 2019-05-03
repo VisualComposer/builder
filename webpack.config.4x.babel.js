@@ -16,6 +16,8 @@ module.exports = {
     front: './public/frontView',
     wpbackendswitch: './public/backendSwitch.js',
     wpbase: './public/base',
+    wpUpdate: './public/activation',
+    wpVcSettings: './public/wordpressSettings',
     vendor: webpackVendors()
   },
   output: {
