@@ -56,7 +56,7 @@ class Settings extends Container implements Module
         $urlHelper = vchelper('Url');
         wp_register_style(
             'vcv:wpUpdate:style',
-            $urlHelper->assetUrl('dist/wpUpdate.bundle.css'),
+            $urlHelper->to('public/dist/wpUpdate.bundle.css'),
             [],
             VCV_VERSION
         );
