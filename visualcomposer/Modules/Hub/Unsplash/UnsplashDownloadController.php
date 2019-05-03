@@ -42,17 +42,16 @@ class UnsplashDownloadController extends Container implements Module
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
-     * @param \VisualComposer\Helpers\File $fileHelper
      *
      * @return array
+     * @throws \ReflectionException
      */
     protected function download(
         $response,
         $payload,
         Request $requestHelper,
         License $licenseHelper,
-        CurrentUser $currentUserHelper,
-        File $fileHelper
+        CurrentUser $currentUserHelper
     ) {
         if ($currentUserHelper->wpAll($this->capability)->get() && $licenseHelper->isActivated()
             && $requestHelper->exists(
@@ -63,36 +62,14 @@ class UnsplashDownloadController extends Container implements Module
             $imageUrl = $this->getDownloadUrl($imageId);
 
             if ($imageUrl) {
-                $parseUrl = parse_url($imageUrl);
-                if (preg_match('|(.*)(.unsplash.com)$|', $parseUrl['host'])) {
-                    $tempImage = $fileHelper->download($imageUrl . '&w=' . intval($imageSize));
-                    $imageType = exif_imagetype($tempImage);
-                    if (in_array(
-                        $imageType,
-                        [IMAGETYPE_JPEG, IMAGETYPE_PNG]
-                    )) {
-                        if (!vcIsBadResponse($tempImage)) {
-                            $results = $this->moveTemporarilyToUploads($parseUrl, $imageType, $tempImage);
-
-                            if (!isset($results['error']) && $this->addImageToMediaLibrary($results)) {
-                                return ['status' => true];
-                            }
-
-                            $this->message = $this->setMessage(esc_html($results->get_error_message()) . ' #10080');
-                        }
-
-                        $this->message = $this->setMessage(
-                            __(
-                                'Failed to download image, make sure that your upload folder is writable and please try again!',
-                                'vcwb'
-                            ) . ' #10081'
-                        );
-                    } else {
-                        $fileHelper->removeFile($tempImage);
-                        $this->message = $this->setMessage(__('Unknown image format!', 'vcwb') . ' #10085');
-                    }
-                }
-                $this->message = $this->setMessage(__('Unknown image provider!', 'vcwb') . ' #10082');
+                /** @see \VisualComposer\Modules\Hub\Unsplash\UnsplashDownloadController::downloadImage */
+                return $this->call(
+                    'downloadImage',
+                    [
+                        'imageUrl' => $imageUrl,
+                        'imageSize' => $imageSize,
+                    ]
+                );
             }
 
             $this->message = $this->setMessage(
@@ -104,6 +81,54 @@ class UnsplashDownloadController extends Container implements Module
             __('No access, please check your license and make sure your capabilities allow to upload files!', 'vcwb')
             . ' #10083'
         );
+
+        return ['status' => false, 'message' => $this->message];
+    }
+
+    /**
+     * @param $imageUrl
+     * @param $imageSize
+     * @param \VisualComposer\Helpers\File $fileHelper
+     *
+     * @return array
+     */
+    protected function downloadImage($imageUrl, $imageSize, File $fileHelper)
+    {
+        $parseUrl = parse_url($imageUrl);
+        if (preg_match('|(.*)(.unsplash.com)$|', $parseUrl['host'])) {
+            $tempImage = $fileHelper->download($imageUrl . '&w=' . intval($imageSize));
+            $imageType = exif_imagetype($tempImage);
+            if (in_array(
+                $imageType,
+                [IMAGETYPE_JPEG, IMAGETYPE_PNG]
+            )) {
+                if (!vcIsBadResponse($tempImage)) {
+                    $results = $this->moveTemporarilyToUploads($parseUrl, $imageType, $tempImage);
+
+                    if ($results && !isset($results['error']) && $this->addImageToMediaLibrary($results)) {
+                        return ['status' => true];
+                    }
+
+                    /** @var \WP_Error $results */
+                    $this->message = $this->setMessage(
+                        esc_html(
+                            is_object($results) ? $results->get_error_message() : __('Wrong image extension.', 'vcwb')
+                        ) . ' #10080'
+                    );
+                }
+
+                $this->message = $this->setMessage(
+                    __(
+                        'Failed to download image, make sure that your upload folder is writable and please try again!',
+                        'vcwb'
+                    ) . ' #10081'
+                );
+            } else {
+                $fileHelper->removeFile($tempImage);
+                $this->message = $this->setMessage(__('Unknown image format!', 'vcwb') . ' #10085');
+            }
+        }
+        $this->message = $this->setMessage(__('Unknown image provider!', 'vcwb') . ' #10082');
 
         return ['status' => false, 'message' => $this->message];
     }
@@ -191,7 +216,7 @@ class UnsplashDownloadController extends Container implements Module
      * @param $imageType
      * @param $tempImage
      *
-     * @return array
+     * @return array|bool
      */
     protected function moveTemporarilyToUploads($parseUrl, $imageType, $tempImage)
     {
@@ -201,6 +226,8 @@ class UnsplashDownloadController extends Container implements Module
             $extension = 'jpg';
         } elseif ($imageType === IMAGETYPE_PNG) {
             $extension = 'png';
+        } else {
+            return false;
         }
         $fileName .= '.' . $extension;
 
