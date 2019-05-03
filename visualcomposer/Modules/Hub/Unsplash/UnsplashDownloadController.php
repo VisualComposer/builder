@@ -19,7 +19,9 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 class UnsplashDownloadController extends Container implements Module
 {
     use EventsFilters;
+
     protected $message = false;
+
     protected $capability = 'upload_files';
 
     public function __construct()
@@ -62,28 +64,35 @@ class UnsplashDownloadController extends Container implements Module
 
             if ($imageUrl) {
                 $parseUrl = parse_url($imageUrl);
-                $imageType = exif_imagetype($imageUrl);
-                if (preg_match('|(.*)(.unsplash.com)$|', $parseUrl['host'])
-                    && in_array(
+                if (preg_match('|(.*)(.unsplash.com)$|', $parseUrl['host'])) {
+                    $tempImage = $fileHelper->download($imageUrl . '&w=' . intval($imageSize));
+                    $imageType = exif_imagetype($tempImage);
+                    if (in_array(
                         $imageType,
                         [IMAGETYPE_JPEG, IMAGETYPE_PNG]
                     )) {
-                    $tempImage = $fileHelper->download($imageUrl . '&w=' . intval($imageSize));
+                        if (!vcIsBadResponse($tempImage)) {
+                            $results = $this->moveTemporarilyToUploads($parseUrl, $imageType, $tempImage);
 
-                    if (!vcIsBadResponse($tempImage)) {
-                        $results = $this->moveTemporarilyToUploads($parseUrl, $imageType, $tempImage);
+                            if (!isset($results['error']) && $this->addImageToMediaLibrary($results)) {
+                                return ['status' => true];
+                            }
 
-                        if (!isset($results['error']) && $this->addImageToMediaLibrary($results)) {
-                            return ['status' => true];
+                            $this->message = $this->setMessage(esc_html($results->get_error_message()) . ' #10080');
                         }
 
-                        $this->message = $this->setMessage(esc_html($results->get_error_message()) . ' #10080');
+                        $this->message = $this->setMessage(
+                            __(
+                                'Failed to download image, make sure that your upload folder is writable and please try again!',
+                                'vcwb'
+                            ) . ' #10081'
+                        );
+                    } else {
+                        $fileHelper->removeFile($tempImage);
+                        $this->message = $this->setMessage(__('Unknown image format!', 'vcwb') . ' #10085');
                     }
-
-                    $this->message = $this->setMessage(__('Failed to download image, make sure that your upload folder is writable and please try again!', 'vcwb') . ' #10081');
                 }
-
-                $this->message = $this->setMessage(__('Unknown image provider or format!', 'vcwb') . ' #10082');
+                $this->message = $this->setMessage(__('Unknown image provider!', 'vcwb') . ' #10082');
             }
 
             $this->message = $this->setMessage(
@@ -91,7 +100,10 @@ class UnsplashDownloadController extends Container implements Module
             );
         }
 
-        $this->message = $this->setMessage(__('No access, please check your license and make sure your capabilities allow to upload files!', 'vcwb') . ' #10083');
+        $this->message = $this->setMessage(
+            __('No access, please check your license and make sure your capabilities allow to upload files!', 'vcwb')
+            . ' #10083'
+        );
 
         return ['status' => false, 'message' => $this->message];
     }
