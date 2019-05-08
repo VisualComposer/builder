@@ -10,6 +10,7 @@ import elementComponent from './element-component'
 import { getAttributeType } from './tools'
 
 const createKey = vcCake.getService('utils').createKey
+const assetsStorage = vcCake.getStorage('assets')
 const elData = 'element data'
 const elComponent = Symbol('element component')
 
@@ -124,6 +125,7 @@ export default class CookElement extends Element {
     }
     props.atts = atts
     props.content = content
+    assetsStorage.trigger('updateInnerElementByData', atts)
 
     return <ElementToRender {...props} />
   }
