@@ -16,7 +16,6 @@ import { getResponse } from 'public/tools/response'
 
 const shortcodesAssetsStorage = getStorage('shortcodeAssets')
 const assetsStorage = getStorage('assets')
-const modernAssetsStorageInstance = getService('modernAssetsStorage').create()
 let dataProcessor = null
 
 export default class ElementComponent extends React.Component {
@@ -30,16 +29,7 @@ export default class ElementComponent extends React.Component {
   constructor (props) {
     super(props)
     this.mixinData = null
-    if (this.props.atts.tag) {
-      this.mixinData = modernAssetsStorageInstance.getCssMixinsByElement(this.props.atts)
-    }
     this.updateElementAssets = this.updateElementAssets.bind(this)
-  }
-
-  componentDidUpdate (prevProps) {
-    if (this.props.atts.tag && (!lodash.isEqual(this.props.atts, prevProps.atts) || !this.mixinData)) {
-      this.mixinData = modernAssetsStorageInstance.getCssMixinsByElement(this.props.atts)
-    }
   }
 
   spinnerHTML () {
@@ -280,19 +270,24 @@ export default class ElementComponent extends React.Component {
   }
 
   getMixinData (mixinName) {
-    if (!this.mixinData) {
+    if (!this.props.atts.tag) {
+      return null
+    }
+    const allMixinData = assetsStorage.state('cssMixins').get()
+    const mixinData = allMixinData[ this.props.id ] || null
+    if (!mixinData) {
       return null
     }
     let { tag } = this.props.atts
     let returnData = null
-    if (this.mixinData[ tag ] && this.mixinData[ tag ][ mixinName ]) {
-      let mixin = Object.keys(this.mixinData[ tag ][ mixinName ])
+    if (mixinData[ tag ] && mixinData[ tag ][ mixinName ]) {
+      let mixin = Object.keys(mixinData[ tag ][ mixinName ])
       mixin = mixin.length ? mixin.pop() : null
       if (mixin) {
-        returnData = this.mixinData[ tag ][ mixinName ][ mixin ]
+        returnData = mixinData[ tag ][ mixinName ][ mixin ]
       }
     } else {
-      returnData = this.mixinData[ tag ] || this.mixinData
+      returnData = mixinData[ tag ] || mixinData
     }
 
     return returnData
@@ -300,19 +295,24 @@ export default class ElementComponent extends React.Component {
 
   getInnerMixinData (fieldKey, mixinName, i) {
     let tag = this.props.atts.tag
-    if (!this.mixinData || !this.mixinData[ tag ] || !this.mixinData[ tag ][ fieldKey ] || !this.mixinData[ tag ][ fieldKey ][ i ]) {
+    const allMixinData = assetsStorage.state('cssMixins').get()
+    const parentMixinData = allMixinData[ this.props.id ] || null
+    if (!parentMixinData || !parentMixinData[ tag ] || !parentMixinData[ tag ][ fieldKey ] || !parentMixinData[ tag ][ fieldKey ][ i ]) {
       return null
     }
-    let mixinData = this.mixinData[ tag ][ fieldKey ][ i ]
+    let innerMixinData = parentMixinData[ tag ][ fieldKey ][ i ]
+    if (!innerMixinData) {
+      return null
+    }
     let returnData = null
-    if (mixinData[ 'innerTag' ] && mixinData[ 'innerTag' ][ mixinName ]) {
-      let mixin = Object.keys(mixinData[ 'innerTag' ][ mixinName ])
+    if (innerMixinData[ 'innerTag' ] && innerMixinData[ 'innerTag' ][ mixinName ]) {
+      let mixin = Object.keys(innerMixinData[ 'innerTag' ][ mixinName ])
       mixin = mixin.length ? mixin.pop() : null
       if (mixin) {
-        returnData = mixinData[ 'innerTag' ][ mixinName ][ mixin ]
+        returnData = innerMixinData[ 'innerTag' ][ mixinName ][ mixin ]
       }
     } else {
-      returnData = mixinData[ 'innerTag' ] || mixinData
+      returnData = innerMixinData[ 'innerTag' ] || innerMixinData
     }
 
     return returnData
