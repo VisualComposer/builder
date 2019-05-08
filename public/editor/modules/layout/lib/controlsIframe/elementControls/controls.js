@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { getStorage } from 'vc-cake'
 import { Control } from './control'
 import { ControlAction } from './controlAction'
 import { ControlHelpers } from './controlHelpers'
 
+const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
 
 function updateContainerPosition (data, controlsContainer) {
@@ -149,6 +151,16 @@ export function Controls (props) {
     }
   })
 
+  const handleMouseEnter = () => {
+    layoutStorage.state('interactWithControls').set(props.data)
+  }
+
+  const handleMouseLeave = () => {
+    const data = { ...props.data }
+    data.type = 'mouseLeave'
+    layoutStorage.state('interactWithControls').set(data)
+  }
+
   let styles = {}
   if (containerPos) {
     styles = {
@@ -166,7 +178,7 @@ export function Controls (props) {
   containerClasses = containerClasses.join(' ')
 
   return (
-    <div className={containerClasses} ref={controlsContainer} style={{ ...styles }}>
+    <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <nav className='vcv-ui-outline-controls' ref={controls}>
         {getControls(vcElementsPath, visibleControls)}
       </nav>

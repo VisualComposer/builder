@@ -289,10 +289,12 @@ export default class ControlsManager {
         let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
         if (contentElement) {
           this.outline.show(contentElement, data.vcElementId)
+          this.closingControls = null
         }
       }
       if (data && data.type === 'mouseLeave') {
         this.outline.hide()
+        this.closingControls = data.vcElementId
       }
       if (data && data.type === 'controlClick') {
         this.toggleControls()
