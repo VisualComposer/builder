@@ -152,13 +152,21 @@ export function Controls (props) {
   })
 
   const handleMouseEnter = () => {
-    layoutStorage.state('interactWithControls').set(props.data)
+    layoutStorage.state('interactWithControls').set({
+      type: 'mouseEnterContainer',
+      vcElementId: props.data.vcElementId
+    })
   }
 
-  const handleMouseLeave = () => {
-    const data = { ...props.data }
-    data.type = 'mouseLeave'
-    layoutStorage.state('interactWithControls').set(data)
+  const handleMouseLeave = (e) => {
+    // Check if mouse is leaving from container
+    // Don't call if mouse leaving from dropdown (still needs to show controls)
+    if (!e.target.closest('.vcv-ui-outline-control-dropdown-content')) {
+      layoutStorage.state('interactWithControls').set({
+        type: 'mouseLeaveContainer',
+        vcElementId: props.data.vcElementId
+      })
+    }
   }
 
   let styles = {}
