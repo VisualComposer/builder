@@ -1,3 +1,7 @@
+## ver 17.2 - 2019-05-09
+- Fix: Control hover states work properly
+- Fix: PCSS mixins working properly for Post Grid elements
+- Fix: Unsplash stock image download works properly
 ## ver 17.1 - 2019-04-24
 - Fix: Slug option controls doesn't overwrite the default slug
 - Fix: Instagram filters apply properly
