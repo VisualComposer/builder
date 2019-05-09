@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { getStorage } from 'vc-cake'
 import { Control } from './control'
 import { ControlAction } from './controlAction'
 import { ControlHelpers } from './controlHelpers'
 
+const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
 
 function updateContainerPosition (data, controlsContainer) {
@@ -149,6 +151,24 @@ export function Controls (props) {
     }
   })
 
+  const handleMouseEnter = () => {
+    layoutStorage.state('interactWithControls').set({
+      type: 'mouseEnterContainer',
+      vcElementId: props.data.vcElementId
+    })
+  }
+
+  const handleMouseLeave = (e) => {
+    // Check if mouse is leaving from container
+    // Don't call if mouse leaving from dropdown (still needs to show controls)
+    if (!e.target.closest('.vcv-ui-outline-control-dropdown-content')) {
+      layoutStorage.state('interactWithControls').set({
+        type: 'mouseLeaveContainer',
+        vcElementId: props.data.vcElementId
+      })
+    }
+  }
+
   let styles = {}
   if (containerPos) {
     styles = {
@@ -166,7 +186,7 @@ export function Controls (props) {
   containerClasses = containerClasses.join(' ')
 
   return (
-    <div className={containerClasses} ref={controlsContainer} style={{ ...styles }}>
+    <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <nav className='vcv-ui-outline-controls' ref={controls}>
         {getControls(vcElementsPath, visibleControls)}
       </nav>

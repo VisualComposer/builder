@@ -14,9 +14,9 @@
     "build-production": "webpack --version && webpack --config webpack.config.production.4x.babel.js -p",
     "build-production-silent": "webpack --version && webpack --config webpack.config.production.4x.babel.js -p --silent",
     "watch": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --colors --watch",
-    "build-settings": "webpack --version && webpack --config webpack-settings.config.4x.babel.js --progress --colors",
-    "build-settings-production": "webpack --version && webpack --config webpack-settings.config.production.4x.babel.js -p --silent",
-    "watch-settings": "webpack --version && webpack --config webpack-settings.config.4x.babel.js --progress --colors --watch"
+    "build-settings": "echo 'nothing';exit 0",
+    "build-settings-production": "echo 'nothing';exit 0",
+    "watch-settings": "echo 'nothing';exit 0"
   },
   "author": "@visualcomposer",
   "license": "GPL-2.0+",

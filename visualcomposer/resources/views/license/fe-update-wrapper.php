@@ -30,19 +30,18 @@ $typenow = get_post_type();
     <title><?php echo sprintf(__('Frontend editor: %s', 'vcwb'), get_the_title()); ?></title>
     <link rel="stylesheet"
             href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
+    <script>
+      window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
+      window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
+    </script>
     <?php
+    evcview('settings/partials/admin-nonce');
     // @codingStandardsIgnoreLine
     do_action('admin_enqueue_scripts', $hook_suffix);
     do_action('admin_print_scripts');
     do_action('admin_head');
     wp_print_head_scripts();
-    evcview('settings/partials/admin-nonce');
     ?>
-    <script>
-      window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
-      window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
-    </script>
-
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
 <div class="vcv-settings">

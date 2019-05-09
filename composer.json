@@ -19,5 +19,8 @@
     "post-autoload-dump": [
       "ComposerHooks\\Registry::postUpdateCmd"
     ]
+  },
+  "require": {
+    "ext-exif": "*"
   }
 }

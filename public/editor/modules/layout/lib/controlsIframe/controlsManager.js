@@ -299,7 +299,35 @@ export default class ControlsManager {
         this.outline.hide()
         this.frames.hide()
       }
+      if (data && data.type === 'mouseEnterContainer') {
+        this.closingControls = null
+      }
+      if (data && data.type === 'mouseLeaveContainer') {
+        this.handleControlsMouseLeave(data.vcElementId)
+      }
     })
+  }
+
+  /**
+   * Add a delay for controls when mouse leaves controls container
+   */
+  handleControlsMouseLeave (id) {
+    this.closingControls = id
+    if (this.closingControlsInterval) {
+      clearInterval(this.closingControlsInterval)
+      this.closingControlsInterval = null
+    }
+    this.closingControlsInterval = setInterval(() => {
+      if (this.closingControls) {
+        this.toggleControls()
+        if (this.state.showFrames) {
+          this.frames.hide()
+        }
+        this.closingControls = null
+      }
+      clearInterval(this.closingControlsInterval)
+      this.closingControlsInterval = null
+    }, 400)
   }
 
   /**
@@ -349,22 +377,7 @@ export default class ControlsManager {
         }
       }
       if (data && data.type === 'mouseLeave') {
-        this.closingControls = data.vcElementId
-        if (this.closingControlsInterval) {
-          clearInterval(this.closingControlsInterval)
-          this.closingControlsInterval = null
-        }
-        this.closingControlsInterval = setInterval(() => {
-          if (this.closingControls) {
-            this.toggleControls()
-            if (this.state.showFrames) {
-              this.frames.hide()
-            }
-            this.closingControls = null
-          }
-          clearInterval(this.closingControlsInterval)
-          this.closingControlsInterval = null
-        }, 400)
+        this.handleControlsMouseLeave(data.vcElementId)
       }
     })
   }
