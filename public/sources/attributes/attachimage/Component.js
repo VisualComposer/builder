@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import Url from '../url/Component'
@@ -7,6 +8,7 @@ import FilterList from './filterList'
 import Toggle from '../toggle/Component'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
+import StockImagesMediaTab from './stockImagesMediaTab'
 
 const SortableList = SortableContainer((props) => {
   return (
@@ -24,6 +26,7 @@ export default class AttachImage extends Attribute {
   constructor (props) {
     super(props)
     this.mediaUploader = null
+    this.stockImagesContainer = null
     this.handleRemove = this.handleRemove.bind(this)
     this.handleUrlChange = this.handleUrlChange.bind(this)
     this.onMediaSelect = this.onMediaSelect.bind(this)
@@ -39,14 +42,56 @@ export default class AttachImage extends Attribute {
     }
   }
 
+  componentWillUnmount () {
+    if (this.stockImagesContainer) {
+      ReactDOM.unmountComponentAtNode(this.stockImagesContainer)
+    }
+  }
+
   componentWillMount () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false
     }
+
+    let oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
+
+    window.wp.media.view.MediaFrame.Select = oldMediaFrameSelect.extend({
+      /**
+       * Bind region mode event callbacks.
+       * Add stock image tab event listeners
+       * @see media.controller.Region.render
+       */
+      bindHandlers: function () {
+        oldMediaFrameSelect.prototype.bindHandlers.apply(this, arguments)
+        this.off('content:render:stockImages', this.stockImagesContent, this)
+        this.on('content:render:stockImages', this.stockImagesContent, this)
+      },
+      /**
+       * Show stock Images tab content
+       */
+      stockImagesContent: function () {
+        this.content.set(new CustomStockImagesView({
+          controller: this
+        }))
+      },
+      /**
+       * Create Stock image tab
+       * @param routerView
+       */
+      browseRouter: function (routerView) {
+        oldMediaFrameSelect.prototype.browseRouter.apply(this, arguments)
+        routerView.set('stockImages', {
+          text: 'Stock Images',
+          priority: 60
+        })
+      }
+    })
+
     this.mediaUploader = window.wp.media({
       title: 'Add images',
       // Tell the modal to show only images.
+      frame: 'select',
       library: {
         type: 'image',
         query: false
@@ -56,6 +101,38 @@ export default class AttachImage extends Attribute {
       },
       multiple: this.props.options.multiple ? 'add' : false
     })
+    let _this = this
+    let CustomStockImagesView = window.wp.media.View.extend({
+      /**
+       * Remove Stock images tab content
+       * @returns {CustomStockImagesView}
+       */
+      remove: function () {
+        ReactDOM.unmountComponentAtNode(this.$el.get(0))
+        window.setTimeout(() => {
+          if (
+            _this.mediaUploader.content &&
+            _this.mediaUploader.content.get('gallery') &&
+            _this.mediaUploader.content.get('gallery').collection &&
+            _this.mediaUploader.content.get('gallery').collection.props &&
+            _this.mediaUploader.content.get('gallery').collection.props.set
+          ) {
+            _this.mediaUploader.content.get('gallery').collection.props.set({ ignore: (+new Date()) })
+          }
+        }, 0)
+        return this
+      },
+      /**
+       * Stock images tab content render
+       * @returns {CustomStockImagesView}
+       */
+      render: function () {
+        _this.stockImagesContainer = this.$el.get(0)
+        ReactDOM.render(<StockImagesMediaTab />, _this.stockImagesContainer)
+        return this
+      }
+    })
+
     // Create a callback when the uploader is called
     this.mediaUploader.on('select', this.onMediaSelect)
     this.mediaUploader.on('open', this.onMediaOpen)
