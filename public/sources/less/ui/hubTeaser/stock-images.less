@@ -80,10 +80,11 @@
   max-width: 1600px;
   width: 100%;
   align-self: center;
+  box-sizing: border-box;
 }
 
 .vcv-stock-images-results-data {
-  padding: 20px 20px 0px;
+  padding: 20px 20px 0;
   color: #9a9a9a;
   font-size: 14px;
   font-weight: 600;
@@ -330,4 +331,30 @@ a.vcv-stock-image-author {
 .vcv-stock-image-author-image {
   border-radius: 50%;
   margin-right: 10px;
+}
+
+.media-frame {
+  .vcv-ui-search-container {
+    .vcv-ui-search-field {
+      font-size: 14px;
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  .vcv-ui-editor-plate--stock-images.vcv-ui-editor-plate--stock-images--search-is-used .vcv-ui-search-container {
+    border: 1px solid #f6f6f6;
+  }
+
+  .vcv-loading-dots-container {
+    margin-top: 50px;
+  }
+
+  .vcv-ui-editor-no-items-image {
+    margin-top: 50px;
+  }
+
+  .vcv-stock-images-results-container {
+    margin: auto;
+  }
 }
