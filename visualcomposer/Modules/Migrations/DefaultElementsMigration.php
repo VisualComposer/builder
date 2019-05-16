@@ -25,21 +25,51 @@ class DefaultElementsMigration extends MigrationsController implements Module
 {
     use EventsFilters;
 
-    protected $migrationId = 'defaultElementsMigration15'; // ID should be changed once defaultElements list is being changed
+    /**
+     * ID should be changed once defaultElements list is being changed
+     * @var string
+     */
+    protected $migrationId = 'defaultElementsMigration17';
 
+    /**
+     * @var int
+     */
     protected $migrationPriority = 20;
 
+    /**
+     * DefaultElementsMigration constructor.
+     */
     public function __construct()
     {
         parent::__construct();
         $this->addEvent('vcv:system:factory:reset', 'run');
     }
 
+    /**
+     * Remove updates and database entries for default elements
+     *
+     * @param \VisualComposer\Helpers\DefaultElements $defaultElementsHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return bool
+     */
     protected function run(DefaultElements $defaultElementsHelper, Options $optionsHelper)
     {
+        $dbElements = $optionsHelper->get('hubElements', []);
+        if (!is_array($dbElements)) {
+            $dbElements = [];
+        }
+
         foreach ($defaultElementsHelper->all() as $element) {
             $optionsHelper->delete('hubAction:element/' . $element);
+
+            // Remove default elements from Database
+            if (array_key_exists($element, $dbElements)) {
+                unset($dbElements[ $element ]);
+            }
         }
+
+        $optionsHelper->set('hubElements', $dbElements);
 
         return true;
     }
