@@ -39,7 +39,13 @@ class Elements implements Helper
         if (!is_array($dbElements)) {
             $dbElements = [];
         }
-        $elements = array_merge($this->thirdPartyElements, $this->defaultElements, $dbElements);
+
+        /**
+         * Default elements has maximum priority
+         * Then Database elements
+         * Last one is 3rd party elements
+         */
+        $elements = array_merge($this->thirdPartyElements, $dbElements, $this->defaultElements);
         $outputElements = [];
         foreach ($elements as $tag => $element) {
             $data = $element;

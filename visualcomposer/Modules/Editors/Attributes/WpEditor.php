@@ -34,6 +34,10 @@ class WpEditor extends Container implements Module
 
     protected function getWpEditor()
     {
+        // @codingStandardsIgnoreStart
+        global $wp_rich_edit;
+        $wp_rich_edit = true;
+        // @codingStandardsIgnoreEnd
         ob_start();
         wp_editor(
             '%%content%%',
