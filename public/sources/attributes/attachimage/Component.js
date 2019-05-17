@@ -9,6 +9,9 @@ import Toggle from '../toggle/Component'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import StockImagesMediaTab from './stockImagesMediaTab'
+import vcCake from 'vc-cake'
+
+const notificationsStorage = vcCake.getStorage('notifications')
 
 const SortableList = SortableContainer((props) => {
   return (
@@ -31,6 +34,7 @@ export default class AttachImage extends Attribute {
     this.handleUrlChange = this.handleUrlChange.bind(this)
     this.onMediaSelect = this.onMediaSelect.bind(this)
     this.onMediaOpen = this.onMediaOpen.bind(this)
+    this.onMediaClose = this.onMediaClose.bind(this)
     this.openLibrary = this.openLibrary.bind(this)
     this.getUrlHtml = this.getUrlHtml.bind(this)
     this.onSortEnd = this.onSortEnd.bind(this)
@@ -136,6 +140,7 @@ export default class AttachImage extends Attribute {
     // Create a callback when the uploader is called
     this.mediaUploader.on('select', this.onMediaSelect)
     this.mediaUploader.on('open', this.onMediaOpen)
+    this.mediaUploader.on('close', this.onMediaClose)
     this.mediaUploader.on('uploader:ready', this.onMediaOpen)
   }
 
@@ -300,6 +305,11 @@ export default class AttachImage extends Attribute {
         }
       }
     })
+    notificationsStorage.trigger('portalChange', '.media-frame')
+  }
+
+  onMediaClose () {
+    notificationsStorage.trigger('portalChange', null)
   }
 
   getUrlHtml (key) {

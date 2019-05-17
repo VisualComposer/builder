@@ -7,7 +7,7 @@ const getCategory = (tag, categories) => {
 
 addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
-  const workspaceNotifications = workspaceStorage.state('notifications')
+  const notificationsStorage = getStorage('notifications')
   const utils = getService('utils')
 
   storage.on('start', () => {
@@ -47,7 +47,7 @@ addStorage('hubTemplates', (storage) => {
         try {
           let jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
-            workspaceNotifications.set({
+            notificationsStorage.trigger('add', {
               position: 'bottom',
               transparent: true,
               rounded: true,
@@ -81,7 +81,7 @@ addStorage('hubTemplates', (storage) => {
               }
 
               console.warn('failed to download template status is false', errorMessage, response)
-              workspaceNotifications.set({
+              notificationsStorage.trigger('add', {
                 type: 'error',
                 text: errorMessage,
                 showCloseButton: 'true',
@@ -97,7 +97,7 @@ addStorage('hubTemplates', (storage) => {
           if (tries < 2) {
             tryDownload()
           } else {
-            workspaceNotifications.set({
+            notificationsStorage.trigger('add', {
               type: 'error',
               text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
               showCloseButton: 'true',
@@ -115,7 +115,7 @@ addStorage('hubTemplates', (storage) => {
         if (tries < 2) {
           tryDownload()
         } else {
-          workspaceNotifications.set({
+          notificationsStorage.trigger('add', {
             type: 'error',
             text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
             showCloseButton: 'true',

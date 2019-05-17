@@ -7,7 +7,7 @@ const getCategory = (tag, categories) => {
 
 addStorage('hubAddons', (storage) => {
   const workspaceStorage = getStorage('workspace')
-  const workspaceNotifications = workspaceStorage.state('notifications')
+  const notificationsStorage = getStorage('notifications')
   const hubAddonsService = getService('hubAddons')
   const utils = getService('utils')
 
@@ -56,7 +56,7 @@ addStorage('hubAddons', (storage) => {
         try {
           let jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
-            workspaceNotifications.set({
+            notificationsStorage.trigger('add', {
               position: 'bottom',
               transparent: true,
               rounded: true,
@@ -91,7 +91,7 @@ addStorage('hubAddons', (storage) => {
               }
 
               console.warn('failed to download addon status is false', errorMessage, response)
-              workspaceNotifications.set({
+              notificationsStorage.trigger('add', {
                 type: 'error',
                 text: errorMessage,
                 showCloseButton: 'true',
@@ -107,7 +107,7 @@ addStorage('hubAddons', (storage) => {
           if (tries < 2) {
             tryDownload()
           } else {
-            workspaceNotifications.set({
+            notificationsStorage.trigger('add', {
               type: 'error',
               text: localizations.defaultErrorAddonDownload || 'Failed to download addon',
               showCloseButton: 'true',
@@ -125,7 +125,7 @@ addStorage('hubAddons', (storage) => {
         if (tries < 2) {
           tryDownload()
         } else {
-          workspaceNotifications.set({
+          notificationsStorage.trigger('add', {
             type: 'error',
             text: localizations.defaultErrorAddonDownload || 'Failed to download addon',
             showCloseButton: 'true',

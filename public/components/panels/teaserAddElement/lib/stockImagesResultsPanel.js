@@ -5,8 +5,7 @@ import { getStorage, getService, env } from 'vc-cake'
 import classNames from 'classnames'
 
 const dataProcessor = getService('dataProcessor')
-const workspaceStorage = getStorage('workspace')
-const workspaceNotifications = workspaceStorage.state('notifications')
+const notificationsStorage = getStorage('notifications')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 
 export default class StockImagesResultsPanel extends React.Component {
@@ -136,7 +135,7 @@ export default class StockImagesResultsPanel extends React.Component {
     const unsplashLicenseKey = window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY()
 
     if (!unsplashLicenseKey) {
-      workspaceNotifications.set({
+      notificationsStorage.trigger('add', {
         position: 'bottom',
         transparent: true,
         rounded: true,
@@ -180,7 +179,7 @@ export default class StockImagesResultsPanel extends React.Component {
             return
           }
           const errorText = `${StockImagesResultsPanel.localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Unsplash Server! #10088'
-          workspaceNotifications.set({
+          notificationsStorage.trigger('add', {
             position: 'bottom',
             transparent: true,
             rounded: true,
@@ -285,7 +284,7 @@ export default class StockImagesResultsPanel extends React.Component {
         try {
           let jsonData = JSON.parse(data)
           if (jsonData.status) {
-            workspaceNotifications.set({
+            notificationsStorage.trigger('add', {
               position: 'bottom',
               transparent: true,
               rounded: true,
@@ -295,7 +294,7 @@ export default class StockImagesResultsPanel extends React.Component {
           } else {
             let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
             errorMessage = errorMessage || `${StockImagesResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, please check your license! #10087'
-            workspaceNotifications.set({
+            notificationsStorage.trigger('add', {
               position: 'bottom',
               transparent: true,
               rounded: true,
@@ -310,7 +309,7 @@ export default class StockImagesResultsPanel extends React.Component {
           }
         } catch (e) {
           const exceptionErrorMessage = `${StockImagesResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from server! #10086'
-          workspaceNotifications.set({
+          notificationsStorage.trigger('add', {
             position: 'bottom',
             transparent: true,
             rounded: true,

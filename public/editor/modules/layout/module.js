@@ -6,13 +6,13 @@ import Editor from './lib/editor'
 import DndManager from './lib/dndManager'
 import ControlsManager from './lib/controlsIframe/controlsManager'
 import MobileControlsManager from './lib/controlsIframe/mobileControlsManager'
-import Notifications from './lib/notifications'
 import MobileDetect from 'mobile-detect'
 import OopsScreen from 'public/components/account/oopsScreen'
+import Notifications from 'public/components/notifications/notifications'
 
+const notificationsStorage = vcCake.getStorage('notifications')
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
-const workspaceNotifications = workspaceStorage.state('notifications')
 const workspaceSettings = workspaceStorage.state('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const elementsStorage = vcCake.getStorage('elements')
@@ -22,10 +22,18 @@ vcCake.add('contentLayout', (api) => {
   let iframeContent = document.getElementById('vcv-layout-iframe-content')
   let dnd = new DndManager(api)
   let controls = new ControlsManager(api)
-  let notifications = new Notifications(document.querySelector('.vcv-layout-overlay'), 10)
   const localizations = window.VCV_I18N && window.VCV_I18N()
   if (Utils.isRTL()) {
     document.body && document.body.classList.add('rtl')
+  }
+
+  // Start notifications
+  let layoutOverlay = document.querySelector('.vcv-layout-overlay')
+  if (layoutOverlay) {
+    ReactDOM.render(
+      <Notifications />,
+      layoutOverlay
+    )
   }
 
   const renderLayout = (reload = false) => {
@@ -41,12 +49,11 @@ vcCake.add('contentLayout', (api) => {
       )
 
       !reload && dnd.init()
-      !reload && notifications.init()
 
       workspaceIFrame.onChange(reloadLayout)
 
       const pluginUpdate = typeof VCV_PLUGIN_UPDATE === 'function' ? VCV_PLUGIN_UPDATE() : false
-      pluginUpdate && workspaceNotifications.set({
+      pluginUpdate && notificationsStorage.trigger('add', {
         position: 'top',
         transparent: false,
         showCloseButton: true,
@@ -66,7 +73,7 @@ vcCake.add('contentLayout', (api) => {
         let mobileControls = new MobileControlsManager(api)
         mobileControls.init()
 
-        workspaceNotifications.set({
+        notificationsStorage.trigger('add', {
           position: 'bottom',
           transparent: true,
           rounded: true,
