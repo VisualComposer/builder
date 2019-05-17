@@ -1,0 +1,88 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+import classNames from 'classnames'
+import vcCake from 'vc-cake'
+
+const notificationsStorage = vcCake.getStorage('notifications')
+
+export default class NotificationItem extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      hidden: false
+    }
+
+    this.timer = null
+    this.hideNotification = this.hideNotification.bind(this)
+    this.removeNotification = this.removeNotification.bind(this)
+  }
+
+  componentDidMount () {
+    const { time } = this.props.data
+    const timeout = parseInt(time) || 3000
+    this.timer = window.setTimeout(() => {
+      this.hideNotification()
+    }, timeout)
+  }
+
+  componentWillUnmount () {
+    window.clearTimeout(this.timer)
+  }
+
+  removeNotification () {
+    notificationsStorage.trigger('remove', this.props.data.id)
+  }
+
+  hideNotification () {
+    window.clearTimeout(this.timer)
+    this.setState({ hidden: true })
+    const element = ReactDOM.findDOMNode(this)
+    element.addEventListener('transitionend', this.removeNotification)
+  }
+
+  render () {
+    const { data, position } = this.props
+    if (!data.text) {
+      return null
+    }
+    let textHtml = ''
+    let iconHtml = ''
+    let closeButton = ''
+    let customProps = {}
+
+    if (data.html) {
+      textHtml = <div className='vcv-layout-notifications-text' dangerouslySetInnerHTML={{ __html: data.text }} />
+    } else {
+      textHtml = <div className='vcv-layout-notifications-text'>{data.text}</div>
+    }
+
+    if (data.icon) {
+      iconHtml = <div className='vcv-layout-notifications-icon'><i className={data.icon} /></div>
+    }
+
+    if (data.showCloseButton) {
+      closeButton = <div className='vcv-layout-notifications-close' onClick={this.hideNotification}>
+        <div className='vcv-layout-notifications-close-btn' />
+      </div>
+    } else {
+      customProps.onClick = this.hideNotification
+    }
+
+    const type = data.type && [ 'default', 'success', 'warning', 'error' ].indexOf(data.type) >= 0 ? data.type : 'default'
+
+    const classes = classNames({
+      [ `vcv-layout-notifications-position--${position}` ]: true,
+      [ `vcv-layout-notifications-type--${type}` ]: true,
+      'vcv-layout-notifications-style--transparent': data.transparent,
+      'vcv-layout-notifications-shape--rounded': data.rounded,
+      'vcv-layout-notifications-type--disabled': this.state.hidden
+    })
+
+    return <div className={classes} {...customProps} ref={(element) => { this.textInput = element }}>
+      {iconHtml}
+      {textHtml}
+      {closeButton}
+    </div>
+  }
+}

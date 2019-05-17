@@ -23,7 +23,7 @@ const setCategoryState = (categoryData, storageState) => {
 
 addStorage('hubElements', (storage) => {
   const workspaceStorage = getStorage('workspace')
-  const workspaceNotifications = workspaceStorage.state('notifications')
+  const notificationsStorage = getStorage('notifications')
   const hubElementsService = getService('hubElements')
   const utils = getService('utils')
   const sharedAssetsStorage = getStorage('sharedAssets')
@@ -74,7 +74,7 @@ addStorage('hubElements', (storage) => {
         try {
           let jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
-            workspaceNotifications.set({
+            notificationsStorage.trigger('add', {
               position: 'bottom',
               transparent: true,
               rounded: true,
@@ -120,7 +120,7 @@ addStorage('hubElements', (storage) => {
               }
 
               console.warn('failed to download element status is false', errorMessage, response)
-              workspaceNotifications.set({
+              notificationsStorage.trigger('add', {
                 type: 'error',
                 text: errorMessage,
                 showCloseButton: 'true',
@@ -136,7 +136,7 @@ addStorage('hubElements', (storage) => {
           if (tries < 2) {
             tryDownload()
           } else {
-            workspaceNotifications.set({
+            notificationsStorage.trigger('add', {
               type: 'error',
               text: localizations.defaultErrorElementDownload || 'Failed to download element',
               showCloseButton: 'true',
@@ -154,7 +154,7 @@ addStorage('hubElements', (storage) => {
         if (tries < 2) {
           tryDownload()
         } else {
-          workspaceNotifications.set({
+          notificationsStorage.trigger('add', {
             type: 'error',
             text: localizations.defaultErrorElementDownload || 'Failed to download element',
             showCloseButton: 'true',

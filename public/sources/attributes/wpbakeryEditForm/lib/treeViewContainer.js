@@ -209,10 +209,9 @@ export default class TreeViewContainerProvider extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (!this.multipleShortcodesRegex || !this.localShortcodesRegex) {
-      const workspaceStorage = getStorage('workspace')
-      const workspaceNotifications = workspaceStorage.state('notifications')
+      const notificationsStorage = getStorage('notifications')
       let errorMessage = localizations.wpbakeryAttrPluginAndAddonRequired || 'WPBakery plugin and migration addon is required to use this attribute'
-      workspaceNotifications.set({
+      notificationsStorage.trigger('add', {
         type: 'error',
         text: errorMessage,
         showCloseButton: 'true',

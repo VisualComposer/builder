@@ -6,7 +6,7 @@ import ElementControl from '../../addElement/lib/elementControl'
 const hubElementsService = getService('hubElements')
 const myTemplatesService = getService('myTemplates')
 const workspaceStorage = getStorage('workspace')
-const workspaceNotifications = workspaceStorage.state('notifications')
+const notificationsStorage = getStorage('notifications')
 const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const hubElementsStorage = getStorage('hubElements')
@@ -107,7 +107,7 @@ export default class TeaserElementControl extends ElementControl {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
       let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
-      workspaceNotifications.set({
+      notificationsStorage.trigger('add', {
         type: 'error',
         text: errorMessage,
         showCloseButton: 'true',
@@ -129,7 +129,7 @@ export default class TeaserElementControl extends ElementControl {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
       let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
-      workspaceNotifications.set({
+      notificationsStorage.trigger('add', {
         type: 'error',
         text: errorMessage,
         showCloseButton: 'true',
@@ -152,7 +152,7 @@ export default class TeaserElementControl extends ElementControl {
 
     if (this.props.element.update) {
       let errorMessage = localizations.templateDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this template.'
-      workspaceNotifications.set({
+      notificationsStorage.trigger('add', {
         type: 'error',
         text: errorMessage,
         showCloseButton: 'true',

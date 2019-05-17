@@ -121,6 +121,7 @@ export const start = (callback) => {
       require('../../editor/stores/settingsStorage')
       const settingsStorage = vcCake.getStorage('settings')
       settingsStorage.trigger('start')
+      require('../../editor/stores/notifications/storage')
       require('../../editor/stores/wordpressData/wordpressDataStorage')
       // require('./editor/stores/elementsLoader/elementsLoaderStorage')
       require('../../config/wp-modules')
