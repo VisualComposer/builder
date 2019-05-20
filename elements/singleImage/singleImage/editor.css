@@ -2,9 +2,18 @@
   min-height: 1em;
 }
 
-.vce-single-image canvas {
+.vce-single-image {
   max-width: 100%;
-  vertical-align: top;
+}
+
+.vce-single-image img {
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .vce-single-image.vcvhelper {

@@ -12,6 +12,7 @@ const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
 const workspaceStorage = vcCake.getStorage('workspace')
+const { getShortcodesRegexp } = vcCake.getService('utils')
 
 export default class ContentEditableComponent extends React.Component {
   static spinnerHTML = '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
@@ -289,10 +290,6 @@ export default class ContentEditableComponent extends React.Component {
     }
   }
 
-  getShortcodesRegexp () {
-    return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
-  }
-
   editorSetup (options) {
     let editorSettings = {
       target: this.ref,
@@ -393,7 +390,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateHtmlWithServer (content) {
-    if (content && (content.match(this.getShortcodesRegexp()) || content.match(/https?:\/\//))) {
+    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || content.indexOf('<!-- wp') !== -1)) {
       this.ref && (this.ref.innerHTML = ContentEditableComponent.spinnerHTML)
       dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',

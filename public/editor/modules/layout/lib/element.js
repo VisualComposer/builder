@@ -6,6 +6,7 @@ import ColumnResizer from '../../../../components/columnResizer/columnResizer'
 import MobileDetect from 'mobile-detect'
 import { isEqual } from 'lodash'
 import PropTypes from 'prop-types'
+import { DynamicFieldData } from './dynamicFieldData'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -145,8 +146,19 @@ export default class Element extends React.Component {
       allowInline = false
     }
     Object.keys(atts).forEach((key) => {
-      let attrSettings = element.settings(key)
-      if (attrSettings.settings.options && attrSettings.settings.options.inline) {
+      const attrSettings = element.settings(key)
+      let isDynamic = false
+      if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+        isDynamic = attrSettings.settings.options &&
+          attrSettings.settings.options.dynamicField &&
+          typeof atts[ key ] === 'string' &&
+          atts[ key ].indexOf('<!-- wp') !== -1 &&
+          atts[ key ].indexOf('featured') === -1
+      }
+
+      if (isDynamic) {
+        layoutAtts[ key ] = <DynamicFieldData field={key} atts={atts} />
+      } else if (attrSettings.settings.options && attrSettings.settings.options.inline) {
         layoutAtts[ key ] =
           <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api}
             options={{

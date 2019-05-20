@@ -151,3 +151,7 @@ if (!VcvEnv::has('VCV_ENV_PLUGIN_UPDATE_CHANGELOG_URL')) {
 if (!VcvEnv::has('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL')) {
     VcvEnv::set('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL', defined('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL') ? constant('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL'): 'http://updates.visualcomposer.io/visual-composer-website-builder/visualcomposer.zip');
 }
+
+if (!VcvEnv::has('VCV_JS_FT_DYNAMIC_FIELDS')) {
+    VcvEnv::set('VCV_JS_FT_DYNAMIC_FIELDS', false);
+}
