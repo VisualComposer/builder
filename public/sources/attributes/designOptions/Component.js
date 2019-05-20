@@ -182,6 +182,9 @@ export default class DesignOptions extends Attribute {
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
     this.handleElementChange = this.handleElementChange.bind(this)
+    this.handleDynamicFieldOpen = this.handleDynamicFieldOpen.bind(this)
+    this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
+    this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
   }
 
   componentDidMount () {
@@ -225,6 +228,7 @@ export default class DesignOptions extends Attribute {
       // data came from state update
       newState = lodash.defaultsDeep({}, props, DesignOptions.defaultState)
     }
+
     return newState
   }
 
@@ -261,6 +265,7 @@ export default class DesignOptions extends Attribute {
   /**
    * Update value
    * @param newState
+   * @param prevValue
    */
   updateValue (newState, fieldKey) {
     let newValue = {}
@@ -787,21 +792,43 @@ export default class DesignOptions extends Attribute {
       return null
     }
 
+    const fieldKey = 'attachImage'
+    const dynamicFields = [ 'featured' ]
     let value = this.state.devices[ this.state.currentDevice ].image || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background image
-      </span>
-      <AttachImage
+    let dynamicComponent
+    let fieldComponent
+
+    if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof value === 'string' && value.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') !== -1) {
+      const data = value.split(/(<!-- wp:vcv-gutenberg-blocks\/dynamic-field-block) ([^-]+) -->(.+)(?=<!-- \/wp:vcv-gutenberg-blocks\/dynamic-field-block -->)/g)
+      const { value: fieldKey } = data && data[ 2 ] ? JSON.parse(data[ 2 ]) : {}
+      const selectOptions = dynamicFields.map((field, index) => {
+        return <option key={`dynamic-field-${index}`} value={field}>{field}</option>
+      })
+      fieldComponent = <select value={fieldKey} onChange={this.handleDynamicFieldChange}>
+        {selectOptions}
+      </select>
+      dynamicComponent = <button type='button' onClick={this.handleDynamicFieldClose}>X</button>
+    } else {
+      fieldComponent = <AttachImage
         api={this.props.api}
-        fieldKey='attachImage'
+        fieldKey={fieldKey}
         options={{
-          multiple: false
+          multiple: true
         }}
         updater={this.attachImageChangeHandler}
         value={value}
         elementAccessPoint={this.props.elementAccessPoint}
       />
+
+      dynamicComponent = vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') ? <button type='button' onClick={this.handleDynamicFieldOpen}>Open</button> : null
+    }
+
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Images
+      </span>
+      {fieldComponent}
+      {dynamicComponent}
     </div>
   }
 
@@ -809,8 +836,9 @@ export default class DesignOptions extends Attribute {
    * Handle attach image change
    * @param fieldKey
    * @param value
+   * @param prevValue
    */
-  attachImageChangeHandler (fieldKey, value) {
+  attachImageChangeHandler (fieldKey, value, prevValue) {
     if (value.hasOwnProperty(value.draggingIndex)) {
       delete value.draggingIndex
     }
@@ -821,7 +849,41 @@ export default class DesignOptions extends Attribute {
     } else {
       newState.devices[ newState.currentDevice ].image = value
     }
+    if (!newState.devices[ newState.currentDevice ].prevValue && prevValue) {
+      newState.devices[ newState.currentDevice ].prevValue = prevValue
+    }
+    if (newState.devices[ newState.currentDevice ].prevValue && !prevValue) {
+      newState.devices[ newState.currentDevice ].prevValue = null
+    }
     this.updateValue(newState, fieldKey)
+  }
+
+  handleDynamicFieldOpen (e) {
+    e && e.preventDefault && e.preventDefault()
+    const defaultValue = 'featured'
+    const value = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+      type: 'post',
+      value: defaultValue
+    })} -->${defaultValue}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
+    this.attachImageChangeHandler('attachImage', value, this.state.devices[ this.state.currentDevice ].image)
+  }
+
+  handleDynamicFieldChange (e) {
+    const dynamicFieldValue = e.currentTarget && e.currentTarget.value
+
+    const newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+      type: 'post',
+      value: dynamicFieldValue
+    })} -->${dynamicFieldValue}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
+    this.attachImageChangeHandler('attachImage', newValue)
+  }
+
+  handleDynamicFieldClose () {
+    if (this.state.devices[ this.state.currentDevice ].prevValue) {
+      this.attachImageChangeHandler('attachImage', this.state.devices[ this.state.currentDevice ].prevValue, null)
+    } else {
+      this.attachImageChangeHandler('attachImage', '')
+    }
   }
 
   /**

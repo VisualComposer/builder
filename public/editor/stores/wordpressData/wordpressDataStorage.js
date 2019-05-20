@@ -138,6 +138,9 @@ addStorage('wordpressData', (storage) => {
           settingsStorage.state('postName').set(permalinkData.permalinkFull)
         }
       }
+      if (responseData.hasOwnProperty('postData')) {
+        settingsStorage.state('postData').set(responseData.postData)
+      }
 
       storage.state('status').set({ status: 'loaded' })
       settingsStorage.state('status').set({ status: 'ready' })

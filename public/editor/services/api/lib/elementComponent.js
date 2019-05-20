@@ -16,7 +16,9 @@ import { getResponse } from 'public/tools/response'
 
 const shortcodesAssetsStorage = getStorage('shortcodeAssets')
 const assetsStorage = getStorage('assets')
-let dataProcessor = null
+const settingsStorage = getStorage('settings')
+const { getShortcodesRegexp } = getService('utils')
+const dataProcessor = getService('dataProcessor')
 
 export default class ElementComponent extends React.Component {
   static propTypes = {
@@ -29,11 +31,31 @@ export default class ElementComponent extends React.Component {
   constructor (props) {
     super(props)
     this.mixinData = null
+    this.state = {
+      requestFeatureImage: false
+    }
     this.updateElementAssets = this.updateElementAssets.bind(this)
   }
 
-  spinnerHTML () {
-    return '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
+  handleDOFeatureImage () {
+    // TODO: optimize
+    const element = ReactDOM.findDOMNode(this)
+    if (this.props.atts.designOptions &&
+      this.props.atts.designOptions.device &&
+      this.props.atts.designOptions.device.all &&
+      this.props.atts.designOptions.device.all.image &&
+      typeof this.props.atts.designOptions.device.all.image === 'string' &&
+      this.props.atts.designOptions.device.all.image.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') !== -1
+    ) {
+      const postData = settingsStorage.state('postData').get()
+      const style = this.getFeatureImageStylesTag(this.props.id, postData.featuredImageSrc)
+      element.insertAdjacentHTML('afterend', style)
+    } else if (element.nextElementSibling &&
+      element.nextElementSibling.classList.contains(`vce-featured-image-style-${this.props.id}`)
+    ) {
+      const styleElement = element.nextElementSibling
+      styleElement.remove()
+    }
   }
 
   // [gallery ids="318,93"]
@@ -44,6 +66,9 @@ export default class ElementComponent extends React.Component {
   componentWillUnmount () {
     if (this.ajax) {
       this.ajax.cancelled = true
+    }
+    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+      this.handleDOFeatureImage()
     }
   }
 
@@ -60,11 +85,8 @@ export default class ElementComponent extends React.Component {
   }
 
   updateShortcodeToHtml (content, ref, cb) {
-    if (content && (content.match(this.getShortcodesRegexp()) || content.match(/https?:\/\//) || content.indexOf('<!-- wp') !== -1)) {
+    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || content.indexOf('<!-- wp') !== -1)) {
       ref && (ref.innerHTML = this.spinnerHTML())
-      if (!dataProcessor) {
-        dataProcessor = getService('dataProcessor')
-      }
       let that = this
       this.ajax = dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
@@ -239,12 +261,47 @@ export default class ElementComponent extends React.Component {
       if (animationData) {
         propObj[ 'data-vce-animate' ] = animationData
       }
+      if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+        let featuredImageData = this.getFeaturedImageData()
+        if (featuredImageData) {
+          propObj[ 'data-vce-featured-image-block' ] = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block -->${JSON.stringify({
+            'type': 'feature_image',
+            'selector': `el-${this.props.id}`,
+            'prop': prop,
+            'id': this.props.id,
+            'dataAttributes': [ 'data-vce-do-apply', 'data-vce-featured-image-block' ],
+            'value': 'backgroundImage'
+          })}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
+        }
+      }
       return propObj
     }
 
     prop += ` el-${this.props.id}`
     propObj[ 'data-vce-do-apply' ] = prop
     return propObj
+  }
+
+  getFeaturedImageData () {
+    let featuredImageData = ''
+    let designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
+
+    if (designOptions && designOptions.device) {
+      let images = []
+      Object.keys(designOptions.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (typeof designOptions.device[ device ].image === 'string' && designOptions.device[ device ].image.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') > -1) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          images.push(`vce-featured-image--${designOptions.device[ device ].image}${prefix}`)
+        }
+      })
+      if (images.length) {
+        featuredImageData = images.join(' ')
+      }
+    }
+    return featuredImageData
   }
 
   getAnimationData () {
@@ -477,9 +534,16 @@ export default class ElementComponent extends React.Component {
     if (!image) {
       return null
     }
+    let isDynamic = false
+    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+      isDynamic = typeof image === 'string' && image.indexOf('<!-- wp') !== -1 && image.indexOf('featured') > -1
+    }
+
     let imageUrl
     // Move it to attribute
-    if (size && image && image[ size ]) {
+    if (isDynamic) {
+      imageUrl = settingsStorage.state('postData').get() && settingsStorage.state('postData').get().featuredImageSrc
+    } else if (size && image && image[ size ]) {
       imageUrl = image[ size ]
     } else {
       if (image instanceof Array || (image.urls && image.urls instanceof Array)) {

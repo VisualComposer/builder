@@ -1,86 +1,11 @@
 import React from 'react'
-import vcCake from 'vc-cake'
+import { getService } from 'vc-cake'
 
-const vcvAPI = vcCake.getService('api')
-const renderProcessor = vcCake.getService('renderProcessor')
+const vcvAPI = getService('api')
+const renderProcessor = getService('renderProcessor')
 
 export default class SingleImageElement extends vcvAPI.elementComponent {
   promise = null
-
-  static drawImageProp (ctx, img, x, y, w, h, offsetX, offsetY) {
-    if (arguments.length === 2) {
-      x = y = 0
-      w = ctx.canvas.width
-      h = ctx.canvas.height
-    }
-
-    // default offset is center
-    offsetX = typeof offsetX === 'number' ? offsetX : 0.5
-    offsetY = typeof offsetY === 'number' ? offsetY : 0.5
-
-    // keep bounds [0.0, 1.0]
-    if (offsetX < 0) {
-      offsetX = 0
-    }
-    if (offsetY < 0) {
-      offsetY = 0
-    }
-    if (offsetX > 1) {
-      offsetX = 1
-    }
-    if (offsetY > 1) {
-      offsetY = 1
-    }
-
-    let iw = img.width
-    let ih = img.height
-    let r = Math.min(w / iw, h / ih)
-    let nw = iw * r // new prop. width
-    let nh = ih * r // new prop. height
-    let cx
-    let cy
-    let cw
-    let ch
-    let ar = 1
-
-    // decide which gap to fill
-    if (Math.round(nw) < w) {
-      ar = w / nw
-    }
-    if (Math.round(nh) < h) {
-      ar = h / nh
-    }
-
-    nw *= ar
-    nh *= ar
-
-    // calc source rectangle
-    cw = iw / (nw / w)
-    ch = ih / (nh / h)
-
-    cx = (iw - cw) * offsetX
-    cy = (ih - ch) * offsetY
-
-    // make sure source rectangle is valid
-    if (cx < 0) {
-      cx = 0
-    }
-    if (cy < 0) {
-      cy = 0
-    }
-    if (cw > iw) {
-      cw = iw
-    }
-    if (ch > ih) {
-      ch = ih
-    }
-
-    // make canvas high quality
-    ctx.imageSmoothingQuality = 'high'
-
-    // fill image in dest. rectangle
-    ctx.drawImage(img, cx, cy, cw, ch, x, y, w, h)
-  }
 
   static image = null
 
@@ -113,8 +38,14 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     SingleImageElement.image && SingleImageElement.image.removeEventListener('error', this.setError)
   }
 
-  componentWillReceiveProps (nextProps) {
-    this.setImage(nextProps)
+  componentDidUpdate (prevProps, prevState) {
+    if (prevProps.atts.image !== this.props.atts.image) {
+      this.setImage(this.props)
+    } else if (prevProps.atts.size !== this.props.atts.size) {
+      this.resetImageSizeState()
+    } else if (prevProps.atts.shape !== this.props.atts.shape) {
+      this.resetImageSizeState()
+    }
   }
 
   parseSize (size, isRound, naturalWidth, naturalHeight) {
@@ -223,7 +154,6 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     } else {
       this.setError()
     }
-
     if (!imgSrc) {
       this.setState({
         imgElement: null,
@@ -240,7 +170,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     const sizes = this.getSizes(this.props.atts, img)
 
     this.setState({
-      imgElement: e.currentTarget,
+      imgElement: img,
       parsedWidth: sizes.width,
       parsedHeight: sizes.height,
       naturalWidth: img.width,
@@ -250,38 +180,28 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     })
   }
 
+  resetImageSizeState () {
+    const sizes = this.getSizes(this.props.atts, this.state.imgElement)
+    this.setState({
+      parsedWidth: sizes.width,
+      parsedHeight: sizes.height
+    })
+  }
+
   setError () {
     this.resolve && this.resolve(false)
   }
 
-  resizeImage () {
-    const { imgElement, parsedWidth, parsedHeight, naturalWidth, naturalHeight } = this.state
-
-    if (!this.canvas) {
-      return
-    }
-
-    const ctx = this.canvas.getContext('2d')
-
-    if (!imgElement) {
-      ctx.clearRect(0, 0, parsedWidth, parsedHeight)
-      return
-    }
-
-    this.canvas.width = parsedWidth
-    this.canvas.height = parsedHeight
-    this.canvas.naturalWidth = naturalWidth
-    this.canvas.naturalHeight = naturalHeight
-
-    SingleImageElement.drawImageProp(ctx, imgElement, 0, 0, parsedWidth, parsedHeight, 0.5, 0.5)
-  }
-
   getImageShortcode (options) {
-    const { props, classes, isDefaultImage, src } = options
+    const { props, classes, isDefaultImage, src, isDynamicFeaturedImage } = options
     let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props[ 'data-img-src' ]}" alt="${props.alt}" title="${props.title}"`
 
     if (isDefaultImage) {
       shortcode += ' data-default-image="true"'
+    }
+
+    if (isDynamicFeaturedImage) {
+      shortcode += ` dynamic="featured"`
     }
 
     shortcode += ']'
@@ -291,7 +211,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId } = atts
+    let { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image } = atts
     let containerClasses = 'vce-single-image-container'
     let wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner'
@@ -360,8 +280,6 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       classes += ' vce-single-image--border-round'
     }
 
-    customProps.key = `customProps:${id}-${imgSrc}-${clickableOptions}-${shape}-${size}`
-
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
@@ -383,31 +301,32 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     let imgElement = ''
+    const isDynamic = typeof image === 'string' && image.indexOf('<!-- wp') !== -1 && image.indexOf('featured') > -1
     const shortcodeOptions = {
       props: customImageProps,
       classes: imageClasses,
       isDefaultImage: !(image && image.id),
-      src: imgSrc
+      src: imgSrc,
+      isDynamicFeaturedImage: isDynamic
     }
 
     if (imgSrc) {
       imgElement = (
         <span className={`${imageClasses} vcvhelper`}
           {...customImageProps}
-          data-vcvs-html={this.getImageShortcode(shortcodeOptions)}>
-          <canvas ref={(canvas) => { this.canvas = canvas }} />
+          data-vcvs-html={this.getImageShortcode(shortcodeOptions)}
+          style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: this.state.parsedWidth }}>
+          <img src={imgSrc} />
         </span>
       )
     }
 
     // Set original image if not resized
-    if (size === 'full' && shape !== 'round') {
+    if (size === 'full' && shape !== 'round' && !isDynamic) {
       imgElement = (
         <img className={imageClasses} src={imgSrc} {...customImageProps} />
       )
     }
-
-    this.resizeImage()
 
     return <div className={containerClasses} {...editor} {...containerProps}>
       <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
