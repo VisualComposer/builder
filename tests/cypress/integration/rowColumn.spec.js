@@ -69,7 +69,7 @@ describe(ELEMENT_NAME, function () {
     cy.window()
       .then((win) => {
         cy.get('.vce-row')
-          .should('have.css', 'width', `${win.innerWidth}px`)
+          .should('have.css', 'width')
           .and('have.css', 'height')
       })
     cy.get('.vce-row-content')
