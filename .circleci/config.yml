@@ -2,7 +2,7 @@
 
 version: 2
 jobs:
-  codestyle-js:
+  js-codestyle:
     docker:
       - image: wpbakery/vc-hub-docker
     steps:
@@ -14,43 +14,13 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-  codestyle-php-plugin-file:
+  php-codestyle:
     docker:
       - image: wpbakery/vc-hub-docker
     steps:
       - checkout
-      - run: php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php
-  codestyle-php-bootstrap:
-    docker:
-      - image: wpbakery/vc-hub-docker
-    steps:
-      - checkout
-      - run: php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php
-  codestyle-php-framework:
-    docker:
-      - image: wpbakery/vc-hub-docker
-    steps:
-      - checkout
-      - run: php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php
-  codestyle-php-helpers:
-    docker:
-      - image: wpbakery/vc-hub-docker
-    steps:
-      - checkout
-      - run: php ci/phpcs.phar --standard=ci/ruleset.xml visualcomposer/Helpers
-  codestyle-php-modules:
-    docker:
-      - image: wpbakery/vc-hub-docker
-    steps:
-      - checkout
-      - run: php ci/phpcs.phar --standard=ci/ruleset.xml visualcomposer/Modules
-  codestyle-php-application:
-    docker:
-      - image: wpbakery/vc-hub-docker
-    steps:
-      - checkout
-      - run: php ci/phpcs.phar --standard=ci/ruleset.xml visualcomposer/Application.php visualcomposer/Requirements.php
-  test-php:
+      - run: php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php bootstrap visualcomposer/Framework visualcomposer/Helpers visualcomposer/Modules visualcomposer/Application.php visualcomposer/Requirements.php
+  php-tests:
     docker:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
         environment:
@@ -85,7 +55,7 @@ jobs:
             sudo chmod 777 /var/www/html/wp-content/uploads
       - run: php ci/composer.phar install
       - run: php tools/php-composer/cli.php
-      - run: php ci/phpunit-8.0.0.phar --configuration=ci/phpunit-all-coverage.xml
+      - run: php ci/phpunit-8.0.0.phar --configuration=ci/phpunit-all-coverage-8.0.0.xml
       - run: php ci/coverage-test.php
   end-2-end-tests:
     docker:
@@ -147,15 +117,10 @@ workflows:
   version: 2
   codestyle:
     jobs:
-      - codestyle-js
-      - codestyle-php-plugin-file
-      - codestyle-php-bootstrap
-      - codestyle-php-framework
-      - codestyle-php-helpers
-      - codestyle-php-modules
-      - codestyle-php-application
+      - js-codestyle
+      - php-codestyle
   tests:
     jobs:
-      - test-php
+      - php-tests
       - end-2-end-tests
 
