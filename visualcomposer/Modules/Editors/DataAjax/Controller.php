@@ -8,7 +8,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
@@ -53,32 +52,30 @@ class Controller extends Container implements Module
      * @param $response
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Filters $filterHelper
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
      * @return mixed|string
      */
     private function getData(
         $response,
         Request $requestHelper,
-        Filters $filterHelper,
-        CurrentUser $currentUserAccessHelper
+        Filters $filterHelper
     ) {
-        // @codingStandardsIgnoreLine
-        global $post_type_object;
-        $data = '';
-        $sourceId = $requestHelper->input('vcv-source-id');
+        global $post;
+        $sourceId = intval($requestHelper->input('vcv-source-id'));
         if (!is_array($response)) {
             $response = [];
         }
+        $data = '';
         // @codingStandardsIgnoreLine
-        if (is_numeric($sourceId) && $currentUserAccessHelper->wpAll([$post_type_object->cap->read, $sourceId])->get()) {
+        if ($post && $sourceId === $post->ID) {
             // @codingStandardsIgnoreLine
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
             if (!empty($postMeta)) {
                 $data = $postMeta;
                 /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
             } else {
-                if (get_post_type($sourceId) === 'vcv_templates') {
+                // @codingStandardsIgnoreLine
+                if ($post->post_type === 'vcv_templates') {
                     $data = rawurlencode(
                         json_encode(
                             [
@@ -88,7 +85,8 @@ class Controller extends Container implements Module
                     );
                 }
             }
-            $response['post_content'] = get_post($sourceId)->post_content;
+            // @codingStandardsIgnoreLine
+            $response['post_content'] = $post->post_content;
             $responseExtra = $filterHelper->fire(
                 'vcv:dataAjax:getData',
                 [
@@ -293,6 +291,7 @@ class Controller extends Container implements Module
         // Clearing wp cache
         wp_cache_flush();
         ob_get_clean();
+
         return array_merge($response, $responseExtra);
     }
 }
