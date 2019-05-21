@@ -163,7 +163,7 @@ test:js:build:
   tags:
     - docker
 
-# test:e2e:cypress:
+#test:e2e:cypress:
 #  stage: test
 #  image:
 #    name: visualcomposer/ci-wordpress:lamp-php-7.0-chrome
@@ -177,7 +177,6 @@ test:js:build:
 #    - yarn build
 #    - chmod 777 /var/www/html/wp-content/uploads
 #    - bash tools/elements/buildScript.sh
-#    - git clone git@gitlab.com:visualcomposer-hub/hubtools.git
 #    - php ci/composer.phar install
 #    - yarn run cypress run --project ./tests/
 #  tags:

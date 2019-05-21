@@ -36,7 +36,7 @@
     "babel-eslint": "10.0.1",
     "babel-loader": "8.0.5",
     "babel-jest": "24.3.1",
-    "cypress": "3.1.5",
+    "cypress": "3.3.0",
     "jest-cli": "24.3.1",
     "classnames": "2.2.6",
     "color-blend": "git://github.com/wpbakery/color-blend.git#5dd059a6dbdc6754f53f4eca09800953534d8322",
