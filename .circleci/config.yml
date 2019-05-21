@@ -8,10 +8,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          keys:
+            - v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-node-{{ arch }}-{{ .Branch }}-
+            - v1-node-{{ arch }}-
       - run: yarn install --frozen-lockfile && yarn standard
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
   php-codestyle:
@@ -98,12 +101,16 @@ jobs:
             ln -s $(pwd) /var/www/html/wp-content/plugins/builder
             chmod 777 /var/www/html/wp-content/uploads
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          keys:
+            - v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-node-{{ arch }}-{{ .Branch }}-
+            - v1-node-{{ arch }}-
       - run:
-          name: Yarn install
-          command: yarn install
+          name: Install node modules
+          command: yarn install --frozen-lockfile
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          name: Cache node_modules
+          key: v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
