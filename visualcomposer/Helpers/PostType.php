@@ -167,14 +167,14 @@ class PostType implements Helper
     {
         // @codingStandardsIgnoreStart
         global $post_type, $post_type_object, $post, $wp_query;
-        $post = get_post($sourceId);
-
+        $queryPost = get_post($sourceId);
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
-        if (isset($post->post_type) && post_type_exists($post->post_type)
+        if (isset($queryPost->post_type) && post_type_exists($queryPost->post_type)
             && $currentUserAccessHelper->wpAll(
-                [get_post_type_object($post->post_type)->cap->read, $post->ID]
+                [get_post_type_object($queryPost->post_type)->cap->read, $queryPost->ID]
             )->get()) {
+            $post = $queryPost;
             setup_postdata($post);
             /** @var \WP_Query $wp_query */
             $wp_query->queried_object = $post;
