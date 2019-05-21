@@ -9,12 +9,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-node-{{ arch }}-{{ .Branch }}-
-            - v1-node-{{ arch }}-
+            - v1-node-codestyle-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-node-codestyle-{{ arch }}-{{ .Branch }}-
+            - v1-node-codestyle-{{ arch }}-
       - run: yarn install --frozen-lockfile && yarn standard
       - save_cache:
-          key: v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-node-codestyle-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
   php-codestyle:
@@ -102,15 +102,15 @@ jobs:
             chmod 777 /var/www/html/wp-content/uploads
       - restore_cache:
           keys:
-            - v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-node-{{ arch }}-{{ .Branch }}-
-            - v1-node-{{ arch }}-
+            - v1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-node-e2e-{{ arch }}-{{ .Branch }}-
+            - v1-node-e2e-{{ arch }}-
       - run:
           name: Install node modules
           command: yarn install --frozen-lockfile
       - save_cache:
           name: Cache node_modules
-          key: v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
