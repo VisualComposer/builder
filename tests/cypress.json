@@ -9,6 +9,6 @@
     "serverType": "ci"
   },
   "video": false,
-  "pageLoadTimeout": 70000,
+  "pageLoadTimeout": 80000,
   "execTimeout": 300000
 }

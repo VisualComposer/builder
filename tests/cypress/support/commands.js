@@ -55,23 +55,25 @@ Cypress.Commands.add('createPage', () => {
   cy.wait('@loadContentRequest')
 })
 
-// In the Blank Page:
-// 1. Add element
-// 2. Save page
-// 3. View page
+// Add element
 Cypress.Commands.add('addElement', (elementName) => {
   cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
   cy.get(`.vcv-ui-item-element[title="${elementName}"]`).click()
   cy.get('.vcv-ui-edit-form-header-title').contains(elementName)
+})
+
+// Save page
+Cypress.Commands.add('savePage', () => {
   cy.window().then((win) => {
     cy.route('POST', win.vcvAdminAjaxUrl).as('saveRequest')
   })
   cy.get('.vcv-ui-navbar-control[title="Publish"]').click()
   cy.wait('@saveRequest')
+})
 
-  cy.get('.vcv-ui-navbar-control[title="View Page"]')
-    .should('have.attr', 'data-href')
-    .then((href) => {
-      cy.visit(href)
-    })
+// View page
+Cypress.Commands.add('viewPage', () => {
+  cy.window().then((win) => {
+    cy.visit(win.vcvPostData.permalink)
+  })
 })
