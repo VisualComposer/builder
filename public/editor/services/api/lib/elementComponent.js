@@ -72,6 +72,10 @@ export default class ElementComponent extends React.Component {
     }
   }
 
+  spinnerHTML () {
+    return '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
+  }
+
   updateElementAssets (data, source, options) {
     this.updateElementAssetsWithExclusion(this.props.element.id, options)
   }
