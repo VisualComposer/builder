@@ -109,7 +109,6 @@ class DataController extends Container implements Module
             ) !== 'not-changed') {
             // Save Request from vcv-settings page custom-css tab
             $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-settingsGlobalCss-compiled'));
-            vcevent('vcv:assets:file:generate', ['response' => [], 'payload' => []]);
         }
     }
 }
