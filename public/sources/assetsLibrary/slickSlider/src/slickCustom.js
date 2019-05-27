@@ -504,7 +504,7 @@ import './slickCustom.less';
     _.$slideTrack.removeAttr('style');
 
     _.$slides =
-      _.$slideTrack.find('> .vc-slick-item')
+      _.$slideTrack.find('> .vc-slick-item:not(.slick-cloned)')
 
         .addClass('slick-slide');
 
