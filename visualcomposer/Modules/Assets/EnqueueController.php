@@ -33,12 +33,13 @@ class EnqueueController extends Container implements Module
 
     protected function enqueueAllAssets()
     {
-        $this->call('enqueueGlobalAssets');
         $this->call('enqueueAssets');
     }
 
     /**
      * @param array $sourceIds // IDs to enqueue resources
+     *
+     * @throws \ReflectionException
      */
     protected function enqueueAssetsVendorListener($sourceIds)
     {
@@ -56,34 +57,9 @@ class EnqueueController extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     * @param \VisualComposer\Helpers\Str $strHelper
-     * @param \VisualComposer\Helpers\Assets $assetsHelper
-     */
-    protected function enqueueGlobalAssets(
-        Options $optionsHelper,
-        Str $strHelper,
-        Assets $assetsHelper
-    ) {
-        $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
-        if ($bundleUrl) {
-            $version = $optionsHelper->get('globalElementsChecksum', VCV_VERSION);
-            if (!preg_match('/^http/', $bundleUrl)) {
-                if (!preg_match('/assets-bundles/', $bundleUrl)) {
-                    $bundleUrl = '/assets-bundles/' . $bundleUrl;
-                }
-            }
-            wp_enqueue_style(
-                'vcv:assets:global:styles:' . $strHelper->slugify($bundleUrl),
-                $assetsHelper->getAssetUrl($bundleUrl),
-                [],
-                VCV_VERSION . '.' . $version
-            );
-        }
-    }
-
-    /**
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     *
+     * @throws \ReflectionException
      */
     protected function enqueueAssets(Frontend $frontendHelper)
     {
@@ -113,21 +89,29 @@ class EnqueueController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Str $strHelper
      * @param \VisualComposer\Helpers\Assets $assetsHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param $sourceId
+     *
+     * @throws \ReflectionException
      */
-    protected function enqueueSourceAssetsBySourceId(Str $strHelper, Assets $assetsHelper, $sourceId = null)
-    {
+    protected function enqueueSourceAssetsBySourceId(
+        Str $strHelper,
+        Assets $assetsHelper,
+        Options $optionsHelper,
+        $sourceId = null
+    ) {
         if (!$sourceId) {
             $sourceId = get_the_ID();
         }
+
+        if (!get_post_meta($sourceId, '_' . VCV_PREFIX . 'globalCssMigrated', true)) {
+            vcevent('vcv:assets:file:generate', ['response' => [], 'payload' => ['sourceId' => $sourceId]]);
+        }
+
         $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
-            if (vcvenv('VCV_TF_SOURCE_CSS_CHECKSUM')) {
-                $version = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
-            } else {
-                $version = get_post_meta($sourceId, 'vcvSourceCssFileHash', true);
-            }
+            $version = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
 
             if (!preg_match('/^http/', $bundleUrl)) {
                 if (!preg_match('/assets-bundles/', $bundleUrl)) {
@@ -135,12 +119,17 @@ class EnqueueController extends Container implements Module
                 }
             }
 
+            $handle = 'vcv:assets:source:main:styles:' . $strHelper->slugify($bundleUrl);
             wp_enqueue_style(
-                'vcv:assets:source:main:styles:' . $strHelper->slugify($bundleUrl),
+                $handle,
                 $assetsHelper->getAssetUrl($bundleUrl),
                 [],
                 VCV_VERSION . '.' . $version
             );
+
+            if ($optionsHelper->get('globalElementsCss')) {
+                wp_add_inline_style($handle, $optionsHelper->get('globalElementsCss'));
+            }
         }
     }
 

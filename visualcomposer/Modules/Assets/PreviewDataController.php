@@ -68,6 +68,7 @@ class PreviewDataController extends Container implements Module
             '_' . VCV_PREFIX . 'previewElementsCssData',
             $requestHelper->inputJson('vcv-elements-css-data', '')
         );
+
         update_metadata(
             'post',
             $sourceId,
