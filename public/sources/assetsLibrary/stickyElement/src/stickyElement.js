@@ -284,6 +284,10 @@
         height: element.sticky.rect.height + 'px',
         position: element.sticky.stickyVisibility ? 'absolute' : ''
       }, element.sticky.isFullWidth));
+
+      css(element.parentNode.parentNode, {
+        position: 'relative'
+      });
     }
 
     if (element.sticky.stickyVisibility) {

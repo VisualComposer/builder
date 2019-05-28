@@ -4,6 +4,9 @@
 .vce {
   margin-bottom: 30px;
 }
+.vce-row-container {
+  width: 100%;
+}
 .vce-row {
   position: relative;
   display: -webkit-box;
