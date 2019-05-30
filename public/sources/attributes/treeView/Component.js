@@ -3,6 +3,10 @@ import Attribute from '../attribute'
 import TreeViewLayout from 'public/components/panels/treeView/treeViewLayout'
 
 export default class TreeViewAttribute extends Attribute {
+  static defaultProps = {
+    fieldType: 'treeView'
+  }
+
   render () {
     const isVisible = true
     const isAttribute = true

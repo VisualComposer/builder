@@ -2,6 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 
 export default class Radio extends Attribute {
+  static defaultProps = {
+    fieldType: 'radio'
+  }
+
   handleChange (event) {
     this.setFieldValue(event.currentTarget.value)
   }

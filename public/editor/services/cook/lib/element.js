@@ -1,52 +1,81 @@
 /* eslint jsx-quotes: [2, "prefer-double"] */
+import React from 'react'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
-import PropTypes from 'prop-types'
 
+import PropTypes from 'prop-types'
+import elementSettings from './element-settings'
+import elementComponent from './element-component'
 import { getAttributeType } from './tools'
 
-const createKey = vcCake.getService('utils').createKey
-const elData = 'element data'
+const { createKey } = vcCake.getService('utils')
+const hubElementService = vcCake.getService('hubElements')
+const assetsStorage = vcCake.getStorage('assetsStorage')
+const elData = Symbol('element data')
+const elComponent = Symbol('element component')
 
 export default class Element {
   static propTypes = {
     tag: PropTypes.string.isRequired
   }
 
-  constructor (data, dataSettings = {}, cssSettings = {}) {
+  constructor (data, dataSettings = null, cssSettings = null) {
     this.init(data, dataSettings, cssSettings)
   }
 
-  init (data, dataSettings = {}, cssSettings = {}) {
-    let { id = createKey(), parent = false, tag, order, hidden, ...attr } = data
+  init (data, dataSettings = null, cssSettings = null) {
+    let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, metaElementAssets, ...attr } = data
     attr.tag = tag
     attr.id = id
-    let element = {
-      settings: {
-        metaDescription: '',
-        metaPreviewUrl: '',
-        metaThumbnailUrl: '',
-        name: '--'
-      }
-    }
-    let metaSettings = element.settings
-    const settings = {}
-    for (let k in dataSettings) {
-      if (dataSettings.hasOwnProperty(k)) {
-        const attrSettings = getAttributeType(k, dataSettings)
-        if (attrSettings.hasOwnProperty('settings')) {
-          settings[ k ] = attrSettings.settings
+
+    let elements = hubElementService.all()
+    let element = elements ? elements[ tag ] : null
+
+    if (!element) {
+      // vcCake.env('VCV_DEBUG') === true && console.warn(`Element ${tag} is not registered in system`, data)
+      element = {
+        settings: {
+          metaDescription: '',
+          metaPreviewUrl: '',
+          metaThumbnailUrl: '',
+          name: '--'
         }
       }
     }
-    // Split on separate symbols
+
+    let metaSettings = element.settings
+
+    let settings = {}
+    let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : null
+
+    if (dataSettings) {
+      for (let k in dataSettings) {
+        if (dataSettings.hasOwnProperty(k)) {
+          const attrSettings = getAttributeType(k, dataSettings)
+          if (attrSettings.hasOwnProperty('settings')) {
+            settings[ k ] = attrSettings.settings
+            settings[ k ].attrSettings = attrSettings
+          }
+        }
+      }
+    } else {
+      settings = elSettings ? elSettings.settings : {}
+    }
+    if (!cssSettings) {
+      cssSettings = elSettings ? elSettings.cssSettings : {}
+    }
+
+    if (settings && settings.modifierOnCreate) {
+      attr = settings.modifierOnCreate(lodash.defaultsDeep({}, attr))
+    }
+
     Object.defineProperty(this, elData, {
       writable: true,
       value: {
         id: id,
         tag: tag,
         parent: parent,
-        data: data,
+        data: attr,
         name: metaSettings.name,
         metaThumbnailUrl: metaSettings.metaThumbnailUrl,
         metaPreviewUrl: metaSettings.metaPreviewUrl,
@@ -54,14 +83,27 @@ export default class Element {
         metaAssetsPath: element.assetsPath,
         metaElementPath: element.elementPath,
         metaBundlePath: element.bundlePath,
-        customHeaderTitle: '',
+        customHeaderTitle: customHeaderTitle || '',
         order: order,
         hidden: hidden,
-        settings: settings,
+        settings: settings || {},
         cssSettings: cssSettings || {},
-        metaElementAssets: {},
+        metaElementAssets: metaElementAssets || {},
         getAttributeType: function (k) {
           return getAttributeType(k, this.settings)
+        }
+      }
+    })
+    Object.defineProperty(this, elComponent, {
+      value: {
+        add (Component) {
+          elementComponent.add(tag, Component)
+        },
+        get () {
+          return elementComponent.get(tag)
+        },
+        has () {
+          return elementComponent.has(tag)
         }
       }
     })
@@ -190,5 +232,41 @@ export default class Element {
 
   getName () {
     return this.get('customHeaderTitle') || this.get('name')
+  }
+
+  getContentComponent () {
+    if (!this[ elComponent ].has()) {
+      let elSettings = elementSettings.get(this[ elData ].tag)
+      if (vcCake.env('VCV_DEBUG') === true && (!elSettings || !elSettings.component)) {
+        console.error('Component settings doesnt exists! Failed to get component', this[ elData ].tag, this[ elData ], elSettings, this[ elComponent ])
+      }
+      elSettings && elSettings.component && elSettings.component(this[ elComponent ])
+    }
+    return this[ elComponent ].get()
+  }
+
+  static create (tag) {
+    return new Element({ tag: tag })
+  }
+
+  render (content, editor) {
+    if (!this[ elComponent ].has()) {
+      elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
+    }
+    let ElementToRender = this[ elComponent ].get()
+    let props = {}
+    let editorProps = {}
+    let atts = this.toJS(true, false)
+    props.key = this[ elData ].id
+    props.id = this[ elData ].atts && typeof this[ elData ].atts.metaCustomId !== 'undefined' ? this[ elData ].atts.metaCustomId : this[ elData ].id
+    editorProps[ 'data-vc-element' ] = this[ elData ].id
+    if (typeof editor === 'undefined' || editor) {
+      props.editor = editorProps
+    }
+    props.atts = atts
+    props.content = content
+    assetsStorage.trigger('updateInnerElementByData', atts)
+
+    return <ElementToRender {...props} />
   }
 }

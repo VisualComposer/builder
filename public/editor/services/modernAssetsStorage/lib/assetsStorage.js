@@ -240,30 +240,29 @@ export default class {
    * @returns {{}}
    */
   getAttributesMixinsByElement (elData) {
-    let element = cookService.get(elData)
-    if (!element) {
+    let cookElement = cookService.get(elData)
+    if (!cookElement) {
       return {}
     }
     let mixins = {}
-    let settings = element.get('settings')
+    let settings = cookElement.get('settings')
     let foundMixins = {}
-    let tag = element.get('tag')
-    let id = element.get('id')
+    let tag = cookElement.get('tag')
+    let id = cookElement.get('id')
     for (let key in settings) {
       if (settings.hasOwnProperty(key)) {
         // get css mixin from attribute
-        let value = element.get(key)
+        let value = cookElement.get(key)
         if (value) {
           let elementMixins = {}
-          let attributeSettings = element.settings(key)
+          let attributeSettings = settings[ key ].attrSettings
           if (attributeSettings.type.component && attributeSettings.type.component.buildMixins) {
-            elementMixins = Object.assign(elementMixins, attributeSettings.type.component.buildMixins(element.toJS()))
-            // elementMixins = attributeSettings.type.component.buildMixins(element.toJS())
+            elementMixins = Object.assign(elementMixins, attributeSettings.type.component.buildMixins(cookElement.toJS(), value, cookElement, attributeSettings))
           }
           if (value.attributeMixins) {
             elementMixins = Object.assign(elementMixins, value.attributeMixins)
-            // elementMixins = value.attributeMixins
           }
+
           if (elementMixins) {
             Object.keys(elementMixins).forEach((mixinName) => {
               foundMixins[ `${key}:${mixinName}` ] = lodash.defaultsDeep({}, elementMixins[ mixinName ])
@@ -296,7 +295,7 @@ export default class {
         }
         mixins[ tag ][ mixin ].src = foundMixins[ mixin ].src
         mixins[ tag ][ mixin ].variables = variables
-        mixins[ tag ][ mixin ].path = element.get('metaElementPath')
+        mixins[ tag ][ mixin ].path = cookElement.get('metaElementPath')
       }
     }
 

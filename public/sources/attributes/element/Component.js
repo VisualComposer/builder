@@ -12,6 +12,10 @@ const elementAccessPointService = vcCake.getService('elementAccessPoint')
 const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class ElementAttribute extends Attribute {
+  static defaultProps = {
+    fieldType: 'element'
+  }
+
   static propTypes = {
     updater: PropTypes.func.isRequired,
     // api: PropTypes.object.isRequired,

@@ -2,14 +2,19 @@ import React from 'react'
 import Toggle from '../toggle/Component'
 
 class ToggleSmall extends Toggle {
+  static defaultProps = {
+    fieldType: 'toggleSmall'
+  }
+
   render () {
     let { fieldKey, options } = this.props
     let checked = (this.state.value) ? 'checked' : ''
     let label = null
     let fieldId = `${fieldKey}_input`
     if (options && options.labelText) {
-      label =
+      label = (
         <label htmlFor={fieldId} className='vcv-ui-form-switch-small-trigger-label'>{this.props.options.labelText}</label>
+      )
     }
     return (
       <div className='vcv-ui-form-switch-small-container'>

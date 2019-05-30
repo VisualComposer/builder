@@ -7,6 +7,10 @@ let setList = {
 }
 
 export default class Dividerpicker extends Attribute {
+  static defaultProps = {
+    fieldType: 'dividerpicker'
+  }
+
   constructor (props) {
     super(props)
     this.state = {

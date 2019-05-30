@@ -11,7 +11,11 @@ import vcCake from 'vc-cake'
 import ToggleSmall from '../toggleSmall/Component'
 import webFontLoader from 'webfontloader'
 
-export default class Component extends Attribute {
+export default class HtmlEditorComponent extends Attribute {
+  static defaultProps = {
+    fieldType: 'htmleditor'
+  }
+
   constructor (props) {
     super(props)
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)

@@ -14,6 +14,9 @@ import Dividerpicker from '../dividerpicker/Component'
 import String from '../string/Component'
 
 export default class Divider extends Attribute {
+  static defaultProps = {
+    fieldType: 'divider'
+  }
   /**
    * Attribute Mixins
    */
@@ -46,7 +49,7 @@ export default class Divider extends Attribute {
     dividerTopFlipVertical: 'vertically-down',
     dividerTopBackgroundType: 'color',
     dividerTopShape: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'dividers' },
-    dividerTopBackgroundColor: '#6567DF',
+    dividerTopBackgroundColor: '#6567df',
     dividerTopBackgroundGradientStartColor: 'rgb(226, 135, 135)',
     dividerTopBackgroundGradientEndColor: 'rgb(93, 55, 216)',
     dividerTopBackgroundGradientAngle: 0,
@@ -56,7 +59,7 @@ export default class Divider extends Attribute {
     dividerBottomFlipVertical: 'vertically-down',
     dividerBottomBackgroundType: 'color',
     dividerBottomShape: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'dividers' },
-    dividerBottomBackgroundColor: '#6567DF',
+    dividerBottomBackgroundColor: '#6567df',
     dividerBottomBackgroundGradientStartColor: 'rgb(226, 135, 135)',
     dividerBottomBackgroundGradientEndColor: 'rgb(93, 55, 216)',
     dividerBottomBackgroundGradientAngle: 0
@@ -454,7 +457,7 @@ export default class Divider extends Attribute {
    * @returns {XML}
    */
   devicesChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
+    let newState = lodash.defaultsDeep({}, { [ fieldKey ]: value }, this.state)
 
     if (newState.currentDevice === 'all') {
       // clone data from xl in to all except display property

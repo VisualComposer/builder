@@ -36,7 +36,8 @@ export default class Layout extends Attribute {
       '75%',
       'auto',
       'hide'
-    ]
+    ],
+    fieldType: 'rowLayout'
   }
   static attributeMixins = {
     columnStyleMixin: {
@@ -194,18 +195,18 @@ export default class Layout extends Attribute {
       if (!element) {
         return
       }
-      if (element.size && element.size['all']) {
+      if (element.size && element.size[ 'all' ]) {
         if (!deviceLayoutData.hasOwnProperty('all')) {
           deviceLayoutData.all = []
         }
-        deviceLayoutData['all'].push(element.size['all'])
+        deviceLayoutData[ 'all' ].push(element.size[ 'all' ])
       }
 
-      if (getDefault && element.size && element.size['defaultSize']) {
+      if (getDefault && element.size && element.size[ 'defaultSize' ]) {
         if (!deviceLayoutData.hasOwnProperty('defaultSize')) {
           deviceLayoutData.defaultSize = []
         }
-        deviceLayoutData['defaultSize'].push(element.size['defaultSize'])
+        deviceLayoutData[ 'defaultSize' ].push(element.size[ 'defaultSize' ])
       }
     })
 
@@ -242,7 +243,7 @@ export default class Layout extends Attribute {
   updateState (props) {
     let deviceLayoutData = {}
 
-    if (props.value && props.value.layoutData && (props.value.layoutData['all'] || props.value.layoutData['xs'])) {
+    if (props.value && props.value.layoutData && (props.value.layoutData[ 'all' ] || props.value.layoutData[ 'xs' ])) {
       deviceLayoutData = props.value.layoutData
     } else {
       deviceLayoutData = Layout.getLayoutData(props.elementAccessPoint.id, true)
@@ -296,19 +297,19 @@ export default class Layout extends Attribute {
     let { updater, fieldKey } = this.props
     let { layoutData, ...rest } = value
     if (value.responsivenessSettings) {
-      const mobileDeviceLayout = layoutData['all'] ? layoutData['all'].map(() => { return '100%' }) : []
-      if (!layoutData['xs']) {
-        layoutData['xs'] = mobileDeviceLayout
+      const mobileDeviceLayout = layoutData[ 'all' ] ? layoutData[ 'all' ].map(() => { return '100%' }) : []
+      if (!layoutData[ 'xs' ]) {
+        layoutData[ 'xs' ] = mobileDeviceLayout
       }
-      if (!layoutData['sm']) {
-        layoutData['sm'] = mobileDeviceLayout
+      if (!layoutData[ 'sm' ]) {
+        layoutData[ 'sm' ] = mobileDeviceLayout
       }
-      layoutData['md'] = layoutData['md'] || layoutData['all']
-      layoutData['lg'] = layoutData['lg'] || layoutData['all']
-      layoutData['xl'] = layoutData['xl'] || layoutData['all']
+      layoutData[ 'md' ] = layoutData[ 'md' ] || layoutData[ 'all' ]
+      layoutData[ 'lg' ] = layoutData[ 'lg' ] || layoutData[ 'all' ]
+      layoutData[ 'xl' ] = layoutData[ 'xl' ] || layoutData[ 'all' ]
       delete layoutData[ 'all' ]
     } else {
-      layoutData['all'] = value.defaultLayoutData
+      layoutData[ 'all' ] = value.defaultLayoutData
       delete layoutData[ 'xs' ]
       delete layoutData[ 'sm' ]
       delete layoutData[ 'md' ]
@@ -319,7 +320,7 @@ export default class Layout extends Attribute {
     for (let device in layoutData) {
       if (layoutData.hasOwnProperty(device)) {
         const convertToEmpty = device !== 'defaultSize' && device !== 'all'
-        sanitizedValue[device] = this.sanitizeLayout(layoutData[device], convertToEmpty)
+        sanitizedValue[ device ] = this.sanitizeLayout(layoutData[ device ], convertToEmpty)
       }
     }
     updater(fieldKey, {
@@ -440,7 +441,7 @@ export default class Layout extends Attribute {
 
   handleColumnHover (options) {
     const newState = {}
-    newState[options.type] = options.over ? options.index : false
+    newState[ options.type ] = options.over ? options.index : false
     this.setState(newState)
   }
 

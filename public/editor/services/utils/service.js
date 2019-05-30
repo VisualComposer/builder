@@ -148,16 +148,17 @@ const API = {
     })
 
     let html = ''
-    let elementChildren = documentFragment.children
-    // polyfill for IE and Edge
-    if (typeof elementChildren === 'undefined') {
-      elementChildren = [].slice.call(documentFragment.childNodes)
-      elementChildren = elementChildren.filter((child) => {
-        return child.nodeType === 1
-      })
-    }
+    let elementChildren = [].slice.call(documentFragment.childNodes)
+    elementChildren = elementChildren.filter((child) => {
+      return child.nodeType === document.ELEMENT_NODE || child.nodeType === document.COMMENT_NODE
+    })
+
     for (let i = 0; i < elementChildren.length; i++) {
-      html += elementChildren[ i ].outerHTML
+      if (elementChildren[ i ].nodeType === document.ELEMENT_NODE) {
+        html += elementChildren[ i ].outerHTML
+      } else if (elementChildren[ i ].nodeType === document.COMMENT_NODE) {
+        html += `<!-- ${elementChildren[ i ].nodeValue} -->`
+      }
     }
     const urlRegex = /url\(\s*(['"]?)(.*?)\1\s*\)/g
     let encodedUrls = html.match(urlRegex)
@@ -255,6 +256,9 @@ const API = {
   },
   getShortcodesRegexp () {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
+  },
+  getBlockRegexp () {
+    return new RegExp(/<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g)
   }
 }
 addService('utils', API)

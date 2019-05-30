@@ -16,8 +16,8 @@ export default class ImageBackgroundZoom extends React.Component {
   }
 
   render () {
-    const { reactKey, deviceKey, deviceData } = this.props
-    const { images, backgroundPosition, backgroundZoom, backgroundZoomSpeed, backgroundZoomReverse } = deviceData
+    const { reactKey, deviceKey, deviceData, images } = this.props
+    const { backgroundPosition, backgroundZoom, backgroundZoomSpeed, backgroundZoomReverse } = deviceData
     if (images) {
       let imagesJSX = []
       if (images.urls && images.urls.length) {

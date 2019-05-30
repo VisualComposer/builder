@@ -13,6 +13,10 @@ const SortableList = SortableContainer((props) => {
 })
 
 class AttachVideo extends Attribute {
+  static defaultProps = {
+    fieldType: 'attachvideo'
+  }
+
   constructor (props) {
     super(props)
     this.mediaUploader = null
@@ -207,6 +211,7 @@ class AttachVideo extends Attribute {
     )
   }
 }
+
 AttachVideo.propTypes = {
   value: PropTypes.oneOfType([ PropTypes.string, PropTypes.object, PropTypes.array ]).isRequired,
   fieldKey: PropTypes.string.isRequired

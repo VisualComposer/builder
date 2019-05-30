@@ -5,6 +5,10 @@ import serialize from 'form-serialize'
 import { getResponse } from 'public/tools/response'
 
 export default class AjaxForm extends Attribute {
+  static defaultProps = {
+    fieldType: 'ajaxForm'
+  }
+
   fieldContainer = null
   fields = null
   pseudoForm = null

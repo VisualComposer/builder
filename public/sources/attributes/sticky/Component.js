@@ -6,6 +6,10 @@ import Toggle from '../toggle/Component'
 import Number from '../number/Component'
 
 export default class Sticky extends Attribute {
+  static defaultProps = {
+    fieldType: 'sticky'
+  }
+
   static deviceDefaults = {
     stickyEnable: false,
     stickyOffsetTop: '0',

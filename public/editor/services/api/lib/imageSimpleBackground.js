@@ -15,8 +15,9 @@ export default class ImageSimpleBackground extends React.Component {
   }
 
   render () {
-    const { reactKey, deviceKey, deviceData } = this.props
-    const { images, backgroundStyle, backgroundPosition } = deviceData
+    const { reactKey, deviceKey, deviceData, images } = this.props
+    const { backgroundStyle, backgroundPosition } = deviceData
+
     if (images) {
       let imagesJSX = []
       if (images.urls && images.urls.length) {

@@ -3,6 +3,10 @@ import Attribute from '../attribute'
 import classNames from 'classnames'
 
 export default class ButtonGroup extends Attribute {
+  static defaultProps = {
+    fieldType: 'buttonGroup'
+  }
+
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -23,7 +27,7 @@ export default class ButtonGroup extends Attribute {
    * @return element
    */
   getIcon (value) {
-    let iconClasses = ['vcv-ui-icon-attribute']
+    let iconClasses = [ 'vcv-ui-icon-attribute' ]
     iconClasses.push(value.icon)
     iconClasses = classNames(iconClasses)
     return <i className={iconClasses} />
@@ -38,7 +42,7 @@ export default class ButtonGroup extends Attribute {
     const values = this.getValues()
     return values.map((value, i) => {
       let content = value.icon ? this.getIcon(value) : value.text
-      let buttonClasses = ['vcv-ui-form-button']
+      let buttonClasses = [ 'vcv-ui-form-button' ]
       if (value.value === this.state.value) {
         buttonClasses.push('vcv-ui-form-button--active')
       }

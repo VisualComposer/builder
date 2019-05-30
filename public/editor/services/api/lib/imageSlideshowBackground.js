@@ -16,8 +16,8 @@ export default class ImageSlideshowBackground extends React.Component {
   }
 
   render () {
-    const { reactKey, deviceKey, deviceData } = this.props
-    const { images, backgroundStyle, backgroundPosition, sliderTimeout, sliderEffect, sliderDirection } = deviceData
+    const { reactKey, deviceKey, deviceData, images } = this.props
+    const { backgroundStyle, backgroundPosition, sliderTimeout, sliderEffect, sliderDirection } = deviceData
     let timeout = sliderTimeout
     if (!timeout) {
       timeout = sliderEffect === 'carousel' ? 10 : 5

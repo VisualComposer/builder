@@ -5,9 +5,14 @@ import fonts from './lib/google-fonts-set.json'
 import webFontLoader from 'webfontloader'
 
 import Dropdown from '../dropdown/Component'
+
 const googleFonts = fonts.families
 
 export default class GoogleFonts extends Attribute {
+  static defaultProps = {
+    fieldType: 'googleFonts'
+  }
+
   static fontWeight = {
     100: 'Thin',
     200: 'Extra Light',

@@ -4,6 +4,10 @@ import Attribute from '../attribute'
 import TokenizationList from './lib/tokenizationList'
 
 export default class AutoComplete extends Attribute {
+  static defaultProps = {
+    fieldType: 'autocomplete'
+  }
+
   validate (state) {
     return state
   }

@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import classNames from 'classnames'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import Url from '../url/Component'
@@ -9,9 +10,12 @@ import Toggle from '../toggle/Component'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import StockImagesMediaTab from './stockImagesMediaTab'
-import vcCake from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
+import { getDynamicFieldsList } from 'public/components/dynamicFields/dynamicFields'
 
-const notificationsStorage = vcCake.getStorage('notifications')
+const notificationsStorage = getStorage('notifications')
+const { getBlockRegexp } = getService('utils')
+const blockRegexp = getBlockRegexp()
 
 const SortableList = SortableContainer((props) => {
   return (
@@ -23,7 +27,13 @@ export default class AttachImage extends Attribute {
   static propTypes = {
     value: PropTypes.oneOfType([ PropTypes.string, PropTypes.object, PropTypes.array ]).isRequired,
     fieldKey: PropTypes.string.isRequired,
+    fieldType: PropTypes.string,
+    updater: PropTypes.func.isRequired,
     elementAccessPoint: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    fieldType: 'attachimage'
   }
 
   constructor (props) {
@@ -338,9 +348,9 @@ export default class AttachImage extends Attribute {
   }
 
   render () {
+    const { options, fieldKey } = this.props
     let { value, filter = false } = this.state
     let useDragHandle = true
-    let dragClass = 'vcv-ui-form-attach-image-item--dragging'
     let cookElement = this.props.elementAccessPoint.cook()
     let metaAssetsPath = cookElement.get('metaAssetsPath')
     let filterControl = (
@@ -357,18 +367,71 @@ export default class AttachImage extends Attribute {
       />
     ) : ''
 
-    if (!this.props.options.imageFilter || (value && value.urls && value.urls.length < 1)) {
+    if (!options.imageFilter || (value && value.urls && value.urls.length < 1)) {
       filterControl = ''
       filterList = ''
     }
 
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField
+    let fieldClassNames = classNames({
+      'vcv-ui-form-attach-image': true,
+      'vcv-ui-form-field-dynamic': isDynamic
+    })
+    const dragClass = 'vcv-ui-form-attach-image-item--dragging'
+    let dynamicComponent = null
+    let fieldComponent = <SortableList
+      {...this.props}
+      metaAssetsPath={metaAssetsPath}
+      helperClass={dragClass}
+      useDragHandle={useDragHandle}
+      onSortEnd={this.onSortEnd}
+      axis='xy'
+      value={value}
+      openLibrary={this.openLibrary}
+      handleRemove={this.handleRemove}
+      getUrlHtml={this.getUrlHtml}
+    />
+
+    if (isDynamic) {
+      let imageValue = value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : false
+      if (imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)) {
+        let blockInfo = imageValue.split(blockRegexp)
+        let blockAtts = JSON.parse(blockInfo[ 4 ].trim())
+
+        let selectOptions = []
+        let fieldList = getDynamicFieldsList(this.props.fieldType)
+        fieldList.forEach((dynamicFieldItem, index) => {
+          selectOptions.push(
+            <option
+              key={`dynamic-attachimage-field-${fieldKey}-${index}-${dynamicFieldItem.key}`}
+              value={dynamicFieldItem.key}
+            >
+              {dynamicFieldItem.label}
+            </option>
+          )
+        })
+
+        fieldComponent = (
+          <select className='vcv-ui-form-dropdown vcv-ui-form-field-dynamic' value={blockAtts.value} onChange={this.handleDynamicFieldChange}>
+            {selectOptions}
+          </select>
+        )
+
+        dynamicComponent = (
+          <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title='Close Dynamic Field' />
+        )
+      } else {
+        dynamicComponent = (
+          <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control ' onClick={this.handleDynamicFieldOpen} title='Open Dynamic Field' />
+        )
+      }
+    }
+
     return (
       <React.Fragment>
-        <div className='vcv-ui-form-attach-image'>
-          <SortableList {...this.props} metaAssetsPath={metaAssetsPath} helperClass={dragClass}
-            useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
-            axis='xy' value={this.state.value} openLibrary={this.openLibrary} handleRemove={this.handleRemove}
-            getUrlHtml={this.getUrlHtml} />
+        <div className={fieldClassNames}>
+          {fieldComponent}
+          {dynamicComponent}
         </div>
         {filterControl}
         {filterList}

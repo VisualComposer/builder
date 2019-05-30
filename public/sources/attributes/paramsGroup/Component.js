@@ -7,6 +7,10 @@ import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'r
 const workspaceStorage = getStorage('workspace')
 
 export default class ParamsGroupAttribute extends Attribute {
+  static defaultProps = {
+    fieldType: 'paramsGroup'
+  }
+
   constructor (props) {
     super(props)
     this.clickAdd = this.clickAdd.bind(this)

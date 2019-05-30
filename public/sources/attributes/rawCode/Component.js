@@ -4,6 +4,10 @@ import PropTypes from 'prop-types'
 import CodeEditor from '../../../components/codeEditor/codeEditor'
 
 export default class RawCode extends Attribute {
+  static defaultProps = {
+    fieldType: 'rawCode'
+  }
+
   editorWrapper = null
   codeEditor = null
 

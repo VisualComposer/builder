@@ -5,6 +5,10 @@ import React from 'react'
 import Attribute from '../attribute'
 
 export default class ResponsivenessSettings extends Attribute {
+  static defaultProps = {
+    fieldType: 'responsivenessSettings'
+  }
+
   getDevicesSettings () {
     const { devices } = this.props
     return devices.map((deviceData) => {

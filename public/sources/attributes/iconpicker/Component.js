@@ -27,6 +27,10 @@ let setList = {
 }
 
 class Iconpicker extends Attribute {
+  static defaultProps = {
+    fieldType: 'iconpicker'
+  }
+
   constructor (props) {
     super(props)
     this.state = {

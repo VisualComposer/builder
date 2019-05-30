@@ -40,11 +40,19 @@ class PostDataController extends Container implements Module
      */
     protected function getPostData($response, $payload)
     {
+        $urlHelper = vchelper('Url');
         $sourceId = intval($payload['sourceId']);
 
+        $postThumbnailId = get_post_thumbnail_id($sourceId);
+        $postThumbnailUrl = get_the_post_thumbnail_url($sourceId);
         $response['postData'] = [
-            'featuredImageId' => get_post_thumbnail_id($sourceId),
-            'featuredImageSrc' => get_the_post_thumbnail_url($sourceId),
+//            'featuredImageId' => intval($postThumbnailId),
+            'featured_image' => $postThumbnailUrl ? $urlHelper->query(
+                $postThumbnailUrl,
+                [
+                    'vcv-dynamic-field' => 'featured_image',
+                ]
+            ) : '',
         ];
 
         return $response;

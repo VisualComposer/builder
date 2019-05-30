@@ -4,6 +4,10 @@ import Attribute from '../attribute'
 import Dropdown from '../dropdown/Component'
 
 export default class Devices extends Attribute {
+  static defaultProps = {
+    fieldType: 'devices'
+  }
+
   constructor (props) {
     super(props)
     props.setInnerFieldStatus && props.setInnerFieldStatus()

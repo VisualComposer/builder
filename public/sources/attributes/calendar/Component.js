@@ -5,6 +5,10 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 export default class CalendarAttribute extends Attribute {
+  static defaultProps = {
+    fieldType: 'calendar'
+  }
+
   updateState (props) {
     let newDate = new Date()
     if (props.options.addDays) {

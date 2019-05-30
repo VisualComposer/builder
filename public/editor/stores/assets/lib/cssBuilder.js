@@ -102,21 +102,14 @@ export default class CssBuilder {
     if (!data) {
       return
     }
-    const dataStorageState = getStorage('wordpressData').state('status').get().status
 
+    // TODO: Build only on update? [see git history]
     this.updateStyleDomNodes(data)
-    let cssBuildTypes = [ 'template', 'header', 'footer', 'sidebar' ]
-    let editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : false
-    let allowCssBuild = (editorType && cssBuildTypes.indexOf(editorType) > -1)
-    if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD') && !allowCssBuild) {
-      this.addElementEditorFiles(data)
-    } else {
-      this.addCssElementBaseByElement(data)
-      this.addElementEditorFiles(data)
-      this.addElementGlobalAttributesCssMixins(data) // designOptions!
-      this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
-      this.addElementFiles(data, force)
-    }
+    this.addCssElementBaseByElement(data)
+    this.addElementEditorFiles(data)
+    this.addElementGlobalAttributesCssMixins(data) // designOptions!
+    this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
+    this.addElementFiles(data, force)
 
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
