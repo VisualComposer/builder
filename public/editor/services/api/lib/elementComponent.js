@@ -35,10 +35,6 @@ export default class ElementComponent extends React.Component {
     this.updateElementAssets = this.updateElementAssets.bind(this)
   }
 
-  spinnerHTML () {
-    return '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
-  }
-
   // [gallery ids="318,93"]
   getShortcodesRegexp () {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
