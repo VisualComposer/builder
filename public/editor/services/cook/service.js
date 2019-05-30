@@ -4,7 +4,6 @@ import { addService, getService, getStorage } from 'vc-cake'
 import { buildSettingsObject } from './lib/tools'
 import elementSettings from './lib/element-settings'
 import attributeManager from './lib/attribute-manager'
-import CookElement from './lib/cookElement'
 import Element from './lib/element'
 
 const DocumentData = getService('document')
@@ -17,7 +16,7 @@ const API = {
       console.error('No element Tag provided', data)
       return null
     }
-    return new CookElement(data)
+    return new Element(data)
   },
   buildSettingsElement (data, settings, cssSettings) {
     return new Element(data, settings, cssSettings)

@@ -184,7 +184,7 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
 
       if (designOptions.device.hasOwnProperty('all')) {
         const allSettings = designOptions.device.all
-        if (allSettings.backgroundColor || (allSettings.images && allSettings.images.urls && allSettings.images.urls.length)) {
+        if (allSettings.backgroundColor || typeof allSettings.images === 'string' || (allSettings.images && allSettings.images.urls && allSettings.images.urls.length)) {
           elementBackground.all = true
           backgroundUsed = true
         }
@@ -192,7 +192,7 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
         for (let device in designOptions.device) {
           if (designOptions.device.hasOwnProperty(device)) {
             const deviceSettings = designOptions.device[ device ]
-            if (deviceSettings.backgroundColor || (deviceSettings.images && deviceSettings.images.urls && deviceSettings.images.urls.length)) {
+            if (deviceSettings.backgroundColor || typeof deviceSettings.images === 'string' || (deviceSettings.images && deviceSettings.images.urls && deviceSettings.images.urls.length)) {
               elementBackground[ device ] = true
               backgroundUsed = true
             }

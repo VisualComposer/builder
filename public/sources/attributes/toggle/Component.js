@@ -3,6 +3,10 @@ import Attribute from '../attribute'
 import PropTypes from 'prop-types'
 
 class Toggle extends Attribute {
+  static defaultProps = {
+    fieldType: 'toggle'
+  }
+
   handleChange (event) {
     let value = event.target.checked
     this.setFieldValue(value)
@@ -14,7 +18,9 @@ class Toggle extends Attribute {
     let label = null
     let fieldId = `${fieldKey}_input`
     if (options && options.labelText) {
-      label = <label htmlFor={fieldId} className='vcv-ui-form-switch-trigger-label'>{this.props.options.labelText}</label>
+      label = (
+        <label htmlFor={fieldId} className='vcv-ui-form-switch-trigger-label'>{this.props.options.labelText}</label>
+      )
     }
     return (
       <div className='vcv-ui-form-switch-container'>

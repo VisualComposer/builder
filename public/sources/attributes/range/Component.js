@@ -2,6 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 
 class RangeAttribute extends Attribute {
+  static defaultProps = {
+    fieldType: 'range'
+  }
+
   constructor (props) {
     super(props)
     this.state = this.updateState(this.props)

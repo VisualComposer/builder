@@ -2,6 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 
 class customIdAttribute extends Attribute {
+  static defaultProps = {
+    fieldType: 'customId'
+  }
+
   render () {
     let value = this.state.value === false ? '' : this.state.value
     return (

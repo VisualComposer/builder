@@ -5,6 +5,10 @@ import Attribute from '../attribute'
 import Toggle from '../toggle/Component'
 
 class BoxModel extends Attribute {
+  static defaultProps = {
+    fieldType: 'boxModel'
+  }
+
   static defaultState = {
     combined: '',
     margin: '',
@@ -184,7 +188,7 @@ class BoxModel extends Attribute {
    * @param value
    */
   simplifyControlsHandler (fieldKey, value) {
-    let newValue = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
+    let newValue = lodash.defaultsDeep({}, { [ fieldKey ]: value }, this.state)
     this.updateValue(newValue)
   }
 
@@ -194,7 +198,7 @@ class BoxModel extends Attribute {
    */
   changeBoxInputHandler (e) {
     let field = e.currentTarget
-    let newState = lodash.defaultsDeep({}, { [field.name]: field.value }, this.state)
+    let newState = lodash.defaultsDeep({}, { [ field.name ]: field.value }, this.state)
     this.updateValue(newState)
   }
 
@@ -211,14 +215,14 @@ class BoxModel extends Attribute {
     let match = field.value.match(re)
     if (match) {
       if (!match[ 2 ]) {
-        let newState = lodash.defaultsDeep({}, { [field.name]: `${field.value}px` }, this.state)
+        let newState = lodash.defaultsDeep({}, { [ field.name ]: `${field.value}px` }, this.state)
         this.updateValue(newState)
       }
       return
     }
 
     // if validation fail leave field empty
-    let newState = lodash.defaultsDeep({}, { [field.name]: '' }, this.state)
+    let newState = lodash.defaultsDeep({}, { [ field.name ]: '' }, this.state)
     this.updateValue(newState)
   }
 

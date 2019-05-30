@@ -1,17 +1,24 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-import ContentControls from '../../../../components/layoutHelpers/contentControls/component'
-import ContentEditableComponent from '../../../../components/layoutHelpers/contentEditable/contentEditableComponent'
-import ColumnResizer from '../../../../components/columnResizer/columnResizer'
+import ReactDOM from 'react-dom'
+import ContentControls from 'public/components/layoutHelpers/contentControls/component'
+import ContentEditableComponent from 'public/components/layoutHelpers/contentEditable/contentEditableComponent'
+import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import MobileDetect from 'mobile-detect'
 import { isEqual } from 'lodash'
 import PropTypes from 'prop-types'
-import { DynamicFieldData } from './dynamicFieldData'
+import {
+  getDynamicFieldsData,
+  updateDynamicComments,
+  cleanComments
+} from 'public/components/dynamicFields/dynamicFields.js'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
+const { getBlockRegexp } = vcCake.getService('utils')
+const blockRegexp = getBlockRegexp()
 
 export default class Element extends React.Component {
   static propTypes = {
@@ -24,6 +31,7 @@ export default class Element extends React.Component {
     this.dataUpdate = this.dataUpdate.bind(this)
     this.cssJobsUpdate = this.cssJobsUpdate.bind(this)
     this.elementComponentTransformation = this.elementComponentTransformation.bind(this)
+    this.elementComponentRef = React.createRef()
     this.state = {
       element: props.element,
       cssBuildingProcess: true,
@@ -44,6 +52,10 @@ export default class Element extends React.Component {
     assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
     assetsStorage.trigger('addElement', this.state.element.id)
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
+    if (this.elementComponentRef && this.elementComponentRef.current) {
+      let cookElement = cook.get(this.state.element)
+      updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
+    }
   }
 
   componentWillUnmount () {
@@ -52,10 +64,20 @@ export default class Element extends React.Component {
     assetsStorage.state('jobs').ignoreChange(this.cssJobsUpdate)
     assetsStorage.trigger('removeElement', this.state.element.id)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
+    // Clean everything before/after
+    if (!this.elementComponentRef || !this.elementComponentRef.current) {
+      return
+    }
+    const el = ReactDOM.findDOMNode(this.elementComponentRef.current)
+    cleanComments(el, this.state.element.id)
   }
 
   componentDidUpdate () {
     this.props.api.notify('element:didUpdate', this.props.element.id)
+    if (this.elementComponentRef && this.elementComponentRef.current) {
+      let cookElement = cook.get(this.state.element)
+      updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
+    }
   }
 
   dataUpdate (data, source, options) {
@@ -152,12 +174,21 @@ export default class Element extends React.Component {
         isDynamic = attrSettings.settings.options &&
           attrSettings.settings.options.dynamicField &&
           typeof atts[ key ] === 'string' &&
-          atts[ key ].indexOf('<!-- wp') !== -1 &&
-          atts[ key ].indexOf('featured') === -1
+          atts[ key ].match(blockRegexp)
       }
 
       if (isDynamic) {
-        layoutAtts[ key ] = <DynamicFieldData field={key} atts={atts} />
+        const blockInfo = atts[ key ].split(blockRegexp)
+
+        layoutAtts[ key ] = getDynamicFieldsData(
+          {
+            fieldKey: key,
+            value: atts[ key ],
+            blockName: blockInfo[ 3 ],
+            blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
+            blockContent: blockInfo[ 7 ]
+          }
+        )
       } else if (attrSettings.settings.options && attrSettings.settings.options.inline) {
         layoutAtts[ key ] =
           <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api}
@@ -188,29 +219,37 @@ export default class Element extends React.Component {
     }
     let { api, ...other } = this.props
     let element = this.state.element
-    let el = cook.get(element)
-    if (!el) {
+    let cookElement = cook.get(element)
+    if (!cookElement) {
       return null
     }
     if (element && element.hidden) {
       return null
     }
-    let id = el.get('id')
-    let ContentComponent = el.getContentComponent()
+    let id = cookElement.get('id')
+    let ContentComponent = cookElement.getContentComponent()
     if (!ContentComponent) {
       return null
     }
     let editor = {
       'data-vcv-element': id
     }
-    if (el.get('metaDisableInteractionInEditor')) {
+    if (cookElement.get('metaDisableInteractionInEditor')) {
       editor[ 'data-vcv-element-disable-interaction' ] = true
     }
-    return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
-      api={api}
-      editor={editor}
-      {...other}>
-      {this.getContent()}
-    </ContentComponent>
+
+    return (
+      <ContentComponent
+        ref={this.elementComponentRef}
+        id={id}
+        key={'vcvLayoutContentComponent' + id}
+        atts={this.visualizeAttributes(cookElement)}
+        rawAtts={cookElement.getAll(false)}
+        api={api}
+        editor={editor}
+        {...other}>
+        {this.getContent()}
+      </ContentComponent>
+    )
   }
 }

@@ -4,7 +4,11 @@ import Attribute from '../attribute'
 import GutenbergModal from './lib/gutenbergModal'
 import { iframeControlStyles } from './lib/iframeControlStyles'
 /* Working prototype */
-export default class Component extends Attribute {
+export default class GutenbergEditorComponent extends Attribute {
+  static defaultProps = {
+    fieldType: 'gutenbergEditor'
+  }
+
   constructor (props) {
     super(props)
     this.openEditor = this.openEditor.bind(this)

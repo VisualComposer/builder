@@ -1,5 +1,6 @@
 import { defaultsDeep } from 'lodash'
 import { getStorage } from 'vc-cake'
+import { getAttributeType } from './tools'
 
 let items = {}
 export default {
@@ -11,8 +12,16 @@ export default {
       settingsCloneJsonString = settingsCloneJsonString.replace('[assetsPath]/', allElementsSettings[ settings.tag.value ].assetsPath).replace('[assetsPath]', allElementsSettings[ settings.tag.value ])
     }
 
+    let dataSettings = JSON.parse(settingsCloneJsonString)
+    for (let k in dataSettings) {
+      if (dataSettings.hasOwnProperty(k)) {
+        const attrSettings = getAttributeType(k, dataSettings)
+        dataSettings[ k ].attrSettings = attrSettings
+      }
+    }
+
     items[ settings.tag.value ] = {
-      settings: JSON.parse(settingsCloneJsonString),
+      settings: dataSettings,
       component: componentCallback,
       cssSettings: cssSettings,
       modifierOnCreate: modifierOnCreate

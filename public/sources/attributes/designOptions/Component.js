@@ -11,15 +11,20 @@ import AttachImage from '../attachimage/Component'
 import Color from '../color/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
+import { getDynamicFieldsData } from 'public/components/dynamicFields/dynamicFields'
+import { getStorage, getService, env } from 'vc-cake'
 
-import vcCake from 'vc-cake'
+const elementsStorage = getStorage('elements')
+const workspaceStorage = getStorage('workspace')
 
-const elementsStorage = vcCake.getStorage('elements')
-const workspaceStorage = vcCake.getStorage('workspace')
-
-const documentManager = vcCake.getService('document')
+const documentService = getService('document')
+const { getBlockRegexp } = getService('utils')
+const blockRegexp = getBlockRegexp()
 
 export default class DesignOptions extends Attribute {
+  static defaultProps = {
+    fieldType: 'designOptions'
+  }
   /**
    * Attribute Mixins
    */
@@ -182,9 +187,6 @@ export default class DesignOptions extends Attribute {
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
     this.handleElementChange = this.handleElementChange.bind(this)
-    this.handleDynamicFieldOpen = this.handleDynamicFieldOpen.bind(this)
-    this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
-    this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
   }
 
   componentDidMount () {
@@ -296,7 +298,8 @@ export default class DesignOptions extends Attribute {
           })
         } else {
           // image is empty
-          if (!newValue[ device ].hasOwnProperty('image') || ((!newValue[ device ].image.urls || newValue[ device ].image.urls.length === 0) && newValue[ device ].image.length === 0)) {
+          const isDynamic = typeof newValue[ device ].image === 'string' && newValue[ device ].image.match(blockRegexp)
+          if (!isDynamic && (!newValue[ device ].hasOwnProperty('image') || ((!newValue[ device ].image.urls || newValue[ device ].image.urls.length === 0) && newValue[ device ].image.length === 0))) {
             delete newValue[ device ].image
             delete newValue[ device ].backgroundStyle
           }
@@ -333,7 +336,7 @@ export default class DesignOptions extends Attribute {
             delete newValue[ device ].borderColor
           }
         }
-        device = DesignOptions.getMixins(newValue, device, newMixins)
+        DesignOptions.getMixins(newValue, device, newMixins)
 
         // remove device from list if it's empty
         if (!Object.keys(newValue[ device ]).length) {
@@ -344,6 +347,18 @@ export default class DesignOptions extends Attribute {
 
     this.setFieldValue(newValue, newMixins, fieldKey)
     this.setState(newState)
+  }
+
+  static buildMixins (data, value) {
+    let mixins = {}
+    const devices = [ 'all', 'xs', 'sm', 'md', 'lg', 'xl' ]
+    devices.forEach((device) => {
+      if (value.device && typeof value.device[ device ] !== 'undefined') {
+        DesignOptions.getMixins(value.device, device, mixins)
+      }
+    })
+
+    return mixins
   }
 
   static getMixins (newValue, device, newMixins) {
@@ -357,109 +372,127 @@ export default class DesignOptions extends Attribute {
       }
     } else {
       // boxModelMixin
-      if (newValue[ device ].hasOwnProperty('boxModel')) {
-        let value = newValue[ device ].boxModel
-        if (!lodash.isEmpty(value)) {
-          // update mixin
-          let mixinName = `boxModelMixin:${device}`
-          newMixins[ mixinName ] = {}
-          newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.boxModelMixin)
-          let syncData = {
-            borderWidth: [ { key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' } ],
-            borderTopWidth: [ { key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' } ],
-            borderRightWidth: [ { key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' } ],
-            borderBottomWidth: [ { key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' } ],
-            borderLeftWidth: [ { key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' } ]
-          }
-          for (let property in value) {
-            newMixins[ mixinName ].variables[ property ] = {
-              value: DesignOptions.addPixelToNumber(value[ property ])
-            }
-            if (syncData[ property ]) {
-              syncData[ property ].forEach((syncProp) => {
-                let propVal = newValue[ device ][ syncProp.value ] || false
-                newMixins[ mixinName ].variables[ syncProp.key ] = {
-                  value: DesignOptions.addPixelToNumber(propVal)
-                }
-              })
-            }
-          }
-          // devices
-          newMixins[ mixinName ].variables.device = {
-            value: device
-          }
-        }
-      }
+      DesignOptions.getBoxModelMixin(newValue, device, newMixins)
       // backgroundMixin
-      if (newValue[ device ] && (newValue[ device ].backgroundColor || newValue[ device ].image)) {
-        let mixinName = `backgroundColorMixin:${device}`
+      DesignOptions.getBackgroundMixin(newValue, device, newMixins)
+    }
+  }
+
+  static getBoxModelMixin (newValue, device, newMixins) {
+    if (newValue[ device ].hasOwnProperty('boxModel')) {
+      let value = newValue[ device ].boxModel
+      if (!lodash.isEmpty(value)) {
+        // update mixin
+        let mixinName = `boxModelMixin:${device}`
         newMixins[ mixinName ] = {}
-        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundColorMixin)
-
-        if (newValue[ device ].backgroundColor) {
-          newMixins[ mixinName ].variables.backgroundColor = {
-            value: newValue[ device ].backgroundColor
+        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.boxModelMixin)
+        let syncData = {
+          borderWidth: [ { key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' } ],
+          borderTopWidth: [ { key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' } ],
+          borderRightWidth: [ { key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' } ],
+          borderBottomWidth: [ { key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' } ],
+          borderLeftWidth: [ { key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' } ]
+        }
+        for (let property in value) {
+          newMixins[ mixinName ].variables[ property ] = {
+            value: DesignOptions.addPixelToNumber(value[ property ])
+          }
+          if (syncData[ property ]) {
+            syncData[ property ].forEach((syncProp) => {
+              let propVal = newValue[ device ][ syncProp.value ] || false
+              newMixins[ mixinName ].variables[ syncProp.key ] = {
+                value: DesignOptions.addPixelToNumber(propVal)
+              }
+            })
           }
         }
-
-        if (newValue[ device ].image && newValue[ device ].image.urls && newValue[ device ].image.urls.length) {
-          newMixins[ mixinName ].variables.backgroundImage = {
-            value: newValue[ device ].image.urls[ 0 ].full
-          }
-        }
-
-        if (newValue[ device ].backgroundStyle) {
-          let sizeStyles = [ 'cover', 'contain', 'full-width', 'full-height' ]
-          let sizeState = sizeStyles.indexOf(newValue[ device ].backgroundStyle) >= 0
-
-          if (sizeState) {
-            newMixins[ mixinName ].variables.backgroundRepeat = {
-              value: false
-            }
-            switch (newValue[ device ].backgroundStyle) {
-              case 'full-width':
-                newMixins[ mixinName ].variables.backgroundSize = {
-                  value: '100% auto'
-                }
-                break
-              case 'full-height':
-                newMixins[ mixinName ].variables.backgroundSize = {
-                  value: 'auto 100%'
-                }
-                break
-              default:
-                newMixins[ mixinName ].variables.backgroundRepeat = {
-                  value: 'no-repeat'
-                }
-                newMixins[ mixinName ].variables.backgroundSize = {
-                  value: newValue[ device ].backgroundStyle
-                }
-                newMixins[ mixinName ].variables.backgroundPosition = {
-                  value: DesignOptions.defaultState.backgroundPosition
-                }
-            }
-          } else {
-            newMixins[ mixinName ].variables.backgroundRepeat = {
-              value: newValue[ device ].backgroundStyle
-            }
-            newMixins[ mixinName ].variables.backgroundSize = {
-              value: false
-            }
-          }
-        }
-
-        if (newValue[ device ].backgroundPosition) {
-          newMixins[ mixinName ].variables.backgroundPosition = {
-            value: newValue[ device ].backgroundPosition
-          }
-        }
-
+        // devices
         newMixins[ mixinName ].variables.device = {
           value: device
         }
       }
     }
-    return device
+  }
+
+  static getBackgroundMixin (newValue, device, newMixins) {
+    if (newValue[ device ] && (newValue[ device ].backgroundColor || newValue[ device ].image)) {
+      let mixinName = `backgroundColorMixin:${device}`
+      newMixins[ mixinName ] = {}
+      newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundColorMixin)
+
+      if (newValue[ device ].backgroundColor) {
+        newMixins[ mixinName ].variables.backgroundColor = {
+          value: newValue[ device ].backgroundColor
+        }
+      }
+
+      if (typeof newValue[ device ].image === 'string' && newValue[ device ].image.match(blockRegexp)) {
+        // TODO: Create featured image (or something) backgroundImage
+        let blockInfo = newValue[ device ].image.split(blockRegexp)
+        let blockAtts = JSON.parse(blockInfo[ 4 ])
+        let imageUrl = getDynamicFieldsData({
+          value: '',
+          blockAtts: blockAtts
+        })
+        newMixins[ mixinName ].variables.backgroundImage = {
+          value: imageUrl
+        }
+      } else if (newValue[ device ].image && newValue[ device ].image.urls && newValue[ device ].image.urls.length) {
+        newMixins[ mixinName ].variables.backgroundImage = {
+          value: newValue[ device ].image.urls[ 0 ].full
+        }
+      }
+
+      if (newValue[ device ].backgroundStyle) {
+        let sizeStyles = [ 'cover', 'contain', 'full-width', 'full-height' ]
+        let sizeState = sizeStyles.indexOf(newValue[ device ].backgroundStyle) >= 0
+
+        if (sizeState) {
+          newMixins[ mixinName ].variables.backgroundRepeat = {
+            value: false
+          }
+          switch (newValue[ device ].backgroundStyle) {
+            case 'full-width':
+              newMixins[ mixinName ].variables.backgroundSize = {
+                value: '100% auto'
+              }
+              break
+            case 'full-height':
+              newMixins[ mixinName ].variables.backgroundSize = {
+                value: 'auto 100%'
+              }
+              break
+            default:
+              newMixins[ mixinName ].variables.backgroundRepeat = {
+                value: 'no-repeat'
+              }
+              newMixins[ mixinName ].variables.backgroundSize = {
+                value: newValue[ device ].backgroundStyle
+              }
+              newMixins[ mixinName ].variables.backgroundPosition = {
+                value: DesignOptions.defaultState.backgroundPosition
+              }
+          }
+        } else {
+          newMixins[ mixinName ].variables.backgroundRepeat = {
+            value: newValue[ device ].backgroundStyle
+          }
+          newMixins[ mixinName ].variables.backgroundSize = {
+            value: false
+          }
+        }
+      }
+
+      if (newValue[ device ].backgroundPosition) {
+        newMixins[ mixinName ].variables.backgroundPosition = {
+          value: newValue[ device ].backgroundPosition
+        }
+      }
+
+      newMixins[ mixinName ].variables.device = {
+        value: device
+      }
+    }
   }
 
   /**
@@ -469,8 +502,7 @@ export default class DesignOptions extends Attribute {
   setFieldValue (value, mixins, innerFieldKey) {
     let { updater, fieldKey } = this.props
     updater(fieldKey, {
-      device: value,
-      attributeMixins: mixins
+      device: value
     }, innerFieldKey)
   }
 
@@ -567,7 +599,7 @@ export default class DesignOptions extends Attribute {
     if (this.state.currentDevice === 'all') {
       let id = this.props.elementAccessPoint.id
       // TODO: Maybe COOK.get() correct here?
-      let element = documentManager.get(id)
+      let element = documentService.get(id)
       let checked = !element.hidden
 
       // TODO: Use correct localization here
@@ -793,34 +825,36 @@ export default class DesignOptions extends Attribute {
     }
 
     const fieldKey = 'attachImage'
-    const dynamicFields = [ 'featured' ]
     let value = this.state.devices[ this.state.currentDevice ].image || ''
-    let dynamicComponent
-    let fieldComponent
+    let fieldComponent = <AttachImage
+      api={this.props.api}
+      fieldKey={fieldKey}
+      options={{
+        multiple: true
+      }}
+      updater={this.attachImageChangeHandler}
+      value={value}
+      elementAccessPoint={this.props.elementAccessPoint}
+    />
 
-    if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof value === 'string' && value.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') !== -1) {
-      const data = value.split(/(<!-- wp:vcv-gutenberg-blocks\/dynamic-field-block) ([^-]+) -->(.+)(?=<!-- \/wp:vcv-gutenberg-blocks\/dynamic-field-block -->)/g)
-      const { value: fieldKey } = data && data[ 2 ] ? JSON.parse(data[ 2 ]) : {}
-      const selectOptions = dynamicFields.map((field, index) => {
-        return <option key={`dynamic-field-${index}`} value={field}>{field}</option>
-      })
-      fieldComponent = <select value={fieldKey} onChange={this.handleDynamicFieldChange}>
-        {selectOptions}
-      </select>
-      dynamicComponent = <button type='button' onClick={this.handleDynamicFieldClose}>X</button>
-    } else {
+    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+      const dynamicTemplate = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+        value: '$dynamicFieldKey',
+        type: 'backgroundImage'
+      })} -->`
       fieldComponent = <AttachImage
         api={this.props.api}
         fieldKey={fieldKey}
         options={{
-          multiple: true
+          multiple: true,
+          dynamicField: true
         }}
         updater={this.attachImageChangeHandler}
         value={value}
+        prevValue={this.state.devices[ this.state.currentDevice ].prevValue}
+        dynamicTemplate={dynamicTemplate}
         elementAccessPoint={this.props.elementAccessPoint}
       />
-
-      dynamicComponent = vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') ? <button type='button' onClick={this.handleDynamicFieldOpen}>Open</button> : null
     }
 
     return <div className='vcv-ui-form-group'>
@@ -828,7 +862,6 @@ export default class DesignOptions extends Attribute {
         Images
       </span>
       {fieldComponent}
-      {dynamicComponent}
     </div>
   }
 
@@ -839,51 +872,24 @@ export default class DesignOptions extends Attribute {
    * @param prevValue
    */
   attachImageChangeHandler (fieldKey, value, prevValue) {
-    if (value.hasOwnProperty(value.draggingIndex)) {
+    if (value && value.hasOwnProperty(value.draggingIndex)) {
       delete value.draggingIndex
     }
     let newState = lodash.defaultsDeep({}, this.state)
+    let deviceData = newState.devices[ newState.currentDevice ]
     // update value
     if (lodash.isEmpty(value)) {
-      delete newState.devices[ newState.currentDevice ].image
+      delete deviceData.image
     } else {
-      newState.devices[ newState.currentDevice ].image = value
+      deviceData.image = value
     }
-    if (!newState.devices[ newState.currentDevice ].prevValue && prevValue) {
-      newState.devices[ newState.currentDevice ].prevValue = prevValue
+    if (!deviceData.prevValue && prevValue) {
+      deviceData.prevValue = prevValue
     }
-    if (newState.devices[ newState.currentDevice ].prevValue && !prevValue) {
-      newState.devices[ newState.currentDevice ].prevValue = null
+    if (deviceData.prevValue && !prevValue) {
+      deviceData.prevValue = null
     }
     this.updateValue(newState, fieldKey)
-  }
-
-  handleDynamicFieldOpen (e) {
-    e && e.preventDefault && e.preventDefault()
-    const defaultValue = 'featured'
-    const value = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-      type: 'post',
-      value: defaultValue
-    })} -->${defaultValue}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
-    this.attachImageChangeHandler('attachImage', value, this.state.devices[ this.state.currentDevice ].image)
-  }
-
-  handleDynamicFieldChange (e) {
-    const dynamicFieldValue = e.currentTarget && e.currentTarget.value
-
-    const newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-      type: 'post',
-      value: dynamicFieldValue
-    })} -->${dynamicFieldValue}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
-    this.attachImageChangeHandler('attachImage', newValue)
-  }
-
-  handleDynamicFieldClose () {
-    if (this.state.devices[ this.state.currentDevice ].prevValue) {
-      this.attachImageChangeHandler('attachImage', this.state.devices[ this.state.currentDevice ].prevValue, null)
-    } else {
-      this.attachImageChangeHandler('attachImage', '')
-    }
   }
 
   /**
@@ -891,10 +897,17 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getBackgroundStyleRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('image') || !this.state.devices[ this.state.currentDevice ].image.urls ||
-      this.state.devices[ this.state.currentDevice ].image.urls.length === 0) {
+    const { devices, currentDevice } = this.state
+    if (devices[ currentDevice ].display) {
       return null
     }
+    const imageData = devices[ currentDevice ].image || ''
+    const isDynamic = typeof imageData === 'string' && imageData.match(blockRegexp)
+
+    if (!isDynamic && (!imageData || !imageData.urls || imageData.urls.length === 0)) {
+      return null
+    }
+
     let options = {
       values: [
         {
@@ -935,10 +948,7 @@ export default class DesignOptions extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || ''
-    if (value === '') {
-
-    }
+    let value = devices[ currentDevice ].backgroundStyle || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background style
@@ -968,12 +978,18 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getBackgroundPositionRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      !this.state.devices[ this.state.currentDevice ].hasOwnProperty('image') ||
-      !this.state.devices[ this.state.currentDevice ].image.urls ||
-      this.state.devices[ this.state.currentDevice ].image.urls.length === 0) {
+    const { devices, currentDevice } = this.state
+    if (devices[ currentDevice ].display) {
       return null
     }
+
+    const imageData = devices[ currentDevice ].image || ''
+    const isDynamic = typeof imageData === 'string' && imageData.match(blockRegexp)
+
+    if (!isDynamic && (!imageData || !imageData.urls || imageData.urls.length === 0)) {
+      return null
+    }
+
     let options = {
       values: [
         {
@@ -1023,7 +1039,7 @@ export default class DesignOptions extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundPosition || DesignOptions.defaultState.backgroundPosition
+    let value = devices[ currentDevice ].backgroundPosition || DesignOptions.defaultState.backgroundPosition
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background position

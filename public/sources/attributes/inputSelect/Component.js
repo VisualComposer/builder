@@ -3,6 +3,10 @@ import Attribute from '../attribute'
 import options from './options'
 
 export default class InputSelect extends Attribute {
+  static defaultProps = {
+    fieldType: 'inputSelect'
+  }
+
   list = null
 
   constructor (props) {
@@ -146,12 +150,12 @@ export default class InputSelect extends Attribute {
     let updatedValues = {
       input,
       select,
-      [key]: value
+      [ key ]: value
     }
 
     updater(fieldKey, updatedValues)
     this.setState({
-      [key]: value,
+      [ key ]: value,
       openedSelect: false
     })
   }

@@ -2,6 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 
 export default class Checkbox extends Attribute {
+  static defaultProps = {
+    fieldType: 'checkbox'
+  }
+
   handleChange (event) {
     let value = event.target.value
     var values = this.state.value

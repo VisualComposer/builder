@@ -1,7 +1,11 @@
 import React from 'react'
 import Attribute from '../attribute'
 
-export default class Component extends Attribute {
+export default class TextareaComponent extends Attribute {
+  static defaultProps = {
+    fieldType: 'textarea'
+  }
+
   render () {
     let { value } = this.state
     return (

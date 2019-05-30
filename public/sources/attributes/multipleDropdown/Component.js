@@ -2,6 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 
 export default class MultipleDropdown extends Attribute {
+  static defaultProps = {
+    fieldType: 'multipleDropdown'
+  }
+
   selectChildren = null
 
   componentWillReceiveProps (nextProps) {
@@ -70,8 +74,8 @@ export default class MultipleDropdown extends Attribute {
     let options = event.target.options
     let value = []
     for (let i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value)
+      if (options[ i ].selected) {
+        value.push(options[ i ].value)
       }
     }
 

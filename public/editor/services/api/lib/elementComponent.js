@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import { getStorage, getService, env } from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 import YoutubeBackground from './youtubeBackground'
 import VimeoBackground from './vimeoBackground'
 import ImageSimpleBackground from './imageSimpleBackground'
@@ -13,11 +13,12 @@ import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
+import { getDynamicFieldsData } from 'public/components/dynamicFields/dynamicFields'
 
 const shortcodesAssetsStorage = getStorage('shortcodeAssets')
 const assetsStorage = getStorage('assets')
-const settingsStorage = getStorage('settings')
-const { getShortcodesRegexp } = getService('utils')
+const { getShortcodesRegexp, getBlockRegexp } = getService('utils')
+const blockRegexp = getBlockRegexp()
 const dataProcessor = getService('dataProcessor')
 
 export default class ElementComponent extends React.Component {
@@ -31,31 +32,11 @@ export default class ElementComponent extends React.Component {
   constructor (props) {
     super(props)
     this.mixinData = null
-    this.state = {
-      requestFeatureImage: false
-    }
     this.updateElementAssets = this.updateElementAssets.bind(this)
   }
 
-  handleDOFeatureImage () {
-    // TODO: optimize
-    const element = ReactDOM.findDOMNode(this)
-    if (this.props.atts.designOptions &&
-      this.props.atts.designOptions.device &&
-      this.props.atts.designOptions.device.all &&
-      this.props.atts.designOptions.device.all.image &&
-      typeof this.props.atts.designOptions.device.all.image === 'string' &&
-      this.props.atts.designOptions.device.all.image.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') !== -1
-    ) {
-      const postData = settingsStorage.state('postData').get()
-      const style = this.getFeatureImageStylesTag(this.props.id, postData.featuredImageSrc)
-      element.insertAdjacentHTML('afterend', style)
-    } else if (element.nextElementSibling &&
-      element.nextElementSibling.classList.contains(`vce-featured-image-style-${this.props.id}`)
-    ) {
-      const styleElement = element.nextElementSibling
-      styleElement.remove()
-    }
+  spinnerHTML () {
+    return '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
   }
 
   // [gallery ids="318,93"]
@@ -66,9 +47,6 @@ export default class ElementComponent extends React.Component {
   componentWillUnmount () {
     if (this.ajax) {
       this.ajax.cancelled = true
-    }
-    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-      this.handleDOFeatureImage()
     }
   }
 
@@ -225,11 +203,12 @@ export default class ElementComponent extends React.Component {
     let classes = []
     if (device) {
       let { all } = device
-      if (all && (all.backgroundColor !== undefined || (all.images && all.images.urls && all.images.urls.length))) {
+      if (all && (all.backgroundColor !== undefined || typeof all.images === 'string' || (all.images && all.images.urls && all.images.urls.length))) {
         classes.push('vce-element--has-background')
       } else {
         for (let currentDevice in device) {
-          if (device[ currentDevice ] && (device[ currentDevice ].backgroundColor !== undefined || (device[ currentDevice ].images && device[ currentDevice ].images.urls && device[ currentDevice ].images.urls.length))) {
+          let deviceData = device[ currentDevice ]
+          if (deviceData && (deviceData.backgroundColor !== undefined || typeof deviceData.images === 'string' || (deviceData.images && deviceData.images.urls && deviceData.images.urls.length))) {
             classes.push(`vce-element--${currentDevice}--has-background`)
           }
         }
@@ -240,6 +219,10 @@ export default class ElementComponent extends React.Component {
 
   applyDO (prop) {
     let propObj = {}
+
+    if (env('VCV_JS_FT_DYNAMIC_FIELDS') && (prop === 'all' || prop.indexOf('background') > -1)) {
+      propObj = Object.assign({}, propObj, this.getImageData())
+    }
 
     // checking all
     if (prop === 'all') {
@@ -254,7 +237,7 @@ export default class ElementComponent extends React.Component {
     }
 
     // checking animate
-    if (prop.indexOf('animation') >= 0) {
+    if (prop.indexOf('animation') > -1) {
       if (prop !== 'animation') {
         prop = prop.replace('animation', '')
         prop += ` el-${this.props.id}`
@@ -265,51 +248,19 @@ export default class ElementComponent extends React.Component {
       if (animationData) {
         propObj[ 'data-vce-animate' ] = animationData
       }
-      if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-        let featuredImageData = this.getFeaturedImageData()
-        if (featuredImageData) {
-          propObj[ 'data-vce-featured-image-block' ] = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block -->${JSON.stringify({
-            'type': 'feature_image',
-            'selector': `el-${this.props.id}`,
-            'prop': prop,
-            'id': this.props.id,
-            'dataAttributes': [ 'data-vce-do-apply', 'data-vce-featured-image-block' ],
-            'value': 'backgroundImage'
-          })}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
-        }
-      }
+
       return propObj
     }
 
     prop += ` el-${this.props.id}`
     propObj[ 'data-vce-do-apply' ] = prop
+
     return propObj
-  }
-
-  getFeaturedImageData () {
-    let featuredImageData = ''
-    let designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
-
-    if (designOptions && designOptions.device) {
-      let images = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (typeof designOptions.device[ device ].image === 'string' && designOptions.device[ device ].image.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') > -1) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          images.push(`vce-featured-image--${designOptions.device[ device ].image}${prefix}`)
-        }
-      })
-      if (images.length) {
-        featuredImageData = images.join(' ')
-      }
-    }
-    return featuredImageData
   }
 
   getAnimationData () {
     let animationData = ''
+    // TODO: Get attributes BY TYPE
     let designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
 
     if (designOptions && designOptions.device) {
@@ -328,6 +279,21 @@ export default class ElementComponent extends React.Component {
       }
     }
     return animationData
+  }
+
+  getImageData () {
+    // TODO: Get attributes BY TYPE
+    let designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
+
+    let imageData = {}
+    if (designOptions && designOptions.device) {
+      Object.keys(designOptions.device).forEach((device) => {
+        if (typeof designOptions.device[ device ].image === 'string' && designOptions.device[ device ].image.match(blockRegexp)) {
+          imageData[ `data-vce-dynamic-image-${device}` ] = this.props.id
+        }
+      })
+    }
+    return imageData
   }
 
   getMixinData (mixinName) {
@@ -390,20 +356,32 @@ export default class ElementComponent extends React.Component {
       let { parallax, gradientOverlay } = device[ deviceKey ]
       let backgroundElements = []
       let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ].backgroundType}`
+      let images = device[ deviceKey ].images
+
+      if (typeof images === 'string' && images.match(blockRegexp)) {
+        let blockInfo = images.split(blockRegexp)
+        let blockAtts = JSON.parse(blockInfo[ 4 ])
+        let imageUrl = getDynamicFieldsData({
+          value: '',
+          blockAtts: blockAtts
+        })
+        images = [ imageUrl ]
+      }
+
       switch (device[ deviceKey ].backgroundType) {
         case 'imagesSimple':
           backgroundElements.push(
-            <ImageSimpleBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+            <ImageSimpleBackground images={images} deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
         case 'backgroundZoom':
           backgroundElements.push(
-            <ImageBackgroundZoom deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+            <ImageBackgroundZoom images={images} deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
         case 'imagesSlideshow':
           backgroundElements.push(
-            <ImageSlideshowBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+            <ImageSlideshowBackground images={images} deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
         case 'videoYoutube':
@@ -538,16 +516,10 @@ export default class ElementComponent extends React.Component {
     if (!image) {
       return null
     }
-    let isDynamic = false
-    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-      isDynamic = typeof image === 'string' && image.indexOf('<!-- wp') !== -1 && image.indexOf('featured') > -1
-    }
 
     let imageUrl
     // Move it to attribute
-    if (isDynamic) {
-      imageUrl = settingsStorage.state('postData').get() && settingsStorage.state('postData').get().featuredImageSrc
-    } else if (size && image && image[ size ]) {
+    if (size && image && image[ size ]) {
       imageUrl = image[ size ]
     } else {
       if (image instanceof Array || (image.urls && image.urls instanceof Array)) {

@@ -2,6 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 
 export default class NumberAttribute extends Attribute {
+  static defaultProps = {
+    fieldType: 'number'
+  }
+
   render () {
     let { value } = this.state
     let { min, max } = this.props.options

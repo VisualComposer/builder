@@ -52,6 +52,10 @@ const BoxShadowEffects = [
 ]
 
 export default class BoxShadow extends Attribute {
+  static defaultProps = {
+    fieldType: 'boxShadow'
+  }
+
   static deviceDefaults = {
     boxShadowEnable: false,
     horizontalOffset: '0',

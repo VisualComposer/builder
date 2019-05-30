@@ -2,6 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 
 class InputIcon extends Attribute {
+  static defaultProps = {
+    fieldType: 'inputIcon'
+  }
+
   render () {
     let { value } = this.state
     let { placeholder, options } = this.props

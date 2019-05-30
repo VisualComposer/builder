@@ -2,6 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 
 export default class Dropdown extends Attribute {
+  static defaultProps = {
+    fieldType: 'dropdown'
+  }
+
   selectChildren = null
 
   componentWillReceiveProps (nextProps) {

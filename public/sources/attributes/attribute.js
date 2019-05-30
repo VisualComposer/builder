@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { getDynamicFieldsData, getDynamicFieldsList } from 'public/components/dynamicFields/dynamicFields'
 
 export default class Attribute extends React.Component {
   static propTypes = {
     updater: PropTypes.func.isRequired,
     fieldKey: PropTypes.string.isRequired,
+    fieldType: PropTypes.string,
     value: PropTypes.any.isRequired,
     defaultValue: PropTypes.any,
     options: PropTypes.any
@@ -16,6 +18,9 @@ export default class Attribute extends React.Component {
 
     this.setFieldValue = this.setFieldValue.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleDynamicFieldOpen = this.handleDynamicFieldOpen.bind(this)
+    this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
+    this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -38,6 +43,72 @@ export default class Attribute extends React.Component {
     window.setTimeout(() => {
       updater(fieldKey, value, null, fieldType)
     }, 0)
+  }
+
+  handleDynamicFieldOpen (e) {
+    e && e.preventDefault && e.preventDefault()
+    const { fieldKey, updater, fieldType, dynamicTemplate } = this.props
+
+    const dynamicFieldsList = getDynamicFieldsList(fieldType)
+    const dynamicFieldKey = dynamicFieldsList[ 0 ] ? dynamicFieldsList[ 0 ].key : ''
+
+    let newValue = null
+
+    if (dynamicTemplate) {
+      newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey)
+    } else {
+      const currentValue = getDynamicFieldsData({
+        value: '',
+        blockAtts: {
+          value: dynamicFieldKey
+        }
+      })
+      newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+        value: dynamicFieldKey,
+        currentValue: currentValue
+      })} -->`
+    }
+
+    updater(fieldKey, newValue, this.state.value)
+  }
+
+  handleDynamicFieldChange (e) {
+    const dynamicFieldValue = e.currentTarget && e.currentTarget.value
+    const { fieldKey, updater, dynamicTemplate } = this.props
+
+    let newValue = null
+    if (dynamicTemplate) {
+      newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldValue)
+    } else {
+      const currentValue = getDynamicFieldsData({
+        value: '',
+        blockAtts: {
+          value: dynamicFieldValue
+        }
+      })
+      newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+        value: dynamicFieldValue,
+        currentValue: currentValue
+      })} -->`
+    }
+
+    updater(fieldKey, newValue)
+  }
+
+  handleDynamicFieldClose (e) {
+    e && e.preventDefault && e.preventDefault()
+    const { fieldKey, elementAccessPoint, updater, prevValue } = this.props
+
+    let cookElement = elementAccessPoint.cook()
+
+    let { settings } = cookElement.settings(fieldKey)
+    let defaultValue = settings.defaultValue
+    if (typeof defaultValue === 'undefined' && settings.value) {
+      defaultValue = settings.value
+    } else if (prevValue) {
+      defaultValue = prevValue
+    }
+    updater(fieldKey, defaultValue, null)
   }
 
   render () {

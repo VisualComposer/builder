@@ -1,13 +1,14 @@
 import React from 'react'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
-import { env, getStorage } from 'vc-cake'
+import { env } from 'vc-cake'
 import classNames from 'classnames'
 
 export default class Field extends React.Component {
   static propTypes = {
     elementAccessPoint: PropTypes.object.isRequired,
     fieldKey: PropTypes.string.isRequired,
+    fieldType: PropTypes.string.isRequired,
     onAttributeChange: PropTypes.func.isRequired
   }
 
@@ -20,15 +21,12 @@ export default class Field extends React.Component {
     this.state = {
       value: value,
       dependenciesClasses: [],
-      hasInnerFields: false,
-      prevValue: null
+      hasInnerFields: false
     }
-    this.updateElement = lodash.debounce(this.updateElement.bind(this), 100)
+    // this.updateElement = lodash.debounce(this.updateElement.bind(this), 100) // TODO: Check debounce
+    this.updateElement = this.updateElement.bind(this) // TODO: Check debounce
     this.updateValue = this.updateValue.bind(this)
     this.setInnerFieldStatus = this.setInnerFieldStatus.bind(this)
-    this.handleDynamicFieldOpen = this.handleDynamicFieldOpen.bind(this)
-    this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
-    this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
   }
 
   componentDidMount () {
@@ -65,12 +63,7 @@ export default class Field extends React.Component {
     let newValue = {
       value: value
     }
-    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-      // TODO: Fix prevValue
-      // if (prevValue) {
-      //   newValue.prevValue = prevValue
-      // }
-    }
+
     this.setState(newValue)
   }
 
@@ -79,55 +72,6 @@ export default class Field extends React.Component {
     this.setState({
       hasInnerFields: true
     })
-  }
-
-  handleDynamicFieldOpen (e) {
-    e && e.preventDefault && e.preventDefault()
-    const { elementAccessPoint, fieldKey } = this.props
-    const cookElement = elementAccessPoint.cook()
-    const { settings } = cookElement.settings(fieldKey)
-    const settingsStorage = getStorage('settings')
-    const title = settingsStorage.state('pageTitle').get()
-    const defaultValue = settings.options.dynamicField && settings.options.dynamicField.fields ? settings.options.dynamicField.fields[ 0 ] : title
-    const value = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-      type: 'post',
-      value: defaultValue
-    })} -->${title}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
-    this.updateElement(fieldKey, value, this.state.value)
-  }
-
-  handleDynamicFieldChange (e) {
-    const dynamicFieldValue = e.currentTarget && e.currentTarget.value
-    let parsedValue
-
-    if (dynamicFieldValue === 'title') {
-      const settingsStorage = getStorage('settings')
-      parsedValue = settingsStorage.state('pageTitle').get()
-    }
-
-    const newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-      type: 'post',
-      value: dynamicFieldValue
-    })} -->${parsedValue}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
-    this.updateElement(this.props.fieldKey, newValue)
-  }
-
-  handleDynamicFieldClose () {
-    const { fieldKey, elementAccessPoint } = this.props
-    const { prevValue } = this.state
-
-    if (prevValue) {
-      this.updateElement(fieldKey, prevValue)
-    } else {
-      let cookElement = elementAccessPoint.cook()
-
-      let { settings } = cookElement.settings(fieldKey)
-      let defaultValue = settings.defaultValue
-      if (typeof defaultValue === `undefined`) {
-        defaultValue = settings.value
-      }
-      this.updateElement(fieldKey, defaultValue)
-    }
   }
 
   render () {
@@ -190,46 +134,25 @@ export default class Field extends React.Component {
       defaultValue = settings.value
     }
 
-    let dynamicComponent = null
-    let fieldComponent = null
-    if (env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof value === 'string' && value.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') !== -1) {
-      const data = value.split(/(<!-- wp:vcv-gutenberg-blocks\/dynamic-field-block) ([^-]+) -->(.+)(?=<!-- \/wp:vcv-gutenberg-blocks\/dynamic-field-block -->)/g)
-      const { value: fieldKey } = data && data[ 2 ] ? JSON.parse(data[ 2 ]) : {}
-      const selectOptions = options.dynamicField && options.dynamicField.fields.map((field, index) => {
-        return <option key={`dynamic-field-${index}`} value={field}>{field}</option>
-      })
-      fieldComponent = <select value={fieldKey} onChange={this.handleDynamicFieldChange}>
-        {selectOptions}
-      </select>
-      if (options && options.dynamicField) {
-        dynamicComponent = <button type='button' onClick={this.handleDynamicFieldClose}>X</button>
-      }
-    } else {
-      fieldComponent = <AttributeComponent
-        key={'attribute-' + fieldKey + element.id}
-        options={options}
-        value={value}
-        defaultValue={defaultValue}
-        fieldKey={fieldKey}
-        updater={this.updateElement}
-        elementAccessPoint={elementAccessPoint}
-        fieldType={fieldType}
-        setInnerFieldStatus={this.setInnerFieldStatus}
-        editFormOptions={this.props.options}
-        ref='attributeComponent'
-      />
-
-      if (env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField) {
-        dynamicComponent = <button type='button' onClick={this.handleDynamicFieldOpen}>Open</button>
-      }
-    }
+    let fieldComponent = <AttributeComponent
+      key={`attribute-${fieldKey}-${element.id}`}
+      options={options}
+      value={value}
+      defaultValue={defaultValue}
+      fieldKey={fieldKey}
+      fieldType={fieldType}
+      updater={this.updateElement}
+      elementAccessPoint={elementAccessPoint}
+      setInnerFieldStatus={this.setInnerFieldStatus}
+      editFormOptions={this.props.options}
+      ref='attributeComponent'
+    />
 
     return (
       <div ref='fieldAttributeWrapper' className={classes}>
         <div className={groupClasses} key={`form-group-field-${element.id}-${fieldKey}`}>
           {label}
           {fieldComponent}
-          {dynamicComponent}
           {description}
         </div>
       </div>

@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import { getStorage, getService } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -16,13 +16,17 @@ import Number from '../number/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import Range from '../range/Component'
-
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 
-const documentManager = getService('document')
+const documentService = getService('document')
+const { getBlockRegexp } = getService('utils')
+const blockRegexp = getBlockRegexp()
 
 export default class DesignOptionsAdvanced extends Attribute {
+  static defaultProps = {
+    fieldType: 'designOptionsAdvanced'
+  }
   /**
    * Attribute Mixins
    */
@@ -206,7 +210,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     dividerShapeNew: { icon: 'vcv-ui-icon-divider vcv-ui-icon-divider-zigzag', iconSet: 'all' },
     gradientStartColor: 'rgba(226, 135, 135, 0.5)',
     gradientEndColor: 'rgba(93, 55, 216, 0.5)',
-    dividerBackgroundColor: '#6567DF',
+    dividerBackgroundColor: '#6567df',
     dividerBackgroundGradientStartColor: 'rgb(226, 135, 135)',
     dividerBackgroundGradientEndColor: 'rgb(93, 55, 216)',
     dividerBackgroundGradientAngle: 0
@@ -386,8 +390,9 @@ export default class DesignOptionsAdvanced extends Attribute {
           } else {
             let images = newValue[ device ].images
             let isArray = images.constructor === Array
+            let isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-            if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+            if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
               delete newValue[ device ].images
               delete newValue[ device ].backgroundType
               delete newValue[ device ].backgroundStyle
@@ -766,7 +771,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   getDeviceVisibilityRender () {
     if (this.state.currentDevice === 'all') {
       let id = this.props.elementAccessPoint.id
-      let element = documentManager.get(id)
+      let element = documentService.get(id)
 
       // TODO: Check maybe elementAccessPoint.cook().get will be correct here, not the documentManager
       if (element.tag === 'column') {
@@ -1068,20 +1073,38 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
     let value = this.state.devices[ this.state.currentDevice ].images || {}
 
+    const fieldKey = 'attachImage'
+    let fieldComponent = <AttachImage
+      api={this.props.api}
+      fieldKey={fieldKey}
+      options={{
+        multiple: true
+      }}
+      updater={this.attachImageChangeHandler}
+      value={value}
+      elementAccessPoint={this.props.elementAccessPoint}
+    />
+
+    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+      fieldComponent = <AttachImage
+        api={this.props.api}
+        fieldKey={fieldKey}
+        options={{
+          multiple: true,
+          dynamicField: true
+        }}
+        updater={this.attachImageChangeHandler}
+        value={value}
+        prevValue={this.state.devices[ this.state.currentDevice ].prevValue}
+        elementAccessPoint={this.props.elementAccessPoint}
+      />
+    }
+
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Images
       </span>
-      <AttachImage
-        api={this.props.api}
-        fieldKey='attachImage'
-        options={{
-          multiple: true
-        }}
-        updater={this.attachImageChangeHandler}
-        value={value}
-        elementAccessPoint={this.props.elementAccessPoint}
-      />
+      {fieldComponent}
     </div>
   }
 
@@ -1089,17 +1112,25 @@ export default class DesignOptionsAdvanced extends Attribute {
    * Handle attach image change
    * @param fieldKey
    * @param value
+   * @param prevValue
    */
-  attachImageChangeHandler (fieldKey, value) {
-    if (value.hasOwnProperty(value.draggingIndex)) {
+  attachImageChangeHandler (fieldKey, value, prevValue) {
+    if (value && value.hasOwnProperty(value.draggingIndex)) {
       delete value.draggingIndex
     }
     let newState = lodash.defaultsDeep({}, this.state)
+    let deviceData = newState.devices[ newState.currentDevice ]
     // update value
     if (lodash.isEmpty(value)) {
-      delete newState.devices[ newState.currentDevice ].images
+      delete deviceData.images
     } else {
-      newState.devices[ newState.currentDevice ].images = value
+      deviceData.images = value
+    }
+    if (!deviceData.prevValue && prevValue) {
+      deviceData.prevValue = prevValue
+    }
+    if (deviceData.prevValue && !prevValue) {
+      deviceData.prevValue = null
     }
     this.updateValue(newState, fieldKey)
   }
@@ -1119,8 +1150,9 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
+    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
       return null
     }
 
@@ -1160,7 +1192,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+    let value = deviceData.backgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background style
@@ -1190,8 +1222,9 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
+    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
       return null
     }
 
@@ -1244,7 +1277,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundPosition || DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+    let value = deviceData.backgroundPosition || DesignOptionsAdvanced.deviceDefaults.backgroundPosition
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background position
@@ -1264,13 +1297,14 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getBackgroundZoomRender () {
     let deviceData = this.state.devices[ this.state.currentDevice ]
-    if (deviceData.display || this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
+    if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
       return null
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
+    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
       return null
     }
 
@@ -1279,7 +1313,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       max: 100,
       measurement: '%'
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundZoom || DesignOptionsAdvanced.deviceDefaults.backgroundZoom
+    let value = deviceData.backgroundZoom || DesignOptionsAdvanced.deviceDefaults.backgroundZoom
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background zoom scale
@@ -1299,20 +1333,21 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getBackgroundZoomSpeedRender () {
     let deviceData = this.state.devices[ this.state.currentDevice ]
-    if (deviceData.display || this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
+    if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
       return null
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
+    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
       return null
     }
 
     let options = {
       min: 1
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundZoomSpeed || DesignOptionsAdvanced.deviceDefaults.backgroundZoomSpeed
+    let value = deviceData.backgroundZoomSpeed || DesignOptionsAdvanced.deviceDefaults.backgroundZoomSpeed
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background zoom time (in seconds)
@@ -1332,17 +1367,18 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getBackgroundZoomReverseRender () {
     let deviceData = this.state.devices[ this.state.currentDevice ]
-    if (deviceData.display || this.state.devices[ this.state.currentDevice ].backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
+    if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
       return null
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
+    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
+    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].backgroundZoomReverse || DesignOptionsAdvanced.deviceDefaults.backgroundZoomReverse
+    let value = deviceData.backgroundZoomReverse || DesignOptionsAdvanced.deviceDefaults.backgroundZoomReverse
 
     return <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
       <Toggle

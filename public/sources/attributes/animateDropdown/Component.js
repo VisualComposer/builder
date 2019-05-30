@@ -1,6 +1,10 @@
 import Dropdown from '../dropdown/Component'
 
 export default class AnimateDropdown extends Dropdown {
+  static defaultProps = {
+    fieldType: 'animateDropdown'
+  }
+
   static animations = [
     {
       group: {
@@ -412,6 +416,7 @@ export default class AnimateDropdown extends Dropdown {
       }
     }
   ]
+
   getSelectOptions () {
     return this.props.options && this.props.options.values
       ? this.props.options.values

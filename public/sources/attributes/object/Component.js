@@ -1,7 +1,11 @@
 import React from 'react'
 import Attribute from '../attribute'
 
-export default class Component extends Attribute {
+export default class ObjectComponent extends Attribute {
+  static defaultProps = {
+    fieldType: 'object'
+  }
+
   render () {
     let { value } = this.state
     return (
