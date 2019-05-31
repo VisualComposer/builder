@@ -201,7 +201,7 @@ class Controller extends Container implements Module
         $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js');
         $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css');
 
-        wp_register_script('vcv:pageEditable:bundle', $bundleJsUrl, ['vcv:assets:vendor:script'], VCV_VERSION, true);
+        wp_register_script('vcv:pageEditable:bundle', $bundleJsUrl, [], VCV_VERSION, true);
         wp_register_style('vcv:pageEditable:css', $bundleCssUrl, [], VCV_VERSION);
     }
 
@@ -209,7 +209,6 @@ class Controller extends Container implements Module
     {
         if ($frontendHelper->isPageEditable()) {
             wp_enqueue_script('jquery');
-            wp_enqueue_script('vcv:assets:vendor:script');
             wp_enqueue_script('vcv:pageEditable:bundle');
             wp_enqueue_style('vcv:pageEditable:css');
         }
