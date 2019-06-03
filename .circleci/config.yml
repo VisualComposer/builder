@@ -129,5 +129,5 @@ workflows:
   tests:
     jobs:
       - php-tests
-#      - end-2-end-tests
+      - end-2-end-tests
 

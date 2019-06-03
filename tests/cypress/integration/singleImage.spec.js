@@ -162,7 +162,7 @@ describe(ELEMENT_NAME, function () {
       .and('have.css', 'border-color', designOptions.borderColor.rgb)
 
     cy.get('.vce-single-image')
-      .should('have.css', 'width')
+  //    .should('have.css', 'width')
       .and('have.css', 'height')
 
     cy.get('.vce-single-image-inner').eq(0)
