@@ -59,8 +59,15 @@ class AddonsAutoload extends Autoload implements Module
 
     protected function getSingleComponent($addon)
     {
-        $components = $addon['phpFiles'];
+        if (isset($addon['phpFiles'])) {
+            $components = $addon['phpFiles'];
 
-        return $this->tokenizeComponents($components);
+            return $this->tokenizeComponents($components);
+        }
+
+        return [
+            'helpers' => [],
+            'modules' => [],
+        ];
     }
 }

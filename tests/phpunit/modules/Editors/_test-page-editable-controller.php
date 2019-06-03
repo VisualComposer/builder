@@ -4,7 +4,7 @@ class PageEditableControllerTest extends WP_UnitTestCase
 {
     protected $post = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         // Create test post.
         $factory = new WP_UnitTest_Factory_For_Post($this);

@@ -33,21 +33,17 @@ class ContainerTest extends WP_UnitTestCase
         $this->assertTrue(vcapp()->call([$module, 'b']));
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
     public function testContainerException()
     {
+        $this->expectException(BadMethodCallException::class);
         $module = vcapp('ContainerCustomModule', [0]);
         $module->call(['something']);
 
     }
 
-    /**
-     * @expectedException \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
-     */
     public function testContainerBindingException()
     {
+        $this->expectException(\VisualComposer\Framework\Illuminate\Container\BindingResolutionException::class);
         $module = vcapp('PrivateContainerCustomModule');
         $module->call(['something']);
     }

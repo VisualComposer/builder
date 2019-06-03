@@ -5,7 +5,7 @@ class ModulesDependencyInjectionTest extends WP_UnitTestCase
     /** @var MyTestModule */
     protected $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->container = vcapp('MyTestModule');
