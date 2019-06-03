@@ -23,7 +23,7 @@ class ErrorReportingController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:license:variables', 'addVariables');
+        $this->addFilter('vcv:editor:variables', 'addVariables');
         $this->addFilter('vcv:ajax:account:error:report:adminNonce', 'sendReport');
     }
 

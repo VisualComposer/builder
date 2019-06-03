@@ -296,7 +296,7 @@ export default class ElementComponent extends React.Component {
     if (!this.props.atts.tag) {
       return null
     }
-    const allMixinData = assetsStorage.state('cssMixins').get()
+    const allMixinData = assetsStorage.state('cssMixins').get() || {}
     const mixinData = allMixinData[ this.props.id ] || null
     if (!mixinData) {
       return null

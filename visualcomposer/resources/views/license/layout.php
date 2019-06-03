@@ -7,9 +7,9 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
-
+//
 $variables = vcfilter(
-    'vcv:license:variables',
+    'vcv:editor:variables',
     [
         [
             'key' => 'VCV_SLUG',

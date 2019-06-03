@@ -41,6 +41,16 @@ $typenow = get_post_type();
     do_action('admin_print_scripts');
     do_action('admin_head');
     wp_print_head_scripts();
+    $variables = vcfilter('vcv:editor:variables', []);
+    if (is_array($variables)) {
+        foreach ($variables as $variable) {
+            if (is_array($variable) && isset($variable['key'], $variable['value'])) {
+                $type = isset($variable['type']) ? $variable['type'] : 'variable';
+                evcview('partials/variableTypes/' . $type, $variable);
+            }
+        }
+        unset($variable);
+    }
     ?>
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">

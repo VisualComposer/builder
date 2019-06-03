@@ -9,23 +9,27 @@ addStorage('assets', (storage) => {
   const stylesManager = getService('stylesManager')
   const elementAssetsLibrary = getService('elementAssetsLibrary')
   const assetsStorage = getService('modernAssetsStorage')
+  const wordpressDataStorage = getStorage('wordpressData')
   const utils = getService('utils')
   const globalAssetsStorage = assetsStorage.create()
   const settingsStorage = getStorage('settings')
-  const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
   const assetsLibraryManager = new AssetsLibraryManager()
   const data = { elements: {} }
-  let builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
-
-  builder.buildStylesContainers()
-
+  const getAssetsWindow = () => {
+    return window && window.document.querySelector('.vcv-layout-iframe') ? window.document.querySelector('.vcv-layout-iframe').contentWindow : window
+  }
+  let builder
+  wordpressDataStorage.on('start', () => {
+    builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, getAssetsWindow(), utils.slugify)
+    builder.buildStylesContainers()
+  })
   storage.on('addElement', (id) => {
     let ids = Array.isArray(id) ? id : [ id ]
     ids.forEach((id) => {
       const element = documentManager.get(id)
       data.elements[ id ] = element
       storage.trigger('addSharedLibrary', element)
-      builder.add(element)
+      builder && builder.add(element)
     })
   })
   storage.on('updateElement', (id, options) => {
@@ -34,7 +38,7 @@ addStorage('assets', (storage) => {
       const element = documentManager.get(id)
       data.elements[ id ] = element
       storage.trigger('editSharedLibrary', element)
-      builder.update(element, options)
+      builder && builder.update(element, options)
     })
   })
   storage.on('removeElement', (id) => {
@@ -42,19 +46,19 @@ addStorage('assets', (storage) => {
     ids.forEach((id) => {
       let tag = data.elements[ id ] ? data.elements[ id ].tag : null
       delete data.elements[ id ]
-      builder.destroy(id, tag)
+      builder && builder.destroy(id, tag)
       storage.trigger('removeSharedLibrary', id)
     })
   })
   storage.on('reset', () => {
     // New instance required to reset all {CssBuilder} properties
-    builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
+    builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, getAssetsWindow(), utils.slugify)
     builder.buildStylesContainers()
   })
   storage.on('updateAllElements', (data) => {
     Object.values(data).forEach(element => {
       storage.trigger('addSharedLibrary', element)
-      builder.add(element, true)
+      builder && builder.add(element, true)
     })
   })
   storage.on('addSharedLibrary', (element) => {
@@ -71,7 +75,7 @@ addStorage('assets', (storage) => {
   const updateSettingsCss = () => {
     const globalCss = settingsStorage.state('globalCss').get() || ''
     const customCss = settingsStorage.state('customCss').get() || ''
-    builder.updateSettingsStyles(globalCss + customCss)
+    builder && builder.updateSettingsStyles(globalCss + customCss)
   }
   settingsStorage.state('globalCss').onChange(updateSettingsCss)
   settingsStorage.state('customCss').onChange(updateSettingsCss)
