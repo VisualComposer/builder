@@ -1,1 +1,0 @@
-This is template for test!<?php echo isset($data) ? $data : ''; ?>

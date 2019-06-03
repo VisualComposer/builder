@@ -2,7 +2,7 @@
 
 class SiteControllerTest extends \WP_UnitTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         foreach (get_editable_roles() as $roleKey => $roleData) {

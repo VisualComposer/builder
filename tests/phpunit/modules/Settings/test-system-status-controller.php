@@ -10,7 +10,7 @@ class SystemStatusControllerTest extends WP_UnitTestCase
         /** @var \VisualComposer\Helpers\Filters $filterHelper */
         $filterHelper = vchelper('Filters');
         $result = $filterHelper->fire('vcv:ajax:checkVersion:adminNonce', []);
-        $this->assertInternalType('bool', $result['status']);
+        $this->assertIsBool($result['status']);
     }
 
     /**
