@@ -1,8 +1,12 @@
 import vcCake from 'vc-cake'
 import MobileDetect from 'mobile-detect'
+
+import { setupCake } from './setupCake'
+
 import '../polyfills/index'
 import 'public/sources/less/bootstrap/init.less'
 import 'public/sources/css/wordpress.less'
+
 import 'public/variables'
 import 'public/config/wp-services'
 import 'public/config/wp-attributes'
@@ -95,37 +99,7 @@ export const start = (callback) => {
     }
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
 
-    vcCake.env('platform', 'wordpress').start(() => {
-      vcCake.env('editor', 'frontend')
-      require('../../editor/stores/events/eventsStorage')
-      require('../../editor/stores/elements/elementsStorage')
-      require('../../editor/stores/assets/assetsStorage')
-      require('../../editor/stores/shortcodesAssets/storage')
-      require('../../editor/stores/cacheStorage')
-      require('../../editor/stores/migrationStorage')
-
-      require('../../editor/stores/workspaceStorage')
-      require('../../editor/stores/hub/hubElementsStorage')
-      require('../../editor/stores/hub/hubTemplatesStorage')
-      require('../../editor/stores/hub/hubAddonsStorage')
-      const hubElementsStorage = vcCake.getStorage('hubElements')
-      hubElementsStorage.trigger('start')
-      const hubTemplatesStorage = vcCake.getStorage('hubTemplates')
-      hubTemplatesStorage.trigger('start')
-      const hubAddonsStorage = vcCake.getStorage('hubAddons')
-      hubAddonsStorage.trigger('start')
-      require('../../editor/stores/sharedAssets/storage')
-      const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
-      sharedAssetsStorage.trigger('start')
-      require('../../editor/stores/history/historyStorage')
-      require('../../editor/stores/settingsStorage')
-      const settingsStorage = vcCake.getStorage('settings')
-      settingsStorage.trigger('start')
-      require('../../editor/stores/notifications/storage')
-      require('../../editor/stores/wordpressData/wordpressDataStorage')
-      // require('./editor/stores/elementsLoader/elementsLoaderStorage')
-      require('../../config/wp-modules')
-    })
+    setupCake()
 
     vcCake.env('iframe', iframe)
     if ($iframe && $iframe.get(0).contentWindow) {

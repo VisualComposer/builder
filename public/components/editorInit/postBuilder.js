@@ -1,5 +1,7 @@
 import vcCake from 'vc-cake'
 
+import { setupCake } from './setupCake'
+
 const { env, getStorage } = vcCake
 const $ = window.jQuery
 
@@ -27,50 +29,33 @@ export default class PostBuilder {
    * Set up cake environment to load backend based content render
    */
   setupCake () {
-    vcCake.env('platform', 'wordpress').start(() => {
-      require('../../editor/stores/hub/hubElementsStorage')
-      require('../../editor/stores/hub/hubTemplatesStorage')
-      const hubElementsStorage = getStorage('hubElements')
-      hubElementsStorage.trigger('start')
-      require('../../editor/stores/settingsStorage')
-      require('../../editor/stores/elements/elementsStorage')
-      require('../../editor/stores/assets/assetsStorage')
-      require('../../editor/stores/wordpressData/wordpressDataStorage.js')
-      require('../../editor/modules/layout/module.js')
-      // require('./editor/modules/content/updateContent/module.js')
-      const wordpressDataStorage = getStorage('wordpressData')
-
-      require('../../editor/stores/sharedAssets/storage')
-      const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
-      sharedAssetsStorage.trigger('start')
-
-      wordpressDataStorage.state('status').onChange((state) => {
-        if (state && state.status === 'success') {
-          this.resolve && this.resolve(this.settings)
-        }
-      })
-      wordpressDataStorage.on('skipPost', (id) => {
-        if (id === this.settings.id) {
-          $.ajax(window.VCV_UPDATE_SKIP_POST_URL(),
-            {
-              dataType: 'json',
-              data: {
-                'vcv-source-id': id,
-                'vcv-nonce': window.vcvNonce
-              }
+    setupCake()
+    const elementsStorage = getStorage('elements')
+    const wordpressDataStorage = getStorage('wordpressData')
+    elementsStorage.on('elementsRenderDone', () => {
+      const id = wordpressDataStorage.state('id').get()
+      wordpressDataStorage.trigger('save', id)
+      wordpressDataStorage.state('id').set(false)
+    })
+    wordpressDataStorage.state('status').onChange((state) => {
+      if (state && state.status === 'success') {
+        this.resolve && this.resolve(this.settings)
+      }
+    })
+    wordpressDataStorage.on('skipPost', (id) => {
+      if (id === this.settings.id) {
+        $.ajax(window.VCV_UPDATE_SKIP_POST_URL(),
+          {
+            dataType: 'json',
+            data: {
+              'vcv-source-id': id,
+              'vcv-nonce': window.vcvNonce
             }
-          ).always(() => {
-            this.resolve && this.resolve()
-          })
-        }
-      })
-
-      const elementsStorage = getStorage('elements')
-      elementsStorage.on('elementsRenderDone', () => {
-        const id = wordpressDataStorage.state('id').get()
-        wordpressDataStorage.trigger('save', id)
-        wordpressDataStorage.state('id').set(false)
-      })
+          }
+        ).always(() => {
+          this.resolve && this.resolve()
+        })
+      }
     })
     this.cakeReady = true
   }
@@ -81,8 +66,8 @@ export default class PostBuilder {
   renderData () {
     env('iframe', this.iframe.contentWindow)
     !this.cakeReady && this.setupCake()
-    window.vcvSourceID = this.settings.id
     getStorage('wordpressData').trigger('rebuild', this.settings.id)
+    window.vcvSourceID = this.settings.id
   }
 
   /**

@@ -1,16 +1,18 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import vcCake from 'vc-cake'
 
-import { start } from './components/editorInit/start'
-import { rebuildPosts } from './components/editorInit/rebuildPosts'
-import heartbeat from './components/heartbeat/index'
 import 'public/tools/jqueryCaret' // used in tokenizationList.js
 
+import { start } from './components/editorInit/start'
+import heartbeat from './components/heartbeat/index'
+import { rebuildPosts } from './components/editorInit/rebuildPosts'
+
 (() => {
-  let started = false
   if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
     rebuildPosts()
+    return
   }
+  let started = false
   const setStarted = () => {
     started = true
   }

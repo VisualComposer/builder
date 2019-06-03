@@ -31,7 +31,6 @@ export default class {
         globalUrls: this.globalUrls
       })
     })
-
     await $.getScript(this.vendorUrl).fail((jqXHR, status, error) => {
       console.warn(jqXHR, status, error)
       logError('Error in rebuild process get json vendorUrl ', {
@@ -43,7 +42,6 @@ export default class {
         vendorUrl: this.vendorUrl
       })
     })
-
     await $.getScript(this.updaterUrl).fail((jqXHR, status, error) => {
       console.warn(jqXHR, status, error)
       logError('Error in rebuild process get json updaterUrl', {
@@ -70,7 +68,9 @@ export default class {
       const elements = window.VCV_HUB_GET_ELEMENTS()
       Object.keys(elements).forEach((key) => {
         const element = elements[ key ]
-        elementBundles.push($.getScript(element.bundlePath))
+        elementBundles.push($.getScript(element.bundlePath).fail((jqxhr, settings, exception) => {
+          console.log(jqxhr, settings, exception)
+        }))
       })
     }
     return Promise.all(elementBundles).catch((e) => {

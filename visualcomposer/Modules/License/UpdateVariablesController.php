@@ -20,19 +20,20 @@ class UpdateVariablesController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:license:variables', 'addVariables');
+        $this->addFilter('vcv:editor:variables', 'addVariables');
+//        $this->addFilter('vcv:editor:variables', 'addVariables');
     }
 
     protected function addVariables($variables, $payload, Update $updateHelper, Token $tokenHelper)
     {
         $variables = array_merge($variables, $updateHelper->getVariables());
-        if ($payload['slug'] === 'vcv-about') {
+        if (isset($payload['slug']) && $payload['slug'] === 'vcv-about') {
             $variables[] = [
                 'key' => 'VCV_ACTIVE_PAGE',
                 'value' => 'last',
                 'type' => 'constant',
             ];
-        } elseif ($payload['slug'] === 'vcv-getting-started') {
+        } elseif (isset($payload['slug']) && $payload['slug'] === 'vcv-getting-started') {
             $variables[] = [
                 'key' => 'VCV_ACTIVATION_SLIDES',
                 'value' => [
