@@ -68,9 +68,8 @@ describe(ELEMENT_NAME, function () {
       .should('have.css', 'background-color', backgroundColor.rgb)
     cy.window()
       .then((win) => {
-        cy.get('.vce-row')
-//          .should('have.css', 'width')
-          .should('have.css', 'height')
+        cy.get('.vce-row').should('have.css', 'width', `${win.document.documentElement.clientWidth}px`)
+        cy.get('.vce-row').should('have.css', 'height')
       })
     cy.get('.vce-row-content')
       .children()
