@@ -4,16 +4,20 @@ import ReactDOM from 'react-dom'
 const { getBlockRegexp } = getService('utils')
 const settingsStorage = getStorage('settings')
 const blockRegexp = getBlockRegexp()
+const { getParentCount } = getService('cook')
 
 export function getDynamicFieldsData (props) {
-  const { value, blockAtts } = props
+  const { blockAtts } = props
   const postData = settingsStorage.state('postData').get()
-
+  let result = `-vcv--${blockAtts.value}--vcv-`
   if (blockAtts && blockAtts.value && typeof postData[ blockAtts.value ] !== 'undefined') {
-    return postData[ blockAtts.value ]
+    if (postData[ blockAtts.value ].length) {
+      // Value should be NEVER empty
+      result = postData[ blockAtts.value ]
+    }
   }
 
-  return value
+  return result
 }
 
 /**
@@ -37,40 +41,27 @@ export function parseDynamicBlock (value) {
 }
 
 export function cleanComments (el, id) {
-  while (el.previousSibling) {
-    let node = el.previousSibling
-    if (node.nodeType === document.COMMENT_NODE) {
-      let textContent = node.textContent
-      if (textContent.indexOf('/dynamicElementComment')) {
-        if (textContent.indexOf(`/dynamicElementComment:${id}`)) {
-          // This is comment of element so we can remove it
-          node.remove()
-        } else {
-          // This is comment of another element, so we should break
+  const clean = (el, type) => {
+    while (el[ type ]) {
+      let node = el[ type ]
+      if (node.nodeType === document.COMMENT_NODE) {
+        let textContent = node.textContent
+        if (textContent.indexOf('/dynamicElementComment') !== -1) {
+          if (textContent.indexOf(`/dynamicElementComment:${id}`) !== -1) {
+            // This is comment of element so we can remove it
+            node.remove()
+          }
           break
+        } else {
+          node.remove()
         }
+      } else {
+        break
       }
-    } else {
-      break
     }
   }
-  while (el.nextSibling) {
-    let node = el.nextSibling
-    if (node.nodeType === document.COMMENT_NODE) {
-      let textContent = node.textContent
-      if (textContent.indexOf('/dynamicElementComment')) {
-        if (textContent.indexOf(`/dynamicElementComment:${id}`)) {
-          // This is comment of element so we can remove it
-          node.remove()
-        } else {
-          // This is comment of another element, so we should break
-          break
-        }
-      }
-    } else {
-      break
-    }
-  }
+  clean(el, 'previousSibling')
+  clean(el, 'nextSibling')
 }
 
 export function updateDynamicComments (ref, id, cookElement) {
@@ -86,11 +77,9 @@ export function updateDynamicComments (ref, id, cookElement) {
 
   let atts = cookElement.getAll(false)
 
-  let beforeBeginStack = []
-  let afterEndStack = []
-  beforeBeginStack.push(`<!-- vcwb/dynamicElementComment:${id} -->`)
-  afterEndStack.push(`<!-- /vcwb/dynamicElementComment:${id} -->`)
   let hasDynamic = false
+  let commentStack = []
+  let attributesLevel = 0
   Object.keys(atts).forEach((fieldKey) => {
     const attrSettings = cookElement.settings(fieldKey)
     let isDynamic = attrSettings.settings.options &&
@@ -101,47 +90,40 @@ export function updateDynamicComments (ref, id, cookElement) {
     if (isDynamic) {
       let blockInfo = parseDynamicBlock(atts[ fieldKey ])
       blockInfo.blockAtts.elementId = id
+      if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
+        blockInfo.blockAtts.currentValue = getDynamicFieldsData(blockInfo)
+      }
       hasDynamic = true
-      beforeBeginStack.push(`<!-- wp:${blockInfo.blockScope}${blockInfo.blockName} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-      afterEndStack.push(`<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName} -->`)
-    } else if (attrSettings.type && attrSettings.type.name && (attrSettings.type.name === 'designOptions')) {
+      attributesLevel++
+      commentStack.push({ blockInfo, attributesLevel })
+    } else if (attrSettings.type && attrSettings.type.name && (attrSettings.type.name === 'designOptions' || attrSettings.type.name === 'designOptionsAdvanced')) {
       let designOptions = atts[ fieldKey ]
       if (designOptions && designOptions.device) {
-        // TODO: Design options image value update
         Object.keys(designOptions.device).forEach((device) => {
-          let imgValue = designOptions.device[ device ].image
+          let imgValue = attrSettings.type.name === 'designOptionsAdvanced' ? designOptions.device[ device ].images : designOptions.device[ device ].image
           if (typeof imgValue === 'string' && imgValue.match(blockRegexp)) {
             let blockInfo = parseDynamicBlock(imgValue)
             blockInfo.blockAtts.device = device
             blockInfo.blockAtts.elementId = id
+            if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
+              blockInfo.blockAtts.currentValue = getDynamicFieldsData(blockInfo)
+            }
             hasDynamic = true
-            beforeBeginStack.push(`<!-- wp:${blockInfo.blockScope}${blockInfo.blockName} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-            afterEndStack.push(`<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName} -->`)
-          }
-        })
-      }
-    } else if (attrSettings.type && attrSettings.type.name && (attrSettings.type.name === 'designOptionsAdvanced')) {
-      let designOptions = atts[ fieldKey ]
-      if (designOptions && designOptions.device) {
-        Object.keys(designOptions.device).forEach((device) => {
-          let imgValue = designOptions.device[ device ].images
-          if (typeof imgValue === 'string' && imgValue.match(blockRegexp)) {
-            let blockInfo = parseDynamicBlock(imgValue)
-            blockInfo.blockAtts.elementId = id
-            hasDynamic = true
-            beforeBeginStack.push(`<!-- wp:${blockInfo.blockScope}${blockInfo.blockName} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-            afterEndStack.push(`<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName} -->`)
+            attributesLevel++
+            commentStack.push({ blockInfo, attributesLevel })
           }
         })
       }
     }
   })
   if (hasDynamic) {
-    beforeBeginStack.forEach((comment) => {
-      el.insertAdjacentHTML('beforebegin', comment)
-    })
-    afterEndStack.forEach((comment) => {
-      el.insertAdjacentHTML('afterend', comment)
+    let nestingLevel = getParentCount(id)
+    el.insertAdjacentHTML('beforebegin', `<!-- vcwb/dynamicElementComment:${id} -->`)
+    el.insertAdjacentHTML('afterend', `<!-- /vcwb/dynamicElementComment:${id} -->`)
+    commentStack.forEach((commentData) => {
+      const { blockInfo, attributesLevel } = commentData
+      el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
+      el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel} -->`)
     })
   }
 }

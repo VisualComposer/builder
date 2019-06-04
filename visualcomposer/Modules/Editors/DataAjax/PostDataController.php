@@ -43,16 +43,17 @@ class PostDataController extends Container implements Module
         $urlHelper = vchelper('Url');
         $sourceId = intval($payload['sourceId']);
 
-        $postThumbnailId = get_post_thumbnail_id($sourceId);
         $postThumbnailUrl = get_the_post_thumbnail_url($sourceId);
+        if (empty($postThumbnailUrl)) {
+            $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
+        }
         $response['postData'] = [
-//            'featuredImageId' => intval($postThumbnailId),
-            'featured_image' => $postThumbnailUrl ? $urlHelper->query(
+            'featured_image' => $urlHelper->query(
                 $postThumbnailUrl,
                 [
                     'vcv-dynamic-field' => 'featured_image',
                 ]
-            ) : '',
+            ),
         ];
 
         return $response;

@@ -431,7 +431,6 @@ export default class DesignOptions extends Attribute {
         let blockInfo = newValue[ device ].image.split(blockRegexp)
         let blockAtts = JSON.parse(blockInfo[ 4 ])
         let imageUrl = getDynamicFieldsData({
-          value: '',
           blockAtts: blockAtts
         })
         newMixins[ mixinName ].variables.backgroundImage = {

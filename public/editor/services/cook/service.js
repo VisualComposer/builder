@@ -67,6 +67,17 @@ const API = {
     } else {
       return []
     }
+  },
+  getParentCount: (id, count = 0) => {
+    let element = DocumentData.get(id)
+    let parent = element.parent
+    if (parent) {
+      let parentElement = DocumentData.get(parent)
+      count++
+      return API.getParentCount(parentElement.id, count)
+    }
+
+    return count
   }
 }
 
