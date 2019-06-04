@@ -147,11 +147,21 @@ class GutenbergAttributeController extends Container implements Module
      * Disable the gutenberg
      *
      * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @throws \ReflectionException
      */
-    protected function disableGutenberg(Options $optionsHelper)
+    protected function disableGutenberg(Options $optionsHelper, Request $requestHelper)
     {
         $settings = $optionsHelper->get('settings', ['gutenberg-editor']);
-        if (!$this->isVcwbPage() && (!empty($settings) && in_array('gutenberg-editor', $settings))) {
+        $savedEditor = get_post_meta($requestHelper->input('post'), VCV_PREFIX . 'be-editor', true);
+        if ($requestHelper->input('vcv-set-editor') === 'gutenberg'
+            && (!empty($settings)
+                && in_array('gutenberg-editor', $settings))
+            || (!$this->isVcwbPage()
+                && (!empty($settings)
+                    && in_array('gutenberg-editor', $settings)))
+            || ($savedEditor === 'gutenberg' && !empty($settings)
+                && in_array('gutenberg-editor', $settings))) {
             return;
         }
 
@@ -166,10 +176,16 @@ class GutenbergAttributeController extends Container implements Module
      * Check if page build by VCWB
      *
      * @return bool
+     * @throws \ReflectionException
      */
     protected function isVcwbPage()
     {
         $sourceId = get_the_ID();
+        if (!$sourceId) {
+            $requestHelper = vchelper('Request');
+            $sourceId = $requestHelper->input('post');
+        }
+
         $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
         if (!empty($postContent) && !$this->call('overrideDisableGutenberg', ['sourceId' => $sourceId])) {
             return true;
