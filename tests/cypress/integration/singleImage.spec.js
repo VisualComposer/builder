@@ -161,9 +161,8 @@ describe(ELEMENT_NAME, function () {
       .and('have.css', 'border-style', designOptions.borderStyle)
       .and('have.css', 'border-color', designOptions.borderColor.rgb)
 
-    cy.get('.vce-single-image')
-  //    .should('have.css', 'width')
-      .and('have.css', 'height')
+    cy.get('.vce-single-image').should('have.attr', 'width', `${size.width}`)
+    cy.get('.vce-single-image').should('have.attr', 'height', `${size.height}`)
 
     cy.get('.vce-single-image-inner').eq(0)
       .should('have.class', 'vce-single-image--border-rounded')
