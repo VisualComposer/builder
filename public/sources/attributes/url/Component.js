@@ -228,7 +228,6 @@ export default class Url extends Attribute {
 
     // TODO: Get default value for dynamic field open from storage
     const currentValue = getDynamicFieldsData({
-      value: '',
       blockAtts: {
         value: 'featured_image'
       }
@@ -247,7 +246,6 @@ export default class Url extends Attribute {
     const fieldKey = e.target.dataset.fieldkey
     const dynamicFieldValue = e.currentTarget && e.currentTarget.value
     const currentValue = getDynamicFieldsData({
-      value: '',
       blockAtts: {
         value: dynamicFieldValue
       }

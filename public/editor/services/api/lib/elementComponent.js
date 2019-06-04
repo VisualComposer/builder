@@ -358,7 +358,6 @@ export default class ElementComponent extends React.Component {
         let blockInfo = images.split(blockRegexp)
         let blockAtts = JSON.parse(blockInfo[ 4 ])
         let imageUrl = getDynamicFieldsData({
-          value: '',
           blockAtts: blockAtts
         })
         images = [ imageUrl ]

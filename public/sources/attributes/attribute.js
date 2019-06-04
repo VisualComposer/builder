@@ -58,7 +58,6 @@ export default class Attribute extends React.Component {
       newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey)
     } else {
       const currentValue = getDynamicFieldsData({
-        value: '',
         blockAtts: {
           value: dynamicFieldKey
         }
@@ -81,7 +80,6 @@ export default class Attribute extends React.Component {
       newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldValue)
     } else {
       const currentValue = getDynamicFieldsData({
-        value: '',
         blockAtts: {
           value: dynamicFieldValue
         }
