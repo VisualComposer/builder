@@ -146,15 +146,15 @@ class SystemStatus extends Container implements Module
     public function getPostMaxSize()
     {
         $postMaxSize = $this->statusHelper->postMaxSize();
-        $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
+        $postMaxSizeTest = $this->statusHelper->getPostMaxSizeStatus();
 
         if ($postMaxSize === '-1') {
             $postMaxSize = __('Unlimited', 'vcwb');
         }
 
-        $textResponse = $memoryLimitCheck ? $postMaxSize : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMemoryLimit(), $postMaxSize);
+        $textResponse = $postMaxSizeTest ? $postMaxSize : sprintf(__('Post max size should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
 
-        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($postMaxSizeTest)];
     }
 
     public function getMemoryLimitStatusForView()
