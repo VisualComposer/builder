@@ -1,6 +1,6 @@
 {
   "shortcode": {
-    "type": "wpbakeryEditForm",
+    "type": "string",
     "access": "public",
     "value": "Insert [shortcode] of any WordPress plugin installed on your website."
   },
