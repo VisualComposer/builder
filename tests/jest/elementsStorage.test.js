@@ -13,9 +13,9 @@ import '../../public/config/wp-attributes'
 import '../../public/editor/stores/elements/elementsStorage'
 
 // Elements
-import './devElements/row'
-import './devElements/column'
-import './devElements/textBlock'
+import '../../elements/row/row/index'
+import '../../elements/column/column/index'
+import '../../elements/textBlock/textBlock/index'
 
 jest.useFakeTimers()
 
