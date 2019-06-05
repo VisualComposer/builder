@@ -10,7 +10,7 @@ import { getAttributeType } from './tools'
 
 const { createKey } = vcCake.getService('utils')
 const hubElementService = vcCake.getService('hubElements')
-const assetsStorage = vcCake.getStorage('assetsStorage')
+const assetsStorage = vcCake.getStorage('assets')
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
 
