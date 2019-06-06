@@ -118,18 +118,28 @@ class Image implements Helper
         }
 
         $newSrc = 'src="' . set_url_scheme($src) . '"';
-        if (!empty($srcset)) {
+        if (!empty($srcset) && !$dynamic) {
             $newSrc .= ' srcset="' . implode(',', $srcset) . '"';
         }
 
         $attributes = preg_replace('(\ssrc=["|\'](.*?)["|\'])', $newSrc, $content[1]);
         $attributes = preg_replace('(data-default-image=["|\'](true|false)["|\'])', '', $attributes);
-        $attributes = str_replace(['data-height', 'data-width'], ['height', 'width'], $attributes);
+        if (!$dynamic) {
+            $attributes = str_replace(['data-height', 'data-width'], ['height', 'width'], $attributes);
+        }
+        $result = '<img ' . $attributes . '/>';
 
         if ($dynamic) {
-            return '<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ' . json_encode(['type' => 'post', 'value' => 'featured', 'atts' => urlencode($attributes)]) . ' -->';
+            $attributes = wp_json_encode(
+                [
+                    'type' => 'post',
+                    'value' => 'featured',
+                    'atts' => urlencode($attributes),
+                ]
+            );
+            $result = '<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ' . $attributes . ' -->';
         }
 
-        return '<img ' . $attributes . '/>';
+        return $result;
     }
 }

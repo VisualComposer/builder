@@ -538,8 +538,13 @@ export default class ElementComponent extends React.Component {
     if (!filename) {
       return ''
     }
+    if (filename && filename.match) {
+      if (filename.match('^(https?:)?\\/\\/?') || filename.match(/--vcv-dynamic-/)) {
+        return filename
+      }
+    }
 
-    return filename && filename.match && filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
+    return metaAssetsPath + filename
   }
 
   getStickyAttributes (sticky) {

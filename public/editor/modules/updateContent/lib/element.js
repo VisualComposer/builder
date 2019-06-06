@@ -74,7 +74,7 @@ export default class Element extends React.Component {
       let attrSettings = element.settings(key)
       if (attrSettings.settings.options && attrSettings.settings.options.inline === true) {
         layoutAtts[ key ] =
-          <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
+          <ContentEditableComponent id={atts.id} fieldKey={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
             {atts[ key ] || ''}
           </ContentEditableComponent>
       } else {

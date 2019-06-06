@@ -1,4 +1,5 @@
 import { getStorage, getService, env } from 'vc-cake'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
 const { getBlockRegexp } = getService('utils')
@@ -6,10 +7,10 @@ const settingsStorage = getStorage('settings')
 const blockRegexp = getBlockRegexp()
 const { getParentCount } = getService('cook')
 
-export function getDynamicFieldsData (props) {
+export function getDynamicFieldsData (props, attribute) {
   const { blockAtts } = props
   const postData = settingsStorage.state('postData').get()
-  let result = `-vcv--${blockAtts.value}--vcv-`
+  let result = `--vcv-dynamic-${blockAtts.value}-vcv--`
   if (blockAtts && blockAtts.value && typeof postData[ blockAtts.value ] !== 'undefined') {
     if (postData[ blockAtts.value ].length) {
       // Value should be NEVER empty
@@ -17,6 +18,19 @@ export function getDynamicFieldsData (props) {
     }
   }
 
+  // In case if type===string and HTML Then:
+  if (attribute && attribute.fieldType === 'string') {
+    const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
+    if (isHtmlAllowed) {
+      return React.createElement('div', {
+        dangerouslySetInnerHTML: {
+          __html: result
+        }
+      })
+    }
+  }
+
+  // Plain text
   return result
 }
 
@@ -91,7 +105,11 @@ export function updateDynamicComments (ref, id, cookElement) {
       let blockInfo = parseDynamicBlock(atts[ fieldKey ])
       blockInfo.blockAtts.elementId = id
       if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
-        blockInfo.blockAtts.currentValue = getDynamicFieldsData(blockInfo)
+        blockInfo.blockAtts.currentValue = getDynamicFieldsData(blockInfo, {
+          fieldKey: fieldKey,
+          filedType: attrSettings.type.name,
+          fieldOptions: attrSettings.settings.options
+        })
       }
       hasDynamic = true
       attributesLevel++
@@ -129,29 +147,7 @@ export function updateDynamicComments (ref, id, cookElement) {
 }
 
 export function getDynamicFieldsList (fieldType) {
-  // TODO: Add and get this from API/Storage etc
-  if (fieldType === 'attachimage') {
-    return [ {
-      key: 'featured_image',
-      label: 'Featured Image'
-    }
-    ]
-  } else if (fieldType === 'string') {
-    return [
-      {
-        key: 'post_title',
-        label: 'Post Title'
-      },
-      {
-        key: 'post_excerpt',
-        label: 'Post Exceprt'
-      },
-      {
-        key: 'post_content',
-        label: 'Post Content'
-      }
-    ]
-  }
+  let postFields = settingsStorage.state('postFields').get() || []
 
-  return []
+  return postFields[ fieldType ] || []
 }

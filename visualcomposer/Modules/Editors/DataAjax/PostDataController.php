@@ -40,21 +40,25 @@ class PostDataController extends Container implements Module
      */
     protected function getPostData($response, $payload)
     {
-        $urlHelper = vchelper('Url');
-        $sourceId = intval($payload['sourceId']);
+        $defaultPostData = $this->getDefaultPostData();
+        $response['postData'] = vcfilter('vcv:editor:data:postData', $defaultPostData);
 
-        $postThumbnailUrl = get_the_post_thumbnail_url($sourceId);
-        if (empty($postThumbnailUrl)) {
-            $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
-        }
-        $response['postData'] = [
-            'featured_image' => $urlHelper->query(
-                $postThumbnailUrl,
-                [
-                    'vcv-dynamic-field' => 'featured_image',
-                ]
-            ),
-        ];
+        return $response;
+    }
+
+    protected function getDefaultPostData()
+    {
+        /** @var \VisualComposer\Helpers\PostData $postDataHelper */
+        $postDataHelper = vchelper('PostData');
+        $response = [];
+        $response['featured_image'] = $postDataHelper->getFeaturedImage();
+        $response['post_author_image'] = $postDataHelper->getPostAuthorImage();
+        $response['post_author'] = $postDataHelper->getPostAuthor();
+        $response['post_title'] = $postDataHelper->getPostTitle();
+        $response['post_id'] = (string)$postDataHelper->getPostId();
+        $response['post_type'] = $postDataHelper->getPostType();
+        $response['post_excerpt'] = $postDataHelper->getPostExcerpt();
+        $response['wp_blog_logo'] = $postDataHelper->getBlogLogo();
 
         return $response;
     }

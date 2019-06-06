@@ -20,7 +20,7 @@ export default class ContentEditableComponent extends React.Component {
   static propTypes = {
     api: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,
-    field: PropTypes.string.isRequired,
+    fieldKey: PropTypes.string.isRequired,
     paramField: PropTypes.string,
     paramIndex: PropTypes.oneOfType([
       PropTypes.number,
@@ -96,10 +96,10 @@ export default class ContentEditableComponent extends React.Component {
       const content = this.editor ? this.state.realContent : this.ref.innerHTML
       let contentToSave = this.getInlineMode() === 'text'
         ? striptags(content) : content
-      let fieldPathKey = this.props.field
+      let fieldPathKey = this.props.fieldKey
       if (this.props.paramField && this.props.paramIndex >= 0) {
         contentToSave = this.getParamsGroupContent(element, contentToSave)
-        fieldPathKey = `${this.props.field}:${this.props.paramIndex}:${this.props.paramField}`
+        fieldPathKey = `${this.props.fieldKey}:${this.props.paramIndex}:${this.props.paramField}`
       }
 
       if (this.props.fieldType === 'htmleditor') {
@@ -113,8 +113,8 @@ export default class ContentEditableComponent extends React.Component {
         }
       }
 
-      element.set(this.props.field, contentToSave)
-      elementsStorage.trigger('update', element.get('id'), element.toJS(), `contentEditable:${element.get('tag')}:${this.props.field}`, { disableUpdateAssets: true })
+      element.set(this.props.fieldKey, contentToSave)
+      elementsStorage.trigger('update', element.get('id'), element.toJS(), `contentEditable:${element.get('tag')}:${this.props.fieldKey}`, { disableUpdateAssets: true })
       const workspaceStorageState = workspaceStorage.state('settings').get()
 
       if (workspaceStorageState && workspaceStorageState.action === 'edit') {
@@ -135,7 +135,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   getParamsGroupContent (element, content) {
-    const attrValue = element.get(this.props.field)
+    const attrValue = element.get(this.props.fieldKey)
     const newValue = lodash.defaultsDeep({}, attrValue)
     newValue.value[ this.props.paramIndex ][ this.props.paramField ] = content
     return newValue
