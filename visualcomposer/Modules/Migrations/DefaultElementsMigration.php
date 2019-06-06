@@ -29,7 +29,7 @@ class DefaultElementsMigration extends MigrationsController implements Module
      * ID should be changed once defaultElements list is being changed
      * @var string
      */
-    protected $migrationId = 'defaultElementsMigration17';
+    protected $migrationId = 'defaultElementsMigration18';
 
     /**
      * @var int
