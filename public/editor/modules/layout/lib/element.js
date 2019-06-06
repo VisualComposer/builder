@@ -144,7 +144,7 @@ export default class Element extends React.Component {
       Object.keys(value).forEach((propKey) => {
         if (settings[ propKey ] && settings[ propKey ].options && settings[ propKey ].options.inline) {
           returnValue.value[ i ][ propKey ] =
-            <ContentEditableComponent id={id} field={attrKey} paramIndex={i} paramField={propKey} fieldType={settings[ propKey ].type} api={this.props.api}
+            <ContentEditableComponent id={id} fieldKey={attrKey} paramIndex={i} paramField={propKey} fieldType={settings[ propKey ].type} api={this.props.api}
               options={{
                 ...attrSettings.settings.options,
                 allowInline
@@ -187,11 +187,16 @@ export default class Element extends React.Component {
             blockName: blockInfo[ 3 ],
             blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
             blockContent: blockInfo[ 7 ]
+          },
+          {
+            fieldKey: key,
+            fieldType: attrSettings.type.name,
+            fieldOptions: attrSettings.settings.options
           }
         )
       } else if (attrSettings.settings.options && attrSettings.settings.options.inline) {
         layoutAtts[ key ] =
-          <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api}
+          <ContentEditableComponent id={atts.id} fieldKey={key} fieldType={attrSettings.type.name} api={this.props.api}
             options={{
               ...attrSettings.settings.options,
               allowInline

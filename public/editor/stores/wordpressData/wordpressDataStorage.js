@@ -141,6 +141,9 @@ addStorage('wordpressData', (storage) => {
       if (responseData.hasOwnProperty('postData')) {
         settingsStorage.state('postData').set(responseData.postData)
       }
+      if (responseData.hasOwnProperty('postFields')) {
+        settingsStorage.state('postFields').set(responseData.postFields)
+      }
 
       storage.state('status').set({ status: 'loaded' })
       settingsStorage.state('status').set({ status: 'ready' })

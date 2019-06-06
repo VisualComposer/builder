@@ -57,11 +57,18 @@ export default class Attribute extends React.Component {
     if (dynamicTemplate) {
       newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey)
     } else {
-      const currentValue = getDynamicFieldsData({
-        blockAtts: {
-          value: dynamicFieldKey
+      const currentValue = getDynamicFieldsData(
+        {
+          blockAtts: {
+            value: dynamicFieldKey
+          }
+        },
+        {
+          fieldKey: fieldKey,
+          filedType: this.props.fieldType,
+          fieldOptions: this.props.options
         }
-      })
+      )
       newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
         value: dynamicFieldKey,
         currentValue: currentValue
@@ -79,11 +86,18 @@ export default class Attribute extends React.Component {
     if (dynamicTemplate) {
       newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldValue)
     } else {
-      const currentValue = getDynamicFieldsData({
-        blockAtts: {
-          value: dynamicFieldValue
+      const currentValue = getDynamicFieldsData(
+        {
+          blockAtts: {
+            value: dynamicFieldValue
+          }
+        },
+        {
+          fieldKey: fieldKey,
+          filedType: this.props.fieldType,
+          fieldOptions: this.props.options
         }
-      })
+      )
       newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
         value: dynamicFieldValue,
         currentValue: currentValue
