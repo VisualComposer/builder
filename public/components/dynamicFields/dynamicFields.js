@@ -7,7 +7,7 @@ const settingsStorage = getStorage('settings')
 const blockRegexp = getBlockRegexp()
 const { getParentCount } = getService('cook')
 
-export function getDynamicFieldsData (props, attribute) {
+export function getDynamicFieldsData (props, attribute = null, raw = false) {
   const { blockAtts } = props
   const postData = settingsStorage.state('postData').get()
   let result = `--vcv-dynamic-${blockAtts.value}-vcv--`
@@ -19,7 +19,7 @@ export function getDynamicFieldsData (props, attribute) {
   }
 
   // In case if type===string and HTML Then:
-  if (attribute && attribute.fieldType === 'string') {
+  if (!raw && attribute && attribute.fieldType === 'string') {
     const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
     if (isHtmlAllowed) {
       return React.createElement('div', {
@@ -107,9 +107,9 @@ export function updateDynamicComments (ref, id, cookElement) {
       if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
         blockInfo.blockAtts.currentValue = getDynamicFieldsData(blockInfo, {
           fieldKey: fieldKey,
-          filedType: attrSettings.type.name,
+          fieldType: attrSettings.type.name,
           fieldOptions: attrSettings.settings.options
-        })
+        }, true)
       }
       hasDynamic = true
       attributesLevel++
@@ -124,7 +124,7 @@ export function updateDynamicComments (ref, id, cookElement) {
             blockInfo.blockAtts.device = device
             blockInfo.blockAtts.elementId = id
             if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
-              blockInfo.blockAtts.currentValue = getDynamicFieldsData(blockInfo)
+              blockInfo.blockAtts.currentValue = getDynamicFieldsData(blockInfo, null, true)
             }
             hasDynamic = true
             attributesLevel++

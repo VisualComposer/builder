@@ -54,6 +54,34 @@ class PostFields implements Helper
                     'key' => 'post_type',
                     'label' => esc_html__('Post Type', 'vcwb'),
                 ],
+                [
+                    'key' => 'post_categories',
+                    'label' => esc_html__('Post Categories', 'vcwb'),
+                ],
+                [
+                    'key' => 'post_tags',
+                    'label' => esc_html__('Post Tags', 'vcwb'),
+                ],
+                [
+                    'key' => 'post_comment_count',
+                    'label' => esc_html__('Post Comment Count', 'vcwb'),
+                ],
+                [
+                    'key' => 'post_date',
+                    'label' => esc_html__('Post Date', 'vcwb'),
+                ],
+                [
+                    'key' => 'post_modify_date',
+                    'label' => esc_html__('Post Modify Date', 'vcwb'),
+                ],
+                [
+                    'key' => 'post_parent_name',
+                    'label' => esc_html__('Post Parent Name', 'vcwb'),
+                ],
+                [
+                    'key' => 'post_author_bio',
+                    'label' => esc_html__('Post Author Description', 'vcwb'),
+                ],
             ],
         ];
     }

@@ -65,7 +65,7 @@ export default class Attribute extends React.Component {
         },
         {
           fieldKey: fieldKey,
-          filedType: this.props.fieldType,
+          fieldType: this.props.fieldType,
           fieldOptions: this.props.options
         }
       )
@@ -94,7 +94,7 @@ export default class Attribute extends React.Component {
         },
         {
           fieldKey: fieldKey,
-          filedType: this.props.fieldType,
+          fieldType: this.props.fieldType,
           fieldOptions: this.props.options
         }
       )
