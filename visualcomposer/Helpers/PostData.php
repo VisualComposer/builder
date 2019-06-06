@@ -103,4 +103,62 @@ class PostData implements Helper
             ]
         );
     }
+
+    public function getPostCategories()
+    {
+        $categoriesList = get_the_category_list(', ');
+
+        return $categoriesList;
+    }
+
+    public function getPostTags()
+    {
+        $tagsList = get_the_term_list(0, 'post_tag', '', ', ', '');
+
+        return $tagsList;
+    }
+
+    public function getPostCommentCount()
+    {
+        $commentCount = get_comments_number();
+
+        return $commentCount;
+    }
+
+    public function getPostDate()
+    {
+        $date = get_the_date();
+
+        return $date;
+    }
+
+    public function getPostModifyDate()
+    {
+        $date = get_the_modified_date();
+
+        return $date;
+    }
+
+    public function getPostParentName()
+    {
+        global $post;
+        $parentId = wp_get_post_parent_id($post);
+
+        if ($parentId) {
+            $parentPost = get_post($parentId);
+            //@codingStandardsIgnoreLine
+            return $parentPost->post_title;
+        }
+
+        return false;
+    }
+
+    public function getPostAuthorBio()
+    {
+        global $post;
+        //@codingStandardsIgnoreLine
+        $description = get_the_author_meta('description', $post->post_author);
+
+        return $description;
+    }
 }

@@ -59,6 +59,13 @@ class PostDataController extends Container implements Module
         $response['post_type'] = $postDataHelper->getPostType();
         $response['post_excerpt'] = $postDataHelper->getPostExcerpt();
         $response['wp_blog_logo'] = $postDataHelper->getBlogLogo();
+        $response['post_categories'] = $postDataHelper->getPostCategories();
+        $response['post_tags'] = $postDataHelper->getPostTags();
+        $response['post_comment_count'] = $postDataHelper->getPostCommentCount();
+        $response['post_date'] = $postDataHelper->getPostDate();
+        $response['post_modify_date'] = $postDataHelper->getPostModifyDate();
+        $response['post_parent_name'] = $postDataHelper->getPostParentName();
+        $response['post_author_bio'] = $postDataHelper->getPostAuthorBio();
 
         return $response;
     }

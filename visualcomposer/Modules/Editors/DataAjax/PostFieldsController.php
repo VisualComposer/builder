@@ -32,6 +32,7 @@ class PostFieldsController extends Container implements Module
     /**
      * @param $response
      * @param $payload
+     * @param \VisualComposer\Helpers\PostFields $postFieldsHelper
      *
      * @return mixed
      */
