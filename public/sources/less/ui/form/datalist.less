@@ -1,0 +1,56 @@
+.vcv-layout-header {
+  .vcv-ui-form-datalist {
+    @arrow-padding: 2em;
+    background: url(@vcui-dropdown-handler-img) right 1em center no-repeat @vcui-form-input-background;
+    box-sizing: border-box;
+    box-shadow: none;
+    display: inline-block;
+    padding: 5px 2em 5px 14px;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid @vcui-form-input-border-color;
+    border-radius: @vcui-form-border-radius;
+    color: @vcui-form-controls-color;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: @vcui-form-input-line-height;
+    transition-duration: @vcui-form-transition-duration;
+    transition-property: all;
+    transition-timing-function: ease-in-out;
+    width: 100%;
+    height: initial;
+
+    &::-webkit-calendar-picker-indicator {
+      display: none;
+    }
+
+    &::-ms-clear {
+      display: none;
+    }
+
+    &:hover,
+    &:focus {
+      #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+    }
+
+    &:focus {
+      animation: vcv-ui-form-shadow-blink @vcui-form-transition-duration * 2 ease-out;
+      #make-vcv-ui-form > .focus-blink-shadow();
+    }
+
+    &::placeholder {
+      color: @vcui-form-input-placeholder-color;
+      font-style: italic;
+    }
+
+    &:disabled,
+    &[disabled],
+    &[readonly] {
+      background-color: @vcui-form-input-disabled-background;
+      border-color: @vcui-form-input-border-color;
+      color: @vcui-form-input-disabled-color;
+      cursor: not-allowed;
+    }
+  }
+}
