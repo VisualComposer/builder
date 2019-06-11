@@ -67,7 +67,8 @@ export default class Attribute extends React.Component {
           fieldKey: fieldKey,
           fieldType: this.props.fieldType,
           fieldOptions: this.props.options
-        }
+        },
+        true
       )
       newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
         value: dynamicFieldKey,
@@ -96,7 +97,8 @@ export default class Attribute extends React.Component {
           fieldKey: fieldKey,
           fieldType: this.props.fieldType,
           fieldOptions: this.props.options
-        }
+        },
+        true
       )
       newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
         value: dynamicFieldValue,

@@ -23,9 +23,14 @@ export function getDynamicFieldsData (props, attribute = null, raw = false) {
     const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
     if (isHtmlAllowed) {
       return React.createElement('div', {
+        className: 'vcvhelper',
         dangerouslySetInnerHTML: {
           __html: result
-        }
+        },
+        'data-vcvs-html': `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+          value: blockAtts.value,
+          currentValue: result
+        })} -->${result}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
       })
     }
   }
@@ -102,6 +107,12 @@ export function updateDynamicComments (ref, id, cookElement) {
       atts[ fieldKey ].match(blockRegexp)
 
     if (isDynamic) {
+      if (attrSettings.type && attrSettings.type.name && (attrSettings.type.name === 'string')) {
+        if (attrSettings.settings.options.dynamicField === true || attrSettings.settings.options.dynamicField.html === true) {
+          // Skip for field that are string+HTML
+          return
+        }
+      }
       let blockInfo = parseDynamicBlock(atts[ fieldKey ])
       blockInfo.blockAtts.elementId = id
       if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
