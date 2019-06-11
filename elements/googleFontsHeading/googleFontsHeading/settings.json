@@ -53,7 +53,8 @@
     "options": {
       "label": "Title text",
       "inline": true,
-      "inlineMode": "text"
+      "inlineMode": "text",
+      "dynamicField": true
     }
   },
   "font": {

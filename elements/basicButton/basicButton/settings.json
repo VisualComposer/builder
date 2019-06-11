@@ -80,7 +80,10 @@
     "access": "public",
     "value": "Apply Now",
     "options": {
-      "label": "Button text"
+      "label": "Button text",
+      "dynamicField": {
+        "html": false
+      }
     }
   },
   "color": {
