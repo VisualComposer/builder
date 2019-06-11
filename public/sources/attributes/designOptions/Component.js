@@ -436,6 +436,8 @@ export default class DesignOptions extends Attribute {
         newMixins[ mixinName ].variables.backgroundImage = {
           value: imageUrl
         }
+        // We don't save this mixins for backend
+        newMixins[ mixinName ].skipOnSave = true
       } else if (newValue[ device ].image && newValue[ device ].image.urls && newValue[ device ].image.urls.length) {
         newMixins[ mixinName ].variables.backgroundImage = {
           value: newValue[ device ].image.urls[ 0 ].full

@@ -288,7 +288,7 @@ export default class {
           mixins[ tag ] = {}
         }
         if (!mixins[ tag ][ mixin ]) {
-          mixins[ tag ][ mixin ] = {}
+          mixins[ tag ][ mixin ] = Object.assign({}, foundMixins[ mixin ])
         }
         if (!variables[ 'selector' ]) {
           variables[ 'selector' ] = `el-${id}`
@@ -345,10 +345,16 @@ export default class {
     }
     // get attribute mixins styles
     if (options.attributeMixins) {
-      let attributesMixins = this.getAttributesMixinsByElement(elementData, {})
+      let attributesMixins = this.getAttributesMixinsByElement(elementData)
       Object.keys(attributesMixins).forEach((tag) => {
         Object.keys(attributesMixins[ tag ]).forEach((attribute) => {
-          styles.attributeMixins.push(attributesMixins[ tag ][ attribute ])
+          if (options.skipOnSave) {
+            if (!attributesMixins[ tag ][ attribute ].skipOnSave) {
+              styles.attributeMixins.push(attributesMixins[ tag ][ attribute ])
+            }
+          } else {
+            styles.attributeMixins.push(attributesMixins[ tag ][ attribute ])
+          }
         })
       })
     }
