@@ -67,7 +67,8 @@ export default class SaveController {
       const { tags: baseCss, attributeMixins, cssMixins } = assetsStorageInstance.getCssDataByElement(data.elements[ key ], {
         tags: true,
         attributeMixins: true,
-        cssMixins: true
+        cssMixins: true,
+        skipOnSave: true
       })
       promises.push(elementBaseStyleManager.add(baseCss).compile().then((result) => {
         elementsCss[ key ].baseCss = result
