@@ -2,7 +2,7 @@ import { getStorage, getService, env } from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const { getBlockRegexp } = getService('utils')
+const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const settingsStorage = getStorage('settings')
 const blockRegexp = getBlockRegexp()
 const { getParentCount } = getService('cook')
@@ -37,26 +37,6 @@ export function getDynamicFieldsData (props, attribute = null, raw = false) {
 
   // Plain text
   return result
-}
-
-/**
- * Example value <!-- wp:vcv-..{value:"featured_image"}.... -->
- * @param value
- * @returns {boolean|{blockName: *, blockContent: *, blockAtts: any, value: *}}
- */
-export function parseDynamicBlock (value) {
-  if (value.match(blockRegexp)) {
-    const blockInfo = value.split(blockRegexp)
-    return {
-      value: value,
-      blockScope: blockInfo[ 2 ],
-      blockName: blockInfo[ 3 ],
-      blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
-      blockContent: blockInfo[ 7 ]
-    }
-  }
-
-  return false
 }
 
 export function cleanComments (el, id) {

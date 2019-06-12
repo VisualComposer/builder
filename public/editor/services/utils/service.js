@@ -259,6 +259,20 @@ const API = {
   },
   getBlockRegexp () {
     return new RegExp(/<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g)
+  },
+  parseDynamicBlock (value) {
+    if (value.match(API.getBlockRegexp())) {
+      const blockInfo = value.split(API.getBlockRegexp())
+      return {
+        value: value,
+        blockScope: blockInfo[ 2 ],
+        blockName: blockInfo[ 3 ],
+        blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
+        blockContent: blockInfo[ 7 ]
+      }
+    }
+
+    return false
   }
 }
 addService('utils', API)

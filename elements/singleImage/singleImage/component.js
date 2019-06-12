@@ -3,6 +3,8 @@ import { getService } from 'vc-cake'
 
 const vcvAPI = getService('api')
 const renderProcessor = getService('renderProcessor')
+const { getBlockRegexp, parseDynamicBlock } = getService('utils')
+const blockRegexp = getBlockRegexp()
 
 export default class SingleImageElement extends vcvAPI.elementComponent {
   promise = null
@@ -193,15 +195,16 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   getImageShortcode (options) {
-    const { props, classes, isDefaultImage, src, isDynamicFeaturedImage } = options
+    const { props, classes, isDefaultImage, src, isDynamicImage } = options
     let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props[ 'data-img-src' ]}" alt="${props.alt}" title="${props.title}"`
 
     if (isDefaultImage) {
       shortcode += ' data-default-image="true"'
     }
 
-    if (isDynamicFeaturedImage) {
-      shortcode += ` dynamic="featured"`
+    if (isDynamicImage) {
+      let blockInfo = parseDynamicBlock(this.props.rawAtts.image)
+      shortcode += ` data-dynamic="${blockInfo.blockAtts.value}"`
     }
 
     shortcode += ']'
@@ -301,13 +304,15 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     let imgElement = ''
-    const isDynamic = typeof image === 'string' && image.indexOf('<!-- wp') !== -1 && image.indexOf('featured') > -1
+    let rawImage = this.props.rawAtts.image
+
+    const isDynamic = Array.isArray(typeof rawImage === 'string' && rawImage.match(blockRegexp))
     const shortcodeOptions = {
       props: customImageProps,
       classes: imageClasses,
       isDefaultImage: !(image && image.id),
       src: imgSrc,
-      isDynamicFeaturedImage: isDynamic
+      isDynamicImage: isDynamic
     }
 
     if (imgSrc) {

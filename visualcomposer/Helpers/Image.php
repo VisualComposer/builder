@@ -33,9 +33,9 @@ class Image implements Helper
             $dynamic = false;
             if (vcvenv('VCV_JS_FT_DYNAMIC_FIELDS')) {
                 // TODO: Change key featured to more specific like featured_image
-                $isMatches = preg_match('(dynamic="featured")', $matches[1], $matchesDynamic);
+                $isMatches = preg_match('(\sdata-dynamic=["|\'](.*?)["|\'])', $matches[1], $matchesDynamic);
                 if ($isMatches) {
-                    $dynamic = 'featured';
+                    $dynamic = $matchesDynamic[1];
                 }
             }
 
@@ -84,7 +84,7 @@ class Image implements Helper
         $imageData = $this->getImageData($src);
         $image = wp_get_image_editor($imageData['path']);
         $srcset = [];
-        if (!is_wp_error($image) && $width && $height) {
+        if (!$dynamic && !is_wp_error($image) && $width && $height) {
             $image->resize($width, $height, true);
 
             $uploadDir = wp_upload_dir();
@@ -127,17 +127,22 @@ class Image implements Helper
         if (!$dynamic) {
             $attributes = str_replace(['data-height', 'data-width'], ['height', 'width'], $attributes);
         }
-        $result = '<img ' . $attributes . '/>';
-
+        $result = '';
         if ($dynamic) {
-            $attributes = wp_json_encode(
+            $blockAttributes = wp_json_encode(
                 [
-                    'type' => 'post',
-                    'value' => 'featured',
+                    'type' => get_post_type(),
+                    'value' => $dynamic,
                     'atts' => urlencode($attributes),
                 ]
             );
-            $result = '<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ' . $attributes . ' -->';
+            $result .= '<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ' . $blockAttributes . ' -->';
+        }
+
+        $result .= '<img ' . $attributes . '/>';
+
+        if ($dynamic) {
+            $result .= '<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->';
         }
 
         return $result;
