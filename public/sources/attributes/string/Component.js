@@ -19,6 +19,7 @@ export default class StringAttribute extends Attribute {
       placeholder = this.props.options.placeholder
     }
     let dynamicComponent = null
+    let extraDynamicComponent = null
 
     const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField
     let fieldClassNames = classNames({
@@ -51,11 +52,10 @@ export default class StringAttribute extends Attribute {
             </option>
           )
         })
-
         fieldComponent = (
           <select
             className='vcv-ui-form-dropdown vcv-ui-form-field-dynamic'
-            value={blockAtts.value}
+            value={blockAtts.value.replace(/^(.+)(::)(.+)$/, '$1$2')}
             onChange={this.handleDynamicFieldChange}
           >
             {selectOptions}
@@ -65,6 +65,18 @@ export default class StringAttribute extends Attribute {
         dynamicComponent = (
           <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title='Close Dynamic Field' />
         )
+        if (blockAtts.value.match(/::/)) {
+          const [dynamicFieldValue, extraValue] = blockAtts.value.split('::')
+          const updateExtraValue = (e) => {
+            const extraDynamicFieldValue = e.currentTarget && e.currentTarget.value
+            this.updateDynamicFieldValues(`${dynamicFieldValue}::${extraDynamicFieldValue}`)
+          }
+          const extraDynamicFieldClassNames = classNames(fieldClassNames, {
+            'vcv-ui-form-field-dynamic-extra': true
+          })
+          extraDynamicComponent =
+            <input type='text' className={extraDynamicFieldClassNames} onChange={updateExtraValue} value={extraValue} placeholder='Enter valid key' />
+        }
       } else {
         dynamicComponent = (
           <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control ' onClick={this.handleDynamicFieldOpen} title='Open Dynamic Field' />
@@ -76,6 +88,7 @@ export default class StringAttribute extends Attribute {
       <React.Fragment>
         {fieldComponent}
         {dynamicComponent}
+        {extraDynamicComponent}
       </React.Fragment>
     )
   }

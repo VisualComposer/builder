@@ -81,8 +81,11 @@ export default class Attribute extends React.Component {
 
   handleDynamicFieldChange (e) {
     const dynamicFieldValue = e.currentTarget && e.currentTarget.value
-    const { fieldKey, updater, dynamicTemplate } = this.props
+    this.updateDynamicFieldValues(dynamicFieldValue)
+  }
 
+  updateDynamicFieldValues (dynamicFieldValue) {
+    const { fieldKey, updater, dynamicTemplate } = this.props
     let newValue = null
     if (dynamicTemplate) {
       newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldValue)
@@ -105,7 +108,6 @@ export default class Attribute extends React.Component {
         currentValue: currentValue
       })} -->`
     }
-
     updater(fieldKey, newValue)
   }
 
