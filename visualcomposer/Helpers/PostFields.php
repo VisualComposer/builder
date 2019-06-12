@@ -82,6 +82,10 @@ class PostFields implements Helper
                     'key' => 'post_author_bio',
                     'label' => esc_html__('Post Author Description', 'vcwb'),
                 ],
+                [
+                    'key' => 'customMetaField::',
+                    'label' => esc_html__('Other', 'vcwb'),
+                ],
             ],
         ];
     }

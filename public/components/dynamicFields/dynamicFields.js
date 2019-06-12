@@ -10,11 +10,12 @@ const { getParentCount } = getService('cook')
 export function getDynamicFieldsData (props, attribute = null, raw = false) {
   const { blockAtts } = props
   const postData = settingsStorage.state('postData').get()
+  let key = blockAtts.value.replace('::', ':')
   let result = `--vcv-dynamic-${blockAtts.value}-vcv--`
-  if (blockAtts && blockAtts.value && typeof postData[ blockAtts.value ] !== 'undefined') {
-    if (postData[ blockAtts.value ].length) {
+  if (blockAtts && blockAtts.value && typeof postData[ key ] !== 'undefined') {
+    if (postData[ key ].length) {
       // Value should be NEVER empty
-      result = postData[ blockAtts.value ]
+      result = postData[ key ]
     }
   }
 
