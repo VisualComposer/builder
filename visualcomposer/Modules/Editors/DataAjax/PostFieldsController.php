@@ -38,7 +38,13 @@ class PostFieldsController extends Container implements Module
     {
         $response['postFields'] = vcfilter(
             'vcv:editor:data:postFields',
-            ['attachimage' => [], 'designOptions' => [], 'designOptionsAdvanced' => [], 'string' => []]
+            [
+                'attachimage' => [],
+                'designOptions' => [],
+                'designOptionsAdvanced' => [],
+                'string' => [],
+                'htmleditor' => [],
+            ]
         );
 
         return $response;

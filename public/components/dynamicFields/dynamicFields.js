@@ -20,7 +20,7 @@ export function getDynamicFieldsData (props, attribute = null, raw = false) {
   }
 
   // In case if type===string and HTML Then:
-  if (!raw && attribute && attribute.fieldType === 'string') {
+  if (!raw && attribute && [ 'string', 'htmleditor' ].indexOf(attribute.fieldType) !== -1) {
     const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
     if (isHtmlAllowed) {
       return React.createElement('div', {
@@ -88,7 +88,7 @@ export function updateDynamicComments (ref, id, cookElement) {
       atts[ fieldKey ].match(blockRegexp)
 
     if (isDynamic) {
-      if (attrSettings.type && attrSettings.type.name && (attrSettings.type.name === 'string')) {
+      if (attrSettings.type && attrSettings.type.name && [ 'string', 'htmleditor' ].indexOf(attrSettings.type.name) !== -1) {
         if (attrSettings.settings.options.dynamicField === true || attrSettings.settings.options.dynamicField.html === true) {
           // Skip for field that are string+HTML
           return
@@ -106,7 +106,7 @@ export function updateDynamicComments (ref, id, cookElement) {
       hasDynamic = true
       attributesLevel++
       commentStack.push({ blockInfo, attributesLevel })
-    } else if (attrSettings.type && attrSettings.type.name && (attrSettings.type.name === 'designOptions' || attrSettings.type.name === 'designOptionsAdvanced')) {
+    } else if (attrSettings.type && attrSettings.type.name && [ 'designOptions', 'designOptionsAdvanced' ].indexOf(attrSettings.type.name) !== -1) {
       let designOptions = atts[ fieldKey ]
       if (designOptions && designOptions.device) {
         Object.keys(designOptions.device).forEach((device) => {
