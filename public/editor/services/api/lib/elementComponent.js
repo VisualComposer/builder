@@ -538,7 +538,17 @@ export default class ElementComponent extends React.Component {
     if (!filename) {
       return ''
     }
-    if (filename && filename.match) {
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS')
+    if (isDynamic && filename.match(blockRegexp)) {
+      let blockInfo = filename.split(blockRegexp)
+      let blockAtts = JSON.parse(blockInfo[ 4 ])
+      filename = getDynamicFieldsData({
+        blockAtts: blockAtts
+      })
+
+      return filename
+    }
+    if (filename.match) {
       if (filename.match('^(https?:)?\\/\\/?') || filename.match(/--vcv-dynamic-/)) {
         return filename
       }
