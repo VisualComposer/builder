@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\PostFields;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
@@ -32,13 +31,15 @@ class PostFieldsController extends Container implements Module
     /**
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\PostFields $postFieldsHelper
      *
      * @return mixed
      */
-    protected function getPostFields($response, $payload, PostFields $postFieldsHelper)
+    protected function getPostFields($response, $payload)
     {
-        $response['postFields'] = vcfilter('vcv:editor:data:postFields', $postFieldsHelper->getDefaultPostFields());
+        $response['postFields'] = vcfilter(
+            'vcv:editor:data:postFields',
+            ['attachimage' => [], 'designOptions' => [], 'designOptionsAdvanced' => [], 'string' => []]
+        );
 
         return $response;
     }
