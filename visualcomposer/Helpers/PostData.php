@@ -146,6 +146,7 @@ class PostData implements Helper
 
         if ($parentId) {
             $parentPost = get_post($parentId);
+
             //@codingStandardsIgnoreLine
             return $parentPost->post_title;
         }
@@ -160,5 +161,27 @@ class PostData implements Helper
         $description = get_the_author_meta('description', $post->post_author);
 
         return $description;
+    }
+
+    public function getDefaultPostData()
+    {
+        $response = [];
+        $response['featured_image'] = $this->getFeaturedImage();
+        $response['post_author_image'] = $this->getPostAuthorImage();
+        $response['post_author'] = $this->getPostAuthor();
+        $response['post_title'] = $this->getPostTitle();
+        $response['post_id'] = (string)$this->getPostId();
+        $response['post_type'] = $this->getPostType();
+        $response['post_excerpt'] = $this->getPostExcerpt();
+        $response['wp_blog_logo'] = $this->getBlogLogo();
+        $response['post_categories'] = $this->getPostCategories();
+        $response['post_tags'] = $this->getPostTags();
+        $response['post_comment_count'] = $this->getPostCommentCount();
+        $response['post_date'] = $this->getPostDate();
+        $response['post_modify_date'] = $this->getPostModifyDate();
+        $response['post_parent_name'] = $this->getPostParentName();
+        $response['post_author_bio'] = $this->getPostAuthorBio();
+
+        return $response;
     }
 }
