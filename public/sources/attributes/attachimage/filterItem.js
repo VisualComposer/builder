@@ -1,11 +1,26 @@
 import React from 'react'
 import classNames from 'classnames'
+import { env, getService } from 'vc-cake'
+import { getDynamicFieldsData } from 'public/components/dynamicFields/dynamicFields'
+
+const { getBlockRegexp } = getService('utils')
+const blockRegexp = getBlockRegexp()
 
 class FilterItem extends React.Component {
   getPublicImage (filename) {
     let { metaAssetsPath } = this.props
     if (!filename) {
       return ''
+    }
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS')
+    if (isDynamic && filename.match(blockRegexp)) {
+      let blockInfo = filename.split(blockRegexp)
+      let blockAtts = JSON.parse(blockInfo[ 4 ])
+      filename = getDynamicFieldsData({
+        blockAtts: blockAtts
+      })
+
+      return filename
     }
     return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
   }
