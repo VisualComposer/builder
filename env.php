@@ -153,5 +153,5 @@ if (!VcvEnv::has('VCV_ENV_PLUGIN_UPDATE_PACKAGE_URL')) {
 }
 
 if (!VcvEnv::has('VCV_JS_FT_DYNAMIC_FIELDS')) {
-    VcvEnv::set('VCV_JS_FT_DYNAMIC_FIELDS', false);
+    VcvEnv::set('VCV_JS_FT_DYNAMIC_FIELDS', true);
 }
